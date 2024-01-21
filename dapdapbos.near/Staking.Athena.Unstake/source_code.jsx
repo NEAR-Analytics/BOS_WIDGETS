@@ -38,6 +38,7 @@ const AmountList = styled.div`
   }
   .amount-white {
     color: var(--white);
+    text-decoration: underline;
   }
 `;
 
