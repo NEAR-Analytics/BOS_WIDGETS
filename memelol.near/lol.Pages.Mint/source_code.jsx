@@ -38,6 +38,33 @@ const Section = styled.div`
   background: ${(props) => props.color};
   justify-content: center;
 
+  &.banner-img {
+    border-radius: 20px;
+    width: 100%;
+    background-image: url(${assets.banner});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  &.prize-img {
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background-image: url(${assets.bannerPrize});
+    background-size: contain;
+    background-position: center;
+  }
+
+  &.notbad-img {
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background-image: url(${assets.notbad});
+    background-size: 200px 200px;
+    background-position: center;
+  }
+
   .wrapper {
     width: 100%;
     flex-direction: row;
@@ -332,7 +359,10 @@ return (
         <div className="text-center font">
           <h1>TOP Winners</h1>
         </div>
-        <Widget src={c} props={{ contractName, assets }} />
+        <Widget
+          src="memelol.near/widget/lol.Components.Leaderboard"
+          props={{ contractName, assets }}
+        />
       </Overlay>
     </Section>
     <Section
