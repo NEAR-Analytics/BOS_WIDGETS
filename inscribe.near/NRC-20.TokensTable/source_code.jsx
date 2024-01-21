@@ -375,16 +375,6 @@ State.init({
 
 const { searchValue } = props;
 
-if (!state.hasFetchData) {
-  fetchTokenInfosAsync().then((data) => {
-    State.update({
-      tokenInfos: data.tokenInfos,
-      holderCounts: data.holderCounts,
-    });
-  });
-  State.update({ hasFetchData: true });
-}
-
 function compareByDeployTime(a, b, orderDirection) {
   const t1 = Number(a.createdBlockTimestamp);
   const t2 = Number(b.createdBlockTimestamp);
@@ -421,6 +411,18 @@ function compareByHolders(a, b, orderDirection, holderCounts) {
     else if (h1 > h2) return 1;
     else return 0;
   }
+}
+
+if (!state.hasFetchData) {
+  fetchTokenInfosAsync().then((data) => {
+    State.update({
+      tokenInfos: data.tokenInfos.sort((a, b) =>
+        compareByHolders(a, b, "desc", data.holderCounts)
+      ),
+      holderCounts: data.holderCounts,
+    });
+  });
+  State.update({ hasFetchData: true });
 }
 
 const filteredTokenInfos = state.tokenInfos
