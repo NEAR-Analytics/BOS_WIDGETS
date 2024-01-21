@@ -8,7 +8,7 @@ return (props) => {
         <script type="text/javascript" src="https://unpkg.com/${props.adapter.package}"></script>
         <script type="text/javascript">
 
-            if (${props.adapter.name}) {
+            if (window["${props.adapter.name}"]) {
                 ping();
             }
         
