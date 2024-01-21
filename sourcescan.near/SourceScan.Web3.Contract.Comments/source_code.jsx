@@ -2,12 +2,10 @@ const { getConfig, limits } = VM.require(
   `sourcescan.near/widget/SourceScan.libs.constants`
 )
 const config = getConfig(context.networkId)
-if (!config) return null
+
 const contractId = props.contractId
 
-const { useTheme } = VM.require(
-  `${config.ownerId}/widget/SourceScan.libs.theme`
-)
+const { useTheme } = VM.require(`sourcescan.near/widget/SourceScan.libs.theme`)
 const theme = useTheme(Storage.privateGet('theme'))
 
 const [limit, setLimit] = useState(limits[0])
