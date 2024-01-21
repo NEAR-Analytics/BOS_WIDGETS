@@ -130,11 +130,7 @@ const {
 State.init({
   currentTab: "STAKE_TAB",
 });
-
-function calcUSD(price, amount) {
-  if (!price || !amount) return "-";
-  return Big(price).times(Big(amount)).toFixed(2);
-}
+const EXPLORER = "https://andromeda-explorer.metis.io";
 
 const handleChangeTabs = (value) => {
   State.update({
@@ -164,14 +160,36 @@ return (
             <div className="title-sub"></div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">${tvl}</div>
+            <div className="title-secondary">
+              $
+              <Widget
+                src="dapdapbos.near/widget/Utils.FormatAmount"
+                props={{
+                  amount: tvl,
+                }}
+              />
+            </div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
               $
-              {poolType === "Locking"
-                ? calcUSD(tokenPrices[tokenAddress], stakedAmount)
-                : calcUSD(LPPrice, stakedAmount)}
+              {poolType === "Locking" ? (
+                <Widget
+                  src="dapdapbos.near/widget/Utils.CalcUSD"
+                  props={{
+                    price: tokenPrices[tokenAddress],
+                    amount: stakedAmount,
+                  }}
+                />
+              ) : (
+                <Widget
+                  src="dapdapbos.near/widget/Utils.CalcUSD"
+                  props={{
+                    price: LPPrice,
+                    amount: stakedAmount,
+                  }}
+                />
+              )}
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Widget
@@ -249,7 +267,7 @@ return (
               <a
                 className="list-value"
                 target="_blank"
-                href={`https://andromeda-explorer.metis.io/token/${tokenAddress}/token-transfers`}
+                href={`${EXPLORER}/token/${tokenAddress}`}
               >
                 {tokenAddress}
               </a>
@@ -259,7 +277,7 @@ return (
               <a
                 className="list-value"
                 target="_blank"
-                href={`https://andromeda-explorer.metis.io/address/${StakingAddress}`}
+                href={`${EXPLORER}/address/${StakingAddress}`}
               >
                 {StakingAddress}
               </a>
