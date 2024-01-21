@@ -33,8 +33,8 @@ return (props) => {
                         return result;
                     }
 
-                    if (e.data.returnType == "dom") {
-                        return result;
+                    if (e.data.returnType == "canvas") {
+                        return result.toDataUrl();
                     }
                  }
         
