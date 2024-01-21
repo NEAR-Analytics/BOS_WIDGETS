@@ -5,9 +5,9 @@ return (Store, status) => {
   const Blockies = {
     ...ExternalDependencyAdapter(Store, status, "ethereum-blockies-base64"),
     package: "ethereum-blockies-base64",
-    create: (config) => {
+    create: (address) => {
       return Blockies.request(
-        Blockies.createRequest("create", [config], "canvas")
+        Blockies.createRequest("", [address], "string")
       );
     },
   };
