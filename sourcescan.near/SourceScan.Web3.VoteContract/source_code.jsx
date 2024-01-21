@@ -4,11 +4,15 @@ const { getConfig } = VM.require(
 const config = getConfig(context.networkId)
 
 const { Button, CStack } = VM.require(
-  `sourcescan.near/widget/SourceScan.UI.Components`
+  `${config.ownerId}/widget/SourceScan.UI.Components`
 )
 const { UpVoteIcon, DownVoteIcon } = VM.require(
-  `sourcescan.near/widget/SourceScan.UI.Icons`
+  `${config.ownerId}/widget/SourceScan.UI.Icons`
 )
+
+if (!Button || !CStack || !UpVoteIcon || !DownVoteIcon || !getConfig) {
+  return null
+}
 
 // Upvote, Downvote
 const type = props.type
