@@ -1,10 +1,12 @@
-return (Store, status) => {
+return (Store, status, name) => {
   const API = {
     name: "",
     instruction: "",
     responses: {},
     value: "",
-    init: () => {
+    init: (name) => {
+      API.name = name;
+
       Store.init({
         [API.name]: {
           ongoingRequest: {},
@@ -86,5 +88,5 @@ return (Store, status) => {
     },
   };
 
-  return API.init();
+  return API.init(name);
 };
