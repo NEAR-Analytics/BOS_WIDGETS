@@ -71,8 +71,10 @@ const checkFTBalance = () => {
   setMyStats(stats);
 };
 
-checkRefSwaps();
-checkFTBalance();
+if (context.accountId) {
+  checkRefSwaps();
+  checkFTBalance();
+}
 
 const PREMIUM_HOLD_AMOUNT = 50;
 
@@ -93,73 +95,61 @@ const StatBlock = ({ text, value, color, near, children }) => (
 );
 
 return (
-  <>
-    {context.accountId && (
-      <>
-        <div className="mint-section my-stats">
-          <h1 className="font">My Profile</h1>
+  <div className="mint-section my-stats">
+    <h1 className="font">My Profile</h1>
 
-          <Stats
-            className="mint-section"
-            color={
-              myStats.buy - myStats.sell > PREMIUM_HOLD_AMOUNT
-                ? "rgb(255 177 255 / 70%)"
-                : "#efefef"
-            }
-          >
-            <StatBlock
-              text="Account Level"
-              value={
-                myStats.buy - myStats.sell > PREMIUM_HOLD_AMOUNT
-                  ? "Premium"
-                  : "Base"
-              }
-            >
-              <div style={{ fontSize: "14px", textAlign: "left" }}>
-                <i className="bi bi-info-circle" />
-                Increase your trading activity to have at least
-                <b>{PREMIUM_HOLD_AMOUNT} NEAR</b> in a diff and unlock{" "}
-                <b>Premium</b> features
-              </div>
-            </StatBlock>
-          </Stats>
-          <Stats className="mint-section" color="rgb(255 242 158 / 30%)">
-            <h2 className="font">Trading Stats</h2>
-            <div className="d-flex gap-2 flex-column">
-              <StatBlock
-                text="Bought $LOL on"
-                value={myStats.buy}
-                color="text-success"
-                near={true}
-              />
-              <StatBlock
-                text="Sold $LOL on"
-                value={myStats.sell}
-                color="text-danger"
-                near={true}
-              />
-              <hr />
-              <StatBlock
-                text="Trading Diff"
-                value={(myStats.buy - myStats.sell).toFixed(2)}
-                color={`text-${
-                  myStats.buy - myStats.sell > 0 ? "success" : "danger"
-                }`}
-                near={true}
-              />
-            </div>
-          </Stats>
-          <Stats className="mint-section" color="rgb(148 182 255 / 30%)">
-            <div className="d-flex gap-2 flex-column">
-              <StatBlock
-                text="Hodling"
-                value={myStats.ftBalance}
-                near={false}
-              />
-            </div>
-          </Stats>
+    <Stats
+      className="mint-section"
+      color={
+        myStats.buy - myStats.sell > PREMIUM_HOLD_AMOUNT
+          ? "rgb(255 177 255 / 70%)"
+          : "#efefef"
+      }
+    >
+      <StatBlock
+        text="Account Level"
+        value={
+          myStats.buy - myStats.sell > PREMIUM_HOLD_AMOUNT ? "Premium" : "Base"
+        }
+      >
+        <div style={{ fontSize: "14px", textAlign: "left" }}>
+          <i className="bi bi-info-circle" />
+          Increase your trading activity to have at least
+          <b>{PREMIUM_HOLD_AMOUNT} NEAR</b> in a diff and unlock <b>Premium</b>{" "}
+          features
         </div>
-      </>
-    )}
-  </>
+      </StatBlock>
+    </Stats>
+    <Stats className="mint-section" color="rgb(255 242 158 / 30%)">
+      <h2 className="font">Trading Stats</h2>
+      <div className="d-flex gap-2 flex-column">
+        <StatBlock
+          text="Bought $LOL on"
+          value={myStats.buy}
+          color="text-success"
+          near={true}
+        />
+        <StatBlock
+          text="Sold $LOL on"
+          value={myStats.sell}
+          color="text-danger"
+          near={true}
+        />
+        <hr />
+        <StatBlock
+          text="Trading Diff"
+          value={(myStats.buy - myStats.sell).toFixed(2)}
+          color={`text-${
+            myStats.buy - myStats.sell > 0 ? "success" : "danger"
+          }`}
+          near={true}
+        />
+      </div>
+    </Stats>
+    <Stats className="mint-section" color="rgb(148 182 255 / 30%)">
+      <div className="d-flex gap-2 flex-column">
+        <StatBlock text="Hodling" value={myStats.ftBalance} near={false} />
+      </div>
+    </Stats>
+  </div>
 );
