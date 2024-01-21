@@ -2,6 +2,8 @@ const { getConfig } = VM.require(
   `sourcescan.near/widget/SourceScan.libs.constants`
 )
 const config = getConfig(context.networkId)
+if (!config) return null
+
 const comment = props.comment
 
 const { useTheme } = VM.require(
