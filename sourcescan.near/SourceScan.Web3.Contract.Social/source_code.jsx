@@ -10,7 +10,7 @@ const { CHStack, CStack, Text } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Components`
 )
 
-if (!CHStack || !CStack || !Text) {
+if (!CommentIcon || !CHStack || !CStack || !Text) {
   return <div>loading...</div>
 }
 
