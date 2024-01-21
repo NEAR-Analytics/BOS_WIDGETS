@@ -27,6 +27,9 @@ const Wrapper = styled.div`
   .form-control::placeholder {
     color: white;
   }
+  .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(120, 58, 227, 0.5);
+  }
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
@@ -1225,7 +1228,7 @@ const handleClaimAll = () => {
       });
     });
 };
-console.info("STATE: ", state);
+// console.info("STATE: ", state);
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
