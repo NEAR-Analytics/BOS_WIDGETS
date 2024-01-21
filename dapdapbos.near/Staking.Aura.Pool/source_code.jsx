@@ -56,6 +56,7 @@ const InfoPanelList = styled.div`
     color: var(--white);
     flex-grow: 1;
     text-align: right;
+    text-decoration: underline;
   }
 `;
 
@@ -128,7 +129,7 @@ const {
 State.init({
   currentTab: "STAKE_TAB",
 });
-
+const EXPLORER = "https://gnosisscan.io";
 const handleChangeTabs = (value) => {
   State.update({
     currentTab: value,
@@ -153,23 +154,6 @@ const renderPoolIcon = () => {
   }
 };
 
-const simplifyNum = (number) => {
-  if (typeof Number(number) !== "number") return 0;
-  if (isNaN(Number(number))) return 0;
-
-  let str_num;
-
-  if (number >= 1e3 && number < 1e6) {
-    str_num = number / 1e3;
-    return str_num.toFixed(2) + "k";
-  } else if (number >= 1e6) {
-    str_num = number / 1e6;
-    return str_num.toFixed(2) + "m";
-  } else {
-    return Number(str_num).toFixed(2);
-  }
-};
-
 return (
   <AccordionItem value={poolName}>
     <Accordion.Trigger asChild>
@@ -186,7 +170,15 @@ return (
             <div className="title-sub">proj. %</div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">${simplifyNum(TVL)}</div>
+            <div className="title-secondary">
+              $
+              <Widget
+                src="dapdapbos.near/widget/Utils.FormatAmount"
+                props={{
+                  amount: TVL,
+                }}
+              />
+            </div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
@@ -257,19 +249,37 @@ return (
             <InfoPanelTitle>Contract</InfoPanelTitle>
             <InfoPanelList>
               <span className="list-key">Rewards contract address: </span>
-              <span className="list-value">{Rewards_contract_address}</span>
+
+              <a
+                className="list-value"
+                target="_blank"
+                href={`${EXPLORER}/address/${Rewards_contract_address}`}
+              >
+                {Rewards_contract_address}
+              </a>
             </InfoPanelList>
             <InfoPanelList>
               <span className="list-key">
                 Rewards depositor contract address:{" "}
               </span>
-              <span className="list-value">
+
+              <a
+                className="list-value"
+                target="_blank"
+                href={`${EXPLORER}/address/${Rewards_depositor_contract_address}`}
+              >
                 {Rewards_depositor_contract_address}
-              </span>
+              </a>
             </InfoPanelList>
             <InfoPanelList>
               <span className="list-key">LP token address: </span>
-              <span className="list-value">{LP_token_address}</span>
+              <a
+                className="list-value"
+                target="_blank"
+                href={`${EXPLORER}/address/${LP_token_address}`}
+              >
+                {LP_token_address}
+              </a>
             </InfoPanelList>
           </InfoPanel>
         </Tabs.Content>
