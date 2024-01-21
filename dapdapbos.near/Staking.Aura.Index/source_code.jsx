@@ -24,7 +24,9 @@ const Wrapper = styled.div`
   input[type="number"] {
     -moz-appearance: textfield;
   }
-
+  .form-control::placeholder {
+    color: white;
+  }
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
