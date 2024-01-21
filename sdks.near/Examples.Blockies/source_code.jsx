@@ -24,7 +24,7 @@ const Profile = styled.div`
     align-items:center;
     max-width:150px;
     background-color:rgba(0,0,0,.8);
-    padding:10px 10px;
+    padding:5px;
     border-radius:30px;
     box-shadow: 0 0 0 2px #7F7F7F;
 
