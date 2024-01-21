@@ -80,13 +80,13 @@ return (
         <Input
           type="text"
           placeholder="Enter here the text to hash"
-          onKeyUp={() => {
+          onKeyUp={(e) => {
             setText(e.target.value);
           }}
         />
         <Button
           onClick={() =>
-            crypto.md5(e.target.value).then((result) => setHashedText(result))
+            crypto.md5(text).then((result) => setHashedText(result))
           }
         >
           Hash it!
