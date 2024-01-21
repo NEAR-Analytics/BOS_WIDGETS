@@ -8,6 +8,7 @@ return (Store, status, name) => {
       API.name = name;
 
       Store.init({
+        ...status,
         [API.name]: {
           ongoingRequest: {},
           responses: {},
@@ -34,6 +35,7 @@ return (Store, status, name) => {
       newApi.ongoingRequest = request;
 
       Store.update({
+        ...status,  
         [API.name]: newApi,
       });
 
@@ -45,7 +47,7 @@ return (Store, status, name) => {
         }
 
         newApi.responses[request.instruction][request.index] = { resolve };
-        Store.update({ [API.name]: newApi });
+        Store.update({ ...status, [API.name]: newApi });
       });
     },
     setResponse: (response) => {
@@ -61,6 +63,7 @@ return (Store, status, name) => {
         parsedResponse;
 
       Store.update({
+         ...status,
         [API.name]: newApi,
       });
     },
@@ -83,6 +86,7 @@ return (Store, status, name) => {
       let newApi = status[API.name];
       newApi.ready = true;
       Store.update({
+        ...status,
         [API.name]: newApi,
       });
     },
