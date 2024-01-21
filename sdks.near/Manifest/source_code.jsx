@@ -23,7 +23,7 @@ return {
     utils: resolve("Utils."),
     abstracts: resolve("Abstracts."),
     "crypto-js": ["SDKs.Abstracts.ExternalDependency", "Utils.CryptoJS"],
-    blockies: ["SDKs.Abstracts.ExternalDependency", "Utils.Blockies"],
+    blockies: ["Abstracts.ExternalDependency", "Utils.Blockies"],
   },
   links: {
     telegram: "@OxMattB",
