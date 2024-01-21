@@ -3,10 +3,16 @@ const { getConfig } = VM.require(
 )
 const config = getConfig(context.networkId)
 
-const { CommentIcon } = VM.require(`sourcescan.near/widget/SourceScan.UI.Icons`)
-const { CHStack, CStack, Text } = VM.require(
-  `sourcescan.near/widget/SourceScan.UI.Components`
+const { CommentIcon } = VM.require(
+  `${config.ownerId}/widget/SourceScan.UI.Icons`
 )
+const { CHStack, CStack, Text } = VM.require(
+  `${config.ownerId}/widget/SourceScan.UI.Components`
+)
+
+if (!CHStack || !CStack || !Text || !getConfig || !CommentIcon) {
+  return null
+}
 
 const contractId = props.contractId
 const contract = props.contract
