@@ -19,7 +19,7 @@ return (props) => {
             window.addEventListener("message", (e) => {
               if (e.data.instruction) {
                  let value = Array.isArray(e.data.value) ? e.data.value : [e.data.value];
-                 let result = getPackageMethod(e.data.instruction, ${props.adapter.name})(...value);
+                 let result = getPackageMethod(e.data.instruction, window["${props.adapter.name}"])(...value);
                  let parseResult = (result) => {
                     if (e.data.returnType == "object" || e.data.returnType == "array") {
                         return JSON.stringify(result);
