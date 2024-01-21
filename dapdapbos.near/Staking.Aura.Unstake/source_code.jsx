@@ -35,10 +35,6 @@ const SwitchThumb = styled("Switch.Thumb")`
 const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
-  /* reset input */
-  .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.2);
-  }
 
   .bos-input-number {
     background-color: var(--dark);
@@ -78,6 +74,7 @@ const AmountList = styled.div`
   }
   .amount-white {
     color: var(--white);
+    text-decoration: underline;
   }
 `;
 const StakeBtnWrap = styled.div`
