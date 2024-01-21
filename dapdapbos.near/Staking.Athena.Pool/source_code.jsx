@@ -56,6 +56,7 @@ const InfoPanelList = styled.div`
     color: var(--white);
     flex-grow: 1;
     text-align: right;
+    text-decoration: underline;
   }
 `;
 
@@ -245,11 +246,23 @@ return (
 
             <InfoPanelList>
               <span className="list-key">Token: </span>
-              <span className="list-value">{tokenAddress}</span>
+              <a
+                className="list-value"
+                target="_blank"
+                href={`https://andromeda-explorer.metis.io/token/${tokenAddress}/token-transfers`}
+              >
+                {tokenAddress}
+              </a>
             </InfoPanelList>
             <InfoPanelList>
               <span className="list-key">Locking:</span>
-              <span className="list-value">{StakingAddress}</span>
+              <a
+                className="list-value"
+                target="_blank"
+                href={`https://andromeda-explorer.metis.io/address/${StakingAddress}`}
+              >
+                {StakingAddress}
+              </a>
             </InfoPanelList>
           </InfoPanel>
         </Tabs.Content>
