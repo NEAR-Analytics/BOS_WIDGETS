@@ -13,6 +13,10 @@ const { CStack, CHStack, Text } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Components`
 )
 
+if (!CStack || !CHStack || !Text) {
+  return <div>loading...</div>
+}
+
 const CommentContainer = styled.div`
   padding: 18px;
   color: currentColor;
