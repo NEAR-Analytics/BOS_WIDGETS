@@ -2,6 +2,7 @@ const { getConfig } = VM.require(
   `sourcescan.near/widget/SourceScan.libs.constants`
 )
 const config = getConfig(context.networkId)
+if (!config) return null
 
 const { Button, CStack } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Components`
