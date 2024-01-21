@@ -3,8 +3,7 @@ const { ExternalDependencyAdapter } = $("@sdks/abstracts");
 
 return (Store, status) => {
   const CryptoJS = {
-    ...ExternalDependencyAdapter(Store, status),
-    name: "CryptoJS",
+    ...ExternalDependencyAdapter(Store, status, "CryptoJS"),
     package: "crypto-js@4.2.0/crypto-js.js",
     aes: {
       encrypt: (message, key, config) => {
@@ -196,5 +195,5 @@ return (Store, status) => {
     },
   };
 
-  return CryptoJS;
+  return CryptoJS.init();
 };
