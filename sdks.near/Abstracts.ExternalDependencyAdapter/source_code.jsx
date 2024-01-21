@@ -5,7 +5,7 @@ return (Store, status) => {
     responses: {},
     value: "",
     init: () => {
-      Store.update({
+      Store.init({
         [API.name]: {
           ongoingRequest: {},
           responses: {},
