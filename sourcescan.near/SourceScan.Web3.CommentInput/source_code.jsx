@@ -13,6 +13,10 @@ const { CStack, Text } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Components`
 )
 
+if (!CStack || !Text) {
+  return <div>loading...</div>
+}
+
 const Input = styled.input`
   height: 125px;
   width: 100%;
