@@ -195,5 +195,5 @@ return (Store, status) => {
     },
   };
 
-  return CryptoJS.init();
+  return CryptoJS;
 };
