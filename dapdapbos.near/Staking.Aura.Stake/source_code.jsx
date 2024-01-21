@@ -1,10 +1,6 @@
 const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
-  /* reset input */
-  .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.2);
-  }
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
@@ -105,32 +101,19 @@ useEffect(() => {
     });
   }
 }, [data]);
-const getAllowance = (tokenAddress) => {
-  const abi = [
-    "function allowance(address owner, address spender) external view returns (uint256)",
-  ];
-  const TokenContract = new ethers.Contract(
-    tokenAddress,
-    abi,
-    Ethers.provider()
-  );
-  TokenContract.allowance(account, RewardPoolDepositWrapper)
-    .then((allowanceRaw) => {
-      const allowAmount = ethers.utils.formatUnits(
-        allowanceRaw._hex,
-        TOKENS[state.curToken].decimals
-      );
-      console.info("get allow amount: ", allowAmount);
-      State.update({
-        allowance: allowAmount,
-      });
-    })
-    .catch((e) => {
-      console.log("TokenContracterr", e);
-    });
-};
 
-const handleApprove = (tokenAddress) => {
+function updateAllowance(allowanceRaw) {
+  const allowAmount = ethers.utils.formatUnits(
+    allowanceRaw,
+    TOKENS[state.curToken].decimals
+  );
+
+  State.update({
+    allowance: allowAmount,
+  });
+}
+
+const handleApprove = (tokenAddress, _spender) => {
   State.update({
     isApproving: true,
   });
@@ -165,8 +148,9 @@ const handleApprove = (tokenAddress) => {
     Ethers.provider().getSigner()
   );
   console.info("to approve: ", tokenAddress, TOKENS[tokenAddress].decimals);
+
   TokenContract.approve(
-    RewardPoolDepositWrapper,
+    _spender,
     ethers.utils.parseUnits(
       state.inputValue,
       TOKENS[state.curToken].decimals || 18
@@ -207,34 +191,6 @@ const handleApprove = (tokenAddress) => {
     });
 };
 
-function getTokenBal() {
-  const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
-  const { decimals } = TOKENS[state.curToken];
-  const tokenContract = new ethers.Contract(
-    state.curToken,
-    erc20Abi,
-    Ethers.provider()
-  );
-  tokenContract
-    .balanceOf(account)
-    .then((balanceBig) => {
-      // console.log(
-      //   balanceBig,
-      //   balanceBig.toString(),
-      //   ethers.utils.formatUnits(balanceBig, decimals),
-      //   Big(ethers.utils.formatUnits(balanceBig, decimals)).toFixed(2)
-      // );
-      const bal = Big(
-        ethers.utils.formatUnits(balanceBig, decimals) || 0
-      ).toFixed(2);
-      State.update({
-        curTokenBal: bal,
-      });
-    })
-    .catch((err) => {
-      console.info("getTokenBal_error:", err);
-    });
-}
 useEffect(() => {
   // get token allowance when current token change
   if (!state.curToken) {
@@ -254,20 +210,11 @@ useEffect(() => {
       State.update({
         curSymbol: TOKENS[state.curToken].symbol,
       });
-      getAllowance(state.curToken);
-      getTokenBal();
     }
   }
 }, [state.curToken]);
 
 useEffect(() => {
-  // console.info(
-  //   "inputValue|allowance change:",
-  //   state.inputValue,
-  //   state.allowance,
-  //   Big(state.allowance).lt(Big(state.inputValue || 0))
-  // );
-
   if (!state.inputValue) {
     // input none
     State.update({
@@ -568,7 +515,7 @@ const renderExtra = () => {
             disabled: !state.needApprove || state.isApproved,
             loading: state.isApproving,
             onClick: () => {
-              handleApprove(state.curToken);
+              handleApprove(state.curToken, RewardPoolDepositWrapper);
             },
           }}
         />
@@ -587,9 +534,31 @@ const renderExtra = () => {
     </>
   );
 };
+function updateTokenBalance(bal) {
+  State.update({
+    curTokenBal: bal,
+  });
+}
 console.log("STAKE_STATE", state);
 return (
   <StakePanel>
+    <Widget
+      src="dapdapbos.near/widget/Utils.Allowance"
+      props={{
+        tokenAddress: state.curToken,
+        owner: account,
+        spender: RewardPoolDepositWrapper,
+        updateAllowance,
+      }}
+    />
+    <Widget
+      src="dapdapbos.near/widget/Utils.GetTokenBalance"
+      props={{
+        tokenAddress: state.curToken,
+        owner: account,
+        updateTokenBalance,
+      }}
+    />
     <div className="input-group">
       <input
         value={state.inputValue}
