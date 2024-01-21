@@ -2,17 +2,13 @@ const { getConfig } = VM.require(
   `sourcescan.near/widget/SourceScan.libs.constants`
 )
 const config = getConfig(context.networkId)
-if (!config) return null
-
 const comment = props.comment
 
-const { useTheme } = VM.require(
-  `${config.ownerId}/widget/SourceScan.libs.theme`
-)
+const { useTheme } = VM.require(`sourcescan.near/widget/SourceScan.libs.theme`)
 const theme = useTheme(Storage.privateGet('theme'))
 
 const { CStack, CHStack, Text } = VM.require(
-  `${config.ownerId}/widget/SourceScan.UI.Components`
+  `sourcescan.near/widget/SourceScan.UI.Components`
 )
 
 const CommentContainer = styled.div`
