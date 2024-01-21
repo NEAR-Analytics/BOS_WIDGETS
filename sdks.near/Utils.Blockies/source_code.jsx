@@ -6,10 +6,10 @@ return (Store, status) => {
     ...ExternalDependencyAdapter(Store, status, "blockies"),
     package: "ethereum-blockies@0.1.1/blockies.js",
     create: (config) => {
-        return Blockies.request(
-            Blockies.createRequest("create", [config])
-        );
-    }
+      return Blockies.request(
+        Blockies.createRequest("create", [config], "object")
+      );
+    },
   };
 
   return Blockies;
