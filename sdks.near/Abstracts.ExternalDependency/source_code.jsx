@@ -32,6 +32,11 @@ return (props) => {
                     if (e.data.returnType == "number") {
                         return result;
                     }
+
+                    if (e.data.returnType == "dom") {
+                        let serializer = new XMLSerializer();
+                        return serializer.serializeToString(result);
+                    }
                  }
         
                  window.top.postMessage({
@@ -50,7 +55,11 @@ return (props) => {
       srcDoc={code}
       style={{ display: "none" }}
       message={props.adapter.getRequest()}
-      onMessage={(data) => data == "ping" ? props.adapter.setAsReady() : props.adapter.setResponse(data)}
+      onMessage={(data) =>
+        data == "ping"
+          ? props.adapter.setAsReady()
+          : props.adapter.setResponse(data)
+      }
     />
   );
 };
