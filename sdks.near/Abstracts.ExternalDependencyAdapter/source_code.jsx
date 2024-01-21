@@ -68,7 +68,7 @@ return (Store, status, name) => {
       return {
         ...response,
         result:
-          response.returnType == "string" || response.returnType == "dom"
+          response.returnType == "string" || response.returnType == "canvas"
             ? response.result
             : JSON.parse(response.result),
       };
