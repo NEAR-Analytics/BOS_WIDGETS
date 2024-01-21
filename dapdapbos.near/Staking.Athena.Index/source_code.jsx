@@ -27,6 +27,9 @@ const Wrapper = styled.div`
   .form-control::placeholder {
     color: white;
   }
+  .form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26, 202, 138, 0.5);
+  }
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
@@ -953,13 +956,6 @@ State.init({
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
-function formatTime(timestamp) {
-  var date = new Date(timestamp * 1000);
-  var year = date.getFullYear();
-  var month = ("0" + (date.getMonth() + 1)).slice(-2);
-  var day = ("0" + date.getDate()).slice(-2);
-  return year + "/" + month + "/" + day;
-}
 function multiCallV2(abi, calls, options, onSuccess, onError) {
   // for metis 1088
   const MULTICALL_ADDRESS = "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C";
@@ -1526,6 +1522,7 @@ return (
                   slotLength: state.slotLength,
                   tokenPrices: state.tokenPrices,
                   startUnlockIndex: state.myPoolsList?.length,
+                  switchChain,
                 }}
                 key={item.poolName}
               />
@@ -1581,7 +1578,12 @@ return (
                           props={{ src: TOKENS[tokenAddress].icon }}
                         /> */}
 
-                        <span>{formatTime(item[0])}</span>
+                        <span>
+                          <Widget
+                            src="dapdapbos.near/widget/Utils.FormatTime"
+                            props={{ time: item[0] }}
+                          />
+                        </span>
                       </div>
                     </GridItem>
                     <GridItem>
@@ -1590,7 +1592,10 @@ return (
                     </GridItem>
                     <GridItem>
                       <div className="title-secondary">
-                        {formatTime(item[1])}
+                        <Widget
+                          src="dapdapbos.near/widget/Utils.FormatTime"
+                          props={{ time: item[1] }}
+                        />
                       </div>
                     </GridItem>
                     <GridItem>
