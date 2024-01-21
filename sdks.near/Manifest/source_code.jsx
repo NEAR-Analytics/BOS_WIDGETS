@@ -22,7 +22,7 @@ return {
     "ens-resolver": "Utils.Ethereum.ENSResolver",
     utils: resolve("Utils."),
     abstracts: resolve("Abstracts."),
-    "crypto-js": ["SDKs.Abstracts.ExternalDependency", "Utils.CryptoJS"],
+    "crypto-js": ["Abstracts.ExternalDependency", "Utils.CryptoJS"],
     blockies: ["Abstracts.ExternalDependency", "Utils.Blockies"],
   },
   links: {
