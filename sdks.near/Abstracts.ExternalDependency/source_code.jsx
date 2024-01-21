@@ -34,8 +34,7 @@ return (props) => {
                     }
 
                     if (e.data.returnType == "dom") {
-                        let serializer = new XMLSerializer();
-                        return serializer.serializeToString(result);
+                        return result;
                     }
                  }
         
