@@ -9,7 +9,7 @@ if (!accountId) {
 let dropInfo = Social.getr(`${accountId}/keypomConfig`);
 
 const [amount, setAmount] = useState("0.05");
-const [numOfdrops, setNumOfDrops] = useState("1");
+const [numOfdrops, setNumOfDrops] = useState("2");
 const [publicKeys, setPublicKeys] = useState([]);
 const [privKeys, setPrivKeys] = useState([]);
 
