@@ -2,6 +2,7 @@ const { getConfig, limits } = VM.require(
   `sourcescan.near/widget/SourceScan.libs.constants`
 )
 const config = getConfig(context.networkId)
+if (!config) return null
 const contractId = props.contractId
 
 const { useTheme } = VM.require(
