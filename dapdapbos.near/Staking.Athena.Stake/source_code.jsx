@@ -46,9 +46,6 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const AllowanceABI = [
-  "function allowance(address owner, address spender) external view returns (uint256)",
-];
 const ApproveABI = [
   {
     constant: false,
@@ -91,28 +88,6 @@ State.init({
   inputValue: "",
 });
 
-function getAllowance(tokenAddress, spender) {
-  const TokenContract = new ethers.Contract(
-    tokenAddress,
-    AllowanceABI,
-    Ethers.provider()
-  );
-  TokenContract.allowance(account, spender)
-    .then((allowanceRaw) => {
-      const allowAmount = ethers.utils.formatUnits(
-        allowanceRaw._hex,
-        TOKENS[curToken].decimals
-      );
-      console.info(`get ${tokenAddress} allowance:`, allowAmount);
-      State.update({
-        allowance: allowAmount,
-      });
-    })
-    .catch((e) => {
-      console.log("getAllowance_error", e);
-    });
-}
-
 function handleApprove(tokenAddress, spender) {
   State.update({
     isApproving: true,
@@ -123,6 +98,7 @@ function handleApprove(tokenAddress, spender) {
     Ethers.provider().getSigner()
   );
   console.info("to approve: ", state.inputValue, TOKENS[curToken].decimals);
+
   TokenContract.approve(
     spender,
     ethers.utils.parseUnits(state.inputValue, TOKENS[curToken].decimals)
@@ -158,40 +134,6 @@ function handleApprove(tokenAddress, spender) {
       console.info("approve_error: ", err);
     });
 }
-
-function getTokenBal(tokenAddress) {
-  const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
-  const { decimals } = TOKENS[tokenAddress];
-  const tokenContract = new ethers.Contract(
-    tokenAddress,
-    erc20Abi,
-    Ethers.provider()
-  );
-  tokenContract
-    .balanceOf(account)
-    .then((balanceBig) => {
-      // console.log(
-      //   balanceBig,
-      //   balanceBig.toString(),
-      //   ethers.utils.formatUnits(balanceBig, decimals),
-      //   Big(ethers.utils.formatUnits(balanceBig, decimals)).toFixed(2)
-      // );
-      const bal = Big(
-        ethers.utils.formatUnits(balanceBig, decimals) || 0
-      ).toFixed(2);
-      State.update({
-        curTokenBal: bal,
-      });
-    })
-    .catch((err) => {
-      console.info("getTokenBal_error:", err);
-    });
-}
-
-useEffect(() => {
-  getAllowance(curToken, StakingAddress);
-  getTokenBal(curToken);
-}, []);
 
 useEffect(() => {
   if (!state.inputValue) {
@@ -443,8 +385,41 @@ const renderExtra = () => {
   );
 };
 
+function updateAllowance(allowanceRaw) {
+  const allowAmount = ethers.utils.formatUnits(
+    allowanceRaw,
+    TOKENS[curToken].decimals
+  );
+
+  State.update({
+    allowance: allowAmount,
+  });
+}
+function updateTokenBalance(bal) {
+  State.update({
+    curTokenBal: bal,
+  });
+}
+
 return (
   <StakePanel>
+    <Widget
+      src="dapdapbos.near/widget/Utils.Allowance"
+      props={{
+        tokenAddress: curToken,
+        owner: account,
+        spender: StakingAddress,
+        updateAllowance,
+      }}
+    />
+    <Widget
+      src="dapdapbos.near/widget/Utils.GetTokenBalance"
+      props={{
+        tokenAddress: curToken,
+        owner: account,
+        updateTokenBalance,
+      }}
+    />
     <div className="input-group">
       <input
         value={state.inputValue}
