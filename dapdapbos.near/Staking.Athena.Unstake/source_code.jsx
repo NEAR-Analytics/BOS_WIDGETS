@@ -58,8 +58,15 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, chainId, account, TOKENS, CHAIN_ID, switchChain, slotLength } =
-  props;
+const {
+  data,
+  chainId,
+  account,
+  TOKENS,
+  CHAIN_ID,
+  switchChain,
+  startUnlockIndex,
+} = props;
 const curToken = data.tokenAddress;
 const {
   poolType,
@@ -75,6 +82,7 @@ State.init({
   inputValue: "",
   canUnstake: false,
   unstaking: false,
+  stakedAmountShow: stakedAmount,
 });
 
 const handleInputChange = (e) => {
@@ -140,10 +148,14 @@ function handleUnStakeLocking() {
     ],
     Ethers.provider().getSigner()
   );
+
   UnstakeContract.startUnlock(
     0,
     ethers.utils.parseUnits(state.inputValue),
-    slotLength
+    startUnlockIndex,
+    {
+      gasLimit: 5000000,
+    }
   )
     .then((tx) => {
       console.log("tx: ", tx);
@@ -156,6 +168,7 @@ function handleUnStakeLocking() {
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
             });
+            updateStakedAmount();
           } else {
             toast.fail?.({
               title: "Transaction Failed!",
@@ -173,7 +186,7 @@ function handleUnStakeLocking() {
       State.update({
         unstaking: false,
       });
-      console.log("getPoolTokens_error:", err);
+      console.log("handleUnStakeLocking_error:", err);
     });
 }
 
@@ -217,6 +230,7 @@ function handleUnStakeMasterChief() {
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
             });
+            updateStakedAmount();
           } else {
             toast.fail?.({
               title: "Transaction Failed!",
@@ -234,9 +248,16 @@ function handleUnStakeMasterChief() {
       State.update({
         unstaking: false,
       });
-      console.log("getPoolTokens_error:", err);
+      console.log("handleUnStakeMasterChief_error:", err);
     });
 }
+
+function updateStakedAmount() {
+  State.update({
+    stakedAmountShow: state.stakedAmountShow - state.inputValue,
+  });
+}
+
 const renderExtra = () => {
   if (chainId !== CHAIN_ID) {
     return (
@@ -258,7 +279,8 @@ const renderExtra = () => {
       <AmountList>
         <span></span>
         <span>
-          Balance: <span className="amount-white">{stakedAmount}</span>
+          Balance:{" "}
+          <span className="amount-white">{state.stakedAmountShow}</span>
           {/* {TOKENS[curToken].symbol} */}
         </span>
       </AmountList>
