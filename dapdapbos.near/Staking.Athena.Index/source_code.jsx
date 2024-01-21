@@ -24,7 +24,9 @@ const Wrapper = styled.div`
   input[type="number"] {
     -moz-appearance: textfield;
   }
-
+  .form-control::placeholder {
+    color: white;
+  }
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
@@ -1224,7 +1226,7 @@ function getMultiMasterChief(pool) {
       });
     },
     (err) => {
-      console.log("multicall_error", err);
+      console.log("getMultiMasterChief_error", err);
     }
   );
 }
@@ -1360,7 +1362,7 @@ function getMultiLP(pool) {
       });
     },
     (err) => {
-      console.log("multicall_error", err);
+      console.log("getMultiLP_error", err);
     }
   );
 }
@@ -1496,7 +1498,7 @@ return (
               state.currentTab === "TAB_ASSETS" ? "active" : ""
             }`}
           >
-            Your Assets
+            Unlock requests
           </div>
         </Tabs.Trigger>
       </TabsList>
@@ -1523,9 +1525,7 @@ return (
                   LockingABI,
                   slotLength: state.slotLength,
                   tokenPrices: state.tokenPrices,
-                  //
-                  switchChain,
-                  // tokenIcons: getPoolIcon(item.tokenAssets),
+                  startUnlockIndex: state.myPoolsList?.length,
                 }}
                 key={item.poolName}
               />
