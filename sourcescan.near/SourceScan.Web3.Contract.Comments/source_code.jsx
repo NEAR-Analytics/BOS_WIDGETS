@@ -7,11 +7,6 @@ const contractId = props.contractId
 const { useTheme } = VM.require(
   `${config.ownerId}/widget/SourceScan.libs.theme`
 )
-
-if (!getConfig || !limits || !useTheme) {
-  return null
-}
-
 const theme = useTheme(Storage.privateGet('theme'))
 
 const [limit, setLimit] = useState(limits[0])
@@ -39,7 +34,6 @@ useEffect(() => {
     limit: limit,
   })
     .then((res) => {
-      console.log(res)
       setComments(res[0])
       setPages(res[1])
     })
