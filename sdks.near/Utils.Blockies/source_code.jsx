@@ -3,8 +3,8 @@ const { ExternalDependencyAdapter } = $("@sdks/abstracts");
 
 return (Store, status) => {
   const Blockies = {
-    ...ExternalDependencyAdapter(Store, status, "blockies"),
-    package: "ethereum-blockies@0.1.1/blockies.js",
+    ...ExternalDependencyAdapter(Store, status, "ethereum-blockies-base64"),
+    package: "ethereum-blockies-base64",
     create: (config) => {
       return Blockies.request(
         Blockies.createRequest("create", [config], "canvas")
