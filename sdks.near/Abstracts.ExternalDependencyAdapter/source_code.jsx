@@ -5,10 +5,10 @@ return (Store, status) => {
     responses: {},
     value: "",
     init: () => {
-      Store.init({
+      Store.update({
         [API.name]: {
           ongoingRequest: {},
-          responses: {}
+          responses: {},
         },
       });
 
@@ -75,15 +75,15 @@ return (Store, status) => {
       status[API.name].responses[instruction][index].resolve(result);
     },
     isReady: () => {
-        return status[API.name].ready;
+      return status[API.name].ready;
     },
     setAsReady: () => {
       let newApi = status[API.name];
       newApi.ready = true;
       Store.update({
-          [API.name]: newApi
+        [API.name]: newApi,
       });
-    }
+    },
   };
 
   return API.init();
