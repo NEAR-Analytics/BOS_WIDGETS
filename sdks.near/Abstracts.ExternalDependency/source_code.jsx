@@ -34,7 +34,7 @@ return (props) => {
                     }
 
                     if (e.data.returnType == "canvas") {
-                        return result.toDataUrl();
+                        return result.toDataURL();
                     }
                  }
         
