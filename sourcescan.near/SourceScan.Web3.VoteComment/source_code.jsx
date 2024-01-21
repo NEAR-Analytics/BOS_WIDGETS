@@ -10,10 +10,6 @@ const { UpVoteIcon, DownVoteIcon } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Icons`
 )
 
-if (!Button || !CStack || !UpVoteIcon || !DownVoteIcon || !getConfig) {
-  return null
-}
-
 // Upvote, Downvote
 const type = props.type
 const isUpvote = type === 'Upvote'
