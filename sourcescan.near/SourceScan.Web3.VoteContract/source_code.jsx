@@ -6,14 +6,14 @@ if (!getConfig) {
 }
 const config = getConfig(context.networkId)
 
-const { Button, CStack } = VM.require(
+const { CStack } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Components`
 )
 const { UpVoteIcon, DownVoteIcon } = VM.require(
   `${config.ownerId}/widget/SourceScan.UI.Icons`
 )
 
-if (!Button || !CStack) {
+if (!Button || !CStack || !UpVoteIcon || !DownVoteIcon) {
   return <div>loading...</div>
 }
 
