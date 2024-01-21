@@ -10,6 +10,9 @@ const contractId = props.contractId
 const { useTheme } = VM.require(
   `${config.ownerId}/widget/SourceScan.libs.theme`
 )
+if (!useTheme) {
+  return <div>loading...</div>
+}
 const theme = useTheme(Storage.privateGet('theme'))
 
 const { CStack, Text } = VM.require(
