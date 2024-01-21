@@ -4,12 +4,18 @@ const { getConfig, limits } = VM.require(
 const config = getConfig(context.networkId)
 const contractId = props.contractId
 
-const { useTheme } = VM.require(`sourcescan.near/widget/SourceScan.libs.theme`)
+const { useTheme } = VM.require(
+  `${config.ownerId}/widget/SourceScan.libs.theme`
+)
 const theme = useTheme(Storage.privateGet('theme'))
 
 const { CStack, Text } = VM.require(
-  `sourcescan.near/widget/SourceScan.UI.Components`
+  `${config.ownerId}/widget/SourceScan.UI.Components`
 )
+
+if (!CStack || !Text || !getConfig || !limits || !useTheme) {
+  return null
+}
 
 const Input = styled.input`
   height: 125px;
