@@ -13,7 +13,7 @@ return (props) => {
             }
         
             const getPackageMethod = (instruction, package) => {
-                return instruction.split(".").reduce((path, nextPath) => (path || {})[nextPath], package);
+                return typeof package != "function" ? instruction.split(".").reduce((path, nextPath) => (path || {})[nextPath], package) : package;
             };
         
             window.addEventListener("message", (e) => {
