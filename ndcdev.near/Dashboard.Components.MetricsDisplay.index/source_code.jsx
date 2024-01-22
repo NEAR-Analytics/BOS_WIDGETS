@@ -3,7 +3,7 @@ const { Items } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.MetricsDisplay.styled`,
 );
 
-if (!Items) <Widget src="flashui.near/widget/Loading" />;
+if (!Items) return <Widget src="flashui.near/widget/Loading" />;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const Item = ({ value, text, color }) => {
