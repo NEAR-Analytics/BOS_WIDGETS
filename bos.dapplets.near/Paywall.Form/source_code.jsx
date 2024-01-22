@@ -1,5 +1,82 @@
 const { linkId, CONTRACT_ADDRESS } = props
 
+/**
+ * From near-api-js/packages/near-api-js/src/utils/format.ts
+ */
+const NEAR_NOMINATION_EXP = 24;
+const NEAR_NOMINATION = new BN('10', 10).pow(new BN(NEAR_NOMINATION_EXP, 10));
+const ROUNDING_OFFSETS = [];
+const BN10 = new BN(10);
+
+for (let i = 0, offset = new BN(5); i < NEAR_NOMINATION_EXP; i++) {
+  ROUNDING_OFFSETS[i] = offset;
+  offset = offset.mul(BN10)
+}
+
+function trimTrailingZeroes(value) {
+  return value.replace(/\.?0*$/, '');
+}
+
+function formatWithCommas(value) {
+  const pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(value)) {
+    value = value.replace(pattern, '$1,$2');
+  }
+  return value;
+}
+
+function formatNearAmount(balance, fracDigitsExternal) {
+  const fracDigits = fracDigitsExternal || NEAR_NOMINATION
+
+  const balanceBN = new BN(balance, 10);
+  if (fracDigits !== NEAR_NOMINATION_EXP) {
+    const roundingExp = NEAR_NOMINATION_EXP - fracDigits - 1;
+    if (roundingExp > 0) {
+      balanceBN.iadd(ROUNDING_OFFSETS[roundingExp]);
+    }
+  }
+
+  balance = balanceBN.toString();
+  const wholeStr = balance.substring(0, balance.length - NEAR_NOMINATION_EXP) || '0';
+  const fractionStr = balance
+    .substring(balance.length - NEAR_NOMINATION_EXP)
+    .padStart(NEAR_NOMINATION_EXP, '0')
+    .substring(0, fracDigits);
+
+  return trimTrailingZeroes(`${formatWithCommas(wholeStr)}.${fractionStr}`);
+}
+
+function cleanupAmount(amount) {
+  return amount.replace(/,/g, '').trim();
+}
+
+function trimLeadingZeroes(value) {
+  value = value.replace(/^0+/, '');
+  if (value === '') {
+      return '0';
+  }
+  return value;
+}
+
+function parseNearAmount(amt) {
+  if (!amt) { return null; }
+  amt = cleanupAmount(amt);
+  const split = amt.split('.');
+  const wholePart = split[0];
+  const fracPart = split[1] || '';
+  if (split.length > 2 || fracPart.length > NEAR_NOMINATION_EXP) {
+      throw new Error(`Cannot parse '${amt}' as NEAR amount`);
+  }
+  return trimLeadingZeroes(wholePart + fracPart.padEnd(NEAR_NOMINATION_EXP, '0'));
+}
+
+function formatNear(amount) {
+  return Number(formatNearAmount(amount, 3));
+}
+/**
+ * End
+ */
+
 State.init({
   img: null,
   isUpload: false,
@@ -36,7 +113,7 @@ const sendOnChange = () => {
       "add_paid_content",
       {
         link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
-        cost: state.amount,
+        cost: parseNearAmount(state.amount),
         context_id: linkId
       }
     );
