@@ -95,10 +95,8 @@ const onReceiverChange = debounce((e) => {
 });
 
 const onTokenChange = debounce((e) => {
-  const metadata = Near.view(e.target.value, "ft_metadata", {});
   State.update({
     token_id: e.target.value,
-    metadata,
   });
 });
 
@@ -106,6 +104,11 @@ const onAmountChange = debounce((e) => {
   State.update({
     amount: e.target.value,
   });
+});
+
+useEffect(() => {
+  const metadata = Near.view(state.token_id, "ft_metadata", {});
+  State.update({ metadata });
 });
 
 return (
