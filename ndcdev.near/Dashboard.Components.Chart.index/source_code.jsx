@@ -2,6 +2,8 @@ const { Container } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Chart.styled`,
 );
 
+if (!Container) <Widget src="flashui.near/widget/Loading" />;
+
 const chartData = props.chartData ?? {
   labels: props.data.labels.map(
     (item) => new Date(item).toISOString().split("T")[0],
