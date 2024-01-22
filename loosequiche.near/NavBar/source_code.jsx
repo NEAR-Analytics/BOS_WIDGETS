@@ -18,3 +18,4 @@ function App() {
     </div>
   );
 }
+return <App />;
