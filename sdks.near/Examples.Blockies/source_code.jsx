@@ -41,7 +41,7 @@ return (
   <>
     <ExternalDependency adapter={Blockies} />
     <Profile>
-      {Blockies.isReady() && blockie && <Image src={blockie} />}
+      {blockie && <Image src={blockie} />}
       <p>{context.accountId}</p>
     </Profile>
   </>
