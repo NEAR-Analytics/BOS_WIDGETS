@@ -4,9 +4,10 @@ const token_id = props.token_id ?? "";
 const amount = props.amount ?? "";
 
 function onTransfer() {
-  const defaultGas = 300 * 1000000000000;
-  const functionCallGas = 200 * 1000000000000;
-  if (state.token_id == "near") {
+  console.log(1, state);
+  const defaultGas = (300 * 1000000000000).toString();
+  const functionCallGas = (200 * 1000000000000).toString();
+  if (state.token_id === "near") {
     const amount = new Big(state.amount).mul(new Big(10).pow(24)).toFixed();
     Near.call(
       contract_id,
@@ -27,9 +28,10 @@ function onTransfer() {
     );
     return;
   }
+  console.log(2);
 
-  const metadata = Near.view(state.token_id, "ft_metadata", {});
-  const decimals = metadata.decimals;
+  const decimals =
+    state.decimals ?? Near.view(state.token_id, "ft_metadata").decimals;
   const amount = new Big(state.amount).mul(new Big(10).pow(decimals)).toFixed();
   console.log({
     decimals,
@@ -88,8 +90,10 @@ const onReceiverChange = debounce((e) => {
 });
 
 const onTokenChange = debounce((e) => {
+  const decimals = Near.view(e.target.value, "ft_metadata", {}).decimals ?? 0;
   State.update({
     token_id: e.target.value,
+    decimals: decimals,
   });
 });
 
