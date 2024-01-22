@@ -3,7 +3,7 @@ const { FilterItem, SubFilterItem, FilterContainer } = VM.require(
 );
 
 if (!FilterItem || !SubFilterItem || !FilterContainer)
-  <Widget src="flashui.near/widget/Loading" />;
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const { ndcDAOs } = props;
 
