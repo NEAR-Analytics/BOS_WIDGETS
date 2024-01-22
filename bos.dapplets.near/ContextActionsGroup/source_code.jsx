@@ -409,12 +409,8 @@ const iconApply = (
   </svg>
 );
 return (
-  <OverlayTriggerWrapper>
-    <div
-      style={{ opacity: state.show ? 0 : 1 }}
-      className="OverlayTrigger"
-      onMouseEnter={handleOnMouseEnter}
-    >
+  <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
+    <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
       <TriggerEar />
     </div>
     {state.show ? (
