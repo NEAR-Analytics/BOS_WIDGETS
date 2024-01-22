@@ -2,9 +2,7 @@ const { value, text, color } = props;
 const { Circle } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.MetricsDisplay.styled`,
 );
-const { formatValue }  = VM.require(
-  `ndcdev.near/widget/Dashboard.utils`,
-);
+const { formatValue } = VM.require(`ndcdev.near/widget/Dashboard.utils`);
 
 return (
   <div className="item">
