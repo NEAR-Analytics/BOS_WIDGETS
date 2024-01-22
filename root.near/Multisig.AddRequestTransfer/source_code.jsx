@@ -6,9 +6,33 @@ const amount = props.amount ?? "";
 function onTransfer() {
   const defaultGas = 300 * 1000000000000;
   const functionCallGas = 200 * 1000000000000;
-  const decimals = 24;
+  if (state.token_id == "near") {
+    const amount = new Big(state.amount).mul(new Big(10).pow(24)).toFixed();
+    Near.call(
+      contract_id,
+      "add_proposal",
+      {
+        request: {
+          receiver_id: state.token_id,
+          actions: [
+            {
+              type: "Transfer",
+              amount,
+            },
+          ],
+        },
+      },
+      defaultGas,
+      1
+    );
+    return;
+  }
+
+  const metadata = Near.view(state.token_id, "ft_metadata", {});
+  const decimals = metadata.decimals;
   const amount = new Big(state.amount).mul(new Big(10).pow(decimals)).toFixed();
   console.log({
+    decimals,
     receiver_id: state.receiver_id,
     token_id: state.token_id,
     amount,
