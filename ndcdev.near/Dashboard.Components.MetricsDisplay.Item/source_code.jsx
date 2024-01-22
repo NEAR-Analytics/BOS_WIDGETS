@@ -3,7 +3,7 @@ const { Circle } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.MetricsDisplay.styled`,
 );
 
-if (!Circle) <Widget src="flashui.near/widget/Loading" />;
+if (!Circle) return <Widget src="flashui.near/widget/Loading" />;
 
 const formatValue = (val) =>
   val >= 1000000000
