@@ -8,7 +8,11 @@ const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/ArbitrumSushiSwapRouter.txt"
 );
 
-if (!routerAbi.ok) {
+const erc20Abi = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+
+if (!routerAbi.ok || !erc20Abi.ok) {
   return "Loading";
 }
 
@@ -81,7 +85,7 @@ const swap = () => {
         route,
         overrides
       )
-      .then((res) => { });
+      .then((res) => {});
   } catch (err) {
     console.error(err);
   }
@@ -108,7 +112,19 @@ if (state.balance === undefined && state.sender) {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
+        console.log("balance ETH: "+balance);
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(5) });
+    });
+
+  const erc20Contract = new ethers.Contract(
+    MPEthToken,
+    erc20Abi.body,
+    Ethers.provider().getSigner()
+  );
+    
+    erc20Contract.balanceOf(state.sender).then((res) => {
+        console.log("balance mpETH: "+res);
+        State.update({ mpETHbalance: Big(res).div(Big(10).pow(18)).toFixed(5) });
     });
 }
 
@@ -156,12 +172,12 @@ const Theme = state.theme;
 
 // OUTPUT UI
 const getSender = () => {
-  return !state.sender
-    ? ""
-    : state.sender.substring(0, 6) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length);
-},
+    return !state.sender
+      ? ""
+      : state.sender.substring(0, 6) +
+          "..." +
+          state.sender.substring(state.sender.length - 4, state.sender.length);
+  },
   mpEthIcon = (
     <svg
       width="24"
@@ -278,7 +294,8 @@ return (
         {state.sender && (
           <>
             <p>
-              The price indicated below is a reference, for real-time price take a look at
+              The price indicated below is a reference, for real-time price take
+              a look at
               <a
                 href="https://www.sushi.com/pool/42161:0x9C657a4140Ed352f86Dc6D3A8825991431dB2201/positions/7636"
                 target="_blank"
@@ -301,8 +318,7 @@ return (
                 </div>
                 <div class="LidoFormTopContainerLeftContent2">
                   <span>
-                    {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;{}
-                    {state.tokenSelected == 0 ? "ETH" : "mpETH"}
+                    {state.tokenSelected == 0 ? ( state.balance ?? (!state.sender ? "0" : "..."))+" ETH" : ( state.mpETHbalance ?? (!state.sender ? "0" : "..."))+" mpETH"}
                   </span>
                 </div>
 
