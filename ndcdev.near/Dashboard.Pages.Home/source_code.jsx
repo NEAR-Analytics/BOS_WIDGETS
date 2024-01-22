@@ -4,7 +4,7 @@ const { Container, ChartContainer } = VM.require(
 );
 
 if (!ndcDAOs || !Container || !ChartContainer)
-  <Widget src="flashui.near/widget/Loading" />;
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
@@ -60,7 +60,7 @@ const fetchData = () => {
   let _uniqueAccounts = 0;
   let _uniqueActiveUsers = [];
   let _dailyTotalTx = [];
-  const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs ?? [];
+  const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
 
   daos.map((accountId) => {
     API.get_total_tx(accountId).then((resp) => {
