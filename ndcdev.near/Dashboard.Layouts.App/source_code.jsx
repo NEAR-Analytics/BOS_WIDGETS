@@ -4,7 +4,7 @@ const { Wrapper, Container, Theme } = VM.require(
 );
 
 if (!Wrapper || !Container || !Theme)
-  <Widget src="flashui.near/widget/Loading" />;
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const [font, setFont] = useState("");
 
