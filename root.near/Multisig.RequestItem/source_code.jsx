@@ -23,11 +23,13 @@ for (let i = 0; i < request.actions.length; ++i) {
         let args = JSON.parse(atob(action.args));
         let gas = new Big(action.gas).div(new Big(10).pow(12));
         let deposit = new Big(action.deposit).div(new Big(10).pow(24));
-          const metadata = Near.view(request.receiver_id, "ft_metadata", {});
+        const metadata = Near.view(request.receiver_id, "ft_metadata", {});
         console.log(args);
         if (action.method_name === "ft_transfer") {
           repr.push(
-            `Transfer ${new Big(args.amount).div(new Big(10).pow(metadata.decimals))} of ${request.receiver_id} token to ${args.receiver_id}`
+            `Transfer ${new Big(args.amount).div(
+              new Big(10).pow(metadata.decimals)
+            )} of ${request.receiver_id} token to ${args.receiver_id}`
           );
         } else {
           repr.push(
@@ -54,8 +56,11 @@ function onDelete() {
 
 return (
   <div>
-    {repr}
-    <button onClick={onConfirm}>Confirm</button>
-    <button onClick={onDelete}>Delete</button>
+    <p>{repr}</p>
+    <p>Confirmed by: {confirmations}</p>
+    <p>
+      <button onClick={onConfirm}>Confirm</button>
+      <button onClick={onDelete}>Delete</button>
+    </p>
   </div>
 );
