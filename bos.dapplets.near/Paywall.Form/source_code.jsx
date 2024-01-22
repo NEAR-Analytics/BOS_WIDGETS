@@ -344,7 +344,7 @@ return (
           </ButtonCancel>
           <ButtonSend
             onClick={sendOnChange}
-            disabled={/*!state.img ||*/ !state.amount || state.wrongPrice}
+            disabled={!state.img || !state.amount || state.wrongPrice}
           >
             Send
           </ButtonSend>
