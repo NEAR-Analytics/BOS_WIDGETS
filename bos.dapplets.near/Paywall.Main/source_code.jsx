@@ -1,6 +1,8 @@
 const { nearAccountId } = props;
 const { authorId, linkId } = props.link;
 
+if (!linkId) return <></>;
+
 const userAccountId = context.accountId || nearAccountId
 
 const CONTRACT_ADDRESS = "v2.paywall.near";
@@ -59,17 +61,19 @@ const CONTRACT_ADDRESS = "v2.paywall.near";
 const setContent = () => {
   // const content = getContentById()
   // return content ? { content, is_purchased: isPurchased() } : null
-  State.update({
-    content: userAccountId
+  const content = userAccountId
     ? Near.view(
         CONTRACT_ADDRESS,
         "get_content_by_post_for_account",
         {
-          context_id: linkId,
+          context_id: '1694995344461894022/twitter' , // linkId,
           account_id: userAccountId
         }
       )
     : []
+  console.log(content[0])
+  State.update({
+    content: content[0]
   })
 }
 
