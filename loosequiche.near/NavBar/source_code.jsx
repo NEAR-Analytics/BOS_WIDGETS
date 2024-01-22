@@ -2,7 +2,7 @@ function NavBar() {
   return (
     <div>
       <img
-        src="https://res.cloudinary.com/dglhc1pfj/image/upload/f_auto,q_auto/NearIndia"
+        src="https://res.cloudinary.com/dglhc1pfj/image/upload/f_auto,q_auto/cld-sample-5"
         alt="Near India"
         height="100%"
         width="100%"
@@ -18,4 +18,3 @@ function App() {
     </div>
   );
 }
-return <App />;
