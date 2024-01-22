@@ -3,8 +3,6 @@ const { Wrapper, Container, Theme } = VM.require(
   `ndcdev.near/widget/Dashboard.Layouts.styled`,
 );
 
-if (!Wrapper || !Container || !Theme) return <>{children}</>;
-
 const [font, setFont] = useState("");
 
 asyncFetch("https://fonts.cdnfonts.com/css/avenir-lt-pro").then((resp) =>
