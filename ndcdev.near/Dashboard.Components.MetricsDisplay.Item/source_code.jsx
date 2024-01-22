@@ -2,9 +2,15 @@ const { value, text, color } = props;
 const { Circle } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.MetricsDisplay.styled`,
 );
-const { formatValue } = VM.require(`ndcdev.near/widget/Dashboard.utils`);
 
-if (!formatValue) <Widget src="flashui.near/widget/Loading" />;
+const formatValue = (val) =>
+  val >= 1000000000
+    ? `${parseFloat(val / 1000000000).toFixed(2)}B`
+    : val >= 1000000
+    ? `${parseFloat(val / 1000000).toFixed(2)}M`
+    : val >= 1000
+    ? `${parseFloat(val / 1000).toFixed(2)}K`
+    : val;
 
 return (
   <div className="item">
