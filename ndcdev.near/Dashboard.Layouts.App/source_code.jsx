@@ -3,7 +3,8 @@ const { Wrapper, Container, Theme } = VM.require(
   `ndcdev.near/widget/Dashboard.Layouts.styled`,
 );
 
-const Loading = () => <Widget src="flashui.near/widget/Loading" />;
+if (!Wrapper || !Container || !Theme)
+  <Widget src="flashui.near/widget/Loading" />;
 
 const [font, setFont] = useState("");
 
