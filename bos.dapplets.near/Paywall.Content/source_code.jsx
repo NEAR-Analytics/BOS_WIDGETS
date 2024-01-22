@@ -97,7 +97,7 @@ const onBuy = () => {
         content_id: content.id
       },
       '50000000000000',
-      parseNearAmount(content.cost)
+      content.cost
     );
     setTimeout(() => State.update({ loading: false }), 3000)
   } catch (err) {
