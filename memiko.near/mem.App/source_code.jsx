@@ -1,13 +1,13 @@
 const { AppLayout } = VM.require(`memiko.near/widget/mem.Layouts.App`);
-const config = VM.require(`memiko.near/widget/mem.Config`);
+
 const { page, ...passProps } = props;
 
-if (!config || !AppLayout) return <Widget src="flashui.near/widget/Loading" />;
+if (!AppLayout) return <Widget src="flashui.near/widget/Loading" />;
 if (!page) page = "home";
 
 const pageProps = {
   page,
-  ...config,
+  contractName: "memiko.near",
   ...passProps,
 };
 
