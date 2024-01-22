@@ -51,7 +51,7 @@ function onConfirm() {
 }
 
 function onDelete() {
-  Near.call(contract_id, "delete", { request_id: request_id });
+  Near.call(contract_id, "delete_request", { request_id: request_id });
 }
 
 return (
