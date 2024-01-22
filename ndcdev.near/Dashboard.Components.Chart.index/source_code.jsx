@@ -2,7 +2,7 @@ const { Container } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Chart.styled`,
 );
 
-if (!Container) <Widget src="flashui.near/widget/Loading" />;
+if (!Container) return <Widget src="flashui.near/widget/Loading" />;
 
 const chartData = props.chartData ?? {
   labels: props.data.labels.map(
