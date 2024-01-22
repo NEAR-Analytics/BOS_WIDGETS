@@ -15,5 +15,12 @@ return (
         </li>
       ))}
     </div>
+    <hr />
+    <div>
+      <Widget
+        src="root.near/widget/Multisig.AddRequestTransfer"
+        props={{ contract_id }}
+      />
+    </div>
   </div>
 );
