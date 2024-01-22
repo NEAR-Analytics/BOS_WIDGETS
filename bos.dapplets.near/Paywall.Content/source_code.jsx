@@ -51,30 +51,6 @@ function formatNearAmount(balance, fracDigitsExternal) {
   return trimTrailingZeroes(`${formatWithCommas(wholeStr)}.${fractionStr}`);
 }
 
-function cleanupAmount(amount) {
-  return amount.replace(/,/g, '').trim();
-}
-
-function trimLeadingZeroes(value) {
-  value = value.replace(/^0+/, '');
-  if (value === '') {
-      return '0';
-  }
-  return value;
-}
-
-function parseNearAmount(amt) {
-  if (!amt) { return null; }
-  amt = cleanupAmount(amt);
-  const split = amt.split('.');
-  const wholePart = split[0];
-  const fracPart = split[1] || '';
-  if (split.length > 2 || fracPart.length > NEAR_NOMINATION_EXP) {
-      throw new Error(`Cannot parse '${amt}' as NEAR amount`);
-  }
-  return trimLeadingZeroes(wholePart + fracPart.padEnd(NEAR_NOMINATION_EXP, '0'));
-}
-
 function formatNear(amount) {
   return Number(formatNearAmount(amount, 3));
 }
@@ -240,7 +216,7 @@ return (
           <img className="content-image blurred" src={content.link} />
           {userAccountId ? (
             <div className="unlock-content-overlay">
-              <div className="text">Unlock this Post</div>
+              <div className="text">Unlock this content</div>
               <div className="price">{formatNear(content.cost)} $NEAR</div>
               <button
                 className="main-button"
@@ -250,7 +226,19 @@ return (
                 {state.loading ? <Loader /> : "Buy"}
               </button>
             </div>
-          ) : null}
+          ) : (
+            <div className="unlock-content-overlay">
+              <div className="text">Login and unlock this content</div>
+              <div className="price">{formatNear(content.cost)} $NEAR</div>
+              <button
+                className="main-button"
+                onClick={() => onBuy(contentId, content.cost)}
+                disabled={true}
+              >
+                {state.loading ? <Loader /> : "Buy"}
+              </button>
+            </div>
+          )}
           <Widget src="bos.dapplets.near/widget/Paywall.Badge"  props={{ accountId: content.author }}/>
         </>
       )}
