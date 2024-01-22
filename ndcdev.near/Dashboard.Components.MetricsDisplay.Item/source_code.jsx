@@ -4,6 +4,8 @@ const { Circle } = VM.require(
 );
 const { formatValue } = VM.require(`ndcdev.near/widget/Dashboard.utils`);
 
+if (!formatValue) <Widget src="flashui.near/widget/Loading" />;
+
 return (
   <div className="item">
     <div className="inner">{formatValue(value)}</div>
