@@ -3,6 +3,9 @@ const { Container, ChartContainer } = VM.require(
   `ndcdev.near/widget/Dashboard.Pages.styled`,
 );
 
+if (!ndcDAOs || !Container || !ChartContainer)
+  <Widget src="flashui.near/widget/Loading" />;
+
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
 
