@@ -1,5 +1,4 @@
 const { ndcDAOs } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
-const { API } = VM.require(`ndcdev.near/widget/Dashboard.Api.pikespeak`);
 const { Container, ChartContainer } = VM.require(
   `ndcdev.near/widget/Dashboard.Pages.styled`,
 );
@@ -25,6 +24,31 @@ const [period, setPeriod] = useState(PERIODS[0]);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
 const [dailyTotalTx, setdailyTotalTx] = useState([]);
 const [uniqueActiveUsers, setUniqueActiveUsers] = useState([]);
+
+const baseUrl = "https://api.pikespeak.ai";
+
+const get = async (url) =>
+  asyncFetch(`${baseUrl}/${url}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+    },
+  });
+
+const API = {
+  get_total_tx: (accountId) => get(`account/tx-count/${accountId}`),
+  get_daily_total_tx: (accountId) => get(`account/daily-tx-count/${accountId}`),
+  get_accounts: (accountId) =>
+    get(`event-historic/account/relationships/${accountId}?search=${accountId}
+  `),
+  get_unique_accounts_by_period: (accountId) =>
+    get(`contract-analysis/unique-users-by-period/${accountId}`),
+  get_activity_by_period: (accountId) =>
+    get(`contract-analysis/metrics/${accountId}`),
+  get_retentions: (accountId) =>
+    get(`contract-analysis/retention/${accountId}`),
+};
 
 const fetchData = () => {
   setLoading(true);
