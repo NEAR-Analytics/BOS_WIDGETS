@@ -3,10 +3,16 @@ const receiver_id = props.receiver_id ?? "";
 const token_id = props.token_id ?? "";
 const amount = props.amount ?? "";
 
+const metadata =
+  token_id != null ? Near.view(token_id, "ft_metadata") : { decimals: 24 };
+
+if (metadata == null) return;
+
 function onTransfer() {
   console.log(1, state);
   const defaultGas = (300 * 1000000000000).toString();
   const functionCallGas = (200 * 1000000000000).toString();
+
   if (state.token_id === "near") {
     const amount = new Big(state.amount).mul(new Big(10).pow(24)).toFixed();
     Near.call(
@@ -28,11 +34,9 @@ function onTransfer() {
     );
     return;
   }
-  console.log(2);
-
-  const decimals =
-    state.decimals ?? Near.view(state.token_id, "ft_metadata").decimals;
-  const amount = new Big(state.amount).mul(new Big(10).pow(decimals)).toFixed();
+  const amount = new Big(state.amount)
+    .mul(new Big(10).pow(state.metadata.decimals))
+    .toFixed();
   console.log({
     decimals,
     receiver_id: state.receiver_id,
@@ -66,6 +70,7 @@ State.init({
   receiver_id,
   token_id,
   amount,
+  metadata,
 });
 
 const debounce = (func, wait) => {
@@ -90,10 +95,10 @@ const onReceiverChange = debounce((e) => {
 });
 
 const onTokenChange = debounce((e) => {
-  const decimals = Near.view(e.target.value, "ft_metadata", {}).decimals ?? 0;
+  const metadata = Near.view(e.target.value, "ft_metadata", {});
   State.update({
     token_id: e.target.value,
-    decimals: decimals,
+    metadata,
   });
 });
 
@@ -147,7 +152,7 @@ return (
             defaultValue={state.amount}
           />
           <label class="form-label" for="transfer-amount">
-            Amount
+            Amount (decimals: {state.metadata.decimals})
           </label>
         </div>
       </div>
