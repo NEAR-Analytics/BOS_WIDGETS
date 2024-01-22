@@ -57,6 +57,8 @@ const Wrapper = styled.div`
 
 const Body = styled.div`
     display:flex;
+    overflow:hidden;
+    border-radius:10px;
 `;
 
 const Sidebar = styled.div`
