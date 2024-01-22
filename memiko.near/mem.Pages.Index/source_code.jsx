@@ -1,4 +1,4 @@
-const { assets, content, contractName } = props;
+const { content, contractName } = props;
 
 const symbols = {
   "memiko.near": "MEM",
@@ -8,6 +8,7 @@ const symbols = {
   "memelol.near": "LOL",
   "token.0xshitzu.near": "SHITZU",
 };
+const symbolIndex = ["MEM", "NEKO", "LONK", "BLACKDRAGON", "LOL", "SHITZU"];
 
 const Container = styled.div`
   width: 100%;
@@ -30,8 +31,8 @@ const GrayBlock = styled.div`
 
 const [stats, setStats] = useState({
   remains: [],
-  total_box_opened: 0,
-  total_participants: 0,
+  totalPackOpened: 0,
+  totalParticipants: 0,
   startDate: 9999999999999,
 });
 
@@ -43,8 +44,8 @@ const fetchStats = () => {
   const stats = Near.view(contractName, "get_total_info");
   setStats({
     remains: stats[0],
-    total_box_opened: stats[1],
-    total_participants: stats[2],
+    totalPackOpened: stats[1],
+    totalParticipants: stats[2],
     startDate: stats[3]
       ? new Big(stats[3] || 0).div(1000 * 1000).toNumber()
       : 0,
@@ -118,7 +119,7 @@ return (
         style={{
           width: "100%",
           height: "186px",
-          background: `no-repeat center url("${assets.banner}")`,
+          background: `no-repeat center url("https://bafybeihgspjbexzcuubc7w23dehnv4tm32ydgv6hbu4rqob2gfwmeazvjy.ipfs.nftstorage.link/1500x500-min.jpg")`,
           backgroundSize: "100%",
           borderTopLeftRadius: "20px",
           borderTopRightRadius: "20px",
@@ -267,6 +268,32 @@ return (
       </GrayBlock>
     </Section>
 
+    {stats.remains.length > 0 && (
+      <Section className="pt-10">
+        <div className={"text-center"}>
+          <h2>Statistics</h2>
+          <p className={"mt-4"}>
+            <span className={"mx-2"}>
+              Opened Packs: {stats.totalPackOpened}
+            </span>
+            <span className={"mx-2"}>
+              Participants: {stats.totalParticipants}
+            </span>
+          </p>
+
+          <p>Tokens Left:</p>
+          <p className={"text-sm mt-0 pt-0"}>
+            {stats.remains.map((item, index) => (
+              <span className={"mx-2"}>
+                {item} {symbolIndex[index]}
+              </span>
+            ))}
+          </p>
+        </div>
+        <hr className={"mt-4"} />
+      </Section>
+    )}
+
     <Section className={"text-center"}>
       <h2>MEM Token Info</h2>
       <p className={"mt-3"}>
@@ -275,7 +302,7 @@ return (
       </p>
 
       <img
-        src={assets.tokenomics}
+        src="https://bafybeicuxy342lm5f3vv3zuki7relrgecuaxhcicv4rh5rqeuvfxh7f3ga.ipfs.nftstorage.link/tokenomics.jpg"
         style={{ width: "60%", margin: "auto", opacity: "0.9" }}
         alt={"tokenomic"}
       />
