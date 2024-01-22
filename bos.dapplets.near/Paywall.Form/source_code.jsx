@@ -4,47 +4,6 @@ const { linkId, CONTRACT_ADDRESS } = props
  * From near-api-js/packages/near-api-js/src/utils/format.ts
  */
 const NEAR_NOMINATION_EXP = 24;
-const NEAR_NOMINATION = new BN('10', 10).pow(new BN(NEAR_NOMINATION_EXP, 10));
-const ROUNDING_OFFSETS = [];
-const BN10 = new BN(10);
-
-for (let i = 0, offset = new BN(5); i < NEAR_NOMINATION_EXP; i++) {
-  ROUNDING_OFFSETS[i] = offset;
-  offset = offset.mul(BN10)
-}
-
-function trimTrailingZeroes(value) {
-  return value.replace(/\.?0*$/, '');
-}
-
-function formatWithCommas(value) {
-  const pattern = /(-?\d+)(\d{3})/;
-  while (pattern.test(value)) {
-    value = value.replace(pattern, '$1,$2');
-  }
-  return value;
-}
-
-function formatNearAmount(balance, fracDigitsExternal) {
-  const fracDigits = fracDigitsExternal || NEAR_NOMINATION
-
-  const balanceBN = new BN(balance, 10);
-  if (fracDigits !== NEAR_NOMINATION_EXP) {
-    const roundingExp = NEAR_NOMINATION_EXP - fracDigits - 1;
-    if (roundingExp > 0) {
-      balanceBN.iadd(ROUNDING_OFFSETS[roundingExp]);
-    }
-  }
-
-  balance = balanceBN.toString();
-  const wholeStr = balance.substring(0, balance.length - NEAR_NOMINATION_EXP) || '0';
-  const fractionStr = balance
-    .substring(balance.length - NEAR_NOMINATION_EXP)
-    .padStart(NEAR_NOMINATION_EXP, '0')
-    .substring(0, fracDigits);
-
-  return trimTrailingZeroes(`${formatWithCommas(wholeStr)}.${fractionStr}`);
-}
 
 function cleanupAmount(amount) {
   return amount.replace(/,/g, '').trim();
@@ -69,10 +28,6 @@ function parseNearAmount(amt) {
   }
   return trimLeadingZeroes(wholePart + fracPart.padEnd(NEAR_NOMINATION_EXP, '0'));
 }
-
-function formatNear(amount) {
-  return Number(formatNearAmount(amount, 3));
-}
 /**
  * End
  */
@@ -80,7 +35,7 @@ function formatNear(amount) {
 State.init({
   img: null,
   isUpload: false,
-  amount: 1,
+  amount: null,
 });
 
 const uploadFileUpdateState = (body) => {
@@ -102,25 +57,29 @@ const filesOnChange = (files) => {
 };
 
 const amountOnChange = ({ target }) => {
-  State.update({ amount: target.value });
+   State.update({ amount: target.value.trim(), wrongPrice: false });
 };
 
 const sendOnChange = () => {
-  try {
-    // State.update({ loading: true })
-    Near.call(
-      CONTRACT_ADDRESS,
-      "add_paid_content",
-      {
-        link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
-        cost: parseNearAmount(state.amount),
-        context_id: linkId
-      }
-    );
-    // setTimeout(() => State.update({ loading: false }), 3000)
-  } catch (err) {
-    console.error(err);
-    // State.update({ isUpload: false });
+  if (!/^\d+([.]\d+)?$/g.test(state.amount)) {
+    State.update({ wrongPrice: true })
+  } else {
+    try {
+      // State.update({ loading: true })
+      Near.call(
+        CONTRACT_ADDRESS,
+        "add_paid_content",
+        {
+          link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
+          cost: parseNearAmount(state.amount),
+          context_id: linkId
+        }
+      );
+      // setTimeout(() => State.update({ loading: false }), 3000)
+    } catch (err) {
+      console.error(err);
+      // State.update({ isUpload: false });
+    }
   }
 };
 
@@ -128,7 +87,7 @@ const cancelOnChange = () => {
   State.update({
     img: null,
     isUpload: false,
-    amount: 1,
+    amount: null,
   });
 };
 
@@ -167,9 +126,7 @@ const iconBtnUpload = (
 const WrapperWidget = styled.div`
   display: flex;
   flex-direction: column;
-  width: 509px;
   padding: 10px;
-  height: 247px;
   border-radius: 16px;
   border: 1px solid #8899a6;
   background: #fff;
@@ -209,8 +166,6 @@ const InputsBlock = styled.div`
   border-radius: 4px;
   border: 1px solid #c1c6ce;
   padding: 10px;
-  width: 489px;
-  height: 142px;
   margin-bottom: 14px;
   box-sizing: border-box;
 `;
@@ -229,7 +184,6 @@ const FileInput = styled.input`
   display: flex;
   height: 44px;
   padding: 10px;
-  width: 331px;
   font-family: Roboto;
   font-size: 14px;
   font-weight: 400;
@@ -238,19 +192,26 @@ const FileInput = styled.input`
   border: none;
   outline: none;
   box-sizing: border-box;
+  flex-grow: 1;
+  margin-right: 8px;
 `;
 
 const BlockAmount = styled.div`
-  border-radius: 4px;
-  border: 1px solid #c1c6ce;
-  background: #fff;
+  .default {
+    border-radius: 4px;
+    border: 1px solid #c1c6ce;
+    background: #fff;
 
-  display: flex;
-  height: 44px;
-  padding: 4px 10px;
-  width: 469px;
-  flex-direction: column;
-  box-sizing: border-box;
+    display: flex;
+    height: 44px;
+    padding: 4px 10px;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .error {
+    border-color: red;
+  }
 `;
 
 const LabelAmount = styled.div`
@@ -259,15 +220,6 @@ const LabelAmount = styled.div`
   font-size: 12px;
   font-weight: 400;
   line-height: normal;
-`;
-
-const ButtonsBlock = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-  width: 489px;
-  box-sizing: border-box;
 `;
 
 const InputAmount = styled.input`
@@ -279,8 +231,22 @@ const InputAmount = styled.input`
   line-height: normal;
   border: none;
   outline: none;
-  width: 449px;
   height: 16px;
+  box-sizing: border-box;
+`;
+
+const WrongAmountMessage = styled.div`
+  color: red;
+  padding: 8px 8px 0 12px;
+  font-family: Roboto;
+  font-size: 14px;
+`;
+
+const ButtonsBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
   box-sizing: border-box;
 `;
 
@@ -300,6 +266,9 @@ const ButtonCancel = styled.button`
   font-weight: 400;
   line-height: 149%;
   box-sizing: border-box;
+  margin: 0 4px;
+
+  &:disabled,
   &:hover {
     opacity: 0.3;
   }
@@ -321,11 +290,10 @@ const ButtonSend = styled.button`
   font-weight: 400;
   line-height: 149%;
   box-sizing: border-box;
-  &:hover {
-    opacity: 0.5;
-  }
+  margin: 0 4px;
 
-  &:disabled {
+  &:disabled,
+  &:hover {
     opacity: 0.5;
   }
 `;
@@ -353,18 +321,30 @@ return (
           </UploadBlock>
 
           <BlockAmount>
-            <LabelAmount>Price (NEAR)</LabelAmount>
-            <InputAmount
-              value={state.amount ? state.amount : ""}
-              onChange={amountOnChange}
-            />
+            <div className={state.wrongPrice? "default error" : "default"}>
+              <LabelAmount>Price (NEAR)</LabelAmount>
+              <InputAmount
+                value={state.amount || ""}
+                onChange={amountOnChange}
+              />
+            </div>
           </BlockAmount>
+          {state.wrongPrice
+            ? (<WrongAmountMessage>
+              The price must consist only of numbers separated by "."
+              </WrongAmountMessage>)
+            : null}
         </InputsBlock>
         <ButtonsBlock>
-          <ButtonCancel onClick={cancelOnChange}>Cancel</ButtonCancel>
+          <ButtonCancel
+            onClick={cancelOnChange}
+            disabled={!state.img && !state.amount}
+          >
+            Cancel
+          </ButtonCancel>
           <ButtonSend
             onClick={sendOnChange}
-            disabled={!state.img || !state.amount}
+            disabled={/*!state.img ||*/ !state.amount || state.wrongPrice}
           >
             Send
           </ButtonSend>
