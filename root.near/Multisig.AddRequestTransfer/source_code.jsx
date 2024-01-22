@@ -10,7 +10,7 @@ function onTransfer() {
     const amount = new Big(state.amount).mul(new Big(10).pow(24)).toFixed();
     Near.call(
       contract_id,
-      "add_proposal",
+      "add_request_and_confirm",
       {
         request: {
           receiver_id: state.token_id,
@@ -40,7 +40,7 @@ function onTransfer() {
   const args = { amount, receiver_id: state.receiver_id };
   Near.call(
     contract_id,
-    "add_proposal",
+    "add_request_and_confirm",
     {
       request: {
         receiver_id: state.token_id,
