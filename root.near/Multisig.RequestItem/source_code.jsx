@@ -13,19 +13,26 @@ for (let i = 0; i < request.actions.length; ++i) {
   const action = request.actions[i];
   switch (action.type) {
     case "Transfer":
-      repr.push(`Transfer ${action.amount}N`);
+      {
+        let deposit = new Big(action.deposit).div(new Big(10).pow(24));
+        repr.push(`Transfer ${deposit} N`);
+      }
       break;
     case "FunctionCall":
-      let args = atob(action.args);
-      console.log(args);
-      if (action.method_name === "ft_transfer") {
-        repr.push(
-          `Transfer ${args.amount} of ${request.receiver_id} token to ${args.receiver_id}`
-        );
-      } else {
-        repr.push(
-          `Call ${request.receiver_id}'s method ${action.method_name}(${args}) with ${action.deposit}N deposit and ${action.gas} gas`
-        );
+      {
+        let args = atob(action.args);
+        let gas = new Big(action.gas).div(new Big(10).pow(12));
+        let deposit = new Big(action.deposit).div(new Big(10).pow(24));
+        console.log(args);
+        if (action.method_name === "ft_transfer") {
+          repr.push(
+            `Transfer ${args.amount} of ${request.receiver_id} token to ${args.receiver_id}`
+          );
+        } else {
+          repr.push(
+            `Call ${request.receiver_id}'s method ${action.method_name}(${args}) with ${deposit} N deposit and ${gas} Tgas`
+          );
+        }
       }
       break;
     default:
@@ -47,7 +54,7 @@ function onDelete() {
 return (
   <div>
     {repr}
-    <a onClick={onConfirm}>Confirm</a>
-    <a onClick={onDelete}>Delete</a>
+    <button onClick={onConfirm}>Confirm</button>
+    <button onClick={onDelete}>Delete</button>
   </div>
 );
