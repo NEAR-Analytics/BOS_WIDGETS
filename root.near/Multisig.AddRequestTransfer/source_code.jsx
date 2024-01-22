@@ -23,7 +23,7 @@ function onTransfer() {
         },
       },
       defaultGas,
-      1
+      0
     );
     return;
   }
@@ -56,7 +56,7 @@ function onTransfer() {
       },
     },
     defaultGas,
-    1
+    0
   );
 }
 
