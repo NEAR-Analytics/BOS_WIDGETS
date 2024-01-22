@@ -2,7 +2,7 @@ const { Select, Check } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Select.styled`,
 );
 
-if (!Select || !Check) <Widget src="flashui.near/widget/Loading" />;
+if (!Select || !Check) return <Widget src="flashui.near/widget/Loading" />;
 
 const {
   values,
