@@ -3,6 +3,8 @@ const { NavBar } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.NavBar.styled`,
 );
 
+if (!assets || !NavBar) <Widget src="flashui.near/widget/Loading" />;
+
 return (
   <NavBar>
     <a href={`/ndcdev.near/widget/Dashboard.App?page=home`}>
