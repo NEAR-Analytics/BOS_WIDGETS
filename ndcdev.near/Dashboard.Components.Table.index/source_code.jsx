@@ -2,6 +2,8 @@ const { Row } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Table.styled`,
 );
 
+if (!Row) <Widget src="flashui.near/widget/Loading" />;
+
 const { ndcDAOs } = props;
 
 return (
