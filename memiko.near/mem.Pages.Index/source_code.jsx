@@ -72,7 +72,7 @@ const fetchHistory = () => {
     .reverse();
 
   let total = {};
-  historyTransformed.forEach((item, index) => {
+  historyTransformed.forEach((item) => {
     if (!total["memiko.near"]) {
       total["memiko.near"] = 0;
     }
@@ -268,7 +268,7 @@ return (
       </GrayBlock>
     </Section>
 
-    {stats.remains.length > 0 && (
+    {stats && stats.remains.length > 0 && (
       <Section className="pt-10">
         <div className={"text-center"}>
           <h2>Statistics</h2>
