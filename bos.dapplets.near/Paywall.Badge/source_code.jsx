@@ -39,7 +39,7 @@ const LabelImage = styled.div`
 const SpanLabel = styled.span`
     display: inline-block;
     color: #222;
-    font-family: Roboto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 10px;
     opacity: 0.6;
     font-weight: 400;
@@ -50,7 +50,7 @@ const SpanLabel = styled.span`
 const SpanAuthor = styled.span`
     color: #3d7fff;
     display: inline-block;
-    font-family: Roboto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 12px;
     font-weight: 400;
     line-height: normal;
