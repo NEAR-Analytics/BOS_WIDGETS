@@ -66,7 +66,7 @@ const setContent = () => {
         CONTRACT_ADDRESS,
         "get_content_by_post_for_account",
         {
-          context_id: '1694995344461894022/twitter' , // linkId,
+          context_id: linkId,
           account_id: userAccountId
         }
       )
