@@ -498,7 +498,10 @@ function fetchAllData() {
   });
 }
 
-fetchAllData();
+if (!state.hasFetchGlobalData) {
+  fetchAllData();
+  State.update({ hasFetchGlobalData: true });
+}
 
 
 
