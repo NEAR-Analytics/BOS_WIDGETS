@@ -9,7 +9,7 @@ return (contractId) => {
     getNumRequestsPk: ({ requestId }) => {
       return Near.view(contractId, "get_num_requests_pk");
     },
-    listRequestIds: ({ requestId }) => {
+    listRequestIds: () => {
       return Near.view(contractId, "list_request_ids");
     },
     getConfirmations: ({ requestId }) => {
