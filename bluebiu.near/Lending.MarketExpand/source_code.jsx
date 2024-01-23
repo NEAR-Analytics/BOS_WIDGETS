@@ -450,20 +450,11 @@ return (
               </svg>
               <div style={{ display: "flex", alignItems: "center" }}>
                 ~
-                {props.prices[nativeCurrency?.symbol] ? (
-                  <Widget
-                    src="bluebiu.near/widget/Avalanche.Lending.Total"
-                    props={{
-                      total: Big(state.gas || 0)
-                        .div(Big(10).pow(nativeCurrency.decimals || 18))
-                        .toString(),
-                      digit: 2,
-                      unit: "$",
-                    }}
-                  />
-                ) : (
-                  "-"
-                )}
+                {props.prices[nativeCurrency?.symbol]
+                  ? `$${Big(state.gas || 0)
+                      .div(Big(10).pow(nativeCurrency.decimals || 18))
+                      .toFixed(2)}`
+                  : "-"}
               </div>
             </StyledGasBox>
             <div style={{ flexGrow: 1 }}>
