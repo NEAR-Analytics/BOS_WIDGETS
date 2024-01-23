@@ -374,15 +374,16 @@ return (
           >
             Cancel
           </ButtonCancel>
-          <ButtonSend
-            className={`${state.loading ? "icon loading " : ""}`}
-            onClick={sendOnChange}
-            disabled={
-              !state.img || !state.amount || state.wrongPrice || state.loading
-            }
-          >
-            Send
-          </ButtonSend>
+          <span className={`${state.loading ? "icon loading " : ""}`}>
+            <ButtonSend
+              onClick={sendOnChange}
+              disabled={
+                !state.img || !state.amount || state.wrongPrice || state.loading
+              }
+            >
+              Send
+            </ButtonSend>
+          </span>
         </ButtonsBlock>
       </WrapperWidget>
     )}
