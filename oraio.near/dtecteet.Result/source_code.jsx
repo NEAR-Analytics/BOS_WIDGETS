@@ -47,6 +47,7 @@ const Resultdiv = styled.div`
     align-items: flex-start;
     justify-content: center;
     width: 80%;
+    border: 2px solid red;
     color: ${state.theme.color};
     text-align: left;
     font-family: Poppins, 'sans-serif';
