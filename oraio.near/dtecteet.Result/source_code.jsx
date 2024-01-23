@@ -44,9 +44,8 @@ const Section2 = styled.div`
 `;
 const Resultdiv = styled.div`
     display: grid;
-    align-items: flex-start;
     justify-content: center;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     width: 100%;
     border: 2px solid red;
@@ -116,8 +115,7 @@ const Resultdiv = styled.div`
   @media only screen and (max-width: 750px) {
     font-size: 12px;
     padding: 5px 10%;
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     align-items: center;
     justify-content: center;
 
