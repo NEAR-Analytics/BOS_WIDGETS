@@ -20,7 +20,7 @@ const {
   handleOnCommitArticle,
 } = props;
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
