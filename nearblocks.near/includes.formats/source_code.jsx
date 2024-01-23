@@ -122,8 +122,6 @@ export function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -288,6 +286,16 @@ export function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 export function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+export function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
