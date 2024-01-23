@@ -61,7 +61,7 @@ const Resultdiv = styled.div`
     
     .result{
         width: 100%;
-        padding-top: 20px;
+        margin-top: 10px;
         border-radius: 10px;
         background: ${state.theme.bg};
         border: 1px solid ${state.theme.border};
