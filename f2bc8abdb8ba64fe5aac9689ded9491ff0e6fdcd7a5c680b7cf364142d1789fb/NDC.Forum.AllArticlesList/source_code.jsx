@@ -97,31 +97,31 @@ const NoMargin = styled.div`margin: 0 0.75rem;`;
 const AccordionBody = styled.div`padding: 0;`;
 
 const ArticlesListContainer = styled.div`
-  background-color: rgb(248, 248, 249);
-  margin: 0;
-`;
+    background-color: rgb(248, 248, 249);
+    margin: 0;
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 
 const IconCursorPointer = styled.i`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 const ShareSearchRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-content: center;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-`;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  `;
 
 const ShareSearchText = styled.h6`
-  margin-bottom: 0;
-  margin-left: 1rem;
-  margin-right: 1rem;
-`;
+    margin-bottom: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  `;
 
 //=================================================END CONSTS=======================================================
 
@@ -167,7 +167,7 @@ return (
             >
               <AccordionBody className="accordion-body">
                 <Widget
-                  src={widgets.create}
+                  src={widgets.views.editableWidgets.create}
                   props={{
                     isTest,
                     addressForArticles,
@@ -197,7 +197,7 @@ return (
     <ShareSearchRow>
       <ShareSearchText>Share search</ShareSearchText>
       <Widget
-        src={widgets.newStyledComponents.Input.Button}
+        src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
         props={{
           size: "sm",
           className: "info outline icon",
@@ -212,7 +212,9 @@ return (
           <h6>Filter by tag:</h6>
           <div className="d-flex align-items-center ">
             <Widget
-              src={widgets.newStyledComponents.Element.Badge}
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Element.Badge
+              }
               props={{
                 children: filterBy.parameterValue,
                 variant: "round info",
@@ -240,7 +242,7 @@ return (
             return (
               <div key={article.id}>
                 <Widget
-                  src={widgets.generalCard}
+                  src={widgets.views.editableWidgets.generalCard}
                   props={{
                     widgets,
                     isTest,
