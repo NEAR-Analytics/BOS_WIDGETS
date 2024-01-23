@@ -467,7 +467,10 @@ function fetchAllData() {
   });
 }
 
-fetchAllData();
+if (!state.hasFetchGlobalData) {
+  fetchAllData();
+  State.update({ hasFetchGlobalData: true });
+}
 
 const isInputDigit = (value) => /^(\d*(\.\d*)?|\.\d+)$/.test(value);
 const isDigit = (value) => /^\d+(\.\d+)?$/.test(value);
