@@ -4,6 +4,7 @@ const ProgressBorder = styled.div`
   overflow: hidden;
   display: flex;
 `;
+
 const ProgressSelected = styled.div`
   width: ${props.progress * 100}%;
   height: 100%;
