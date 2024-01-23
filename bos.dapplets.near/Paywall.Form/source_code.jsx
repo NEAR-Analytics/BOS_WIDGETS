@@ -40,7 +40,6 @@ State.init({
   img: null,
   isUpload: false,
   amount: null,
-  loading: false,
 });
 
 const uploadFileUpdateState = (body) => {
@@ -67,23 +66,19 @@ const amountOnChange = ({ target }) => {
 
 const sendOnChange = () => {
   if (!/^\d+([.]\d+)?$/g.test(state.amount)) {
-    // State.update({ wrongPrice: true });
+    State.update({ wrongPrice: true });
   } else {
-    State.update({ loading: true });
-    console.log(state.loading, "state.loading else");
     try {
+      // State.update({ loading: true })
       Near.call(CONTRACT_ADDRESS, "add_paid_content", {
         link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
         cost: parseNearAmount(state.amount),
         context_id: linkId,
       });
-      setTimeout(() => State.update({ loading: false }), 3000);
-      console.log(state.loading, "state.loading try");
+      // setTimeout(() => State.update({ loading: false }), 3000)
     } catch (err) {
       console.error(err);
       // State.update({ isUpload: false });
-      console.log(state.loading, "state.loading catch");
-      State.update({ loading: false });
     }
   }
 };
@@ -249,37 +244,6 @@ const ButtonsBlock = styled.div`
   justify-content: center;
   padding: 0 10px;
   box-sizing: border-box;
-
-`;
-const IconLoading = styled.span`
-  position: relative;
-    &:before {
-      margin: -8px;
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      border-radius: 50%;
-    }
-     @keyframes scaleAnimation {
-     0%, 100% {
-        transform: scale(1) rotate(0deg);
-      }
-      25% {
-        transform: scale(1.2) rotate(-15deg);
-      }
-      50% {
-        transform: scale(1) rotate(0deg);
-      }
-      75% {
-        transform: scale(1.2) rotate(15deg);
-      }
-    }
-
-    transform-origin: center;
-    animation: scaleAnimation 1s ease-in-out infinite;
 `;
 
 const ButtonCancel = styled.button`
@@ -326,7 +290,6 @@ const ButtonSend = styled.button`
   &:hover {
     opacity: 0.5;
   }
-  
 `;
 
 return (
@@ -373,16 +336,12 @@ return (
           >
             Cancel
           </ButtonCancel>
-          {state.loading ? (
-            <IconLoading></IconLoading>
-          ) : (
-            <ButtonSend
-              onClick={sendOnChange}
-              disabled={!state.img || !state.amount || state.wrongPrice}
-            >
-              Send
-            </ButtonSend>
-          )}
+          <ButtonSend
+            onClick={sendOnChange}
+            disabled={!state.img || !state.amount || state.wrongPrice}
+          >
+            Send
+          </ButtonSend>
         </ButtonsBlock>
       </WrapperWidget>
     )}
