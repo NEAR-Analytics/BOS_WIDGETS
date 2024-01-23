@@ -36,7 +36,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
+const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const imports = { notifications: ["getNotificationData"] };
 
@@ -651,7 +651,7 @@ return (
     })}
 
     <Widget
-      src={`${widgets.libNotifications}`}
+      src={`${widgets.libs.libNotifications}`}
       props={{
         stateUpdate: libStateUpdate,
         imports: imports["notifications"],
