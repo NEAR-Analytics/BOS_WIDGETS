@@ -71,7 +71,7 @@ const { update, data, amount, account, onLoad } = props;
 useEffect(() => {
   if (!update || !data.actionText || !data.underlyingToken) return;
 
-  const isETH = data.underlyingToken.address === "native";
+  const isETH = data.underlyingToken.isNative;
 
   let options = {};
   let params = [];
@@ -106,6 +106,13 @@ useEffect(() => {
           stateMutability: "payable",
           type: "function",
         },
+        {
+          inputs: [],
+          name: "repayBorrow",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
       ],
       Ethers.provider().getSigner()
     );
@@ -135,8 +142,9 @@ useEffect(() => {
     }
 
     if (data.actionText === "Repay") {
+      contract = isETH ? CNativeTokenContract : CTokenContract;
       method = "repayBorrow";
-      params = [data.address, parsedAmount];
+      params = isETH ? [] : [data.address, parsedAmount];
     }
   }
 
