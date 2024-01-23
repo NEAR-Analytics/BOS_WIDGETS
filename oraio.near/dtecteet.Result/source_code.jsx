@@ -54,7 +54,7 @@ const Resultdiv = styled.div`
     font-size: 20px;
     font-style: normal;
     font-weight: 500;
-    padding: 10px 20%;
+    padding: 10px 0;
     
     .resultWrapper{
         width: 45%; 
