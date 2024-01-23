@@ -39,7 +39,7 @@ articleToRenderData.tags = articleToRenderData.tags.filter(
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? [];
 
-const libSrcArray = [widgets.libComment];
+const libSrcArray = [widgets.libs.libComment];
 
 const tabs = [
   {
