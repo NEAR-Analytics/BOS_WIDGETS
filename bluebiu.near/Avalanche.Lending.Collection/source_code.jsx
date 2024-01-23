@@ -9,6 +9,7 @@ const {
   multicall,
   multicallAddress,
   wethAddress,
+  prices,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -93,6 +94,7 @@ return (
             multicall,
             multicallAddress,
             wethAddress,
+            prices,
             onLoad: (data) => {
               const { markets, dapp } = data;
               const dapps = state.dapps;
