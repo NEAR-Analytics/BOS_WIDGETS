@@ -27,7 +27,7 @@ let {
   handleOnCommitArticle,
 } = props;
 
-const libSrcArray = [widgets.libUpVotes];
+const libSrcArray = [widgets.libs.libUpVotes];
 
 let initLibsCalls = { upVotes: [] };
 
