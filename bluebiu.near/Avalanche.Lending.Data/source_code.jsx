@@ -9,6 +9,7 @@ const {
   wethAddress,
   onLoad,
   chainId,
+  prices,
 } = props;
 
 const dappsToList = Object.values(dapps);
@@ -34,6 +35,7 @@ return (
           multicall,
           multicallAddress,
           wethAddress,
+          prices,
           onLoad: (data) => {
             const { markets, ...rest } = data;
             loaded[dapp.name] = true;
