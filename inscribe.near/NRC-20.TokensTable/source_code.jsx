@@ -373,7 +373,7 @@ State.init({
   hasFetchData: false,
 });
 
-const { searchValue } = props;
+const { searchValue, currentTab } = props;
 
 function compareByDeployTime(a, b, orderDirection) {
   const t1 = Number(a.createdBlockTimestamp);
@@ -426,9 +426,21 @@ if (!state.hasFetchData) {
 }
 
 const filteredTokenInfos = state.tokenInfos
-  ? state.tokenInfos.filter((tokenInfo) =>
-      tokenInfo.ticker.toUpperCase().includes((searchValue ?? "").toUpperCase())
-    )
+  ? state.tokenInfos
+      .filter((a) => {
+        if (currentTab === "in-progress") {
+          return Big(a.totalSupply).lt(a.maxSupply);
+        } else if (currentTab === "completed") {
+          return Big(a.totalSupply).eq(a.maxSupply);
+        } else {
+          return true;
+        }
+      })
+      .filter((tokenInfo) =>
+        tokenInfo.ticker
+          .toUpperCase()
+          .includes((searchValue ?? "").toUpperCase())
+      )
   : [];
 
 const current = String(state.current ?? "1");
