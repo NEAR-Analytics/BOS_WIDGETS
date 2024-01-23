@@ -15,7 +15,7 @@ const OTOKEN_ABI = [
   },
   {
     inputs: [],
-    name: "exchangeRateStored",
+    name: "exchangeRateCurrent",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
@@ -32,7 +32,7 @@ const OTOKEN_ABI = [
   {
     constant: true,
     inputs: [{ internalType: "address", name: "account", type: "address" }],
-    name: "borrowBalanceStored",
+    name: "borrowBalanceCurrent",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
@@ -415,7 +415,7 @@ const getCTokenData = (oToken) => {
   const calls = [
     {
       address: oToken.address,
-      name: "exchangeRateStored",
+      name: "exchangeRateCurrent",
     },
     {
       address: oToken.address,
@@ -432,7 +432,7 @@ const getCTokenData = (oToken) => {
     },
     {
       address: oToken.address,
-      name: "borrowBalanceStored",
+      name: "borrowBalanceCurrent",
       params: [account],
     },
     {
