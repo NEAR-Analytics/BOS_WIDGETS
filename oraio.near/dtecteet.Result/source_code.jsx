@@ -114,6 +114,11 @@ const Resultdiv = styled.div`
     }
     
   @media only screen and (max-width: 1000px) {
+    padding: 5px 10%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
     .resultWrapper{
         width: 90%; 
     }
@@ -129,12 +134,6 @@ const Resultdiv = styled.div`
   
   @media only screen and (max-width: 750px) {
     font-size: 12px;
-    padding: 5px 10%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
   }
   
 `;
