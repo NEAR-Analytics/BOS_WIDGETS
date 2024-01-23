@@ -43,10 +43,10 @@ const Section2 = styled.div`
   
 `;
 const Resultdiv = styled.div`
-    display: grid;
+    display: flex;
+    align-items: flex-start;
     justify-content: center;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 20px
     width: 100%;
     border: 2px solid red;
     color: ${state.theme.color};
@@ -112,13 +112,8 @@ const Resultdiv = styled.div`
         font-size: 12px;
 
     }
-  @media only screen and (max-width: 750px) {
-    font-size: 12px;
-    padding: 5px 10%;
-    grid-template-columns: 1fr;
-    align-items: center;
-    justify-content: center;
-
+    
+  @media only screen and (max-width: 1000px) {
     .resultWrapper{
         width: 90%; 
     }
@@ -131,6 +126,17 @@ const Resultdiv = styled.div`
     }
 
   }
+  
+  @media only screen and (max-width: 750px) {
+    font-size: 12px;
+    padding: 5px 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
 `;
 
 const near = props.near;
