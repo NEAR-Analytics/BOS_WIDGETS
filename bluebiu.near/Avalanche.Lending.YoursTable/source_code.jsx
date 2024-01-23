@@ -188,6 +188,7 @@ const renderCollateral = (record) => {
       src="bluebiu.near/widget/Avalanche.Lending.Switch"
       props={{
         onChange: () => {
+          if (record.isCollateral === undefined) return;
           onButtonClick?.(
             record.address,
             record.isCollateral
@@ -195,7 +196,7 @@ const renderCollateral = (record) => {
               : "Enable as Collateral"
           );
         },
-        active: record.isCollateral,
+        active: record.isCollateral === undefined ? true : record.isCollateral,
       }}
     />
   );
