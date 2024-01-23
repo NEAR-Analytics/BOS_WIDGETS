@@ -1,4 +1,4 @@
-State.init({ scannedText: null });
+
 const [isScannerOpen, setIsScannerOpen] = useState(false);
 const [buttonText, setButtonText] = useState(
   props.buttontext || "Scan QR Code"
