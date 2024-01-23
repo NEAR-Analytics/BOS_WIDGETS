@@ -38,6 +38,14 @@ function Page() {
         />
       );
     }
+    case "guidance": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Guidance`}
+          props={passProps}
+        />
+      );
+    }
     case "reports": {
       return (
         <Widget
