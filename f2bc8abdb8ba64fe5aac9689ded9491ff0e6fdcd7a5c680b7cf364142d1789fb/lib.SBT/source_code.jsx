@@ -1,3 +1,5 @@
+// lib.SBT
+
 const {
   isTest,
   stateUpdate,
@@ -41,16 +43,16 @@ const sbtWhiteList =
         { value: "public", title: "Public" },
       ];
 
-const registryContract =
-  context.networkId === "mainnet"
-    ? "registry.i-am-human.near"
-    : "registry-v2.i-am-human.testnet";
-
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
   functionsToCallByLibrary
 );
 let resultFunctionsToCall = [];
+
+const registryContract =
+  context.networkId === "mainnet"
+    ? "registry.i-am-human.near"
+    : "registry-v2.i-am-human.testnet";
 
 // START LIB CALLS SECTION
 // This lib does not call any other lib
@@ -118,7 +120,7 @@ function isValidUser(props) {
   return { ...usersValidityBySBT };
 }
 
-function getLoggedUserSbts(props) {
+function getUserSBTs(props) {
   const { accountId } = props;
   const userSBTs = Near.view(registryContract, "sbt_tokens_by_owner", {
     account: accountId,
@@ -126,7 +128,7 @@ function getLoggedUserSbts(props) {
 
   if (userSBTs) {
     resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-      return call.functionName !== "getLoggedUserSbts";
+      return call.functionName !== "getUserSBTs";
     });
   }
 
@@ -140,8 +142,8 @@ function callFunction(call) {
     return getSBTWhiteList(call.props);
   } else if (call.functionName === "isValidUser") {
     return isValidUser(call.props);
-  } else if (call.functionName === "getLoggedUserSbts") {
-    return getLoggedUserSbts(call.props);
+  } else if (call.functionName === "getUserSBTs") {
+    return getUserSBTs(call.props);
   }
 }
 
