@@ -60,17 +60,15 @@ const Resultdiv = styled.div`
         flex: 1;
         border-radius: 10px;
         padding: 15px;
-        margin-right: 20px;
     }
+    
     .result{
-
         width: 100%;
-        // height: auto;
-        flex-shrink: 0;
         border-radius: 10px;
         background: ${state.theme.bg};
         border: 1px solid ${state.theme.border};
     }
+    
     .list-result {
         display: flex;
         flex-direction: column;
