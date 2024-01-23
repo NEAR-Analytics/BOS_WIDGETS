@@ -44,7 +44,7 @@ return (
           };
           return (
             <Widget
-              src={widgets.articlesByAuthorCard}
+              src={widgets.views.editableWidgets.articlesByAuthorCard}
               props={{
                 authorArticlesArray,
                 filter,
