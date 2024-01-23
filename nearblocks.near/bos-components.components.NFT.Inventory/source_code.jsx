@@ -52,15 +52,6 @@ const FaChevronRight = () => {
 
 
 
-
-const Loader = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};
-
 const Paginator = (props) => {
   let pages;
   if (props.count) {
@@ -90,72 +81,69 @@ const Paginator = (props) => {
     <div className="bg-white px-2 py-3 flex items-center justify-between border-t md:px-4">
       <div className="flex-1 flex items-center justify-between">
         <div></div>
-        {props.loading ? (
-          <Loader />
-        ) : (
-          <div>
-            <div
-              className="relative z-0 inline-flex rounded-md"
-              aria-label="Pagination"
+
+        <div>
+          <div
+            className="relative z-0 inline-flex rounded-md"
+            aria-label="Pagination"
+          >
+            <button
+              type="button"
+              disabled={props.page <= 1 || pages === 1}
+              onClick={onFirst}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:bg-green-400 hover:text-white'
+              } bg-gray-100`}
             >
-              <button
-                type="button"
-                disabled={props.page <= 1 || pages === 1}
-                onClick={onFirst}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                  props.page <= 1
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:bg-green-400 hover:text-white'
-                } bg-gray-100`}
-              >
-                First
-              </button>
-              <button
-                type="button"
-                disabled={props.page <= 1 || pages === 1}
-                onClick={onPrev}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
-                  props.page <= 1
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                } rounded-md  bg-gray-100`}
-              >
-                <FaChevronLeft />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
-              >
-                Page {props.page} of {pages}
-              </button>
-              <button
-                type="button"
-                disabled={props.page >= pages || pages === 1}
-                onClick={onNext}
-                className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
-                  props.page >= pages
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                }  bg-gray-100`}
-              >
-                <FaChevronRight />
-              </button>
-              <button
-                type="button"
-                disabled={props.page >= pages || pages === 1}
-                onClick={onLast}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
-                  props.page >= pages
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                }  bg-gray-100 `}
-              >
-                Last
-              </button>
-            </div>
+              First
+            </button>
+            <button
+              type="button"
+              disabled={props.page <= 1 || pages === 1}
+              onClick={onPrev}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              } rounded-md  bg-gray-100`}
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              type="button"
+              disabled
+              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
+            >
+              Page {props.page} of {pages}
+            </button>
+            <button
+              type="button"
+              disabled={props.page >= pages || pages === 1}
+              onClick={onNext}
+              className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100`}
+            >
+              <FaChevronRight />
+            </button>
+            <button
+              type="button"
+              disabled={props.page >= pages || pages === 1}
+              onClick={onLast}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100 `}
+            >
+              Last
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -283,8 +271,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -449,8 +435,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -585,6 +581,29 @@ function urlHostName(url) {
 
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -788,7 +807,6 @@ function MainComponent({ network, id, token }) {
       </div>
       <Paginator
         count={totalCount}
-        loading={isLoading}
         page={currentPage}
         setPage={setPage}
         limit={24}
