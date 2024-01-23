@@ -33,7 +33,7 @@ const upVotes = data.upVotes;
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
 
-const libSrcArray = [widgets.libComment];
+const libSrcArray = [widgets.libs.libComment];
 
 function stateUpdate(obj) {
   State.update(obj);
