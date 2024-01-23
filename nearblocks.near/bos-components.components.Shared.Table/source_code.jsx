@@ -41,15 +41,6 @@ const FaChevronRight = () => {
 
 
 
-
-const Loader = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};
-
 const Paginator = (props) => {
   let pages;
   if (props.count) {
@@ -79,72 +70,69 @@ const Paginator = (props) => {
     <div className="bg-white px-2 py-3 flex items-center justify-between border-t md:px-4">
       <div className="flex-1 flex items-center justify-between">
         <div></div>
-        {props.loading ? (
-          <Loader />
-        ) : (
-          <div>
-            <div
-              className="relative z-0 inline-flex rounded-md"
-              aria-label="Pagination"
+
+        <div>
+          <div
+            className="relative z-0 inline-flex rounded-md"
+            aria-label="Pagination"
+          >
+            <button
+              type="button"
+              disabled={props.page <= 1 || pages === 1}
+              onClick={onFirst}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:bg-green-400 hover:text-white'
+              } bg-gray-100`}
             >
-              <button
-                type="button"
-                disabled={props.page <= 1 || pages === 1}
-                onClick={onFirst}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                  props.page <= 1
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:bg-green-400 hover:text-white'
-                } bg-gray-100`}
-              >
-                First
-              </button>
-              <button
-                type="button"
-                disabled={props.page <= 1 || pages === 1}
-                onClick={onPrev}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
-                  props.page <= 1
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                } rounded-md  bg-gray-100`}
-              >
-                <FaChevronLeft />
-              </button>
-              <button
-                type="button"
-                disabled
-                className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
-              >
-                Page {props.page} of {pages}
-              </button>
-              <button
-                type="button"
-                disabled={props.page >= pages || pages === 1}
-                onClick={onNext}
-                className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
-                  props.page >= pages
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                }  bg-gray-100`}
-              >
-                <FaChevronRight />
-              </button>
-              <button
-                type="button"
-                disabled={props.page >= pages || pages === 1}
-                onClick={onLast}
-                className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
-                  props.page >= pages
-                    ? 'text-gray-500'
-                    : 'text-green-400 hover:text-white hover:bg-green-400'
-                }  bg-gray-100 `}
-              >
-                Last
-              </button>
-            </div>
+              First
+            </button>
+            <button
+              type="button"
+              disabled={props.page <= 1 || pages === 1}
+              onClick={onPrev}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              } rounded-md  bg-gray-100`}
+            >
+              <FaChevronLeft />
+            </button>
+            <button
+              type="button"
+              disabled
+              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
+            >
+              Page {props.page} of {pages}
+            </button>
+            <button
+              type="button"
+              disabled={props.page >= pages || pages === 1}
+              onClick={onNext}
+              className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100`}
+            >
+              <FaChevronRight />
+            </button>
+            <button
+              type="button"
+              disabled={props.page >= pages || pages === 1}
+              onClick={onLast}
+              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100 `}
+            >
+              Last
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -208,30 +196,41 @@ const Skeleton = (props) => {
 function MainComponent(props) {
   if (props.isLoading) {
     return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y border-t">
-          <thead className="bg-gray-100 h-[51px]">
-            <tr>
-              {props.columns.map((column, index) => (
-                <th key={index} scope="col" className={column.thClassName}>
-                  {column.header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {[...Array(props.limit)].map((_, index) => (
-              <tr key={index} className=" hover:bg-blue-900/5 h-[53px]">
-                {props.columns.map((column, colIndex) => (
-                  <td key={colIndex} className={column.tdClassName}>
-                    <Skeleton className="h-4" />
-                  </td>
+      <>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y border-t">
+            <thead className="bg-gray-100 h-[51px]">
+              <tr>
+                {props.columns.map((column, index) => (
+                  <th key={index} scope="col" className={column.thClassName}>
+                    {column.header}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {[...Array(props.limit)].map((_, index) => (
+                <tr key={index} className=" hover:bg-blue-900/5 h-[53px]">
+                  {props.columns.map((column, colIndex) => (
+                    <td key={colIndex} className={column.tdClassName}>
+                      <Skeleton className="h-4" />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {props.isPagination ? (
+          <Paginator
+            count={props.count}
+            page={props.page}
+            limit={props.limit}
+            pageLimit={props.pageLimit}
+            setPage={props.setPage}
+          />
+        ) : null}
+      </>
     );
   }
   return (
@@ -354,7 +353,6 @@ function MainComponent(props) {
       )}
       {props.isPagination ? (
         <Paginator
-          loading={props?.isLoading}
           count={props.count}
           page={props.page}
           limit={props.limit}
