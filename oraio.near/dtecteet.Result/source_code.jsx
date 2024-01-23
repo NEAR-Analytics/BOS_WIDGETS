@@ -45,7 +45,7 @@ const Section2 = styled.div`
 const Resultdiv = styled.div`
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     border: 2px solid red;
     color: ${state.theme.color};
