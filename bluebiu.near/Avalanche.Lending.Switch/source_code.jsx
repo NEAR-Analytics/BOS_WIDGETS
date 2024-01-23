@@ -7,7 +7,8 @@ const Switcher = styled.div`
   border-radius: 16px;
   cursor: pointer;
   transition: 0.5s;
-  padding-top: 2px;
+  display: flex;
+  align-items: center;
   &.active {
     background-color: var(--switch-color);
   }
