@@ -4,6 +4,7 @@ State.init({
 });
 
 const handleOnMouseEnter = () => {
+  console.log('handleOnMouseEnter')
   State.update({ show: true });
 };
 
