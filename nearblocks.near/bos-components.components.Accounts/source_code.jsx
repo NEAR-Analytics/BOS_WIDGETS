@@ -145,6 +145,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 0,
@@ -268,6 +291,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
@@ -372,6 +418,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -391,6 +460,29 @@ function urlHostName(url) {
 
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function getConfig(network) {
   switch (network) {
@@ -484,6 +576,29 @@ function urlHostName(url) {
 
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
@@ -601,8 +716,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -767,8 +880,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -931,8 +1054,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -1097,8 +1218,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1238,8 +1369,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -1404,8 +1533,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1533,8 +1672,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -1699,8 +1836,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1908,6 +2055,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 /**
  * @interface Props
@@ -2046,8 +2216,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -2212,8 +2380,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -2376,8 +2554,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -2542,8 +2718,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -3550,10 +3736,11 @@ const tabs = [
   'Comments',
 ];
 
-function MainComponent({ t, network, id }) {
+function MainComponent({ network, t, id }) {
   const [loading, setLoading] = useState(false);
   const [statsData, setStatsData] = useState({} );
   const [pageTab, setPageTab] = useState('Transactions');
+  const [filters, setFilters] = useState({});
   const [accountData, setAccountData] = useState(
     {} ,
   );
@@ -3925,8 +4112,25 @@ function MainComponent({ t, network, id }) {
 
     setContract({ ...code, locked });
   }
+
+  const handleFilter = (name, value) => {
+    const updatedFilters = { ...filters, [name]: value };
+    setFilters(updatedFilters);
+  };
+
+  const onFilterClear = (name) => {
+    let updatedFilters = { ...filters };
+    if (updatedFilters.hasOwnProperty(name)) {
+      delete updatedFilters[name];
+      setFilters(updatedFilters);
+    } else {
+      updatedFilters = {};
+      setFilters(updatedFilters);
+    }
+  };
+
   return (
-    <div className="container mx-auto px-3">
+    <>
       <div className="flex items-center justify-between flex-wrap pt-4">
         {!id ? (
           <Skeleton className="h-4" />
@@ -4180,7 +4384,7 @@ function MainComponent({ t, network, id }) {
         <div className="w-full ">
           <div className="bg-white soft-shadow rounded-lg pb-1">
             <Tabs.Root defaultValue={pageTab}>
-              <Tabs.List>
+              <Tabs.List className="border-b flex">
                 {tabs &&
                   tabs.map((tab, index) => (
                     <Tabs.Trigger
@@ -4216,6 +4420,40 @@ function MainComponent({ t, network, id }) {
                 <div className=" px-2 sm:py-0  py-3 flex items-center justify-end md:px-4">
                   <span className="text-xs sm:-mt-12  text-gray-700">
                     <a
+                      href={`/exportdata?address=${id}`}
+                      className="hover:no-underline"
+                      target="_blank"
+                    >
+                      <a
+                        target="_blank"
+                        className="cursor-pointer mx-1 flex items-center text-white font-thin py-2  border border-green-900/10 px-4 rounded-md bg-green-500 hover:bg-green-400 hover:no-underline"
+                      >
+                        <p>CSV Export </p>
+                        <span className="ml-2">
+                          <Download />
+                        </span>
+                      </a>
+                    </a>
+                  </span>
+                </div>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.Transactions`}
+                    props={{
+                      network: network,
+                      t: t,
+                      id: id,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[1]}>
+                <div className=" px-2 sm:py-0  py-3 flex items-center justify-end md:px-4">
+                  <span className="text-xs sm:-mt-12  text-gray-700">
+                    <a
                       href="/nft-token/exportdata/address/id"
                       className="hover:no-underline"
                     >
@@ -4231,23 +4469,94 @@ function MainComponent({ t, network, id }) {
                     </a>
                   </span>
                 </div>
-              </Tabs.Content>
-              <Tabs.Content value={tabs[1]}>
-                {' '}
-                <div className="px-4 sm:px-6 py-3"></div>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.TokenTransactions`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                    }}
+                  />
+                }
               </Tabs.Content>
               <Tabs.Content value={tabs[2]}>
-                {' '}
-                <div className="px-4 sm:px-6 py-3"></div>
+                <div className=" px-2 sm:py-0  py-3 flex items-center justify-end md:px-4">
+                  <span className="text-xs sm:-mt-12  text-gray-700">
+                    <a
+                      href="/nft-token/exportdata/address/id"
+                      className="hover:no-underline"
+                    >
+                      <a
+                        target="_blank"
+                        className="cursor-pointer mx-1 flex items-center text-white font-thin py-2  border border-green-900/10 px-4 rounded-md bg-green-500 hover:bg-green-400 hover:no-underline"
+                      >
+                        <p>CSV Export </p>
+                        <span className="ml-2">
+                          <Download />
+                        </span>
+                      </a>
+                    </a>
+                  </span>
+                </div>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.NFTTransactions`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                      filters: filters,
+                      handleFilter: handleFilter,
+                      onFilterClear: onFilterClear,
+                    }}
+                  />
+                }
               </Tabs.Content>
               <Tabs.Content value={tabs[3]}>
-                <div className="px-4 sm:px-6 py-3"></div>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.AccessKeys`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[3]}>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.AccessKeys`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                    }}
+                  />
+                }
+              </Tabs.Content>
+              <Tabs.Content value={tabs[3]}>
+                {
+                  <Widget
+                    src={`${config.ownerId}/widget/bos-components.components.Address.AccessKeys`}
+                    props={{
+                      network: network,
+                      id: id,
+                      t: t,
+                    }}
+                  />
+                }
               </Tabs.Content>
             </Tabs.Root>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
