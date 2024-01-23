@@ -46,6 +46,7 @@ const Resultdiv = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    gap: 20px;
     width: 100%;
     border: 2px solid red;
     color: ${state.theme.color};
