@@ -1,18 +1,18 @@
-return (contractId, requestId) => {
+return (contractId) => {
   const MultisigSDK = {
     // VIEW METHODS
-    getRequest: () => {
+    getRequest: ({ requestId }) => {
       return Near.view(contractId, "get_request", {
         request_id: requestId,
       });
     },
-    getNumRequestsPk: () => {
+    getNumRequestsPk: ({ requestId }) => {
       return Near.view(contractId, "get_num_requests_pk");
     },
-    listRequestIds: () => {
+    listRequestIds: ({ requestId }) => {
       return Near.view(contractId, "list_request_ids");
     },
-    getConfirmations: () => {
+    getConfirmations: ({ requestId }) => {
       return Near.view(contractId, "get_confirmations", {
         request_id: requestId,
       });
@@ -51,12 +51,12 @@ return (contractId, requestId) => {
         gas,
       });
     },
-    deleteRequest: () => {
+    deleteRequest: ({ requestId }) => {
       return Near.call(contractId, "delete_request", {
         request_id: requestId,
       });
     },
-    confirm: () => {
+    confirm: ({ requestId }) => {
       return Near.call(contractId, "confirm", { request_id: requestId });
     },
 
