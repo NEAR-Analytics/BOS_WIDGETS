@@ -57,7 +57,7 @@ const Resultdiv = styled.div`
     padding: 10px 0;
     
     .resultWrapper{
-        border: 2px solid ${state.theme.border};
+        // border: 2px solid ${state.theme.border};
         flex: 1;
         border-radius: 10px;
         padding: 15px;
@@ -67,7 +67,7 @@ const Resultdiv = styled.div`
         width: 100%;
         border-radius: 10px;
         background: ${state.theme.bg};
-        // border: 1px solid ${state.theme.border};
+        border: 1px solid ${state.theme.border};
     }
     
     .list-result {
