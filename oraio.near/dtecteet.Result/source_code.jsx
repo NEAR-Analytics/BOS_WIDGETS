@@ -57,6 +57,7 @@ const Resultdiv = styled.div`
     padding: 10px 0;
     
     .resultWrapper{
+        flex: 1;
         border-radius: 10px;
         padding: 15px;
         margin-right: 20px;
