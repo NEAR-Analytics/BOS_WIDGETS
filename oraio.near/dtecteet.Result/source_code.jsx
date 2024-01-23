@@ -43,9 +43,10 @@ const Section2 = styled.div`
   
 `;
 const Resultdiv = styled.div`
-    display: flex;
+    display: grid;
     align-items: flex-start;
     justify-content: center;
+    grid-template-rows: repeat(3, 1fr);
     gap: 20px;
     width: 100%;
     border: 2px solid red;
