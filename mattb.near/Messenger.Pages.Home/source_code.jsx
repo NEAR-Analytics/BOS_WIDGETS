@@ -62,9 +62,12 @@ const Body = styled.div`
 `;
 
 const Sidebar = styled.div`
-    width:50px;
+    display:flex;
+    justify-content:center;
+    max-width:60px;
     height:100vh;
     background-color:rgba(0,0,0,.85);
+    padding:10px
 `;
 
 const Header = styled.div`
@@ -131,7 +134,7 @@ const Toolbar = styled.div`
     
 `;
 
-const ActionButton = styled.button`
+const PrimaryActionButton = styled.button`
     display:flex;
     align-items:center;
     justify-content:center;
@@ -155,6 +158,26 @@ const ActionButton = styled.button`
     }
 `;
 
+const SecondaryActionButton = styled.button`
+    position:relative;
+    margin:0 auto;
+    border:0;
+    padding:5px 15px;
+    border-radius:30px;
+    background-color:#E4E6EB;
+    transition:all .2s;
+    box-shadow:0 0 0 0px rgba(0,0,0,.02);
+    font-size:.7rem;
+    font-weight:bold;
+    color:rgba(0,0,0,.3);
+
+    :hover {
+        transition:all .2s;
+        box-shadow:0 0 0 3px rgba(0,0,0,.05);
+        color:rgba(0,0,0,.5);
+    }
+`;
+
 const Explore = styled.div`
     display:flex;
     flex-grow:1;
@@ -166,6 +189,11 @@ const Explore = styled.div`
 const Details = styled.div`
     width:100%;
     max-width:450px;
+
+    > button {
+        display:block;
+        margin:30px auto 0;
+    }
     
     h1 {
         font-weight:bold;
@@ -189,7 +217,7 @@ const Details = styled.div`
           border-top:1px solid rgba(0,0,0,.1);
 
           :last-of-type {
-              border-bottom:1px solid rgba(0,0,0,.1);
+            border-bottom:1px solid rgba(0,0,0,.1);
           }
           
           padding:20px 0;
@@ -224,7 +252,9 @@ const Description = styled.div`
 return (
   <>
     <Body>
-      <Sidebar></Sidebar>
+      <Sidebar>
+        <Widget src="mattb.near/widget/Messenger.Components.Avatar" />
+      </Sidebar>
       <Messenger>
         <App>
           <Chats>
@@ -233,12 +263,12 @@ return (
               <Search type="text" placeholder={"Search a user"} />
             </Header>
             <Toolbar>
-              <ActionButton>
+              <PrimaryActionButton>
                 <img src={WRITE_MESSAGE_URL} />
-              </ActionButton>
-              <ActionButton>
+              </PrimaryActionButton>
+              <PrimaryActionButton>
                 <img src={MORE_OPTIONS_URL} />
-              </ActionButton>
+              </PrimaryActionButton>
             </Toolbar>
             <Wrapper>
               <img src={EMPTY_INBOX_URL} />
@@ -255,7 +285,7 @@ return (
                 <li>
                   <Description>
                     <IconSection>
-                      <ActionButton>🤔</ActionButton>
+                      <PrimaryActionButton>🤔</PrimaryActionButton>
                       <h2>How does it work?</h2>
                     </IconSection>
                     <p style={{ display: "none" }}>...</p>
@@ -264,7 +294,7 @@ return (
                 <li>
                   <Description>
                     <IconSection>
-                      <ActionButton>🪄</ActionButton>
+                      <PrimaryActionButton>🪄</PrimaryActionButton>
                       <h2>Why an Ethereum address is needed?</h2>
                     </IconSection>
                     <p style={{ display: "none" }}>...</p>
@@ -273,13 +303,14 @@ return (
                 <li>
                   <Description>
                     <IconSection>
-                      <ActionButton>✉️</ActionButton>
+                      <PrimaryActionButton>✉️</PrimaryActionButton>
                       <h2>How do I send a message?</h2>
                     </IconSection>
                     <p style={{ display: "none" }}>...</p>
                   </Description>
                 </li>
               </ul>
+              <SecondaryActionButton>See more</SecondaryActionButton>
             </Details>
           </Explore>
         </App>
