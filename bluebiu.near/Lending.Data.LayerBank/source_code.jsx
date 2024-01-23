@@ -427,6 +427,8 @@ const getUnitrollerData = () => {
       }
       count++;
       formatedData("getUnitrollerData");
+      getUnderlyPrice();
+      getOTokenLiquidity();
     })
     .catch((err) => {
       console.log("error-getUnitrollerData", err);
@@ -556,10 +558,12 @@ const getWalletBalance = () => {
           );
           count++;
           formatedData("underlyingTokens");
+          getRewards();
         });
       } else {
         count++;
         formatedData("underlyingTokens");
+        getRewards();
       }
     })
     .catch((err) => {
@@ -662,12 +666,16 @@ const getCTokenData = (oToken) => {
             formatedData("oTokens data");
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          setTimeout(() => {
+            getCTokenData(oToken);
+          }, 1000);
+        });
     })
     .catch(() => {
       setTimeout(() => {
         getCTokenData(oToken);
-      }, 500);
+      }, 1000);
     });
 };
 const getCTokensData = () => {
@@ -732,11 +740,8 @@ const getUserRewards = (price) => {
 
 const init = () => {
   getUnitrollerData();
-  getUnderlyPrice();
-  getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
-  getRewards();
 };
 
 useEffect(() => {
