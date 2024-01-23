@@ -41,6 +41,11 @@ const sbtWhiteList =
         { value: "public", title: "Public" },
       ];
 
+const registryContract =
+  context.networkId === "mainnet"
+    ? "registry.i-am-human.near"
+    : "registry-v2.i-am-human.testnet";
+
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
   functionsToCallByLibrary
@@ -77,13 +82,9 @@ function getSBTWhiteList(props) {
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-  const userSBTs = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    {
-      account: accountId,
-    }
-  );
+  const userSBTs = Near.view(registryContract, "sbt_tokens_by_owner", {
+    account: accountId,
+  });
   const isSBTContractLoaded = userSBTs !== null;
   if (!isSBTContractLoaded) {
     return undefined;
@@ -119,13 +120,9 @@ function isValidUser(props) {
 
 function getLoggedUserSbts(props) {
   const { accountId } = props;
-  const userSBTs = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    {
-      account: accountId,
-    }
-  );
+  const userSBTs = Near.view(registryContract, "sbt_tokens_by_owner", {
+    account: accountId,
+  });
 
   if (userSBTs) {
     resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
