@@ -28,7 +28,7 @@ const emojiArray = [
 
 const accountThatIsLoggedIn = context.accountId;
 
-const libSrcArray = [widgets.libEmojis];
+const libSrcArray = [widgets.libs.libEmojis];
 
 const initLibsCalls = {
   emojis: [
