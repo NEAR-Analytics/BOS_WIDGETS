@@ -54,7 +54,7 @@ return (
   >
     {props.tooltip ? (
       <Widget
-        src={widgets.profileOverlayTrigger}
+        src={widgets.standardWidgets.profileOverlayTrigger}
         props={{ accountId, children: inner, maxWidth: `${maxWidth}` }}
       />
     ) : (
