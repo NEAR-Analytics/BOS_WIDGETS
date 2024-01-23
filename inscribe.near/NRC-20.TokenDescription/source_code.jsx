@@ -354,6 +354,48 @@ const tx = {
   gas: GasPerTransaction,
 };
 
+function formatProgress(tokenInfo) {
+  return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
+}
+
+const TopButton = styled("Link")`
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 8px 20px;
+  border: 0;
+  background: #101010;
+  color: white;
+  border: 1px solid #ffffff11;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    text-decoration: none;
+    opacity: 0.8;
+    background: #333333;
+  }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const TopButtonGroup = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const NRC20Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 650px;
+  padding: 24px 0;
+  @media (min-width: 640px) {
+    padding: 0px;
+  }
+`;
+
 
 
 const tick = props.tick;
@@ -361,6 +403,14 @@ const tick = props.tick;
 State.init({
   tokenInfo: undefined,
 });
+
+getBalances().then((balances) => {
+  const balance = balances.find((balance) => balance.ticker === tick);
+  State.update({
+    balance: balance?.amount,
+  });
+});
+
 fetchTokenInfoAsync(tick).then((response) => {
   State.update({
     tokenInfo: response.tokenInfo,
@@ -389,8 +439,41 @@ function shortNearAddress(accountId) {
 
 return (
   <FormFragment>
-    <FormContainer>
+    <NRC20Header>
       <FormTitle style={{ fontWeight: "bold" }}>{tokenInfo.ticker}</FormTitle>
+      <TopButtonGroup>
+        {state.tokenInfo &&
+          state.tokenInfo.totalSupply !== tokenInfo.maxSupply && (
+            <TopButton
+              href={`/${config.ownerId}/widget/NRC-20?tab=mint${
+                tick ? `&tick=${tick}` : ""
+              }`}
+            >
+              Mint
+            </TopButton>
+          )}
+        {state.balance && (
+          <TopButton
+            href={`/${config.ownerId}/widget/NRC-20?tab=transfer${
+              tick ? `&tick=${tick}` : ""
+            }`}
+          >
+            Transfer
+          </TopButton>
+        )}
+      </TopButtonGroup>
+    </NRC20Header>
+    <NRC20Header style={{ display: "block", marginBottom: "12px" }}>
+      {state.tokenInfo && (
+        <Widget
+          src={`${config.ownerId}/widget/NRC-20.Progress`}
+          props={{
+            progress: formatProgress(state.tokenInfo),
+          }}
+        />
+      )}
+    </NRC20Header>
+    <FormContainer>
       <FormBody>
         <FormRowContainer>
           <FormRowTitle>Total Supply</FormRowTitle>
