@@ -48,7 +48,6 @@ const Resultdiv = styled.div`
     justify-content: center;
     gap: 20px;
     width: 100%;
-    border: 2px solid red;
     color: ${state.theme.color};
     text-align: left;
     font-family: Poppins, 'sans-serif';
@@ -58,7 +57,7 @@ const Resultdiv = styled.div`
     padding: 10px 0;
     
     .resultWrapper{
-    border: 2px solid blue;
+        border: 2px solid ${state.theme.border};
         flex: 1;
         border-radius: 10px;
         padding: 15px;
