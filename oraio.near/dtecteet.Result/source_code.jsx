@@ -57,8 +57,6 @@ const Resultdiv = styled.div`
     padding: 10px 0;
     
     .resultWrapper{
-        width: 45%; 
-        flex-shrink: 0;
         border-radius: 10px;
         padding: 15px;
         margin-right: 20px;
