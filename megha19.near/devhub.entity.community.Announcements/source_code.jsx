@@ -114,6 +114,7 @@ return (
               </select>
             </div>
           </div>
+          {console.log("postsExists", postsExists)}
           <div className={postsExists && "card p-4"}>
             <Widget
               src="megha19.near/widget/devhub.components.organism.Feed"
