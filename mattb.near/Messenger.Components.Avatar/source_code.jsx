@@ -20,13 +20,16 @@ const Image = styled.img`
 `;
 
 const Avatar = styled.div`
+    cursor:pointer;
     width:40px;
     height:40px;
     padding:3px;
     border-radius:100%;
     box-shadow: 0 0 0 2px rgba(255,255,255,.05);
-
+    transition: all .2s;
+    
     :hover {
+        transition: all .2s;
         box-shadow: 0 0 0 3px rgba(255,255,255,.1);
     }
 
@@ -40,6 +43,11 @@ const Avatar = styled.div`
 return (
   <>
     <ExternalDependency adapter={Blockies} />
-    <Avatar>{blockie && <Image src={blockie} />}</Avatar>
+    <OverlayTrigger
+      placement="bottom"
+      overlay={<Tooltip>{context.accountId}</Tooltip>}
+    >
+      <Avatar>{blockie && <Image src={blockie} />}</Avatar>
+    </OverlayTrigger>
   </>
 );
