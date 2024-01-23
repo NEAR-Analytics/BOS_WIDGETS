@@ -84,7 +84,7 @@ return (
                   src={"megha19.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    communityAccountId: `${handle}.community.devgovgigs.near`,
+                    communityAccountId: `${handle}.community.devhub.near`,
                   }}
                 />
               </div>
@@ -121,7 +121,7 @@ return (
               props={{
                 showFlagAccountFeature: true,
                 filteredAccountIds: [
-                  `${handle}.community.devgovgigs.near`,
+                  `${handle}.community.devhub.near`,
                 ],
                 sort: sort,
                 setPostExists: setPostExists,
