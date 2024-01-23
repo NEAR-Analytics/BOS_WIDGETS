@@ -54,59 +54,63 @@ const configWidget = "home";
 const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
 
-  //Editable widgets
-  ndcForum: `${componentsOwner}/widget/NDC.Forum`,
-  create: `${componentsOwner}/widget/NDC.Forum.Create`,
-  header: `${componentsOwner}/widget/NDC.NavBar`,
-  showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
-  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
-  reactions: `${componentsOwner}/widget/NDC.Reactions`,
-  addComment: `${componentsOwner}/widget/NDC.AddComment`,
-  commentView: `${componentsOwner}/widget/NDC.CommentView`,
-  upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
-  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
-  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
-  kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
-  compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
-  articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
-
-  //Libs
-  libSBT: `sayalot.near/widget/lib.SBT`,
-  libComment: `sayalot.near/widget/lib.comment`,
-  libArticle: `sayalot.near/widget/lib.article`,
-  libEmojis: `sayalot.near/widget/lib.emojis`,
-  libUpVotes: `sayalot.near/widget/lib.upVotes`,
-  libNotifications: `sayalot.near/widget/lib.notifications`,
-
-  //Standard widgets
-  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
-  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  newStyledComponents: {
-    Element: {
-      Badge: "nearui.near/widget/Element.Badge",
-      User: "nearui.near/widget/Element.User",
+  views: {
+    editableWidgets: {
+      ndcForum: `${componentsOwner}/widget/NDC.Forum`,
+      create: `${componentsOwner}/widget/NDC.Forum.Create`,
+      header: `${componentsOwner}/widget/NDC.NavBar`,
+      showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
+      showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
+      articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
+      generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
+      articleView: `${componentsOwner}/widget/NDC.ArticleView`,
+      reactions: `${componentsOwner}/widget/NDC.Reactions`,
+      addComment: `${componentsOwner}/widget/NDC.AddComment`,
+      commentView: `${componentsOwner}/widget/NDC.CommentView`,
+      upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+      profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
+      tagsEditor: `${componentsOwner}/widget/TagsEditor`,
+      kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
+      compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
+      articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
     },
-    Feedback: {
-      Spinner: "nearui.near/widget/Feedback.Spinner",
-    },
-    Input: {
-      Button: "nearui.near/widget/Input.Button",
-      Checkbox: "nearui.near/widget/Input.Checkbox",
-      Select: "nearui.near/widget/Input.Select",
+    standardWidgets: {
+      fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
+      markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
+      styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+      newStyledComponents: {
+        Element: {
+          Badge: "nearui.near/widget/Element.Badge",
+          User: "nearui.near/widget/Element.User",
+        },
+        Feedback: {
+          Spinner: "nearui.near/widget/Feedback.Spinner",
+        },
+        Input: {
+          Button: "nearui.near/widget/Input.Button",
+          Checkbox: "nearui.near/widget/Input.Checkbox",
+          Select: "nearui.near/widget/Input.Select",
+        },
+      },
+      socialMarkdown: "mob.near/widget/SocialMarkdown",
+      profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
+      profileImage: "mob.near/widget/ProfileImage",
+      wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+      navBarImg: "mob.near/widget/Image",
     },
   },
-  socialMarkdown: "mob.near/widget/SocialMarkdown",
-  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
-  profileImage: "mob.near/widget/ProfileImage",
-  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
-  navBarImg: "mob.near/widget/Image",
+
+  libs: {
+    libSBT: `sayalot.near/widget/lib.SBT`,
+    libComment: `sayalot.near/widget/lib.comment`,
+    libArticle: `sayalot.near/widget/lib.article`,
+    libEmojis: `sayalot.near/widget/lib.emojis`,
+    libUpVotes: `sayalot.near/widget/lib.upVotes`,
+    libNotifications: `sayalot.near/widget/lib.notifications`,
+  },
 };
 
-const libSrcArray = [widgets.libSBT];
+const libSrcArray = [widgets.libs.libSBT];
 
 const brand = {
   brandName: "Community Voice",
