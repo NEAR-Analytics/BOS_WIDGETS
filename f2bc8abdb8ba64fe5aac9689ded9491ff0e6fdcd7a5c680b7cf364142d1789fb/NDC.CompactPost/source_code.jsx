@@ -12,7 +12,7 @@ const {
   callLibs,
 } = props;
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 State.init({
   showModal: false,
