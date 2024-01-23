@@ -96,22 +96,22 @@ function upVoteButtonListener() {
 }
 
 const IconContainer = styled.div`
-  transform: rotate(-90deg);
-`;
+    transform: rotate(-90deg);
+  `;
 
 const Icon = styled.i`
-  margin: 0px !important;
-`;
+    margin: 0px !important;
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 
 return (
   <>
     <div title={disabled && "You don't own this SBT"}>
       <Widget
-        src={widgets.newStyledComponents.Input.Button}
+        src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
         props={{
           children: (
             <div className="d-flex">
