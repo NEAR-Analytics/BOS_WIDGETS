@@ -134,6 +134,9 @@ const handlers = {
   },
 };
 
+const tokenPrice =
+  props.prices[props.currency.priceKey || props.currency.symbol];
+
 return (
   <Wrapper>
     <Widget
@@ -159,20 +162,11 @@ return (
       </InputWarpper>
       <Value>
         ≈{" "}
-        {props.prices[props.currency.symbol] && props.amount ? (
-          <Widget
-            src="bluebiu.near/widget/Avalanche.Lending.Total"
-            props={{
-              total: Big(props.amount || 0)
-                .mul(props.prices[props.currency.symbol])
-                .toString(),
-              digit: 2,
-              unit: "$",
-            }}
-          />
-        ) : (
-          "-"
-        )}
+        {tokenPrice && props.amount
+          ? `$${Big(props.amount || 0)
+              .mul(tokenPrice)
+              .toFixed(2)}`
+          : "-"}
       </Value>
     </InputField>
     <CurrencyField>
