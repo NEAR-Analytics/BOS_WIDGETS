@@ -1,3 +1,12 @@
+const FormFragment = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 const FormContainer = styled.div`
   max-width: 650px;
   width: 100%;
@@ -153,6 +162,44 @@ const tx = {
   gas: GasPerTransaction,
 };
 
+const TopButton = styled("Link")`
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 8px 20px;
+  border: 0;
+  background: #101010;
+  color: white;
+  border: 1px solid #ffffff11;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    text-decoration: none;
+    opacity: 0.8;
+    background: #333333;
+  }
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const TopButtonGroup = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const NRC20Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 650px;
+  padding: 24px 0;
+  @media (min-width: 640px) {
+    padding: 0px;
+  }
+`;
+
 
 
 if (props.tick) {
@@ -166,25 +213,92 @@ if (props.tick) {
   );
 }
 
+const currentTab = state.currentTab ?? "all";
+
+const FormTabContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -20px;
+`;
+
+const TabOuter = styled.div`
+  background: #333333;
+  display: flex;
+  gap: 2px;
+  border-radius: 8px;
+  padding: 2px;
+`;
+
+const FormTab = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 12px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  &:hover {
+    background: #101010;
+    opacity: 1;
+  }
+  ${(props) =>
+    props.selected
+      ? `
+      background: #101010;
+    `
+      : `
+    opacity: 0.6;
+  `}
+`;
+
 return (
-  <FormContainer>
-    <FormTitle>Search NRC-20</FormTitle>
-    {/* <TipText>* Only top 5000 addresses are listed.</TipText> */}
-    <FormBody>
-      <Widget
-        src={`${config.ownerId}/widget/NEAT.SearchInput`}
-        props={{
-          value: state.searchValue,
-          setValue: (value) => State.update({ searchValue: value }),
-          placeholder: "Search Inscription",
-        }}
-      />
-      <Widget
-        src={`${config.ownerId}/widget/NRC-20.TokensTable`}
-        props={{
-          searchValue: state.searchValue,
-        }}
-      />
-    </FormBody>
-  </FormContainer>
+  <FormFragment>
+    <NRC20Header>
+      <FormTitle style={{ fontWeight: "bold" }}>Search NRC-20</FormTitle>
+      <TopButton href={`/${config.ownerId}/widget/NRC-20?tab=deploy`}>
+        Deploy
+      </TopButton>
+    </NRC20Header>
+    <FormContainer>
+      <FormTabContainer>
+        <TabOuter>
+          <FormTab
+            selected={currentTab === "all"}
+            onClick={() => State.update({ currentTab: "all" })}
+          >
+            All
+          </FormTab>
+          <FormTab
+            selected={currentTab === "in-progress"}
+            onClick={() => State.update({ currentTab: "in-progress" })}
+          >
+            In-Progress
+          </FormTab>
+          <FormTab
+            selected={currentTab === "completed"}
+            onClick={() => State.update({ currentTab: "completed" })}
+          >
+            Completed
+          </FormTab>
+        </TabOuter>
+      </FormTabContainer>
+      <FormBody>
+        <Widget
+          src={`${config.ownerId}/widget/NEAT.SearchInput`}
+          props={{
+            value: state.searchValue,
+            setValue: (value) => State.update({ searchValue: value }),
+            placeholder: "Search Inscription",
+          }}
+        />
+        <Widget
+          src={`${config.ownerId}/widget/NRC-20.TokensTable`}
+          props={{
+            searchValue: state.searchValue,
+            currentTab: state.currentTab,
+          }}
+        />
+      </FormBody>
+    </FormContainer>
+  </FormFragment>
 );
