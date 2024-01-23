@@ -8,6 +8,8 @@ if (!accountId) {
 
 State.init({ memo: null });
 
+Social.get(appName, )
+
 return (
   <div>
     <div className="mb-3">
@@ -23,6 +25,7 @@ return (
       ></textarea>
     </div>
 
+    <div>{memo}
     <div>
       <CommitButton
         disabled={state.memo === null}
