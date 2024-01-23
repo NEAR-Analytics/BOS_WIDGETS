@@ -70,20 +70,19 @@ const sendOnChange = () => {
     // State.update({ wrongPrice: true });
   } else {
     State.update({ loading: true });
-    console.log(state.loading, "state.loading");
+    console.log(state.loading, "state.loading else");
     try {
       Near.call(CONTRACT_ADDRESS, "add_paid_content", {
         link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
         cost: parseNearAmount(state.amount),
         context_id: linkId,
       });
-      // setTimeout(() => State.update({ loading: false }), 3000)
+      setTimeout(() => State.update({ loading: false }), 3000);
+      console.log(state.loading, "state.loading try");
     } catch (err) {
       console.error(err);
       // State.update({ isUpload: false });
-      State.update({ loading: false });
-    } finally {
-      console.log(state.loading, "state.loading");
+      console.log(state.loading, "state.loading catch");
       State.update({ loading: false });
     }
   }
@@ -250,8 +249,10 @@ const ButtonsBlock = styled.div`
   justify-content: center;
   padding: 0 10px;
   box-sizing: border-box;
-   .icon {
-    position: relative;
+
+`;
+const IconLoading = styled.span`
+  position: relative;
     &:before {
       margin: -8px;
       content: "";
@@ -262,9 +263,7 @@ const ButtonsBlock = styled.div`
       right: 0;
       border-radius: 50%;
     }
-  }
-    .loading {
-    @keyframes scaleAnimation {
+     @keyframes scaleAnimation {
      0%, 100% {
         transform: scale(1) rotate(0deg);
       }
@@ -281,7 +280,6 @@ const ButtonsBlock = styled.div`
 
     transform-origin: center;
     animation: scaleAnimation 1s ease-in-out infinite;
-  }
 `;
 
 const ButtonCancel = styled.button`
@@ -376,13 +374,11 @@ return (
             Cancel
           </ButtonCancel>
           {state.loading ? (
-            <span className={`icon loading}`}></span>
+            <IconLoading></IconLoading>
           ) : (
             <ButtonSend
               onClick={sendOnChange}
-              disabled={
-                !state.img || !state.amount || state.wrongPrice || state.loading
-              }
+              disabled={!state.img || !state.amount || state.wrongPrice}
             >
               Send
             </ButtonSend>
