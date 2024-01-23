@@ -256,6 +256,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 function MainComponent() {
