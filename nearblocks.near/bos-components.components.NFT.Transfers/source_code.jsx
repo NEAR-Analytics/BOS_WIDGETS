@@ -239,8 +239,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -301,8 +311,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -467,8 +475,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -631,8 +649,6 @@ function getTimeAgoString(timestamp) {
     return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
     return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.week > 1) {
-    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
     return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
@@ -797,8 +813,18 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
+
 function serialNumber(index, page, perPage) {
   return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -840,6 +866,31 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 /* END_INCLUDE: "includes/formats.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/Clock.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Clock = (props) => (
+  <svg
+    viewBox="64 64 896 896"
+    focusable="false"
+    data-icon="clock-circle"
+    width="1em"
+    height="1em"
+    fill="currentColor"
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+    <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
+  </svg>
+);/* END_INCLUDE COMPONENT: "includes/icons/Clock.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 const FaLongArrowAltRight = () => {
   return (
@@ -945,6 +996,29 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
@@ -1049,17 +1123,40 @@ function urlHostName(url) {
 function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
 function MainComponent({ network, id }) {
-  const [showAge, setShowAge] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
   const [txns, setTxns] = useState([]);
   const config = getConfig(network);
+  const [showAge, setShowAge] = useState(true);
   const errorMessage = 'No token transfers found!';
 
   const toggleShowAge = () => setShowAge((s) => !s);
@@ -1328,17 +1425,37 @@ function MainComponent({ network, id }) {
     },
     {
       header: (
-        <span>
-          <div className="w-full inline-flex px-5 py-4">
-            <button
-              type="button"
-              onClick={toggleShowAge}
-              className="text-left text-xs w-full font-semibold uppercase tracking-wider text-nearblue-600 focus:outline-none whitespace-nowrap"
-            >
-              {showAge ? 'AGE' : 'DATE TIME (UTC)'}
-            </button>
-          </div>
-        </span>
+        <>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button
+                  type="button"
+                  onClick={toggleShowAge}
+                  className="text-left text-xs px-5 py-4 w-full flex items-center font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex-row whitespace-nowrap"
+                >
+                  {showAge ? (
+                    <>
+                      {'AGE'}
+                      <Clock className="text-green-500 ml-2" />
+                    </>
+                  ) : (
+                    <> {'DATE TIME (UTC)'}</>
+                  )}
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="center"
+                side="top"
+              >
+                {showAge
+                  ? 'Click to show Datetime Format'
+                  : 'Click to show Age Format'}
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
+        </>
       ),
       key: 'block_timestamp',
       cell: (row) => (
@@ -1348,12 +1465,8 @@ function MainComponent({ network, id }) {
               <Tooltip.Trigger asChild>
                 <span>
                   {!showAge
-                    ? formatTimestampToString(
-                        nanoToMilli(Number(row.block_timestamp || 0)),
-                      )
-                    : getTimeAgoString(
-                        nanoToMilli(Number(row.block_timestamp || 0)),
-                      )}
+                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                    : getTimeAgoString(nanoToMilli(row.block_timestamp))}
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -1362,12 +1475,8 @@ function MainComponent({ network, id }) {
                 side="bottom"
               >
                 {showAge
-                  ? formatTimestampToString(
-                      nanoToMilli(Number(row.block_timestamp || 0)),
-                    )
-                  : getTimeAgoString(
-                      nanoToMilli(Number(row.block_timestamp || 0)),
-                    )}
+                  ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                  : getTimeAgoString(nanoToMilli(row.block_timestamp))}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
