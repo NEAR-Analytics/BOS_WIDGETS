@@ -22,12 +22,17 @@ const Image = styled.img`
 const Avatar = styled.div`
     width:40px;
     height:40px;
-    padding:5px;
+    padding:3px;
     border-radius:100%;
     box-shadow: 0 0 0 2px rgba(255,255,255,.05);
 
+    :hover {
+        box-shadow: 0 0 0 3px rgba(255,255,255,.1);
+    }
+
     img {
       width:100%;
+      height:100%;
       border-radius:100%;
     }
 `;
