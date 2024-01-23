@@ -40,6 +40,7 @@ State.init({
   img: null,
   isUpload: false,
   amount: null,
+  loading: false,
 });
 
 const uploadFileUpdateState = (body) => {
@@ -69,7 +70,7 @@ const sendOnChange = () => {
     State.update({ wrongPrice: true });
   } else {
     try {
-      // State.update({ loading: true })
+      State.update({ loading: true });
       Near.call(CONTRACT_ADDRESS, "add_paid_content", {
         link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
         cost: parseNearAmount(state.amount),
@@ -79,6 +80,8 @@ const sendOnChange = () => {
     } catch (err) {
       console.error(err);
       // State.update({ isUpload: false });
+    } finally {
+      State.update({ loading: false });
     }
   }
 };
@@ -90,7 +93,7 @@ const cancelOnChange = () => {
     amount: null,
   });
 };
-console.log(state.wrongPrice);
+console.log(state.loading);
 const iconBtnUpload = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -338,7 +341,9 @@ return (
           </ButtonCancel>
           <ButtonSend
             onClick={sendOnChange}
-            disabled={!state.img || !state.amount || state.wrongPrice}
+            disabled={
+              !state.img || !state.amount || state.wrongPrice || state.loading
+            }
           >
             Send
           </ButtonSend>
