@@ -14,7 +14,7 @@ const {
 
 const data = reactedElementData;
 
-const libSrcArray = [widgets.libUpVotes];
+const libSrcArray = [widgets.libs.libUpVotes];
 
 const initLibCalls = {
   upVotes: [
