@@ -12,6 +12,7 @@ const Dapps = styled.div`
   width: calc(100% - 42px);
   overflow-x: auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 `;
 const Dapp = styled.div`
@@ -26,6 +27,7 @@ const Dapp = styled.div`
   color: #7c7f96;
   min-width: 48px;
   cursor: pointer;
+  flex-shrink: 0;
   &.active {
     color: var(--button-text-color);
     background-color: var(--primary-color);
