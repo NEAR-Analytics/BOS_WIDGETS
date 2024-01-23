@@ -69,8 +69,9 @@ const sendOnChange = () => {
   if (!/^\d+([.]\d+)?$/g.test(state.amount)) {
     // State.update({ wrongPrice: true });
   } else {
+    State.update({ loading: true });
+    console.log(state.loading, "state.loading");
     try {
-      State.update({ loading: true });
       Near.call(CONTRACT_ADDRESS, "add_paid_content", {
         link: `https://ipfs.near.social/ipfs/${state.img.cid}`,
         cost: parseNearAmount(state.amount),
@@ -81,6 +82,7 @@ const sendOnChange = () => {
       console.error(err);
       // State.update({ isUpload: false });
     } finally {
+      console.log(state.loading, "state.loading");
       State.update({ loading: false });
     }
   }
@@ -93,7 +95,7 @@ const cancelOnChange = () => {
     amount: null,
   });
 };
-console.log(state.loading, "state.loading");
+
 const iconBtnUpload = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
