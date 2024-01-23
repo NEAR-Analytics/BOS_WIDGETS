@@ -250,6 +250,38 @@ const ButtonsBlock = styled.div`
   justify-content: center;
   padding: 0 10px;
   box-sizing: border-box;
+   .icon {
+    position: relative;
+    &:before {
+      margin: -8px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+    }
+  }
+    .loading {
+    @keyframes scaleAnimation {
+     0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      25% {
+        transform: scale(1.2) rotate(-15deg);
+      }
+      50% {
+        transform: scale(1) rotate(0deg);
+      }
+      75% {
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+
+    transform-origin: center;
+    animation: scaleAnimation 1s ease-in-out infinite;
+  }
 `;
 
 const ButtonCancel = styled.button`
@@ -296,38 +328,7 @@ const ButtonSend = styled.button`
   &:hover {
     opacity: 0.5;
   }
-   .icon {
-    position: relative;
-    &:before {
-      margin: -8px;
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      border-radius: 50%;
-    }
-  }
-    .loading {
-    @keyframes scaleAnimation {
-     0%, 100% {
-        transform: scale(1) rotate(0deg);
-      }
-      25% {
-        transform: scale(1.2) rotate(-15deg);
-      }
-      50% {
-        transform: scale(1) rotate(0deg);
-      }
-      75% {
-        transform: scale(1.2) rotate(15deg);
-      }
-    }
-
-    transform-origin: center;
-    animation: scaleAnimation 1s ease-in-out infinite;
-  }
+  
 `;
 
 return (
@@ -374,7 +375,9 @@ return (
           >
             Cancel
           </ButtonCancel>
-          <span className={`${state.loading ? "icon loading " : ""}`}>
+          {state.loading ? (
+            <span className={`icon loading}`}></span>
+          ) : (
             <ButtonSend
               onClick={sendOnChange}
               disabled={
@@ -383,7 +386,7 @@ return (
             >
               Send
             </ButtonSend>
-          </span>
+          )}
         </ButtonsBlock>
       </WrapperWidget>
     )}
