@@ -132,7 +132,7 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
