@@ -153,3 +153,16 @@ export function urlHostName(url) {
 export function holderPercentage(supply, quantity) {
   return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
+
+export function isAction(type) {
+  const actions = [
+    'DEPLOY_CONTRACT',
+    'TRANSFER',
+    'STAKE',
+    'ADD_KEY',
+    'DELETE_KEY',
+    'DELETE_ACCOUNT',
+  ];
+
+  return actions.includes(type.toUpperCase());
+}
