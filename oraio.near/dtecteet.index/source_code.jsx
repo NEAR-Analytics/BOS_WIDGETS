@@ -32,18 +32,18 @@ const detectEtherAPI = (componentCode) => {
 
 const cleanUp = (htmlText) => {
   // get the code from the first noscript in body
-  const startRgxp = /<noscript/;
-  const endRgxp = /<\/noscript>/;
-  const startTwoRgxp = />/;
+  const startRgx = /<noscript/;
+  const endRgx = /<\/noscript>/;
+  const startTwoRgx = />/;
   let start, end, code;
 
-  start = htmlText.match(startRgxp).index;
-  end = htmlText.match(endRgxp).index;
-  code = htmlText.substring(start, end + endRgxp.toString().length);
+  start = htmlText.match(startRgx).index;
+  end = htmlText.match(endRgx).index;
+  code = htmlText.substring(start, end + endRgx.toString().length);
 
   // isolate from the noscript tags
-  start = code.match(startTwoRgxp).index;
-  end = code.match(endRgxp).index;
+  start = code.match(startTwoRgx).index;
+  end = code.match(endRgx).index;
   code = code.substring(start + 1, end);
 
   return code;
@@ -70,7 +70,6 @@ const wrappedAsyncFetch = (url, callback) => {
 };
 
 const search = (component, hasNear, hasEther, hasExternal) => {
-  console.log("search is called");
   const urlPrefix = "https://near.social/mob.near/widget/WidgetSource?src=";
   const response = {
     external: {},
@@ -92,22 +91,35 @@ const search = (component, hasNear, hasEther, hasExternal) => {
   const processComponentQueue = (index) => {
     if (index < componentSrcQueue.length) {
       const componentSrcPageUrl = urlPrefix + componentSrcQueue[index];
-      console.log("url: ", componentSrcPageUrl);
+
       wrappedAsyncFetch(componentSrcPageUrl, (error, result) => {
         if (error) {
           console.error("Error fetching component source:", error.message);
-          // Handle the error or break out of the loop if necessary
         } else {
           const htmlCode = cleanUp(result.body);
-          console.log("The main htmlCode: ", htmlCode);
 
           if (htmlCode !== "The source code is not available.") {
             if (hasNear)
-              handleClassAPI(htmlCode, "near", component, detectNearAPI);
+              handleClassAPI(
+                htmlCode,
+                "near",
+                componentSrcQueue[index],
+                detectNearAPI
+              );
             if (hasEther)
-              handleClassAPI(htmlCode, "ether", component, detectEtherAPI);
+              handleClassAPI(
+                htmlCode,
+                "ether",
+                componentSrcQueue[index],
+                detectEtherAPI
+              );
             if (hasExternal)
-              handleClassAPI(htmlCode, "external", component, detectEtherAPI);
+              handleClassAPI(
+                htmlCode,
+                "external",
+                componentSrcQueue[index],
+                detectExternalAPI
+              );
           }
 
           // Enqueue all dependency component src
@@ -172,61 +184,6 @@ const useTheme = (light, dark) => {
   return state.theme === "light" ? light : dark;
 };
 
-const GlobalStyle = styled.div`
-*{
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
-  font-family: Poppins, 'sans-serif';
-}.body;
-`;
-
-/*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
-const Main = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  overflow-y: auto;
-
-  background-image: url('https://ipfs.near.social/ipfs/bafkreiggn4gswp3blqvibdtxl5wyvbpky2oj2nxdwlg5q4cbiflsw7trxa');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-
-  @media only screen and (max-width: 750px) {
-    padding-bottom: 160px;
-  }
-`;
-
-const Maincontent = styled.div`
-  width: 100%;
-`;
-
-const Section1 = styled.div`
-  width: 100%;
-  // height: auto;
-`;
-
-const Section2 = styled.div`
-  width: 100%;
-  height: auto;
-`;
-const About = styled.p`
-color: rgba(0, 0, 0, 0.74);
-text-align: center;
-font-family: Poppins, 'sans-serif';
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: 211.496%; /* 42.299px */
-padding: 10px 20%;
-  @media only screen and (max-width: 750px) {
-    font-size: 12px;
-    padding: 5px 10%;
-  }
-`;
-
 const switchTheme = () => {
   const themeToChange = useTheme("dark", "light");
   State.update({
@@ -235,35 +192,90 @@ const switchTheme = () => {
   Storage.privateSet("theme", themeToChange);
 };
 
-const handleSubmit = async (value) => {
-  // State.update({ component: value });
-  console.log("inside search state.component: ", value);
-  search(value, true, true, true);
-};
-
-if (state.component) console.log("I got some component: ", state.component);
-if (state.near) console.log("This is state.near: ", state.near);
-
 const localStorageTheme = Storage.privateGet("theme");
 if (localStorageTheme)
   State.update({
     theme: localStorageTheme,
   });
 
+const GlobalStyle = styled.div`
+  * {
+    font-family: "Source Code Pro", cursive;
+  }
+  ${font}
+`;
+
+const Main = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: ${useTheme(light.color, dark.color)};
+  background-color: ${useTheme(light.bg, dark.bg)};
+  overflow-y: auto;
+  padding-bottom: 80px;
+  min-height: 100vh;
+
+  @media only screen and (max-width: 750px) {
+    padding-bottom: 160px;
+  }
+`;
+
+const Stack = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+`;
+
+const HStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+`;
+
+const SearchStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`;
+
+const Content = styled.div`
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+`;
+const handleSubmit = (value) => {
+  search(value, true, true, true);
+};
+
 const pages = {
   main: (
     <>
+      <SearchStack>
+        <Widget
+          src="oraio.near/widget/dtecteet.ComponentSearch"
+          props={{
+            placeholder: "Account ID",
+            theme: useTheme(light, dark),
+            handleSubmit: handleSubmit,
+          }}
+        />
+      </SearchStack>
       <Widget
-        src="oraio.near/widget/detecteet.ComponentSearch"
-        props={{
-          placeholder: "Search",
-          theme: useTheme(light, dark),
-          handleSubmit: handleSubmit,
-          value: state.search,
-        }}
-      />
-      <Widget
-        src="oraio.near/widget/dtecteet.Result"
+        src="oraio.near/widget/dTecteet.Result"
         props={{
           theme: useTheme(light, dark),
           near: state.near,
@@ -273,44 +285,29 @@ const pages = {
       />
     </>
   ),
-};
 
-// return (
-//   <GlobalStyle>
-//     <Main>
-//       <Widget
-//         src={`${state.config.ownerId}/widget/SourceScan.Layout.Navbar`}
-//         props={{
-//           theme: useTheme(light, dark),
-//           switchTheme: switchTheme,
-//         }}
-//       />
-//       <Content>{pages.main}</Content>
-//     </Main>
-//   </GlobalStyle>
-// );
+  blog: <a href="#"></a>,
+  docs: (
+    <Widget
+      src="oraio.near/widget/dTecteet.Docs"
+      props={{
+        theme: useTheme(light, dark),
+      }}
+    />
+  ),
+};
 
 return (
   <GlobalStyle>
     <Main>
       <Widget
-        src="oraio.near/widget/dtecteet.navbar"
+        src="oraio.near/widget/dTecteet.Navbar"
         props={{
           theme: useTheme(light, dark),
           switchTheme: switchTheme,
         }}
       />
-      <Maincontent>
-        <Section2>
-          <About>
-            Welcome to Dtecteet. It is your one-stop tool solution to check for
-            your NEAR component API type, ranging from NEAR API JS, Ethers.js
-            and External API. Our tool provides you with advanced and
-            user-friendly component API detection.
-          </About>
-          {pages.main}
-        </Section2>
-      </Maincontent>
+      <Content>{pages[props.page] ? pages[props.page] : pages.main}</Content>
     </Main>
   </GlobalStyle>
 );
