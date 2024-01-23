@@ -22,8 +22,7 @@ const Globalstyle = styled.div`
 
 /*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
 const Main = styled.div`
-  width: 1000px;
-  max-width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: ${state.theme.bg};
@@ -41,12 +40,13 @@ const Main = styled.div`
 
 const Section2 = styled.div`
   width: 100%;
+  
 `;
 const Resultdiv = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    width: 100vw;
+    width: 80%;
     color: ${state.theme.color};
     text-align: left;
     font-family: Poppins, 'sans-serif';
