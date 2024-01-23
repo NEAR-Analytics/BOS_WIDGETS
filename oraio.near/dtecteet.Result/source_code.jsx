@@ -34,10 +34,6 @@ const Main = styled.div`
   }
 `;
 
-// const Maincontent = styled.div`
-//   width: 100%;
-// `;
-
 const Section2 = styled.div`
   width: 100%;
   
@@ -65,6 +61,7 @@ const Resultdiv = styled.div`
     
     .result{
         width: 100%;
+        padding-top: 5px;
         border-radius: 10px;
         background: ${state.theme.bg};
         border: 1px solid ${state.theme.border};
