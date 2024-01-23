@@ -22,7 +22,8 @@ const Globalstyle = styled.div`
 
 /*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
 const Main = styled.div`
-  width: 100%;
+  width: 1000px;
+  max-width: 80%;
   display: flex;
   flex-direction: column;
   background-color: ${state.theme.bg};
