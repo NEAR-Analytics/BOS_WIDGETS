@@ -67,7 +67,7 @@ const amountOnChange = ({ target }) => {
 
 const sendOnChange = () => {
   if (!/^\d+([.]\d+)?$/g.test(state.amount)) {
-    State.update({ wrongPrice: true });
+    // State.update({ wrongPrice: true });
   } else {
     try {
       State.update({ loading: true });
@@ -93,7 +93,7 @@ const cancelOnChange = () => {
     amount: null,
   });
 };
-console.log(state.loading);
+console.log(state.loading, "state.loading");
 const iconBtnUpload = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
