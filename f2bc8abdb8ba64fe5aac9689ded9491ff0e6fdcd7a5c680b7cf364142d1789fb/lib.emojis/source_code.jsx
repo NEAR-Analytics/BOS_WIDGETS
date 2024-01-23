@@ -36,7 +36,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
+const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
