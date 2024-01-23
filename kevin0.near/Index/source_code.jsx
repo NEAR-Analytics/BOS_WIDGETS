@@ -1,90 +1,154 @@
-const owner = "nearcatalog.near";
-const componentPath = `${owner}/widget/NearCatalog`;
-const indexer = "https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1";
-const defaultImg =
-  "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png";
+const ownerId = "nearhorizon.near";
 
-const projects = {};
-let router = "home";
-const query = "";
+State.init({
+  tnc: true,
+  tncIsFetched: false,
+  tosAccept: true,
+});
 
-let widgetSrc = "";
-let widgetProps = {};
-
-if (props?.bookmark) {
-  router = "bookmark";
-} else if (props?.cat.length > 0) {
-  router = "category";
-} else if (props?.id) {
-  router = "project";
-}
-
-function loadingScreen() {
-  return (
-    <>
-      👀📗~~, NEARCatalog only working on near.org gateway for now:
-      <a href="https://near.org/nearcatalog.near/widget/Index">
-        https://near.org/nearcatalog.near/widget/Index
-      </a>
-    </>
+if (context.accountId && !state.tncIsFetched) {
+  Near.asyncView(
+    "social.near",
+    "get",
+    {
+      keys: [
+        `${context.accountId}/profile/horizon_tnc`,
+        `${context.accountId}/index/tosAccept`,
+      ],
+    },
+    "final",
+    false,
+  ).then((data) =>
+    State.update({
+      tnc: data[context.accountId]?.profile?.horizon_tnc === "true",
+      tosAccept:
+        data[context.accountId]?.index?.tosAccept &&
+        data[context.accountId]?.index?.tosAccept.length > 0,
+      tncIsFetched: true,
+    }),
   );
 }
 
-console.log("router: ", router);
-
-switch (router) {
-  case "project":
-    query = fetch(indexer + "/project?pid=" + props.id);
-    if (!query || !query.body) {
-      return loadingScreen();
-    }
-    widgetSrc = `${componentPath}.Project`;
-    widgetProps = {
-      id: props.id,
-      project: query.body,
-    };
-    break;
-
-  case "category":
-    query = fetch(indexer + "/projects-by-category?cid=" + props.cat);
-    projects = query.body;
-    if (!query) {
-      return loadingScreen();
-    }
-    widgetSrc = `${componentPath}.Layout.AppGrid`;
-    widgetProps = {
-      cat: props.cat,
-    };
-    break;
-
-  case "bookmark":
-    widgetSrc = `${componentPath}.Layout.AppGrid`;
-    widgetProps = {
-      bookmark: true,
-    };
-    break;
-
-  default:
-    //home router
-    query = fetch(indexer + "/projects");
-    if (!query || !query.body) {
-      return loadingScreen();
-    }
-    projects = query.body;
-    widgetSrc = `${componentPath}.Layout.AppGrid`;
-    break;
-}
-
-let p = {
-  ...{
-    componentPath,
-    indexPath: owner + "/widget/Index",
-    owner,
-    indexer,
-    projects,
-    defaultImg,
-  },
-  ...widgetProps,
+const tabContentWidget = {
+  home: "Dashboard",
+  inbox: "Inbox",
+  manage: "Manage",
+  project: "Project.Page",
+  request: "Request.Page",
+  vendor: "Vendor.Page",
+  backer: "Investor.Page",
+  contribution: "Contribution.Page",
+  createproject: "Project.Form",
+  createrequest: "Request.Form",
+  createvendor: "Vendor.Form",
+  createbacker: "Investor.Form",
+  permissions: "Inputs.SetUpPermissions",
+  learn: "Learn.Page",
+  faq: "FAQ.Page",
+  help: "Help.Page",
+  legal: "TNCPage",
+  admin: "Admin.Page",
+  projects: "Project.ListPage",
+  investors: "Investor.ListPage",
+  backers: "Investor.ListPage",
+  vendors: "Vendor.ListPage",
+  contributors: "Vendor.ListPage",
+  requests: "Request.ListPage",
+  partners: "Application.Page",
+  partner: "Application.DetailPage",
+  "my-projects": "Manage.Projects",
+  "my-requests": "Manage.Requests",
+  "my-contracts": "Manage.Contracts",
+  "my-applications": "Manage.Applications",
+  events: "Events.Page",
+  perks: "Perks.Page",
+  profile: "Profile.Page",
 };
-console.log("final props", p);
-return <Widget src={widgetSrc} props={p} />;
+
+const getTabWidget = (tab) => {
+  if (tab in tabContentWidget) {
+    return tabContentWidget[tab];
+  }
+
+  return "Dashboard";
+};
+
+const tabContent = (
+  <Widget
+    src={`${ownerId}/widget/${getTabWidget(props.tab)}`}
+    props={{
+      ...props,
+      urlProps: props,
+    }}
+  />
+);
+
+const Page = styled.div`
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #eaeaea;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  background: #ffffff;
+  padding: 3em;
+  border-radius: 0rem 0rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--ui-elements-light, #eceef0);
+  background: var(--base-white, #fff);
+
+  &.form {
+    border: none;
+    background: #fafafa;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+`;
+
+const showSidebar = ![
+  "createproject",
+  "createrequest",
+  "createvendor",
+  "createbacker",
+  "permissions",
+  "legal",
+].includes(props.tab);
+const isForm = [
+  "createproject",
+  "createrequest",
+  "createvendor",
+  "createbacker",
+].includes(props.tab);
+const showTncDialog = !state.tnc && state.tosAccept && props.tab !== "legal";
+
+return (
+  <>
+    <Widget src={`${ownerId}/widget/Help.FeedbackButton`} />
+    <Widget
+      src={`${ownerId}/widget/TNCModal`}
+      props={{
+        open: showTncDialog,
+        accept: () =>
+          Social.set(
+            { profile: { horizon_tnc: true } },
+            {
+              onCommit: () => {
+                State.update({ tnc: true });
+              },
+            },
+          ),
+      }}
+    />
+    <Widget src={`${ownerId}/widget/Header`} />
+    <Page>
+      <Widget
+        src={`${ownerId}/widget/NavbarControl`}
+        props={{ tab: props.tab }}
+      />
+      <Content className={isForm ? "form" : ""}>{tabContent}</Content>
+    </Page>
+  </>
+);
