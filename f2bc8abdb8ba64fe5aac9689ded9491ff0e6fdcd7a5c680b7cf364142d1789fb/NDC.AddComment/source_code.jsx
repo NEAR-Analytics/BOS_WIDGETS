@@ -273,7 +273,7 @@ const CallLibrary = styled.div`
     display: none;
   `;
 
-const libSrcArray = [widgets.libComment];
+const libSrcArray = [widgets.libs.libComment];
 
 function stateUpdate(obj) {
   State.update(obj);
