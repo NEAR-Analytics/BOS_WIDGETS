@@ -7,6 +7,7 @@ getCommunity = getCommunity || (() => <></>);
 setCommunitySocialDB = setCommunitySocialDB || (() => <></>);
 
 const communityData = getCommunity({ handle });
+const [postsExists, setPostExists] = useState(false);
 
 const MainContent = styled.div`
   padding-left: 2rem;
@@ -47,6 +48,10 @@ const Container = styled.div`
   .card {
     border-radius: 1rem !important;
   }
+
+  .display-none {
+    display: none;
+  }
 `;
 
 const Tag = styled.div`
@@ -79,12 +84,18 @@ return (
                   src={"megha19.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    accountId: `${handle}.community.devgovgigs.near`,
+                    communityAccountId: `${handle}.community.devgovgigs.near`,
                   }}
                 />
               </div>
             )}
-          <div className="d-flex flex-wrap justify-content-between">
+          <div
+            className={
+              postsExists
+                ? "d-flex flex-wrap justify-content-between"
+                : "display-none"
+            }
+          >
             <Heading>Announcements</Heading>
             <div className="d-flex align-items-center gap-2">
               <select
@@ -103,17 +114,20 @@ return (
               </select>
             </div>
           </div>
-
-          <Widget
-            src="megha19.near/widget/devhub.components.organism.Feed"
-            props={{
-              showFlagAccountFeature: true,
-              filteredAccountIds: [
-                `${handle}.community.devgovgigs.near`,
-              ],
-              sort: sort,
-            }}
-          />
+          <div className={postsExists && "card p-4"}>
+            <Widget
+              src="megha19.near/widget/devhub.components.organism.Feed"
+              props={{
+                showFlagAccountFeature: true,
+                filteredAccountIds: [
+                  `${handle}.community.devgovgigs.near`,
+                ],
+                sort: sort,
+                setPostExists: setPostExists,
+                showFlagAccountFeature: true,
+              }}
+            />
+          </div>
         </div>
       </MainContent>
       <SidebarContainer>
