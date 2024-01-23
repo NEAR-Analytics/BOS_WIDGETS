@@ -81,6 +81,7 @@ const sendOnChange = () => {
     } catch (err) {
       console.error(err);
       // State.update({ isUpload: false });
+      State.update({ loading: false });
     } finally {
       console.log(state.loading, "state.loading");
       State.update({ loading: false });
@@ -295,6 +296,38 @@ const ButtonSend = styled.button`
   &:hover {
     opacity: 0.5;
   }
+   .icon {
+    position: relative;
+    &:before {
+      margin: -8px;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 50%;
+    }
+  }
+    .loading {
+    @keyframes scaleAnimation {
+     0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      25% {
+        transform: scale(1.2) rotate(-15deg);
+      }
+      50% {
+        transform: scale(1) rotate(0deg);
+      }
+      75% {
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+
+    transform-origin: center;
+    animation: scaleAnimation 1s ease-in-out infinite;
+  }
 `;
 
 return (
@@ -342,6 +375,7 @@ return (
             Cancel
           </ButtonCancel>
           <ButtonSend
+            className={`${state.loading ? "icon loading " : ""}`}
             onClick={sendOnChange}
             disabled={
               !state.img || !state.amount || state.wrongPrice || state.loading
