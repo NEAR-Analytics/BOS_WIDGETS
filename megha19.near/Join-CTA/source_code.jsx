@@ -1,5 +1,5 @@
 const { checkIsMemberOrPending } = VM.require(
-  "buildhub.near/widget/core.lib.common"
+  "megha19.near/widget/checkIsMemberOrPending"
 );
 
 checkIsMemberOrPending || (checkIsMemberOrPending = () => {});
