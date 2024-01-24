@@ -1,29 +1,29 @@
-const StatefulDependency = VM.require(
-  "sdks.near/widget/Abstracts.StatefulDependency"
-);
-
 return (Store, status, name) => {
   const API = {
-    ...StatefulDependency(Store, status, name),
-    name: name,
+    name: "",
     instruction: "",
     responses: {},
     value: "",
-    init: () => {
-      API.initDependency({
-        ongoingRequest: {},
-        responses: {},
+    init: (name) => {
+      API.name = name;
+
+      Store.init({
+        ...status,
+        [API.name]: {
+          ongoingRequest: {},
+          responses: {},
+        },
       });
 
       return API;
     },
     getRequest: () => {
-      return API.get("ongoingRequest");
+      return status[API.name].ongoingRequest;
     },
     createRequest: (instruction, value, returnType) => {
       return {
-        index: API.get("responses")[instruction]
-          ? Object.keys(API.get("responses")[instruction]).length
+        index: status[API.name].responses[instruction]
+          ? Object.keys(status[API.name].responses[instruction]).length
           : 0,
         instruction,
         value,
@@ -31,17 +31,23 @@ return (Store, status, name) => {
       };
     },
     request: (request) => {
-      API.set("ongoingRequest", request);
+      let newApi = status[API.name];
+      newApi.ongoingRequest = request;
+
+      Store.update({
+        ...status,  
+        [API.name]: newApi,
+      });
 
       return new Promise((resolve, reject) => {
-        let responses = API.get("responses");
+        let newApi = status[API.name];
 
         if (request.index == 0) {
-          responses[request.instruction] = {};
+          newApi.responses[request.instruction] = {};
         }
 
-        responses[request.instruction][request.index] = { resolve };
-        API.set("responses", responses);
+        newApi.responses[request.instruction][request.index] = { resolve };
+        Store.update({ ...status, [API.name]: newApi });
       });
     },
     setResponse: (response) => {
@@ -52,11 +58,14 @@ return (Store, status, name) => {
         parsedResponse.result
       );
 
-      let responses = API.get("responses");
-      responses[parsedResponse.instruction][parsedResponse.index] =
+      let newApi = status[API.name];
+      newApi.responses[parsedResponse.instruction][parsedResponse.index] =
         parsedResponse;
 
-      API.set("responses", responses);
+      Store.update({
+         ...status,
+        [API.name]: newApi,
+      });
     },
     parseResponse: (response) => {
       return {
@@ -67,11 +76,21 @@ return (Store, status, name) => {
             : JSON.parse(response.result),
       };
     },
-    notify: (instruction, index, result) =>
-      API.get("responses")[instruction][index].resolve(result),
-    isReady: () => API.get("ready"),
-    setAsReady: () => API.set("ready", true),
+    notify: (instruction, index, result) => {
+      status[API.name].responses[instruction][index].resolve(result);
+    },
+    isReady: () => {
+      return status[API.name].ready;
+    },
+    setAsReady: () => {
+      let newApi = status[API.name];
+      newApi.ready = true;
+      Store.update({
+        ...status,
+        [API.name]: newApi,
+      });
+    },
   };
 
-  return API.init();
+  return API.init(name);
 };
