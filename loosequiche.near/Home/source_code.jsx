@@ -6,6 +6,7 @@ function Home() {
         alt="Near India"
         height="100%"
         width="100%"
+        loading="lazy"
       />
     </div>
   );
