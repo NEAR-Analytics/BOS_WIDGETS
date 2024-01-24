@@ -10,7 +10,7 @@ const MORE_OPTIONS_URL =
   "https://ipfs.near.social/ipfs/bafkreig5brkbcdikyecfx22daixoo5osrtjqmjjimgupdjgt4ecdvsubaq";
 
 const MESSAGES_SECTION =
-  "https://ipfs.near.social/ipfs/bafkreibnddjhegc3blij6j3t5uwxseyrwocwv7mane6kmnzb5qrpv2rojy";
+  "https://ipfs.near.social/ipfs/bafkreig4cmkw33wqao77ryem2trlf3z774ufwrqgti54rufsrd3hpgewru";
 
 const NEWS_SECTION =
   "https://ipfs.near.social/ipfs/bafkreih6in2z2u5rbav6uwqxilip34tycpnhv575fi7scpyydutvwwxvfe";
@@ -21,7 +21,8 @@ const WARBLE_SECTION =
 const SHARE_SECTION =
   "https://ipfs.near.social/ipfs/bafkreicbzihpt5wywzccgxk22zh5otwul2zgqsrupv2bdbsqsivjfpfy6a";
 
-const WARBIE = "https://ipfs.near.social/ipfs/bafkreibgmcrhvk2dyuhfzp5ywgvemecz7f2kjgqh2svjj7767u5f626pgm";
+const WARBIE =
+  "https://ipfs.near.social/ipfs/bafkreibgmcrhvk2dyuhfzp5ywgvemecz7f2kjgqh2svjj7767u5f626pgm";
 
 const Messenger = styled.div`
     width:100%;
@@ -162,6 +163,7 @@ const PrimaryActionButton = styled.button`
     border-radius:100%;
     background-color:#E4E6EB;
     padding:5px;
+    border:1px solid rgba(0,0,0,.03);
 
     transition:all .2s;
     box-shadow:0 0 0 0px rgba(0,0,0,.02);
@@ -269,11 +271,11 @@ const Description = styled.div`
 
 const ActionMenu = styled.ul`
     width:150px;
-    background-color:#fafafa;
+    background-color:#f4f4f4;
     border-radius:15px;
     margin-top:5px;
-    box-shadow:0 0 10px 10px rgba(0,0,0,.02);
-    border:2px solid rgba(0,0,0,.04);
+    box-shadow:0 0 10px 5px rgba(0,0,0,.05);
+    border:1px solid rgba(0,0,0,.04);
     padding:0;
     list-style:none;
     overflow:hidden;
@@ -282,7 +284,8 @@ const ActionMenu = styled.ul`
 const Action = styled.li`
     text-align:center;
     padding:7px 10px;
-    font-size:.7rem;
+    font-size:.8rem;
+    color: rgba(0,0,0,.6);
     
     :not(:last-of-type) {
         border-bottom:1px solid rgba(0,0,0,.05);
@@ -346,7 +349,7 @@ return (
               overlay={<Tooltip>Messenger</Tooltip>}
             >
               <SectionButton>
-                <img src={MESSAGES_SECTION} style={{transform: "scale(1.2)"}} />
+                <img src={MESSAGES_SECTION} />
               </SectionButton>
             </OverlayTrigger>
             <OverlayTrigger placement="right" overlay={<Tooltip>News</Tooltip>}>
@@ -403,14 +406,16 @@ return (
                   </ActionMenu>
                 }
               >
-                <PrimaryActionButton onClick={() => setShowSettings(!showSettings)}>
+                <PrimaryActionButton
+                  onClick={() => setShowSettings(!showSettings)}
+                >
                   <img src={MORE_OPTIONS_URL} />
                 </PrimaryActionButton>
               </OverlayTrigger>
             </Toolbar>
             <Wrapper>
               <img src={EMPTY_INBOX_URL} />
-              <h1>Your inbox is empty</h1>
+              <h1>No conversations yet</h1>
               <p>But don't worry, you can solve it by writing a message.</p>
               <Button>Start a conversation</Button>
             </Wrapper>
