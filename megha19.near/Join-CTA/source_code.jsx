@@ -5,7 +5,7 @@ const { checkIsMemberOrPending } = VM.require(
 checkIsMemberOrPending || (checkIsMemberOrPending = () => {});
 
 const isMemberOrPending = checkIsMemberOrPending(context.accountId);
-console.log(isMemberOrPending);
+console.log(isMemberOrPending, context.accountId);
 const logoLink =
   "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
 const gridLink =
