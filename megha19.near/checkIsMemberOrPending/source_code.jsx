@@ -16,7 +16,6 @@ const checkIsMemberOrPending = (accountId) => {
       from_index: lastProposalId - searchRange,
       limit: searchRange,
     }) || [];
-  console.log(policy, lastProposalId, lastProposals);
   const alreadyMadeAProposal =
     lastProposals.filter((proposal) => {
       return (
