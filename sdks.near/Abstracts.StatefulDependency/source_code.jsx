@@ -1,4 +1,4 @@
-return (Store, status) => {
+return (Store, status, dependencyName) => {
   let Repository = {
     name: "Libraries",
     init: () => {
@@ -13,32 +13,32 @@ return (Store, status) => {
     getRepository: () => {
       return status[Repository.name] || {};
     },
-    getLibrary: (library) => {
-      return Repository.getRepository()[library] || {};
+    getDependency: () => {
+      return Repository.getRepository()[dependencyName] || {};
     },
-    get: (library, key) => {
-      return Repository.getLibrary(library)[key] || null;
+    get: (key) => {
+      return Repository.getDependency()[key] || null;
     },
-    set: (library, key, value) => {
-      if (Repository.getLibrary(library)) {
+    set: (key, value) => {
+      if (Repository.getDependency()) {
         let newRepository = Repository.getRepository();
-        newRepository[library][key] = value;
+        newRepository[dependencyName][key] = value;
 
         Store.update({
           [Repository.name]: newRepository,
         });
       }
     },
-    initDependency: (library, initState) => {
-        let newRepository = Repository.getRepository();
-        newRepository[library] = {
-            ...initState
-        };
+    initDependency: (initState) => {
+      let newRepository = Repository.getRepository();
+      newRepository[dependencyName] = {
+        ...initState,
+      };
 
-        Store.update({
-            [Repository.name]: newRepository
-        });
-    }
+      Store.update({
+        [Repository.name]: newRepository,
+      });
+    },
   };
 
   return Repository.init();
