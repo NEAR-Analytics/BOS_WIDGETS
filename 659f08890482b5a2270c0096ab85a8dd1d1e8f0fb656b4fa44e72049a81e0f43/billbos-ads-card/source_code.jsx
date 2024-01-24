@@ -1,4 +1,4 @@
-const isShowAction = props.isShowAction || true;
+const isShowAction = props.isShowAction;
 const adsId = props.adsId || "1";
 const adsContent = props.adsContent || "0";
 const adsStakedBalance = props.adsStakedBalance || "0";
