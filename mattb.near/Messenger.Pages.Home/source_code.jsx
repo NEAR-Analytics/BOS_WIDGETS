@@ -1,5 +1,7 @@
+const [showSettings, setShowSettings] = useState(false);
+
 const LOGO =
-  "https://ipfs.near.social/ipfs/bafkreigaraxq3prb5zalgrevdyojdsrqjqkmz4h6pudozsjmkym2lqoqsy";
+  "https://ipfs.near.social/ipfs/bafkreie5d7jhxfuqvfkyf2nbajarqq637fmd3dkka3hozn4roifalfzg4e";
 const EMPTY_INBOX_URL =
   "https://ipfs.near.social/ipfs/bafkreibykf2ka2ww6bmu2fsh6xvx5yp7pkc4irg4jkejaggcl6bhpoht4q";
 const WRITE_MESSAGE_URL =
@@ -8,7 +10,7 @@ const MORE_OPTIONS_URL =
   "https://ipfs.near.social/ipfs/bafkreig5brkbcdikyecfx22daixoo5osrtjqmjjimgupdjgt4ecdvsubaq";
 
 const MESSAGES_SECTION =
-  "https://ipfs.near.social/ipfs/bafkreiawzm53bfurdlkzd7ew6hutnwg5gdd6hqy2uj5bk7yrtm26gtiglu";
+  "https://ipfs.near.social/ipfs/bafkreibnddjhegc3blij6j3t5uwxseyrwocwv7mane6kmnzb5qrpv2rojy";
 
 const NEWS_SECTION =
   "https://ipfs.near.social/ipfs/bafkreih6in2z2u5rbav6uwqxilip34tycpnhv575fi7scpyydutvwwxvfe";
@@ -18,6 +20,8 @@ const WARBLE_SECTION =
 
 const SHARE_SECTION =
   "https://ipfs.near.social/ipfs/bafkreicbzihpt5wywzccgxk22zh5otwul2zgqsrupv2bdbsqsivjfpfy6a";
+
+const WARBIE = "https://ipfs.near.social/ipfs/bafkreibgmcrhvk2dyuhfzp5ywgvemecz7f2kjgqh2svjj7767u5f626pgm";
 
 const Messenger = styled.div`
     width:100%;
@@ -265,7 +269,7 @@ const Description = styled.div`
 
 const ActionMenu = styled.ul`
     width:150px;
-    background-color:#fff;
+    background-color:#fafafa;
     border-radius:15px;
     margin-top:5px;
     box-shadow:0 0 10px 10px rgba(0,0,0,.02);
@@ -342,7 +346,7 @@ return (
               overlay={<Tooltip>Messenger</Tooltip>}
             >
               <SectionButton>
-                <img src={MESSAGES_SECTION} />
+                <img src={MESSAGES_SECTION} style={{transform: "scale(1.2)"}} />
               </SectionButton>
             </OverlayTrigger>
             <OverlayTrigger placement="right" overlay={<Tooltip>News</Tooltip>}>
@@ -390,6 +394,7 @@ return (
                 </PrimaryActionButton>
               </OverlayTrigger>
               <OverlayTrigger
+                show={showSettings}
                 placement="bottom"
                 overlay={
                   <ActionMenu>
@@ -398,7 +403,7 @@ return (
                   </ActionMenu>
                 }
               >
-                <PrimaryActionButton>
+                <PrimaryActionButton onClick={() => setShowSettings(!showSettings)}>
                   <img src={MORE_OPTIONS_URL} />
                 </PrimaryActionButton>
               </OverlayTrigger>
