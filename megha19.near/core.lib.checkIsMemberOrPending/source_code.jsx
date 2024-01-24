@@ -23,14 +23,15 @@ const checkIsMemberOrPending = (accountId) => {
         proposal.proposer === accountId && proposal.status === "InProgress"
       );
     }).length > 0;
-
-  policy.roles
-    .filter((role) => alreadyJoinedRolesNames.includes(role.name))
-    .map((role) => {
-      if (Array.isArray(role.kind.Group) && !isDaoMember) {
-        isDaoMember = role.kind.Group.includes(accountId);
-      }
-    });
+  if (Array.isArray(policy.roles)) {
+    policy.roles
+      .filter((role) => alreadyJoinedRolesNames.includes(role.name))
+      .map((role) => {
+        if (Array.isArray(role.kind.Group) && !isDaoMember) {
+          isDaoMember = role.kind.Group.includes(accountId);
+        }
+      });
+  }
 
   return isDaoMember || alreadyMadeAProposal;
 };
