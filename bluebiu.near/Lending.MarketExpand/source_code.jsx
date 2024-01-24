@@ -464,7 +464,10 @@ return (
                   disabled: !state.buttonClickable,
                   actionText: state.tab === "Supply" ? "Deposit" : "Borrow",
                   amount: state.amount,
-                  data,
+                  data: {
+                    ...data,
+                    config: dexConfig,
+                  },
                   addAction,
                   toast,
                   chainId,
