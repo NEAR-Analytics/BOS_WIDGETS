@@ -1,12 +1,15 @@
-const StatefulDependency = VM.require("sdks.near/widget/Abstracts.StatefulDependency");
+const StatefulDependency = VM.require(
+  "sdks.near/widget/Abstracts.StatefulDependency"
+);
 
 return (Store, status, name) => {
   const API = {
     ...StatefulDependency(Store, status, name),
+    name: name,
     instruction: "",
     responses: {},
     value: "",
-    init: (name) => {
+    init: () => {
       API.initDependency({
         ongoingRequest: {},
         responses: {},
