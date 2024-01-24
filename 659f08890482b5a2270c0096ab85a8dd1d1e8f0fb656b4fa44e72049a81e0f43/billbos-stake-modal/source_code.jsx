@@ -5,10 +5,6 @@ const coreContractAddress =
   props.coreContractAddress || "0xD8D21C24F8513E35bdC26832aD366ac2F4EE0d7F";
 const adsId = props.adsId || "1";
 
-const BillBOSAddress = {
-  BKC: "0xD8D21C24F8513E35bdC26832aD366ac2F4EE0d7F",
-  J2O: "0x21559144afcD0C2E3Ba5D0A6e41c46276663983B",
-};
 const USDTAddress = {
   BKC: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
   J2O: "0x88127f9a362b802D0D27c85583506bf4c648aa68",
@@ -87,14 +83,13 @@ const closeLoadingBoost = () => {
 
 const handleBoost = () => {
   console.log("boostAmount", state.boostAmount);
+  console.log("isAllowance", isAllowance);
+  const amount = ethers.utils.parseUnits(String(state.boostAmount), "ether");
   if (isAllowance) {
     State.update({
       isOpenLoadingModal: true,
       isFinish: false,
     });
-    const amount = ethers.utils.parseUnits(String(state.boostAmount), "ether");
-    console.log("amount", amount);
-
     const billbosProvider = new ethers.Contract(
       coreContractAddress,
       IBillBOSCore,
@@ -110,15 +105,19 @@ const handleBoost = () => {
         console.log(error);
       });
   } else {
+    console.log(
+      "USDTAddress[state.selectedChain]",
+      USDTAddress[state.selectedChain]
+    );
     const erc20Provider = new ethers.Contract(
       USDTAddress[state.selectedChain],
       IERC20,
       Ethers.provider().getSigner()
     );
     erc20Provider
-      .approve(to, amount)
+      .approve(coreContractAddress, amount)
       .then((res) => {
-        setTimeout(setIsAllowance(true), 10000);
+        setTimeout(() => setIsAllowance(true), 10000);
       })
       .catch((error) => {
         console.log(error);
@@ -150,18 +149,10 @@ const handleChangeAmount = (event) => {
   State.update({ boostAmount: event.target.value });
 };
 
-const handleChangeChain = (event) => {
-  if (event.target.value) {
-    State.update({
-      selectedChain: event.target.value,
-    });
-  }
-};
-
 const checkAllowance = () => {
   const encodedData = IERC20.encodeFunctionData("allowance", [
     state.sender,
-    BillBOSAddress[state.selectedChain],
+    coreContractAddress,
   ]);
   return new Promise((resolve, reject) => {
     Ethers.provider()
