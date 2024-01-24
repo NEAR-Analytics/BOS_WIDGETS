@@ -257,6 +257,13 @@ const formatedData = (key) => {
       dapp,
     };
   });
+
+  // const arbApy = Big(28800 * 52)
+  //   .mul(prices["ARB"] || 1)
+  //   .div(totalSupplyUsd.add(totalBorrowUsd));
+
+  // console.log("arbApy", arbApy.toString());
+
   let rewards;
 
   if (_accountRewards && Big(_accountRewards.reward || 0).gt(0)) {
