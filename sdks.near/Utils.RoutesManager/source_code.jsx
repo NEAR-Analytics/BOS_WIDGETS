@@ -1,42 +1,26 @@
+const $ = VM.require("sdks.near/widget/Loader");
+const { StatefulDependency } = $("@sdks/abstracts");
 
-
-const StatefulDependency = (Store, status) => {
-  return {
-    prepare: () => {
-      if (typeof status === "undefined") {
-          Store.init({ Libraries: {} });
-      } else if (!status.Libraries) {
-          Store.update({ Libraries: {} });
-      }
-    },
-  };
-};
-
-
-
-return (Store, status, routes, { page }) => {
-  let parent = new StatefulDependency(Store, status);
-    
+const RoutesManager = (Store, status, routes, { page }) => {
   const Router = {
-    ...parent,
+    ...StatefulDependency(Store, status),
     name: "Router",
     init: () => {
-      Router.prepare();
+      if (!Router.get(Router.name, "initialized")) {
+        Router.initDependency(Router.name, {
+          state: {
+            routes,
+            currentRoute: Router.getDefaultRoute(),
+            currentView: routes[Router.getDefaultRoute()],
+          },
+        });
 
-      Store.update({
-        Libraries: {
-            ...status["Libraries"],
-            [Router.name]: {
-              routes,
-              currentRoute: Router.getDefaultRoute(),
-              currentView: routes[Router.getDefaultRoute()],
-            }
-        },
-      });
+        Router.set(Router.name, "initialized", true);
+      }
 
       return {
         Router,
-        RouterView: () => status["Libraries"][Router.name].currentView,
+        RouterView: () => Router.get(Router.name, "state").currentView || null,
         Route: ({ to, children }) => (
           <a href="#" onClick={() => Router.changeRoute(to)}>
             {children}
@@ -45,24 +29,19 @@ return (Store, status, routes, { page }) => {
       };
     },
     changeRoute: (route) => {
-      Store.update({
-        Libraries: {
-            ...status["Libraries"],
-            [Router.name]: {
-              ...status["Libraries"][Router.name],
-              currentRoute: route in routes ? route : "home",
-              currentView: route in routes ? routes[route] : routes["home"],
-            },
-        }
+      Router.set(Router.name, "state", {
+        ...Router.get(Router.name, "state"),
+        currentRoute: route in routes ? route : "home",
+        currentView: route in routes ? routes[route] : routes["home"],
       });
 
-      return status["Libraries"][Router.name].currentView;
+      return Router.get(Router.name, "state").currentRoute;
     },
     getCurrentRoute: () => {
-      return status["Libraries"][Router.name].currentRoute;
+      return Router.get(Router.name, "state").currentRoute || null;
     },
     getView: () => {
-      return status["Libraries"][Router.name].currentView;
+      return Router.get(Router.name, "state").currentView || null;
     },
     getDefaultRoute: () => {
       return page || (routes["fallback"] ? "fallback" : null) || "home";
@@ -71,3 +50,5 @@ return (Store, status, routes, { page }) => {
 
   return Router.init();
 };
+
+return RoutesManager;
