@@ -406,6 +406,7 @@ useEffect(() => {
   }
 
   if (!contract) return;
+  console.log("HANDLER: ", contract, method, params, options, isETH);
 
   const createTx = (gas) => {
     const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 4000000;
