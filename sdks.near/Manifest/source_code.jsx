@@ -24,6 +24,7 @@ return {
     "crypto-js": ["Abstracts.ExternalDependency", "Utils.CryptoJS"],
     utils: ["Abstracts.ExternalDependency", ...resolve("Utils.")],
     abstracts: resolve("Abstracts."),
+    blockies: ["Abstracts.ExternalDependency", "Utils.Blockies"],
   },
   links: {
     telegram: "@OxMattB",
