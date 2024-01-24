@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import Big from "big.js";
+const { useState, useEffect } = React;
 
 const DATAPrice = (props) => {
   const keys = props.keys ?? [
@@ -135,4 +133,5 @@ const DATAPrice = (props) => {
   );
 };
 
-export default DATAPrice;
+// Remove export statement for now
+// export default DATAPrice;
