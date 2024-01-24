@@ -10,13 +10,10 @@ return (Store, status, name) => {
     responses: {},
     value: "",
     init: () => {
-      if (!API.get("initialized")) {
-          API.initDependency({
-            ongoingRequest: {},
-            responses: {},
-            initialized: true
-          });
-      }
+        API.initDependency({
+          ongoingRequest: {},
+          responses: {},
+        });
 
       return API;
     },
