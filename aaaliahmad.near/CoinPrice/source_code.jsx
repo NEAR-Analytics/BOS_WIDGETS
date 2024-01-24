@@ -13,11 +13,11 @@ const DATAPrice = (props) => {
   const tokenColors = [
     "green",
     "#3b0380",
-    "orange",
-    "red",
-    "green",
-    "black",
     "blue",
+    "orange",
+    "black",
+    "green",
+    "red",
   ];
 
   const checkPriceLink = "https://www.coingecko.com/en/coins/";
@@ -76,11 +76,11 @@ const DATAPrice = (props) => {
   }, []);
 
   const Col = styled.div`
-    flex: 1;
+    flex: 3;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 40px;
     padding: 15px;
-    margin: 10px;
+    margin: 40px;
     background-color: #f5f5f5;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 2px solid ${(props) => props.color};
@@ -88,7 +88,7 @@ const DATAPrice = (props) => {
 
   const Logo = styled.img`
     border-radius: 50%;
-    width: 45px;
+    width: 55px;
     height: auto;
   `;
 
