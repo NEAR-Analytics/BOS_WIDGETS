@@ -371,9 +371,21 @@ State.init({
   sortBy: "Holders", // Deploy Time / Holders
   orderDirection: "desc", // desc / asc
   hasFetchData: false,
+  currentTab: undefined,
 });
 
 const { searchValue, currentTab } = props;
+
+function updateCurrentTabWhenChanged() {
+  if (currentTab !== state.currentTab) {
+    State.update({
+      currentTab,
+      current: 1,
+    });
+  }
+}
+
+updateCurrentTabWhenChanged();
 
 function compareByDeployTime(a, b, orderDirection) {
   const t1 = Number(a.createdBlockTimestamp);
@@ -449,6 +461,7 @@ const totalPage = String(
 );
 
 function onClickSortButton(target) {
+  State.update({ current: 1 });
   if (state.sortBy !== target) {
     const tokenInfos = [...(state.tokenInfos ?? [])];
     const sortedTokenInfos = tokenInfos.sort((a, b) => {
