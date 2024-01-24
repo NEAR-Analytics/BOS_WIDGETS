@@ -22,10 +22,6 @@ const DappIcon = styled.img`
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  &.cream {
-    height: 12px;
-    border-radius: none;
-  }
 `;
 const DappName = styled.div`
   font-size: 12px;
@@ -41,10 +37,7 @@ return (
     <div>
       <Symbol>{symbol}</Symbol>
       <Dapp>
-        <DappIcon
-          src={dappIcon}
-          className={`${dappName === "C.R.E.A.M." && "cream"}`}
-        />
+        <DappIcon src={dappIcon} />
         <DappName>{dappName}</DappName>
       </Dapp>
     </div>
