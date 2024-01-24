@@ -30,14 +30,17 @@ return (Store, status, dependencyName) => {
       }
     },
     initDependency: (initState) => {
-      let newRepository = Repository.getRepository();
-      newRepository[dependencyName] = {
-        ...initState,
-      };
-
-      Store.update({
-        [Repository.identifier]: newRepository,
-      });
+      if (!Repository.get("initialized")) {
+          let newRepository = Repository.getRepository();
+          newRepository[dependencyName] = {
+            ...initState,
+            initialized: true
+          };
+    
+          Store.update({
+            [Repository.identifier]: newRepository,
+          });
+      }
     },
   };
 
