@@ -1,17 +1,17 @@
 return (Store, status, dependencyName) => {
   let Repository = {
-    name: "Libraries",
+    identifier: "Libraries",
     init: () => {
       if (typeof status === "undefined") {
-        Store.init({ [Repository.name]: {} });
-      } else if (!status[Repository.name]) {
-        Store.update({ [Repository.name]: {} });
+        Store.init({ [Repository.identifier]: {} });
+      } else if (!status[Repository.identifier]) {
+        Store.update({ [Repository.identifier]: {} });
       }
 
       return Repository;
     },
     getRepository: () => {
-      return status[Repository.name] || {};
+      return status[Repository.identifier] || {};
     },
     getDependency: () => {
       return Repository.getRepository()[dependencyName] || {};
@@ -25,7 +25,7 @@ return (Store, status, dependencyName) => {
         newRepository[dependencyName][key] = value;
 
         Store.update({
-          [Repository.name]: newRepository,
+          [Repository.identifier]: newRepository,
         });
       }
     },
@@ -36,7 +36,7 @@ return (Store, status, dependencyName) => {
       };
 
       Store.update({
-        [Repository.name]: newRepository,
+        [Repository.identifier]: newRepository,
       });
     },
   };
