@@ -1,6 +1,7 @@
-return (Store, status, routes, { page }) => {  const Router = {
+return (Store, status, routes, { page }) => {
+  const Router = {
     name: "Router",
-    init: () => {  
+    init: () => {
       Store.init({
         [Router.name]: {
           routes,
