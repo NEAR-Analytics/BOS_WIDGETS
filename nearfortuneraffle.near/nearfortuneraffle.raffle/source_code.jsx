@@ -61,7 +61,7 @@ const Post = (
       <StyledImage src={Image2} alt="raffle pics" />
     </ImageGroup>
     <p>
-      Thanks for entering the raffle! Winners will be emailed on Jan. 15 11:59pm
+      Thanks for entering the raffle! Winners will be emailed on Dec. 15 11:59pm
     </p>
     <ShareBtn>
       <span>Share on twitter</span>
@@ -78,10 +78,20 @@ const bannerImg =
 const sharDogIcon =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
 
+State.init({ fullname: "", email: "", formSubmitted: false });
+
+const formData = {
+  fullname: state.fullname,
+  email: state.email,
+};
+
 const accountId = context.accountId;
 const contractId = "mint.sharddog.near";
 
 const returnedData = Social.get(`${accountId}/formData/*`);
+
+console.log(returnedData + "Great");
+console.log(formData);
 
 if (!contractId) {
   return `Missing "contractId"`;
@@ -91,59 +101,40 @@ if (!accountId) {
   return `Please login`;
 }
 
-const [email, setEmail] = useState("");
-const [fullname, setFullname] = useState("");
-const [message, setSuccessMessage] = useState("");
-const [errMessage, setErrorMessage] = useState("");
-const [isLoading, setIsLoading] = useState(false);
-const [summary, setSummary] = useState(false);
+function sendData(formData) {
+  console.log("send data function called");
+  const apiUrl = "https://rafflestore.000webhostapp.com/api/register.php";
 
-console.log(email);
-
-console.log(fullname);
-const sendData = () => {
-  setIsLoading(true);
-  asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
-      fullname
-    )}`,
-  })
-    .then((response) => {
-      console.log(response.body.status);
-
-      if (response.ok) {
-        if (response.body.status === "success") {
-          setSuccessMessage(
-            "Thanks for participating, we would get back to you soon"
-          );
-          setErrorMessage("");
-          setEmail("");
-          setFullname("");
-          console.log("Data submitted successfully");
-        } else if (
-          response.body.status === "error" &&
-          response.body.message === "Email already exists."
-        ) {
-          setErrorMessage("Email already exists, try different one");
-          setSuccessMessage("");
-          console.log("Email already exists.");
-        } else {
-          setErrorMessage("Failed to submit data, try again");
-          console.log("Failed to submit data, try again");
-        }
-      } else {
-        console.log(`HTTP error! Status: ${response.status}`);
-      }
+  if (Object.keys(formData).length > 0) {
+    console.log("object not empty");
+    console.log(JSON.stringify(formData));
+    asyncFetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
-    .finally(() => {
-      setIsLoading(false);
-      setSummary(true);
-    });
-};
+      .then((res) => {
+        if (!res.ok) {
+          console.log("error communicating with the server");
+        }
+
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Server response:", data);
+        console.log("API call success");
+        // Handle the success response as needed
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+        // Handle errors
+      });
+  } else {
+    console.log("Object is empty");
+  }
+}
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
@@ -152,22 +143,11 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
 });
 
 const nftTitle = "Kano is bos jollof - 1";
-const nftTitle2 = "Black Dragon Token - 652";
-const nftTitle3 = "ShardDog - 1555";
-const nftTitle4 = "Kano is bos jollof - 2";
-
-console.log(nfts[0].metadata.title);
-
 const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (
-    nfts[i].metadata.title === nftTitle ||
-    nfts[i].metadata.title === nftTitle2 ||
-    nfts[i].metadata.title === nftTitle3 ||
-    nfts[i].metadata.title === nftTitle4
-  ) {
+  if (nftTitle === nfts[i].metadata.title) {
     State.update({ nftCheck: true });
     break;
   }
@@ -177,6 +157,8 @@ if (!nfts) {
   return "";
 }
 
+console.log(state.nftCheck);
+console.log(state.email);
 const Container = styled.div`
 
 `;
@@ -336,58 +318,26 @@ const Entries = styled.div`
    width: 50%;
 `;
 
-if (summary) {
-  return Post;
-}
-
 // if (returnedData) {
 //   return Post;
 // }
 
 return (
   <>
-    {state.nftCheck ? (
+    {!state.nftCheck ? (
       <div
         class="modal fade"
         id="raffleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        style={{ marginTop: "50px" }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <p
-              style={{
-                fontSize: "1.2rem",
-                textAlign: "center",
-                paddingTop: "15px",
-              }}
-            >
-              {isLoading && "Please wait..."}
-            </p>
-            <p
-              style={{
-                color: "red",
-                textAlign: "center",
-                paddingTop: "15px",
-                display: message ? "none" : "block",
-              }}
-            >
-              {errMessage && errMessage}
-            </p>
-            <p
-              style={{
-                color: "green",
-                textAlign: "center",
-                paddingTop: "15px",
-                display: errMessage ? "none" : "block",
-              }}
-            >
-              {message && message}
-            </p>
             <div class="modal-header">
-              <h5 class="modal-title">Submit your Detail</h5>
+              <h5 class="modal-title" id="exampleModalLabel">
+                @
+              </h5>
               <button
                 type="button"
                 class="btn-close"
@@ -402,8 +352,8 @@ return (
                     Name
                   </label>
                   <input
-                    value={fullname || ""}
-                    onChange={(e) => setFullname(e.target.value)}
+                    value={state.fullname || ""}
+                    onChange={(e) => State.update({ fullname: e.target.value })}
                     type="text"
                     class="form-control"
                     id="emainamel"
@@ -415,8 +365,8 @@ return (
                     Email
                   </label>
                   <input
-                    value={email || ""}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={state.email || ""}
+                    onChange={(e) => State.update({ email: e.target.value })}
                     type="email"
                     class="form-control"
                     id="email"
@@ -427,10 +377,7 @@ return (
                   data={formData}
                   type="submit"
                   class="btn btn-primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    sendData(formData);
-                  }}
+                  onClick={() => sendData(formData)}
                 >
                   Submit
                 </button>
@@ -466,11 +413,8 @@ return (
               ></button>
             </div>
             <div class="modal-body">
-              Ops! You must have one of the following nfts to enter the raffle{" "}
-              <br />
-              - Kano is bos jollof - 1 <br />
-              - Black Dragon Token - 652 <br />
-              - Black Dragon Token - 531 <br />- ShardDog - 1555
+              Ops! You must have ShardDog - 1555 or Game Gallery NFT to enter
+              the raffle
             </div>
           </div>
         </div>
@@ -478,13 +422,12 @@ return (
     )}
 
     <Container>
-      <Widget src="nearfortuneraffle.near/widget/nearfortuneraffle.header" />
       <Banner>
         <StyledImg src={bannerImg} alt="banner" />
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>Black Dragon Raffle</Title>
+          <Title>SharDog Raffle</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
             <Text>Available for 3 winners</Text>
@@ -496,8 +439,8 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            If you have a <b>Black Dragon Token - 652</b> you can enter the
-            raffle to win!
+            If you have a <b>ShardDog - 1555</b> or <b>Game Gallery NFT</b> you
+            can enter the raffle to win!
           </InstructionContent>
         </InstructionWrapper>
         <PrizeWrapper>
@@ -547,7 +490,7 @@ return (
           <CloseDate>
             <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              Jan 15, 11:59 PM GMT+1
+              Dec 13, 11:59 PM GMT+1
             </p>
           </CloseDate>
           <Entries>
