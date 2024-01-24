@@ -26,30 +26,24 @@ const fetchApi = (queryURI, method, data) => {
 const BillBOSAddress = [
   {
     chain: "25925",
-    address: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+    address: "0xD8D21C24F8513E35bdC26832aD366ac2F4EE0d7F",
     rpc: "https://rpc-testnet.bitkubchain.io",
   },
   {
     chain: "35011",
-    address: "0x9d8b5e3C762167a409Db7f11a38b17dE9192E136",
+    address: "0x21559144afcD0C2E3Ba5D0A6e41c46276663983B",
     rpc: "https://rpc.j2o.io/",
   },
 ];
 
 const BillBOSCoreABI = fetch(
-  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+  "https://gist.githubusercontent.com/Chayanonc/1c7b2cf1559ed20b342f76846966cb65/raw/fa27150e36d18d43d6298c8dd27f8c8e852dde23/billbos-core.json"
 );
 if (!BillBOSCoreABI.ok) {
   return "Loading";
 }
 const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
 
-// Come from APIs
-const arrayPrice = [
-  { topic: "KUSDT/USD", value: 1.01 },
-  { topic: "KKUB/USD", value: 12.01 },
-  { topic: "JFIN/USD", value: 8.35 },
-];
 const myList = state.footerContent.map((item) => {
   return (
     <>
@@ -106,7 +100,7 @@ const Marquee = `
         transform: translateX(100%);
       }
       to {
-        transform: translateX(-5000%); /* Adjusted to support very long text */
+        transform: translateX(-100%);
       }
     </style>
 
@@ -156,7 +150,7 @@ const MarqueeStyled = styled.div`
       transform: translateX(100%);
     }
     100% {
-      transform: translateX(-5000%); /* Adjusted to support very long text */
+      transform: translateX(-5000%);
     }
   }
 `;
@@ -197,9 +191,8 @@ const _fetch = () => {
       IBillBOSCore,
       new ethers.providers.JsonRpcProvider(billBOS.rpc)
     )
-      .getAds()
+      .getActiveAds()
       .then((res) => {
-        console.log(billBOS.chain, res);
         if (res) {
           State.update({
             raw: state.raw.concat(
@@ -221,7 +214,7 @@ const submit = (show) => {
     IBillBOSCore,
     new ethers.providers.JsonRpcProvider(BillBOSAddress[0].rpc)
   )
-    .monthCount()
+    .count()
     .then((month) => {
       const data = {
         webpageOwnerWalletAddress: props.webpageOwnerAddress,
@@ -236,12 +229,6 @@ const submit = (show) => {
 };
 
 useEffect(() => {
-  const intervalId = setInterval(() => {
-    setCount((prev) => (prev + 1) % 5);
-  }, 5000);
-  return () => clearInterval(intervalId);
-}, []);
-useEffect(() => {
   _fetch();
 
   fetchApi("https://api-billbos.0xnutx.space/bond", "GET").then((res) => {
@@ -253,44 +240,46 @@ useEffect(() => {
   });
 }, []);
 useEffect(() => {
-  if (count === BillBOSAddress.length && state.show.length <= 0) {
+  if (state.raw.length > 0 && state.show.length <= 0) {
     weightedRandomItems(state.raw);
+    setInterval(() => {
+      setCount((prev) => ((prev + 1) % state.raw > 5 ? 5 : state.raw.length));
+    }, 5000);
   }
-}, [count]);
+}, [state.raw.length]);
 
-const content = (index) => {
-  return (
-    <div
-      style={{
-        width: "728px",
-      }}
-    >
+return (
+  <div
+    style={{
+      width: "728px",
+    }}
+  >
+    <div style={{ width: 728, height: 90 }}>
       {state.show.length > 0 ? (
-        <a href={state.show[index][1][2] || ""} target="_blank">
+        <a href={state.show[count][1][2] || ""} target="_blank">
           <img
-            src={`https://ipfs.near.social/ipfs/${state.show[index][1][1]}`}
-            style={{ width: 728, height: 90 }}
+            src={`https://ipfs.near.social/ipfs/${state.show[count][1][1]}`}
+            width={728}
+            height={90}
           />
         </a>
       ) : (
-        <div style={{ width: 728, height: 90 }}>Loading...</div>
+        <>Loading...</>
       )}
-
-      <MarqueeStyled>
-        <div class="marquee">
-          <div class="track w-full">
-            <div class="content flex flex-row">{myList}</div>
+    </div>
+    <MarqueeStyled>
+      <div class="marquee">
+        <div class="track" style={{ width: "100%" }}>
+          <div
+            class="content"
+            style={{
+              display: "flex",
+            }}
+          >
+            {myList}
           </div>
         </div>
-      </MarqueeStyled>
-    </div>
-  );
-};
-return (
-  <Widget
-    src="porx-dev.near/widget/billbos-css"
-    props={{
-      children: content(count),
-    }}
-  />
+      </div>
+    </MarqueeStyled>
+  </div>
 );
