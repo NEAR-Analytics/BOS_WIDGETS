@@ -17,6 +17,7 @@ if (!routerAbi.ok || !erc20Abi.ok) {
 }
 
 const getNetwork = () => {
+  let ArbitrumChainId = 42161;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
@@ -34,7 +35,7 @@ const getNetwork = () => {
 
   // get fee arbitrum chain
   asyncFetch(
-    "https://arb-mainnet.g.alchemy.com/v2/iL1gKyTK1xYrk0cCrSC3lrbGOCVHN2tm",
+    "https://nd-000-364-211.p2pify.com/5b8d22690a57f293b3a1ed8758014e35/",
     {
       method: "POST",
       headers: {
@@ -112,7 +113,7 @@ if (state.balance === undefined && state.sender) {
   Ethers.provider()
     .getBalance(state.sender)
     .then((balance) => {
-        console.log("balance ETH: "+balance);
+      console.log("balance ETH: " + balance);
       State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(5) });
     });
 
@@ -121,11 +122,11 @@ if (state.balance === undefined && state.sender) {
     erc20Abi.body,
     Ethers.provider().getSigner()
   );
-    
-    erc20Contract.balanceOf(state.sender).then((res) => {
-        console.log("balance mpETH: "+res);
-        State.update({ mpETHbalance: Big(res).div(Big(10).pow(18)).toFixed(5) });
-    });
+
+  erc20Contract.balanceOf(state.sender).then((res) => {
+    console.log("balance mpETH: " + res);
+    State.update({ mpETHbalance: Big(res).div(Big(10).pow(18)).toFixed(5) });
+  });
 }
 
 /// set selected token
@@ -318,7 +319,11 @@ return (
                 </div>
                 <div class="LidoFormTopContainerLeftContent2">
                   <span>
-                    {state.tokenSelected == 0 ? ( state.balance ?? (!state.sender ? "0" : "..."))+" ETH" : ( state.mpETHbalance ?? (!state.sender ? "0" : "..."))+" mpETH"}
+                    {state.tokenSelected == 0
+                      ? (state.balance ?? (!state.sender ? "0" : "...")) +
+                        " ETH"
+                      : (state.mpETHbalance ?? (!state.sender ? "0" : "...")) +
+                        " mpETH"}
                   </span>
                 </div>
 
