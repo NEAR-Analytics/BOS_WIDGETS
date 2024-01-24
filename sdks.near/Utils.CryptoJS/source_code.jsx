@@ -1,10 +1,8 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { ExternalDependencyAdapter } = $("@sdks/abstracts");
-const { StatefulDependency } = $("@sdks/abstracts");
 
 return (Store, status) => {
   const CryptoJS = {
-    ...StatefulDependency(Store, status, "CryptoJS"),
     ...ExternalDependencyAdapter(Store, status, "CryptoJS"),
     package: "crypto-js@4.2.0/crypto-js.js",
     aes: {
