@@ -66,7 +66,6 @@ const RaffleButton = styled.button`
 
 return (
   <Wrapper>
-    <Widget src="nearfortuneraffle.near/widget/nearfortuneraffle.header" />
     <Container style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Header>
         <HeaderTitle> It is more fun, when it is onchain</HeaderTitle>
