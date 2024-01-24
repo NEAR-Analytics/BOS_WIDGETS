@@ -1,18 +1,42 @@
+
+
+const StatefulDependency = (Store, status) => {
+  return {
+    prepare: () => {
+      if (typeof status === "undefined") {
+          Store.init({ Libraries: {} });
+      } else if (!status.Libraries) {
+          Store.update({ Libraries: {} });
+      }
+    },
+  };
+};
+
+
+
 return (Store, status, routes, { page }) => {
+  let parent = new StatefulDependency(Store, status);
+    
   const Router = {
+    ...parent,
     name: "Router",
     init: () => {
-      Store.init({
-        [Router.name]: {
-          routes,
-          currentRoute: Router.getDefaultRoute(),
-          currentView: routes[Router.getDefaultRoute()],
+      Router.prepare();
+
+      Store.update({
+        Libraries: {
+            ...status["Libraries"],
+            [Router.name]: {
+              routes,
+              currentRoute: Router.getDefaultRoute(),
+              currentView: routes[Router.getDefaultRoute()],
+            }
         },
       });
 
       return {
         Router,
-        RouterView: () => status[Router.name].currentView,
+        RouterView: () => status["Libraries"][Router.name].currentView,
         Route: ({ to, children }) => (
           <a href="#" onClick={() => Router.changeRoute(to)}>
             {children}
@@ -22,20 +46,23 @@ return (Store, status, routes, { page }) => {
     },
     changeRoute: (route) => {
       Store.update({
-        [Router.name]: {
-          ...status[Router.name],
-          currentRoute: route in routes ? route : "home",
-          currentView: route in routes ? routes[route] : routes["home"],
-        },
+        Libraries: {
+            ...status["Libraries"],
+            [Router.name]: {
+              ...status["Libraries"][Router.name],
+              currentRoute: route in routes ? route : "home",
+              currentView: route in routes ? routes[route] : routes["home"],
+            },
+        }
       });
 
-      return status[Router.name].currentView;
+      return status["Libraries"][Router.name].currentView;
     },
     getCurrentRoute: () => {
-      return status[Router.name].currentRoute;
+      return status["Libraries"][Router.name].currentRoute;
     },
     getView: () => {
-      return status[Router.name].currentView;
+      return status["Libraries"][Router.name].currentView;
     },
     getDefaultRoute: () => {
       return page || (routes["fallback"] ? "fallback" : null) || "home";
