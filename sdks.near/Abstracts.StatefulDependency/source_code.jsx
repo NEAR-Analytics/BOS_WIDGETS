@@ -4,7 +4,7 @@ return (Store, status, dependencyName) => {
     init: () => {
       if (typeof status === "undefined") {
         Store.init({ [Repository.name]: {} });
-      } else if (!status.Libraries) {
+      } else if (!status[Repository.name]) {
         Store.update({ [Repository.name]: {} });
       }
 
