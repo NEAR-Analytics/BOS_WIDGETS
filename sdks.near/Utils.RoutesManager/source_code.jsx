@@ -3,11 +3,11 @@ const { StatefulDependency } = $("@sdks/abstracts");
 
 const RoutesManager = (Store, status, routes, { page }) => {
   const Router = {
-    ...StatefulDependency(Store, status),
+    ...StatefulDependency(Store, status, "Router"),
     name: "Router",
     init: () => {
-      if (!Router.get(Router.name, "initialized")) {
-        Router.initDependency(Router.name, {
+      if (!Router.get("initialized")) {
+        Router.initDependency({
           state: {
             routes,
             currentRoute: Router.getDefaultRoute(),
@@ -15,12 +15,12 @@ const RoutesManager = (Store, status, routes, { page }) => {
           },
         });
 
-        Router.set(Router.name, "initialized", true);
+        Router.set("initialized", true);
       }
 
       return {
         Router,
-        RouterView: () => Router.get(Router.name, "state").currentView || null,
+        RouterView: () => Router.get("state").currentView || null,
         Route: ({ to, children }) => (
           <a href="#" onClick={() => Router.changeRoute(to)}>
             {children}
@@ -29,19 +29,19 @@ const RoutesManager = (Store, status, routes, { page }) => {
       };
     },
     changeRoute: (route) => {
-      Router.set(Router.name, "state", {
-        ...Router.get(Router.name, "state"),
+      Router.set("state", {
+        ...Router.get("state"),
         currentRoute: route in routes ? route : "home",
         currentView: route in routes ? routes[route] : routes["home"],
       });
 
-      return Router.get(Router.name, "state").currentRoute;
+      return Router.get("state").currentRoute;
     },
     getCurrentRoute: () => {
-      return Router.get(Router.name, "state").currentRoute || null;
+      return Router.get("state").currentRoute || null;
     },
     getView: () => {
-      return Router.get(Router.name, "state").currentView || null;
+      return Router.get("state").currentView || null;
     },
     getDefaultRoute: () => {
       return page || (routes["fallback"] ? "fallback" : null) || "home";
