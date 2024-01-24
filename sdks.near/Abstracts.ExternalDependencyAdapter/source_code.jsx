@@ -1,5 +1,4 @@
-const $ = VM.require("sdks.near/widget/Loader");
-const { StatefulDependency } = $("@sdks/abstracts");
+const StatefulDependency = VM.require("sdks.near/widget/Abstracts.StatefulDependency");
 
 return (Store, status, name) => {
   const API = {
@@ -65,7 +64,8 @@ return (Store, status, name) => {
             : JSON.parse(response.result),
       };
     },
-    notify: (instruction, index, result) => API.get("responses")[instruction][index].resolve(result),
+    notify: (instruction, index, result) =>
+      API.get("responses")[instruction][index].resolve(result),
     isReady: () => API.get("ready"),
     setAsReady: () => API.set("ready", true),
   };
