@@ -6,17 +6,13 @@ const RoutesManager = (Store, status, routes, { page }) => {
     ...StatefulDependency(Store, status, "Router"),
     name: "Router",
     init: () => {
-      if (!Router.get("initialized")) {
-        Router.initDependency({
-          state: {
-            routes,
-            currentRoute: Router.getDefaultRoute(),
-            currentView: routes[Router.getDefaultRoute()],
-          },
-        });
-
-        Router.set("initialized", true);
-      }
+      Router.initDependency({
+        state: {
+          routes,
+          currentRoute: Router.getDefaultRoute(),
+          currentView: routes[Router.getDefaultRoute()],
+        },
+      });
 
       return {
         Router,
