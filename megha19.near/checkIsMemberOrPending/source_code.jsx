@@ -16,6 +16,7 @@ const checkIsMemberOrPending = (accountId) => {
       from_index: lastProposalId - searchRange,
       limit: searchRange,
     }) || [];
+
   const alreadyMadeAProposal =
     lastProposals.filter((proposal) => {
       return (
@@ -23,13 +24,15 @@ const checkIsMemberOrPending = (accountId) => {
       );
     }).length > 0;
 
-  policy.roles
-    .filter((role) => alreadyJoinedRolesNames.includes(role.name))
-    .map((role) => {
-      if (Array.isArray(role.kind.Group) && !isDaoMember) {
-        isDaoMember = role.kind.Group.includes(accountId);
-      }
-    });
+  if (Array.isArray(policy.roles)) {
+    policy.roles
+      .filter((role) => alreadyJoinedRolesNames.includes(role.name))
+      .map((role) => {
+        if (Array.isArray(role.kind.Group) && !isDaoMember) {
+          isDaoMember = role.kind.Group.includes(accountId);
+        }
+      });
+  }
   return isDaoMember || alreadyMadeAProposal;
 };
 
