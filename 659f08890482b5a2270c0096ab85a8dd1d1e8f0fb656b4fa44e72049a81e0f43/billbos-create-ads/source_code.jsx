@@ -229,7 +229,47 @@ const handleApprove = async () => {
   }
 };
 
-const handleCreateAds = async () => {};
+const handleCreateAds = async () => {
+  if (isAllowance) {
+    setCreating(true);
+    checkAllowance().then((allowance) => {
+      const amount = Number(
+        ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+      );
+      const coreAddress = BillBOSAddress[state.selectedChain];
+      if (allowance < amount) {
+        erc20Approve(coreAddress, amount.toString());
+      }
+      const billbosProvider = new ethers.Contract(
+        BillBOSAddress[state.selectedChain],
+        IBillBOSCore,
+        Ethers.provider().getSigner()
+      );
+      billbosProvider
+        .createAds(
+          {
+            name: state.adsName ?? "",
+            imageCID: state.img.cid ?? "",
+            newTabLink: state.newTabLink ?? "",
+            widgetLink: state.componentId ?? "",
+            isInteractive: state.adsType == "REDIRECT" ? false : true,
+          },
+          ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+        )
+        .then((res) => {
+          setTimeout(closeLoadingCreate, 7000);
+        })
+        .catch((error) => {
+          setCreating(false);
+        });
+    });
+  } else {
+    const amount = ethers.utils.parseUnits(String(state.stakeAmount), "ether");
+
+    const coreAddress = BillBOSAddress[state.selectedChain];
+    erc20Approve(coreAddress, amount);
+  }
+};
 
 const Modal = ({ isOpen, onClose }) => {};
 
