@@ -1,5 +1,1 @@
-return (
-  <div>
-    hello world
-  </div>
-);
+return <div>grrr!</div>;
