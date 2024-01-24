@@ -1,5 +1,5 @@
 const { checkIsMemberOrPending } = VM.require(
-  "megha19.near/widget/checkIsMemberOrPending"
+  "megha19.near/widget/core.lib.checkIsMemberOrPending"
 );
 
 checkIsMemberOrPending || (checkIsMemberOrPending = () => {});
