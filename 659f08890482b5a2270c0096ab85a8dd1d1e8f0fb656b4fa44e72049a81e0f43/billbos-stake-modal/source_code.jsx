@@ -1,4 +1,4 @@
-const isOpenStake = true;
+const isOpenStake = props.isOpenStake;
 const onCloseStake = props.onCloseStake;
 
 const coreContractAddress =
