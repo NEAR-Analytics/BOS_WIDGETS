@@ -1,3 +1,8 @@
+/**
+ * build box submit hackathon
+ * or submit project to whatever hackathon is main
+ */
+
 const Root = styled.div`
   width: 100%;
   display: flex;
@@ -108,8 +113,16 @@ const handleCheckboxChange = (track) => {
   }
 };
 
+const normalize = (v) => {
+  // snag from devhub
+};
+
 const handleSubmit = () => {
   if (contactInfo && consentChecked) {
+    const projectPath = `${context.accountId}/every/project/${normalize(
+      title
+    )}`;
+    const notes = ""; // what I learned
     // Add your submission logic here
     console.log("Form submitted:", {
       title,
@@ -120,8 +133,54 @@ const handleSubmit = () => {
       demoLink,
       contactInfo,
     });
+
+    Social.set({
+      post: {
+        main: JSON.stringify({
+          text: `I've just submitted my project to abstraction hacks #abstraction #hack #build #everything\n\n[EMBED](buildbox.near/widget/embed?project=${projectPath})\n\n ${notes}`,
+          image: "",
+          type: "md",
+          metadata: {},
+        }),
+      },
+      every: {
+        // it's like we create a project and a submission at the same time
+        project: {
+          "my-project": {
+            // normalized title?
+            "": JSON.stringify({
+              tracks,
+              teammates,
+              projectLink,
+              demoLink,
+              contactInfo,
+              repository,
+            }),
+            metadata: {
+              title,
+              description,
+              image,
+              backgroundImage,
+              category: "", // this would be nice to be a thing stored somewhere
+              type: "every.near/type/project", // this is type stored on chain, defines stringified JSON
+              tags: {},
+            },
+          },
+        },
+      },
+      buildbox: {
+        hackathon: {
+          "abstraction-hacks-W2024": {
+            submission: {
+              "----every/project----": "", // get from community voice, creates ID from accountId + project name
+            },
+          },
+        },
+      },
+    });
   } else {
-    // alert("Please provide your Personal Contact Info and consent to submit.");
+    // TODO show error
+    // "Please provide your Personal Contact Info and consent to submit."
   }
 };
 
