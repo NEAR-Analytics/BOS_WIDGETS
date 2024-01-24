@@ -492,7 +492,10 @@ return (
                   <br />
                   <div class="LidoFormTopContainerRightContent1">
                     <div class="LidoFormTopContainerRightContent1Text">
-                      <span onClick={() => switchNetwork(42161)} style={{ color: "black", cursor: "pointer" }}>
+                      <span
+                        onClick={() => switchNetwork(42161)}
+                        style={{ color: "black", cursor: "pointer" }}
+                      >
                         <b>Arbitrum Network</b>
                       </span>
                     </div>
@@ -501,6 +504,10 @@ return (
                 </span>
               </>
             )}
+            {!state.sender && <Web3Connect
+                className="LidoStakeFormSubmitContainer"
+                connectLabel="CONNECT WITH WEB3"
+              />}
           </div>
         </>
       )}
