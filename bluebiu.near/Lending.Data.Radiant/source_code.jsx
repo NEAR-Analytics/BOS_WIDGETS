@@ -182,7 +182,10 @@ useEffect(() => {
     oracleContract
       .getAssetsPrices(underlyingTokensAddress)
       .then((res) => {
-        const scale = dappName === "Agave" ? 1000000000000000000 : 100000000;
+        const scale =
+          dappName === "Agave" || dappName === "Valas Finance"
+            ? 1000000000000000000
+            : 100000000;
         const parsedRes = res.map((price, i) => {
           return Big(price.toString()).div(scale).toFixed();
         });
@@ -698,7 +701,6 @@ useEffect(() => {
   };
 
   const formatedData = (key) => {
-    console.log(key);
     if (count < 5) return;
     let totalSupplyUsd = Big(0);
     let totalBorrowUsd = Big(0);
