@@ -1,5 +1,3 @@
-// TODO:  approve a token when withdrawing and borrow  wethGateway
-
 const ERC20_ABI = [
   {
     constant: true,
@@ -93,7 +91,7 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText) return;
-
+console.log("data---", data);
 useEffect(() => {
   State.update({
     approving: false,
@@ -133,22 +131,28 @@ if (actionText.includes("Collateral")) {
             .getSigner()
             .sendTransaction(unsignedTx)
             .then((tx) => {
-              tx.wait((res) => {
-                const { status, transactionHash } = res;
-                toast?.dismiss(toastId);
-                if (status !== 1) throw new Error("");
-                State.update({
-                  loading: false,
+              tx.wait()
+                .then((res) => {
+                  const { status, transactionHash } = res;
+                  toast?.dismiss(toastId);
+                  if (status !== 1) throw new Error("");
+                  State.update({
+                    loading: false,
+                  });
+                  toast?.success({
+                    title: `${tokenSymbol} ${
+                      isEnter ? "enable" : "disable"
+                    } as collateral request successed!`,
+                    tx: transactionHash,
+                    chainId,
+                  });
+                  onSuccess?.(data.dapp);
+                })
+                .catch((err) => {
+                  State.update({
+                    loading: false,
+                  });
                 });
-                toast?.success({
-                  title: `${tokenSymbol} ${
-                    isEnter ? "enable" : "disable"
-                  } as collateral request successed!`,
-                  tx: transactionHash,
-                  chainId,
-                });
-                onSuccess?.(data.dapp);
-              });
             })
             .catch((err) => {
               State.update({
@@ -203,18 +207,22 @@ const getAAVE2ApproveAddress = () => {
     : data.config.lendingPoolAddress;
 };
 
+const tokenAddr =
+  data.config.type === "aave2"
+    ? getAAVE2TokenAddress()
+    : data.underlyingToken.address;
+const spender =
+  data.config.type == "aave2" ? getAAVE2ApproveAddress() : data.address;
+console.log("APPROVE: ", tokenAddr, spender);
+
 const getAllowance = () => {
   const TokenContract = new ethers.Contract(
-    data.config.type === "aave2"
-      ? getAAVE2TokenAddress()
-      : data.underlyingToken.address,
+    tokenAddr,
     ERC20_ABI,
     Ethers.provider().getSigner()
   );
-  TokenContract.allowance(
-    account,
-    data.config.type == "aave2" ? getAAVE2ApproveAddress() : data.address
-  ).then((allowanceRaw) => {
+  TokenContract.allowance(account, spender).then((allowanceRaw) => {
+    console.log("ALLOWANCE:", allowanceRaw.toString());
     State.update({
       isApproved: !Big(
         ethers.utils.formatUnits(
@@ -225,15 +233,25 @@ const getAllowance = () => {
     });
   });
 };
-if (
-  ["Deposit", "Repay"].includes(actionText) &&
-  data.underlyingToken.address !== "native"
-) {
-  getAllowance();
+
+if (data.underlyingToken.address === "native") {
+  if (["Deposit", "Repay"].includes(actionText)) {
+    State.update({ isApproved: true });
+    onLoad?.(true);
+  }
+  if (["Withdraw", "Borrow"].includes(actionText)) {
+    getAllowance();
+  }
 } else {
-  State.update({ isApproved: true });
-  onLoad?.(true);
+  if (["Deposit", "Repay"].includes(actionText)) {
+    getAllowance();
+  }
+  if (["Withdraw", "Borrow"].includes(actionText)) {
+    State.update({ isApproved: true });
+    onLoad?.(true);
+  }
 }
+
 if (!state.isApproved) {
   const handleApprove = () => {
     const toastId = toast?.loading({
@@ -244,33 +262,38 @@ if (!state.isApproved) {
     });
 
     const TokenContract = new ethers.Contract(
-      data.config.type === "aave2"
-        ? getAAVE2TokenAddress()
-        : data.underlyingToken.address,
+      tokenAddr,
       ERC20_ABI,
       Ethers.provider().getSigner()
     );
     TokenContract.approve(
-      data.config.type == "aave2" ? getAAVE2ApproveAddress() : data.address,
+      spender,
       ethers.utils.parseUnits(amount, data.underlyingToken.decimals)
     )
       .then((tx) => {
-        tx.wait().then((res) => {
-          const { status, transactionHash } = res;
-          toast?.dismiss(toastId);
-          if (status !== 1) throw new Error("");
-          State.update({
-            isApproved: true,
-            approving: false,
+        tx.wait()
+          .then((res) => {
+            const { status, transactionHash } = res;
+            toast?.dismiss(toastId);
+            if (status !== 1) throw new Error("");
+            State.update({
+              isApproved: true,
+              approving: false,
+            });
+            toast?.success({
+              title: "Approve Successfully!",
+              text: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+              tx: transactionHash,
+              chainId,
+            });
+            onApprovedSuccess();
+          })
+          .catch((err) => {
+            State.update({
+              isApproved: false,
+              approving: false,
+            });
           });
-          toast?.success({
-            title: "Approve Successfully!",
-            text: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
-            tx: transactionHash,
-            chainId,
-          });
-          onApprovedSuccess();
-        });
       })
       .catch((err) => {
         State.update({
@@ -318,37 +341,43 @@ return (
           .getSigner()
           .sendTransaction(unsignedTx)
           .then((tx) => {
-            tx.wait((res) => {
-              const { status, transactionHash } = res;
-              toast?.dismiss(toastId);
-              State.update({
-                pending: false,
-              });
-              addAction?.({
-                type: "Lending",
-                action: actionText,
-                token: data.underlyingToken,
-                amount,
-                template: data.dappName,
-                add: false,
-                status,
-                transactionHash,
-              });
-              if (status === 1) {
-                onSuccess?.(data.dapp);
-                toast?.success({
-                  title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
-                  tx: transactionHash,
-                  chainId,
+            tx.wait()
+              .then((res) => {
+                const { status, transactionHash } = res;
+                toast?.dismiss(toastId);
+                State.update({
+                  pending: false,
                 });
-              } else {
-                toast?.fail({
-                  title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-                  tx: transactionHash,
-                  chainId,
+                addAction?.({
+                  type: "Lending",
+                  action: actionText,
+                  token: data.underlyingToken,
+                  amount,
+                  template: data.dappName,
+                  add: false,
+                  status,
+                  transactionHash,
                 });
-              }
-            });
+                if (status === 1) {
+                  onSuccess?.(data.dapp);
+                  toast?.success({
+                    title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
+                    tx: transactionHash,
+                    chainId,
+                  });
+                } else {
+                  toast?.fail({
+                    title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
+                    tx: transactionHash,
+                    chainId,
+                  });
+                }
+              })
+              .catch((err) => {
+                State.update({
+                  pending: false,
+                });
+              });
           })
           .catch((err) => {
             State.update({
