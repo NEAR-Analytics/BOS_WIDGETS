@@ -486,6 +486,12 @@ function updateDecimalsInput(value) {
   if (value === "" || isInteger(value)) {
     State.update({ decimalsInput: removePrefix0(value) });
   }
+
+  if (isDigit(value) && Big(value).gt(24)) {
+    State.update({
+      decimalsInputError: "The decimals should be less than 24",
+    });
+  }
 }
 
 function updateAirdropAmountInput(value) {
