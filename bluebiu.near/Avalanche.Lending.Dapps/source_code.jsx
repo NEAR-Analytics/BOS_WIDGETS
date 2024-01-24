@@ -36,9 +36,6 @@ const Dapp = styled.div`
 const DappIcon = styled.img`
   width: 32px;
   height: 32px;
-  &.cream {
-    width: 40px;
-  }
 `;
 
 const { dapps, currentDapp, onChange } = props;
@@ -63,11 +60,7 @@ return (
             onChange(dapp.name);
           }}
         >
-          <DappIcon
-            src={dapp.icon}
-            alt={dapp.name}
-            className={`${dapp.name === "C.R.E.A.M." && "cream"}`}
-          />
+          <DappIcon src={dapp.icon} alt={dapp.name} />
           <span>{dapp.name}</span>
         </Dapp>
       ))}
