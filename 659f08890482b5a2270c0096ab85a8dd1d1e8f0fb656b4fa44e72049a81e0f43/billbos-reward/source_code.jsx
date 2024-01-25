@@ -31,13 +31,15 @@ function onClaim() {
     },
   ]);
 
-  const signer = Ethers.provider().getSigner();
-  const contract = new ethers.Contract(
-    state.chains[state.chainId].billBOSCore,
-    BillBOSCoreABI,
-    signer
-  );
-  contract.claimReward().then((res) => {});
+  if (Number(claim[state.chainId]) > 0) {
+    const signer = Ethers.provider().getSigner();
+    const contract = new ethers.Contract(
+      state.chains[state.chainId].billBOSCore,
+      BillBOSCoreABI,
+      signer
+    );
+    contract.claimReward().then((res) => {});
+  }
 }
 
 const [totalView, setTotalView] = useState(0);
