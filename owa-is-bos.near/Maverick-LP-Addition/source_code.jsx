@@ -151,7 +151,7 @@ const setUserBalances = () => {
     ? State.update({
         tokenABalance: {
           fixed: (
-            parseFloat(tokABalance.tokenBalance).toFixed(6) - 0.000001
+            parseFloat(tokABalance.tokenBalance).toFixed(11) - 0.000001
           ).toString(),
           unfixed: tokABalance.tokenBalanceBN,
         },
@@ -161,7 +161,7 @@ const setUserBalances = () => {
     ? State.update({
         tokenBBalance: {
           fixed: (
-            parseFloat(tokBBalance.tokenBalance).toFixed(6) - 0.000001
+            parseFloat(tokBBalance.tokenBalance).toFixed(11) - 0.000001
           ).toString(),
           unfixed: tokBBalance.tokenBalanceBN,
         },
@@ -863,7 +863,7 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(6),
+        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(11),
         amountInputTokenA: input,
         validation: undefined,
         onlyRight: false,
@@ -880,7 +880,7 @@ const handleInputTokenA = (input) => {
         const binsR = Math.ceil(state.binsToDistribute / 2);
         tokenB = (input / binsL) * binsR;
         State.update({
-          amountInputTokenB: tokenB.toFixed(6),
+          amountInputTokenB: tokenB.toFixed(11),
           amountInputTokenA: input,
           validation: undefined,
           onlyRight: true,
@@ -922,7 +922,7 @@ const handleInputTokenA = (input) => {
 
         State.update({
           amountInputTokenA: input,
-          amountInputTokenB: tokenB.toFixed(6),
+          amountInputTokenB: tokenB.toFixed(11),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -1001,7 +1001,7 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(6),
+        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(11),
         amountInputTokenB: input,
         validation: undefined,
         onlyRight: false,
@@ -1019,7 +1019,7 @@ const handleInputTokenB = (input) => {
         tokenA = (input / binsR) * binsL;
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(6),
+          amountInputTokenA: tokenA.toFixed(11),
           validation: undefined,
           onlyRight: true,
           noBalanceA:
@@ -1054,7 +1054,7 @@ const handleInputTokenB = (input) => {
 
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(6),
+          amountInputTokenA: tokenA.toFixed(11),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
