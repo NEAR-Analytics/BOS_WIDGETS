@@ -276,7 +276,7 @@ return (
       </Table>
     </div>
 
-    {rowsCount && (
+    {state.list.length > rowsCount && pagination && (
       <div className="d-flex justify-content-end">
         <div>
           <ul
@@ -314,8 +314,7 @@ return (
                 </svg>
               </button>
             </li>
-            {state.list.length > rowsCount &&
-              pagination &&
+            {state.list.length > 0 &&
               handlePagination().buttons.map((btn, i) => {
                 return (
                   <li key={i} className="page-item">
