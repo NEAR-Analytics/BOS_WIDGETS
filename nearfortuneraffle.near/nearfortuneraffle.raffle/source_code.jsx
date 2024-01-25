@@ -406,7 +406,7 @@ return (
                     onChange={(e) => setFullname(e.target.value)}
                     type="text"
                     class="form-control"
-                    id="emainamel"
+                    id="name"
                     aria-describedby="nameHelp"
                   />
                 </div>
@@ -454,7 +454,7 @@ return (
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+              <h5 class="modal-title" id="name">
                 Sharddog NFT Check
               </h5>
               <button
