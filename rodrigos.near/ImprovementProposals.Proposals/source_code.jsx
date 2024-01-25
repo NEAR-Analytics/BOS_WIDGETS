@@ -1,5 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
-const contractId = props.contractId || "v006.mpip.near";
+const contractId =
+  props.contractId || "ip-aaxxii-test.near" || "v006.mpip.near";
 const META_VOTE_CONTRACT_ID = "aaxxii-stake.near";
 const authorId = props.authorId || "rodrigos.near";
 const proposalsPerPage = props.proposalsPerPage ?? 100; // Number of proposals to fetch at a time
