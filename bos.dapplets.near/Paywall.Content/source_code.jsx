@@ -92,6 +92,7 @@ const Wrapper = styled.div`
     aspect-ratio: 1.777;
     cursor: default;
     position: relative;
+    box-sizing: border-box;
   }
 
   .content-wrapper-basic {
@@ -100,6 +101,7 @@ const Wrapper = styled.div`
     border-radius: 4px;
     aspect-ratio: 1.777;
     position: relative;
+    box-sizing: border-box;
   }
 
   .unlock-content-overlay {
