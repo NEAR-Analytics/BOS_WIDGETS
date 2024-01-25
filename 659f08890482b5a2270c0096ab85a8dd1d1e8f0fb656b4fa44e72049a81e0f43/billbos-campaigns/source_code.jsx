@@ -6,7 +6,7 @@ function tapCampaigns() {
   return (
     <div className="container">
       <div className="w-full">
-        {true ? (
+        {state.walletConnected ? (
           <>
             <div className="flex justify-between py-8 items-center">
               <div>
