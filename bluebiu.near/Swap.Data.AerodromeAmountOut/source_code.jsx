@@ -126,7 +126,7 @@ const {
 } = props;
 
 useEffect(() => {
-  if (!updater) return;
+  if (!updater || !routerAddress || !factoryAddress) return;
 
   if (
     (!inputCurrency.address && !inputCurrency.isNative) ||
