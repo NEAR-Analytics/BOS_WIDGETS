@@ -229,12 +229,7 @@ return (
       <div className="flex-grow contentOut">
         {activeMenu == "Dashboard" ? (
           <>
-            <span className="icon">{MarketsIcon}</span>Markets
-            <Widget
-              src="thalespollum.testnet/widget/Test"
-              props={{ ...dashboardConfig, ...restProps, prices }}
-            />
-            222
+            <Widget src="thalesb.near/widget/DashboardLayout" />
           </>
         ) : null}
         {activeMenu == "Markets" ? (
