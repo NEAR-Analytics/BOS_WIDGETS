@@ -203,7 +203,7 @@ return (
                 }}
               />
             ) : (
-              <Widget src="buildhub.near/widget/Bookmarks" />
+              <Widget src="buildhub.near/widget/feed.Bookmarks" />
             )
           ) : (
             <Widget
