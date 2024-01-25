@@ -132,7 +132,10 @@ return (
           src={`${Owner}/widget/Select`}
         />
       </div>
-      <div className="d-flex justify-content-end" style={{ marginTop: 10 }}>
+      <div
+        className="d-flex justify-content-end"
+        style={{ marginTop: 10, marginBottom: 5 }}
+      >
         <Widget
           props={{
             API_URL,
