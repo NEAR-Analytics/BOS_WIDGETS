@@ -250,9 +250,9 @@ useEffect(() => {
     if (prices) {
       const isReverse = Number(path[0]) > Number(path[1]);
       const poolPrice = Big(
-        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
+        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
       ).div(
-        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 1
+        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 1
       );
 
       const amountoutPrice = isReverse
