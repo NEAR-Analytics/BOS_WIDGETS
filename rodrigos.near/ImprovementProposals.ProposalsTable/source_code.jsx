@@ -1,6 +1,6 @@
 let proposals = props.proposals;
 const authorId = props.authorId || "rodrigos.near";
-const contractId = props.contractId || "mpip.meta-pool-dao.near";
+const contractId = props.contractId || "ip-aaxxii-test.near";
 State.init({});
 
 // sort proposals by mpip_id descending
