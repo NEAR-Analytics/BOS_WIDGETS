@@ -1,22 +1,90 @@
 const state = props.state;
-const getRewards = props.getRewards ? props.getRewards : () => {};
 const handleRequest = props.handleRequest ? props.handleRequest : () => {};
-const CHAIN_LIST = props.CHAIN_LIST;
+const BACKEND_API = props.BACKEND_API;
+const coreContractAddress = props.coreContractAddress;
+const CHAIN_LIST = [25925, 35011];
 
+State.init({
+  name: "",
+});
+
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/Chayanonc/1c7b2cf1559ed20b342f76846966cb65/raw/fa27150e36d18d43d6298c8dd27f8c8e852dde23/billbos-core.json"
+).body;
+
+if (!BillBOSCoreABI) {
+  return "Loading";
+}
+
+const [totalView, setTotalView] = useState(0);
+const [ratioOfWallet, setRatioOfWallet] = useState(0);
+const [totalEarningPerUser, setTotalEarningPerUser] = useState(0);
+const [currentEarning, setCurrentEarning] = useState(0);
+const [claim, setClaim] = useState({});
+
+function getReward() {
+  CHAIN_LIST.map((item) => {
+    const provider = new ethers.providers.JsonRpcProvider(
+      state.chains[item].rpcUrl
+    );
+    const contract = new ethers.Contract(
+      state.chains[item].billBOSCore,
+      BillBOSCoreABI,
+      provider
+    );
+    console.log("address", state.chains[item].billBOSCore);
+    contract.getReward(state.walletAddress).then((res) => {
+      console.log("get reward");
+      console.log({ item, res });
+      claim[`${item}`] = Number(ethers.utils.formatEther(res[0])).toFixed(6);
+    });
+  });
+}
+
+getReward();
 function tapRewards() {
   const walletAddress = state.walletAddress;
   const month = Number(state.monthCount);
 
-  handleRequest(
-    `/ads/total-webpageowner-view-by-owner-address?month=${month}&walletAddress=${walletAddress}`,
-    "viewOfWalletAddress"
-  );
-  handleRequest(
-    `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`,
-    "ratioOfWalletAddress"
+  const urlView =
+    BACKEND_API +
+    `/ads/total-webpageowner-view-by-owner-address?month=${month}&walletAddress=${walletAddress}`;
+  asyncFetch(urlView, {
+    method: "GET",
+  }).then((res) => {
+    console.log({ res });
+    if (res.ok) {
+      setTotalView(res.body.view);
+    }
+  });
+  const urlRatio =
+    BACKEND_API +
+    `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`;
+  asyncFetch(urlRatio, {
+    method: "GET",
+  }).then((res) => {
+    if (res.ok) {
+      setRatioOfWallet(Number(res.body.ratio));
+    }
+  });
+
+  const signer = Ethers.provider().getSigner();
+  const contract = new ethers.Contract(
+    coreContractAddress,
+    BillBOSCoreABI,
+    signer
   );
 
-  getRewards();
+  contract.getTotalEarningPerUser(state.walletAddress).then((res) => {
+    setTotalEarningPerUser(Number(ethers.utils.formatEther(res)));
+  });
+
+  contract.getCurrentEarning().then((res) => {
+    setCurrentEarning(Number(ethers.utils.formatEther(res)));
+  });
+
+  console.log({ claim });
+
   return (
     <div>
       <div
@@ -60,18 +128,18 @@ function tapRewards() {
           <div className="grid grid-cols-3 gap-4 mb-5">
             <div className="p-3 bg-white rounded-xl ">
               <div>
-                <p className="text-xs secondary-text">Total Earnings</p>
+                <p className="text-xs secondary-text">
+                  This Month Total Earnings
+                </p>
                 <p className="text-xl mt-1 font-medium">
-                  {Number(state.totalEarningBalance).toFixed(6)}
+                  {Number(ratioOfWallet * currentEarning).toFixed(6)}
                 </p>
               </div>
             </div>
             <div className="p-3 bg-white rounded-xl">
               <div>
                 <p className="text-xs secondary-text">My Total View</p>
-                <p className="text-xl mt-1 font-medium">
-                  {Number(state.viewOfWalletAddress).toFixed(6)}
-                </p>
+                <p className="text-xl mt-1 font-medium">{totalView}</p>
               </div>
             </div>
             <div className="p-3 bg-white rounded-xl">
@@ -79,7 +147,7 @@ function tapRewards() {
                 <p className="text-xs secondary-text">My Total Earnings</p>
                 <p className="text-xl mt-1 font-medium">
                   {Number(
-                    state.ratioOfWalletAddress * state.viewOfWalletAddress
+                    ratioOfWallet * currentEarning + totalEarningPerUser
                   ).toFixed(6)}{" "}
                   USDT
                 </p>
@@ -97,7 +165,7 @@ function tapRewards() {
                       src="porx-dev.near/widget/billbos-reward-card"
                       props={{
                         chainName: state.chains[item].name,
-                        amount: adsInfo[`${i}`] || "0",
+                        amount: claim[`${item}`] || "0.000000",
                         tokenName: "USDT",
                         onClaim: onClaim,
                       }}
