@@ -8,6 +8,10 @@ const Container = styled.div`
   display: flex;
 `;
 
+const WidgetWrapper = styled.div`
+  max-width: 100%;
+`;
+
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
@@ -18,7 +22,7 @@ const WidgetBadgeWrapper = styled.div`
 return (
   <Container>
     {props.widgets.map((widget) => (
-      <div key={widget.linkId}>
+      <WidgetWrapper key={widget.linkId}>
         {props.isEditMode ? (
           <WidgetBadgeWrapper>
             {widget.linkAuthorId === context.accountId ? (
@@ -34,7 +38,7 @@ return (
           </WidgetBadgeWrapper>
         ) : null}
         <Widget src={widget.src} props={widget.props} />
-      </div>
+      </WidgetWrapper>
     ))}
   </Container>
 );
