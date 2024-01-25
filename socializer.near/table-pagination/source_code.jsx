@@ -151,7 +151,7 @@ return (
               .table.filter((row) => {
                 if (!searchValue) return true;
                 const profile = Social.getr(`${row.accountId}/profile`);
-                const name = profile.name ?? row.accountId;
+                const name = profile.name || row.accountId;
                 return name
                   .toLocaleLowerCase()
                   .includes(searchValue.toLocaleLowerCase() ?? "");
