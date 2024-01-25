@@ -311,8 +311,8 @@ const addLiquidity = () => {
   let bins = state.selectedPoolOptions.bins;
 
   let amountInA, amountInB;
-  let inputA = parseFloat(state.amountInputTokenA).toString();
-  let inputB = parseFloat(state.amountInputTokenB).toString();
+  let inputA = state.amountInputTokenA;
+  let inputB = state.amountInputTokenB;
 
   if (state.poolModeSelected.id == 0) {
     if (state.poolDistributionSelected.name == "Single Bin") {
