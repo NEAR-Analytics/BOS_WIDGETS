@@ -28,7 +28,7 @@ return (
     <a
       className="d-block position-relative"
       style={{ zIndex: 1 }}
-      href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+      href={`/bos.genadrop.near/widget/DropFlow.ArtistPage?accountId=${accountId}`}
     >
       <Widget
         src="jgodwill.near/widget/CPlanet.ProfileImage"
