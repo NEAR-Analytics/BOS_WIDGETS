@@ -12,7 +12,7 @@ if (profile === null) {
 }
 
 State.init({
-  profile,
+  initialProfile,
 });
 
 const [profile, setProfile] = useState(initialProfile);
