@@ -174,7 +174,8 @@ const {
 } = props;
 
 useEffect(() => {
-  if (!updater) return;
+  if (!updater || !routerAddress || !classicPoolAddres || !stablePoolAddress)
+    return;
 
   if (
     (!inputCurrency.address && !inputCurrency.isNative) ||
@@ -184,6 +185,7 @@ useEffect(() => {
     return;
   }
 
+  const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
   const wrapType =
     inputCurrency.address === "native" && outputCurrency.address === wethAddress
       ? 1
