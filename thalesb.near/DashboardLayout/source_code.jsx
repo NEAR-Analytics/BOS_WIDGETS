@@ -242,7 +242,6 @@ const SectionHeader = styled.span`
 
 const DropdownContainer = styled.div`
   position: relative;
-  width: 200px;
 
   .DropdownMenuItem {
     padding: 16px;
@@ -510,7 +509,7 @@ return (
           <CollateralLabel>{item.label}</CollateralLabel>
           <ActionGroup>
             <Button>Supply</Button>
-            <Button>Withdraw</Button>
+            <GhostButton>Withdraw</GhostButton>
           </ActionGroup>
         </CollateralItem>
       ))}
