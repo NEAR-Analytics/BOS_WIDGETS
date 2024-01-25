@@ -243,6 +243,10 @@ const SectionHeader = styled.span`
 const DropdownContainer = styled.div`
   position: relative;
   width: 200px;
+
+  .DropdownMenuItem {
+    padding: 16px;
+  }
 `;
 
 const DropdownLabel = styled.label`
@@ -281,6 +285,8 @@ const ProgressBarContainer = styled.div`
   width: calc(100% - 16px);
   display: flex;
   align-items: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
 `;
 
 const ProgressBarLimit = styled.div`
@@ -325,23 +331,50 @@ const BorrowText = styled.span`
   margin-left: 4px;
 `;
 
-//TODO: need to make the dropdown according to the design.
+const DropdownTrigger = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ArrowIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="Essential icons">
+      <path
+        id="Vector (Stroke)"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M6.2762 8.65128C6.6345 8.30676 7.20424 8.31793 7.54875 8.67623L12 13.4015L16.4513 8.67623C16.7958 8.31793 17.3655 8.30676 17.7238 8.65128C18.0821 8.99579 18.0933 9.56553 17.7487 9.92382L12.6488 15.3238C12.4791 15.5003 12.2448 15.6 12 15.6C11.7552 15.6 11.5209 15.5003 11.3513 15.3238L6.25125 9.92382C5.90674 9.56553 5.91791 8.99579 6.2762 8.65128Z"
+        fill="#888BAF"
+      />
+    </g>
+  </svg>
+);
+
+// NetworkDropdown component
 const NetworkDropdown = ({ selectedNetwork, onChange }) => {
   return (
     <DropdownContainer>
-      <DropdownLabel>NETWORK</DropdownLabel>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <div>{">"}</div>
+          <DropdownTrigger>
+            <div>NETWORK</div>
+            <ArrowIcon /> {/* Use the Radix UI icon here */}
+          </DropdownTrigger>
         </DropdownMenu.Trigger>
-
         <DropdownMenu.Content
           style={{ backgroundColor: "black" }}
           sideOffset={5}
         >
           <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
-              More Tools
+            <DropdownMenu.SubTrigger style={{ padding: 16 }}>
+              Ethereum
             </DropdownMenu.SubTrigger>
             <DropdownMenu.SubContent
               style={{ backgroundColor: "black" }}
@@ -349,17 +382,10 @@ const NetworkDropdown = ({ selectedNetwork, onChange }) => {
               alignOffset={-5}
             >
               <DropdownMenu.Item className="DropdownMenuItem">
-                Save Page As… <div className="RightSlot">⌘+S</div>
+                USDC
               </DropdownMenu.Item>
               <DropdownMenu.Item className="DropdownMenuItem">
-                Create Shortcut…
-              </DropdownMenu.Item>
-              <DropdownMenu.Item className="DropdownMenuItem">
-                Name Window…
-              </DropdownMenu.Item>
-              <DropdownMenu.Separator className="DropdownMenu.Separator" />
-              <DropdownMenu.Item className="DropdownMenuItem">
-                Developer Tools
+                ETH
               </DropdownMenu.Item>
             </DropdownMenu.SubContent>
           </DropdownMenu.Sub>
@@ -441,6 +467,7 @@ return (
       />
     </GridItem>
     <GridItem span={9}>
+      <SectionHeader>Liquidation Risk</SectionHeader>
       <LiquidationRiskBar riskPercent={20} />
     </GridItem>
     {/* Balance Section */}
