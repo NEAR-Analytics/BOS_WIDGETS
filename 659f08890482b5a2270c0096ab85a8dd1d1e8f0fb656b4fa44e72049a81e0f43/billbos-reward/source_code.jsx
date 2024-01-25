@@ -16,6 +16,30 @@ if (!BillBOSCoreABI) {
   return "Loading";
 }
 
+function onClaim() {
+  const config = state.chains[state.chainId];
+  Ethers.send("wallet_addEthereumChain", [
+    {
+      chainId: chainId,
+      chainName: config.name,
+      nativeCurrency: {
+        name: config.name,
+        symbol: config.currencySymbol,
+        decimals: 18,
+      },
+      rpcUrls: [config.rpcUrl],
+    },
+  ]);
+
+  const signer = Ethers.provider().getSigner();
+  const contract = new ethers.Contract(
+    state.chains[state.chainId].billBOSCore,
+    BillBOSCoreABI,
+    signer
+  );
+  contract.claimReward().then((res) => {});
+}
+
 const [totalView, setTotalView] = useState(0);
 const [ratioOfWallet, setRatioOfWallet] = useState(0);
 const [totalEarningPerUser, setTotalEarningPerUser] = useState(0);
@@ -32,10 +56,7 @@ function getReward() {
       BillBOSCoreABI,
       provider
     );
-    console.log("address", state.chains[item].billBOSCore);
     contract.getReward(state.walletAddress).then((res) => {
-      console.log("get reward");
-      console.log({ item, res });
       claim[`${item}`] = Number(ethers.utils.formatEther(res[0])).toFixed(6);
     });
   });
@@ -57,6 +78,7 @@ function tapRewards() {
       setTotalView(res.body.view);
     }
   });
+
   const urlRatio =
     BACKEND_API +
     `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`;
@@ -82,8 +104,6 @@ function tapRewards() {
   contract.getCurrentEarning().then((res) => {
     setCurrentEarning(Number(ethers.utils.formatEther(res)));
   });
-
-  console.log({ claim });
 
   return (
     <div>
@@ -162,7 +182,7 @@ function tapRewards() {
               ? CHAIN_LIST.map((item, i) => {
                   return (
                     <Widget
-                      src="porx-dev.near/widget/billbos-reward-card"
+                      src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-reward-card"
                       props={{
                         chainName: state.chains[item].name,
                         amount: claim[`${item}`] || "0.000000",
