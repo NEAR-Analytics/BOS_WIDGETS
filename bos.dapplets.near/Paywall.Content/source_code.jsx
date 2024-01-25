@@ -75,7 +75,6 @@ const onBuy = () => {
       '50000000000000',
       content.cost
     );
-    setTimeout(() => State.update({ loading: false }), 3000)
   } catch (err) {
     console.error(err);
     State.update({ loading: false });
