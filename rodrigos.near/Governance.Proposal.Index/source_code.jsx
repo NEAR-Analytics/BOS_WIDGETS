@@ -1,7 +1,7 @@
-const contractId = props.contractId || "mpip.meta-pool-dao.near";
+const contractId = props.contractId || "ip-aaxxii-test.near";
 const accountId = props.accountId ?? context.accountId;
 const authorId = props.authorId || "rodrigos.near";
-const META_VOTE_CONTRACT_ID = "meta-vote.near";
+const META_VOTE_CONTRACT_ID = "aaxxii-stake.near";
 const transactionHashes = props.transactionHashes;
 const transactionHashesIsHandled = props.transactionHashesIsHandled;
 const mpip_id = props.mpip_id ? parseInt(props.mpip_id) : null;
