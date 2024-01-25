@@ -314,7 +314,7 @@ return (
                 </svg>
               </button>
             </li>
-            {state.list.length > 0 &&
+            {state.list.length > rowsCount &&
               pagination &&
               handlePagination().buttons.map((btn, i) => {
                 return (
