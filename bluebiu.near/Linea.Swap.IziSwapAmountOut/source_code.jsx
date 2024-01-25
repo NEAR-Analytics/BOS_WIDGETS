@@ -415,8 +415,7 @@ useEffect(() => {
     let priceImpact = null;
 
     if (prices) {
-      const isReverse =
-        Number(inputCurrency.address) > Number(outputCurrency.address);
+      const isReverse = Number(path[0]) > Number(path[1]);
 
       const poolPrice = Big(
         prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
