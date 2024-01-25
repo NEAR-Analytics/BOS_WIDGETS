@@ -307,12 +307,14 @@ function successCallback(tx, callback) {
       });
     })
     .catch((err) => {
+      toast?.dismiss(state.toastId);
       toast?.fail({
         title: "Swap Failed!",
         text: `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
         tx: transactionHash,
         chainId,
       });
+      callback?.();
     });
 }
 
