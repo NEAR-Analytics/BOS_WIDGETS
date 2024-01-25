@@ -134,7 +134,7 @@ function tapRewards() {
             </div>
             <div>
               <Widget
-                src="chayanonc-ph.near/widget/billbos-ads"
+                src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-ads"
                 props={{
                   btnName: "Get my ads component",
                   btnClass:
@@ -143,6 +143,7 @@ function tapRewards() {
                   width: "550px",
                   isOpenDefault: false,
                   body: "",
+                  walletAddress: walletAddress,
                 }}
               />
             </div>
