@@ -4,7 +4,8 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let profile = Social.getr(`${accountId}/profile`);
+//let profile = Social.getr(`${accountId}/profile`);
+const initialProfile = Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
   return "Loading";
@@ -13,6 +14,8 @@ if (profile === null) {
 State.init({
   profile,
 });
+
+const [profile, setProfile] = useState(initialProfile);
 
 // Define the validation function
 function isProfileValid(profile) {
@@ -38,13 +41,19 @@ function isProfileValid(profile) {
   );
 }
 
-// Check if the profile is valid
-const isValidProfile = isProfileValid(profile);
-
 // Handler for profile change
+
 function handleProfileChange(updatedProfile) {
+  setProfile(updatedProfile);
+  setIsValidProfile(isProfileValid(updatedProfile)); // Update the validity state
   State.update({ profile: updatedProfile });
 }
+
+// Check if the profile is valid
+//let isValidProfile = isProfileValid(profile);
+const [isValidProfile, setIsValidProfile] = useState(
+  isProfileValid(initialProfile)
+);
 
 return (
   <div className="row">
@@ -57,7 +66,7 @@ return (
           src="near/widget/MetadataEditor"
           props={{
             initialMetadata: profile,
-            onChange: (profile) => State.update({ profile }),
+            onChange: handleProfileChange,
             options: {
               name: { label: "Name" },
               image: { label: "Profile picture" },
@@ -113,7 +122,7 @@ return (
       <div>
         <Widget
           src="mob.near/widget/ProfilePage"
-          props={{ accountId, profile: state.profile }}
+          props={{ accountId, profile: profile }}
         />
       </div>
     </div>
