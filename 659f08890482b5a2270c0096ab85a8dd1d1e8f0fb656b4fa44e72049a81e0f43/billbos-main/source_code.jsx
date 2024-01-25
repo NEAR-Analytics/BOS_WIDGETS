@@ -39,6 +39,8 @@ const [adsInfo, setAdsInfo] = useState({});
 const [earningBalance, setEarningBalance] = useState(0);
 const [stakedBalance, setStakedBalance] = useState(0);
 const fE = ethers.utils.formatEther;
+const mainWidget =
+  "659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43";
 
 const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
@@ -52,8 +54,6 @@ const BillBOSCoreABI = fetch(
 if (!BillBOSCoreABI) {
   return "Loading";
 }
-
-const iface = new ethers.utils.Interface(BillBOSCoreABI);
 
 function switchEthereumChain(chainId) {
   const chainIdHex = `0x${chainId.toString(16)}`;
@@ -113,7 +113,7 @@ const handleRequest = async (query, viewCase) => {
       fetchApi(e, "GET").then((res) => {
         console.log({ ratioOfWalletAddress: res });
         if (res.ok) {
-          State.update({ ratioOfWalletAddress: res.body.ration });
+          State.update({ ratioOfWalletAddress: res.body.ratio });
         }
       });
       return;
@@ -180,16 +180,6 @@ function formatAds(item, chainId) {
     adsStakedBalance: fE(item[2]),
     chainId: "" + chainId,
   };
-}
-
-function onClaim() {
-  const signer = Ethers.provider().getSigner();
-  const contract = new ethers.Contract(
-    state.chains[state.chainId].billBOSCore,
-    BillBOSCoreABI,
-    signer
-  );
-  contract.claimReward().then((res) => {});
 }
 
 function getRewards() {
@@ -285,7 +275,7 @@ function tabComponent() {
     if (state.tabSelect == 0) {
       return (
         <Widget
-          src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-dashboard"
+          src={`${mainWidget}/widget/billbos-dashboard`}
           props={{
             handleRequest: handleRequest,
             state: state,
@@ -298,7 +288,7 @@ function tabComponent() {
     } else if (state.tabSelect == 1) {
       return (
         <Widget
-          src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-campaigns"
+          src={`${mainWidget}/widget/billbos-campaigns`}
           props={{
             state: state,
             adsInfo: adsInfo,
@@ -309,13 +299,15 @@ function tabComponent() {
     } else if (state.tabSelect == 2) {
       return (
         <Widget
-          src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-reward"
+          src={`${mainWidget}/widget/billbos-reward`}
           props={{
             getRewards: getRewards,
             handleRequest: handleRequest,
             state: state,
             adsInfo: adsInfo,
+            coreContractAddress: state.chains[state.chainId].billBOSCore,
             CHAIN_LIST: CHAIN_LIST,
+            BACKEND_API: BACKEND_API,
           }}
         />
       );
