@@ -10,7 +10,7 @@ return (
     <div className="flex-grow-1 text-truncate">
       <a
         className="text-dark text-decoration-none text-truncate"
-        href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+        href={`/bos.genadrop.near/widget/DropFlow.ArtistPage?accountId=${accountId}`}
       >
         <Widget
           src="jgodwill.near/widget/ProfileLine"
