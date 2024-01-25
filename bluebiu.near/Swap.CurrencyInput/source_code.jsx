@@ -202,14 +202,6 @@ return (
         </InputWarpper>
         <Value>
           ≈{" "}
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-            props={{
-              symbol: props.currency.symbol,
-              amount: props.amount,
-              prev: "$",
-            }}
-          />
           {tokenPrice && props.amount
             ? `$${Big(props.amount || 0)
                 .mul(tokenPrice)
