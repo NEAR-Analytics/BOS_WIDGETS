@@ -215,8 +215,7 @@ useEffect(() => {
         );
         PairContract.getReserves()
           .then((res) => {
-            const isReverse =
-              Number(inputCurrency.address) > Number(outputCurrency.address);
+            const isReverse = Number(path[0]) > Number(path[1]);
 
             const token0 = Big(
               ethers.utils.formatUnits(
