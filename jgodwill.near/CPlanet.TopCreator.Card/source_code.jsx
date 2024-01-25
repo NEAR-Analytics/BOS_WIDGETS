@@ -146,7 +146,7 @@ function makeAccountIdShorter(accountId) {
 }
 const inner = (
   <a
-    href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+    href={`/bos.genadrop.near/widget/DropFlow.ArtistPage?accountId=${accountId}`}
     className="text-decoration-none"
   >
     <HeaderText>
