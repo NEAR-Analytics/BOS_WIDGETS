@@ -337,7 +337,7 @@ return (
           onClick: () => State.update({ tabs: "home", content: "" }),
           className: "mt-2",
           variant: "primary",
-          href: `/${authorId}/widget/ImprovementProposals?tab=home`,
+          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
         }}
       />
     </div>
@@ -357,7 +357,7 @@ return (
                 onClick: () => State.update({ mpip_id }),
                 className: "mt-2",
                 variant: "primary",
-                href: `/${authorId}/widget/ImprovementProposals.Proposal.Create.Index?edit=true&mpip_id=${mpip_id}`,
+                href: `/meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Index?edit=true&mpip_id=${mpip_id}`,
               }}
             />
             <Widget
