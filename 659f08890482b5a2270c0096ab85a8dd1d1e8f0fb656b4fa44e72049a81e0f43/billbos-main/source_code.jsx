@@ -7,6 +7,8 @@ State.init({
   totalEarningBalance: 0,
   totalStakedBalance: 0,
   monthCount: 0,
+  earningBalance: undefined,
+  stakedBalance: undefined,
   walletConnected: false,
   ads: [],
   adsUser: [],
@@ -36,8 +38,8 @@ State.init({
 });
 
 const [adsInfo, setAdsInfo] = useState({});
-const [earningBalance, setEarningBalance] = useState(0);
-const [stakedBalance, setStakedBalance] = useState(0);
+// const [earningBalance, setEarningBalance] = useState(0);
+// const [stakedBalance, setStakedBalance] = useState(0);
 const fE = ethers.utils.formatEther;
 const mainWidget =
   "659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43";
@@ -103,7 +105,6 @@ const handleRequest = async (query, viewCase) => {
       return;
     case "ad-view-by-adId":
       return fetchApi(e, "GET").then((res) => {
-        console.log({ "ad-view-by-adId": res });
         return res;
       });
     default:
@@ -175,18 +176,25 @@ function getRewards() {
 }
 
 function getTotalDashboard() {
-  const chainId = state.chainId;
+  const chainId = state.chainId || String(DEFAULT_CHAIN_ID);
+
+  const provider =
+    Ethers.provider() ||
+    new ethers.providers.JsonRpcProvider(state.chains[chainId].rpcUrl);
   const contract = new ethers.Contract(
     state.chains[chainId].billBOSCore,
     BillBOSCoreABI,
-    Ethers.provider()
+    provider
   );
   contract.totalStakedBalanceLast().then((res) => {
-    setStakedBalance(fE(res));
+    console.log("setStakedBalance", fE(res));
+    State.update({ stakedBalance: ethers.utils.formatEther(res) });
   });
   contract.totalEarningBalanceLast().then((res) => {
-    setEarningBalance(fE(res));
+    console.log("setEarningBalance", fE(res));
+    State.update({ earningBalance: fE(res) });
   });
+  console.log({ adsInfo });
   contract.count().then((res) => {
     State.update({ monthCount: fE(res) });
   });
@@ -196,7 +204,7 @@ function getTotalDashboard() {
         getViewAds(item, chainId);
         adsInfo[`${chainId}-${parseInt(item[0])}-staked`] = item[2] || "0";
         return {
-          chainId: state.chainId,
+          chainId: chainId,
           adsId: Number(item[0]),
           adsContent: {
             name: item[1][0],
@@ -214,17 +222,22 @@ function getTotalDashboard() {
   });
 }
 
-function getAdsByAddress(walletAddress) {
-  const billbosCoreAddress = state.chains[state.chainId].billBOSCore;
+getTotalDashboard();
 
+function getAdsByAddress(walletAddress) {
+  const chainId = state.chainId || DEFAULT_CHAIN_ID;
+  const billbosCoreAddress = state.chains[chainId].billBOSCore;
+  const provider =
+    Ethers.provider() ||
+    new ethers.providers.JsonRpcProvider(state.chains[chainId].rpcUrl);
   const contract = new ethers.Contract(
     billbosCoreAddress,
     BillBOSCoreABI,
-    Ethers.provider().getSigner()
+    provider
   );
   contract.getAdsUser(walletAddress).then((res) => {
     const adsAll = res.map((item) => {
-      return formatAds(item, state.chainId);
+      return formatAds(item, chainId);
     });
     State.update({
       adsUser: adsAll || [],
@@ -246,49 +259,54 @@ if (state.chainId) {
   getTotalDashboard();
 }
 
-function tabComponent() {
-  if (state.walletAddress) {
-    if (state.tabSelect == 0) {
-      return (
-        <Widget
-          src={`${mainWidget}/widget/billbos-dashboard`}
-          props={{
-            handleRequest: handleRequest,
-            state: state,
-            adsInfo: adsInfo,
-            earningBalance: earningBalance,
-            stakedBalance: stakedBalance,
-          }}
-        />
-      );
-    } else if (state.tabSelect == 1) {
-      return (
-        <Widget
-          src={`${mainWidget}/widget/billbos-campaigns`}
-          props={{
-            state: state,
-            adsInfo: adsInfo,
-            coreContractAddress: state.chains[state.chainId].billBOSCore,
-          }}
-        />
-      );
-    } else if (state.tabSelect == 2) {
-      return (
-        <Widget
-          src={`${mainWidget}/widget/billbos-reward`}
-          props={{
-            getRewards: getRewards,
-            state: state,
-            adsInfo: adsInfo,
-            coreContractAddress: state.chains[state.chainId].billBOSCore,
-            CHAIN_LIST: CHAIN_LIST,
-            BACKEND_API: BACKEND_API,
-          }}
-        />
-      );
-    }
-  }
+if (state.earningBalance == undefined || state.stakedBalance == undefined) {
+  return "";
 }
+
+const tabComponent = () => {
+  if (state.tabSelect == 0) {
+    return (
+      <Widget
+        src={`${mainWidget}/widget/billbos-dashboard`}
+        props={{
+          handleRequest: handleRequest,
+          state: state,
+          DEFAULT_CHAIN_ID: DEFAULT_CHAIN_ID,
+          adsInfo: adsInfo,
+          earningBalance: state.earningBalance,
+          stakedBalance: state.stakedBalance,
+        }}
+      />
+    );
+  } else if (state.tabSelect == 1) {
+    return (
+      <Widget
+        src={`${mainWidget}/widget/billbos-campaigns`}
+        props={{
+          state: state,
+          adsInfo: adsInfo,
+          coreContractAddress:
+            state.chains[state.chainId || DEFAULT_CHAIN_ID].billBOSCore,
+        }}
+      />
+    );
+  } else if (state.tabSelect == 2) {
+    return (
+      <Widget
+        src={`${mainWidget}/widget/billbos-reward`}
+        props={{
+          getRewards: getRewards,
+          state: state,
+          adsInfo: adsInfo,
+          coreContractAddress:
+            state.chains[state.chainId || DEFAULT_CHAIN_ID].billBOSCore,
+          CHAIN_LIST: CHAIN_LIST,
+          BACKEND_API: BACKEND_API,
+        }}
+      />
+    );
+  }
+};
 
 const main = (
   <div
