@@ -112,7 +112,7 @@ const update = (state) => State.update(state);
 const getContent = {
   home: (
     <Widget
-      src={`meta-pool-official.near/widget/ImprovementProposals.Dashboard`}
+      src={`rodrigos.near/widget/ImprovementProposals.Dashboard`}
       props={{
         tab: state.tab,
         update,
@@ -123,7 +123,7 @@ const getContent = {
   ),
   createproposal: (
     <Widget
-      src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Index`}
+      src={`rodrigos.near/widget/ImprovementProposals.Proposal.Create.Index`}
       props={{
         tab: state.tab,
         update,
@@ -136,7 +136,7 @@ const getContent = {
   ),
   proposal: (
     <Widget
-      src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Index`}
+      src={`rodrigos.near/widget/ImprovementProposals.Proposal.Index`}
       props={{
         tab: state.tab,
         update,
@@ -154,7 +154,7 @@ return (
   <Container>
     <Header>
       <a
-        href={`/meta-pool-official.near/widget/ImprovementProposals?tab=home`}
+        href={`/rodrigos.near/widget/ImprovementProposals?tab=home`}
         onClick={() =>
           update({
             tab: "home",
