@@ -187,7 +187,7 @@ function tapRewards() {
                       src="659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43/widget/billbos-reward-card"
                       props={{
                         chainName: state.chains[item].name,
-                        amount: claim[`${item}`],
+                        amount: claim[`${item}`] || "0.0000000",
                         tokenName: "USDT",
                         onClaim: onClaim,
                       }}
