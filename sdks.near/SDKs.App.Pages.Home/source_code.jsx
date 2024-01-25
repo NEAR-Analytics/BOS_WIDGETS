@@ -1,3 +1,5 @@
+const PACKAGE_ICON = "https://ipfs.near.social/ipfs/bafkreihkhr5ow2iws3b7j3fdizbmndfzeqa3eptwqcnll2s6i5nrxfpfjm";
+
 const WIDGET_OWNER = "sdks.near";
 
 const libraries = VM.require(`${WIDGET_OWNER}/widget/Manifest`)["libs"] || [];
@@ -33,9 +35,8 @@ const Shape = styled.div`
     position:absolute;
     z-index:-1;
     opacity:.6;
-    top:0;
+    top:20px;
     left:0;
-    bottom:0;
     right:0;
     margin:auto;
     width:400px;
@@ -150,19 +151,35 @@ const Libraries = styled.div`
 
 const Library = styled.div`
     width:350px;
-    height:150px;
     border-radius:15px;
     background-color:#f2f2f2;
     border:3px solid rgba(0,0,0,.05);
     margin-bottom:20px;
     padding:15px;
     text-align:left;
+    align-self:flex-start;
 
     h2 {
         font-weight:bold;
         font-size:1.2rem;
         padding:0;
         margin:0;
+    }
+
+    ul {
+        padding: 0;
+        margin:0;
+        list-style:none;
+
+        li {
+            padding-top:20px;
+            font-size:.8rem;
+            
+            :not(:last-of-type) {
+                border-bottom:1px solid rgba(0,0,0,.05);
+                padding-bottom:20px;
+            }
+        }
     }
 `;
 
@@ -197,7 +214,7 @@ const QuickStart = styled.div`
     }
 `;
 
-const getLibraryDependencies = (library) => {
+const getLibraryDependenciesString = (library) => {
   const dependencies = libraries[library];
 
   if (Array.isArray(dependencies)) {
@@ -219,6 +236,26 @@ const getLibraryDependencies = (library) => {
       )
       .join(", ");
     return content.length >= 30 ? content.substring(0, 30) + "..." : content;
+  }
+};
+
+const getLibraryDependencies = (library) => {
+  const dependencies = libraries[library];
+
+  if (Array.isArray(dependencies)) {
+    return dependencies.map((dependency) => dependency.split(".").pop());
+  }
+
+  if (typeof dependencies == "string") {
+    return [dependencies.split(".").pop()];
+  }
+
+  if (typeof dependencies == "object") {
+    return Object.keys(dependencies)
+      .map((module) =>
+        `${module.toUpperCase()}: ` + dependencies[module]
+          .map((dependency) => dependency.split(".").pop()).join(', ')
+      );
   }
 };
 
@@ -278,12 +315,17 @@ let views = {
                     <br />
                     <span class="type">const</span> {"{"}{" "}
                     <span class="variable">
-                      {getLibraryDependencies(library)}
+                      {getLibraryDependenciesString(library)}
                     </span>{" "}
                     {"}"} = <span class="function">$</span>(
                     <span class="string">"@sdks/{library}"</span>);
                     <br />
                   </QuickStart>
+                  <ul>
+                      {getLibraryDependencies(library).map((dependency) => <li>
+                          <span><img src={PACKAGE_ICON} style={{maxWidth: "25px", marginRight: "10px"}} /></span>{dependency}
+                      </li>)}
+                  </ul>
                 </Library>
               ))}
             </Libraries>
