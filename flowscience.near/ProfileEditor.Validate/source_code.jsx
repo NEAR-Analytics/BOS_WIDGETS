@@ -14,9 +14,8 @@ State.init({
   profile,
 });
 
-const [isFormValid, setIsFormValid] = useState(false);
-
-const validateProfile = (profile) => {
+// Define the validation function
+function isProfileValid(profile) {
   const requiredFields = [
     "name",
     "image",
@@ -24,22 +23,28 @@ const validateProfile = (profile) => {
     "description",
     "tags",
   ];
+  const linktreeFilled =
+    profile.linktree &&
+    Array.isArray(profile.linktree.links) &&
+    profile.linktree.links.some(
+      (link) => typeof link.name === "string" && link.name.trim() !== ""
+    );
 
-  const linktreeFilled = profile.linktree.links.some(
-    (link) => link.name && link.name.trim() !== ""
-  );
-
-  const isValid =
+  return (
     requiredFields.every(
-      (field) => profile[field] && profile[field].trim() !== ""
-    ) && linktreeFilled;
+      (field) =>
+        typeof profile[field] === "string" && profile[field].trim() !== ""
+    ) && linktreeFilled
+  );
+}
 
-  setIsFormValid(isValid);
-};
+// Check if the profile is valid
+const isValidProfile = isProfileValid(profile);
 
-useEffect(() => {
-  validateProfile(state.profile);
-}, [state.profile]);
+// Handler for profile change
+function handleProfileChange(updatedProfile) {
+  State.update({ profile: updatedProfile });
+}
 
 return (
   <div className="row">
@@ -93,7 +98,7 @@ return (
         />
       </div>
       <div className="mb-2">
-        <CommitButton data={{ profile: state.profile }} disabled={!isFormValid}>
+        <CommitButton data={{ profile: profile }} disabled={!isValidProfile}>
           Save profile
         </CommitButton>
         <a
