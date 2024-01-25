@@ -40,6 +40,7 @@ State.init({
     },
   ],
   load: false,
+  error: "",
 });
 
 const columns = {
@@ -100,7 +101,7 @@ const columns = {
 };
 
 const selectMenu = (data, key) => {
-  State.update({ [key]: data, load: true });
+  State.update({ [key]: data, load: false });
 };
 
 const getListData = () => {
@@ -113,15 +114,16 @@ const getListData = () => {
   ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error });
-      // State.update({
-      //   list: data,
-      // });
+      if (error) return State.update({ error });
+      State.update({
+        list: data,
+      });
     }
   });
 };
 
 if (!state.load) getListData();
+if (state.error) return <p style={{ color: "red" }}>{state.error}</p>;
 
 return (
   <div style={{ width: 400 }}>
