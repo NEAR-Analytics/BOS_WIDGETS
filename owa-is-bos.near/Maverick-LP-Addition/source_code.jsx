@@ -186,7 +186,7 @@ const getNFTUser = () => {
 // Method to get pools
 const getPools = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/pools/324
-`)
+  `)
     .catch((err) => {
       console.log(err);
     })
@@ -221,7 +221,7 @@ const getFeeWidthFormat = (n) => {
 
 // Format token balance
 const formatNumberBalanceToken = (n) => {
-  if(n < 0.01) {
+  if (n < 0.01) {
     return "< 0.01";
   }
   if (n >= 1000000) {
@@ -316,21 +316,51 @@ const addLiquidity = () => {
 
   if (state.poolModeSelected.id == 0) {
     if (state.poolDistributionSelected.name == "Single Bin") {
-      amountInA = ethers.utils.parseUnits(inputA, 18);
-      amountInB = ethers.utils.parseUnits(inputB, 18);
+      amountInA = ethers.utils.parseUnits(
+        inputA,
+        state.selectedPoolOptions.tokenA.decimals
+      );
+      amountInB = ethers.utils.parseUnits(
+        inputB,
+        state.selectedPoolOptions.tokenB.decimals
+      );
     } else {
-      amountInA = ethers.utils.parseUnits(inputA, 18);
-      amountInB = ethers.utils.parseUnits(inputB, 18);
+      amountInA = ethers.utils.parseUnits(
+        inputA,
+        state.selectedPoolOptions.tokenA.decimals
+      );
+      amountInB = ethers.utils.parseUnits(
+        inputB,
+        state.selectedPoolOptions.tokenB.decimals
+      );
     }
   } else if (state.poolModeSelected.id == 3) {
-    amountInA = ethers.utils.parseUnits(inputA, 18);
-    amountInB = ethers.utils.parseUnits(inputB, 18);
+    amountInA = ethers.utils.parseUnits(
+      inputA,
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      inputB,
+      state.selectedPoolOptions.tokenB.decimals
+    );
   } else if (state.poolModeSelected.id == 1) {
-    amountInA = ethers.utils.parseUnits(inputA, 18);
-    amountInB = ethers.utils.parseUnits("0", 18);
+    amountInA = ethers.utils.parseUnits(
+      inputA,
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      "0",
+      state.selectedPoolOptions.tokenB.decimals
+    );
   } else if (state.poolModeSelected.id == 2) {
-    amountInA = ethers.utils.parseUnits("0", 18);
-    amountInB = ethers.utils.parseUnits(inputB, 18);
+    amountInA = ethers.utils.parseUnits(
+      "0",
+      state.selectedPoolOptions.tokenA.decimals
+    );
+    amountInB = ethers.utils.parseUnits(
+      inputB,
+      state.selectedPoolOptions.tokenB.decimals
+    );
   }
 
   const overrides = {
@@ -382,8 +412,14 @@ const addLiquidity = () => {
               Math.ceil(state.binsToDistribute / 2)
             ).toString();
 
-            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+            const amountInAFormated = ethers.utils.parseUnits(
+              leftAmount,
+              state.selectedPoolOptions.tokenA.decimals
+            );
+            const amountInBFormated = ethers.utils.parseUnits(
+              rightAmount,
+              state.selectedPoolOptions.tokenB.decimals
+            );
 
             for (let i = 0; i < state.binsToDistribute; i++) {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
@@ -411,8 +447,14 @@ const addLiquidity = () => {
               Math.ceil(state.binsToDistribute / 2)
             ).toString();
 
-            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+            const amountInAFormated = ethers.utils.parseUnits(
+              leftAmount,
+              state.selectedPoolOptions.tokenA.decimals
+            );
+            const amountInBFormated = ethers.utils.parseUnits(
+              rightAmount,
+              state.selectedPoolOptions.tokenB.decimals
+            );
 
             for (let i = 0; i < state.binsToDistribute; i++) {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
@@ -476,7 +518,10 @@ const addLiquidity = () => {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
               let newDeltaA =
                 pos <= position
-                  ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
+                  ? ethers.utils.parseUnits(
+                      amountExpL[i].toString(),
+                      state.selectedPoolOptions.tokenA.decimals
+                    )
                   : 0;
               let newDeltaB =
                 pos >= position
@@ -484,7 +529,7 @@ const addLiquidity = () => {
                       amountExpR[
                         i - Math.floor(state.binsToDistribute / 2)
                       ].toString(),
-                      18
+                      state.selectedPoolOptions.tokenB.decimals
                     )
                   : 0;
 
@@ -540,7 +585,10 @@ const addLiquidity = () => {
               const pos = position + i - Math.floor(state.binsToDistribute / 2);
               let newDeltaA =
                 pos <= position
-                  ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
+                  ? ethers.utils.parseUnits(
+                      amountExpL[i].toString(),
+                      state.selectedPoolOptions.tokenA.decimals
+                    )
                   : 0;
               let newDeltaB =
                 pos >= position
@@ -548,7 +596,7 @@ const addLiquidity = () => {
                       amountExpR[
                         i - Math.floor(state.binsToDistribute / 2)
                       ].toString(),
-                      18
+                      state.selectedPoolOptions.tokenB.decimals
                     )
                   : 0;
 
@@ -768,29 +816,47 @@ const validateAllowance = (input, mode) => {
 // Handle to set token A
 const handleInputTokenA = (input) => {
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
-    const step1TokenAAmount = state.selectedPoolOptions.price;
-    const tickSpacing = state.selectedPoolOptions.tickSpacing;
+    const step1TokenAAmount = Big(state.selectedPoolOptions.price);
+    const tickSpacing = Big(state.selectedPoolOptions.tickSpacing);
     const ic = Math.floor(
       Math.log(step1TokenAAmount) / (Math.log(1.0001) * tickSpacing)
     );
     const il = Math.pow(1.0001, ic * tickSpacing);
     const iu = Math.pow(1.0001, (ic + 1) * tickSpacing);
-
     let deltaX = 0;
     let deltaY = 0;
     let deltaL = 1;
-
-    if (step1TokenAAmount < il) {
-      deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
-      deltaY = 0;
-    }
-    if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
-      deltaX = deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
-      deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
-    }
-    if (step1TokenAAmount >= iu) {
-      deltaX = 0;
-      deltaY = Math.sqrt(iu) - Math.sqrt(il);
+    const difPriceIl = Math.abs(Big(step1TokenAAmount - il));
+    const difPriceIu = Math.abs(Big(step1TokenAAmount - iu));
+    if (difPriceIl < 0.00000000001 || difPriceIu < 0.00000000001) {
+      const priceFix = step1TokenAAmount.toFixed(11);
+      const ilFix = il.toFixed(11);
+      const iuFix = iu.toFixed(11);
+      const sqrtPrice = Math.sqrt(priceFix);
+      const sqrtIl = Math.sqrt(ilFix);
+      const sqrtIu = Math.sqrt(iuFix);
+      if (priceFix == ilFix && sqrtIl == sqrtPrice) {
+        sqrtIl = sqrtIl + 0.0000000000012;
+      }
+      if (priceFix == iuFix && sqrtIu == sqrtPrice) {
+        sqrtIu = sqrtIu + 0.0000000000012;
+      }
+      deltaY = deltaL * (sqrtIl - sqrtPrice);
+      deltaX = deltaL * (1 / sqrtPrice - 1 / sqrtIu);
+    } else {
+      if (step1TokenAAmount < il) {
+        deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
+        deltaY = 0;
+      }
+      if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
+        deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
+        deltaX =
+          deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
+      }
+      if (step1TokenAAmount >= iu) {
+        deltaX = 0;
+        deltaY = Math.sqrt(iu) - Math.sqrt(il);
+      }
     }
 
     let tokenB = 0;
@@ -888,29 +954,47 @@ const handleInputTokenA = (input) => {
 // Handle to set token B
 const handleInputTokenB = (input) => {
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
-    const step1TokenAAmount = state.selectedPoolOptions.price;
-    const tickSpacing = state.selectedPoolOptions.tickSpacing;
+    const step1TokenAAmount = Big(state.selectedPoolOptions.price);
+    const tickSpacing = Big(state.selectedPoolOptions.tickSpacing);
     const ic = Math.floor(
       Math.log(step1TokenAAmount) / (Math.log(1.0001) * tickSpacing)
     );
     const il = Math.pow(1.0001, ic * tickSpacing);
     const iu = Math.pow(1.0001, (ic + 1) * tickSpacing);
-
     let deltaX = 0;
     let deltaY = 0;
     let deltaL = 1;
-
-    if (step1TokenAAmount < il) {
-      deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
-      deltaY = 0;
-    }
-    if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
-      deltaX = deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
-      deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
-    }
-    if (step1TokenAAmount >= iu) {
-      deltaX = 0;
-      deltaY = Math.sqrt(iu) - Math.sqrt(il);
+    const difPriceIl = Math.abs(Big(step1TokenAAmount - il));
+    const difPriceIu = Math.abs(Big(step1TokenAAmount - iu));
+    if (difPriceIl < 0.00000000001 || difPriceIu < 0.00000000001) {
+      const priceFix = step1TokenAAmount.toFixed(11);
+      const ilFix = il.toFixed(11);
+      const iuFix = iu.toFixed(11);
+      const sqrtPrice = Math.sqrt(priceFix);
+      const sqrtIl = Math.sqrt(ilFix);
+      const sqrtIu = Math.sqrt(iuFix);
+      if (priceFix == ilFix && sqrtIl == sqrtPrice) {
+        sqrtIl = sqrtIl + 0.00012;
+      }
+      if (priceFix == iuFix && sqrtIu == sqrtPrice) {
+        sqrtIu = sqrtIu + 0.000000012;
+      }
+      deltaY = deltaL * (sqrtIl - sqrtPrice);
+      deltaX = deltaL * (1 / sqrtPrice - 1 / sqrtIu);
+    } else {
+      if (step1TokenAAmount < il) {
+        deltaX = deltaL * (1 / Math.sqrt(il) - 1 / Math.sqrt(iu));
+        deltaY = 0;
+      }
+      if (il <= step1TokenAAmount && step1TokenAAmount < iu) {
+        deltaY = deltaL * (Math.sqrt(step1TokenAAmount) - Math.sqrt(il));
+        deltaX =
+          deltaL * (1 / Math.sqrt(step1TokenAAmount) - 1 / Math.sqrt(iu));
+      }
+      if (step1TokenAAmount >= iu) {
+        deltaX = 0;
+        deltaY = Math.sqrt(iu) - Math.sqrt(il);
+      }
     }
 
     let tokenA = 0;
@@ -1107,12 +1191,12 @@ const validateButtonDisabled = (
           ? "Validate"
           : `You don't have enough balance`
         : state.poolModeSelected.id == 1
-          ? state.tokenABalance
-            ? "Validate"
-            : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
-          : state.tokenBBalance
-            ? "Validate"
-            : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
+        ? state.tokenABalance
+          ? "Validate"
+          : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
+        : state.tokenBBalance
+        ? "Validate"
+        : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
     </div>
   </div>
 );
@@ -1169,8 +1253,8 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    ${css}
-`,
+      ${css}
+  `,
   });
 }
 
