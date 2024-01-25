@@ -157,6 +157,8 @@ const ROUTER_ABI = [
   },
 ];
 
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 const {
   updater,
   routerAddress,
@@ -288,8 +290,7 @@ useEffect(() => {
 
     PairContract.getReserves()
       .then((res) => {
-        const isReverse =
-          Number(inputCurrency.address) > Number(outputCurrency.address);
+        const isReverse = Number(path[0]) > Number(path[1]);
 
         const token0 = Big(
           ethers.utils.formatUnits(
@@ -365,10 +366,7 @@ useEffect(() => {
     const paths = [
       {
         steps: steps,
-        tokenIn:
-          inputCurrency.address === "native"
-            ? ZERO_ADDRESS
-            : inputCurrency.address,
+        tokenIn: inputCurrency.isNative ? ZERO_ADDRESS : inputCurrency.address,
         amountIn: amount,
       },
     ];
