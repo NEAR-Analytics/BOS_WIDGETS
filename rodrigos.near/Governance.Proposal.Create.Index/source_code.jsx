@@ -6,8 +6,8 @@ const mpip_id = props.mpip_id ?? null;
 const update = props.update;
 const transactionHashes = props.transactionHashes;
 const title = props.edit ? "Edit proposal" : "Create Proposal";
-const META_VOTE_CONTRACT_ID = "ip-aaxxii-test.near";
-const contractId = props.contractId || "aaxxii-stake.near";
+const META_VOTE_CONTRACT_ID = "aaxxii-stake.near";
+const contractId = props.contractId || "ip-aaxxii-test.near";
 State.init({
   openModal: false,
   allVotingPower: null,
