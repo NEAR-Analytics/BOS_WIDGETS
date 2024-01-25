@@ -75,7 +75,6 @@ const sendOnChange = () => {
           context_id: linkId
         }
       );
-      setTimeout(() => State.update({ loading: false }), 3000)
     } catch (err) {
       console.error(err);
       State.update({ loading: false })
