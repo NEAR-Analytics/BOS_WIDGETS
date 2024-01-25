@@ -232,7 +232,7 @@ useEffect(() => {
         VaultContract.callStatic
           .query(...params)
           .then((res) => {
-            getTransaction(isReverse ? res[1] : res[0], pool);
+            getTransaction(isReverse ? res[0] : res[1], pool);
           })
           .catch((err) => {
             onLoad({
@@ -257,9 +257,9 @@ useEffect(() => {
     );
     if (prices) {
       const poolPrice = Big(
-        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
-      ).div(
         prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
+      ).div(
+        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
       );
       const amountoutPrice = !isReverse
         ? Big(inputCurrencyAmount).div(_amountOutWithoutDecimal)
