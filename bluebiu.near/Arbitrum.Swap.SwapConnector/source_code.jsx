@@ -72,12 +72,16 @@ const Title = styled.div`
     padding-left: 0px;
   }
 `;
-const List = styled.div`
-  width: 250px;
+const ListWrapper = styled.div`
   border-radius: 16px;
   border: 1px solid var(--border-color);
-  padding: 10px;
+  padding: 10px 4px 10px 10px;
   background-color: #181a27;
+`;
+const List = styled.div`
+  width: 230px;
+  height: 443.5px;
+  overflow-y: auto;
   @media (max-width: 900px) {
     width: 100%;
     display: flex;
@@ -168,32 +172,34 @@ return (
   <Dex>
     <Sider>
       <Title>Chain & Dapp</Title>
-      <List>
-        {DEXS.map((dex) => (
-          <Row
-            key={dex.name}
-            className={state.selectedDex === dex.name ? "active" : ""}
-            onClick={() => {
-              State.update({
-                selectedDex: dex.name,
-                dexProps: dexs[dex.name],
-              });
-            }}
-          >
-            <IconWrapper>
-              <Icon
-                src={dex.logo}
-                className={state.selectedDex === dex.name ? "active" : ""}
-              />
-            </IconWrapper>
+      <ListWrapper>
+        <List>
+          {DEXS.map((dex) => (
+            <Row
+              key={dex.name}
+              className={state.selectedDex === dex.name ? "active" : ""}
+              onClick={() => {
+                State.update({
+                  selectedDex: dex.name,
+                  dexProps: dexs[dex.name],
+                });
+              }}
+            >
+              <IconWrapper>
+                <Icon
+                  src={dex.logo}
+                  className={state.selectedDex === dex.name ? "active" : ""}
+                />
+              </IconWrapper>
 
-            <div>
-              <ChainName>{displayChainName}</ChainName>
-              <DexName>{dex.name}</DexName>
-            </div>
-          </Row>
-        ))}
-      </List>
+              <div>
+                <ChainName>{displayChainName}</ChainName>
+                <DexName>{dex.name}</DexName>
+              </div>
+            </Row>
+          ))}
+        </List>
+      </ListWrapper>
     </Sider>
     <WidgetWrapper>
       <Widget
