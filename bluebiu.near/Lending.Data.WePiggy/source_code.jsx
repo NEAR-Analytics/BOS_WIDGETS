@@ -134,13 +134,6 @@ const REWARD_ABI = [
     stateMutability: "view",
     type: "function",
   },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "wpcSpeeds",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
 ];
 
 const RewardToken = {
@@ -160,6 +153,7 @@ const {
   onLoad,
   multicall,
   markets,
+  apyUrl,
 } = props;
 
 useEffect(() => {
@@ -224,12 +218,10 @@ useEffect(() => {
         .minus(1)
         .mul(100);
 
-      const supplyDistributionApy = Big(_rewardApy[market.address])
-        .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
+      const supplyDistributionApy = Big(_rewardApy[market.address].supply || 0)
         .mul(100)
         .toFixed(2);
-      const borrowDistributionApy = Big(_rewardApy[market.address])
-        .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
+      const borrowDistributionApy = Big(_rewardApy[market.address].borrow || 0)
         .mul(100)
         .toFixed(2);
 
@@ -247,11 +239,11 @@ useEffect(() => {
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
         distributionApy: [
-          // {
-          //   ...RewardToken,
-          //   supply: supplyDistributionApy + "%",
-          //   borrow: borrowDistributionApy + "%",
-          // },
+          {
+            ...RewardToken,
+            supply: supplyDistributionApy + "%",
+            borrow: borrowDistributionApy + "%",
+          },
         ],
         dapp,
       };
@@ -592,35 +584,32 @@ useEffect(() => {
         console.log("getUserRewards err", err);
       });
   };
-  const getRewardApy = () => {
+
+  const getMiningApy = () => {
     const tokens = Object.values(markets);
-    const calls = tokens.map((market) => ({
-      address: rewardAddress,
-      name: "wpcSpeeds",
-      params: [market.address],
-    }));
-    multicall({
-      abi: REWARD_ABI,
-      calls,
-      options: {},
-      multicallAddress,
-      provider: Ethers.provider(),
-    })
-      .then((res) => {
-        res.forEach((item, i) => {
-          const reward = Big(ethers.utils.formatUnits(item[0]._hex, 18)).mul(
-            price
-          );
-          _rewardApy[tokens[i].address] = reward
-            .mul(60 * 60 * 24 * 365)
-            .toString();
-        });
-        count++;
-        formatedData("getRewardApy");
+    const getTokenApy = () => {
+      const token = tokens.pop();
+      asyncFetch(`${apyUrl}?underlyingSymbol=${token.underlyingToken.symbol}`, {
+        mode: "no-cors",
       })
-      .catch((err) => {
-        console.log("getRewardApy err", err);
-      });
+        .then((res) => {
+          const data = res.body.data;
+          _rewardApy[token.address] = {
+            supply: data.supplyMineApy,
+            borrow: data.borrowMineApy,
+          };
+          if (tokens.length) {
+            getTokenApy();
+          } else {
+            count++;
+            formatedData("getRewardApy");
+          }
+        })
+        .catch((err) => {
+          console.log("getTokenApy err", err);
+        });
+    };
+    getTokenApy();
   };
   getUnitrollerData();
   getUnderlyPrice();
@@ -628,5 +617,5 @@ useEffect(() => {
   getWalletBalance();
   getCTokensData();
   getUserRewards();
-  getRewardApy();
+  getMiningApy();
 }, []);
