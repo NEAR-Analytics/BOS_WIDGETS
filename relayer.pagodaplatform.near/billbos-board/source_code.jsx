@@ -155,7 +155,7 @@ const MarqueeStyled = styled.div`
   }
 `;
 
-const [count, setCount] = useState(0);
+const [count, setCount] = useState(1);
 
 function weightedRandomItems(arr) {
   const result = [];
@@ -242,11 +242,17 @@ useEffect(() => {
 useEffect(() => {
   if (state.raw.length > 0 && state.show.length <= 0) {
     weightedRandomItems(state.raw);
+  }
+}, [state.raw]);
+
+useEffect(() => {
+  if (state.show.length > 0) {
+    const len = state.show.length;
     setInterval(() => {
-      setCount((prev) => ((prev + 1) % state.raw > 5 ? 5 : state.raw.length));
+      setCount((prev) => (prev + 1) % (len > 5 ? 6 : len + 1));
     }, 5000);
   }
-}, [state.raw.length]);
+}, [state.show]);
 
 return (
   <div
@@ -256,7 +262,7 @@ return (
   >
     <div style={{ width: 728, height: 90 }}>
       {state.show.length > 0 ? (
-        <a href={state.show[count][1][2] || ""} target="_blank">
+        <a href={state.show[count - 1][1][2] || ""} target="_blank">
           <img
             src={`https://ipfs.near.social/ipfs/${state.show[count][1][1]}`}
             width={728}
