@@ -9,7 +9,7 @@ const GridContainer = styled.div`
 `;
 
 const Card = styled.div`
-  background: #1e1e2d;
+  background: #292a3d;
   border-radius: 8px;
   padding: 20px;
   color: #fff;
@@ -17,7 +17,7 @@ const Card = styled.div`
 
 const GridItem = ({ span, rowSpan, children, style }) => {
   const GridItemStyled = styled.div`
-    background: #1e1e2d;
+    background: #292a3d;
     border-radius: 8px;
     padding: 20px;
     color: #fff;
@@ -44,7 +44,7 @@ const Input = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #333;
-  background: #1e1e2d;
+  background: #292a3d;
   color: white;
   margin-bottom: 12px;
 
@@ -72,9 +72,9 @@ const CollateralItem = styled.div`
 `;
 
 const InfoSection = styled.div`
-  background: #1e1e2d;
+  background: #292a3d;
   border-radius: 8px;
-  padding: 16px;
+
   color: white;
   margin-bottom: 16px;
 `;
@@ -133,7 +133,7 @@ const SectionTitle = styled.h2`
 `;
 
 const Button = styled.button`
-  background-color: #4e3f8e;
+  background-color: ${(props) => props.bgColor || "#00EC97"};
   color: white;
   border: none;
   padding: 10px 20px;
@@ -145,7 +145,30 @@ const Button = styled.button`
 
   &:hover,
   &:focus {
-    background-color: #675aa9;
+    opacity: 0.7;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+const GhostButton = styled.button`
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover,
+  &:focus {
+    opacity: 0.7;
 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
@@ -200,7 +223,7 @@ const InputField = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #333;
-  background: #1e1e2d;
+  background: #292a3d;
   color: white;
   margin-right: 10px;
 
@@ -232,7 +255,7 @@ const DropdownSelect = styled.select`
   width: 100%;
   padding: 10px;
   border-radius: 5px;
-  background-color: #1e1e1e;
+  background-color: #292a3d;
   color: white;
   border: none;
   -webkit-appearance: none;
@@ -270,7 +293,7 @@ const ProgressBarLimit = styled.div`
 
 const ProgressBarFilled = styled.div`
   height: 100%;
-  background-color: purple;
+  background-color: #00ec97;
   border-radius: 4px;
   transition: width 0.3s ease-in-out;
 `;
@@ -392,7 +415,7 @@ return (
       <SectionHeader>Balance</SectionHeader>
       <BalanceDisplay>
         <span>123.64 USDC</span>
-        <Button>Withdraw</Button>
+        <GhostButton>Withdraw</GhostButton>
       </BalanceDisplay>
     </GridItem>
 
@@ -412,14 +435,14 @@ return (
       <InputGroup>
         <InputLabel htmlFor="borrow-input">Available to Borrow:</InputLabel>
         <InputField id="borrow-input" defaultValue="0.00 USDC" />
-        <Button>BORROW</Button>
+        <Button bgColor="#AA00FA"> BORROW</Button>
       </InputGroup>
     </GridItem>
 
     {/* Net Borrow APR Section */}
 
     {/* Collateral Section */}
-    <GridItem span={8} rowSpan={collateralRowSpan}>
+    <GridItem span={6} rowSpan={collateralRowSpan}>
       <SectionHeader>Collateral</SectionHeader>
       {collateralItems.map((item, index) => (
         <CollateralItem key={index}>
@@ -431,19 +454,41 @@ return (
         </CollateralItem>
       ))}
     </GridItem>
-    <GridItem span={4}>
+    <GridItem span={3}>
       <SectionHeader>Net Borrow APR</SectionHeader>
-      <div style={{ marginTop: 16 }}>
-        <AprProgressBar></AprProgressBar>
-      </div>
-      <div style={{ marginTop: 16 }}>
-        <SectionHeader>Net Supply APR</SectionHeader>
-        <div style={{ marginTop: 16 }}>
-          <AprProgressBar></AprProgressBar>
-        </div>
-      </div>
+      <InfoSection>
+        <InfoRow>
+          <InfoLabel>APR</InfoLabel>
+          <InfoValue>0.7%</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Fee</InfoLabel>
+          <InfoValue>0.2%</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Interest</InfoLabel>
+          <InfoValue>0.5%</InfoValue>
+        </InfoRow>
+      </InfoSection>
     </GridItem>
-    <GridItem span={4} style={{ maxHeight: "220px" }} rowSpan={2}>
+    <GridItem span={3}>
+      <SectionHeader>Net Supply APR</SectionHeader>
+      <InfoSection>
+        <InfoRow>
+          <InfoLabel>APR</InfoLabel>
+          <InfoValue>0.7%</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Fee</InfoLabel>
+          <InfoValue>0.2%</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Interest</InfoLabel>
+          <InfoValue>0.5%</InfoValue>
+        </InfoRow>
+      </InfoSection>
+    </GridItem>
+    <GridItem span={6} style={{ maxHeight: "220px" }} rowSpan={2}>
       <CollateralInfo />
     </GridItem>
   </GridContainer>
