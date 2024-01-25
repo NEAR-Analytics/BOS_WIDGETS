@@ -361,7 +361,14 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(11),
+        amountInputTokenB:
+          deltaY == 0
+            ? 0
+            : tokenB.toFixed(
+                state.newTokenBSelected.decimals == 18
+                  ? 11
+                  : state.newTokenBSelected.decimals
+              ),
         amountInputTokenA: input,
         validation: undefined,
         onlyRight: false,
@@ -378,7 +385,11 @@ const handleInputTokenA = (input) => {
         const binsR = Math.ceil(state.binsToDistribute / 2);
         tokenB = (input / binsL) * binsR;
         State.update({
-          amountInputTokenB: tokenB.toFixed(11),
+          amountInputTokenB: tokenB.toFixed(
+            state.newTokenBSelected.decimals == 18
+              ? 11
+              : state.newTokenBSelected.decimals
+          ),
           amountInputTokenA: input,
           validation: undefined,
           onlyRight: true,
@@ -420,7 +431,11 @@ const handleInputTokenA = (input) => {
 
         State.update({
           amountInputTokenA: input,
-          amountInputTokenB: tokenB.toFixed(11),
+          amountInputTokenB: tokenB.toFixed(
+            state.newTokenBSelected.decimals == 18
+              ? 11
+              : state.newTokenBSelected.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -481,7 +496,14 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(11),
+        amountInputTokenA:
+          deltaY == 0
+            ? 0
+            : tokenA.toFixed(
+                state.newTokenASelected.decimals == 18
+                  ? 11
+                  : state.newTokenASelected.decimals
+              ),
         amountInputTokenB: input,
         validation: undefined,
         onlyRight: false,
@@ -499,7 +521,11 @@ const handleInputTokenB = (input) => {
         tokenA = (input / binsR) * binsL;
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(11),
+          amountInputTokenA: tokenA.toFixed(
+            state.newTokenASelected.decimals == 18
+              ? 11
+              : state.newTokenASelected.decimals
+          ),
           validation: undefined,
           onlyRight: true,
           noBalanceA:
@@ -534,7 +560,11 @@ const handleInputTokenB = (input) => {
 
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(11),
+          amountInputTokenA: tokenA.toFixed(
+            state.newTokenASelected.decimals == 18
+              ? 11
+              : state.newTokenASelected.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -716,8 +746,8 @@ const createPool = () => {
   );
 
   let amountInA, amountInB;
-  let inputA = parseFloat(state.amountInputTokenA).toString();
-  let inputB = parseFloat(state.amountInputTokenB).toString();
+  let inputA = state.amountInputTokenA;
+  let inputB = state.amountInputTokenB;
   if (state.poolModeSelected.id == 0) {
     if (state.poolDistributionSelected.name == "Single Bin") {
       amountInA = ethers.utils.parseUnits(
