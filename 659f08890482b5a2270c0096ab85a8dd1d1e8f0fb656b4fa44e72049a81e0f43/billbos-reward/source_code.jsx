@@ -1,5 +1,4 @@
 const state = props.state;
-const handleRequest = props.handleRequest ? props.handleRequest : () => {};
 const BACKEND_API = props.BACKEND_API;
 const coreContractAddress = props.coreContractAddress;
 const CHAIN_LIST = [25925, 35011];
@@ -92,7 +91,7 @@ function tapRewards() {
     }
   });
 
-  const signer = Ethers.provider().getSigner();
+  const signer = Ethers.provider();
   const contract = new ethers.Contract(
     coreContractAddress,
     BillBOSCoreABI,
@@ -120,7 +119,7 @@ function tapRewards() {
           <p className="mt-2">Earn up to 20% commission on every view</p>
         </div>
       </div>
-      {state.walletConnected ? (
+      {state.walletConnected && signer ? (
         <div
           style={{ marginTop: "-50px" }}
           className="container rounded-t-3xl gray-surface min-h-screen"
