@@ -176,7 +176,9 @@ function getRewards() {
 }
 
 function getTotalDashboard() {
-  const chainId = state.chainId || String(DEFAULT_CHAIN_ID);
+  const chainId = state.chainId
+    ? String(state.chainId)
+    : String(DEFAULT_CHAIN_ID);
 
   const provider =
     Ethers.provider() ||
@@ -194,7 +196,6 @@ function getTotalDashboard() {
     console.log("setEarningBalance", fE(res));
     State.update({ earningBalance: fE(res) });
   });
-  console.log({ adsInfo });
   contract.count().then((res) => {
     State.update({ monthCount: fE(res) });
   });
