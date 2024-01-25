@@ -190,7 +190,6 @@ display: flex;
 align-items: center;
 flex-direction: column;
 width: 100%;
-height: 80vh;
 margin-bottom: 2rem;
 `;
 
