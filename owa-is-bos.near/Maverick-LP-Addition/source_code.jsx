@@ -186,7 +186,7 @@ const getNFTUser = () => {
 // Method to get pools
 const getPools = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/pools/324
-  `)
+    `)
     .catch((err) => {
       console.log(err);
     })
@@ -863,7 +863,14 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(11),
+        amountInputTokenB:
+          deltaY == 0
+            ? 0
+            : tokenB.toFixed(
+                state.poolSelected.tokenB.decimals == 18
+                  ? 11
+                  : state.poolSelected.tokenB.decimals
+              ),
         amountInputTokenA: input,
         validation: undefined,
         onlyRight: false,
@@ -880,7 +887,11 @@ const handleInputTokenA = (input) => {
         const binsR = Math.ceil(state.binsToDistribute / 2);
         tokenB = (input / binsL) * binsR;
         State.update({
-          amountInputTokenB: tokenB.toFixed(11),
+          amountInputTokenB: tokenB.toFixed(
+            state.poolSelected.tokenB.decimals == 18
+              ? 11
+              : state.poolSelected.tokenB.decimals
+          ),
           amountInputTokenA: input,
           validation: undefined,
           onlyRight: true,
@@ -922,7 +933,11 @@ const handleInputTokenA = (input) => {
 
         State.update({
           amountInputTokenA: input,
-          amountInputTokenB: tokenB.toFixed(11),
+          amountInputTokenB: tokenB.toFixed(
+            state.poolSelected.tokenB.decimals == 18
+              ? 11
+              : state.poolSelected.tokenB.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -1001,7 +1016,14 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(11),
+        amountInputTokenA:
+          deltaY == 0
+            ? 0
+            : tokenA.toFixed(
+                state.poolSelected.tokenA.decimals == 18
+                  ? 11
+                  : state.poolSelected.tokenA.decimals
+              ),
         amountInputTokenB: input,
         validation: undefined,
         onlyRight: false,
@@ -1019,7 +1041,11 @@ const handleInputTokenB = (input) => {
         tokenA = (input / binsR) * binsL;
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(11),
+          amountInputTokenA: tokenA.toFixed(
+            state.poolSelected.tokenA.decimals == 18
+              ? 11
+              : state.poolSelected.tokenA.decimals
+          ),
           validation: undefined,
           onlyRight: true,
           noBalanceA:
@@ -1054,7 +1080,11 @@ const handleInputTokenB = (input) => {
 
         State.update({
           amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(11),
+          amountInputTokenA: tokenA.toFixed(
+            state.poolSelected.tokenA.decimals == 18
+              ? 11
+              : state.poolSelected.tokenA.decimals
+          ),
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -1253,8 +1283,8 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-      ${css}
-  `,
+        ${css}
+    `,
   });
 }
 
