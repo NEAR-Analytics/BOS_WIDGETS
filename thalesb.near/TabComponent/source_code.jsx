@@ -235,7 +235,7 @@ return (
         {activeMenu == "Markets" ? (
           <>
             <Widget
-              src="thalespollum.testnet/widget/Test"
+              src="thalespollum.testnet/widget/CompoundMarkets"
               props={{ ...dashboardConfig, ...restProps, prices }}
             />
           </>
