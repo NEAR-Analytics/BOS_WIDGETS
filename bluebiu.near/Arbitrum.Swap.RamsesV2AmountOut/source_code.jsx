@@ -301,21 +301,36 @@ useEffect(() => {
       priceImpact,
       noPair: false,
     };
-
-    multicallContract.populateTransaction
-      .multicall(multicallParams, options)
-      .then((res) => {
-        onLoad({
-          ...returnData,
-          gas: result.gasEstimate,
-          unsignedTx: res,
+    const getTx = (_gas) => {
+      multicallContract.populateTransaction
+        .multicall(multicallParams, { ...options, gasLimit: _gas })
+        .then((res) => {
+          onLoad({
+            ...returnData,
+            gas: _gas,
+            unsignedTx: res,
+          });
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+          });
         });
-      })
-      .catch((err) => {
-        onLoad({
-          ...returnData,
+    };
+    const estimateGas = () => {
+      multicallContract.estimateGas
+        .multicall(multicallParams, options)
+        .then((_gas) => {
+          getTx(_gas);
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+            noPair: false,
+          });
         });
-      });
+    };
+    estimateGas();
   };
 
   (fees || []).forEach((fee) => {
