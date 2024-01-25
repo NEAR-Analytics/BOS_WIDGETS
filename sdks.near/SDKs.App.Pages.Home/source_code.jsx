@@ -187,30 +187,36 @@ const QuickStart = styled.div`
     width:100%;
     height:80px;
     border-radius:10px;
-    background-color:#303444;
+    background-color:#1E1E1E;
     margin-top:15px;
     color:#fff;
     padding:10px;
     font-size:.7rem;
 
+    border-left:13px solid rgba(0,0,0,.6);
+
     .type {
-        color:#BC4AE1;
+        color:#5396CD;
     }
 
     .variable {
-        color:#E3CE66;
+        color:#C3C4C4;
     }
 
     .function {
-        color:#C44E3D;
+        color:#477CA8;
     }
 
     .class {
-        color:#DF2569;
+        color:#349A8B;
+    }
+
+    .brackets {
+        color:#caab07;
     }
 
     .string {
-        color:#7CBC67;
+        color:#C28972;
     }
 `;
 
@@ -308,17 +314,14 @@ let views = {
                   <QuickStart>
                     <span class="type">const</span>{" "}
                     <span class="variable">$</span> ={" "}
-                    <span class="function">VM</span>
-                    <span class="type">.</span>
-                    <span class="variable">require</span>(
-                    <span class="string">"sdks.near/widget/Loader"</span>);
+                    <span class="class">VM</span>{""}<span class="variable">.</span><span class="function">require</span><span class="brackets">(</span>
+                    <span class="string">"sdks.near/widget/Loader"</span><span class="brackets">)</span>;
                     <br />
-                    <span class="type">const</span> {"{"}{" "}
-                    <span class="variable">
+                    <span class="type">const</span> <span class="brackets">{"{"}</span>{" "}
+                    <span class="class">
                       {getLibraryDependenciesString(library)}
                     </span>{" "}
-                    {"}"} = <span class="function">$</span>(
-                    <span class="string">"@sdks/{library}"</span>);
+                    <span class="brackets">{"}"}</span> = <span class="variable">$</span><span class="brackets">(</span><span class="string">"@sdks/{library}"</span><span class="brackets">)</span>;
                     <br />
                   </QuickStart>
                   <ul>
