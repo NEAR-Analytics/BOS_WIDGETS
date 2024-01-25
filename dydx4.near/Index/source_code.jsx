@@ -1,11 +1,44 @@
 const defaultChainId = 11155111;
-State.init({
-  orderSize: "0.001",
-  orderPrice: "2500",
-  orderMarketId: "ETH-USD",
-  orderType: "LIMIT",
-  nonce: 0,
-});
+
+if (state === undefined) {
+  State.init({
+    orderSize: "0.01",
+    orderPrice: "2500",
+    orderMarketId: "ETH-USD",
+    orderType: "MARKET",
+    nonce: 0,
+  });
+
+  // Auto refresh orders and account
+  setInterval(() => {
+    State.update((state) => ({
+      ...state,
+      nonce: state.account ? state.nonce + 1 : state.nonce,
+    }));
+  }, 3000);
+}
+
+const css = fetch(
+  "https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmQWyLP4c4XW36yUdx9AV7Ck8Zcqes9z8eX7aevySdYtHW"
+).body;
+
+if (!css) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+${css}
+`,
+  });
+}
+
+const Theme = state.theme;
+console.log(state.theme);
+
+const updateOrders = () => {
+  const nonce = state.nonce ?? 0;
+  State.update({ nonce: nonce + 1 });
+};
 
 const OrderMarket = styled.div`{
   display: inline-block;
@@ -151,8 +184,8 @@ const getWalletFromEvmSignature = (signature) => {
           dydx_account: dydx_account.address,
           wallet: wallet,
           mnemonic,
-          updateMarketPrice: true,
         });
+        updateOrders();
       })
       .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
   });
@@ -167,18 +200,32 @@ const headers = {
 };
 
 const loadAccount = () => {
-  asyncFetch(`${apiUrl}/addresses/${accountId}`, { headers })
-    .then((r) =>
-      State.update({ account: r?.body?.subaccounts[0], all_accounts: r?.body })
-    )
-    .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+  if (accountId) {
+    asyncFetch(`${apiUrl}/addresses/${accountId}`, { headers })
+      .then((r) =>
+        State.update({
+          account: r?.body?.subaccounts[0],
+          all_accounts: r?.body,
+        })
+      )
+      .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+  }
+};
 
-  asyncFetch(
-    `${apiUrl}/orders?address=${accountId}&subaccountNumber=0&limit=100`,
-    {
-      headers,
-    }
-  ).then((r) => State.update({ orders: r?.body }));
+const loadOrders = () => {
+  if (accountId) {
+    asyncFetch(
+      `${apiUrl}/orders?address=${accountId}&subaccountNumber=0&limit=100`,
+      {
+        headers,
+      }
+    )
+      .then((r) => {
+        console.log("Fetch orders", r);
+        State.update({ orders: r?.body });
+      })
+      .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+  }
 };
 
 function getRandomClientId() {
@@ -187,24 +234,22 @@ function getRandomClientId() {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const updateOrders = () => {
-  const nonce = state.nonce ?? 0;
-  State.update({ nonce: nonce + 1 });
-};
-
-if (state.updateMarketPrice == true) {
-  const url = `https://indexer.v4testnet.dydx.exchange/v4/perpetualMarkets?ticker=${state.orderMarketId}`;
-  let data = fetch(url);
-  if (data.ok) {
-    console.log(data);
-    let price = data?.body?.markets?.[state.orderMarketId]?.oraclePrice;
-    if (price) {
-      State.update({ orderPrice: price, updateMarketPrice: false });
-    } else {
-      State.update({ updateMarketPrice: false });
+const updateMarketPrice = () => {
+  if (state.dydx_account && state.orderMarketId) {
+    const url = `https://indexer.v4testnet.dydx.exchange/v4/perpetualMarkets?ticker=${state.orderMarketId}`;
+    let data = fetch(url);
+    if (data.ok) {
+      console.log("perpetualMarkets", data);
+      let price = data?.body?.markets?.[state.orderMarketId]?.oraclePrice;
+      if (price) {
+        State.update({ orderPrice: price });
+        if (state.userOrderPrice === undefined) {
+          State.update({ userOrderPrice: price });
+        }
+      }
     }
   }
-}
+};
 
 const getNetwork = () => {
   let network_config = {
@@ -239,6 +284,7 @@ const getNetwork = () => {
 };
 
 const cancelUserOrder = (clientId, orderFlags, marketId) => {
+  State.update({ is_loading: true });
   let params = {
     clientId,
     orderFlags,
@@ -250,12 +296,15 @@ const cancelUserOrder = (clientId, orderFlags, marketId) => {
   cancelDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
     .then((cancelOrderResp) => {
       console.log("cancelOrderResp resp ", cancelOrderResp);
+      State.update({ is_loading: false });
       updateOrders();
     })
     .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
 };
 
 const placeUserOrder = (side) => {
+  State.update({ is_loading: true });
+
   if (
     !state.orderMarketId ||
     !state.orderPrice ||
@@ -268,7 +317,7 @@ const placeUserOrder = (side) => {
 
   let marketId = state.orderMarketId;
   let type = state.orderType;
-  let price = Number(state.orderPrice);
+  let price = Number(state.userOrderPrice);
   let size = Number(state.orderSize);
   let clientId = getRandomClientId();
   let timeInForce = "GTT";
@@ -297,6 +346,7 @@ const placeUserOrder = (side) => {
   placeDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
     .then((placeOrderResp) => {
       console.log("placeOrder resp ", placeOrderResp);
+      State.update({ is_loading: false });
       updateOrders();
     })
     .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
@@ -317,19 +367,15 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
     },
   };
 
-  /*return getWalletFromEvmSignature(
-    "0x4405ee8175ef8e4b0f760145f732badb93b0c826f69108d10339a4e32648d97a377dd3119ff98d8260a18aa3b221adb56d29ccd2361fcbe5474e2cbc14b949561c"
-  );*/
+  return getWalletFromEvmSignature(
+    "0x7eb5d09152acb9662b30d9bceb6e2142d5876439cbc9983df598c364b48f7eb76d41fc70436d93ad4875d307c891d104a3e8e33d23c17d041af4e0bb1057b6031c"
+  );
 
   Ethers.provider()
     .getSigner()
     ._signTypedData(toSign.domain, { dYdX: toSign.types.dYdX }, toSign.message)
     .then((signature) => getWalletFromEvmSignature(signature));
 } else {
-  useEffect(() => {
-    loadAccount();
-  }, [state.account, state.orders, state.nonce]);
-
   if (!!state.chainId && state.chainId !== defaultChainId) {
     return (
       <div>
@@ -341,6 +387,15 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
     );
   }
 
+  useEffect(() => {
+    loadAccount();
+  }, [state.account]);
+
+  useEffect(() => {
+    loadOrders();
+    updateMarketPrice();
+  }, [state.nonce]);
+
   if (state?.account?.address) {
     getDydxAccountBalances(getNetwork(), state?.account?.address).then(
       (data) => {
@@ -350,7 +405,262 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
   }
 
   return (
-    <div class="mb-5">
+    <Theme class="mb-5">
+      {state.error_msg && (
+        <div class="alert alert-primary" role="alert">
+          {state.error_msg}
+        </div>
+      )}
+
+      {state.is_loading && (
+        <div class="alert alert-primary" role="alert">
+          LOADING...
+        </div>
+      )}
+
+      <div class="dydx-component-not">
+        <div class="container-wrapper">
+          <div class="container">
+            <div class="header">
+              <img
+                class="dydx"
+                src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmStvRnpZbR1xxHgduM3diTswqgM9w4WtTJHYt4aN25ukL"
+              />
+              <div class="dydx-account">{state.dydx_account}</div>
+              <div class="balance">
+                <div class="collateral">
+                  <div class="text-wrapper">Equity</div>
+                  <div class="div">
+                    ${Number(state.account.equity).toLocaleString()}
+                  </div>
+                </div>
+                <div class="collateral">
+                  <div class="text-wrapper">Free collateral</div>
+                  <div class="div">
+                    ${Number(state.account.freeCollateral).toLocaleString()}
+                  </div>
+                </div>
+                <div class="collateral">
+                  <div class="text-wrapper">{state.orderMarketId}</div>
+                  <div class="div">
+                    ${Number(state.orderPrice).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="component">
+                <div class="heading">
+                  <img
+                    class="img"
+                    src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmbEJL2wNjLQ948Sa6fwvoidRWVWULeaXJsFYpNZ9qG9Kh"
+                  />
+                  <div class="title">Place Order {state.orderMarketId}</div>
+                  <div class="tab">
+                    <div
+                      class={
+                        state.orderType == "LIMIT"
+                          ? "active-type"
+                          : "inactive-type"
+                      }
+                      onClick={(e) => State.update({ orderType: "LIMIT" })}
+                    >
+                      <div class="text-wrapper-2">Limit</div>
+                    </div>
+                    <div
+                      class={
+                        state.orderType == "MARKET"
+                          ? "active-type"
+                          : "inactive-type"
+                      }
+                      onClick={(e) => State.update({ orderType: "MARKET" })}
+                    >
+                      <div class="text-wrapper-3">Market</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="inputs">
+                  <div class="div-2">
+                    <div class="token-label">
+                      <img
+                        class="img"
+                        src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/Qme6bjSGWP8vjXqrXgbjHCNSwrc16cPYTREbo9aL2Uuuok"
+                      />
+                      <div class="text-wrapper-4">Amount</div>
+                    </div>
+                    <div class="amount">
+                      <input
+                        type="text"
+                        class="text-wrapper-5 dark-bg input-textbox"
+                        id="orderSize"
+                        value={state.orderSize}
+                        onChange={(e) =>
+                          State.update({ orderSize: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  {state.orderType == "LIMIT" && (
+                    <div class="div-2">
+                      <div class="token-label">
+                        <img
+                          class="img"
+                          src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/Qme6bjSGWP8vjXqrXgbjHCNSwrc16cPYTREbo9aL2Uuuok"
+                        />
+                        <div class="text-wrapper-4">Price</div>
+                      </div>
+                      <div class="amount">
+                        <input
+                          type="text"
+                          class="text-wrapper-5 dark-bg input-textbox"
+                          id="orderSize"
+                          value={state.userOrderPrice}
+                          onChange={(e) =>
+                            State.update({ userOrderPrice: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div class="div-2">
+                    <div class="token-label">
+                      <div class="token">
+                        <div class="text-wrapper-6">$</div>
+                      </div>
+                      <div class="text-wrapper-4">USD</div>
+                    </div>
+                    <div class="amount">
+                      <div class="text-wrapper-5">
+                        $
+                        {(
+                          Number(state.userOrderPrice ?? 0) *
+                          Number(state.orderSize ?? 0)
+                        ).toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="summary">
+                  <div class="div-3">
+                    <div class="text-wrapper-7">Market price</div>
+                    <div class="text-wrapper-8">${state.orderPrice}</div>
+                  </div>
+                </div>
+                <div class="CTA">
+                  <div class="buy">
+                    <div
+                      class="text-wrapper-12"
+                      onClick={() => placeUserOrder("BUY")}
+                    >
+                      Buy
+                    </div>
+                  </div>
+                  <div class="sell">
+                    <div
+                      class="text-wrapper-12"
+                      onClick={() => placeUserOrder("SELL")}
+                    >
+                      Sell
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="orders-log">
+                <div class="heading">
+                  <img
+                    class="img"
+                    src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmbEJL2wNjLQ948Sa6fwvoidRWVWULeaXJsFYpNZ9qG9Kh"
+                  />
+                  <div class="title">Orders log</div>
+                  <div class="refresh">
+                    <div
+                      class="text-wrapper-3 btn-refresh"
+                      onClick={() => {
+                        updateOrders();
+                      }}
+                    >
+                      Refresh
+                    </div>
+                  </div>
+                </div>
+                <div class="transactions">
+                  {(state.orders ?? []).length == 0 && (
+                    <div class="text-wrapper-10">No transactions yet</div>
+                  )}
+
+                  {(state.orders ?? [])
+                    .filter((order) =>
+                      ["OPEN", "FILLED"].includes(order.status)
+                    )
+                    .map((order) => (
+                      <div class="transaction">
+                        <div class="pair">
+                          <div
+                            class={`order-log-${order.side.toLowerCase()}-wrapper`}
+                          >
+                            <div
+                              class={`order-log-${order.side.toLowerCase()}`}
+                            >
+                              {order.side}
+                            </div>
+                          </div>
+                          <div class="text-wrapper-14" title={order.status}>
+                            {order.ticker}
+                          </div>
+                        </div>
+                        <div class="p">
+                          <span class="span">at</span>{" "}
+                          <span class="text-wrapper-15"> ${order.price}</span>
+                        </div>
+                        <div class="p">
+                          <span class="span">size</span>
+                          <span class="text-wrapper-15"> {order.size} </span>
+                          <span class="span">/ filled</span>
+                          <span class="text-wrapper-15">
+                            {" "}
+                            {order.totalFilled}
+                          </span>
+                        </div>
+                        <div class="time">
+                          {order.updatedAt
+                            ? new Date(order.updatedAt).toLocaleString()
+                            : ""}
+                        </div>
+
+                        {order.status == "OPEN" && (
+                          <div class="cancel">
+                            <div
+                              type="button"
+                              class="text-wrapper-2"
+                              aria-label="Close"
+                              onClick={() => {
+                                cancelUserOrder(
+                                  order.clientId,
+                                  64,
+                                  order.ticker
+                                );
+                              }}
+                            >
+                              Cancel
+                            </div>
+                          </div>
+                        )}
+                        {order.status != "OPEN" && (
+                          <div class="empty-cancel">
+                            <div class="text-wrapper-2"></div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {state.account.address && (
         <div>
           <h2>Account Details</h2>
@@ -419,12 +729,12 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
             <select
               class="form-select"
               aria-label="Select a pair"
-              onChange={(e) =>
+              onChange={(e) => {
                 State.update({
                   orderMarketId: e.target.value,
-                  updateMarketPrice: true,
-                })
-              }
+                });
+                updateOrders();
+              }}
             >
               <option value="BTC-USD">BTC-USD</option>
               <option value="ETH-USD" selected>
@@ -443,9 +753,12 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                 type="text"
                 class="form-control"
                 id="orderPrice"
-                value={state.orderPrice}
-                onChange={(e) => State.update({ orderPrice: e.target.value })}
+                value={state.userOrderPrice}
+                onChange={(e) =>
+                  State.update({ userOrderPrice: e.target.value })
+                }
               />
+              Current price: {state.orderPrice}
             </div>
           </div>
         )}
@@ -528,12 +841,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
       <hr />
       {/*state:
       {JSON.stringify(state)}*/}
-      {state.error_msg && (
-        <div class="alert alert-primary" role="alert">
-          {state.error_msg}
-        </div>
-      )}
-    </div>
+    </Theme>
   );
 }
 
