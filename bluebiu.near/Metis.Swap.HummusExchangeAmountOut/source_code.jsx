@@ -360,7 +360,10 @@ useEffect(() => {
         getTx(gas);
       })
       .catch((err) => {
-        getTx();
+        onLoad({
+          ...returnData,
+          noPair: false,
+        });
       });
   };
 
