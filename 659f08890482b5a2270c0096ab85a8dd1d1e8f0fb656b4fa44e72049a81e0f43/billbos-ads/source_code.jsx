@@ -56,9 +56,9 @@ const EndContent = styled.div`
 State.init({
   isOpenModal: isOpenDefault ? true : false,
   adsContent:
-    '<Widget src="ribbinpo.near/widget/billbos-board" props={{ webpageOwnerAddress: ' +
+    '<Widget src="ribbinpo.near/widget/billbos-board" props={{ webpageOwnerAddress: "' +
     walletAddress +
-    "}} />",
+    '"}} />',
 });
 
 body = (
