@@ -1,8 +1,1 @@
-return (
-  <>
-    <h1>Мої дисципліни</h1>
-    <ul>
-      <li>Hello World</li>
-    </ul>
-  </>
-);
+return <h1>Hello, Rust Vienna!</h1>;
