@@ -36,7 +36,7 @@ State.init({
       no: 1,
       accountId: Owner,
       participated: 8,
-      transactions: 9,
+      txs: 9,
     },
   ],
   load: false,
@@ -66,7 +66,7 @@ const columns = {
     },
     {
       title: "Transactions Made",
-      key: "transactions",
+      key: "txs",
       description: "Transactions Made",
       width: 5,
     },
@@ -124,7 +124,7 @@ const getListData = () => {
 
 if (!state.load) getListData();
 if (state.error) return <p style={{ color: "red" }}>{state.error}</p>;
-
+console.log(state.list, "==>state.list");
 return (
   <div style={{ width: 400 }}>
     <div className="d-flex justify-content-between" style={{ gap: 20 }}>
@@ -153,16 +153,20 @@ return (
       />
     </div>
     <div>
-      <Widget
-        src={`${Owner}/widget/table-pagination`}
-        props={{
-          API_URL,
-          data: state.list,
-          columns: columns[state.menu.value],
-          rowsCount: 10,
-          pagination: false,
-        }}
-      />
+      {state.list.length !== 0 ? (
+        <Widget
+          src={`${Owner}/widget/table-pagination`}
+          props={{
+            API_URL,
+            data: state.list,
+            columns: columns[state.menu.value],
+            rowsCount: 10,
+            pagination: false,
+          }}
+        />
+      ) : (
+        "Data is not exists"
+      )}
     </div>
   </div>
 );
