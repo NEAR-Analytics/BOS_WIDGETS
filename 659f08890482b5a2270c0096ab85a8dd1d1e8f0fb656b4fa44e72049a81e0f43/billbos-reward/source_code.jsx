@@ -48,7 +48,9 @@ const [totalEarningPerUser, setTotalEarningPerUser] = useState(0);
 const [currentEarning, setCurrentEarning] = useState(0);
 const [claim, setClaim] = useState({});
 
-function getReward() {
+function tapRewards() {
+  const walletAddress = state.walletAddress;
+  const month = Number(state.monthCount);
   CHAIN_LIST.map((item) => {
     const provider = new ethers.providers.JsonRpcProvider(
       state.chains[item].rpcUrl
@@ -62,20 +64,6 @@ function getReward() {
       claim[`${item}`] = Number(ethers.utils.formatEther(res[0])).toFixed(6);
     });
   });
-}
-
-getReward();
-if (!claim[25925]) {
-  getReward();
-}
-getReward();
-
-console.log({ claim });
-
-function tapRewards() {
-  const walletAddress = state.walletAddress;
-  const month = Number(state.monthCount);
-  getReward();
 
   const urlView =
     BACKEND_API +
@@ -113,6 +101,16 @@ function tapRewards() {
 
   contract.getCurrentEarning().then((res) => {
     setCurrentEarning(Number(ethers.utils.formatEther(res)));
+  });
+
+  const chainBKCId = "25925";
+  const chainJ2OId = "25925";
+
+  contract.getReward(state.walletAddress).then((res) => {
+    claim[chainBKCId] = Number(ethers.utils.formatEther(res[0])).toFixed(6);
+  });
+  contract.getReward(state.walletAddress).then((res) => {
+    claim[chainJ2OId] = Number(ethers.utils.formatEther(res[0])).toFixed(6);
   });
 
   return (
