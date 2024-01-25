@@ -4,6 +4,7 @@ if (!props.data || !props.columns) {
 
 const { data, columns, searchValue } = props;
 const rowsCount = props.rowsCount || 5;
+const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
@@ -314,6 +315,7 @@ return (
               </button>
             </li>
             {state.list.length > 0 &&
+              pagination &&
               handlePagination().buttons.map((btn, i) => {
                 return (
                   <li key={i} className="page-item">
