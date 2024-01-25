@@ -1,5 +1,6 @@
 const authorId = props.authorId || "rodrigos.near";
-const contractId = props.contractId || "v006.mpip.near";
+const contractId =
+  props.contractId || "ip-aaxxii-test.near" || "v006.mpip.near";
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
