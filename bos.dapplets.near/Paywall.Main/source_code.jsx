@@ -10,7 +10,9 @@ State.update({
   hasContent: Near.view(
       CONTRACT_ADDRESS,
       "has_content",
-      { context_id: id }
+      { context_id: id },
+      'final',
+      true
     )
 })
 
@@ -22,7 +24,9 @@ if (state.hasContent) {
         {
           context_id: id,
           account_id: userAccountId || ''
-        }
+        },
+        'final',
+        true
       )
   })
 }
