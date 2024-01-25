@@ -203,8 +203,7 @@ useEffect(() => {
   const getReverse = ({ amountOut, amountoutDesimals }) => {
     RouterContract.getReserves(path[0], path[1], false, factoryAddress, false)
       .then((res) => {
-        const isReverse =
-          Number(inputCurrency.address) > Number(outputCurrency.address);
+        const isReverse = Number(path[0]) > Number(path[1]);
 
         const token0 = Big(
           ethers.utils.formatUnits(
