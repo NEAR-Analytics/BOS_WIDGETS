@@ -5,6 +5,7 @@ const CHAIN_LIST = [25925, 35011];
 
 State.init({
   name: "",
+  claimBkc: undefined,
 });
 
 const BillBOSCoreABI = fetch(
@@ -64,10 +65,17 @@ function getReward() {
 }
 
 getReward();
+if (!claim[25925]) {
+  getReward();
+}
+getReward();
+
+console.log({ claim });
 
 function tapRewards() {
   const walletAddress = state.walletAddress;
   const month = Number(state.monthCount);
+  getReward();
 
   const urlView =
     BACKEND_API +
