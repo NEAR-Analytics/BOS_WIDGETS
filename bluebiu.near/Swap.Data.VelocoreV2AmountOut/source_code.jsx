@@ -183,8 +183,7 @@ useEffect(() => {
       : toToken("erc20", 0, outputCurrency.address),
   ];
 
-  const isReverse =
-    Number(inputCurrency.address) > Number(outputCurrency.address);
+  const isReverse = Number(path[0]) > Number(path[1]);
 
   const options = {
     value: inputCurrency.isNative ? amount : 0,
