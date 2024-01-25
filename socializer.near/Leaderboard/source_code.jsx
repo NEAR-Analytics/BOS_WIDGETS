@@ -117,47 +117,49 @@ if (!state.load) getListData();
 if (state.error) return <p style={{ color: "red" }}>{state.error}</p>;
 console.log(state.list, "==>state.list");
 return (
-  <div style={{ width: 400 }}>
-    <div className="d-flex justify-content-between" style={{ gap: 20 }}>
-      <h3>Leader Board : </h3>
-      <Widget
-        props={{
-          API_URL,
-          noLabel: true,
-          options: UserOptions,
-          value: state.menu,
-          onChange: (data) => selectMenu(data, "menu"),
-        }}
-        src={`${Owner}/widget/Select`}
-      />
-    </div>
-    <div className="d-flex justify-content-end" style={{ marginTop: 10 }}>
-      <Widget
-        props={{
-          API_URL,
-          noLabel: true,
-          options: TimeOptions,
-          value: state.time,
-          onChange: (data) => selectMenu(data, "time"),
-        }}
-        src={`${Owner}/widget/Select`}
-      />
-    </div>
-    <div>
-      {state.list.length !== 0 && state.menu.value && state.load === true ? (
+  <div style={{ width: "100%" }}>
+    <div style={{ width: 400 }}>
+      <div className="d-flex justify-content-between" style={{ gap: 20 }}>
+        <h3>Leader Board : </h3>
         <Widget
-          src={`${Owner}/widget/table-pagination`}
           props={{
             API_URL,
-            data: state.list,
-            columns: columns[state.menu.value],
-            rowsCount: 10,
-            pagination: false,
+            noLabel: true,
+            options: UserOptions,
+            value: state.menu,
+            onChange: (data) => selectMenu(data, "menu"),
           }}
+          src={`${Owner}/widget/Select`}
         />
-      ) : (
-        "Data is not exists"
-      )}
+      </div>
+      <div className="d-flex justify-content-end" style={{ marginTop: 10 }}>
+        <Widget
+          props={{
+            API_URL,
+            noLabel: true,
+            options: TimeOptions,
+            value: state.time,
+            onChange: (data) => selectMenu(data, "time"),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        {state.list.length !== 0 && state.menu.value && state.load === true ? (
+          <Widget
+            src={`${Owner}/widget/table-pagination`}
+            props={{
+              API_URL,
+              data: state.list,
+              columns: columns[state.menu.value],
+              rowsCount: 10,
+              pagination: false,
+            }}
+          />
+        ) : (
+          "Data is not exists"
+        )}
+      </div>
     </div>
   </div>
 );
