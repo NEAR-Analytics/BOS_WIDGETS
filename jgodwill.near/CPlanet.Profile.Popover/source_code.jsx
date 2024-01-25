@@ -46,7 +46,7 @@ return (
   <Wrapper>
     <div className="d-flex flex-column gap-2">
       <a
-        href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+        href={`/bos.genadrop.near/widget/DropFlow.ArtistPage?accountId=${accountId}`}
         className="link-dark text-truncate"
       >
         <div className="top_bar mb-2">
