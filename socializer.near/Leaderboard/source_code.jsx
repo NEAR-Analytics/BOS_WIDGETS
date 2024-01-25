@@ -4,7 +4,7 @@ const API_URL = props?.API_URL || "http://localhost:3000";
 
 const UserOptions = [
   {
-    text: "users",
+    text: "Users",
     value: "users",
   },
   {
