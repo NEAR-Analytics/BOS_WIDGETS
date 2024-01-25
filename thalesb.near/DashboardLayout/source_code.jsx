@@ -74,7 +74,7 @@ const CollateralItem = styled.div`
 const InfoSection = styled.div`
   background: #292a3d;
   border-radius: 8px;
-
+  padding: 16px;
   color: white;
   margin-bottom: 16px;
 `;
@@ -330,11 +330,45 @@ const NetworkDropdown = ({ selectedNetwork, onChange }) => {
   return (
     <DropdownContainer>
       <DropdownLabel>NETWORK</DropdownLabel>
-      <DropdownSelect value={selectedNetwork} onChange={onChange}>
-        <option value="usdc">USDC Ethereum</option>
-        <option value="usdc">USDC Ethereum</option>
-        <option value="usdc">USDC Ethereum</option>
-      </DropdownSelect>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <div>{">"}</div>
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Content
+          style={{ backgroundColor: "black" }}
+          sideOffset={5}
+        >
+          <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
+              More Tools
+            </DropdownMenu.SubTrigger>
+            <DropdownMenu.SubContent
+              style={{ backgroundColor: "black" }}
+              sideOffset={2}
+              alignOffset={-5}
+            >
+              <DropdownMenu.Item className="DropdownMenuItem">
+                Save Page As… <div className="RightSlot">⌘+S</div>
+              </DropdownMenu.Item>
+              <DropdownMenu.Item className="DropdownMenuItem">
+                Create Shortcut…
+              </DropdownMenu.Item>
+              <DropdownMenu.Item className="DropdownMenuItem">
+                Name Window…
+              </DropdownMenu.Item>
+              <DropdownMenu.Separator className="DropdownMenu.Separator" />
+              <DropdownMenu.Item className="DropdownMenuItem">
+                Developer Tools
+              </DropdownMenu.Item>
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Sub>
+
+          <DropdownMenu.Separator className="DropdownMenuSeparator" />
+
+          <DropdownMenu.Arrow className="DropdownMenuArrow" />
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
     </DropdownContainer>
   );
 };
@@ -458,16 +492,20 @@ return (
       <SectionHeader>Net Borrow APR</SectionHeader>
       <InfoSection>
         <InfoRow>
-          <InfoLabel>APR</InfoLabel>
-          <InfoValue>0.7%</InfoValue>
+          <InfoLabel>Collateral value</InfoLabel>
+          <InfoValue>0.7900</InfoValue>
         </InfoRow>
         <InfoRow>
-          <InfoLabel>Fee</InfoLabel>
-          <InfoValue>0.2%</InfoValue>
+          <InfoLabel>Liquidation point</InfoLabel>
+          <InfoValue>0.0000</InfoValue>
         </InfoRow>
         <InfoRow>
-          <InfoLabel>Interest</InfoLabel>
-          <InfoValue>0.5%</InfoValue>
+          <InfoLabel>Borrow capacity</InfoLabel>
+          <InfoValue>0.5100</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Available to borrow</InfoLabel>
+          <InfoValue>0.5100</InfoValue>
         </InfoRow>
       </InfoSection>
     </GridItem>
@@ -475,16 +513,20 @@ return (
       <SectionHeader>Net Supply APR</SectionHeader>
       <InfoSection>
         <InfoRow>
-          <InfoLabel>APR</InfoLabel>
-          <InfoValue>0.7%</InfoValue>
+          <InfoLabel>Collateral value</InfoLabel>
+          <InfoValue>0.7900</InfoValue>
         </InfoRow>
         <InfoRow>
-          <InfoLabel>Fee</InfoLabel>
-          <InfoValue>0.2%</InfoValue>
+          <InfoLabel>Liquidation point</InfoLabel>
+          <InfoValue>0.0000</InfoValue>
         </InfoRow>
         <InfoRow>
-          <InfoLabel>Interest</InfoLabel>
-          <InfoValue>0.5%</InfoValue>
+          <InfoLabel>Borrow capacity</InfoLabel>
+          <InfoValue>0.5100</InfoValue>
+        </InfoRow>
+        <InfoRow>
+          <InfoLabel>Available to borrow</InfoLabel>
+          <InfoValue>0.5100</InfoValue>
         </InfoRow>
       </InfoSection>
     </GridItem>
