@@ -42,60 +42,26 @@ const ROUTER_ABI = [
     inputs: [
       {
         components: [
-          {
-            internalType: "address",
-            name: "tokenIn",
-            type: "address",
-          },
-          {
-            internalType: "address",
-            name: "tokenOut",
-            type: "address",
-          },
-          {
-            internalType: "uint24",
-            name: "fee",
-            type: "uint24",
-          },
-          {
-            internalType: "address",
-            name: "recipient",
-            type: "address",
-          },
+          { internalType: "address", name: "tokenIn", type: "address" },
+          { internalType: "address", name: "tokenOut", type: "address" },
+          { internalType: "uint24", name: "fee", type: "uint24" },
+          { internalType: "address", name: "recipient", type: "address" },
+          { internalType: "uint256", name: "deadline", type: "uint256" },
+          { internalType: "uint256", name: "amountIn", type: "uint256" },
           {
             internalType: "uint256",
-            name: "deadline",
+            name: "minAmountOut",
             type: "uint256",
           },
-          {
-            internalType: "uint256",
-            name: "amountIn",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "amountOutMinimum",
-            type: "uint256",
-          },
-          {
-            internalType: "uint160",
-            name: "sqrtPriceLimitX96",
-            type: "uint160",
-          },
+          { internalType: "uint160", name: "limitSqrtP", type: "uint160" },
         ],
-        internalType: "struct ISwapRouter.ExactInputSingleParams",
+        internalType: "struct IRouter.ExactInputSingleParams",
         name: "params",
         type: "tuple",
       },
     ],
-    name: "exactInputSingle",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "amountOut",
-        type: "uint256",
-      },
-    ],
+    name: "swapExactInputSingle",
+    outputs: [{ internalType: "uint256", name: "amountOut", type: "uint256" }],
     stateMutability: "payable",
     type: "function",
   },
@@ -232,7 +198,6 @@ useEffect(() => {
     const RouterIface = new ethers.utils.Interface(ROUTER_ABI);
     const deadline = Math.ceil(Date.now() / 1000) + 60;
     const options = {
-      gasLimit: result.gasEstimate,
       value: inputCurrency.isNative ? amount : "0",
     };
     const _amountOut = Big(result.amountOut)
@@ -247,20 +212,18 @@ useEffect(() => {
         recipient: outputCurrency.isNative ? routerAddress : account,
         deadline: deadline,
         amountIn: amount,
-        amountOutMinimum: _amountOut,
-        sqrtPriceLimitX96: "0",
+        minAmountOut: _amountOut,
+        limitSqrtP: "0",
       },
     ];
-
     const multicallParams = [];
     const encodedDataCallSwap = RouterIface.encodeFunctionData(
-      "exactInputSingle",
+      "swapExactInputSingle",
       inputs
     );
-
     multicallParams.push(encodedDataCallSwap);
 
-    if (outputCurrency.isNative === "native") {
+    if (outputCurrency.isNative) {
       multicallParams.push(
         RouterIface.encodeFunctionData("unwrapWeth", ["0", account])
       );
@@ -296,7 +259,6 @@ useEffect(() => {
         .mul(100)
         .toString();
     }
-
     const returnData = {
       outputCurrencyAmount: Big(_amount).gt(0.01)
         ? Big(_amount).toPrecision(10)
@@ -305,20 +267,37 @@ useEffect(() => {
       noPair: false,
     };
 
-    multicallContract.populateTransaction
-      .multicall(multicallParams, options)
-      .then((res) => {
-        onLoad({
-          ...returnData,
-          gas: result.gasEstimate,
-          unsignedTx: res,
+    const getTx = (_gas) => {
+      multicallContract.populateTransaction
+        .multicall(multicallParams, { ...options, gasLimit: _gas })
+        .then((res) => {
+          onLoad({
+            ...returnData,
+            gas: _gas,
+            unsignedTx: res,
+          });
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+          });
         });
-      })
-      .catch((err) => {
-        onLoad({
-          ...returnData,
+    };
+    const estimateGas = () => {
+      multicallContract.estimateGas
+        .multicall(multicallParams, options)
+        .then((_gas) => {
+          getTx(_gas);
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+            noPair: false,
+          });
         });
-      });
+    };
+
+    estimateGas();
   };
 
   (fees || []).forEach((fee) => {
