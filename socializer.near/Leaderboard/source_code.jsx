@@ -144,7 +144,7 @@ return (
       />
     </div>
     <div>
-      {state.list.length !== 0 && state.menu.value ? (
+      {state.list.length !== 0 && state.menu.value && state.load === true ? (
         <Widget
           src={`${Owner}/widget/table-pagination`}
           props={{
