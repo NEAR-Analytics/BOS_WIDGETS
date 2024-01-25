@@ -98,18 +98,16 @@ const selectMenu = (data, key) => {
 };
 
 const getListData = () => {
-  State.update({
-    load: true,
-  });
   return asyncFetch(
     API_URL +
       `/api/campaign/leader?type=${state.menu.value}&time=${state.time.value}`
   ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) return State.update({ error });
+      if (error) return State.update({ error, load: true });
       State.update({
         list: data,
+        load: true,
       });
     }
   });
