@@ -271,7 +271,8 @@ const ButtonCancel = styled.button`
   cursor: pointer;
 
   &:disabled {
-    background: #dbdfe5;
+    background: #dbdfe5 !important;
+    cursor: default;
   }
 
   &:hover {
@@ -299,7 +300,8 @@ const ButtonSend = styled.button`
   cursor: pointer;
 
   &:disabled {
-    background: #8db4ff;
+    background: #8db4ff !important;
+    cursor: default;
   }
 
   &:hover {
@@ -376,7 +378,7 @@ return (
         onClick={cancelOnChange}
         disabled={!state.img && !state.amount || state.loading}
       >
-        Cancel
+        Clear
       </ButtonCancel>
       <ButtonSend
         onClick={sendOnChange}
