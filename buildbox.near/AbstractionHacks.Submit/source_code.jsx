@@ -203,7 +203,7 @@ const handleSubmit = () => {
     {
       post: {
         main: JSON.stringify({
-          text: `I've just created a ${type}! #build #${app} #${type} \n\n[EMBED](buildbox.near/widget/post.embed?${type}=${path})\n\n`,
+          text: `I've just submitted a ${type} to Abstraction Hacks! #build #${app} #${type} #abstraction #hack \n\n[EMBED](buildbox.near/widget/post.embed?${type}=${path})\n\n`,
           image: "",
           type: "md",
         }),
