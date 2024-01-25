@@ -232,14 +232,7 @@ return (
             <Widget src="thalesb.near/widget/DashboardLayout" />
           </>
         ) : null}
-        {activeMenu == "Markets" ? (
-          <>
-            <Widget
-              src="thalesb.near/widget/CompoundMarkets"
-              props={{ ...dashboardConfig, ...restProps, prices }}
-            />
-          </>
-        ) : null}
+        {activeMenu == "Markets" ? <>Building...</> : null}
       </div>
     </Container>
   </Layout>
