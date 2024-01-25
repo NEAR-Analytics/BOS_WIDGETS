@@ -101,22 +101,6 @@ const handleRequest = async (query, viewCase) => {
         }
       });
       return;
-    case "viewOfWalletAddress":
-      fetchApi(e, "GET").then((res) => {
-        console.log({ viewOfWalletAddress: res });
-        if (res.ok) {
-          State.update({ viewOfWalletAddress: res.body.view });
-        }
-      });
-      return;
-    case "ratioOfWalletAddress":
-      fetchApi(e, "GET").then((res) => {
-        console.log({ ratioOfWalletAddress: res });
-        if (res.ok) {
-          State.update({ ratioOfWalletAddress: res.body.ratio });
-        }
-      });
-      return;
     case "ad-view-by-adId":
       return fetchApi(e, "GET").then((res) => {
         console.log({ "ad-view-by-adId": res });
@@ -143,12 +127,6 @@ function checkProvider() {
   }
 }
 checkProvider();
-
-function getRpcProvider(chainId) {
-  const chain = state.chains[chainId];
-  const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrl, chain.id);
-  return provider;
-}
 
 function getViewAds(item, chainId) {
   const res = handleRequest(
@@ -183,11 +161,11 @@ function formatAds(item, chainId) {
 }
 
 function getRewards() {
-  const signer = Ethers.provider().getSigner();
+  const provider = Ethers.provider();
   const contract = new ethers.Contract(
     state.chains[state.chainId].billBOSCore,
     BillBOSCoreABI,
-    signer
+    provider
   );
 
   contract.getReward(state.walletAddress).then((res) => {
@@ -201,7 +179,7 @@ function getTotalDashboard() {
   const contract = new ethers.Contract(
     state.chains[chainId].billBOSCore,
     BillBOSCoreABI,
-    Ethers.provider().getSigner()
+    Ethers.provider()
   );
   contract.totalStakedBalanceLast().then((res) => {
     setStakedBalance(fE(res));
@@ -235,8 +213,6 @@ function getTotalDashboard() {
     }
   });
 }
-
-getTotalDashboard();
 
 function getAdsByAddress(walletAddress) {
   const billbosCoreAddress = state.chains[state.chainId].billBOSCore;
@@ -302,7 +278,6 @@ function tabComponent() {
           src={`${mainWidget}/widget/billbos-reward`}
           props={{
             getRewards: getRewards,
-            handleRequest: handleRequest,
             state: state,
             adsInfo: adsInfo,
             coreContractAddress: state.chains[state.chainId].billBOSCore,
