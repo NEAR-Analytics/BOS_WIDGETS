@@ -157,8 +157,6 @@ const ROUTER_ABI = [
   },
 ];
 
-const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-
 const {
   updater,
   routerAddress,
