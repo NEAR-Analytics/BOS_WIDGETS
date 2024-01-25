@@ -1,5 +1,5 @@
 const authorId = props.authorId || "rodrigos.near";
-const contractId = props.contractId || "mpip.meta-pool-dao.near";
+const contractId = props.contractId || "ip-aaxxii-test.near";
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
