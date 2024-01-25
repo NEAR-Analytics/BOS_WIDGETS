@@ -3,10 +3,13 @@ const adsInfo = props.adsInfo;
 const coreContractAddress = props.coreContractAddress;
 
 function tapCampaigns() {
+  if (!Ethers.provider()) {
+  }
+
   return (
     <div className="container">
       <div className="w-full">
-        {state.walletConnected ? (
+        {state.walletConnected && Ethers.provider() ? (
           <>
             <div className="flex justify-between py-8 items-center">
               <div>
