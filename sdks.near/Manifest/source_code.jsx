@@ -25,6 +25,7 @@ return {
     utils: ["Abstracts.ExternalDependency", ...resolve("Utils.")],
     abstracts: resolve("Abstracts."),
     blockies: ["Abstracts.ExternalDependency", "Utils.Blockies"],
+    "routes-manager": "Utils.RoutesManager"
   },
   links: {
     telegram: "@OxMattB",
