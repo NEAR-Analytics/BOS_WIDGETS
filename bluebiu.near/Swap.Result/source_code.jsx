@@ -132,19 +132,11 @@ const WarningIcon = (
 );
 
 useEffect(() => {
+  let priceImpactWarningType = 0;
   if (!priceImpact) {
+    priceImpactWarningType = 0;
     State.update({
-      priceImpactWarningType: 0,
-    });
-    return;
-  }
-  if (
-    Big(priceImpact || 0)
-      .abs()
-      .gt(2)
-  ) {
-    State.update({
-      priceImpactWarningType: 2,
+      priceImpactWarningType,
     });
     return;
   }
@@ -153,13 +145,27 @@ useEffect(() => {
       .abs()
       .gt(1)
   ) {
-    State.update({
-      priceImpactWarningType: 1,
-    });
-    return;
+    priceImpactWarningType = 1;
   }
+  if (
+    Big(priceImpact || 0)
+      .abs()
+      .gt(2)
+  ) {
+    priceImpactWarningType = 2;
+  }
+  let _priceImpact = Big(priceImpact || 0).toFixed(2);
+  if (
+    Big(priceImpact || 0)
+      .abs()
+      .gt(100)
+  ) {
+    _priceImpact = "100";
+  }
+
   State.update({
-    priceImpactWarningType: 0,
+    priceImpactWarningType,
+    priceImpact: _priceImpact,
   });
 }, [priceImpact]);
 
@@ -258,7 +264,7 @@ return (
             <div
               className={`price_impact warning-${state.priceImpactWarningType}`}
             >
-              {Big(priceImpact).toFixed(2)}%
+              {state.priceImpact}%
             </div>
           </StyledItem>
         )}
@@ -299,7 +305,7 @@ return (
           {state.priceImpactWarningType === 2 && WarningIcon}
           <div>Pirce impact warning</div>
         </StyledFlex>
-        <div>{Big(priceImpact).toFixed(2)}%</div>
+        <div>{state.priceImpact}%</div>
       </StyledPriceWarning>
     )}
     {state.showFeePanel && (
