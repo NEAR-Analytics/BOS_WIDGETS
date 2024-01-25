@@ -3,35 +3,35 @@ if (!props.content) return <></>;
 const { nearAccountId, CONTRACT_ADDRESS } = props;
 const { content, is_purchased } = props.content;
 
-const userAccountId = context.accountId || nearAccountId;
+const userAccountId = context.accountId || nearAccountId
 
 /**
  * From near-api-js/packages/near-api-js/src/utils/format.ts
  */
 const NEAR_NOMINATION_EXP = 24;
-const NEAR_NOMINATION = new BN("10", 10).pow(new BN(NEAR_NOMINATION_EXP, 10));
+const NEAR_NOMINATION = new BN('10', 10).pow(new BN(NEAR_NOMINATION_EXP, 10));
 const ROUNDING_OFFSETS = [];
 const BN10 = new BN(10);
 
 for (let i = 0, offset = new BN(5); i < NEAR_NOMINATION_EXP; i++) {
   ROUNDING_OFFSETS[i] = offset;
-  offset = offset.mul(BN10);
+  offset = offset.mul(BN10)
 }
 
 function trimTrailingZeroes(value) {
-  return value.replace(/\.?0*$/, "");
+  return value.replace(/\.?0*$/, '');
 }
 
 function formatWithCommas(value) {
   const pattern = /(-?\d+)(\d{3})/;
   while (pattern.test(value)) {
-    value = value.replace(pattern, "$1,$2");
+    value = value.replace(pattern, '$1,$2');
   }
   return value;
 }
 
 function formatNearAmount(balance, fracDigitsExternal) {
-  const fracDigits = fracDigitsExternal || NEAR_NOMINATION;
+  const fracDigits = fracDigitsExternal || NEAR_NOMINATION
 
   const balanceBN = new BN(balance, 10);
   if (fracDigits !== NEAR_NOMINATION_EXP) {
@@ -42,11 +42,10 @@ function formatNearAmount(balance, fracDigitsExternal) {
   }
 
   balance = balanceBN.toString();
-  const wholeStr =
-    balance.substring(0, balance.length - NEAR_NOMINATION_EXP) || "0";
+  const wholeStr = balance.substring(0, balance.length - NEAR_NOMINATION_EXP) || '0';
   const fractionStr = balance
     .substring(balance.length - NEAR_NOMINATION_EXP)
-    .padStart(NEAR_NOMINATION_EXP, "0")
+    .padStart(NEAR_NOMINATION_EXP, '0')
     .substring(0, fracDigits);
 
   return trimTrailingZeroes(`${formatWithCommas(wholeStr)}.${fractionStr}`);
@@ -61,22 +60,22 @@ function formatNear(amount) {
 
 State.init({
   basic: false,
-  loading: false,
-});
+  loading: false
+})
 
 const onBuy = () => {
   try {
-    State.update({ loading: true });
+    State.update({ loading: true })
     Near.call(
       CONTRACT_ADDRESS,
       "buy",
       {
-        content_id: content.id,
+        content_id: content.id
       },
-      "50000000000000",
+      '50000000000000',
       content.cost
     );
-    setTimeout(() => State.update({ loading: false }), 3000);
+    setTimeout(() => State.update({ loading: false }), 3000)
   } catch (err) {
     console.error(err);
     State.update({ loading: false });
@@ -86,7 +85,7 @@ const onBuy = () => {
 const Wrapper = styled.div`
   .content-blur-wrapper {
     overflow: hidden;
-    width: calc(100% - 4px);
+    width: 100%;
     margin-top: 12px;
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
@@ -97,7 +96,7 @@ const Wrapper = styled.div`
 
   .content-wrapper-basic {
     overflow: hidden;
-    width: calc(100% - 4px);
+    width: 100%;
     border-radius: 4px;
     aspect-ratio: 1.777;
     position: relative;
@@ -206,16 +205,11 @@ const Loader = () => (
 
 return (
   <Wrapper>
-    <div
-      className={state.basic ? "content-wrapper-basic" : "content-blur-wrapper"}
-    >
-      {is_purchased ? (
+    <div className={state.basic ? "content-wrapper-basic" : "content-blur-wrapper"}>
+    {is_purchased ? (
         <>
           <img className="content-image" src={content.link} />
-          <Widget
-            src="bos.dapplets.near/widget/Paywall.Badge"
-            props={{ accountId: content.author }}
-          />
+          <Widget src="bos.dapplets.near/widget/Paywall.Badge"  props={{ accountId: content.author }}/>
         </>
       ) : (
         <>
@@ -245,10 +239,7 @@ return (
               </button>
             </div>
           )}
-          <Widget
-            src="bos.dapplets.near/widget/Paywall.Badge"
-            props={{ accountId: content.author }}
-          />
+          <Widget src="bos.dapplets.near/widget/Paywall.Badge"  props={{ accountId: content.author }}/>
         </>
       )}
     </div>
