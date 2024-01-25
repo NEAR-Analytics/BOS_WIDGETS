@@ -79,7 +79,7 @@ if (!state.loaded) getData();
 return (
   <Header>
     <Logo>
-      <img src="https://s3-alpha-sig.figma.com/img/56bf/02c0/a9f986a3ae162db6b9983347ef39f076?Expires=1703462400&Signature=hl62UIJat6mKNiTuCmg3UzK2jnti9wQEfgcEHH29J7OO77B4ysboaNt60fdyDN5tNEiIZHFe1hFlE4hq7AqiRo-YG~cRVAgMJk7UvFVGlLhu~lnT8c8HzLTS4Zs~RbcMp~zYkeRECXzLDDtv4JTskU0Ffi7hOCXzK3X3T~iHUKzEmZ8I8uQdoVqWn5L4AQW81wmUfMakt~H6rK~NnJXPGUyNMAzrshcv~zuawUdJJYCkuQ9j87LV9G9rqzMnNCqMMnKK0KJoVXkPhMadQRh-UDmLDnNabLDY8EdvKlYzsVZ7MYU3NKT8mmILPAsS00vHmKBXj9tXmSFDJPMFCBNWLg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" />
+      <img src="https://e2e.nearverselabs.com/logo.png" />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="172"
