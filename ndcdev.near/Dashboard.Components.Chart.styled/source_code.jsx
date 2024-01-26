@@ -1,10 +1,7 @@
 return {
-  Container: styled.div`
-    width: 550px;
+  Card: styled.div`
+    background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
+    width: 100%;
     text-align: center;
-    @media screen and (max-width: 768px) {
-      width: 100%;
-      height: 100%;
-    }
   `,
 };
