@@ -112,9 +112,9 @@ function renderErrorMessages() {
     name: "Name is required.",
     image: "Profile picture is required.",
     backgroundImage: "Background image is required.",
-    description: "Description is required.",
+    description: "About section is required.",
     tags: "At least one tag is required.",
-    linktree: "Linktree information is incomplete.",
+    linktree: "At least one external profile link is required..",
   };
 
   return Object.keys(fieldErrors)
