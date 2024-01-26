@@ -59,15 +59,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const {
-  data,
-  chainId,
-  account,
-  TOKENS,
-  CHAIN_ID,
-  switchChain,
-  startUnlockIndex,
-} = props;
+const { data, chainId, account, TOKENS, startUnlockIndex } = props;
 const curToken = data.tokenAddress;
 const {
   poolType,
@@ -259,49 +251,6 @@ function updateStakedAmount() {
   });
 }
 
-const renderExtra = () => {
-  if (chainId !== CHAIN_ID) {
-    return (
-      <ChainBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Switch to Gnosis",
-            type: "green",
-            style: { flex: 1 },
-            onClick: switchChain,
-          }}
-        />
-      </ChainBtnWrap>
-    );
-  }
-  return (
-    <>
-      <AmountList>
-        <span></span>
-        <span>
-          Balance:{" "}
-          <span className="amount-white">{state.stakedAmountShow}</span>
-          {/* {TOKENS[curToken].symbol} */}
-        </span>
-      </AmountList>
-      <UnStakeBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Unstake",
-            type: "green",
-            style: { flex: 1 },
-            loading: state.unstaking,
-            disabled: !state.canUnstake,
-            onClick: handleUnStake,
-          }}
-        />
-      </UnStakeBtnWrap>
-    </>
-  );
-};
-
 return (
   <StakePanel>
     <div className="input-group">
@@ -319,6 +268,25 @@ return (
         />
       </div>
     </div>
-    {renderExtra()}
+    <AmountList>
+      <span></span>
+      <span>
+        Balance: <span className="amount-white">{state.stakedAmountShow}</span>
+        {/* {TOKENS[curToken].symbol} */}
+      </span>
+    </AmountList>
+    <UnStakeBtnWrap>
+      <Widget
+        src="dapdapbos.near/widget/UI.Button"
+        props={{
+          text: "Unstake",
+          type: "green",
+          style: { flex: 1 },
+          loading: state.unstaking,
+          disabled: !state.canUnstake,
+          onClick: handleUnStake,
+        }}
+      />
+    </UnStakeBtnWrap>
   </StakePanel>
 );
