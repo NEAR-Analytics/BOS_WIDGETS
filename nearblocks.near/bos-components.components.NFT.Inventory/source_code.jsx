@@ -148,6 +148,23 @@ const Paginator = (props) => {
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -712,25 +729,16 @@ function MainComponent({ network, id, token }) {
     }
   }, [token]);
 
-  const Loader = (props) => {
-    return (
-      <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
-      ></div>
-    );
-  };
-
   return (
     <>
       {isLoading ? (
-        <Loader
-          className="leading-7"
-          wrapperClassName="pl-3 max-w-sm py-4 h-[60px]"
-        />
+        <div className="pl-6 max-w-lg w-full py-5 ">
+          <Skeleton className="h-4" />
+        </div>
       ) : (
-        <div className={`flex flex-col lg:flex-row pt-4 border-t`}>
+        <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 px-6 text-sm mb-4 text-gray-500">
+            <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
               A total of {localFormat(totalCount)} tokens found
             </p>
           </div>
@@ -747,13 +755,15 @@ function MainComponent({ network, id, token }) {
                 href="#"
                 className="w-40 h-40 flex items-center justify-center m-auto overflow-hidden"
               >
-                <Loader wrapperClassName="w-40 h-40" className="h-40" />
+                <div className="w-40 h-40 ">
+                  <Skeleton className="h-40" />
+                </div>
               </a>
-              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-gray-500 mt-4">
-                <Loader />
+              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-nearblue-600 mt-4">
+                <Skeleton className="h-4" />
               </div>
-              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-gray-500">
-                <Loader />
+              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-nearblue-600">
+                <Skeleton className="h-4" />
               </div>
             </div>
           ))}
@@ -780,7 +790,7 @@ function MainComponent({ network, id, token }) {
                 }
               </a>
             </a>
-            <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-gray-500 mt-4">
+            <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-nearblue-600 mt-4">
               Token ID:{' '}
               <a
                 href={`/nft-token/${nft.contract}/${nft.token}`}
@@ -790,7 +800,7 @@ function MainComponent({ network, id, token }) {
               </a>
             </div>
             {nft.asset && (
-              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-gray-500">
+              <div className="whitespace-nowrap text-ellipsis overflow-hidden text-xs mb-1 text-nearblue-600">
                 Owner:{' '}
                 <a
                   href={`/address/${nft.asset?.owner}`}
