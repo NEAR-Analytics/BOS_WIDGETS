@@ -72,7 +72,7 @@ const Tag = styled.div`
 
 const [sort, setSort] = useState("timedesc");
 
-let grantNotify = Near.view(
+const grantNotify = Near.view(
   "social.near",
   "is_write_permission_granted",
   {
@@ -81,7 +81,7 @@ let grantNotify = Near.view(
   }
 );
 
-let grantRepost = Near.view(
+const grantRepost = Near.view(
   "social.near",
   "is_write_permission_granted",
   {
@@ -90,7 +90,19 @@ let grantRepost = Near.view(
   }
 );
 
-if (grantNotify === null || grantRepost === null) {
+const userStorageDeposit = Near.view(
+  "social.near",
+  "storage_balance_of",
+  {
+    account_id: context.accountId,
+  }
+);
+
+if (
+  grantNotify === null ||
+  grantRepost === null ||
+  userStorageDeposit === null
+) {
   return;
 }
 
