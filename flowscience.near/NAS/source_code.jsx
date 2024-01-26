@@ -1,7 +1,9 @@
 const data = props.data || {};
 const type = props.type || "flowscience.near/type/fileformat";
 const record = props.file || "flowscience.near/type/record";
-const typeSrc = props.typeSrc || "flowscience.near";
+const attestationType = props.attestation || "hyperfiles.near/type/attestation";
+const schemaType = props.schema || "hyperfiles.near/type/schema";
+const typeSrc = props.typeSrc || "hyperfiles.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
 const thingId = props.thingId;
@@ -226,7 +228,7 @@ return (
                 type="text"
                 value={state.newTypeSrc}
                 onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-                placeholder={"accountId"}
+                placeholder={typeSrc}
               />
               <Button
                 onClick={() => State.update({ typeSrc: state.newTypeSrc })}
