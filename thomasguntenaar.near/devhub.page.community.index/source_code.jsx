@@ -47,7 +47,7 @@ if (!href) {
 }
 
 if (!tab) {
-  tab = "Activity";
+  tab = "Announcements";
 }
 
 tab = normalize(tab);
@@ -55,6 +55,20 @@ tab = normalize(tab);
 const [isLinkCopied, setLinkCopied] = useState(false);
 
 const tabs = [
+  {
+    title: "Announcements",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Announcements",
+    params: {
+      handle: community.handle,
+    },
+  },
+  {
+    title: "Discussions",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Discussions",
+    params: {
+      handle: community.handle,
+    },
+  },
   {
     title: "Activity",
     view: "thomasguntenaar.near/widget/devhub.entity.community.Activity",
