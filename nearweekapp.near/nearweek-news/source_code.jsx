@@ -64,6 +64,8 @@ const fetchAudio = fetchData(
   "https://nearweek.com/api/show-audio?populate=deep&sort=createdAt:desc&pagination[pageSize]=12"
 );
 
+console.log("fetchAudio", fetchAudio);
+
 const fetchMedium = fetch(
   "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol/tagged/near-protocol",
   { method: "GET" }
@@ -105,7 +107,7 @@ const articles = [...mediumPosts];
 const audio = [...(fetchAudio?.body.data ?? [])].map((item) => {
   return {
     title: item.Title,
-    thumbnail: nwSite + item.imgAlt.thumbnail,
+    thumbnail: nwSite + item.Thumbnail.formats.medium.url,
     categories: [...item.categories.map((category) => category.Name)],
     createdAt: item.createdAt,
     url: nwSite + "/audio/" + item.slug,
