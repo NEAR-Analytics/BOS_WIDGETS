@@ -428,7 +428,7 @@ const Root = styled.div`
     }
 `;
 const MainContainer = styled.div`
-    padding: 30px;
+    // padding: 3px;
     height: auto;
     max-width: 1300px;
     display: flex;
@@ -456,7 +456,7 @@ const TopImageContainer = styled.div`
     min-width: 300px;
   // border: 2px solid #cacdd5;
   border: 4px solid rgba(0, 0, 0, 0.317);
-  margin: 20px;
+  // margin: 20px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
     border: 1px solid #eeeff2;
   // border-radius: 0.7em;
@@ -586,7 +586,6 @@ return (
               height="300px"
               style={{
                 objectFit: "cover",
-                minWidth: "300px",
               }}
             />
             <div
