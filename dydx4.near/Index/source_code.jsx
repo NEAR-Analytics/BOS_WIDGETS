@@ -1,5 +1,9 @@
 const defaultChainId = 11155111;
 
+const orderOpen = "OPEN";
+const orderFilled = "FILLED";
+const orderCancelled = "CANCELED";
+
 if (state === undefined) {
   State.init({
     orderSize: "0.01",
@@ -7,6 +11,7 @@ if (state === undefined) {
     orderMarketId: "ETH-USD",
     orderType: "MARKET",
     nonce: 0,
+    orderFilter: orderOpen,
   });
 
   // Auto refresh orders and account
@@ -28,6 +33,29 @@ if (!state.theme) {
   State.update({
     theme: styled.div`
 ${css}
+
+.order-tabs ul {
+     position: relative;
+  width: fit-content;
+  margin-top: -1px;
+    font-family: "Lexend",Helvetica;
+    font-weight: 400;
+    color: transparent;
+    font-size: 14px;
+  color: #818099;  
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.order-tabs .nav-link {
+    color: #ffffff99;
+    cursor: pointer;
+}
+
+.order-tabs .nav-link.active {
+    color: #101019
+}
 `,
   });
 }
@@ -352,6 +380,10 @@ const placeUserOrder = (side) => {
     .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
 };
 
+const isOrderOpen = () => [orderOpen].includes(state.orderFilter);
+const isOrderFilled = () => [orderFilled].includes(state.orderFilter);
+const isOrderCancelled = () => [orderCancelled].includes(state.orderFilter);
+
 if (state.dydx_account == undefined && state.chainId == defaultChainId) {
   const toSign = {
     domain: {
@@ -585,6 +617,44 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     </div>
                   </div>
                 </div>
+
+                <div class="order-tabs">
+                  <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a
+                        class={`nav-link ${isOrderOpen() ? "active" : ""}`}
+                        onClick={() => State.update({ orderFilter: orderOpen })}
+                        aria-current="page"
+                        href="#"
+                      >
+                        Open
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class={`nav-link ${isOrderFilled() ? "active" : ""}`}
+                        onClick={() =>
+                          State.update({ orderFilter: orderFilled })
+                        }
+                        href="#"
+                      >
+                        Filled
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class={`nav-link ${isOrderCancelled() ? "active" : ""}`}
+                        onClick={() =>
+                          State.update({ orderFilter: orderCancelled })
+                        }
+                        href="#"
+                      >
+                        Canceled
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
                 <div class="transactions">
                   {(state.orders ?? []).length == 0 && (
                     <div class="text-wrapper-10">No transactions yet</div>
@@ -592,7 +662,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
 
                   {(state.orders ?? [])
                     .filter((order) =>
-                      ["OPEN", "FILLED"].includes(order.status)
+                      [state.orderFilter].includes(order.status)
                     )
                     .map((order) => (
                       <div class="transaction">
