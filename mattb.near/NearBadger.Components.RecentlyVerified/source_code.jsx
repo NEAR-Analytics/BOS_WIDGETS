@@ -1,5 +1,5 @@
 const { title } = props;
-title ??= "Recently verified";
+title = title ?? "Recently verified";
 
 const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 
