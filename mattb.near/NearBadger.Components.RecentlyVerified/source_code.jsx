@@ -1,3 +1,6 @@
+const { title } = props;
+title ??= "Recently verified";
+
 const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 
 let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
@@ -30,7 +33,7 @@ const Carousel = styled.div`
 
 return (
   <Section>
-    <h1>Recently verified</h1>
+    <h1>{title}</h1>
     <Carousel>
       {recentlyVerified.map((verifiedProfile) => (
         <Widget
