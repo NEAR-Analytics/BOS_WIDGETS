@@ -139,9 +139,13 @@ return (
         />
       </div>
       <div className="mb-2">
-        <CommitButton data={{ profile: profile }} disabled={!isValidProfile}>
+        <CommitButton
+          data={{ profile: profile }}
+          disabled={!newValidity.isValid}
+        >
           Save profile
         </CommitButton>
+
         <a
           className="btn btn-outline-primary ms-2"
           href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
