@@ -40,7 +40,7 @@ const contentSelector = (
 const content = {
   proposals: (
     <Widget
-      src={`meta-pool-official.near/widget/ImprovementProposals.Proposals`}
+      src={`${authorId}/widget/ImprovementProposals.Proposals`}
       props={{
         search: state.search,
         update: props.update,
