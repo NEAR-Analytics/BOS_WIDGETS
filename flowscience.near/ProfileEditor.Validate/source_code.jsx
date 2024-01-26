@@ -129,8 +129,9 @@ return (
       </div>
       <div className="mb-2">
         <CommitButton
+          key={isValidProfile ? "valid" : "invalid"} // Change key to force re-render
           data={{ profile: profile }}
-          disabled={!newValidity.isValid}
+          disabled={!isValidProfile}
         >
           Save profile
         </CommitButton>
