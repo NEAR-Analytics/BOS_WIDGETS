@@ -586,6 +586,7 @@ return (
               height="300px"
               style={{
                 objectFit: "cover",
+                minWidth: "300px",
               }}
             />
             <div
