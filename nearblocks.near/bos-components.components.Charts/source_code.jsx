@@ -727,7 +727,7 @@ function MainComponent(props) {
         <div className="container mx-auto px-3 -mt-36">
           {props.chartTypes && (
             <div
-              className="block bg-white border soft-shadow rounded-lg overflow-hidden mb-10"
+              className="block bg-white border soft-shadow rounded-xl overflow-hidden mb-10"
               style={{ height: 580 }}
             >
               <p className="leading-7 px-4 text-sm py-4 text-gray-500 border-b">
@@ -755,7 +755,7 @@ function MainComponent(props) {
                 chart.exclude === false && (
                   <div
                     key={index}
-                    className="block bg-white border soft-shadow rounded-lg overflow-hidden"
+                    className="block bg-white border soft-shadow rounded-xl overflow-hidden"
                   >
                     <a
                       href={chart.link}
