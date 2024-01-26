@@ -583,7 +583,7 @@ return (
               }
               alt="NFT"
               width="100%"
-              height="100%"
+              height="400px"
             />
             <div
               style={{
