@@ -80,7 +80,7 @@ const ListWrapper = styled.div`
 `;
 const List = styled.div`
   width: 230px;
-  height: 443.5px;
+  height: 441.5px;
   overflow-y: auto;
   @media (max-width: 900px) {
     width: 100%;
