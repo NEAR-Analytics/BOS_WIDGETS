@@ -30,6 +30,8 @@ const Wrapper = styled.div`
   .form-control:focus {
     box-shadow: 0 0 0 0.25rem rgba(120, 58, 227, 0.5);
   }
+
+  padding-top: 34px;
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
@@ -160,15 +162,22 @@ const EmptyWrap = styled.div`
 `;
 // assets end
 
-// support chain
-const CHAIN_ID = 100;
-
 const POOL_TYPES = {
   WeightedPool: "WeightedPool",
   ComposableStablePool: "ComposableStablePool",
   StablePool: "StablePool",
 };
-
+const {
+  toast,
+  curChain,
+  onSwitchChain,
+  switchingChain,
+  chainId,
+  isChainSupported,
+  multicallAddress,
+  multicall,
+  dexConfig,
+} = props;
 const POOLS = [
   {
     poolName: "WETH-wstETH",
@@ -344,7 +353,7 @@ const POOLS = [
 const TOKENS = {
   "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252": {
     address: "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252",
-    chainId: CHAIN_ID,
+    chainId,
     name: "WBTC",
     symbol: "WBTC",
     icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
@@ -352,7 +361,7 @@ const TOKENS = {
   },
   "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1": {
     address: "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-    chainId: CHAIN_ID,
+    chainId,
     name: "WETH",
     symbol: "WETH",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png",
@@ -360,7 +369,7 @@ const TOKENS = {
   },
   "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb": {
     address: "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb",
-    chainId: CHAIN_ID,
+    chainId,
     name: "GNO",
     symbol: "GNO",
     icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png",
@@ -368,7 +377,7 @@ const TOKENS = {
   },
   "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6": {
     address: "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6",
-    chainId: CHAIN_ID,
+    chainId,
     name: "wstETH",
     symbol: "wstETH",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
@@ -376,7 +385,7 @@ const TOKENS = {
   },
   "0x1509706a6c66CA549ff0cB464de88231DDBe213B": {
     address: "0x1509706a6c66CA549ff0cB464de88231DDBe213B",
-    chainId: CHAIN_ID,
+    chainId,
     name: "AURA",
     symbol: "AURA",
     icon: "https://app.aura.finance/assets/aura-362899d2.png",
@@ -384,7 +393,7 @@ const TOKENS = {
   },
   "0xaBEf652195F98A91E490f047A5006B71c85f058d": {
     address: "0xaBEf652195F98A91E490f047A5006B71c85f058d",
-    chainId: CHAIN_ID,
+    chainId,
     name: "crvUSD",
     symbol: "crvUSD",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xabef652195f98a91e490f047a5006b71c85f058d.png",
@@ -392,7 +401,7 @@ const TOKENS = {
   },
   "0xaf204776c7245bF4147c2612BF6e5972Ee483701": {
     address: "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
-    chainId: CHAIN_ID,
+    chainId,
     name: "sDAI",
     symbol: "sDAI",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0x83f20f44975d03b1b09e64809b757c47f942beea.png",
@@ -400,7 +409,7 @@ const TOKENS = {
   },
   "0x2086f52651837600180dE173B09470F54EF74910": {
     address: "0x2086f52651837600180dE173B09470F54EF74910",
-    chainId: CHAIN_ID,
+    chainId,
     name: "staBAL3",
     symbol: "staBAL3",
     icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
@@ -408,7 +417,7 @@ const TOKENS = {
   },
   "0x7eF541E2a22058048904fE5744f9c7E4C57AF717": {
     address: "0x7eF541E2a22058048904fE5744f9c7E4C57AF717",
-    chainId: CHAIN_ID,
+    chainId,
     name: "BAL",
     symbol: "BAL",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xba100000625a3754423978a60c9317c58a424e3d.png",
@@ -416,7 +425,7 @@ const TOKENS = {
   },
   "0x4ECaBa5870353805a9F068101A40E0f32ed605C6": {
     address: "0x4ECaBa5870353805a9F068101A40E0f32ed605C6",
-    chainId: CHAIN_ID,
+    chainId,
     name: "USDT",
     symbol: "USDT",
     icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
@@ -424,7 +433,7 @@ const TOKENS = {
   },
   "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83": {
     address: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
-    chainId: CHAIN_ID,
+    chainId,
     name: "USDC",
     symbol: "USDC",
     icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
@@ -432,7 +441,7 @@ const TOKENS = {
   },
   "0x177127622c4A00F3d409B75571e12cB3c8973d3c": {
     address: "0x177127622c4A00F3d409B75571e12cB3c8973d3c",
-    chainId: CHAIN_ID,
+    chainId,
     name: "COW",
     symbol: "COW",
     icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xdef1ca1fb7fbcdc777520aa7f396b4e015f497ab.png",
@@ -440,7 +449,7 @@ const TOKENS = {
   },
   "0xcB444e90D8198415266c6a2724b7900fb12FC56E": {
     address: "0xcB444e90D8198415266c6a2724b7900fb12FC56E",
-    chainId: CHAIN_ID,
+    chainId,
     name: "EURe",
     symbol: "EURe",
     icon: "https://assets.coingecko.com/coins/images/23354/large/eur.png?1643926562",
@@ -448,7 +457,7 @@ const TOKENS = {
   },
   "0x004626A008B1aCdC4c74ab51644093b155e59A23": {
     address: "0x004626A008B1aCdC4c74ab51644093b155e59A23",
-    chainId: CHAIN_ID,
+    chainId,
     name: "stEUR",
     symbol: "stEUR",
     icon: "https://assets.coingecko.com/coins/images/32036/large/stEUR-x4.png",
@@ -592,8 +601,7 @@ const RewardsContractABI = [
     type: "function",
   },
 ];
-const RewardPoolDepositWrapper = "0x0Fec3d212BcC29eF3E505B555D7a7343DF0B7F76";
-const PoolContractWrapper = "0xBA12222222228d8Ba445958a75a0704d566BF2C8";
+const { RewardPoolDepositWrapper, PoolContractWrapper } = dexConfig;
 
 const RewardPoolDepositABI = [
   {
@@ -705,12 +713,11 @@ const COINGECKO_IDS = {
   EURe: "monerium-eur-money",
   GNO: "gnosis",
 };
-
+console.log("AURA_PROPS:", props);
 const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, reward: 0 }));
-const { toast } = props;
+
 State.init({
   currentTab: "TAB_POOL",
-  chainId: "", // current chain
   account: "", // current wallet address
   poolsList: initList, //
   myPoolsList: [],
@@ -727,18 +734,119 @@ State.init({
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 function initPoolList() {
+  // getLPToken(state.poolsList[0]);
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
-    getMultiRewards(item, i);
+
     getMultiLPToken(item, i);
+
+    getMultiRewards(item, i);
   }
 
   getMultiPoolTokens();
 }
 
-function multiCallV2(abi, calls, options, onSuccess, onError) {
-  // for gnosis 100
-  const MULTICALL_ADDRESS = "0xAbd2FE441318a73414e3fa93297D3Bdb036CB2Fa";
+function getLPToken(pool) {
+  console.log(22222222, pool.LP_token_address);
+  const myContract = new ethers.Contract(
+    pool.LP_token_address,
+    LPTokenABI,
+    Ethers.provider()
+  );
+
+  return myContract
+    .balanceOf(account)
+    .then((res) => {
+      console.log(33333333333, res);
+    })
+    .catch((err) => {
+      console.log(44444, err);
+    });
+}
+
+function getMultiRewards(pool, index) {
+  const calls = [
+    {
+      address: pool.Rewards_contract_address,
+      name: "balanceOf",
+      params: [account],
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "rewardRate",
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "totalSupply",
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "rewards",
+      params: [account],
+    },
+  ];
+  multiCallV2({
+    abi: RewardsContractABI,
+    calls,
+    options: {},
+    multicallAddress,
+  })
+    .then((res) => {
+      console.log("getMultiRewards_res", res);
+      const temp = [...state.poolsList];
+      const [[balance], [rewardRate], [totalSupply], [rewards]] = res;
+
+      temp[index].rewardRate = rewardRate;
+      temp[index].stakedAmount = Big(
+        ethers.utils.formatUnits(balance || 0)
+      ).toFixed(2);
+      temp[index].rewardTotalSupply = totalSupply;
+      temp[index].reward = Big(ethers.utils.formatUnits(rewards || 0)).toFixed(
+        2
+      );
+      State.update({
+        poolsList: temp,
+        flag1: true,
+      });
+    })
+    .catch((err) => {
+      console.log("getMultiRewards_error", err);
+    });
+}
+
+function getMultiLPToken(pool, index) {
+  const calls = [
+    {
+      address: pool.LP_token_address,
+      name: "balanceOf",
+      params: [account],
+    },
+    {
+      address: pool.LP_token_address,
+      name: "getActualSupply",
+    },
+  ];
+
+  multiCallV2({ abi: LPTokenABI, calls, options: {}, multicallAddress })
+    .then((res) => {
+      console.log("getMultiLPToken res:", res);
+      const temp = [...state.poolsList];
+      const [[balance], [totalSupply]] = res;
+
+      temp[index].bptAmount = ethers.utils.formatUnits(balance);
+      temp[index].bptTotalSupply = totalSupply;
+
+      State.update({
+        poolsList: temp,
+        flag2: true,
+      });
+    })
+    .catch((err) => {
+      console.log("getMultiLPToken_error", err);
+    });
+}
+
+function multiCallV2({ abi, calls, options, multicallAddress }) {
   const MULTICALL_ABI = [
     {
       inputs: [
@@ -770,7 +878,7 @@ function multiCallV2(abi, calls, options, onSuccess, onError) {
     },
   ];
   const MulticallContract = new ethers.Contract(
-    MULTICALL_ADDRESS,
+    multicallAddress,
     MULTICALL_ABI,
     Ethers.provider().getSigner()
   );
@@ -781,108 +889,22 @@ function multiCallV2(abi, calls, options, onSuccess, onError) {
     target: call.address.toLowerCase(),
     callData: itf.encodeFunctionData(call.name, call.params),
   }));
-  MulticallContract.callStatic
+  return MulticallContract.callStatic
     .tryAggregate(requireSuccess || true, calldata, overrides)
     .then((res) => {
-      onSuccess(
-        res.map((call, i) => {
-          const [result, data] = call;
-          return result && data !== "0x"
-            ? itf.decodeFunctionResult(calls[i].name, data)
-            : null;
-        })
-      );
+      const temp = res.map((call, i) => {
+        const [result, data] = call;
+        return result && data !== "0x"
+          ? itf.decodeFunctionResult(calls[i].name, data)
+          : null;
+      });
+      return temp;
     })
     .catch((err) => {
-      onError?.(err);
+      console.log(55555, err);
+      // onError?.(err);
     });
 }
-function getMultiRewards(pool, index) {
-  const calls = [
-    {
-      address: pool.Rewards_contract_address,
-      name: "balanceOf",
-      params: [account],
-    },
-    {
-      address: pool.Rewards_contract_address,
-      name: "rewardRate",
-    },
-    {
-      address: pool.Rewards_contract_address,
-      name: "totalSupply",
-    },
-    {
-      address: pool.Rewards_contract_address,
-      name: "rewards",
-      params: [account],
-    },
-  ];
-
-  multiCallV2(
-    RewardsContractABI,
-    calls,
-    {},
-    (res) => {
-      console.log("getMultiRewards res:", res);
-      const temp = [...state.poolsList];
-      const [[balance], [rewardRate], [totalSupply], [rewards]] = res;
-
-      temp[index].rewardRate = rewardRate;
-      temp[index].stakedAmount = Big(
-        ethers.utils.formatUnits(balance) || 0
-      ).toFixed(2);
-      temp[index].rewardTotalSupply = totalSupply;
-      temp[index].reward = Big(ethers.utils.formatUnits(rewards) || 0).toFixed(
-        2
-      );
-      State.update({
-        poolsList: temp,
-        flag1: true,
-      });
-    },
-    (err) => {
-      console.log("multicall_error", err);
-    }
-  );
-}
-
-function getMultiLPToken(pool, index) {
-  const calls = [
-    {
-      address: pool.LP_token_address,
-      name: "balanceOf",
-      params: [account],
-    },
-    {
-      address: pool.LP_token_address,
-      name: "getActualSupply",
-    },
-  ];
-
-  multiCallV2(
-    LPTokenABI,
-    calls,
-    {},
-    (res) => {
-      console.log("getMultiLPToken res:", res);
-      const temp = [...state.poolsList];
-      const [[balance], [totalSupply]] = res;
-
-      temp[index].bptAmount = ethers.utils.formatUnits(balance);
-      temp[index].bptTotalSupply = totalSupply;
-
-      State.update({
-        poolsList: temp,
-        flag2: true,
-      });
-    },
-    (err) => {
-      console.log("multicall_error", err);
-    }
-  );
-}
-
 function getMultiPoolTokens() {
   const ids = state.poolsList.map((item) => item.Balancer_Pool_ID);
 
@@ -891,12 +913,15 @@ function getMultiPoolTokens() {
     name: "getPoolTokens",
     params: [id],
   }));
+
   // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
-  multiCallV2(
-    PoolContractABI,
+  multiCallV2({
+    abi: PoolContractABI,
     calls,
-    {},
-    (res) => {
+    options: {},
+    multicallAddress,
+  })
+    .then((res) => {
       console.log("getMultiPoolTokens res:", res);
       const temp = [...state.poolsList];
       for (let i = 0; i < res.length; i++) {
@@ -912,11 +937,10 @@ function getMultiPoolTokens() {
         poolsList: temp,
         flag3: true,
       });
-    },
-    (err) => {
-      console.log("multicall_error", err);
-    }
-  );
+    })
+    .catch((err) => {
+      console.log("getMultiPoolTokens_error", err);
+    });
 }
 
 function fetchTokenPrice(tokenIds) {
@@ -1042,57 +1066,50 @@ function getAuraMintAmount(balEarned, global) {
 
 useEffect(() => {
   State.update({ account });
-  if (account && state.chainId === CHAIN_ID) {
+  if (account && isChainSupported) {
     initPoolList();
   }
 }, [account]);
 
 useEffect(() => {
   getTokenPrices();
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({ chainId });
-    })
-    .catch(() => {});
 }, []);
 
 useEffect(() => {
-  if (state.chainId === CHAIN_ID) {
-    console.log(
-      "----------------",
-      state.flag1,
-      state.flag2,
-      state.flag3,
-      state.flag4,
-      state
-    );
-    if (state.flag1 && state.flag2 && state.flag3 && state.flag4) {
-      try {
-        const totalDepositAmount = state.poolsList.reduce((total, cur) => {
-          return Big(cur.stakedAmount || 0)
-            .plus(total)
-            .toFixed(2);
-        }, 0);
-        const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
-          return Big(cur.reward || 0)
-            .plus(total)
-            .toFixed(2);
-        }, 0);
+  if (!isChainSupported) return;
+  // console.log(
+  //   "----------------",
+  //   state.flag1,
+  //   state.flag2,
+  //   state.flag3,
+  //   state.flag4,
+  //   state
+  // );
+  if (state.flag1 && state.flag2 && state.flag3 && state.flag4) {
+    try {
+      const totalDepositAmount = state.poolsList.reduce((total, cur) => {
+        return Big(cur.stakedAmount || 0)
+          .plus(total)
+          .toFixed(2);
+      }, 0);
+      const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
+        return Big(cur.reward || 0)
+          .plus(total)
+          .toFixed(2);
+      }, 0);
 
-        const temp = state.poolsList.filter((item) =>
-          Big(item.stakedAmount || 0).gt(0)
-        );
+      const temp = state.poolsList.filter((item) =>
+        Big(item.stakedAmount || 0).gt(0)
+      );
 
-        calcTVL();
-        State.update({
-          totalDepositAmount,
-          totalRewardsAmount,
-          myPoolsList: temp,
-        });
-      } catch (error) {
-        console.log(333, error);
-      }
+      calcTVL();
+      State.update({
+        totalDepositAmount,
+        totalRewardsAmount,
+        myPoolsList: temp,
+      });
+    } catch (error) {
+      console.log(333, error);
     }
   }
 }, [state.flag1, state.flag2, state.flag3, state.flag4]);
@@ -1129,12 +1146,6 @@ const renderPoolIcon = () => {
       return null;
     });
   }
-};
-
-const switchChain = () => {
-  Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
-  ]);
 };
 
 const handleClaim = (address) => {
@@ -1268,13 +1279,10 @@ return (
                 props={{
                   ...props,
                   data: item,
-                  chainId: state.chainId,
                   account: state.account,
                   TOKENS,
-                  CHAIN_ID,
                   RewardPoolDepositWrapper,
                   RewardPoolDepositABI,
-                  switchChain,
                   tokenIcons: getPoolIcon(item.tokenAssets),
                 }}
                 key={item.poolName}
@@ -1384,5 +1392,16 @@ return (
         </HeadWrapper>
       </Tabs.Content>
     </Tabs.Root>
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          // theme: dexConfig.theme?.button,
+        }}
+      />
+    )}
   </Wrapper>
 );
