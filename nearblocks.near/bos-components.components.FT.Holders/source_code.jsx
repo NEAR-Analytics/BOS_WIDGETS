@@ -1285,9 +1285,9 @@ function MainComponent({ network, id, token }) {
         <span>{serialNumber(index, currentPage, 25)}</span>
       ),
       tdClassName:
-        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-gray-500 w-[50px]',
+        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600 w-[50px]',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[50]',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider w-[50]',
     },
     {
       header: 'Address',
@@ -1319,9 +1319,9 @@ function MainComponent({ network, id, token }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: 'Quantity',
@@ -1329,9 +1329,9 @@ function MainComponent({ network, id, token }) {
       cell: (row) => (
         <> {tokenAmount(row.amount, tokens?.decimals, true)}</>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: 'Percentage',
@@ -1355,9 +1355,9 @@ function MainComponent({ network, id, token }) {
         );
       },
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: 'Value',
@@ -1371,9 +1371,9 @@ function MainComponent({ network, id, token }) {
           </span>
         );
       },
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'x-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap',
+        'x-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
   ];
 
@@ -1386,7 +1386,7 @@ function MainComponent({ network, id, token }) {
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 px-6 text-sm mb-4 text-gray-500">
+            <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
               A total of {localFormat(totalCount)} transactions found
             </p>
           </div>
