@@ -234,7 +234,7 @@ return (
         </Text>
         <Input
           type="text"
-          placeholder="Type Name"
+          placeholder="schemaId"
           value={state.typeName}
           onChange={handleTypeNameChange}
         />
@@ -243,6 +243,8 @@ return (
       <hr></hr>
       <Text>
         <h4>Schema Fields</h4>
+        <i>*Add fields below that are relevant to your use case.</i>
+        <br></br>
         <b>1.</b> [Field Name]: give a meaningful name to the data<br></br>
         <b>2.</b> [Field Type]: select an appropriate primitive for the data.{" "}
         <a href="">
@@ -306,14 +308,14 @@ return (
       <Row>
         <Input
           type="text"
-          placeholder="Widget Key"
+          placeholder="Widget Name"
           value={state.newWidgetKey}
           onChange={handleWidgetKeyChange}
         />
         {":"}
         <Input
           type="text"
-          placeholder="Widget Src"
+          placeholder="accountId/widget/name"
           value={state.newWidgetSrc}
           onChange={handleWidgetSrcChange}
         />
@@ -353,7 +355,7 @@ return (
           onChange={(e) => State.update({ isRevocable: e.target.checked })}
         />
       </Row>
-      <i>Determine if attestations of this schema can be revocable.</i>
+      <i>*Determine if attestations of this schema can be revocable.</i>
       <hr></hr>
       <Row>
         <CommitButton
@@ -362,7 +364,7 @@ return (
           disabled={state.properties.length === 0}
           className="styless"
         >
-          create
+          Publish/Update Schema
         </CommitButton>
       </Row>
     </FormContainer>
