@@ -7,9 +7,7 @@ if (!accountId) {
 //let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
 
-initialProfile.tags = Object.entries(initialProfile.tags)
-  .filter(([key, value]) => value.trim() !== "")
-  .map(([key, value]) => key); // or .map(([key, value]) => key) if keys are the actual tags
+initialProfile.tags = Object.keys(initialProfile.tags);
 
 if (initialProfile === null) {
   return "Loading";
