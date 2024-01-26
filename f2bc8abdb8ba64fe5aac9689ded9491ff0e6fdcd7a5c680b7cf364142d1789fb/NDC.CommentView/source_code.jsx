@@ -289,7 +289,23 @@ return (
       <CommentCardContent>
         <Widget
           src={widgets.views.standardWidgets.socialMarkdown}
-          props={{ text: data.originalComment.value.comment.text }}
+          props={{
+            text: data.originalComment.value.comment.text,
+            onHashtag: (hashtag) => (
+              <span
+                key={hashtag}
+                className="d-inline-flex"
+                style={{ fontWeight: 500 }}
+              >
+                <a
+                  href={`https://near.social/${authorForWidget}/widget/${widgets.thisForum}?tagShared=${hashtag}`}
+                  target="_blank"
+                >
+                  #{hashtag}
+                </a>
+              </span>
+            ),
+          }}
         />
       </CommentCardContent>
       <CommentCardLowerSection>
