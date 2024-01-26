@@ -89,6 +89,23 @@ const ErrorMessage = styled.div`
   margin-top: 5px;
 `;
 
+function renderErrorMessages() {
+  const errorMessages = {
+    name: "Name is required.",
+    image: "Profile picture is required.",
+    backgroundImage: "Background image is required.",
+    description: "Description is required.",
+    tags: "At least one tag is required.",
+    linktree: "Linktree information is incomplete.",
+  };
+
+  return Object.keys(fieldErrors)
+    .filter((field) => fieldErrors[field]) // Filter out fields without errors
+    .map((field) => (
+      <ErrorMessage key={field}>{errorMessages[field]}</ErrorMessage>
+    ));
+}
+
 return (
   <div className="row">
     <div className="col-lg-6">
@@ -138,10 +155,6 @@ return (
                 ],
               },
             },
-            errorMessages: {
-              name: fieldErrors.name && "Name is required.",
-              image: fieldErrors.image && "Profile picture is required.",
-            },
           }}
         />
       </div>
@@ -161,6 +174,12 @@ return (
           View profile
         </a>
       </div>
+      {Object.keys(fieldErrors).length > 0 && (
+        <div>
+          <h4>Error Messages:</h4>
+          {renderErrorMessages()}
+        </div>
+      )}
     </div>
     <div className="col-lg-6">
       <div>
