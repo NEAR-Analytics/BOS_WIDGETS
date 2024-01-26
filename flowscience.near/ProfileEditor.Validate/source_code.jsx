@@ -7,6 +7,10 @@ if (!accountId) {
 //let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
 
+initialProfile.tags = Object.entries(initialProfile.tags)
+  .filter(([key, value]) => value.trim() !== "")
+  .map(([key, value]) => value); // or simply .map(([key, value]) => key) if keys are the actual tags
+
 if (initialProfile === null) {
   return "Loading";
 }
@@ -41,6 +45,15 @@ function isProfileValid(profile) {
     profile.description.trim() === ""
   ) {
     invalidFields.push("description");
+  }
+
+  // Check if tags array is not empty
+  if (
+    !profile.tags ||
+    !Array.isArray(profile.tags) ||
+    profile.tags.length === 0
+  ) {
+    invalidFields.push("tags");
   }
 
   const hasValidTag = Object.values(profile.tags).some(
