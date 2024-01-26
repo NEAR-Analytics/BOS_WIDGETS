@@ -18,6 +18,23 @@
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function convertToMetricPrefix(number) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
@@ -2112,7 +2129,7 @@ function MainComponent(props) {
 
   const LinkWrapper = (props) => (
     <a href={props.href} className="hover:no-underline">
-      <a className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 text-green-500 hover:text-white text-xs px-2 py-1 rounded-lg hover:no-underline">
+      <a className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 text-green-500 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
         {props.children}
       </a>
     </a>
@@ -2196,9 +2213,11 @@ function MainComponent(props) {
     <>
       <div className="md:flex items-center justify-between">
         {isLoading ? (
-          <Loader className="flex w-80 max-w-xs px-3 py-4" />
+          <div className="w-80 max-w-xs px-3 py-5">
+            <Skeleton className="h-7" />
+          </div>
         ) : (
-          <h1 className="text-xl text-gray-700 px-2 py-4">
+          <h1 className="text-xl text-nearblue-600 px-2 py-4">
             {t ? (
               <>
                 {t('blocks:block.heading.0')}
@@ -2218,18 +2237,13 @@ function MainComponent(props) {
             )}
           </h1>
         )}
-        {
-          <Widget
-            src={`${config.ownerId}/widget/bos-components.components.Shared.SponsoredBox`}
-          />
-        }
       </div>
       {error || (!isLoading && Object.keys(block).length === 0) ? (
-        <div className="text-gray-400 text-xs px-2 mb-4">
+        <div className="text-nearblue-700 text-xs px-2 mb-4">
           {t ? t('blocks:blockError') : 'Block Error'}
         </div>
       ) : (
-        <div className="bg-white text-sm text-gray-500 divide-solid divide-gray-200 divide-y soft-shadow rounded-lg">
+        <div className="bg-white text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y soft-shadow rounded-xl">
           {network === 'testnet' && (
             <div className="flex flex-wrap p-4 text-red-500">
               {t
