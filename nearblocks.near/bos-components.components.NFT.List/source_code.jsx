@@ -782,9 +782,9 @@ function MainComponent({ network, currentPage, setPage, t }) {
         </span>
       ),
       tdClassName:
-        'pl-6 py-4 whitespace-nowrap text-sm text-gray-400 align-top',
+        'pl-6 py-4 whitespace-nowrap text-sm text-nearblue-700 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
@@ -795,7 +795,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'name' && (
-              <div className="text-gray-500">
+              <div className="text-nearblue-600">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -821,7 +821,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
                 <span className="inline-block truncate max-w-[200px] mr-1">
                   {row.name}
                 </span>
-                <span className="text-gray-400 inline-block truncate max-w-[80px]">
+                <span className="text-nearblue-700 inline-block truncate max-w-[80px]">
                   {row.symbol}
                 </span>
               </a>
@@ -830,7 +830,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm  w-80 text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm  w-80 text-nearblue-600 align-top',
     },
     {
       header: (
@@ -842,7 +842,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'tokens' && (
-              <div className="text-gray-500">
+              <div className="text-nearblue-600">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -853,7 +853,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
       key: 'tokens',
       cell: (row) => <span>{localFormat(row.tokens)}</span>,
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
     {
       header: (
@@ -864,7 +864,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'txns_day' && (
-              <div className="text-gray-500 font-semibold">
+              <div className="text-nearblue-600 font-semibold">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -875,7 +875,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
       key: 'change_24',
       cell: (row) => <span>{localFormat(row.transfers_day)}</span>,
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
     {
       header: (
@@ -886,7 +886,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'txns_3days' && (
-              <div className="text-gray-500">
+              <div className="text-nearblue-600">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -897,7 +897,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
       key: 'transfers_3days',
       cell: (row) => <span>{localFormat(row.transfers_3days)}</span>,
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
     {
       header: (
@@ -908,7 +908,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'txns' && (
-              <div className="text-gray-500">
+              <div className="text-nearblue-600">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -919,7 +919,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
       key: 'transfers',
       cell: (row) => <span>{localFormat(row.transfers)}</span>,
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
     {
       header: (
@@ -931,7 +931,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
             className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'holders' && (
-              <div className="text-gray-500">
+              <div className="text-nearblue-600">
                 <SortIcon order={sorting.order} />
               </div>
             )}
@@ -942,7 +942,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
       key: 'holders',
       cell: (row) => <span>{localFormat(row.holders)}</span>,
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
   ];
 
@@ -973,8 +973,8 @@ function MainComponent({ network, currentPage, setPage, t }) {
 
   return (
     <>
-      <div className=" bg-white border soft-shadow rounded-lg pb-1 ">
-        <div className="flex flex-row items-center justify-between text-left text-sm text-gray-500 px-3 py-2">
+      <div className=" bg-white border soft-shadow rounded-xl pb-1 ">
+        <div className="flex flex-row items-center justify-between text-left text-sm text-nearblue-600 px-3 py-2">
           {isLoading ? (
             <Skeleton className="max-w-lg pl-3" />
           ) : (
@@ -985,15 +985,14 @@ function MainComponent({ network, currentPage, setPage, t }) {
           )}
           <div className={`flex w-full h-10 sm:w-80 mr-2`}>
             <div className="flex-grow">
-              <label htmlFor="token-search" className="relative">
+              <label htmlFor="token-search" id="token-search">
                 <input
                   name="search"
                   autoComplete="off"
                   placeholder="Search"
-                  className="search ml-2 pl-8 token-search bg-white w-full h-full text-sm py-2 outline-none border rounded-lg"
+                  className="search ml-2 pl-8 token-search bg-white w-full h-full text-sm py-2 outline-none border rounded-xl"
                   onChange={onChange}
                 />
-                <span className="bg-token-search absolute left-[18px] top-0 bottom-0 w-[14px] bg-no-repeat bg-center bg-contain "></span>
               </label>
               {searchResults?.length > 0 && (
                 <div className="z-50 relative">
@@ -1015,7 +1014,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
                             </div>
                             <p className="font-semibold text-sm truncate">
                               {token.name}
-                              <span className="text-gray-400 ml-2">
+                              <span className="text-nearblue-700 ml-2">
                                 {token.symbol}
                               </span>
                             </p>
