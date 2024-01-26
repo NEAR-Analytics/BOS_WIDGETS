@@ -244,7 +244,10 @@ return (
       <Text>
         <h4>Schema Fields</h4>
         <b>1.</b> [Field Name]: give a meaningful name to the data<br></br>
-        <b>2.</b> [Field Type]: select an appropriate primitive for the data{" "}
+        <b>2.</b> [Field Type]: select an appropriate primitive for the data.{" "}
+        <a href="">
+          <i>[Create field types]</i>
+        </a>
         <br></br>
         <b>3.</b> [Single/Multi]: will the data contain multiple objects of the
         selected type?
@@ -323,6 +326,34 @@ return (
           +
         </Button>
       </Row>
+      <hr></hr>
+      <Row>
+        <Text>
+          <b>Resolver Address:</b>
+        </Text>
+        <Input
+          type="text"
+          placeholder="(e.g. resolver.near)"
+          value={state.resolverId}
+          onChange={handleResolverIdChange}
+        />
+      </Row>
+      <i>
+        *Optional smart contract that gets executed with every attestation of
+        this type. (Can be used to verify, limit, act upon any attestation)
+      </i>
+      <hr></hr>
+      <Row>
+        <Text>
+          <b>Is Revocable?</b>
+        </Text>
+        <Input
+          type="checkbox"
+          defaultChecked="true"
+          onChange={(e) => State.update({ isRevocable: e.target.checked })}
+        />
+      </Row>
+      <i>Determine if attestations of this schema can be revocable.</i>
       <hr></hr>
       <Row>
         <CommitButton
