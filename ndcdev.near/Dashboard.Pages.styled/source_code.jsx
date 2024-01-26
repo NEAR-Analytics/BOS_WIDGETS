@@ -35,11 +35,15 @@ return {
 
   ChartContainer: styled.div`
     display: flex;
-    gap: 3rem;
+    width: 100%;
     justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
 
-    @media screen and (max-width: 768px) {
-      flex-direction: column;
+    @media screen and (max-width: 1188px) {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
     }
   `,
 };
