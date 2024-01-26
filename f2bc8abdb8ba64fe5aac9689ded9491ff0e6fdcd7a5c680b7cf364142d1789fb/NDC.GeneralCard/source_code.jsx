@@ -483,8 +483,8 @@ return (
               children: <i className="bi bi-share"></i>,
               onClick: () =>
                 handleShareButton(true, {
-                  type: "sharedBlockHeight",
-                  value: data.blockHeight,
+                  type: "sharedArticleId",
+                  value: data.id,
                 }),
             }}
           />
