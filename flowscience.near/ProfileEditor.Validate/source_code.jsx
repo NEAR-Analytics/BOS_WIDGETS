@@ -66,19 +66,13 @@ const [isValidProfile, setIsValidProfile] = useState(
   isProfileValid(initialProfile)
 );
 
-function handleProfileChange(
-  updatedProfile,
-  setProfileFn,
-  setIsValidProfileFn,
-  State
-) {
+function handleProfileChange(updatedProfile) {
   console.log("Profile updated:", updatedProfile);
-  setProfileFn(updatedProfile);
+  setProfile(updatedProfile);
   const newValidity = isProfileValid(updatedProfile);
-  console.log("newValidity", newValidity);
-  setIsValidProfileFn(newValidity);
+  console.log("Is new profile valid?", newValidity);
+  setIsValidProfile(newValidity.isValid);
   State.update({ profile: updatedProfile });
-  console.log("isProfileValid?", isProfileValid);
 }
 
 return (
@@ -92,13 +86,7 @@ return (
           src="near/widget/MetadataEditor"
           props={{
             initialMetadata: profile,
-            onChange: (updatedProfile) =>
-              handleProfileChange(
-                updatedProfile,
-                setProfile,
-                setIsValidProfile,
-                State
-              ),
+            onChange: handleProfileChange,
             options: {
               name: { label: "Name" },
               image: { label: "Profile picture" },
