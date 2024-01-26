@@ -3,7 +3,7 @@ return {
     position: fixed;
     inset: 73px 0px 0px;
     width: 100%;
-    height: 100%;
+    height: 95%;
     display: flex;
     justify-content: center;
     overflow-y: scroll;
@@ -16,7 +16,6 @@ return {
   Container: styled.div`
     width: 100%;
     height: 100%;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
