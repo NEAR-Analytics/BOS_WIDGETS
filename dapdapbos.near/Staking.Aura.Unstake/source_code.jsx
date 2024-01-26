@@ -98,7 +98,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, chainId, account, TOKENS, CHAIN_ID, switchChain } = props;
+const { data, account, TOKENS, switchChain } = props;
 const {
   poolName,
   tokenAssets,
@@ -250,50 +250,35 @@ return (
         BPT
       </div>
     </div>
-    {chainId !== CHAIN_ID ? (
-      <ChainBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Switch to Gnosis",
-            type: "primary",
-            style: { flex: 1 },
-            onClick: switchChain,
-          }}
-        />
-      </ChainBtnWrap>
-    ) : (
-      <>
-        <AmountList>
-          {/* <span>${stakedAmount}</span> */}
-          <span></span>
-          <span>
-            You Staked: <span className="amount-white">{stakedAmount}</span> BPT
-          </span>
-        </AmountList>
-        <UnStakeBtnWrap>
-          <div className="switch-wrap">
-            <SwitchRoot
-              checked={state.isClaimRewards}
-              onCheckedChange={handleSwitch}
-            >
-              <SwitchThumb />
-            </SwitchRoot>
-            <span>Claim Rewards</span>
-          </div>
-          <Widget
-            src="dapdapbos.near/widget/UI.Button"
-            props={{
-              text: "Unstake",
-              type: "primary",
-              style: { flex: 1 },
-              loading: state.unstaking,
-              disabled: !state.canUnstake,
-              onClick: handleUnStake,
-            }}
-          />
-        </UnStakeBtnWrap>
-      </>
-    )}
+
+    <AmountList>
+      {/* <span>${stakedAmount}</span> */}
+      <span></span>
+      <span>
+        You Staked: <span className="amount-white">{stakedAmount}</span> BPT
+      </span>
+    </AmountList>
+    <UnStakeBtnWrap>
+      <div className="switch-wrap">
+        <SwitchRoot
+          checked={state.isClaimRewards}
+          onCheckedChange={handleSwitch}
+        >
+          <SwitchThumb />
+        </SwitchRoot>
+        <span>Claim Rewards</span>
+      </div>
+      <Widget
+        src="dapdapbos.near/widget/UI.Button"
+        props={{
+          text: "Unstake",
+          type: "primary",
+          style: { flex: 1 },
+          loading: state.unstaking,
+          disabled: !state.canUnstake,
+          onClick: handleUnStake,
+        }}
+      />
+    </UnStakeBtnWrap>
   </StakePanel>
 );
