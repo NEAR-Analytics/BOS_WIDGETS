@@ -1,11 +1,12 @@
 const data = props.data || {};
-const type = props.type || "flowscience.near/type/fileformat";
-const record = props.file || "flowscience.near/type/record";
+const type = props.type || "hyperfiles.near/type/schema";
+const record = props.file || "hyperfiles.near/type/attestation";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
 const schemaType = props.schema || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
+const schemaSrc = props.schemaSrc || "attestations.near";
 const buildEdges = props.buildEdges;
-const template = props.template || "";
+const template = props.template || "every.near/type/thing";
 const thingId = props.thingId;
 const defaultView = props.defaultView || "CREATE_THING";
 
