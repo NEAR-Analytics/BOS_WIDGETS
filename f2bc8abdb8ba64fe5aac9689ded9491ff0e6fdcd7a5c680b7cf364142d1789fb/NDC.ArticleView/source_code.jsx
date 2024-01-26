@@ -667,8 +667,8 @@ return (
                         children: <i className="bi bi-share"></i>,
                         onClick: () =>
                           handleShareButton(true, {
-                            type: "sharedBlockHeight",
-                            value: articleToRenderData.blockHeight,
+                            type: "sharedArticleId",
+                            value: articleToRenderData.id,
                           }),
                       }}
                     />
