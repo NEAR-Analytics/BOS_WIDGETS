@@ -75,9 +75,10 @@ function handleProfileChange(
   console.log("Profile updated:", updatedProfile);
   setProfileFn(updatedProfile);
   const newValidity = isProfileValid(updatedProfile);
-  console.log("Is new profile valid?", newValidity);
+  console.log("newValidity", newValidity);
   setIsValidProfileFn(newValidity);
   State.update({ profile: updatedProfile });
+  console.log("isProfileValid?", isProfileValid);
 }
 
 return (
