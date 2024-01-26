@@ -1,7 +1,11 @@
 // Ideally, this would be a page
 
 const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { getDepositAmountForWriteAccess } = VM.require(
+  "thomasguntenaar.near/widget/core.lib.common"
+);
 
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 const { draftState, onDraftStateChange } = VM.require(
   "thomasguntenaar.near/widget/devhub.entity.post.draft"
 );
@@ -262,12 +266,24 @@ const containsLike = props.isPreview
 const likeBtnClass = containsLike ? fillIcons.Like : emptyIcons.Like;
 // This must be outside onLike, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onLike, it will give `null` and we cannot tell the result is true or false.
-let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "devgovgigs.near",
-  key: context.accountId + "/index/notify",
-});
+let grantNotify = Near.view(
+  "social.near",
+  "is_write_permission_granted",
+  {
+    predecessor_id: "devgovgigs.near",
+    key: context.accountId + "/index/notify",
+  }
+);
 
-if (grantNotify === null) {
+const userStorageDeposit = Near.view(
+  "social.near",
+  "storage_balance_of",
+  {
+    account_id: context.accountId,
+  }
+);
+
+if (grantNotify === null || userStorageDeposit === null) {
   return;
 }
 
@@ -296,7 +312,7 @@ const onLike = () => {
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
-      deposit: Big(10).pow(22),
+      deposit: getDepositAmountForWriteAccess(userStorageDeposit),
     });
   }
 
