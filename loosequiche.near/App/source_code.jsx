@@ -111,7 +111,7 @@ const App = () => {
       <FooterWrapper>
         <LogoContainer>
           <LogoLink
-            href="https://near.org/near/widget/ProfilePage?accountId=aiml.near"
+            href="https://near.org/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -121,7 +121,7 @@ const App = () => {
             />
           </LogoLink>
           <LogoLink
-            href="https://twitter.com/AIE_ML"
+            href="https://twitter.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -131,7 +131,7 @@ const App = () => {
             />
           </LogoLink>
         </LogoContainer>
-        <p>&copy; Nikhil Singh. All rights reserved.</p>
+        <p>&copy; Human. All rights reserved.</p>
       </FooterWrapper>
     );
   }
