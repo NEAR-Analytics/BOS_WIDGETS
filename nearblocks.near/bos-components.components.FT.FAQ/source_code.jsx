@@ -1982,7 +1982,7 @@ function MainComponent({ network, id, token }) {
           itemType="https://schema.org/Question"
         >
           <h3
-            className="text-gray-600 text-sm font-semibold pt-4 pb-2"
+            className="text-nearblue-600 text-sm font-semibold pt-4 pb-2"
             itemProp="name"
           >
             What is {name} price now?
@@ -1992,7 +1992,7 @@ function MainComponent({ network, id, token }) {
             itemProp="acceptedAnswer"
             itemType="https://schema.org/Answer"
           >
-            <div itemProp="text" className="text-sm text-gray-600 py-2">
+            <div itemProp="text" className="text-sm text-nearblue-600 py-2">
               The live price of {name} is{' '}
               {tokens?.price !== null && tokens?.price !== undefined ? (
                 `$${dollarFormat(tokens?.price)} (${tokenTicker} / USD)`
@@ -2039,7 +2039,7 @@ function MainComponent({ network, id, token }) {
           itemType="https://schema.org/Question"
         >
           <h3
-            className="text-gray-600 text-sm font-semibold pt-4 pb-2"
+            className="text-nearblue-600 text-sm font-semibold pt-4 pb-2"
             itemProp="name"
           >
             When was {name} created on Near Protocol?
@@ -2049,7 +2049,7 @@ function MainComponent({ network, id, token }) {
             itemProp="acceptedAnswer"
             itemType="https://schema.org/Answer"
           >
-            <div className="text-sm text-gray-600 py-2" itemProp="text">
+            <div className="text-sm text-nearblue-600 py-2" itemProp="text">
               The{' '}
               <a href={`/address/${id}`}>
                 <a className="underline">{name}</a>
@@ -2088,7 +2088,7 @@ function MainComponent({ network, id, token }) {
           itemType="https://schema.org/Question"
         >
           <h3
-            className="text-gray-600 text-sm font-semibold pt-4 pb-2"
+            className="text-nearblue-600 text-sm font-semibold pt-4 pb-2"
             itemProp="name"
           >
             How many {name} tokens are there?
@@ -2098,7 +2098,7 @@ function MainComponent({ network, id, token }) {
             itemProp="acceptedAnswer"
             itemType="https://schema.org/Answer"
           >
-            <div className="text-sm text-gray-600 py-2" itemProp="text">
+            <div className="text-sm text-nearblue-600 py-2" itemProp="text">
               There are currently{' '}
               {tokens?.circulating_supply !== null ? (
                 `${localFormat(tokens?.circulating_supply || 0)}`
