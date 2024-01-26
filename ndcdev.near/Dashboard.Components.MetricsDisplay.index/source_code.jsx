@@ -4,7 +4,6 @@ const { Items } = VM.require(
 );
 
 if (!Items) return <Widget src="flashui.near/widget/Loading" />;
-const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const Item = ({ value, text, color }) => {
   return (
@@ -18,17 +17,17 @@ const Item = ({ value, text, color }) => {
 return (
   <Items>
     <Item
-      value={loading ? <Loading /> : totalTx}
+      value={loading ? false : totalTx}
       text="Total Number of Transactions"
       color="#A39ACD"
     />
     <Item
-      value={loading ? <Loading /> : totalAccounts}
+      value={loading ? false : totalAccounts}
       text="Total Number of Accounts"
       color="#5398DD"
     />
     <Item
-      value={loading ? <Loading /> : uniqueAccounts}
+      value={loading ? false : uniqueAccounts}
       text="Today Unique Active Users"
       color="#E89DBB"
     />
