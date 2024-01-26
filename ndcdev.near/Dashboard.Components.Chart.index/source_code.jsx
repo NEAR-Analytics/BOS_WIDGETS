@@ -1,8 +1,9 @@
-const { Container } = VM.require(
+const { Card } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Chart.styled`,
 );
 
-if (!Container) return <Widget src="flashui.near/widget/Loading" />;
+const Loading = () => <Widget src="flashui.near/widget/Loading" />;
+if (!Card) return <Loading />;
 
 const chartData = props.chartData ?? {
   labels: props.data.labels.map(
@@ -104,17 +105,17 @@ const code = `
 </html>
 `;
 
-const args = {
-  title: props.title,
-  component: (
-    <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
-  ),
-};
 return (
   <div className="section py-5">
-    <Widget
-      src="ndcdev.near/widget/Dashboard.Components.Chart.container"
-      props={args}
-    />
+    <Card>
+      <div>{props.title}</div>
+      {props.loading ? (
+        <div className="w-100 py-5 d-flex justify-content-center align-items-center">
+          <Loading />
+        </div>
+      ) : (
+        <iframe iframeResizer srcDoc={code} message={{ data: chartData }} />
+      )}
+    </Card>
   </div>
 );
