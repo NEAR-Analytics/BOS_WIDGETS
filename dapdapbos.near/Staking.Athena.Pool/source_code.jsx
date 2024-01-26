@@ -113,7 +113,7 @@ const AccordionContent = styled("Accordion.Content")`
 `;
 //Accordion end
 
-const { data, chainId, account, TOKENS, CHAIN_ID, tokenPrices } = props;
+const { data, account, TOKENS, tokenPrices } = props;
 const {
   tvl,
   poolName,
