@@ -171,6 +171,37 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
+const getMediaUrl = async (base, media, reference) => {
+  if (
+    media.startsWith('https://') ||
+    media.startsWith('http://') ||
+    media.startsWith('data:image')
+  )
+    return Promise.resolve(media);
+
+  if (
+    reference &&
+    (base.startsWith('https://arweave.net') ||
+      reference.startsWith('https://arweave.net'))
+  ) {
+    try {
+      return asyncFetch(
+        base ? `${base.replace(/\/+$/, '')}/${reference}` : `${reference}`,
+      )
+        .then((resp) => {
+          return resp.body.media;
+        })
+        .catch(() => {});
+    } catch (error) {
+      //
+    }
+  }
+
+  if (base) return Promise.resolve(`${base}/${media}`);
+
+  return Promise.resolve(`https://cloudflare-ipfs.com/ipfs/${media}`);
+};
+
 function MainComponent({
   base,
   media,
@@ -184,45 +215,24 @@ function MainComponent({
   const config = getConfig(network);
 
   useEffect(() => {
-    function getMediaUrl(base, media, reference) {
-      if (
-        media.startsWith('https://') ||
-        media.startsWith('http://') ||
-        media.startsWith('data:image')
-      )
-        return media;
-
-      if (
-        reference &&
-        (base.startsWith('https://arweave.net') ||
-          reference.startsWith('https://arweave.net'))
-      ) {
-        try {
-          return asyncFetch(
-            base ? `${base.replace(/\/+$/, '')}/${reference}` : `${reference}`,
-          )
-            .then((resp) => {
-              return resp.data.media;
-            })
-            .catch(() => {});
-        } catch (error) {
-          //
-        }
-      }
-
-      if (base) return `${base}/${media}`;
-
-      return `https://cloudflare-ipfs.com/ipfs/${media}`;
-    }
-
     if (media || base || reference) {
-      setSrc(getMediaUrl(base || '', media || '', reference || ''));
+      setLoading(true);
+      getMediaUrl(base || '', media || '', reference)
+        .then(setSrc)
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => setLoading(false));
     }
   }, [base, media, reference]);
 
   const onLoad = () => setLoading(false);
 
-  const onSetSrc = (src) => setSrc(src);
+  const onSetSrc = (newSrc) => {
+    if (newSrc !== src) {
+      setSrc(newSrc);
+    }
+  };
 
   return (
     <span className="w-full h-full flex items-center justify-center relative">
