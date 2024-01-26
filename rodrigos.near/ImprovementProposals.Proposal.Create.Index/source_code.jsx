@@ -173,7 +173,7 @@ return (
     <Widget
       src={`${authorId}/widget/Common.Modal.RedirectModal`}
       props={{
-        href: `/meta-pool-official.near/widget/ImprovementProposals?tab=home`,
+        href: `/${authorId}/widget/ImprovementProposals?tab=home`,
         description: edit
           ? "Proposal edited successfully. Going back Home"
           : "Proposal created successfully. Going back Home",
@@ -189,7 +189,7 @@ return (
     </div>
     <div className="d-flex flex-column gap-2">
       <Widget
-        src={`meta-pool-official.near/widget/ImprovementProposals.Proposal.Create.Text`}
+        src={`${authorId}/widget/ImprovementProposals.Proposal.Create.Text`}
         props={{ edit, mpip_id, update }}
       />
     </div>
