@@ -12,14 +12,15 @@ return {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 5px 25px;
+      padding: 10px 25px;
 
       &.black {
-        background: #000;
+        background: #1e1d22;
       }
 
       .selected {
         border: 0;
+        width: 100%;
         font-size: 20px;
         font-style: normal;
         font-weight: 400;
@@ -31,6 +32,9 @@ return {
 
     ul {
       width: 100%;
+      max-height: 12rem;
+      overflow-y: scroll;
+      font-size: 18px;
       background: #fff;
       color: initial;
       border-radius: 6px;
@@ -40,6 +44,7 @@ return {
       position: absolute;
       padding: 0.5rem 0;
       top: 50px;
+      z-index: 100;
 
       li {
         cursor: pointer;
@@ -93,4 +98,38 @@ return {
       ${(props) => (props.selected ? "#a39acd" : "rgb(216 216 216)")};
     color: #a39acd;
   `,
+  
+  TooltipContainer: styled.div`
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  `,
+
+ TooltipText: styled.span`
+    visibility: hidden;
+    width: 150px;
+    background-color: #ffffff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 120%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent white transparent; 
+      transform: translateX(-50%);
+    }
+`,
 };
