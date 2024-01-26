@@ -1,4 +1,4 @@
-const typeSrc = props.typeSrc || "";
+const typeSrc = props.typeSrc || "hyperfiles.near";
 const blockHeight = props.blockHeight || "final";
 let type = {
   name: "",
@@ -15,8 +15,8 @@ State.init({
   newPropertyType: "string",
   newWidgetKey: "",
   newWidgetSrc: "",
-  newTypeSrc: "every.near",
-  typeSrc: "every.near",
+  newTypeSrc: "hyperfiles.near",
+  typeSrc: "hyperfiles.near",
   expanded: false,
 });
 
@@ -221,7 +221,7 @@ return (
         type="text"
         value={state.newTypeSrc}
         onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-        placeholder={"accountId"}
+        placeholder={"hyperfiles.near"}
       />
       <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
         apply
