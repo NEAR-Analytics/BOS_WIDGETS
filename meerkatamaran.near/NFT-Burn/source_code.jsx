@@ -173,6 +173,7 @@ const transfer = () => {
       args: {
         receiver_id: state.receiverId,
         token_id: state.tokenId,
+          msg: "nft burn"
       },
       gas: gas ?? 200000000000000,
       deposit: deposit ?? 10000000000000000000000,
