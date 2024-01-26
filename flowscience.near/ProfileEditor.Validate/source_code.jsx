@@ -15,7 +15,7 @@ State.init({
   initialProfile,
 });
 
-//const [profile, setProfile] = useState(initialProfile);
+const setProfile = useState(initialProfile);
 
 // Define the validation function
 function isProfileValid(profile) {
@@ -59,7 +59,9 @@ function handleProfileChange(updatedProfile) {
 
 // Check if the profile is valid
 //let isValidProfile = isProfileValid(profile);
-const [isValidProfile, setIsValidProfile] = useState(isProfileValid(profile));
+const [isValidProfile, setIsValidProfile] = useState(
+  isProfileValid(initialProfile)
+);
 
 return (
   <div className="row">
