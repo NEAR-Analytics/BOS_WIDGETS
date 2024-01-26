@@ -56,13 +56,6 @@ function isProfileValid(profile) {
     invalidFields.push("tags");
   }
 
-  const hasValidTag = Object.values(profile.tags).some(
-    (tag) => typeof tag === "string" && tag.trim() !== ""
-  );
-  if (!hasValidTag) {
-    invalidFields.push("tags");
-  }
-
   const hasValidLinktree = ["twitter", "github", "telegram", "website"].some(
     (key) =>
       profile.linktree[key] &&
