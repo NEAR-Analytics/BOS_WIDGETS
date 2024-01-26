@@ -290,6 +290,7 @@ return (
           account,
           prices,
           ...dexConfig,
+          multicall: props.multicall,
           onLoad: (data) => {
             console.log("amountOutFn", data);
             State.update({
