@@ -467,6 +467,7 @@ return (
               reactedElementData: data,
               widgets,
               disabled:
+                switchShowPreviewExists() ||
                 !context.accountId ||
                 (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
@@ -539,6 +540,7 @@ return (
                 authorForWidget,
                 elementReactedId: id,
                 disabled:
+                  switchShowPreviewExists() ||
                   !context.accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
                 callLibs,
