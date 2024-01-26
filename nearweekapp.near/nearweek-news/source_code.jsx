@@ -244,6 +244,14 @@ const CardImage = styled.img`
     object-fit: cover;
 `;
 
+const AudioCardImage = styled.img`
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9/6 auto;
+    border-radius: 8px 8px 0 0;
+    object-fit: cover;
+`;
+
 const CardFooter = styled.div`
     display: flex;
     justify-content: space-between;
@@ -376,6 +384,35 @@ const Post = (props) => {
   );
 };
 
+const Podcast = (props) => {
+  const { key, post } = props;
+  return (
+    <Card key={key} index={props.index}>
+      <AudioCardImage src={post.thumbnail} alt="" />
+      <CardContent>
+        <CardTitle>
+          <a href={post.url} target="_blank">
+            {post.title}
+          </a>
+        </CardTitle>
+        <CardFooter>
+          <Badges>
+            {post.categories &&
+              post.categories.length > 0 &&
+              post.categories.map((category, index) => (
+                <Badge index={index}>{category}</Badge>
+              ))}
+          </Badges>
+          <CardDate>
+            <ClockIconSVG />
+            {post.createdAt ? dateToDays(post.createdAt) : ""}
+          </CardDate>
+        </CardFooter>
+      </CardContent>
+    </Card>
+  );
+};
+
 return (
   <Theme>
     <NwWidget>
@@ -452,7 +489,7 @@ return (
           <>
             {audio.length > 0 ? (
               audio.map((podcast, index) => (
-                <Post post={podcast} index={index} />
+                <Podcast post={podcast} index={index} />
               ))
             ) : (
               <div>Loading ...</div>
