@@ -30,6 +30,7 @@ const Wrapper = styled.div`
   .form-control:focus {
     box-shadow: 0 0 0 0.25rem rgba(26, 202, 138, 0.5);
   }
+  padding-top: 34px;
   .grid-pool-head {
     max-width: 1244px;
     margin: 0 auto 12px;
@@ -148,8 +149,17 @@ const AssetsPanel = styled.div`
 `;
 // assets end
 
-// support chain
-const CHAIN_ID = 1088;
+const {
+  toast,
+  curChain,
+  onSwitchChain,
+  switchingChain,
+  chainId,
+  isChainSupported,
+  multicallAddress,
+  multicall,
+  dexConfig,
+} = props;
 
 const POOLS = [
   {
@@ -170,7 +180,7 @@ const POOLS = [
 const TOKENS = {
   "0xa4ee142e34d0676edc2b760dd0016003d99a4cec": {
     address: "0xa4ee142e34d0676edc2b760dd0016003d99a4cec",
-    chainId: CHAIN_ID,
+    chainId,
     name: "ATH",
     symbol: "ATH",
     icon: "https://www.athenafinance.io/assets/tokens/LATH.svg",
@@ -179,7 +189,7 @@ const TOKENS = {
   },
   "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1": {
     address: "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1",
-    chainId: CHAIN_ID,
+    chainId,
     name: "vAMM-HUM/xHUM",
     symbol: "vAMM-HUM/xHUM",
     icon: "https://www.athenafinance.io/assets/tokens/HUMxHUM.svg",
@@ -187,7 +197,7 @@ const TOKENS = {
   },
   "0x4febd4ea737a0ae94dd56e754e9b7a83e1c459e9": {
     address: "0x4febd4ea737a0ae94dd56e754e9b7a83e1c459e9",
-    chainId: CHAIN_ID,
+    chainId,
     name: "xHUM",
     symbol: "xHUM",
     icon: "https://www.athenafinance.io/assets/tokens/HUMxHUM.svg",
@@ -938,7 +948,7 @@ const LPABI = [
   },
 ];
 const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0 }));
-const { toast } = props;
+
 State.init({
   currentTab: "TAB_POOL",
   chainId: "", // current chain
@@ -1372,12 +1382,6 @@ useEffect(() => {
 
 useEffect(() => {
   getTokenPrices();
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({ chainId });
-    })
-    .catch(() => {});
 }, []);
 
 // calc tvl for locking
@@ -1399,12 +1403,6 @@ const handleChangeTabs = (value) => {
   State.update({
     currentTab: value,
   });
-};
-
-const switchChain = () => {
-  Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
-  ]);
 };
 
 function handleReLock(addr, index) {
@@ -1514,15 +1512,14 @@ return (
                 props={{
                   ...props,
                   data: item,
-                  chainId: state.chainId,
+
                   account: state.account,
                   TOKENS,
-                  CHAIN_ID,
+
                   LockingABI,
                   slotLength: state.slotLength,
                   tokenPrices: state.tokenPrices,
                   startUnlockIndex: state.myPoolsList?.length,
-                  switchChain,
                 }}
                 key={item.poolName}
               />
@@ -1622,5 +1619,16 @@ return (
         </HeadWrapper>
       </Tabs.Content>
     </Tabs.Root>
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          // theme: dexConfig.theme?.button,
+        }}
+      />
+    )}
   </Wrapper>
 );
