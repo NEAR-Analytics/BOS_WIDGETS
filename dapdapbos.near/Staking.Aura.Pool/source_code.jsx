@@ -113,7 +113,7 @@ const AccordionContent = styled("Accordion.Content")`
 `;
 //Accordion end
 
-const { data, chainId, account, TOKENS, CHAIN_ID } = props;
+const { data, account, TOKENS } = props;
 const {
   Aura_Pool_ID,
   poolName,
