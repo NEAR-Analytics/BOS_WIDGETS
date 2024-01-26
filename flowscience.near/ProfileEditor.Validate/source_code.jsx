@@ -4,7 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-let profile = Social.getr(`${accountId}/profile`);
+//let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -15,7 +15,7 @@ State.init({
   initialProfile,
 });
 
-//const [profile, setProfile] = useState(initialProfile);
+const [profile, setProfile] = useState(initialProfile);
 
 // Define the validation function
 function isProfileValid(profile) {
@@ -51,9 +51,7 @@ function handleProfileChange(updatedProfile) {
 
 // Check if the profile is valid
 //let isValidProfile = isProfileValid(profile);
-const [isValidProfile, setIsValidProfile] = useState(
-  isProfileValid(initialProfile)
-);
+const [isValidProfile, setIsValidProfile] = useState(isProfileValid(profile));
 
 return (
   <div className="row">
