@@ -1,5 +1,5 @@
 const data = props.data || {};
-const type = props.type || "hyperfiles.near/type/schema";
+const type = props.type || "hyperfiles.near/type/attestation";
 const record = props.file || "hyperfiles.near/type/attestation";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
 const schemaType = props.schema || "hyperfiles.near/type/schema";
