@@ -2,6 +2,11 @@ const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
   "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 );
+const { getDepositAmountForWriteAccess } = VM.require(
+  "thomasguntenaar.near/widget/core.lib.common"
+);
+
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 getCommunity = getCommunity || (() => <></>);
 setCommunitySocialDB = setCommunitySocialDB || (() => <></>);
