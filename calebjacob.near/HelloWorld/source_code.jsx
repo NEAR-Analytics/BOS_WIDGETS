@@ -21,7 +21,7 @@ export function BWEComponent() {
 
   return (
     <div>
-      <h1>Welcome!!</h1>
+      <h1>Welcome!</h1>
 
       <Component
         src="bwe-web.near/Message"
