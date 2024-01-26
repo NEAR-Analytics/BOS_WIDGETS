@@ -18,27 +18,45 @@ const [profile, setProfile] = useState(initialProfile);
 
 // Define the validation function
 function isProfileValid(profile) {
-  const requiredFields = [
-    "name",
-    "image",
-    "backgroundImage",
-    "description",
-    "tags",
-  ];
+  let invalidFields = [];
 
-  let invalidFields = requiredFields.filter(
-    (field) =>
-      typeof profile[field] !== "string" || profile[field].trim() === ""
+  if (typeof profile.name !== "string" || profile.name.trim() === "") {
+    invalidFields.push("name");
+  }
+
+  if (!profile.image.nft || typeof profile.image.nft.contractId !== "string") {
+    invalidFields.push("image");
+  }
+
+  if (
+    !profile.backgroundImage.ipfs_cid ||
+    typeof profile.backgroundImage.ipfs_cid !== "string"
+  ) {
+    invalidFields.push("backgroundImage");
+  }
+
+  if (
+    !profile.description ||
+    typeof profile.description !== "string" ||
+    profile.description.trim() === ""
+  ) {
+    invalidFields.push("description");
+  }
+
+  const hasValidTag = Object.values(profile.tags).some(
+    (tag) => typeof tag === "string" && tag.trim() !== ""
   );
+  if (!hasValidTag) {
+    invalidFields.push("tags");
+  }
 
-  const linktreeFilled =
-    profile.linktree &&
-    Array.isArray(profile.linktree.links) &&
-    profile.linktree.links.some(
-      (link) => typeof link.name === "string" && link.name.trim() !== ""
-    );
-
-  if (!linktreeFilled) {
+  const hasValidLinktree = ["twitter", "github", "telegram", "website"].some(
+    (key) =>
+      profile.linktree[key] &&
+      typeof profile.linktree[key] === "string" &&
+      profile.linktree[key].trim() !== ""
+  );
+  if (!hasValidLinktree) {
     invalidFields.push("linktree");
   }
 
