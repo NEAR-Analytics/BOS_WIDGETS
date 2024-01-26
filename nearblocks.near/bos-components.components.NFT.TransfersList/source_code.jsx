@@ -18,6 +18,23 @@
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Status.jsx" */
 const FaCheckCircle = () => {
   return (
@@ -1276,14 +1293,6 @@ function MainComponent({ network, t, currentPage, setPage }) {
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
-  const Loader = (props) => {
-    return (
-      <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
-      ></div>
-    );
-  };
-
   const columns = [
     {
       header: <span></span>,
@@ -1294,7 +1303,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </>
       ),
       tdClassName:
-        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-end',
+        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600 flex justify-end',
     },
     {
       header: <span>{t ? t('hash') : 'HASH'}</span>,
@@ -1326,9 +1335,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span> {t ? t('type') : 'TYPE'}</span>,
@@ -1338,7 +1347,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-gray-500 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">{row.event_kind}</span>
                 </span>
               </Tooltip.Trigger>
@@ -1353,9 +1362,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>{t ? t('from') : 'FROM'}</span>,
@@ -1392,9 +1401,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span></span>,
@@ -1448,9 +1457,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>Token ID</span>,
@@ -1481,9 +1490,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </Tooltip.Provider>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 max-w-[110px] inline-block truncate',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 max-w-[110px] inline-block truncate',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>Token</span>,
@@ -1503,7 +1512,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <div className="text-sm text-gray-500 max-w-[110px] inline-block truncate">
+                    <div className="text-sm text-nearblue-600 max-w-[110px] inline-block truncate">
                       <a
                         href={`/token/${row.nft?.contract}`}
                         className="hover:no-underline"
@@ -1527,7 +1536,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                 <Tooltip.Provider>
                   <Tooltip.Root>
                     <Tooltip.Trigger asChild>
-                      <div className="text-sm text-gray-400 max-w-[80px] inline-block truncate">
+                      <div className="text-sm text-nearblue-700 max-w-[80px] inline-block truncate">
                         &nbsp; {row.nft.symbol}
                       </div>
                     </Tooltip.Trigger>
@@ -1546,9 +1555,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         );
       },
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
@@ -1603,23 +1612,22 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
 
   return (
     <>
-      <div className="bg-white border soft-shadow rounded-lg pb-1">
+      <div className="bg-white border soft-shadow rounded-xl pb-1">
         {isLoading ? (
-          <Loader
-            className="leading-7"
-            wrapperClassName="pl-3 max-w-sm py-4 h-[60px]"
-          />
+          <div className="max-w-lg w-full pl-3 py-5">
+            <Skeleton className="h-4" />
+          </div>
         ) : (
           <div className={`flex flex-col lg:flex-row pt-4`}>
             <div className="flex flex-col">
-              <p className="leading-7 px-6 text-sm mb-4 text-gray-500">
+              <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
                 A total of {localFormat(totalCount)} transactions found
               </p>
             </div>
