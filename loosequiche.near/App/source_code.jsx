@@ -111,7 +111,7 @@ const App = () => {
       <FooterWrapper>
         <LogoContainer>
           <LogoLink
-            href="https://near.org/"
+            href="https://near.org/near/widget/ProfilePage?accountId=near-india.near"
             target="_blank"
             rel="noopener noreferrer"
           >
