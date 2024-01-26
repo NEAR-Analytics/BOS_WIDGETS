@@ -112,7 +112,7 @@ const update = (state) => State.update(state);
 const getContent = {
   home: (
     <Widget
-      src={`rodrigos.near/widget/ImprovementProposals.Dashboard`}
+      src={`${authorId}/widget/ImprovementProposals.Dashboard`}
       props={{
         tab: state.tab,
         update,
@@ -123,7 +123,7 @@ const getContent = {
   ),
   createproposal: (
     <Widget
-      src={`rodrigos.near/widget/ImprovementProposals.Proposal.Create.Index`}
+      src={`${authorId}/widget/ImprovementProposals.Proposal.Create.Index`}
       props={{
         tab: state.tab,
         update,
@@ -136,7 +136,7 @@ const getContent = {
   ),
   proposal: (
     <Widget
-      src={`rodrigos.near/widget/ImprovementProposals.Proposal.Index`}
+      src={`${authorId}/widget/ImprovementProposals.Proposal.Index`}
       props={{
         tab: state.tab,
         update,
@@ -154,7 +154,7 @@ return (
   <Container>
     <Header>
       <a
-        href={`/rodrigos.near/widget/ImprovementProposals?tab=home`}
+        href={`/${authorId}/widget/ImprovementProposals?tab=home`}
         onClick={() =>
           update({
             tab: "home",
