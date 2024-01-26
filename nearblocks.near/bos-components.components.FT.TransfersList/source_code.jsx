@@ -18,6 +18,23 @@
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Status.jsx" */
 const FaCheckCircle = () => {
   return (
@@ -1511,14 +1528,6 @@ function MainComponent({ network, t, currentPage, setPage }) {
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
-  const Loader = (props) => {
-    return (
-      <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
-      ></div>
-    );
-  };
-
   const columns = [
     {
       header: <span></span>,
@@ -1829,12 +1838,11 @@ function MainComponent({ network, t, currentPage, setPage }) {
 
   return (
     <>
-      <div className="bg-white border soft-shadow rounded-lg pb-1">
+      <div className="bg-white border soft-shadow rounded-xl pb-1">
         {isLoading ? (
-          <Loader
-            className="leading-7"
-            wrapperClassName="pl-3 max-w-sm py-4 h-[60px]"
-          />
+          <div className="max-w-lg w-full pl-3 py-5">
+            <Skeleton className="h-4" />
+          </div>
         ) : (
           <div className={`flex flex-col lg:flex-row pt-4`}>
             <div className="flex flex-col">
