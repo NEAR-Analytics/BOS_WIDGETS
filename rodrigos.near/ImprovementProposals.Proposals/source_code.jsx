@@ -298,7 +298,7 @@ return (
           ),
           onClick: () => State.update({ tab: "createproposal", content: "" }),
           variant: "success",
-          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=createproposal`,
+          href: `/${authorId}/widget/ImprovementProposals?tab=createproposal`,
         }}
       />
     </Section>
@@ -345,7 +345,7 @@ return (
          */}
     <div class="table-responsive w-100 mt-2">
       <Widget
-        src={`meta-pool-official.near/widget/ImprovementProposals.ProposalsTable`}
+        src={`${authorId}/widget/ImprovementProposals.ProposalsTable`}
         props={{
           proposals: state.proposals,
           update: props.update,
