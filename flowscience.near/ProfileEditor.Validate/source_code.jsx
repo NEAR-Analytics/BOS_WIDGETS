@@ -4,10 +4,7 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
 
-//let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
-
-//initialProfile.tags = Object.keys(initialProfile.tags);
 
 if (initialProfile === null) {
   return "Loading";
@@ -15,7 +12,6 @@ if (initialProfile === null) {
 
 State.init({ profile: initialProfile });
 
-// useState to manage profile state
 const [profile, setProfile] = useState(initialProfile);
 
 // Define the validation function
@@ -45,8 +41,8 @@ function isProfileValid(profile) {
     invalidFields.push("description");
   }
 
-  // Check if tags array is not empty
-  if (!Array.isArray(profile.tags) || profile.tags.length === 0) {
+  const hasValidTag = Object.values(profile.tags).some((tag) => tag !== null);
+  if (!hasValidTag) {
     invalidFields.push("tags");
   }
 
@@ -70,7 +66,6 @@ const [isValidProfile, setIsValidProfile] = useState(
   isProfileValid(initialProfile)
 );
 
-// Independent handler for profile change
 function handleProfileChange(
   updatedProfile,
   setProfileFn,
