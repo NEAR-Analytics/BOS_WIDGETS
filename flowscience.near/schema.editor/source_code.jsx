@@ -1,4 +1,4 @@
-const typeSrc = props.typeSrc || "hyperfiles.near";
+const typeSrc = props.typeSrc || "";
 const blockHeight = props.blockHeight || "final";
 let type = {
   name: "",
@@ -203,7 +203,7 @@ return (
   <Container>
     <Row>
       <Text>
-        <b>Schema Path:</b>
+        <b>Import Schema:</b>
       </Text>
       <Input
         type="text"
@@ -215,7 +215,7 @@ return (
     </Row>
     <Row>
       <Text>
-        <b>Type Source:</b>
+        <b>Import Types:</b>
       </Text>
       <Input
         type="text"
