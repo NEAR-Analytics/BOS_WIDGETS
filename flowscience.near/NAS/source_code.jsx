@@ -254,7 +254,7 @@ return (
               src="efiz.near/widget/create"
               props={{
                 item: {
-                  type: state.selectedRecord,
+                  type: state.selectedType,
                   value: state.data,
                 },
                 onChange: handleOnChange,
@@ -273,7 +273,7 @@ return (
         </>
       ) : (
         <Widget
-          src="every.near/widget/every.type.create"
+          src="flowscience.near/widget/schema.editor"
           props={{ typeSrc: state.selectedType }}
         />
       )}
