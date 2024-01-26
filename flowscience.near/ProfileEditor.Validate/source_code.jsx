@@ -23,15 +23,33 @@ function isProfileValid(profile) {
     invalidFields.push("name");
   }
 
-  if (!profile.image.nft || typeof profile.image.nft.contractId !== "string") {
+  const isStandardImageValid =
+    profile.image.ipfs_cid && typeof profile.image.ipfs_cid === "string";
+  const isNftImageValid =
+    profile.image.nft && typeof profile.image.nft.contractId === "string";
+  const isUrlImageValid =
+    profile.image.url && typeof profile.image.url === "string";
+
+  if (!isNftImageValid && !isStandardImageValid && !isUrlImageValid) {
     invalidFields.push("image");
   }
 
+  const isBackgroundImageValid =
+    profile.backgroundImage.ipfs_cid &&
+    typeof profile.backgroundImage.ipfs_cid === "string";
+  const isBackgroundNftValid =
+    profile.backgroundImage.nft &&
+    typeof profile.backgroundImage.nft.contractId === "string";
+  const isBackgroundUrlValid =
+    profile.backgroundImage.url &&
+    typeof profile.backgroundImage.url === "string";
+
   if (
-    !profile.backgroundImage.ipfs_cid ||
-    typeof profile.backgroundImage.ipfs_cid !== "string"
+    !isBackgroundImageValid &&
+    !isBackgroundNftValid &&
+    !isBackgroundUrlValid
   ) {
-    invalidFields.push("backgroundImage");
+    invalidFields.push("backgroundImage"); // Corrected from "image" to "backgroundImage"
   }
 
   if (
