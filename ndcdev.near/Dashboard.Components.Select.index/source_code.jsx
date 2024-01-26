@@ -1,8 +1,10 @@
-const { Select, Check } = VM.require(
+const { Select, Check, TooltipContainer, TooltipText } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Select.styled`,
 );
 
-if (!Select || !Check) return <Widget src="flashui.near/widget/Loading" />;
+const { assets } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+
+if (!Select || !Check || !assets) return <Widget src="flashui.near/widget/Loading" />;
 
 const {
   values,
@@ -13,11 +15,15 @@ const {
   isOpen,
   onClear,
   containerClass,
+  text,
+  isTooltipVisible
 } = props;
-const [open, setOpen] = useState(isOpen);
+const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
 
-const title = () => {
+const setTitle = () => {
+  if (text) return text;
+
   if (Array.isArray(values)) {
     return values.length ? `${values.length} Selected` : defaultValue;
   } else {
@@ -25,10 +31,33 @@ const title = () => {
   }
 };
 
+const TooltipIcon = styled.i`
+  &:hover + ${TooltipText} {
+    visibility: visible;
+    opacity: 1;
+    color: #6B6C75;
+    font-family: Barlow;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+`
+
+const handleOpen = () => setOpen(!open);
+
 return (
-  <Select onClick={() => setOpen(!open)}>
+  <Select onClick={() => !multiple && handleOpen()}>
     <div className={containerClass}>
-      <div className="selected">{title()}</div>
+      <div className="selected" onClick={handleOpen}>
+        {setTitle()}
+        {isTooltipVisible && 
+          <TooltipContainer>
+            <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
+            <TooltipText>Tooltip placeholder</TooltipText>
+          </TooltipContainer>
+        }
+      </div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (
           <i
@@ -36,7 +65,7 @@ return (
             onClick={() => onClear() && setOpen(false)}
           />
         )}
-        <i className="bi bi-chevron-down fs-5 mt-1" />
+        <i onClick={handleOpen} className="bi bi-chevron-down fs-5 mt-1" />
       </div>
     </div>
     {open && (
