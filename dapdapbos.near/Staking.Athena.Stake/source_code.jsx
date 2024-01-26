@@ -72,7 +72,7 @@ const ApproveABI = [
   },
 ];
 
-const { data, chainId, account, TOKENS, CHAIN_ID, toast, switchChain } = props;
+const { data, chainId, account, TOKENS, toast } = props;
 
 // curToken: token address
 const { poolType, tokenAddress: curToken, tokenAddress, StakingAddress } = data;
@@ -329,62 +329,6 @@ function handleLocking() {
     });
 }
 
-const renderExtra = () => {
-  if (chainId !== CHAIN_ID) {
-    return (
-      <ChainBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Switch to Metis",
-            type: "green",
-            style: { flex: 1 },
-            onClick: switchChain,
-          }}
-        />
-      </ChainBtnWrap>
-    );
-  }
-
-  return (
-    <>
-      <AmountList>
-        <span></span>
-        <span>
-          Balance: <span className="amount-white">{state.curTokenBal}</span>
-          {/* {TOKENS[curToken].symbol} */}
-        </span>
-      </AmountList>
-      <StakeBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Approve",
-            type: "green",
-            style: { flex: 1 },
-            disabled: !state.needApprove || state.isApproved,
-            loading: state.isApproving,
-            onClick: () => {
-              handleApprove(curToken, StakingAddress);
-            },
-          }}
-        />
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Stake",
-            type: "green",
-            style: { flex: 1 },
-            disabled: !state.canStake,
-            loading: state.isStaking,
-            onClick: handleStake,
-          }}
-        />
-      </StakeBtnWrap>
-    </>
-  );
-};
-
 function updateAllowance(allowanceRaw) {
   const allowAmount = ethers.utils.formatUnits(
     allowanceRaw,
@@ -436,6 +380,39 @@ return (
         {/* {TOKENS[curToken].symbol} */}
       </div>
     </div>
-    {renderExtra()}
+
+    <AmountList>
+      <span></span>
+      <span>
+        Balance: <span className="amount-white">{state.curTokenBal}</span>
+        {/* {TOKENS[curToken].symbol} */}
+      </span>
+    </AmountList>
+    <StakeBtnWrap>
+      <Widget
+        src="dapdapbos.near/widget/UI.Button"
+        props={{
+          text: "Approve",
+          type: "green",
+          style: { flex: 1 },
+          disabled: !state.needApprove || state.isApproved,
+          loading: state.isApproving,
+          onClick: () => {
+            handleApprove(curToken, StakingAddress);
+          },
+        }}
+      />
+      <Widget
+        src="dapdapbos.near/widget/UI.Button"
+        props={{
+          text: "Stake",
+          type: "green",
+          style: { flex: 1 },
+          disabled: !state.canStake,
+          loading: state.isStaking,
+          onClick: handleStake,
+        }}
+      />
+    </StakeBtnWrap>
   </StakePanel>
 );
