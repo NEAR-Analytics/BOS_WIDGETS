@@ -121,7 +121,7 @@ const App = () => {
             />
           </LogoLink>
           <LogoLink
-            href="https://twitter.com/"
+            href="https://twitter.com/NearIndia"
             target="_blank"
             rel="noopener noreferrer"
           >
