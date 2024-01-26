@@ -30,10 +30,7 @@ const StakeBtnWrap = styled.div`
   display: flex;
   column-gap: 14px;
 `;
-const ChainBtnWrap = styled.div`
-  margin-top: 16px;
-  display: flex;
-`;
+
 const BPT_TOKEN_ADDRESS = "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655";
 const BoosterLiteWrapper = "0x98Ef32edd24e2c92525E59afc4475C1242a30184";
 const BoosterLiteABI = [
@@ -51,14 +48,13 @@ const BoosterLiteABI = [
 ];
 const {
   data,
-  chainId,
+
   account,
   TOKENS,
-  CHAIN_ID,
   RewardPoolDepositWrapper,
   RewardPoolDepositABI,
   toast,
-  switchChain,
+
   tokenIcons,
 } = props;
 State.init({
@@ -480,22 +476,6 @@ function handleStakeToken() {
 }
 
 const renderExtra = () => {
-  if (chainId !== CHAIN_ID) {
-    return (
-      <ChainBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Switch to Gnosis",
-            type: "primary",
-            style: { flex: 1 },
-            onClick: switchChain,
-          }}
-        />
-      </ChainBtnWrap>
-    );
-  }
-
   return (
     <>
       <AmountList>
