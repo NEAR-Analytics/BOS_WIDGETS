@@ -17,7 +17,7 @@ const renderItem = (a) =>
   (a.value.type === "social" && `${a.accountId}/post/main` === a.value.path && (
     <div key={JSON.stringify(a)} className="mb-3">
       <Widget
-        src="jgodwill.near/widget/Vibes.Feed.View.main"
+        src="jgodwill.near/widget/CPlanet.MainPage.N.Post"
         props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
       />
     </div>
