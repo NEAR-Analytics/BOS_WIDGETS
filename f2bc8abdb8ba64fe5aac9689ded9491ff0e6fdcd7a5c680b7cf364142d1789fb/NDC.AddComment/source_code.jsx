@@ -398,17 +398,13 @@ return (
         )}
         <div className="w-100 col">
           <Widget
-            src={widgets.views.standardWidgets.styledComponents}
+            src={widgets.views.standardWidgets.markownEditorIframe}
             props={{
-              TextArea: {
-                placeholder: "Reply here",
-                maxLength: 2000,
-                value: state.reply,
-                handleChange: (e) =>
-                  State.update({
-                    reply: e.target.value.substring(0, 1000),
-                  }),
-              },
+              initialText: "Reply here",
+              onChange: (e) =>
+                State.update({
+                  reply: e,
+                }),
             }}
           />
         </div>
