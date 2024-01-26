@@ -186,7 +186,7 @@ return (
           <tr className="align-middle">
             <td class="text-start">
               <a
-                href={`/meta-pool-official.near/widget/ImprovementProposals?tab=proposal&mpip_id=${proposal.mpip_id}`}
+                href={`/${authorId}/widget/ImprovementProposals?tab=proposal&mpip_id=${proposal.mpip_id}`}
                 onClick={() =>
                   props.update({
                     tab: "proposal",
