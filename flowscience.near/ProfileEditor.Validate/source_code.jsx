@@ -7,14 +7,13 @@ if (!accountId) {
 //let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
 
-if (profile === null) {
+if (initialProfile === null) {
   return "Loading";
 }
 
-State.init({
-  initialProfile,
-});
+State.init({ profile: initialProfile });
 
+// useState to manage profile state
 const [profile, setProfile] = useState(initialProfile);
 
 // Define the validation function
@@ -49,19 +48,21 @@ function isProfileValid(profile) {
   };
 }
 
-// Handler for profile change
-
-function handleProfileChange(updatedProfile) {
-  setProfile(updatedProfile);
-  setIsValidProfile(isProfileValid(updatedProfile)); // Update the validity state
-  State.update({ profile: updatedProfile });
-}
-
-// Check if the profile is valid
-//let isValidProfile = isProfileValid(profile);
 const [isValidProfile, setIsValidProfile] = useState(
   isProfileValid(initialProfile)
 );
+
+// Independent handler for profile change
+function handleProfileChange(
+  updatedProfile,
+  setProfileFn,
+  setIsValidProfileFn,
+  State
+) {
+  setProfileFn(updatedProfile);
+  setIsValidProfileFn(isProfileValid(updatedProfile));
+  State.update({ profile: updatedProfile });
+}
 
 return (
   <div className="row">
@@ -74,7 +75,13 @@ return (
           src="near/widget/MetadataEditor"
           props={{
             initialMetadata: profile,
-            onChange: handleProfileChange,
+            onChange: (updatedProfile) =>
+              handleProfileChange(
+                updatedProfile,
+                setProfile,
+                setIsValidProfile,
+                State
+              ),
             options: {
               name: { label: "Name" },
               image: { label: "Profile picture" },
