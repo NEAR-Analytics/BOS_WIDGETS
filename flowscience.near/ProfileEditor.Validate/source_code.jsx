@@ -7,7 +7,7 @@ if (!accountId) {
 //let profile = Social.getr(`${accountId}/profile`);
 const initialProfile = Social.getr(`${accountId}/profile`);
 
-initialProfile.tags = Object.keys(initialProfile.tags);
+//initialProfile.tags = Object.keys(initialProfile.tags);
 
 if (initialProfile === null) {
   return "Loading";
@@ -110,6 +110,7 @@ return (
               description: { label: "About" },
               tags: {
                 label: "Tags",
+                value: profile.tags,
                 tagsPattern: "*/profile/tags/*",
                 placeholder:
                   "rust, engineer, artist, humanguild, nft, learner, founder",
