@@ -107,7 +107,10 @@ const articles = [...mediumPosts];
 const audio = [...(fetchAudio?.body.data ?? [])].map((item) => {
   return {
     title: item.Title,
-    thumbnail: nwSite + item.Thumbnail.formats.medium.url,
+    thumbnail:
+      nwSite +
+      (item.Thumbnail.formats.medium.url ??
+        item.Thumbnail.formats.thumbnail.url),
     categories: [...item.categories.map((category) => category.Name)],
     createdAt: item.createdAt,
     url: nwSite + "/audio/" + item.slug,
