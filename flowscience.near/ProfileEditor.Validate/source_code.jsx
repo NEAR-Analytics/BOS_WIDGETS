@@ -13,6 +13,7 @@ if (initialProfile === null) {
 State.init({ profile: initialProfile });
 
 const [profile, setProfile] = useState(initialProfile);
+const [fieldErrors, setFieldErrors] = useState({});
 
 // Define the validation function
 function isProfileValid(profile) {
@@ -73,7 +74,20 @@ function handleProfileChange(updatedProfile) {
   console.log("Is new profile valid?", newValidity);
   setIsValidProfile(newValidity.isValid);
   State.update({ profile: updatedProfile });
+
+  // Update field errors
+  const newFieldErrors = {};
+  newValidity.invalidFields.forEach((field) => {
+    newFieldErrors[field] = true;
+  });
+  setFieldErrors(newFieldErrors);
 }
+
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 0.8em;
+  margin-top: 5px;
+`;
 
 return (
   <div className="row">
@@ -123,6 +137,10 @@ return (
                   },
                 ],
               },
+            },
+            errorMessages: {
+              name: fieldErrors.name && "Name is required.",
+              image: fieldErrors.image && "Profile picture is required.",
             },
           }}
         />
