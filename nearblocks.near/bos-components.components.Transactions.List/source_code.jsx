@@ -2024,7 +2024,7 @@ function MainComponent(props) {
         </>
       ),
       tdClassName:
-        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-gray-500  flex justify-end ',
+        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600  flex justify-end ',
     },
     {
       header: <span>{t ? t('txns:hash') : 'TXN HASH'}</span>,
@@ -2056,7 +2056,7 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
         'px-5 py-4 text-left whitespace-nowrap  text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
@@ -2082,7 +2082,7 @@ function MainComponent(props) {
                 value={filters ? filters?.method : ''}
                 onChange={onInputChange}
                 placeholder="Search by method"
-                className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
+                className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
               />
               <div className="flex">
                 <button
@@ -2112,7 +2112,7 @@ function MainComponent(props) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-gray-500 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">
                     {txnMethod(row.actions, t)}
                   </span>
@@ -2129,7 +2129,7 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
     },
     {
       header: <span>{t ? t('txns:depositValue') : 'DEPOSIT VALUE'}</span>,
@@ -2137,7 +2137,7 @@ function MainComponent(props) {
       cell: (row) => (
         <span>{yoctoToNear(row.actions_agg?.deposit || 0, true)} Ⓝ</span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
@@ -2150,7 +2150,7 @@ function MainComponent(props) {
           {yoctoToNear(row.outcomes_agg?.transaction_fee || 0, true)} Ⓝ
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
         'px-5 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
@@ -2177,7 +2177,7 @@ function MainComponent(props) {
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
+              className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
             />
             <div className="flex">
               <button
@@ -2229,7 +2229,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
     },
     {
       header: <span></span>,
@@ -2263,7 +2263,7 @@ function MainComponent(props) {
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
+              className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
             />
             <div className="flex">
               <button
@@ -2315,7 +2315,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
     },
     {
       header: <span>{t ? t('txns:blockHeight') : ' BLOCK HEIGHT'}</span>,
@@ -2333,7 +2333,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
@@ -2370,7 +2370,7 @@ function MainComponent(props) {
             </Tooltip.Root>
           </Tooltip.Provider>
           <button type="button" onClick={onOrder} className="px-2">
-            <div className="text-gray-500 font-semibold">
+            <div className="text-nearblue-600 font-semibold">
               <SortIcon order={sorting} />
             </div>
           </button>
@@ -2401,13 +2401,13 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
 
   return (
-    <div className=" bg-white border soft-shadow rounded-lg overflow-hidden">
+    <div className=" bg-white border soft-shadow rounded-xl overflow-hidden">
       {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
@@ -2415,7 +2415,7 @@ function MainComponent(props) {
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 pl-6 text-sm mb-4 text-gray-500">
+            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600">
               {t
                 ? t('txns:listing', {
                     count: localFormat(totalCount),
@@ -2424,7 +2424,7 @@ function MainComponent(props) {
             </p>
           </div>
           {filters && Object.keys(filters).length > 0 && (
-            <div className="flex items-center px-2 text-sm mb-4 text-gray-500 lg:ml-auto">
+            <div className="flex items-center px-2 text-sm mb-4 text-nearblue-600 lg:ml-auto">
               Filtered By:
               <span className="flex items-center bg-gray-100 rounded-full px-3 py-1 ml-1 space-x-2">
                 {filters &&
