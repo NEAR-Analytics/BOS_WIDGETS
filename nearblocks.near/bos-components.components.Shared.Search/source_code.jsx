@@ -838,7 +838,7 @@ function MainComponent({ isHeader, t, network }) {
         <div className={`flex w-full ${isHeader ? 'h-11' : 'h-12'}`}>
           <label className="relative hidden md:flex">
             <select
-              className={`h-full block text-sm text-gray-500 ${
+              className={`h-full block text-sm text-nearblue-600 ${
                 isHeader ? 'bg-blue-900/[0.05]' : 'bg-gray-100'
               }  pl-4 pr-9  cursor-pointer focus:outline-none appearance-none rounded-none rounded-l-lg border`}
               value={filter}
@@ -857,7 +857,7 @@ function MainComponent({ isHeader, t, network }) {
                 {t ? t('common:search.filters.addresses') : 'Addresses'}
               </option>
             </select>
-            <ArrowDown className="absolute right-3 top-3.5 w-4 h-4 fill-current text-gray-500 pointer-events-none" />
+            <ArrowDown className="absolute right-3 top-3.5 w-4 h-4 fill-current text-nearblue-600 pointer-events-none" />
           </label>
           <div className="flex-grow">
             <input
