@@ -584,6 +584,9 @@ return (
               alt="NFT"
               width="100%"
               height="400px"
+              style={{
+                objectFit: "cover",
+              }}
             />
             <div
               style={{
