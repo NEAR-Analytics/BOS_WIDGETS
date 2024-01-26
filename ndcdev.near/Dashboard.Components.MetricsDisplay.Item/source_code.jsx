@@ -4,6 +4,7 @@ const { Circle } = VM.require(
 );
 
 if (!Circle) return <Widget src="flashui.near/widget/Loading" />;
+const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const formatValue = (val) =>
   val >= 1000000000
@@ -16,7 +17,9 @@ const formatValue = (val) =>
 
 return (
   <div className="item">
-    <div className="inner">{formatValue(value)}</div>
+    <div className="inner">
+      {!value ? <Loading /> : <span>{formatValue(value)}</span>}
+    </div>
     <div className="d-flex justify-content-center align-items-center gap-2">
       <Circle color={color} /> <span>{text}</span>
     </div>
