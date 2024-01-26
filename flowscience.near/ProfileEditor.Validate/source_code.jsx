@@ -26,6 +26,12 @@ function isProfileValid(profile) {
     "description",
     "tags",
   ];
+
+  let invalidFields = requiredFields.filter(
+    (field) =>
+      typeof profile[field] !== "string" || profile[field].trim() === ""
+  );
+
   const linktreeFilled =
     profile.linktree &&
     Array.isArray(profile.linktree.links) &&
@@ -33,12 +39,14 @@ function isProfileValid(profile) {
       (link) => typeof link.name === "string" && link.name.trim() !== ""
     );
 
-  return (
-    requiredFields.every(
-      (field) =>
-        typeof profile[field] === "string" && profile[field].trim() !== ""
-    ) && linktreeFilled
-  );
+  if (!linktreeFilled) {
+    invalidFields.push("linktree");
+  }
+
+  return {
+    isValid: invalidFields.length === 0,
+    invalidFields: invalidFields,
+  };
 }
 
 // Handler for profile change
