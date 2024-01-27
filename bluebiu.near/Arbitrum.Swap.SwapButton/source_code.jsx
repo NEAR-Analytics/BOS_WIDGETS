@@ -91,16 +91,6 @@ if (Big(inputCurrencyAmount || 0).eq(0)) {
 if (!inputCurrency || !outputCurrency) {
   return <SwapButton disabled>Select a token</SwapButton>;
 }
-if (Big(outputCurrencyAmount || 0).lt("0.00000000001")) {
-  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
-}
-if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
-  return (
-    <SwapButton disabled>
-      Insufficient {inputCurrency?.symbol} Balance
-    </SwapButton>
-  );
-}
 if (props.loading) {
   return (
     <SwapButton disabled>
@@ -110,6 +100,17 @@ if (props.loading) {
           size: 16,
         }}
       />
+    </SwapButton>
+  );
+}
+
+if (Big(outputCurrencyAmount || 0).lt("0.00000000001")) {
+  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
+}
+if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
+  return (
+    <SwapButton disabled>
+      Insufficient {inputCurrency?.symbol} Balance
     </SwapButton>
   );
 }
