@@ -31,12 +31,54 @@ const StyledFlexSpace = styled.div`
   justify-content: space-between;
 `;
 
+const StyledPanelWrapper = styled.div`
+  height: 0px;
+  animation: fadeOut 0.4s 0.1s ease both;
+  &.expand {
+    animation: fadeIn 0.4s 0.1s ease both;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+      height: 0px;
+      border: none;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      height: auto;
+      border-top: none;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+      height: auto;
+      border-top: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+      height: 0px;
+      border: none;
+    }
+  }
+`;
+
 const StyledPanel = styled.div`
   border-radius: 12px;
   border: 1px solid #373a53;
   padding: 16px 12px 0px;
-  margin-top: 16px;
   color: #979abe;
+  margin-top: 16px;
+  display: none;
+
+  &.expand {
+    display: block;
+  }
 `;
 
 const StyledItem = styled.div`
@@ -250,8 +292,8 @@ return (
         </StyledArrow>
       </StyledFlex>
     </StyledFlexSpace>
-    {state.showContent && (
-      <StyledPanel>
+    <StyledPanelWrapper className={state.showContent ? "expand" : ""}>
+      <StyledPanel className={state.showContent ? "expand" : ""}>
         <StyledItem>
           <div>Minimum Received</div>
           <div>
@@ -298,7 +340,7 @@ return (
           </div>
         </StyledItem>
       </StyledPanel>
-    )}
+    </StyledPanelWrapper>
     {!!priceImpact && !!state.priceImpactWarningType && (
       <StyledPriceWarning className={`warning-${state.priceImpactWarningType}`}>
         <StyledFlex style={{ gap: "5px" }}>
