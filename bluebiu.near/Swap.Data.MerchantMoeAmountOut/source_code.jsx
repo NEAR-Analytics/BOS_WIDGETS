@@ -82,6 +82,7 @@ const {
   onLoad,
   slippage,
   account,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -134,7 +135,7 @@ useEffect(() => {
           ethers.utils.formatUnits(res[1], outputCurrency.decimals)
         );
         if (_amount.gt(0)) {
-          getReverse({
+          getTransaction({
             amountoutDesimals: _amount.toString(),
             amountOut: res[1],
           });
@@ -152,54 +153,27 @@ useEffect(() => {
         });
       });
   };
-  const getReverse = ({ amountOut, amountoutDesimals }) => {
-    RouterContract.getReserves(...path, false)
-      .then((res) => {
-        const isReverse = Number(path[0]) > Number(path[1]);
 
-        const token0 = Big(
-          ethers.utils.formatUnits(
-            res[0],
-            isReverse ? outputCurrency.decimals : inputCurrency.decimals
-          )
-        );
-        const token1 = Big(
-          ethers.utils.formatUnits(
-            res[1],
-            isReverse ? inputCurrency.decimals : outputCurrency.decimals
-          )
-        );
-        const poolPrice = token1.div(token0);
-
-        const amountoutPrice = isReverse
-          ? Big(inputCurrencyAmount).div(amountoutDesimals)
-          : Big(amountoutDesimals).div(inputCurrencyAmount);
-
-        const priceImpact = poolPrice
-          .minus(amountoutPrice)
-          .div(poolPrice)
-          .mul(100)
-          .toString();
-        getTransaction({
-          priceImpact,
-          amountoutDesimals,
-          amountOut,
-        });
-      })
-      .catch((err) => {
-        getTransaction({
-          amountoutDesimals,
-          amountOut,
-        });
-      });
-  };
-
-  const getTransaction = ({ amountOut, amountoutDesimals, priceImpact }) => {
+  const getTransaction = ({ amountOut, amountoutDesimals }) => {
     let method = "";
     const deadline = Math.ceil(Date.now() / 1000) + 120;
     const _amountOut = Big(amountOut)
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
+
+    let priceImpact = null;
+    if (prices) {
+      const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+        prices[outputCurrency.symbol] || 1
+      );
+      const amountoutPrice = Big(amountoutDesimals).div(inputCurrencyAmount);
+
+      priceImpact = poolPrice
+        .minus(amountoutPrice)
+        .div(poolPrice)
+        .mul(100)
+        .toString();
+    }
 
     const options = {};
     const params = [_amountOut, path, account, deadline];
