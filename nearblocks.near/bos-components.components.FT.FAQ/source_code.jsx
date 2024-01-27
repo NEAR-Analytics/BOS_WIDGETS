@@ -1602,10 +1602,11 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -2108,7 +2109,7 @@ function MainComponent({ network, id, token }) {
               {tokenTicker} in circulation for a total supply of{' '}
               {tokens?.total_supply !== null &&
                 tokens?.total_supply !== undefined &&
-                `$${dollarNonCentFormat(tokens?.total_supply)}`}
+                `${dollarNonCentFormat(tokens?.total_supply)}`}
               {tokenTicker}. {tokenTicker}&apos;s supply is split between{' '}
               {localFormat(holders)} different wallet addresses.{' '}
               {largestHolder?.account && (
@@ -2122,7 +2123,7 @@ function MainComponent({ network, id, token }) {
                     </a>
                   )}
                   , who currently holds{' '}
-                  {tokenAmount(largestHolder?.amount, tokens?.decimals, false)}{' '}
+                  {tokenAmount(largestHolder?.amount, tokens?.decimals, true)}{' '}
                   {tokenTicker} of all {tokenTicker}.
                 </span>
               )}
