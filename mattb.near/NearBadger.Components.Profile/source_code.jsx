@@ -92,7 +92,7 @@ const ProfileHeader = styled.div`
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:10px;
+  padding:15px;
 `;
 
 const Image = styled.div`
