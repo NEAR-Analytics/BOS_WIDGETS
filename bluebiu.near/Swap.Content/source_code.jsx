@@ -400,24 +400,30 @@ return (
               outputCurrencyAmount: "",
               noPair: false,
             };
+            let hasToken = false;
             if (state.currencySelectType === 0) {
               updatedParams.inputCurrency = currency;
               updatedParams.updateInputTokenBalance = true;
-              if (currency.address === state.outputCurrency.address)
+              hasToken = true;
+              if (currency.address === state.outputCurrency.address) {
                 updatedParams.outputCurrency = null;
+                hasToken = false;
+              }
             }
             if (state.currencySelectType === 1) {
               updatedParams.outputCurrency = currency;
               updatedParams.updateOutputTokenBalance = true;
+              hasToken = true;
               if (currency.address === state.inputCurrency.address) {
                 updatedParams.inputCurrency = null;
                 updatedParams.inputCurrencyAmount = "";
+                hasToken = false;
               }
             }
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
-              state.inputCurrency?.address
+              hasToken
             ) {
               updatedParams.loading = true;
             }
