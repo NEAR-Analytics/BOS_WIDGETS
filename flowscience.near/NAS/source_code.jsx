@@ -138,28 +138,51 @@ State.init({
 });
 
 const fetchSchema = (type) => {
-  const schemaResponse = fetch(`${typeSrc}/type/${type}`, "final");
-  return schemaResponse ? JSON.parse(schemaResponse) : null;
-};
-
-useEffect(() => {
-  if (state.selectedType && !state.schemas[state.selectedType]) {
-    State.update({ loading: true });
-    const schema = fetchSchema(state.selectedType);
-    if (schema) {
+  fetch(`${typeSrc}/type/${type}`, "final")
+    .then((response) => {
+      if (!response) {
+        throw new Error("No response received");
+      }
+      const schema = JSON.parse(response);
       State.update((prevState) => ({
         ...prevState,
         schemas: {
           ...prevState.schemas,
-          [state.selectedType]: schema,
+          [type]: schema,
         },
         loading: false,
       }));
-    } else {
-      console.error("Error fetching schema");
+    })
+    .catch((error) => {
+      console.error("Error fetching schema:", error);
       State.update({ loading: false });
+    });
+};
+
+useEffect(() => {
+  const loadSchema = () => {
+    if (state.selectedType && !state.schemas[state.selectedType]) {
+      State.update({ loading: true });
+
+      const response = fetch(`${typeSrc}/type/${state.selectedType}`, "final");
+      if (response) {
+        const schema = JSON.parse(response);
+        State.update((prevState) => ({
+          ...prevState,
+          schemas: {
+            ...prevState.schemas,
+            [state.selectedType]: schema,
+          },
+          loading: false,
+        }));
+      } else {
+        console.error("Error: Schema not found or invalid response.");
+        State.update({ loading: false });
+      }
     }
-  }
+  };
+
+  loadSchema();
 }, [state.selectedType]);
 
 const handleApply = () => {
