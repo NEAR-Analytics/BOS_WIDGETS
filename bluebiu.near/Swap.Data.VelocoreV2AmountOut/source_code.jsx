@@ -256,14 +256,12 @@ useEffect(() => {
       ethers.utils.formatUnits(amountOut, outputCurrency.decimals)
     );
     if (prices) {
-      const poolPrice = Big(
-        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
-      ).div(
-        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
+      const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+        prices[outputCurrency.symbol] || 1
       );
-      const amountoutPrice = !isReverse
-        ? Big(inputCurrencyAmount).div(_amountOutWithoutDecimal)
-        : Big(_amountOutWithoutDecimal).div(inputCurrencyAmount);
+      const amountoutPrice = Big(_amountOutWithoutDecimal).div(
+        inputCurrencyAmount
+      );
 
       priceImpact = poolPrice
         .minus(amountoutPrice)
