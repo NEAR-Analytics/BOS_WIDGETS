@@ -1668,10 +1668,8 @@ return (
                 props={{
                   ...props,
                   data: item,
-
                   account: state.account,
                   TOKENS,
-
                   LockingABI,
                   slotLength: state.slotLength,
                   tokenPrices: state.tokenPrices,
@@ -1720,58 +1718,66 @@ return (
           </GridContainer2>
         ) : null}
         <HeadWrapper>
-          {state.myPoolsList.length
-            ? state.myPoolsList?.map((item, index) => (
-                <PoolItem key={index}>
-                  <GridContainer2 className="pool-head">
-                    <GridItem>
-                      <div className="title-primary">
-                        {/* <Widget
+          {state.myPoolsList.length ? (
+            state.myPoolsList?.map((item, index) => (
+              <PoolItem key={index}>
+                <GridContainer2 className="pool-head">
+                  <GridItem>
+                    <div className="title-primary">
+                      {/* <Widget
                           src="dapdapbos.near/widget/UI.Avatar"
                           props={{ src: TOKENS[tokenAddress].icon }}
                         /> */}
 
-                        <span>
-                          <Widget
-                            src="dapdapbos.near/widget/Utils.FormatTime"
-                            props={{ time: item[0] }}
-                          />
-                        </span>
-                      </div>
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">{item[2]}</div>
-                      {/* <div className="title-sub">{item[1]}</div> */}
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">
+                      <span>
                         <Widget
                           src="dapdapbos.near/widget/Utils.FormatTime"
-                          props={{ time: item[1] }}
+                          props={{ time: item[0] }}
                         />
-                      </div>
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">In progress</div>
-                    </GridItem>
-                    <GridItem className="action-item">
+                      </span>
+                    </div>
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">{item[2]}</div>
+                    {/* <div className="title-sub">{item[1]}</div> */}
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">
                       <Widget
-                        src="dapdapbos.near/widget/UI.Button"
-                        props={{
-                          text: "RE-LOCK",
-                          type: "green",
-                          style: { width: 118 },
-                          // loading: state.isClaiming,
-                          onClick: () => {
-                            handleReLock(item, index);
-                          },
-                        }}
+                        src="dapdapbos.near/widget/Utils.FormatTime"
+                        props={{ time: item[1] }}
                       />
-                    </GridItem>
-                  </GridContainer2>
-                </PoolItem>
-              ))
-            : null}
+                    </div>
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">In progress</div>
+                  </GridItem>
+                  <GridItem className="action-item">
+                    <Widget
+                      src="dapdapbos.near/widget/UI.Button"
+                      props={{
+                        text: "RE-LOCK",
+                        type: "green",
+                        style: { width: 118 },
+                        // loading: state.isClaiming,
+                        onClick: () => {
+                          handleReLock(item, index);
+                        },
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer2>
+              </PoolItem>
+            ))
+          ) : (
+            <EmptyWrap>
+              <div className="empty-title">No productive assets detected</div>
+              <div className="empty-intro">
+                Head over to the pools list and make a deposit to start earning
+                yield!
+              </div>
+            </EmptyWrap>
+          )}
         </HeadWrapper>
       </Tabs.Content>
     </Tabs.Root>
