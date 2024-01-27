@@ -169,11 +169,11 @@ const transfer = () => {
   Near.call([
     {
       contractName: state.contractId,
-      methodName: "nft_transfer",
+      methodName: "nft_transfer_call",
       args: {
         receiver_id: state.receiverId,
         token_id: state.tokenId,
-          msg: "nft burn"
+        msg: "nft burn",
       },
       gas: gas ?? 200000000000000,
       deposit: deposit ?? 10000000000000000000000,
