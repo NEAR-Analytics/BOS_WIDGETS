@@ -1,10 +1,14 @@
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
 
+initState({
+  selectedNFT: "",
+  setSelectedNFT: "",
+  onChange: "",
+});
 if (!accountId) {
   return <></>;
 }
-
 const size = "100%";
 
 const data = fetch("https://graph.mintbase.xyz", {
@@ -32,11 +36,28 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 
 const finalData = data?.body?.data;
+console.log(finalData);
+
+const handleSelectNFT = (nft) => {
+  console.log(nft);
+
+  onChange(nft);
+  isSelected(nft);
+};
+
+const isSelected = (nft) => {
+  State.update({ setSelectedNFT: nft, selectedNFT: nft });
+  return (
+    selectedNFT &&
+    nft.tokenId === selectedNFT.tokenId &&
+    nft.contractId === selectedNFT.contractId
+  );
+};
 
 if (!finalData) {
   return (
     <>
-      <Image src="https://cloudflare-ipfs.com/ipfs/bafybeihrehidexjc54qj2t7lvo54wpkwuabm2uikwkf3ld36rbj25a3s2i"></Image>
+      <img src="https://cloudflare-ipfs.com/ipfs/bafybeihrehidexjc54qj2t7lvo54wpkwuabm2uikwkf3ld36rbj25a3s2i" />
     </>
   );
 }
@@ -54,26 +75,21 @@ return (
         <div
           key={`${nft.contractId}-${nft.tokenId}-${index}`}
           role="button"
-          style={{ width: "15%", aspectRatio: "1/1" }}
-          onClick={() => {
-            onChange({
-              contractId: nft.contractId,
-              tokenId: nft.tokenId,
-            });
+          style={{
+            width: "15%",
+            aspectRatio: "1/1",
+            border: isSelected ? "2px solid blue" : "none", // Apply border if selected
           }}
+          onClick={() => handleSelectNFT(nft)}
         >
           <Widget
             src="mob.near/widget/NftImage"
             props={{
               nft: { tokenId: nft.tokenId, contractId: nft.contractId },
               style: {
-                width: size,
-                height: size,
+                width: "100%",
+                height: "100%",
                 objectFit: "cover",
-                minWidth: size,
-                minHeight: size,
-                maxWidth: size,
-                maxHeight: size,
                 overflowWrap: "break-word",
               },
               className: "",
