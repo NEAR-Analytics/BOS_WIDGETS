@@ -5,10 +5,10 @@
   are automatically persisted in local storage. Feel free to add, 
   remove, and rename files.
   
-  For now, you should reference "bwe-web.near" in the src prop 
-  when creating a new  component and referencing it via <Component />. 
-  For example: "bwe-web.near/MyNewComponent.tsx". We will support 
-  signing in and referencing your own account soon.
+  If you aren't signed in, you should reference "bwe-web.near" 
+  in the src prop when creating a new component and referencing it via <Component />. 
+  For example: "bwe-web.near/MyNewComponent.tsx". When you sign 
+  in, these references will be replaced with your account ID.
   
   The following code example demonstrates multi file component editing 
   capabilities. Try opening up Message.tsx from the file explorer, 
@@ -24,7 +24,7 @@ export function BWEComponent() {
       <h1>Welcome!</h1>
 
       <Component
-        src="bwe-web.near/Message"
+        src="calebjacob.near/Message"
         props={{ message: 'Hello world!' }}
         /*
           The props object for <Component /> doesn't support type 
