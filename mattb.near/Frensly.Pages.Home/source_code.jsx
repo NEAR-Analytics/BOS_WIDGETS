@@ -257,7 +257,7 @@ const Logo = styled.div`
         font-size:1.6rem;
         font-weight:bold;
         margin-left:10px;
-        color:rgba(0,0,0,.5)
+        text-decoration:underline;
     }
 `;
 
@@ -292,10 +292,13 @@ return (
         <Header>
           <div>
             <h1>
-              Frens are Near<br/>using Lens
+              Frens are Near
+              <br />
+              using Lens
             </h1>
             <p>
-              Discover new frensly people on NEAR Protocol with a verified Lens Protocol profile
+              Discover new frensly people on NEAR Protocol with a verified Lens
+              Protocol profile
             </p>
             <ButtonPrimary>Discover frens</ButtonPrimary>
             <ButtonSecondary
@@ -307,7 +310,12 @@ return (
           </div>
           <div></div>
         </Header>
-        <Widget src="mattb.near/widget/NearBadger.Components.RecentlyVerified" />
+        <Widget
+          src="mattb.near/widget/NearBadger.Components.RecentlyVerified"
+          props={{
+            title: "New frens!",
+          }}
+        />
       </Wrapper>
     </Main>
   </>
