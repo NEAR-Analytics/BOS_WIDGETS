@@ -75,17 +75,14 @@ const handleInputChange = (name, value) => {
   }
 };
 
-const fetchTypeDefinition = (type) => {
-  fetch(type, "final")
-    .then((response) => {
-      if (!response) {
-        throw new Error("No response received for type definition");
-      }
-      return JSON.parse(response);
-    })
-    .catch((error) => {
-      console.error("Error fetching type definition:", error);
-    });
+const fetchTypeDefinition = async (type) => {
+  try {
+    const response = await Social.get(type, "final");
+    return response ? JSON.parse(response) : null;
+  } catch (error) {
+    console.error("Error fetching type definition:", error);
+    return null;
+  }
 };
 
 function Property({ property, value }) {
@@ -117,17 +114,11 @@ function Property({ property, value }) {
     const [subType, setSubType] = useState(null);
 
     useEffect(() => {
-      if (property.type) {
-        const response = fetch(property.type, "final");
-        if (response) {
-          const typeDef = JSON.parse(response);
-          setSubType(typeDef);
-        } else {
-          console.error(
-            "Error: Type definition not found or invalid response."
-          );
-        }
-      }
+      const loadSubType = async () => {
+        const typeDef = await fetchTypeDefinition(property.type);
+        setSubType(typeDef);
+      };
+      loadSubType();
     }, [property.type]);
 
     if (subType && subType.properties) {
