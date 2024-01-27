@@ -1356,10 +1356,11 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -2022,7 +2023,7 @@ function MainComponent({
       header: <>Quantity</>,
       key: 'block_height',
       cell: (row) => (
-        <span>{tokenAmount(Number(row.amount), row.ft?.decimals, true)}</span>
+        <span>{tokenAmount(row.amount, row.ft?.decimals, true)}</span>
       ),
       tdClassName:
         'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600  font-medium',
