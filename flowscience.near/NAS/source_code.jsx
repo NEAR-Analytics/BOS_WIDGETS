@@ -163,36 +163,10 @@ const fetchSchema = (type) => {
 };
 
 useEffect(() => {
-  const loadSchema = () => {
-    if (state.selectedType && !state.schemas[state.selectedType]) {
-      State.update({ loading: true });
-
-      try {
-        const response = fetch(
-          `${typeSrc}/type/${state.selectedType}`,
-          "final"
-        );
-        if (response && response.schema) {
-          const schema = JSON.parse(response.schema);
-          State.update((prevState) => ({
-            ...prevState,
-            schemas: {
-              ...prevState.schemas,
-              [state.selectedType]: schema,
-            },
-            loading: false,
-          }));
-        } else {
-          throw new Error("Schema not found or invalid response.");
-        }
-      } catch (error) {
-        console.error("Fetch Error:", error.message);
-        State.update({ loading: false });
-      }
-    }
-  };
-
-  loadSchema();
+  if (state.selectedType && !state.schemas[state.selectedType]) {
+    State.update({ loading: true });
+    fetchSchema(state.selectedType);
+  }
 }, [state.selectedType]);
 
 const handleApply = () => {
