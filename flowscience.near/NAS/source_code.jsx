@@ -137,36 +137,29 @@ State.init({
   loading: false,
 });
 
+const fetchSchema = (type) => {
+  const schemaResponse = fetch(`${typeSrc}/type/${type}`, "final");
+  return schemaResponse ? JSON.parse(schemaResponse) : null;
+};
+
 useEffect(() => {
-  async function fetchSchema() {
-    if (state.selectedType && !state.schemas[state.selectedType]) {
-      State.update({ loading: true }); // Set loading to true before fetching data
-      try {
-        const response = await Social.get(
-          `${typeSrc}/type/${state.selectedType}`,
-          "final"
-        );
-        const schema = response ? JSON.parse(response) : null;
-        State.update((prevState) => ({
-          ...prevState,
-          schemas: {
-            ...prevState.schemas,
-            [state.selectedType]: schema,
-          },
-          loading: false, // Set loading to false after fetching data
-        }));
-        console.log(
-          `Fetched and updated state with schema for ${state.selectedType}:`,
-          schema
-        );
-      } catch (error) {
-        console.error("Error fetching schema:", error);
-        State.update({ loading: false }); // Ensure loading is set to false even if there's an error
-      }
+  if (state.selectedType && !state.schemas[state.selectedType]) {
+    State.update({ loading: true });
+    const schema = fetchSchema(state.selectedType);
+    if (schema) {
+      State.update((prevState) => ({
+        ...prevState,
+        schemas: {
+          ...prevState.schemas,
+          [state.selectedType]: schema,
+        },
+        loading: false,
+      }));
+    } else {
+      console.error("Error fetching schema");
+      State.update({ loading: false });
     }
   }
-
-  fetchSchema();
 }, [state.selectedType]);
 
 const handleApply = () => {
