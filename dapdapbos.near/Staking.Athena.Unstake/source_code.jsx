@@ -59,7 +59,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, chainId, account, TOKENS, startUnlockIndex } = props;
+const { data, account, TOKENS, startUnlockIndex } = props;
 const curToken = data.tokenAddress;
 const {
   poolType,
