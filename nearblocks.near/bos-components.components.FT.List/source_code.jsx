@@ -1543,7 +1543,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
       ),
       key: 'name',
       cell: (row) => (
-        <span>
+        <>
           <div className="flex items-center">
             <TokenImage
               src={row?.icon}
@@ -1553,16 +1553,14 @@ function MainComponent({ t, network, currentPage, setPage }) {
             />
             <a href={`/token/${row.contract}`} className="hover:no-underline">
               <a className=" text-green-500 hover:no-underline">
-                <span className="inline-block truncate max-w-[200px] mr-1">
-                  {row.name}
-                </span>
-                <span className="text-nearblue-700 inline-block truncate max-w-[80px]">
+                <span className="truncate max-w-[200px] mr-1">{row.name}</span>
+                <span className="text-nearblue-700 truncate max-w-[80px]">
                   {row.symbol}
                 </span>
               </a>
             </a>
           </div>
-        </span>
+        </>
       ),
       tdClassName:
         'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 w-80  align-top',
@@ -1671,14 +1669,14 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'market_cap' && (
               <div className="text-nearblue-600 font-semibold">
                 <SortIcon order={sorting.order} />
               </div>
             )}
-            <span className="uppercase">Circulating MC</span>
+            <span className="uppercase whitespace-nowrap">Circulating MC</span>
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
@@ -1720,14 +1718,14 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('onchain_market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'onchain_market_cap' && (
               <div className="text-nearblue-600 font-semibold">
                 <SortIcon order={sorting.order} />
               </div>
             )}
-            <span className="uppercase">On-Chain MC</span>
+            <span className="uppercase whitespace-nowrap">On-Chain MC</span>
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
