@@ -114,10 +114,18 @@ function Property({ property, value }) {
     const [subType, setSubType] = useState(null);
 
     useEffect(() => {
+      // Define the async function
       const loadSubType = async () => {
-        const typeDef = await fetchTypeDefinition(property.type);
-        setSubType(typeDef);
+        try {
+          const response = await Social.get(property.type, "final");
+          const typeDef = response ? JSON.parse(response) : null;
+          setSubType(typeDef);
+        } catch (error) {
+          console.error("Error fetching type definition:", error);
+        }
       };
+
+      // Call the async function
       loadSubType();
     }, [property.type]);
 
