@@ -720,10 +720,11 @@ function localFormat(number) {
 }
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -1364,11 +1365,7 @@ function MainComponent({ network, id, token }) {
       key: 'tokens',
       cell: (row) => {
         return (
-          <span>
-            $
-            {token?.price !== null &&
-              price(row.amount, tokens?.decimals, tokens?.price)}
-          </span>
+          <span>${price(row.amount, tokens?.decimals, tokens?.price)}</span>
         );
       },
       tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
