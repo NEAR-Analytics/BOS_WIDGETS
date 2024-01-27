@@ -2,7 +2,7 @@ const { accountId, name } = props;
 
 const Profile = styled.div`
   width:240px;
-  height:300px;
+  height:200px;
   background-color:#fff;
   border:1px solid rgba(0,0,0,.05);
   border-radius:20px;
@@ -89,11 +89,10 @@ const Profile = styled.div`
 `;
 
 const ProfileHeader = styled.div`
-  height:30%;
   display:flex;
   justify-content:center;
   align-items:center;
-  margin-bottom:.8rem;
+  padding:10px;
 `;
 
 const Image = styled.div`
