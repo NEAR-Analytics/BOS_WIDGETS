@@ -1059,10 +1059,11 @@ function gasPrice(yacto) {
 
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -1549,11 +1550,11 @@ function MainComponent({ network, t }) {
                           </span>{' '}
                           {stats?.change_24 > 0 ? (
                             <span className="text-neargreen text-sm">
-                              ({dollarFormat(stats?.change_24)}%)
+                              ({dollarFormat(stats?.change_24 ?? 0)}%)
                             </span>
                           ) : (
                             <span className="text-red-500 text-sm">
-                              ({dollarFormat(stats?.change_24)}%)
+                              ({dollarFormat(stats?.change_24 ?? 0)}%)
                             </span>
                           )}
                         </a>
