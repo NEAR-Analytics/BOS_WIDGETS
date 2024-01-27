@@ -119,6 +119,7 @@ const {
   onLoad,
   slippage,
   account,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -201,17 +202,7 @@ useEffect(() => {
               .mul(poolPrice)
               .toFixed(20);
 
-            const amountoutPrice = isReverse
-              ? Big(inputCurrencyAmount).div(amountOut)
-              : Big(amountOut).div(inputCurrencyAmount);
-
-            const priceImpact = poolPrice
-              .minus(amountoutPrice)
-              .div(poolPrice)
-              .mul(100)
-              .toString();
             getTransaction({
-              priceImpact,
               amountOut,
             });
           })
@@ -231,8 +222,21 @@ useEffect(() => {
       });
   };
 
-  const getTransaction = ({ amountOut, priceImpact }) => {
+  const getTransaction = ({ amountOut }) => {
     let method = "";
+    let priceImpact = null;
+    if (prices) {
+      const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+        prices[outputCurrency.symbol] || 1
+      );
+      const amountoutPrice = Big(amountOut).div(inputCurrencyAmount);
+
+      priceImpact = poolPrice
+        .minus(amountoutPrice)
+        .div(poolPrice)
+        .mul(100)
+        .toString();
+    }
     const deadline = Math.ceil(Date.now() / 1000) + 60;
     const _amountOut = Big(amountOut)
       .mul(Big(10).pow(outputCurrency.decimals))
