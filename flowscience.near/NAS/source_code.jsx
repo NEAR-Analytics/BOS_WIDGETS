@@ -134,39 +134,39 @@ State.init({
   templateVal: template,
   thingId,
   schemas: {},
+  loading: false,
 });
 
-const fetchAndStoreSchema = (type) => {
-  return new Promise((resolve, reject) => {
-    Social.get(`${typeSrc}/type/${type}`, "final")
-      .then((response) => {
-        if (response) {
-          resolve(JSON.parse(response));
-        } else {
-          resolve(null);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching schema:", error);
-        reject(error);
-      });
-  });
-};
-
 useEffect(() => {
-  if (state.selectedType) {
-    fetchAndStoreSchema(state.selectedType).then((fullSchema) => {
-      State.update((prevState) => ({
-        ...prevState,
-        fullSchema: fullSchema,
-        schemas: {
-          ...prevState.schemas,
-          [state.selectedType]: fullSchema,
-        },
-      }));
-    });
+  async function fetchSchema() {
+    if (state.selectedType && !state.schemas[state.selectedType]) {
+      try {
+        State.update({ loading: true }); // Set loading to true before fetching data
+        const response = await Social.get(
+          `${typeSrc}/type/${state.selectedType}`,
+          "final"
+        );
+        const schema = response ? JSON.parse(response) : null;
+        State.update((prevState) => ({
+          ...prevState,
+          schemas: {
+            ...prevState.schemas,
+            [state.selectedType]: schema,
+          },
+          loading: false, // Set loading to false after fetching data
+        }));
+        console.log("Updated state with new schema:", prevState);
+      } catch (error) {
+        console.error("Error fetching schema:", error);
+        State.update({ loading: false }); // Ensure loading is set to false even if there's an error
+        console.log("Updated state with new schema:", prevState);
+      }
+    }
   }
-}, [state.selectedType]); // Dependency array: only re-run when state.selectedType changes
+
+  fetchSchema();
+  console.log(`Fetched schema for ${state.selectedType}:`, schema);
+}, [state.selectedType]);
 
 const handleApply = () => {
   State.update({
@@ -232,18 +232,23 @@ if (types !== null) {
 }
 
 // Update handleTypeChange to handle full schema including nested types
-const handleTypeChange = async (e) => {
+const handleTypeChange = (e) => {
   const newType = e.target.value;
   State.update({
     selectedType: newType,
     templateVal: "",
     data: {},
   });
-  await updateSchema(newType); // Fetch and store the schema for the selected type
 };
 
 // A function to render properties, adjusted to use stored schemas from the state
 const renderProperties = (properties, data, onChange) => {
+  if (state.loading) {
+    return <div>Loading...</div>; // Show loading indicator while data is being fetched
+  }
+  if (!properties) {
+    return <div>No properties to display</div>; // Add a condition for no properties
+  }
   return properties.map((property) => {
     const propertyType = property.type;
     if (
@@ -321,6 +326,7 @@ return (
               </Select>
             </Row>
           </FormContainer>
+
           <FormContainer>
             {state.fullSchema &&
               state.fullSchema.properties &&
