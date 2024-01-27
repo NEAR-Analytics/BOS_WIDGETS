@@ -116,6 +116,7 @@ const AccordionContent = styled("Accordion.Content")`
 const { data, account, TOKENS, tokenPrices } = props;
 const {
   tvl,
+
   poolName,
   tokenAddress,
   StakingAddress,
@@ -125,6 +126,7 @@ const {
   unlocking,
   rewardAmount,
   LPPrice,
+  APR,
 } = data;
 
 State.init({
@@ -156,7 +158,7 @@ return (
             </div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary"></div>
+            <div className="title-secondary">{APR}%</div>
             <div className="title-sub"></div>
           </GridItem>
           <GridItem>
