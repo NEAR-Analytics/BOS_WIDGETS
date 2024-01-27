@@ -248,17 +248,10 @@ useEffect(() => {
 
     let priceImpact = null;
     if (prices) {
-      const isReverse = Number(path[0]) > Number(path[1]);
-
-      const poolPrice = Big(
-        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
-      ).div(
-        prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
+      const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+        prices[outputCurrency.symbol] || 1
       );
-
-      const amountoutPrice = !isReverse
-        ? Big(inputCurrencyAmount).div(amountOut)
-        : Big(amountOut).div(inputCurrencyAmount);
+      const amountoutPrice = Big(amountOut).div(inputCurrencyAmount);
 
       priceImpact = poolPrice
         .minus(amountoutPrice)
