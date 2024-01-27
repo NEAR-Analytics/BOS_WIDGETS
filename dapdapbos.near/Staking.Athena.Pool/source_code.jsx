@@ -2,6 +2,7 @@ const HeadWrapper = styled.div`
   border-radius: 16px;
   color: var(--white);
   font-size: var(--fz-14);
+  position: relative;
   .pool-head {
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
@@ -100,6 +101,15 @@ const AccordionItem = styled("Accordion.Item")`
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
+  .AccordionChevron {
+    position: absolute;
+    right: 24px;
+    top: 45%;
+    transition: all 0.1s ease-out;
+  }
+  &[data-state="open"] .AccordionChevron {
+    transform: rotate(90deg);
+  }
 `;
 
 const AccordionContent = styled("Accordion.Content")`
@@ -111,6 +121,7 @@ const AccordionContent = styled("Accordion.Content")`
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
 `;
+
 //Accordion end
 
 const { data, account, TOKENS, tokenPrices } = props;
@@ -213,6 +224,20 @@ return (
             <div className="title-sub"></div>
           </GridItem>
         </GridContainer>
+
+        <svg
+          className="AccordionChevron"
+          xmlns="http://www.w3.org/2000/svg"
+          width="8"
+          height="10"
+          viewBox="0 0 8 10"
+          fill="none"
+        >
+          <path
+            d="M7.02391 4.21913C7.52432 4.61945 7.52432 5.38054 7.02391 5.78087L2.1247 9.70024C1.46993 10.2241 0.5 9.75788 0.5 8.91937L0.5 1.08062C0.5 0.242118 1.46993 -0.224055 2.12469 0.299755L7.02391 4.21913Z"
+            fill="#979ABE"
+          />
+        </svg>
       </HeadWrapper>
     </Accordion.Trigger>
     <AccordionContent>
