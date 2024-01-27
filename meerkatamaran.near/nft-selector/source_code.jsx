@@ -72,7 +72,7 @@ return (
           style={{
             width: "15%",
             aspectRatio: "1/1",
-            border: isSelected(nft) ? "2px solid blue" : "none", // Apply border if selected
+            border: isSelected(nft) ? "4px solid blue" : "none", // Apply border if selected
           }}
           onClick={() => handleSelectNFT(nft)}
         >
