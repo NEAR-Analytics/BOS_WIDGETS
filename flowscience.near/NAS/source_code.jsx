@@ -169,8 +169,8 @@ useEffect(() => {
           `${typeSrc}/type/${state.selectedType}`,
           "final"
         );
-        if (response) {
-          const schema = JSON.parse(response);
+        if (response && response.schema) {
+          const schema = JSON.parse(response.schema);
           State.update((prevState) => ({
             ...prevState,
             schemas: {
