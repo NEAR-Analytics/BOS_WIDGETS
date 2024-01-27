@@ -1,14 +1,12 @@
+const [selectedNFT, setSelectedNFT] = useState(null);
+
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
 
-initState({
-  selectedNFT: "",
-  setSelectedNFT: "",
-  onChange: "",
-});
 if (!accountId) {
   return <></>;
 }
+
 const size = "100%";
 
 const data = fetch("https://graph.mintbase.xyz", {
@@ -36,17 +34,13 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 
 const finalData = data?.body?.data;
-console.log(finalData);
 
 const handleSelectNFT = (nft) => {
-  console.log(nft);
-
+  setSelectedNFT(nft);
   onChange(nft);
-  isSelected(nft);
 };
 
 const isSelected = (nft) => {
-  State.update({ setSelectedNFT: nft, selectedNFT: nft });
   return (
     selectedNFT &&
     nft.tokenId === selectedNFT.tokenId &&
@@ -57,7 +51,7 @@ const isSelected = (nft) => {
 if (!finalData) {
   return (
     <>
-      <img src="https://cloudflare-ipfs.com/ipfs/bafybeihrehidexjc54qj2t7lvo54wpkwuabm2uikwkf3ld36rbj25a3s2i" />
+      <Image src="https://cloudflare-ipfs.com/ipfs/bafybeihrehidexjc54qj2t7lvo54wpkwuabm2uikwkf3ld36rbj25a3s2i"></Image>
     </>
   );
 }
@@ -78,7 +72,7 @@ return (
           style={{
             width: "15%",
             aspectRatio: "1/1",
-            border: isSelected ? "2px solid blue" : "none", // Apply border if selected
+            border: isSelected(nft) ? "2px solid blue" : "none", // Apply border if selected
           }}
           onClick={() => handleSelectNFT(nft)}
         >
@@ -87,9 +81,13 @@ return (
             props={{
               nft: { tokenId: nft.tokenId, contractId: nft.contractId },
               style: {
-                width: "100%",
-                height: "100%",
+                width: size,
+                height: size,
                 objectFit: "cover",
+                minWidth: size,
+                minHeight: size,
+                maxWidth: size,
+                maxHeight: size,
                 overflowWrap: "break-word",
               },
               className: "",
