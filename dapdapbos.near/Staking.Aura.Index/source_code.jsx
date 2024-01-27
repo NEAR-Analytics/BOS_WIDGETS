@@ -45,6 +45,7 @@ const HeadWrapper = styled.div`
   margin: 0 auto;
   color: var(--white);
   font-size: var(--fz-14);
+  position: relative;
   .pool-head {
     border-radius: 16px;
     height: 84px;
@@ -177,6 +178,7 @@ const {
   multicallAddress,
   multicall,
   dexConfig,
+  prices,
 } = props;
 const POOLS = [
   {
@@ -696,25 +698,22 @@ const LPTokenABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    inputs: [],
+    name: "getSwapFeePercentage",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
 ];
-const COINGECKO_IDS = {
-  USDT: "tether",
-  USDC: "usd-coin",
-  sDAI: "savings-xdai",
-  WBTC: "wrapped-bitcoin",
-  WETH: "weth",
-  wstETH: "wrapped-steth",
-  crvUSD: "crvusd",
-  AURA: "aura-finance",
-  BAL: "balancer",
-  staBAL3: "balancer-stable-usd",
-  COW: "cow-protocol",
-  stEUR: "staked-ageur",
-  EURe: "monerium-eur-money",
-  GNO: "gnosis",
-};
+
 console.log("AURA_PROPS:", props);
-const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, reward: 0 }));
+const initList = POOLS.map((item) => ({
+  ...item,
+  swapFee: 0,
+  stakedAmount: 0,
+  reward: 0,
+}));
 
 State.init({
   currentTab: "TAB_POOL",
@@ -725,16 +724,14 @@ State.init({
   totalRewardsAmount: 0,
   isClaiming: false,
   isAllClaiming: false,
-  tokenPrices: "",
+
   flag1: false,
   flag2: false,
   flag3: false,
-  flag4: false,
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 function initPoolList() {
-  // getLPToken(state.poolsList[0]);
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
 
@@ -744,24 +741,6 @@ function initPoolList() {
   }
 
   getMultiPoolTokens();
-}
-
-function getLPToken(pool) {
-  console.log(22222222, pool.LP_token_address);
-  const myContract = new ethers.Contract(
-    pool.LP_token_address,
-    LPTokenABI,
-    Ethers.provider()
-  );
-
-  return myContract
-    .balanceOf(account)
-    .then((res) => {
-      console.log(33333333333, res);
-    })
-    .catch((err) => {
-      console.log(44444, err);
-    });
 }
 
 function getMultiRewards(pool, index) {
@@ -825,16 +804,23 @@ function getMultiLPToken(pool, index) {
       address: pool.LP_token_address,
       name: "getActualSupply",
     },
+    {
+      address: pool.LP_token_address,
+      name: "getSwapFeePercentage",
+    },
   ];
 
   multiCallV2({ abi: LPTokenABI, calls, options: {}, multicallAddress })
     .then((res) => {
       console.log("getMultiLPToken res:", res);
       const temp = [...state.poolsList];
-      const [[balance], [totalSupply]] = res;
+      const [[balance], [totalSupply], [swapFeePer]] = res;
 
       temp[index].bptAmount = ethers.utils.formatUnits(balance);
       temp[index].bptTotalSupply = totalSupply;
+      temp[index].swapFee = Big(ethers.utils.formatUnits(swapFeePer))
+        .mul(100)
+        .toFixed();
 
       State.update({
         poolsList: temp,
@@ -943,31 +929,6 @@ function getMultiPoolTokens() {
     });
 }
 
-function fetchTokenPrice(tokenIds) {
-  return asyncFetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd`
-  ).then((res) => {
-    if (res.ok) {
-      return res.body;
-    }
-    return 0;
-  });
-}
-
-function getTokenPrices() {
-  const ids = Object.values(COINGECKO_IDS).join();
-  fetchTokenPrice(ids)
-    .then((res) => {
-      State.update({
-        tokenPrices: res,
-        flag4: true,
-      });
-    })
-    .catch((error) => {
-      console.error("getTokenPrices_error: ", error);
-    });
-}
-
 function calcTVL() {
   const temp = [...state.poolsList];
   for (let i = 0; i < temp.length; i++) {
@@ -977,18 +938,11 @@ function calcTVL() {
     const rewardTotalSupply = temp[i].rewardTotalSupply;
     const rewardRate = temp[i].rewardRate;
 
-    if (
-      tokens &&
-      tokenBalance &&
-      state.tokenPrices &&
-      bptTotalSupply &&
-      rewardTotalSupply
-    ) {
+    if (tokens && tokenBalance && bptTotalSupply && rewardTotalSupply) {
       try {
         const sum = tokens?.reduce((total, cur, j) => {
           if (cur) {
-            const tokenId = COINGECKO_IDS[cur];
-            const price = state.tokenPrices[tokenId]?.usd || 0;
+            const price = prices[cur] || 0;
 
             return Big(total)
               .plus(
@@ -1015,9 +969,7 @@ function calcTVL() {
           Big(86400).times(365)
         );
 
-        const rewardPerYearUsd = rewardPerYear.times(
-          Big(state.tokenPrices["balancer"]["usd"])
-        );
+        const rewardPerYearUsd = rewardPerYear.times(Big(prices["BAL"]));
 
         temp[i].BAL_APR = rewardPerYearUsd.div(TVL).times(100).toFixed(2);
       } catch (error) {
@@ -1072,20 +1024,9 @@ useEffect(() => {
 }, [account]);
 
 useEffect(() => {
-  getTokenPrices();
-}, []);
-
-useEffect(() => {
   if (!isChainSupported) return;
-  // console.log(
-  //   "----------------",
-  //   state.flag1,
-  //   state.flag2,
-  //   state.flag3,
-  //   state.flag4,
-  //   state
-  // );
-  if (state.flag1 && state.flag2 && state.flag3 && state.flag4) {
+
+  if (state.flag1 && state.flag2 && state.flag3) {
     try {
       const totalDepositAmount = state.poolsList.reduce((total, cur) => {
         return Big(cur.stakedAmount || 0)
@@ -1112,7 +1053,7 @@ useEffect(() => {
       console.log(333, error);
     }
   }
-}, [state.flag1, state.flag2, state.flag3, state.flag4]);
+}, [state.flag1, state.flag2, state.flag3]);
 
 const handleChangeTabs = (value) => {
   State.update({
@@ -1239,7 +1180,7 @@ const handleClaimAll = () => {
       });
     });
 };
-// console.info("STATE: ", state);
+console.info("STATE: ", state);
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
