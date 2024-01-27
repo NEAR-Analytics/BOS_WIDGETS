@@ -427,7 +427,7 @@ function MainComponent({ network, t, id, tid }) {
                   )}
                 </Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Content className="text-sm text-gray-500">
+              <Accordion.Content className="text-sm text-nearblue-600">
                 <div className="divide-solid divide-gray-200 divide-y">
                   {token?.asset && (
                     <div className="flex p-4">
@@ -550,7 +550,7 @@ function MainComponent({ network, t, id, tid }) {
                     <ArrowDown className="fill-current" />
                   )}
                 </Accordion.Trigger>
-                <Accordion.Content className="text-sm text-gray-500 border-b p-3">
+                <Accordion.Content className="text-sm text-nearblue-600 border-b p-3">
                   {token.description}
                 </Accordion.Content>
               </Accordion.Item>
