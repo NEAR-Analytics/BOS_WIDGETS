@@ -947,11 +947,10 @@ const LPABI = [
     type: "function",
   },
 ];
-const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0 }));
+const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, APR: "" }));
 
 State.init({
   currentTab: "TAB_POOL",
-  chainId: "", // current chain
   account: "", // current wallet address
   poolsList: initList, //
   slotLength: 0,
@@ -963,6 +962,7 @@ State.init({
   isAllClaiming: false,
   tokenPrices: "",
   lockingTotalSupply: 0,
+  athLockerApr: "",
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -1373,10 +1373,166 @@ function getMultiLP(pool) {
   );
 }
 
+function getAPR() {
+  const APR_ABI = [
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [
+        {
+          type: "uint256",
+          name: "APR",
+          internalType: "uint256",
+        },
+      ],
+      name: "getATHAPRForLocker",
+      inputs: [],
+    },
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [
+        {
+          type: "uint256[]",
+          name: "APRs",
+          internalType: "uint256[]",
+        },
+        {
+          type: "address[]",
+          name: "rewardTokens",
+          internalType: "address[]",
+        },
+      ],
+      name: "getMultipleAPRforLockerlsInAdditionalReward",
+      inputs: [
+        {
+          type: "uint256",
+          name: "feeAmount",
+          internalType: "uint256",
+        },
+        {
+          type: "address[]",
+          name: "lps",
+          internalType: "address[]",
+        },
+        {
+          type: "address[]",
+          name: "inputRewardTokens",
+          internalType: "address[]",
+        },
+      ],
+    },
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [
+        {
+          type: "uint256",
+          name: "APR",
+          internalType: "uint256",
+        },
+      ],
+      name: "getXHUMAPRForLocker",
+      inputs: [
+        {
+          type: "uint256",
+          name: "feeAmount",
+          internalType: "uint256",
+        },
+      ],
+    },
+    {
+      type: "function",
+      stateMutability: "view",
+      outputs: [
+        {
+          type: "uint256",
+          name: "APR",
+          internalType: "uint256",
+        },
+      ],
+      name: "getATHAprForPool",
+      inputs: [
+        {
+          type: "address",
+          name: "pool",
+          internalType: "address",
+        },
+      ],
+    },
+  ];
+
+  const feeAmount = 600;
+  const lps = [
+    "0xa35ad1b31059a652c2bad1114604845469b86692",
+    "0x619f235808d57d277c2c485af26a5a726ff7606b",
+    "0x9c531f76b974fe0b7f545ba4c0623dd2fea3ef26",
+    "0x919395161dd538aa0fb065a8eac878b18d07fbcd",
+    "0x3eaa426861a283f0e46b6411aeb3c3608b090e0e",
+    "0x8a19e755610aecb3c55bde4ecfb9185ef0267400",
+    "0x0cad02c4c6fb7c0d403af74ba9ada3bf40df6478",
+    "0xd5a0760d55ad46b6a1c46d28725e4c117312a7ad",
+    "0x9f51f0d7f500343e969d28010c7eb0db1bcaaef9",
+    "0x9e3f3be65fec3731197aff816489eb1eb6e6b830",
+  ];
+  const inputRewardTokens = ["0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000"];
+
+  const APR_ADDRESS = "0x0dBDb8e33c66125d990abE4E4898e43781Bd5FEB";
+  const calls = [
+    {
+      address: APR_ADDRESS,
+      name: "getATHAPRForLocker",
+    },
+    {
+      address: APR_ADDRESS,
+      name: "getMultipleAPRforLockerlsInAdditionalReward",
+      params: [feeAmount, lps, inputRewardTokens],
+    },
+    {
+      address: APR_ADDRESS,
+      name: "getXHUMAPRForLocker",
+      params: [feeAmount],
+    },
+    {
+      address: APR_ADDRESS,
+      name: "getATHAprForPool",
+      params: ["0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1"],
+    },
+  ];
+
+  multiCallV2(
+    APR_ABI,
+    calls,
+    {},
+    (res) => {
+      const [[athAmount], [[metisAmount], [addr]], [xhumAmount], [humAmount]] =
+        res;
+
+      const athApr = Big(ethers.utils.formatUnits(athAmount, 8)).toFixed(2);
+      const metisApr = Big(ethers.utils.formatUnits(metisAmount, 8)).toFixed(2);
+      const xhumApr = Big(ethers.utils.formatUnits(xhumAmount, 8)).toFixed(2);
+
+      const humApr = Big(ethers.utils.formatUnits(humAmount, 8)).toFixed(2);
+      const athLockerApr = Big(athApr).plus(metisApr).plus(xhumApr).toFixed(2);
+
+      const temp = [...state.poolsList];
+      temp[0].APR = athLockerApr;
+      temp[1].APR = humApr;
+      State.update({
+        poolsList: temp,
+      });
+    },
+    (err) => {
+      console.log("getMultiLP_error", err);
+    }
+  );
+}
+
 useEffect(() => {
   State.update({ account });
   if (account) {
     initPoolList();
+    getAPR();
   }
 }, [account]);
 
