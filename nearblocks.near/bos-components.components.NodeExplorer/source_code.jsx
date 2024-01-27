@@ -1401,9 +1401,9 @@ function MainComponent({ network, currentPage, setPage }) {
           />
         </button>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>Status</span>,
@@ -1417,9 +1417,9 @@ function MainComponent({ network, currentPage, setPage }) {
           <div>{stakingStatusLabel(row?.stakingStatus ?? '')}</div>
         </div>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>VALIDATOR</span>,
@@ -1434,9 +1434,9 @@ function MainComponent({ network, currentPage, setPage }) {
           <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
         </span>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>FEE</span>,
@@ -1452,9 +1452,9 @@ function MainComponent({ network, currentPage, setPage }) {
             : 'N/A'}
         </div>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
 
     {
@@ -1470,9 +1470,9 @@ function MainComponent({ network, currentPage, setPage }) {
           </div>
         );
       },
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>TOTAL STAKE</span>,
@@ -1488,9 +1488,9 @@ function MainComponent({ network, currentPage, setPage }) {
           Ⓝ
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>STAKE %</span>,
@@ -1498,9 +1498,9 @@ function MainComponent({ network, currentPage, setPage }) {
       cell: (row) => {
         return <div>{row?.percent}%</div>;
       },
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>CUMULATIVE STAKE</span>,
@@ -1524,9 +1524,9 @@ function MainComponent({ network, currentPage, setPage }) {
           </div>
         );
       },
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>STAKE CHANGE (24H)</span>,
@@ -1559,9 +1559,9 @@ function MainComponent({ network, currentPage, setPage }) {
           </div>
         );
       },
-      tdClassName: 'px-6 py-4  whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4  whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
   ];
 
@@ -1619,9 +1619,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: (
@@ -1666,9 +1666,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: (
@@ -1704,9 +1704,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: (
@@ -1748,9 +1748,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: 'Node Agent Version / Build',
@@ -1761,9 +1761,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                   ],
                   data: [telemetry] || [],
@@ -1801,9 +1801,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: 'Email',
@@ -1821,9 +1821,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'pl-6 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'pl-6 pb-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-6 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-6 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     row?.description?.twitter && {
                       header: 'Twitter',
@@ -1843,9 +1843,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-2 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-2 pb-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-2 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-2 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     row?.description?.discord && {
                       header: 'Discord',
@@ -1865,9 +1865,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                     {
                       header: 'Description',
@@ -1880,9 +1880,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-5 pt-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
                     },
                   ],
                   data: [row] || [],
@@ -1892,7 +1892,7 @@ function MainComponent({ network, currentPage, setPage }) {
                 }}
               />
             ) : (
-              <div className="flex justify-center text-sm text-gray-500 font-medium py-4 ">
+              <div className="flex justify-center text-sm text-nearblue-600 font-medium py-4 ">
                 If you are node owner feel free to fill all &nbsp;
                 <a
                   href="https://github.com/zavodil/near-pool-details#description"
@@ -2060,11 +2060,11 @@ function MainComponent({ network, currentPage, setPage }) {
           <div className="flex flex-col pt-4">
             <div className="flex flex-col">
               {isLoading ? (
-                <div className="leading-7 max-w-lg w-full pl-3 py-1.5 text-sm mb-4 text-gray-500">
+                <div className="leading-7 max-w-lg w-full pl-3 py-1.5 text-sm mb-4 text-nearblue-600">
                   <Skeleton className=" h-4 break-words" />
                 </div>
               ) : (
-                <div className="leading-7 pl-3 px-3 text-sm mb-4 text-gray-500">
+                <div className="leading-7 pl-3 px-3 text-sm mb-4 text-nearblue-600">
                   {validatorFullData[currentPage]?.total || 0}
                   Validators found
                 </div>
