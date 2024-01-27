@@ -1,5 +1,5 @@
 const data = props.data || {};
-const type = props.type || "hyperfiles.near/type/attestation";
+const type = props.type || "";
 const record = props.file || "hyperfiles.near/type/attestation";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
 const schemaType = props.schema || "hyperfiles.near/type/schema";
@@ -133,11 +133,40 @@ State.init({
   template,
   templateVal: template,
   thingId,
+  schemas: {},
 });
 
-const handleOnChange = (value) => {
-  State.update({ data: { ...state.data, ...value } });
+const fetchAndStoreSchema = (type) => {
+  return new Promise((resolve, reject) => {
+    Social.get(`${typeSrc}/type/${type}`, "final")
+      .then((response) => {
+        if (response) {
+          resolve(JSON.parse(response));
+        } else {
+          resolve(null);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching schema:", error);
+        reject(error);
+      });
+  });
 };
+
+useEffect(() => {
+  if (state.selectedType) {
+    fetchAndStoreSchema(state.selectedType).then((fullSchema) => {
+      State.update((prevState) => ({
+        ...prevState,
+        fullSchema: fullSchema,
+        schemas: {
+          ...prevState.schemas,
+          [state.selectedType]: fullSchema,
+        },
+      }));
+    });
+  }
+}, [state.selectedType]); // Dependency array: only re-run when state.selectedType changes
 
 const handleApply = () => {
   State.update({
@@ -202,8 +231,51 @@ if (types !== null) {
     Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
 }
 
-const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value, templateVal: "", data: {} });
+// Update handleTypeChange to handle full schema including nested types
+const handleTypeChange = async (e) => {
+  const newType = e.target.value;
+  State.update({
+    selectedType: newType,
+    templateVal: "",
+    data: {},
+  });
+  await updateSchema(newType); // Fetch and store the schema for the selected type
+};
+
+// A function to render properties, adjusted to use stored schemas from the state
+const renderProperties = (properties, data, onChange) => {
+  return properties.map((property) => {
+    const propertyType = property.type;
+    if (
+      propertyType.startsWith("hyperfiles.near/type/") &&
+      state.schemas[propertyType]
+    ) {
+      // Use the stored schema from the state
+      const nestedSchema = state.schemas[propertyType];
+      if (nestedSchema && nestedSchema.properties) {
+        return renderProperties(
+          nestedSchema.properties,
+          data[property.name],
+          onChange
+        );
+      } else {
+        // Handle the case where the nested schema is not available yet
+        // This could be a placeholder or a loading indicator
+        return <div>Loading...</div>;
+      }
+    } else {
+      // Render a simple input for primitive types
+      return (
+        <Input
+          key={property.name}
+          type={property.type === "string" ? "text" : property.type}
+          value={data[property.name] || ""}
+          placeholder={property.name}
+          onChange={(e) => onChange(property.name, e.target.value)}
+        />
+      );
+    }
+  });
 };
 
 return (
@@ -250,8 +322,15 @@ return (
             </Row>
           </FormContainer>
           <FormContainer>
+            {state.fullSchema &&
+              state.fullSchema.properties &&
+              renderProperties(
+                state.fullSchema.properties,
+                state.data,
+                handleOnChange
+              )}
             <Widget
-              src="efiz.near/widget/create"
+              src="flowscience.near/widget/create"
               props={{
                 item: {
                   type: state.selectedType,
