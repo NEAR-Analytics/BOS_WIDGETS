@@ -72,7 +72,7 @@ const ApproveABI = [
   },
 ];
 
-const { data, chainId, account, TOKENS, toast } = props;
+const { data, account, TOKENS, toast } = props;
 
 // curToken: token address
 const { poolType, tokenAddress: curToken, tokenAddress, StakingAddress } = data;
