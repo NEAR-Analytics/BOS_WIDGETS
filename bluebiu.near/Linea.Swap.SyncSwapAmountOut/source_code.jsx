@@ -169,6 +169,7 @@ const {
   onLoad,
   slippage,
   account,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -264,7 +265,7 @@ useEffect(() => {
         );
 
         if (amountoutDesimals.gt(0)) {
-          getReverse({
+          getTransaction({
             amountOut: res,
             amountoutDesimals: amountoutDesimals.toString(),
             poolAddress: _poolAddress,
@@ -281,63 +282,8 @@ useEffect(() => {
         });
       });
   };
-  const getReverse = ({ amountOut, amountoutDesimals, poolAddress }) => {
-    const PairContract = new ethers.Contract(
-      poolAddress,
-      PAIR_ABI,
-      Ethers.provider().getSigner()
-    );
 
-    PairContract.getReserves()
-      .then((res) => {
-        const isReverse = Number(path[0]) > Number(path[1]);
-
-        const token0 = Big(
-          ethers.utils.formatUnits(
-            res[0],
-            isReverse ? outputCurrency.decimals : inputCurrency.decimals
-          )
-        );
-        const token1 = Big(
-          ethers.utils.formatUnits(
-            res[1],
-            isReverse ? inputCurrency.decimals : outputCurrency.decimals
-          )
-        );
-        const poolPrice = token1.div(token0);
-
-        const amountoutPrice = isReverse
-          ? Big(inputCurrencyAmount).div(amountoutDesimals)
-          : Big(amountoutDesimals).div(inputCurrencyAmount);
-
-        const priceImpact = poolPrice
-          .minus(amountoutPrice)
-          .div(poolPrice)
-          .mul(100)
-          .toString();
-
-        getTransaction({
-          priceImpact,
-          amountoutDesimals,
-          amountOut,
-          poolAddress,
-        });
-      })
-      .catch((err) => {
-        getTransaction({
-          amountoutDesimals,
-          amountOut,
-          poolAddress,
-        });
-      });
-  };
-
-  const getTransaction = ({
-    amountOut,
-    amountoutDesimals,
-    priceImpact,
-    poolAddress,
-  }) => {
+  const getTransaction = ({ amountOut, amountoutDesimals, poolAddress }) => {
     const RouterContract = new ethers.Contract(
       routerAddress,
       ROUTER_ABI,
@@ -347,6 +293,18 @@ useEffect(() => {
     const _amountOut = Big(amountOut)
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
+
+    if (prices) {
+      const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+        prices[outputCurrency.symbol] || 1
+      );
+      const amountoutPrice = Big(amountoutDesimals).div(inputCurrencyAmount);
+      priceImpact = poolPrice
+        .minus(amountoutPrice)
+        .div(poolPrice)
+        .mul(100)
+        .toString();
+    }
     const withdrawMode = outputCurrency.address === "native" ? 1 : 2;
     const options = {
       value: inputCurrency.address === "native" ? amount : 0,
