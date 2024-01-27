@@ -76,13 +76,8 @@ const handleInputChange = (name, value) => {
 };
 
 const fetchTypeDefinition = (type) => {
-  try {
-    const response = Social.get(type, "final");
-    return response ? JSON.parse(response) : null;
-  } catch (error) {
-    console.error("Error processing response:", error);
-    return null;
-  }
+  const response = fetch(type, "final");
+  return response ? JSON.parse(response) : null;
 };
 
 function Property({ property, value }) {
@@ -114,8 +109,8 @@ function Property({ property, value }) {
     const [subType, setSubType] = useState(null);
 
     useEffect(() => {
-      const loadSubType = () => {
-        const typeDef = fetchTypeDefinition(property.type);
+      const loadSubType = async () => {
+        const typeDef = await fetchTypeDefinition(property.type);
         setSubType(typeDef);
       };
 
