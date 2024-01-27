@@ -1225,10 +1225,11 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -1463,7 +1464,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
-  const errorMessage = t ? t('noTxns') : 'No transactions found!';
+  const errorMessage = t ? t('token:fts.noTxns') : 'No transactions found!';
   const [tokens, setTokens] = useState(
     {},
   );
@@ -1538,10 +1539,10 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </>
       ),
       tdClassName:
-        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-end',
+        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600 flex justify-end',
     },
     {
-      header: <span>{t ? t('hash') : 'HASH'}</span>,
+      header: <span>{t ? t('token:fts.hash') : 'HASH'}</span>,
       key: 'transaction_hash',
       cell: (row) => (
         <span>
@@ -1570,9 +1571,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span> {t ? t('type') : 'TYPE'}</span>,
@@ -1582,7 +1583,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-gray-500 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">{row.event_kind}</span>
                 </span>
               </Tooltip.Trigger>
@@ -1597,12 +1598,12 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
-      header: <span>{t ? t('from') : 'FROM'}</span>,
+      header: <span>{t ? t('token:fts.from') : 'FROM'}</span>,
       key: 'signer_account_id',
       cell: (row) => (
         <span>
@@ -1636,9 +1637,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span></span>,
@@ -1647,7 +1648,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
         return row.token_old_owner_account_id ===
           row.token_new_owner_account_id ? (
           <span className="uppercase rounded w-10 py-2 h-6 inline-flex items-center justify-center bg-green-200 text-white text-sm font-semibold">
-            {t('txnSelf')}
+            {t('txns:txnSelf')}
           </span>
         ) : (
           <div className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white">
@@ -1658,7 +1659,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
       tdClassName: 'text-center',
     },
     {
-      header: <span>{t ? t('to') : 'To'}</span>,
+      header: <span>{t ? t('token:fts.to') : 'To'}</span>,
       key: 'receiver_account_id',
       cell: (row) => (
         <span>
@@ -1682,7 +1683,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                   align="start"
                   side="bottom"
                 >
-                  {row.receiver_account_id}
+                  {row.token_new_owner_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
@@ -1692,20 +1693,20 @@ function MainComponent({ network, t, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span> Quantity</span>,
       key: 'block_height',
       cell: (row) => (
-        <span>{tokenAmount(Number(row.amount), row.ft?.decimals, true)}</span>
+        <span>{tokenAmount(row.amount, row.ft?.decimals, true)}</span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>Token</span>,
@@ -1725,7 +1726,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <div className="text-sm text-gray-500 max-w-[110px] inline-block truncate">
+                    <div className="text-sm text-nearblue-600 max-w-[110px] inline-block truncate">
                       <a
                         href={`/token/${row.ft?.contract}`}
                         className="hover:no-underline"
@@ -1768,9 +1769,9 @@ function MainComponent({ network, t, currentPage, setPage }) {
         );
       },
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
@@ -1785,10 +1786,10 @@ function MainComponent({ network, t, currentPage, setPage }) {
                 >
                   {showAge
                     ? t
-                      ? t('age')
+                      ? t('token:fts.age')
                       : 'AGE'
                     : t
-                    ? t('ageDT')
+                    ? t('token:fts.ageDT')
                     : 'DATE TIME (UTC)'}
                   {showAge && <Clock className="text-green-500 ml-2" />}
                 </button>
@@ -1831,7 +1832,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
@@ -1846,7 +1847,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
         ) : (
           <div className={`flex flex-col lg:flex-row pt-4`}>
             <div className="flex flex-col">
-              <p className="leading-7 px-6 text-sm mb-4 text-gray-500">
+              <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
                 A total of {localFormat(totalCount)} transactions found
               </p>
             </div>
