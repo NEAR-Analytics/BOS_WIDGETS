@@ -76,20 +76,13 @@ const handleInputChange = (name, value) => {
 };
 
 const fetchTypeDefinition = (type) => {
-  return Social.get(type, "final")
-    .then((response) => {
-      // Assuming response is a JSON string
-      try {
-        return JSON.parse(response);
-      } catch (error) {
-        console.error("Error parsing response:", error);
-        return null;
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching type definition:", error);
-      return null;
-    });
+  try {
+    const response = Social.get(type, "final");
+    return response ? JSON.parse(response) : null;
+  } catch (error) {
+    console.error("Error processing response:", error);
+    return null;
+  }
 };
 
 function Property({ property, value }) {
@@ -122,14 +115,13 @@ function Property({ property, value }) {
 
     useEffect(() => {
       const loadSubType = () => {
-        fetchTypeDefinition(property.type)
-          .then((typeDef) => setSubType(typeDef))
-          .catch((error) =>
-            console.error("Error fetching type definition:", error)
-          );
+        const typeDef = fetchTypeDefinition(property.type);
+        setSubType(typeDef);
       };
 
-      loadSubType();
+      if (property.type) {
+        loadSubType();
+      }
     }, [property.type]);
 
     if (subType && subType.properties) {
