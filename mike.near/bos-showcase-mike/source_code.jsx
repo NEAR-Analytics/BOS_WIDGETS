@@ -1,3 +1,4 @@
+const aloha = "hi";
 const { hideDisclaimer } = props;
 
 return (
