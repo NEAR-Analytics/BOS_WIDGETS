@@ -137,37 +137,33 @@ State.init({
   loading: false,
 });
 
-const fetchSchema = (type) => {
-  const response = fetch(`${typeSrc}/type/${type}`, "final");
+const fetchSchemasList = (typeSrc) => {
+  const response = fetch(`${typeSrc}/type/**`, "final");
+  if (response) {
+    const schemasList = Object.keys(response).map(
+      (key) => `${typeSrc}/type/${key}`
+    );
+    State.update({ schemasList });
+  }
+};
 
-  if (response !== null) {
-    try {
-      // Assuming the response is a JSON string
-      const schema = JSON.parse(response);
-      State.update((prevState) => ({
-        ...prevState,
-        schemas: {
-          ...prevState.schemas,
-          [type]: schema,
-        },
-        loading: false,
-      }));
-    } catch (error) {
-      console.error("Error parsing schema:", error);
-      State.update({ loading: false });
-    }
-  } else {
-    console.log("Data is still fetching...");
-    // You might want to handle the 'still fetching' state appropriately
+const fetchSchema = (type) => {
+  if (!type) return;
+  const response = fetch(type, "final");
+  if (response) {
+    const schema = JSON.parse(response);
+    State.update((prevState) => ({
+      ...prevState,
+      schemas: { ...prevState.schemas, [type]: schema },
+      loading: false,
+    }));
   }
 };
 
 useEffect(() => {
-  if (state.selectedType && !state.schemas[state.selectedType]) {
-    State.update({ loading: true });
-    fetchSchema(state.selectedType);
-  }
-}, [state.selectedType]);
+  fetchSchemasList(State.typeSrc);
+  fetchSchema(State.selectedType);
+}, [State.typeSrc, State.selectedType]);
 
 const handleApply = () => {
   State.update({
@@ -239,7 +235,39 @@ const handleTypeChange = (e) => {
     selectedType: newType,
     templateVal: "",
     data: {},
+    loading: true,
   });
+  fetchSchema(newType);
+};
+
+const handleSchemaOwnerChange = (e) => {
+  const newTypeSrc = e.target.value;
+  State.update({
+    typeSrc: newTypeSrc,
+  });
+  fetchSchemasList(newTypeSrc);
+};
+
+const renderSchemaSelection = () => {
+  return (
+    <FormContainer>
+      <Label>Schema Owner:</Label>
+      <Input
+        type="text"
+        value={State.typeSrc}
+        onChange={handleSchemaOwnerChange}
+      />
+      <Label>Schema:</Label>
+      <Select value={State.selectedType} onChange={handleTypeChange}>
+        {State.schemasList.map((schema) => (
+          <option key={schema} value={schema}>
+            {schema}
+          </option>
+        ))}
+      </Select>
+      {/* Additional form elements here */}
+    </FormContainer>
+  );
 };
 
 // A function to render properties, adjusted to use stored schemas from the state
