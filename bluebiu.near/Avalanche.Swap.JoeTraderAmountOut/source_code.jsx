@@ -241,12 +241,14 @@ const {
 } = props;
 
 useEffect(() => {
+  if (!updater) return;
   if (
     !inputCurrency.address ||
     !outputCurrency.address ||
+    !quoterAddress ||
+    !routerAddress ||
     !inputCurrencyAmount
   ) {
-    onLoad({});
     return;
   }
 
@@ -307,12 +309,14 @@ useEffect(() => {
         } else {
           onLoad({
             noPair: true,
+            outputCurrencyAmount: "",
           });
         }
       })
       .catch((err) => {
         onLoad({
           noPair: true,
+          outputCurrencyAmount: "",
         });
       });
   };
