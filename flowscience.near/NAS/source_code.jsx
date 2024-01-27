@@ -138,25 +138,32 @@ State.init({
 });
 
 const fetchSchema = (type) => {
-  fetch(`${typeSrc}/type/${type}`, "final")
-    .then((response) => {
-      if (!response) {
-        throw new Error("No response received");
+  const response = fetch(`${typeSrc}/type/${type}`, "final");
+  if (response === null) {
+    // Handle the case where the data is still being fetched
+    console.log("Fetching data...");
+  } else {
+    // Data is fetched, process the response
+    try {
+      // Ensure the response is a JSON string before parsing
+      if (typeof response === "string") {
+        const schema = JSON.parse(response);
+        State.update((prevState) => ({
+          ...prevState,
+          schemas: {
+            ...prevState.schemas,
+            [type]: schema,
+          },
+          loading: false,
+        }));
+      } else {
+        throw new Error("Invalid format: Response is not a JSON string.");
       }
-      const schema = JSON.parse(response);
-      State.update((prevState) => ({
-        ...prevState,
-        schemas: {
-          ...prevState.schemas,
-          [type]: schema,
-        },
-        loading: false,
-      }));
-    })
-    .catch((error) => {
-      console.error("Error fetching schema:", error);
+    } catch (error) {
+      console.error("Error parsing schema:", error);
       State.update({ loading: false });
-    });
+    }
+  }
 };
 
 useEffect(() => {
