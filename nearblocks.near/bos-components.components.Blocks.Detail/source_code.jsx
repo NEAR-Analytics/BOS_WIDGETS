@@ -1851,10 +1851,11 @@ function gasPrice(yacto) {
 
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 function tokenPercentage(
@@ -2217,7 +2218,7 @@ function MainComponent(props) {
             <Skeleton className="h-7" />
           </div>
         ) : (
-          <h1 className="text-xl text-nearblue-600 px-2 py-4">
+          <h1 className="text-xl text-nearblue-600 px-2 py-5">
             {t ? (
               <>
                 {t('blocks:block.heading.0')}
