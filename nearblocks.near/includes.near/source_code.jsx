@@ -46,10 +46,11 @@ export function gasPrice(yacto) {
 
 export function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
-
   const near = Big(amount).div(Big(10).pow(decimal));
-
-  return format ? near.toFixed(8) : near.toFixed(decimal);
+  const formattedValue = format
+    ? near.toFixed(8).replace(/\.?0+$/, '')
+    : near.toFixed(decimal).replace(/\.?0+$/, '');
+  return formattedValue;
 }
 
 export function tokenPercentage(
