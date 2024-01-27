@@ -77,7 +77,15 @@ const handleInputChange = (name, value) => {
 
 const fetchTypeDefinition = (type) => {
   return Social.get(type, "final")
-    .then((response) => (response ? JSON.parse(response) : null))
+    .then((response) => {
+      // Assuming response is a JSON string
+      try {
+        return JSON.parse(response);
+      } catch (error) {
+        console.error("Error parsing response:", error);
+        return null;
+      }
+    })
     .catch((error) => {
       console.error("Error fetching type definition:", error);
       return null;
