@@ -36,7 +36,6 @@ const srcData = `
                 window.parent.postMessage(JSON.stringify({ handler: "add-event"}), '*');
               }
             },
-            // Add a custom button here
             customButton: {
               text: 'Custom Button',
               click: function(e) {
@@ -49,30 +48,45 @@ const srcData = `
           headerToolbar: {
             start: 'title prev,next dayGridMonth list', // will normally be on the left. if RTL, will be on the right
             center: '',
-            // end: 'timeGridDay list' 
             end: 'filterBy addEvent customButton' 
           },
           navLinks: true,
           events: ${JSON.stringify(events)},
           eventClick: function(info) {
             info.jsEvent.preventDefault(); // don't let the browser navigate
-            // Post the event details to the parent window
             window.parent.postMessage(JSON.stringify({ handler: "event-click", data: info.event }), '*');
           },
-
-          // Render the custom button with an icon
           viewDidMount: function () {
             var addEvent = document.querySelector('.fc-addEvent-button');
             addEvent.innerHTML = 'Add Event <i class="bi bi-plus-circle-fill" style="color: white; margin-left: 2px;"></i>';
-        
           }
         })
         calendar.render()
         calendar.gotoDate(new Date(${JSON.stringify(dateToView)}))
       })
     </script>
+    <style>
+      /* Add custom styles here */
+      body {
+        background: linear-gradient(180deg, orange,white, green);
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .footer-img {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: 100px; /* Adjust size as needed */
+        height: auto;
+      }
+    </style>
   </head>
   <body>
+    <div id='calendar'></div>
+    <!-- Add the image in the footer -->
+    <img class="footer-img" src="https://pbs.twimg.com/profile_images/1536928258268090369/hR61y1ae_400x400.jpg" alt="Footer Image">
     <div id='calendar'></div>
   </body>
 </html>
@@ -103,7 +117,6 @@ return (
             }
             break;
           }
-          // Handle the new custom button action
           case "custom-button": {
             if (props.handleCustomButton) {
               props.handleCustomButton();
@@ -115,6 +128,7 @@ return (
       style={{
         height: "100vh",
         width: "100%",
+        border: "none", // Optional: Remove iframe border
       }}
     />
   </>
