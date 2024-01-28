@@ -10,10 +10,10 @@ return (Store, status, name) => {
     responses: {},
     value: "",
     init: () => {
-        API.initDependency({
-          ongoingRequest: {},
-          responses: {},
-        });
+      API.initDependency({
+        ongoingRequest: {},
+        responses: {},
+      });
 
       return API;
     },
@@ -71,6 +71,7 @@ return (Store, status, name) => {
       API.get("responses")[instruction][index].resolve(result),
     isReady: () => API.get("ready"),
     setAsReady: () => API.set("ready", true),
+    testNewFeature: () => {}
   };
 
   return API.init();
