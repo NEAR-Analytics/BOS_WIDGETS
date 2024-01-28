@@ -55,7 +55,9 @@ return (
     </div>
 
     <h3 className="text-center mb-3 text-white">
-      {state.greeting ? `Greetings, ${state.greeting}!` : "Greet the user here"}
+      {state.greeting
+        ? `Greetings, ${state.greeting}!`
+        : `Greet ${state.greeting}!`}
     </h3>
 
     <p className="text-center mb-4 text-white">
