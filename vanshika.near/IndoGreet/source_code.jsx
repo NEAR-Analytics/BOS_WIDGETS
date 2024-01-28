@@ -1,19 +1,16 @@
 const greeting = Near.view(contract, "get_greeting", {});
-const [state, setState] = useState({
-  greeting: "",
-});
 const IMG = styled.img`
 height : 40px;
 `;
 const contract = "greet.vanshika.near";
 
 const onInputChange = ({ target }) => {
-  setState({ greeting: target.value });
+  State.update({ greeting: target.value });
 };
 
 const onBtnClick = () => {
   Near.call(contract, "set_greeting", {
-    greeting: state.greeting,
+    new_greeting: state.greeting,
   });
 };
 
