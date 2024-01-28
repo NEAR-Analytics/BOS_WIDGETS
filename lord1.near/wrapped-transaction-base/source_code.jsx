@@ -17,7 +17,6 @@ SELECT
            ON ADDRESS = TO_ADDRESS
     WHERE STATUS = 'SUCCESS'
         and FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
 
   GROUP BY 1 
   order by 2`,
@@ -36,7 +35,6 @@ SELECT
            ON ADDRESS = TO_ADDRESS
     WHERE STATUS = 'SUCCESS'
         and FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
 
   GROUP BY 1 
   order by 2`,
@@ -68,7 +66,6 @@ FROM base.core.fact_transactions
               left JOIN  base.core.dim_labels
              ON ADDRESS = TO_ADDRESS
 where FROM_ADDRESS='{{singer}}'
-and block_timestamp::date> '2023-01-01'
 GROUP BY 1`,
   },
   {
@@ -82,7 +79,6 @@ SELECT
     FROM base.core.ez_decoded_event_logs 
     WHERE TX_STATUS = 'SUCCESS'
         and ORIGIN_FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
   GROUP BY 1 
   order by 2
 `,
@@ -290,7 +286,7 @@ const hellosinger = {
   height: "110px",
   align: "center",
   brand: "Hello",
-  description: "Thank you for being a valued user of Base throughout 2023",
+  description: "Thank you for being a valued user of Base throughout the years",
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: `${
@@ -495,7 +491,7 @@ const active_days = {
 const min_time = {
   height: "110px",
   align: "center",
-  brand: "First 2023 Transactions",
+  brand: "First Transactions",
   description: `${state.result.query4?.data[0]?.min_time || "0"}`,
   fontsize: "20px",
   fontweight: "25px",
