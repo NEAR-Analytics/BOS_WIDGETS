@@ -1,18 +1,20 @@
+const greeting = Near.view(contract, "get_greeting", {});
 const [state, setState] = useState({
   greeting: "",
 });
 const IMG = styled.img`
 height : 40px;
 `;
-const contract = "greet.vanshika.near";
+const contract = "test.vanshika.testnet";
 
 const onInputChange = ({ target }) => {
   setState({ greeting: target.value });
 };
 
 const onBtnClick = () => {
-  // Replace with your actual Near.call logic
-  console.log(`Setting greeting: ${state.greeting}`);
+  Near.call(contract, "set_greeting", {
+    greeting: state.greeting,
+  });
 };
 
 const greetingForm = (
