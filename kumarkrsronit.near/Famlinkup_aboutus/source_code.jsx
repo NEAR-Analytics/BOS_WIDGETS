@@ -1,7 +1,5 @@
 const styles = {
   page: {
-    backgroundImage:
-      "url(https://i.ibb.co/FH5B8dg/Screenshot-2024-01-28-191432.png)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     height: "95vh",
@@ -38,8 +36,8 @@ const styles = {
     width: "120px",
     margin: "10px 20px",
     padding: "10px",
-    background: "#FF7722",
-    color: "white",
+    background: "#90EE90",
+    color: "black",
     fontWeight: "bold",
     textDecoration: "none",
     borderRadius: "5px",
@@ -69,7 +67,7 @@ function App() {
           >
             web2 site
           </a>
-          &nbsp;&nbsp;
+          &nbsp;&nbsp; <br />
           <a
             href="https://twitter.com/kumarkrsronit"
             target="_blank"
