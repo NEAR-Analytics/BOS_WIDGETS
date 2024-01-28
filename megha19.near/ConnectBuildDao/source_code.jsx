@@ -1,6 +1,6 @@
 const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
-const { children, showActivity, className } = props;
+const { joinBtnChildren, connectedChildren, showActivity, className } = props;
 
 if (!DaoSDK) {
   return <></>;
@@ -146,11 +146,11 @@ const Component = () => {
         </div>
       );
     }
-    return <></>;
+    return <div>{connectedChildren}</div>;
   } else {
     return (
       <button className={className} onClick={handleJoin}>
-        {children}
+        {joinBtnChildren}
       </button>
     );
   }
