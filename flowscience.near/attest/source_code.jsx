@@ -35,7 +35,7 @@ State.init({
 
 // Load available schemas for selection
 useEffect(() => {
-  const schemaOwner = "hyperfiles.near"; // Default schema owner
+  const schemaOwner = "attestations.near"; // Default schema owner
   const schemas = fetch(`${schemaOwner}/type/**`, "final");
   if (schemas) {
     State.update({
