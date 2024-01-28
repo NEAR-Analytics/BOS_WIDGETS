@@ -3,7 +3,8 @@ const BoatTicket = styled.div`
   background-color: white;
   color: black;
   padding: 20px;
-  width: 600px; /* or any suitable width */
+  width:90%;
+  max-width: 600px; 
   font-family: 'Courier', sans-serif;
   margin: auto;
 `;
