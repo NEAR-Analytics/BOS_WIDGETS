@@ -149,7 +149,7 @@ const Component = () => {
     return <></>;
   } else {
     return (
-      <button className={className ?? "custom-button"} onClick={handleJoin}>
+      <button className={className} onClick={handleJoin}>
         {children}
       </button>
     );
