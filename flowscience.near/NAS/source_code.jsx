@@ -3,7 +3,7 @@ const type = props.type || "";
 const record = props.file || "hyperfiles.near/type/attestation";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
 const schemaType = props.schema || "hyperfiles.near/type/schema";
-const typeSrc = props.typeSrc || "hyperfiles.near";
+const typeSrc = props.typeSrc || "attestations.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "every.near/type/thing";
@@ -281,7 +281,7 @@ const renderProperties = (properties, data, onChange) => {
   return properties.map((property) => {
     const propertyType = property.type;
     if (
-      propertyType.startsWith("hyperfiles.near/type/") &&
+      propertyType.startsWith("${schemaSrc}.near/type/") &&
       state.schemas[propertyType]
     ) {
       // Use the stored schema from the state
@@ -365,7 +365,7 @@ return (
                 handleOnChange
               )}
             <Widget
-              src="flowscience.near/widget/create"
+              src="flowscience.near/widget/attest"
               props={{
                 item: {
                   type: state.selectedType,
