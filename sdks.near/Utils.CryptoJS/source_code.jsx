@@ -193,7 +193,6 @@ return (Store, status) => {
         );
       },
     },
-    testing: {},
   };
 
   return CryptoJS;
