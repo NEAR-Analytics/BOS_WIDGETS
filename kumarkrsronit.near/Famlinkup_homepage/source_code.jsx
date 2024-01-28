@@ -89,8 +89,7 @@ function Banner() {
       >
         Twitter
       </a>
-      <p style={paragraph}>You can tip me on - kumarkrsronit.near</p>© 2024
-      @FamLinkup
+      <p style={paragraph}>You can tip me on - kumarkrsronit.near</p>
     </div>
   );
 }
