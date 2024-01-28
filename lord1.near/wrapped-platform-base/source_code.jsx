@@ -26,7 +26,6 @@ const queries = [
            ON ADDRESS = TO_ADDRESS
     WHERE STATUS = 'SUCCESS'
         and FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
 
   GROUP BY 1 
   order by 2`,
@@ -53,7 +52,6 @@ const queries = [
            ON ADDRESS = TO_ADDRESS
     WHERE STATUS = 'SUCCESS'
         and FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
 
   GROUP BY 1 
   order by 2`,
@@ -81,7 +79,6 @@ const queries = [
     WHERE STATUS = 'SUCCESS'
         and FROM_ADDRESS='{{singer}}'
     and LABEL_SUBTYPE in ('token_contract','nf_token_contract')
-        and block_timestamp::date> '2023-01-01'
 
   GROUP BY 1 
   order by 2`,
@@ -155,7 +152,6 @@ const queries = [
     FROM base.core.fact_transactions 
  WHERE STATUS = 'SUCCESS'
     and FROM_ADDRESS = lower('{{singer}}')    
-    and BLOCK_TIMESTAMP::date >='2023-01-01' 
   GROUP BY 1 
   order by 1 asc `,
   },
