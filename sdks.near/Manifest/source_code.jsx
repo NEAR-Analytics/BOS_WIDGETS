@@ -12,6 +12,7 @@ return {
       requests: resolve("SDKs.Lens.Requests"),
       utils: resolve("SDKs.Lens.Helpers"),
       queries: resolve("SDKs.Lens.Queries"),
+      types: resolve("SDKs.Lens.Types")
     },
     "lens-sdk": "SDKs.Lens.LensSDK",
     "light-client": "SDKs.LightClient",
@@ -20,20 +21,17 @@ return {
     "near-utils": resolve("Utils.Near"),
     "near-fs": "Utils.NearFS",
     "ens-resolver": "Utils.Ethereum.ENSResolver",
-    utils: resolve("Utils."),
-    abstracts: resolve("Abstracts."),
     "crypto-js": ["Abstracts.ExternalDependency", "Utils.CryptoJS"],
+    utils: ["Abstracts.ExternalDependency", ...resolve("Utils.")],
+    abstracts: resolve("Abstracts."),
     blockies: ["Abstracts.ExternalDependency", "Utils.Blockies"],
+    "routes-manager": "Utils.RoutesManager",
+    sputnik: ["SDKs.Sputnik.DaoSDK"],
+    multisig: ["SDKs.Near.MultiSigSDK"]
   },
   links: {
     telegram: "@OxMattB",
     twitter: "@0xMattB",
-    near: "@mattb.near",
-  },
-  releases: {
-    "crypto-js": {
-      alpha: "111491053",
-      beta: "111491331",
-    },
-  },
+    near: "@mattb.near"
+  }
 };
