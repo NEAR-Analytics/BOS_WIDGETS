@@ -173,7 +173,7 @@ const transfer = () => {
       args: {
         receiver_id: state.receiverId,
         token_id: state.tokenId,
-        msg: "nft burn",
+        msg: "nft burn via Sail",
       },
       gas: gas ?? 200000000000000,
       deposit: deposit ?? 10000000000000000000000,
@@ -231,7 +231,7 @@ return (
         <label>Burn Address</label>
         <input
           type="text"
-          placeholder={state.receiverId}
+          placeholder="0x64"
           onChange={(e) => onChangeReceiver(e.target.value)}
           readOnly
         />
