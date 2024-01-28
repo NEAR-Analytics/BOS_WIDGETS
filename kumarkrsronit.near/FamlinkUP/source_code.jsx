@@ -9,7 +9,7 @@ const App = () => {
     },
 
     navbar: {
-      backgroundColor: "#0D0115",
+      backgroundColor: "#90EE90",
       display: "flex",
       justifyContent: "space-between",
       padding: "40px",
