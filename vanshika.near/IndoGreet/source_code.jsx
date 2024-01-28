@@ -5,7 +5,7 @@ const [state, setState] = useState({
 const IMG = styled.img`
 height : 40px;
 `;
-const contract = "test.vanshika.testnet";
+const contract = "greet.vanshika.near";
 
 const onInputChange = ({ target }) => {
   setState({ greeting: target.value });
