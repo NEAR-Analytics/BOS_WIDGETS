@@ -33,7 +33,7 @@ return {
   releases: {
     "crypto-js": {
       alpha: "111491053",
-      beta: "111491331"
+      beta: "111491331",
     },
   },
 };
