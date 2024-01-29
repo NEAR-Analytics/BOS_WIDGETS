@@ -319,7 +319,7 @@ return (
                 </svg>
               </button>
             </li>
-            {state.list.length > 0 && handlePagination().buttons.length > 6 ? (
+            {handlePagination().buttons.length > 5 ? (
               handlePagination().buttons.map((btn, i) => {
                 return (
                   <li key={i} className="page-item">
