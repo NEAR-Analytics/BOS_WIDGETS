@@ -25,6 +25,9 @@ const RefreshText = styled.div`
   font-size: 14px;
   font-weight: 400;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 const ArrowIcon = styled.div`
   transform: rotate(180deg);
@@ -41,6 +44,7 @@ if (props.chainId === -1) return <div />;
 const filteredTxs = txs.filter(
   (tx) => tx.fromChainId === props.chainId || tx.toChainId === props.chainId
 );
+let count = 0;
 return (
   <Transactions>
     <Header>
@@ -53,9 +57,21 @@ return (
           State.update({
             update: Date.now(),
           });
+          count = 0;
         }}
       >
-        <RefreshText>Refresh</RefreshText>
+        <RefreshText>
+          {" "}
+          {count !== filteredTxs.length && (
+            <Widget
+              src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+              props={{
+                size: 16,
+              }}
+            />
+          )}
+          Refresh
+        </RefreshText>
         <ArrowIcon>
           <Widget
             src="bluebiu.near/widget/Arbitrum.Swap.ArrowIcon"
@@ -73,6 +89,9 @@ return (
             tx,
             onDelete,
             update: state.update,
+            onUpdate: () => {
+              count++;
+            },
           }}
         />
       ))}
