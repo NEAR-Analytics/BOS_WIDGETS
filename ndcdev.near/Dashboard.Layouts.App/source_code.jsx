@@ -14,6 +14,7 @@ return (
     <Container>
       <Widget src={`ndcdev.near/widget/Dashboard.Components.NavBar.index`} />
       {children}
+      <Widget src={`ndcdev.near/widget/Dashboard.Components.Footer.index`} />
     </Container>
   </Theme>
 );
