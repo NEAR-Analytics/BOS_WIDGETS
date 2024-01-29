@@ -12,10 +12,7 @@ State.init({
   amount: state.amount,
   tokenAddress: state.tokenAddress || "",
   error: state.error,
-  description: state.description,
-  notificationsData: {},
-  ftMetadata: null,
-  storage: undefined
+  description: state.description
 });
 
 function isNearAddress(address) {
@@ -59,14 +56,15 @@ const handleProposal = () => {
     decimals: 24
   };
   if (state.tokenAddress !== "") {
-    ftMetadata = state.ftMetadata;
+    ftMetadata = Near.view(state.tokenAddress, "ft_metadata", {});
+    if (ftMetadata === null) return null;
   }
 
   const amountInYocto = Big(state.amount)
     .mul(Big(10).pow(ftMetadata.decimals))
     .toFixed();
 
-  const calls = [
+  Near.call([
     {
       contractName: daoId,
       methodName: "add_proposal",
@@ -85,47 +83,8 @@ const handleProposal = () => {
       gas: gas,
       deposit: deposit
     }
-  ];
-  if (state.storage === null && state.tokenAddress) {
-    const depositInYocto = Big(0.125).mul(Big(10).pow(24)).toFixed();
-    calls.push({
-      contractName: state.tokenAddress,
-      methodName: "storage_deposit",
-      args: {
-        account_id: state.receiver_id,
-        registration_only: true
-      },
-      gas: gas,
-      deposit: depositInYocto
-    });
-  }
-  if (state.notificationsData) {
-    calls.push(state.notificationsData);
-  }
-
-  Near.call(calls);
+  ]);
 };
-
-useEffect(() => {
-  if (
-    state.tokenAddress &&
-    state.receiver_id &&
-    isNearAddress(state.receiver_id)
-  ) {
-    Near.asyncView(state.tokenAddress, "ft_metadata", {}).then((ftMetadata) => {
-      State.update({
-        ftMetadata
-      });
-    });
-    Near.asyncView(state.tokenAddress, "storage_balance_of", {
-      account_id: state.receiver_id
-    }).then((storage) => {
-      State.update({
-        storage
-      });
-    });
-  }
-}, [state.receiver_id, state.tokenAddress]);
 
 const onChangeRecipient = (receiver_id) => {
   State.update({
@@ -224,33 +183,17 @@ const res = useCache(
 );
 
 if (!res) {
-  return <Widget src="nearui.near/widget/Feedback.Spinner" />;
+  return <></>;
 }
 
-const Container = styled.div`
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-  }
-`;
-
 return (
-  <Container>
+  <>
     <div className="mb-3">
       <h5>Recipient</h5>
-      <Widget
-        src={
-          "astraplusplus.ndctools.near/widget/DAO.Proposal.Common.AccountAutoComplete"
-        }
-        props={{
-          placeholder: "Specify target account",
-          accountId: state.receiver_id,
-          onChange: onChangeRecipient
-        }}
+      <input
+        type="text"
+        onChange={(e) => onChangeRecipient(e.target.value)}
+        placeholder="Specify target account"
       />
     </div>
     <div className="mb-3">
@@ -282,27 +225,15 @@ return (
     <div className="mb-3">
       <h5>Description</h5>
       <Widget
-        src={"devhub.near/widget/devhub.components.molecule.Compose"}
+        src="sking.near/widget/Common.Inputs.Markdown"
         props={{
-          data: state.description,
-          onChange: onChangeDescription,
-          autocompleteEnabled: true,
-          autoFocus: false,
-          placeholder: defaultDescription
+          onChange: (value) => onChangeDescription(value),
+          height: "270px",
+          initialText: defaultDescription
         }}
       />
     </div>
-    <Widget
-      src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.NotificationRolesSelector"
-      props={{
-        daoId: daoId,
-        dev: props.dev,
-        onUpdate: (v) => {
-          State.update({ notificationsData: v });
-        },
-        proposalType: "Transfer"
-      }}
-    />
+
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
       <Widget
@@ -325,5 +256,5 @@ return (
         />
       )}
     </div>
-  </Container>
+  </>
 );
