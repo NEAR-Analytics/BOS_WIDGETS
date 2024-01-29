@@ -279,6 +279,13 @@ const updateMarketPrice = () => {
   }
 };
 
+let tokenImage =
+  "https://plum-dear-manatee-739.mypinata.cloud/ipfs/Qme6bjSGWP8vjXqrXgbjHCNSwrc16cPYTREbo9aL2Uuuok";
+if (state.orderMarketId == "BTC-USD") {
+  tokenImage =
+    "https://assets.coingecko.com/coins/images/1/standard/bitcoin.png";
+}
+
 const getNetwork = () => {
   let network_config = {
     env: "dydx-testnet-4",
@@ -384,7 +391,7 @@ const isOrderOpen = () => [orderOpen].includes(state.orderFilter);
 const isOrderFilled = () => [orderFilled].includes(state.orderFilter);
 const isOrderCancelled = () => [orderCancelled].includes(state.orderFilter);
 
-if (state.dydx_account == undefined && state.chainId == defaultChainId) {
+const SignInWithMetamask = () => {
   const toSign = {
     domain: {
       name: "dYdX V4",
@@ -399,14 +406,18 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
     },
   };
 
-  return getWalletFromEvmSignature(
+  /*return getWalletFromEvmSignature(
     "0x7eb5d09152acb9662b30d9bceb6e2142d5876439cbc9983df598c364b48f7eb76d41fc70436d93ad4875d307c891d104a3e8e33d23c17d041af4e0bb1057b6031c"
-  );
+  );*/
 
   Ethers.provider()
     .getSigner()
     ._signTypedData(toSign.domain, { dYdX: toSign.types.dYdX }, toSign.message)
     .then((signature) => getWalletFromEvmSignature(signature));
+};
+
+if (state.dydx_account == undefined && state.chainId == defaultChainId) {
+  SignInWithMetamask();
 } else {
   if (!!state.chainId && state.chainId !== defaultChainId) {
     return (
@@ -514,10 +525,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                 <div class="inputs">
                   <div class="div-2">
                     <div class="token-label">
-                      <img
-                        class="img"
-                        src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/Qme6bjSGWP8vjXqrXgbjHCNSwrc16cPYTREbo9aL2Uuuok"
-                      />
+                      <img class="img" src={tokenImage} />
                       <div class="text-wrapper-4">Amount</div>
                     </div>
                     <div class="amount">
@@ -536,10 +544,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                   {state.orderType == "LIMIT" && (
                     <div class="div-2">
                       <div class="token-label">
-                        <img
-                          class="img"
-                          src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/Qme6bjSGWP8vjXqrXgbjHCNSwrc16cPYTREbo9aL2Uuuok"
-                        />
+                        <div class="img" />
                         <div class="text-wrapper-4">Price</div>
                       </div>
                       <div class="amount">
@@ -577,7 +582,15 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                 <div class="summary">
                   <div class="div-3">
                     <div class="text-wrapper-7">Market price</div>
-                    <div class="text-wrapper-8">${state.orderPrice}</div>
+                    <div
+                      class="text-wrapper-8"
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        State.update({ userOrderPrice: state.orderPrice })
+                      }
+                    >
+                      ${state.orderPrice}
+                    </div>
                   </div>
                 </div>
                 <div class="CTA">
@@ -605,7 +618,23 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     class="img"
                     src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmbEJL2wNjLQ948Sa6fwvoidRWVWULeaXJsFYpNZ9qG9Kh"
                   />
-                  <div class="title">Orders log</div>
+                  <div class="title">
+                    Orders log{" "}
+                    <select
+                      aria-label="Select a pair"
+                      onChange={(e) => {
+                        State.update({
+                          orderMarketId: e.target.value,
+                        });
+                        updateOrders();
+                      }}
+                    >
+                      <option value="BTC-USD">BTC-USD</option>
+                      <option value="ETH-USD" selected>
+                        ETH-USD
+                      </option>
+                    </select>
+                  </div>
                   <div class="refresh">
                     <div
                       class="text-wrapper-3 btn-refresh"
@@ -661,8 +690,11 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                   )}
 
                   {(state.orders ?? [])
-                    .filter((order) =>
-                      [state.orderFilter].includes(order.status)
+                    .filter(
+                      (order) =>
+                        [state.orderFilter].includes(order.status) &&
+                        order.ticker.toLowerCase() ==
+                          state.orderMarketId.toLowerCase()
                     )
                     .map((order) => (
                       <div class="transaction">
@@ -730,194 +762,17 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
           </div>
         </div>
       </div>
-
-      {state.account.address && (
-        <div>
-          <h2>Account Details</h2>
-          <div>
-            <div>Address: {state.account.address}</div>
-            <div>Equity: ${state.account.equity}</div>
-            <div>Free Collateral: ${state.account.freeCollateral}</div>
-
-            {Object.keys(state.account.openPerpetualPositions ?? []).length >
-              0 && (
-              <>
-                <h2 class="mt-5">Open Perpetual Positions</h2>
-                {Object.keys(state.account.openPerpetualPositions ?? []).map(
-                  (ticker) => {
-                    let order = state.account.openPerpetualPositions[ticker];
-                    return (
-                      <div class="mb-2">
-                        <OrderSide side={order.side}>{order.side}</OrderSide>
-                        <OrderMarket>
-                          {ticker} at ${Big(order.entryPrice).toFixed(4)}
-                        </OrderMarket>{" "}
-                        <OrderSize> Size: {order.size}</OrderSize>
-                        {order.createdAt
-                          ? new Date(order.createdAt).toLocaleString()
-                          : ""}
-                        <OrderSize>
-                          Realized PNL: {new Big(order.realizedPnl).toFixed(4)}
-                        </OrderSize>
-                        <OrderSize>
-                          Unrealized PNL:{" "}
-                          {new Big(order.unrealizedPnl).toFixed(4)}
-                        </OrderSize>
-                      </div>
-                    );
-                  }
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      <div>
-        <h2 class="mt-5">Place Order</h2>
-        <div class="mb-3 row">
-          <label for="orderPrice" class="col-sm-2 col-form-label">
-            Type
-          </label>
-          <div class="col-sm-10">
-            <select
-              class="form-select"
-              aria-label="Select a pair"
-              onChange={(e) => State.update({ orderType: e.target.value })}
-            >
-              <option value="LIMIT" selected>
-                Limit
-              </option>
-              <option value="MARKET">Market</option>
-            </select>
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="orderPrice" class="col-sm-2 col-form-label">
-            Pair
-          </label>
-          <div class="col-sm-10">
-            <select
-              class="form-select"
-              aria-label="Select a pair"
-              onChange={(e) => {
-                State.update({
-                  orderMarketId: e.target.value,
-                });
-                updateOrders();
-              }}
-            >
-              <option value="BTC-USD">BTC-USD</option>
-              <option value="ETH-USD" selected>
-                ETH-USD
-              </option>
-            </select>
-          </div>
-        </div>
-        {state.orderType == "LIMIT" && (
-          <div class="mb-3 row">
-            <label for="orderPrice" class="col-sm-2 col-form-label">
-              Price
-            </label>
-            <div class="col-sm-10">
-              <input
-                type="text"
-                class="form-control"
-                id="orderPrice"
-                value={state.userOrderPrice}
-                onChange={(e) =>
-                  State.update({ userOrderPrice: e.target.value })
-                }
-              />
-              Current price: {state.orderPrice}
-            </div>
-          </div>
-        )}
-        <div class="mb-3 row">
-          <label for="orderSize" class="col-sm-2 col-form-label">
-            Size
-          </label>
-          <div class="col-sm-10">
-            <input
-              type="text"
-              class="form-control"
-              id="orderSize"
-              value={state.orderSize}
-              onChange={(e) => State.update({ orderSize: e.target.value })}
-            />
-          </div>
-        </div>
-
-        <div class="mb-3 row">
-          <div class="col">
-            <button
-              class="btn btn-success"
-              onClick={() => placeUserOrder("BUY")}
-            >
-              Buy
-            </button>
-            <button
-              class="btn btn-danger"
-              onClick={() => placeUserOrder("SELL")}
-            >
-              Sell
-            </button>
-          </div>
-        </div>
-      </div>
-      <div>
-        {(state.orders ?? []).length == 0 && <div>Orders were not found</div>}
-        {(state.orders ?? []).length > 0 && (
-          <>
-            <h2 class="mt-5">Orders Log</h2>
-            {(state.orders ?? []).map((order) => (
-              <div class="mb-2">
-                {/*JSON.stringify(order)*/}
-                <OrderSide side={order.side}>{order.side}</OrderSide>
-                {order.status}
-                <OrderMarket>
-                  {order.ticker} at ${order.price}
-                </OrderMarket>{" "}
-                <OrderSize>
-                  {" "}
-                  Size: {order.size} / Filled: {order.totalFilled}
-                </OrderSize>
-                {order.updatedAt
-                  ? new Date(order.updatedAt).toLocaleString()
-                  : ""}
-                {order.status == "OPEN" && (
-                  <OrderAction>
-                    <button
-                      type="button"
-                      class="btn-close btn-danger"
-                      aria-label="Close"
-                      onClick={() => {
-                        cancelUserOrder(order.clientId, 64, order.ticker);
-                      }}
-                    ></button>
-                  </OrderAction>
-                )}
-              </div>
-            ))}
-          </>
-        )}
-      </div>
-      <button
-        onClick={() => {
-          updateOrders();
-        }}
-      >
-        Refresh
-      </button>
-      <hr />
-      {/*state:
-      {JSON.stringify(state)}*/}
     </Theme>
   );
 }
 
 return (
   <>
-    Ethereum Account: {state.sender}
+    <h1>DyDx v4</h1>
+    <h4>Sign message with Metamask to sign in</h4>
+    <button onClick={() => SignInWithMetamask()}>Sign In</button>
+    <hr />
+    <div>Your Ethereum Account: {state.sender}</div>
     <Web3Connect connectLabel="Connect Web3 Wallet to continue" />
   </>
 );
