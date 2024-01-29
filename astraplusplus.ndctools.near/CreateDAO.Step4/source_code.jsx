@@ -44,7 +44,7 @@ for (const role of initialAnswers.policy.roles) {
 const initialState = {
   roles: initialAnswers.policy.roles.length
     ? initialAnswers.policy.roles.map((r) => r.name)
-    : ["council", "all"],
+    : ["council"],
   members: initialMembers.length
     ? initialMembers
     : [{ role: "council", name: accountId }]
@@ -91,7 +91,7 @@ const onAddEmptyMember = () => {
       ...state.answers,
       members: [
         ...state.answers.members,
-        { name: "", role: state.answers.roles.filter((i) => i !== "all")[0] }
+        { name: "", role: state.answers.roles[1] }
       ]
     }
   });
@@ -145,13 +145,6 @@ const finalState = {
     roles: state.answers.roles
       .filter((role, i) => role !== null && role !== "")
       .map((role, i) => {
-        if (role === "all")
-          return {
-            name: role,
-            permissions: formState.policy.roles[i]?.permissions ?? [],
-            kind: "Everyone",
-            vote_policy: formState.policy.roles[i]?.vote_policy || {}
-          };
         return {
           name: role,
           kind: {
@@ -159,11 +152,10 @@ const finalState = {
               .filter((m) => m.role === role && m !== null && m.name !== "")
               .map((m) => m.name)
           },
-          permissions: isConfigScreen
-            ? formState.policy.roles[i].permissions ?? []
-            : formState.policy.roles[i]?.permissions || role === "council"
-            ? ["*:*"]
-            : [],
+          permissions:
+            formState.policy.roles[i]?.permissions || role === "council"
+              ? ["*:*"]
+              : [],
           vote_policy: formState.policy.roles[i]?.vote_policy || {}
         };
       })
@@ -219,10 +211,9 @@ return (
           <div>
             <h3 className="h6 fw-bold">Add Groups</h3>
             <p className="text-black-50 fw-light small">
-              You can add members and assign them various roles, with
-              permissions customizable in the next step. The 'All' group
-              includes everyone; you can remove it if you wish to limit
-              interactions to selected individuals within your DAO.
+              Adding groups to DAO during creation is not supported using web
+              based wallets. Anyway, you can add more groups later in DAO
+              settings
             </p>
           </div>
           <Widget
@@ -368,7 +359,7 @@ return (
                     placeholder: "Role",
                     size: "lg",
                     options: state.answers.roles
-                      .filter((r) => r !== null && r !== "" && r !== "all")
+                      .filter((r) => r !== null && r !== "")
                       .map((r) => ({
                         title: r,
                         value: r
