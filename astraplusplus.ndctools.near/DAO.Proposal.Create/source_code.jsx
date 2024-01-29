@@ -195,6 +195,7 @@ const Wrapper = styled.div`
     line-height: 1.4;
     font-weight: 400;
     font-size: 15px;
+    color: #868682;
     margin: 0;
   }
 
@@ -278,6 +279,7 @@ return (
         error: undefined
       }}
     />
+    {console.log(state.daoPolicy)}
     <div className="d-flex flex-column gap-2">
       {["Text", "TextSuper", "Vote", "Budget", "Motion"].includes(
         state.proposalType.value
@@ -337,8 +339,7 @@ return (
           props={{
             daoId,
             onClose,
-            proposalType: state.proposalType.value,
-            dev: props.dev
+            proposalType: state.proposalType.value
           }}
         />
       )}
