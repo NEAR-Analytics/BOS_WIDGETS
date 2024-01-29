@@ -1,6 +1,6 @@
 const styles = {
   bannerImage: {
-    width: "30%",
+    width: "9%",
     height: "auto",
     margin: "0",
     padding: "20px",
@@ -14,8 +14,8 @@ const styles = {
     width: "120px",
     margin: "10px 20px",
     padding: "10px",
-    background: "#FF7722",
-    color: "white",
+    background: "white",
+    color: "orange",
     fontWeight: "bold",
     textDecoration: "none",
     borderRadius: "5px",
@@ -46,16 +46,10 @@ function Banner() {
         {" "}
         Welcome to our site we will let you know about all the near wallet
         options available and where can you stake your near tokens to earn the
-        rewards{" "}
+        rewards 💲💲💲{" "}
       </h1>
-      <img
-        src="https://i.ibb.co/hK6XCMJ/61a88f6b006c1e7b4f8d8afd-Meta-Image-1200x631.png"
-        alt="61a88f6b006c1e7b4f8d8afd-Meta-Image-1200x631"
-        height
-        style={styles.bannerImage}
-      />
       <br />
-      <h1> What is staking??? </h1>
+      <h1> What is staking??? 🤔 </h1>
       <h3>
         {" "}
         Staking in cryptocurrency refers to the process of participating in the
@@ -64,51 +58,82 @@ function Banner() {
         network's operations and secure transactions.
       </h3>
       <br />
-      <h1> Wallets to load your fund for staking them </h1>
-      <p style={paragraph}>
-        Lets connect with family and friends in real environment..
-        <br />
-        <br />
-        FamLinkUp is a platform where people of different intersts can come
-        together and share their feeling with each other. They can connect ,
-        text , post their thoughts and join the irl events.
-      </p>
-      <br /> <br />
-      <p>Explore our web2 site till we are shifting it to near.org :</p>
+      <h1> Wallets to load your fund for staking them.. </h1>
+      <div style={containerStyle}>
+        <h3>
+          {" "}
+          🥳🥳 Well you can get a free name wallet powered by near india and
+          shardog 🥳🥳{" "}
+        </h3>
+        <img
+          src="https://i.ibb.co/YNw7Ckv/photo-2022-06-15-12-02-28.jpg"
+          alt="photo-2022-06-15-12-02-28"
+          style={styles.bannerImage}
+        />
+        <a
+          href="https://shard.dog/nearindia"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.button}
+        >
+          Click Here
+        </a>
+
+        <h1> Other ways to get ownward on near 💲💲 </h1>
+        <img
+          src="https://i.ibb.co/FD35G5v/G31y-DGOS-400x400.jpg"
+          alt="mYNEARWALLET"
+          style={styles.bannerImage}
+        />
+        <a
+          href="https://app.mynearwallet.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.button}
+        >
+          MynearWallet
+        </a>
+      </div>
+      <img
+        src="https://i.ibb.co/XJ9BykJ/Screenshot-2024-01-29-181133.png"
+        alt="Screenshot-2024-01-29-181133"
+        style={styles.bannerImage}
+      />
       <a
-        href="https://socialbook-abhay2131.onrender.com/"
+        href="https://www.herewallet.app/"
         target="_blank"
         rel="noopener noreferrer"
         style={styles.button}
       >
-        FamLinkUp
+        Here Wallet
       </a>
-      &nbsp;&nbsp;
-      <a
-        href="https://socialbook-abhay2131.onrender.com/mainsite"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={styles.button}
-      >
-        Mainsite
-      </a>
-      &nbsp;&nbsp;
+      &nbsp;
+      <img
+        src="https://i.ibb.co/Svq8r9L/download-1.png"
+        alt="download-1"
+        style={styles.bannerImage}
+      />
       <a
         href="https://github.com/abhay2131/socialbook"
         target="_blank"
         rel="noopener noreferrer"
         style={styles.button}
       >
-        Github
+        Sender
       </a>
-      &nbsp;&nbsp;
+      &nbsp;
+      <img
+        src="https://i.ibb.co/HhxqfYk/download-2.jpg"
+        alt="download-2"
+        style={styles.bannerImage}
+      />
       <a
-        href="https://twitter.com/kumarkrsronit"
+        href="https://wallet.meteorwallet.app/wallet"
         target="_blank"
         rel="noopener noreferrer"
         style={styles.button}
       >
-        Twitter
+        Meteorwallet
       </a>
       <p style={paragraph}>You can tip me on - kumarkrsronit.near</p>
     </div>
