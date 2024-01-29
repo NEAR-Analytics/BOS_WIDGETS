@@ -6,8 +6,8 @@ const { normalize } = VM.require("buildbox.near/widget/utils.stringUtils") || {
   normalize: (s) => s,
 };
 
+const app = props.app || "buildbox";
 const type = props.type || "project";
-const app = props.app || "test";
 
 const accountId = context.accountId;
 
@@ -76,6 +76,7 @@ const Label = styled.label`
   font-weight: bold;
   display: block;
   margin-bottom: 8px;
+  font-size: 24px;
 `;
 
 const Subtext = styled.p`
@@ -202,18 +203,20 @@ const handleSubmit = () => {
     {
       post: {
         main: JSON.stringify({
-          text: `I've just created a ${type}! #build #${app} #${type} \n\n[EMBED](buildbox.near/widget/post.embed?${type}=${path})\n\n`,
+          text: `I've just submitted a ${type} to Abstraction Hacks! #build #${type} #abstraction #hack \n\n[EMBED](${path})\n\n`,
           image: "",
           type: "md",
         }),
       },
       index: {
-        post: JSON.stringify({ key: app, value: { type: "md" } }),
+        post: JSON.stringify({ key: "main", value: { type: "md" } }),
       },
       [app]: {
         [type]: {
           [id]: {
             "": JSON.stringify({
+              title,
+              description,
               tracks,
               teammates,
               projectLink,
@@ -227,7 +230,7 @@ const handleSubmit = () => {
               description,
               image,
               backgroundImage,
-              type: `every.near/type/${type}`, // for later
+              type: `buildbox.near/type/${type}`, // for later
               tags,
             },
           },
@@ -251,13 +254,13 @@ const handleSubmit = () => {
   );
 };
 
-const pageDescription = `Congratulations for making it here! Please be sure to fill out all of the following fields in the suggested format so we can efficiently review them in the most efficient way.
+const pageDescription = `Congratulations for making it here! Please be sure to fill out all of the following fields in the suggested format so we can review them in the most efficient way.
 
 To be eligible for the Abstraction Hacks prize, you must:
 
-- Submit to only one team for General Prize. For Mintbase, Potluck you can submit multiple.
-- Have a public GitHub repository with a readme.md file.
-- Include a video to a demo in your readme.md file.
+- Submit to only one team for General Prize. For Mintbase, Potlock you can submit multiple.
+- Have a public GitHub repository with a README.md file.
+- Include a video to a demo in your README.md file.
 - If submitting a previous project, you must have made significant changes during the hackathon.
 - Specify which bounties you are tackling
 
@@ -265,7 +268,7 @@ To be eligible for the Abstraction Hacks prize, you must:
 
 - Submit to only one team: You may not submit the same project to multiple teams.
 - Public GitHub repository: Your GitHub repository must be public so that the judges can view your code.
-- Readme.md file: Your readme.md file should include a description of your project, how to run it, and any other relevant information.
+- README.md file: Your README.md file should include a description of your project, how to run it, and any other relevant information.
 - Video to a demo: Your video demo should show your project in action.
 - Significant changes: If submitting a previous project, you must have made significant changes during the hackathon and provide proof of what you changed during the hackathon. This could includes adding dates and timestamps of any code written before and after the hackathon (ie: adding new features, improving the performance of your code, or fixing bugs).`;
 
@@ -293,7 +296,9 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description">
+          Description<span className="text-danger">*</span>
+        </Label>
         <Subtext>
           1-2 paragraphs explaining what did you build and what problem(s) does
           it solve?
@@ -307,7 +312,9 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label>Tracks</Label>
+        <Label>
+          Tracks<span className="text-danger">*</span>
+        </Label>
         <Subtext>Check the tracks you are opting in for</Subtext>
         <CheckboxGroup>
           {[
@@ -333,7 +340,9 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label htmlFor="teammates">Teammates</Label>
+        <Label htmlFor="teammates">
+          Teammates<span className="text-danger">*</span>
+        </Label>
         <Subtext>@ the near addresses of your teammates</Subtext>
         <Input
           name="teammates"
@@ -347,6 +356,7 @@ return (
       <FormGroup>
         <Label htmlFor="projectLink">
           Project's Public Github w/ Readme.md
+          <span className="text-danger">*</span>
         </Label>
         <Subtext>{/*Put a URL of your project*/}</Subtext>
         <Input
@@ -359,7 +369,9 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label htmlFor="demoLink">Demo Link</Label>
+        <Label htmlFor="demoLink">
+          Demo Link<span className="text-danger">*</span>
+        </Label>
         <Subtext>Keep it under two minutes</Subtext>
         <Input
           id="demoLink"
@@ -390,7 +402,9 @@ return (
         </span>
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="learning">What did you learn</Label>
+        <Label htmlFor="learning">
+          What did you learn?<span className="text-danger">*</span>
+        </Label>
         <Subtext></Subtext>
         <Textarea
           name="learning"
@@ -401,7 +415,10 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label htmlFor="referrer">How did you hear about this hackathon?</Label>
+        <Label htmlFor="referrer">
+          How did you hear about this hackathon?
+          <span className="text-danger">*</span>
+        </Label>
         <Subtext>
           ie: Developer DAO, 100x Devs, BuildDAO, NEAR DevHub, etc...
         </Subtext>
@@ -431,7 +448,19 @@ return (
       </ConsentContainer>
       <SubmitButton
         onClick={handleSubmit}
-        disabled={!title || !contactInfo || !consentChecked || !isEmailValid}
+        disabled={
+          !title ||
+          !description ||
+          tracks.length === 0 ||
+          !teammates ||
+          !projectLink ||
+          !demoLink ||
+          !contactInfo ||
+          !referrer ||
+          !learning ||
+          !consentChecked ||
+          !isEmailValid
+        }
       >
         Submit
       </SubmitButton>
