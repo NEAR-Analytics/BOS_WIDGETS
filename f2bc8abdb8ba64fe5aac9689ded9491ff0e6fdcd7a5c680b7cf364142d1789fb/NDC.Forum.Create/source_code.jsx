@@ -108,7 +108,7 @@ function getInitialMarkdownBody() {
   } else {
     return state.initialBody == "" || !state.initialBody
       ? "Post content (markdown supported)"
-      : state.initalBody;
+      : state.initialBody;
   }
 }
 
