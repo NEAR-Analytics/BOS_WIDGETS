@@ -1,10 +1,10 @@
 
-const { assets } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+const { assets, socialLinks } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
 const { Text, Logo, Social } = VM.require(
   `ndcdev.near/widget/Dashboard.Pages.NotFound.styled`,
 );
 
-if (!Text || !Logo || !Social || !assets)
+if (!Text || !Logo || !Social || !assets || !socialLinks)
   return <Widget src="flashui.near/widget/Loading" />;
 
 return (
@@ -17,13 +17,13 @@ return (
       Join to our social
     </Text>
     <Social>
-      <a href="https://near.org" target="_blank">
+      <a href={socialLinks.near} target="_blank">
         <img src={assets.nearLogo} />
       </a>
-      <a href="https://twitter.com/nearprotocol" target="_blank">
+      <a href={socialLinks.twitter} target="_blank">
         <img src={assets.twitterLogo} />
       </a>
-      <a href="https://t.me/cryptonear" target="_blank">
+      <a href={socialLinks.telegram} target="_blank">
         <img src={assets.telegramLogo} />
       </a>
     </Social>
