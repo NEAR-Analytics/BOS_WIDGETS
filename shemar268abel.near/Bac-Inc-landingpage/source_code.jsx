@@ -397,11 +397,14 @@ return (
       </div>
       <Spacer />
       <Social>
-        <a class="social-button" href="http://x.com">
+        <a class="social-button" href="https://x.com/itsmarmaj">
           <i class="bi-twitter"></i>
         </a>
         <a class="social-button" href="https://github.com/MarmaJFoundation/">
           <i class="bi-github"></i>
+        </a>
+        <a class="social-button" href="https://bac-inc.near.social/">
+          <i class="bi-globe"></i>
         </a>
         <a class="social-button" href="https://t.me/BAC_inc/">
           <i class="bi-telegram"></i>
@@ -433,15 +436,15 @@ return (
         <p>{members.length}</p>
         <p>Members</p>
       </Glow>
-      <Glow>
-        <p>N/A</p>
-        <p>Projects</p>
-      </Glow>
     </Stat>
     <Spacer />
   </Wrapper>
 );
 
+// <Glow>
+//   <p>N/A</p>
+//   <p>Projects</p>
+// </Glow>
 // {members.map((member, index) => (
 //       <div
 //         key={index}
