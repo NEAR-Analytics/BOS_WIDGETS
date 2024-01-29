@@ -114,10 +114,8 @@ const Avatar = styled.div`
   background-color: #eee;
   background-size: cover;
   background-position: center;
-  min-height: 140px;
-  min-width: 140px;
-  max-height: 140px;
-  max-width: 140px;
+  height: 140px;
+  width: 140px;
 `;
 
 const Root = styled.div`
@@ -238,7 +236,7 @@ const daoImageMapping = {
     logo: "https://ipfs.near.social/ipfs/bafkreia7zwjqzd4htab7be6nx3ys26q5pd3l7hww3jw6jlnbszmk74w6si"
   }
 };
-
+console.log("prrro", profile);
 return (
   <Root>
     <BG
