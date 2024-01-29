@@ -20,8 +20,7 @@ State.init({
   description: state.description,
   error: state.error,
   attachDeposit: 0,
-  proposalQueue: null,
-  notificationsData: {}
+  proposalQueue: null
 });
 
 const handleProposal = () => {
@@ -74,7 +73,7 @@ const handleProposal = () => {
       }
     ]);
   } else {
-    const calls = [
+    Near.call([
       {
         contractName: daoId,
         methodName:
@@ -85,12 +84,7 @@ const handleProposal = () => {
         gas: gas,
         deposit: policy?.proposal_bond || 100000000000000000000000
       }
-    ];
-    if (state.notificationsData) {
-      calls.push(state.notificationsData);
-    }
-
-    Near.call(calls);
+    ]);
   }
 };
 
@@ -137,27 +131,14 @@ return (
     <div className="mb-3">
       <h5>Proposal Description</h5>
       <Widget
-        src={"devhub.near/widget/devhub.components.molecule.Compose"}
+        src="sking.near/widget/Common.Inputs.Markdown"
         props={{
-          data: state.description,
-          onChange: onChangeDescription,
-          autocompleteEnabled: true,
-          autoFocus: false,
-          placeholder: defaultDescription
+          onChange: (value) => onChangeDescription(value),
+          height: "270px",
+          initialText: defaultDescription
         }}
       />
     </div>
-    <Widget
-      src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.NotificationRolesSelector"
-      props={{
-        daoId: daoId,
-        dev: props.dev,
-        onUpdate: (v) => {
-          State.update({ notificationsData: v });
-        },
-        proposalType: "Text"
-      }}
-    />
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
       <Widget
