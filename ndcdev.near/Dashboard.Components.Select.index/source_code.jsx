@@ -36,11 +36,11 @@ const TooltipIcon = styled.i`
     visibility: visible;
     opacity: 1;
     color: #6B6C75;
-    font-family: Barlow;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
+    box-shadow: 50px 20px 50px 50px rgba(0, 0, 0, 0.05);
   }
 `
 
