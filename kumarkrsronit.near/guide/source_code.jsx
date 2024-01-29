@@ -1,6 +1,6 @@
 const styles = {
   bannerImage: {
-    width: "12%",
+    width: "17%",
     height: "auto",
     margin: "0",
     padding: "20px",
