@@ -11,9 +11,7 @@ State.init({
   member_id: state.member_id,
   role: state.role,
   error: undefined,
-  rolesOptions: [],
-  description: null,
-  notificationsData: {}
+  rolesOptions: []
 });
 
 function isNearAddress(address) {
@@ -24,10 +22,6 @@ function isNearAddress(address) {
     address.length <= 64 &&
     ACCOUNT_ID_REGEX.test(address)
   );
-}
-
-function isEmpty(value) {
-  return !value || value === "";
 }
 
 if (policy === null) {
@@ -52,12 +46,6 @@ const processPolicy = (policy) => {
 const allowedRoles = processPolicy(policy);
 
 const handleProposal = () => {
-  if (isEmpty(state.description)) {
-    State.update({
-      error: "Please enter a description"
-    });
-    return;
-  }
   if (
     !state.member_id ||
     state.member_id === "" ||
@@ -77,13 +65,13 @@ const handleProposal = () => {
 
   const gas = 200000000000000;
   const deposit = policy?.proposal_bond || 100000000000000000000000;
-  const calls = [
+  Near.call([
     {
       contractName: daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: state.description,
+          description: "Remove member",
           kind: {
             RemoveMemberFromRole: {
               member_id: state.member_id ?? accountId,
@@ -95,12 +83,7 @@ const handleProposal = () => {
       gas: gas,
       deposit: deposit
     }
-  ];
-  if (state.notificationsData) {
-    calls.push(state.notificationsData);
-  }
-
-  Near.call(calls);
+  ]);
 };
 
 const onChangeMember = (member_id) => {
@@ -117,33 +100,15 @@ const onChangeRole = (role) => {
   });
 };
 
-const onChangeDescription = (description) => {
-  State.update({
-    description,
-    error: undefined
-  });
-};
-
-const defaultDescription = "Remove member";
-
 return (
   <>
     <div className="mb-3">
       <h5>Account ID</h5>
-      <Widget
-        src={
-          "astraplusplus.ndctools.near/widget/DAO.Proposal.Common.AccountAutoComplete"
-        }
-        props={{
-          placeholder: "Specify member account",
-          accountId: state.member_id,
-          onChange: onChangeMember
-        }}
-      />
+      <input type="text" onChange={(e) => onChangeMember(e.target.value)} />
     </div>
     <div className="mb-3">
       <Widget
-        src={`astraplusplus.ndctools.near/widget/Common.Components.Select`}
+        src={`sking.near/widget/Common.Inputs.Select`}
         props={{
           label: "Role",
           noLabel: false,
@@ -157,34 +122,11 @@ return (
         }}
       />
     </div>
-    <div className="mb-3">
-      <h5>Proposal Description</h5>
-      <Widget
-        src={"devhub.near/widget/devhub.components.molecule.Compose"}
-        props={{
-          data: state.description,
-          onChange: onChangeDescription,
-          autocompleteEnabled: true,
-          autoFocus: false,
-          placeholder: defaultDescription
-        }}
-      />
-    </div>
-    <Widget
-      src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.NotificationRolesSelector"
-      props={{
-        daoId: daoId,
-        dev: props.dev,
-        onUpdate: (v) => {
-          State.update({ notificationsData: v });
-        },
-        proposalType: "Remove Member From Role"
-      }}
-    />
+
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
       <Widget
-        src="astraplusplus.ndctools.near/widget/Common.Components.Button"
+        src="sking.near/widget/Common.Button"
         props={{
           children: "Propose To Remove Member",
           onClick: handleProposal,
@@ -194,7 +136,7 @@ return (
       />
       {onClose && (
         <Widget
-          src="astraplusplus.ndctools.near/widget/Common.Components.Button"
+          src="sking.near/widget/Common.Button"
           props={{
             children: "Close",
             onClick: onClose,
