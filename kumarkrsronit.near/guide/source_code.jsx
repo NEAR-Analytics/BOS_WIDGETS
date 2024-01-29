@@ -114,7 +114,7 @@ function Banner() {
         style={styles.bannerImage}
       />
       <a
-        href="https://github.com/abhay2131/socialbook"
+        href="https://senderwallet.io/"
         target="_blank"
         rel="noopener noreferrer"
         style={styles.button}
