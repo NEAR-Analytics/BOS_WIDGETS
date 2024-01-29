@@ -195,18 +195,11 @@ const {
 useEffect(() => {
   if (!updater || !prices || !pools.length) return;
 
-  if (
-    (!inputCurrency.address && !inputCurrency.isNative) ||
-    (!outputCurrency.address && !outputCurrency.isNative) ||
-    !inputCurrencyAmount
-  ) {
+  if (!inputCurrency || !outputCurrency || !inputCurrencyAmount) {
     return;
   }
 
-  const path = [
-    inputCurrency.address === "native" ? wethAddress : inputCurrency.address,
-    outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
-  ];
+  const path = [inputCurrency.address, outputCurrency.address];
 
   const finalPool = pools
     .filter(
@@ -214,7 +207,6 @@ useEffect(() => {
         poolData[0].includes(path[0]) && poolData[0].includes(path[1])
     )
     .map((poolData) => poolData[1]);
-
   if (finalPool.length === 0) {
     onLoad({
       noPair: true,
@@ -234,41 +226,46 @@ useEffect(() => {
     Ethers.provider().getSigner()
   );
 
-  const _inputAddress = inputCurrency.isNative
-    ? "0x0000000000000000000000000000000000000000"
-    : inputCurrency.address;
-  const _outputAddress = outputCurrency.isNative
-    ? "0x0000000000000000000000000000000000000000"
-    : outputCurrency.address;
-  const assets = [_inputAddress, _outputAddress];
-  const funds = [account, false, account, false];
+  const getSwapStepsStruct = (isAmountOut) => {
+    const _inputAddress =
+      inputCurrency.isNative && isAmountOut
+        ? "0x0000000000000000000000000000000000000000"
+        : inputCurrency.address;
+    const _outputAddress =
+      outputCurrency.isNative && isAmountOut
+        ? "0x0000000000000000000000000000000000000000"
+        : outputCurrency.address;
+    const assets = [_inputAddress, _outputAddress];
+    const funds = [account, false, account, false];
 
-  const swap_steps = [
-    {
-      poolId: finalPool[0],
-      assetIn: _inputAddress,
-      assetOut: _outputAddress,
-      amount,
-    },
-  ];
-
-  const token_indices = {};
-  for (let i = 0; i < assets.length; i++) {
-    token_indices[assets[i]] = i;
-  }
-  const swap_steps_struct = [];
-  for (const step of swap_steps) {
-    const swap_step_struct = [
-      step["poolId"],
-      token_indices[step["assetIn"]],
-      token_indices[step["assetOut"]],
-      step["amount"],
-      "0x",
+    const swap_steps = [
+      {
+        poolId: finalPool[0],
+        assetIn: _inputAddress,
+        assetOut: _outputAddress,
+        amount,
+      },
     ];
-    swap_steps_struct.push(swap_step_struct);
-  }
+
+    const token_indices = {};
+    for (let i = 0; i < assets.length; i++) {
+      token_indices[assets[i]] = i;
+    }
+    const swap_steps_struct = [];
+    for (const step of swap_steps) {
+      swap_steps_struct.push([
+        step["poolId"],
+        token_indices[step["assetIn"]],
+        token_indices[step["assetOut"]],
+        step["amount"],
+        "0x",
+      ]);
+    }
+    return { swap_steps_struct, assets, funds };
+  };
 
   const getAmountOut = () => {
+    const { swap_steps_struct, assets, funds } = getSwapStepsStruct(true);
     const params = [0, swap_steps_struct, assets, funds];
     RouterContract.callStatic
       .queryBatchSwap(...params)
@@ -276,7 +273,6 @@ useEffect(() => {
         getTransaction({ amountOut: res[1] });
       })
       .catch((err) => {
-        console.log("err", err);
         onLoad({ noPair: true, outputCurrencyAmount: "" });
       });
   };
@@ -289,6 +285,7 @@ useEffect(() => {
       .toFixed(0);
 
     const token_limits = [amount, _amountOut];
+    const { swap_steps_struct, assets, funds } = getSwapStepsStruct(false);
     const params = [
       0,
       swap_steps_struct,
@@ -300,7 +297,6 @@ useEffect(() => {
 
     const options = {
       value: inputCurrency.isNative ? amount : "0",
-      gasLimit: 11000000,
     };
 
     const _amount = Big(
@@ -332,7 +328,7 @@ useEffect(() => {
 
     const getTx = (gas) => {
       RouterContract.populateTransaction
-        .batchSwap(...params, { ...options, gasLimit: gas || 11000000 })
+        .batchSwap(...params, { ...options, gasLimit: gas })
         .then((res) => {
           onLoad({
             ...returnData,
