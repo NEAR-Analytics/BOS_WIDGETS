@@ -10,8 +10,18 @@ const StyledContainer = styled.div`
   .warning-1 {
     color: #ff9445;
   }
+  .warning-card-1 {
+    color: #ff9445;
+    border: 1px solid #ff9445;
+    background: rgba(255, 148, 69, 0.1);
+  }
   .warning-2 {
     color: #ff547d;
+  }
+  .warning-card-2 {
+    color: #ff547d;
+    border: 1px solid #ff547d;
+    background: rgba(255, 84, 125, 0.1);
   }
   .fee {
     border-bottom: 1px dashed #979abe;
@@ -98,10 +108,10 @@ const StyledArrow = styled.div`
   transform-origin: center;
   cursor: pointer;
   &.up {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
   }
   &.down {
-    transform: rotate(0deg);
+    transform: rotate(180deg);
   }
 `;
 
@@ -342,7 +352,9 @@ return (
       </StyledPanel>
     </StyledPanelWrapper>
     {!!priceImpact && !!state.priceImpactWarningType && (
-      <StyledPriceWarning className={`warning-${state.priceImpactWarningType}`}>
+      <StyledPriceWarning
+        className={`warning-card-${state.priceImpactWarningType}`}
+      >
         <StyledFlex style={{ gap: "5px" }}>
           {state.priceImpactWarningType === 2 && WarningIcon}
           <div>Pirce impact warning</div>
