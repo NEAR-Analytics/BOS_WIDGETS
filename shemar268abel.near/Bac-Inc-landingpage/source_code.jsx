@@ -403,7 +403,10 @@ return (
         <a class="social-button" href="https://github.com/MarmaJFoundation/">
           <i class="bi-github"></i>
         </a>
-        <a class="social-button" href="https://bac-inc.near.social/">
+        <a
+          class="social-button"
+          href="https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=marmaj-research.sputnik-dao.near&page=dao"
+        >
           <i class="bi-globe"></i>
         </a>
         <a class="social-button" href="https://t.me/BAC_inc/">
