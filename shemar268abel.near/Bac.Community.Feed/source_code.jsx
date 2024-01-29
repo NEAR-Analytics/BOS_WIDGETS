@@ -22,6 +22,7 @@ followers.sort(
 );
 
 const Wrapper = styled.div`
+  margin: auto 20px;
   display: grid;
   gap: 24px;
 `;
