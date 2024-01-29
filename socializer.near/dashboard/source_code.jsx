@@ -51,7 +51,7 @@ State.init({
     live: [
       {
         title: "Campaign Id",
-        key: "_id",
+        key: "id",
         description: "Campaign Id",
         width: 16,
       },
@@ -367,13 +367,15 @@ return (
             }}
           />
         </TableComponent>
-        <Widget
-          props={{
-            API_URL,
-            menu: state.menu,
-          }}
-          src={`${Owner}/widget/Status`}
-        />
+        <div>
+          <Widget
+            props={{
+              API_URL,
+              menu: state.menu,
+            }}
+            src={`${Owner}/widget/Status`}
+          />
+        </div>
       </>
     )}
 
