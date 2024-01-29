@@ -89,7 +89,8 @@ return {
 
   Check: styled.div`
     border-radius: 5px;
-    width: 20px;
+    width: 100%;
+    max-width: 20px;
     height: 20px;
     display: flex;
     justify-content: center;
@@ -98,14 +99,14 @@ return {
       ${(props) => (props.selected ? "#a39acd" : "rgb(216 216 216)")};
     color: #a39acd;
   `,
-  
+
   TooltipContainer: styled.div`
     position: relative;
     display: inline-block;
     cursor: pointer;
   `,
 
- TooltipText: styled.span`
+  TooltipText: styled.span`
     visibility: hidden;
     width: 150px;
     background-color: #ffffff;
@@ -128,8 +129,8 @@ return {
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent white transparent; 
+      border-color: transparent transparent white transparent;
       transform: translateX(-50%);
     }
-`,
+  `,
 };
