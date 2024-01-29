@@ -314,7 +314,7 @@ return (
                 </svg>
               </button>
             </li>
-            {state.list.length > 0 &&
+            {state.list.length > 0 && handlePagination().buttons.length > 5 ? (
               handlePagination().buttons.map((btn, i) => {
                 return (
                   <li key={i} className="page-item">
@@ -337,7 +337,163 @@ return (
                     </button>
                   </li>
                 );
-              })}
+              })
+            ) : (
+              <>
+                <li className="page-item">
+                  <button
+                    onClick={() => State.update({ currentPage: 1 })}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background: state.currentPage === 1 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === 1 ? "#fff" : "#000",
+                    }}
+                  >
+                    1
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage <= 3 ? 2 : state.currentPage + 1,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background: state.currentPage === 2 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === 2 ? "#fff" : "#000",
+                    }}
+                  >
+                    {state.currentPage <= 3 ? 2 : `...`}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage <= 3
+                            ? 3
+                            : state.currentPage >=
+                              handlePagination().buttons.length - 2
+                            ? handlePagination().buttons.length - 2
+                            : state.currentPage,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === 3 ||
+                        state.currentPage ===
+                          handlePagination().buttons.length - 2
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage === 3 ||
+                        state.currentPage ===
+                          handlePagination().buttons.length - 2 ||
+                        (state.currentPage > 3 &&
+                          state.currentPage <
+                            handlePagination().buttons.length - 2)
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {state.currentPage <= 3
+                      ? 3
+                      : state.currentPage >=
+                        handlePagination().buttons.length - 2
+                      ? handlePagination().buttons.length - 2
+                      : state.currentPage}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() => {
+                      State.update({
+                        currentPage:
+                          state.currentPage >=
+                          handlePagination().buttons.length - 2
+                            ? handlePagination().buttons.length - 1
+                            : state.currentPage - 1,
+                      });
+                    }}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage ===
+                        handlePagination().buttons.length - 1
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage ===
+                        handlePagination().buttons.length - 1
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {state.currentPage >= handlePagination().buttons.length - 2
+                      ? handlePagination().buttons.length - 1
+                      : `...`}
+                  </button>
+                </li>
+                <li className="page-item">
+                  <button
+                    onClick={() =>
+                      State.update({
+                        currentPage: handlePagination().buttons.length,
+                      })
+                    }
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === handlePagination().buttons.length
+                          ? "#121212"
+                          : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color:
+                        state.currentPage === handlePagination().buttons.length
+                          ? "#fff"
+                          : "#000",
+                    }}
+                  >
+                    {handlePagination().buttons.length}
+                  </button>
+                </li>
+              </>
+            )}
+
             <li className="page-item">
               <button
                 onClick={() => {
