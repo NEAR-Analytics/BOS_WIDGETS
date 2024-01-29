@@ -88,7 +88,7 @@ function Banner() {
           Click Here
         </a>
 
-        <h1> Other ways to get ownward on near 💲💲 </h1>
+        <h1> Other ways to get onboard on near 💲💲 </h1>
         <img
           src="https://i.ibb.co/FD35G5v/G31y-DGOS-400x400.jpg"
           alt="mYNEARWALLET"
