@@ -1,6 +1,9 @@
 const [selectedNFT, setSelectedNFT] = useState(null);
-
+const [allNFTs, setAllNFTs] = useState([]);
+const [filteredNFTs, setFilteredNFTs] = useState([]);
+const [contractFilter, setContractFilter] = useState("");
 const accountId = props.accountId || context.accountId;
+
 const onChange = props.onChange;
 
 if (!accountId) {
@@ -34,7 +37,8 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 
 const finalData = data?.body?.data;
-
+setAllNFTs(data.data.tokens);
+setFilteredNFTs(data.data.tokens);
 const handleSelectNFT = (nft) => {
   setSelectedNFT(nft);
   onChange(nft);
@@ -77,9 +81,14 @@ return (
           onClick={() => handleSelectNFT(nft)}
         >
           <Widget
-            src="mob.near/widget/NftImage"
+            src="sharddog.near/widget/Image.Minted"
             props={{
               nft: { tokenId: nft.tokenId, contractId: nft.contractId },
+              title: nft.owner_id,
+              timestamp: nft.minted_timestamp,
+              image: {
+                url: nft.media,
+              },
               style: {
                 width: size,
                 height: size,
