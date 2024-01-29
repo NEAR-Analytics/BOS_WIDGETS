@@ -39,9 +39,18 @@ const paragraph = {
   marginLeft: "10px",
 };
 
+const paragraph1 = {
+  fontSize: "60px",
+  color: "	#8B4000",
+  textAlign: "center",
+  margin: "20px 0",
+  marginLeft: "10px",
+};
+
 function Banner() {
   return (
     <div className="banner-container" style={containerStyle}>
+      <p style={paragraph1}> Stake NearHub </p>
       <h1>
         {" "}
         Welcome to our site we will let you know about all the near wallet
@@ -134,6 +143,37 @@ function Banner() {
         style={styles.button}
       >
         Meteorwallet
+      </a>
+      <h1>
+        {" "}
+        Now lets see where you can stake those near you loaded in your desired
+        wallet....{" "}
+      </h1>
+      <img
+        src="https://i.ibb.co/FD35G5v/G31y-DGOS-400x400.jpg"
+        alt="mYNEARWALLET"
+        style={styles.bannerImage}
+      />
+      <a
+        href="https://app.mynearwallet.com/staking"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={styles.button}
+      >
+        MynearWallet
+      </a>
+      <img
+        src="https://i.ibb.co/7ktmhMj/download-2.png"
+        alt="mYNEARWALLET"
+        style={styles.bannerImage}
+      />
+      <a
+        href="https://www.metapool.app/stake?token=ethereum"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={styles.button}
+      >
+        Metapool
       </a>
       <p style={paragraph}>You can tip me on - kumarkrsronit.near</p>
     </div>
