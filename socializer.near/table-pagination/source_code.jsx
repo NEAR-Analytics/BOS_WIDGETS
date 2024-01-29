@@ -109,12 +109,6 @@ const setEndsIn = () => {
 if (timer && !state.loaded) setEndsIn();
 else if (!timer && Interval) clearInterval(Interval);
 
-console.log(
-  handlePagination().buttons.length,
-  handlePagination().buttons.length > 6,
-  "handlePagination().buttons.length"
-);
-
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
     <div style={{ borderRadius: 8, border: "1px solid #AAA" }}>
@@ -320,7 +314,7 @@ return (
                 </svg>
               </button>
             </li>
-            {handlePagination().buttons.length > 6 ? (
+            {handlePagination().buttons.length <= 5 ? (
               handlePagination().buttons.map((btn, i) => (
                 <li key={i} className="page-item">
                   <button
