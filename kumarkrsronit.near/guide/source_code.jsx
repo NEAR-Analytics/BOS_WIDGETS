@@ -1,6 +1,6 @@
 const styles = {
   bannerImage: {
-    width: "9%",
+    width: "12%",
     height: "auto",
     margin: "0",
     padding: "20px",
@@ -11,7 +11,7 @@ const styles = {
 
   button: {
     display: "inline-block",
-    width: "120px",
+    width: "12%",
     margin: "10px 20px",
     padding: "10px",
     background: "white",
