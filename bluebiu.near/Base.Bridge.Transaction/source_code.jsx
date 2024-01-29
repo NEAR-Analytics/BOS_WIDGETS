@@ -65,7 +65,7 @@ const HandlerSuccess = styled.div`
   color: var(--success-color);
 `;
 
-const { tx, onDelete, update } = props;
+const { tx, onDelete, update, onUpdate } = props;
 
 const getStargateStatus = () => {
   State.update({
@@ -80,6 +80,7 @@ const getStargateStatus = () => {
         status,
         loading: false,
       });
+      onUpdate();
       if (status === "success") {
         onDelete(tx.hash);
       }
@@ -90,11 +91,10 @@ const getStargateStatus = () => {
       });
     });
 };
-const _update = Storage.privateGet("tx_update");
-if (_update !== update) {
+
+useEffect(() => {
   getStargateStatus();
-  Storage.privateSet("tx_update", update);
-}
+}, [update]);
 
 return (
   <Row>
