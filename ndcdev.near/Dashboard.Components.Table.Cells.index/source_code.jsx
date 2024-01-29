@@ -22,11 +22,6 @@ const Cell = styled.div`
     overflow: hidden;
     text-wrap: nowrap;
   }
-
-  .colored {
-    width: ${(props) => props.width}%;
-    background: ${(props) => props.color};
-  }
 `;
 
 const Container = styled.div`
@@ -36,6 +31,25 @@ const Container = styled.div`
   align-items: flex-start;
   padding-top: 1rem;
   -webkit-overflow-scrolling: touch;
+`;
+
+const Colored = styled.div`
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: ${(props) => props.width}%;
+  background: ${(props) => props.color};
+  animation: slide 1s ease;
+
+  @keyframes slide {
+    from {
+      width: 0%;
+    }
+
+    to {
+      width: "${props.width}%";
+    }
+  }
 `;
 
 const getPercentage = (start, end, divider) => {
@@ -66,25 +80,25 @@ return (
           <Cell>
             <div className="dao-name">{daoId}</div>
           </Cell>
-          <Cell
-            width={getPercentage(retention.start, retention.end, 2)}
-            color={
-              getPercentage(retention.start, retention.end, 2) >= 50
-                ? "#68D895"
-                : "#EB9DBB"
-            }
-          >
-            <div className="colored h-100 position-absolute start-0" />
+          <Cell>
+            <Colored
+              width={getPercentage(retention.start, retention.end, 2)}
+              color={
+                getPercentage(retention.start, retention.end, 2) >= 50
+                  ? "#68D895"
+                  : "#EB9DBB"
+              }
+            />
             <div className="position-relative">
               {retention.end} / {retention.start}
             </div>
           </Cell>
           <Cell>{dappsUsed}</Cell>
-          <Cell
-            width={10}
-            color={balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB"}
-          >
-            <div className="colored h-100 position-absolute start-0" />
+          <Cell>
+            <Colored
+              width={10}
+              color={balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB"}
+            />
             <div className="position-relative">
               {formatValue(balance / interactedAccounts)}
             </div>
