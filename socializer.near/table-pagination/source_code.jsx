@@ -440,7 +440,7 @@ return (
                           state.currentPage >=
                           handlePagination().buttons.length - 2
                             ? handlePagination().buttons.length - 1
-                            : state.currentPage - 1,
+                            : state.currentPage + 1,
                       });
                     }}
                     className="page-link btn"
