@@ -4,8 +4,6 @@ const [farData, setFarData] = useState(null);
 const [error, setError] = useState(null);
 const [isLoading, setIsLoading] = useState(false);
 
-const data = fetch("https://cc28c3.hubs.neynar.com:2281");
-
 const headers = {
   method: "GET",
   headers: {
