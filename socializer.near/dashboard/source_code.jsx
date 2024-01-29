@@ -110,6 +110,12 @@ State.init({
     ],
     expired: [
       {
+        title: "Campaign Id",
+        key: "id",
+        description: "Campaign Id",
+        width: 16,
+      },
+      {
         title: "Project/User",
         key: "accountId",
         description: "Project/User",
