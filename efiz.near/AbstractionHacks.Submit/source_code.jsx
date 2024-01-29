@@ -1,28 +1,70 @@
-/**
- * build box submit hackathon
- * or submit project to whatever hackathon is main
- */
+// this is where you can create a hackathon
+
+// then you have people submit projects to the hackathon, but they create the project locally
+
+const { normalize } = VM.require("buildbox.near/widget/utils.stringUtils") || {
+  normalize: (s) => s,
+};
+
+const app = props.app || "buildbox";
+const type = props.type || "project";
+
+const accountId = context.accountId;
 
 const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  background-color: #292320;
+  color: #fff;
+  gap: 5rem;
+
+  padding: 64px 80px;
 `;
 
 const Header = styled.h1`
-  font-size: 24px;
-  margin-bottom: 10px;
+  color: #fff;
+  font-size: 90px;
+  max-width: 900px;
+  font-style: normal;
+  text-align: left;
+  font-weight: 500;
+  line-height: 108px;
+  text-transform: lowercase;
+
+  @media screen and (max-width: 768px) {
+    font-size: 36px;
+    max-width: 70%;
+    line-height: 43px;
+  }
 `;
 
 const Subheader = styled.p`
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 20px;
+  color: rgb(255, 255, 255);
+  font-size: 24px;
+  max-width: 800px;
+  text-align: left;
+  line-height: 36px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: 2rem;
+
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const FormContainer = styled.div`
-  width: 80%;
+  width: 100%;
   max-width: 600px;
 `;
 
@@ -34,11 +76,12 @@ const Label = styled.label`
   font-weight: bold;
   display: block;
   margin-bottom: 8px;
+  font-size: 24px;
 `;
 
 const Subtext = styled.p`
   font-size: 12px;
-  color: #888;
+  color: #c0c0c0;
 `;
 
 const Input = styled.input`
@@ -46,6 +89,11 @@ const Input = styled.input`
   padding: 10px;
   margin-top: 5px;
   box-sizing: border-box;
+  background-color: #292320;
+  color: #fff;
+  border: 1px solid #fff;
+  outline: none;
+  border-radius: 0.5rem;
 `;
 
 const Textarea = styled.textarea`
@@ -53,6 +101,11 @@ const Textarea = styled.textarea`
   padding: 10px;
   margin-top: 5px;
   box-sizing: border-box;
+  background-color: #292320;
+  color: #fff;
+  border: 1px solid #fff;
+  outline: none;
+  border-radius: 0.5rem;
 `;
 
 const CheckboxGroup = styled.div`
@@ -62,6 +115,7 @@ const CheckboxGroup = styled.div`
 
 const CheckboxLabel = styled.label`
   margin-right: 15px;
+  color: #fff;
 `;
 
 const CheckBox = styled.input`
@@ -70,11 +124,13 @@ const CheckBox = styled.input`
 
 const ConsentContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 `;
 
 const ConsentCheckbox = styled.input`
   margin-right: 5px;
+  margin-top: 5px;
 `;
 
 const ConsentLabel = styled.label`
@@ -82,16 +138,27 @@ const ConsentLabel = styled.label`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
+  color: #000;
   cursor: pointer;
-  border-radius: 5px;
+  display: inline-block;
+  font-size: 18px;
+  box-shadow: 5px 6px 0 0 #000;
+  font-style: normal;
+  transition: 0.3s;
+  font-weight: 500;
+  border-color: #000;
+  border-width: 1px;
+  border-radius: 0;
+  padding: 16px 24px;
+  background-color: #ffcf77;
 
   &:hover {
-    background-color: #45a049;
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 
@@ -104,6 +171,21 @@ const [demoLink, setDemoLink] = useState("");
 const [contactInfo, setContactInfo] = useState("");
 const [consentChecked, setConsentChecked] = useState(false);
 const [referrer, setReferrer] = useState("");
+const [learning, setLearning] = useState("");
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const [isEmailValid, setIsEmailValid] = useState(true);
+
+function isValidEmail(email) {
+  return emailRegex.test(email);
+}
+
+useEffect(() => {
+  setIsEmailValid(isValidEmail(contactInfo));
+  if (contactInfo === "") {
+    setIsEmailValid(true);
+  }
+}, [contactInfo]);
 
 const handleCheckboxChange = (track) => {
   if (tracks.includes(track)) {
@@ -113,91 +195,100 @@ const handleCheckboxChange = (track) => {
   }
 };
 
-const normalize = (v) => {
-  // snag from devhub
-};
-
 const handleSubmit = () => {
-  if (contactInfo && consentChecked) {
-    const projectPath = `${context.accountId}/every/project/${normalize(
-      title
-    )}`;
-    const notes = ""; // what I learned
-    // Add your submission logic here
-    console.log("Form submitted:", {
-      title,
-      description,
-      tracks,
-      teammates,
-      projectLink,
-      demoLink,
-      contactInfo,
-    });
+  const id = normalize(title);
+  const path = `${context.accountId}/${app}/${type}/${id}`;
 
-    Social.set({
+  Social.set(
+    {
       post: {
         main: JSON.stringify({
-          text: `I've just submitted my project to abstraction hacks #abstraction #hack #build #everything\n\n[EMBED](buildbox.near/widget/embed?project=${projectPath})\n\n ${notes}`,
+          text: `I've just submitted a ${type} to Abstraction Hacks! #build #${type} #abstraction #hack \n\n[EMBED](${path})\n\n`,
           image: "",
           type: "md",
-          metadata: {},
         }),
       },
-      every: {
-        // it's like we create a project and a submission at the same time
-        project: {
-          "my-project": {
-            // normalized title?
+      index: {
+        post: JSON.stringify({ key: "main", value: { type: "md" } }),
+      },
+      [app]: {
+        [type]: {
+          [id]: {
             "": JSON.stringify({
+              title,
+              description,
               tracks,
               teammates,
               projectLink,
               demoLink,
               contactInfo,
-              repository,
+              referrer,
+              learning,
             }),
             metadata: {
-              title,
+              name: title,
               description,
               image,
               backgroundImage,
-              category: "", // this would be nice to be a thing stored somewhere
-              type: "every.near/type/project", // this is type stored on chain, defines stringified JSON
-              tags: {},
+              type: `buildbox.near/type/${type}`, // for later
+              tags,
             },
           },
         },
       },
       buildbox: {
         hackathon: {
-          "abstraction-hacks-W2024": {
-            submission: {
-              "----every/project----": "", // get from community voice, creates ID from accountId + project name
+          abstractionhacks: {
+            submissions: {
+              [`${context.accountId}-${normalize(title)}`]: "",
             },
           },
         },
       },
-    });
-  } else {
-    // TODO show error
-    // "Please provide your Personal Contact Info and consent to submit."
-  }
+    },
+    {
+      force: true,
+      onCommit: (v) => console.log("onCommit", v),
+      onCancel: (v) => console.log("onCancel", v),
+    }
+  );
 };
+
+const pageDescription = `Congratulations for making it here! Please be sure to fill out all of the following fields in the suggested format so we can review them in the most efficient way.
+
+To be eligible for the Abstraction Hacks prize, you must:
+
+- Submit to only one team for General Prize. For Mintbase, Potlock you can submit multiple.
+- Have a public GitHub repository with a README.md file.
+- Include a video to a demo in your README.md file.
+- If submitting a previous project, you must have made significant changes during the hackathon.
+- Specify which bounties you are tackling
+
+**Additional Details**
+
+- Submit to only one team: You may not submit the same project to multiple teams.
+- Public GitHub repository: Your GitHub repository must be public so that the judges can view your code.
+- README.md file: Your README.md file should include a description of your project, how to run it, and any other relevant information.
+- Video to a demo: Your video demo should show your project in action.
+- Significant changes: If submitting a previous project, you must have made significant changes during the hackathon and provide proof of what you changed during the hackathon. This could includes adding dates and timestamps of any code written before and after the hackathon (ie: adding new features, improving the performance of your code, or fixing bugs).`;
 
 return (
   <Root>
-    <Header>Submit Project: Abstraction Hacks</Header>
-    <Subheader>
-      Post your submission for Abstraction Hacks. Add a link to your component,
-      GitHub, and tag your team members. On a checklist, indicate which tracks
-      you are opt-in for.
-    </Subheader>
-
+    <HeaderContainer>
+      <Header>📦 Abstraction Hacks Projects Submission</Header>
+      <Subheader>
+        <Markdown text={pageDescription} />
+      </Subheader>
+    </HeaderContainer>
     <FormContainer>
       <FormGroup>
-        <Label>Title</Label>
-        <Subtext>{/* Populate subtext here */}</Subtext>
+        <Label htmlFor="title">
+          Title<span className="text-danger">*</span>
+        </Label>
+        <Subtext>What do you want to call this project?</Subtext>
         <Input
+          name="title"
+          id="title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -205,27 +296,36 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label>Description</Label>
-        <Subtext>{/* Populate subtext here */}</Subtext>
+        <Label htmlFor="description">
+          Description<span className="text-danger">*</span>
+        </Label>
+        <Subtext>
+          1-2 paragraphs explaining what did you build and what problem(s) does
+          it solve?
+        </Subtext>
         <Textarea
+          name="description"
+          id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </FormGroup>
 
       <FormGroup>
-        <Label>Tracks</Label>
+        <Label>
+          Tracks<span className="text-danger">*</span>
+        </Label>
         <Subtext>Check the tracks you are opting in for</Subtext>
         <CheckboxGroup>
           {[
-            "Pagoda's Chain Signatures",
             "General Prize",
-            "Keypom",
-            "Metatransactions",
-            "Abstraction on BOS",
             "Mintbase",
+            "Keypom",
+            "Abstraction on BOS",
             "Postlock Bounty",
             "NEAR Balkans",
+            "Pagoda's Chain Signatures",
+            "Metatransactions",
           ].map((track) => (
             <CheckboxLabel key={track}>
               <CheckBox
@@ -240,9 +340,13 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label>Teammates</Label>
+        <Label htmlFor="teammates">
+          Teammates<span className="text-danger">*</span>
+        </Label>
         <Subtext>@ the near addresses of your teammates</Subtext>
         <Input
+          name="teammates"
+          id="teammates"
           type="text"
           value={teammates}
           onChange={(e) => setTeammates(e.target.value)}
@@ -250,9 +354,14 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label>Project Link</Label>
-        <Subtext>Put a URL of your project</Subtext>
+        <Label htmlFor="projectLink">
+          Project's Public Github w/ Readme.md
+          <span className="text-danger">*</span>
+        </Label>
+        <Subtext>{/*Put a URL of your project*/}</Subtext>
         <Input
+          name="projectLink"
+          id="projectLink"
           type="text"
           value={projectLink}
           onChange={(e) => setProjectLink(e.target.value)}
@@ -260,28 +369,62 @@ return (
       </FormGroup>
 
       <FormGroup>
-        <Label>Demo Link</Label>
-        <Subtext>Put a URL of your demo/pitch</Subtext>
+        <Label htmlFor="demoLink">
+          Demo Link<span className="text-danger">*</span>
+        </Label>
+        <Subtext>Keep it under two minutes</Subtext>
         <Input
+          id="demoLink"
+          name="demoLink"
           type="text"
           value={demoLink}
           onChange={(e) => setDemoLink(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
-        <Label>Personal Contact Info</Label>
-        <Subtext>Email/Telegram</Subtext>
+        <Label htmlFor="contactInfo">
+          Contact Email<span className="text-danger">*</span>
+        </Label>
+        <Subtext>
+          This information will be on-chain and it is how we will communicate
+          with you and distribute prizes
+        </Subtext>
         <Input
+          name="contactInfo"
+          id="contactInfo"
           type="text"
           value={contactInfo}
           onChange={(e) => setContactInfo(e.target.value)}
         />
+        <span className="text-danger" style={{ fontSize: 12 }}>
+          {!isEmailValid &&
+            "Your Email is invalid. Please check it for mistakes."}
+        </span>
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="learning">
+          What did you learn?<span className="text-danger">*</span>
+        </Label>
+        <Subtext></Subtext>
+        <Textarea
+          name="learning"
+          id="learning"
+          value={learning}
+          onChange={(e) => setLearning(e.target.value)}
+        />
       </FormGroup>
 
       <FormGroup>
-        <Label>How did you hear about this hackathon?</Label>
-        <Subtext>Developer DAO, 100x Devs, Build DAO, Twitter, ...</Subtext>
+        <Label htmlFor="referrer">
+          How did you hear about this hackathon?
+          <span className="text-danger">*</span>
+        </Label>
+        <Subtext>
+          ie: Developer DAO, 100x Devs, BuildDAO, NEAR DevHub, etc...
+        </Subtext>
         <Input
+          name="referrer"
+          id="referrer"
           type="text"
           value={referrer}
           onChange={(e) => setReferrer(e.target.value)}
@@ -293,15 +436,31 @@ return (
           type="checkbox"
           checked={consentChecked}
           onChange={() => setConsentChecked(!consentChecked)}
+          name="consent"
+          id="consent"
         />
-        <ConsentLabel>
-          I consent to my personal contact info being saved in the social.near
-          contract
+        <ConsentLabel htmlFor="consent">
+          By clicking here, you acknowledge that your responses above will be
+          stored permanently on the blockchain and are accessible to anyone
+          analyzing the social.near contract. Please ensure you are comfortable
+          with this before proceeding.<span className="text-danger">*</span>
         </ConsentLabel>
       </ConsentContainer>
       <SubmitButton
         onClick={handleSubmit}
-        disabled={!contactInfo || !consentChecked}
+        disabled={
+          !title ||
+          !description ||
+          tracks.length === 0 ||
+          !teammates ||
+          !projectLink ||
+          !demoLink ||
+          !contactInfo ||
+          !referrer ||
+          !learning ||
+          !consentChecked ||
+          !isEmailValid
+        }
       >
         Submit
       </SubmitButton>
