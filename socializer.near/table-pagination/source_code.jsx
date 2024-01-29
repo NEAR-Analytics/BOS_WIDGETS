@@ -319,30 +319,28 @@ return (
                 </svg>
               </button>
             </li>
-            {handlePagination().buttons.length > 5 ? (
-              handlePagination().buttons.map((btn, i) => {
-                return (
-                  <li key={i} className="page-item">
-                    <button
-                      onClick={() => State.update({ currentPage: i + 1 })}
-                      className="page-link btn"
-                      style={{
-                        width: 32,
-                        height: 32,
-                        padding: 6,
-                        borderRadius: 8,
-                        background:
-                          state.currentPage === i + 1 ? "#121212" : "#fff",
-                        borderColor:
-                          themeColor?.table_pagination?.btn_border ?? "#000",
-                        color: state.currentPage === i + 1 ? "#fff" : "#000",
-                      }}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                );
-              })
+            {handlePagination().buttons.length > 6 ? (
+              handlePagination().buttons.map((btn, i) => (
+                <li key={i} className="page-item">
+                  <button
+                    onClick={() => State.update({ currentPage: i + 1 })}
+                    className="page-link btn"
+                    style={{
+                      width: 32,
+                      height: 32,
+                      padding: 6,
+                      borderRadius: 8,
+                      background:
+                        state.currentPage === i + 1 ? "#121212" : "#fff",
+                      borderColor:
+                        themeColor?.table_pagination?.btn_border ?? "#000",
+                      color: state.currentPage === i + 1 ? "#fff" : "#000",
+                    }}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              ))
             ) : (
               <>
                 <li className="page-item">
