@@ -109,6 +109,11 @@ const setEndsIn = () => {
 if (timer && !state.loaded) setEndsIn();
 else if (!timer && Interval) clearInterval(Interval);
 
+console.log(
+  handlePagination().buttons.length,
+  "handlePagination().buttons.length"
+);
+
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
     <div style={{ borderRadius: 8, border: "1px solid #AAA" }}>
