@@ -11,9 +11,7 @@ State.init({
   member_id: state.member_id,
   role: state.role,
   error: undefined,
-  rolesOptions: [],
-  description: null,
-  notificationsData: {}
+  rolesOptions: []
 });
 
 function isNearAddress(address) {
@@ -45,19 +43,9 @@ const processPolicy = (policy) => {
   return roles;
 };
 
-function isEmpty(value) {
-  return !value || value === "";
-}
-
 const allowedRoles = processPolicy(policy);
 
 const handleProposal = () => {
-  if (isEmpty(state.description)) {
-    State.update({
-      error: "Please enter a description"
-    });
-    return;
-  }
   if (
     !state.member_id ||
     state.member_id === "" ||
@@ -77,13 +65,13 @@ const handleProposal = () => {
 
   const gas = 200000000000000;
   const deposit = policy?.proposal_bond || 100000000000000000000000;
-  const calls = [
+  Near.call([
     {
       contractName: daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: state.description,
+          description: "Potential member",
           kind: {
             AddMemberToRole: {
               member_id: state.member_id ?? accountId,
@@ -95,12 +83,7 @@ const handleProposal = () => {
       gas: gas,
       deposit: deposit
     }
-  ];
-  if (state.notificationsData) {
-    calls.push(state.notificationsData);
-  }
-
-  Near.call(calls);
+  ]);
 };
 
 const onChangeMember = (member_id) => {
@@ -117,15 +100,6 @@ const onChangeRole = (role) => {
   });
 };
 
-const onChangeDescription = (description) => {
-  State.update({
-    description,
-    error: undefined
-  });
-};
-
-const defaultDescription = "Potential member";
-
 if (allowedRoles === null) {
   return <> </>;
 }
@@ -134,16 +108,7 @@ return (
   <>
     <div className="mb-2">
       <h5>Account ID</h5>
-      <Widget
-        src={
-          "astraplusplus.ndctools.near/widget/DAO.Proposal.Common.AccountAutoComplete"
-        }
-        props={{
-          placeholder: "Specify member account",
-          accountId: state.member_id,
-          onChange: onChangeMember
-        }}
-      />
+      <input type="text" onChange={(e) => onChangeMember(e.target.value)} />
     </div>
     <div className="mb-2">
       <Widget
@@ -161,30 +126,6 @@ return (
         }}
       />
     </div>
-    <div className="mb-3">
-      <h5>Proposal Description</h5>
-      <Widget
-        src={"devhub.near/widget/devhub.components.molecule.Compose"}
-        props={{
-          data: state.description,
-          onChange: onChangeDescription,
-          autocompleteEnabled: true,
-          autoFocus: false,
-          placeholder: defaultDescription
-        }}
-      />
-    </div>
-    <Widget
-      src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.NotificationRolesSelector"
-      props={{
-        daoId: daoId,
-        dev: props.dev,
-        onUpdate: (v) => {
-          State.update({ notificationsData: v });
-        },
-        proposalType: "Add Member To Role"
-      }}
-    />
 
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
