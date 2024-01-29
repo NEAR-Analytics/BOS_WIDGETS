@@ -6,22 +6,22 @@ const Padding = styled.div`
 `;
 
 const CONTRACT = "hello.near-examples.near";
-const storedGreeting = Near.view(CONTRACT, "get_greeting");
-if (!storedGreeting || context.loading) {
+const storedVote = Near.view(CONTRACT, "get_greeting");
+if (!storedVote || context.loading) {
   return "Loading...";
 }
 
-const [greeting, setGreeting] = useState(storedGreeting);
+const [vote, setVote] = useState(storedVote);
 const [showSpinner, setShowSpinner] = useState(false);
 const loggedIn = !!context.accountId;
 
 const onInputChange = ({ target }) => {
-  setGreeting(target.value);
+  setVote(target.value);
 };
 
 const onBtnClick = () => {
   setShowSpinner(true);
-  Near.call(CONTRACT, "set_greeting", { greeting });
+  Near.call(CONTRACT, "set_vote", { vote });
   setShowSpinner(false);
 };
 
@@ -47,25 +47,22 @@ return (
       </div>
     </div>
     <div class="container py-4 px-5 text-dark bg-light rounded">
-      <h2 class="text-center">Web-3 Onbording Form</h2>
+      <h2 class="text-center">NDC Voting Form</h2>
 
       <div className="mb-3">
         <div hidden={!loggedIn}>
-          <label className="form-label">
-            In the context of Web3 interactions, which greeting style do you
-            prefer?
-          </label>
+          <label className="form-label">Did you vote?</label>
           <div className="form-check">
             <input
               type="radio"
               id="yes"
               name="voteChoice"
-              value="Decentralized and community-driven greetings"
+              value="yes"
               onChange={onInputChange}
               className="form-check-input"
             />
             <label htmlFor="yes" className="form-check-label">
-              Decentralized and community-driven greetings
+              Yes
             </label>
           </div>
           <div className="form-check">
@@ -73,12 +70,12 @@ return (
               type="radio"
               id="no"
               name="voteChoice"
-              value="Formal and blockchain-specific salutations"
+              value="no"
               onChange={onInputChange}
               className="form-check-input"
             />
             <label htmlFor="no" className="form-check-label">
-              Formal and blockchain-specific salutations
+              No
             </label>
           </div>
           <Padding>
