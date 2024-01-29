@@ -81,12 +81,12 @@ const Input = styled.input`
   }
 `;
 
+const { slippage, onSetSlippage } = props;
+
 State.init({
-  type: props.slippage === "" ? "Auto" : "Custom",
+  type: !props.slippage ? "Auto" : "Custom",
 });
 const types = ["Auto", "Custom"];
-
-const { slippage, onSetSlippage } = props;
 
 return (
   <>
