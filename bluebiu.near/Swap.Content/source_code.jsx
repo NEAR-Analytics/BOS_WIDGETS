@@ -30,7 +30,7 @@ useEffect(() => {
     selectedTokenAddress: "",
     currencySelectType: 0,
   });
-}, []);
+}, [curChain]);
 // styled area
 
 const PanelLabelWrapper = styled.div`
@@ -163,6 +163,7 @@ useEffect(() => {
     debouncedGetBestTrade,
   });
 }, []);
+
 const backIcon = (
   <svg
     width="8"
