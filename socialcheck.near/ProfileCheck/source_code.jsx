@@ -109,7 +109,7 @@ function handleSubmit() {
         contractName: contract,
         methodName: "verify_social_profile_completeness",
         gas: 2e14,
-        deposit: 3e21,
+        deposit: 5e21,
       },
     ]);
   } else {
@@ -197,7 +197,7 @@ useEffect(() => {
         "verify_social_profile_completeness",
         null,
         2e14,
-        3e21
+        5e21
       );
     } else {
       // Update field errors
