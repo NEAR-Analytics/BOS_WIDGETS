@@ -1,4 +1,4 @@
-const { userAccountId } = props;
+const { userAccountId, evaluatorContract } = props;
 const { evaluationName, evaluationMethod, accentColor, text } = VM.require('evaluator.near/widget/Curriculum.HelloNearMD')
 
 const Wrapper = styled.div`
@@ -24,7 +24,8 @@ const Wrapper = styled.div`
   }
 
   ul {
-    padding: 0
+    list-style-type: disc; 
+    padding-left 1rem
   }
 
   ul li a {
@@ -48,7 +49,7 @@ const Wrapper = styled.div`
 
 return <>
   <Wrapper>
-    <Markdown text={text} />
+    <Markdown text={text(userAccountId)} />
   </Wrapper>
   <Widget src="evaluator.near/widget/Evaluate" props={{ evaluationMethod, userAccountId }} />
   <div class="h-1 mt-4" style={{ background: `${accentColor}` }}></div >
