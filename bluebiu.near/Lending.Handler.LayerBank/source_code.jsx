@@ -127,7 +127,7 @@ useEffect(() => {
 
     if (data.actionText === "Deposit") {
       contract = isETH ? CNativeTokenContract : CTokenContract;
-      method = "mint";
+      method = "supply";
       params = isETH ? [data.address, 0] : [data.address, parsedAmount];
     }
 
