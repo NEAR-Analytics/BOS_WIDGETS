@@ -17,6 +17,12 @@ const Theme = styled.div`
   --switch-border-color: #32496a;
   --secondary-border-color: #3f577b;
   --yours-table-title: #ffffff;
+  --claim-bg-hover-color: rgba(19, 166, 157, 1);
+  --claim-bg-color: rgba(19, 166, 157, 0.2);
+  --claim-border-color: rgba(19, 166, 157, 1);
+  --withdraw-color: #fff;
+  --replay-color: #fff;
+  --claim-color: #fff;
 `;
 
 return (
