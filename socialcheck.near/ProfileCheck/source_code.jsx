@@ -6,44 +6,42 @@ if (!accountId) {
 }
 
 const initialProfile = Social.getr(`${accountId}/profile`);
-
 if (initialProfile === null) {
   return "Loading";
 }
 
-const [profile, setProfile] = useState(initialProfile);
+const [profile, setProfile] = useState(initialProfile || {});
 const [fieldErrors, setFieldErrors] = useState({});
 const [prompt, setPrompt] = useState("");
-const [isCheckComplete, setIsCheckComplete] = useState(null);
 
 // Define the validation function
 function isProfileValid(profile) {
   let invalidFields = [];
 
-  if (typeof profile.name !== "string" || profile.name.trim() === "") {
+  if (typeof profile?.name !== "string" || profile.name?.trim() === "") {
     invalidFields.push("name");
   }
 
   const isStandardImageValid =
-    profile.image.ipfs_cid && typeof profile.image.ipfs_cid === "string";
+    profile.image?.ipfs_cid && typeof profile.image?.ipfs_cid === "string";
   const isNftImageValid =
-    profile.image.nft && typeof profile.image.nft.contractId === "string";
+    profile.image?.nft && typeof profile.image.nft?.contractId === "string";
   const isUrlImageValid =
-    profile.image.url && typeof profile.image.url === "string";
+    profile.image?.url && typeof profile.image?.url === "string";
 
   if (!isNftImageValid && !isStandardImageValid && !isUrlImageValid) {
     invalidFields.push("image");
   }
 
   const isBackgroundImageValid =
-    profile.backgroundImage.ipfs_cid &&
-    typeof profile.backgroundImage.ipfs_cid === "string";
+    profile.backgroundImage?.ipfs_cid &&
+    typeof profile.backgroundImage?.ipfs_cid === "string";
   const isBackgroundNftValid =
-    profile.backgroundImage.nft &&
-    typeof profile.backgroundImage.nft.contractId === "string";
+    profile.backgroundImage?.nft &&
+    typeof profile.backgroundImage?.nft.contractId === "string";
   const isBackgroundUrlValid =
-    profile.backgroundImage.url &&
-    typeof profile.backgroundImage.url === "string";
+    profile.backgroundImage?.url &&
+    typeof profile.backgroundImage?.url === "string";
 
   if (
     !isBackgroundImageValid &&
@@ -61,7 +59,9 @@ function isProfileValid(profile) {
     invalidFields.push("description");
   }
 
-  const hasValidTag = Object.values(profile.tags).some((tag) => tag !== null);
+  const hasValidTag = Object.values(profile.tags || []).some(
+    (tag) => tag !== null
+  );
   if (!hasValidTag) {
     invalidFields.push("tags");
   }
@@ -82,7 +82,7 @@ function isProfileValid(profile) {
   };
 }
 const [isValidProfile, setIsValidProfile] = useState(
-  isProfileValid(initialProfile)
+  isProfileValid(initialProfile || {})
 );
 
 function handleProfileChange(updatedProfile) {
@@ -102,13 +102,14 @@ function handleSubmit() {
         args: {
           data: { [accountId]: { profile } },
         },
-        deposit: 30e21,
+        deposit: 3e22,
         gas: 2e14,
       },
       {
         contractName: contract,
         methodName: "verify_social_profile_completeness",
         gas: 2e14,
+        deposit: 3e21,
       },
     ]);
   } else {
@@ -180,19 +181,24 @@ const completedCheckMsg = (
     app to verify
   </div>
 );
-
+const isCheckComplete = Near.view(
+  contract,
+  "has_complete_social_profile_check",
+  { account_id: accountId }
+);
 useEffect(() => {
-  const isCheckComplete = Near.view(
-    contract,
-    "has_complete_social_profile_check",
-    { account_id: accountId }
-  );
-  if (isCheckComplete === null) return isCheckComplete(isCheckComplete);
-  if (isCheckComplete) return setPrompt(completedCheckMsg);
-  if (!isCheckComplete) {
+  if (isCheckComplete === null) return;
+  else if (isCheckComplete) return setPrompt(completedCheckMsg);
+  else {
     const newValidity = isProfileValid(profile);
     if (newValidity.isValid) {
-      Near.call(contract, "verify_social_profile_completeness", null, 2e14);
+      Near.call(
+        contract,
+        "verify_social_profile_completeness",
+        null,
+        2e14,
+        3e21
+      );
     } else {
       // Update field errors
       const newFieldErrors = {};
@@ -204,7 +210,6 @@ useEffect(() => {
     }
   }
 }, [isCheckComplete]);
-
 return (
   <div className="row">
     <div className="col-lg-6">
