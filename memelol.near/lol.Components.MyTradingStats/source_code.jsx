@@ -54,7 +54,7 @@ const checkRefSwaps = async () => {
     const stats = myStats;
     stats.buy = filterTxn("wrap.near", "memelol.near", "amount_in").toFixed(2);
     stats.sell = filterTxn("memelol.near", "wrap.near", "amount_out").toFixed(
-      2,
+      2
     );
 
     setMyStats(stats);
