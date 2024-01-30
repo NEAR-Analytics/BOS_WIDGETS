@@ -20,7 +20,7 @@ if (!state.allVotingPowerIsFetched) {
   Near.asyncView(
     META_VOTE_CONTRACT_ID,
     "get_all_locking_positions",
-    { voter_id: context.accountId },
+    { account_id: context.accountId },
     "final",
     false
   ).then((allLockingPositions) => {
