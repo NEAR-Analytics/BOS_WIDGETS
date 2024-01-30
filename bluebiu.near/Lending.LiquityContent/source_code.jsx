@@ -17,11 +17,13 @@ const {
   tab,
 } = props;
 
+const { markets, VesselManagerOperations } = dexConfig;
+
+console.log(111111, props);
 State.init({
-  newMarkets: {},
+  newMarkets: markets,
 });
 
-const { markets } = dexConfig;
 const getWalletBalance = () => {
   if (!markets) return;
   let nativeOToken = "";
@@ -71,7 +73,6 @@ const getWalletBalance = () => {
     provider: Ethers.provider(),
   })
     .then((res) => {
-      console.log(5555, res);
       for (let i = 0, len = res.length; i < len; i++) {
         markets[underlyingTokens[i].address].userUnderlyingBalance = res[i][0]
           ? ethers.utils.formatUnits(
@@ -94,7 +95,7 @@ const getWalletBalance = () => {
         // count++;
         // formatedData("getWalletBalance");
       }
-      console.log(6666, markets);
+
       State.update({
         newMarkets: markets,
       });
@@ -103,6 +104,51 @@ const getWalletBalance = () => {
       console.log("getWalletBalance error", err);
     });
 };
+
+const getMinted = () => {
+  const underlyingTokens = Object.values(markets);
+
+  const calls = underlyingTokens.map((item) => ({
+    address: VesselManagerOperations,
+    name: "getEntireSystemDebt",
+    params: [item.underlyingToken.address],
+  }));
+
+  multicall({
+    abi: [
+      {
+        inputs: [{ internalType: "address", name: "_asset", type: "address" }],
+        name: "getEntireSystemDebt",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "entireSystemDebt",
+            type: "uint256",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      for (let i = 0, len = res.length; i < len; i++) {
+        markets[underlyingTokens[i].underlyingToken.address]["GRAI-MINTED"] =
+          res[i][0] ? ethers.utils.formatUnits(res[i][0]._hex) : "0";
+      }
+      State.update({
+        newMarkets: markets,
+      });
+    })
+    .catch((err) => {
+      console.log("getMinted_err", err);
+    });
+};
+
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
@@ -110,28 +156,8 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   getWalletBalance();
+  getMinted();
 }, [dexConfig]);
-// const handleTableButtonClick = (address, actionText) => {
-//   const market = state.markets[address];
-//   const dapp = {
-//     userTotalSupplyUsd: state.userTotalSupplyUsd,
-//     userTotalBorrowUsd: state.userTotalBorrowUsd,
-//     totalCollateralUsd: state.totalCollateralUsd,
-//     rewards: state.rewards,
-//     dappIcon: dexConfig.icon,
-//     dappName: dexConfig.name,
-//   };
-
-//   State.update({
-//     tableButtonClickData: {
-//       ...dapp,
-//       ...market,
-//       config: { ...dexConfig, wethAddress },
-//       actionText,
-//     },
-//     showDialog: true,
-//   });
-// };
 
 return (
   <StyledContainer>
@@ -139,9 +165,8 @@ return (
       <Widget
         src="bluebiu.near/widget/Lending.LiquityMarkets"
         props={{
-          markets: state.markets,
-          totalCollateralUsd: state.totalCollateralUsd,
-          userTotalBorrowUsd: state.userTotalBorrowUsd,
+          // totalCollateralUsd: state.totalCollateralUsd,
+          // userTotalBorrowUsd: state.userTotalBorrowUsd,
           addAction,
           toast,
           chainId,
