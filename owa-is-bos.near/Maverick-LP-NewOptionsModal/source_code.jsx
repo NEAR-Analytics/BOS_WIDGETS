@@ -101,10 +101,12 @@ const validateOptions = (fee, width, filterPools) => {
       );
 
   if (existPool.length > 0) {
+    console.log("Existe la pool");
     State.update({
       existPool: true,
     });
   } else {
+    console.log("No existe la pool");
     State.update({
       existPool: false,
     });
