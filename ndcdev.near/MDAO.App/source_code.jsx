@@ -6,6 +6,14 @@ if (!page) page = "home";
 
 function Page() {
   switch (page) {
+    case "comments": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Comment`}
+          props={passProps}
+        />
+      );
+    }
     case "home": {
       return (
         <Widget
