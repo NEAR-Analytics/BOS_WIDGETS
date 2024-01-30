@@ -431,12 +431,26 @@ if (wrapType) {
 useEffect(() => {
   if (!account || !gas) return;
   const provider = Ethers.provider();
+  let baseAmount = Big(0);
+  if (inputCurrency.isNative) {
+    baseAmount = baseAmount.add(
+      ethers.utils.parseUnits(
+        Big(inputCurrencyAmount || 0).toFixed(inputCurrency.decimals),
+        inputCurrency.decimals
+      )
+    );
+  }
+  State.update({ swapping: true });
+  const _gas = Big(ethers.utils.formatUnits(gas, 18));
   provider.getBalance(account).then((rawBalance) => {
     State.update({
       gasBalance: rawBalance.toString(),
-      isGasEnough: !Big(rawBalance.toString()).lt(gas.toString()),
-      gas: ethers.utils.formatUnits(gas, 18),
+      isGasEnough: !Big(rawBalance.toString())
+        .minus(baseAmount)
+        .lt(gas.toString()),
+      gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
     });
+    State.update({ swapping: false });
   });
 }, [account, gas]);
 
@@ -470,7 +484,7 @@ return (
       disabled={state.swapping || !state.isGasEnough}
     >
       {!state.isGasEnough ? (
-        `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
+        `Not enough gas(${state.gas}) needed`
       ) : state.swapping ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
