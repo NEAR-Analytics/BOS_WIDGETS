@@ -25,8 +25,8 @@ State.init({
   totalVotingPowerIsFetched: false,
 });
 
-const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+const yoctoToAAXXII = (amountYocto) =>
+  new Big(amountYocto).div(new Big(10).pow(5)).toFixed(0);
 
 const numberWithCommas = (x) =>
   x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -102,7 +102,7 @@ if (!state.thresholdIsFetched) {
   Near.asyncView(contractId, "get_proposal_threshold", {}, "final", false).then(
     (threshold) =>
       State.update({
-        threshold: yoctoToNear(threshold),
+        threshold: yoctoToAAXXII(threshold),
         thresholdIsFetched: true,
       })
   );
@@ -229,7 +229,7 @@ if (
   return <>Loading...</>;
 }
 const quorumToReach =
-  (parseInt(yoctoToNear(state.totalVotingPower)) * state.quorum) / 100 / 100;
+  (parseInt(yoctoToAAXXII(state.totalVotingPower)) * state.quorum) / 100 / 100;
 const quorumToReachPercentage = state.quorum / 100;
 return (
   <Container>
