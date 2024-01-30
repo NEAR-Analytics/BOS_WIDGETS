@@ -1,6 +1,6 @@
 const LIMIT = 10;
 const filteredAccountIds = props.filteredAccountIds;
-const setPostExists = props.setPostExists ?? (() => {});
+const setShowCard = props.setShowCard ?? (() => {});
 const GRAPHQL_ENDPOINT =
   props.GRAPHQL_ENDPOINT ?? "https://near-queryapi.api.pagoda.co";
 
@@ -231,7 +231,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (postsData.posts.length > 0) {
-    setPostExists(true);
+    setShowCard(true);
   }
 }, [postsData]);
 
