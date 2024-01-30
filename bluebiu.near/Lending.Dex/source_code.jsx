@@ -30,6 +30,7 @@ const {
   nativeCurrency,
   isChainSupported,
 } = props;
+const { type } = dexConfig;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -65,23 +66,44 @@ return (
         }}
       />
     </StyledHeader>
-    <Widget
-      src="bluebiu.near/widget/Lending.Content"
-      props={{
-        dexConfig,
-        wethAddress,
-        multicallAddress,
-        multicall,
-        prices,
-        chainIdNotSupport: !isChainSupported,
-        account,
-        addAction,
-        toast,
-        chainId,
-        nativeCurrency,
-        tab: state.tab,
-      }}
-    />
+    {type === "liquity" ? (
+      <Widget
+        src="bluebiu.near/widget/Lending.LiquityContent"
+        props={{
+          dexConfig,
+          wethAddress,
+          multicallAddress,
+          multicall,
+          prices,
+          chainIdNotSupport: !isChainSupported,
+          account,
+          addAction,
+          toast,
+          chainId,
+          nativeCurrency,
+          tab: state.tab,
+        }}
+      />
+    ) : (
+      <Widget
+        src="bluebiu.near/widget/Lending.Content"
+        props={{
+          dexConfig,
+          wethAddress,
+          multicallAddress,
+          multicall,
+          prices,
+          chainIdNotSupport: !isChainSupported,
+          account,
+          addAction,
+          toast,
+          chainId,
+          nativeCurrency,
+          tab: state.tab,
+        }}
+      />
+    )}
+
     {!isChainSupported && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
