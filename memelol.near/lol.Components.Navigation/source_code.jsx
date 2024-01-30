@@ -45,7 +45,7 @@ const Navigation = () => {
     },
     {
       href: "",
-      title: "Soon...",
+      title: "LOL Puzzle Soon...",
     },
   ];
 
