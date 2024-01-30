@@ -303,7 +303,6 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
-        console.log(5555, res);
         for (let i = 0, len = res.length; i < len; i++) {
           markets[underlyingTokens[i].address].userUnderlyingBalance = res[i][0]
             ? ethers.utils.formatUnits(
@@ -326,7 +325,7 @@ useEffect(() => {
           count++;
           // formatedData("getWalletBalance");
         }
-        console.log(6666, markets);
+
         onLoad({ markets });
       })
       .catch((err) => {
