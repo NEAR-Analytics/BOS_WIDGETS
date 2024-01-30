@@ -17,20 +17,30 @@ const Button = styled.button`
     opacity: 0.8;
   }
 
-  &.withdraw,
-  &.claim {
-    background-color: var(--withdraw-bg-color);
+  &.withdraw {
+    background: var(--withdraw-bg-color);
     border: 1px solid var(--withdraw-border-color);
+    color: var(--withdraw-color);
 
     &:hover {
-      background-color: var(--withdraw-bg-hover-color);
+      background: var(--withdraw-bg-hover-color);
+    }
+  }
+  &.claim {
+    background: var(--claim-bg-color);
+    border: 1px solid var(--claim-border-color);
+    color: var(--claim-color);
+
+    &:hover {
+      background: var(--claim-bg-hover-color);
     }
   }
   &.repay {
-    background-color: var(--repay-bg-color);
+    background: var(--repay-bg-color);
     border: 1px solid var(--repay-border-color);
+    color: var(--replay-color);
     &:hover {
-      background-color: var(--repay-bg-hover-color);
+      background: var(--repay-bg-hover-color);
     }
   }
 
