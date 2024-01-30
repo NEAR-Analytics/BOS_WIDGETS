@@ -49,6 +49,7 @@ const ERC20_ABI = [
 const Button = styled.button`
   background-color: var(--switch-color);
   line-height: 46px;
+  height: 46px;
   border-radius: 10px;
   color: var(--button-text-color);
   font-size: 18px;
@@ -91,7 +92,7 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText) return;
-console.log("data---", data);
+
 useEffect(() => {
   State.update({
     approving: false,
@@ -213,7 +214,6 @@ const tokenAddr =
     : data.underlyingToken.address;
 const spender =
   data.config.type == "aave2" ? getAAVE2ApproveAddress() : data.address;
-console.log("APPROVE: ", tokenAddr, spender);
 
 const getAllowance = () => {
   const TokenContract = new ethers.Contract(
@@ -222,7 +222,6 @@ const getAllowance = () => {
     Ethers.provider().getSigner()
   );
   TokenContract.allowance(account, spender).then((allowanceRaw) => {
-    console.log("ALLOWANCE:", allowanceRaw.toString());
     State.update({
       isApproved: !Big(
         ethers.utils.formatUnits(
@@ -312,15 +311,16 @@ if (!state.isApproved) {
   };
   return (
     <Button onClick={handleApprove} disabled={state.approving}>
-      {state.approving && (
+      {state.approving ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Approve"
       )}
-      Approve
     </Button>
   );
 }
