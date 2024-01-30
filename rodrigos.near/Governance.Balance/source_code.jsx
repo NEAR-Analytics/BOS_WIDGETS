@@ -11,7 +11,7 @@ State.init({
   nearBalanceIsFetched: false,
 });
 const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+  new Big(amountYocto).div(new Big(10).pow(5)).toFixed(0);
 
 const numberWithCommas = (x) =>
   x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
