@@ -379,7 +379,6 @@ useEffect(() => {
       gasLimit: _gas,
     })
       .then((res) => {
-        console.log(444444, res);
         onLoad({
           gas: _gas,
           unsignedTx: res,
@@ -387,7 +386,6 @@ useEffect(() => {
         });
       })
       .catch((err) => {
-        console.log(55555, res);
         onLoad({});
       });
   };
