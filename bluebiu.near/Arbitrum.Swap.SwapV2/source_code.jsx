@@ -183,7 +183,7 @@ return (
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.SwapButton"
         props={{
-          routerAddress: dexConfig.routerAddress,
+          routerAddress: dexConfig.routerAddress || state.routerAddress,
           wethAddress,
           title,
           chainName,
