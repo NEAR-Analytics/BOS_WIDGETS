@@ -1,6 +1,6 @@
-const [apiKey, setApiKey] = useState("");
-const [viewerId, setViewerId] = useState("");
-const [targetId, setTargetId] = useState("");
+const [apiKey, setApiKey] = useState("DEC72E1F-9F06-4913-BC69-48748E1D39F3");
+const [viewerId, setViewerId] = useState(235259);
+const [targetId, setTargetId] = useState(195725);
 
 const [farData, setFarData] = useState(null);
 const [error, setError] = useState(null);
