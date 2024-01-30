@@ -7,7 +7,6 @@ getCommunity = getCommunity || (() => <></>);
 setCommunitySocialDB = setCommunitySocialDB || (() => <></>);
 
 const communityData = getCommunity({ handle });
-const [postsExists, setPostExists] = useState(false);
 
 const MainContent = styled.div`
   padding-left: 2rem;
@@ -48,10 +47,6 @@ const Container = styled.div`
   .card {
     border-radius: 1rem !important;
   }
-
-  .display-none {
-    display: none;
-  }
 `;
 
 const Tag = styled.div`
@@ -84,20 +79,13 @@ return (
                   src={"megha19.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    communityAccountId: `${handle}.community.devhub.near`,
                   }}
                 />
               </div>
             )}
           <div className="d-flex flex-wrap justify-content-between">
             <Heading>Announcements</Heading>
-            <div
-              className={
-                postsExists
-                  ? "d-flex align-items-center gap-2"
-                  : " display-none"
-              }
-            >
+            <div className="d-flex align-items-center gap-2">
               <select
                 name="sort"
                 id="sort"
@@ -114,25 +102,17 @@ return (
               </select>
             </div>
           </div>
-          {!postsExists && (
-            <div>
-              <h6>No announcements exists.</h6>
-            </div>
-          )}
-          <div className={postsExists && "card p-4"}>
-            <Widget
-              src="megha19.near/widget/devhub.components.organism.Feed"
-              props={{
-                showFlagAccountFeature: true,
-                filteredAccountIds: [
-                  `${handle}.community.devhub.near`,
-                ],
-                sort: sort,
-                setPostExists: setPostExists,
-                showFlagAccountFeature: true,
-              }}
-            />
-          </div>
+
+          <Widget
+            src="megha19.near/widget/devhub.components.organism.Feed"
+            props={{
+              showFlagAccountFeature: true,
+              filteredAccountIds: [
+                `${handle}.community.devhub.near`,
+              ],
+              sort: sort,
+            }}
+          />
         </div>
       </MainContent>
       <SidebarContainer>
