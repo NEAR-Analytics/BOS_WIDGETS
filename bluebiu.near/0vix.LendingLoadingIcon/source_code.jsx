@@ -6,8 +6,8 @@ const Loading = styled.div`
   line-height: ${Size}px;
   animation: loading 1s linear infinite;
   transform-origin: center center;
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  margin: 0 auto;
   @keyframes loading {
     0% {
       transform: rotate(0deg);
