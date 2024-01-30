@@ -167,7 +167,9 @@ useEffect(() => {
       market.exchangeRateStored = totalSupply
         .div(market.totalSupply)
         .toString();
-      market.userSupply = totalSupply.mul(market.exchangeRateStored).toString();
+      market.userSupply = Big(market.userSupply || 0)
+        .mul(market.exchangeRateStored)
+        .toString();
       market.totalSupply = totalSupply.toString();
       const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
       const marketBorrowUsd = Big(market.totalBorrows || 0).mul(
