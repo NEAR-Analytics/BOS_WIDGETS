@@ -60,7 +60,7 @@ const curriculumLinks = [{
   component: {
     path: "evaluator.near/widget/Curriculum.HelloNear",
     bindings: {
-      userAccountId
+      userAccountId,
     }
   },
 },
@@ -69,7 +69,7 @@ const curriculumLinks = [{
   component: {
     path: "evaluator.near/widget/Curriculum.GuestBook",
     bindings: {
-      evaluationMethod: "evaluate_guest_book",
+      userAccountId,
     }
   },
 },
