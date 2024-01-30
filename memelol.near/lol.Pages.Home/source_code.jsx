@@ -2,7 +2,7 @@ const { assets, content, contractName } = props;
 const { format, Token } = VM.require(`memelol.near/widget/lol.Utils`);
 const { Snow } = VM.require(`memelol.near/widget/lol.Components.Snow`);
 const { Navigation } = VM.require(
-  `memelol.near/widget/lol.Components.Navigation`,
+  `memelol.near/widget/lol.Components.Navigation`
 );
 const { Button } = VM.require(`memelol.near/widget/lol.Components.Button`);
 
@@ -10,15 +10,20 @@ const TOKENOMIC = [
   {
     title: "In Circulation",
     color: "rgb(89 110 255 / 90%)",
-    value: 537.75,
+    value: 558.52,
     sub: [
-      { title: "Marketing spends", value: 10.35 },
-      { title: "LP amount", value: 231.14 },
+      { title: "Marketing spends", value: 31.12 },
+      {
+        title: "LP amount",
+        value: 231.14,
+        icon: (
+          <i title="Locked Pool" className="bi bi-database-fill-lock ml-2" />
+        ),
+      },
       { title: "Community funds", value: 296.26 },
     ],
   },
   { title: "Burned Amount", color: "rgb(0 0 0 / 40%)", value: 218.48 },
-  { title: "Marketing", color: "#fff", value: 20.77 },
 ];
 
 const totalSupply = TOKENOMIC.map((v) => v.value).reduce((a, b) => a + b, 0);
@@ -261,7 +266,7 @@ return (
       >
         <h3>
           <b>
-            Decentrilized <span className="px-2">•</span> Community Owned{" "}
+            100% Decentrilized <span className="px-2">•</span> Community Owned{" "}
             <span className="px-2">•</span> Built on BOS
             <span className="px-2">•</span> Meme Coin
           </b>
@@ -287,7 +292,7 @@ return (
           </div>
           <a
             className="buy-token"
-            href="https://app.ref.finance/#near|memelol.near"
+            href="https://app.ref.finance/#memelol.near|near"
           >
             <Button className="w-100 button justify-content-center">
               Buy $LOL
@@ -301,11 +306,7 @@ return (
       <Overlay color="rgb(255 242 158 / 95%)">
         <h1 className="font text-center mb-4">Tokenomics</h1>
         <h3 className="text-center mb-2">
-          <b>
-            Decentrilized on{" "}
-            {parseInt(((totalSupply - TOKENOMIC[2].value) / totalSupply) * 100)}
-            %
-          </b>
+          <b>Decentrilized on 100%</b>
         </h3>
         <Progress values={TOKENOMIC} />
         <div className="d-flex w-100 flex-column gap-2 my-4 px-3">
@@ -329,18 +330,15 @@ return (
               {t.sub &&
                 t.sub.map((t) => (
                   <div className="pl d-flex justify-content-between align-items-center">
-                    <small>{t.title}</small>
+                    <small>
+                      {t.title} {t.icon}
+                    </small>
+
                     <small>{t.value}M</small>
                   </div>
                 ))}
             </>
           ))}
-          <div className="d-flex justify-content-between align-ittems-center">
-            <small>
-              <b>Marketing left</b>
-            </small>
-            <h3 className="font">{TOKENOMIC[2].value}M</h3>
-          </div>
           <div style={{ background: "#000", height: "3px" }} className="my-2" />
           <div className="d-flex justify-content-between align-ittems-center">
             <small>
@@ -350,21 +348,6 @@ return (
           </div>
         </div>
       </Overlay>
-    </Section>
-    <Section
-      className="d-flex flex-column align-items-center justify-content-center"
-      color="#efefef"
-    >
-      <h1 className="font text-center mt-2">How to Buy $LOL ?</h1>
-      <small className="mt-3">
-        Go on <a href="https://app.ref.finance/">https://app.ref.finance</a> add
-        a token and start swap it.
-      </small>
-      <div className="d-flex flex-wrap gap-2 my-5 justify-content-center align-items-center">
-        <Img src={assets.instructions[0]} />
-        <Img src={assets.instructions[1]} />
-        <Img src={assets.instructions[2]} />
-      </div>
     </Section>
   </Container>
 );
