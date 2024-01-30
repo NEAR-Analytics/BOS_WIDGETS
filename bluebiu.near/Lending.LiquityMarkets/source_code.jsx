@@ -44,8 +44,8 @@ const COLUMNS = [
 ];
 
 const {
-  totalCollateralUsd,
-  userTotalBorrowUsd,
+  // totalCollateralUsd,
+  // userTotalBorrowUsd,
   addAction,
   toast,
   chainId,
@@ -57,16 +57,16 @@ const {
 } = props;
 const data = Object.values(dexConfig.markets || {});
 
-useEffect(() => {
-  if (!totalCollateralUsd && !userTotalBorrowUsd) {
-    return;
-  }
-  State.update({
-    borrowLimit: Big(totalCollateralUsd || 0)
-      .minus(userTotalBorrowUsd || 0)
-      .toString(),
-  });
-}, [totalCollateralUsd, userTotalBorrowUsd]);
+// useEffect(() => {
+//   if (!totalCollateralUsd && !userTotalBorrowUsd) {
+//     return;
+//   }
+//   State.update({
+//     borrowLimit: Big(totalCollateralUsd || 0)
+//       .minus(userTotalBorrowUsd || 0)
+//       .toString(),
+//   });
+// }, [totalCollateralUsd, userTotalBorrowUsd]);
 
 return (
   <StyledContainer>
@@ -77,9 +77,9 @@ return (
       }}
     />
     {data &&
-      data.map((record) => (
+      data.map((record, index) => (
         <Widget
-          key={record.address}
+          key={index}
           src="bluebiu.near/widget/Lending.LiquityMarketRow"
           props={{
             columns: COLUMNS,
