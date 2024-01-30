@@ -2,7 +2,7 @@ const evaluationName = "Hello Near";
 const evaluationMethod = "evaluate_hello_near";
 const accentColor = "#BEF264";
 
-const text = (`
+const text = (userAccountId) => (`
 # Hello Near
 
 ### Concept:
@@ -20,12 +20,12 @@ In this evaluation we will create a simple contract that will store a **'greetin
 
 ### Interacting with the contract:
 \`\`\`bash
-$ near call <contract.myaccount.near> set_greeting '{"greeting": "howdy"}' --accountId ${context.accountId}
+$ near call hello.${userAccountId} set_greeting '{"greeting": "howdy"}' --accountId ${userAccountId}
 > ''
 \`\`\`
 
 \`\`\`bash
-$ near view <contract.myaccount.near> get_greeting
+$ near view hello.${userAccountId} get_greeting
 > 'howdy'
 \`\`\`
 
