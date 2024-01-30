@@ -1,5 +1,4 @@
-const communityAccountId = props.communityAccountId;
-if (!communityAccountId) {
+if (!context.accountId) {
   return <></>;
 }
 
@@ -11,7 +10,7 @@ State.init({
   mentionsArray: [], // all the mentions in the description
 });
 
-const profile = Social.getr(`${communityAccountId}/profile`);
+const profile = Social.getr(`${context.accountId}/profile`);
 const autocompleteEnabled = true;
 
 const content = {
@@ -40,7 +39,7 @@ function extractMentions(text) {
 
 function extractTagNotifications(text, item) {
   return extractMentions(text || "")
-    .filter((accountId) => accountId !== communityAccountId)
+    .filter((accountId) => accountId !== context.accountId)
     .map((accountId) => ({
       key: accountId,
       value: {
@@ -67,7 +66,7 @@ function composeData() {
 
   const notifications = extractTagNotifications(state.text, {
     type: "social",
-    path: `${communityAccountId}/post/main`,
+    path: `${context.accountId}/post/main`,
   });
 
   if (notifications.length) {
@@ -212,6 +211,10 @@ const Textarea = styled.div`
 
     &:empty + p {
       display: block;
+    }
+
+    &:focus {
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
     }
   }
 `;
@@ -363,7 +366,7 @@ return (
           src="near/widget/v1.Posts.Post"
           loading={<div className="w-100" style={{ height: "200px" }} />}
           props={{
-            accountId: communityAccountId,
+            accountId: context.accountId,
             blockHeight: "now",
             content,
           }}
