@@ -5,7 +5,11 @@ if (!props.data || !props.columns) {
 const data = props.data || [];
 const columns = props.columns;
 
-State.init({ currentPage: 1, searchValue: "" });
+State.init({
+  currentPage: 1,
+  searchValue: "",
+  sort: null, // { name: "asc", key: "star" } //asc -desc
+});
 const rowsCount = props.rowsCount || 5;
 const themeColor = props.themeColor;
 const handleSearch = (event) => {
@@ -13,10 +17,10 @@ const handleSearch = (event) => {
   State.update({ searchValue: value });
 };
 const handlePagination = () => {
-  if (!rowsCount) return { table: data };
+  if (!rowsCount) return { table: sortedDate(data) };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(data.length / rowsCount);
-  const currentTableData = data
+  const currentTableData = sortedDate(data)
     .filter((row) =>
       Object.values(row).some((value) =>
         value.toString().includes(state.searchValue)
@@ -41,6 +45,31 @@ const Table = styled.table`
 
 
 `;
+const sortedDate = (data) => {
+  if (!state.sort) return data;
+  const sorted = data.sort((a, b) => {
+    if (state.sort.name === "asc") {
+      return typeof a[state.sort.key] === "number"
+        ? b[state.sort.key] - a[state.sort.key]
+        : b[state.sort.key].localeCompare(a[state.sort.key]);
+    }
+    return typeof a[state.sort.key] === "number"
+      ? a[state.sort.key] - b[state.sort.key]
+      : a[state.sort.key].localeCompare(b[state.sort.key]);
+  });
+  return sorted;
+};
+const handleSort = (key) => {
+  if (state.sort && state.sort.key === key) {
+    if (state.sort.name === "asc") {
+      State.update({ sort: { name: "desc", key } });
+    } else {
+      State.update({ sort: null });
+    }
+  } else {
+    State.update({ sort: { name: "asc", key } });
+  }
+};
 
 const onHandelId = (id) => {
   let customId = "";
@@ -55,20 +84,47 @@ const onHandelId = (id) => {
 };
 const formatNumber = (num) => {
   if (num >= 1000000000) {
-    return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + "b";
+    return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + " b";
   }
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(2).replace(/\.0$/, "") + "m";
+    return (num / 1000000).toFixed(2).replace(/\.0$/, "") + " m";
   }
   if (num >= 1000) {
-    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + " k";
   }
 
-  if (num < 1000 && num > 0.0001) {
+  if (num < 0 && num > 0.0001) {
     return (Math.round(num * 1000) / 1000).toFixed(3) + "";
   }
 
   return num;
+};
+
+const triangleState = (key) => {
+  if (!state.sort) return;
+  return (
+    state.sort.key === key &&
+    (state.sort.name === "asc" ? (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ transform: "rotate(180deg)" }}
+        width="8"
+        height="8"
+        viewBox="0 0 24 24"
+      >
+        <path d="M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z" />
+      </svg>
+    ) : (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="8"
+        height="8"
+        viewBox="0 0 24 24"
+      >
+        <path d="M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z" />
+      </svg>
+    ))
+  );
 };
 return (
   <div className="table-responsive">
@@ -84,6 +140,7 @@ return (
           <tr>
             {columns.map((th) => (
               <th
+                onClick={() => handleSort(th.key)}
                 key={th.title}
                 className="col-1"
                 style={{
@@ -93,7 +150,7 @@ return (
                 }}
                 scope="col"
               >
-                <div>
+                <div className="d-flex align-items-center pointer gap-2">
                   {th.description ? (
                     <OverlayTrigger
                       placement={th.position || "top"}
@@ -104,6 +161,7 @@ return (
                   ) : (
                     <span>{th.title}</span>
                   )}
+                  {triangleState(th.key)}
                 </div>
               </th>
             ))}
@@ -129,7 +187,7 @@ return (
                             color:
                               td.colors ||
                               themeColor?.table_pagination?.columntextcolor,
-                            fontSize: 12,
+                            fontSize: 14,
                             textAlign: td.align,
                             verticalAlign: "middle",
                           }}
@@ -248,7 +306,7 @@ return (
                 );
               })}
         </tbody>
-      </Table>{" "}
+      </Table>
       <input
         type="text"
         placeholder="Search..."
