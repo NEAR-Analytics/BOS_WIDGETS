@@ -1,4 +1,4 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("megha2001.testnet/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -50,7 +50,7 @@ const Card = styled.div`
 const CommunityCard = ({ metadata }) => {
   const { handle, logo_url, name, description } = metadata;
   const link = href({
-    widgetSrc: "megha19.near/widget/app",
+    widgetSrc: "megha2001.testnet/widget/app",
     params: { page: "community", handle: handle },
   });
 
