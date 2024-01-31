@@ -29,7 +29,7 @@ const CommentCard = styled.div`
     gap: 12px;
     border-radius: "10px"};
     background: ${
-      sharedCommentId === data.originalComment.value.comment.commentId
+      sharedCommentId === data.value.comment.commentId
         ? "rgba(194, 205, 255, 0.8)"
         : "#fff"
     };
@@ -41,9 +41,16 @@ const CommentCardHeader = styled.div`
     align-items: center;
     justify-content: space-between;
     gap: 8px;
+    width: 100%;
   `;
 
 const CommentUserContent = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  `;
+
+const CommentEdition = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -266,15 +273,43 @@ function closeModal() {
   State.update({ showModal: false });
 }
 
+function getProperRootId() {
+  if (data.answers) {
+    return data.value.comment.commentId;
+  } else {
+    return data.value.comment.rootId;
+  }
+}
+
+function handleEditComment() {
+  State.update({
+    showModal: true,
+    editionData: data,
+    rootId: getProperRootId(),
+  });
+}
+
+function handleReplyListener() {
+  if (!canLoggedUserCreateComment) {
+    return;
+  }
+
+  State.update({
+    showModal: true,
+    editionData: undefined,
+    rootId: getProperRootId(),
+  });
+}
+
 return (
   <>
-    <CommentCard id={data.originalComment.value.comment.commentId}>
+    <CommentCard id={data.value.comment.commentId}>
       <CommentCardHeader>
         <CommentUserContent>
           <Widget
             src={widgets.views.standardWidgets.newStyledComponents.Element.User}
             props={{
-              accountId: data.originalComment.accountId,
+              accountId: data.accountId,
               options: {
                 showHumanBadge: true,
                 showImage: true,
@@ -285,12 +320,32 @@ return (
             }}
           />
         </CommentUserContent>
+
+        {context.accountId == data.accountId && (
+          <CommentEdition>
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: (
+                  <div className="d-flex justify-content-center align-items-center">
+                    <span className="mx-2">Edit</span>
+                    <i className="bi bi-pencil"></i>
+                  </div>
+                ),
+                className: `info outline mt-2`,
+                onClick: () => handleEditComment(),
+              }}
+            />
+          </CommentEdition>
+        )}
       </CommentCardHeader>
       <CommentCardContent>
         <Widget
           src={widgets.views.standardWidgets.socialMarkdown}
           props={{
-            text: data.originalComment.value.comment.text,
+            text: data.value.comment.text,
             onHashtag: (hashtag) => (
               <span
                 key={hashtag}
@@ -312,9 +367,7 @@ return (
         <TimestampCommentDiv>
           <i className="bi bi-clock" />
           <TimestampTextComment>
-            {new Date(
-              data.originalComment.value.comment.timestamp
-            ).toDateString()}
+            {new Date(data.value.comment.timestamp).toDateString()}
           </TimestampTextComment>
         </TimestampCommentDiv>
         <div>
@@ -323,14 +376,16 @@ return (
               src={widgets.views.editableWidgets.addComment}
               props={{
                 article: articleToRenderData,
-                originalComment: orginalCommentData ?? data,
+                originalComment: data,
                 widgets,
                 isTest,
-                replyingTo: data.originalComment.accountId,
+                replyingTo: data.accountId,
                 placement: "bottom",
                 onCloseModal: closeModal,
                 callLibs,
                 baseActions,
+                editionData: state.editionData,
+                rootCommentId: state.rootId,
               }}
             />
           )}
@@ -350,10 +405,7 @@ return (
                   disabled: !canLoggedUserCreateComment,
                   size: "sm",
                   className: "info outline",
-                  onClick: () => {
-                    canLoggedUserCreateComment &&
-                      State.update({ showModal: true });
-                  },
+                  onClick: handleReplyListener,
                 }}
               />
             </>
@@ -365,7 +417,7 @@ return (
             widgets,
             isTest,
             authorForWidget,
-            elementReactedId: data.originalComment.value.comment.commentId,
+            elementReactedId: data.value.comment.commentId,
             disabled: !canLoggedUserCreateComment,
             callLibs,
             baseActions,
@@ -386,7 +438,7 @@ return (
                 src={widgets.views.editableWidgets.commentView}
                 props={{
                   widgets,
-                  data: { originalComment: answer },
+                  data: answer,
                   orginalCommentData: data,
                   isTest,
                   authorForWidget,
