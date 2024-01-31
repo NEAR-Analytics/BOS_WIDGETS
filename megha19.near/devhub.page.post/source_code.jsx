@@ -13,7 +13,7 @@ const Container = styled.div`
 return (
   <Container>
     <Widget
-      src={"megha2001.testnet/widget/devhub.entity.post.Post"}
+      src={"megha19.near/widget/devhub.entity.post.Post"}
       props={{
         id,
       }}
