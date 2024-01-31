@@ -1,5 +1,5 @@
 const { getAccountCommunityPermissions } = VM.require(
-  "megha2001.testnet/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 ) || { getAccountCommunityPermissions: () => {} };
 const imagelink =
   "https://ipfs.near.social/ipfs/bafkreiajzvmy7574k7mp3if6u53mdukfr3hoc2kjkhjadt6x56vqhd5swy";
@@ -115,7 +115,7 @@ function Page({ data, onEdit, labels, accountId }) {
         <p>{description}</p>
         <Widget
           src={
-            "megha2001.testnet/widget/devhub.components.molecule.MarkdownViewer"
+            "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
