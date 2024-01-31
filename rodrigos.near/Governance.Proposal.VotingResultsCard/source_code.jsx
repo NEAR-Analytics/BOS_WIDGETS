@@ -7,7 +7,7 @@ const isQuorumReached = props.isQuorumReached;
 const isProposalSucceeded = props.isProposalSucceeded;
 const hasEnded = new Date().getTime() > Number(endDate);
 const yoctoToNear = (amountYocto) =>
-  parseInt(new Big(amountYocto).div(new Big(10).pow(24)));
+  parseInt(new Big(amountYocto).div(new Big(10).pow(5)));
 
 const numberWithCommas = (x) =>
   x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
