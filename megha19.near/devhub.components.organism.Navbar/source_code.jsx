@@ -2,10 +2,10 @@ const page = props.page;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("megha19.near/widget/core.lib.url");
+const { href: linkHref } = VM.require("megha2001.testnet/widget/core.lib.url");
 
 const { hasModerator } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "megha2001.testnet/widget/core.adapter.devhub-contract"
 );
 
 linkHref || (linkHref = () => {});
@@ -26,7 +26,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "megha19.near/widget/app",
+          widgetSrc: "megha2001.testnet/widget/app",
           params: { page: "home" },
         })}
       >
@@ -68,12 +68,12 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "megha19.near/widget/app",
+        widgetSrc: "megha2001.testnet/widget/app",
         params: { page: "profile", accountId: context.accountId },
       })}
     >
       <Widget
-        src="megha19.near/widget/devhub.components.molecule.ProfileCard"
+        src="megha2001.testnet/widget/devhub.components.molecule.ProfileCard"
         props={{ iconOnly: true, accountId: context.accountId || null }}
       />
     </Link>
@@ -230,7 +230,7 @@ return (
       <LinksContainer>
         {links.map((link) => (
           <Widget
-            src="megha19.near/widget/devhub.components.molecule.NavbarDropdown"
+            src="megha2001.testnet/widget/devhub.components.molecule.NavbarDropdown"
             props={{
               title: link.title,
               href: link.href,
@@ -259,7 +259,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/megha19.near/widget/app?page=${link.href}`}
+                href={`/megha2001.testnet/widget/app?page=${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -279,7 +279,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/megha19.near/widget/app?page=${it.href}`}
+                    href={`/megha2001.testnet/widget/app?page=${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
