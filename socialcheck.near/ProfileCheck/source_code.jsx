@@ -103,12 +103,12 @@ function handleSubmit() {
           data: { [accountId]: { profile } },
         },
         deposit: 3e22,
-        gas: 2e14,
+        gas: 4e13,
       },
       {
         contractName: contract,
         methodName: "verify_social_profile_completeness",
-        gas: 2e14,
+        gas: 7e13,
         deposit: 5e21,
       },
     ]);
@@ -196,7 +196,7 @@ useEffect(() => {
         contract,
         "verify_social_profile_completeness",
         null,
-        2e14,
+        7e13,
         5e21
       );
     } else {
