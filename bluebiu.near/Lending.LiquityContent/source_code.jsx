@@ -19,7 +19,6 @@ const {
 
 const { markets, VesselManagerOperations } = dexConfig;
 
-console.log(111111, props);
 State.init({
   newMarkets: markets,
 });
@@ -137,8 +136,11 @@ const getMinted = () => {
   })
     .then((res) => {
       for (let i = 0, len = res.length; i < len; i++) {
-        markets[underlyingTokens[i].underlyingToken.address]["GRAI-MINTED"] =
-          res[i][0] ? ethers.utils.formatUnits(res[i][0]._hex) : "0";
+        markets[underlyingTokens[i].underlyingToken.address]["MINTED"] = res[
+          i
+        ][0]
+          ? ethers.utils.formatUnits(res[i][0]._hex)
+          : "0";
       }
       State.update({
         newMarkets: markets,
