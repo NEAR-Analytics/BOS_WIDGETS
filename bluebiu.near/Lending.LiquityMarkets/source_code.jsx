@@ -32,8 +32,8 @@ const COLUMNS = [
     // type: "amount",
   },
   {
-    key: "GRAI-MINTED",
-    label: "GRAI MINTED",
+    key: "MINTED-CAP",
+    label: "MINTED/CAP",
     width: "15%",
     // type: "amount",
   },
@@ -56,17 +56,7 @@ const {
   prices,
 } = props;
 const data = Object.values(dexConfig.markets || {});
-
-// useEffect(() => {
-//   if (!totalCollateralUsd && !userTotalBorrowUsd) {
-//     return;
-//   }
-//   State.update({
-//     borrowLimit: Big(totalCollateralUsd || 0)
-//       .minus(userTotalBorrowUsd || 0)
-//       .toString(),
-//   });
-// }, [totalCollateralUsd, userTotalBorrowUsd]);
+// console.log("LiquityMarkets:", props);
 
 return (
   <StyledContainer>
@@ -82,17 +72,9 @@ return (
           key={index}
           src="bluebiu.near/widget/Lending.LiquityMarketRow"
           props={{
+            ...props,
             columns: COLUMNS,
             data: record,
-            borrowLimit: state.borrowLimit,
-            addAction,
-            toast,
-            chainId,
-            nativeCurrency,
-            dexConfig,
-            onSuccess,
-            account,
-            prices,
           }}
         />
       ))}
