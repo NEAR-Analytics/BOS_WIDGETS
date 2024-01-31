@@ -5,8 +5,10 @@ const getUniqueValidatorAddresses = (validators1, validators2) => {
 };
 
 const mainnetValidators = {
-  getAddresses: async (customRPCEndpoint) => {
+  getAddresses: async ({ customRPCEndpoint, debug }) => {
     customRPCEndpoint = customRPCEndpoint || "https://rpc.mainnet.near.org";
+    debug = debug || false;
+
     return new Promise((resolve, reject) => {
       try {
         let uniqueAccountIds = asyncFetch(customRPCEndpoint, {
@@ -24,14 +26,18 @@ const mainnetValidators = {
           console.log("aloha data", data);
           const { current_validators, next_validators } = data.body.result;
 
-          console.log("current_validators", current_validators);
-          console.log("next_validators", next_validators);
+          if (debug) {
+            console.log("current_validators", current_validators);
+            console.log("next_validators", next_validators);
+          }
 
           const uniqueAccountIds = getUniqueValidatorAddresses(
             current_validators,
             next_validators
           );
-          console.log("uniqueAccountIds", uniqueAccountIds);
+
+          if (debug) console.log("uniqueAccountIds", uniqueAccountIds);
+
           return resolve(uniqueAccountIds);
         });
       } catch {
