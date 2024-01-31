@@ -49,6 +49,7 @@ const ERC20_ABI = [
 const Button = styled.button`
   background-color: var(--switch-color);
   line-height: 46px;
+  height: 46px;
   border-radius: 10px;
   color: var(--button-text-color);
   font-size: 18px;
@@ -89,6 +90,7 @@ const {
   loading: estimating,
   gas,
   onApprovedSuccess,
+  isBigerThanBalance,
 } = props;
 // for Yours
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -124,10 +126,18 @@ if (!amount) {
   );
 }
 
+if (isBigerThanBalance) {
+  return (
+    <Button disabled={true} className={actionText.toLowerCase()}>
+      Insufficient Balance
+    </Button>
+  );
+}
+
 const tokenAddr = data.config.borrowTokenAddress;
 const spender = data.config.BorrowerOperations;
 
-console.log("APPROVE: ", tokenAddr, spender);
+console.log("APPROVE: ", tokenAddr, spender, props);
 
 const getAllowance = () => {
   const TokenContract = new ethers.Contract(
@@ -212,15 +222,16 @@ if (!state.isApproved) {
   };
   return (
     <Button onClick={handleApprove} disabled={state.approving}>
-      {state.approving && (
+      {state.approving ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Approve"
       )}
-      Approve
     </Button>
   );
 }
@@ -417,15 +428,16 @@ return (
       className={actionText.toLowerCase()}
       onClick={handleClick}
     >
-      {state.pending && (
+      {state.pending ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        actionText
       )}
-      {actionText}
     </Button>
   </>
 );
