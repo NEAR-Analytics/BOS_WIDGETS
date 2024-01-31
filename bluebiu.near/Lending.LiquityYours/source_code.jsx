@@ -38,40 +38,15 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { dexConfig, account } = props;
-const { StabilityPool, GRAIAddress } = dexConfig;
+const { dexConfig, account, multicall, multicallAddress } = props;
+const { StabilityPool, borrowTokenAddress } = dexConfig;
 
 State.init({
   tvl: "",
   deposits: "",
+  tokenBal: "",
 });
 
-function getTVL() {
-  const contract = new ethers.Contract(
-    GRAIAddress,
-    [
-      {
-        inputs: [{ internalType: "address", name: "account", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider()
-  );
-  contract
-    .balanceOf(StabilityPool)
-    .then((res) => {
-      console.log("tvl:", res, ethers.utils.formatUnits(res), res.toString());
-      State.update({
-        tvl: Big(ethers.utils.formatUnits(res)).toFixed(2),
-      });
-    })
-    .catch((err) => {
-      console.log("getTVL_error", err);
-    });
-}
 function getDeposit() {
   const contract = new ethers.Contract(
     StabilityPool,
@@ -89,12 +64,6 @@ function getDeposit() {
   contract
     .deposits(account)
     .then((res) => {
-      console.log(
-        "deposits:",
-        res,
-        ethers.utils.formatUnits(res),
-        res.toString()
-      );
       State.update({
         deposits: ethers.utils.formatUnits(res),
       });
@@ -104,9 +73,58 @@ function getDeposit() {
     });
 }
 
+function getInfo() {
+  const calls = [
+    { address: borrowTokenAddress, name: "balanceOf", params: [StabilityPool] },
+    { address: borrowTokenAddress, name: "balanceOf", params: [account] },
+  ];
+  multicall({
+    abi: [
+      {
+        constant: true,
+        inputs: [
+          {
+            name: "_owner",
+            type: "address",
+          },
+        ],
+        name: "balanceOf",
+        outputs: [
+          {
+            name: "balance",
+            type: "uint256",
+          },
+        ],
+        payable: false,
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      const [[tvlAmount], [tokenBalAmount]] = res;
+      console.log(
+        "get_borrow_token_res",
+        tvlAmount.toString(),
+        tokenBalAmount.toString()
+      );
+      State.update({
+        tvl: Big(ethers.utils.formatUnits(tvlAmount)).toFixed(2),
+        tokenBal: Big(ethers.utils.formatUnits(tokenBalAmount)).toFixed(2),
+      });
+    })
+    .catch((err) => {
+      console.log("multicall_borrow_error:", err);
+    });
+}
+
 useEffect(() => {
-  getTVL();
   getDeposit();
+  getInfo();
 }, []);
 
 return (
@@ -172,18 +190,11 @@ return (
     <Widget
       src="bluebiu.near/widget/Lending.LiquityPools"
       props={{
+        ...props,
         markets: state.markets,
         tvl: state.tvl,
         deposits: state.deposits,
-        // totalCollateralUsd: state.totalCollateralUsd,
-        // userTotalBorrowUsd: state.userTotalBorrowUsd,
-        addAction,
-        toast,
-        chainId,
-        nativeCurrency,
-        dexConfig,
-        account,
-        prices,
+        tokenBal: state.tokenBal,
         onSuccess: () => {
           State.update({
             loading: true,
