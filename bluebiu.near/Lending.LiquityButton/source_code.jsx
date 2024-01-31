@@ -120,6 +120,9 @@ useEffect(() => {
 }, [account, gas]);
 
 function handleClose() {
+  State.update({
+    pending: true,
+  });
   const contract = new ethers.Contract(
     data.BorrowerOperations,
     [
@@ -222,10 +225,10 @@ if (!amount) {
     </Button>
   );
 }
-if (Big(_debtTokenAmount || 0).lt(200)) {
+if (Big(_debtTokenAmount || 0).lt(data["MIN-DEBT"])) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
-      A minimum of 200 GRAI
+      A minimum of {data["MIN-DEBT"]} {data.BORROW_TOKEN}
     </Button>
   );
 }
@@ -332,6 +335,9 @@ if (!state.isApproved) {
 }
 
 function handleBorrow() {
+  State.update({
+    pending: true,
+  });
   const _upperHint = "0x544f96434f77437425d5aC40fd4755C0cf39399A";
   const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
 
