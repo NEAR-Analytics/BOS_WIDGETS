@@ -195,7 +195,6 @@ const TABS = ["Deposit", "Withdraw"];
 
 const {
   expand,
-  borrowLimit,
   addAction,
   toast,
   chainId,
@@ -254,7 +253,9 @@ const onAmountChange = (amount) => {
     return;
   }
   const params = { amount };
-
+  if (state.tab === "Deposit") {
+    params.isBigerThanBalance = Big(amount).gt(tokenBal || 0);
+  }
   State.update(params);
 
   state.debouncedGetTrade();
@@ -288,7 +289,6 @@ return (
             props={{
               icon: BORROW_URL,
               symbol: BORROW_TOKEN,
-              // balance: data.userUnderlyingBalance,
               balance: state.tab === "Deposit" ? tokenBal : deposits,
               price: prices[data.underlyingToken.symbol],
               amount: state.amount,
@@ -337,6 +337,7 @@ return (
                   isError: state.isError,
                   // loading: state.loading,
                   gas: state.gas,
+                  isBigerThanBalance: state.isBigerThanBalance,
                   onApprovedSuccess: () => {
                     if (!state.gas) state.getTrade();
                   },
