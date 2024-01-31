@@ -1,10 +1,10 @@
-const accountId = props.tgId ?? "name.tg";
+const accountId = props.tgId ?? context.accountId ?? "name.tg";
 const contactId = "game.hot.tg";
 
 let assets = Near.view(contactId, "get_assets");
 
 useEffect(() => {
-  if (state.accountId) {
+  if (state.accountId && state.accountId != "name.tg") {
     let data = Near.view(contactId, "get_user", {
       account_id: state.accountId,
     });
@@ -26,7 +26,7 @@ if (state === undefined) {
 
 const inputNearAccount = (
   <div class="mb-3">
-    Input NEAR account
+    Input NEAR Telegram account (name.tg)
     <input
       type="text"
       value={state.accountId}
@@ -42,7 +42,14 @@ if (!state.data || !state.assets) {
     <div>
       {inputNearAccount}
       <div class="alert alert-dark" role="alert">
-        Data not found
+        Data for {state.accountId} was not found. Join{" "}
+        <a
+          href="https://t.me/herewalletbot/app?startapp=152591"
+          target="_blank"
+        >
+          NEAR Telegram wallet
+        </a>{" "}
+        to mine $HOT.
       </div>
     </div>
   );
