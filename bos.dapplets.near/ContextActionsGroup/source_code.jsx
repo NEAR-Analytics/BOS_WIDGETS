@@ -9,7 +9,7 @@ const handleOnMouseEnter = () => {
 
 const handleOnMouseLeave = () => {
   // state.showMenu ? null : State.update({ show: false });
-  console.log("leave");
+  console.log(props.widgets, "leave");
 };
 
 const handleOpenMenu = () => {
