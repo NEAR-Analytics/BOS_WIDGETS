@@ -428,12 +428,13 @@ return (
                 <OverlayTrigger
                   placement="top"
                   overlay={
+                    // toDo: looks bad
                     widget.linkAuthorId === context.accountId ? (
                       <Tooltip
                         style={{ zIndex: 2000, position: "absolute" }}
                         id="tooltip"
                       >
-                        Remove {widget.widgetName}
+                        Remove {widget.id}
                       </Tooltip>
                     ) : null
                   }
