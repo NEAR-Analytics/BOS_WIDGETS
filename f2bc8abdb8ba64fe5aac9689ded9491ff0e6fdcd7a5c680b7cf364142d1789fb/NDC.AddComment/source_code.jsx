@@ -5,21 +5,22 @@ const {
   isTest,
   article,
   onCloseModal,
+  originalComment,
   isReplying,
   username,
   placement,
-  originalComment,
+  rootCommentId,
   replyingTo,
   callLibs,
   baseActions,
+  editionData,
 } = props;
 
-let id;
-if (originalComment) {
-  id = originalComment.originalComment.value.comment.id;
-} else {
-  id = article.id ?? `${article.author}-${article.timeCreate}`;
-}
+const rootId = rootCommentId ?? article.id; //To render in the proper location
+
+const commentId = editionData ? editionData.value.comment.commentId : undefined; //(OPTIONAL) to edit comment
+
+const isEdition = commentId !== undefined;
 
 const ModalCard = styled.div`
     position: fixed;
@@ -289,6 +290,27 @@ State.init({
   },
 });
 
+function getShouldDisplayOriginalComment() {
+  return (
+    (!editionData && replyingTo) ||
+    (editionData &&
+      replyingTo &&
+      editionData.value.comment.id !== editionData.value.comment.rootId)
+  );
+}
+
+function getInitialText() {
+  if (editionData) {
+    if (!state.reply || editionData.value.comment.text === state.reply) {
+      return editionData.value.comment.text;
+    }
+  } else if (state.reply && state.reply !== editionData.value.comment.text) {
+    return state.reply;
+  } else {
+    return "Reply here";
+  }
+}
+
 const SetText = (txt) => {
   State.update({ shareText: txt });
 };
@@ -306,6 +328,18 @@ function onCancel() {
   State.update({ showSpinner: false });
 }
 
+function handleSubmitButton() {
+  if (state.showSpinner) {
+    return () => {};
+  } else {
+    if (isEdition) {
+      return editCommentListener;
+    } else {
+      return addCommentListener;
+    }
+  }
+}
+
 function onClickAddComment() {
   State.update({ showSpinner: true });
 }
@@ -315,14 +349,10 @@ function addCommentListener() {
 
   const comment = {
     text: state.reply,
-    id,
     timestamp: Date.now(),
-    originalCommentId:
-      originalComment.originalComment.value.comment.commentId ??
-      article.id ??
-      `${article.author}-${article.timeCreate}`,
-    commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
+    rootId,
   };
+
   newLibCalls.comment.push({
     functionName: "createComment",
     key: "createComment",
@@ -334,15 +364,45 @@ function addCommentListener() {
       onCancel,
     },
   });
-  State.update({ functionsToCallByLibrary: newLibCalls });
+  State.update({ functionsToCallByLibrary: newLibCalls, reply: "Reply here" });
+}
+
+function editCommentListener() {
+  const newLibCalls = Object.assign({}, state.functionsToCallByLibrary);
+
+  const comment = {
+    text: state.reply,
+    timestamp: Date.now(),
+    rootId,
+    commentId,
+  };
+
+  newLibCalls.comment.push({
+    functionName: "editComment",
+    key: "editComment",
+    props: {
+      comment,
+      articleId: article.id,
+      onClick: onClickAddComment,
+      onCommit,
+      onCancel,
+    },
+  });
+  State.update({ functionsToCallByLibrary: newLibCalls, reply: "Reply here" });
 }
 
 return (
   <ModalCard>
     <CommentCard>
-      <H1>{isReplying ? "Reply to comment" : "Add a Comment"}</H1>
+      <H1>
+        {isReplying
+          ? "Reply to comment"
+          : isEdition
+          ? "Edit comment"
+          : "Add a Comment"}
+      </H1>
       <Container>
-        {replyingTo && (
+        {getShouldDisplayOriginalComment() && (
           <>
             <CommentBody>
               <BComment>
@@ -363,8 +423,7 @@ return (
                     </BCMProfileUsername>
                   </BCMHeader>
                   <BCMMessage>
-                    {originalComment &&
-                      originalComment.originalComment.value.comment.text}
+                    {originalComment && originalComment.value.comment.text}
                   </BCMMessage>
                 </BCommentmessage>
               </BComment>
@@ -400,7 +459,7 @@ return (
           <Widget
             src={widgets.views.standardWidgets.markownEditorIframe}
             props={{
-              initialText: "Reply here",
+              initialText: getInitialText(),
               onChange: (e) =>
                 State.update({
                   reply: e,
@@ -424,7 +483,7 @@ return (
             props={{
               Button: {
                 text: state.showSpinner ? "" : "Submit",
-                onClick: !state.showSpinner ? addCommentListener : () => {},
+                onClick: handleSubmitButton(),
                 icon: state.showSpinner ? renderSpinner() : <></>,
               },
             }}
