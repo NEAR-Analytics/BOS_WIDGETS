@@ -1,13 +1,13 @@
-const Struct = VM.require("megha19.near/widget/core.lib.struct");
+const Struct = VM.require("megha2001.testnet/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
 const { useQuery } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "megha2001.testnet/widget/core.adapter.devhub-contract"
 );
 const { uuid, withUUIDIndex } = VM.require(
-  "megha19.near/widget/core.lib.uuid"
+  "megha2001.testnet/widget/core.lib.uuid"
 );
 
 uuid || (uuid = () => {});
@@ -184,7 +184,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
       <div className="d-flex flex-column">
         <div className="d-flex gap-1 flex-column flex-xl-row">
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Input`}
+            src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
             props={{
               className: "w-100",
               key: `${metadataState.metadata.id}-repoURL`,
@@ -198,7 +198,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             }}
           />
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Input`}
+            src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
             props={{
               className: "w-100",
               key: `${metadataState.metadata.id}-title`,
@@ -211,7 +211,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
         </div>
 
         <Widget
-          src={`megha19.near/widget/devhub.components.molecule.Input`}
+          src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
           props={{
             className: "w-100",
             key: `${metadataState.metadata.id}-description`,
@@ -228,7 +228,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
 
       <div className="d-flex gap-4 flex-row flex-wrap justify-content-between">
         <Widget
-          src={`megha19.near/widget/devhub.components.organism.Configurator`}
+          src={`megha2001.testnet/widget/devhub.components.organism.Configurator`}
           props={{
             heading: "Ticket types",
             classNames: { root: "col-12 col-md-4 h-auto" },
@@ -259,7 +259,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             <span>Ticket state</span>
           </span>
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Switch`}
+            src={`megha2001.testnet/widget/devhub.components.molecule.Switch`}
             props={{
               currentValue: metadataState.ticketState,
               key: "ticketState",
@@ -276,7 +276,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
           />
         </div>
         <Widget
-          src={`megha19.near/widget/devhub.components.organism.Configurator`}
+          src={`megha2001.testnet/widget/devhub.components.organism.Configurator`}
           props={{
             heading: "Card fields",
             classNames: { root: "col-12 col-md-4 h-auto" },
@@ -310,7 +310,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             >
               <div className="d-flex flex-column gap-1 w-100">
                 <Widget
-                  src={`megha19.near/widget/devhub.components.molecule.Input`}
+                  src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
                     key: `${metadataState.metadata.id}-column-${id}-title`,
@@ -324,7 +324,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   }}
                 />
                 <Widget
-                  src={`megha19.near/widget/devhub.components.molecule.Input`}
+                  src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
                   props={{
                     format: "comma-separated",
                     key: `${metadataState.metadata.id}-column-${title}-labelSearchTerms`,
@@ -339,7 +339,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                   }}
                 />
                 <Widget
-                  src={`megha19.near/widget/devhub.components.molecule.Input`}
+                  src={`megha2001.testnet/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
                     key: `${metadataState.metadata.id}-column-${id}-description`,
@@ -377,7 +377,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
 
         <div className="d-flex gap-3 justify-content-end w-100">
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Button`}
+            src={`megha2001.testnet/widget/devhub.components.molecule.Button`}
             props={{
               classNames: {
                 root: "d-flex btn btn-outline-danger shadow-none border-0",
@@ -388,7 +388,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             }}
           />
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Button`}
+            src={`megha2001.testnet/widget/devhub.components.molecule.Button`}
             props={{
               classNames: { root: "btn btn-success" },
               disabled: form.isSynced,
@@ -451,7 +451,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
       {showPreview ? (
         <div>
           <Widget
-            src={`megha19.near/widget/devhub.entity.addon.github.Viewer`}
+            src={`megha2001.testnet/widget/devhub.entity.addon.github.Viewer`}
             props={{
               kanbanBoards: {
                 [parentState.metadata.id]: parentState,
@@ -471,7 +471,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
             <div>
               {formElement}
               <Widget
-                src={`megha19.near/widget/devhub.components.molecule.Button`}
+                src={`megha2001.testnet/widget/devhub.components.molecule.Button`}
                 props={{
                   classNames: {
                     root: "btn-sm btn-outline-secondary",
@@ -500,7 +500,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
                 This community doesn't have a GitHub board
               </h5>
               <Widget
-                src={`megha19.near/widget/devhub.components.molecule.Button`}
+                src={`megha2001.testnet/widget/devhub.components.molecule.Button`}
                 props={{
                   icon: { type: "bootstrap_icon", variant: "bi-github" },
                   isHidden: !permissions.can_configure,
