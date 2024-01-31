@@ -129,10 +129,11 @@ const StyledInfoTips = styled.div`
   width: 390px;
   height: 52px;
   display: flex;
-  padding: 9px 14px 0px;
+  align-items: center;
+  padding: 0 10px;
   background-color: rgba(235, 244, 121, 0.1);
   border-radius: 12px;
-  gap: 10px;
+  gap: 8px;
   color: #ebf479;
   font-family: Gantari;
   font-size: 14px;
@@ -195,7 +196,6 @@ const TABS = ["Borrow", "Close"];
 
 const {
   expand,
-  borrowLimit,
   addAction,
   toast,
   chainId,
@@ -232,7 +232,7 @@ useEffect(() => {
     getTrade,
   });
 }, []);
-// console.log(11111111111, data, prices);
+
 const onBorrowAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
   const params = { borrowAmount: amount };
@@ -251,35 +251,24 @@ const onAmountChange = (amount) => {
     State.update({
       amount,
       buttonClickable: false,
-      // borrowLimit: "",
-      isEmpty: Number(amount) === 0 && amount !== "",
-      isOverSize: false,
       isBigerThanBalance: false,
     });
     return;
   }
   const params = { amount };
   // const price = prices[data.underlyingToken.symbol];
-
   // const value = Big(Big(amount).mul(price).toFixed(20));
   if (state.tab === "Borrow") {
-    // params.borrowLimit = Big(borrowLimit || 0).plus(
-    //   value.mul(data.loanToValue / 100)
-    // );
-    //TODO params.isBigerThanBalance = Big(amount).gt(data.userUnderlyingBalance || 0);
-    // params.isOverSize = false;
+    params.isBigerThanBalance = Big(amount).gt(data.userUnderlyingBalance || 0);
   }
   // if (state.tab === "Borrow") {
-  //   params.borrowLimit = Big(borrowLimit || 0).minus(value || 0);
   //   params.isBigerThanBalance = false;
-
-  //   params.isOverSize = value.gt(borrowLimit || 0);
   // }
   params.buttonClickable = !params.isBigerThanBalance;
 
   const price = prices[data.underlyingToken.symbol];
 
-  const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX-LTV"])).div(100);
+  const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX_LTV"])).div(100);
 
   const borrowTokenBal = TotalDebt.minus(20)
     .minus(TotalDebt.minus(20).mul(0.02))
@@ -355,7 +344,9 @@ return (
                 />
                 <circle cx="6" cy="3.75" r="0.75" fill="#EBF479" />
               </svg>
-              <div>Deposit collateral and/or borrow more GRAI.</div>
+              <div>
+                Deposit collateral and/or borrow more {data.BORROW_TOKEN}.
+              </div>
             </StyledInfoTips>
           </StyledInfoContent>
         </StyledInfo>
@@ -390,60 +381,6 @@ return (
               />
             </>
           ) : null}
-          {/* <StyledDetailPanel>
-            {state.tab === "Supply" && (
-              <StyledDetailItem>
-                <div>Collateral factor</div>
-                <div className="white">
-                  {data.userMerberShip ? "Enable" : "Disable"}
-                </div>
-              </StyledDetailItem>
-            )}
-            <StyledDetailItem>
-              <div>Borrow limit</div>
-              <StyledBorrowLimit>
-                <div>
-                  {" "}
-                  <Widget
-                    src="bluebiu.near/widget/Avalanche.Lending.Total"
-                    props={{
-                      total: borrowLimit,
-                      digit: 2,
-                      unit: "$",
-                    }}
-                  />
-                </div>
-                {!!state.borrowLimit && (
-                  <>
-                    {" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="8"
-                      height="10"
-                      viewBox="0 0 8 10"
-                      fill="none"
-                    >
-                      <path
-                        d="M7.5 4.13397C8.16667 4.51887 8.16667 5.48113 7.5 5.86603L1.5 9.33013C0.833334 9.71503 -4.47338e-07 9.2339 -4.13689e-07 8.4641L-1.10848e-07 1.5359C-7.71986e-08 0.766098 0.833333 0.284973 1.5 0.669873L7.5 4.13397Z"
-                        fill="#979ABE"
-                      />
-                    </svg>
-                    <div className="white">
-                      {" "}
-                      <Widget
-                        src="bluebiu.near/widget/Avalanche.Lending.Total"
-                        props={{
-                          total: state.borrowLimit,
-                          digit: 2,
-                          unit: "$",
-                        }}
-                      />
-                    </div>
-                  </>
-                )}
-              </StyledBorrowLimit>
-            </StyledDetailItem>
-          </StyledDetailPanel> */}
           <StyledButtonWrapper>
             <StyledGasBox>
               <svg
@@ -469,7 +406,7 @@ return (
             </StyledGasBox>
             <div style={{ flexGrow: 1 }}>
               <Widget
-                src="bluebiu.near/widget/Lending.LiquityButton"
+                src="bluebiu.near/widget/Lending.LiquityMarketButton"
                 props={{
                   disabled: !state.buttonClickable,
                   actionText: state.tab,
@@ -478,6 +415,7 @@ return (
                     ...data,
                     config: dexConfig,
                   },
+                  isBigerThanBalance: state.isBigerThanBalance,
                   addAction,
                   toast,
                   chainId,
