@@ -1,7 +1,7 @@
 const { id } = props;
 
 const { Page } =
-  VM.require("megha2001.testnet/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("megha19.near/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 const [showEditScreenData, setShowEditScreen] = useState(null);
@@ -9,7 +9,7 @@ const [showEditScreenData, setShowEditScreen] = useState(null);
 if (id && !showEditScreenData) {
   return (
     <Widget
-      src="megha2001.testnet/widget/devhub.entity.post.Postv2"
+      src="megha19.near/widget/devhub.entity.post.Postv2"
       props={{
         postKey: id,
         template: (p) => (
@@ -66,7 +66,7 @@ const BlogContainer = styled.div`
 if (showEditScreenData) {
   return (
     <Widget
-      src={`megha2001.testnet/widget/devhub.entity.addon.blog.Configurator`}
+      src={`megha19.near/widget/devhub.entity.addon.blog.Configurator`}
       props={{
         ...showEditScreenData,
       }}
@@ -75,13 +75,13 @@ if (showEditScreenData) {
 }
 return (
   <div className="w-100">
-    <Widget src={`megha2001.testnet/widget/devhub.components.island.banner`} />
+    <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
-        src={"megha2001.testnet/widget/devhub.entity.addon.blog.Viewer"}
+        src={"megha19.near/widget/devhub.entity.addon.blog.Viewer"}
         props={{
           handle: "developer-dao",
           hideTitle: true,
