@@ -1,7 +1,7 @@
 const { data, handle, onSubmit } = props;
 
 const { Tile } =
-  VM.require("megha2001.testnet/widget/devhub.components.molecule.Tile") ||
+  VM.require("megha19.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -34,7 +34,7 @@ return (
   <Tile className="p-3 bg-white">
     <Container>
       <Widget
-        src={"megha2001.testnet/widget/devhub.entity.addon.blog.editor.index"}
+        src={"megha19.near/widget/devhub.entity.addon.blog.editor.index"}
         props={{
           data,
           handle,
