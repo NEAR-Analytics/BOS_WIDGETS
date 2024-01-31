@@ -14,7 +14,7 @@ function hasModerator({ account_id }) {
 
 function createCommunity({ inputs }) {
   return Near.call(
-    "devhub.near",
+    "devhub-dev.testnet",
     "create_community",
     { inputs },
     Big(10).pow(14), // gas
@@ -24,7 +24,7 @@ function createCommunity({ inputs }) {
 
 function getCommunity({ handle }) {
   return (
-    Near.view("devhub.near", "get_community", { handle }) ?? null
+    Near.view("devhub-dev.testnet", "get_community", { handle }) ?? null
   );
 }
 
@@ -33,14 +33,14 @@ function getFeaturedCommunities() {
 }
 
 function setFeaturedCommunities({ handles }) {
-  return Near.call("devhub.near", "set_featured_communities", {
+  return Near.call("devhub-dev.testnet", "set_featured_communities", {
     handles,
   });
 }
 
 function getAccountCommunityPermissions({ account_id, community_handle }) {
   return (
-    Near.view("devhub.near", "get_account_community_permissions", {
+    Near.view("devhub-dev.testnet", "get_account_community_permissions", {
       account_id,
       community_handle,
     }) ?? null
@@ -48,21 +48,21 @@ function getAccountCommunityPermissions({ account_id, community_handle }) {
 }
 
 function updateCommunity({ handle, community }) {
-  return Near.call("devhub.near", "update_community", {
+  return Near.call("devhub-dev.testnet", "update_community", {
     handle,
     community,
   });
 }
 
 function deleteCommunity({ handle }) {
-  return Near.call("devhub.near", "delete_community", { handle });
+  return Near.call("devhub-dev.testnet", "delete_community", { handle });
 }
 
 /**
  * Sets all addons, for configurating tabs
  */
 function setCommunityAddons({ handle, addons }) {
-  return Near.call("devhub.near", "set_community_addons", {
+  return Near.call("devhub-dev.testnet", "set_community_addons", {
     handle,
     addons,
   });
@@ -72,7 +72,7 @@ function setCommunityAddons({ handle, addons }) {
  * Sets specific addon, for configuring params
  */
 function setCommunityAddon({ handle, addon }) {
-  return Near.call("devhub.near", "set_community_addon", {
+  return Near.call("devhub-dev.testnet", "set_community_addon", {
     handle,
     community_addon: addon,
   });
@@ -82,7 +82,7 @@ function setCommunityAddon({ handle, addon }) {
  * Gets all available addons, these are controlled by devhub moderators
  */
 function getAllAddons() {
-  return Near.view("devhub.near", "get_all_addons") ?? null;
+  return Near.view("devhub-dev.testnet", "get_all_addons") ?? null;
 }
 
 function getAccessControlInfo() {
@@ -95,7 +95,7 @@ function getAllAuthors() {
 
 function getAllCommunitiesMetadata() {
   return (
-    Near.view("devhub.near", "get_all_communities_metadata") ?? null
+    Near.view("devhub-dev.testnet", "get_all_communities_metadata") ?? null
   );
 }
 
@@ -124,7 +124,7 @@ function getPostsByLabel({ label }) {
 
 function setCommunitySocialDB({ handle, data }) {
   return (
-    Near.call("devhub.near", "set_community_socialdb", {
+    Near.call("devhub-dev.testnet", "set_community_socialdb", {
       handle,
       data,
     }) ?? null
