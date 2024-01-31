@@ -49,8 +49,8 @@ function renderDom() {
       if (from === "YOURS") {
         return (
           <Asset>
-            <Icon src="https://ipfs.near.social/ipfs/bafkreihv4qckd2us54qbgljcriwtbrmmmxrpmgvyg5xf5rjp456pcr25ui" />
-            <Symbol>GRAI</Symbol>
+            <Icon src={data.BORROW_URL} />
+            <Symbol>{data.BORROW_TOKEN}</Symbol>
           </Asset>
         );
       }
@@ -63,20 +63,20 @@ function renderDom() {
     case "BORROW":
       return (
         <Asset>
-          <Icon src="https://ipfs.near.social/ipfs/bafkreihv4qckd2us54qbgljcriwtbrmmmxrpmgvyg5xf5rjp456pcr25ui" />
-          <Symbol>GRAI</Symbol>
+          <Icon src={data.BORROW_URL} />
+          <Symbol>{data.BORROW_TOKEN}</Symbol>
         </Asset>
       );
     case "MAX-LTV":
-      return <Symbol>{Big(amount).toFixed(2)}%</Symbol>;
+      return <Symbol>{amount}%</Symbol>;
     case "ONE-TIME-FEE":
       return <Symbol>{Big(amount).toFixed(2)}% or less</Symbol>;
     case "MIN-DEBT":
       return <Symbol>{Big(amount).toFixed(2)}</Symbol>;
-    case "GRAI-MINTED":
+    case "MINTED-CAP":
       return (
         <Symbol>
-          {formatAmount(amount)}/{formatAmount(data["GRAI-TOTAL"])}
+          {formatAmount(data["MINTED"])}/{formatAmount(amount)}
         </Symbol>
       );
     case "handler":
