@@ -2,21 +2,26 @@ const ProgressBar = ({ value, max }) => {
   const width = (value / max) * 100;
 
   const containerStyle = {
-    border: "2px outset #000",
-    backgroundColor: "#f2f1e9", // Off-white background
+    // Adding a subtle shadow for depth
+    boxShadow: "0 3px 6px rgba(0, 0, 0, 0.6)",
+    border: "1px solid #000",
+    backgroundColor: "#f2f1e9", // Off-white primary
     padding: "1px",
     height: "23px",
-    width: "100%", // Ensure this is effectively 100% of a parent with a defined width
-    borderRadius: "3px",
+    width: "100%",
+    borderRadius: "6px",
     overflow: "hidden",
-    display: "flex", // Use flex to better control the inner bar
+    display: "flex",
   };
 
   let progressBarStyle = {
     height: "100%",
     width: `${width}%`,
-    backgroundColor: "#9797ff", // Accent purple
+    background:
+      "linear-gradient(90deg, rgba(151, 151, 255, 1) 0%, rgba(115, 115, 255, 1) 100%)", // Gradient effect
+    boxShadow: "0 0 10px rgba(115, 115, 255, 0.75)", // Glowing effect
     transition: "width 0.3s cubic-bezier(0.6, -0.6, 0.6, 1.9)",
+    borderRadius: "6px", // Rounded corners for the progress
     display: "block",
   };
 
@@ -26,3 +31,5 @@ const ProgressBar = ({ value, max }) => {
     </div>
   );
 };
+
+return ProgressBar;
