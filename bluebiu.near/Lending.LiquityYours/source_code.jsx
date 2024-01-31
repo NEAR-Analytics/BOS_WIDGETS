@@ -107,14 +107,10 @@ function getInfo() {
   })
     .then((res) => {
       const [[tvlAmount], [tokenBalAmount]] = res;
-      console.log(
-        "get_borrow_token_res",
-        tvlAmount.toString(),
-        tokenBalAmount.toString()
-      );
+      console.log("get_borrow_token_res", tvlAmount, tokenBalAmount);
       State.update({
-        tvl: Big(ethers.utils.formatUnits(tvlAmount)).toFixed(2),
-        tokenBal: Big(ethers.utils.formatUnits(tokenBalAmount)).toFixed(2),
+        tvl: Big(ethers.utils.formatUnits(tvlAmount || 0)).toFixed(2),
+        tokenBal: Big(ethers.utils.formatUnits(tokenBalAmount || 0)).toFixed(2),
       });
     })
     .catch((err) => {
