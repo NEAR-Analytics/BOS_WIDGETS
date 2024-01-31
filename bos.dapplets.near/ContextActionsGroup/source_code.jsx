@@ -73,10 +73,10 @@ const TriggerShowPanel = styled.div`
     content:"",
     position: absolute;
     display:block;
-    width:100%
-    height:10px
+    width:40px;
+    height:10px;
     top:0;
-    left:0
+    left:0;
   }
 `;
 
