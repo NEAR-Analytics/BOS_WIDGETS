@@ -29,9 +29,8 @@ return (
                   onClick: () => handleRemoveWidget(widget.linkId),
                 }}
               />
-            ) : (
-              <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-            )}
+            ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+            null}
           </WidgetBadgeWrapper>
         ) : null}
         <Widget src={widget.src} props={widget.props} />
