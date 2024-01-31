@@ -43,7 +43,7 @@ const renderMention =
   ((accountId) => (
     <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
       <Widget
-        src="megha19.near/widget/devhub.components.molecule.ProfileLine"
+        src="megha2001.testnet/widget/devhub.components.molecule.ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
           hideAccountId: true,
