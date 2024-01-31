@@ -493,21 +493,18 @@ const NoMargin = styled.div`margin: 0 0.75rem;`;
 const AccordionBody = styled.div`padding: 0;`;
 
 //Get basic original comments info
-let originalComments = state.comments.filter(
-  (comment) => comment.value.comment.originalCommentId === id
+const rootComments = state.comments.filter(
+  (comment) => comment.value.comment.rootId === id
 );
 
 //Append answers to original comments
-originalComments = originalComments.map((originalComment) => {
+const articleComments = rootComments.map((rootComment) => {
   let answers = state.comments.filter((comment) => {
-    return (
-      comment.value.comment.originalCommentId ===
-      originalComment.value.comment.commentId
-    );
+    return comment.value.comment.rootId === rootComment.value.comment.commentId;
   });
 
   return {
-    originalComment,
+    ...rootComment,
     answers,
   };
 });
@@ -776,7 +773,6 @@ return (
                 src={widgets.views.editableWidgets.addComment}
                 props={{
                   article: articleToRenderData,
-                  originalComment,
                   widgets,
                   isTest,
                   isReplying: false,
@@ -808,7 +804,7 @@ return (
                 },
               }}
             />
-            {originalComments.map((data) => (
+            {articleComments.map((data) => (
               <Widget
                 src={widgets.views.editableWidgets.commentView}
                 props={{
