@@ -181,7 +181,7 @@ const Content = (
 
 return (
   <Widget
-    src="megha19.near/widget/devhub.components.island.home-section"
+    src="megha2001.testnet/widget/devhub.components.island.home-section"
     props={{
       title: "/explore",
       titleColor: "#555555",
