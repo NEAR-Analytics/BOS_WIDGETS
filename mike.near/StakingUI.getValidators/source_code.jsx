@@ -63,6 +63,7 @@ const mainnetValidators = {
             next_validators
           );
           console.log("uniqueAccountIds", uniqueAccountIds);
+          return resolve(uniqueAccountIds);
           //   return uniqueAccountIds;
 
           // Update state or perform other actions with uniqueAccountIds
@@ -70,7 +71,6 @@ const mainnetValidators = {
           // allValidatorAddresses: uniqueAccountIds
           // });
         });
-        return resolve(uniqueAccountIds);
       } catch {
         console.error(
           `Could not get list of mainnet validators from ${customRPCEndpoint}`
