@@ -110,6 +110,7 @@ useEffect(() => {
   if (!account || !gas) return;
   const provider = Ethers.provider();
   provider.getBalance(account).then((rawBalance) => {
+    console.log(222, rawBalance, rawBalance.toString());
     State.update({
       gasBalance: rawBalance.toString(),
       isGasEnough: !Big(rawBalance.toString()).lt(gas.toString()),
