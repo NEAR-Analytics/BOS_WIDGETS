@@ -1,4 +1,4 @@
-const { href } = VM.require("megha2001.testnet/widget/core.lib.url");
+const { href } = VM.require("megha19.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -181,7 +181,7 @@ return (
         </Lead>
         <Link
           to={href({
-            widgetSrc: "megha2001.testnet/widget/app",
+            widgetSrc: "megha19.near/widget/app",
             params: {
               page: "about",
             },
@@ -199,7 +199,7 @@ return (
       <Lead>Join a vibrant community of innovators shaping the open web.</Lead>
       <Link
         to={href({
-          widgetSrc: "megha2001.testnet/widget/app",
+          widgetSrc: "megha19.near/widget/app",
           params: {
             page: "about",
           },
