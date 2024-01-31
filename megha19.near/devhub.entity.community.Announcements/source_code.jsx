@@ -1,6 +1,6 @@
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "megha2001.testnet/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 
 getCommunity = getCommunity || (() => <></>);
@@ -81,10 +81,10 @@ return (
             (communityData?.admins ?? []).includes(context.accountId) && (
               <div className="card p-4">
                 <Widget
-                  src={"megha2001.testnet/widget/devhub.entity.community.Compose"}
+                  src={"megha19.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    communityAccountId: `${handle}.community.devhub-dev.testnet`,
+                    communityAccountId: `${handle}.community.devhub.near`,
                   }}
                 />
               </div>
@@ -121,11 +121,11 @@ return (
           )}
           <div className={postsExists && "card p-4"}>
             <Widget
-              src="megha2001.testnet/widget/devhub.components.organism.Feed"
+              src="megha19.near/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
                 filteredAccountIds: [
-                  `${handle}.community.devhub-dev.testnet`,
+                  `${handle}.community.devhub.near`,
                 ],
                 sort: sort,
                 setPostExists: setPostExists,
@@ -152,7 +152,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="megha2001.testnet/widget/devhub.components.molecule.ProfileCard"
+                  src="megha19.near/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
