@@ -1,17 +1,15 @@
-const [allMainnetValidators, setAllMainnetValidators] = useState([]);
-
-function getUniqueValidatorAddresses(validators1, validators2) {
+const getUniqueValidatorAddresses = (validators1, validators2) => {
   const allValidators = [...validators1, ...validators2];
   const uniqueIds = new Set(allValidators.map((v) => v.account_id));
   return Array.from(uniqueIds);
-}
+};
 
 const mainnetValidators = {
   getAddresses: (customRPCEndpoint) => {
     customRPCEndpoint = customRPCEndpoint || "https://rpc.mainnet.near.org";
     return new Promise((resolve, reject) => {
       try {
-        asyncFetch("https://rpc.mainnet.near.org", {
+        let uniqueAccountIds = asyncFetch("https://rpc.mainnet.near.org", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -22,26 +20,27 @@ const mainnetValidators = {
             params: [null],
             id: "mainnet-vals",
           }),
-        }).then((data) => {
-          console.log("aloha data", data);
-          const { current_validators, next_validators } = data.body.result;
-          // for regular fetch, no asyncFetch
-          // const { current_validators, next_validators } = data.result;
-
-          console.log("current_validators", current_validators);
-          console.log("next_validators", next_validators);
-
-          const uniqueAccountIds = getUniqueValidatorAddresses(
-            current_validators,
-            next_validators
-          );
-          console.log("uniqueAccountIds", uniqueAccountIds);
-
-          // Update state or perform other actions with uniqueAccountIds
-          // State.update({
-          // allValidatorAddresses: uniqueAccountIds
-          // });
         });
+        // .then((data) => {
+        //   console.log("aloha data", data);
+        //   const { current_validators, next_validators } = data.body.result;
+        //   // for regular fetch, no asyncFetch
+        //   // const { current_validators, next_validators } = data.result;
+
+        //   console.log("current_validators", current_validators);
+        //   console.log("next_validators", next_validators);
+
+        //   const uniqueAccountIds = getUniqueValidatorAddresses(
+        //     current_validators,
+        //     next_validators
+        //   );
+        //   console.log("uniqueAccountIds", uniqueAccountIds);
+
+        //   // Update state or perform other actions with uniqueAccountIds
+        //   // State.update({
+        //   // allValidatorAddresses: uniqueAccountIds
+        //   // });
+        // });
         return resolve(uniqueAccountIds);
       } catch {
         console.error(
