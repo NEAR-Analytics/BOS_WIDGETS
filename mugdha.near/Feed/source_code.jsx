@@ -8,7 +8,7 @@ const { type, hashtag } = props;
 type = hashtag;
 hashtag = type;
 
-const tab = props.tab || "graders";
+const tab = props.tab || "feed";
 
 if (!tab) {
   return "";
@@ -23,11 +23,11 @@ function formatDate(date) {
 }
 
 const feeds = {
-  graders: {
-    label: "graders",
+  feed: {
+    label: "12th graders",
     icon: "bi-calendar3",
-    name: "graders",
-    hashtag: "graders",
+    name: "12th graders",
+    hashtag: "12th graders",
     template: `
 `,
   },
@@ -38,7 +38,7 @@ const feeds = {
   },
 };
 
-const [activeFeed, setActiveFeed] = useState(tab || "graders");
+const [activeFeed, setActiveFeed] = useState(tab || "feed");
 const [template, setTemplate] = useState("What did you have in mind?");
 
 return (
