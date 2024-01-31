@@ -8,7 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  // state.showMenu ? null : State.update({ show: false });
+  state.showMenu ? null : State.update({ show: false });
   console.log("");
 };
 
@@ -58,6 +58,12 @@ const OverlayTriggerWrapper = styled.div`
     box-sizing: border-box;
   }
 `;
+const SupportingSpan = styled.span`
+ display: inline-block;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 0px;
+    `;
 
 const TriggerShowPanel = styled.div`
   width: 40px;
@@ -421,7 +427,8 @@ return (
         onMouseOut={handleOnMouseLeave}
         style={{ margin: "0px -7px" }}
       >
-        <span style={{ margin: "0px -7px" }}></span>
+        <SupportingSpan />
+
         <ActionsWrapper>
           <TriggerShowLabel />
 
