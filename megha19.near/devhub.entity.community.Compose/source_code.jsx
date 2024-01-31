@@ -412,7 +412,7 @@ return (
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="megha2001.testnet/widget/devhub.components.molecule.AccountAutocomplete"
+          src="megha19.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: state.mentionInput,
             onSelect: autoCompleteAccountId,
