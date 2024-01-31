@@ -11,7 +11,7 @@ return (
       }}
     />
     <Widget
-      src="megha19.near/widget/devhub.components.molecule.BadgesList"
+      src="megha2001.testnet/widget/devhub.components.molecule.BadgesList"
       props={{
         accountId,
         mode: "compact",
