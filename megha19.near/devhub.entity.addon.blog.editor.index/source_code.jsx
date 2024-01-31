@@ -1,5 +1,6 @@
 let theme = props.theme;
 let variables = props.variables;
+const editData = props.data;
 
 if (!variables) {
   variables = ``;
@@ -37,7 +38,7 @@ return (
     {/* Get any layout */}
     <Container>
       <Widget
-        src="megha19.near/widget/devhub.entity.addon.blog.editor.provider"
+        src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.provider"
         props={{
           handle: props.handle,
           Layout: (providerProps) => {
@@ -45,19 +46,28 @@ return (
               providerProps;
             return (
               <Widget
-                src="megha19.near/widget/devhub.entity.addon.blog.editor.layout"
+                src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
                   Sidebar: (p) => (
                     <Widget
-                      src="megha19.near/widget/devhub.entity.addon.blog.editor.sidebar"
-                      props={{ items: data, ...p }}
+                      src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.sidebar"
+                      props={{
+                        editPostId: editData ? editData.id : data.id,
+                        ...p,
+                      }}
                     />
                   ),
                   Content: (p) => (
                     <Widget
-                      src="megha19.near/widget/devhub.entity.addon.blog.editor.content"
-                      props={{ onChange, onCancel, onSubmit, ...p }}
+                      src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.content"
+                      props={{
+                        onChange,
+                        onCancel,
+                        onSubmit,
+                        ...p,
+                        data: editData ? editData : p.data,
+                      }}
                     />
                   ),
                 }}
