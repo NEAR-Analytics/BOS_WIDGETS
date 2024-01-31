@@ -114,7 +114,7 @@ return (
       />
     ) : (
       <Widget
-        src={`megha19.near/widget/devhub.components.organism.Feed.NearQueryApi`}
+        src={`megha2001.testnet/widget/devhub.components.organism.Feed.NearQueryApi`}
         props={{
           GRAPHQL_ENDPOINT,
           showFlagAccountFeature: true,
