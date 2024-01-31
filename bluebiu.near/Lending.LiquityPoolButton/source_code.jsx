@@ -90,13 +90,11 @@ const {
   gas,
   onApprovedSuccess,
 } = props;
-
+// for Yours
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText) return;
-
-console.log("BUTTON", props);
 
 useEffect(() => {
   State.update({
@@ -118,81 +116,6 @@ useEffect(() => {
   });
 }, [account, gas]);
 
-// function handleClose() {
-//   const contract = new ethers.Contract(
-//     data.BorrowerOperations,
-//     [
-//       {
-//         inputs: [{ internalType: "address", name: "_asset", type: "address" }],
-//         name: "closeVessel",
-//         outputs: [],
-//         stateMutability: "nonpayable",
-//         type: "function",
-//       },
-//     ],
-//     Ethers.provider().getSigner()
-//   );
-
-//   contract
-//     .closeVessel(data.underlyingToken.address, {
-//       gasLimit: 4000000,
-//     })
-//     .then((tx) => {
-//       tx.wait()
-//         .then((res) => {
-//           const { status, transactionHash } = res;
-//           toast?.dismiss(toastId);
-//           State.update({
-//             pending: false,
-//           });
-//           // addAction?.({
-//           //   type: "Lending",
-//           //   action: actionText,
-//           //   token: data.underlyingToken,
-//           //   amount,
-//           //   template: data.dappName,
-//           //   add: false,
-//           //   status,
-//           //   transactionHash,
-//           // });
-//           if (status === 1) {
-//             onSuccess?.(data.dapp);
-//             toast?.success({
-//               title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
-//               tx: transactionHash,
-//               chainId,
-//             });
-//           } else {
-//             toast?.fail({
-//               title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-//               tx: transactionHash,
-//               chainId,
-//             });
-//           }
-//         })
-//         .catch((err) => {
-//           State.update({
-//             pending: false,
-//           });
-//         });
-//     })
-//     .catch((err) => {
-//       console.log("closeVessel_error:", err);
-//       State.update({
-//         pending: false,
-//       });
-
-//       toast?.dismiss(toastId);
-//       toast?.fail({
-//         title: err?.message?.includes("user rejected transaction")
-//           ? "User rejected transaction"
-//           : `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-//         tx: err ? err.hash : "",
-//         chainId,
-//       });
-//     });
-// }
-
 if (!amount) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
@@ -201,8 +124,8 @@ if (!amount) {
   );
 }
 
-const tokenAddr = data.underlyingToken.address;
-const spender = data.BorrowerOperations;
+const tokenAddr = data.config.borrowTokenAddress;
+const spender = data.config.BorrowerOperations;
 
 console.log("APPROVE: ", tokenAddr, spender);
 
@@ -225,9 +148,9 @@ const getAllowance = () => {
   });
 };
 
-// if (["Borrow"].includes(actionText)) {
-//   getAllowance();
-// }
+if (["Deposit"].includes(actionText)) {
+  getAllowance();
+}
 
 if (!state.isApproved) {
   const handleApprove = () => {
@@ -303,10 +226,13 @@ if (!state.isApproved) {
 }
 
 function handleClick() {
+  State.update({
+    pending: true,
+  });
   console.log("click:", actionText);
-  const contract = new ethers.Contract(
-    data.config.StabilityPool,
-    [
+  let abi;
+  if (data.BORROW_TOKEN === "GRAI") {
+    abi = [
       {
         inputs: [
           { internalType: "uint256", name: "_amount", type: "uint256" },
@@ -327,14 +253,46 @@ function handleClick() {
         stateMutability: "nonpayable",
         type: "function",
       },
-    ],
+    ];
+  }
+  if (data.BORROW_TOKEN === "STAR") {
+    abi = [
+      {
+        inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
+        name: "provideToSP",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
+        name: "withdrawFromSP",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+  }
+
+  const contract = new ethers.Contract(
+    data.config.StabilityPool,
+    abi,
     Ethers.provider().getSigner()
   );
   const tokenArray = Object.keys(data.config.markets);
-  console.log("tokenArray:", tokenArray);
+
+  const _amount = ethers.utils.parseUnits(amount);
+  let params = {};
+  if (data.BORROW_TOKEN === "GRAI") {
+    params = [_amount, tokenArray];
+  }
+  if (data.BORROW_TOKEN === "STAR") {
+    params = [_amount];
+  }
+  console.log("dw_params:", params);
   if (actionText === "Deposit") {
     contract
-      .provideToSP(ethers.utils.parseUnits(amount), tokenArray, {
+      .provideToSP(...params, {
         gasLimit: 4000000,
       })
       .then((tx) => {
@@ -393,7 +351,7 @@ function handleClick() {
   }
   if (actionText === "Withdraw") {
     contract
-      .withdrawFromSP(ethers.utils.parseUnits(amount), tokenArray, {
+      .withdrawFromSP(...params, {
         gasLimit: 4000000,
       })
       .then((tx) => {
@@ -459,16 +417,15 @@ return (
       className={actionText.toLowerCase()}
       onClick={handleClick}
     >
-      {state.pending ? (
+      {state.pending && (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
-      ) : (
-        actionText
       )}
+      {actionText}
     </Button>
   </>
 );
