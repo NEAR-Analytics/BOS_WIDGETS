@@ -434,7 +434,7 @@ return (
                         style={{ zIndex: 2000, position: "absolute" }}
                         id="tooltip"
                       >
-                        Remove {widget.id}
+                        Remove {widget.src.split("widget/").pop()}
                       </Tooltip>
                     ) : null
                   }
