@@ -85,7 +85,7 @@ if (!content) {
       <Content>
         <Widget
           src={
-            "megha2001.testnet/widget/devhub.components.molecule.MarkdownViewer"
+            "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
