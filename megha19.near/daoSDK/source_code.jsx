@@ -308,6 +308,7 @@ return (daoId, proposalId, factoryId) => {
       if (Array.isArray(additionalCalls)) {
         calls = calls.concat(additionalCalls);
       }
+      console.log(calls);
       return Near.call(calls);
     },
 
