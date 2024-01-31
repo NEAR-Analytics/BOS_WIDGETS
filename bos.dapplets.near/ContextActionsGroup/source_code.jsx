@@ -418,7 +418,32 @@ return (
           {props.widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
-                <WidgetBadgeWrapper>
+                <WidgetBadgeWrapper
+                  style={{
+                    background:
+                      widget.linkAuthorId === context.accountId
+                        ? "rgba(255, 255, 255, 0.35)"
+                        : "",
+                    backdropFilter:
+                      widget.linkAuthorId === context.accountId
+                        ? "blur(0px)"
+                        : "",
+                    width:
+                      widget.linkAuthorId === context.accountId ? "100%" : "",
+                    height:
+                      widget.linkAuthorId === context.accountId ? "100%" : "",
+                    borderRadius:
+                      widget.linkAuthorId === context.accountId ? "50%" : "",
+                    display:
+                      widget.linkAuthorId === context.accountId ? "flex" : "",
+                    alignItems:
+                      widget.linkAuthorId === context.accountId ? "center" : "",
+                    justifyContent:
+                      widget.linkAuthorId === context.accountId ? "center" : "",
+                    top:
+                      widget.linkAuthorId === context.accountId ? "-2px" : "0",
+                  }}
+                >
                   {widget.linkAuthorId === context.accountId ? (
                     <Widget
                       src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
