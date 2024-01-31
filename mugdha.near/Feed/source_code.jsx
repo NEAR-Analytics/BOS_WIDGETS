@@ -8,7 +8,7 @@ const { type, hashtag } = props;
 type = hashtag;
 hashtag = type;
 
-const tab = props.tab || "resolutions";
+const tab = props.tab || "graders";
 
 if (!tab) {
   return "";
@@ -23,11 +23,11 @@ function formatDate(date) {
 }
 
 const feeds = {
-  resolutions: {
-    label: "Resolutions",
+  graders: {
+    label: "graders",
     icon: "bi-calendar3",
-    name: "resolution",
-    hashtag: "nearyearresolutions2024",
+    name: "graders",
+    hashtag: "graders",
     template: `### 🎉 NEAR YEAR RESOLUTIONS: 2024
 (posted via [Build DAO Gateway](https://nearbuilders.org/feed))
 
@@ -163,7 +163,7 @@ const feeds = {
   },
 };
 
-const [activeFeed, setActiveFeed] = useState(tab || "resolutions");
+const [activeFeed, setActiveFeed] = useState(tab || "graders");
 const [template, setTemplate] = useState("What did you have in mind?");
 
 return (
