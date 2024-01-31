@@ -9,7 +9,7 @@ if (proposals && proposals !== null) {
 }
 
 const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+  new Big(amountYocto).div(new Big(10).pow(5)).toFixed(0);
 
 const calculateTimeDifference = (date1, date2) => {
   const millisecondsInDay = 24 * 60 * 60 * 1000;
