@@ -426,7 +426,7 @@ return (
                         : "",
                     backdropFilter:
                       widget.linkAuthorId === context.accountId
-                        ? "blur(0px)"
+                        ? "blur(1px)"
                         : "",
                     width:
                       widget.linkAuthorId === context.accountId ? "100%" : "",
@@ -443,6 +443,11 @@ return (
                     top:
                       widget.linkAuthorId === context.accountId ? "-2px" : "0",
                   }}
+                  onMouseOver={
+                    widget.linkAuthorId === context.accountId
+                      ? (this.style.backdropFilter = "blur(0.5px)")
+                      : null
+                  }
                 >
                   {widget.linkAuthorId === context.accountId ? (
                     <Widget
