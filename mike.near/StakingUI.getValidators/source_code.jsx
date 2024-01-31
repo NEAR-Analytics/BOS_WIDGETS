@@ -1,5 +1,11 @@
 const [allMainnetValidators, setAllMainnetValidators] = useState([]);
 
+function getUniqueValidatorAddresses(validators1, validators2) {
+  const allValidators = [...validators1, ...validators2];
+  const uniqueIds = new Set(allValidators.map((v) => v.account_id));
+  return Array.from(uniqueIds);
+}
+
 const mainnetValidators = {
   getAddresses: (customRPCEndpoint) => {
     customRPCEndpoint = customRPCEndpoint || "https://rpc.mainnet.near.org";
@@ -36,9 +42,7 @@ const mainnetValidators = {
           // allValidatorAddresses: uniqueAccountIds
           // });
         });
-        return resolve(
-          expectedSignerAddress.toLowerCase() == address.toLowerCase()
-        );
+        return resolve(uniqueAccountIds);
       } catch {
         console.error(
           `Could not get list of mainnet validators from ${customRPCEndpoint}`
