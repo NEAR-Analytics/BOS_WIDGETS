@@ -1,8 +1,8 @@
 const { getPostsByLabel } = VM.require(
-  "megha2001.testnet/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 const { getPost } = VM.require(
-  "megha2001.testnet/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 getPost || (getPost = () => {});
 getPostsByLabel || (getPostsByLabel = () => {});
@@ -148,7 +148,7 @@ const KanbanPostBoard = ({ metadata, payload }) => {
               {data.length === column.postIds.length &&
                 data.map((postData) => (
                   <Widget
-                    src={`megha2001.testnet/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                    src={`megha19.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
                     props={{
                       metadata: { id: postData.postId, ...metadata.ticket },
 
