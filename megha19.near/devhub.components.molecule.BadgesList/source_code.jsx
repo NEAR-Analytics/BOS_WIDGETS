@@ -1,4 +1,4 @@
-const { href } = VM.require("megha2001.testnet/widget/core.lib.url") || (() => {});
+const { href } = VM.require("megha19.near/widget/core.lib.url") || (() => {});
 
 const nearDevGovBadgesContractId = "neardevgov.near";
 
