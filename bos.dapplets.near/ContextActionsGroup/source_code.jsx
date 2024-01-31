@@ -350,7 +350,7 @@ const ActionBlock = styled.span`
   .WidgetHover{
    backdrop-filter: blur(1px);
      &:hover {
-backdrop-filter: blur(0.5px);
+backdrop-filter: blur(0.3px);
   }
   }
 
@@ -425,44 +425,59 @@ return (
           {props.widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
-                <WidgetBadgeWrapper
-                  style={{
-                    background:
-                      widget.linkAuthorId === context.accountId
-                        ? "rgba(255, 255, 255, 0.35)"
-                        : "",
-
-                    width:
-                      widget.linkAuthorId === context.accountId ? "100%" : "",
-                    height:
-                      widget.linkAuthorId === context.accountId ? "100%" : "",
-                    borderRadius:
-                      widget.linkAuthorId === context.accountId ? "50%" : "",
-                    display:
-                      widget.linkAuthorId === context.accountId ? "flex" : "",
-                    alignItems:
-                      widget.linkAuthorId === context.accountId ? "center" : "",
-                    justifyContent:
-                      widget.linkAuthorId === context.accountId ? "center" : "",
-                    top:
-                      widget.linkAuthorId === context.accountId ? "-2px" : "0",
-                  }}
-                  className={
-                    widget.linkAuthorId === context.accountId
-                      ? "WidgetHover"
-                      : ""
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    widget.linkAuthorId === context.accountId ? (
+                      <Tooltip id="tooltip">Remove {widget.widgetName}</Tooltip>
+                    ) : null
                   }
                 >
-                  {widget.linkAuthorId === context.accountId ? (
-                    <Widget
-                      src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-                      props={{
-                        onClick: () => handleRemoveWidget(widget.linkId),
-                      }}
-                    />
-                  ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-                  null}
-                </WidgetBadgeWrapper>
+                  <WidgetBadgeWrapper
+                    style={{
+                      background:
+                        widget.linkAuthorId === context.accountId
+                          ? "rgba(255, 255, 255, 0.35)"
+                          : "",
+
+                      width:
+                        widget.linkAuthorId === context.accountId ? "100%" : "",
+                      height:
+                        widget.linkAuthorId === context.accountId ? "100%" : "",
+                      borderRadius:
+                        widget.linkAuthorId === context.accountId ? "50%" : "",
+                      display:
+                        widget.linkAuthorId === context.accountId ? "flex" : "",
+                      alignItems:
+                        widget.linkAuthorId === context.accountId
+                          ? "center"
+                          : "",
+                      justifyContent:
+                        widget.linkAuthorId === context.accountId
+                          ? "center"
+                          : "",
+                      top:
+                        widget.linkAuthorId === context.accountId
+                          ? "-2px"
+                          : "0",
+                    }}
+                    className={
+                      widget.linkAuthorId === context.accountId
+                        ? "WidgetHover"
+                        : ""
+                    }
+                  >
+                    {widget.linkAuthorId === context.accountId ? (
+                      <Widget
+                        src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                        props={{
+                          onClick: () => handleRemoveWidget(widget.linkId),
+                        }}
+                      />
+                    ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+                    null}
+                  </WidgetBadgeWrapper>
+                </OverlayTrigger>
               ) : null}
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
