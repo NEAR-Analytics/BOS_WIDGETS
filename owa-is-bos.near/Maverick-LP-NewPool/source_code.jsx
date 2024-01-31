@@ -9,8 +9,9 @@ const positionAbi = fetch(
 if (!routerAbi.ok) {
   return "Loading";
 }
-const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/324").body
-  .tokens;
+const tokensForNEtwork = fetch(
+  "https://api.mav.xyz/api/v3/allTokens/324"
+).body.tokens.filter((token) => token.symbol != "ETH");
 
 const POOLSMODE = [
   {
@@ -246,12 +247,16 @@ const formatNumber = (n) => {
 };
 
 const setUserBalances = () => {
-  const tokABalance = state.userBalances.find(
-    (token) => token.symbol == state.newTokenASelected.symbol
-  );
-  const tokBBalance = state.userBalances.find(
-    (token) => token.symbol == state.newTokenBSelected.symbol
-  );
+  const tokA =
+    state.newTokenASelected.symbol == "ETH"
+      ? "WETH"
+      : state.newTokenASelected.symbol;
+  const tokB =
+    state.newTokenBSelected.symbol == "ETH"
+      ? "WETH"
+      : state.newTokenBSelected.symbol;
+  const tokABalance = state.userBalances.find((token) => token.symbol == tokA);
+  const tokBBalance = state.userBalances.find((token) => token.symbol == tokB);
   tokABalance
     ? State.update({
         tokenABalance: {
@@ -662,32 +667,28 @@ const approveErc20Token = (mode) => {
 
 const getAccountAllowance = (data) => {
   let token = data.token;
-  if (token.symbol == "ETH") {
-    if (data.mode == "TA") {
-      State.update({ tokenAAllowance: undefined });
-    } else {
-      State.update({ tokenBAllowance: undefined });
+  asyncFetch(
+    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+  ).then((res) => {
+    const contract = token.address;
+    if (token.symbol == "ETH") {
+      contract = "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91";
     }
-  } else {
-    asyncFetch(
-      "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
-    ).then((res) => {
-      const approveContract = new ethers.Contract(
-        token.address,
-        res.body,
-        Ethers.provider().getSigner()
-      );
-      approveContract
-        .allowance(state.sender, state.routerContract)
-        .then((res) => {
-          if (data.mode == "TA") {
-            State.update({ tokenAAllowance: parseInt(res.toString()) });
-          } else {
-            State.update({ tokenBAllowance: parseInt(res.toString()) });
-          }
-        });
-    });
-  }
+    const approveContract = new ethers.Contract(
+      contract,
+      res.body,
+      Ethers.provider().getSigner()
+    );
+    approveContract
+      .allowance(state.sender, state.routerContract)
+      .then((res) => {
+        if (data.mode == "TA") {
+          State.update({ tokenAAllowance: parseInt(res.toString()) });
+        } else {
+          State.update({ tokenBAllowance: parseInt(res.toString()) });
+        }
+      });
+  });
 };
 
 const confirm = () => {
@@ -1112,10 +1113,18 @@ const validateButtonDisabled = (
         : state.poolModeSelected.id == 1
         ? state.tokenABalance
           ? "Validate"
-          : `You don't have enough balance on ${state.newTokenASelected.symbol}`
+          : `You don't have enough balance on ${
+              state.newTokenASelected.symbol == "ETH"
+                ? "WETH"
+                : state.newTokenASelected.symbol
+            }`
         : state.tokenBBalance
         ? "Validate"
-        : `You don't have enough balance on ${state.newTokenBSelected.symbol}`}
+        : `You don't have enough balance on ${
+            state.newTokenBSelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenBSelected.symbol
+          }`}
     </div>
   </div>
 );
@@ -1131,8 +1140,14 @@ const allowanceButton = (mode) => {
     <div class="allowanceButton" onClick={() => approveErc20Token(mode)}>
       <div class={"ConfirmText"}>
         {mode == "TA"
-          ? "Add more allowance on " + state.newTokenASelected.symbol
-          : "Add more allowance on " + state.newTokenBSelected.symbol}
+          ? "Add more allowance on " +
+            (state.newTokenASelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenASelected.symbol)
+          : "Add more allowance on " +
+            (state.newTokenBSelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenBSelected.symbol)}
       </div>
     </div>
   );
@@ -1143,8 +1158,14 @@ const allowanceButtonDisabled = () => {
     <div class="allowanceButtonDisabled" disabled>
       <div class={"ConfirmText"}>
         {state.moreTokenAAllowance
-          ? "Approving " + state.newTokenASelected.symbol
-          : "Approving " + state.newTokenBSelected.symbol}
+          ? "Approving " +
+            (state.newTokenASelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenASelected.symbol)
+          : "Approving " +
+            (state.newTokenBSelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenBSelected.symbol)}
       </div>
     </div>
   );
@@ -1155,8 +1176,14 @@ const insufficientBalanceButton = (mode) => {
     <div class="allowanceButtonDisabled" disabled>
       <div class={"ConfirmText"}>
         {mode == "TA"
-          ? "Insufficient balance on " + state.newTokenASelected.symbol
-          : "Insufficient balance on " + state.newTokenBSelected.symbol}
+          ? "Insufficient balance on " +
+            (state.newTokenASelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenASelected.symbol)
+          : "Insufficient balance on " +
+            (state.newTokenBSelected.symbol == "ETH"
+              ? "WETH"
+              : state.newTokenBSelected.symbol)}
       </div>
     </div>
   );
@@ -1171,8 +1198,8 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-        ${css}
-    `,
+          ${css}
+      `,
   });
 }
 
@@ -1325,8 +1352,12 @@ return (
                           style={{ width: "30px", height: "30px" }}
                           src={
                             state.newTokenASelected
-                              ? state.newTokenASelected.logoURI
-                              : tokensForNEtwork[0].logoURI
+                              ? state.newTokenASelected.symbol == "ETH"
+                                ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                                : state.newTokenASelected.logoURI
+                              : tokensForNEtwork[0].logoURI == "ETH"
+                              ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                              : tokensForNEtwork[0].logoURI == "ETH"
                           }
                           alt="icon not found"
                         />
@@ -1361,8 +1392,12 @@ return (
                         style={{ width: "30px", height: "30px" }}
                         src={
                           state.newTokenBSelected
-                            ? state.newTokenBSelected.logoURI
-                            : tokensForNEtwork[1].logoURI
+                            ? state.newTokenBSelected.symbol == "ETH"
+                              ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                              : state.newTokenBSelected.logoURI
+                            : tokensForNEtwork[1].logoURI == "ETH"
+                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                            : tokensForNEtwork[1].logoURI == "ETH"
                         }
                         alt="icon not found"
                       />{" "}
@@ -1473,13 +1508,21 @@ return (
                       style={{ width: "30px", height: "30px" }}
                       src={
                         state.newTokenASelected
-                          ? state.newTokenASelected.logoURI
+                          ? state.newTokenASelected.symbol == "ETH"
+                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                            : state.newTokenASelected.logoURI
+                          : tokensForNEtwork[0].logoURI == "ETH"
+                          ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
                           : tokensForNEtwork[0].logoURI
                       }
                       alt="icon not found"
                     />{" "}
                     {state.newTokenASelected
-                      ? state.newTokenASelected.symbol
+                      ? state.newTokenASelected.symbol == "ETH"
+                        ? "WETH"
+                        : state.newTokenASelected.symbol
+                      : tokensForNEtwork[0].symbol == "ETH"
+                      ? "WETH"
                       : tokensForNEtwork[0].symbol}
                   </div>
                   <div class="  ">
@@ -1509,7 +1552,11 @@ return (
                         >
                           per 1{" "}
                           {state.newTokenBSelected
-                            ? state.newTokenBSelected.symbol
+                            ? state.newTokenBSelected.symbol == "ETH"
+                              ? "WETH"
+                              : state.newTokenBSelected.symbol
+                            : tokensForNEtwork[1].symbol == "ETH"
+                            ? "WETH"
                             : tokensForNEtwork[1].symbol}
                         </span>
                       </span>
@@ -1680,12 +1727,18 @@ return (
                       <img
                         class="TokenImg"
                         style={{ width: "30px", height: "30px" }}
-                        src={state.newTokenASelected.logoURI}
+                        src={
+                          state.newTokenASelected.symbol == "ETH"
+                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                            : state.newTokenASelected.logoURI
+                        }
                       />
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token A {"->"}</div>
-                      {state.newTokenASelected.symbol}
+                      {state.newTokenASelected.symbol == "ETH"
+                        ? "WETH"
+                        : state.newTokenASelected.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name != "Mode Left" && (
@@ -1745,12 +1798,18 @@ return (
                       <img
                         class="TokenImg"
                         style={{ width: "30px", height: "30px" }}
-                        src={state.newTokenBSelected.logoURI}
+                        src={
+                          state.newTokenBSelected.symbol == "ETH"
+                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
+                            : state.newTokenBSelected.logoURI
+                        }
                       />
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token B {"->"}</div>
-                      {state.newTokenBSelected.symbol}
+                      {state.newTokenBSelected.symbol == "ETH"
+                        ? "WETH"
+                        : state.newTokenBSelected.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name != "Mode Right" && (
