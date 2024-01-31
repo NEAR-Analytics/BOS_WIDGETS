@@ -1,11 +1,16 @@
 // type: primary || secondary
 
+
 const Wrapper = styled.button`
   --white: #fff;
   --primary: #783ae3;
   --secondary: #3a4be3;
   --green: #1aca8a;
   /* --dark:#979ABE */
+
+  width: ${(props) => {
+    return props.block ? '100%' : 'auto'
+  }};
 
   display: flex;
   justify-content: center;
@@ -32,9 +37,13 @@ const Wrapper = styled.button`
   &:disabled {
     opacity: 0.3;
   }
+
+  &.pink {
+    background: rgba(213, 110, 199, 1);
+  }
 `;
 
-const { type, text, disabled, loading, className, style, onClick } = props;
+const { type, text, disabled, loading, className, style, onClick, block } = props;
 
 const handleClick = () => {
   if (loading || disabled) return false;
@@ -48,6 +57,7 @@ return (
     onClick={handleClick}
     style={style}
     className={className}
+    block={block}
   >
     {loading ? (
       <Widget src="dapdapbos.near/widget/Staking.Aura.Spinner" />
