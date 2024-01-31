@@ -4,7 +4,7 @@ const href = props.href;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("megha19.near/widget/core.lib.url");
+const { href: linkHref } = VM.require("megha2001.testnet/widget/core.lib.url");
 
 linkHref || (linkHref = () => {});
 
@@ -76,7 +76,7 @@ return (
         <Link
           style={{ textDecoration: "none" }}
           to={linkHref({
-            widgetSrc: "megha19.near/widget/app",
+            widgetSrc: "megha2001.testnet/widget/app",
             params: { page: href },
           })}
         >
@@ -113,7 +113,7 @@ return (
                 <Link
                   style={{ textDecoration: "none" }}
                   to={linkHref({
-                    widgetSrc: "megha19.near/widget/app",
+                    widgetSrc: "megha2001.testnet/widget/app",
                     params: { page: link.href },
                   })}
                 >
