@@ -205,11 +205,19 @@ const {
   account,
   prices,
   deposits,
+  multicall,
+  multicallAddress,
+  tokenBal,
 } = props;
 
 const data = props.data || {};
 
-State.init({ tab: "Deposit", buttonClickable: true, graiBal: 0 });
+State.init({
+  tab: "Deposit",
+  buttonClickable: true,
+});
+
+const { BORROW_TOKEN, BORROW_URL } = dexConfig;
 
 useEffect(() => {
   const debounce = (fn, wait) => {
@@ -252,53 +260,6 @@ const onAmountChange = (amount) => {
   state.debouncedGetTrade();
 };
 
-function getGraiBal() {
-  const contract = new ethers.Contract(
-    dexConfig.GRAIAddress,
-    [
-      {
-        constant: true,
-        inputs: [
-          {
-            name: "_owner",
-            type: "address",
-          },
-        ],
-        name: "balanceOf",
-        outputs: [
-          {
-            name: "balance",
-            type: "uint256",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider()
-  );
-  contract
-    .balanceOf(account)
-    .then((res) => {
-      console.log(
-        "grai bal:",
-        res,
-        ethers.utils.formatUnits(res),
-        res.toString()
-      );
-      State.update({
-        graiBal: ethers.utils.formatUnits(res),
-      });
-    })
-    .catch((err) => {
-      console.log("getDeposit_error", err);
-    });
-}
-useEffect(() => {
-  getGraiBal();
-}, []);
-
 return (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
@@ -325,10 +286,10 @@ return (
           <Widget
             src="bluebiu.near/widget/Lending.MarketInput"
             props={{
-              icon: "https://ipfs.near.social/ipfs/bafkreihv4qckd2us54qbgljcriwtbrmmmxrpmgvyg5xf5rjp456pcr25ui",
-              symbol: "GRAI",
+              icon: BORROW_URL,
+              symbol: BORROW_TOKEN,
               // balance: data.userUnderlyingBalance,
-              balance: state.tab === "Deposit" ? deposits : state.graiBal,
+              balance: state.tab === "Deposit" ? tokenBal : deposits,
               price: prices[data.underlyingToken.symbol],
               amount: state.amount,
               onChange: (val) => {
