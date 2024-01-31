@@ -222,8 +222,10 @@ return (daoId, proposalId, factoryId) => {
       }
       console.log(policy, deposit);
       const minDeposit = Big(policy?.proposal_bond);
+      console.log(minDeposit);
       // make sure that the deposit is more/equal than bond amount
       const finalDeposit = Big(deposit).gt(minDeposit) ? deposit : minDeposit;
+      console.log(finalDeposit);
       const calls = [
         {
           contractName: daoId,
