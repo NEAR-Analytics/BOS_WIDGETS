@@ -429,7 +429,12 @@ return (
                   placement="top"
                   overlay={
                     widget.linkAuthorId === context.accountId ? (
-                      <Tooltip id="tooltip">Remove {widget.widgetName}</Tooltip>
+                      <Tooltip
+                        style={{ zIndex: 2000, position: "absolute" }}
+                        id="tooltip"
+                      >
+                        Remove {widget.widgetName}
+                      </Tooltip>
                     ) : null
                   }
                 >
