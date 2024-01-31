@@ -232,18 +232,12 @@ useEffect(() => {
     getTrade,
   });
 }, []);
+// console.log(11111111111, data, prices);
+const onBorrowAmountChange = (amount) => {
+  if (isNaN(Number(amount))) return;
+  const params = { borrowAmount: amount };
 
-const onGraiAmountChange = (amount) => {
-  // if (isNaN(Number(amount))) return;
-  const params = { graiAmount: amount };
-
-  // if (Big(amount).lt(200)) {
-  //   params.buttonClickable = false;
-
-  //   return;
-  // }
-  console.log(222, amount, state.graiBal);
-  if (Big(amount).gt(Big(state.graiBal || 0))) {
+  if (Big(amount).gt(Big(state.borrowTokenBal || 0))) {
     params.isBigerThanBalance = true;
   }
   State.update(params);
@@ -283,15 +277,15 @@ const onAmountChange = (amount) => {
   // }
   params.buttonClickable = !params.isBigerThanBalance;
 
-  // **Total Debt**=WETH数量 *WETH价格 ***Maximum LTV**
-
-  // grai的最大数量=**Total Debt**-20-[**Total Debt**-20]*0.02
   const price = prices[data.underlyingToken.symbol];
+
   const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX-LTV"])).div(100);
-  const graiBal = TotalDebt.minus(20)
+
+  const borrowTokenBal = TotalDebt.minus(20)
     .minus(TotalDebt.minus(20).mul(0.02))
     .toFixed();
-  params.graiBal = graiBal;
+
+  params.borrowTokenBal = borrowTokenBal;
 
   State.update(params);
 
@@ -384,13 +378,13 @@ return (
               <Widget
                 src="bluebiu.near/widget/Lending.MarketInput"
                 props={{
-                  icon: "https://ipfs.near.social/ipfs/bafkreihv4qckd2us54qbgljcriwtbrmmmxrpmgvyg5xf5rjp456pcr25ui",
-                  symbol: "GRAI",
-                  balance: state.graiBal,
-                  price: prices["GRAI"] || 0,
-                  amount: state.graiAmount,
+                  icon: data.BORROW_URL,
+                  symbol: data.BORROW_TOKEN,
+                  balance: state.borrowTokenBal,
+                  price: prices[data.BORROW_TOKEN] || 0,
+                  amount: state.borrowAmount,
                   onChange: (val) => {
-                    onGraiAmountChange(val);
+                    onBorrowAmountChange(val);
                   },
                 }}
               />
@@ -492,7 +486,7 @@ return (
                   // loading: state.loading,
                   gas: state.gas,
                   _assetAmount: state.amount,
-                  _debtTokenAmount: state.graiAmount,
+                  _debtTokenAmount: state.borrowAmount,
                   onApprovedSuccess: () => {
                     if (!state.gas) state.getTrade();
                   },
