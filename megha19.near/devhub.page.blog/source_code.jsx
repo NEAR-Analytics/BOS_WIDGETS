@@ -1,14 +1,27 @@
 const { id } = props;
 
 const { Page } =
-  VM.require("megha19.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("megha2001.testnet/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
-if (id) {
+const [showEditScreenData, setShowEditScreen] = useState(null);
+
+if (id && !showEditScreenData) {
   return (
     <Widget
-      src="megha19.near/widget/devhub.entity.post.Postv2"
-      props={{ postKey: id, template: (p) => <Page {...(p || {})} /> }}
+      src="megha2001.testnet/widget/devhub.entity.post.Postv2"
+      props={{
+        postKey: id,
+        template: (p) => (
+          <Page
+            {...(p || {})}
+            onEdit={() => {
+              setShowEditScreen(p);
+            }}
+            accountId={context.accountId}
+          />
+        ),
+      }}
     />
   );
 }
@@ -49,15 +62,26 @@ const BlogContainer = styled.div`
 // that "Latest Blog Posts" carries over... // TOOD: create a common blog
 // feed... I think the addon.blog.Feed naming is confusing, as this should be a
 // generic feed component.
+
+if (showEditScreenData) {
+  return (
+    <Widget
+      src={`megha2001.testnet/widget/devhub.entity.addon.blog.Configurator`}
+      props={{
+        ...showEditScreenData,
+      }}
+    />
+  );
+}
 return (
   <div className="w-100">
-    <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
+    <Widget src={`megha2001.testnet/widget/devhub.components.island.banner`} />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
-        src={"megha19.near/widget/devhub.entity.addon.blog.Viewer"}
+        src={"megha2001.testnet/widget/devhub.entity.addon.blog.Viewer"}
         props={{
           handle: "developer-dao",
           hideTitle: true,
