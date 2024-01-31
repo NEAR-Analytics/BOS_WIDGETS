@@ -31,7 +31,6 @@ const StyledExpand = styled.div`
 const {
   columns,
   data,
-  borrowLimit,
   addAction,
   toast,
   chainId,
@@ -46,7 +45,7 @@ const {
 State.init({
   expand: false,
 });
-// console.log("LiquityMarketRow:", props);
+
 return (
   <StyledRow>
     <StyledRowHeader
