@@ -133,7 +133,7 @@ if (!accountId) {
 }
 
 const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+  new Big(amountYocto).div(new Big(10).pow(5)).toFixed(0);
 
 const isProposalVotingFinished = () =>
   proposal.status !== "Draft" &&
@@ -167,7 +167,7 @@ if (!state.votingPowerIsFetched) {
     META_VOTE_CONTRACT_ID,
     GET_VP_METHOD,
     {
-      voter_id: context.accountId,
+      account_id: context.accountId,
     },
     "final",
     false
@@ -184,8 +184,7 @@ if (!state.votingPowerIsFetched) {
     });
     State.update({
       votingPower: yoctoToNear(votingPowerYocto),
-      votingPowerYocto:
-        yoctoToNear(votingPowerYocto) + "000000000000000000000000",
+      votingPowerYocto: yoctoToNear(votingPowerYocto) + "00000",
       votingPowerIsFetched: true,
     });
   });
@@ -218,7 +217,7 @@ const handleVote = (vote) => {
           contractName: contractId,
           methodName: "remove_vote_proposal",
           args: {
-            mpip_id: props.proposal.mpip_id,
+            mpip_id: proposal.mpip_id,
           },
           gas: 300000000000000,
         },
@@ -230,7 +229,7 @@ const handleVote = (vote) => {
         contractName: contractId,
         methodName: "vote_proposal",
         args: {
-          mpip_id: props.proposal.mpip_id,
+          mpip_id: proposal.mpip_id,
           vote,
           memo: state.memo,
         },
