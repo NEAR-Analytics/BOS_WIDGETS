@@ -1,4 +1,4 @@
-const { normalize } = VM.require("megha19.near/widget/core.lib.stringUtils");
+const { normalize } = VM.require("megha2001.testnet/widget/core.lib.stringUtils");
 
 normalize || (normalize = () => {});
 
@@ -40,7 +40,7 @@ const NavUnderline = styled.ul`
 
 const { tab, permissions, community, view } = props;
 
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("megha2001.testnet/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -57,21 +57,21 @@ const [isLinkCopied, setLinkCopied] = useState(false);
 const tabs = [
   {
     title: "Announcements",
-    view: "megha19.near/widget/devhub.entity.community.Announcements",
+    view: "megha2001.testnet/widget/devhub.entity.community.Announcements",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Activity",
-    view: "megha19.near/widget/devhub.entity.community.Activity",
+    view: "megha2001.testnet/widget/devhub.entity.community.Activity",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Teams",
-    view: "megha19.near/widget/devhub.entity.community.Teams",
+    view: "megha2001.testnet/widget/devhub.entity.community.Teams",
     params: {
       handle: community.handle,
     },
@@ -82,7 +82,7 @@ const tabs = [
   addon.enabled &&
     tabs.push({
       title: addon.display_name,
-      view: "megha19.near/widget/devhub.page.addon",
+      view: "megha2001.testnet/widget/devhub.page.addon",
       params: { addon },
     });
 });
@@ -92,7 +92,7 @@ const onShareClick = () =>
     .writeText(
       href({
         gateway: "near.social",
-        widgetSrc: "megha19.near/widget/app",
+        widgetSrc: "megha2001.testnet/widget/app",
         params: { page: "community", handle: community.handle },
       })
     )
@@ -236,10 +236,10 @@ return (
       <div className="d-flex align-items-end gap-3 ms-auto mb-md-5 me-4">
         {permissions.can_configure && (
           <Link
-            to={`/megha19.near/widget/app?page=community.configuration&handle=${community.handle}`}
+            to={`/megha2001.testnet/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={"megha19.near/widget/devhub.components.molecule.Button"}
+              src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
@@ -263,7 +263,7 @@ return (
           </Link>
         )}
         <Widget
-          src={"megha19.near/widget/devhub.components.molecule.Button"}
+          src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark shadow-none" },
             notRounded: true,
@@ -293,7 +293,7 @@ return (
               <li className="nav-item" key={title}>
                 <Link
                   to={href({
-                    widgetSrc: "megha19.near/widget/app",
+                    widgetSrc: "megha2001.testnet/widget/app",
                     params: {
                       page: "community",
                       handle: community.handle,
@@ -322,12 +322,12 @@ return (
               <span>Required tags:</span>
               <Link
                 to={href({
-                  widgetSrc: "megha19.near/widget/app",
+                  widgetSrc: "megha2001.testnet/widget/app",
                   params: { page: "feed", tag: community.tag },
                 })}
               >
                 <Widget
-                  src={"megha19.near/widget/devhub.components.atom.Tag"}
+                  src={"megha2001.testnet/widget/devhub.components.atom.Tag"}
                   props={{
                     tag: community.tag,
                   }}
@@ -338,12 +338,12 @@ return (
           {context.accountId && (
             <Widget
               src={
-                "megha19.near/widget/devhub.components.molecule.PostControls"
+                "megha2001.testnet/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "megha19.near/widget/app",
+                  widgetSrc: "megha2001.testnet/widget/app",
                   params: {
                     page: "create",
                     labels: [community.tag],
