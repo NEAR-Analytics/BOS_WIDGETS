@@ -8,7 +8,8 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu ? null : State.update({ show: false });
+  // state.showMenu ? null : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
