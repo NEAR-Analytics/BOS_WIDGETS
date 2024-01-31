@@ -2,12 +2,7 @@
 
 const LogoWhite = () => {
   return (
-    <svg
-      id="Layer_1"
-      data-name="Layer 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1656 567"
-    >
+    <svg id="near-logo-white">
       <g>
         <path
           style="fill: #fff"
