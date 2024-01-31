@@ -18,6 +18,8 @@ const mainnetValidators = {
         params: [null],
         id: "mainnet-vals",
       }),
+    }).then((d) => {
+      return d;
     });
     return uniqueAccountIds;
     // return new Promise((resolve, reject) => {
