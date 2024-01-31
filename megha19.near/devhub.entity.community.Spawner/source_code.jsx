@@ -1,4 +1,4 @@
-const { typeMatch } = VM.require("megha2001.testnet/widget/core.lib.struct");
+const { typeMatch } = VM.require("megha19.near/widget/core.lib.struct");
 
 if (!typeMatch) {
   return <p>Loading modules...</p>;
@@ -79,7 +79,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src="megha2001.testnet/widget/devhub.components.organism.Configurator"
+    src="megha19.near/widget/devhub.components.organism.Configurator"
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
