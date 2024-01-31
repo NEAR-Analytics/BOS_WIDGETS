@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("megha19.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("megha2001.testnet/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -49,20 +49,20 @@ return (
     <Tile className={"bg-white"}>
       <Widget
         src={
-          "megha19.near/widget/devhub.entity.community.configuration.BrandingConfigurator"
+          "megha2001.testnet/widget/devhub.entity.community.configuration.BrandingConfigurator"
         }
         props={{
           onSubmit: sectionSubmit,
           data: communityData,
           hasConfigurePermissions,
-          link: `/megha19.near/widget/app?page=community&handle=${handle}`,
+          link: `/megha2001.testnet/widget/app?page=community&handle=${handle}`,
         }}
       />
     </Tile>
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "megha19.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "megha2001.testnet/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Information",
@@ -70,7 +70,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "megha19.near/widget/devhub.entity.community.configuration.InformationConfigurator"
+                "megha2001.testnet/widget/devhub.entity.community.configuration.InformationConfigurator"
               }
               props={{
                 data: communityData,
@@ -85,7 +85,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "megha19.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "megha2001.testnet/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "About",
@@ -93,7 +93,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "megha19.near/widget/devhub.entity.community.configuration.AboutConfigurator"
+                "megha2001.testnet/widget/devhub.entity.community.configuration.AboutConfigurator"
               }
               props={{
                 data: communityData,
@@ -108,7 +108,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "megha19.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "megha2001.testnet/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Admins",
@@ -116,7 +116,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "megha19.near/widget/devhub.entity.community.configuration.AccessControlConfigurator"
+                "megha2001.testnet/widget/devhub.entity.community.configuration.AccessControlConfigurator"
               }
               props={{
                 data: communityData,
@@ -132,7 +132,7 @@ return (
       <Tile className={"p-3 bg-white"}>
         <Widget
           src={
-            "megha19.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+            "megha2001.testnet/widget/devhub.entity.community.configuration.ConfigurationSection"
           }
           props={{
             title: "Add-Ons",
@@ -140,7 +140,7 @@ return (
             Configurator: (p) => (
               <Widget
                 src={
-                  "megha19.near/widget/devhub.entity.community.configuration.AddonsConfigurator"
+                  "megha2001.testnet/widget/devhub.entity.community.configuration.AddonsConfigurator"
                 }
                 props={{
                   data: communityData.addons || [],
@@ -159,7 +159,7 @@ return (
         style={{ maxWidth: 896 }}
       >
         <Widget
-          src={"megha19.near/widget/devhub.components.molecule.Button"}
+          src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-outline-danger border-none" },
             label: "Delete community",
@@ -174,7 +174,7 @@ return (
         style={{ borderTopLeftRadius: "100%" }}
       >
         <Widget
-          src={"megha19.near/widget/devhub.components.molecule.Button"}
+          src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-success" },
             icon: { type: "svg_icon", variant: "floppy_drive" },
