@@ -19,7 +19,7 @@ let resultFunctionsToCallByLibrary = Object.assign(
 );
 let resultFunctionsToCall = [];
 
-const currentVersion = "0.0.2"; // EDIT: Set version
+const currentVersion = "0.0.3"; // EDIT: Set version
 
 const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
 // const prodAction = `${baseAction}`;
@@ -144,12 +144,42 @@ function setAreValidUsers(accountIds, sbtsNames) {
 function createComment(props) {
   const { comment, articleId, onClick, onCommit, onCancel } = props;
 
+  if (comment.commentId) {
+    console.error(
+      "comment.commentId should not be provided when creating comment"
+    );
+    return;
+  }
+
+  const commentId = `c_${context.accountId}-${Date.now()}`;
+
+  comment.commentId = commentId;
+
   onClick();
 
   saveComment(comment, articleId, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
+  });
+
+  return comment;
+}
+
+function editComment(props) {
+  const { comment, articleId, onClick, onCommit, onCancel } = props;
+
+  if (!comment.commentId) {
+    console.error("comment.commentId should be provided when editing comment");
+    return;
+  }
+
+  onClick();
+
+  saveComment(comment, articleId, onCommit, onCancel);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "editComment";
   });
 
   return comment;
@@ -183,7 +213,7 @@ function composeCommentData(comment, articleId) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: comment.id,
+        key: articleId,
         value: {
           type: "md",
           comment,
@@ -234,12 +264,30 @@ function getCommentBlackListByBlockHeight() {
   return [98588599];
 }
 
+function getUserNameFromCommentId(commentId) {
+  const userNamePlusTimestamp = commentId.split("c_")[1];
+
+  const splittedUserNamePlusTimestamp = userNamePlusTimestamp.split("-");
+
+  splittedUserNamePlusTimestamp.pop();
+
+  const userName = splittedUserNamePlusTimestamp.join("-");
+
+  return userName;
+}
+
 function filterInvalidComments(comments) {
-  return comments.filter(
-    (comment) =>
-      comment.blockHeight &&
-      !getCommentBlackListByBlockHeight().includes(comment.blockHeight) // Comment is not in blacklist
-  );
+  return comments
+    .filter(
+      (comment) =>
+        comment.blockHeight &&
+        !getCommentBlackListByBlockHeight().includes(comment.blockHeight) // Comment is not in blacklist
+    )
+    .filter(
+      (comment) =>
+        comment.accountId ===
+        getUserNameFromCommentId(comment.value.comment.commentId)
+    );
 }
 
 function getValidComments(props) {
@@ -247,7 +295,20 @@ function getValidComments(props) {
   // Call other libs
   const normComments = getCommentsNormalized(env, id);
 
-  const commentsAuthors = normComments.map((comment) => {
+  // Keep last edit from every article
+  const lastEditionComments = normComments.filter((comment) => {
+    const firstCommentWithThisCommentId = normComments.find((compComment) => {
+      return (
+        compComment.value.comment.commentId === comment.value.comment.commentId
+      );
+    });
+
+    return (
+      JSON.stringify(firstCommentWithThisCommentId) === JSON.stringify(comment)
+    );
+  });
+
+  const commentsAuthors = lastEditionComments.map((comment) => {
     return comment.accountId;
   });
 
@@ -260,9 +321,9 @@ function getValidComments(props) {
     return !discardCondition;
   });
 
-  const finalComments = filterValidComments(normComments, articleSbts);
+  const finalComments = filterValidComments(lastEditionComments, articleSbts);
 
-  return finalComments;
+  return sortComments(finalComments);
 }
 
 function filterValidator(comments, articleSbts) {
@@ -309,6 +370,14 @@ function filterValidComments(comments, articleSbts) {
   return filteredComments;
 }
 
+function sortComments(comments) {
+  comments.sort((c1, c2) => {
+    return c1.blockHeight - c2.blockHeight;
+  });
+
+  return comments;
+}
+
 function getCommentsNormalized(env, id) {
   const commentsByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
@@ -334,6 +403,14 @@ function normalizeFromV0_0_1ToV0_0_2(comment) {
 }
 
 function normalizeFromV0_0_2ToV0_0_3(comment) {
+  comment.value.comment.rootId = comment.value.comment.originalCommentId;
+  delete comment.value.comment.originalCommentId;
+  delete comment.value.comment.id;
+
+  return comment;
+}
+
+function normalizeFromV0_0_3ToV0_0_4(comment) {
   return comment;
 }
 // END LIB FUNCTIONS
@@ -342,6 +419,8 @@ function normalizeFromV0_0_2ToV0_0_3(comment) {
 function callFunction(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
+  } else if (call.functionName === "editComment") {
+    return editComment(call.props);
   } else if (call.functionName === "getValidComments") {
     return getValidComments(call.props);
   } else if (call.functionName === "canUserCreateComment") {
@@ -362,6 +441,10 @@ const versions = {
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
     action: props.isTest ? `test_${baseAction}_v0.0.2` : `${baseAction}_v0.0.2`,
+  },
+  "v0.0.3": {
+    normalizationFunction: normalizeFromV0_0_3ToV0_0_4,
+    action: props.isTest ? `test_${baseAction}_v0.0.3` : `${baseAction}_v0.0.3`,
   },
 };
 
