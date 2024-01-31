@@ -7,21 +7,22 @@ const loadAccount = () => {
       account_id: state.accountId.trim(),
     });
 
-    console.log("Loading data for", state.accountId, data);
+    if (data != null) {
+      console.log("Loading data for", state.accountId, data);
 
-    State.update({ data });
+      State.update({ data });
 
-    if (!state.timerIsOn) {
-      setInterval(() => {
-        State.update((state) => ({
-          ...state,
-          nonce: !!state.pause ? state.nonce : state.nonce + 1,
-        }));
-      }, 1000);
+      if (!state.timerIsOn) {
+        setInterval(() => {
+          State.update((state) => ({
+            ...state,
+            nonce: !!state.pause ? state.nonce : state.nonce + 1,
+          }));
+        }, 1000);
 
-      State.update({ timerIsOn: true });
+        State.update({ timerIsOn: true });
+      }
     }
-    console.log(state);
   }
 };
 
