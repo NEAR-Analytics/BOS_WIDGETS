@@ -3,7 +3,7 @@ const contactId = "game.hot.tg";
 
 let assets = Near.view(contactId, "get_assets");
 
-useEffect(() => {
+const loadAccount = () => {
   if (state.accountId && state.accountId.trim() != "") {
     let data = Near.view(contactId, "get_user", {
       account_id: state.accountId.trim(),
@@ -11,10 +11,15 @@ useEffect(() => {
 
     State.update({ data });
   }
+};
+
+useEffect(() => {
+  loadAccount();
 }, [state.accountId]);
 
 if (state === undefined) {
   State.init({ accountId, assets, nonce: 0 });
+  loadAccount();
 
   setInterval(() => {
     State.update((state) => ({
