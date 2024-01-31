@@ -32,7 +32,7 @@ useEffect(() => {
 
 if (state === undefined) {
   State.init({ accountId, nonce: 0 });
-  loadAccount();
+  loadAccount(accountId);
 }
 
 if (!state.assets) {
