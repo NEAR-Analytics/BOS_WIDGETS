@@ -9,7 +9,7 @@ const mainnetValidators = {
 
   getAddresses: async (customRPCEndpoint) => {
     customRPCEndpoint = customRPCEndpoint || "https://rpc.mainnet.near.org";
-    let uniqueAccountIds = asyncFetch("https://rpc.mainnet.near.org", {
+    let uniqueAccountIds = fetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
