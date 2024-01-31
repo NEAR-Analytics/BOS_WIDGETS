@@ -167,8 +167,6 @@ return (
       <Widget
         src="bluebiu.near/widget/Lending.LiquityMarkets"
         props={{
-          // totalCollateralUsd: state.totalCollateralUsd,
-          // userTotalBorrowUsd: state.userTotalBorrowUsd,
           addAction,
           toast,
           chainId,
@@ -196,24 +194,6 @@ return (
             ...dexConfig,
             markets: state.newMarkets,
           },
-          // currentDapp: dexConfig.name,
-          // markets: state.markets,
-          // timestamp: state.timestamp,
-          // dapps: {
-          //   [dexConfig.name]: {
-          //     userTotalSupplyUsd: state.userTotalSupplyUsd,
-          //     userTotalBorrowUsd: state.userTotalBorrowUsd,
-          //     totalCollateralUsd: state.totalCollateralUsd,
-          //     rewards: state.rewards,
-          //     dappIcon: dexConfig.icon,
-          //     dappName: dexConfig.name,
-          //   },
-          // },
-          // dappsConfig: {
-          //   [dexConfig.name]: dexConfig,
-          // },
-          // toast,
-          // onButtonClick: handleTableButtonClick,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -233,7 +213,6 @@ return (
         prices,
         ...dexConfig,
         onLoad: (data) => {
-          console.log("data=================", data);
           State.update({
             loading: false,
             timestamp: Date.now(),
