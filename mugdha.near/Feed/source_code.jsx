@@ -75,11 +75,7 @@ return (
             <Widget src="buildhub.near/widget/Bookmarks" />
           )}{" "}
           : (
-          <Widget
-            src="buildhub.near/widget/components.login-now"
-            props={props}
-          />
-          )
+          <Widget src="buildhub.near/widget/Bookmarks" props={props} />)
           {
             <Feed
               index={[
