@@ -1,4 +1,4 @@
-const Struct = VM.require("megha19.near/widget/core.lib.struct");
+const Struct = VM.require("megha2001.testnet/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -138,7 +138,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
                     src={
-                      "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
+                      "megha2001.testnet/widget/devhub.components.molecule.MarkdownViewer"
                     }
                     props={{
                       text: fieldValue,
@@ -150,7 +150,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`megha19.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`megha2001.testnet/widget/devhub.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
                 className: [
@@ -284,7 +284,7 @@ const Configurator = ({
           ) : null}
 
           <Widget
-            src={"megha19.near/widget/devhub.components.molecule.Button"}
+            src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger shadow-none border-0" },
               label: cancelLabel || "Cancel",
@@ -292,7 +292,7 @@ const Configurator = ({
             }}
           />
           <Widget
-            src={"megha19.near/widget/devhub.components.molecule.Button"}
+            src={"megha2001.testnet/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
               disabled: !form.hasUnsubmittedChanges || !isFormValid(),
