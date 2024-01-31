@@ -5,9 +5,9 @@ const getUniqueValidatorAddresses = (validators1, validators2) => {
 };
 
 const mainnetValidators = {
-    uniqueAccountIds = [],
-    
-  getAddresses: (customRPCEndpoint) => {
+  // uniqueAccountIds = [],
+
+  getAddresses: async (customRPCEndpoint) => {
     customRPCEndpoint = customRPCEndpoint || "https://rpc.mainnet.near.org";
     let uniqueAccountIds = asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
@@ -29,7 +29,7 @@ const mainnetValidators = {
       console.log("current_validators", current_validators);
       console.log("next_validators", next_validators);
 
-      uniqueAccountIds = getUniqueValidatorAddresses(
+      const uniqueAccountIds = getUniqueValidatorAddresses(
         current_validators,
         next_validators
       );
