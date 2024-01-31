@@ -16,7 +16,7 @@ State.init({
   proposalThresholdReachedIsFetched: false,
 });
 const yoctoToNear = (amountYocto) =>
-  new Big(amountYocto).div(new Big(10).pow(24)).toFixed(0);
+  new Big(amountYocto).div(new Big(10).pow(5)).toFixed(0);
 
 if (transactionHashes) {
   const statusResult = fetch("https://rpc.mainnet.near.org", {
@@ -48,7 +48,7 @@ if (!state.allVotingPowerIsFetched) {
   Near.asyncView(
     META_VOTE_CONTRACT_ID,
     "get_all_locking_positions",
-    { voter_id: context.accountId },
+    { account_id: context.accountId },
     "final",
     false
   ).then((allLockingPositions) => {
@@ -65,12 +65,11 @@ if (!state.allVotingPowerIsFetched) {
     State.update({
       allVotingPower: yoctoToNear(voting_power),
       allVotingPowerIsFetched: true,
-      allVotingPowerYocto:
-        yoctoToNear(votingPowerYocto) + "000000000000000000000000",
+      allVotingPowerYocto: yoctoToNear(votingPowerYocto) + "00000",
     });
   });
 }
-
+console.log(state.allVotingPowerYocto);
 if (state.allVotingPowerIsFetched && !state.proposalThresholdReachedIsFetched) {
   Near.asyncView(
     contractId,
@@ -160,6 +159,10 @@ color: #000000;
 width: 100%;
 `;
 
+console.log(
+  state.allVotingPowerIsFetched,
+  state.proposalThresholdReachedIsFetched
+);
 if (!state.allVotingPowerIsFetched || !state.proposalThresholdReachedIsFetched)
   return <>Loading</>;
 
