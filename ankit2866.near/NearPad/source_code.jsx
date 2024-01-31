@@ -68,7 +68,7 @@ return (
     </div>
     <textarea
       style={styles.notepadContent}
-      value={text}
+      value={content}
       onChange={handleInputChange}
       placeholder="Write anything..."
     />
