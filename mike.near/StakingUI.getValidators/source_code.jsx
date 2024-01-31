@@ -18,10 +18,22 @@ const mainnetValidators = {
         params: [null],
         id: "mainnet-vals",
       }),
-    }).then((d) => {
-      return d;
+    }).then((data) => {
+      console.log("aloha data", data);
+      const { current_validators, next_validators } = data.body.result;
+      // for regular fetch, no asyncFetch
+      // const { current_validators, next_validators } = data.result;
+
+      console.log("current_validators", current_validators);
+      console.log("next_validators", next_validators);
+
+      const uniqueAccountIds = getUniqueValidatorAddresses(
+        current_validators,
+        next_validators
+      );
+      return uniqueAccountIds;
     });
-    return uniqueAccountIds;
+    // return uniqueAccountIds;
     // return new Promise((resolve, reject) => {
     //   try {
     //     let uniqueAccountIds = asyncFetch("https://rpc.mainnet.near.org", {
