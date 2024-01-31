@@ -46,13 +46,13 @@ const styles = {
 
 const text = Near.view(contract, "get_greeting", {});
 State.init({ text });
-
+const [content, setContent] = useState("");
 const handleInputChange = (e) => {
-  State.update(e.target.value);
+  setContent(e.target.value);
 };
 
 function handleSave() {
-  Near.call(contract, "set_greeting", { new_greeting: text });
+  Near.call(contract, "set_greeting", { new_greeting: content });
   console.log("Save button clicked");
 }
 
@@ -80,5 +80,7 @@ return (
     >
       Save
     </button>
+    <h3>NearPad Says:</h3>
+    <p>{text}</p>
   </div>
 );
