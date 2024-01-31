@@ -1,14 +1,15 @@
 const accountId = props.tgId ?? context.accountId ?? "name.tg";
 const contactId = "game.hot.tg";
 
-const loadAccount = () => {
-  if (state.accountId && state.accountId.trim() != "") {
+const loadAccount = (userAccountId) => {
+  let accountId = userAccountId ?? state.accountId;
+  if (accountId && accountId.trim() != "") {
     let data = Near.view(contactId, "get_user", {
-      account_id: state.accountId.trim(),
+      account_id: accountId.trim(),
     });
 
     if (data != null) {
-      console.log("Loading data for", state.accountId, data);
+      console.log("Loading data for", accountId, data);
 
       State.update({ data });
 
@@ -19,7 +20,6 @@ const loadAccount = () => {
             nonce: !!state.pause ? state.nonce : state.nonce + 1,
           }));
         }, 1000);
-
         State.update({ timerIsOn: true });
       }
     }
@@ -31,7 +31,7 @@ useEffect(() => {
 }, [state.accountId]);
 
 if (state === undefined) {
-  State.init({ accountId, nonce: 0, pause: true });
+  State.init({ accountId, nonce: 0 });
   loadAccount();
 }
 
