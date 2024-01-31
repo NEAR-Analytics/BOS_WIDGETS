@@ -1,4 +1,4 @@
-const accountId = props.tgId ?? context.accountId ?? "name.tg";
+const accountId = "kakoilogin.tg"; //props.tgId ?? context.accountId ?? "name.tg";
 const contactId = "game.hot.tg";
 
 const loadAccount = (userAccountId) => {
@@ -8,20 +8,20 @@ const loadAccount = (userAccountId) => {
       account_id: accountId.trim(),
     });
 
-    if (data != null) {
+    if (data) {
       console.log("Loading data for", accountId, data);
+    }
 
-      State.update({ data });
+    State.update({ data });
 
-      if (!state.timerIsOn) {
-        setInterval(() => {
-          State.update((state) => ({
-            ...state,
-            nonce: !!state.pause ? state.nonce : state.nonce + 1,
-          }));
-        }, 1000);
-        State.update({ timerIsOn: true });
-      }
+    if (!state.timerIsOn) {
+      setInterval(() => {
+        State.update((state) => ({
+          ...state,
+          nonce: !!state.pause ? state.nonce : state.nonce + 1,
+        }));
+      }, 1000);
+      State.update({ timerIsOn: true });
     }
   }
 };
@@ -30,9 +30,12 @@ useEffect(() => {
   loadAccount();
 }, [state.accountId]);
 
+if (!state.data) {
+  loadAccount();
+}
+
 if (state === undefined) {
   State.init({ accountId, nonce: 0 });
-  loadAccount(accountId);
 }
 
 if (!state.assets) {
