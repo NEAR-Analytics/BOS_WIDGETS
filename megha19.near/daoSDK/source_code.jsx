@@ -228,7 +228,6 @@ return (daoId, proposalId, factoryId) => {
       if (Array.isArray(additionalCalls)) {
         calls = calls.concat(additionalCalls);
       }
-      console.log(calls);
       return Near.call(calls);
     },
     voteActions: {
@@ -285,7 +284,7 @@ return (daoId, proposalId, factoryId) => {
         args: {
           proposal: proposal,
         },
-        deposit: deposit.toString(),
+        deposit: finalDeposit.toString(),
         gas,
         additionalCalls,
       });
