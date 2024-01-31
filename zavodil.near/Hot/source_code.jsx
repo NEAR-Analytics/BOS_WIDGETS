@@ -15,12 +15,13 @@ const loadAccount = () => {
       setInterval(() => {
         State.update((state) => ({
           ...state,
-          nonce: state.pause ? state.nonce : state.nonce + 1,
+          nonce: !!state.pause ? state.nonce : state.nonce + 1,
         }));
       }, 1000);
 
       State.update({ timerIsOn: true });
     }
+    console.log(state);
   }
 };
 
@@ -29,7 +30,7 @@ useEffect(() => {
 }, [state.accountId]);
 
 if (state === undefined) {
-  State.init({ accountId, nonce: 0 });
+  State.init({ accountId, nonce: 0, pause: true });
   loadAccount();
 }
 
@@ -47,6 +48,7 @@ const inputNearAccount = (
         value={state.accountId}
         onFocus={() => State.update({ pause: true })}
         onBlur={() => State.update({ pause: false })}
+        onPaste={() => State.update({ pause: false })}
         onChange={(e) => State.update({ accountId: e.target.value })}
       />
     </div>
@@ -82,8 +84,6 @@ const storageAsset = state.assets.filter(
 )?.[0];
 
 const nextClaimDate = new Date((lastClaim + storageAsset.value) / 1000000);
-
-console.log("storageAsset", storageAsset);
 
 const toHHMMSS = (value) => {
   var sec_num = parseInt(value / 1000, 10);
