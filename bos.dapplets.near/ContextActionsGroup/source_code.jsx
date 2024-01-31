@@ -347,6 +347,13 @@ const ActionBlock = styled.span`
   div {
     z-index: 1000;
   }
+  .WidgetHover{
+    backdrop-filter: blur(1px)
+     &:hover {
+     backdrop-filter: blur(0.5px)
+  }
+  }
+
 `;
 
 const FloatingModal = styled.div`
@@ -424,10 +431,7 @@ return (
                       widget.linkAuthorId === context.accountId
                         ? "rgba(255, 255, 255, 0.35)"
                         : "",
-                    backdropFilter:
-                      widget.linkAuthorId === context.accountId
-                        ? "blur(1px)"
-                        : "",
+
                     width:
                       widget.linkAuthorId === context.accountId ? "100%" : "",
                     height:
@@ -443,10 +447,10 @@ return (
                     top:
                       widget.linkAuthorId === context.accountId ? "-2px" : "0",
                   }}
-                  onMouseOver={
+                  className={
                     widget.linkAuthorId === context.accountId
-                      ? (this.style.backdropFilter = "blur(0.5px)")
-                      : null
+                      ? "WidgetHover"
+                      : ""
                   }
                 >
                   {widget.linkAuthorId === context.accountId ? (
