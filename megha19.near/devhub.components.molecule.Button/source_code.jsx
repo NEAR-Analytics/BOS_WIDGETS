@@ -136,7 +136,7 @@ const Button = ({
         typeof iconProps === "object" &&
         !Array.isArray(iconProps) && (
           <Widget
-            src={"megha19.near/widget/devhub.components.atom.Icon"}
+            src={"megha2001.testnet/widget/devhub.components.atom.Icon"}
             props={iconProps}
           />
         )}
