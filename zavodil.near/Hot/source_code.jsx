@@ -4,9 +4,9 @@ const contactId = "game.hot.tg";
 let assets = Near.view(contactId, "get_assets");
 
 useEffect(() => {
-  if (state.accountId && state.accountId != "name.tg") {
+  if (state.accountId && state.accountId.trim() != "") {
     let data = Near.view(contactId, "get_user", {
-      account_id: state.accountId,
+      account_id: state.accountId.trim(),
     });
 
     State.update({ data });
