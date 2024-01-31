@@ -69,6 +69,15 @@ const TriggerShowPanel = styled.div`
   position: absolute;
   right: -33px;
   top: 10px;
+    &:after{
+    content:"",
+    position: absolute;
+    display:block;
+    width:100%
+    height:10px
+    top:0;
+    left:0
+  }
 `;
 
 const TriggerShowLabel = styled.div`
@@ -297,15 +306,7 @@ position: absolute;
   &:hover {
     transform: scale(1.2);
   }
-  &:after{
-    content:"",
-    position: absolute;
-    display:block;
-    width:100%
-    height:100%
-    top:0;
-    left:0
-  }
+
 `;
 
 const ButtonApply = styled.button`
