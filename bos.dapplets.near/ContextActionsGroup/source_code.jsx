@@ -8,8 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  //   state.showMenu ? null : State.update({ show: false });
-  console.log("");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -508,7 +507,7 @@ return (
             transform:
               props.widgets && props.widgets.length
                 ? "translateY(6px)"
-                : "translateY(10px)",
+                : "translateY(39px)",
 
             position:
               props.widgets && props.widgets.length ? "unset" : "absolute",
