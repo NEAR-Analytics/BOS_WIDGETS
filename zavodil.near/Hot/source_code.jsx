@@ -1,15 +1,26 @@
 const accountId = props.tgId ?? context.accountId ?? "name.tg";
 const contactId = "game.hot.tg";
 
-let assets = Near.view(contactId, "get_assets");
-
 const loadAccount = () => {
   if (state.accountId && state.accountId.trim() != "") {
     let data = Near.view(contactId, "get_user", {
       account_id: state.accountId.trim(),
     });
 
+    console.log("Loading data for", state.accountId, data);
+
     State.update({ data });
+
+    if (!state.timerIsOn) {
+      setInterval(() => {
+        State.update((state) => ({
+          ...state,
+          nonce: state.pause ? state.nonce : state.nonce + 1,
+        }));
+      }, 1000);
+
+      State.update({ timerIsOn: true });
+    }
   }
 };
 
@@ -18,27 +29,28 @@ useEffect(() => {
 }, [state.accountId]);
 
 if (state === undefined) {
-  State.init({ accountId, assets, nonce: 0 });
+  State.init({ accountId, nonce: 0 });
   loadAccount();
+}
 
-  setInterval(() => {
-    State.update((state) => ({
-      ...state,
-      nonce: state.pause ? state.nonce : state.nonce + 1,
-    }));
-  }, 1000);
+if (!state.assets) {
+  let assets = Near.view(contactId, "get_assets");
+  State.update({ assets });
 }
 
 const inputNearAccount = (
   <div class="mb-3">
-    Input NEAR Telegram account (name.tg)
-    <input
-      type="text"
-      value={state.accountId}
-      onFocus={() => State.update({ pause: true })}
-      onBlur={() => State.update({ pause: false })}
-      onChange={(e) => State.update({ accountId: e.target.value })}
-    />
+    <div class="mb-2">
+      Input NEAR Telegram account (name.tg)
+      <input
+        type="text"
+        value={state.accountId}
+        onFocus={() => State.update({ pause: true })}
+        onBlur={() => State.update({ pause: false })}
+        onChange={(e) => State.update({ accountId: e.target.value })}
+      />
+    </div>
+    <button onClick={() => loadAccount()}>Check</button>
   </div>
 );
 
