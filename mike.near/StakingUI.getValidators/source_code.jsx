@@ -63,7 +63,7 @@ const mainnetValidators = {
             next_validators
           );
           console.log("uniqueAccountIds", uniqueAccountIds);
-          return uniqueAccountIds;
+          //   return uniqueAccountIds;
 
           // Update state or perform other actions with uniqueAccountIds
           // State.update({
