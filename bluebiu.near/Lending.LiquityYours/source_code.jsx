@@ -38,90 +38,15 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { dexConfig, account, multicall, multicallAddress } = props;
-const { StabilityPool, borrowTokenAddress } = dexConfig;
-
-State.init({
-  tvl: "",
-  deposits: "",
-  tokenBal: "",
-});
-
-function getDeposit() {
-  const contract = new ethers.Contract(
-    StabilityPool,
-    [
-      {
-        inputs: [{ internalType: "address", name: "", type: "address" }],
-        name: "deposits",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider()
-  );
-  contract
-    .deposits(account)
-    .then((res) => {
-      State.update({
-        deposits: ethers.utils.formatUnits(res),
-      });
-    })
-    .catch((err) => {
-      console.log("getDeposit_error", err);
-    });
-}
-
-function getInfo() {
-  const calls = [
-    { address: borrowTokenAddress, name: "balanceOf", params: [StabilityPool] },
-    { address: borrowTokenAddress, name: "balanceOf", params: [account] },
-  ];
-  multicall({
-    abi: [
-      {
-        constant: true,
-        inputs: [
-          {
-            name: "_owner",
-            type: "address",
-          },
-        ],
-        name: "balanceOf",
-        outputs: [
-          {
-            name: "balance",
-            type: "uint256",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    calls,
-    options: {},
-    multicallAddress,
-    provider: Ethers.provider(),
-  })
-    .then((res) => {
-      const [[tvlAmount], [tokenBalAmount]] = res;
-      console.log("get_borrow_token_res", tvlAmount, tokenBalAmount);
-      State.update({
-        tvl: Big(ethers.utils.formatUnits(tvlAmount || 0)).toFixed(2),
-        tokenBal: Big(ethers.utils.formatUnits(tokenBalAmount || 0)).toFixed(2),
-      });
-    })
-    .catch((err) => {
-      console.log("multicall_borrow_error:", err);
-    });
-}
-
-useEffect(() => {
-  getDeposit();
-  getInfo();
-}, []);
+const {
+  dexConfig,
+  account,
+  multicall,
+  multicallAddress,
+  tvl,
+  deposits,
+  tokenBal,
+} = props;
 
 return (
   <>
@@ -188,14 +113,9 @@ return (
       props={{
         ...props,
         markets: state.markets,
-        tvl: state.tvl,
-        deposits: state.deposits,
-        tokenBal: state.tokenBal,
-        onSuccess: () => {
-          State.update({
-            loading: true,
-          });
-        },
+        tvl: tvl,
+        deposits: deposits,
+        tokenBal: tokenBal,
       }}
     />
   </>
