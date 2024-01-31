@@ -1,5 +1,5 @@
 const { getAllAuthors } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "megha2001.testnet/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAuthors) {
