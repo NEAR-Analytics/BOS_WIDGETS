@@ -52,8 +52,12 @@ const {
   deposits,
 } = props;
 // const data = Object.values(dexConfig.markets || {});
+
+const { BORROW_TOKEN, BORROW_URL } = dexConfig;
 const data = [
   {
+    BORROW_TOKEN,
+    BORROW_URL,
     TVL: tvl,
     "LIQUIDATION-BONUS": "9.99 - 14.97%",
     "YOUR-DEPOSITS": deposits,
@@ -86,17 +90,10 @@ return (
           key={index}
           src="bluebiu.near/widget/Lending.LiquityMarketRow"
           props={{
+            ...props,
             columns: COLUMNS,
             data: record,
             borrowLimit: state.borrowLimit,
-            addAction,
-            toast,
-            chainId,
-            nativeCurrency,
-            dexConfig,
-            onSuccess,
-            account,
-            prices,
             deposits,
             from: "YOURS",
           }}
