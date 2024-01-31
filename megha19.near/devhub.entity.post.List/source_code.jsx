@@ -3,10 +3,10 @@
 // The contract will need to be extended with pagination support, yet, even in the current state the page loads much faster.
 // [IndexFeed]: https://near.social/#/mob.near/widget/WidgetSource?src=mob.near/widget/IndexFeed
 
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("megha2001.testnet/widget/core.lib.url");
 
 const { draftState, onDraftStateChange } = VM.require(
-  "megha19.near/widget/devhub.entity.post.draft"
+  "megha2001.testnet/widget/devhub.entity.post.draft"
 );
 
 if (!href) {
@@ -152,7 +152,7 @@ function defaultRenderItem(postId, additionalProps) {
   return (
     <div className="py-2" style={{ minHeight: "150px" }}>
       <Widget
-        src={"megha19.near/widget/devhub.entity.post.Post"}
+        src={"megha2001.testnet/widget/devhub.entity.post.Post"}
         props={{
           id: postId,
           expandable: true,
@@ -407,7 +407,7 @@ return (
           }}
           className="fw-bold"
           to={href({
-            widgetSrc: "megha19.near/widget/app",
+            widgetSrc: "megha2001.testnet/widget/app",
             params: { page: "feed" },
           })}
         >
