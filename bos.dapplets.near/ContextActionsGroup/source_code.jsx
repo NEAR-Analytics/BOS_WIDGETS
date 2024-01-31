@@ -348,9 +348,9 @@ const ActionBlock = styled.span`
     z-index: 1000;
   }
   .WidgetHover{
-    backdrop-filter: blur(1px)
+   backdrop-filter: blur(1px);
      &:hover {
-     backdrop-filter: blur(0.5px)
+backdrop-filter: blur(0.5px);
   }
   }
 
