@@ -6,7 +6,7 @@ const orderCancelled = "CANCELED";
 
 if (state === undefined) {
   State.init({
-    orderSize: "0.01",
+    orderSize: "0.002",
     orderPrice: "2500",
     orderMarketId: "ETH-USD",
     orderType: "MARKET",
@@ -61,7 +61,6 @@ ${css}
 }
 
 const Theme = state.theme;
-console.log(state.theme);
 
 const updateOrders = () => {
   const nonce = state.nonce ?? 0;
@@ -189,11 +188,6 @@ const getWalletFromEvmSignature = (signature) => {
   console.log(signature);
   const { mnemonic, privateKey, publicKey } =
     deriveHDKeyFromEthereumSignature(signature);
-  console.log("deriveHDKeyFromEthereumSignature", {
-    mnemonic,
-    privateKey,
-    publicKey,
-  });
 
   DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
     prefix: "dydx",
@@ -215,7 +209,9 @@ const getWalletFromEvmSignature = (signature) => {
         });
         updateOrders();
       })
-      .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+      .catch((err) =>
+        State.update({ is_loading: false, error_msg: JSON.stringify(err) })
+      );
   });
 };
 
@@ -249,7 +245,6 @@ const loadOrders = () => {
       }
     )
       .then((r) => {
-        console.log("Fetch orders", r);
         State.update({ orders: r?.body });
       })
       .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
@@ -267,7 +262,6 @@ const updateMarketPrice = () => {
     const url = `https://indexer.v4testnet.dydx.exchange/v4/perpetualMarkets?ticker=${state.orderMarketId}`;
     let data = fetch(url);
     if (data.ok) {
-      console.log("perpetualMarkets", data);
       let price = data?.body?.markets?.[state.orderMarketId]?.oraclePrice;
       if (price) {
         State.update({ orderPrice: price });
@@ -319,7 +313,7 @@ const getNetwork = () => {
 };
 
 const cancelUserOrder = (clientId, orderFlags, marketId) => {
-  State.update({ is_loading: true });
+  State.update({ is_loading: true, error_msg: "" });
   let params = {
     clientId,
     orderFlags,
@@ -338,7 +332,7 @@ const cancelUserOrder = (clientId, orderFlags, marketId) => {
 };
 
 const placeUserOrder = (side) => {
-  State.update({ is_loading: true });
+  State.update({ is_loading: true, error_msg: "" });
 
   if (
     !state.orderMarketId ||
@@ -369,11 +363,10 @@ const placeUserOrder = (side) => {
     clientId,
     timeInForce,
     goodTilTimeInSeconds: 999999,
-    orderFlags: "0",
     execution,
     postOnly,
     reduceOnly,
-    triggerPrice,
+    triggerPrice: price,
   };
 
   console.log(params);
@@ -381,10 +374,12 @@ const placeUserOrder = (side) => {
   placeDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
     .then((placeOrderResp) => {
       console.log("placeOrder resp ", placeOrderResp);
-      State.update({ is_loading: false });
+      State.update({ is_loading: false, error_msg: "" });
       updateOrders();
     })
-    .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+    .catch((err) =>
+      State.update({ is_loading: false, error_msg: JSON.stringify(err) })
+    );
 };
 
 const isOrderOpen = () => [orderOpen].includes(state.orderFilter);
@@ -439,13 +434,13 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
     updateMarketPrice();
   }, [state.nonce]);
 
-  if (state?.account?.address) {
+  /*if (state?.account?.address) {
     getDydxAccountBalances(getNetwork(), state?.account?.address).then(
       (data) => {
         console.log("getDydxAccountBalances", data);
       }
     );
-  }
+  }*/
 
   return (
     <Theme class="mb-5">
@@ -688,7 +683,6 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                   {(state.orders ?? []).length == 0 && (
                     <div class="text-wrapper-10">No transactions yet</div>
                   )}
-
                   {(state.orders ?? [])
                     .filter(
                       (order) =>
@@ -696,6 +690,9 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                         order.ticker.toLowerCase() ==
                           state.orderMarketId.toLowerCase()
                     )
+                    .sort((a, b) => {
+                      return b.updatedAtHeight - a.updatedAtHeight;
+                    })
                     .map((order) => (
                       <div class="transaction">
                         <div class="pair">
@@ -762,6 +759,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
           </div>
         </div>
       </div>
+      {JSON.stringify(state.orders)}
     </Theme>
   );
 }
