@@ -8,8 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  // state.showMenu ? null : State.update({ show: false });
-  console.log(props.widgets, "leave");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -430,10 +429,7 @@ return (
                   overlay={
                     // toDo: looks bad
                     widget.linkAuthorId === context.accountId ? (
-                      <Tooltip
-                        style={{ zIndex: 2000, position: "absolute" }}
-                        id="tooltip"
-                      >
+                      <Tooltip id="tooltip">
                         Remove {widget.src.split("widget/").pop()}
                       </Tooltip>
                     ) : null
@@ -490,27 +486,9 @@ return (
           ))}
 
           {props.isEditMode ? (
-            <ButtonApply
-              //   style={{
-              //     marginBottom:
-              //       props.widgets && props.widgets.length ? "6px" : "",
-              //     marginTop: props.widgets && props.widgets.length ? "" : "3px",
-              //   }}
-              onClick={handleApplyClick}
-            >
-              {iconApply}
-            </ButtonApply>
+            <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
           ) : (
-            <ButtonEdit
-              //   style={{
-              //     marginBottom:
-              //       props.widgets && props.widgets.length ? "6px" : "",
-              //     marginTop: props.widgets && props.widgets.length ? "" : "3px",
-              //   }}
-              onClick={handleEditClick}
-            >
-              {iconEdit}
-            </ButtonEdit>
+            <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
           )}
         </ActionsWrapper>
 
