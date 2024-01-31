@@ -217,6 +217,9 @@ return (daoId, proposalId, factoryId) => {
     // UTILS
     call: ({ methodName, args, deposit, gas, additionalCalls }) => {
       const policy = DaoSDK.getPolicy();
+      if (!policy) {
+        return;
+      }
       const minDeposit = Big(policy?.proposal_bond);
       // make sure that the deposit is more/equal than bond amount
       const finalDeposit = Big(deposit).gt(minDeposit) ? deposit : minDeposit;
