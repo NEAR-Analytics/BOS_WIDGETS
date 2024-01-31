@@ -297,6 +297,14 @@ position: absolute;
   &:hover {
     transform: scale(1.2);
   }
+  &:after{
+    content:"",
+    position: absolute;
+    width:100%
+    height:100%
+    top:0;
+    left:0
+  }
 `;
 
 const ButtonApply = styled.button`
