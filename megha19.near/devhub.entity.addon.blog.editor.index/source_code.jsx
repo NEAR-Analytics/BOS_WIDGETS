@@ -38,7 +38,7 @@ return (
     {/* Get any layout */}
     <Container>
       <Widget
-        src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.provider"
+        src="megha19.near/widget/devhub.entity.addon.blog.editor.provider"
         props={{
           handle: props.handle,
           Layout: (providerProps) => {
@@ -46,12 +46,12 @@ return (
               providerProps;
             return (
               <Widget
-                src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.layout"
+                src="megha19.near/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
                   Sidebar: (p) => (
                     <Widget
-                      src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.sidebar"
+                      src="megha19.near/widget/devhub.entity.addon.blog.editor.sidebar"
                       props={{
                         editPostId: editData ? editData.id : data.id,
                         ...p,
@@ -60,7 +60,7 @@ return (
                   ),
                   Content: (p) => (
                     <Widget
-                      src="megha2001.testnet/widget/devhub.entity.addon.blog.editor.content"
+                      src="megha19.near/widget/devhub.entity.addon.blog.editor.content"
                       props={{
                         onChange,
                         onCancel,
