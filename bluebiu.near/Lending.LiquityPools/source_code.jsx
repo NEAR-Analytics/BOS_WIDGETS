@@ -38,8 +38,6 @@ const COLUMNS = [
 ];
 
 const {
-  // totalCollateralUsd,
-  // userTotalBorrowUsd,
   addAction,
   toast,
   chainId,
@@ -51,7 +49,6 @@ const {
   tvl,
   deposits,
 } = props;
-// const data = Object.values(dexConfig.markets || {});
 
 const { BORROW_TOKEN, BORROW_URL } = dexConfig;
 const data = [
@@ -64,17 +61,6 @@ const data = [
     CLAIMABLE: "-",
   },
 ];
-
-// useEffect(() => {
-//   if (!totalCollateralUsd && !userTotalBorrowUsd) {
-//     return;
-//   }
-//   State.update({
-//     borrowLimit: Big(totalCollateralUsd || 0)
-//       .minus(userTotalBorrowUsd || 0)
-//       .toString(),
-//   });
-// }, [totalCollateralUsd, userTotalBorrowUsd]);
 
 return (
   <StyledContainer>
@@ -93,7 +79,6 @@ return (
             ...props,
             columns: COLUMNS,
             data: record,
-            borrowLimit: state.borrowLimit,
             deposits,
             from: "YOURS",
           }}
