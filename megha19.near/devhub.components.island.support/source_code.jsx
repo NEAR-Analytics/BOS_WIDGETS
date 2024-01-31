@@ -124,7 +124,7 @@ const Content = (
 
 return (
   <Widget
-    src="megha2001.testnet/widget/devhub.components.island.home-section"
+    src="megha19.near/widget/devhub.components.island.home-section"
     props={{
       title: "/get support",
       children: Content,
