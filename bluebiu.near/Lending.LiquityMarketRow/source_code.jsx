@@ -46,7 +46,7 @@ const {
 State.init({
   expand: false,
 });
-
+// console.log("LiquityMarketRow:", props);
 return (
   <StyledRow>
     <StyledRowHeader
