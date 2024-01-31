@@ -67,13 +67,13 @@ function renderDom() {
           <Symbol>{data.BORROW_TOKEN}</Symbol>
         </Asset>
       );
-    case "MAX-LTV":
+    case "MAX_LTV":
       return <Symbol>{amount}%</Symbol>;
-    case "ONE-TIME-FEE":
+    case "ONE_TIME_FEE":
       return <Symbol>{Big(amount).toFixed(2)}% or less</Symbol>;
-    case "MIN-DEBT":
+    case "MIN_DEBT":
       return <Symbol>{Big(amount).toFixed(2)}</Symbol>;
-    case "MINTED-CAP":
+    case "MINTED_CAP":
       return (
         <Symbol>
           {formatAmount(data["MINTED"])}/{formatAmount(amount)}
