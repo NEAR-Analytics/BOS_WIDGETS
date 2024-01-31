@@ -69,15 +69,7 @@ const TriggerShowPanel = styled.div`
   position: absolute;
   right: -33px;
   top: 10px;
-    &:after{
-    content:"",
-    position: absolute;
-    display:block;
-    width:40px;
-    height:10px;
-    top:0;
-    left:0;
-  }
+
 `;
 
 const TriggerShowLabel = styled.div`
@@ -429,6 +421,7 @@ return (
         onMouseOut={handleOnMouseLeave}
         style={{ margin: "0px -7px" }}
       >
+        <span style={{ margin: "0px -7px" }}></span>
         <ActionsWrapper>
           <TriggerShowLabel />
 
