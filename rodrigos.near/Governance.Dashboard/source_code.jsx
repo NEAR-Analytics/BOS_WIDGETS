@@ -120,7 +120,7 @@ State.init({
 return (
   <Container>
     <Heading>
-      <Title>On-chain voting for Meta Pool Improvement Proposals [MPIPs]</Title>
+      <Title>On-chain voting for AAXXII Improvement Proposals</Title>
       <Subtitle>Participate in voting on protocol-wide changes</Subtitle>
     </Heading>
 
