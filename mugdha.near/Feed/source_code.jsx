@@ -64,24 +64,23 @@ return (
       mainContent: (
         <>
           {context.accountId ? (
-            activeFeed !== "bookmarks" ? (
-              <Widget
-                src="buildhub.near/widget/Compose"
-                props={{
-                  feed: feeds[activeFeed],
-                  template: feeds[activeFeed].template,
-                }}
-              />
-            ) : (
-              <Widget src="buildhub.near/widget/Bookmarks" />
-            )
-          ) : (
             <Widget
-              src="buildhub.near/widget/components.login-now"
-              props={props}
+              src="buildhub.near/widget/Compose"
+              props={{
+                feed: feeds[activeFeed],
+                template: feeds[activeFeed].template,
+              }}
             />
-          )}
-          {activeFeed !== "bookmarks" && (
+          ) : (
+            <Widget src="buildhub.near/widget/Bookmarks" />
+          )}{" "}
+          : (
+          <Widget
+            src="buildhub.near/widget/components.login-now"
+            props={props}
+          />
+          )
+          {
             <Feed
               index={[
                 {
@@ -104,7 +103,7 @@ return (
                 />
               )}
             />
-          )}
+          }
         </>
       ),
     }}
