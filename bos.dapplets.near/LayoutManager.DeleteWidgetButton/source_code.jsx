@@ -57,12 +57,14 @@ transition: all 0.3s;
 &:hover {
   transition: all 0.3s;
     svg {
+        transition: all 0.3s;
   transform: scale(1.2);
   }
 }
 
   svg {
-width: 100%;
+    transition: all 0.3s;
+// width: 100%;
 height: 100%;
 }
 
