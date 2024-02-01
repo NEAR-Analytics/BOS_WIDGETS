@@ -6,8 +6,16 @@
  * @interface Props
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
- * @param {string} id - The token identifier passed as a string
+ * @param {string} [id] - The token identifier passed as a string
+ * @param {Object.<string, string>} [filters] - Key-value pairs for filtering transactions. (Optional)
+ *                                              Example: If provided, method=batch will filter the blocks with method=batch.
+ * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
+ *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
+
  */
+
+
+
 
 
 
@@ -109,6 +117,63 @@ const TxnStatus = (props) => {
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Status.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
+  return `${formattedNumber}%`;
+}
+
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
+
+function capitalizeWords(str) {
+  const words = str.split('_');
+  const capitalizedWords = words.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1),
+  );
+  const result = capitalizedWords.join(' ');
+  return result;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
 function formatTimestampToString(timestamp) {
   const date = new Date(timestamp);
 
@@ -910,6 +975,27 @@ const Clock = (props) => (
     <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
   </svg>
 );/* END_INCLUDE COMPONENT: "includes/icons/Clock.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/CloseCircle.jsx" */
+const CloseCircle = (props) => {
+  const handleClick = () => {
+    if (props.onClick) {
+      props.onClick('All');
+    }
+  };
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={24}
+      height={24}
+      className={props.className}
+      onClick={handleClick}
+    >
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/CloseCircle.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 const FaLongArrowAltRight = () => {
   return (
@@ -1169,10 +1255,13 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
+
   const near = Big(amount).div(Big(10).pow(decimal));
+
   const formattedValue = format
     ? near.toFixed(8).replace(/\.?0+$/, '')
-    : near.toFixed(decimal).replace(/\.?0+$/, '');
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
   return formattedValue;
 }
 
@@ -1249,7 +1338,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -1301,17 +1389,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -1404,7 +1495,7 @@ function localFormat(number) {
 /* END_INCLUDE: "includes/near.jsx" */
 
 
-function MainComponent({ network, id, t }) {
+function MainComponent({ network, t, id, filters, onFilterClear }) {
   const [showAge, setShowAge] = useState(true);
   const [txnLoading, setTxnLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -1426,9 +1517,10 @@ function MainComponent({ network, id, t }) {
   }, [currentPage]);
 
   useEffect(() => {
-    function fetchTotalTxns() {
+    function fetchTotalTxns(qs) {
+      const queryParams = qs ? '?' + qs : '';
       setTxnLoading(true);
-      asyncFetch(`${config?.backendUrl}fts/${id}/txns/count`, {
+      asyncFetch(`${config?.backendUrl}fts/${id}/txns/count${queryParams}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -1452,11 +1544,11 @@ function MainComponent({ network, id, t }) {
         .finally(() => {});
     }
 
-    function fetchTxnsData(page) {
+    function fetchTxnsData(page, qs) {
+      const queryParams = qs ? qs + '&' : '';
       setIsLoading(true);
-
       asyncFetch(
-        `${config?.backendUrl}fts/${id}/txns?&page=${page}&per_page=25`,
+        `${config?.backendUrl}fts/${id}/txns?${queryParams}page=${page}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1476,9 +1568,19 @@ function MainComponent({ network, id, t }) {
         });
     }
 
-    fetchTotalTxns();
-    fetchTxnsData(currentPage);
-  }, [config?.backendUrl, currentPage, id]);
+    let urlString = '';
+    if (filters && Object.keys(filters).length > 0) {
+      urlString = Object.keys(filters)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`,
+        )
+        .join('&');
+    }
+
+    fetchTotalTxns(urlString);
+    fetchTxnsData(currentPage, urlString);
+  }, [config?.backendUrl, currentPage, id, filters]);
 
   const columns = [
     {
@@ -1751,6 +1853,28 @@ function MainComponent({ network, id, t }) {
             <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
               A total of {localFormat(totalCount)} transactions found
             </p>
+          </div>
+          <div className=" flex items-center px-2 text-sm mb-4 text-nearblue-600 lg:ml-auto">
+            {filters && Object.keys(filters).length > 0 && (
+              <div className="flex items-center px-2 text-sm text-gray-500 lg:ml-auto">
+                Filtered By:
+                <span className="flex items-center bg-gray-100 rounded-full px-3 py-1 ml-1 space-x-2">
+                  {filters &&
+                    Object.keys(filters).map((key) => (
+                      <span className="flex" key={key}>
+                        {capitalizeFirstLetter(key)}:{' '}
+                        <span className="inline-block truncate max-w-[120px]">
+                          <span className="font-semibold">{filters[key]}</span>
+                        </span>
+                      </span>
+                    ))}
+                  <CloseCircle
+                    className="w-4 h-4 fill-current cursor-pointer"
+                    onClick={onFilterClear}
+                  />
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
