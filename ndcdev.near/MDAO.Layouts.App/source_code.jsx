@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
 );
 
 if (!fontCss) {
@@ -150,7 +150,10 @@ function AppLayout({ page, children }) {
       <Container>
         <Widget src={`ndcdev.near/widget/MDAO.Components.NavBar`} />
         <Wrapper>{children}</Wrapper>
-        <Widget src={`ndcdev.near/widget/MDAO.Components.Footer`} />
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Components.Footer`}
+          props={{ page }}
+        />
       </Container>
     </Theme>
   );
