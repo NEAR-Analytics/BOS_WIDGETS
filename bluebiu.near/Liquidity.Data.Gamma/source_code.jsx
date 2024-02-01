@@ -183,13 +183,12 @@ useEffect(() => {
   }
   function getTotalApr() {
     const name = curChain.name
-    if (['Base', 'Optimism', 'Linea'].includes(name)) {
+    if (['Base', 'Optimism', 'Linea', 'Polygon zkEVM'].includes(name)) {
       dataList = dataList.map(data => {
         data.totalApr = formatPercent(data.returns.weekly.feeApr)
         return data
       })
     }
-    console.log('====name', name)
     if (name === 'BSC') {
       const calls = [];
       const addressMap = {
@@ -205,50 +204,39 @@ useEffect(() => {
           name: "rewardRate",
         });
       })
-      // dataList.forEach(data => {
-      //   calls.push({
-      //     address: addressMap[data.id],
-      //     name: "rewardToken",
-      //   });
-      // })
-      // 0xF4C8E32EaDEC4BFe97E0F595AdD0f4450a863a11
       multicallv2(
         ERC20_ABI,
         calls,
         {},
         res => {
           for (let i = 0, len = res.length; i < len; i++) {
-            console.log('rewardRate', ethers.utils.formatUnits(res[i][0]._hex))
-            console.log('price', prices['ETH'])
-            console.log('tvlUSD', dataList[i].tvlUSD)
-            dataList[i]['totalApr'] = dataList[i].tvlUSD > 0 ? Big(ethers.utils.formatUnits(res[i][0]._hex))
+            dataList[i]['totalApr'] = (dataList[i].tvlUSD > 0 ? Big(ethers.utils.formatUnits(res[i][0]._hex))
               .mul(365 * 24 * 60 * 60)
-              .mul(prices['ETH'])
+              .mul(prices['THE'])
               .div(dataList[i].tvlUSD)
-              .toFixed(2) : '0.00'
+              .toFixed(2) : '0.00') + '%'
           }
-          console.log('=====11111111dataList', dataList)
-          formatedData('totalApr')
+          formatedData('getTotalApr')
         },
         error => {
-          console.log('=====error', error)
+          // console.log('=====error', error)
+          setTimeout(() => {
+            getTotalApr()
+          }, 500)
         }
       )
     }
     if (name === 'Polygon') {
 
     }
-    formatedData('totalApr')
+    formatedData('getTotalApr')
   }
   function getFeeTiers() {
     asyncFetch(LAST_SNAP_SHOT_DATA_URL)
       .then(res => {
         if (res.ok) {
-          console.log(LAST_SNAP_SHOT_DATA_URL, '=====res.body', res.body)
-
           dataList.forEach((data, index) => {
             const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
-            console.log('=====findIndex', findIndex)
             if (findIndex > -1) {
               dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
             }
