@@ -298,7 +298,7 @@ function handleClick() {
   if (data.BORROW_TOKEN === "GRAI") {
     params = [_amount, tokenArray];
   }
-  if (data.BORROW_TOKEN === "STAR") {
+  if (data.BORROW_TOKEN === "STAR" || data.BORROW_TOKEN === "ERN") {
     params = [_amount];
   }
   console.log("dw_params:", params);
