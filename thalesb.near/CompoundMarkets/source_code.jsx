@@ -1,22 +1,9 @@
 State.init({
-  theme,
+  theme: undefined,
+  markestData: [],
 });
 
-const css = fetch(
-  "https://ipfs.io/ipfs/QmRz1UsQ74chuQ1D4HG28xhz6nQcZ32UbFbxLNfqoLrnB2",
-).body;
-
-if (!css) return "";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-      ${css}
-    `,
-  });
-}
-
-const Theme = state.theme;
+if (!props.contracts) return "No contracts provided";
 
 const abi = fetch(
   "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json",
@@ -31,40 +18,18 @@ const rewardsData = useCache(
     ).then((res) => {
       const rewards = JSON.parse(res.body);
 
-      const rewardsByChainId = rewards.reduce((acc, item) => {
-        if (!acc[item.chain_id]) {
-          acc[item.chain_id] = [item];
+      const rewardsByCometAddress = rewards.reduce((acc, item) => {
+        if (!acc[item.comet.address]) {
+          acc[item.comet.address] = [item];
         } else {
-          acc[item.chain_id].push(item);
+          acc[item.comet.address].push(item);
         }
         return acc;
       }, {});
 
-      return rewardsByChainId;
+      return rewardsByCometAddress;
     }),
   "rewardData",
-  { subscribe: false },
-);
-
-const data = useCache(
-  () =>
-    asyncFetch(
-      "https://v3-api.compound.finance/market/all-networks/all-contracts/summary",
-    ).then((res) => {
-      const markets = JSON.parse(res.body);
-
-      const martketsByChainId = markets.reduce((acc, item) => {
-        if (!acc[item.chain_id]) {
-          acc[item.chain_id] = [item];
-        } else {
-          acc[item.chain_id].push(item);
-        }
-        return acc;
-      }, {});
-
-      return martketsByChainId;
-    }),
-  "allContractsSummary",
   { subscribe: false },
 );
 
@@ -97,81 +62,100 @@ const priceFormatter = (value) => {
   return value.toFixed(2);
 };
 
-// ---------- CONTRACT
-// TODO: Turn into a prop
-const contracts = [
-  {
-    network: "Base",
-    address: "0x46e6b214b524310239732D51387075E0e70970bf",
-    chainId: 8453,
-    httpRpcUrl: "https://base.llamarpc.com",
-    borrowAssetCoingeckoId: "ethereum",
-  },
-];
+const contracts = props.contracts;
 
-const marketsData = {};
+const coingeckoIds = contracts.reduce((acc, contract) => {
+  acc.push(contract.borrowAssetCoingeckoId);
+
+  for (let i = 0; i < contract.collateralAssets.length; i++) {
+    const collateralAsset = contract.collateralAssets[i];
+
+    acc.push(collateralAsset.coingegkoId);
+  }
+
+  return acc;
+}, []);
+
+const coingeckoIdsString = coingeckoIds.join(",");
+
+const coingeckoPrices = fetch(
+  `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoIdsString}&vs_currencies=usd`,
+);
+
+if (!coingeckoPrices) return "Loading...";
 
 const marketDataPromises = [];
+const collateralPricesPromises = [];
+
+const secondsPerYear = 60 * 60 * 24 * 365;
 
 for (let contractInfo of contracts) {
+  const rpcProvider = new ethers.providers.JsonRpcProvider(
+    contractInfo.httpRpcUrl,
+  );
+
+  const contract = new ethers.Contract(
+    contractInfo.address,
+    abi.body,
+    rpcProvider,
+  );
+
+  const name = contractInfo.network;
+  const baseAddress = contractInfo.address;
+  const decimals = contractInfo.borrowDecimals;
+  const totalAssets = contractInfo.collateralAssets.length;
+  const icons = {
+    networkIcon: contractInfo.networkIcon,
+    baseCoinIcon: contractInfo.baseCoinIcon,
+    collateralIcons:
+      contractInfo.collateralAssets.map((asset) => {
+        return asset.icon;
+      }) || [],
+  };
+  const baseToken = {
+    name: contractInfo.baseTokenName,
+    symbol: contractInfo.baseTokenSymbol,
+  };
+
   const marketPromise = new Promise((resolve, reject) => {
-    const rpcProvider = new ethers.providers.JsonRpcProvider(
-      contractInfo.httpRpcUrl,
-    );
-
-    const contract = new ethers.Contract(
-      contractInfo.address,
-      abi.body,
-      rpcProvider,
-    );
-
-    const borrowAssetPrice = fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${contractInfo.borrowAssetCoingeckoId}&vs_currencies=usd`,
-    );
-
-    const price =
-      borrowAssetPrice.body[contractInfo.borrowAssetCoingeckoId].usd;
+    const basePrice =
+      coingeckoPrices.body[contractInfo.borrowAssetCoingeckoId].usd;
 
     contract.totalBorrow().then((res) => {
-      const totalBorrow = (Number(res.toString()) / 1e18) * price;
+      const totalBorrow =
+        Number(ethers.utils.formatUnits(res.toString(), decimals)) * basePrice;
 
       contract.getUtilization().then((res) => {
-        const utilization = (Number(res.toString()) / 1e18) * 100;
+        const utilization = Number(res.toString());
+        const parsedUtilization = (utilization / 1e18) * 100;
 
         contract.totalSupply().then((res) => {
-          const totalEarning = (Number(res.toString()) / 1e18) * price;
+          const totalEarning =
+            Number(ethers.utils.formatUnits(res.toString(), decimals)) *
+            basePrice;
 
-          contract.numAssets().then((res) => {
-            const totalAssets = Number(res.toString());
-            let i = 0;
+          contract.getSupplyRate(utilization.toString()).then((res) => {
+            const rate = Number(res.toString());
 
-            let assetsHash = {};
+            const supplyApr = (rate / 1e18) * secondsPerYear * 100;
 
-            while (i < totalAssets) {
-              contract.getAssetInfo(i).then((res) => {
-                const address = res[1];
+            contract.getBorrowRate(utilization.toString()).then((res) => {
+              const borrowRate = Number(res.toString());
 
-                contract.totalsCollateral(address).then((res) => {
-                  const totalSupplyAsset =
-                    (Number(res[0].toString()) / 1e18) * price;
+              const borrowApr = (borrowRate / 1e18) * secondsPerYear * 100;
 
-                  assetsHash[address] = {
-                    totalSupplyAssetInUsd: totalSupplyAsset,
-                    totalSupplyAsset: Number(res[0].toString()),
-                  };
-                });
+              resolve({
+                totalBorrow,
+                utilization: parsedUtilization,
+                totalEarning,
+                totalAssets,
+                network: name,
+                address: baseAddress,
+                supplyApr,
+                borrowApr,
+                icons,
+                baseToken,
               });
-              i++;
-            }
-
-            resolve({
-              totalBorrow,
-              utilization,
-              totalEarning,
-              totalAssets,
-              assetsHash,
-              network: contractInfo.network,
-              address: contractInfo.address,
             });
           });
         });
@@ -180,13 +164,50 @@ for (let contractInfo of contracts) {
   });
 
   marketDataPromises.push(marketPromise);
+
+  for (let i = 0; i < contractInfo.collateralAssets.length; i++) {
+    const collateralAsset = contractInfo.collateralAssets[i];
+    const name = collateralAsset.name;
+    const baseAddress = contractInfo.address;
+
+    const collateralPromise = new Promise((resolve, reject) => {
+      contract.totalsCollateral(collateralAsset.address).then((res) => {
+        const totalSupplyAsset = Number(
+          ethers.utils.formatUnits(res[0], collateralAsset.decimals),
+        );
+
+        const totalSupplyAssetPrice =
+          coingeckoPrices.body[collateralAsset.coingegkoId].usd;
+
+        const totalSupplyAssetValue = totalSupplyAsset * totalSupplyAssetPrice;
+
+        resolve({
+          baseContractAddress: baseAddress,
+          name,
+          totalSupplyAsset,
+          totalSupplyAssetPrice,
+          totalSupplyAssetValue,
+        });
+      });
+    });
+
+    collateralPricesPromises.push(collateralPromise);
+  }
 }
 
-const allMarkets = useCache(() => Promise.all(marketDataPromises), "markets", {
-  subscribe: true,
-});
+const marketsData = useCache(
+  () => Promise.all(marketDataPromises),
+  "marketsData",
+  { subscribe: false },
+);
 
-const markets = allMarkets?.reduce((acc, item) => {
+const collateralPricesData = useCache(
+  () => Promise.all(collateralPricesPromises),
+  "collateralPricesData",
+  { subscribe: false },
+);
+
+const markets = (marketsData ?? [])?.reduce((acc, item) => {
   if (!acc[item.network]) {
     acc[item.network] = [item];
   } else {
@@ -196,144 +217,473 @@ const markets = allMarkets?.reduce((acc, item) => {
   return acc;
 }, {});
 
-console.log(markets);
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+      --font-primary: "Quicksand", sans-serif;
 
-// Promise.all(marketDataPromises).then((res) => {
-//   console.log(res);
-// });
+      --color-brand: #00ec97;
+      --color-brand-secondary: #00d186;
+
+      --color-purple: #aa00fa;
+      --color-purple-secondary: #7900b2;
+
+      --color-neutral-100: #d7d9e5;
+      --color-neutral-200: #888baf;
+      --color-neutral-500: #373a53;
+      --color-neutral-600: #323345;
+      --color-neutral-700: #292a3d;
+      --color-neutral-800: #1e202e;
+      --color-neutral-white: #ffffff;
+      --color-neutral-black: #000000;
+      --color-neutral-black-70: rgba(0, 0, 0, 0.7);
+
+      --radius-lg: 24px;
+      --radius-md: 8px;
+      --radius-sm: 4px;
+
+      --spacing-0: 0;
+      --spacing-1: 2px;
+      --spacing-2: 4px;
+      --spacing-3: 6px;
+      --spacing-4: 8px;
+      --spacing-5: 12px;
+      --spacing-6: 16px;
+      --spacing-7: 20px;
+      --spacing-8: 24px;
+      --spacing-9: 32px;
+      --spacing-10: 40px;
+      --spacing-11: 48px;
+      --spacing-12: 56px;
+      --spacing-13: 64px;
+      --spacing-14: 72px;
+      --spacing-15: 80px;
+      --spacing-16: 88px;
+      --spacing-17: 96px;
+      --spacing-18: 104px;
+      --spacing-19: 112px;
+      --spacing-20: 120px;
+      --spacing-21: 128px;
+
+      .font-primary {
+        font-family: var(--font-primary);
+      }
+
+      .font-body-sm-bold {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .font-body-lg-bold {
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .font-body-md-bold {
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .font-body-md-semibold {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px;
+      }
+
+      .font-body-md {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 22px;
+      }
+
+      .text-secondary {
+        color: var(--color-neutral-200);
+      }
+
+      .chip {
+        background-color: var(--color-neutral-500);
+        padding: 0px 4px;
+        border-radius: var(--radius-sm);
+        color: var(--color-neutral-white);
+      }
+
+      .collateral_icons {
+        display: flex;
+        gap: 0 !important;
+
+        img {
+          width: 24px;
+          height: 24px;
+          margin-right: -8px;
+        }
+      }
+    `,
+  });
+}
+
+const Theme = state.theme;
+
+const TableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-700);
+  color: var(--color-neutral-white);
+  border-radius: var(--radius-lg);
+  padding-right: var(--spacing-8);
+  padding-left: var(--spacing-8);
+  padding-top: var(--spacing-8);
+  padding-bottom: var(--spacing-6);
+  overflow-x: auto;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const TableTitle = styled.div`
+  display: flex;
+  text-transform: uppercase;
+  gap: var(--spacing-4);
+`;
+
+const MarketTable = styled.table`
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 24px;
+  min-width: 1024px;
+
+  th {
+    text-align: left;
+    color: var(--color-neutral-200);
+  }
+`;
+
+const MobileMarketContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-neutral-700);
+  border-radius: var(--radius-lg);
+  color: var(--color-neutral-white);
+  padding: var(--spacing-8);
+
+  hr {
+    margin-top: var(--spacing-8);
+    margin-bottom: var(--spacing-8);
+    border-style: dashed;
+  }
+
+  div:first-child {
+    display: flex;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-8);
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    &-network {
+      display: flex;
+      flex-direction: column;
+      margin-left: var(--spacing-6);
+    }
+
+    &-line {
+      display: flex;
+      justify-content: space-between;
+
+      &:not(:last-child) {
+        margin-bottom: var(--spacing-6);
+      }
+
+      &__value {
+        color: var(--color-neutral-200);
+        display: flex;
+        align-items: center;
+        gap: 1px;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+`;
 
 return (
   <Theme>
-    {Object.keys(markets).map((network) => {
-      return (
-        <div className="theme theme--dark page" key={network}>
-          <div className="market-overview-panels__tables-container">
-            <div className="panel-with-header assets-table-panel grid-column--12">
-              <div className="panel-with-header__header">
-                <div className="market-overview-panels__header-with-logo">
-                  <span className="asset asset--ETHEREUM"></span>
-                  <label className="label L1 text-color--1">{network}</label>
-                </div>
-              </div>
-              <div className="panel-with-header__content">
-                <div className="panel panel--markets-assets L3">
-                  <div className="panel--markets-assets__content">
-                    <table className="assets-table">
-                      <thead>
-                        <tr className="assets-table__row assets-table__row--header market-overview-panels__table-header L2">
-                          <th className="label">Market</th>
-                          <th className="label">Utilization</th>
-                          <th className="label">Net Earn APR</th>
-                          <th className="label">Net Borrow APR</th>
-                          <th className="label">Total Earning</th>
-                          <th className="label">Total Borrowing</th>
-                          <th className="label">Total Collateral</th>
-                          <th className="label">Collateral Assets</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {markets[network].map((item) => {
-                          const totalCollateral = Object.values(
-                            item.assetsHash,
-                          )?.reduce((acc, item) => {
-                            return acc + item.totalSupplyAssetInUsd;
-                          }, 0);
+    <Container className="font-primary">
+      {Object.keys(markets).map((network) => {
+        const networkIcon = markets[network][0].icons.networkIcon;
 
-                          return (
-                            <tr
-                              className="market-overview-panels__table-row"
-                              key={item.address}
-                            >
-                              <td>
-                                <div className="market-overview-panels__market-container">
-                                  <div className="icon-pair icon-pair--reverse-draw">
-                                    <span className="asset asset--ETH icon-pair__item"></span>
-                                    <img
-                                      className="asset asset--ETHEREUM icon-pair__item"
-                                      src="https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png"
-                                    />
-                                  </div>
-                                  <div className="market-overview-panels__asset-description-container">
-                                    <div>
-                                      <span className="body--emphasized text-color--1 L3">
-                                        Ether
-                                      </span>
-                                    </div>
-                                    <div className="label text-color--2 L2">
-                                      ETH ∙ Ethereum
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="market-overview-panels__utilization-container">
-                                  <div className="circle-meter">
-                                    <svg viewBox="0 0 19 19">
-                                      <path
-                                        className="circle-meter__bg"
-                                        d="M9.5 1.5
-              a 8 8 0 0 1 0 16
-              a 8 8 0 0 1 0 -16"
-                                      ></path>
-                                      <path
-                                        className="circle-meter__circle"
-                                        stroke-dasharray="27.972740987563515,50.26548245743669"
-                                        d="M9.5 1.5
-              a 8 8 0 0 1 0 16
-              a 8 8 0 0 1 0 -16"
-                                      ></path>
-                                    </svg>
-                                  </div>
-                                  <div className="body text-color--1 L3">
-                                    {percentFormatter(item.utilization)}
-                                  </div>
-                                </div>
-                              </td>
-                              <td>
-                                <div className="body text-color--1 L3">???</div>
-                              </td>
-                              <td>
-                                <div className="body text-color--1 L3">???</div>
-                              </td>
-                              <td>
-                                <div className="body text-color--1 L3">
-                                  {priceFormatter(item.totalEarning ?? 0)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="body text-color--1 L3">
-                                  {priceFormatter(item.totalBorrow ?? 0)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="body text-color--1 L3">
-                                  {priceFormatter(totalCollateral ?? 0)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="market-overview-panels__collateral-asset-container">
-                                  <label className="body text-color--1 L3">
-                                    {item.totalAssets}
-                                  </label>
-                                  <div className="market-overview-panels__collateral-asset-icons-container">
-                                    <div className="asset asset--cbETH market-overview-panels__collateral-asset-icon"></div>
-                                    <div className="asset asset--wstETH market-overview-panels__collateral-asset-icon"></div>
-                                    <div className="asset asset--rETH market-overview-panels__collateral-asset-icon"></div>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+        return (
+          <>
+            <TableContainer key={network}>
+              <TableTitle>
+                <img style={{ width: 24, height: 24 }} src={networkIcon} />
+                <div className="font-body-lg-bold">{network}</div>
+              </TableTitle>
+
+              <MarketTable>
+                <thead>
+                  <tr className="font-body-sm-bold">
+                    <th>Market</th>
+                    <th>Utilization</th>
+                    <th>Net Earn APR</th>
+                    <th>Net Borrow APR</th>
+                    <th>Total Earning</th>
+                    <th>Total Borrowing</th>
+                    <th>Total collateral</th>
+                    <th>Collateral Assets</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {markets[network].map((market) => {
+                    const totalCollateral = collateralPricesData
+                      ?.filter(
+                        (item) => item.baseContractAddress === market.address,
+                      )
+                      ?.reduce((total, item) => {
+                        return total + item.totalSupplyAssetValue;
+                      }, 0);
+
+                    const rewards = rewardsData[market.address][0];
+
+                    return (
+                      <tr key={market.baseContractAddress}>
+                        <td
+                          style={{
+                            display: "flex",
+                            gap: "var(--spacing-6)",
+                          }}
+                        >
+                          <div>
+                            <img
+                              style={{
+                                width: 48,
+                                height: 48,
+                                zIndex: 10,
+                                position: "relative",
+                              }}
+                              src={market.icons.baseCoinIcon}
+                            />
+                            <img
+                              style={{
+                                width: 48,
+                                height: 48,
+                                marginLeft: -16,
+                              }}
+                              src={market.icons.networkIcon}
+                            />
+                          </div>
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <span className="font-body-md-bold">
+                              {market.baseToken.name}
+                            </span>
+                            <span style={{ color: "var(--color-neutral-200)" }}>
+                              {market.baseToken.symbol}{" "}
+                              <span style={{ color: "#00EC97" }}>•</span>
+                              {network}
+                            </span>
+                          </div>
+                        </td>
+                        <td>{percentFormatter(market.utilization)}</td>
+                        <td>
+                          {percentFormatter(
+                            market.supplyApr +
+                              Number(rewards?.earn_rewards_apr || 0) * 100,
+                          )}
+                        </td>
+                        <td>
+                          {percentFormatter(
+                            market.borrowApr -
+                              Number(rewards?.borrow_rewards_apr || 0) * 100,
+                          )}
+                        </td>
+                        <td>{priceFormatter(market.totalEarning)}</td>
+                        <td>{priceFormatter(market.totalBorrow)}</td>
+                        <td>{priceFormatter(totalCollateral)}</td>
+                        <td>
+                          {market.icons.collateralIcons.length}
+                          {market.icons.collateralIcons
+                            .filter((a) => !!a)
+                            .map((icon) => {
+                              return (
+                                <img
+                                  src={icon}
+                                  key={icon}
+                                  style={{ width: 24, height: 24 }}
+                                />
+                              );
+                            })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </MarketTable>
+            </TableContainer>
+
+            <MobileMarketContainer key={network}>
+              <div>
+                <img src={networkIcon} />
+                <span className="font-body-md-bold">{network}</span>
               </div>
-            </div>
-          </div>
-        </div>
-      );
-    })}
+
+              {markets[network].map((market, i) => {
+                return (
+                  <>
+                    <div className="info">
+                      <div>
+                        <img
+                          style={{
+                            width: 48,
+                            height: 48,
+                            zIndex: 10,
+                            position: "relative",
+                          }}
+                          src={market.icons.baseCoinIcon}
+                        />
+                        <img
+                          style={{
+                            width: 48,
+                            height: 48,
+                            marginLeft: -16,
+                          }}
+                          src={market.icons.networkIcon}
+                        />
+
+                        <div className="info-network">
+                          <span className="font-body-md-bold">
+                            {market.baseToken.name}
+                          </span>
+                          <span style={{ color: "var(--color-neutral-200)" }}>
+                            {market.baseToken.symbol}
+                            <span style={{ color: "#00EC97" }}>•</span>
+                            {network}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">Utilization</span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {percentFormatter(market.utilization)}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">Net Earn APR</span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {percentFormatter(
+                            market.supplyApr +
+                              Number(
+                                rewardsData[market.address][0]
+                                  ?.earn_rewards_apr || 0,
+                              ) *
+                                100,
+                          )}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">Net Borrow APR</span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {percentFormatter(
+                            market.borrowApr -
+                              Number(
+                                rewardsData[market.address][0]
+                                  ?.borrow_rewards_apr || 0,
+                              ) *
+                                100,
+                          )}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">Total Earning</span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {priceFormatter(market.totalEarning)}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">
+                          Total Borrowing
+                        </span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {priceFormatter(market.totalBorrow)}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">
+                          Total collateral
+                        </span>
+                        <span className="info-line__value font-body-md-semibold">
+                          {priceFormatter(
+                            collateralPricesData
+                              ?.filter(
+                                (item) =>
+                                  item.baseContractAddress === market.address,
+                              )
+                              ?.reduce((total, item) => {
+                                return total + item.totalSupplyAssetValue;
+                              }, 0),
+                          )}
+                        </span>
+                      </div>
+
+                      <div className="info-line font-body-md">
+                        <span className="info-line__title">
+                          Collateral Assets
+                        </span>
+                        <span className="info-line__value font-body-md-semibold">
+                          <span className="chip">
+                            {market.icons.collateralIcons.length}
+                          </span>
+
+                          <div className="collateral_icons">
+                            {market.icons.collateralIcons
+                              .filter((a) => !!a)
+                              .map((icon) => {
+                                return <img src={icon} key={icon} />;
+                              })}
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                    {i !== markets[network].length - 1 && (
+                      <hr className="divider" />
+                    )}
+                  </>
+                );
+              })}
+            </MobileMarketContainer>
+          </>
+        );
+      })}
+    </Container>
   </Theme>
 );
