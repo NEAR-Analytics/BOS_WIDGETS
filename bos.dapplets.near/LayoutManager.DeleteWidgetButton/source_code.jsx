@@ -64,7 +64,7 @@ transition: all 0.3s;
 
   svg {
     transition: all 0.3s;
-// width: 100%;
+width: 100%;
 height: 100%;
 }
 
