@@ -47,7 +47,7 @@ const ERC20_ABI = [
   },
 ];
 const Button = styled.button`
-  background-color: var(--switch-color);
+  background: var(--switch-color);
   line-height: 46px;
   height: 46px;
   border-radius: 10px;
@@ -87,19 +87,19 @@ const {
   gas,
   onApprovedSuccess,
 } = props;
-
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
-if (!actionText) return;
+if (!actionText || !account) return;
 
 useEffect(() => {
   State.update({
     approving: false,
     isApproved: false,
     isGasEnough: true,
+    pending: false,
   });
-}, []);
+}, [amount]);
 
 useEffect(() => {
   if (!account || !gas) return;
