@@ -51,13 +51,7 @@ const RemoveAction = styled.div`
   animation: translateAnimationBtn 0.5s linear forwards;
   transition: all 0.3s;
 
-  &:hover {
-    transition: all 0.3s;
-    svg {
-      transition: all 0.3s;
-      transform: scale(1.2);
-    }
-  }
+
 
   svg {
     height: 100%;
@@ -66,6 +60,15 @@ const RemoveAction = styled.div`
     left: 0;
     bottom: 0;
     box-sizing: border-box;
+  }
+    &:hover {
+    transition: all 0.3s;
+    svg {
+      transition: all 0.3s;
+     circle:{
+      fill: #8F1914;
+     }
+    }
   }
 `;
 
