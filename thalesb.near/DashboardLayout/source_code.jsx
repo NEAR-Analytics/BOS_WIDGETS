@@ -789,7 +789,7 @@ const contractInfo = {
 const { address } = props;
 
 //TODO: Na mainnet está com problema De promise not supported
-const balancesPromise = () => {
+const balancesPromise = new Promise((resolve, reject) => {
   const rpcProvider = new ethers.providers.JsonRpcProvider(
     contractInfo.httpRpcUrl
   );
@@ -815,19 +815,17 @@ const balancesPromise = () => {
     })
     .then(({ formattedBalance, assetBalance, ethBalance }) => {
       const balanceInEth = Big(ethBalance).div(Big(10).pow(18)).toFixed(2);
-      console.log(balanceInEth, "salveee");
       State.update({
         formattedBalance: formattedBalance,
         assetBalance: assetBalance,
         balance: balanceInEth,
       });
+      resolve();
     })
-    .catch((error) => {});
-};
-
-useEffect(() => {
-  balancesPromise();
-}, []);
+    .catch((error) => {
+      reject(error);
+    });
+});
 
 const withdrawToContract = (address, amount) => {
   const contract = new ethers.Contract(
