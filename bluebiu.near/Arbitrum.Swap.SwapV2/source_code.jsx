@@ -213,18 +213,6 @@ return (
         }}
       />
     </Panel>
-    {chainId === 1101 && (
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-        props={{
-          add: state.add,
-          onChangeAdd: (add) => {
-            State.update({ add });
-          },
-          source: props.source,
-        }}
-      />
-    )}
     {state.displayCurrencySelect && (
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.CurrencySelect"
