@@ -15,6 +15,8 @@ const {
   articleToRenderData,
 } = props;
 
+console.log(data);
+
 State.init({
   showModal: false,
   hasReply: false,
@@ -122,12 +124,17 @@ const TimestampIconComment = styled.img`
     height: 12px;
   `;
 
-const TimestampTextComment = styled.p`
+const TimestampTextComment = styled.span`
     color: #000;
     font-size: 10px;
     font-weight: 300;
     margin: 0px;
   `;
+
+const EditedIndication = styled.span`
+    font-size: 12px;
+    margin: 0px;
+`;
 
 const DeleteCommentButton = styled.button`
     display: flex;
@@ -361,6 +368,9 @@ return (
           <TimestampTextComment>
             {new Date(data.value.comment.timestamp).toDateString()}
           </TimestampTextComment>
+          {data.value.comment.isEdition && (
+            <EditedIndication className="text-muted">(edited)</EditedIndication>
+          )}
         </TimestampCommentDiv>
         <div>
           {state.showModal && (
