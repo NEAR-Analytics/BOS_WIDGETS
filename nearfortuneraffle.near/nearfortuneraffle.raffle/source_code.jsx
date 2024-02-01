@@ -622,7 +622,7 @@ return (
           <CloseDate>
             <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              Jan 15, 11:59 PM GMT+1
+              Feb 15, 11:59 PM GMT+1
             </p>
           </CloseDate>
           <Entries>
