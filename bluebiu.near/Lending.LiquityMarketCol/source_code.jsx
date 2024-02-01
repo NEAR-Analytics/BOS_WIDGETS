@@ -1,7 +1,7 @@
 const Asset = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
 `;
 const Icon = styled.img`
   width: 26px;
@@ -12,6 +12,8 @@ const Symbol = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: #fff;
+  display: flex;
+  align-items: center;
 `;
 const StyledExpand = styled.div`
   cursor: pointer;
@@ -89,7 +91,12 @@ function renderDom() {
     case "ONE_TIME_FEE":
       return <Symbol>{Big(amount).toFixed(2)}% or less</Symbol>;
     case "MIN_DEBT":
-      return <Symbol>{Big(amount).toFixed(2)}</Symbol>;
+      return (
+        <Symbol>
+          <Icon src={data.BORROW_URL} />
+          {amount}
+        </Symbol>
+      );
     case "MINTED_CAP":
       return (
         <Symbol>
