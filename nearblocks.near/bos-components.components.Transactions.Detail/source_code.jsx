@@ -5094,10 +5094,13 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
+
   const near = Big(amount).div(Big(10).pow(decimal));
+
   const formattedValue = format
     ? near.toFixed(8).replace(/\.?0+$/, '')
-    : near.toFixed(decimal).replace(/\.?0+$/, '');
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
   return formattedValue;
 }
 
@@ -5174,7 +5177,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -5226,17 +5228,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -5374,17 +5379,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -5446,17 +5454,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -5479,7 +5490,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -5531,17 +5541,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -5843,10 +5856,8 @@ function MainComponent(props) {
             </div>
           ) : (
             <div>
-              {txn.outcomes?.status ? (
+              {txn.outcomes?.status !== undefined && (
                 <TxnStatus showLabel status={txn.outcomes?.status} />
-              ) : (
-                ''
               )}
               {errorMessage && (
                 <div className="text-xs bg-orange-50 my-2 rounded-md text-center px-2 py-1">
@@ -5933,8 +5944,7 @@ function MainComponent(props) {
           )}
         </div>
       </div>
-      {((actions.length > 0 && actions[0]?.action_kind) ||
-        (logs.length > 0 && logs[0]?.contract)) && (
+      {(actions.length > 0 || logs.length > 0) && (
         <div id="action-row" className="bg-white text-sm text-nearblue-600">
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
