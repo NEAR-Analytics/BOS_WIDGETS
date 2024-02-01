@@ -20,14 +20,7 @@ if (props?.bookmark) {
 }
 
 function loadingScreen() {
-  return (
-    <>
-      👀📗~~, NEARCatalog only working on near.social gateway for now:
-      <a href="https://near.social/nearcatalog.near/widget/Index">
-        https://near.social/nearcatalog.near/widget/Index
-      </a>
-    </>
-  );
+  return <>👀📗~~, NEARCatalog - Ecosystem map for #NEAR </>;
 }
 
 console.log("router: ", router);
