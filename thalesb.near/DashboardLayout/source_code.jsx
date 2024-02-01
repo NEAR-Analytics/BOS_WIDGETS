@@ -788,44 +788,46 @@ const contractInfo = {
 
 const { address } = props;
 
-// //TODO: Na mainnet está com problema De promise not supported
-// const balancesPromise = new Promise((resolve, reject) => {
-//   const rpcProvider = new ethers.providers.JsonRpcProvider(
-//     contractInfo.httpRpcUrl
-//   );
+//TODO: Na mainnet está com problema De promise not supported
+const balancesPromise = () => {
+  const rpcProvider = new ethers.providers.JsonRpcProvider(
+    contractInfo.httpRpcUrl
+  );
 
-//   const contract = new ethers.Contract(
-//     contractInfo.address,
-//     abi.body,
-//     rpcProvider
-//   );
+  const contract = new ethers.Contract(
+    contractInfo.address,
+    abi.body,
+    rpcProvider
+  );
 
-//   contract
-//     .balanceOf(address)
-//     .then((res) => {
-//       return Promise.all([res, contract.decimals()]);
-//     })
-//     .then(([balance, decimals]) => {
-//       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-//       return Ethers.provider()
-//         .getBalance(address)
-//         .then((ethBalance) => {
-//           return { formattedBalance, assetBalance: balance, ethBalance };
-//         });
-//     })
-//     .then(({ formattedBalance, assetBalance, ethBalance }) => {
-//       const balanceInEth = Big(ethBalance).div(Big(10).pow(18)).toFixed(2);
-//       State.update({
-//         formattedBalance: formattedBalance,
-//         assetBalance: assetBalance,
-//         balance: balanceInEth,
-//       });
-//       resolve();
-//     })
-//     .catch((error) => {
-//       reject(error);
-//     });
-// });
+  contract
+    .balanceOf(address)
+    .then((res) => {
+      return Promise.all([res, contract.decimals()]);
+    })
+    .then(([balance, decimals]) => {
+      const formattedBalance = ethers.utils.formatUnits(balance, decimals);
+      return Ethers.provider()
+        .getBalance(address)
+        .then((ethBalance) => {
+          return { formattedBalance, assetBalance: balance, ethBalance };
+        });
+    })
+    .then(({ formattedBalance, assetBalance, ethBalance }) => {
+      const balanceInEth = Big(ethBalance).div(Big(10).pow(18)).toFixed(2);
+      console.log(balanceInEth, "salveee");
+      State.update({
+        formattedBalance: formattedBalance,
+        assetBalance: assetBalance,
+        balance: balanceInEth,
+      });
+    })
+    .catch((error) => {});
+};
+
+useEffect(() => {
+  balancesPromise();
+}, []);
 
 const withdrawToContract = (address, amount) => {
   const contract = new ethers.Contract(
