@@ -1,5 +1,7 @@
 const { item, index, showMoreDefault, showRepliesDefault } = props;
-let { assets, content } = VM.require(`ndcdev.near/widget/MDAO.Config`);
+let { assets, content, socialKey } = VM.require(
+  `ndcdev.near/widget/MDAO.Config`
+);
 assets = assets.home;
 content = content.home;
 const accountId = context.accountId;
@@ -87,13 +89,13 @@ const [showReply, setShowReply] = useState(showRepliesDefault);
 const [copiedShareUrl, setCopiedShareUrl] = useState(false);
 
 const [liked, setLiked] = useState(false);
-const likes = Social.index("graph", "v3.ndc.mdao.like", { order: "desc" });
+const likes = Social.index("graph", `${socialKey}.like`, { order: "desc" });
 likes = likes ? likes.filter((like) => like.value.parentId === item.id) : [];
 const myLike = likes ? likes.some((like) => like.value[accountId]) : false;
 setLiked(myLike);
 
 const [replies, setReplies] = useState([]);
-const repl = Social.index("graph", "v3.ndc.mdao.reply", { order: "desc" });
+const repl = Social.index("graph", `${socialKey}.reply`, { order: "desc" });
 replies = repl ? repl.filter((repl) => repl.value.parentId === item.id) : [];
 setReplies(replies);
 
@@ -101,7 +103,7 @@ const handleLike = () => {
   Social.set({
     index: {
       graph: JSON.stringify({
-        key: "v3.ndc.mdao.like",
+        key: `${socialKey}.like`,
         value: {
           parentId: item.id,
           [accountId]: !myLike,
@@ -219,7 +221,7 @@ const CardItem = ({ item, index }) => (
                   </b>
                 </small>
                 <Widget
-                  src="mob.near/widget/SocialMarkdown"
+                  src="ndcdev.near/widget/MDAO.Components.MarkdownViewer"
                   props={{ text: item["performance_statement:answer_1"] }}
                 />
               </div>
@@ -232,7 +234,7 @@ const CardItem = ({ item, index }) => (
                   </b>
                 </small>
                 <Widget
-                  src="mob.near/widget/SocialMarkdown"
+                  src="ndcdev.near/widget/MDAO.Components.MarkdownViewer"
                   props={{ text: item["performance_statement:answer_2"] }}
                 />
               </div>
@@ -240,7 +242,7 @@ const CardItem = ({ item, index }) => (
           ) : (
             <p>
               <Widget
-                src="mob.near/widget/SocialMarkdown"
+                src="ndcdev.near/widget/MDAO.Components.MarkdownViewer"
                 props={{ text: item.description }}
               />
             </p>
