@@ -358,6 +358,7 @@ function addCommentListener() {
     key: "createComment",
     props: {
       comment,
+      replyingTo,
       articleId: article.id,
       onClick: onClickAddComment,
       onCommit,
