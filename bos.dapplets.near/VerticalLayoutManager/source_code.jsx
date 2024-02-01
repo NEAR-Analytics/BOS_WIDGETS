@@ -29,7 +29,9 @@ return (
     {props.widgets.map((widget) => (
       <div style={{ position: "relative" }} key={widget.linkId}>
         {props.isEditMode ? (
-          <WidgetBadgeWrapper>
+          <WidgetBadgeWrapper
+            title={`Remove ${widget.src.split("widget/").pop()}`}
+          >
             {widget.linkAuthorId === context.accountId ? (
               <Widget
                 src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
