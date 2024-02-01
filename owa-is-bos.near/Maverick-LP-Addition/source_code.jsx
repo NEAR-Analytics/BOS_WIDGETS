@@ -95,38 +95,6 @@ const floatToFixed = (num, decimals) => {
   );
 };
 
-// Method to get token prices
-const getScale = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenPrices/324`)
-    .catch((err) => {
-      console.log(err);
-    })
-    .then((res) => {
-      let priceTokenA, priceTokenB;
-      Object.entries(res.body.prices).forEach(([key, value]) => {
-        if (
-          state.selectedPoolOptions.tokenA.priceId == key ||
-          state.selectedPoolOptions.tokenA.address == key
-        ) {
-          priceTokenA = value;
-        }
-        if (
-          state.selectedPoolOptions.tokenB.priceId == key ||
-          state.selectedPoolOptions.tokenB.address == key
-        ) {
-          priceTokenB = value;
-        }
-      });
-      let scalesObj = {
-        priceTokenA: priceTokenA.usd,
-        priceTokenB: priceTokenB.usd,
-        scaleTokAToTokB: priceTokenA.usd / priceTokenB.usd,
-        scaleTokBToTokA: priceTokenB.usd / priceTokenA.usd,
-      };
-      State.update({ tokScales: scalesObj });
-    });
-};
-
 // Method to get user balances
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -631,8 +599,10 @@ const addLiquidity = () => {
               State.update({
                 step: 1,
                 poolSelected: undefined,
+                selectedPoolOptions: undefined,
+                poolOptions: undefined,
                 poolModeSelected: POOLSMODE[0],
-                poolDistributionSelected: DISTRIBUTIONMODE[2],
+                poolDistributionSelected: DISTRIBUTIONMODE[0],
                 needMoreAllowanceTA: false,
                 needMoreAllowanceTB: false,
                 amountInputTokenA: null,
@@ -643,8 +613,15 @@ const addLiquidity = () => {
                 need2Tokens: true,
                 addingLiquidity: false,
                 onlyRight: false,
+                tokenABalance: undefined,
+                tokenBBalance: undefined,
+                tokenAAllowance: undefined,
+                tokenBAllowance: undefined,
+                moreTokenAAllowance: undefined,
+                moreTokenBAllowance: undefined,
               });
-            }, 20000);
+              getUserBalances();
+            }, 25000);
           });
       } catch (err) {
         console.log(err);
@@ -732,7 +709,6 @@ const next = () => {
   if (state.step + 1 == 2) {
     if (!(state.tokenABalance || state.tokenBBalance)) {
       setUserBalances();
-      getScale();
     }
   } else if (state.step + 1 == 3) {
     if (!(state.tokenAAllowance || state.tokenBAllowance)) {
