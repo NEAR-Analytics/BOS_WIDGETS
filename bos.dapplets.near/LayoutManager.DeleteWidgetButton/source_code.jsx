@@ -26,8 +26,8 @@ const RemoveIcon = (
 
 const RemoveAction = styled.div`
   position: relative;
-  width: 23%;
-  padding-bottom: 23%;
+  width: 22%;
+  padding-bottom: 22%;
   float: left;
   height: 0;
   margin: 1%;
@@ -65,7 +65,6 @@ const RemoveAction = styled.div`
     position: absolute;
     left: 0;
     bottom: 0;
-    padding: 2px;
     box-sizing: border-box;
   }
 `;
