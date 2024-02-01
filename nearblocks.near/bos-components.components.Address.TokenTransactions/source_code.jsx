@@ -1356,10 +1356,13 @@ function formatWithCommas(number) {
 /* INCLUDE: "includes/near.jsx" */
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
+
   const near = Big(amount).div(Big(10).pow(decimal));
+
   const formattedValue = format
     ? near.toFixed(8).replace(/\.?0+$/, '')
-    : near.toFixed(decimal).replace(/\.?0+$/, '');
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
   return formattedValue;
 }
 
@@ -1436,7 +1439,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -1488,17 +1490,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -1603,7 +1608,7 @@ function MainComponent({
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const errorMessage = t ? t('noTxns') : 'No transactions found!';
+  const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
   const [tokens, setTokens] = useState(
     {},
   );
@@ -1665,7 +1670,11 @@ function MainComponent({
 ) => {
             const resp = data?.body?.txns;
             if (data.status === 200) {
-              setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+              if (Array.isArray(resp) && resp.length > 0) {
+                setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+              } else if (resp.length === 0) {
+                setTokens({});
+              }
             }
           },
         )
@@ -1984,7 +1993,7 @@ function MainComponent({
           </Popover.Content>
         </Popover.Root>
       ),
-      key: 'receiver_account_id',
+      key: 'token_new_owner_account_id',
       cell: (row) => (
         <span>
           {row.token_new_owner_account_id ? (
@@ -2007,7 +2016,7 @@ function MainComponent({
                   align="start"
                   side="bottom"
                 >
-                  {row.receiver_account_id}
+                  {row.token_new_owner_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
