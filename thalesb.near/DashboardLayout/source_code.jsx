@@ -774,18 +774,6 @@ const abi = fetch(
 
 if (!abi) return "Loading...";
 
-const contracts = [
-  {
-    network: "Polygon Mainnet",
-    address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
-    chainId: 137,
-    httpRpcUrl: "https://polygon-rpc.com/",
-    borrowAssetCoingeckoId: "usdc",
-  },
-];
-
-const marketDataPromises = [];
-
 const contractInfo = {
   network: "Polygon Mainnet",
   address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
@@ -795,18 +783,6 @@ const contractInfo = {
 };
 
 const { address } = props;
-
-const balancesPromise = new Promise((resolve, reject) => {
-  const rpcProvider = new ethers.providers.JsonRpcProvider(
-    contractInfo.httpRpcUrl
-  );
-
-  const contract = new ethers.Contract(
-    contractInfo.address,
-    abi.body,
-    rpcProvider
-  );
-});
 
 const withdrawToContract = (address, amount) => {
   const contract = new ethers.Contract(
