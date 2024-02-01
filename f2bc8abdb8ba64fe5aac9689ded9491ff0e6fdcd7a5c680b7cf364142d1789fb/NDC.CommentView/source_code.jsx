@@ -15,8 +15,6 @@ const {
   articleToRenderData,
 } = props;
 
-console.log(data);
-
 State.init({
   showModal: false,
   hasReply: false,
