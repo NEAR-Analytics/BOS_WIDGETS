@@ -4,10 +4,18 @@
  * License: Business Source License 1.1
  * Description: Fungible Token Overview on Near Protocol.
  * @interface Props
- * @param {string} id - The token identifier passed as a string
- * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [network] - The network data to show, either mainnet or testnet
+ * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {string} [id] - The token identifier passed as a string
+ * @param {string} [tokenFilter] - The token filter identifier passed as a string
+ * @param {Object.<string, string>} [filters] - Key-value pairs for filtering transactions. (Optional)
+ *                                              Example: If provided, method=batch will filter the blocks with method=batch.
+ * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
+ *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
  */
+
+
+
 
 
 
@@ -1398,7 +1406,14 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent({ network, id, t }) {
+function MainComponent({
+  network,
+  t,
+  id,
+  tokenFilter,
+  filters,
+  onFilterClear,
+}) {
   const tabs = [
     t ? t('token:fts.ft.transfers') : 'Transfers',
     t ? t('token:fts.ft.holders') : 'Holders',
@@ -1500,6 +1515,7 @@ function MainComponent({ network, id, t }) {
 
   const onTab = (index) => {
     setPageTab(tabs[index]);
+    onFilterClear && onFilterClear('');
   };
 
   const onToggle = () => setShowMarketCap((o) => !o);
@@ -1776,6 +1792,16 @@ function MainComponent({ network, id, t }) {
           </div>
         </div>
         <div className="py-6"></div>
+        {tokenFilter && (
+          <Widget
+            src={`${config.ownerId}/widget/bos-components.components.FT.TokenFilter`}
+            props={{
+              network: network,
+              id: id,
+              tokenFilter: tokenFilter,
+            }}
+          />
+        )}
         <div className="block lg:flex lg:space-x-2 mb-4">
           <div className="w-full">
             <Tabs.Root defaultValue={pageTab}>
@@ -1805,6 +1831,8 @@ function MainComponent({ network, id, t }) {
                         network: network,
                         id: id,
                         t: t,
+                        filters: filters,
+                        onFilterClear: onFilterClear,
                       }}
                     />
                   }
