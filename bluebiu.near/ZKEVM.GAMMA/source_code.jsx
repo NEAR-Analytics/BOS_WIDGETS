@@ -269,18 +269,6 @@ return (
       />
     </Wrapper>
 
-    <Widget
-      src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-      props={{
-        add: state.add_action,
-        onChangeAdd: (value) => {
-          State.update({
-            add_action: value,
-          });
-        },
-      }}
-    />
-
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </VStack>
 );
