@@ -92,10 +92,10 @@ function renderDom() {
       return <Symbol>{Big(amount).toFixed(2)}% or less</Symbol>;
     case "MIN_DEBT":
       return (
-        <Symbol>
+        <Asset>
           <Icon src={data.BORROW_URL} />
-          {amount}
-        </Symbol>
+          <Symbol>{amount}</Symbol>
+        </Asset>
       );
     case "MINTED_CAP":
       return (
