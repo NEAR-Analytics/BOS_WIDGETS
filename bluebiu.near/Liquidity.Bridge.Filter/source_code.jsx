@@ -98,7 +98,6 @@ const SearchIcon = (
     <rect x="14.9141" y="9.64941" width="6.141" height="2.63186" rx="1.31593" transform="rotate(30 14.9141 9.64941)" fill="#979ABE" />
   </svg>
 )
-console.log('====categoryIndex', categoryIndex)
 return (
   <Wrapper>
     <Pools>
