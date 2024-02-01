@@ -37,7 +37,7 @@ const Modal = ({ isOpen, onClose }) => {
 
     "@media (max-width: 600px)": {
       width: "90%",
-      maxWidth: "none", // To override the maxWidth for mobile
+      maxWidth: "95%",
     },
   };
 
@@ -164,7 +164,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
 
     "@media (max-width: 600px)": {
       width: "90%",
-      maxWidth: "none", // To override the maxWidth for mobile
+      maxWidth: "95%",
     },
   };
 
