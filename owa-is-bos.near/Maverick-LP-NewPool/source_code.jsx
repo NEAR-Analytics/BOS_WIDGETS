@@ -1073,18 +1073,26 @@ const createPool = () => {
             step: 1,
             step1TokenAAmount: 0,
             refStep1Amount: null,
+            poolModeSelected: POOLSMODE[0],
+            poolDistributionSelected: DISTRIBUTIONMODE[0],
             amountInputTokenA: null,
+            inputBalanceTokenA: null,
             amountInputTokenB: null,
+            inputBalanceTokenB: null,
             fee: 0,
             width: 0,
             showSelectOptionsModal: false,
             show: false,
             binsToDistribute: 3,
             need2Tokens: true,
-            creatingPool: false,
             onlyRight: false,
+            tokenABalance: undefined,
+            tokenBBalance: undefined,
+            tokenAAllowance: undefined,
+            tokenBAllowance: undefined,
           });
-        }, 20000);
+          getUserBalances();
+        }, 25000);
       });
   } catch (err) {
     console.log(err);
