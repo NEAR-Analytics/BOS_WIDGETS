@@ -378,7 +378,7 @@ return (
           <TimestampTextComment>
             {new Date(data.value.comment.timestamp).toDateString()}
           </TimestampTextComment>
-          {data.value.comment.isEdition && (
+          {data.isEdition && (
             <EditedIndication className="text-muted">(edited)</EditedIndication>
           )}
         </TimestampCommentDiv>
