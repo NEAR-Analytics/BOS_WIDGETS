@@ -219,7 +219,7 @@ function MainComponent({ network, id }) {
             completing the captcha below.
           </p>
           <div className="bg-white border rounded-md shadow-md w-full px-4 py-4 my-10">
-            <p className="text-gray-900 my-3 mx-2">
+            <p className="text-nearblue-600 my-3 mx-2">
               Export the earliest 5000 records starting from
             </p>
 
@@ -232,7 +232,7 @@ function MainComponent({ network, id }) {
                         type="date"
                         name="startdate"
                         id="startdate"
-                        className="border flex items-center  border-gray-300 rounded-md text-center px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
+                        className="border flex items-center  border-gray-300 rounded-md px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
                         defaultValue={initial.start}
                         onChange={handleStartDateChange}
                       />
@@ -256,7 +256,7 @@ function MainComponent({ network, id }) {
                         type="date"
                         name="enddate"
                         id="enddate"
-                        className="border flex items-center  border-gray-300 rounded-md text-center px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
+                        className="border flex items-center  border-gray-300 rounded-md px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
                         defaultValue={initial.end}
                         onChange={handleEndDateChange}
                       />
