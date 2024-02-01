@@ -1,4 +1,4 @@
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "meta-pool-official.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const availableContent = ["proposals", "voters", "votes"];
 
@@ -40,7 +40,7 @@ const contentSelector = (
 const content = {
   proposals: (
     <Widget
-      src={`meta-pool-official.near/widget/ImprovementProposals.Proposals`}
+      src={`${authorId}/widget/ImprovementProposals.Proposals`}
       props={{
         search: state.search,
         update: props.update,
