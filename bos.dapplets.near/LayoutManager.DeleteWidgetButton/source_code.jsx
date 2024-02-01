@@ -35,6 +35,7 @@ const RemoveAction = styled.div`
     max-width: 36px;
     max-height: 36px;
     min-width: 14px;
+        min-height: 14px;
 @keyframes translateAnimationBtn {
 0% {
   opacity: 0;
@@ -64,7 +65,7 @@ transition: all 0.3s;
     // width: 100%;
     // max-width: 100%;
     // max-height: 100%;
-
+ height: 100%;
 width: 100%;
     position: absolute;
     left: 0;
