@@ -63,9 +63,11 @@ transition: all 0.3s;
 }
 
   svg {
+   
     transition: all 0.3s;
-width: 100%;
-height: 100%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 }
