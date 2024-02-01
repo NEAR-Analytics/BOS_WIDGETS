@@ -174,9 +174,11 @@ function editComment(props) {
     return;
   }
 
+  const replyingTo = undefined;
+
   onClick();
 
-  saveComment(comment, articleId, onCommit, onCancel);
+  saveComment(comment, replyingTo, articleId, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "editComment";
@@ -313,7 +315,24 @@ function getValidComments(props) {
     );
   });
 
-  const commentsAuthors = lastEditionComments.map((comment) => {
+  const lastEditionCommentsWithEditionMark = lastEditionComments.map(
+    (comment) => {
+      const commentsWithThisCommentId = normComments.filter((compComment) => {
+        return (
+          comment.value.comment.commentId ===
+          compComment.value.comment.commentId
+        );
+      });
+
+      if (commentsWithThisCommentId.length > 1) {
+        comment.isEdition = true;
+      }
+
+      return comment;
+    }
+  );
+
+  const commentsAuthors = lastEditionCommentsWithEditionMark.map((comment) => {
     return comment.accountId;
   });
 
@@ -326,7 +345,10 @@ function getValidComments(props) {
     return !discardCondition;
   });
 
-  const finalComments = filterValidComments(lastEditionComments, articleSbts);
+  const finalComments = filterValidComments(
+    lastEditionCommentsWithEditionMark,
+    articleSbts
+  );
 
   return sortComments(finalComments);
 }
@@ -354,15 +376,6 @@ function filterValidator(comments, articleSbts) {
     }
 
     return result;
-
-    // return (
-    //   articleSbts.find((sbt) => {
-    //     return (
-    //       state[`isValidUser-${comment.accountId}`][sbt] ||
-    //       commentSbt === "public"
-    //     );
-    //   }) !== undefined
-    // );
   });
 }
 
