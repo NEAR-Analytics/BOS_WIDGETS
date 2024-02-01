@@ -25,54 +25,49 @@ const RemoveIcon = (
 );
 
 const RemoveAction = styled.div`
-    position: relative;
-    width: 23%;
-    padding-bottom: 23%;
-    float: left;
-    height: 0;
-    margin: 1%;
-        box-sizing: border-box;
-    max-width: 36px;
-    max-height: 36px;
-    min-width: 14px;
-        min-height: 14px;
-@keyframes translateAnimationBtn {
-0% {
-  opacity: 0;
-}
-50% {
-  opacity: 0;
-}
-100% {
-  opacity: 1;
-}
-}
-
-animation: translateAnimationBtn 0.5s linear forwards;
-transition: all 0.3s;
-
-&:hover {
-  transition: all 0.3s;
-    svg {
-        transition: all 0.3s;
-  transform: scale(1.2);
+  position: relative;
+  width: 23%;
+  padding-bottom: 23%;
+  float: left;
+  height: 0;
+  margin: 1%;
+  box-sizing: border-box;
+  max-width: 36px;
+  max-height: 36px;
+  min-width: 14px;
+  min-height: 14px;
+  @keyframes translateAnimationBtn {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
-}
+
+  animation: translateAnimationBtn 0.5s linear forwards;
+  transition: all 0.3s;
+
+  &:hover {
+    transition: all 0.3s;
+    svg {
+      transition: all 0.3s;
+      transform: scale(1.2);
+    }
+  }
 
   svg {
-   
-    // transition: all 0.3s;
-    // width: 100%;
-    // max-width: 100%;
-    // max-height: 100%;
- height: 100%;
-width: 100%;
+    height: 100%;
+    width: 100%;
     position: absolute;
     left: 0;
     bottom: 0;
-}
-
-}
+    padding: 2px;
+    box-sizing: border-box;
+  }
 `;
 
 return <RemoveAction onClick={props.onClick}>{RemoveIcon}</RemoveAction>;
