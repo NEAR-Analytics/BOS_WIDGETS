@@ -122,11 +122,13 @@ useEffect(() => {
 }, [account, gas]);
 
 function handleClose() {
+  // console.log(333333333, data, props);
+  // return;
   State.update({
     pending: true,
   });
   const contract = new ethers.Contract(
-    data.BorrowerOperations,
+    data.config.BorrowerOperations,
     [
       {
         inputs: [{ internalType: "address", name: "_asset", type: "address" }],
@@ -214,7 +216,7 @@ if (actionText === "Close") {
           }}
         />
       ) : (
-        "Close Vessel"
+        "Close"
       )}
     </Button>
   );
