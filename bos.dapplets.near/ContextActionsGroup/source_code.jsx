@@ -435,7 +435,7 @@ return (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
                 <OverlayTrigger
-                  placement="top"
+                  placement="right"
                   overlay={
                     // toDo: looks bad
                     widget.linkAuthorId === context.accountId ? (
