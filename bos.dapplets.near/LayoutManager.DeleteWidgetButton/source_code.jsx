@@ -54,6 +54,7 @@ const RemoveAction = styled.div`
 
 
   svg {
+    cursor:pointer;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -61,13 +62,15 @@ const RemoveAction = styled.div`
     bottom: 0;
     box-sizing: border-box;
   }
-    &:hover {
+    
     transition: all 0.3s;
     svg {
       transition: all 0.3s;
-     circle:{
-      fill: #8F1914;
-     }
+      &:hover {
+          &:nth-child(1){
+           fill: #8F1914; 
+        }
+    
     }
   }
 `;
