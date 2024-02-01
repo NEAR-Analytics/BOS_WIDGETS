@@ -24,6 +24,23 @@ const StyledExpand = styled.div`
   }
 `;
 
+const Badge = styled.div`
+  color: white;
+  background-color: ${(props) =>
+    props.type === "ACTIVE" ? "#28a745" : "#6c757d"};
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+`;
+
 const { key, expand, data, amount, from } = props;
 
 function formatAmount(number) {
@@ -79,6 +96,8 @@ function renderDom() {
           {formatAmount(data["MINTED"])}/{formatAmount(amount)}
         </Symbol>
       );
+    case "LOAN_STATUS":
+      return <Badge type={data.vesselStatus}>{data.vesselStatus}</Badge>;
     case "handler":
       return (
         <StyledExpand className={expand ? "expand" : ""}>
