@@ -100,8 +100,14 @@ const StyledInfo = styled.div`
 `;
 const StyledInfoContent = styled.div`
   width: 390px;
+  .icon {
+    width: 16px;
+    margin: 0 4px;
+  }
 `;
 const StyledInfoTitle = styled.div`
+  display: flex;
+  align-items: center;
   color: #fff;
   font-family: Gantari;
   font-size: 16px;
@@ -109,6 +115,10 @@ const StyledInfoTitle = styled.div`
   font-weight: 400;
   line-height: normal;
   padding-bottom: 16px;
+  .icon {
+    width: 16px;
+    margin: 0 4px;
+  }
 `;
 const StyledInfoItem = styled.div`
   display: flex;
@@ -121,8 +131,16 @@ const StyledInfoItem = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
   & .white {
     color: #fff;
+  }
+  .symbol {
+    margin-left: 4px;
+  }
+  .right {
+    display: flex;
+    align-items: center;
   }
 `;
 const StyledInfoTips = styled.div`
@@ -141,6 +159,14 @@ const StyledInfoTips = styled.div`
   font-weight: 400;
   line-height: normal;
   margin-top: 26px;
+  .text {
+    display: flex;
+    align-items: center;
+  }
+  .icon {
+    width: 16px;
+    margin-left: 4px;
+  }
 `;
 
 const StyledDetailPanel = styled.div`
@@ -192,8 +218,6 @@ const StyledGasBox = styled.div`
   line-height: normal;
 `;
 
-const TABS = ["Borrow", "Close"];
-
 const {
   expand,
   addAction,
@@ -204,11 +228,30 @@ const {
   dexConfig,
   account,
   prices,
+  tokenBal,
 } = props;
 
 const data = props.data || {};
+const vesselStatus = data.vesselStatus; //ACTIVE INACTIVE
+let TABS = [];
+switch (vesselStatus) {
+  case "ACTIVE":
+    TABS = ["Adjust", "Close"];
+    break;
+  case "INACTIVE":
+    TABS = ["Borrow"];
+    break;
+}
+console.log("TABS: ", TABS);
+State.init({
+  tab: TABS[0],
+});
 
-State.init({ tab: "Borrow" });
+useEffect(() => {
+  State.update({
+    tab: TABS[0],
+  });
+}, [TABS]);
 
 useEffect(() => {
   const debounce = (fn, wait) => {
@@ -281,6 +324,12 @@ const onAmountChange = (amount) => {
   state.debouncedGetTrade();
 };
 
+// useEffect(() => {
+//   if (state.tab === "Close") {
+
+//   }
+// }, [state.tab]);
+
 return (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
@@ -301,57 +350,90 @@ return (
       </StyledHeader>
       <StyledContent>
         <StyledInfo>
-          <StyledInfoContent>
-            {/* <StyledInfoTitle>Your info</StyledInfoTitle> */}
-            {/* <StyledInfoItem>
+          {state.tab === "Borrow" && (
+            <StyledInfoContent>
+              <StyledInfoTitle>
+                Borrowing from
+                <img src={data.underlyingToken.icon} className="icon" alt="" />
+                {data.underlyingToken.symbol}
+              </StyledInfoTitle>
+              {/* <StyledInfoItem>
               <div>Your borrw limit</div>
               <div className="white">
-                
               </div>
             </StyledInfoItem>
-            <StyledInfoItem>
-              <div>Available to Supply</div>
-              <div>
-                <span className="white">
-                
-                </span>{" "}
-                {data.underlyingToken?.symbol}
-              </div>
-            </StyledInfoItem>
-            <StyledInfoItem>
-              <div>Available to Borrow</div>
-              <div>
-                <span className="white">
-                 
-                </span>{" "}
-                {data.underlyingToken?.symbol}
-              </div>
-            </StyledInfoItem> */}
-            <StyledInfoTips>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-              >
-                <circle cx="6" cy="6" r="5.5" stroke="#EBF479" />
-                <path
-                  d="M6 6L6 9"
-                  stroke="#EBF479"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
+          */}
+              <StyledInfoTips>
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
+                  alt=""
                 />
-                <circle cx="6" cy="3.75" r="0.75" fill="#EBF479" />
-              </svg>
-              <div>
-                Deposit collateral and/or borrow more {data.BORROW_TOKEN}.
-              </div>
-            </StyledInfoTips>
-          </StyledInfoContent>
+                <div className="txt">
+                  Deposit collateral and/or borrow more
+                  <img src={data.BORROW_URL} className="icon" alt="" />{" "}
+                  {data.BORROW_TOKEN}.
+                </div>
+              </StyledInfoTips>
+            </StyledInfoContent>
+          )}
+          {state.tab === "Adjust" && (
+            <StyledInfoContent>
+              <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
+              <StyledInfoTips>
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
+                  alt=""
+                />
+                <div>Manage the collateral health of your vault.</div>
+              </StyledInfoTips>
+            </StyledInfoContent>
+          )}
+          {state.tab === "Close" && (
+            <StyledInfoContent>
+              <StyledInfoTitle>Close Your Position</StyledInfoTitle>
+              <StyledInfoItem>
+                <div>You will repay</div>
+                <div className="right">
+                  <img src={data.BORROW_URL} className="icon" alt="" />
+                  <span className="white">{data.vesselDebt}</span>
+                  <span className="symbol">{data.BORROW_TOKEN}</span>
+                </div>
+              </StyledInfoItem>
+              <StyledInfoItem>
+                <div>You have</div>
+                <div className="right">
+                  <img src={data.BORROW_URL} className="icon" alt="" />
+                  <span className="white">{tokenBal}</span>
+                  <span className="symbol">{data.BORROW_TOKEN}</span>
+                </div>
+              </StyledInfoItem>
+              {/* <StyledInfoItem>
+                <div>You will receive</div>
+                <div className="right">
+                  <img
+                    src={data.underlyingToken.icon}
+                    className="icon"
+                    alt=""
+                  />
+                  <span className="white">{deposits}</span>
+                  <span className="symbol">{data.underlyingToken.symbol}</span>
+                </div>
+              </StyledInfoItem> */}
+              <StyledInfoTips>
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
+                  alt=""
+                />
+                <div>
+                  By closing your position, you receive your collateral from the
+                  Nebula Vault.
+                </div>
+              </StyledInfoTips>
+            </StyledInfoContent>
+          )}
         </StyledInfo>
         <div>
-          {state.tab === "Borrow" ? (
+          {state.tab === "Borrow" || state.tab === "Adjust" ? (
             <>
               <Widget
                 src="bluebiu.near/widget/Lending.MarketInput"
@@ -408,7 +490,8 @@ return (
               <Widget
                 src="bluebiu.near/widget/Lending.LiquityMarketButton"
                 props={{
-                  disabled: !state.buttonClickable,
+                  disabled:
+                    state.tab === "Close" ? false : !state.buttonClickable,
                   actionText: state.tab,
                   amount: state.amount,
                   data: {
@@ -422,7 +505,7 @@ return (
                   unsignedTx: state.unsignedTx,
                   isError: state.isError,
                   // loading: state.loading,
-                  gas: state.gas,
+                  // gas: state.gas,
                   _assetAmount: state.amount,
                   _debtTokenAmount: state.borrowAmount,
                   onApprovedSuccess: () => {
