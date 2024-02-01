@@ -6,7 +6,7 @@ State.init({
 if (!props.contracts) return "No contracts provided";
 
 const abi = fetch(
-  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json"
+  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json",
 );
 
 if (!abi) return "Loading...";
@@ -14,7 +14,7 @@ if (!abi) return "Loading...";
 const rewardsData = useCache(
   () =>
     asyncFetch(
-      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data"
+      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data",
     ).then((res) => {
       const rewards = JSON.parse(res.body);
 
@@ -30,24 +30,23 @@ const rewardsData = useCache(
       return rewardsByCometAddress;
     }),
   "rewardData",
-  { subscribe: false }
+  { subscribe: false },
 );
 
-/**
- * Formats a value as a percentage.
- * @param {number} value - The value to be formatted.
- * @returns {string} The formatted value as a percentage.
- */
+const ChainNameByChainId = {
+  1: "Ethereum",
+  137: "Polygon",
+  42161: "Airbitrum",
+  8453: "Base",
+};
+
+const ChainIconByChainId = {};
+
 const percentFormatter = (value) => {
   if (!value) return "0%";
   return `${value.toFixed(2)}%`;
 };
 
-/**
- * Formats a price value.
- * @param {number} value - The price value to be formatted.
- * @returns {string} The formatted price value.
- */
 const priceFormatter = (value) => {
   if (!value) return "-";
   if (value > 1000000000) {
@@ -82,7 +81,7 @@ const coingeckoIds = contracts.reduce((acc, contract) => {
 const coingeckoIdsString = coingeckoIds.join(",");
 
 const coingeckoPrices = fetch(
-  `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoIdsString}&vs_currencies=usd`
+  `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoIdsString}&vs_currencies=usd`,
 );
 
 if (!coingeckoPrices) return "Loading...";
@@ -94,13 +93,13 @@ const secondsPerYear = 60 * 60 * 24 * 365;
 
 for (let contractInfo of contracts) {
   const rpcProvider = new ethers.providers.JsonRpcProvider(
-    contractInfo.httpRpcUrl
+    contractInfo.httpRpcUrl,
   );
 
   const contract = new ethers.Contract(
     contractInfo.address,
     abi.body,
-    rpcProvider
+    rpcProvider,
   );
 
   const name = contractInfo.network;
@@ -176,7 +175,7 @@ for (let contractInfo of contracts) {
     const collateralPromise = new Promise((resolve, reject) => {
       contract.totalsCollateral(collateralAsset.address).then((res) => {
         const totalSupplyAsset = Number(
-          ethers.utils.formatUnits(res[0], collateralAsset.decimals)
+          ethers.utils.formatUnits(res[0], collateralAsset.decimals),
         );
 
         const totalSupplyAssetPrice =
@@ -201,13 +200,13 @@ for (let contractInfo of contracts) {
 const marketsData = useCache(
   () => Promise.all(marketDataPromises),
   "marketsData",
-  { subscribe: false }
+  { subscribe: false },
 );
 
 const collateralPricesData = useCache(
   () => Promise.all(collateralPricesPromises),
   "collateralPricesData",
-  { subscribe: false }
+  { subscribe: false },
 );
 
 const markets = (marketsData ?? [])?.reduce((acc, item) => {
@@ -344,8 +343,9 @@ const TableContainer = styled.div`
   padding-left: var(--spacing-8);
   padding-top: var(--spacing-8);
   padding-bottom: var(--spacing-6);
+  overflow-x: auto;
 
-  @media (max-width: 1100px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -360,6 +360,7 @@ const MarketTable = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 24px;
+  min-width: 1290px;
 
   th {
     text-align: left;
@@ -419,7 +420,7 @@ const MobileMarketContainer = styled.div`
     }
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: 768px) {
     display: none;
   }
 `;
@@ -428,48 +429,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-8);
-  padding: var(--spacing-6);
 `;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-8);
-`;
-
-if (!Object.values(markets)?.length) {
-  return (
-    <Theme>
-      <LoadingContainer className="font-primary">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="4em"
-          height="4em"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="white"
-            d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
-            opacity=".25"
-          />
-          <path
-            fill="white"
-            d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"
-          >
-            <animateTransform
-              attributeName="transform"
-              dur="0.75s"
-              repeatCount="indefinite"
-              type="rotate"
-              values="0 12 12;360 12 12"
-            />
-          </path>
-        </svg>
-      </LoadingContainer>
-    </Theme>
-  );
-}
 
 return (
   <Theme>
@@ -502,7 +462,7 @@ return (
                   {markets[network].map((market) => {
                     const totalCollateral = collateralPricesData
                       ?.filter(
-                        (item) => item.baseContractAddress === market.address
+                        (item) => item.baseContractAddress === market.address,
                       )
                       ?.reduce((total, item) => {
                         return total + item.totalSupplyAssetValue;
@@ -554,33 +514,18 @@ return (
                         <td>
                           {percentFormatter(
                             market.supplyApr +
-                              Number(rewards?.earn_rewards_apr || 0) * 100
+                              Number(rewards?.earn_rewards_apr || 0) * 100,
                           )}
                         </td>
                         <td>
                           {percentFormatter(
                             market.borrowApr -
-                              Number(rewards?.borrow_rewards_apr || 0) * 100
+                              Number(rewards?.borrow_rewards_apr || 0) * 100,
                           )}
                         </td>
-                        <td>
-                          {network === "Base" &&
-                          market.icons.collateralIcons.length === 1
-                            ? "-"
-                            : priceFormatter(market.totalEarning)}
-                        </td>
-                        <td>
-                          {network === "Base" &&
-                          market.icons.collateralIcons.length === 1
-                            ? "-"
-                            : priceFormatter(market.totalBorrow)}
-                        </td>
-                        <td>
-                          {network === "Base" &&
-                          market.icons.collateralIcons.length === 2
-                            ? "-"
-                            : priceFormatter(totalCollateral)}
-                        </td>
+                        <td>{priceFormatter(market.totalEarning)}</td>
+                        <td>{priceFormatter(market.totalBorrow)}</td>
+                        <td>{priceFormatter(totalCollateral)}</td>
                         <td style={{ display: "flex", gap: "1px" }}>
                           <span className="chip">
                             {market.icons.collateralIcons.length}
@@ -655,9 +600,9 @@ return (
                             market.supplyApr +
                               Number(
                                 rewardsData[market.address][0]
-                                  ?.earn_rewards_apr || 0
+                                  ?.earn_rewards_apr || 0,
                               ) *
-                                100
+                                100,
                           )}
                         </span>
                       </div>
@@ -669,9 +614,9 @@ return (
                             market.borrowApr -
                               Number(
                                 rewardsData[market.address][0]
-                                  ?.borrow_rewards_apr || 0
+                                  ?.borrow_rewards_apr || 0,
                               ) *
-                                100
+                                100,
                           )}
                         </span>
                       </div>
@@ -701,11 +646,11 @@ return (
                             collateralPricesData
                               ?.filter(
                                 (item) =>
-                                  item.baseContractAddress === market.address
+                                  item.baseContractAddress === market.address,
                               )
                               ?.reduce((total, item) => {
                                 return total + item.totalSupplyAssetValue;
-                              }, 0)
+                              }, 0),
                           )}
                         </span>
                       </div>
