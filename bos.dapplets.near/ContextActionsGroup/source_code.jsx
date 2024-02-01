@@ -439,35 +439,24 @@ return (
           {props.widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
-                <OverlayTrigger
-                  placement="right"
-                  overlay={
-                    // toDo: looks bad
-                    widget.linkAuthorId === context.accountId ? (
-                      <Tooltip id="tooltip">
-                        Remove {widget.src.split("widget/").pop()}
-                      </Tooltip>
-                    ) : null
+                <WidgetBadgeWrapper
+                  className={
+                    widget.linkAuthorId === context.accountId
+                      ? "WidgetHover"
+                      : ""
                   }
+                  title={`Remove ${widget.src.split("widget/").pop()}`}
                 >
-                  <WidgetBadgeWrapper
-                    className={
-                      widget.linkAuthorId === context.accountId
-                        ? "WidgetHover"
-                        : ""
-                    }
-                  >
-                    {widget.linkAuthorId === context.accountId ? (
-                      <Widget
-                        src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-                        props={{
-                          onClick: () => handleRemoveWidget(widget.linkId),
-                        }}
-                      />
-                    ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-                    null}
-                  </WidgetBadgeWrapper>
-                </OverlayTrigger>
+                  {widget.linkAuthorId === context.accountId ? (
+                    <Widget
+                      src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                      props={{
+                        onClick: () => handleRemoveWidget(widget.linkId),
+                      }}
+                    />
+                  ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+                  null}
+                </WidgetBadgeWrapper>
               ) : null}
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
