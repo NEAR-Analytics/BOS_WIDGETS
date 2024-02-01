@@ -46,6 +46,8 @@ return (
             ...dexConfig,
             markets: state.newMarkets,
           },
+          tokenBal: state.tokenBal,
+          deposits: state.deposits,
           account,
           prices,
           onSuccess: () => {
