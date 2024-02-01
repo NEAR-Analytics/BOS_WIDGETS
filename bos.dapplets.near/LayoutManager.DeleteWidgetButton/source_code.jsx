@@ -31,9 +31,8 @@ background: #DB504A;
 box-sizing: border-box;
 border: 1px solid #fff;
 max-width: 36px;
-max-height: 36px;
+height:100%
 min-width: 14px;
-min-height: 14px;
 display: flex;
 align-items:center;
 justify-content:center;
