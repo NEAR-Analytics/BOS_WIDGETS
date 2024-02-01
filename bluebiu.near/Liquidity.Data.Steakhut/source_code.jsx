@@ -1,6 +1,6 @@
+
 const {
   pairs,
-  sender,
   addresses,
   allData,
   onLoad,
@@ -11,6 +11,7 @@ const {
   prices
 } = props
 
+// const MULTICALL_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11"
 const MULTICALL_ABI = [
   {
     inputs: [
@@ -45,28 +46,48 @@ const ERC20_ABI = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_shares",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
       }
     ],
-    "name": "getUnderlyingAssets",
+    "name": "balanceOf",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "totalX",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "totalY",
+        "name": "",
         "type": "uint256"
       }
     ],
     "stateMutability": "view",
     "type": "function"
   },
-  "function balanceOf(address) view returns (uint256)",
+  {
+    "inputs": [],
+    "name": "rewardRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardToken",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
 ];
 
 const MulticallContract = new ethers.Contract(
@@ -106,108 +127,128 @@ const formatPercent = (value) => {
 };
 
 
-let loading = false
-let dataList = []
-function formatedData() {
-  onLoad({
-    loading,
-    dataList
-  })
-}
-function getDataList() {
-  pairs.forEach(pair => {
-    const findIndex = allData.findIndex(data => pair.poolAddress === data.id)
-    if (findIndex > -1) {
+useEffect(() => {
+  let loading = false
+  let dataList = []
+  function formatedData() {
+    onLoad({
+      loading,
+      dataList
+    })
+  }
+  function getDataList() {
+    pairs.forEach(pair => {
+      const vaultAddress = addresses[pair.id]
+      const data = allData[vaultAddress]
       dataList.push({
-        ...pair,
-        initialData: allData[findIndex],
-        feeApr: 'NaN%',
+        
+      })
+    })
+    formatedData('dataList')
+  }
+  function getBalance() {
+
+  }
+  function getLiquidity() {
+    const calls = [];
+    const sender = Ethers.send("eth_requestAccounts", [])[0];
+    dataList.forEach(data => {
+      calls.push({
+        address: data.vaultAddress,
+        name: "balanceOf",
+        params: [sender],
+      });
+    })
+    multicallv2(
+      ERC20_ABI,
+      calls,
+      {},
+      (res) => {
+        console.log('====res', res)
+        for (let i = 0, len = res.length; i < len; i++) {
+          if (res[i]) {
+            dataList[i].liquidity = Big(ethers.utils.formatUnits(res[i][0]._hex)).toFixed(2)
+          }
+        }
+        formatedData('getLiquidity')
+      },
+      (error) => {
+        setTimeout(() => {
+          getLiquidity();
+        }, 500);
+      }
+    )
+  }
+  function getTotalApr() {
+    const name = curChain.name
+    if (['Base', 'Optimism', 'Linea', 'Polygon zkEVM'].includes(name)) {
+      dataList = dataList.map(data => {
+        data.totalApr = formatPercent(data.returns.weekly.feeApr)
+        return data
       })
     }
-  })
-  formatedData('getDataList')
-}
-function getTvlUsd() {
-  for (let i = 0; i < dataList.length; i++) {
-    const { underlyingX, underlyingY, tokenX, tokenY } = dataList[i].initialData
-    dataList[i].tvlUSD = Big(Big(ethers.utils.formatUnits(underlyingX, tokenX.decimals)).times(tokenX.priceUSD))
-      .plus(Big(ethers.utils.formatUnits(underlyingY, tokenY.decimals)).times(tokenY.priceUSD)).toString(2)
-  }
-  formatedData('getTvlUsd')
-}
-function handleGetLiquidity(i, users) {
-  const data = dataList[i]
-  const calls = []
-  users.forEach(user => {
-    calls.push({
-      address: data.initialData.id,
-      name: 'getUnderlyingAssets',
-      params: [user.amount]
-    })
-  })
-  multicallv2(
-    ERC20_ABI,
-    calls,
-    {},
-    (result) => {
-      const { tokenX, tokenY } = data.initialData
-      let liquidity = Big(0)
-      for (let j = 0; j < result.length; j++) {
-        const element = result[j];
-        const totalX = ethers.utils.formatUnits(element[0], tokenX.decimals)
-        const totalY = ethers.utils.formatUnits(element[1], tokenY.decimals)
-        const amount = Big(Big(totalX).times(tokenX.priceUSD)).plus(Big(totalY).times(tokenY.priceUSD))
-        liquidity = liquidity.plus(amount)
+    if (name === 'BSC') {
+      const calls = [];
+      const addressMap = {
+        'ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
+        'BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
+        'USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
+        'USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+        'BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
       }
-      dataList[i].liquidity = liquidity.toFixed()
-      formatedData('getLiquidity')
-    },
-    (error) => {
-      setTimeout(() => {
-        getLiquidity();
-      }, 500);
+      dataList.forEach(data => {
+        calls.push({
+          address: addressMap[data.id],
+          name: "rewardRate",
+        });
+      })
+      multicallv2(
+        ERC20_ABI,
+        calls,
+        {},
+        res => {
+          for (let i = 0, len = res.length; i < len; i++) {
+            dataList[i]['totalApr'] = dataList[i].tvlUSD > 0 ? Big(ethers.utils.formatUnits(res[i][0]._hex))
+              .mul(365 * 24 * 60 * 60)
+              .mul(prices['ETH'])
+              .div(dataList[i].tvlUSD)
+              .toFixed(2) : '0.00'
+          }
+          formatedData('getTotalApr')
+        },
+        error => {
+          // console.log('=====error', error)
+          setTimeout(() => {
+            getTotalApr()
+          }, 500)
+        }
+      )
     }
-  )
-}
-function getLiquidity() {
-  for (let i = 0; i < dataList.length; i++) {
-    const data = dataList[i];
-    const users = data.initialData.users
-    if (users.length > 0) {
-      handleGetLiquidity(i, users)
+    if (name === 'Polygon') {
+
     }
+    formatedData('getTotalApr')
   }
-}
-function getBalance() {
-  const calls = [];
-  dataList.forEach(data => {
-    calls.push({
-      address: ethers.utils.getAddress(data.initialData.id),
-      name: "balanceOf",
-      params: [sender],
-    });
-  })
-  multicallv2(
-    ERC20_ABI,
-    calls,
-    {},
-    (result) => {
-      for (let i = 0; i < result.length; i++) {
-        const element = result[i];
-        dataList[i].balance = ethers.utils.formatUnits(element[0], 18)
-      }
-      formatedData('getBalance')
-    },
-    (error) => {
-      setTimeout(() => {
-        getBalance();
-      }, 500);
-    }
-  )
-}
-useEffect(() => {
+  function getFeeTiers() {
+    asyncFetch(LAST_SNAP_SHOT_DATA_URL)
+      .then(res => {
+        if (res.ok) {
+          dataList.forEach((data, index) => {
+            const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
+            if (findIndex > -1) {
+              dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
+            }
+          })
+          formatedData('getFeeTiers')
+        }
+      })
+      .catch(error => {
+        console.log('error', error)
+      })
+  }
   getDataList()
-  getTvlUsd()
-  getBalance()
   getLiquidity()
+  getBalance()
+  getFeeTiers()
+  getTotalApr()
 }, [])
