@@ -101,7 +101,9 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText) return;
-
+const ETHOS_DAPP = "Ethos Finance";
+const PREON_DAPP = "Preon Finance";
+const GRAVITA_DAPP = "Gravita Protocol";
 useEffect(() => {
   State.update({
     approving: false,
@@ -122,30 +124,58 @@ useEffect(() => {
   });
 }, [account, gas]);
 
+function makeCloseContract() {
+  if (data.config.name === PREON_DAPP || data.config.name === GRAVITA_DAPP) {
+    const contract = new ethers.Contract(
+      data.config.BorrowerOperations,
+      [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+          ],
+          name: "closeVessel",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    return contract.closeVessel(data.underlyingToken.address, {
+      gasLimit: 4000000,
+    });
+  }
+
+  if (data.config.name === ETHOS_DAPP) {
+    const contract = new ethers.Contract(
+      data.config.BorrowerOperations,
+      [
+        {
+          inputs: [
+            { internalType: "address", name: "_collateral", type: "address" },
+          ],
+          name: "closeTrove",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    return contract.closeTrove(data.underlyingToken.address, {
+      gasLimit: 4000000,
+    });
+  }
+}
+
 function handleClose() {
-  // console.log(333333333, data, props);
-  // return;
   State.update({
     pending: true,
   });
-  const contract = new ethers.Contract(
-    data.config.BorrowerOperations,
-    [
-      {
-        inputs: [{ internalType: "address", name: "_asset", type: "address" }],
-        name: "closeVessel",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
 
-  contract
-    .closeVessel(data.underlyingToken.address, {
-      gasLimit: 4000000,
-    })
+  makeCloseContract()
     .then((tx) => {
       tx.wait()
         .then((res) => {
@@ -154,16 +184,7 @@ function handleClose() {
           State.update({
             pending: false,
           });
-          // addAction?.({
-          //   type: "Lending",
-          //   action: actionText,
-          //   token: data.underlyingToken,
-          //   amount,
-          //   template: data.dappName,
-          //   add: false,
-          //   status,
-          //   transactionHash,
-          // });
+
           if (status === 1) {
             onSuccess?.(data.dapp);
             toast?.success({
@@ -357,48 +378,114 @@ if (!state.isApproved) {
   );
 }
 
+function makeContract() {
+  if (data.config.name === PREON_DAPP || data.config.name === GRAVITA_DAPP) {
+    const _asset = data.underlyingToken.address;
+    const _assetAmount = ethers.utils.parseUnits(
+      _assetAmount,
+      data.underlyingToken.decimals
+    );
+    const _debtTokenAmount = ethers.utils.parseUnits(
+      _debtTokenAmount,
+      data.decimals
+    );
+    const _upperHint = "0x544f96434f77437425d5aC40fd4755C0cf39399A";
+    const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
+    const params = [
+      _asset,
+      _assetAmount,
+      _debtTokenAmount,
+      _upperHint,
+      _lowerHint,
+    ];
+    const contract = new ethers.Contract(
+      data.config.BorrowerOperations,
+      [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+            { internalType: "uint256", name: "_assetAmount", type: "uint256" },
+            {
+              internalType: "uint256",
+              name: "_debtTokenAmount",
+              type: "uint256",
+            },
+            { internalType: "address", name: "_upperHint", type: "address" },
+            { internalType: "address", name: "_lowerHint", type: "address" },
+          ],
+          name: "openVessel",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    return contract.openVessel(...params, {
+      gasLimit: 4000000,
+    });
+  }
+
+  if (data.config.name === ETHOS_DAPP) {
+    const _collateral = data.underlyingToken.address;
+    const _collAmount = ethers.utils.parseUnits(
+      _assetAmount,
+      data.underlyingToken.decimals
+    );
+    const _maxFeePercentage = 0; //TODO
+    const _LUSDAmount = ethers.utils.parseUnits(
+      _debtTokenAmount,
+      data.decimals
+    );
+    const _upperHint = "0xc655B790FF812109c8F6c3f24fd20b3495164A51";
+    const _lowerHint = "0x0000000000000000000000000000000000000000";
+    const params = [
+      _collateral,
+      _collAmount,
+      _maxFeePercentage,
+      _LUSDAmount,
+      _upperHint,
+      _lowerHint,
+    ];
+
+    const contract = new ethers.Contract(
+      data.config.BorrowerOperations,
+      [
+        {
+          inputs: [
+            { internalType: "address", name: "_collateral", type: "address" },
+            { internalType: "uint256", name: "_collAmount", type: "uint256" },
+            {
+              internalType: "uint256",
+              name: "_maxFeePercentage",
+              type: "uint256",
+            },
+            { internalType: "uint256", name: "_LUSDAmount", type: "uint256" },
+            { internalType: "address", name: "_upperHint", type: "address" },
+            { internalType: "address", name: "_lowerHint", type: "address" },
+          ],
+          name: "openTrove",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+
+    return contract.openTrove(...params, {
+      gasLimit: 4000000,
+    });
+  }
+}
+
 function handleBorrow() {
   State.update({
     pending: true,
   });
-  const _upperHint = "0x544f96434f77437425d5aC40fd4755C0cf39399A";
-  const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
 
-  const contract = new ethers.Contract(
-    data.config.BorrowerOperations,
-    [
-      {
-        inputs: [
-          { internalType: "address", name: "_asset", type: "address" },
-          { internalType: "uint256", name: "_assetAmount", type: "uint256" },
-          {
-            internalType: "uint256",
-            name: "_debtTokenAmount",
-            type: "uint256",
-          },
-          { internalType: "address", name: "_upperHint", type: "address" },
-          { internalType: "address", name: "_lowerHint", type: "address" },
-        ],
-        name: "openVessel",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-
-  contract
-    .openVessel(
-      data.underlyingToken.address,
-      ethers.utils.parseUnits(_assetAmount),
-      ethers.utils.parseUnits(_debtTokenAmount),
-      _upperHint,
-      _lowerHint,
-      {
-        gasLimit: 4000000,
-      }
-    )
+  makeContract()
     .then((tx) => {
       tx.wait()
         .then((res) => {
