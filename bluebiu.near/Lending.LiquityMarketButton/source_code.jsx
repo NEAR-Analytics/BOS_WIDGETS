@@ -94,6 +94,7 @@ const {
   _debtTokenAmount,
   onApprovedSuccess,
   isBigerThanBalance,
+  yourLTV,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -246,8 +247,17 @@ if (Big(_debtTokenAmount || 0).lt(data["MIN_DEBT"])) {
   );
 }
 
+// console.log(44444, props);
+if (Big(yourLTV).gt(data.MAX_LTV)) {
+  return (
+    <Button disabled={true} className={actionText.toLowerCase()}>
+      LTV must be below {data.MAX_LTV}%
+    </Button>
+  );
+}
+
 const tokenAddr = data.underlyingToken.address;
-const spender = data.BorrowerOperations;
+const spender = data.config.BorrowerOperations;
 
 console.log("APPROVE: ", tokenAddr, spender, props);
 
