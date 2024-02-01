@@ -806,32 +806,6 @@ const balancesPromise = new Promise((resolve, reject) => {
     abi.body,
     rpcProvider
   );
-
-  contract
-    .balanceOf(address)
-    .then((res) => {
-      return false;
-    })
-    .then(([balance, decimals]) => {
-      const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-      return Ethers.provider()
-        .getBalance(address)
-        .then((ethBalance) => {
-          return { formattedBalance, assetBalance: balance, ethBalance };
-        });
-    })
-    .then(({ formattedBalance, assetBalance, ethBalance }) => {
-      const balanceInEth = Big(ethBalance).div(Big(10).pow(18)).toFixed(2);
-      State.update({
-        formattedBalance: formattedBalance,
-        assetBalance: assetBalance,
-        balance: balanceInEth,
-      });
-      resolve();
-    })
-    .catch((error) => {
-      reject(error);
-    });
 });
 
 const withdrawToContract = (address, amount) => {
