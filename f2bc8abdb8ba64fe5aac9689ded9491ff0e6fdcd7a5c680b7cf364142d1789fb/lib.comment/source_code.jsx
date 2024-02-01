@@ -372,7 +372,7 @@ function filterValidComments(comments, articleSbts) {
 
 function sortComments(comments) {
   comments.sort((c1, c2) => {
-    return c1.blockHeight - c2.blockHeight;
+    return c1.value.comment.timestamp - c2.value.comment.timestamp;
   });
 
   return comments;
