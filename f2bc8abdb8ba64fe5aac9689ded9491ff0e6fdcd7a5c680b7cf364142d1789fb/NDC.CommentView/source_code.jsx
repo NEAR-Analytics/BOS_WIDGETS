@@ -278,11 +278,23 @@ function closeModal() {
   State.update({ showModal: false });
 }
 
+function getProperRootId(isEdition) {
+  if (isEdition) {
+    return data.value.comment.rootId;
+  }
+
+  if (data.answers) {
+    return data.value.comment.commentId;
+  } else {
+    return data.value.comment.rootId;
+  }
+}
+
 function handleEditComment() {
   State.update({
     showModal: true,
     editionData: data,
-    rootId: data.value.comment.rootId,
+    rootId: getProperRootId(true),
   });
 }
 
@@ -294,7 +306,7 @@ function handleReplyListener() {
   State.update({
     showModal: true,
     editionData: undefined,
-    rootId: data.value.comment.rootId,
+    rootId: getProperRootId(false),
   });
 }
 
