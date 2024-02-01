@@ -101,28 +101,30 @@ const ContainerLogin = styled.div`
     }
   }
 `;
-const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) {
-  return (
-    <>
-      <TitleText>Liquidity Manage</TitleText>
-      <ContainerLogin
-        style={{
-          display: "flex",
-          maxWidth: "500px",
-          flexDirection: "column",
-          margin: "80px auto auto auto",
-        }}
-      >
-        <Web3Connect
-          className="web3-connect"
-          connectLabel="Connect ETH wallet"
-        />
-      </ContainerLogin>
-    </>
-  );
-}
-
+State.init({
+  allData: null,
+  loading: false,
+  dataList: [],
+  filterList: [],
+  dataIndex: -1,
+  categoryIndex: 0,
+  chainIndex: 0,
+  token: '',
+})
+const IconRight = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="10" viewBox="0 0 8 10" fill="none">
+    <path d="M7.18407 4.21913C7.68448 4.61945 7.68448 5.38054 7.18407 5.78087L2.28485 9.70024C1.63009 10.2241 0.660156 9.75788 0.660156 8.91937L0.660156 1.08062C0.660156 0.242118 1.63009 -0.224055 2.28485 0.299756L7.18407 4.21913Z" fill="#979ABE" />
+  </svg>
+)
+const {
+  CHAIN_LIST,
+  multicallAddress,
+  dexConfig,
+  curChain,
+  isChainSupported,
+  onSwitchChain,
+  prices
+} = props
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -131,7 +133,6 @@ const formatFiat = (value) => {
     notation: "compact",
     maximumFractionDigits: 2,
   });
-
   return number;
 };
 
@@ -140,72 +141,40 @@ const formatPercent = (value) => {
     maximumFractionDigits: 2,
   })}%`;
 };
-const ICON_VAULT_MAP = {
-  USDC: 'https://app.gamma.xyz/_next/static/media/icon.4435c0e9.svg',
-  WETH: 'https://app.gamma.xyz/_next/static/media/icon.dddcef40.svg',
-  USDT: 'https://app.gamma.xyz/_next/static/media/icon.16fadc1b.svg',
-  WBTC: 'https://app.gamma.xyz/_next/static/media/icon.eb6c5d98.svg',
-  BUSD: 'https://app.gamma.xyz/_next/static/media/icon.6be491a5.svg',
-  MATIC: 'https://app.gamma.xyz/_next/static/media/icon.fe758f26.svg',
-  WBNB: 'https://app.gamma.xyz/_next/static/media/icon.ca2e2bd7.svg',
-  BTCB: 'https://app.gamma.xyz/_next/static/media/icon.eb6c5d98.svg',
-  BNBx: 'https://app.gamma.xyz/_next/static/media/icon.ca2e2bd7.svg'
-}
 
-const chains = [{
-  icon: (
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="26" height="26" rx="8" fill="#AF1616" />
-    </svg>
-
-  ),
-  type: 'Avalanche'
-}]
-const CHAIN_MAP = {
-  Avalanche: {
-    url: 'https://wire2.gamma.xyz/sushi/base/hypervisors/allData',
-    pairs: [{
-      id: "WETH-USDbC-500",
-      strategy: "Dynamic",
-      strategy2: "",
-      token0: "USDC",
-      token1: "WETH",
-      chainName: 'Base',
-      chainSvg: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect width="24" height="24" rx="8" fill="#0038FF" />
-          <path d="M11.9862 20C16.4126 20 20 16.4189 20 12C20 7.58109 16.4126 4 11.9862 4C7.7866 4 4.34172 7.22327 4 11.3265H14.5935V12.672H4C4.34172 16.7767 7.7866 20 11.9862 20Z" fill="white" />
-        </svg>
-      ),
-      ammName: 'Sushi',
-      ammImage: 'https://app.gamma.xyz/_next/static/media/icon.615337dd.svg'
-    }],
-    addresses: {
-      USDC: "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca",
-      WETH: "0x4200000000000000000000000000000000000006",
-      "WETH-USDbC-500": "0x11c4011772594c5f124a027da35329559447853d",
-    }
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) {
+  return (
+    <Widget
+      src="bluebiu.near/widget/Linea.Liquidity.ConnectButton"
+      props={{
+        ...CONNECT_PROPS,
+        isWrongNetwork: false,
+      }}
+    />
+  );
+} else {
+  const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
+  if (index > -1) {
+    State.update({
+      chainIndex: index,
+    })
   }
 }
-const MULTICALL_ADDRESS = "0xcA11bde05977b3631167028862bE2a173976CA11";
-State.init({
-  loading: false,
-  dataList: [],
-  dataIndex: -1,
-  categoryIndex: 0,
-  chainIndex: 0,
-  token: ''
-})
+const ALL_DATA_URL = 'https://api.thegraph.com/subgraphs/name/0xsirloin/steakhutlb'
 const {
-  url,
   pairs,
-  addresses
-} = CHAIN_MAP[chains[state?.chainIndex ?? 0].type]
-function fetchDataList() {
+  addresses,
+  // ALL_DATA_URL,
+  ICON_VAULT_MAP,
+  USER_DATA_BASE,
+  LAST_SNAP_SHOT_DATA_URL,
+} = dexConfig
+function fetchAllData() {
   State.update({
     loading: true
   });
-  asyncFetch(url).then((res) => {
+  asyncFetch(ALL_DATA_URL).then((res) => {
     if (!res.ok) return;
     State.update({
       allData: res.body,
@@ -213,6 +182,14 @@ function fetchDataList() {
     })
   })
 }
+function fetchUserData() {
+  asyncFetch(USER_DATA_BASE + `${sender}`).then((res) => {
+    if (!res.ok) return;
+    State.update({
+      userPositions: res.body[sender],
+    });
+  });
+};
 function handleChangeDataIndex(index) {
   State.update({
     dataIndex: state.dataIndex > -1 ? -1 : index
@@ -224,15 +201,48 @@ function handleChangeCategoryIndex(index) {
   })
 }
 function handleChangeChainIndex(index) {
+  const chain = CHAIN_LIST[index]
+  onSwitchChain({
+    chainId: `0x${Number(chain.chain_id).toString(16)}`,
+  });
   State.update({
-    chainIndex: index,
     allData: null,
     dataList: [],
+    categoryIndex: 0,
+    userPositions: null
   })
 }
-
+function handleSearchInput(event) {
+  State.update({
+    token: event.target.value
+  })
+}
+useEffect(() => {
+  if (state.dataList) {
+    let filterList = []
+    if (state.categoryIndex === 0) {
+      filterList = state.dataList.filter(data => {
+        const source = data.id.toUpperCase()
+        const target = (state.token || '').toUpperCase()
+        return source.indexOf(target) > -1
+      })
+    } else if (state.categoryIndex === 1 && state.userPositions) {
+      state.dataList.forEach(data => {
+        if (userPositions && addresses[data.id] in userPositions) {
+          filterList.push(data)
+        }
+      })
+    }
+    State.update({
+      filterList
+    })
+  }
+}, [state.dataList, state.token, state.categoryIndex])
 if (!state.allData) {
-  fetchDataList()
+  fetchAllData()
+}
+if (sender && state.userPositions === undefined) {
+  fetchUserData();
 }
 const columnList = [{
   width: '30%',
@@ -247,15 +257,16 @@ const columnList = [{
           <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
         </StyledVaultImage>
         <TdTxt>{data.token0} / {data.token1}</TdTxt>
-        <PoolPercentage>0.05%</PoolPercentage>
+        <PoolPercentage>{data.fee}%</PoolPercentage>
       </>
     )
   }
 }, {
   width: '10%',
-  key: 'chainSvg',
+  key: 'chain',
   label: 'Chain',
-  type: 'svg'
+  type: 'slot',
+  render: () => <img style={{ width: 26 }} src={curChain.logo} alt={curChain.name} />
 }, {
   width: '20%',
   key: 'amm',
@@ -264,7 +275,7 @@ const columnList = [{
   render: (data) => {
     return (
       <>
-        <img src={data.ammImage} alt={data.ammName} width={22} />
+        <img src={data.ammImage} alt={data.ammName} style={{ width: 22 }} />
         <TdTxt>{data.ammName}</TdTxt>
       </>
     )
@@ -293,19 +304,6 @@ const columnList = [{
   width: '10%',
   key: 'totalApr',
   label: 'Total APR',
-  // type: 'slot',
-  // render: (data) => {
-  //   const chainType = chains[state?.chainIndex ?? 0].type
-  //   let totalApr = 0
-  //   if (['Base', 'Optimism'].includes(chainType)) {
-  //     totalApr = formatPercent(data.returns.weekly.feeApr)
-  //   } else if (chainType === 'BSC') {
-  //     totalApr = 1
-  //   } else {
-  //     totalApr = 2
-  //   }
-  //   return <TdTxt>{totalApr}</TdTxt>
-  // }
 }, {
   width: '10%',
   direction: 'column',
@@ -313,10 +311,14 @@ const columnList = [{
   label: 'Your Liquidity',
   type: 'slot',
   render: (data, index) => {
+    const userPositions = state.userPositions
+    const userBalance = userPositions && addresses[data.id] in userPositions
+      ? userPositions[addresses[data.id]].balanceUSD
+      : undefined;
     return (
       <>
-        <TdTxt>{data.balance ? '$' + data.balance : '-'}</TdTxt>
-        <TdTxt className="gray">0.24 LP</TdTxt>
+        <TdTxt>{userBalance ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
+        {data.liquidity && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -324,17 +326,20 @@ const columnList = [{
     )
   }
 }]
+
 return (
   <StyledColumn>
     {state.allData && (
       <Widget
-        src={"bluebiu.near/widget/Linea.Liquidity.Data.Gamma"}
+        src={"bluebiu.near/widget/Liquidity.Data.Gamma"}
         props={{
           pairs,
           addresses,
           allData: state.allData,
-          multicallAddress: MULTICALL_ADDRESS,
-          chainType: chains[state?.chainIndex ?? 0].type,
+          prices,
+          curChain,
+          multicallAddress,
+          LAST_SNAP_SHOT_DATA_URL,
           onLoad: (data) => {
             State.update({
               dataList: data.dataList,
@@ -344,14 +349,14 @@ return (
         }}
       />
     )}
+    {/* <Widget
+      src={"bluebiu.near/widget/Liquidity.Bridge.Logo"}
+    /> */}
     <Widget
-      src={"bluebiu.near/widget/Linea.Liquidity.Bridge.Logo"}
-    />
-    <Widget
-      src={"bluebiu.near/widget/Linea.Liquidity.Bridge.Filter"}
+      src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
       props={{
         token: state.token,
-        chains,
+        chains: CHAIN_LIST,
         categoryIndex: state.categoryIndex,
         chainIndex: state.chainIndex,
         onSearchInput: handleSearchInput,
@@ -360,16 +365,28 @@ return (
       }}
     />
     <Widget
-      src={"bluebiu.near/widget/Linea.Liquidity.Bridge.List"}
+      src={"bluebiu.near/widget/Liquidity.Bridge.List"}
       props={{
         columnList,
         loading: state.loading,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
-        dataList: state.dataList,
+        dataList: state.filterList,
         addresses,
+        multicallAddress,
         ICON_VAULT_MAP
       }}
     />
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          theme: dexConfig.theme?.button,
+        }}
+      />
+    )}
   </StyledColumn>
 )
