@@ -16,7 +16,7 @@ const WidgetBadgeWrapper = styled.div`
   z-index: 1200;
   background:rgba(255, 255, 255, 0.35);
   width:100%;
-  height:100%
+  height:100%;
   display: flex;
   align-items: center;
   justify-content: center;
