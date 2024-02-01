@@ -1,7 +1,7 @@
 const accountId = props.accountId ?? context.accountId;
-const contractId = props.contractId || "v006.mpip.near";
+const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const META_VOTE_CONTRACT_ID = "meta-vote.near";
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "meta-pool-official.near";
 const proposalsPerPage = props.proposalsPerPage ?? 100; // Number of proposals to fetch at a time
 
 State.init({
@@ -297,7 +297,7 @@ return (
           ),
           onClick: () => State.update({ tab: "createproposal", content: "" }),
           variant: "success",
-          href: `/meta-pool-official.near/widget/ImprovementProposals?tab=createproposal`,
+          href: `/${authorId}/widget/ImprovementProposals?tab=createproposal`,
         }}
       />
     </Section>
