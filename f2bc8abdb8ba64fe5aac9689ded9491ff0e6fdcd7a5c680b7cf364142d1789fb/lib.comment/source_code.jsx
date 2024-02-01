@@ -142,7 +142,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
-  const { comment, articleId, onClick, onCommit, onCancel } = props;
+  const { comment, replyingTo, articleId, onClick, onCommit, onCancel } = props;
 
   if (comment.commentId) {
     console.error(
@@ -157,7 +157,7 @@ function createComment(props) {
 
   onClick();
 
-  saveComment(comment, articleId, onCommit, onCancel);
+  saveComment(comment, replyingTo, articleId, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
@@ -209,7 +209,12 @@ function extractMentions(text) {
   return [...accountIds];
 }
 
-function composeCommentData(comment, articleId) {
+function composeCommentData(comment, replyingTo, articleId) {
+  if (replyingTo) {
+    //We add the following so the user been replied get's a notification
+    comment.text = `@${replyingTo} ${comment.text}`;
+  }
+
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -242,9 +247,9 @@ function composeCommentData(comment, articleId) {
   return data;
 }
 
-function saveComment(comment, articleId, onCommit, onCancel) {
+function saveComment(comment, replyingTo, articleId, onCommit, onCancel) {
   if (comment.text) {
-    const newData = composeCommentData(comment, articleId);
+    const newData = composeCommentData(comment, replyingTo, articleId);
     Social.set(newData, {
       force: true,
       onCommit,
