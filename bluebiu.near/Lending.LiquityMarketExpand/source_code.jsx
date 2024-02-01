@@ -218,6 +218,16 @@ const StyledGasBox = styled.div`
   line-height: normal;
 `;
 
+const AdjustBox = styled.div`
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  .txt {
+    margin-left: 5px;
+    color: white;
+  }
+`;
+
 const {
   expand,
   addAction,
@@ -246,6 +256,7 @@ console.log("TABS: ", TABS);
 State.init({
   tab: TABS[0],
   yourLTV: "-",
+  isCollIncrease: true,
 });
 
 useEffect(() => {
@@ -281,6 +292,11 @@ const onBorrowAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
   const isZero = Big(amount || 0).eq(0);
   if (isZero) {
+    State.update({
+      borrowAmount: amount,
+      buttonClickable: false,
+      isBigerThanBalance: false,
+    });
     return;
   }
   const params = { borrowAmount: amount };
@@ -304,25 +320,21 @@ const onAmountChange = (amount) => {
     return;
   }
   const params = { amount };
-  // const price = prices[data.underlyingToken.symbol];
-  // const value = Big(Big(amount).mul(price).toFixed(20));
-  if (state.tab === "Borrow") {
-    params.isBigerThanBalance = Big(amount).gt(data.userUnderlyingBalance || 0);
-  }
-  // if (state.tab === "Borrow") {
-  //   params.isBigerThanBalance = false;
-  // }
+  params.isBigerThanBalance = Big(amount || 0).gt(
+    data.userUnderlyingBalance || 0
+  );
   params.buttonClickable = !params.isBigerThanBalance;
+  if (state.tab === "Borrow") {
+    const price = prices[data.underlyingToken.symbol];
 
-  const price = prices[data.underlyingToken.symbol];
+    const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX_LTV"])).div(100);
 
-  const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX_LTV"])).div(100);
+    const borrowTokenBal = TotalDebt.minus(20)
+      .minus(TotalDebt.minus(20).mul(0.02))
+      .toFixed();
 
-  const borrowTokenBal = TotalDebt.minus(20)
-    .minus(TotalDebt.minus(20).mul(0.02))
-    .toFixed();
-
-  params.borrowTokenBal = borrowTokenBal;
+    params.borrowTokenBal = borrowTokenBal;
+  }
 
   State.update(params);
 
@@ -330,27 +342,51 @@ const onAmountChange = (amount) => {
 };
 
 useEffect(() => {
-  if (
-    !state.amount ||
-    !state.borrowAmount ||
-    isNaN(Number(state.amount)) ||
-    isNaN(Number(state.borrowAmount)) ||
-    Big(state.amount || 0).eq(0) ||
-    Big(state.borrowAmount || 0).eq(0)
-  ) {
-    State.update({
-      yourLTV: "-",
-    });
-    return;
+  if (state.tab === "Close") return;
+  if (state.tab === "Borrow") {
+    if (
+      !state.amount ||
+      !state.borrowAmount ||
+      isNaN(Number(state.amount)) ||
+      isNaN(Number(state.borrowAmount)) ||
+      Big(state.amount || 0).eq(0) ||
+      Big(state.borrowAmount || 0).eq(0)
+    ) {
+      State.update({
+        yourLTV: "-",
+      });
+      return;
+    }
+  }
+  if (state.tab === "Adjust") {
+    if (!state.amount || isNaN(Number(state.amount))) {
+      State.update({
+        yourLTV: "-",
+      });
+      return;
+    }
   }
 
-  // GRAI的借贷数量/ WETH的数量*价格*Maximum LTV-20
   const _maxLTV = Big(data.MAX_LTV).div(100);
   const _price = prices[data.underlyingToken.symbol];
-  const _der = Big(state.amount).mul(Big(_price)).mul(_maxLTV);
-  // .minus(20);
 
-  const _yourLTV = Big(state.borrowAmount).div(_der).toFixed(4);
+  let _yourLTV;
+  if (state.tab === "Borrow") {
+    const _der = Big(state.amount).mul(Big(_price)).mul(_maxLTV);
+    _yourLTV = Big(state.borrowAmount).div(_der).toFixed(4);
+  }
+
+  //vesselDeposit
+  if (state.tab === "Adjust") {
+    const _assetAmount = data.vesselDeposit;
+    const _der = Big(state.amount)
+      .plus(_assetAmount)
+      .mul(Big(_price))
+      .mul(_maxLTV);
+    _yourLTV = Big(data.vesselDebt - 20)
+      .div(_der)
+      .toFixed(4);
+  }
   // console.log( _maxLTV.toFixed(), _price, _der.toFixed(), _yourLTV);
   State.update({
     yourLTV: Big(_yourLTV).mul(100).toFixed(2),
@@ -405,6 +441,15 @@ return !state.tab ? null : (
           {state.tab === "Adjust" && (
             <StyledInfoContent>
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
+              <StyledInfoItem>
+                <div>Your LTV</div>
+                <div className="white">{state.yourLTV}%</div>
+              </StyledInfoItem>
+              <StyledInfoItem>
+                <div>{data.underlyingToken?.symbol} Deposited</div>
+                <div className="white">{data.vesselDeposit}</div>
+              </StyledInfoItem>
+
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
@@ -433,7 +478,7 @@ return !state.tab ? null : (
                   <span className="symbol">{data.BORROW_TOKEN}</span>
                 </div>
               </StyledInfoItem>
-              {/* <StyledInfoItem>
+              <StyledInfoItem>
                 <div>You will receive</div>
                 <div className="right">
                   <img
@@ -444,7 +489,7 @@ return !state.tab ? null : (
                   <span className="white">{deposits}</span>
                   <span className="symbol">{data.underlyingToken.symbol}</span>
                 </div>
-              </StyledInfoItem> */}
+              </StyledInfoItem>
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
@@ -459,7 +504,7 @@ return !state.tab ? null : (
           )}
         </StyledInfo>
         <div>
-          {state.tab === "Borrow" || state.tab === "Adjust" ? (
+          {state.tab === "Borrow" ? (
             <>
               <Widget
                 src="bluebiu.near/widget/Lending.MarketInput"
@@ -489,6 +534,40 @@ return !state.tab ? null : (
               />
             </>
           ) : null}
+          {state.tab === "Adjust" ? (
+            <>
+              <Widget
+                src="bluebiu.near/widget/Lending.MarketInput"
+                props={{
+                  icon: data.underlyingToken?.icon,
+                  symbol: data.underlyingToken?.symbol,
+                  balance: data?.userUnderlyingBalance,
+                  price: prices[data.underlyingToken.symbol],
+                  amount: state.amount,
+                  onChange: (val) => {
+                    onAmountChange(val);
+                  },
+                }}
+              />
+              <AdjustBox>
+                <Widget
+                  src="bluebiu.near/widget/Avalanche.Lending.Switch"
+                  props={{
+                    onChange: (e) => {
+                      State.update({
+                        isCollIncrease: !state.isCollIncrease,
+                      });
+                    },
+                    active: state.isCollIncrease,
+                  }}
+                />
+                <span className="txt">
+                  {state.isCollIncrease ? "INCREASE" : "DECREASE"}
+                </span>
+              </AdjustBox>
+            </>
+          ) : null}
+
           <StyledButtonWrapper>
             <StyledGasBox>
               <svg
@@ -512,68 +591,76 @@ return !state.tab ? null : (
                   : "-"}
               </div>
             </StyledGasBox>
-            <div style={{ flexGrow: 1 }}>
-              <Widget
-                src="bluebiu.near/widget/Lending.LiquityMarketButton"
-                props={{
-                  disabled:
-                    state.tab === "Close" ? false : !state.buttonClickable,
-                  actionText: state.tab,
-                  amount: state.amount,
-                  data: {
-                    ...data,
-                    config: dexConfig,
-                  },
-                  isBigerThanBalance: state.isBigerThanBalance,
-                  addAction,
-                  toast,
-                  chainId,
-                  unsignedTx: state.unsignedTx,
-                  isError: state.isError,
-                  // loading: state.loading,
-                  // gas: state.gas,
-                  yourLTV: state.yourLTV,
-                  _assetAmount: state.amount,
-                  _debtTokenAmount: state.borrowAmount,
-                  onApprovedSuccess: () => {
-                    if (!state.gas) state.getTrade();
-                  },
-                  onSuccess: () => {
-                    onSuccess?.();
-                  },
-                }}
-              />
-            </div>
+            {state.tab === "Borrow" || state.tab === "Close" ? (
+              <div style={{ flexGrow: 1 }}>
+                <Widget
+                  src="bluebiu.near/widget/Lending.LiquityMarketButton"
+                  props={{
+                    disabled:
+                      state.tab === "Close" ? false : !state.buttonClickable,
+                    actionText: state.tab,
+                    amount: state.amount,
+                    data: {
+                      ...data,
+                      config: dexConfig,
+                    },
+                    isBigerThanBalance: state.isBigerThanBalance,
+                    addAction,
+                    toast,
+                    chainId,
+                    unsignedTx: state.unsignedTx,
+                    isError: state.isError,
+                    // loading: state.loading,
+                    // gas: state.gas,
+                    yourLTV: state.yourLTV,
+                    _assetAmount: state.amount,
+                    _debtTokenAmount: state.borrowAmount,
+                    onApprovedSuccess: () => {
+                      if (!state.gas) state.getTrade();
+                    },
+                    onSuccess: () => {
+                      onSuccess?.();
+                    },
+                  }}
+                />
+              </div>
+            ) : null}
+            {state.tab === "Adjust" ? (
+              <div style={{ flexGrow: 1 }}>
+                <Widget
+                  src="bluebiu.near/widget/Lending.LiquityAdjustButton"
+                  props={{
+                    disabled: !state.buttonClickable,
+                    actionText: state.tab,
+                    data: {
+                      ...data,
+                      config: dexConfig,
+                    },
+                    isBigerThanBalance: state.isBigerThanBalance,
+                    addAction,
+                    toast,
+                    chainId,
+                    isCollIncrease: state.isCollIncrease,
+                    unsignedTx: state.unsignedTx,
+                    isError: state.isError,
+                    // loading: state.loading,
+                    // gas: state.gas,
+                    yourLTV: state.yourLTV,
+                    _assetAmount: state.amount,
+                    _debtTokenAmount: state.borrowAmount,
+                    onApprovedSuccess: () => {
+                      if (!state.gas) state.getTrade();
+                    },
+                    onSuccess: () => {
+                      onSuccess?.();
+                    },
+                  }}
+                />
+              </div>
+            ) : null}
           </StyledButtonWrapper>
         </div>
       </StyledContent>
-      {/* {dexConfig?.handler && (
-        <Widget
-          src={dexConfig.handler}
-          props={{
-            update: state.loading,
-            data: {
-              // actionText: state.tab === "Supply" ? "Deposit" : "Borrow",
-              actionText: state.tab,
-              ...data,
-              config: dexConfig,
-            },
-            amount: state.amount,
-            _assetAmount: 0.12,
-            _debtTokenAmount: 200,
-            _upperHint: "0x544f96434f77437425d5aC40fd4755C0cf39399A",
-            _lowerHint: "0xA1B7bbade134DB3B14B56056480e81c60Ab77377",
-            account,
-            onLoad: (_data) => {
-              console.log("load handler:", _data);
-              State.update({
-                ..._data,
-                loading: false,
-              });
-            },
-          }}
-        />
-      )} */}
     </StyledWrapper>
   </StyledBox>
 );
