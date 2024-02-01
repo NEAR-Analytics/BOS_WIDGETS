@@ -1,5 +1,5 @@
 let { assets, content, socialKey } = VM.require(
-  `/ndcdev.near/widget/MDAO.Config`
+  `/ndcdev.near/widget/MDAO.Config`,
 );
 
 assets = assets.home;
