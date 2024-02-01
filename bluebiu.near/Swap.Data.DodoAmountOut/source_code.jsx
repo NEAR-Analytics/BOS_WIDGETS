@@ -13,6 +13,7 @@ const {
   account,
   multicall,
   multicallAddress,
+  rpc,
 } = props;
 
 useEffect(() => {
@@ -55,20 +56,16 @@ useEffect(() => {
       : outputCurrency.address,
   ];
   const getAmountsOut = () => {
-    const deadline = Math.ceil(Date.now() / 1000) + 60;
-    asyncFetch(
-      `https://api.dodoex.io/route-service/frontend-v2/getdodoroute?fromTokenAddress=${
+    const params = encodeURIComponent(
+      `chainId=${inputCurrency.chainId}&fromAmount=${amount}&fromTokenAddress=${
         path[0]
-      }&toTokenAddress=${
-        path[1]
-      }&fromAmount=${amount}&userAddr=${"0x0000000000000000000000000000000000000000"}&estimateGas=false&chainId=${
-        inputCurrency.chainId
-      }&slippage=${
+      }&toTokenAddress=${path[1]}&rpc=${rpc}&slippage=${
         slippage || 0.5
-      }&deadLine=${deadline}&accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMxMzg2NDM1MzQ2NDM0NjMzMzM0NjMzMTM4MzgzMjJkMzA2NTY1Mzg2NjM3NjIzMjMwMzI2NDY0MzQzOTJkMzE2NjM1MzIzNTM2MzMzNzJkMzE2NjYxMzQzMDMwMmQzMTM4NjQzNTM0NjQzNDYzMzMzNDY0MzIzNjY2MzIiLCJzIjo0MCwiaWF0IjoxNzA2NTI1MjQ4LCJleHAiOjE3MDY2MTE2NDh9.S-BMaYcu4K4m0Q54hqRCgsKOu8qs4-Qbqp9rONohzoI`
-    )
+      }&userAddr=${account}`
+    );
+    asyncFetch(`/dapdap/dodo/swap?params=${params}`)
       .then((res) => {
-        const data = res.body?.data;
+        const data = res.body?.data?.data;
         if (data?.resAmount) {
           const wallet = Ethers.provider().getSigner();
           const returnData = {
@@ -98,6 +95,7 @@ useEffect(() => {
               });
             })
             .catch((err) => {
+              console.log("err");
               onLoad(returnData);
             });
         } else {
@@ -114,8 +112,6 @@ useEffect(() => {
         });
       });
   };
-
-  const getTransaction = ({ amountOut, priceImpact }) => {};
 
   getAmountsOut();
 }, [updater]);
