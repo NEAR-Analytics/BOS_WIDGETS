@@ -376,7 +376,6 @@ function editCommentListener() {
     timestamp: editionData.value.comment.timestamp ?? Date.now(),
     rootId,
     commentId,
-    isEdition: true,
   };
 
   newLibCalls.comment.push({
