@@ -223,8 +223,18 @@ const ButtonPlus = styled.div`
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
-  top: 0;
+  
   z-index: 1200;
+  // styles for edit mode
+  background:rgba(255, 255, 255, 0.35);
+  width:100%;
+  height:100%
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  top: -2px;
+  backdrop-filter: blur(1px);
 `;
 
 const iconClose = (
@@ -354,12 +364,7 @@ const ActionBlock = styled.span`
   div {
     z-index: 1000;
   }
-  .WidgetHover{
-   backdrop-filter: blur(1px);
-     &:hover {
-backdrop-filter: blur(0.3px);
-  }
-  }
+
 
 `;
 
@@ -446,33 +451,6 @@ return (
                   }
                 >
                   <WidgetBadgeWrapper
-                    style={{
-                      background:
-                        widget.linkAuthorId === context.accountId
-                          ? "rgba(255, 255, 255, 0.35)"
-                          : "",
-
-                      width:
-                        widget.linkAuthorId === context.accountId ? "100%" : "",
-                      height:
-                        widget.linkAuthorId === context.accountId ? "100%" : "",
-                      borderRadius:
-                        widget.linkAuthorId === context.accountId ? "50%" : "",
-                      display:
-                        widget.linkAuthorId === context.accountId ? "flex" : "",
-                      alignItems:
-                        widget.linkAuthorId === context.accountId
-                          ? "center"
-                          : "",
-                      justifyContent:
-                        widget.linkAuthorId === context.accountId
-                          ? "center"
-                          : "",
-                      top:
-                        widget.linkAuthorId === context.accountId
-                          ? "-2px"
-                          : "0",
-                    }}
                     className={
                       widget.linkAuthorId === context.accountId
                         ? "WidgetHover"
