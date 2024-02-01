@@ -1,5 +1,20 @@
 const StyledContainer = styled.div``;
 
+const {
+  // totalCollateralUsd,
+  // userTotalBorrowUsd,
+  addAction,
+  toast,
+  chainId,
+  nativeCurrency,
+  dexConfig,
+  onSuccess,
+  account,
+  prices,
+} = props;
+const data = Object.values(dexConfig.markets || {});
+console.log("LiquityMarkets:", props);
+
 const COLUMNS = [
   {
     key: "DEPOSIT",
@@ -31,12 +46,14 @@ const COLUMNS = [
     // type: "apy",
     // type: "amount",
   },
-  {
-    key: "MINTED_CAP",
-    label: "MINTED/CAP",
-    width: "15%",
-    // type: "amount",
-  },
+  dexConfig.name !== "Ethos Finance"
+    ? {
+        key: "MINTED_CAP",
+        label: "MINTED/CAP",
+        width: "15%",
+        // type: "amount",
+      }
+    : null,
   {
     key: "LOAN_STATUS",
     label: "LOAN STATUS",
@@ -48,21 +65,6 @@ const COLUMNS = [
     width: "2%",
   },
 ];
-
-const {
-  // totalCollateralUsd,
-  // userTotalBorrowUsd,
-  addAction,
-  toast,
-  chainId,
-  nativeCurrency,
-  dexConfig,
-  onSuccess,
-  account,
-  prices,
-} = props;
-const data = Object.values(dexConfig.markets || {});
-// console.log("LiquityMarkets:", props);
 
 return (
   <StyledContainer>
