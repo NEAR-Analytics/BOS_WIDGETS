@@ -1,4 +1,4 @@
-const authorId = props.authorId || "manzanal.near";
+const authorId = props.authorId || "meta-pool-official.near";
 const contractId = props.contractId || "mpip.meta-pool-dao.near";
 const Header = styled.div`
   display: flex;
