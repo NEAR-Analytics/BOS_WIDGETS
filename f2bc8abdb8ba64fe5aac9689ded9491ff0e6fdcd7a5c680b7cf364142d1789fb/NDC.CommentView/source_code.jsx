@@ -273,19 +273,11 @@ function closeModal() {
   State.update({ showModal: false });
 }
 
-function getProperRootId() {
-  if (data.answers) {
-    return data.value.comment.commentId;
-  } else {
-    return data.value.comment.rootId;
-  }
-}
-
 function handleEditComment() {
   State.update({
     showModal: true,
     editionData: data,
-    rootId: getProperRootId(),
+    rootId: data.value.comment.rootId,
   });
 }
 
@@ -297,7 +289,7 @@ function handleReplyListener() {
   State.update({
     showModal: true,
     editionData: undefined,
-    rootId: getProperRootId(),
+    rootId: data.value.comment.rootId,
   });
 }
 
