@@ -361,15 +361,6 @@ return (
           inputCurrencyAmount: state.inputCurrencyAmount,
           outputCurrencyAmount: state.outputCurrencyAmount,
           maxInputBalance: state.maxInputBalance,
-          onSuccess: () => {
-            State.update({
-              updateInputTokenBalance: true,
-              updateOutputTokenBalance: true,
-            });
-          },
-          onApprovedSuccess: () => {
-            if (!state.gas) state.getBestTrade();
-          },
           addAction: props.addAction,
           toast: props.toast,
           noPair: state.noPair,
@@ -379,6 +370,15 @@ return (
           chainId: props.chainId,
           gas: state.gas,
           chainIdNotSupport: props.chainIdNotSupport,
+          onSuccess: () => {
+            State.update({
+              updateInputTokenBalance: true,
+              updateOutputTokenBalance: true,
+            });
+          },
+          onApprovedSuccess: () => {
+            if (!state.gas) state.getBestTrade();
+          },
         }}
       />
     </Panel>
