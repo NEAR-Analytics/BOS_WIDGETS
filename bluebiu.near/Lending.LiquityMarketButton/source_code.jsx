@@ -247,7 +247,6 @@ if (Big(_debtTokenAmount || 0).lt(data["MIN_DEBT"])) {
   );
 }
 
-// console.log(44444, props);
 if (Big(yourLTV).gt(data.MAX_LTV)) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
@@ -366,7 +365,7 @@ function handleBorrow() {
   const _lowerHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
 
   const contract = new ethers.Contract(
-    data.BorrowerOperations,
+    data.config.BorrowerOperations,
     [
       {
         inputs: [
