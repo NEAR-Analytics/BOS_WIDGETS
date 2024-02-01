@@ -245,6 +245,7 @@ switch (vesselStatus) {
 console.log("TABS: ", TABS);
 State.init({
   tab: TABS[0],
+  yourLTV: "-",
 });
 
 useEffect(() => {
@@ -278,6 +279,10 @@ useEffect(() => {
 
 const onBorrowAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
+  const isZero = Big(amount || 0).eq(0);
+  if (isZero) {
+    return;
+  }
   const params = { borrowAmount: amount };
 
   if (Big(amount).gt(Big(state.borrowTokenBal || 0))) {
@@ -324,13 +329,35 @@ const onAmountChange = (amount) => {
   state.debouncedGetTrade();
 };
 
-// useEffect(() => {
-//   if (state.tab === "Close") {
+useEffect(() => {
+  if (
+    !state.amount ||
+    !state.borrowAmount ||
+    isNaN(Number(state.amount)) ||
+    isNaN(Number(state.borrowAmount)) ||
+    Big(state.amount || 0).eq(0) ||
+    Big(state.borrowAmount || 0).eq(0)
+  ) {
+    State.update({
+      yourLTV: "-",
+    });
+    return;
+  }
 
-//   }
-// }, [state.tab]);
+  // GRAI的借贷数量/ WETH的数量*价格*Maximum LTV-20
+  const _maxLTV = Big(data.MAX_LTV).div(100);
+  const _price = prices[data.underlyingToken.symbol];
+  const _der = Big(state.amount).mul(Big(_price)).mul(_maxLTV);
+  // .minus(20);
 
-return (
+  const _yourLTV = Big(state.borrowAmount).div(_der).toFixed(4);
+  // console.log( _maxLTV.toFixed(), _price, _der.toFixed(), _yourLTV);
+  State.update({
+    yourLTV: Big(_yourLTV).mul(100).toFixed(2),
+  });
+}, [state.amount, state.borrowAmount]);
+
+return !state.tab ? null : (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
       <StyledHeader>
@@ -357,12 +384,11 @@ return (
                 <img src={data.underlyingToken.icon} className="icon" alt="" />
                 {data.underlyingToken.symbol}
               </StyledInfoTitle>
-              {/* <StyledInfoItem>
-              <div>Your borrw limit</div>
-              <div className="white">
-              </div>
-            </StyledInfoItem>
-          */}
+              <StyledInfoItem>
+                <div>Your LTV</div>
+                <div className="white">{state.yourLTV}%</div>
+              </StyledInfoItem>
+
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
@@ -506,6 +532,7 @@ return (
                   isError: state.isError,
                   // loading: state.loading,
                   // gas: state.gas,
+                  yourLTV: state.yourLTV,
                   _assetAmount: state.amount,
                   _debtTokenAmount: state.borrowAmount,
                   onApprovedSuccess: () => {
