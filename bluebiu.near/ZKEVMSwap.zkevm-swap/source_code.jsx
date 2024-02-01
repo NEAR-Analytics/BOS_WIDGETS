@@ -1069,33 +1069,6 @@ return (
             </div>
           </div>
         </SwapPage>
-
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            ...props,
-            add: clooseAdd,
-            onChangeAdd: (value) => {
-              State.update({
-                add: value,
-              });
-              Storage.set("clooseAdd", value);
-            },
-            hide:
-              !state?.outputAsset ||
-              !state?.inputAssetAmount ||
-              !state?.inputAsset ||
-              !state?.selectedDex ||
-              (source === "quest-card" &&
-                state.storeParams &&
-                state.storeParams.amount === state.inputAssetAmount &&
-                state.storeParams.assetId.toLowerCase() ===
-                  state.inputAssetTokenId.toLowerCase() &&
-                state.storeParams.dexName === state.selectedDex &&
-                state.storeParams.symbol ===
-                  state?.inputAsset?.metadata?.symbol),
-          }}
-        />
       </div>
     </SwapMainContainer>
     <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
