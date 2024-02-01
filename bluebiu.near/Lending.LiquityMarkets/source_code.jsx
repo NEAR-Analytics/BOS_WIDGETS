@@ -4,18 +4,18 @@ const COLUMNS = [
   {
     key: "DEPOSIT",
     label: "DEPOSIT",
-    width: "30%",
+    width: "15%",
   },
   {
     key: "BORROW",
     label: "BORROW",
-    width: "14%",
+    width: "15%",
     // type: "amount",
   },
   {
     key: "MAX_LTV",
     label: "MAX LTV",
-    width: "12%",
+    width: "15%",
     // type: "apy",
   },
   {
@@ -27,7 +27,7 @@ const COLUMNS = [
   {
     key: "MIN_DEBT",
     label: "MIN DEBT",
-    width: "12%",
+    width: "15%",
     // type: "apy",
     // type: "amount",
   },
@@ -35,6 +35,12 @@ const COLUMNS = [
     key: "MINTED_CAP",
     label: "MINTED/CAP",
     width: "15%",
+    // type: "amount",
+  },
+  {
+    key: "LOAN_STATUS",
+    label: "LOAN STATUS",
+    width: "8%",
     // type: "amount",
   },
   {
