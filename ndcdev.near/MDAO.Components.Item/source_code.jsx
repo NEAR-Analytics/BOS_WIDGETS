@@ -1,6 +1,6 @@
 const { item, index, showMoreDefault, showRepliesDefault } = props;
 let { assets, content, socialKey } = VM.require(
-  `ndcdev.near/widget/MDAO.Config`
+  `ndcdev.near/widget/MDAO.Config`,
 );
 assets = assets.home;
 content = content.home;
