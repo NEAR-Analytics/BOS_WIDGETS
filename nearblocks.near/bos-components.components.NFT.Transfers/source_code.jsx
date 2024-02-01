@@ -1171,10 +1171,10 @@ function MainComponent({ network, id }) {
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
-  const [txns, setTxns] = useState([]);
+  const [txns, setTxns] = useState({});
   const config = getConfig(network);
   const [showAge, setShowAge] = useState(true);
-  const errorMessage = 'No token transfers found!';
+  const errorMessage = 'No transactions found!';
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -1211,11 +1211,11 @@ function MainComponent({ network, id }) {
         .finally(() => {});
     }
 
-    function fetchTxnsData() {
+    function fetchTxnsData(page) {
       setIsLoading(true);
 
       asyncFetch(
-        `${config?.backendUrl}nfts/${id}/txns?order=desc&page=${currentPage}&per_page=25`,
+        `${config?.backendUrl}nfts/${id}/txns?order=desc&page=${page}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1226,7 +1226,7 @@ function MainComponent({ network, id }) {
         .then((data) => {
           const resp = data?.body?.txns;
           if (data.status === 200 && Array.isArray(resp) && resp.length > 0) {
-            setTxns(resp);
+            setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
           }
         })
         .catch(() => {})
@@ -1236,7 +1236,7 @@ function MainComponent({ network, id }) {
     }
 
     fetchTotalTxns();
-    fetchTxnsData();
+    fetchTxnsData(currentPage);
   }, [config?.backendUrl, currentPage, id]);
 
   const columns = [
@@ -1535,7 +1535,7 @@ function MainComponent({ network, id }) {
         src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: txns,
+          data: txns[currentPage],
           isLoading: isLoading,
           isPagination: true,
           count: totalCount,
