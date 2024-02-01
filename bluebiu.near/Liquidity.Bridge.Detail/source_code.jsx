@@ -129,6 +129,10 @@ const InputSuffix = styled.div`
   }
 
 `
+const StyledImageList = styled.div`
+  display: flex;
+  align-items: center;
+`
 const PriceWrap = styled.div`
   margin-top: 6px;
   display: flex;
@@ -187,8 +191,18 @@ const StyledButton = styled.button`
 `
 
 const StyledLoading = styled.div`
-  
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: rotate 1.5s linear  infinite;
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `
 
 
@@ -196,6 +210,13 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
+
+const iconCircle = (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8" stroke="#1E2028" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+
+)
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
 State.init({
@@ -817,6 +838,7 @@ return (
           </Column>
         </Row>
         <StyledButtonList>
+          {/* <StyledButton><StyledLoading>{iconCircle}</StyledLoading></StyledButton> */}
           {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
           {
             !isInSufficient &&
@@ -828,7 +850,7 @@ return (
               <StyledButton disabled={isLoading || !amount0 || !amount1}>
                 {
                   isLoading ? (
-                    <StyledLoading />
+                    <StyledLoading>{iconCircle}</StyledLoading>
                   ) : (
                     "Deposit"
                   )
@@ -838,7 +860,7 @@ return (
               <>
                 <StyledButton disabled={isToken0Approved || isToken0Approving} onClick={() => handleApprove(true)}>{
                   isToken0Approving ? (
-                    <StyledLoading />
+                    <StyledLoading>{iconCircle}</StyledLoading>
                   ) : (
                     <>
                       {isToken0Approved ? "Approved" : "Approve"} {token0}
@@ -847,7 +869,7 @@ return (
                 </StyledButton>
                 <StyledButton disabled={isToken1Approved || isToken1Approving} onClick={() => handleApprove(false)}>{
                   isToken1Approving ? (
-                    <StyledLoading />
+                    <StyledLoading>{iconCircle}</StyledLoading>
                   ) : (
                     <>
                       {isToken1Approved ? "Approved" : "Approve"} {token1}
@@ -881,6 +903,11 @@ return (
               }} />
 
               <InputSuffix>
+                <StyledImageList>
+                  <img src={ICON_VAULT_MAP[token0]} alt={token0} />
+                  <img src={ICON_VAULT_MAP[token1]} alt={token1} style={{ marginLeft: -6 }} />
+                </StyledImageList>
+                <span>{token0}/{token1}</span>
               </InputSuffix>
             </InputWrap>
             <PriceWrap>
@@ -909,7 +936,7 @@ return (
             onClick={handleWithdraw}
           >
             {isLoading ? (
-              <StyledLoading />
+              <StyledLoading>{iconCircle}</StyledLoading>
             ) : (
               <>
                 {isWithdrawInsufficient ? "InSufficient Balance" : "Withdraw"}
