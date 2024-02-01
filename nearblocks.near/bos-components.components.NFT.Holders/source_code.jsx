@@ -535,7 +535,9 @@ function MainComponent({ network, id, token }) {
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
-  const [holder, setHolder] = useState([]);
+  const [holder, setHolder] = useState(
+    {},
+  );
   const [tokens, setTokens] = useState({} );
   const config = getConfig(network);
   const errorMessage = 'No token holders found!';
@@ -594,11 +596,11 @@ function MainComponent({ network, id, token }) {
         .finally(() => {});
     }
 
-    function fetchHoldersData() {
+    function fetchHoldersData(page) {
       setIsLoading(true);
 
       asyncFetch(
-        `${config?.backendUrl}nfts/${id}/holders?page=${currentPage}&per_page=25`,
+        `${config?.backendUrl}nfts/${id}/holders?page=${page}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -610,7 +612,7 @@ function MainComponent({ network, id, token }) {
           (data) => {
             const resp = data?.body?.holders;
             if (data.status === 200 && Array.isArray(resp) && resp.length > 0) {
-              setHolder(resp);
+              setHolder((prevData) => ({ ...prevData, [page]: resp || [] }));
             }
           },
         )
@@ -623,7 +625,7 @@ function MainComponent({ network, id, token }) {
       fetchNFTData();
     }
     fetchTotalHolders();
-    fetchHoldersData();
+    fetchHoldersData(currentPage);
   }, [config?.backendUrl, currentPage, id, token]);
 
   useEffect(() => {
@@ -734,7 +736,7 @@ function MainComponent({ network, id, token }) {
         src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: holder,
+          data: holder[currentPage],
           isLoading: isLoading,
           isPagination: true,
           count: totalCount,
