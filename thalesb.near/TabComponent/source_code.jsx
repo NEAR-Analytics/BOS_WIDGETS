@@ -8,6 +8,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
 
+  @media (max-width: 728px) {
+    padding-bottom: 80px;
+  }
+
   .flex-grow {
     flex-grow: 1;
   }
@@ -41,6 +45,7 @@ const MenuContainer = styled.div`
 
   .alignCenter {
     display: flex;
+    align-items: center;
 
     @media (max-width: 728px) {
       display: none;
@@ -52,6 +57,7 @@ const MenuContainer = styled.div`
     display: flex;
     color: #373a53;
     border: none;
+    border-radius: 4px;
     &:hover,
     &:focus {
       opacity: 0.8;
@@ -65,6 +71,31 @@ const MenuContainer = styled.div`
     }
   }
 
+  .switchWallet {
+    background-color: #00ec97;
+    display: flex;
+    color: #373a53;
+    border: none;
+    border-radius: 4px;
+    padding: 6px;
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+      background-color: #00ec97;
+      color: #373a53;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 728px) {
+      display: none;
+    }
+  }
+  .switchButton {
+    display: none;
+    @media (max-width: 728px) {
+      display: flex;
+    }
+  }
   .connectWallet2 {
     display: none;
     font-weight: 500;
@@ -72,6 +103,7 @@ const MenuContainer = styled.div`
     color: #ffffff;
     cursor: pointer;
     border: none;
+
     &:hover,
     &:focus {
       opacity: 0.8;
@@ -167,6 +199,118 @@ const MenuContainer = styled.div`
   }
 `;
 
+const Container1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh; // Full height of the viewport
+  padding: 36px;
+  margin-top: 30px;
+
+  @media (max-width: 728px) {
+    margin-top: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .image {
+    width: 100%;
+    height: 650px;
+    @media (max-width: 728px) {
+      display: none;
+    }
+  }
+  .connectWallet {
+    background-color: #00ec97;
+    display: flex;
+    color: #373a53;
+    border: none;
+    border-radius: 4px;
+    min-width: 470px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+      background-color: #00ec97;
+      color: #373a53;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    @media (max-width: 728px) {
+      min-width: 100%;
+    }
+  }
+`;
+
+const Title = styled.span`
+  color: white;
+
+  font-size: 28px;
+  font-weight: 700;
+`;
+
+const ConnectContainer = styled.div`
+  background-color: #373a53;
+  border-radius: 24px;
+  display: flex;
+  heigh: 150px;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+`;
+
+const ConnectSubTitle = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  color: #888baf;
+  margin-bottom: 20px;
+`;
+
+const ConnectButton = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0f3460;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e94560;
+  }
+`;
+
+// React component
+const ConnectWallet = () => {
+  return (
+    <Container1>
+      <ConnectContainer>
+        <Title>CONNECT WALLET</Title>
+        <ConnectSubTitle>
+          You must be connected to see dashboard information!
+        </ConnectSubTitle>
+        <Web3Connect
+          className="connectWallet"
+          connectLabel="Connect Wallet"
+          disconnectLabel="Disconnect Wallet"
+          connectingLabel="Connecting..."
+          style={{ display: "none" }}
+        />
+      </ConnectContainer>
+      {/* Placeholder for the image */}
+
+      <img
+        className="image"
+        src="https://pali-images.s3.amazonaws.com/files/lock_bos.png"
+      />
+    </Container1>
+  );
+};
+
 const activeMenu =
   Storage.privateGet("zksyncCachedActiveMenu") || props.defaultTab || "Markets";
 
@@ -228,9 +372,9 @@ const bridgeIcon = (
 
 const WalletIcon = (
   <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="26"
+    height="26"
+    viewBox="0 0 26 26"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -355,11 +499,8 @@ const switchNetwork = () => {
     },
   ]);
 };
-if (state.chainId !== undefined && state.chainId !== 137) {
-  return (
-    <button onClick={() => switchNetwork()}>Switch to Polygon Mainnet</button>
-  );
-}
+
+//TODO: Add the switch to the web3 modal.
 
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -381,14 +522,18 @@ return (
             /* Condition to make active if necessary */ ""
           }`}
         >
-          <span className="iconWallet">{WalletIcon}</span>
-          <Web3Connect
-            className="connectWallet2"
-            connectLabel="Connect"
-            disconnectLabel="Disconnect"
-            connectingLabel="Connecting..."
-            style={{ display: "none" }}
-          />
+          {state.chainId !== undefined && state.chainId !== 137 ? (
+            <div className="switchButton" onClick={() => switchNetwork()}>
+              Switch Network
+            </div>
+          ) : (
+            <Web3Connect
+              className="connectWallet2"
+              connectLabel="Connect"
+              disconnectLabel="Disconnect"
+              connectingLabel="Connecting..."
+            />
+          )}
         </div>
         <div
           onClick={() => {
@@ -413,8 +558,12 @@ return (
           Markets
         </div>
 
-        <div>
-          <div className="alignCenter">
+        <div className="alignCenter">
+          {state.chainId !== undefined && state.chainId !== 137 ? (
+            <button className="switchWallet" onClick={() => switchNetwork()}>
+              Switch to Polygon
+            </button>
+          ) : (
             <Web3Connect
               className="connectWallet"
               connectLabel="Connect Wallet"
@@ -422,10 +571,10 @@ return (
               connectingLabel="Connecting..."
               style={{ display: "none" }}
             />
-          </div>
+          )}
         </div>
       </MenuContainer>
-      <div className="flex-grow contentOut">
+      <div className="contentOut flex-grow">
         {activeMenu == "Dashboard" ? (
           <>
             {!!state.sender ? (
@@ -436,11 +585,148 @@ return (
                 src="thalesb.near/widget/DashboardLayout"
               />
             ) : (
-              <div>Please Connect Your Wallet</div>
+              <ConnectWallet />
             )}
           </>
         ) : null}
-        {activeMenu == "Markets" ? <>Building...</> : null}
+        {activeMenu == "Markets" ? (
+          <Widget
+            props={{
+              contracts: [
+                {
+                  network: "Ethereum",
+                  address: "0xa17581a9e3356d9a858b789d68b4d866e593ae94",
+                  chainId: 1,
+                  httpRpcUrl: "https://ethereum.publicnode.com",
+                  borrowAssetCoingeckoId: "ethereum",
+                  borrowDecimals: 18,
+                  baseTokenName: "Ether",
+                  baseTokenSymbol: "ETH",
+                  networkIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
+                  baseCoinIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
+                  collateralAssets: [
+                    {
+                      name: "Coinbase Wrapped Staked ETH",
+                      address: "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+                      decimals: 18,
+                      coingegkoId: "coinbase-wrapped-staked-eth",
+                      icon: "https://app.compound.finance/images/assets/asset_cbETH.svg",
+                    },
+                    {
+                      name: "Wrapped liquid staked Ether 2.0",
+                      address: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+                      decimals: 18,
+                      coingegkoId: "staked-ether",
+                      icon: "https://app.compound.finance/images/assets/asset_wstETH.svg",
+                    },
+                    {
+                      name: "Rocket Pool ETH",
+                      address: "0xae78736Cd615f374D3085123A210448E74Fc6393",
+                      decimals: 18,
+                      coingegkoId: "rocket-pool-eth",
+                      icon: "https://app.compound.finance/images/assets/asset_RETH.svg",
+                    },
+                  ],
+                },
+                {
+                  network: "Ethereum",
+                  address: "0xc3d688b66703497daa19211eedff47f25384cdc3",
+                  chainId: 1,
+                  httpRpcUrl: "https://ethereum.publicnode.com",
+                  borrowAssetCoingeckoId: "usd-coin",
+                  borrowDecimals: 6,
+                  baseTokenName: "USDC Coin",
+                  baseTokenSymbol: "USDC",
+                  networkIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
+                  baseCoinIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
+                  collateralAssets: [
+                    {
+                      name: "Compound",
+                      address: "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+                      decimals: 18,
+                      coingegkoId: "compound-governance-token",
+                    },
+                    {
+                      name: "Wrapped BTC",
+                      address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                      decimals: 8,
+                      coingegkoId: "wrapped-bitcoin",
+                    },
+                    {
+                      name: "Wrapped Ether",
+                      address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                      decimals: 18,
+                      coingegkoId: "ethereum",
+                    },
+                    {
+                      name: "Uniswap",
+                      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+                      decimals: 18,
+                      coingegkoId: "uniswap",
+                    },
+                    {
+                      name: "Chainlink Token",
+                      address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+                      decimals: 18,
+                      coingegkoId: "chainlink",
+                    },
+                  ],
+                },
+                {
+                  network: "Polygon",
+                  address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+                  chainId: 137,
+                  httpRpcUrl: "https://polygon-rpc.com",
+                  borrowAssetCoingeckoId: "usd-coin",
+                  borrowDecimals: 6,
+                  baseTokenName: "USDC Coin (Bridged)",
+                  baseTokenSymbol: "USDC.e",
+                  networkIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/matic.png",
+                  baseCoinIcon:
+                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
+                  collateralAssets: [
+                    {
+                      name: "Wrapped Ether",
+                      address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+                      decimals: 18,
+                      coingegkoId: "ethereum",
+                    },
+                    {
+                      name: "(PoS) Wrapped BTC (WBTC)",
+                      address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+                      decimals: 8,
+                      coingegkoId: "wrapped-bitcoin",
+                    },
+                    {
+                      name: "Wrapped Matic",
+                      address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+                      decimals: 18,
+                      coingegkoId: "wmatic",
+                    },
+                    {
+                      name: "Liquid Staking Matic (PoS)",
+                      address: "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6",
+                      decimals: 18,
+                      coingegkoId: "stader-maticx",
+                    },
+                    {
+                      name: "Staked MATIC",
+                      address: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+                      decimals: 18,
+                      coingegkoId: "lido-staked-matic",
+                    },
+                  ],
+                },
+              ],
+            }}
+            src="umulamahri.near/widget/CompoundMarkets"
+          />
+        ) : null}
       </div>
     </Container>
   </Layout>
