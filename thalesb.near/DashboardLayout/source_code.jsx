@@ -810,7 +810,7 @@ const balancesPromise = new Promise((resolve, reject) => {
   contract
     .balanceOf(address)
     .then((res) => {
-      return Promise.all([res, contract.decimals()]);
+      return false;
     })
     .then(([balance, decimals]) => {
       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
