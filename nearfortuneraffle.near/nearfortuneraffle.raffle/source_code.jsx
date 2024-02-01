@@ -1,3 +1,213 @@
+const [isModalOpen, setIsModalOpen] = useState(false);
+
+const openModal = () => {
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
+const Modal = ({ isOpen, onClose }) => {
+  const overlayStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 2,
+  };
+
+  const modalStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: "20%",
+    borderRadius: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "50%",
+    maxWidth: "400px",
+    height: "auto",
+    backgroundColor: "#fff",
+    padding: "20px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    zIndex: 3,
+  };
+
+  return (
+    <div style={overlayStyle} onClick={onClose}>
+      <div style={modalStyle} className="modal">
+        <div onClick={(e) => e.stopPropagation()} className="modal-content">
+          <p
+            style={{
+              fontSize: "1.2rem",
+              textAlign: "center",
+              paddingTop: "5px",
+            }}
+          >
+            {isLoading && "Please wait..."}
+          </p>
+          <p
+            style={{
+              color: "red",
+              textAlign: "center",
+              paddingTop: "5px",
+              display: message ? "none" : "block",
+            }}
+          >
+            {errMessage && errMessage}
+          </p>
+          <p
+            style={{
+              color: "green",
+              textAlign: "center",
+              paddingTop: "5px",
+              display: errMessage ? "none" : "block",
+            }}
+          >
+            {message && message}
+          </p>
+          <div class="modal-header">
+            <h5 class="modal-title">Submit your Detail</h5>
+            <span
+              style={{ fontSize: "2rem", cursor: "pointer" }}
+              className="close"
+              onClick={onClose}
+            >
+              &times;
+            </span>
+          </div>
+          <div class="modal-body">
+            <div class="form">
+              <div class="mb-3">
+                <label for="name" class="form-label">
+                  Name
+                </label>
+                <input
+                  value={fullname || ""}
+                  onChange={(e) => setFullname(e.target.value)}
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  aria-describedby="nameHelp"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">
+                  Email
+                </label>
+                <input
+                  value={email || ""}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  class="form-control"
+                  id="email"
+                />
+              </div>
+
+              <button
+                data={formData}
+                type="submit"
+                class="btn btn-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  sendData(formData);
+                }}
+              >
+                Submit
+              </button>
+              <div id="terms" class="form-text">
+                By continuing, you accept Near Fortune’s terms of service and
+                privacy policy.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NotificationModal = ({ isOpen, onClose }) => {
+  const overlayStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 2,
+  };
+
+  const modalStyle = {
+    display: isOpen ? "block" : "none",
+    position: "fixed",
+    top: "20%",
+    borderRadius: "1rem",
+    left: "50%",
+    transform: "translateX(-50%)",
+    width: "50%",
+    maxWidth: "400px",
+    height: "auto",
+    backgroundColor: "#fff",
+    padding: "20px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    zIndex: 3,
+  };
+
+  return (
+    <div style={overlayStyle} onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={modalStyle}
+        className="modal"
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h5 class="modal-title" id="name">
+            NFT Check
+          </h5>
+          <span
+            style={{ fontSize: "2rem", cursor: "pointer" }}
+            className="close"
+            onClick={onClose}
+          >
+            &times;
+          </span>
+        </div>
+        <div>
+          Ops! You must have one of the following nfts to enter the raffle{" "}
+          <br />
+          - Kano is bos jollof - 1 <br />
+          - Black Dragon Token - 652 <br />
+          - Black Dragon Token - 531 <br />- ShardDog - 1555
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ButtonWithModal = ({ openModal }) => {
+  return (
+    <div>
+      <button
+        style={{ padding: "12px", width: "120px", marginBottom: "10px" }}
+        onClick={openModal}
+      >
+        Enter
+      </button>
+    </div>
+  );
+};
+
 const Image1 =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588123/rafflestore/weekBanner_cwsvjc.png";
 const Image2 =
@@ -308,13 +518,7 @@ const EnterBtnWrapper = styled.div`
 `;
 
 const EnterBtn = styled.button`
-    color: #fff;
-    padding: 1rem 3rem;
-    background-color :#003C8C;
-    border-width: 1px;
-    border-radius: 0.75rem;
-    cursor: pointer;
-        margin-bottom: 10px;
+   
 `;
 
 const RaffleSummary = styled.div`
@@ -347,134 +551,9 @@ if (summary) {
 return (
   <>
     {state.nftCheck ? (
-      <div
-        class="modal fade"
-        id="raffleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        style={{ marginTop: "50px" }}
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <p
-              style={{
-                fontSize: "1.2rem",
-                textAlign: "center",
-                paddingTop: "15px",
-              }}
-            >
-              {isLoading && "Please wait..."}
-            </p>
-            <p
-              style={{
-                color: "red",
-                textAlign: "center",
-                paddingTop: "15px",
-                display: message ? "none" : "block",
-              }}
-            >
-              {errMessage && errMessage}
-            </p>
-            <p
-              style={{
-                color: "green",
-                textAlign: "center",
-                paddingTop: "15px",
-                display: errMessage ? "none" : "block",
-              }}
-            >
-              {message && message}
-            </p>
-            <div class="modal-header">
-              <h5 class="modal-title">Submit your Detail</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="form">
-                <div class="mb-3">
-                  <label for="name" class="form-label">
-                    Name
-                  </label>
-                  <input
-                    value={fullname || ""}
-                    onChange={(e) => setFullname(e.target.value)}
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    aria-describedby="nameHelp"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email
-                  </label>
-                  <input
-                    value={email || ""}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    class="form-control"
-                    id="email"
-                  />
-                </div>
-
-                <button
-                  data={formData}
-                  type="submit"
-                  class="btn btn-primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    sendData(formData);
-                  }}
-                >
-                  Submit
-                </button>
-                <div id="terms" class="form-text">
-                  By continuing, you accept Near Fortune’s terms of service and
-                  privacy policy.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     ) : (
-      <div
-        class="modal fade"
-        id="raffleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="name">
-                Sharddog NFT Check
-              </h5>
-              <button
-                style={{ marginLeft: "20px" }}
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              Ops! You must have one of the following nfts to enter the raffle{" "}
-              <br />
-              - Kano is bos jollof - 1 <br />
-              - Black Dragon Token - 652 <br />
-              - Black Dragon Token - 531 <br />- ShardDog - 1555
-            </div>
-          </div>
-        </div>
-      </div>
+      <NotificationModal isOpen={isModalOpen} onClose={closeModal} />
     )}
 
     <Container>
@@ -523,14 +602,7 @@ return (
           </PrizeContent>
         </PrizeWrapper>
         <EnterBtnWrapper>
-          <EnterBtn
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#raffleModal"
-          >
-            Enter
-          </EnterBtn>
+          <ButtonWithModal openModal={openModal} />
           <span
             style={{
               fontWeight: "bold",
