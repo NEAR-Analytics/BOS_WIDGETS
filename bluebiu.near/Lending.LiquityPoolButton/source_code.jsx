@@ -241,7 +241,7 @@ function handleClick() {
   State.update({
     pending: true,
   });
-  console.log("click:", actionText);
+  console.log("click:", actionText, data);
   let abi;
   if (data.BORROW_TOKEN === "GRAI") {
     abi = [
@@ -267,7 +267,7 @@ function handleClick() {
       },
     ];
   }
-  if (data.BORROW_TOKEN === "STAR") {
+  if (data.BORROW_TOKEN === "STAR" || data.BORROW_TOKEN === "ERN") {
     abi = [
       {
         inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
@@ -285,7 +285,6 @@ function handleClick() {
       },
     ];
   }
-
   const contract = new ethers.Contract(
     data.config.StabilityPool,
     abi,
