@@ -43,10 +43,12 @@ const ChainNameByChainId = {
 const ChainIconByChainId = {};
 
 const percentFormatter = (value) => {
+  if (!value) return "0%";
   return `${value.toFixed(2)}%`;
 };
 
 const priceFormatter = (value) => {
+  if (!value) return "-";
   if (value > 1000000000) {
     return `${(value / 1000000000).toFixed(2)}B`;
   }
@@ -358,7 +360,7 @@ const MarketTable = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 24px;
-  min-width: 1024px;
+  min-width: 1290px;
 
   th {
     text-align: left;
@@ -524,19 +526,17 @@ return (
                         <td>{priceFormatter(market.totalEarning)}</td>
                         <td>{priceFormatter(market.totalBorrow)}</td>
                         <td>{priceFormatter(totalCollateral)}</td>
-                        <td>
-                          {market.icons.collateralIcons.length}
-                          {market.icons.collateralIcons
-                            .filter((a) => !!a)
-                            .map((icon) => {
-                              return (
-                                <img
-                                  src={icon}
-                                  key={icon}
-                                  style={{ width: 24, height: 24 }}
-                                />
-                              );
-                            })}
+                        <td style={{ display: "flex", gap: "1px" }}>
+                          <span className="chip">
+                            {market.icons.collateralIcons.length}
+                          </span>
+                          <div className="collateral_icons">
+                            {market.icons.collateralIcons
+                              .filter((a) => !!a)
+                              .map((icon) => {
+                                return <img src={icon} key={icon} />;
+                              })}
+                          </div>
                         </td>
                       </tr>
                     );
