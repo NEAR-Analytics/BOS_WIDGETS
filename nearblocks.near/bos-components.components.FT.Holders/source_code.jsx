@@ -566,7 +566,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -618,17 +617,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -720,10 +722,13 @@ function localFormat(number) {
 }
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
+
   const near = Big(amount).div(Big(10).pow(decimal));
+
   const formattedValue = format
     ? near.toFixed(8).replace(/\.?0+$/, '')
-    : near.toFixed(decimal).replace(/\.?0+$/, '');
+    : near.toFixed(Big(decimal, 10)).replace(/\.?0+$/, '');
+
   return formattedValue;
 }
 
@@ -800,7 +805,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -852,17 +856,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
@@ -1025,7 +1032,6 @@ function txnLogs(txn) {
       txLogs = [...txLogs, ...mappedLogs];
     }
   }
-
   return txLogs;
 }
 
@@ -1077,17 +1083,20 @@ function txnErrorMessage(txn) {
 function formatLine(line, offset, format) {
   let result = `${offset.toString(16).padStart(8, '0')}  `;
 
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
     if (index > 0 && index % 4 === 0) {
       result += ' ';
     }
     result += byte.toUpperCase().padEnd(2, ' ') + ' ';
   });
 
-  if (format === 'default') {
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
     result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
+      ...hexValues.map((b) => parseInt(b, 16)),
     )}`;
   }
 
