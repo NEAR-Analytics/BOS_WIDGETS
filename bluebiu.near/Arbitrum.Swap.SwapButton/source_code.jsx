@@ -72,6 +72,8 @@ const {
   gas,
   onApprovedSuccess,
   chainIdNotSupport,
+  onSwitchChain,
+  switchingChain,
 } = props;
 
 if (!account) {
@@ -82,7 +84,27 @@ if (!account) {
   );
 }
 if (props.chainIdNotSupport) {
-  return <SwapButton disabled>Switch Network</SwapButton>;
+  return (
+    <SwapButton
+      disabled={!onSwitchChain}
+      onClick={() => {
+        onSwitchChain({
+          chainId: `0x${Number(chainId).toString(16)}`,
+        });
+      }}
+    >
+      {switchingChain ? (
+        <Widget
+          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+          props={{
+            size: 16,
+          }}
+        />
+      ) : (
+        "Switch Network"
+      )}
+    </SwapButton>
+  );
 }
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
