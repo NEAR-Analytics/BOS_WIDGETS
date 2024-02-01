@@ -3,6 +3,7 @@ const defaultChainId = 11155111;
 const orderOpen = "OPEN";
 const orderFilled = "FILLED";
 const orderCancelled = "CANCELED";
+const orderPending = "PENDING";
 
 if (state === undefined) {
   State.init({
@@ -223,16 +224,45 @@ const headers = {
   Accept: "application/json",
 };
 
+const fundAccount = () => {
+  faucetDydx(state.dydx_account, 0)
+    .then((r) => {
+      if (!r.ok) {
+        State.update({
+          error_msg: JSON.stringify(r),
+        });
+      } else {
+        console.log("fundAccount", r);
+        loadAccount();
+      }
+    })
+    .catch((ex) =>
+      State.update({
+        error_msg: `${state.error_msg}. Error: ${JSON.stringify(ex)}`,
+      })
+    );
+};
+
 const loadAccount = () => {
   if (accountId) {
     asyncFetch(`${apiUrl}/addresses/${accountId}`, { headers })
-      .then((r) =>
-        State.update({
-          account: r?.body?.subaccounts[0],
-          all_accounts: r?.body,
-        })
-      )
-      .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+      .then((status) => {
+        if (status.ok) {
+          State.update({
+            account: status?.body?.subaccounts[0],
+            all_accounts: status?.body,
+          });
+        } else {
+          State.update({
+            error_msg: "Account not found. Trying to run faucet",
+          });
+          fundAccount();
+        }
+      })
+      .catch((err) => {
+        console.log("err", err);
+        State.update({ error_msg: JSON.stringify(err) });
+      });
   }
 };
 
@@ -245,6 +275,7 @@ const loadOrders = () => {
       }
     )
       .then((r) => {
+        console.log("orders num", r?.body.length);
         State.update({ orders: r?.body });
       })
       .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
@@ -334,13 +365,13 @@ const cancelUserOrder = (clientId, orderFlags, marketId) => {
 const placeUserOrder = (side) => {
   State.update({ is_loading: true, error_msg: "" });
 
-  if (
-    !state.orderMarketId ||
-    !state.orderPrice ||
-    !state.orderSize ||
-    !state.orderType
-  ) {
-    console.log("NO DATA");
+  if (!state.orderMarketId || !state.orderSize || !state.orderType) {
+    State.update({ is_loading: false, error_msg: "NO DATA" });
+    return;
+  }
+
+  if (!state.orderPrice && type == "LIMIT") {
+    State.update({ is_loading: false, error_msg: "NO PRICE FOR LIMIT ORDER" });
     return;
   }
 
@@ -371,20 +402,37 @@ const placeUserOrder = (side) => {
 
   console.log(params);
 
-  placeDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
-    .then((placeOrderResp) => {
-      console.log("placeOrder resp ", placeOrderResp);
-      State.update({ is_loading: false, error_msg: "" });
-      updateOrders();
-    })
-    .catch((err) =>
-      State.update({ is_loading: false, error_msg: JSON.stringify(err) })
-    );
+  if (type == "MARKET") {
+    getDydxLatestBlockHeight(getNetwork()).then((latestBlockHeight) => {
+      console.log("latestBlockHeight", latestBlockHeight);
+      params.goodTilBlock = latestBlockHeight + 11;
+      placeDydxShortOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
+        .then((placeOrderResp) => {
+          console.log("placeDydxShortOrder resp ", placeOrderResp);
+          State.update({ is_loading: false, error_msg: "" });
+          updateOrders();
+        })
+        .catch((err) =>
+          State.update({ is_loading: false, error_msg: JSON.stringify(err) })
+        );
+    });
+  } else {
+    placeDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
+      .then((placeOrderResp) => {
+        console.log("placeOrder resp ", placeOrderResp);
+        State.update({ is_loading: false, error_msg: "" });
+        updateOrders();
+      })
+      .catch((err) =>
+        State.update({ is_loading: false, error_msg: JSON.stringify(err) })
+      );
+  }
 };
 
 const isOrderOpen = () => [orderOpen].includes(state.orderFilter);
 const isOrderFilled = () => [orderFilled].includes(state.orderFilter);
 const isOrderCancelled = () => [orderCancelled].includes(state.orderFilter);
+const isOrderPending = () => [orderPending].includes(state.orderFilter);
 
 const SignInWithMetamask = () => {
   const toSign = {
@@ -676,6 +724,17 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                         Canceled
                       </a>
                     </li>
+                    <li class="nav-item">
+                      <a
+                        class={`nav-link ${isOrderPending() ? "active" : ""}`}
+                        onClick={() =>
+                          State.update({ orderFilter: orderPending })
+                        }
+                        href="#"
+                      >
+                        Pending
+                      </a>
+                    </li>
                   </ul>
                 </div>
 
@@ -684,12 +743,25 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     <div class="text-wrapper-10">No transactions yet</div>
                   )}
                   {(state.orders ?? [])
-                    .filter(
-                      (order) =>
-                        [state.orderFilter].includes(order.status) &&
-                        order.ticker.toLowerCase() ==
-                          state.orderMarketId.toLowerCase()
-                    )
+                    .filter((order) => {
+                      if (isOrderPending()) {
+                        return (
+                          !(
+                            order.status == orderCancelled ||
+                            order.status == orderFilled ||
+                            order.status == orderOpen
+                          ) &&
+                          order.ticker.toLowerCase() ==
+                            state.orderMarketId.toLowerCase()
+                        );
+                      } else {
+                        return (
+                          [state.orderFilter].includes(order.status) &&
+                          order.ticker.toLowerCase() ==
+                            state.orderMarketId.toLowerCase()
+                        );
+                      }
+                    })
                     .sort((a, b) => {
                       return b.updatedAtHeight - a.updatedAtHeight;
                     })
@@ -701,6 +773,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                           >
                             <div
                               class={`order-log-${order.side.toLowerCase()}`}
+                              title={order.status}
                             >
                               {order.side}
                             </div>
@@ -759,7 +832,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
           </div>
         </div>
       </div>
-      {JSON.stringify(state.orders)}
+      {/*JSON.stringify(state.orders)*/}
     </Theme>
   );
 }
