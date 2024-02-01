@@ -43,7 +43,6 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
-        // const [[tvlAmount], [tokenBalAmount]] = res;
         console.log("getDebt_res", res);
         for (let i = 0, len = res.length; i < len; i++) {
           const _vesselStatus = res[i] ? "ACTIVE" : "INACTIVE";
@@ -60,23 +59,56 @@ useEffect(() => {
       .catch((err) => {
         console.log("getDebt_error:", err);
       });
+  }
+  function getMarketDeposit() {
+    const _contract = dexConfig.VesselManager;
 
-    // const contract = new ethers.Contract(_contract, abi, Ethers.provider());
-    // contract
-    //   .getVesselDebt(_asset, account)
-    //   .then((res) => {
-    //     console.log("calcDebt_res:", res, res.toString());
-    //     const _debt = ethers.utils.formatUnits(res) - 20;
-    //     State.update({
-    //       vesselDebt: _debt,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log("calcDebt_error", err);
-    //   });
+    //preon
+    const abi = [
+      {
+        inputs: [
+          { internalType: "address", name: "_asset", type: "address" },
+          { internalType: "address", name: "_borrower", type: "address" },
+        ],
+        name: "getVesselColl",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ];
+    const tokens = Object.keys(dexConfig.markets);
+    const calls = tokens.map((addr) => ({
+      address: _contract,
+      name: "getVesselColl",
+      params: [addr, account],
+    }));
+
+    multicall({
+      abi,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getDebt_res", res);
+        for (let i = 0, len = res.length; i < len; i++) {
+          const _vesselDeposit =
+            res[i] && res[i][0] ? ethers.utils.formatUnits(res[i][0]._hex) : 0;
+
+          markets[tokens[i]].vesselDeposit = _vesselDeposit;
+        }
+
+        onLoad({
+          newMarkets: markets,
+        });
+      })
+      .catch((err) => {
+        console.log("getDebt_error:", err);
+      });
   }
 
-  function getDeposit() {
+  function getStableDeposit() {
     const contract = new ethers.Contract(
       StabilityPool,
       [
@@ -280,7 +312,8 @@ useEffect(() => {
       });
   }
 
-  getDeposit();
+  getStableDeposit();
+  getMarketDeposit();
   getInfo();
   getDebt();
   getWalletBalance();
