@@ -7,7 +7,7 @@ const openAnotherModal = (validatorAddress, amount) => {
   // Near.call(validatorAddress, "unstake", { amount: `"${amount}"` });
 };
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
-  console.log("aloha amount", amount);
+  //   console.log("aloha amount", amount);
   // amount = `"${amount}"`;
   // const [stakingAmount, setStakingAmount] = useState(amount);
   // const [isVisible, setIsVisible] = useState(true); // State to control visibility for fade-out effect
