@@ -33,7 +33,9 @@ return (
     {props.widgets.map((widget) => (
       <WidgetWrapper key={widget.linkId}>
         {props.isEditMode ? (
-          <WidgetBadgeWrapper>
+          <WidgetBadgeWrapper
+            title={`Remove ${widget.src.split("widget/").pop()}`}
+          >
             {widget.linkAuthorId === context.accountId ? (
               <Widget
                 src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
