@@ -300,7 +300,7 @@ return (
                 props={{
                   address: state.sender,
                 }}
-                src="thalespollum.testnet/widget/DashboardLayout"
+                src="thalesb.near/widget/DashboardLayout"
               />
             ) : (
               <div>Please Connect Your Wallet</div>
