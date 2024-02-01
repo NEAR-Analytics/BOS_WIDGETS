@@ -372,7 +372,7 @@ function editCommentListener() {
 
   const comment = {
     text: state.reply,
-    timestamp: Date.now(),
+    timestamp: editionData.value.comment.timestamp ?? Date.now(),
     rootId,
     commentId,
   };
