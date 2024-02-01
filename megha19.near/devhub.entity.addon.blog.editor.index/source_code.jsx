@@ -49,12 +49,13 @@ return (
                 src="megha19.near/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
+                  editData: editData,
                   Sidebar: (p) => (
                     <Widget
                       src="megha19.near/widget/devhub.entity.addon.blog.editor.sidebar"
                       props={{
-                        editPostId: editData ? editData.id : data.id,
                         ...p,
+                        ...providerProps,
                       }}
                     />
                   ),
@@ -66,7 +67,6 @@ return (
                         onCancel,
                         onSubmit,
                         ...p,
-                        data: editData ? editData : p.data,
                       }}
                     />
                   ),
