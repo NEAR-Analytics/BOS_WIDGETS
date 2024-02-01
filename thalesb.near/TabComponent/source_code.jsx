@@ -38,7 +38,24 @@ const MenuContainer = styled.div`
   margin-right: 35px;
   display: flex;
   justify-content: flex-end;
+  .alignCenter {
+    display: flex;
+    align-items: center;
+  }
 
+  .connectWallet {
+    background-color: #00ec97;
+    color: #373a53;
+    border: none;
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+      background-color: #00ec97;
+      color: #373a53;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
   .item {
     display: flex;
     flex-direction: row;
@@ -203,7 +220,48 @@ const DashboardIcon = (
   </svg>
 );
 
-const { MarketsConfig, dashboardConfig, prices, ...restProps } = props;
+// DETECT SENDER
+
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
+const switchNetwork = () => {
+  Ethers.send("wallet_addEthereumChain", [
+    {
+      chainId: "0x89",
+      chainName: "Matic Mainnet",
+      nativeCurrency: {
+        name: "Matic",
+        symbol: "MATIC",
+        decimals: 18,
+      },
+      rpcUrls: ["https://rpc-mainnet.maticvigil.com/"],
+      blockExplorerUrls: ["https://explorer.matic.network/"],
+    },
+  ]);
+};
+if (state.chainId !== undefined && state.chainId !== 137) {
+  return (
+    <button onClick={() => switchNetwork()}>Switch to Polygon Mainnet</button>
+  );
+}
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
 
 return (
   <Layout>
@@ -225,11 +283,28 @@ return (
         >
           <span className="icon">{MarketsIcon}</span>Markets
         </div>
+        <div className="alignCenter">
+          <Web3Connect
+            className="connectWallet"
+            connectLabel="Connect Wallet"
+            disconnectLabel="Disconnect Web3 Wallet"
+            connectingLabel="Connecting..."
+          />
+        </div>
       </MenuContainer>
       <div className="flex-grow contentOut">
         {activeMenu == "Dashboard" ? (
           <>
-            <Widget src="thalesb.near/widget/DashboardLayout" />
+            {!!state.sender ? (
+              <Widget
+                props={{
+                  address: state.sender,
+                }}
+                src="thalespollum.testnet/widget/DashboardLayout"
+              />
+            ) : (
+              <div>Please Connect Your Wallet</div>
+            )}
           </>
         ) : null}
         {activeMenu == "Markets" ? <>Building...</> : null}
