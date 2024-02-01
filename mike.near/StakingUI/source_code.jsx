@@ -397,10 +397,12 @@ const StakeUnstakeWithdrawModal = () => {
       justifyContent: "center",
       alignItems: "center",
       zIndex: 998,
+      cursor: "pointer",
       ...stakingModalDisplayStyles,
     };
 
     const innerDivStyle = {
+      cursor: "auto",
       position: "relative",
       width: "37%",
       height: "auto",
