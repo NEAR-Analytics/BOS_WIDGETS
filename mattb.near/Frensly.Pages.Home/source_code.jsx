@@ -1,10 +1,14 @@
+const $ = VM.require("sdks.near/widget/Loader");
+const { useSharedContext } = $("@sdks/hooks");
+
 const NEARFRENS_LOGO =
   "https://ipfs.near.social/ipfs/bafkreibmkg7wbgfnliss4ow7uy4tn2trd7qejpfjzblhf45p2ffw2ppryu";
 
 const Main = styled.div`
     border-radius:15px;
     overflow:hidden;
-    background: #fff7e9;
+    background: #fff;
+    border: 2px solid rgba(0,0,0,.05);
 `;
 
 const Wrapper = styled.div`
@@ -24,13 +28,20 @@ const Toolbar = styled.div`
       font-size:.8rem;
       font-weight:bold;
       color:#000;
-      background-color: #92dfa7;
+      background-color:#f2f2f2;
+      border:1px solid rgba(0,0,0,.05);
       padding:.5rem 1.2rem;
       transition:all .2s;
 
+      img {
+        max-width:20px;
+        margin-right:5px;
+      }
+
       :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
-        background-color: #87B697;
+        box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+        border:1px solid rgba(0,0,0,.05);
+        background-color:#f2f2f2;
         color:#000;
       }
     }
@@ -39,8 +50,17 @@ const Toolbar = styled.div`
 const Header = styled.div`
     display:flex;
     position:relative;
-    padding:2rem 2rem;
+    padding:3rem 2rem;
     min-width:500px;
+    background-color:rgba(0,0,0,.02);
+    margin:40px 25px 40px;
+    border-radius:20px;
+    align-items:center;
+    
+
+    @media screen and (max-width:850px) {
+      flex-wrap:wrap;
+    }
 
     h1 {
       font-weight:bold;
@@ -52,61 +72,46 @@ const Header = styled.div`
         margin:10px 0 30px;
     }
 
-    div:first-of-type {
-        z-index:1;
+    @keyframes levitate {
+      0% {
+        transform:translateY(0);
+      }
+
+      50% {
+        transform:translateY(5px);
+      }
+
+      100% {
+        transform:translateY(0);
+      }
     }
 
-    .image {
-
-        @keyframes rotate {
-            0% {
-                transform:rotate(0deg);
-            }
-            100% {
-                transform:rotate(360deg);
-            }
-        }
-
-        @keyframes keep {
-            0% {
-                transform:rotate(0deg);
-            }
-            100% {
-                transform:rotate(-180deg);
-            }
-        }
-        
+    div:first-of-type {
         position:relative;
-        width:50%;
-        display:flex;
-        align-items:center;
-        justify-content:flex-start;
-        flex-direction:column;
-        animation-name: rotate;
-        animation-duration: 60s;
-        animation-fill-mode:backwards;
+        z-index:1;
+        width:100%;
+        height:100%;
+        max-width:650px;
+        min-height:300px;
+        animation: levitate 1s;
         animation-iteration-count:infinite;
-        
-        * {
-            animation-name: keep;
-            animation-duration: 60s;
-            animation-delay:0;
-            animation-fill-mode:backwards;
-            animation-iteration-count:infinite;
+        animation-fill-mode:backwards;
+
+        @media screen and (max-width:1050px) {
+          max-width:400px;
         }
-        
-        > img {
-            position:absolute;
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            margin:auto;
-            max-width:200px;
-            opacity:.1;
-            filter:blur(7px);
-            transform:rotate(20deg);
-        }
+    }
+
+    img {
+      position:absolute;
+      width:100%;
+      max-width:500px;
+      top:-30px;
+      left:-100px;
+      right:0;
+      margin:auto;
+      transform:rotate(-10deg);
+      transform-origin: top left;
     }
 `;
 
@@ -202,24 +207,27 @@ const Circle = styled.div`
 `;
 
 const ButtonPrimary = styled.a`
-    background-color: #92dfa7;
-    padding:6.8px 14.8px;
     border-radius:20px;
     font-weight:bold;
     color:#000;
+    background-color:#f2f2f2;
+    border:1px solid rgba(0,0,0,.05);
+    padding:.5rem 1.2rem;
     font-size:13px;
     cursor:pointer;
     transition: all .2s;
+    text-decoration:none!important;
+    margin-right:10px;
     
     :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        box-shadow: 0 0 0 3px rgba(0,0,0,.05);
         transition: all .2s;
         color:#000;
     }
 `;
 
 const ButtonSecondary = styled.a`
-    border:3px solid #92dfa7;
+    border:3px solid rgba(0,0,0,.05);
     padding:4.8px 12.8px;
     border-radius:20px;
     font-weight:bold;
@@ -227,8 +235,9 @@ const ButtonSecondary = styled.a`
     font-size:13px;
     cursor:pointer;
     transition: all .2s;
+
     :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        box-shadow: 0 0 0 3px rgba(0,0,0,.05);
         transition: all .2s;
         color:#000;
     }
@@ -261,6 +270,52 @@ const Logo = styled.div`
     }
 `;
 
+const Search = styled.input`
+  border-radius:20px;
+  color:#000;
+  background-color:#f2f2f2;
+  border:1px solid rgba(0,0,0,.05);
+  padding:0 1rem;
+  font-size:13px;
+  cursor:pointer;
+  transition: all .2s;
+  outline-style:none!important;
+  margin-left:20px;
+  width:230px;
+  height:35px;
+
+  :hover {
+      box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+      transition: all .2s;
+      color:#000;
+  }
+`;
+
+const Menu = styled.div`
+  display:flex;
+  align-items:center;
+`;
+
+const MenuOptions = styled.ul`
+  display:flex;
+  list-style:none;
+  align-items:center;
+  padding:0;
+  margin:0;
+  margin-left:20px;
+`;
+
+const Option = styled.li`
+  padding:5px 15px;
+  border-radius:10px;
+  background-color:rgba(0,0,0,.05);
+  font-size:.8rem;
+
+  :not(:last-of-type) {
+    margin-right:15px;
+  }
+`;
+
 return (
   <>
     <Main>
@@ -280,16 +335,28 @@ return (
       )}
       <Wrapper>
         <Toolbar>
-          <Logo>
-            <img src={NEARFRENS_LOGO} />
-            <p>frensly</p>
-          </Logo>
-          <Web3Connect
-            connectLabel="Connect wallet"
-            disconnectLabel="Disconnect"
-          />
+          <Menu>
+            <Logo>
+              <img src={NEARFRENS_LOGO} />
+            </Logo>
+            <Search type="text" placeholder="Search frens"></Search>
+            <MenuOptions>
+              <Option>Home</Option>
+              <Option>Explore</Option>
+              <Option>NEAR Frens</Option>
+            </MenuOptions>
+          </Menu>
+          <button>
+            <span>
+              <img src="https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i" />
+            </span>
+            Login
+          </button>
         </Toolbar>
         <Header>
+        <div>
+          <img src={NEARFRENS_LOGO} />
+        </div>
           <div>
             <h1>
               Frens are Near
@@ -301,14 +368,13 @@ return (
               Protocol profile
             </p>
             <ButtonPrimary>Discover frens</ButtonPrimary>
-            <ButtonSecondary
+            <ButtonPrimary
               target="_blank"
               href="mattb.near/widget/NearBadger.Pages.Main"
             >
               Verify my profile
-            </ButtonSecondary>
+            </ButtonPrimary>
           </div>
-          <div></div>
         </Header>
         <Widget
           src="mattb.near/widget/NearBadger.Components.RecentlyVerified"
