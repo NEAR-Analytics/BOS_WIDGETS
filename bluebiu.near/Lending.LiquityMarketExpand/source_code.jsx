@@ -239,6 +239,9 @@ const {
   account,
   prices,
   tokenBal,
+  IS_ETHOS_DAPP,
+  multicall,
+  multicallAddress,
 } = props;
 
 const data = props.data || {};
@@ -255,8 +258,10 @@ switch (vesselStatus) {
 console.log("TABS: ", TABS);
 State.init({
   tab: TABS[0],
-  yourLTV: "-",
-  isCollIncrease: true,
+  isCollIncrease: true, // increase or decrease COLL
+  yourLTV: 0,
+  borrowingFee: 0,
+  _maxFeePercentage: 0, //ethos need
 });
 
 useEffect(() => {
@@ -288,6 +293,58 @@ useEffect(() => {
   });
 }, []);
 
+//ethos
+function getVesselManager(_amount) {
+  const abi = [
+    {
+      inputs: [{ internalType: "uint256", name: "_LUSDDebt", type: "uint256" }],
+      name: "getBorrowingFeeWithDecay",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "_LUSDDebt", type: "uint256" }],
+      name: "getBorrowingFee",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+  const _LUSDDebt = ethers.utils.parseUnits(_amount);
+
+  const calls = [
+    {
+      address: dexConfig.VesselManager,
+      name: "getBorrowingFeeWithDecay",
+      params: [_LUSDDebt],
+    },
+    {
+      address: dexConfig.VesselManager,
+      name: "getBorrowingFee",
+      params: [_LUSDDebt],
+    },
+  ];
+
+  multicall({
+    abi,
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      const [[_maxFeePercentageRaw], [_borrowingFeeRaw]] = res;
+      State.update({
+        _maxFeePercentage: _maxFeePercentageRaw,
+        borrowingFee: _borrowingFeeRaw,
+      });
+    })
+    .catch((err) => {
+      console.log("error:", err);
+    });
+}
+
 const onBorrowAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
   const isZero = Big(amount || 0).eq(0);
@@ -298,6 +355,9 @@ const onBorrowAmountChange = (amount) => {
       isBigerThanBalance: false,
     });
     return;
+  }
+  if (IS_ETHOS_DAPP) {
+    getVesselManager(amount);
   }
   const params = { borrowAmount: amount };
 
@@ -353,7 +413,7 @@ useEffect(() => {
       Big(state.borrowAmount || 0).eq(0)
     ) {
       State.update({
-        yourLTV: "-",
+        yourLTV: 0,
       });
       return;
     }
@@ -361,7 +421,7 @@ useEffect(() => {
   if (state.tab === "Adjust") {
     if (!state.amount || isNaN(Number(state.amount))) {
       State.update({
-        yourLTV: "-",
+        yourLTV: 0,
       });
       return;
     }
@@ -424,6 +484,15 @@ return !state.tab ? null : (
                 <div>Your LTV</div>
                 <div className="white">{state.yourLTV}%</div>
               </StyledInfoItem>
+              <StyledInfoItem>
+                <div>Borrowing Fee</div>
+                <div className="white">
+                  {state.borrowingFee
+                    ? ethers.utils.formatUnits(state.borrowingFee)
+                    : "-"}{" "}
+                  {data.BORROW_TOKEN}
+                </div>
+              </StyledInfoItem>
 
               <StyledInfoTips>
                 <img
@@ -446,8 +515,11 @@ return !state.tab ? null : (
                 <div className="white">{state.yourLTV}%</div>
               </StyledInfoItem>
               <StyledInfoItem>
-                <div>{data.underlyingToken?.symbol} Deposited</div>
-                <div className="white">{data.vesselDeposit}</div>
+                <div>Your Collateral</div>
+                <div className="white">
+                  {data.vesselDeposit}
+                  {data.underlyingToken?.symbol}
+                </div>
               </StyledInfoItem>
 
               <StyledInfoTips>
@@ -599,7 +671,7 @@ return !state.tab ? null : (
                     disabled:
                       state.tab === "Close" ? false : !state.buttonClickable,
                     actionText: state.tab,
-                    amount: state.amount,
+                    ...props,
                     data: {
                       ...data,
                       config: dexConfig,
@@ -615,6 +687,7 @@ return !state.tab ? null : (
                     yourLTV: state.yourLTV,
                     _assetAmount: state.amount,
                     _debtTokenAmount: state.borrowAmount,
+                    _maxFeePercentage: state._maxFeePercentage,
                     onApprovedSuccess: () => {
                       if (!state.gas) state.getTrade();
                     },
@@ -632,14 +705,13 @@ return !state.tab ? null : (
                   props={{
                     disabled: !state.buttonClickable,
                     actionText: state.tab,
+                    ...props,
                     data: {
                       ...data,
                       config: dexConfig,
                     },
                     isBigerThanBalance: state.isBigerThanBalance,
-                    addAction,
-                    toast,
-                    chainId,
+                    _maxFeePercentage: state._maxFeePercentage,
                     isCollIncrease: state.isCollIncrease,
                     unsignedTx: state.unsignedTx,
                     isError: state.isError,
