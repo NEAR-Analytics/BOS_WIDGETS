@@ -53,13 +53,4 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
       );
 };
 
-const { Toolbar } = useSharedContext({
-  with: [State, state],
-  from: [`mattb.near/widget/Frensly.Components.Toolbar`],
-});
-
-return (
-  <>
-    <Toolbar></Toolbar>
-  </>
-);
+return useSharedContext;
