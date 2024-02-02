@@ -45,27 +45,7 @@ return (
   <Widget
     src="buildhub.near/widget/components.AsideWithMainContent"
     props={{
-      sideContent: Object.keys(feeds || {}).map((route) => {
-        const data = feeds[route];
-        return (
-          <ButtonLink
-            id={route}
-            variant={activeFeed === route ? "primary" : "outline"}
-            href={`/feed?tab=${route}`}
-            className={
-              "align-self-stretch flex-shrink-0 justify-content-start fw-medium"
-            }
-            style={{
-              fontSize: "14px",
-              textDecoration: "none",
-              cursor: "pointer",
-            }}
-          >
-            <i className={`bi ${data.icon} `}></i>
-            {data.label}
-          </ButtonLink>
-        );
-      }),
+      sideContent: null,
       mainContent: (
         <>
           {context.accountId ? (
