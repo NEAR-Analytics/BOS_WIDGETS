@@ -637,7 +637,7 @@ return (
                   Big(state.wrapFee)
                     .div(10000)
                     .times(state.wrapAmount)
-                    .toFixed(config.neatDecimals)
+                    .toFixed(config.neatDecimals, 0)
                 )
                 .toFixed()
             : state.wrapAmount,
@@ -655,7 +655,7 @@ return (
         ? Big(state.wrapFee ?? 0)
             .div(10000)
             .times(state.wrapAmount)
-            .toFixed(config.neatDecimals)
+            .toFixed(config.neatDecimals, 0)
         : Big(0).toFixed(config.neatDecimals)}
       )
     </WrapFee>
