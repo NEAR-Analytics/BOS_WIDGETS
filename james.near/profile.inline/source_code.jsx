@@ -31,7 +31,7 @@ return (
         <Widget
           loading=""
           src="james.near/widget/BuilderHat"
-          props={{ accountId, isBuilder: true }}
+          props={{ accountId }}
         />
         <small>
           <span className="font-monospace ms-1">@{accountId}</span>
@@ -50,7 +50,6 @@ return (
             ))}
           </>
         )}
-        {!props.hideDescription && description}
       </div>
     </div>
   </div>
