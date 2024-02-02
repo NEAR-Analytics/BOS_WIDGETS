@@ -22,7 +22,7 @@ return (
     <div style={{ width: "300px", paddingLeft: "20px" }}>
       {" "}
       {/* Adjust width and padding as needed */}
-      <Widget src="mob.near/widget/Welcome.RHS" props={props} />
+      <Widget src="create.near/widget/Followers" props={props} />
     </div>
   </div>
 );
