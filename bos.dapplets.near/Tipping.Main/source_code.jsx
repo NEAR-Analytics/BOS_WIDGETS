@@ -239,7 +239,7 @@ const onClick = () => {
   debouncedDonate();
 };
 
-const LikeButton = styled.button`
+const TippingButton = styled.button`
   display: flex;
   position: relative;
   width: 85px;
@@ -317,11 +317,18 @@ const LikeButton = styled.button`
     }
   
     @keyframes waitingAnimation {
-      from {
+      0% {
+        background: none;
         border-color: #C1C6CE;
         color: #5B7083;
       }
-      to {
+      98% {
+        background: none;
+        border-color: #3D7FFF;
+        color: white;
+      }
+      100% {
+        background: rgb(61, 127, 255);
         border-color: #3D7FFF;
         color: white;
       }
@@ -345,7 +352,7 @@ const createLabel = () => {
 }
 
 return (
-    <LikeButton
+    <TippingButton
       disabled={state.disabled}
       title={state.tooltip}
       onMouseEnter={() => State.update({ isHovered: true })}
@@ -361,5 +368,5 @@ return (
         {createLabel()}
         <Widget src="bos.dapplets.near/widget/Tipping.NearIcon" />
       </div>
-    </LikeButton>
+    </TippingButton>
 );
