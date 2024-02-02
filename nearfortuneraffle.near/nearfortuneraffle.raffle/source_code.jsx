@@ -35,9 +35,8 @@ const Modal = ({ isOpen, onClose }) => {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     zIndex: 3,
 
-    "@media (max-width: 600px)": {
-      width: "90%",
-      maxWidth: "95%",
+    "@media screen and (max-width: 768px)": {
+      width: "100%",
     },
   };
 
@@ -162,9 +161,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     zIndex: 3,
 
-    "@media (max-width: 600px)": {
-      width: "90%",
-      maxWidth: "95%",
+    "@media screen and (max-width: 768px)": {
+      width: "100%",
     },
   };
 
@@ -197,6 +195,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
           - Kano is bos jollof - 1 <br />
+          - Kano is bos jollof - 2 <br />
           - Black Dragon Token - 652 <br />
           - Black Dragon Token - 531 <br />- ShardDog - 1555
         </div>
@@ -375,6 +374,7 @@ const nftTitle = "Kano is bos jollof - 1";
 const nftTitle2 = "Black Dragon Token - 652";
 const nftTitle3 = "ShardDog - 1555";
 const nftTitle4 = "Kano is bos jollof - 2";
+const nftTitle5 = "Black Dragon Token - 531";
 
 console.log(nfts[0].metadata.title);
 
@@ -386,7 +386,8 @@ for (let i = 0; i < nfts.length; i++) {
     nfts[i].metadata.title === nftTitle ||
     nfts[i].metadata.title === nftTitle2 ||
     nfts[i].metadata.title === nftTitle3 ||
-    nfts[i].metadata.title === nftTitle4
+    nfts[i].metadata.title === nftTitle4 ||
+    nfts[i].metadata.title === nftTitle5
   ) {
     State.update({ nftCheck: true });
     break;
