@@ -98,6 +98,7 @@ const {
   IS_PREON_DAPP,
   IS_GRAVITA_DAPP,
   _maxFeePercentage,
+  GAS_LIMIT_RECOMMENDATIONS,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -269,10 +270,10 @@ if (Big(_debtTokenAmount || 0).lt(data["MIN_DEBT"])) {
   );
 }
 
-if (Big(yourLTV).gt(data.MAX_LTV)) {
+if (Big(yourLTV).gt(Big(data.MAX_LTV).mul(100))) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
-      LTV must be below {data.MAX_LTV}%
+      LTV must be below {Big(data.MAX_LTV).mul(100).toFixed(2)}%
     </Button>
   );
 }
@@ -424,7 +425,7 @@ function makeOpenContract() {
     );
 
     return contract.openVessel(...params, {
-      gasLimit: 4000000,
+      gasLimit: GAS_LIMIT_RECOMMENDATIONS["borrow"].limit,
     });
   }
 
