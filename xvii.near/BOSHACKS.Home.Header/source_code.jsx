@@ -28,6 +28,6 @@ const Container = styled.div`
 return (
   <Container>
     <h1>The Near Certified Researcher Course</h1>
-    <p>Starting September 27th, 2023</p>
+    <p>Starting February 27th, 2024</p>
   </Container>
 );
