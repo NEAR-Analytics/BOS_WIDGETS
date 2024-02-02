@@ -120,7 +120,7 @@ const Search = styled.input`
 `;
 
 return (State, store, { Route }) => {
-  Route = Route || ((props) => <>{props.children}</>);
+  Route = Route || styled.div``;
 
   return (
     <Toolbar>
