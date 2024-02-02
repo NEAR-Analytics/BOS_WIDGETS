@@ -298,14 +298,14 @@ function getVesselManager(_amount) {
   const abi = [
     {
       inputs: [{ internalType: "uint256", name: "_LUSDDebt", type: "uint256" }],
-      name: "getBorrowingFeeWithDecay",
+      name: "getBorrowingFee",
       outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
       stateMutability: "view",
       type: "function",
     },
     {
-      inputs: [{ internalType: "uint256", name: "_LUSDDebt", type: "uint256" }],
-      name: "getBorrowingFee",
+      inputs: [],
+      name: "getBorrowingRateWithDecay",
       outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
       stateMutability: "view",
       type: "function",
@@ -316,8 +316,8 @@ function getVesselManager(_amount) {
   const calls = [
     {
       address: dexConfig.VesselManager,
-      name: "getBorrowingFeeWithDecay",
-      params: [_LUSDDebt],
+      name: "getBorrowingRateWithDecay",
+      params: [],
     },
     {
       address: dexConfig.VesselManager,
