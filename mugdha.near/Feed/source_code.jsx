@@ -24,9 +24,9 @@ function formatDate(date) {
 
 const feeds = {
   graders: {
-    label: "12th graders",
+    label: "12th-graders",
     icon: "bi-calendar3",
-    name: "12th graders",
+    name: "12th-graders",
     hashtag: "graders",
     template: `
 `,
