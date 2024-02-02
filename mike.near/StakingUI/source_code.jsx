@@ -159,7 +159,6 @@ function parseNearAmount(amt) {
 
 function createValidatorQueries(validators) {
   let accountId = context.accountId;
-  console.log("aloha top of createValidatorQueries. accountId", accountId);
 
   if (!!!accountId) return;
   // Take into account the component loading, honestly
@@ -261,8 +260,13 @@ function createValidatorQueries(validators) {
 // It seems like using VM.require and useEffect is odd, so I am using a normal function here
 const start = () => {
   // if it hasn't loaded the external widget yet, return
-  if (!!!mainnetValidators) return;
-  setStarted(true);
+  if (!!!mainnetValidators) {
+    console.log("aloha start, mainnetValidators not ready");
+    return;
+  } else {
+    console.log("aloha start, mainnetValidators not ready");
+    setStarted(true);
+  }
   // kick off the useEffect below
 };
 
@@ -404,8 +408,8 @@ const rangedRows = useMemo(
   [validatorStakingDetails]
 );
 
-if (!!!accountId) {
-  console.log("aloha if", accountId);
+if (!!accountId) {
+  // console.log('aloha if');
 
   return (
     <div>
@@ -413,7 +417,7 @@ if (!!!accountId) {
     </div>
   );
 } else {
-  console.log("aloha else", accountId);
+  // console.log('aloha else');
 
   return (
     <div
