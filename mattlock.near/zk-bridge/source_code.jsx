@@ -145,7 +145,7 @@ if (!state.chainId) {
         log = depositDisabledMsg;
         depositDisabled = true;
       }
-      State.update({ chainId, network, log });
+      State.update({ chainId, network, log, depositDisabled });
     });
   return "";
 }
@@ -662,6 +662,10 @@ const handleWithdraw = (data) => {
     .catch(catchApproveError);
 };
 
+const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const { deposit, withdraw } = state;
+
 // balances
 
 const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
@@ -692,10 +696,6 @@ const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
       callback(balance);
     });
 };
-
-const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
-const clone = (o) => JSON.parse(JSON.stringify(o));
-const { deposit, withdraw } = state;
 
 if (sender && !state.balancesUpdated) {
   // l1
