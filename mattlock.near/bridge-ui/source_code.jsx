@@ -280,6 +280,7 @@ const renderTxLink = (tx, isL1) => {
 };
 
 const renderTx = (tx, i, isL1) => {
+  console.log("isL1", isL1);
   const { transactionHash: h, finalized, isEth } = tx;
   return (
     <>
