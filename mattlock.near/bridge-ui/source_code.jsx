@@ -303,7 +303,6 @@ const renderTx = (tx, i, isL1) => {
     </>
   );
 };
-const renderTxL1 = (tx, i) => renderTx(tx, i, true);
 
 // console.log("deposit", deposit);
 // console.log("withdraw", withdraw);
@@ -445,9 +444,13 @@ return (
     <div className="p-4 d-grid gap-3">
       <div>
         <h4 style={{ marginTop: 16 }}>Withdrawals: {allWithdrawals.length}</h4>
-        <div className="tx-list">{allWithdrawals.map(renderTx)}</div>
+        <div className="tx-list">
+          {allWithdrawals.map((tx, i) => renderTx(tx, i, false))}
+        </div>
         <h4 style={{ marginTop: 16 }}>Deposits: {allDeposits.length}</h4>
-        <div className="tx-list">{allDeposits.map(renderTxL1)}</div>
+        <div className="tx-list">
+          {allDeposits.map((tx, i) => renderTx(tx, i, true))}
+        </div>
       </div>
     </div>
   </Theme>
