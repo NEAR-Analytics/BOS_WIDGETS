@@ -18,8 +18,7 @@ State.init({
   show: false,
 });
 
-const overlayClassName =
-  props.overlayClassName ?? "border m-2 p-2 rounded-4 bg-dark";
+const overlayClassName = props.overlayClassName ?? "m-2 p-2 rounded-4 bg-dark";
 const overlayStyle = props.overlayStyle ?? { maxWidth: "24em", zIndex: 1070 };
 
 const overlay = (
