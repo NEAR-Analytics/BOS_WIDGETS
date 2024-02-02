@@ -87,7 +87,7 @@ function renderDom() {
         </Asset>
       );
     case "MAX_LTV":
-      return <Symbol>{amount}%</Symbol>;
+      return <Symbol>{Big(amount).mul(100).toFixed(2)}%</Symbol>;
     case "ONE_TIME_FEE":
       return <Symbol>{Big(amount).toFixed(2)}% or less</Symbol>;
     case "MIN_DEBT":
