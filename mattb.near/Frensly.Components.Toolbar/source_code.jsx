@@ -134,7 +134,7 @@ return (State, store, { Route }) => {
         <MenuOptions>
           {routeMap.map((route) => (
             <li>
-              <Route to={route.to}>{route.name}</Route>
+              <Route props={{ to: route.to }}>{route.name}</Route>
             </li>
           ))}
         </MenuOptions>
