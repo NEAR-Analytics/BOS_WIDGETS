@@ -66,7 +66,6 @@ const {
   log,
   explorerLink,
   tokens,
-  tab,
   L1ExplorerLink,
   L2ExplorerLink,
 } = props;
@@ -266,12 +265,12 @@ const Theme = styled.div`
     }
 `;
 
-const renderTxLink = (tx) => {
+const renderTxLink = (tx, isL1) => {
   let link = `https://${
     network === "testnet" ? "goerli." : ""
   }explorer.zksync.io/tx/${tx}`;
   if (L1ExplorerLink || L2ExplorerLink) {
-    link = tab === "deposit" ? L1ExplorerLink + tx : L2ExplorerLink + tx;
+    link = isL1 ? L1ExplorerLink + tx : L2ExplorerLink + tx;
   }
   return (
     <a href={link} target="_blank">
@@ -280,13 +279,13 @@ const renderTxLink = (tx) => {
   );
 };
 
-const renderTx = (tx, i) => {
+const renderTx = (tx, i, isL1) => {
   const { transactionHash: h, finalized, isEth } = tx;
   return (
     <>
       <p style={{ textAlign: "left" }}>
         {isEth ? "ETH " : "USDC"}
-        {renderTxLink(h)}
+        {renderTxLink(h, isL1)}
         {typeof finalized === "boolean" && (
           <>
             <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
@@ -303,6 +302,7 @@ const renderTx = (tx, i) => {
     </>
   );
 };
+const renderTxL1 = (tx, i) => renderTx(tx, i, true);
 
 // console.log("deposit", deposit);
 // console.log("withdraw", withdraw);
@@ -446,7 +446,7 @@ return (
         <h4 style={{ marginTop: 16 }}>Withdrawals: {allWithdrawals.length}</h4>
         <div className="tx-list">{allWithdrawals.map(renderTx)}</div>
         <h4 style={{ marginTop: 16 }}>Deposits: {allDeposits.length}</h4>
-        <div className="tx-list">{allDeposits.map(renderTx)}</div>
+        <div className="tx-list">{allDeposits.map(renderTxL1)}</div>
       </div>
     </div>
   </Theme>
