@@ -178,6 +178,23 @@ function fetchTokenInfoAsync(token) {
   });
 }
 
+function fetchOwnTokenInfosAsync(creatorId) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos(where:{creatorId:"${creatorId}"}) {
+        ticker
+        decimals
+        limit
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
 function getBalance() {
   const accountId = props.accountId || context.accountId;
   return asyncFetchFromGraph(`
@@ -219,6 +236,33 @@ function getBalances() {
       return balanceResponse.body.data.holderInfos;
     }
     return undefined;
+  });
+}
+
+function getFtWrappers() {
+  return Near.asyncView(config.ftWrapperFactory, "get_ft_wrappers", {
+    offset: 0,
+    limit: 1000,
+  });
+}
+function getNep141Balance(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getWrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_wrap_fee_rate", {
+    account_id: accountId,
+  });
+}
+
+function getUnwrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_unwrap_fee_rate", {
+    account_id: accountId,
   });
 }
 
@@ -313,10 +357,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.near",
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
         minMintEvents: 1_000_000,
         minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
@@ -337,10 +383,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.testnet",
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
         minMintEvents: 10,
         minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -353,6 +401,10 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
 
 function formatProgress(tokenInfo) {
   return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
@@ -437,6 +489,19 @@ function shortNearAddress(accountId) {
   }
 }
 
+if (!state.registeredTokenContracts) {
+  getFtWrappers().then((subcontracts) => {
+    const contract = subcontracts.find(
+      (contract) => contract.split(".")[0] === props.tick.toLowerCase()
+    );
+    const hasRegistered = !!contract;
+    State.update({
+      hasRegistered,
+      registeredTokenContracts: subcontracts,
+    });
+  });
+}
+
 return (
   <FormFragment>
     <NRC20Header>
@@ -459,6 +524,15 @@ return (
             }`}
           >
             Transfer
+          </TopButton>
+        )}
+        {state.balance && state.hasRegistered && (
+          <TopButton
+            href={`/${config.ownerId}/widget/NRC-20?tab=wrap${
+              tick ? `&tick=${tick}` : ""
+            }`}
+          >
+            Wrap
           </TopButton>
         )}
       </TopButtonGroup>
