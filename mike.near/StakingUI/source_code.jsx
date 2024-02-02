@@ -264,7 +264,7 @@ const start = () => {
     console.log("aloha start, mainnetValidators not ready");
     return;
   } else {
-    console.log("aloha start, mainnetValidators not ready");
+    console.log("aloha start, mainnetValidators TOTALLY ready");
     setStarted(true);
   }
   // kick off the useEffect below
