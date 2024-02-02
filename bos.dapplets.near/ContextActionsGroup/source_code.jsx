@@ -38,7 +38,6 @@ const handleApplyClick = () => {
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
-  position: relative;
   z-index: 500;
 
   .OverlayTrigger {
