@@ -254,7 +254,7 @@ if (!initialized && sort) {
 return (
   <>
     <Widget
-      src="near/widget/Posts.Feed"
+      src="${REPL_NEAR}/widget/Posts.Feed"
       props={{
         hasMore,
         isLoading,
