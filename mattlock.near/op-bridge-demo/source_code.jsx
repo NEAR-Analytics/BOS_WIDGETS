@@ -4,6 +4,7 @@ TODO
 [x] store all abis in gist
 [x] use a block range op sepolia RPC (blockpi) for subsequent calls after tenderly
 [x] get balances for eth on all networks
+[] clean up network contracts and remove top level contract addresses and contract instances
 [] clean up withdraw and deposits, only get proof data when user clicks something?
 [] add erc20 deposit for usdc
 [] add erc20 withdrawal for usdc
@@ -12,7 +13,6 @@ TODO
 [] add ability to prove and claim withdrawals to bridge-ui
 */
 
-// Sepolia
 const L1StandardBridgeProxy = `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`;
 const L2StandardBridge = "0x4200000000000000000000000000000000000010";
 const ETH_ADDR = "0x0000000000000000000000000000000000000000";
@@ -93,6 +93,7 @@ if (!state.initialized) {
     ethDeposits: [],
     ethWithdrawals: [],
     tokens: [],
+    tab: "deposit",
   });
   return "";
 }
@@ -131,7 +132,15 @@ if (!state.chainId) {
         network = "mainnet";
       }
       console.log("chainId", chainId, network);
-      State.update({ chainId, network });
+
+      const L1ExplorerLink = `https://${
+        network === "testnet" ? "sepolia." : ""
+      }etherscan.io/tx/`;
+      const L2ExplorerLink = `https://${
+        network === "testnet" ? "sepolia-optimism." : "optimistic"
+      }etherscan.io/tx/`;
+
+      State.update({ chainId, network, L1ExplorerLink, L2ExplorerLink });
     })
     .catch((e) => {
       console.log(e);
@@ -236,8 +245,6 @@ if (sender && chainId && !state.initLogs) {
   State.update({ initLogs: true });
 
   function getEthWithdrawals() {
-    console.log("getETHWithdrawals");
-
     const ethWithdrawals = [];
 
     L2StandardBridgeContract.queryFilter(
@@ -357,7 +364,6 @@ if (sender && chainId && !state.initLogs) {
   }
 
   function getEthDeposits() {
-    console.log("getEthDeposits");
     L1StandardBridgeProxyContract.queryFilter(
       L1StandardBridgeProxyContract.filters.ETHDepositInitiated(
         sender,
@@ -367,6 +373,9 @@ if (sender && chainId && !state.initLogs) {
       )
     ).then((events) => {
       console.log("deposit events", events);
+      State.update({
+        ethDeposits: events,
+      });
     });
   }
 
@@ -727,7 +736,7 @@ const onTabChange = (tab) => {
 };
 
 const allWithdrawals = [...state.ethWithdrawals];
-const allDeposits = [];
+const allDeposits = [...state.ethDeposits];
 
 return (
   <>
