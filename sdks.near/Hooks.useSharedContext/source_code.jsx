@@ -5,6 +5,16 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
     initialized: false,
   });
 
+  const checkLoaded = () =>
+    setTimeout(() => {
+      if (
+        Object.keys(status.app) &&
+        typeof status.app[Object.keys(status.app).pop()] === "function"
+      ) {
+        Store.update({ loaded: true });
+      }
+    }, 300);
+
   if (!status.initialized) {
     Store.update({
       app: Object.fromEntries(
@@ -15,11 +25,12 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
         })
       ),
       initialized: true,
-      loaded:
-        (Object.keys(status.app) &&
-          typeof status.app[Object.keys(status.app).pop()] === "function") ||
-        false,
+      loaded: false,
     });
+  }
+
+  if (!status.loaded) {
+    checkLoaded();
   }
 
   return status.loaded
