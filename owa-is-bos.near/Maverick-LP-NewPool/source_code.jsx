@@ -1926,21 +1926,26 @@ return (
                     ? state.tokenABalance && state.tokenBBalance
                       ? state.need2Tokens
                         ? state.amountInputTokenA > 0 &&
-                          state.amountInputTokenB > 0
+                          state.amountInputTokenA < state.tokenABalance.fixed &&
+                          state.amountInputTokenB > 0 &&
+                          state.amountInputTokenB < state.tokenBBalance.fixed
                           ? validateButton
                           : validateButtonDisabled
-                        : state.amountInputTokenB > 0
+                        : state.amountInputTokenB > 0 &&
+                          state.amountInputTokenB < state.tokenBBalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.poolModeSelected.id == 1
                     ? state.tokenABalance
-                      ? state.amountInputTokenA > 0
+                      ? state.amountInputTokenA > 0 &&
+                        state.amountInputTokenA < state.tokenABalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.tokenBBalance
-                    ? state.amountInputTokenB > 0
+                    ? state.amountInputTokenB > 0 &&
+                      state.amountInputTokenB < state.tokenBBalance.fixed
                       ? validateButton
                       : validateButtonDisabled
                     : validateButtonDisabled
