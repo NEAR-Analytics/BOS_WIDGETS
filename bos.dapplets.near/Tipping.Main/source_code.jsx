@@ -244,6 +244,7 @@ const LikeButton = styled.button`
   position: relative;
   width: 85px;
   height: 18px;
+  padding: 0;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
@@ -282,6 +283,7 @@ const LikeButton = styled.button`
     align-items: center;
     gap: 6px;
     flex-shrink: 0;
+    white-space: nowrap;
   }
 
   &:not([disabled]) {
