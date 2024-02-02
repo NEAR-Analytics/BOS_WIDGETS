@@ -945,7 +945,7 @@ return (
           balance: state.supplyBalance,
           type: "supply",
         }}
-        src="thalespollum.testnet/widget/Input"
+        src="thalesb.near/widget/Input"
       />
     </GridItem>
 
@@ -958,7 +958,7 @@ return (
           balance: 0,
           type: "borrow",
         }}
-        src="thalespollum.testnet/widget/Input"
+        src="thalesb.near/widget/Input"
       />
     </GridItem>
 
