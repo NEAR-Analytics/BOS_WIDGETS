@@ -355,7 +355,7 @@ useEffect(() => {
       });
   };
   const getAmountOut = () => {
-    let max = {};
+    let max = null;
     results.forEach((result) => {
       if (
         Big(Number(result.amountOut._hex)).gt(Number(max.amountOut?._hex) || 0)
@@ -363,7 +363,14 @@ useEffect(() => {
         max = result;
       }
     });
-    getTransaction(max);
+    if (max) {
+      getTransaction(max);
+    } else {
+      onLoad({
+        outputCurrencyAmount: "",
+        noPair: true,
+      });
+    }
   };
 
   const getTransaction = (result) => {
