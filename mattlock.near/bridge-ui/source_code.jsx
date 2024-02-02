@@ -267,18 +267,14 @@ const Theme = styled.div`
 `;
 
 const renderTxLink = (tx) => {
+  let link = `https://${
+    network === "testnet" ? "goerli." : ""
+  }explorer.zksync.io/tx/${tx}`;
   if (L1ExplorerLink || L2ExplorerLink) {
-    return tab === "deposit" ? L1ExplorerLink + tx : L2ExplorerLink + tx;
+    link = tab === "deposit" ? L1ExplorerLink + tx : L2ExplorerLink + tx;
   }
-  const isZk =
-    chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID;
   return (
-    <a
-      href={`https://${
-        network === "testnet" ? "goerli." : ""
-      }explorer.zksync.io/tx/${tx}`}
-      target="_blank"
-    >
+    <a href={link} target="_blank">
       {tx.substring(0, 6)} ... {tx.substring(tx.length - 4)}
     </a>
   );
