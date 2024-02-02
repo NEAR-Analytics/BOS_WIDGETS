@@ -66,6 +66,9 @@ const {
   log,
   explorerLink,
   tokens,
+  tab,
+  L1ExplorerLink,
+  L2ExplorerLink,
 } = props;
 if (!tokens) {
   tokens = {
@@ -264,6 +267,9 @@ const Theme = styled.div`
 `;
 
 const renderTxLink = (tx) => {
+  if (L1ExplorerLink || L2ExplorerLink) {
+    return tab === "deposit" ? L1ExplorerLink + tx : L2ExplorerLink + tx;
+  }
   const isZk =
     chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID;
   return (
