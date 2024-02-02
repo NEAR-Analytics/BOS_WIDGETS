@@ -201,16 +201,20 @@ const Icons = {
   ),
 };
 
-const { defaultTab, menuConfig, ...restProps } = props;
-
+const { defaultTab, menuConfig, activeTab, onReset, ...restProps } = props;
 const activeMenu =
-  Storage.privateGet(`${props.chainId}_CachedActiveMenu`) ||
-  defaultTab ||
-  "Lending";
+  Storage.privateGet(`${props.chainId}_CachedActiveMenu`) || defaultTab;
 
 function changeTab(_menu) {
   Storage.privateSet(`${props.chainId}_CachedActiveMenu`, _menu);
 }
+
+useEffect(() => {
+  if (activeTab) {
+    changeTab(activeTab);
+    onReset();
+  }
+}, [activeTab]);
 
 return (
   <Layout>
@@ -223,6 +227,7 @@ return (
               changeTab(menu.tab);
             }}
             className={`item ${activeMenu == menu.tab ? "active" : ""}`}
+            data-bp="10014-001"
           >
             <span className="icon">{Icons[menu.tab]}</span>
             {menu.tab}
