@@ -1,6 +1,6 @@
-const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 const { useQuery } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 useQuery || (useQuery = () => {});
@@ -25,7 +25,7 @@ if (!kanbanBoards || !data?.metadata) {
 
 return (
   <Widget
-    src={`thomasguntenaar.near/widget/devhub.entity.addon.${data.metadata.type}`}
+    src={`${REPL_DEVHUB}/widget/devhub.entity.addon.${data.metadata.type}`}
     props={{
       ...data,
       isConfiguratorActive: false,
