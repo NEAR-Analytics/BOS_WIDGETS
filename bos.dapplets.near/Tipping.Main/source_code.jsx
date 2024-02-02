@@ -244,6 +244,7 @@ const LikeButton = styled.button`
   position: relative;
   width: 85px;
   height: 18px;
+  margin-left: 8px;
   padding: 0;
   align-items: center;
   flex-shrink: 0;
@@ -344,7 +345,6 @@ const createLabel = () => {
 }
 
 return (
-  <div className="d-inline-flex align-items-center">
     <LikeButton
       disabled={state.disabled}
       title={state.tooltip}
@@ -362,5 +362,4 @@ return (
         <Widget src="bos.dapplets.near/widget/Tipping.NearIcon" />
       </div>
     </LikeButton>
-  </div>
 );
