@@ -1,6 +1,8 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { useSharedContext } = $("@sdks/hooks");
 
+const OWNER = "mattb.near";
+
 const NEARFRENS_LOGO =
   "https://ipfs.near.social/ipfs/bafkreibmkg7wbgfnliss4ow7uy4tn2trd7qejpfjzblhf45p2ffw2ppryu";
 
@@ -14,37 +16,6 @@ const Main = styled.div`
 const Wrapper = styled.div`
     position:relative;
     min-height:100vh;
-`;
-
-const Toolbar = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:1.8rem 1.8rem 0;
-
-    button {
-      border-radius:30px;
-      border:0;
-      font-size:.8rem;
-      font-weight:bold;
-      color:#000;
-      background-color:#f2f2f2;
-      border:1px solid rgba(0,0,0,.05);
-      padding:.5rem 1.2rem;
-      transition:all .2s;
-
-      img {
-        max-width:20px;
-        margin-right:5px;
-      }
-
-      :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.05);
-        border:1px solid rgba(0,0,0,.05);
-        background-color:#f2f2f2;
-        color:#000;
-      }
-    }
 `;
 
 const Header = styled.div`
@@ -251,70 +222,10 @@ const Modal = styled.div`
     z-index:2;
 `;
 
-const Logo = styled.div`
-    display:flex;
-    align-items:flex-end;
-    justify-content:flex-end;
-    
-    img {
-       max-width:60px;
-    }
-
-    p {
-        padding:0;
-        margin:0;
-        font-size:1.6rem;
-        font-weight:bold;
-        margin-left:10px;
-        text-decoration:underline;
-    }
-`;
-
-const Search = styled.input`
-  border-radius:20px;
-  color:#000;
-  background-color:#f2f2f2;
-  border:1px solid rgba(0,0,0,.05);
-  padding:0 1rem;
-  font-size:13px;
-  cursor:pointer;
-  transition: all .2s;
-  outline-style:none!important;
-  margin-left:20px;
-  width:230px;
-  height:35px;
-
-  :hover {
-      box-shadow: 0 0 0 3px rgba(0,0,0,.05);
-      transition: all .2s;
-      color:#000;
-  }
-`;
-
-const Menu = styled.div`
-  display:flex;
-  align-items:center;
-`;
-
-const MenuOptions = styled.ul`
-  display:flex;
-  list-style:none;
-  align-items:center;
-  padding:0;
-  margin:0;
-  margin-left:20px;
-`;
-
-const Option = styled.li`
-  padding:5px 15px;
-  border-radius:10px;
-  background-color:rgba(0,0,0,.05);
-  font-size:.8rem;
-
-  :not(:last-of-type) {
-    margin-right:15px;
-  }
-`;
+const { Toolbar } = useSharedContext({
+  with: [State, state],
+  from: [`${OWNER}/widget/Frensly.Components.Toolbar`],
+});
 
 return (
   <>
@@ -334,29 +245,11 @@ return (
         </Modal>
       )}
       <Wrapper>
-        <Toolbar>
-          <Menu>
-            <Logo>
-              <img src={NEARFRENS_LOGO} />
-            </Logo>
-            <Search type="text" placeholder="Search frens"></Search>
-            <MenuOptions>
-              <Option>Home</Option>
-              <Option>Explore</Option>
-              <Option>NEAR Frens</Option>
-            </MenuOptions>
-          </Menu>
-          <button>
-            <span>
-              <img src="https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i" />
-            </span>
-            Login
-          </button>
-        </Toolbar>
+        <Toolbar></Toolbar>
         <Header>
-        <div>
-          <img src={NEARFRENS_LOGO} />
-        </div>
+          <div>
+            <img src={NEARFRENS_LOGO} />
+          </div>
           <div>
             <h1>
               Frens are Near
