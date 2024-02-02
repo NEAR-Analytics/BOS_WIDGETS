@@ -18,8 +18,12 @@ const RoutesManager = (Store, status, routes, { page }) => {
         Router,
         RouterView: () => Router.get("state").currentView || null,
         Route: (props) => {
-            console.log(props);
-            return <a href="#" onClick={() => Router.changeRoute(to)}>
+            let search = (obj, index) => {
+                return index in obj ? search(obj, index) : obj;
+            };
+            let params = search(props, "props");
+            
+            return <a href="#" onClick={() => Router.changeRoute(params.to)}>
                 {props.children}
             </a>;
         },
