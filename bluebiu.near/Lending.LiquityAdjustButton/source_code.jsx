@@ -158,10 +158,10 @@ if (isBigerThanBalance) {
 //   );
 // }
 
-if (Big(yourLTV || 0).gt(data.MAX_LTV)) {
+if (Big(yourLTV || 0).gt(Big(data.MAX_LTV).mul(100))) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
-      LTV must be below {data.MAX_LTV}%
+      LTV must be below {Big(data.MAX_LTV).mul(100).toFixed()}%
     </Button>
   );
 }
@@ -185,7 +185,7 @@ const getAllowance = () => {
           allowanceRaw._hex,
           data.underlyingToken.decimals
         )
-      ).lt(_assetAmount || "0"),
+      ).lt(Big(_assetAmount || 0)),
     });
   });
 };
@@ -429,24 +429,22 @@ function handleAdjust() {
 }
 
 return (
-  <>
-    <Button
-      disabled={state.pending || disabled || estimating || !state.isGasEnough}
-      className={actionText.toLowerCase()}
-      onClick={handleAdjust}
-    >
-      {state.pending || estimating ? (
-        <Widget
-          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-          props={{
-            size: 16,
-          }}
-        />
-      ) : !state.isGasEnough ? (
-        `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
-      ) : (
-        actionText
-      )}
-    </Button>
-  </>
+  <Button
+    disabled={state.pending || disabled || estimating || !state.isGasEnough}
+    className={actionText.toLowerCase()}
+    onClick={handleAdjust}
+  >
+    {state.pending || estimating ? (
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+    ) : !state.isGasEnough ? (
+      `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
+    ) : (
+      actionText
+    )}
+  </Button>
 );
