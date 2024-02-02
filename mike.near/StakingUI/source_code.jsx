@@ -1,5 +1,9 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
 
+console.log(
+  "aloha this is the latest version, which should not appear on stake.mikedotexe.com"
+);
+
 const openAnotherModal = (validatorAddress, amount) => {
   Near.call(validatorAddress, "unstake", { amount });
 };
