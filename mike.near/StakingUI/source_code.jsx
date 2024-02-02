@@ -403,175 +403,191 @@ const rangedRows = useMemo(
   [validatorStakingDetails]
 );
 
-return (
-  <div
-    style={{
-      fontFamily: "'Lucida Console', Monaco, monospace",
-      padding: "6px",
-    }}
-  >
-    <LoadingModal />
-    <StakeUnstakeWithdrawModal />
+if (!!accountId) {
+  // console.log('aloha if');
+
+  return (
     <div>
+      <p>Please login</p>
+    </div>
+  );
+} else {
+  // console.log('aloha else');
+
+  return (
+    <div
+      style={{
+        fontFamily: "'Lucida Console', Monaco, monospace",
+        padding: "6px",
+      }}
+    >
+      <LoadingModal />
+      <StakeUnstakeWithdrawModal />
       <h1 style={{ color: "#fff" }}>Staking</h1>
       <div>
-        <h3>Highlighted</h3>
-        <div
-          className="faux-table"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            margin: "6px 0",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+        <div>
+          <div>
+            <h3>Highlighted</h3>
             <div
-              className="faux-table-header"
+              className="faux-table"
               style={{
                 display: "flex",
-                borderRadius: "6px 6px 0 0",
-                background: "#000",
-                color: "#f2f1e9",
-                textTransform: "uppercase",
-                padding: "9px",
-                fontWeight: "bold",
+                flexDirection: "column",
+                margin: "6px 0",
               }}
             >
-              <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
-              <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
-              <div style={{ flex: 2, padding: "0 10px" }}>Unstaked</div>
-              <div style={{ flex: 1, padding: "0 10px" }}>Can Withdraw</div>
-            </div>
-            <div
-              style={{
-                height: "6px",
-                background: "linear-gradient(to right, #00ec97, #fff, #00ec97)",
-              }}
-            />
-          </div>
-
-          {highlightedRows.map((detail) => (
-            <div
-              key={detail.validatorAddress}
-              className="faux-table-row"
-              style={{
-                display: "flex",
-                background: "#111",
-                color: "#fff",
-                borderBottom: "1px solid #333",
-                padding: "10px",
-              }}
-            >
-              <div style={{ flex: 3, padding: "0 10px" }}>
-                {detail.validatorAddress}
-              </div>
-              <div style={{ flex: 2, padding: "0 10px" }}>
-                {formatNearAmount(detail.stakedBalance)}
-                <button style={{ marginLeft: "10px" }}>Stake</button>
-              </div>
-              <div style={{ flex: 2, padding: "0 10px" }}>
-                {formatNearAmount(detail.unstakedBalance) === "0.000"
-                  ? "—"
-                  : formatNearAmount(detail.unstakedBalance)}
-                <button
-                  onClick={() =>
-                    walletUnstake({
-                      validator: detail.validatorAddress,
-                      amount: detail.stakedBalance,
-                    })
-                  }
-                >
-                  Unstake
-                </button>
-                {detail.isUnstakedBalanceAvailable ? (
-                  <button
-                    style={{ marginLeft: "10px" }}
-                    onClick={() => console.log("unimplemented bro")}
-                  >
-                    Withdraw
-                  </button>
-                ) : null}
-              </div>
               <div
                 style={{
-                  flex: 1,
-                  padding: "0 10px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
-                {detail.isUnstakedBalanceAvailable !== null
-                  ? detail.isUnstakedBalanceAvailable.toString()
-                  : ""}
+                <div
+                  className="faux-table-header"
+                  style={{
+                    display: "flex",
+                    borderRadius: "6px 6px 0 0",
+                    background: "#000",
+                    color: "#f2f1e9",
+                    textTransform: "uppercase",
+                    padding: "9px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>Unstaked</div>
+                  <div style={{ flex: 1, padding: "0 10px" }}>Can Withdraw</div>
+                </div>
+                <div
+                  style={{
+                    height: "6px",
+                    background:
+                      "linear-gradient(to right, #00ec97, #fff, #00ec97)",
+                  }}
+                />
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <div>
-        <h3>Others</h3>
-        <div
-          className="faux-table"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            margin: "6px 0",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              className="faux-table-header"
-              style={{
-                display: "flex",
-                borderRadius: "6px 6px 0 0",
-                background: "#000",
-                color: "#f2f1e9",
-                textTransform: "uppercase",
-                padding: "10px",
-                fontWeight: "bold",
-              }}
-            >
-              <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
-              <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
+              {highlightedRows.map((detail) => (
+                <div
+                  key={detail.validatorAddress}
+                  className="faux-table-row"
+                  style={{
+                    display: "flex",
+                    background: "#111",
+                    color: "#fff",
+                    borderBottom: "1px solid #333",
+                    padding: "10px",
+                  }}
+                >
+                  <div style={{ flex: 3, padding: "0 10px" }}>
+                    {detail.validatorAddress}
+                  </div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>
+                    {formatNearAmount(detail.stakedBalance)}
+                    <button style={{ marginLeft: "10px" }}>Stake</button>
+                  </div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>
+                    {formatNearAmount(detail.unstakedBalance) === "0.000"
+                      ? "—"
+                      : formatNearAmount(detail.unstakedBalance)}
+                    <button
+                      onClick={() =>
+                        walletUnstake({
+                          validator: detail.validatorAddress,
+                          amount: detail.stakedBalance,
+                        })
+                      }
+                    >
+                      Unstake
+                    </button>
+                    {detail.isUnstakedBalanceAvailable ? (
+                      <button
+                        style={{ marginLeft: "10px" }}
+                        onClick={() => console.log("unimplemented bro")}
+                      >
+                        Withdraw
+                      </button>
+                    ) : null}
+                  </div>
+                  <div
+                    style={{
+                      flex: 1,
+                      padding: "0 10px",
+                    }}
+                  >
+                    {detail.isUnstakedBalanceAvailable !== null
+                      ? detail.isUnstakedBalanceAvailable.toString()
+                      : ""}
+                  </div>
+                </div>
+              ))}
             </div>
-            <div
-              style={{
-                height: "6px",
-                background: "linear-gradient(to right, #ff7966, #fff, #ff7966)",
-              }}
-            />
           </div>
-          {rangedRows.map((detail) => (
+
+          <div>
+            <h3>Others</h3>
             <div
-              key={detail.validatorAddress}
-              className="faux-table-row"
+              className="faux-table"
               style={{
                 display: "flex",
-                background: "#111",
-                color: "#fff",
-                borderBottom: "1px solid #333",
-                padding: "10px",
+                flexDirection: "column",
+                margin: "6px 0",
               }}
             >
-              <div style={{ flex: 3, padding: "0 10px" }}>
-                {detail.validatorAddress}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div
+                  className="faux-table-header"
+                  style={{
+                    display: "flex",
+                    borderRadius: "6px 6px 0 0",
+                    background: "#000",
+                    color: "#f2f1e9",
+                    textTransform: "uppercase",
+                    padding: "10px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
+                </div>
+                <div
+                  style={{
+                    height: "6px",
+                    background:
+                      "linear-gradient(to right, #ff7966, #fff, #ff7966)",
+                  }}
+                />
               </div>
-              <div style={{ flex: 2, padding: "0 10px" }}>
-                <button style={{ marginLeft: "10px" }}>Stake</button>
-              </div>
+              {rangedRows.map((detail) => (
+                <div
+                  key={detail.validatorAddress}
+                  className="faux-table-row"
+                  style={{
+                    display: "flex",
+                    background: "#111",
+                    color: "#fff",
+                    borderBottom: "1px solid #333",
+                    padding: "10px",
+                  }}
+                >
+                  <div style={{ flex: 3, padding: "0 10px" }}>
+                    {detail.validatorAddress}
+                  </div>
+                  <div style={{ flex: 2, padding: "0 10px" }}>
+                    <button style={{ marginLeft: "10px" }}>Stake</button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
