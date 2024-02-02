@@ -257,22 +257,14 @@ function createValidatorQueries(validators) {
     });
 }
 
-useEffect(() => {
-  if (!!context.accountId) {
-    console.log("honua0 context.accountId", context.accountId);
-  } else {
-    console.log("honua1 context.accountId", context.accountId);
-  }
-}, [context]);
-
 // It seems like using VM.require and useEffect is odd, so I am using a normal function here
 const start = () => {
   // if it hasn't loaded the external widget yet, return
   if (!!!mainnetValidators) {
-    console.log("aloha start, mainnetValidators not ready");
+    // console.log("aloha start, mainnetValidators not ready");
     return;
   } else {
-    console.log("aloha start, mainnetValidators TOTALLY ready");
+    // console.log("aloha start, mainnetValidators TOTALLY ready");
     setStarted(true);
   }
   // kick off the useEffect below
@@ -417,16 +409,12 @@ const rangedRows = useMemo(
 );
 
 if (!!!context.accountId) {
-  console.log("aloha if");
-
   return (
     <div>
       <p>Please login</p>
     </div>
   );
 } else {
-  console.log("aloha else");
-
   return (
     <div
       style={{
