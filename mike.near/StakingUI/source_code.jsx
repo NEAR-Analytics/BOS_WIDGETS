@@ -404,7 +404,7 @@ const rangedRows = useMemo(
   [validatorStakingDetails]
 );
 
-if (!!accountId) {
+if (!!!accountId) {
   console.log("aloha if", accountId);
 
   return (
