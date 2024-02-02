@@ -321,8 +321,6 @@ const LoadingModal = () => {
 
 // Interesting, this seems to need to be above the StakeUnstakeWithdrawModal declaration
 const walletUnstake = ({ validator, amount }) => {
-  // console.log('aloha! validator', validator);
-  // console.log('aloha! amount', amount);
   setStakingModalData({ validator, method: "unstake", amount });
   setShowStakingModal(true);
 };
@@ -426,7 +424,6 @@ return (
             style={{
               display: "flex",
               flexDirection: "column",
-              // marginBottom: '6px' // space between the header and the table content
             }}
           >
             <div
@@ -449,7 +446,7 @@ return (
             <div
               style={{
                 height: "6px",
-                background: "linear-gradient(to right, #00ec97, #fff, #00ec97)", // Example gradient
+                background: "linear-gradient(to right, #00ec97, #fff, #00ec97)",
               }}
             />
           </div>
@@ -545,7 +542,7 @@ return (
             <div
               style={{
                 height: "6px",
-                background: "linear-gradient(to right, #ff7966, #fff, #ff7966)", // Example gradient
+                background: "linear-gradient(to right, #ff7966, #fff, #ff7966)",
               }}
             />
           </div>
