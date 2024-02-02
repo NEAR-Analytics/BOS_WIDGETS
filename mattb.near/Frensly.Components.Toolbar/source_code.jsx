@@ -87,6 +87,7 @@ const MenuOptions = styled.ul`
       }
       
       a {
+          display:block;
           border-radius:30px;
           border:0;
           font-size:.8rem;
