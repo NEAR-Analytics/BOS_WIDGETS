@@ -451,7 +451,11 @@ if (wrapType) {
 }
 
 useEffect(() => {
-  if (!account || !gas) return;
+  if (!account) return;
+  if (!gas) {
+    State.update({ isGasEnough: true });
+    return;
+  }
   const provider = Ethers.provider();
   let baseAmount = Big(0);
   if (inputCurrency.isNative) {
@@ -471,8 +475,8 @@ useEffect(() => {
         .minus(baseAmount)
         .lt(gas.toString()),
       gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
+      swapping: false,
     });
-    State.update({ swapping: false });
   });
 }, [account, gas]);
 
