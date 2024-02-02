@@ -1,68 +1,25 @@
-// const LogoWhite = VM.require("mike.near/widget/NearLogo2024White");
-// console.log('aloha LogoWhite', LogoWhite)
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
 
 const openAnotherModal = (validatorAddress, amount) => {
   Near.call(validatorAddress, "unstake", { amount });
-  // Near.call(validatorAddress, "unstake", { amount: `"${amount}"` });
 };
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
-  //   console.log("aloha amount", amount);
-  // amount = `"${amount}"`;
-  // const [stakingAmount, setStakingAmount] = useState(amount);
-  // const [isVisible, setIsVisible] = useState(true); // State to control visibility for fade-out effect
-
-  // Assuming maxAmount is defined somewhere in your component or props
-  const maxAmount = 100; // Placeholder value
-
-  // const handleStakeAllMinusThree = () => {
-  //     // const stakeAmount = Math.max(0, maxAmount - 3);
-  //     const stakeAmount = amount;
-  //     setStakingAmount(stakeAmount);
-  // };
-
   const handleCancel = () => {
-    // Start the fade-out effect
+    // eventually add fade-out effect
     setShowStakingModal(false);
   };
 
   const handleUnstake = () => {
-    // Dummy function to simulate fetching data
     console.log("Unstaking...");
-    /*
-            {
-              contractName: args[0],
-              methodName: args[1],
-              args: args[2] ?? {},
-              gas: args[3],
-              deposit: args[4],
-            },
-         */
-    console.log("oh cmon amount", amount);
-    console.log("oh cmon validator", validator);
     openAnotherModal(validator, amount);
-    // const ret = Near.call(validatorAddress, "unstake", { amount: amount }, "final");
-    // Near.call(validatorAddress, "unstake", { amount: amount }, "final");
-    // console.log('aloha ret', ret);
-    // const stakedBalancePromise = Near.asyncView(
-    //     validatorAddress,
-    //     "get_account_staked_balance",
-    //     { account_id: accountId },
-    //     "final"
-    // );
-    // Here you could actually fetch data or perform some asynchronous operation
   };
 
   const containerStyle = {
     boxShadow: "0 3px 6px rgba(0, 0, 0, 0.6)",
     border: "3px solid #f2f1e9",
     backgroundColor: "rgba(0, 0, 0, .7)",
-    // background: 'radial-gradient(ellipse at 20% 0, rgba(0, 0, 0, 0.8) 93%, rgba(151, 151, 255, .8) 100%)',
-    // rgba(0, 0, 0, 0.7),
     background:
       "radial-gradient(circle at center, rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.7) 100%), radial-gradient(circle at 10% 90%, rgba(200, 200, 255, 0.8), transparent 60%),radial-gradient(circle at 50% 50%, rgba(151, 151, 255, 0.7), transparent 50%)",
-    // background: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.8) 90%, rgba(151, 151, 255, .8) 100%),radial-gradient(circle at center, rgba(0, 0, 0, 0.8) 80%, green 90%)',
-
     padding: "20px",
     width: "100%",
     margin: "0 auto",
@@ -130,7 +87,7 @@ const [progressMax, setProgressMax] = useState(440);
 const [started, setStarted] = useState(false);
 const [showProgressBar, setShowProgressBar] = useState(true);
 const [validatorStakingDetails, setValidatorStakingDetails] = useState([]);
-const [isLoading, setIsLoading] = useState(true); // State to manage the loading overlay
+const [isLoading, setIsLoading] = useState(true);
 const [showStakingModal, setShowStakingModal] = useState(false);
 const [stakingModalData, setStakingModalData] = useState(false);
 
@@ -218,7 +175,7 @@ function createValidatorQueries(validators) {
   };
 
   const wrappedPromises = validators.map((validatorAddress) => {
-    // Fetching staked and unstaked balances
+    // fetching staked and unstaked balances
     const stakedBalancePromise = Near.asyncView(
       validatorAddress,
       "get_account_staked_balance",
