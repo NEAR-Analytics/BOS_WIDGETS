@@ -388,7 +388,7 @@ const InputGroup = styled.div`
 
 const InputLabel = styled.label`
   margin-right: 10px;
-  color: #aaa;
+  color: #888baf;
   display: flex;
   align-self: flex-end;
   margin-top: 8px;
@@ -420,7 +420,10 @@ const DropdownContainer = styled.div`
   position: relative;
 
   .DropdownMenuItem {
+    border-radius: 24px;
+    background: #373a53;
     padding: 16px;
+    color: red;
   }
 `;
 
@@ -574,7 +577,6 @@ const CryptoIcon = styled.img`
   width: 48px;
   height: 48px;
   position: relative;
-  z-index: 2;
 `;
 
 const OverlappingCryptoIcon = styled.img`
@@ -602,6 +604,53 @@ const CryptoCurrencyPair = () => {
   );
 };
 
+const StyledItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 6px;
+
+  color: white;
+
+  z-index: 999;
+  width: 265px;
+
+  &:focus {
+    opacity: 0.8;
+  }
+`;
+
+const StyledTokenGroup = styled.div`
+  display: flex;
+  align-items: center;
+
+  & > div {
+    margin: 0 8px;
+  }
+`;
+
+const StyledToken = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #555;
+  color: white;
+`;
+
+const CryptoDropdownItem = ({}) => {
+  const rightTokens = ["USDC", "ETH"];
+  return (
+    <StyledItem>
+      <StyledTokenGroup>
+        <CryptoIcon src={ethImage} alt="Ethereum" />
+      </StyledTokenGroup>
+    </StyledItem>
+  );
+};
 // NetworkDropdown component
 const NetworkDropdown = ({ selectedNetwork, onChange }) => {
   return (
@@ -614,77 +663,13 @@ const NetworkDropdown = ({ selectedNetwork, onChange }) => {
           </DropdownTrigger>
         </DropdownMenu.Trigger>
         <CryptoCurrencyPair />
-        <DropdownMenu.Content
-          style={{ backgroundColor: "black" }}
-          sideOffset={5}
-        >
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger style={{ padding: 16 }}>
-              Ethereum
-            </DropdownMenu.SubTrigger>
-            <DropdownMenu.SubContent
-              style={{ backgroundColor: "black" }}
-              sideOffset={2}
-              alignOffset={-5}
-            >
-              <DropdownMenu.Item className="DropdownMenuItem">
-                USDC
-              </DropdownMenu.Item>
-              <DropdownMenu.Item className="DropdownMenuItem">
-                ETH
-              </DropdownMenu.Item>
-            </DropdownMenu.SubContent>
-          </DropdownMenu.Sub>
-
-          <DropdownMenu.Separator className="DropdownMenuSeparator" />
-
-          <DropdownMenu.Arrow className="DropdownMenuArrow" />
+        <DropdownMenu.Content sideOffset={5}>
+          <DropdownMenu.Item className="DropdownMenuItem">
+            <CryptoDropdownItem />
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </DropdownContainer>
-  );
-};
-
-const ProgressBarAprContainer = styled.div`
-  width: 100%;
-`;
-
-const ProgressBarApr = styled.div`
-  height: 20px;
-  border-radius: 4px;
-  background-color: grey;
-  width: ${(props) => props.width}%;
-  transition: width 0.3s ease-in-out;
-`;
-
-const InterestContainer = styled.div`
-  margin-top: 4;
-  font-size: 14;
-  font-weight: 600;
-`;
-const InterestText = styled.span`
-  margin-left: 2;
-  color: #888baf;
-  font-size: 14;
-  font-weight: 600;
-`;
-
-const AprProgressBar = ({ barPercent }) => {
-  return (
-    <ProgressBarContainer>
-      <ProgressBarAprContainer>
-        <ProgressBarApr width={barPercent} />
-
-        <InterestContainer>
-          13,5%
-          <InterestText>Interest</InterestText>
-        </InterestContainer>
-      </ProgressBarAprContainer>
-      <ProgressBarBorrowContainer>
-        <ProgressBarBorrow />
-        <BorrowText> 3.09%</BorrowText>
-      </ProgressBarBorrowContainer>
-    </ProgressBarContainer>
   );
 };
 
@@ -788,7 +773,6 @@ const contractInfo = {
 
 const { address } = props;
 
-//TODO: Na mainnet está com problema De promise not supported
 const balancesPromise = new Promise((resolve, reject) => {
   const rpcProvider = new ethers.providers.JsonRpcProvider(
     contractInfo.httpRpcUrl
@@ -800,28 +784,54 @@ const balancesPromise = new Promise((resolve, reject) => {
     rpcProvider
   );
 
+  const newContractAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
+  const newContract = new ethers.Contract(
+    newContractAddress,
+    abi.body,
+    rpcProvider
+  );
+
   contract
     .balanceOf(address)
-    .then((res) => {
-      return Promise.all([res, contract.decimals()]);
-    })
+    .then((balance) => Promise.all([balance, contract.decimals()]))
     .then(([balance, decimals]) => {
       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-      return Ethers.provider()
-        .getBalance(address)
-        .then((ethBalance) => {
-          return { formattedBalance, assetBalance: balance, ethBalance };
-        });
-    })
-    .then(({ formattedBalance, assetBalance, ethBalance }) => {
-      const balanceInEth = Big(ethBalance).div(Big(10).pow(18)).toFixed(2);
-      State.update({
-        formattedBalance: formattedBalance,
-        assetBalance: assetBalance,
-        balance: balanceInEth,
+      const assetBalance = balance;
+
+      return Promise.all([
+        newContract.balanceOf(address),
+        newContract.decimals(),
+      ]).then(([newBalance, newDecimals]) => {
+        const supplyBalanceFormatted = ethers.utils.formatUnits(
+          newBalance,
+          newDecimals
+        );
+
+        const unformattedSupplyBalance = newBalance;
+        return {
+          formattedBalance,
+          assetBalance,
+          supplyBalance: supplyBalanceFormatted,
+          unformattedSupplyBalance,
+        };
       });
-      resolve();
     })
+    .then(
+      ({
+        formattedBalance,
+        assetBalance,
+        supplyBalance,
+        unformattedSupplyBalance,
+      }) => {
+        State.update({
+          formattedBalance: formattedBalance,
+          assetBalance: assetBalance,
+          supplyBalance: supplyBalance,
+          unformattedSupplyBalance: unformattedSupplyBalance,
+        });
+        resolve();
+      }
+    )
     .catch((error) => {
       reject(error);
     });
@@ -858,9 +868,15 @@ const supplyToContract = (address, amount) => {
     abi.body,
     Ethers.provider().getSigner()
   );
-  console.log("aquii");
+  console.log("salveee clan", amount);
+  //TODO: put the decimals inside props so we don't need to call the decimals function each time.
+  // We also use this decimals in other places so we should put it in a props, and since we just have 2
+  // assets, we can put it in props since this doesn't change.
+  const decimals = 6;
+  const adjustedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
+
   contract
-    .supply(address, amount)
+    .supply(address, adjustedAmount)
     .then((tx) => {
       console.log(`Transaction submitted: ${tx.hash}`);
 
@@ -871,6 +887,7 @@ const supplyToContract = (address, amount) => {
 
       State.update({ lastTransactionHash: receipt.transactionHash });
       //TODO: Temos que descobrir como atualizar o balanço sem quebrar o componente.
+      //ps: eu acho que já resolvi, depois testar.
     })
     .catch((error) => {
       console.error(`Transaction failed: ${error.message}`);
@@ -922,36 +939,27 @@ return (
     {/* Supply USDC Section */}
     <GridItem span={4}>
       <SectionHeader>Supply USDC</SectionHeader>
-      <InputGroup>
-        <InputField id="supply-input" placeholder="0.00" />
-
-        <InputLabel htmlFor="supply-input">
-          Wallet Balance: 1111 USDC
-        </InputLabel>
-        <Button
-          marginTop={24}
-          onClick={() =>
-            supplyToContract(
-              "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-              10000
-            )
-          }
-        >
-          SUPPLY
-        </Button>
-      </InputGroup>
+      <Widget
+        props={{
+          onConfirm: supplyToContract,
+          balance: state.supplyBalance,
+          type: "supply",
+        }}
+        src="thalespollum.testnet/widget/Input"
+      />
     </GridItem>
 
     {/* Borrow USDC Section */}
     <GridItem span={4}>
       <SectionHeader>Borrow USDC</SectionHeader>
-      <InputGroup>
-        <InputField id="borrow-input" placeholder="0.00" />
-        <InputLabel htmlFor="borrow-input">Available: 11111 USDC</InputLabel>
-        <Button marginTop={24} color="#FFF" bgColor="#AA00FA">
-          BORROW
-        </Button>
-      </InputGroup>
+      <Widget
+        props={{
+          onConfirm: supplyToContract,
+          balance: 0,
+          type: "borrow",
+        }}
+        src="thalespollum.testnet/widget/Input"
+      />
     </GridItem>
 
     {/* Net Borrow APR Section */}
