@@ -779,7 +779,7 @@ return (
                   Big(state.wrapFee)
                     .div(10000)
                     .times(state.wrapAmount)
-                    .toFixed(state.decimals)
+                    .toFixed(state.decimals, 0)
                 )
                 .toFixed()
             : state.wrapAmount,
@@ -798,7 +798,7 @@ return (
         ? Big(state.wrapFee ?? 0)
             .div(10000)
             .times(state.wrapAmount)
-            .toFixed(state.decimals)
+            .toFixed(state.decimals, 0)
         : Big(0).toFixed(state.decimals)}
       )
     </WrapFee>
