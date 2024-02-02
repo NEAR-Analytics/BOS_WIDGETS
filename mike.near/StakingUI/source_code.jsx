@@ -257,6 +257,14 @@ function createValidatorQueries(validators) {
     });
 }
 
+useEffect(() => {
+  if (!!context.accountId) {
+    console.log("honua0 context.accountId", context.accountId);
+  } else {
+    console.log("honua1 context.accountId", context.accountId);
+  }
+}, [context]);
+
 // It seems like using VM.require and useEffect is odd, so I am using a normal function here
 const start = () => {
   // if it hasn't loaded the external widget yet, return
