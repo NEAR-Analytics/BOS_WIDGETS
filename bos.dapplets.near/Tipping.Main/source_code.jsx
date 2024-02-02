@@ -246,7 +246,6 @@ const LikeButton = styled.button`
   height: 18px;
   padding: 0;
   align-items: center;
-  gap: 4px;
   flex-shrink: 0;
   overflow: hidden;
 
@@ -266,13 +265,14 @@ const LikeButton = styled.button`
 
   .icon {
     display: flex;
-    padding: 3px;
+    padding: 3px 3px 3px 6px;
     justify-content: center;
     align-items: center;
     gap: 10px;
     flex: 1 0 0;
     align-self: stretch;
     border-right: 1px solid #C1C6CE;
+    z-index: 2;
   }
 
   .cost {
@@ -284,6 +284,8 @@ const LikeButton = styled.button`
     gap: 6px;
     flex-shrink: 0;
     white-space: nowrap;
+    flex-grow: 1;
+    z-index: 2;
   }
 
   &:not([disabled]) {
@@ -305,7 +307,7 @@ const LikeButton = styled.button`
     margin: 0;
     padding: 0;
     background-color: #3D7FFF;
-    z-index: -1;
+    z-index: 1;
   }
 
   &.loading {
