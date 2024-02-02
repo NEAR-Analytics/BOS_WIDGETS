@@ -12,6 +12,8 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
         typeof status.app[Object.keys(status.app).pop()] === "function"
       ) {
         Store.update({ loaded: true });
+      } else {
+        checkLoaded();
       }
     }, 300);
 
