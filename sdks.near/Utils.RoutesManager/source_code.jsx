@@ -17,10 +17,10 @@ const RoutesManager = (Store, status, routes, { page }) => {
       return {
         Router,
         RouterView: () => Router.get("state").currentView || null,
-        Route: ({ to, children }) => {
-            console.log(to);
+        Route: (props) => {
+            console.log(props);
             return <a href="#" onClick={() => Router.changeRoute(to)}>
-                {children}
+                {props.children}
             </a>;
         },
       };
