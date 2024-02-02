@@ -9,3 +9,4 @@ if (homepage === null) {
 }
 
 return <Widget src="mugdha.near/widget/Feed" props={props} />;
+return <Widget src="mob.near/widget/Welcome.RHS" props={props} />;
