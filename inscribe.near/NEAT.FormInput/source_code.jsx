@@ -1,27 +1,3 @@
-const {
-  title,
-  maxTitle,
-  maxMobileTitle,
-  maxValue,
-  value,
-  unit,
-  onChange,
-  onClickMax,
-  error,
-  variant,
-  disabled,
-  placeholder,
-  titleNormal,
-} = props;
-
-function getVariantColor() {
-  if (variant === "red") return "rgb(252, 91, 91)";
-  else if (variant === "green") return "rgb(0, 141, 106)";
-  else if (variant === "grey") return "rgb(105, 105, 105)";
-  return "#fff";
-}
-const variantColor = getVariantColor();
-
 const FormInputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,6 +15,7 @@ const FormInputLabel = styled.div`
 `;
 
 const FormInputRow = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   height: 50px;
@@ -110,6 +87,33 @@ const FormInputError = styled.div`
   margin-top: 12px;
   color: rgb(252, 91, 91);
 `;
+
+
+
+const {
+  title,
+  maxTitle,
+  maxMobileTitle,
+  maxValue,
+  value,
+  unit,
+  onChange,
+  onClickMax,
+  error,
+  variant,
+  disabled,
+  placeholder,
+  titleNormal,
+} = props;
+
+function getVariantColor() {
+  if (variant === "red") return "rgb(252, 91, 91)";
+  else if (variant === "green") return "rgb(0, 141, 106)";
+  else if (variant === "grey") return "rgb(105, 105, 105)";
+  return "#fff";
+}
+const variantColor = getVariantColor();
+
 return (
   <FormInputContainer>
     <FormInputLabel>
