@@ -23,7 +23,7 @@ const mainnetValidators = {
             id: "mainnet-vals",
           }),
         }).then((data) => {
-          console.log("aloha data", data);
+          // console.log("aloha data", data);
           const { current_validators, next_validators } = data.body.result;
 
           if (debug) {
