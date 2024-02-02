@@ -158,7 +158,7 @@ const StyledInfoTips = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin-top: 26px;
+  margin-top: 10px;
   .text {
     display: flex;
     align-items: center;
@@ -240,6 +240,8 @@ const {
   prices,
   tokenBal,
   IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
   multicall,
   multicallAddress,
 } = props;
@@ -255,12 +257,14 @@ switch (vesselStatus) {
     TABS = ["Borrow"];
     break;
 }
-console.log("TABS: ", TABS);
+
 State.init({
   tab: TABS[0],
   isCollIncrease: true, // increase or decrease COLL
   yourLTV: 0,
   borrowingFee: 0,
+  liquidationPrice: 0,
+  totalDebt: 0,
   _maxFeePercentage: 0, //ethos need
 });
 
@@ -337,13 +341,99 @@ function getVesselManager(_amount) {
       const [[_maxFeePercentageRaw], [_borrowingFeeRaw]] = res;
       State.update({
         _maxFeePercentage: _maxFeePercentageRaw,
-        borrowingFee: _borrowingFeeRaw,
+        borrowingFee: ethers.utils.formatUnits(_borrowingFeeRaw),
       });
     })
     .catch((err) => {
       console.log("error:", err);
     });
 }
+
+useEffect(() => {
+  if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
+  if (state.tab === "Close") return;
+  if (state.isBigerThanBalance) return;
+  const price = prices[data.underlyingToken.symbol];
+
+  // IS_GRAVITA_DAPP
+  let assetInUSD,
+    totalDebt,
+    _yourLTV,
+    borrowingFee,
+    liquidationPrice,
+    borrowTokenBal;
+
+  if (state.tab === "Borrow") {
+    assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
+    if (state.borrowAmount) {
+      _yourLTV = Big(state.borrowAmount).div(assetInUSD.minus(20));
+    }
+    if (_yourLTV) {
+      totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
+    }
+  }
+  if (state.tab === "Adjust") {
+    assetInUSD = Big(state.amount || 0)
+      .plus(data.vesselDeposit)
+      .mul(price)
+      .mul(Big(data["MAX_LTV"]));
+    _yourLTV = Big(state.borrowAmount || 0)
+      .plus(data.vesselDebt)
+      .div(assetInUSD.minus(20));
+    if (_yourLTV) {
+      totalDebt = Big(state.amount || 0)
+        .plus(data.vesselDeposit)
+        .mul(price)
+        .mul(_yourLTV);
+    }
+  }
+
+  if (assetInUSD) {
+    borrowTokenBal = assetInUSD
+      .minus(20)
+      .minus(assetInUSD.minus(20).mul(0.02))
+      .toFixed(2);
+  }
+  if (totalDebt) {
+    borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
+
+    liquidationPrice = totalDebt
+      .div(state.amount)
+      .div(Big(data["MAX_LTV"]))
+      .toFixed(2);
+  }
+  State.update({
+    totalDebt: Big(totalDebt || 0).toFixed(2),
+    yourLTV: Big(_yourLTV || 0)
+      .mul(100)
+      .toFixed(2),
+    borrowingFee,
+    liquidationPrice,
+    borrowTokenBal,
+  });
+}, [state.borrowAmount, state.amount]);
+
+const onAmountChange = (amount) => {
+  if (isNaN(Number(amount))) return;
+  const isZero = Big(amount || 0).eq(0);
+  if (isZero) {
+    State.update({
+      amount,
+      buttonClickable: false,
+      // isBigerThanBalance: false,
+    });
+    return;
+  }
+  const params = { amount };
+  params.isBigerThanBalance = Big(amount || 0).gt(
+    data.userUnderlyingBalance || 0
+  );
+  params.buttonClickable = !params.isBigerThanBalance;
+
+  State.update(params);
+
+  state.debouncedGetTrade();
+};
 
 const onBorrowAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
@@ -352,7 +442,6 @@ const onBorrowAmountChange = (amount) => {
     State.update({
       borrowAmount: amount,
       buttonClickable: false,
-      isBigerThanBalance: false,
     });
     return;
   }
@@ -368,92 +457,9 @@ const onBorrowAmountChange = (amount) => {
   state.debouncedGetTrade();
 };
 
-const onAmountChange = (amount) => {
-  if (isNaN(Number(amount))) return;
-  const isZero = Big(amount || 0).eq(0);
-  if (isZero) {
-    State.update({
-      amount,
-      buttonClickable: false,
-      isBigerThanBalance: false,
-    });
-    return;
-  }
-  const params = { amount };
-  params.isBigerThanBalance = Big(amount || 0).gt(
-    data.userUnderlyingBalance || 0
-  );
-  params.buttonClickable = !params.isBigerThanBalance;
-  if (state.tab === "Borrow") {
-    const price = prices[data.underlyingToken.symbol];
+if (!state.tab) return null;
 
-    const TotalDebt = Big(amount).mul(price).mul(Big(data["MAX_LTV"])).div(100);
-
-    const borrowTokenBal = TotalDebt.minus(20)
-      .minus(TotalDebt.minus(20).mul(0.02))
-      .toFixed();
-
-    params.borrowTokenBal = borrowTokenBal;
-  }
-
-  State.update(params);
-
-  state.debouncedGetTrade();
-};
-
-useEffect(() => {
-  if (state.tab === "Close") return;
-  if (state.tab === "Borrow") {
-    if (
-      !state.amount ||
-      !state.borrowAmount ||
-      isNaN(Number(state.amount)) ||
-      isNaN(Number(state.borrowAmount)) ||
-      Big(state.amount || 0).eq(0) ||
-      Big(state.borrowAmount || 0).eq(0)
-    ) {
-      State.update({
-        yourLTV: 0,
-      });
-      return;
-    }
-  }
-  if (state.tab === "Adjust") {
-    if (!state.amount || isNaN(Number(state.amount))) {
-      State.update({
-        yourLTV: 0,
-      });
-      return;
-    }
-  }
-
-  const _maxLTV = Big(data.MAX_LTV).div(100);
-  const _price = prices[data.underlyingToken.symbol];
-
-  let _yourLTV;
-  if (state.tab === "Borrow") {
-    const _der = Big(state.amount).mul(Big(_price)).mul(_maxLTV);
-    _yourLTV = Big(state.borrowAmount).div(_der).toFixed(4);
-  }
-
-  //vesselDeposit
-  if (state.tab === "Adjust") {
-    const _assetAmount = data.vesselDeposit;
-    const _der = Big(state.amount)
-      .plus(_assetAmount)
-      .mul(Big(_price))
-      .mul(_maxLTV);
-    _yourLTV = Big(data.vesselDebt - 20)
-      .div(_der)
-      .toFixed(4);
-  }
-  // console.log( _maxLTV.toFixed(), _price, _der.toFixed(), _yourLTV);
-  State.update({
-    yourLTV: Big(_yourLTV).mul(100).toFixed(2),
-  });
-}, [state.amount, state.borrowAmount]);
-
-return !state.tab ? null : (
+return (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
       <StyledHeader>
@@ -473,27 +479,54 @@ return !state.tab ? null : (
       </StyledHeader>
       <StyledContent>
         <StyledInfo>
-          {state.tab === "Borrow" && (
-            <StyledInfoContent>
+          <StyledInfoContent>
+            {state.tab === "Borrow" && (
               <StyledInfoTitle>
                 Borrowing from
                 <img src={data.underlyingToken.icon} className="icon" alt="" />
                 {data.underlyingToken.symbol}
               </StyledInfoTitle>
+            )}
+            {state.tab === "Adjust" && (
+              <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
+            )}
+            <StyledInfoItem>
+              <div>Your LTV</div>
+              <div className="white">{state.yourLTV}%</div>
+            </StyledInfoItem>
+            {state.tab === "Adjust" && (
               <StyledInfoItem>
-                <div>Your LTV</div>
-                <div className="white">{state.yourLTV}%</div>
-              </StyledInfoItem>
-              <StyledInfoItem>
-                <div>Borrowing Fee</div>
+                <div>Your Collateral</div>
                 <div className="white">
-                  {state.borrowingFee
-                    ? ethers.utils.formatUnits(state.borrowingFee)
-                    : "-"}{" "}
-                  {data.BORROW_TOKEN}
+                  {data.vesselDeposit}
+                  {data.underlyingToken?.symbol}
                 </div>
               </StyledInfoItem>
+            )}
+            {state.tab === "Borrow" && (
+              <StyledInfoItem>
+                <div>Liquidation Price</div>
+                <div className="white">{state.liquidationPrice} USD</div>
+              </StyledInfoItem>
+            )}
 
+            <StyledInfoItem>
+              <div>Borrowing Fee</div>
+              <div className="white">
+                {state.borrowingFee}
+                {data.BORROW_TOKEN}
+              </div>
+            </StyledInfoItem>
+
+            <StyledInfoItem>
+              <div>Total Debt</div>
+              <div className="white">
+                {state.totalDebt}
+                {data.BORROW_TOKEN}
+              </div>
+            </StyledInfoItem>
+
+            {state.tab === "Borrow" && (
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
@@ -505,23 +538,8 @@ return !state.tab ? null : (
                   {data.BORROW_TOKEN}.
                 </div>
               </StyledInfoTips>
-            </StyledInfoContent>
-          )}
-          {state.tab === "Adjust" && (
-            <StyledInfoContent>
-              <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
-              <StyledInfoItem>
-                <div>Your LTV</div>
-                <div className="white">{state.yourLTV}%</div>
-              </StyledInfoItem>
-              <StyledInfoItem>
-                <div>Your Collateral</div>
-                <div className="white">
-                  {data.vesselDeposit}
-                  {data.underlyingToken?.symbol}
-                </div>
-              </StyledInfoItem>
-
+            )}
+            {state.tab === "Adjust" && (
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
@@ -529,8 +547,8 @@ return !state.tab ? null : (
                 />
                 <div>Manage the collateral health of your vault.</div>
               </StyledInfoTips>
-            </StyledInfoContent>
-          )}
+            )}
+          </StyledInfoContent>
           {state.tab === "Close" && (
             <StyledInfoContent>
               <StyledInfoTitle>Close Your Position</StyledInfoTitle>
