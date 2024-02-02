@@ -31,7 +31,7 @@ const [state, setState] = useState({
 });
 
 const { marketToList, price, selectedNft, mintbaseMarketId } = state;
-const contractId = selectedNft?.contractId || "";
+const contractId = "mint.yearofchef.near";
 const tokenId = selectedNft?.tokenId || "";
 
 const updateState = (update) => {
@@ -67,11 +67,7 @@ function fetchMintbaseURL() {
 fetchMintbaseURL();
 const mintBaseLink = `https://www.mintbase.xyz/meta/${mintbaseMarketId}`;
 const parasLink = `https://paras.id/token/${contractId}::${tokenId}`;
-const tradeportLink = `https://www.tradeport.xyz/near/collection/${
-  contractId?.includes("genadrop")
-    ? "genadrop-contract.nftgen.near"
-    : contractId
-}?tab=items&tokenId=${tokenId}`;
+const tradeportLink = `https://www.tradeport.xyz/near/collection/${contractId}?tab=items&tokenId=${tokenId}`;
 
 console.log(mintBaseLink);
 
@@ -104,20 +100,18 @@ const data = fetch("https://graph.mintbase.xyz", {
   },
   body: JSON.stringify({
     query: `
-      query v2_omnisite_GetOwnedTokens{
-        tokens: mb_views_nft_owned_tokens(
-          where: {
-            owner: { _eq: "${accountId}" }
-          }
-        ) {
-          tokenId: token_id
-          contractId: nft_contract_id
-          media
-        }}
+    query MyQuery {
+      mb_views_nft_owned_tokens(where: {owner: {_eq: "${accountId}"}, nft_contract_id: {_eq: "mint.yearofchef.near"}}) {
+        tokenId: token_id
+        media
+      }
+    }    
     `,
   }),
 });
-const nfts = data.body?.data?.tokens;
+console.log(data);
+
+const nfts = data.body?.data?.mb_views_nft_owned_tokens;
 
 const handleList = () => {
   if (!selectedNft) return console.log("select nft to list");
@@ -127,30 +121,30 @@ const handleList = () => {
   //   const deposit = 1; // exactly 1 yocto
   const deposit = 1e22; // 0.01 near
   const tokenId = selectedNft.tokenId;
-  const contractId = selectedNft.contractId;
+  const contractId = contractId;
   Near.call([
     // tradeport
-    // {
-    //   contractName: tradeportmarket,
-    //   methodName: "storage_deposit",
-    //   args: {
-    //     receiver_id: accountId,
-    //   },
-    //   gas,
-    //   deposit: deposit,
-    // },
-    // {
-    //   contractName: contractId,
-    //   // need to wrap first with near_deposit
-    //   methodName: "nft_approve",
-    //   args: {
-    //     token_id: tokenId,
-    //     account_id: tradeportmarket,
-    //     msg: trpMsg(),
-    //   },
-    //   gas: gas,
-    //   deposit: deposit,
-    // },
+    {
+      contractName: tradeportmarket,
+      methodName: "storage_deposit",
+      args: {
+        receiver_id: accountId,
+      },
+      gas,
+      deposit: deposit,
+    },
+    {
+      contractName: contractId,
+      // need to wrap first with near_deposit
+      methodName: "nft_approve",
+      args: {
+        token_id: tokenId,
+        account_id: tradeportmarket,
+        msg: trpMsg(),
+      },
+      gas: gas,
+      deposit: deposit,
+    },
     // mintbasemarket
     {
       contractName: mintbasemarket,
@@ -196,27 +190,27 @@ const handleList = () => {
       deposit: deposit, // may take this out
     },
     // parasmarket
-    // {
-    //   contractName: parasmarket,
-    //   methodName: "storage_deposit",
-    //   args: {
-    //     receiver_id: accountId,
-    //   },
-    //   gas,
-    //   deposit: 859e19,
-    // },
-    // {
-    //   contractName: contractId,
-    //   // need to wrap first with near_deposit
-    //   methodName: "nft_approve",
-    //   args: {
-    //     token_id: tokenId,
-    //     account_id: parasmarket,
-    //     msg: trpMsg(), // need to add the variables and buffer seerailize
-    //   },
-    //   gas: gas,
-    //   deposit: 4e20, // may take this out
-    // },
+    {
+      contractName: parasmarket,
+      methodName: "storage_deposit",
+      args: {
+        receiver_id: accountId,
+      },
+      gas,
+      deposit: 859e19,
+    },
+    {
+      contractName: contractId,
+      // need to wrap first with near_deposit
+      methodName: "nft_approve",
+      args: {
+        token_id: tokenId,
+        account_id: parasmarket,
+        msg: trpMsg(), // need to add the variables and buffer seerailize
+      },
+      gas: gas,
+      deposit: 4e20, // may take this out
+    },
   ]);
 };
 
@@ -230,6 +224,11 @@ const Grid = styled.div`
     height: 30rem;
     object-fit: cover;
     border-radius: 1rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 `;
 
@@ -252,6 +251,11 @@ const NFTs = styled.div`
     &.selected {
       border-color: #ec2109;
     }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
 
@@ -312,30 +316,12 @@ return (
       <Grid>
         <div className="nft-preview">
           <div>{selectedNft.name}</div>
-          <Widget
-            src="mob.near/widget/NftImage"
-            key={selectedNft}
-            props={{
-              nft: {
-                tokenId: selectedNft.tokenId,
-                contractId: selectedNft.contractId,
-              },
-              style: {
-                width: size,
-                height: size,
-                objectFit: "cover",
-                minWidth: size,
-                minHeight: size,
-                maxWidth: size,
-                maxHeight: size,
-                overflowWrap: "break-word",
-                borderRadius: "inherit",
-              },
-              className: "",
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-              alt: `NFT ${selectedNft.contractId} ${selectedNft.tokenId}`,
-            }}
+          <img
+            src={
+              "https://image-cache-service-z3w7d7dnea-ew.a.run.app/media?url=" +
+              selectedNft.media
+            }
+            alt={selectedNft.title}
           />
         </div>
         <Form>
@@ -373,26 +359,12 @@ return (
           }`}
           onClick={() => updateState({ selectedNft: nft })}
         >
-          <Widget
-            src="mob.near/widget/NftImage"
-            props={{
-              nft: { tokenId: nft.tokenId, contractId: nft.contractId },
-              style: {
-                width: size,
-                height: size,
-                objectFit: "cover",
-                minWidth: size,
-                minHeight: size,
-                maxWidth: size,
-                maxHeight: size,
-                overflowWrap: "break-word",
-                borderRadius: "inherit",
-              },
-              className: "",
-              fallbackUrl:
-                "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
-              alt: `NFT ${nft.contractId} ${nft.tokenId}`,
-            }}
+          <img
+            src={
+              "https://image-cache-service-z3w7d7dnea-ew.a.run.app/media?url=" +
+              nft.media
+            }
+            alt={nft.title}
           />
         </div>
       ))}
