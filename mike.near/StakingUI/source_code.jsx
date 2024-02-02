@@ -292,6 +292,8 @@ const LoadingModal = () => {
   if (!!!ProgressBar) {
     return <></>;
   } else {
+    if (!!!accountId) return;
+
     return (
       <div
         style={{
