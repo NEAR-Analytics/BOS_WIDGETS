@@ -295,9 +295,13 @@ useEffect(async () => {
 const LoadingModal = () => {
   // This helps with the flash of red if it hasn't loaded yet
   if (!!!ProgressBar) {
+    // console.log('ProgressBar not ready');
     return <></>;
   } else {
-    if (!!!accountId) return;
+    if (!!!context.accountId) {
+      console.log("context.accountId not ready");
+      return;
+    }
 
     return (
       <div
