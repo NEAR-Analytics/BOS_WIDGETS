@@ -404,7 +404,7 @@ const rangedRows = useMemo(
 );
 
 if (!!accountId) {
-  // console.log('aloha if');
+  console.log("aloha if");
 
   return (
     <div>
@@ -412,7 +412,7 @@ if (!!accountId) {
     </div>
   );
 } else {
-  // console.log('aloha else');
+  console.log("aloha else");
 
   return (
     <div
