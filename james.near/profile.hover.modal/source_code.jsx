@@ -4,12 +4,11 @@ const description = Social.get(`${accountId}/profile/description`);
 
 const Container = styled.div`
   background-color: #000;
-  border-radius: 10px;
   color: #fff;
   padding: 1rem;
-  border: none;
+    border-radius: 10px;
+    border-color: #000;
 `;
-
 const Description = styled.div`
   position: relative;
   overflow: hidden;
