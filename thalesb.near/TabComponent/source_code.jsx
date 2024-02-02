@@ -597,7 +597,7 @@ return (
                 props={{
                   address: state.sender,
                 }}
-                src="thalesb.near/widget/DashboardLayout"
+                src="thalespollum.testnet/widget/DashboardLayout"
               />
             ) : (
               <ConnectWallet />
