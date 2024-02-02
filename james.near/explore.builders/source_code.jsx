@@ -1,5 +1,9 @@
 const filterData = Social.keys("*/widget/*/metadata/tags/build", "final");
 
+if (!filterData) {
+  return "";
+}
+
 const limit = props.limit || 21;
 
 let accounts = Object.entries(filterData);
