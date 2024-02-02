@@ -83,10 +83,15 @@ const MenuOptions = styled.ul`
 `;
 
 const Option = styled.li`
-  padding:5px 15px;
-  border-radius:10px;
-  background-color:rgba(0,0,0,.05);
+  border-radius:30px;
+  border:0;
   font-size:.8rem;
+  font-weight:bold;
+  color:#000;
+  background-color:#f2f2f2;
+  border:1px solid rgba(0,0,0,.05);
+  padding:.5rem 1.2rem;
+  transition:all .2s;
 
   :not(:last-of-type) {
     margin-right:15px;
@@ -126,7 +131,9 @@ return (State, store, { Route }) => {
         <Search type="text" placeholder="Search frens"></Search>
         <MenuOptions>
           {routeMap.map((route) => (
-            <Option to={route.to}>{route.name}</Option>
+            <Route to={route.to}>
+                <Option>{route.name}</Option>
+            </Route>
           ))}
         </MenuOptions>
       </Menu>
