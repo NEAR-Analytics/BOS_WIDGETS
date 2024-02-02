@@ -13,7 +13,7 @@ const content = isBuilder ? (
       href="https://commons.wikimedia.org/wiki/File:Yellow_hard_hat.svg"
     >
       <img
-        style={{ height: "1.1rem", paddingLeft: "0.2rem" }}
+        style={{ height: "1rem", paddingLeft: "0.2rem" }}
         alt="Yellow Builder Hat"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Yellow_hard_hat.svg/128px-Yellow_hard_hat.svg.png"
       />
