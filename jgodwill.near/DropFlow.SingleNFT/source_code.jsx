@@ -555,10 +555,10 @@ const nftOwner =
       : `@${owner?.slice(0, 10)}...${owner?.slice(owner?.length - 4)}`
   }`;
 
-const title = state.title;
+const title = state?.title;
 const nftName =
   title.length > 20
-    ? `${title?.slice(0, 10)}...${tiltle?.slice(title?.length - 4)}`
+    ? title && `${title?.slice(0, 10)}...${tiltle?.slice(title?.length - 4)}`
     : `${title}`;
 
 return (
