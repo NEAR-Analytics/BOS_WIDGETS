@@ -179,7 +179,7 @@ useEffect(() => {
       });
   };
   const getAmountOut = () => {
-    let max = {};
+    let max = null;
     results.forEach((result) => {
       if (
         Big(Number(result.amountOut._hex)).gt(Number(max.amountOut?._hex) || 0)
@@ -187,7 +187,7 @@ useEffect(() => {
         max = result;
       }
     });
-    if (results.length) {
+    if (max) {
       getTransaction(max);
     } else {
       onLoad({
