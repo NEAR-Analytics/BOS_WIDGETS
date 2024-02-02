@@ -80,22 +80,24 @@ const MenuOptions = styled.ul`
   padding:0;
   margin:0;
   margin-left:20px;
-`;
 
-const Option = styled.li`
-  border-radius:30px;
-  border:0;
-  font-size:.8rem;
-  font-weight:bold;
-  color:#000;
-  background-color:#f2f2f2;
-  border:1px solid rgba(0,0,0,.05);
-  padding:.5rem 1.2rem;
-  transition:all .2s;
-
-  :not(:last-of-type) {
-    margin-right:15px;
-  }
+  li {
+      a {
+          border-radius:30px;
+          border:0;
+          font-size:.8rem;
+          font-weight:bold;
+          color:#000;
+          background-color:#f2f2f2;
+          border:1px solid rgba(0,0,0,.05);
+          padding:.5rem 1.2rem;
+          transition:all .2s;
+          
+          :not(:last-of-type) {
+            margin-right:15px;
+          }
+      }
+   }
 `;
 
 const Search = styled.input`
@@ -120,7 +122,7 @@ const Search = styled.input`
 `;
 
 return (State, store, { Route }) => {
-  Route = Route || styled.div``;
+  Route = Route || styled.a``;
 
   return (
     <Toolbar>
@@ -131,9 +133,9 @@ return (State, store, { Route }) => {
         <Search type="text" placeholder="Search frens"></Search>
         <MenuOptions>
           {routeMap.map((route) => (
-            <Route to={route.to}>
-              <Option>{route.name}</Option>
-            </Route>
+            <li>
+              <Route to={route.to}>{route.name}</Route>
+            </li>
           ))}
         </MenuOptions>
       </Menu>
