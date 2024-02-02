@@ -46,6 +46,9 @@ return (
     src="buildhub.near/widget/components.AsideWithMainContent"
     props={{
       sideContent: Object.keys(feeds || {}).map((route) => {
+        <div
+          style={{ flex: "0 0 0px", minWidth: "0", overflow: "hidden" }}
+        ></div>;
         const data = feeds[route];
         return (
           <ButtonLink
