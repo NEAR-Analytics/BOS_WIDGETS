@@ -18,11 +18,8 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
     });
   }
 
-  let hasLoaded =
-    Object.keys(status.app) &&
-    typeof status.app[Object.keys(status.app).pop()] === "function";
-
-  return hasLoaded
+  return Object.keys(status.app) &&
+    typeof status.app[Object.keys(status.app).pop()] === "function"
     ? Object.fromEntries(
         widgetsSrc.map((widget) => {
           let breadcrumb = widget.split("/");
