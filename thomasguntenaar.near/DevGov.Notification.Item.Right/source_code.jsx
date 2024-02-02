@@ -1,4 +1,4 @@
-const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || (() => {});
 
 return props.post === undefined ? (
   "Loading ..."
@@ -7,7 +7,7 @@ return props.post === undefined ? (
     <a
       className="btn btn-outline-dark"
       href={href({
-        widgetSrc: "thomasguntenaar.near/widget/app",
+        widgetSrc: "${REPL_DEVHUB}/widget/app",
         params: {
           page: "post",
           id: props.post,
