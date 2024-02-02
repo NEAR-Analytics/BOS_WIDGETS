@@ -206,7 +206,7 @@ useEffect(() => {
       });
   };
   const getAmountOut = () => {
-    let max = {};
+    let max = null;
     results.forEach((result) => {
       if (
         Big(Number(result.amountOut._hex)).gt(Number(max.amountOut?._hex) || 0)
@@ -214,7 +214,7 @@ useEffect(() => {
         max = result;
       }
     });
-    if (results.length) {
+    if (max) {
       getTransaction(max);
     } else {
       onLoad({
@@ -247,7 +247,7 @@ useEffect(() => {
         sqrtPriceLimitX96: "0",
       },
     ];
-
+    console.log(inputs, outputCurrency.isNative);
     const multicallParams = [];
     const encodedDataCallSwap = RouterIface.encodeFunctionData(
       "exactInputSingle",
@@ -295,7 +295,7 @@ useEffect(() => {
     };
     const getTx = (_gas) => {
       multicallContract.populateTransaction
-        .multicall(multicallParams, { ...options, gasLimit: _gas })
+        .multicall(multicallParams, { ...options, gasLimit: _gas || 4000000 })
         .then((res) => {
           onLoad({
             ...returnData,
@@ -316,6 +316,7 @@ useEffect(() => {
           getTx(_gas);
         })
         .catch((err) => {
+          console.log("estimate error", err);
           onLoad({
             ...returnData,
             noPair: false,
