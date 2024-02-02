@@ -1,7 +1,7 @@
 return (
   <Widget
     loading={props.children}
-    src="mob.near/widget/N.Common.OverlayTrigger"
+    src="james.near/widget/overlay.trigger"
     props={{
       popup: (
         <Widget
