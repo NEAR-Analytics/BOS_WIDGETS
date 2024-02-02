@@ -22,29 +22,31 @@ return (
     {state.profiles && state.profiles.length > 0 && (
       <div style={{ backgroundColor: "#000" }} className="mb-2">
         {state.profiles.map(({ accountId }, i) => (
-          <div
-            key={accountId}
-            className="d-flex justify-content-between align-items-center mb-3"
-          >
-            <div className="me-2 p-2">
-              <Widget
-                src="james.near/widget/profile.link"
-                props={{ accountId, hideDescription: true }}
-              />
+          <>
+            <div
+              key={accountId}
+              className="d-flex justify-content-between align-items-center mb-3"
+            >
+              <div className="me-2 p-2">
+                <Widget
+                  src="james.near/widget/profile.link"
+                  props={{ accountId, hideDescription: true }}
+                />
+              </div>
+              <div className="d-flex flex-row text-nowrap gap-2">
+                <Widget
+                  src="james.near/widget/FollowButton"
+                  props={{ accountId }}
+                />
+                <Widget
+                  src="james.near/widget/dao.button"
+                  props={{ accountId }}
+                />
+              </div>
             </div>
-            <div className="d-flex flex-row text-nowrap gap-2">
-              <Widget
-                src="james.near/widget/FollowButton"
-                props={{ accountId }}
-              />
-              <Widget
-                src="james.near/widget/dao.button"
-                props={{ accountId }}
-              />
-            </div>
-          </div>
+            <hr />
+          </>
         ))}
-        <hr />
       </div>
     )}
     <Widget src="james.near/widget/explore.builders" props={{ limit: 24 }} />
