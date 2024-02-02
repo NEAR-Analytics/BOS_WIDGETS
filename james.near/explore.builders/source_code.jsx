@@ -38,6 +38,6 @@ for (let i = 0; i < accounts.length; ++i) {
 
 return (
   <div>
-    <div class="d-flex flex-wrap gap-1 placeholder-glow">{allWidgets}</div>
+    <div class="d-flex flex-wrap gap-1">{allWidgets}</div>
   </div>
 );
