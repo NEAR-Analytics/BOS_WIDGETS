@@ -159,6 +159,8 @@ function parseNearAmount(amt) {
 
 function createValidatorQueries(validators) {
   let accountId = context.accountId;
+
+  if (!!!accountId) return;
   // Take into account the component loading, honestly
   let progressCounter = 20;
 
