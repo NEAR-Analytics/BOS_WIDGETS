@@ -71,10 +71,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.near",
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
         minMintEvents: 1_000_000,
         minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
@@ -95,10 +97,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.testnet",
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
         minMintEvents: 10,
         minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -111,6 +115,10 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
 
 const Main = styled.div`
   width: 100%;
@@ -225,7 +233,14 @@ const FooterWrapper = styled.div`
 function getTab() {
   const tab = props.tab;
   if (
-    ["mint", "transfer", "deploy", "nrc-20", "my-inscriptions"].includes(tab)
+    [
+      "mint",
+      "transfer",
+      "deploy",
+      "nrc-20",
+      "my-inscriptions",
+      "wrap",
+    ].includes(tab)
   ) {
     return tab;
   } else {
@@ -262,6 +277,12 @@ return (
           href={`/${config.ownerId}/widget/NRC-20?tab=transfer${tickParam}`}
         >
           Transfer
+        </TabItem>
+        <TabItem
+          selected={tab === "wrap"}
+          href={`/${config.ownerId}/widget/NRC-20?tab=wrap`}
+        >
+          Wrap
         </TabItem>
         <TabItem
           selected={tab === "deploy"}
@@ -306,6 +327,15 @@ return (
       )}
       {tab === "my-inscriptions" && (
         <Widget src={`${config.ownerId}/widget/NRC-20.MyInscriptions`} />
+      )}
+      {tab === "wrap" && (
+        <Widget
+          src={`${config.ownerId}/widget/NRC-20.WrapUnwrap`}
+          props={{
+            register: props.register,
+            tick: props.tick,
+          }}
+        />
       )}
     </BodyContainer>
     <FooterWrapper>
