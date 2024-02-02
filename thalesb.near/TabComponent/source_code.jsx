@@ -590,158 +590,160 @@ return (
         </div>
       </MenuContainer>
       <div className="contentOut flex-grow">
-        {activeMenu == "Dashboard" ? (
+        {!!state.sender ? (
           <>
-            {!!state.sender ? (
+            {activeMenu == "Dashboard" ? (
+              <>
+                <Widget
+                  props={{
+                    address: state.sender,
+                  }}
+                  src="thalesb.near/widget/DashboardLayout"
+                />
+              </>
+            ) : null}
+            {activeMenu == "Markets" ? (
               <Widget
                 props={{
-                  address: state.sender,
+                  contracts: [
+                    {
+                      network: "Ethereum",
+                      address: "0xa17581a9e3356d9a858b789d68b4d866e593ae94",
+                      chainId: 1,
+                      httpRpcUrl: "https://ethereum.publicnode.com",
+                      borrowAssetCoingeckoId: "ethereum",
+                      borrowDecimals: 18,
+                      baseTokenName: "Ether",
+                      baseTokenSymbol: "ETH",
+                      networkIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
+                      baseCoinIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
+                      collateralAssets: [
+                        {
+                          name: "Coinbase Wrapped Staked ETH",
+                          address: "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+                          decimals: 18,
+                          coingegkoId: "coinbase-wrapped-staked-eth",
+                          icon: "https://app.compound.finance/images/assets/asset_cbETH.svg",
+                        },
+                        {
+                          name: "Wrapped liquid staked Ether 2.0",
+                          address: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+                          decimals: 18,
+                          coingegkoId: "staked-ether",
+                          icon: "https://app.compound.finance/images/assets/asset_wstETH.svg",
+                        },
+                        {
+                          name: "Rocket Pool ETH",
+                          address: "0xae78736Cd615f374D3085123A210448E74Fc6393",
+                          decimals: 18,
+                          coingegkoId: "rocket-pool-eth",
+                          icon: "https://app.compound.finance/images/assets/asset_RETH.svg",
+                        },
+                      ],
+                    },
+                    {
+                      network: "Ethereum",
+                      address: "0xc3d688b66703497daa19211eedff47f25384cdc3",
+                      chainId: 1,
+                      httpRpcUrl: "https://ethereum.publicnode.com",
+                      borrowAssetCoingeckoId: "usd-coin",
+                      borrowDecimals: 6,
+                      baseTokenName: "USDC Coin",
+                      baseTokenSymbol: "USDC",
+                      networkIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
+                      baseCoinIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
+                      collateralAssets: [
+                        {
+                          name: "Compound",
+                          address: "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+                          decimals: 18,
+                          coingegkoId: "compound-governance-token",
+                        },
+                        {
+                          name: "Wrapped BTC",
+                          address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                          decimals: 8,
+                          coingegkoId: "wrapped-bitcoin",
+                        },
+                        {
+                          name: "Wrapped Ether",
+                          address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                          decimals: 18,
+                          coingegkoId: "ethereum",
+                        },
+                        {
+                          name: "Uniswap",
+                          address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+                          decimals: 18,
+                          coingegkoId: "uniswap",
+                        },
+                        {
+                          name: "Chainlink Token",
+                          address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+                          decimals: 18,
+                          coingegkoId: "chainlink",
+                        },
+                      ],
+                    },
+                    {
+                      network: "Polygon",
+                      address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+                      chainId: 137,
+                      httpRpcUrl: "https://polygon-rpc.com",
+                      borrowAssetCoingeckoId: "usd-coin",
+                      borrowDecimals: 6,
+                      baseTokenName: "USDC Coin (Bridged)",
+                      baseTokenSymbol: "USDC.e",
+                      networkIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/matic.png",
+                      baseCoinIcon:
+                        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
+                      collateralAssets: [
+                        {
+                          name: "Wrapped Ether",
+                          address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+                          decimals: 18,
+                          coingegkoId: "ethereum",
+                        },
+                        {
+                          name: "(PoS) Wrapped BTC (WBTC)",
+                          address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+                          decimals: 8,
+                          coingegkoId: "wrapped-bitcoin",
+                        },
+                        {
+                          name: "Wrapped Matic",
+                          address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+                          decimals: 18,
+                          coingegkoId: "wmatic",
+                        },
+                        {
+                          name: "Liquid Staking Matic (PoS)",
+                          address: "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6",
+                          decimals: 18,
+                          coingegkoId: "stader-maticx",
+                        },
+                        {
+                          name: "Staked MATIC",
+                          address: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+                          decimals: 18,
+                          coingegkoId: "lido-staked-matic",
+                        },
+                      ],
+                    },
+                  ],
                 }}
-                src="thalesb.near/widget/DashboardLayout"
+                src="umulamahri.near/widget/CompoundMarkets"
               />
-            ) : (
-              <ConnectWallet />
-            )}
+            ) : null}
           </>
-        ) : null}
-        {activeMenu == "Markets" ? (
-          <Widget
-            props={{
-              contracts: [
-                {
-                  network: "Ethereum",
-                  address: "0xa17581a9e3356d9a858b789d68b4d866e593ae94",
-                  chainId: 1,
-                  httpRpcUrl: "https://ethereum.publicnode.com",
-                  borrowAssetCoingeckoId: "ethereum",
-                  borrowDecimals: 18,
-                  baseTokenName: "Ether",
-                  baseTokenSymbol: "ETH",
-                  networkIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
-                  baseCoinIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
-                  collateralAssets: [
-                    {
-                      name: "Coinbase Wrapped Staked ETH",
-                      address: "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
-                      decimals: 18,
-                      coingegkoId: "coinbase-wrapped-staked-eth",
-                      icon: "https://app.compound.finance/images/assets/asset_cbETH.svg",
-                    },
-                    {
-                      name: "Wrapped liquid staked Ether 2.0",
-                      address: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-                      decimals: 18,
-                      coingegkoId: "staked-ether",
-                      icon: "https://app.compound.finance/images/assets/asset_wstETH.svg",
-                    },
-                    {
-                      name: "Rocket Pool ETH",
-                      address: "0xae78736Cd615f374D3085123A210448E74Fc6393",
-                      decimals: 18,
-                      coingegkoId: "rocket-pool-eth",
-                      icon: "https://app.compound.finance/images/assets/asset_RETH.svg",
-                    },
-                  ],
-                },
-                {
-                  network: "Ethereum",
-                  address: "0xc3d688b66703497daa19211eedff47f25384cdc3",
-                  chainId: 1,
-                  httpRpcUrl: "https://ethereum.publicnode.com",
-                  borrowAssetCoingeckoId: "usd-coin",
-                  borrowDecimals: 6,
-                  baseTokenName: "USDC Coin",
-                  baseTokenSymbol: "USDC",
-                  networkIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/white/eth.png",
-                  baseCoinIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
-                  collateralAssets: [
-                    {
-                      name: "Compound",
-                      address: "0xc00e94Cb662C3520282E6f5717214004A7f26888",
-                      decimals: 18,
-                      coingegkoId: "compound-governance-token",
-                    },
-                    {
-                      name: "Wrapped BTC",
-                      address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
-                      decimals: 8,
-                      coingegkoId: "wrapped-bitcoin",
-                    },
-                    {
-                      name: "Wrapped Ether",
-                      address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-                      decimals: 18,
-                      coingegkoId: "ethereum",
-                    },
-                    {
-                      name: "Uniswap",
-                      address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-                      decimals: 18,
-                      coingegkoId: "uniswap",
-                    },
-                    {
-                      name: "Chainlink Token",
-                      address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-                      decimals: 18,
-                      coingegkoId: "chainlink",
-                    },
-                  ],
-                },
-                {
-                  network: "Polygon",
-                  address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
-                  chainId: 137,
-                  httpRpcUrl: "https://polygon-rpc.com",
-                  borrowAssetCoingeckoId: "usd-coin",
-                  borrowDecimals: 6,
-                  baseTokenName: "USDC Coin (Bridged)",
-                  baseTokenSymbol: "USDC.e",
-                  networkIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/matic.png",
-                  baseCoinIcon:
-                    "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/usdc.png",
-                  collateralAssets: [
-                    {
-                      name: "Wrapped Ether",
-                      address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
-                      decimals: 18,
-                      coingegkoId: "ethereum",
-                    },
-                    {
-                      name: "(PoS) Wrapped BTC (WBTC)",
-                      address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
-                      decimals: 8,
-                      coingegkoId: "wrapped-bitcoin",
-                    },
-                    {
-                      name: "Wrapped Matic",
-                      address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-                      decimals: 18,
-                      coingegkoId: "wmatic",
-                    },
-                    {
-                      name: "Liquid Staking Matic (PoS)",
-                      address: "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6",
-                      decimals: 18,
-                      coingegkoId: "stader-maticx",
-                    },
-                    {
-                      name: "Staked MATIC",
-                      address: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
-                      decimals: 18,
-                      coingegkoId: "lido-staked-matic",
-                    },
-                  ],
-                },
-              ],
-            }}
-            src="umulamahri.near/widget/CompoundMarkets"
-          />
-        ) : null}
+        ) : (
+          <ConnectWallet />
+        )}
       </div>
     </Container>
   </Layout>
