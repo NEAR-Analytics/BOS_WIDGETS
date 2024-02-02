@@ -668,6 +668,7 @@ if (
   State.update({ hasSetInitialTick: true });
   updateSelectValue(props.tick);
 }
+
 return (
   <>
     <div>
@@ -813,9 +814,9 @@ return (
           contractName: ftWrapperAddress(state.tickerInput),
           methodName: "ft_wrap",
           args: {
-            amount: Big(state.wrapAmount).times(
-              Big(10).pow(state.decimals).toFixed(0)
-            ),
+            amount: Big(state.wrapAmount)
+              .times(Big(10).pow(state.decimals))
+              .toFixed(0),
           },
           deposit: "10000000000000000000000", // 0.01 N
         });
