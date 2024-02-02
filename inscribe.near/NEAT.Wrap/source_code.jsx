@@ -71,10 +71,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.near",
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
         minMintEvents: 1_000_000,
         minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
@@ -95,10 +97,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.testnet",
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
         minMintEvents: 10,
         minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -111,6 +115,15 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
+
+const WrapFee = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+`;
 
 const ArrowDown = () => (
   <img
@@ -275,6 +288,23 @@ function fetchTokenInfoAsync(token) {
   });
 }
 
+function fetchOwnTokenInfosAsync(creatorId) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos(where:{creatorId:"${creatorId}"}) {
+        ticker
+        decimals
+        limit
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
 function getBalance() {
   const accountId = props.accountId || context.accountId;
   return asyncFetchFromGraph(`
@@ -316,6 +346,33 @@ function getBalances() {
       return balanceResponse.body.data.holderInfos;
     }
     return undefined;
+  });
+}
+
+function getFtWrappers() {
+  return Near.asyncView(config.ftWrapperFactory, "get_ft_wrappers", {
+    offset: 0,
+    limit: 1000,
+  });
+}
+function getNep141Balance(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getWrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_wrap_fee_rate", {
+    account_id: accountId,
+  });
+}
+
+function getUnwrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_unwrap_fee_rate", {
+    account_id: accountId,
   });
 }
 
@@ -382,7 +439,7 @@ State.init({
 });
 
 function fetchAllData() {
-  const response = fetchFromGraph(`
+  asyncFetchFromGraph(`
     query {
       tokenInfo (id: "NEAT") {
         ticker
@@ -394,9 +451,7 @@ function fetchAllData() {
         count
       }
     }
-  `);
-
-  if (response) {
+  `).then((response) => {
     const tokenInfo = response.body.data.tokenInfo;
     const holderCount = response.body.data.holderCount.count;
     State.update({
@@ -440,7 +495,7 @@ function fetchAllData() {
         },
       ],
     });
-  }
+  });
 
   getBalance().then((balance) =>
     State.update({
@@ -510,7 +565,10 @@ function updateInputValue(value) {
     });
     return;
   }
-  if (value === "" || (isInputDigit(value) && isMaxDecimals(value, 8))) {
+  if (
+    value === "" ||
+    (isInputDigit(value) && isMaxDecimals(value, config.neatDecimals))
+  ) {
     State.update({
       wrapAmount: removePrefix0(value),
       wrapAmountInputError: undefined,
@@ -519,13 +577,26 @@ function updateInputValue(value) {
 
   if (
     isDigit(value) &&
-    Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(8)))
+    Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(config.neatDecimals)))
   ) {
     State.update({
       wrapAmountInputError: "Insufficient balance",
     });
   }
 }
+
+getWrapFeeRate(ftWrapperAddress(config.args.tick))
+  .then((fee) => {
+    State.update({
+      wrapFee: fee,
+    });
+  })
+  .catch((error) => {
+    State.update({
+      wrapFee: undefined,
+    });
+    console.log(error.message);
+  });
 
 return (
   <>
@@ -541,7 +612,7 @@ return (
         onClickMax: () =>
           updateInputValue(
             Big(state.balance ?? 0)
-              .div(Big(10).pow(8))
+              .div(Big(10).pow(config.neatDecimals))
               .toFixed()
           ),
         error: state.wrapAmountInputError,
@@ -559,9 +630,35 @@ return (
         unit: "$NEAT",
         disabled: true,
         variant: "grey",
-        value: state.wrapAmount,
+        value:
+          state.wrapFee && isDigit(state.wrapAmount)
+            ? Big(state.wrapAmount)
+                .minus(
+                  Big(state.wrapFee)
+                    .div(10000)
+                    .times(state.wrapAmount)
+                    .toFixed(config.neatDecimals)
+                )
+                .toFixed()
+            : state.wrapAmount,
       }}
     />
+    <WrapFee>
+      Wrap Fee:{" "}
+      {state.wrapFee
+        ? Big(state.wrapFee ?? 0)
+            .div(100)
+            .toFixed(2)
+        : "0.00"}
+      % (
+      {state.wrapFee && isDigit(state.wrapAmount)
+        ? Big(state.wrapFee ?? 0)
+            .div(10000)
+            .times(state.wrapAmount)
+            .toFixed(config.neatDecimals)
+        : Big(0).toFixed(config.neatDecimals)}
+      )
+    </WrapFee>
     <FormButton
       disabled={
         !!state.wrapAmountInputError ||
@@ -573,7 +670,9 @@ return (
           contractName: config.ftWrapper,
           methodName: "ft_wrap",
           args: {
-            amount: Big(state.wrapAmount).times(Big(10).pow(8)).toFixed(0),
+            amount: Big(state.wrapAmount)
+              .times(Big(10).pow(config.neatDecimals))
+              .toFixed(0),
           },
           deposit: "10000000000000000000000", // 0.01 N
         });
