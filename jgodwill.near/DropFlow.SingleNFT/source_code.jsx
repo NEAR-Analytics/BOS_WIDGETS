@@ -555,13 +555,19 @@ const nftOwner =
       : `@${owner?.slice(0, 10)}...${owner?.slice(owner?.length - 4)}`
   }`;
 
+const title = state.title;
+const nftName =
+  title.length > 20
+    ? `${title?.slice(0, 10)}...${tiltle?.slice(title?.length - 4)}`
+    : `${title}`;
+
 return (
   <Root>
     <MainContainer>
       <TopSection>
         <TopImageContainer>
           <div className="Top-section">
-            <HeaderText>{state.title || "AI Sunset"}</HeaderText>
+            <HeaderText>{nftName || "AI Sunset"}</HeaderText>
             {props.chainState ? (
               <Logo>
                 <img src={currentChainProps[props.chainState]?.img} />
