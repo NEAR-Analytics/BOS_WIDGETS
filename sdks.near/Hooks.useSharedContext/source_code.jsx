@@ -5,13 +5,21 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
     initialized: false,
   });
 
+  let content = Object.fromEntries(
+    widgetsSrc.map((widget) => {
+      let breadcrumb = widget.split("/");
+      let name = breadcrumb.pop().split(".").pop();
+      return [name, VM.require(widget)];
+    })
+  );
+
   const checkLoaded = () =>
     setTimeout(() => {
       if (
-        Object.keys(status.app) &&
-        typeof status.app[Object.keys(status.app).pop()] === "function"
+        Object.keys(content) &&
+        typeof content[Object.keys(content).pop()] === "function"
       ) {
-        Store.update({ loaded: true });
+        Store.update({ loaded: true, app: content });
       } else {
         checkLoaded();
       }
@@ -19,13 +27,6 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
 
   if (!status.initialized) {
     Store.update({
-      app: Object.fromEntries(
-        widgetsSrc.map((widget) => {
-          let breadcrumb = widget.split("/");
-          let name = breadcrumb.pop().split(".").pop();
-          return [name, VM.require(widget)];
-        })
-      ),
       initialized: true,
       loaded: false,
     });
@@ -52,4 +53,13 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
       );
 };
 
-return useSharedContext;
+const { Toolbar } = useSharedContext({
+  with: [State, state],
+  from: [`mattb.near/widget/Frensly.Components.Toolbar`],
+});
+
+return (
+  <>
+    <Toolbar></Toolbar>
+  </>
+);
