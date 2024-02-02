@@ -6,13 +6,12 @@ const {
   dexConfig,
   update,
   onLoad,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
 } = props;
 const { borrowTokenAddress, StabilityPool, VesselManagerOperations, markets } =
   dexConfig;
-
-const ETHOS_DAPP = "Ethos Finance";
-const PREON_DAPP = "Preon Finance";
-const GRAVITA_DAPP = "Gravita Protocol";
 
 useEffect(() => {
   if (!account || !update || !multicallAddress) return;
@@ -23,48 +22,43 @@ useEffect(() => {
     let abi;
     let calls;
     const tokens = Object.keys(dexConfig.markets);
-    switch (dexConfig.name) {
-      case ETHOS_DAPP:
-        abi = [
-          {
-            inputs: [
-              { internalType: "address", name: "_borrower", type: "address" },
-              { internalType: "address", name: "_collateral", type: "address" },
-            ],
-            name: "getTroveDebt",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-          },
-        ];
-        calls = tokens.map((addr) => ({
-          address: _contract,
+    if (IS_ETHOS_DAPP) {
+      abi = [
+        {
+          inputs: [
+            { internalType: "address", name: "_borrower", type: "address" },
+            { internalType: "address", name: "_collateral", type: "address" },
+          ],
           name: "getTroveDebt",
-          params: [account, addr],
-        }));
-        break;
-      case PREON_DAPP:
-      case GRAVITA_DAPP:
-        abi = [
-          {
-            inputs: [
-              { internalType: "address", name: "_asset", type: "address" },
-              { internalType: "address", name: "_borrower", type: "address" },
-            ],
-            name: "getVesselDebt",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-          },
-        ];
-        calls = tokens.map((addr) => ({
-          address: _contract,
+          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ];
+      calls = tokens.map((addr) => ({
+        address: _contract,
+        name: "getTroveDebt",
+        params: [account, addr],
+      }));
+    }
+    if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+      abi = [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+            { internalType: "address", name: "_borrower", type: "address" },
+          ],
           name: "getVesselDebt",
-          params: [addr, account],
-        }));
-        break;
-      default:
-        break;
+          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ];
+      calls = tokens.map((addr) => ({
+        address: _contract,
+        name: "getVesselDebt",
+        params: [addr, account],
+      }));
     }
 
     multicall({
@@ -99,48 +93,43 @@ useEffect(() => {
     let abi;
     let calls;
     const tokens = Object.keys(dexConfig.markets);
-    switch (dexConfig.name) {
-      case ETHOS_DAPP:
-        abi = [
-          {
-            inputs: [
-              { internalType: "address", name: "_borrower", type: "address" },
-              { internalType: "address", name: "_collateral", type: "address" },
-            ],
-            name: "getTroveColl",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-          },
-        ];
-        calls = tokens.map((addr) => ({
-          address: _contract,
+    if (IS_ETHOS_DAPP) {
+      abi = [
+        {
+          inputs: [
+            { internalType: "address", name: "_borrower", type: "address" },
+            { internalType: "address", name: "_collateral", type: "address" },
+          ],
           name: "getTroveColl",
-          params: [account, addr],
-        }));
-        break;
-      case PREON_DAPP:
-      case GRAVITA_DAPP:
-        abi = [
-          {
-            inputs: [
-              { internalType: "address", name: "_asset", type: "address" },
-              { internalType: "address", name: "_borrower", type: "address" },
-            ],
-            name: "getVesselColl",
-            outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-            stateMutability: "view",
-            type: "function",
-          },
-        ];
-        calls = tokens.map((addr) => ({
-          address: _contract,
+          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ];
+      calls = tokens.map((addr) => ({
+        address: _contract,
+        name: "getTroveColl",
+        params: [account, addr],
+      }));
+    }
+    if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
+      abi = [
+        {
+          inputs: [
+            { internalType: "address", name: "_asset", type: "address" },
+            { internalType: "address", name: "_borrower", type: "address" },
+          ],
           name: "getVesselColl",
-          params: [addr, account],
-        }));
-        break;
-      default:
-        break;
+          outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          stateMutability: "view",
+          type: "function",
+        },
+      ];
+      calls = tokens.map((addr) => ({
+        address: _contract,
+        name: "getVesselColl",
+        params: [addr, account],
+      }));
     }
 
     multicall({
@@ -377,7 +366,7 @@ useEffect(() => {
   getInfo();
   getDebt();
   getWalletBalance();
-  if (dexConfig.name !== ETHOS_DAPP) {
+  if (!IS_ETHOS_DAPP) {
     getMinted();
   }
 }, [account, update]);
