@@ -278,7 +278,6 @@ const LikeButton = styled.button`
   .cost {
     display: flex;
     width: 51px;
-    padding-right: 4px;
     justify-content: center;
     align-items: center;
     gap: 6px;
