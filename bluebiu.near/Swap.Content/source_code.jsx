@@ -452,6 +452,7 @@ return (
             console.log("amountOutFn", data);
             State.update({
               loading: false,
+              priceImpact: null,
               ...data,
             });
           },
