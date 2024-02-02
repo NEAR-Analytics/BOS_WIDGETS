@@ -81,7 +81,7 @@ const logo = (
   </LogoArea>
 );
 
-const info = <Info>Sept 27- Dec 6 </Info>;
+const info = <Info>Jan 27 - May 7 </Info>;
 
 const actions = (
   <ActionArea>
