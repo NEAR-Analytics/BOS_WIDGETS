@@ -1,5 +1,11 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { useSharedContext } = $("@sdks/hooks");
+const { RoutesManager } = $("@sdks/routes-manager");
+
+const { Route, RouterView } = new RoutesManager(State, state, {
+  home: <>Home</>,
+  explore: <>Explore</>,
+});
 
 const OWNER = "mattb.near";
 
@@ -245,7 +251,8 @@ return (
         </Modal>
       )}
       <Wrapper>
-        <Toolbar></Toolbar>
+        <Toolbar props={{ Route }}></Toolbar>
+        <RouterView />
         <Header>
           <div>
             <img src={NEARFRENS_LOGO} />
