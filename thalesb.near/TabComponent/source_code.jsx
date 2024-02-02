@@ -92,28 +92,56 @@ const MenuContainer = styled.div`
   }
   .switchButton {
     display: none;
-    @media (max-width: 728px) {
-      display: flex;
-    }
-  }
-  .connectWallet2 {
-    display: none;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 18px;
     color: #ffffff;
     cursor: pointer;
     border: none;
-
+    background: #4a4e67;
+    width: 100%;
+    border-radius:8px;
+    height: 50px;
     &:hover,
     &:focus {
       opacity: 0.8;
-      background-color: transparent;
-
-      border: none;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     @media (max-width: 728px) {
       display: flex;
+      align-self: center;
+      align-items: center;
+      justify-content: center;
+      margin-top: 5px;
+    }
+    }
+    
+  }
+  .connectWalletContainer {
+    display: flex;
+
+    .connectWallet2 {
+      display: none;
+      font-weight: 500;
+      font-size: 18px;
+      color: #ffffff;
+      cursor: pointer;
+      border: none;
+      background: #4a4e67;
+      width: 100%;
+
+      height: 50px;
+      &:hover,
+      &:focus {
+        opacity: 0.8;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      @media (max-width: 728px) {
+        display: flex;
+        align-self: center;
+        align-items: center;
+        justify-content: center;
+        margin-top: 5px;
+      }
     }
   }
 
@@ -126,7 +154,7 @@ const MenuContainer = styled.div`
     width: 180px;
     height: 64px;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 18px;
     color: #ffffff;
     cursor: pointer;
     margin-bottom: 2px;
@@ -162,7 +190,7 @@ const MenuContainer = styled.div`
   @media (max-width: 728px) {
     margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); // Update for three tabs
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 16px;
     background: #222436;
     position: fixed;
@@ -190,11 +218,11 @@ const MenuContainer = styled.div`
       border-color: transparent;
     }
     .connectTab {
-      // Styles for the mobile view connect button
-      display: flex; // Ensure it's displayed in the grid
+   
+      display: flex; 
     }
     .alignCenter {
-      display: flex; // Optionally make it visible again if needed in another context
+      display: flex; 
     }
   }
 `;
@@ -204,7 +232,7 @@ const Container1 = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh; // Full height of the viewport
+  height: 100vh;
   padding: 36px;
   margin-top: 30px;
 
@@ -284,7 +312,6 @@ const ConnectButton = styled.button`
   }
 `;
 
-// React component
 const ConnectWallet = () => {
   return (
     <Container1>
@@ -298,10 +325,8 @@ const ConnectWallet = () => {
           connectLabel="Connect Wallet"
           disconnectLabel="Disconnect Wallet"
           connectingLabel="Connecting..."
-          style={{ display: "none" }}
         />
       </ConnectContainer>
-      {/* Placeholder for the image */}
 
       <img
         className="image"
@@ -500,8 +525,6 @@ const switchNetwork = () => {
   ]);
 };
 
-//TODO: Add the switch to the web3 modal.
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -515,28 +538,6 @@ return (
       <MenuContainer>
         <div
           onClick={() => {
-            //TODO: we need to evaluate if it's worth making our own wallet connect button
-            // Because the user can't click on the Icon to login
-          }}
-          className={`connectTab ${
-            /* Condition to make active if necessary */ ""
-          }`}
-        >
-          {state.chainId !== undefined && state.chainId !== 137 ? (
-            <div className="switchButton" onClick={() => switchNetwork()}>
-              Switch Network
-            </div>
-          ) : (
-            <Web3Connect
-              className="connectWallet2"
-              connectLabel="Connect"
-              disconnectLabel="Disconnect"
-              connectingLabel="Connecting..."
-            />
-          )}
-        </div>
-        <div
-          onClick={() => {
             changeTab("Dashboard");
           }}
           className={`item ${activeMenu == "Dashboard" ? "active" : ""}`}
@@ -545,6 +546,21 @@ return (
             {activeMenu === "Dashboard" ? DashboardIcon : DashboardDisabledIcon}
           </span>
           Dashboard
+        </div>
+        <div className={`connectWalletContainer`}>
+          {state.chainId !== undefined && state.chainId !== 137 ? (
+            <div className="switchButton" onClick={() => switchNetwork()}>
+              Switch Network
+            </div>
+          ) : (
+            <Web3Connect
+              network={137}
+              className="connectWallet2"
+              connectLabel="Connect"
+              disconnectLabel="Disconnect"
+              connectingLabel="Connecting..."
+            />
+          )}
         </div>
         <div
           onClick={() => {
@@ -569,7 +585,6 @@ return (
               connectLabel="Connect Wallet"
               disconnectLabel="Disconnect Wallet"
               connectingLabel="Connecting..."
-              style={{ display: "none" }}
             />
           )}
         </div>
