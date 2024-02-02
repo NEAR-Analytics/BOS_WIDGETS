@@ -1,9 +1,9 @@
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 const { getDepositAmountForWriteAccess } = VM.require(
-  "thomasguntenaar.near/widget/core.lib.common"
+  "${REPL_DEVHUB}/widget/core.lib.common"
 );
 
 getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
@@ -72,37 +72,24 @@ const Tag = styled.div`
 
 const [sort, setSort] = useState("timedesc");
 
-const grantNotify = Near.view(
-  "social.near",
+const grantPost = Near.view(
+  "${REPL_SOCIAL_CONTRACT}",
   "is_write_permission_granted",
   {
-    predecessor_id: "devgovgigs.near",
-    key: context.accountId + "/index/notify",
-  }
-);
-
-const grantRepost = Near.view(
-  "social.near",
-  "is_write_permission_granted",
-  {
-    predecessor_id: "devgovgigs.near",
-    key: context.accountId + "/index/repost",
+    predecessor_id: "${REPL_DEVHUB_LEGACY}",
+    key: context.accountId + "/main/post",
   }
 );
 
 const userStorageDeposit = Near.view(
-  "social.near",
+  "${REPL_SOCIAL_CONTRACT}",
   "storage_balance_of",
   {
     account_id: context.accountId,
   }
 );
 
-if (
-  grantNotify === null ||
-  grantRepost === null ||
-  userStorageDeposit === null
-) {
+if (grantPost === null || userStorageDeposit === null) {
   return;
 }
 
@@ -114,12 +101,12 @@ return (
           {context.accountId && (
             <div className="card p-4">
               <Widget
-                src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
+                src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
                 props={{
                   onSubmit: (v) => {
                     let createDiscussionTx = [
                       {
-                        contractName: "devhub.near",
+                        contractName: "${REPL_DEVHUB_CONTRACT}",
                         methodName: "create_discussion",
                         args: {
                           handle,
@@ -129,16 +116,13 @@ return (
                       },
                     ];
 
-                    if (grantNotify === false || grantRepost === false) {
+                    if (grantPost === false) {
                       createDiscussionTx.unshift({
-                        contractName: "social.near",
+                        contractName: "${REPL_SOCIAL_CONTRACT}",
                         methodName: "grant_write_permission",
                         args: {
-                          predecessor_id: "devhub.near",
-                          keys: [
-                            context.accountId + "/index/notify",
-                            context.accountId + "/index/repost",
-                          ],
+                          predecessor_id: "${REPL_DEVHUB_CONTRACT}",
+                          keys: [context.accountId + "/post/main"],
                         },
                         gas: Big(10).pow(14),
                         deposit:
@@ -172,12 +156,12 @@ return (
           </div>
 
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.organism.Feed"
+            src="${REPL_DEVHUB}/widget/devhub.components.organism.Feed"
             props={{
               showFlagAccountFeature: true,
               action: "repost",
               filteredAccountIds: [
-                `${handle}.community.devhub.near`,
+                `discussions.${handle}.community.${REPL_DEVHUB_CONTRACT}`,
               ],
               sort: sort,
             }}
@@ -201,7 +185,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
+                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
