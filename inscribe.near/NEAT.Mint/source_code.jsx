@@ -71,10 +71,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.near",
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
         minMintEvents: 1_000_000,
         minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
@@ -95,10 +97,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.testnet",
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
         minMintEvents: 10,
         minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -111,6 +115,10 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
 
 const FormContainer = styled.div`
   max-width: 650px;
@@ -283,6 +291,23 @@ function fetchTokenInfoAsync(token) {
   });
 }
 
+function fetchOwnTokenInfosAsync(creatorId) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos(where:{creatorId:"${creatorId}"}) {
+        ticker
+        decimals
+        limit
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
 function getBalance() {
   const accountId = props.accountId || context.accountId;
   return asyncFetchFromGraph(`
@@ -324,6 +349,33 @@ function getBalances() {
       return balanceResponse.body.data.holderInfos;
     }
     return undefined;
+  });
+}
+
+function getFtWrappers() {
+  return Near.asyncView(config.ftWrapperFactory, "get_ft_wrappers", {
+    offset: 0,
+    limit: 1000,
+  });
+}
+function getNep141Balance(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getWrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_wrap_fee_rate", {
+    account_id: accountId,
+  });
+}
+
+function getUnwrapFeeRate(contractName) {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(contractName, "get_unwrap_fee_rate", {
+    account_id: accountId,
   });
 }
 
@@ -390,7 +442,7 @@ State.init({
 });
 
 function fetchAllData() {
-  const response = fetchFromGraph(`
+  asyncFetchFromGraph(`
     query {
       tokenInfo (id: "NEAT") {
         ticker
@@ -402,9 +454,7 @@ function fetchAllData() {
         count
       }
     }
-  `);
-
-  if (response) {
+  `).then((response) => {
     const tokenInfo = response.body.data.tokenInfo;
     const holderCount = response.body.data.holderCount.count;
     State.update({
@@ -448,7 +498,7 @@ function fetchAllData() {
         },
       ],
     });
-  }
+  });
 
   getBalance().then((balance) =>
     State.update({
