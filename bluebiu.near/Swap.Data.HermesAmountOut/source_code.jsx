@@ -118,6 +118,7 @@ const {
   onLoad,
   slippage,
   account,
+  prices,
 } = props;
 
 useEffect(() => {
