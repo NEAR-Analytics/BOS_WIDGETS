@@ -121,10 +121,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.near",
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
         minMintEvents: 1_000_000,
         minHolders: 1_000,
+        neatDecimals: 8,
       };
     case "testnet":
       return {
@@ -145,10 +147,12 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapperFactory: "nrc-20.testnet",
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
         minMintEvents: 10,
         minHolders: 5,
+        neatDecimals: 8,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -161,6 +165,10 @@ const tx = {
   args: config.args,
   gas: GasPerTransaction,
 };
+
+function ftWrapperAddress(tick) {
+  return tick.toLowerCase() + "." + config.ftWrapperFactory;
+}
 
 const TopButton = styled("Link")`
   color: white;
