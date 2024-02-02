@@ -955,7 +955,7 @@ const handleInputTokenB = (input) => {
     let deltaL = 1;
     const difPriceIl = Math.abs(Big(step1TokenAAmount - il));
     const difPriceIu = Math.abs(Big(step1TokenAAmount - iu));
-    if (difPriceIl < 0.00000000001 || difPriceIu < 0.00000000001) {
+    if (difPriceIl < 0.00000000001) {
       const priceFix = step1TokenAAmount.toFixed(11);
       const ilFix = il.toFixed(11);
       const iuFix = iu.toFixed(11);
@@ -964,9 +964,6 @@ const handleInputTokenB = (input) => {
       const sqrtIu = Math.sqrt(iuFix);
       if (priceFix == ilFix && sqrtIl == sqrtPrice) {
         sqrtIl = sqrtIl + 0.00012;
-      }
-      if (priceFix == iuFix && sqrtIu == sqrtPrice) {
-        sqrtIu = sqrtIu + 0.000000012;
       }
       deltaY = deltaL * (sqrtIl - sqrtPrice);
       deltaX = deltaL * (1 / sqrtPrice - 1 / sqrtIu);
