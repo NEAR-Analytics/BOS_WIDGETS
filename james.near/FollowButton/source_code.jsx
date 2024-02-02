@@ -51,10 +51,16 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn ${
-      loading || follow ? "btn-dark" : "btn-outline-light"
+      loading || follow ? "btn-secondary" : "btn-primary"
     } rounded-5`}
     data={data}
   >
-    {loading ? "Loading" : follow ? "Unfollow" : "Connect"}
+    {loading
+      ? "Loading"
+      : follow
+      ? "Following"
+      : inverse
+      ? "Follow back"
+      : "Follow"}
   </CommitButton>
 );
