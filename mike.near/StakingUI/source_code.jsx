@@ -159,6 +159,7 @@ function parseNearAmount(amt) {
 
 function createValidatorQueries(validators) {
   let accountId = context.accountId;
+  console.log("aloha top of createValidatorQueries. accountId", accountId);
 
   if (!!!accountId) return;
   // Take into account the component loading, honestly
