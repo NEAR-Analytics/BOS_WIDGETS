@@ -43,7 +43,6 @@ const [template, setTemplate] = useState("What did you have in mind?");
 
 return (
   <Widget
-    src="buildhub.near/widget/components.AsideWithMainContent"
     props={{
       sideContent: null,
       mainContent: (
