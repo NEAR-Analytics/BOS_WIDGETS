@@ -19,10 +19,10 @@ const RoutesManager = (Store, status, routes, { page }) => {
         RouterView: () => Router.get("state").currentView || null,
         Route: (props) => {
             let search = (obj, index) => {
-                return index in obj ? search(obj, index) : obj;
+                return index in obj ? search(obj[index], index) : obj;
             };
             let params = search(props, "props");
-            
+
             return <a href="#" onClick={() => Router.changeRoute(params.to)}>
                 {props.children}
             </a>;
