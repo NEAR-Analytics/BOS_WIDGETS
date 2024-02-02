@@ -5,7 +5,6 @@ const description = Social.get(`${accountId}/profile/description`);
 const Container = styled.div`
   background-color: #000;
   border-radius: 10px;
-  color: #fff;
   padding: 1rem;
 `;
 
