@@ -122,7 +122,7 @@ const Search = styled.input`
 `;
 
 return (State, store, { Route }) => {
-  Route = Route || styled.a``;
+  Route = Route || styled.a`background-color:red`;
 
   return (
     <Toolbar>
