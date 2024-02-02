@@ -120,7 +120,7 @@ const Search = styled.input`
 `;
 
 return (State, store, { Route }) => {
-  Route = Route || (() => <></>);
+  Route = Route || ((props) => <>{props.children}</>);
 
   return (
     <Toolbar>
@@ -132,7 +132,7 @@ return (State, store, { Route }) => {
         <MenuOptions>
           {routeMap.map((route) => (
             <Route to={route.to}>
-                <Option>{route.name}</Option>
+              <Option>{route.name}</Option>
             </Route>
           ))}
         </MenuOptions>
