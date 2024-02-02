@@ -95,6 +95,10 @@ const {
   isBigerThanBalance,
   yourLTV,
   isCollIncrease,
+  _maxFeePercentage,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -264,11 +268,7 @@ if (!state.isApproved) {
   );
 }
 
-function handleAdjust() {
-  State.update({
-    pending: true,
-  });
-
+function makeAdjustContract() {
   const _asset = data.underlyingToken.address;
   const _assetSent = isCollIncrease ? ethers.utils.parseUnits(_assetAmount) : 0;
   const _collWithdrawal = isCollIncrease
@@ -276,55 +276,111 @@ function handleAdjust() {
     : ethers.utils.parseUnits(_assetAmount);
   const _debtTokenChange = 0;
   const _isDebtIncrease = false;
+  let _upperHint;
+  let _lowerHint;
 
-  const _upperHint = "0x0000000000000000000000000000000000000000";
-  const _lowerHint = "0x0000000000000000000000000000000000000000";
-  //preon
-  const abi = [
-    {
-      inputs: [
-        { internalType: "address", name: "_asset", type: "address" },
-        { internalType: "uint256", name: "_assetSent", type: "uint256" },
-        {
-          internalType: "uint256",
-          name: "_collWithdrawal",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "_debtTokenChange",
-          type: "uint256",
-        },
-        { internalType: "bool", name: "_isDebtIncrease", type: "bool" },
-        { internalType: "address", name: "_upperHint", type: "address" },
-        { internalType: "address", name: "_lowerHint", type: "address" },
-      ],
-      name: "adjustVessel",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-
-  const contract = new ethers.Contract(
-    data.config.BorrowerOperations,
-    abi,
-    Ethers.provider().getSigner()
-  );
-  //preon
-  const params = [
-    _asset,
-    _assetSent,
-    _collWithdrawal,
-    _debtTokenChange,
-    _isDebtIncrease,
-    _upperHint,
-    _lowerHint,
-  ];
-  contract
-    .adjustVessel(...params, {
+  let params;
+  let abi;
+  if (IS_GRAVITA_DAPP || IS_PREON_DAPP) {
+    _upperHint = "0x0000000000000000000000000000000000000000";
+    _lowerHint = "0x0000000000000000000000000000000000000000";
+    abi = [
+      {
+        inputs: [
+          { internalType: "address", name: "_asset", type: "address" },
+          { internalType: "uint256", name: "_assetSent", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "_collWithdrawal",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "_debtTokenChange",
+            type: "uint256",
+          },
+          { internalType: "bool", name: "_isDebtIncrease", type: "bool" },
+          { internalType: "address", name: "_upperHint", type: "address" },
+          { internalType: "address", name: "_lowerHint", type: "address" },
+        ],
+        name: "adjustVessel",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+    params = [
+      _asset,
+      _assetSent,
+      _collWithdrawal,
+      _debtTokenChange,
+      _isDebtIncrease,
+      _upperHint,
+      _lowerHint,
+    ];
+    return new ethers.Contract(
+      data.config.BorrowerOperations,
+      abi,
+      Ethers.provider().getSigner()
+    ).adjustVessel(...params, {
       gasLimit: 4000000,
-    })
+    });
+  }
+  if (IS_ETHOS_DAPP) {
+    _upperHint = account;
+    _lowerHint = account;
+    abi = [
+      {
+        inputs: [
+          { internalType: "address", name: "_collateral", type: "address" },
+          {
+            internalType: "uint256",
+            name: "_maxFeePercentage",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "_collTopUp", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "_collWithdrawal",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "_LUSDChange", type: "uint256" },
+          { internalType: "bool", name: "_isDebtIncrease", type: "bool" },
+          { internalType: "address", name: "_upperHint", type: "address" },
+          { internalType: "address", name: "_lowerHint", type: "address" },
+        ],
+        name: "adjustTrove",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+    params = [
+      _asset,
+      _maxFeePercentage,
+      _assetSent,
+      _collWithdrawal,
+      _debtTokenChange,
+      _isDebtIncrease,
+      _upperHint,
+      _lowerHint,
+    ];
+    return new ethers.Contract(
+      data.config.BorrowerOperations,
+      abi,
+      Ethers.provider().getSigner()
+    ).adjustTrove(...params, {
+      gasLimit: 4000000,
+    });
+  }
+}
+
+function handleAdjust() {
+  State.update({
+    pending: true,
+  });
+
+  makeAdjustContract()
     .then((tx) => {
       tx.wait()
         .then((res) => {
@@ -333,16 +389,7 @@ function handleAdjust() {
           State.update({
             pending: false,
           });
-          // addAction?.({
-          //   type: "Lending",
-          //   action: actionText,
-          //   token: data.underlyingToken,
-          //   amount: _assetAmount,
-          //   template: data.dappName,
-          //   add: false,
-          //   status,
-          //   transactionHash,
-          // });
+
           if (status === 1) {
             onSuccess?.(data.dapp);
             toast?.success({
