@@ -26,6 +26,10 @@ State.init({
   tokenBal: "",
 });
 
+const IS_ETHOS_DAPP = dexConfig.name === "Ethos Finance" ? true : false;
+const IS_PREON_DAPP = dexConfig.name === "Preon Finance" ? true : false;
+const IS_GRAVITA_DAPP = dexConfig.name === "Gravita Protocol" ? true : false;
+
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
@@ -38,18 +42,16 @@ return (
       <Widget
         src="bluebiu.near/widget/Lending.LiquityMarkets"
         props={{
-          addAction,
-          toast,
-          chainId,
-          nativeCurrency,
+          ...props,
+          IS_ETHOS_DAPP,
+          IS_PREON_DAPP,
+          IS_GRAVITA_DAPP,
           dexConfig: {
             ...dexConfig,
             markets: state.newMarkets,
           },
           tokenBal: state.tokenBal,
           deposits: state.deposits,
-          account,
-          prices,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -84,6 +86,9 @@ return (
       props={{
         update: state.loading,
         ...props,
+        IS_ETHOS_DAPP,
+        IS_PREON_DAPP,
+        IS_GRAVITA_DAPP,
         onLoad: (data) => {
           State.update({
             loading: false,
