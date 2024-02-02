@@ -82,6 +82,10 @@ const MenuOptions = styled.ul`
   margin-left:20px;
 
   li {
+      :not(:last-of-type) {
+        margin-right:15px;
+      }
+      
       a {
           border-radius:30px;
           border:0;
@@ -92,10 +96,6 @@ const MenuOptions = styled.ul`
           border:1px solid rgba(0,0,0,.05);
           padding:.5rem 1.2rem;
           transition:all .2s;
-          
-          :not(:last-of-type) {
-            margin-right:15px;
-          }
       }
    }
 `;
