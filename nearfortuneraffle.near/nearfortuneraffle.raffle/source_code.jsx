@@ -40,12 +40,6 @@ const Modal = ({ isOpen, onClose }) => {
     },
   };
 
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  if (isMobile) {
-    modalStyle.width = "90%";
-    modalStyle.maxWidth = "none";
-  }
-
   return (
     <div style={overlayStyle} onClick={onClose}>
       <div style={modalStyle} className="modal">
