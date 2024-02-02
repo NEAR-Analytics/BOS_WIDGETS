@@ -43,7 +43,10 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
           let name = breadcrumb.pop().split(".").pop();
           return [
             name,
-            (props) => status.app[name](Store, status, props.props),
+            (props) => {
+              console.log(props.props);
+              return status.app[name](Store, status, props.props);
+            },
           ];
         })
       )
