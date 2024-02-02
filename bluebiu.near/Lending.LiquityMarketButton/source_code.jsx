@@ -81,7 +81,6 @@ const Button = styled.button`
 const {
   disabled,
   actionText,
-  amount,
   data,
   chainId,
   onSuccess,
@@ -95,15 +94,17 @@ const {
   onApprovedSuccess,
   isBigerThanBalance,
   yourLTV,
+  IS_ETHOS_DAPP,
+  IS_PREON_DAPP,
+  IS_GRAVITA_DAPP,
+  _maxFeePercentage,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText) return;
-const ETHOS_DAPP = "Ethos Finance";
-const PREON_DAPP = "Preon Finance";
-const GRAVITA_DAPP = "Gravita Protocol";
+
 useEffect(() => {
   State.update({
     approving: false,
@@ -125,7 +126,7 @@ useEffect(() => {
 }, [account, gas]);
 
 function makeCloseContract() {
-  if (data.config.name === PREON_DAPP || data.config.name === GRAVITA_DAPP) {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -147,7 +148,7 @@ function makeCloseContract() {
     });
   }
 
-  if (data.config.name === ETHOS_DAPP) {
+  if (IS_ETHOS_DAPP) {
     const contract = new ethers.Contract(
       data.config.BorrowerOperations,
       [
@@ -244,7 +245,7 @@ if (actionText === "Close") {
   );
 }
 
-if (!amount) {
+if (!_assetAmount) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Enter An Amount
@@ -295,7 +296,7 @@ const getAllowance = () => {
           allowanceRaw._hex,
           data.underlyingToken.decimals
         )
-      ).lt(amount || "0"),
+      ).lt(_assetAmount || "0"),
     });
   });
 };
@@ -307,7 +308,7 @@ if (["Borrow"].includes(actionText)) {
 if (!state.isApproved) {
   const handleApprove = () => {
     const toastId = toast?.loading({
-      title: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+      title: `Approve ${Big(_assetAmount).toFixed(2)} ${tokenSymbol}`,
     });
     State.update({
       approving: true,
@@ -320,7 +321,7 @@ if (!state.isApproved) {
     );
     TokenContract.approve(
       spender,
-      ethers.utils.parseUnits(amount, data.underlyingToken.decimals)
+      ethers.utils.parseUnits(_assetAmount, data.underlyingToken.decimals)
     )
       .then((tx) => {
         tx.wait()
@@ -334,7 +335,7 @@ if (!state.isApproved) {
             });
             toast?.success({
               title: "Approve Successfully!",
-              text: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+              text: `Approve ${Big(_assetAmount).toFixed(2)} ${tokenSymbol}`,
               tx: transactionHash,
               chainId,
             });
@@ -357,7 +358,7 @@ if (!state.isApproved) {
           title: "Approve Failed!",
           text: err?.message?.includes("user rejected transaction")
             ? "User rejected transaction"
-            : `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            : `Approve ${Big(_assetAmount).toFixed(2)} ${tokenSymbol}`,
         });
         onLoad?.(false);
       });
@@ -378,8 +379,8 @@ if (!state.isApproved) {
   );
 }
 
-function makeContract() {
-  if (data.config.name === PREON_DAPP || data.config.name === GRAVITA_DAPP) {
+function makeOpenContract() {
+  if (IS_PREON_DAPP || IS_GRAVITA_DAPP) {
     const _asset = data.underlyingToken.address;
     const _assetAmount = ethers.utils.parseUnits(
       _assetAmount,
@@ -427,13 +428,12 @@ function makeContract() {
     });
   }
 
-  if (data.config.name === ETHOS_DAPP) {
+  if (IS_ETHOS_DAPP) {
     const _collateral = data.underlyingToken.address;
     const _collAmount = ethers.utils.parseUnits(
       _assetAmount,
       data.underlyingToken.decimals
     );
-    const _maxFeePercentage = 0; //TODO
     const _LUSDAmount = ethers.utils.parseUnits(
       _debtTokenAmount,
       data.decimals
@@ -485,7 +485,7 @@ function handleBorrow() {
     pending: true,
   });
 
-  makeContract()
+  makeOpenContract()
     .then((tx) => {
       tx.wait()
         .then((res) => {
@@ -498,7 +498,7 @@ function handleBorrow() {
             type: "Lending",
             action: actionText,
             token: data.underlyingToken,
-            amount,
+            amount: _assetAmount,
             template: data.dappName,
             add: false,
             status,
