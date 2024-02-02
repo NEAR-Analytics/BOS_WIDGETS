@@ -12,7 +12,7 @@ const font = fetch("https://fonts.cdnfonts.com/css/seven-monkey-fury-bb").body;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   font-family: "Seven Monkey Fury BB", sans-serif;
   ${font}
   .no-nft {
