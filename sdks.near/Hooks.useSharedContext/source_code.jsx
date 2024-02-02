@@ -1,12 +1,12 @@
 // Experimental hook
 const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
-  State.init({
+  Store.init({
     app: {},
     initialized: false,
   });
 
   if (!status.initialized) {
-    State.update({
+    Store.update({
       app: Object.fromEntries(
         widgetsSrc.map((widget) => {
           let breadcrumb = widget.split("/");
