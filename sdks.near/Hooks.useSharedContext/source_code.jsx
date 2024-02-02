@@ -41,7 +41,13 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
         widgetsSrc.map((widget) => {
           let breadcrumb = widget.split("/");
           let name = breadcrumb.pop().split(".").pop();
-          return [name, (props) => status.app[name](Store, status, props)];
+          return [
+            name,
+            (props) => {
+              console.log(props);
+              return status.app[name](Store, status, props);
+            },
+          ];
         })
       )
     : Object.fromEntries(
