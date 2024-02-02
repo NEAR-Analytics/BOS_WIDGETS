@@ -93,6 +93,27 @@ const Option = styled.li`
   }
 `;
 
+const Search = styled.input`
+  border-radius:20px;
+  color:#000;
+  background-color:#f2f2f2;
+  border:1px solid rgba(0,0,0,.05);
+  padding:0 1rem;
+  font-size:13px;
+  cursor:pointer;
+  transition: all .2s;
+  outline-style:none!important;
+  margin-left:20px;
+  width:230px;
+  height:35px;
+
+  :hover {
+      box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+      transition: all .2s;
+      color:#000;
+  }
+`;
+
 return (State, store, { Route }) => {
   Route = Route || (() => <></>);
 
