@@ -10,7 +10,6 @@ const Container = styled.div`
 
 const WidgetWrapper = styled.div`
   max-width: 100%;
-      position: relative;
 `;
 
 const WidgetBadgeWrapper = styled.div`
@@ -18,14 +17,6 @@ const WidgetBadgeWrapper = styled.div`
   right: 0;
   top: 0;
   z-index: 1200;
-  background:rgba(255, 255, 255, 0.35);
-  width:100%;
-  height:100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4%;
-  backdrop-filter: blur(1px);
 `;
 
 return (
@@ -33,9 +24,7 @@ return (
     {props.widgets.map((widget) => (
       <WidgetWrapper key={widget.linkId}>
         {props.isEditMode ? (
-          <WidgetBadgeWrapper
-            title={`Remove ${widget.src.split("widget/").pop()}`}
-          >
+          <WidgetBadgeWrapper>
             {widget.linkAuthorId === context.accountId ? (
               <Widget
                 src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
@@ -43,8 +32,9 @@ return (
                   onClick: () => handleRemoveWidget(widget.linkId),
                 }}
               />
-            ) : //   <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-            null}
+            ) : (
+              <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+            )}
           </WidgetBadgeWrapper>
         ) : null}
         <Widget src={widget.src} props={widget.props} />
