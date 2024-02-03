@@ -23,6 +23,9 @@ const { Route, RouterView } = new RoutesManager(State, state, {
 const { Toolbar } = useSharedContext({
   with: [State, state],
   from: [`${OWNER}/widget/Frensly.Components.Toolbar`],
+  skeletons: {
+    Toolbar: VM.require("mattb.near/widget/Frensly.Skeletons.Toolbar"),
+  },
 });
 
 return (
