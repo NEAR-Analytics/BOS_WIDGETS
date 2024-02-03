@@ -320,8 +320,7 @@ let steps = [
   <>
     <Title>Verify handle</Title>
     <Text>
-      Before starting the process, we need to check some things that might save
-      you time
+      Before starting the process, we need to check everything is ready to verify your handle
     </Text>
     <Requirements>
       <Requirement
@@ -361,7 +360,7 @@ let steps = [
         <h2>Polygon network connected</h2>
       </Requirement>
       <Description className="description">
-        Your wallet is not connected to Polygon network
+        Your wallet is not connected to Polygon network. Some wallets might experience issues when trying to switch automatically. Please, in that case, switch it manually.
         <button
           onClick={() => {
             try {
