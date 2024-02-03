@@ -6,10 +6,6 @@ const { normalize } = VM.require("buildbox.near/widget/utils.stringUtils") || {
   normalize: (s) => s,
 };
 
-const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>,
-};
-
 const app = props.app || "buildbox";
 const type = props.type || "project";
 
@@ -19,34 +15,40 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #0b0c14;
+  background-color: #292320;
   color: #fff;
   gap: 5rem;
-  margin: 0 auto;
+
   padding: 64px 80px;
 `;
 
 const Header = styled.h1`
   color: #fff;
-  font-size: min(8vw, 40px);
+  font-size: 90px;
+  max-width: 900px;
   font-style: normal;
-  text-align: center;
-  font-weight: 900;
+  text-align: left;
+  font-weight: 500;
+  line-height: 108px;
+  text-transform: lowercase;
 
   @media screen and (max-width: 768px) {
-    font-size: 18px;
+    font-size: 36px;
+    max-width: 70%;
+    line-height: 43px;
   }
 `;
 
 const Subheader = styled.p`
   color: rgb(255, 255, 255);
-  font-size: 16px;
+  font-size: 24px;
   max-width: 800px;
   text-align: left;
-  opacity: 0.6;
+  line-height: 36px;
 
   @media screen and (max-width: 768px) {
-    font-size: 13px;
+    font-size: 16px;
+    line-height: 24px;
   }
 `;
 
@@ -170,7 +172,6 @@ const [contactInfo, setContactInfo] = useState("");
 const [consentChecked, setConsentChecked] = useState(false);
 const [referrer, setReferrer] = useState("");
 const [learning, setLearning] = useState("");
-const [showToast, setShowToast] = useState(false);
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const [isEmailValid, setIsEmailValid] = useState(true);
@@ -197,28 +198,18 @@ const handleCheckboxChange = (track) => {
 const handleSubmit = () => {
   const id = normalize(title);
   const path = `${context.accountId}/${app}/${type}/${id}`;
-  const postItem = { type: "social", path: `${context.accountId}/post/main` };
 
   Social.set(
     {
       post: {
         main: JSON.stringify({
-          text: `I've just submitted a ${type} to Abstraction Hacks! #build #${type} #abstraction #hack \n\n[EMBED](${path})\n\n # ${title}\n\n${description}\n\n### Teammates\n${teammates}\n\n### Tracks\n${tracks.join("\n")}\n\n ### Project Link\n${projectLink}\n\n### Demo\n${demoLink}\n\n### What I learned\n\n${learning}\n\n### Referral\n\n${referrer}`,
+          text: `I've just submitted a ${type} to Abstraction Hacks! #build #${type} #abstraction #hack \n\n[EMBED](${path})\n\n`,
           image: "",
           type: "md",
         }),
       },
       index: {
         post: JSON.stringify({ key: "main", value: { type: "md" } }),
-        hashtag: JSON.stringify([
-          {
-            key: "abstraction",
-            value: postItem,
-          },
-          { key: "hack", value: postItem },
-          { key: "build", value: postItem },
-          { key: "project", value: postItem },
-        ]),
       },
       buildbox: {
         [type]: {
@@ -243,11 +234,11 @@ const handleSubmit = () => {
               tags,
             },
           },
-        },
-        hackathon: {
-          abstractionhacks: {
-            submissions: {
-              [`${context.accountId}-${id}`]: "",
+          hackathon: {
+            abstractionhacks: {
+              submissions: {
+                [`${context.accountId}-${normalize(title)}`]: "",
+              },
             },
           },
         },
@@ -255,25 +246,11 @@ const handleSubmit = () => {
     },
     {
       force: true,
-      onCommit: (v) => setShowToast(true),
+      onCommit: (v) => console.log("onCommit", v),
       onCancel: (v) => console.log("onCancel", v),
     }
   );
 };
-
-if (!context.accountId) {
-  return (
-    <Root>
-      <HeaderContainer>
-        <Header>📦 Abstraction Hacks Projects Submission</Header>
-        <Subheader>
-          Please sign in to submit your project to the Abstraction Hacks
-          Hackathon.
-        </Subheader>
-      </HeaderContainer>
-    </Root>
-  );
-}
 
 const pageDescription = `Congratulations for making it here! Please be sure to fill out all of the following fields in the suggested format so we can review them in the most efficient way.
 
@@ -343,7 +320,7 @@ return (
             "Mintbase",
             "Keypom",
             "Abstraction on BOS",
-            "Potlock Bounty",
+            "Postlock Bounty",
             "NEAR Balkans",
             "Pagoda's Chain Signatures",
             "Metatransactions",
@@ -467,7 +444,7 @@ return (
           with this before proceeding.<span className="text-danger">*</span>
         </ConsentLabel>
       </ConsentContainer>
-      <Button
+      <SubmitButton
         onClick={handleSubmit}
         disabled={
           !title ||
@@ -482,28 +459,9 @@ return (
           !consentChecked ||
           !isEmailValid
         }
-        variant="primary"
       >
         Submit
-      </Button>
-      <div style={{ color: "black" }}>
-        <Widget
-          src="near/widget/DIG.Toast"
-          props={{
-            title: "Project Successfully Submitted",
-            type: "success",
-            open: showToast,
-            onOpenChange: (v) => State.update({ showToast: v }),
-            trigger: <></>,
-            action: (
-              <Button onClick={() => showToast(false)} variant="primary">
-                dismiss
-              </Button>
-            ),
-            providerProps: { duration: 1000 },
-          }}
-        />
-      </div>
+      </SubmitButton>
     </FormContainer>
   </Root>
 );
