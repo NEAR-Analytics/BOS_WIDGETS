@@ -3,7 +3,7 @@ const Sections = styled.div`
   
   > div {
     :first-of-type {
-       width:70%;
+       width:65%;
        flex-shrink:0;
     }
   }
