@@ -7,6 +7,7 @@ const Join = styled.div`
   margin:0 1.7rem 0 0px;
   border-radius:10px;
   background-color:#FAFAFA;
+  border:1px solid rgba(0,0,0,.05);
 
   h2 {
       font-size:1.6rem;
