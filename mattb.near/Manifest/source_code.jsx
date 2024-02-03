@@ -6,8 +6,8 @@ const resolve = (componentPath) =>
 return {
   libs: {
     frensly: {
-        commons: resolve("Frensly.Commons")
-    }
+      commons: resolve("Frensly.Commons"),
+    },
   },
   links: {
     telegram: "@OxMattB",
