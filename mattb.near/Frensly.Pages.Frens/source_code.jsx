@@ -8,7 +8,7 @@ let frens = LensLib.getIdentity({
 const Frens = styled.div`
     display:flex;
     flex-wrap:wrap;
-    padding:1rem;
+    padding:1.8rem;
 
     > div {
         margin-bottom:20px;
@@ -132,8 +132,7 @@ return (
             />
           </span>
           {name}
-          <span className="verified">
-          </span>
+          <span className="verified"></span>
         </p>
       </Profile>
     ))}
