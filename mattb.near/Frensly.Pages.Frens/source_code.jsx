@@ -53,6 +53,7 @@ const Profile = styled.div`
     transition:all .2s;
     background-color:rgba(0,0,0,.05);
     min-width:160px;
+    margin:0;
 
     :hover {
         box-shadow: 0 0 0 3px rgba(0,0,0,.1);
@@ -109,7 +110,6 @@ const ProfileHeader = styled.div`
   display:flex;
   justify-content:center;
   align-items:center;
-  margin-bottom:.8rem;
 `;
 
 const Image = styled.div`
