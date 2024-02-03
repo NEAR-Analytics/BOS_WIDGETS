@@ -1,6 +1,21 @@
+const Sections = styled.div`
+  display:flex;
+  
+  > div {
+    :first-of-type {
+       width:70%;
+       flex-shrink:0;
+    }
+  }
+`;
+
 return (
   <>
     <Widget src="mattb.near/widget/Frensly.Components.Header" />
-    <Widget src="mattb.near/widget/Frensly.Components.RecentlyVerified" />
+
+    <Sections>
+      <Widget src="mattb.near/widget/Frensly.Components.RecentlyVerified" />
+      <Widget src="mattb.near/widget/Frensly.Components.HowToJoin" />
+    </Sections>
   </>
 );
