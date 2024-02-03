@@ -1,5 +1,5 @@
 // Experimental hook
-const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
+const useSharedContext = ({ with: [Store, status], from: widgetsSrc, skeletons: skeletons }) => {
   Store.init({
     app: {},
     initialized: false,
@@ -54,7 +54,7 @@ const useSharedContext = ({ with: [Store, status], from: widgetsSrc }) => {
         widgetsSrc.map((widget) => {
           let breadcrumb = widget.split("/");
           let name = breadcrumb.pop().split(".").pop();
-          return [name, () => <>Loading</>];
+          return [name, name in (skeletons || {}) ? () => skeletons[name] : () => <>Loading</>];
         })
       );
 };
