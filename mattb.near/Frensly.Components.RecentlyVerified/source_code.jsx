@@ -83,12 +83,12 @@ return (
     <Carousel>
       {recentlyVerified.map((profile) => (
         <Pill>
-          <Avatar>
-          </Avatar>
+          <Avatar></Avatar>
           <div className="description">
             <h2>
               <strong>@{profile.accountId}</strong> has linked{" "}
-              <strong>@{profile.value.name}</strong> to their accountasdasdsaasdasd
+              <strong>@{profile.value.name}</strong> to their
+              account
             </h2>
           </div>
         </Pill>
