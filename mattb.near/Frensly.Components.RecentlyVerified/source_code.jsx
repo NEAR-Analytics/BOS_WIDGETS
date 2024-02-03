@@ -41,7 +41,7 @@ const Pill = styled.div`
   padding:1rem;
   margin-bottom:20px;
   border-radius:10px;
-  background-color:rgba(0,0,0,.05);
+  background-color:#fafafa;
   align-items:center;
 
   .description {
