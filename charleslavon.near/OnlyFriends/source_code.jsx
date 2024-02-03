@@ -6,7 +6,9 @@ State.init({
   message: "Loading...",
 });
 
-const p = asyncFetch(`https://charleslavon.xyz/api/video?videoId=${videoId}`);
+const p = asyncFetch(
+  `https://www.charleslavon.xyz/api/video?videoId=${videoId}`
+);
 p.then((res) => {
   const { token } = res.body;
   if (token) {
