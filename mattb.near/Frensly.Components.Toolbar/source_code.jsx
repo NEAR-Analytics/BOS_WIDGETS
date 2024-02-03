@@ -4,11 +4,11 @@ const routeMap = [
     to: "home",
   },
   {
-    name: "Explore Lens",
+    name: "Explore",
     to: "explore",
   },
   {
-    name: "Explore Frensly",
+    name: "Frensly people",
     to: "frensly",
   },
 ];
