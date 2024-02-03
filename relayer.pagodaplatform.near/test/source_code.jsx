@@ -1,2 +1,10 @@
-return <><Widget src={"frichard5.near/widget/NDC-Banner"} props={JSON.parse({})} /><div class="row mb-3"><div class="col-md-3 p-2"><Widget src={""} props={JSON.parse()} /> </div><div class="col-md-9 p-2"><Widget src={"nocodedao.near/widget/Rainbow-NFT-Minter"} props={JSON.parse({})} /> </div>
-          </div><Widget src={"nearcon23.near/widget/Footer"} props={JSON.parse({})} /> </>
+// define the HTML and JavaScript code for the canvas element
+
+const url =
+  "https://drive.google.com/file/d/1Gz8pmtkWzKGGfnzKeCXOUImhwGKkca56/view?usp=sharing";
+
+return (
+  <div>
+    <iframe iframeResizer src={url} />
+  </div>
+);
