@@ -43,6 +43,7 @@ const Pill = styled.div`
   border-radius:10px;
   background-color:#fafafa;
   align-items:center;
+  border:1px solid rgba(0,0,0,.05);
 
   .description {
     margin-left:1rem;
@@ -65,6 +66,7 @@ const Avatar = styled.div`
   background-color:rgba(0,0,0,.05);
   overflow:hidden;
   flex-shrink:0;
+  border:1px solid rgba(0,0,0,.05);
   
   @media screen and (max-width:300px) {
       max-width:30px;
