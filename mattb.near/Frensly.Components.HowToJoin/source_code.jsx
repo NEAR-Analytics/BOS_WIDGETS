@@ -34,8 +34,8 @@ const Requirements = styled.ul`
         content:'';
         position:absolute;
         top:0;
-        left:10px;
-        width:2px;
+        left:9px;
+        width:4px;
         height:100%;
         background-color:rgba(0,0,0,.1);
         border-radius:10px;
@@ -55,11 +55,10 @@ const Requirement = styled.li`
     }
 
     h2 {
-        font-size:.95rem;
+        font-size:1.2rem;
         font-weight:normal;
         padding:10px 0;
         margin:0;
-        font-weight:bold;
 
         + .description {
             margin-left:10px;
@@ -85,7 +84,7 @@ const Requirement = styled.li`
         position:absolute;
         width:8px;
         height:8px;
-        background-color:#8DE0A5;
+        background-color:rgba(0,0,0,.5);
         border-radius:100%;
         margin:auto;
         top:0;
