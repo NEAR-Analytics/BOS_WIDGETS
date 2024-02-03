@@ -104,14 +104,11 @@ const Image = styled.div`
 
 return (
   <Profile>
-    <ProfileHeader>
-      <Image></Image>
-    </ProfileHeader>
     <h1>{accountId}</h1>
     <p>
       <span className="badge">
         <img
-          src="https://ipfs.near.social/ipfs/bafkreifco6er77ctlxxsbou36ga7yrdysgov5eqfam3vzpfbpsy7icpw4u"
+          src="https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i"
           width="100%"
         />
       </span>
@@ -123,6 +120,5 @@ return (
         />
       </span>
     </p>
-    <button>FOLLOW</button>
   </Profile>
 );
