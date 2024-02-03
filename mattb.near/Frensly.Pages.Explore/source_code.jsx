@@ -4,7 +4,7 @@ const {
 } = $("@mattb/frensly/commons");
 
 const Container = styled.div`
-   padding: 0 20px;
+   padding: 1.8rem;
 `;
 
 const WritePost = styled.div`
@@ -67,8 +67,8 @@ return (
     <WritePost>
       <Avatar></Avatar>
       <div className="textarea-container">
-          <TextArea placeholder="What are you thinking?"></TextArea>
-          <ButtonPrimary>Post</ButtonPrimary>
+        <TextArea placeholder="What are you thinking?"></TextArea>
+        <ButtonPrimary>Post</ButtonPrimary>
       </div>
     </WritePost>
   </Container>
