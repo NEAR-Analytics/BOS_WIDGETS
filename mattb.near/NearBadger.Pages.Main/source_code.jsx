@@ -52,6 +52,14 @@ const Header = styled.div`
 
     div:first-of-type {
         z-index:1;
+
+        p {
+           margin-bottom:40px;
+        }
+
+        a:first-of-type {
+           margin-right:10px;
+        }
     }
 
     .image {
@@ -201,11 +209,11 @@ const Circle = styled.div`
 
 const ButtonPrimary = styled.a`
     background-color: #87B697;
-    padding:6.8px 14.8px;
-    border-radius:20px;
+    padding:10px 25px;
+    border-radius:30px;
     font-weight:bold;
     color:#000;
-    font-size:13px;
+    font-size:16px;
     cursor:pointer;
     transition: all .2s;
     
@@ -218,11 +226,11 @@ const ButtonPrimary = styled.a`
 
 const ButtonSecondary = styled.a`
     border:3px solid #87B697;
-    padding:4.8px 12.8px;
-    border-radius:20px;
+    padding:7px 25px;
+    border-radius:30px;
     font-weight:bold;
     color:#000;
-    font-size:13px;
+    font-size:16px;
     cursor:pointer;
     transition: all .2s;
     :hover {
@@ -274,10 +282,9 @@ return (
             </h1>
             <p>
               Get a badge on NEAR Protocol for owning a verified Lens Protocol
-              handle, and connect with other verified users.
+              handle, and connect with other verified users on Frensly.
             </p>
-            <ButtonPrimary>Discover people</ButtonPrimary>
-            <ButtonSecondary
+            <ButtonPrimary
               onClick={() => {
                 State.update({
                   displayModal: true,
@@ -304,7 +311,8 @@ return (
               }}
             >
               Verify my handle
-            </ButtonSecondary>
+            </ButtonPrimary>
+            <ButtonSecondary>Discover people on Frensly</ButtonSecondary>
           </div>
           <div class="image">
             <img
