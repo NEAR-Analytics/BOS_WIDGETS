@@ -12,7 +12,6 @@ let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
 });
 
 const Section = styled.div`
-    height:100vh;
     overflow:hidden;
 
     h1 {
@@ -87,8 +86,7 @@ return (
           <div className="description">
             <h2>
               <strong>@{profile.accountId}</strong> has linked{" "}
-              <strong>@{profile.value.name}</strong> to their
-              account
+              <strong>@{profile.value.name}</strong> to their account
             </h2>
           </div>
         </Pill>
