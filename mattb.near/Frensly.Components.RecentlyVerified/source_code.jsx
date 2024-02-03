@@ -17,7 +17,7 @@ const Section = styled.div`
     h1 {
         font-weight:bold;
         margin-bottom:1.3rem;
-        padding:1rem 1.8rem 0;
+        padding:0 1.8rem;
     }
 `;
 
