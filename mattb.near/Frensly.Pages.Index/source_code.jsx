@@ -17,7 +17,8 @@ const Wrapper = styled.div`
 
 const { Route, RouterView } = new RoutesManager(State, state, {
   home: <Widget src={`${OWNER}/widget/Frensly.Pages.Home`} />,
-  explore: <>Explore</>,
+  explore: <Widget src={`${OWNER}/widget/Frensly.Pages.Explore`} />,
+  frensly: <>Frens</>,
 });
 
 const { Toolbar } = useSharedContext({
