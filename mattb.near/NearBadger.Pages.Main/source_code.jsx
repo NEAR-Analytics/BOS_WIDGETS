@@ -10,8 +10,8 @@ const Main = styled.div`
 const Wrapper = styled.div`
     position:relative;
     min-height:100vh;
-    border-top:4px solid #87B697;
     overflow:hidden;
+    border-radius:10px;
 background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,.7) 100%);
 `;
 
