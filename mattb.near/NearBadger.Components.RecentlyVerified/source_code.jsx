@@ -5,7 +5,7 @@ const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 
 let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
   subscribe: true,
-  limit: 30
+  limit: 30,
 });
 
 const Section = styled.div`
@@ -25,6 +25,7 @@ const Carousel = styled.div`
   padding:0 1.8rem 1rem;
 
   > div {
+    margin-bottom:15px;
     :not(:last-of-type) {
       margin-right:15px;
     }
