@@ -55,7 +55,7 @@ const Requirement = styled.li`
     }
 
     h2 {
-        font-size:1.2rem;
+        font-size:1rem;
         font-weight:normal;
         padding:10px 0;
         margin:0;
