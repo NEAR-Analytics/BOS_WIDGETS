@@ -227,7 +227,7 @@ const Wrapper = styled.div`
     text-align: center;
     padding: 2rem;
     --tw-bg-opacity: 1;
-    background-color: black;
+   
     border-radius: 0.75rem;
     justify-content: space-evenly;
     align-items: center;
@@ -423,6 +423,7 @@ overflow: clip;
 `;
 
 const RaffleContent = styled.div`
+background-color: white;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -435,6 +436,7 @@ width: 90%;
 `;
 
 const TitleContainer = styled.div`
+background-color: white;
 padding: 1rem 1.25rem;
 border: 2px solid #e5e7eb;
 border-radius: 10px;
