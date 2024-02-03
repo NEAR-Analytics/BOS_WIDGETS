@@ -5,14 +5,15 @@ const LOGO_URL =
 
 const Main = styled.div`
     background-color:#F3FBF6;
+    overflow:hidden;
+    border-radius:20px;
+    border:1px solid rgba(0,0,0,.1);
 `;
 
 const Wrapper = styled.div`
     position:relative;
     min-height:100vh;
     overflow:hidden;
-    border-radius:20px;
-    border:1px solid rgba(0,0,0,.1);
 background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,.7) 100%);
 `;
 
