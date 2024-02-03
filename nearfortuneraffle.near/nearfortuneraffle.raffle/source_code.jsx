@@ -223,11 +223,9 @@ const Image2 =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588098/rafflestore/post1_e3ffre.png";
 
 const Wrapper = styled.div`
-    color: #fff;
     text-align: center;
     padding: 2rem;
     --tw-bg-opacity: 1;
-   
     border-radius: 0.75rem;
     justify-content: space-evenly;
     align-items: center;
@@ -424,6 +422,7 @@ overflow: clip;
 
 const RaffleContent = styled.div`
 background-color: white;
+color: black;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -437,6 +436,7 @@ width: 90%;
 
 const TitleContainer = styled.div`
 background-color: white;
+color: black;
 padding: 1rem 1.25rem;
 border: 2px solid #e5e7eb;
 border-radius: 10px;
