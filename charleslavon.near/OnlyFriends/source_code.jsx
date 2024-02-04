@@ -38,7 +38,7 @@ const Loader = () => {
 };
 
 const Styled = styled.div`
-  height: 1220px;
+  height: 900px;
 `;
 
 return (
