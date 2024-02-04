@@ -149,10 +149,11 @@ const Search = styled.input`
     }
 
     ~ div {
-      transition: all .2s;
-      opacity:1;
+      transition: all .15s;
       pointer-events:all;
+      width:400px;
       min-height:200px;
+      padding: 1rem 1rem 1rem 1rem;
     }
   }
 
@@ -165,16 +166,16 @@ const Search = styled.input`
 
 const SearchResults = styled.div`
   position:absolute;
+  overflow:hidden;
   display:flex;
   flex-wrap:wrap;
   align-items:center;
   justify-content:center;
-  opacity:0;
   pointer-events:none;
   left:0;
   top:55px;
   z-index:9999999;
-  width:400px;
+  width:0;
   min-height:0;
   background-color:#fff;
   border-bottom-left-radius:20px;
@@ -183,12 +184,13 @@ const SearchResults = styled.div`
   margin-left:20px;
   border-top:0;
   transition: all .1s;
-  padding: 1rem 1rem 1rem 1rem;
+  padding:0;
   
   &.searching {
     transition: all .2s;
     opacity:1;
     pointer-events:all;
+    width:400px;
     min-height:200px;
   }
 `;
@@ -264,6 +266,8 @@ const Loading = styled.div`
   justify-content:center;
   transition: all .2s;
   pointer-events:none;
+  background-color:rgba(255,255,255,1);
+  z-index:9999;
 
   @keyframes rotation {
     0% {
@@ -277,8 +281,8 @@ const Loading = styled.div`
   .spinner {
     width: 40px;
     height: 40px;
-    border: 5px solid #1A1D20;
-    border-bottom-color: #C3E4CD;
+    border: 5px solid rgba(0,0,0,.1);
+    border-bottom-color: rgba(0,0,0,.4);
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
@@ -306,37 +310,61 @@ const NoResult = styled.div`
 return (Store, status, { Route }) => {
   Route = Route || styled.a``;
 
+  const debounce = (func, wait) => {
+    let timeout;
+
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
   const search = (searchTerm) => {
     Store.update({ loadingSearch: true });
 
     return new Promise((resolve, reject) => {
       let identities = Social.get("*/identity/lens/*", "final");
 
-      if (searchTerm in identities) {
-        resolve([{
-          accountId: searchTerm,
-          value: identities[searchTerm]
-        }]);
-      } else if (`${searchTerm}.near` in identities) {
-        resolve([{
-          accountId: `${searchTerm}.near`,
-          value: identities[`${searchTerm}.near`]
-        }]);
-      } else {
-        let foundKeys = Object.keys(identities).filter((profileName) => profileName.includes(searchTerm));
+      let check = () => {
+        setTimeout(() => {
+          if (identities === null) {
+            check();
+          } else {
+            if (searchTerm in identities) {
+              resolve([{
+                accountId: searchTerm,
+                value: identities[searchTerm]
+              }]);
+            } else if (`${searchTerm}.near` in identities) {
+              resolve([{
+                accountId: `${searchTerm}.near`,
+                value: identities[`${searchTerm}.near`]
+              }]);
+            } else {
+              let foundKeys = Object.keys(identities).filter((profileName) => profileName.includes(searchTerm));
 
-        if (foundKeys.length > 0) {
-          resolve(Object.entries(identities).map(([key, value]) => foundKeys.includes(key) ? {
-            accountId: key,
-            value
-          } : null).filter((val) => val));
-        } else {
-          resolve([]);
-        }
+              if (foundKeys.length > 0) {
+                resolve(Object.entries(identities).map(([key, value]) => foundKeys.includes(key) ? {
+                  accountId: key,
+                  value
+                } : null).filter((val) => val));
+              } else {
+                resolve([]);
+              }
+            }
+
+            Store.update({ loadingSearch: false });
+          }
+        }, 300);
       }
 
-      Store.update({ loadingSearch: false });
-    })
+      check();
+    });
   }
 
   return (
@@ -346,7 +374,7 @@ return (Store, status, { Route }) => {
           <img src={FRENSLY_LOGO} />
         </Logo>
         <SearchWrapper>
-          <Search type="text" placeholder="Search frens" onChange={(e) => {
+          <Search type="text" id="search" name="search" placeholder="Search frens" onChange={(e) => {
             Store.update({
               searchTerm: e.target.value
             });
