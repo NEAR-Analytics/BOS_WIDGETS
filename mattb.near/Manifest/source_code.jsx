@@ -8,6 +8,9 @@ return {
     frensly: {
       commons: resolve("Frensly.Commons"),
     },
+    "near-badger": {
+      lens: "NearBadger.Libs.Lens"
+    }
   },
   links: {
     telegram: "@OxMattB",
