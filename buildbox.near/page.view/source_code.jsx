@@ -86,13 +86,10 @@ return (
         <Label>Demo Link:</Label> <a href={demoLink}>{demoLink}</a>
       </div>
       <div>
-        <Label>Contact Info:</Label> {contactInfo}
-      </div>
-      <div>
         <Label>Referrer:</Label> {referrer}
       </div>
       <div>
-        <Label>Learning:</Label> {learning}
+        <Label>What I learned:</Label> {learning}
       </div>
     </DetailContainer>
   </Root>
