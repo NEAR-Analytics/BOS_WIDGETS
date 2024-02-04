@@ -314,7 +314,7 @@ return (
             >
               Verify my handle
             </ButtonPrimary>
-            <ButtonSecondary>Discover people on Frensly</ButtonSecondary>
+            <ButtonSecondary href="/mattb.near/widget/Frensly.Pages.Index" target="_blank">Discover people on Frensly</ButtonSecondary>
           </div>
           <div class="image">
             <img
