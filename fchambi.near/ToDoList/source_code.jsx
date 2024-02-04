@@ -38,11 +38,15 @@ const submitTask = () => {
       Ethers.provider().getSigner()
     );
     const amount = amountToSend / (10 * 10000);
+
+    let normalAmount = state.amountToSend;
+    let amount = ethers.utils.parseEther(normalAmount);
+
     contract
-      .creategreenBoxNativeCoin(state.strTask, amountToSend)
-      .send({
-        from: sender,
-        value: amountToSend,
+      .creategreenBoxNativeCoin(state.strTask, amount)
+      .then((transactionHash) => {
+        console.log("Transaction submitted. Hash:", transactionHash);
+        setTimeout(() => {}, 5000);
       })
       .catch((error) => {
         console.error("Transaction failed:", error);
