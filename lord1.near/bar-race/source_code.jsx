@@ -274,7 +274,7 @@ const code = `
             return [countryName, Number(countryData[time])];
           })
           .sort((a, b) => b[1] - a[1]);
-        const total = output.reduce((t, i) => t + i[1], 0)
+        const total = output.reduce((t, i) => t + (i[1]||0), 0)
         return [total, output.slice(0, barInChart)];
       }
 
