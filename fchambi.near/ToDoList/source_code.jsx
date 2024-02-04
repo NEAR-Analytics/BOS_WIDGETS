@@ -39,7 +39,7 @@ const submitTask = () => {
     );
     const amount = amountToSend / (10 * 10000);
     contract
-      .creategreenBoxNativeCoin(state.strTask, amount)
+      .creategreenBoxNativeCoin(state.strTask, amountToSend)
       .send({
         from: sender,
         value: amountToSend,
