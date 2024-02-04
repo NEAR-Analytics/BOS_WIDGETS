@@ -7,7 +7,7 @@ State.init({
 });
 
 const p = asyncFetch(
-  `https://neardotorg.ngrok.io/api/video?videoId=${videoId}`
+  `https://www.charleslavon.xyz/api/video?videoId=${videoId}`
 );
 p.then((res) => {
   const { token } = res.body;
