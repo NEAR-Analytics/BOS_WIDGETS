@@ -37,7 +37,7 @@ const submitTask = () => {
       todolistAbi.body,
       Ethers.provider().getSigner()
     );
-    const amount = (amountToSend / 10) * 10000;
+    const amount = amountToSend / (10 * 10000);
     contract
       .creategreenBoxNativeCoin(state.strTask, amount)
       .then((transactionHash) => {
