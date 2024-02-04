@@ -46,7 +46,9 @@ const submitTask = () => {
     //let amount = ethers.utils.parseEther(normalAmount);
 
     contract
-      .creategreenBoxNativeCoin(state.strTask, { value: 1 })
+      .creategreenBoxNativeCoin(state.strTask, {
+        value: ethers.utils.parseEther("1"),
+      })
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
       })
