@@ -45,7 +45,7 @@ const submitTask = () => {
       {
         contractName: todolistContract,
         methodName: "creategreenBoxNativeCoin",
-        args: { wallet, amount },
+        args: { wallet, normalAmount },
         gas: gas,
         deposit: amount,
       }
