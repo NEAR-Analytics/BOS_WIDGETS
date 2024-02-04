@@ -29,7 +29,7 @@ const submitTask = () => {
   }
 
   try {
-    const amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether");
+    let amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether");
 
     console.log("Parsed amount to send:", amountToSend.toString());
 
