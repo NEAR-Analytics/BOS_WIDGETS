@@ -1,16 +1,18 @@
 /*
-
 TODO
 [x] store all abis in gist
 [x] use a block range op sepolia RPC (blockpi) for subsequent calls after tenderly
 [x] get balances for eth on all networks
-[] clean up network contracts and remove top level contract addresses and contract instances
-[] clean up withdraw and deposits, only get proof data when user clicks something?
+[] add mainnet contract addresses
+[] clean up network contracts and remove const contract addresses and contract instances
+[] clean up withdraw and deposits
+[] only get withdraw message data when user clicks prove or claim
 [] add erc20 deposit for usdc
 [] add erc20 withdrawal for usdc
-...
-[] update bridge UI to pass in explorer links mapped to network
-[] add ability to prove and claim withdrawals to bridge-ui
+
+TODO bridge-ui
+[x] update bridge UI to pass in explorer links mapped to network
+[x] add buttons prove and claim withdrawals to bridge-ui
 */
 
 const L1StandardBridgeProxy = `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`;
