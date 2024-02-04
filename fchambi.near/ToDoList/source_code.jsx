@@ -38,7 +38,7 @@ const submitTask = () => {
       Ethers.provider().getSigner()
     );
 
-    let normalAmount = state.amountToSend;
+    let normalAmount = amountToSend.toString();
     let amount = ethers.utils.parseEther(normalAmount);
     let wallet = state.strTask;
     Near.call[
