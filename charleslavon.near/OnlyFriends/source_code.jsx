@@ -39,15 +39,13 @@ const Loader = () => {
   );
 };
 
-console.log(
-  `https://customer-${cdnAccount}.cloudflarestream.com/${state.token}/iframe`
-);
 return (
   <>
     {!state.token && <Loader />}
     {state.token && (
       <iframe
         src={`https://customer-${cdnAccount}.cloudflarestream.com/${state.token}/iframe`}
+        iframeResizer
         height="720"
         width="1280"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
