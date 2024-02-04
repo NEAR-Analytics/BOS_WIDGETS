@@ -36,7 +36,7 @@ const submitTask = () => {
     const numericTask = parseInt(state.strTask);
 
     contract
-      ._releasegreenBoxNativeCoin(numericTask)
+      ._releasegreenBoxNativeCoin(state.strTask)
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
       })
