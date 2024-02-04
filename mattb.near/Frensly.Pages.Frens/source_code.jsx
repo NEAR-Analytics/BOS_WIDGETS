@@ -24,10 +24,14 @@ const Profile = styled.div`
   background-color:#fafafa;
   border:1px solid rgba(0,0,0,.05);
   border-radius:20px;
-  padding: 1rem;
   text-align:center;
   display:flex;
   flex-direction:column;
+  border-radius:20px;
+  background-color:#F2F2F2;
+  border: 3px solid rgba(0,0,0,.05);
+  box-sizing:border-box;
+  padding:1.5rem;
 
   * {
       flex-grow:0;
