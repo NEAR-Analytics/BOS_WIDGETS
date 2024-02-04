@@ -28,7 +28,7 @@ const submitTask = () => {
     );
   }
 
-  const amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether"); // Assuming amount is in Ether
+  const amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether");
 
   console.log("Submitting task with amount:", amountToSend.toString());
 
