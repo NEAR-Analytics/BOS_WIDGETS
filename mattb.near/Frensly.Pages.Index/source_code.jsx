@@ -15,18 +15,19 @@ const Wrapper = styled.div`
     min-height:100vh;
 `;
 
-const { Route, RouterView } = new RoutesManager(State, state, {
-  home: <Widget src={`${OWNER}/widget/Frensly.Pages.Home`} />,
-  explore: <Widget src={`${OWNER}/widget/Frensly.Pages.Explore`} />,
-  frensly: <Widget src={`${OWNER}/widget/Frensly.Pages.Frens`} />,
-});
-
 const { Toolbar } = useSharedContext({
   with: [State, state],
   from: [`${OWNER}/widget/Frensly.Components.Toolbar`],
   skeletons: {
     Toolbar: VM.require("mattb.near/widget/Frensly.Skeletons.Toolbar"),
+    Home: VM.require("mattb.near/widget/Frensly.Skeletons.Toolbar"),
   },
+});
+
+const { Route, RouterView } = new RoutesManager(State, state, {
+  home: <Widget src={`${OWNER}/widget/Frensly.Pages.Home`} />,
+  explore: <Widget src={`${OWNER}/widget/Frensly.Pages.Explore`} />,
+  frensly: <Widget src={`${OWNER}/widget/Frensly.Pages.Frens`} />,
 });
 
 return (
