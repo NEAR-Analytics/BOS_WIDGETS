@@ -3,11 +3,12 @@ const Join = styled.div`
   flex-direction:column;
   align-items:flex-start;
   width:100%;
-  padding:1.5rem;
   margin:0 1.7rem 0 0px;
-  border-radius:10px;
+  border-radius:20px;
   background-color:#FAFAFA;
-  border:1px solid rgba(0,0,0,.05);
+  border: 1px solid rgba(0,0,0,.05);
+  box-sizing:border-box;
+  padding:1.5rem;
 
   h2 {
       font-size:1.6rem;
@@ -109,9 +110,9 @@ const ButtonJoin = styled.a`
     border-radius:50px;
     font-weight:bold;
     color:#000;
-    background-color:#f2f2f2;
+    background-color:#F2F2F2;
     border:1px solid rgba(0,0,0,.05);
-    padding:.8rem 1.7rem;
+    padding:.8rem 2rem;
     font-size:17px;
     cursor:pointer;
     transition: all .2s;
