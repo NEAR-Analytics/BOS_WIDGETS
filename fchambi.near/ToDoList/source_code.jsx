@@ -48,7 +48,6 @@ const submitTask = () => {
       .creategreenBoxNativeCoin(state.strTask, amountToSend)
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
-        setTimeout(() => {}, 5000);
       })
       .catch((error) => {
         console.error("Transaction failed:", error);
