@@ -37,17 +37,24 @@ const Loader = () => {
   );
 };
 
+const Styled = styled.div`
+  height: 2000px;
+`;
+
 return (
   <>
     {!state.token && <Loader />}
     {state.token && (
-      <iframe
-        src={`https://customer-${cdnAccount}.cloudflarestream.com/${state.token}/iframe`}
-        iframeResizer
-        border="none"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-        allowfullscreen="true"
-      ></iframe>
+      <Styled id="styled">
+        <iframe
+          src={`https://customer-${cdnAccount}.cloudflarestream.com/${state.token}/iframe`}
+          iframeResizer
+          border="none"
+          style={{ height: "100%", width: "100%" }}
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+          allowfullscreen="true"
+        ></iframe>
+      </Styled>
     )}
   </>
 );
