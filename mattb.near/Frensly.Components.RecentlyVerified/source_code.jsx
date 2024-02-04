@@ -37,14 +37,15 @@ const Carousel = styled.div`
 
 const Pill = styled.div`
   display:flex;
-  align-items:flex-start;
   width:100%;
   padding:1rem;
   margin-bottom:20px;
-  border-radius:10px;
-  background-color:#fafafa;
   align-items:center;
-  border:1px solid rgba(0,0,0,.05);
+  border-radius:20px;
+  background-color:#FAFAFA;
+  border: 1px solid rgba(0,0,0,.05);
+  box-sizing:border-box;
+  padding:1.5rem;
 
   .description {
     margin-left:1rem;
