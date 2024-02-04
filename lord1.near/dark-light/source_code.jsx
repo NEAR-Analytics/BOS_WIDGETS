@@ -2,10 +2,14 @@
 //   onClick: (theme) => {
 //     console.log(theme);
 //   },
+//   defaultTheme: "light or dark",
+//   variableStyles: "--toggle-size: 15px;",
 // };
 if (!props?.onClick) {
   return "please pass a props with an onClick function that receive 'theme' \n props={onClick:(theme)=>{console.log(theme)}} ";
 }
+const defaultTheme = props.defaultTheme === "light" ? true : false;
+const variableStyles = props.variableStyles || "";
 const handleTheme = (target) => {
   const theme = target.checked ? "dark" : "light";
   props.onClick(theme);
@@ -29,7 +33,7 @@ const ThemeSwitchContainer = styled.label`
   --back-clouds-color: #AACADF;
   --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
   --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
-
+  ${variableStyles}
   position: relative;
   display: inline-block;
   font-size: var(--toggle-size);
@@ -200,6 +204,7 @@ return (
     <input
       onChange={({ target }) => handleTheme(target)}
       type="checkbox"
+      defaultChecked={defaultTheme}
       className="theme-switch__checkbox"
     />
     <div class="theme-switch__container">
