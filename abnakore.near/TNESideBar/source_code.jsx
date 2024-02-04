@@ -114,7 +114,7 @@ const StyledDiv = styled.div`
     padding: 1.5rem;
     background-image: linear-gradient(to top left, var(--tw-gradient-stops));
     width: 66.666667%;
-    position: inherit;
+    position: relative;
     transition: all 0.3s ease-in-out;
 
 
