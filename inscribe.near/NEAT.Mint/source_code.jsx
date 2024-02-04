@@ -352,12 +352,29 @@ function getBalances() {
   });
 }
 
-function getFtWrappers() {
+function getFtWrappers(n, _data) {
+  const i = n ?? 0;
+  const data = _data ?? [];
+  const amount = 500;
   return Near.asyncView(config.ftWrapperFactory, "get_ft_wrappers", {
-    offset: 0,
-    limit: 1000,
-  });
+    offset: i * amount,
+    limit: amount,
+  })
+    .then((subcontracts) => {
+      if (subcontracts.length < amount) {
+        return [...subcontracts, ...data];
+      } else {
+        return getFtWrappers(i + 1, subcontracts).then((response) => {
+          return [...response, ...data];
+        });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return data;
+    });
 }
+
 function getNep141Balance(contractName) {
   const accountId = props.accountId || context.accountId;
   return Near.asyncView(contractName, "ft_balance_of", {
