@@ -1,3 +1,5 @@
+const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
+
 const routeMap = [
   {
     name: "Home",
@@ -17,6 +19,7 @@ const FRENSLY_LOGO =
   "https://ipfs.near.social/ipfs/bafkreibmkg7wbgfnliss4ow7uy4tn2trd7qejpfjzblhf45p2ffw2ppryu";
 const LENS_MINI_LOGO =
   "https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i";
+const FRENSLY_SAD = "https://ipfs.near.social/ipfs/bafkreidulgxhimcprctnjwby7ar7grznr7htje57ivzleicq2rot3grra4";
 
 const Toolbar = styled.div`
     display:flex;
@@ -114,6 +117,7 @@ const SearchWrapper = styled.div`
 `;
 
 const Search = styled.input`
+  position:relative;
   border-radius:20px;
   color:#000;
   background-color:#f2f2f2;
@@ -128,7 +132,7 @@ const Search = styled.input`
   height:35px;
   transition: all .2s;
 
-  :focus {
+  &.searching, :focus {
     z-index:9999;
     position:absolute;
     transition: all .2s;
@@ -148,7 +152,7 @@ const Search = styled.input`
       transition: all .2s;
       opacity:1;
       pointer-events:all;
-      height:200px;
+      min-height:200px;
     }
   }
 
@@ -161,13 +165,17 @@ const Search = styled.input`
 
 const SearchResults = styled.div`
   position:absolute;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
   opacity:0;
   pointer-events:none;
   left:0;
   top:55px;
   z-index:9999999;
   width:400px;
-  height:0;
+  min-height:0;
   background-color:#fff;
   border-bottom-left-radius:20px;
   border-bottom-right-radius:20px;
@@ -175,25 +183,207 @@ const SearchResults = styled.div`
   margin-left:20px;
   border-top:0;
   transition: all .1s;
-
-  .show {
-    height:400px;
+  padding: 1rem 1rem 1rem 1rem;
+  
+  &.searching {
+    transition: all .2s;
     opacity:1;
+    pointer-events:all;
+    min-height:200px;
+  }
+`;
+
+const SearchResultWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+  min-width:100px;
+  min-height:50px;
+  max-height:150px;
+  flex:1;
+  padding:5px;
+`;
+
+const SearchResult = styled.div`
+  display:flex;
+  flex-direction:column;
+  min-width:100px;
+  min-height:50px;
+  padding:.8rem;
+  box-sizing:border-box;
+  background-color:rgba(0,0,0,.05);
+  border-radius:10px;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(0,0,0,.05);
+  font-size:.8rem;
+  flex:1;
+  text-align:center;
+  overflow:hidden;
+  
+  p {
+    margin:0;
+    
+    &.lens-handle {
+      font-size:1rem;
+      font-weight:bold;
+      margin:10px 0 5px;
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:no-wrap;
+    }
+    
+    &.near-account-id {
+      opacity:.4;
+    }
+  }  
+`;
+
+const Avatar = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  min-height:40px;
+  border-radius:100%;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-color:rgba(0,0,0,.05);
+  box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+`;
+
+const Loading = styled.div`
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: all .2s;
+  pointer-events:none;
+
+  @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #1A1D20;
+    border-bottom-color: #C3E4CD;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation .5s linear infinite;
+  }
+`;
+
+const NoResult = styled.div`
+  align-self:center;
+  text-align:center;
+  opacity:.4;
+  
+  p {
+    font-weight:bold;
+    font-size:1rem;
+    margin-top:10px;
+  }
+ 
+  img {
+    max-width:100px;
+    width:100%;
   }
 `;
 
 return (Store, status, { Route }) => {
   Route = Route || styled.a``;
 
+  const search = (searchTerm) => {
+    Store.update({ loadingSearch: true });
+
+    return new Promise((resolve, reject) => {
+      let identities = Social.get("*/identity/lens/*", "final");
+
+      if (searchTerm in identities) {
+        resolve([{
+          accountId: searchTerm,
+          value: identities[searchTerm]
+        }]);
+      } else if (`${searchTerm}.near` in identities) {
+        resolve([{
+          accountId: `${searchTerm}.near`,
+          value: identities[`${searchTerm}.near`]
+        }]);
+      } else {
+        let foundKeys = Object.keys(identities).filter((profileName) => profileName.includes(searchTerm));
+
+        if (foundKeys.length > 0) {
+          resolve(Object.entries(identities).map(([key, value]) => foundKeys.includes(key) ? {
+            accountId: key,
+            value
+          } : null).filter((val) => val));
+        } else {
+          resolve([]);
+        }
+      }
+
+      Store.update({ loadingSearch: false });
+    })
+  }
+
   return (
     <Toolbar>
       <Menu>
-        <Logo className={`${status.searching ? "rotate" : ""}`}>
+        <Logo className={`${status.searching || status.searchTerm ? "rotate" : ""}`}>
           <img src={FRENSLY_LOGO} />
         </Logo>
         <SearchWrapper>
-          <Search type="text" placeholder="Search frens" onFocus={() => Store.update({ searching: true })} onBlur={() => Store.update({ searching: false })}></Search>
-          <SearchResults className="show"></SearchResults>
+          <Search type="text" placeholder="Search frens" onChange={(e) => {
+            Store.update({
+              searchTerm: e.target.value
+            });
+
+            if (e.target.value) {
+              search(e.target.value).then((result) => {
+                Store.update({
+                  searchResult: result.map((info) => {
+                    return {
+                      accountId: info.accountId,
+                      handle: info.value.identity.lens.name
+                    };
+                  })
+                });
+              });
+            }
+          }} className={status.searchTerm ? "searching" : ""} value={status.searchTerm} onFocus={() => Store.update({ searching: true })} onBlur={() => Store.update({ searchTerm: "", searching: false })}></Search>
+          <SearchResults className={status.searchTerm ? "searching" : ""}>
+            {status.searchTerm && status.searchResult?.length == 0 && <NoResult>
+              <img src={FRENSLY_SAD} />
+              <p>No frens found</p>
+            </NoResult>}
+            {status.loadingSearch && <Loading>
+              <div className="spinner"></div>
+            </Loading>}
+            {status.searchTerm !== "" && status.searchResult && status.searchResult.map((result) => {
+              return <SearchResultWrapper>
+                <SearchResult>
+                  <Avatar></Avatar>
+                  <div>
+                    <p className="lens-handle">@{result.handle}</p>
+                    <p className="near-account-id">{result.accountId}</p>
+                  </div>
+                </SearchResult>
+              </SearchResultWrapper>
+            })}
+          </SearchResults>
         </SearchWrapper>
         <MenuOptions>
           {routeMap.map((route) => (
