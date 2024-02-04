@@ -1,8 +1,3 @@
-const props = {
-  theme: "light",
-  variableStyles: "--toggle-size: 15px;",
-};
-
 const theme = props.theme === "light";
 const variableStyles = props.variableStyles || "";
 
