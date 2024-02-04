@@ -111,6 +111,7 @@ const TextArea = styled.textarea`
 `;
 
 const Posts = styled.div`
+  margin-top:2.5rem;
 `;
 
 const Box = styled.div`
@@ -295,13 +296,6 @@ return (
   <Container>
     <ButtonPrimary>See Lens posts</ButtonPrimary>
     <ButtonPrimary>See Frensly posts</ButtonPrimary>
-    <WritePost>
-      <Avatar></Avatar>
-      <div className="textarea-container">
-        <TextArea placeholder="What are you thinking?"></TextArea>
-        <ButtonPrimary>Post</ButtonPrimary>
-      </div>
-    </WritePost>
     <Posts>
       <InfiniteScroll
         loadMore={nextPosts}
