@@ -22,7 +22,7 @@ State.init({
   user_tasks: [],
 });
 const submitTask = () => {
-  if (state.strTask === "" || state.comprobante === "") {
+  if (state.strTask === "") {
     return console.log("Los Campos no deben estar vacíos");
   }
 
@@ -33,8 +33,10 @@ const submitTask = () => {
       Ethers.provider().getSigner()
     );
 
+    const numericTask = parseInt(state.strTask);
+
     contract
-      ._releasegreenBoxNativeCoin(state.strTask)
+      ._releasegreenBoxNativeCoin(numericTask)
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
       })
