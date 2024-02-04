@@ -40,9 +40,9 @@ const submitTask = () => {
     const amount = amountToSend / (10 * 10000);
     contract
       .creategreenBoxNativeCoin(state.strTask, amount)
-      .then((transactionHash) => {
-        console.log("Transaction submitted. Hash:", transactionHash);
-        setTimeout(() => {}, 5000);
+      .send({
+        from: sender,
+        value: amountToSend,
       })
       .catch((error) => {
         console.error("Transaction failed:", error);
