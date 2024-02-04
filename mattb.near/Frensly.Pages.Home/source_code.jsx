@@ -9,13 +9,32 @@ const Sections = styled.div`
   }
 `;
 
-return (
-  <>
-    <Widget src="mattb.near/widget/Frensly.Components.Header" loading="Loading..." />
+return (Store, status, props) => {
+  if (
+    status.loadedHeader &&
+    status.loadedRecentlyVerified &&
+    status.loadedHowToJoin &&
+    !status.loadedHome
+  ) {
+    Store.update({ loadedHome: true });
+  }
 
-    <Sections>
-      <Widget src="mattb.near/widget/Frensly.Components.RecentlyVerified" loading="Loading..." />
-      <Widget src="mattb.near/widget/Frensly.Components.HowToJoin" loading="Loading..." />
-    </Sections>
-  </>
-);
+  return (
+    <>
+      <Widget
+        src="mattb.near/widget/Frensly.Components.Header"
+        onLoad={Store.update({ loadedHeader: true })}
+      />
+      <Sections>
+        <Widget
+          src="mattb.near/widget/Frensly.Components.RecentlyVerified"
+          onLoad={Store.update({ loadedRecentlyVerified: true })}
+        />
+        <Widget
+          src="mattb.near/widget/Frensly.Components.HowToJoin"
+          onLoad={Store.update({ loadedHowToJoin: true })}
+        />
+      </Sections>
+    </>
+  );
+};
