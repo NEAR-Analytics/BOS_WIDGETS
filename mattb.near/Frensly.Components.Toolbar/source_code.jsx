@@ -58,6 +58,12 @@ const Logo = styled.div`
     display:flex;
     align-items:flex-end;
     justify-content:flex-end;
+    transform-origin: top left;
+    transition: all .2s;
+
+    &.rotate {
+      transform:rotate(-20deg);
+    }
     
     img {
        max-width:60px;
@@ -101,6 +107,12 @@ const MenuOptions = styled.ul`
    }
 `;
 
+const SearchWrapper = styled.div`
+   position:relative;
+   width:250px;
+   height:35px;
+`;
+
 const Search = styled.input`
   border-radius:20px;
   color:#000;
@@ -114,6 +126,31 @@ const Search = styled.input`
   margin-left:20px;
   width:230px;
   height:35px;
+  transition: all .2s;
+
+  :focus {
+    z-index:9999;
+    position:absolute;
+    transition: all .2s;
+    top:0;
+    left:0;
+    width:400px;
+    height:70px;
+    background-color:#fff;
+    border:2px solid rgba(0,0,0,.05);
+    box-shadow: 0 0 10px 5px rgba(0,0,0,.05);
+
+    :hover {
+      box-shadow: 0 0 10px 5px rgba(0,0,0,.05);
+    }
+
+    ~ div {
+      transition: all .2s;
+      opacity:1;
+      pointer-events:all;
+      height:200px;
+    }
+  }
 
   :hover {
       box-shadow: 0 0 0 3px rgba(0,0,0,.05);
@@ -122,16 +159,42 @@ const Search = styled.input`
   }
 `;
 
-return (State, store, { Route }) => {
+const SearchResults = styled.div`
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+  left:0;
+  top:55px;
+  z-index:9999999;
+  width:400px;
+  height:0;
+  background-color:#fff;
+  border-bottom-left-radius:20px;
+  border-bottom-right-radius:20px;
+  border:2px solid rgba(0,0,0,.05);
+  margin-left:20px;
+  border-top:0;
+  transition: all .1s;
+
+  .show {
+    height:400px;
+    opacity:1;
+  }
+`;
+
+return (Store, status, { Route }) => {
   Route = Route || styled.a``;
 
   return (
     <Toolbar>
       <Menu>
-        <Logo>
+        <Logo className={`${status.searching ? "rotate" : ""}`}>
           <img src={FRENSLY_LOGO} />
         </Logo>
-        <Search type="text" placeholder="Search frens"></Search>
+        <SearchWrapper>
+          <Search type="text" placeholder="Search frens" onFocus={() => Store.update({ searching: true })} onBlur={() => Store.update({ searching: false })}></Search>
+          <SearchResults className="show"></SearchResults>
+        </SearchWrapper>
         <MenuOptions>
           {routeMap.map((route) => (
             <li>
