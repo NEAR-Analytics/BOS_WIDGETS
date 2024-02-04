@@ -3,6 +3,7 @@ const todolistContract = "0x5fA5241aa08edc190Cf049F3F746D9D2a2B8F3D9";
 const todolistAbi = fetch(
   "https://gist.githubusercontent.com/fchambi/bf964ee8fe8b4fa8cca495a2df9f9b5b/raw/e5f998945121c227c91fe3109f74d166aa0cc364/.txt"
 );
+const tokenDecimals = 18;
 
 if (!todolistAbi.ok) {
   return "Loading";
@@ -32,17 +33,21 @@ const submitTask = () => {
 
     console.log("Parsed amount to send:", amountToSend.toString());
 
+    let amount = ethers.utils
+      .parseUnits(amountToSend, tokenDecimals)
+      .toHexString();
+
     const contract = new ethers.Contract(
       todolistContract,
       todolistAbi.body,
       Ethers.provider().getSigner()
     );
 
-    let normalAmount = state.amountToSend;
-    let amount = ethers.utils.parseEther(normalAmount);
+    //let normalAmount = state.amountToSend;
+    //let amount = ethers.utils.parseEther(normalAmount);
 
     contract
-      .creategreenBoxNativeCoin(state.strTask, amount)
+      .creategreenBoxNativeCoin(state.strTask, { value: amount })
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
         setTimeout(() => {}, 5000);
