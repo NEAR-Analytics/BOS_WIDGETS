@@ -21,7 +21,7 @@ const Header = styled.div`
       flex-wrap:wrap;
     }
 
-    h1 {
+    h1 {
       font-weight:bold;
       font-size:3.3rem;
     }
