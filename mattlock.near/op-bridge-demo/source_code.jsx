@@ -80,6 +80,7 @@ const defaultWithdraw = {
     },
   ],
 };
+
 if (!state.initialized) {
   console.log("INITIALIZED");
   initState({
@@ -98,25 +99,7 @@ if (!state.initialized) {
   return "";
 }
 
-// rpc providers
-
-const opSepoliaProvider = new ethers.providers.JsonRpcProvider(
-  `https://optimism-sepolia.gateway.tenderly.co`
-);
-const opSepoliaProviderRange = new ethers.providers.JsonRpcProvider(
-  `https://optimism-sepolia.blockpi.network/v1/rpc/public`
-);
-const opSepoliaProviderOG = new ethers.providers.JsonRpcProvider(
-  `https://sepolia.optimism.io`
-);
-const sepoliaProvider = new ethers.providers.JsonRpcProvider(
-  `https://ethereum-sepolia.publicnode.com`
-);
-const sepoliaProviderFilter = new ethers.providers.JsonRpcProvider(
-  `https://sepolia.gateway.tenderly.co`
-);
-
-// functional
+// get account and current provider chainId
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -162,6 +145,52 @@ if (!VALID_CHAIN_ID.includes(chainId)) {
   );
 }
 
+// fetch abis
+
+const L2StandardBridgeAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/4ecda9c3b707fe7e3328c9d2da9ce3a1/raw/1eae7c74e2d44df2067a1929bb8a3b2647926fde/L2StandardBridge.json"
+);
+
+const L1StandardBridgeProxyAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/b5ddd8070db7479b527674b14b928c4d/raw/39c570a8c53c980482c44502680d0ed3c39e7848/L1StandardBridgeProxy.json"
+);
+
+const L2OutputOracleAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/8f8d9bc4442150d425811ee15c7565de/raw/5ca76848e0febc52fe6d872926b8b3ad2c754664/L2OutputOracle.json"
+);
+
+const L1OptimismPortalAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/186c53a813484225b0e0ed682c4673e4/raw/43be17194b0e4f4dc3611780c8a9a6c8cd12218b/OptimismPortal.json"
+);
+
+// wait for abi to load
+if (
+  !L2StandardBridgeAbi.ok ||
+  !L1StandardBridgeProxyAbi.ok ||
+  !L2OutputOracleAbi.ok ||
+  !L1OptimismPortalAbi.ok
+) {
+  return "";
+}
+
+// rpc providers
+
+const opSepoliaProvider = new ethers.providers.JsonRpcProvider(
+  `https://optimism-sepolia.gateway.tenderly.co`
+);
+const opSepoliaProviderRange = new ethers.providers.JsonRpcProvider(
+  `https://optimism-sepolia.blockpi.network/v1/rpc/public`
+);
+const opSepoliaProviderOG = new ethers.providers.JsonRpcProvider(
+  `https://sepolia.optimism.io`
+);
+const sepoliaProvider = new ethers.providers.JsonRpcProvider(
+  `https://ethereum-sepolia.publicnode.com`
+);
+const sepoliaProviderFilter = new ethers.providers.JsonRpcProvider(
+  `https://sepolia.gateway.tenderly.co`
+);
+
 // TODO UPDATE contracts and mainnet providers
 const contracts = {
   mainnet: {
@@ -193,33 +222,7 @@ const contracts = {
   },
 };
 
-// fetch abis
-
-const L2StandardBridgeAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/4ecda9c3b707fe7e3328c9d2da9ce3a1/raw/1eae7c74e2d44df2067a1929bb8a3b2647926fde/L2StandardBridge.json"
-);
-
-const L1StandardBridgeProxyAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/b5ddd8070db7479b527674b14b928c4d/raw/39c570a8c53c980482c44502680d0ed3c39e7848/L1StandardBridgeProxy.json"
-);
-
-const L2OutputOracleAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/8f8d9bc4442150d425811ee15c7565de/raw/5ca76848e0febc52fe6d872926b8b3ad2c754664/L2OutputOracle.json"
-);
-
-const L1OptimismPortalAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/186c53a813484225b0e0ed682c4673e4/raw/43be17194b0e4f4dc3611780c8a9a6c8cd12218b/OptimismPortal.json"
-);
-
-// wait for abi to load
-if (
-  !L2StandardBridgeAbi.ok ||
-  !L1StandardBridgeProxyAbi.ok ||
-  !L2OutputOracleAbi.ok ||
-  !L1OptimismPortalAbi.ok
-) {
-  return "";
-}
+// contract instances
 
 const L2StandardBridgeContract = new ethers.Contract(
   L2StandardBridge,
@@ -325,6 +328,7 @@ if (sender && chainId && !state.initLogs) {
                 withdrawalHash,
               };
 
+              withdrawal.isEth = true;
               ethWithdrawals.push(withdrawal);
 
               if (withdrawalMessages === withdrawalMessagesTarget) {
@@ -374,7 +378,7 @@ if (sender && chainId && !state.initLogs) {
     ).then((events) => {
       console.log("deposit events", events);
       State.update({
-        ethDeposits: events,
+        ethDeposits: events.map((e) => ({ ...e, isEth: true })),
       });
     });
   }
@@ -387,6 +391,8 @@ if (sender && chainId && !state.initLogs) {
 const isMainnet = chainId === 1 || chainId === 10;
 const isOPGoerli = chainId === 420;
 const isGoerli = chainId === 5;
+
+// user actions
 
 function handleDepositEth() {
   const encodedData = L1StandardBridgeProxyIface.encodeFunctionData(
@@ -752,43 +758,5 @@ return (
         allWithdrawals,
       }}
     />
-
-    <>
-      <button onClick={handleDepositETH}>
-        Deposit {DEFAULT_AMOUNT_ETH} ETH to L2
-      </button>
-      <br />
-      <br />
-      <p>To initiate a withdraw, switch to OP Goerli network</p>
-
-      {state.ethWithdrawals.length === 0 && <h3>Loading ETH Withdrawals</h3>}
-      {!isGoerli && <p>To prove ethWithdrawals switch to ETH Goerli</p>}
-      {state.ethWithdrawals.map(({ transactionHash }, i) => {
-        return (
-          <>
-            <br />
-            <br />
-            <p>TX hash: {transactionHash}</p>
-            <button onClick={() => handleWithdrawalProve(i)}>
-              Prove Withdrawal
-            </button>
-            <button onClick={() => handleWithdrawalClaim(i)}>
-              Claim Withdrawal
-            </button>
-          </>
-        );
-      })}
-    </>
-
-    <>
-      <button onClick={handleWithdrawalInitiating}>
-        Initiate Withdrawal of {DEFAULT_AMOUNT_ETH} ETH on L2
-      </button>
-      <br />
-      <br />
-      <p>
-        To make a deposit, or prove a withdraw, switch to ETH Goerli network
-      </p>
-    </>
   </>
 );
