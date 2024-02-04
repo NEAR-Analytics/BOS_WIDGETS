@@ -89,11 +89,13 @@ return (
         Link your Lens handle to your NEAR account, import your profile and
         discover frensly people just like you
       </p>
-      <ButtonPrimary>Discover frens</ButtonPrimary>
+      <label htmlFor="search">
+        <ButtonPrimary>Discover frens</ButtonPrimary>
+      </label>
 
       <ButtonPrimary
         target="_blank"
-        href="mattb.near/widget/NearBadger.Pages.Main"
+        href="/mattb.near/widget/NearBadger.Pages.Main"
       >
         Verify my profile
       </ButtonPrimary>
