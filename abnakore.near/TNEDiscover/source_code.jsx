@@ -4,19 +4,19 @@
 // import { Error, Loader, SongCard } from '../components';
 // import { selectGenreListId, setActiveSong } from '../redux/features/playerSlice';
 // import { mockSongs } from '../mockSongs';
+
 const StyledDiv = styled.div`
   .relative-flex {
     background-color: blue;
     display: flex;
     position: relative;
 
+    .main-body {
       --tw-gradient-to: #121286;
       --tw-gradient-from: #191624;
       --tw-gradient-to: rgb(25 22 36 / 0);
       --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
       background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-
-    .main-body {
       flex-direction: column;
       flex: 1 1 0%;
       display: flex;
