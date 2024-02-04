@@ -34,7 +34,7 @@ const submitTask = () => {
     console.log("Parsed amount to send:", amountToSend.toString());
 
     let amount = ethers.utils
-      .parseUnits(amountToSend, tokenDecimals)
+      .parseUnits(state.amountToSend, tokenDecimals)
       .toHexString();
 
     const contract = new ethers.Contract(
