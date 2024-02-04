@@ -37,7 +37,6 @@ const submitTask = () => {
       todolistAbi.body,
       Ethers.provider().getSigner()
     );
-    const amount = amountToSend / (10 * 10000);
 
     let normalAmount = state.amountToSend;
     let amount = ethers.utils.parseEther(normalAmount);
