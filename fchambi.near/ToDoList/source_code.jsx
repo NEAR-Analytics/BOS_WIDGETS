@@ -42,12 +42,10 @@ const submitTask = () => {
       todolistAbi.body,
       Ethers.provider().getSigner()
     );
-
     //let normalAmount = state.amountToSend;
     //let amount = ethers.utils.parseEther(normalAmount);
-
     contract
-      .creategreenBoxNativeCoin(state.strTask, { value: amount })
+      .creategreenBoxNativeCoin(state.strTask, { value: amountToSend })
       .then((transactionHash) => {
         console.log("Transaction submitted. Hash:", transactionHash);
         setTimeout(() => {}, 5000);
