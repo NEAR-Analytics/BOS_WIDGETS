@@ -7,7 +7,7 @@ State.init({
 });
 
 const p = asyncFetch(
-  `https://www.charleslavon.xyz/api/video?videoId=${videoId}`
+  `https://neardotorg.ngrok.io/api/video?videoId=${videoId}`
 );
 p.then((res) => {
   const { token } = res.body;
@@ -22,8 +22,6 @@ const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-tems: center;
-  width: ${width};
-  height: ${height};
 `;
 
 const Loader = () => {
@@ -46,8 +44,7 @@ return (
       <iframe
         src={`https://customer-${cdnAccount}.cloudflarestream.com/${state.token}/iframe`}
         iframeResizer
-        height="720"
-        width="1280"
+        border="none"
         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
         allowfullscreen="true"
       ></iframe>
