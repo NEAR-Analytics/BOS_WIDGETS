@@ -70,9 +70,9 @@ State.init({
   tab: "dashboard",
 });
 const themeColor = state.light ? lightColors : darkColors;
-const handelLight = (theme) => {
-  const isLight = theme === "light";
-  State.update({ light: isLight });
+const handelLight = () => {
+  const isLight = state.light;
+  State.update({ light: !isLight });
 };
 
 const main = {};
@@ -437,12 +437,11 @@ return (
             textColor: themeColor?.horizen_bg,
           }}
         />
-        <div>
+        <div onClick={handelLight}>
           <Widget
             src="lord1.near/widget/dark-light"
             props={{
-              onClick: handelLight,
-              defaultTheme: "light",
+              theme: state.light ? "light" : "dark",
               variableStyles: "--toggle-size: 15px;",
             }}
           />
