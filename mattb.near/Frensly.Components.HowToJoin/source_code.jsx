@@ -164,6 +164,6 @@ return (
         </Requirement>
       </Requirements>
     </Wrapper>
-    <ButtonJoin>Join now!</ButtonJoin>
+    <ButtonJoin href="/mattb.near/widget/NearBadger.Pages.Main" target="_blank">Join now!</ButtonJoin>
   </Join>
 );
