@@ -20,7 +20,6 @@ if (state.sender === undefined) {
 State.init({
   user_tasks: [],
 });
-
 const submitTask = () => {
   if (state.strTask === "" || state.amountToSend === "") {
     return console.log(
@@ -28,25 +27,29 @@ const submitTask = () => {
     );
   }
 
-  const amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether");
+  try {
+    const amountToSend = ethers.utils.parseUnits(state.amountToSend, "ether");
 
-  console.log("Submitting task with amount:", amountToSend.toString());
+    console.log("Parsed amount to send:", amountToSend.toString());
 
-  const contract = new ethers.Contract(
-    todolistContract,
-    todolistAbi.body,
-    Ethers.provider().getSigner()
-  );
+    const contract = new ethers.Contract(
+      todolistContract,
+      todolistAbi.body,
+      Ethers.provider().getSigner()
+    );
 
-  contract
-    .creategreenBoxNativeCoin(state.strTask, amountToSend)
-    .then((transactionHash) => {
-      console.log("Transaction submitted. Hash:", transactionHash);
-      setTimeout(() => {}, 5000);
-    })
-    .catch((error) => {
-      console.error("Transaction failed:", error);
-    });
+    contract
+      .creategreenBoxNativeCoin(state.strTask, amountToSend)
+      .then((transactionHash) => {
+        console.log("Transaction submitted. Hash:", transactionHash);
+        setTimeout(() => {}, 5000);
+      })
+      .catch((error) => {
+        console.error("Transaction failed:", error);
+      });
+  } catch (parseError) {
+    console.error("Error parsing amount:", parseError);
+  }
 };
 
 if (state.sender === undefined) {
