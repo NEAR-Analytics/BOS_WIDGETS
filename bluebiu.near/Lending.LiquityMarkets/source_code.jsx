@@ -11,6 +11,9 @@ const {
   onSuccess,
   account,
   prices,
+  IS_ETHOS_DAPP,
+  IS_GRAVITA_DAPP,
+  IS_PREON_DAPP,
 } = props;
 const data = Object.values(dexConfig.markets || {});
 console.log("LiquityMarkets:", props);
@@ -27,12 +30,22 @@ const COLUMNS = [
     width: "15%",
     // type: "amount",
   },
-  {
-    key: "MAX_LTV",
-    label: "MAX LTV",
-    width: "15%",
-    // type: "apy",
-  },
+  IS_GRAVITA_DAPP || IS_PREON_DAPP
+    ? {
+        key: "MAX_LTV",
+        label: "MAX LTV",
+        width: "15%",
+        // type: "apy",
+      }
+    : null,
+  IS_ETHOS_DAPP
+    ? {
+        key: "MCR",
+        label: "Min Collateral Ratio",
+        width: "15%",
+        // type: "apy",
+      }
+    : null,
   {
     key: "ONE_TIME_FEE",
     label: "ONE-TIME FEE",
@@ -46,7 +59,7 @@ const COLUMNS = [
     // type: "apy",
     // type: "amount",
   },
-  dexConfig.name !== "Ethos Finance"
+  IS_GRAVITA_DAPP || IS_PREON_DAPP
     ? {
         key: "MINTED_CAP",
         label: "MINTED/CAP",
