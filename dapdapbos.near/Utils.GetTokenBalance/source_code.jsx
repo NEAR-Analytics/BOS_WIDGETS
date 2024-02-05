@@ -29,11 +29,12 @@ function getTokenBalance(_tokenAddress, _owner) {
   );
 
   TokenContract.balanceOf(_owner)
-    .then((balanceBig) => {
+    .then((balanceRaw) => {
+      console.log("BALANCE:", _tokenAddress, balanceRaw.toString());
       TokenContract.decimals().then((decimals) => {
-        const bal = Big(ethers.utils.formatUnits(balanceBig, decimals)).toFixed(
-          place || 2
-        );
+        const bal = Big(
+          ethers.utils.formatUnits(balanceRaw, decimals)
+        ).toFixed();
 
         updateTokenBalance(bal);
       });
