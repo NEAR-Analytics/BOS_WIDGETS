@@ -114,7 +114,7 @@ return (
                 <div className="ms-2">
                   <Widget
                     src="james.near/widget/BuilderHat"
-                    props={{ accountId }}
+                    props={{ accountId, color: props.color }}
                   />
                 </div>
               </div>
