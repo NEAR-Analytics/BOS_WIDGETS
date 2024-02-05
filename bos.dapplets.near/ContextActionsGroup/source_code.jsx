@@ -8,7 +8,8 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu ? null : State.update({ show: false });
+  //   state.showMenu ? null : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
@@ -250,7 +251,7 @@ bottom: 7px;
     background: #fff;
     position: absolute;
     top: 6px;
-    left: 11px;
+    left: 10.5px;
   }
   &:after {
     content: "";
@@ -275,8 +276,7 @@ bottom: 7px;
   animation: translateAnimationBtn 0.5s linear forwards;
   transition: all 0.3s;
   &:hover {
-    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
-      0px 4px 5px 0px rgba(45, 52, 60, 0.1);
+    transform: scale(1.2);
   }
 `;
 
