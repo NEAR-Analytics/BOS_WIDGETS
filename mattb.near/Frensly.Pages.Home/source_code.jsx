@@ -10,12 +10,14 @@ const Sections = styled.div`
 `;
 
 return (Store, status, props) => {
-  return <>
-    <Widget src="mattb.near/widget/Frensly.Components.Header" />
+  return (
+    <>
+      <Widget src="mattb.near/widget/Frensly.Components.Header" />
 
-    <Sections>
-      <Widget src="mattb.near/widget/Frensly.Components.RecentlyVerified" />
-      <Widget src="mattb.near/widget/Frensly.Components.HowToJoin" />
-    </Sections>
-  </>
+      <Sections>
+        <Widget src="mattb.near/widget/Frensly.Components.RecentlyVerified" />
+        <Widget src="mattb.near/widget/Frensly.Components.HowToJoin" />
+      </Sections>
+    </>
+  );
 };
