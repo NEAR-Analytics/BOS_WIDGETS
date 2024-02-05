@@ -286,6 +286,22 @@ const renderTx = (tx, i, isL1) => {
       <p style={{ textAlign: "left" }}>
         {isEth ? "ETH " : "USDC"}
         {renderTxLink(h, isL1)}
+        {withdrawalActions.map(
+          ({ labelComplete, complete, actionLabel, action }) => {
+            return (
+              <>
+                {complete && <span>{labelComplete}</span>}
+                {!complete && false && (
+                  <p style={{ marginTop: 16 }}>
+                    <button onClick={() => action(allWithdrawals[i])}>
+                      {actionLabel}
+                    </button>
+                  </p>
+                )}
+              </>
+            );
+          }
+        )}
         {typeof finalized === "boolean" && (
           <>
             <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
