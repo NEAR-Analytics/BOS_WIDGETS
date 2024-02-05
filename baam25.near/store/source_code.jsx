@@ -306,7 +306,11 @@ return nfts.length > 0 ? (
               />
               <div className="desc">
                 <div className="tilte">{nft.title}</div>
-                <div className="owner">{nft.owner}</div>
+                <div className="owner">
+                  {nft.owner.length > 20
+                    ? nft.owner.slice(0, 7) + "...."
+                    : nft.owner}
+                </div>
                 {!priceYocto && <div className="listed">not listed</div>}
                 {priceYocto && (
                   <Button
