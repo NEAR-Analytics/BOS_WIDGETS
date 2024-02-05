@@ -27,7 +27,7 @@ const Modal = ({ isOpen, onClose }) => {
     borderRadius: "1rem",
     left: "50%",
     transform: "translateX(-50%)",
-    width: "500px",
+    width: "400px",
 
     height: "auto",
     backgroundColor: "#fff",
@@ -140,7 +140,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
     borderRadius: "1rem",
     left: "50%",
     transform: "translateX(-50%)",
-    width: "500px",
+    width: "400px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
