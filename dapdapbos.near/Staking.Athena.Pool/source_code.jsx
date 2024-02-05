@@ -184,7 +184,19 @@ return (
             </div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Widget
+                src="dapdapbos.near/widget/UI.Avatar"
+                props={{
+                  src: TOKENS[tokenAddress].icon,
+                  size: 18,
+                }}
+              />
+              <div className="title-secondary" style={{ marginLeft: 5 }}>
+                {stakedAmount}
+              </div>
+            </div>
+            <div className="title-sub">
               $
               {poolType === "Locking" ? (
                 <Widget
@@ -203,18 +215,6 @@ return (
                   }}
                 />
               )}
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Widget
-                src="dapdapbos.near/widget/UI.Avatar"
-                props={{
-                  src: TOKENS[tokenAddress].icon,
-                  size: 18,
-                }}
-              />
-              <div className="title-sub" style={{ marginLeft: 5 }}>
-                {stakedAmount}
-              </div>
             </div>
           </GridItem>
           <GridItem>
