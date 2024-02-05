@@ -1,13 +1,5 @@
 State.init({
-  explore: {
-    lens: {
-      posts: []
-    },
-    frensly: {
-      posts: []
-    },
-    display: []
-  }
+  posts: []
 });
 
 const $ = VM.require("sdks.near/widget/Loader");
@@ -37,19 +29,9 @@ if (!state.explore.lens.posts.length) {
   ).then((payload) => {
     console.log(payload);
     State.update({ 
-        explore: { 
-          lens: { 
-            posts: payload.data.explorePublications.items,
-            pagination: payload.body.data.explorePublications.pageInfo
-          }, 
-        display: payload.data.explorePublications.items.slice(0, 20) 
-      } 
+        posts: payload.data.explorePublications.items
     });
   });
-}
-
-const nextPosts = () => {
-  State.update({ explore: { ...state.explore, display: [...state.explore.display, ...state.explore.lens.posts.slice(state.explore.display.length, state.explore.display.length + 20)] } });
 }
 
 const Container = styled.div`
@@ -297,12 +279,8 @@ return (
     <ButtonPrimary>See Lens posts</ButtonPrimary>
     <ButtonPrimary>See Frensly posts</ButtonPrimary>
     <Posts>
-      <InfiniteScroll
-        loadMore={nextPosts}
-        hasMore={state.explore.display.length < state.explore.lens.posts.length}
-        useWindow={false}
-      >
-        {state.explore.display.map((post) => {
+    {state.posts.length === 0 && <Widget src="mattb.near/widget/Frensly.Skeletons.Posts" />}
+    {state.posts.map((post) => {
           return <>
             <Box>
           <Profile>
@@ -331,13 +309,7 @@ return (
             </Time>
           </Post>
           <Actions>
-            <p
-              onClick={() =>
-                State.update({
-                  displayCommentSection: !state.displayCommentSection,
-                })
-              }
-            >
+            <p>
               <img src="https://ipfs.near.social/ipfs/bafkreihzp4er5k54cqym5tzj6yqo5oftnpfillxshuou6qyjbbap677lyu" />
               <span class="badge">{post.stats.comments}</span>
               <span class="tip">Comment</span>
@@ -361,7 +333,6 @@ return (
         </Box>
           </>
         })}
-      </InfiniteScroll>
     </Posts>
   </Container>
 );
