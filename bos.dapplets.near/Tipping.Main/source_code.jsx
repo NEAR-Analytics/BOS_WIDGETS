@@ -30,14 +30,6 @@ State.update({
   }, "final", true) || '0'
 })
 
-useEffect(() => {
-  State.update({
-    disabled: false,
-    loading: false,
-    amount: '0',
-  })
-}, [totalTipsByItemId])
-
 /**
  * From near-api-js/blob/master/packages/utils/src/format.ts
  */
@@ -161,24 +153,24 @@ useEffect(() => {
       accountId,
       disabled: false,
       loading: false,
+      amount: '0',
       tooltip: 'Send donation',
-      amount: state.amount || '0',
     })
   } else if (formatNear(state.totalTipsByItemId) === LIMIT_PER_ITEM) {
     State.update({
       accountId,
       disabled: true,
       loading: false,
+      amount: '0',
       tooltip: `The ${LIMIT_PER_ITEM} NEAR limit for this content has been exceeded`,
-      amount: state.amount || '0',
     })
   } else {
     State.update({
       accountId,
       disabled: false,
       loading: false,
+      amount: '0',
       tooltip: 'Send donation',
-      amount: state.amount || '0',
     })
   }
 }, [accountId, state.totalTipsByItemId]);
