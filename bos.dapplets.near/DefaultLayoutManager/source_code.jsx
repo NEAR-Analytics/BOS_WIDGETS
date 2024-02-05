@@ -6,6 +6,7 @@ const handleRemoveWidget = (linkId) => {
 
 const Container = styled.div`
   display: flex;
+  position: relative;
 `;
 
 const WidgetWrapper = styled.div`
@@ -13,10 +14,20 @@ const WidgetWrapper = styled.div`
 `;
 
 const WidgetBadgeWrapper = styled.div`
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 1200;
+ position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 1200;
+    background: rgba(255, 255, 255, 0.35);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border-radius: 4%;
+    backdrop-filter: blur(1px);
 `;
 
 return (
@@ -32,8 +43,9 @@ return (
                   onClick: () => handleRemoveWidget(widget.linkId),
                 }}
               />
-            ) : //   <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-            null}
+            ) : (
+              <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+            )}
           </WidgetBadgeWrapper>
         ) : null}
         <Widget src={widget.src} props={widget.props} />
