@@ -276,7 +276,7 @@ bottom: 7px;
   animation: translateAnimationBtn 0.5s linear forwards;
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) translateY(6px);
   }
 `;
 
