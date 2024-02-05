@@ -83,6 +83,7 @@ const size = "100%";
 const perPage = 9;
 // list of pages
 const paginations = [...Array(parseInt(nfts?.length / perPage) + 1).keys()];
++(nfts?.length % perPage > 0 ? 1 : 0);
 
 let lastElement = paginations[paginations.length - 1];
 const handlePainate = (to) => {
