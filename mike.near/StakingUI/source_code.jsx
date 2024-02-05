@@ -1,20 +1,18 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
 
-console.log(
-  "aloha this is the latest version, which should not appear on stake.mikedotexe.com"
-);
-
 const openAnotherModal = (validatorAddress, amount) => {
   Near.call(validatorAddress, "unstake", { amount });
 };
+
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
+  const [stakingAmount, setStakingAmount] = useState(1000000000000000000000000);
   const handleCancel = () => {
     // eventually add fade-out effect
     setShowStakingModal(false);
   };
 
-  const handleUnstake = () => {
-    console.log("Unstaking...");
+  const handleUnstake = (amount) => {
+    console.log("Unstaking...", amount);
     openAnotherModal(validator, amount);
   };
 
@@ -55,7 +53,7 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
       <h2 style={titleStyle}>{method} NEAR</h2>
       <input
         defaultValue={amount}
-        // onChange={(e) => setStakingAmount(e.target.value)}
+        onChange={(e) => setStakingAmount(e.target.value)}
         style={{
           padding: "13px",
           width: "80%",
@@ -64,7 +62,7 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
         }}
       />
       <button
-        onClick={handleUnstake}
+        onClick={(e) => handleUnstake(stakingAmount)}
         style={{ padding: "13px", margin: "13px auto", display: "block" }}
       >
         Unstake
