@@ -31,8 +31,8 @@ const content = !isBuilder ? (
   <span style={{ verticalAlign: "center" }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="47"
-      height="36"
+      width="23"
+      height="18"
       viewBox="0 0 173.74 133.808"
     >
       <defs>
