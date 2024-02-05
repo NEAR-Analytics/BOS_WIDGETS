@@ -38,6 +38,22 @@ const Wrapper = styled.div`
     color: var(--purple);
   }
 `;
+const EmptyWrap = styled.div`
+  padding-top: 150px;
+  .empty-title {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 13px;
+  }
+  .empty-intro {
+    color: #979abe;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
 const HeadWrapper = styled.div`
   /* border-radius: 16px; */
   max-width: 1244px;
@@ -1788,7 +1804,7 @@ return (
           chain: curChain,
           onSwitchChain: onSwitchChain,
           switchingChain: switchingChain,
-          // theme: dexConfig.theme?.button,
+          theme: dexConfig.theme,
         }}
       />
     )}
