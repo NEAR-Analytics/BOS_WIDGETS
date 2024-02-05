@@ -76,6 +76,9 @@ const Container = styled.div`
   --primary-light: #aeaeae75;
   display: flex;
   flex-direction: column;
+  .store {
+    padding-left: 1rem;
+  }
   ${customStyle}
 `;
 const NFTcard = styled.a`
@@ -212,7 +215,7 @@ const Page = ({ children }) => {
     </div>
   );
 };
-const Number = () => {
+const PaginationNumber = () => {
   if (page === 0) {
     return (
       <Pagination>
@@ -330,7 +333,7 @@ return nfts.length > 0 ? (
         );
       })}
     </div>
-    {<Number />}
+    {<PaginationNumber />}
   </Container>
 ) : (
   <p>loading...</p>
