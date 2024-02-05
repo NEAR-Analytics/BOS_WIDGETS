@@ -4,7 +4,8 @@ const { Select, Check, TooltipContainer, TooltipText } = VM.require(
 
 const { assets } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
 
-if (!Select || !Check || !assets) return <Widget src="flashui.near/widget/Loading" />;
+if (!Select || !Check || !assets)
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const {
   values,
@@ -16,7 +17,7 @@ const {
   onClear,
   containerClass,
   text,
-  isTooltipVisible
+  isTooltipVisible,
 } = props;
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
@@ -35,14 +36,14 @@ const TooltipIcon = styled.i`
   &:hover + ${TooltipText} {
     visibility: visible;
     opacity: 1;
-    color: #6B6C75;
+    color: #6b6c75;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
     box-shadow: 50px 20px 50px 50px rgba(0, 0, 0, 0.05);
   }
-`
+`;
 
 const handleOpen = () => setOpen(!open);
 
@@ -51,12 +52,12 @@ return (
     <div className={containerClass}>
       <div className="selected" onClick={handleOpen}>
         {setTitle()}
-        {isTooltipVisible && 
+        {isTooltipVisible && (
           <TooltipContainer>
             <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
             <TooltipText>Tooltip placeholder</TooltipText>
           </TooltipContainer>
-        }
+        )}
       </div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (
