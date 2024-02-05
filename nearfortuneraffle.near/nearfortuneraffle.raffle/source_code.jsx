@@ -59,21 +59,12 @@ const Modal = ({ isOpen, onClose }) => {
               color: "red",
               textAlign: "center",
               paddingTop: "5px",
-              display: message ? "none" : "block",
+              display: errorMessage ? "block" : "none",
             }}
           >
-            {errMessage && errMessage}
+            {errorMessage && errorMessage}
           </p>
-          <p
-            style={{
-              color: "green",
-              textAlign: "center",
-              paddingTop: "5px",
-              display: errMessage ? "none" : "block",
-            }}
-          >
-            {message && message}
-          </p>
+
           <div class="modal-header">
             <h5 class="modal-title">Submit your Detail</h5>
             <span
@@ -312,7 +303,7 @@ if (!accountId) {
 const [email, setEmail] = useState("");
 const [fullname, setFullname] = useState("");
 const [message, setSuccessMessage] = useState("");
-const [errMessage, setErrorMessage] = useState("");
+const [errorMessage, setErrorMessage] = useState("");
 const [isLoading, setIsLoading] = useState(false);
 const [summary, setSummary] = useState(false);
 
@@ -320,6 +311,10 @@ console.log(email);
 
 console.log(fullname);
 const sendData = () => {
+  if (!email.trim() || !fullname.trim()) {
+    setErrorMessage("Please enter both email and name");
+    return;
+  }
   setIsLoading(true);
   asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
     method: "POST",
@@ -348,7 +343,9 @@ const sendData = () => {
         ) {
           setErrorMessage("Email already exists, try different one");
           setSuccessMessage("");
-          console.log("Email already exists.");
+          console.log("Email already exists...");
+          console.log(response.body.message + "test");
+          console.log(errorMessage);
         } else {
           setErrorMessage("Failed to submit data, try again");
           console.log("Failed to submit data, try again");
@@ -554,7 +551,7 @@ const Entries = styled.div`
    width: 50%;
 `;
 
-if (summary) {
+if (summary && !errorMessage) {
   return Post;
 }
 
@@ -564,7 +561,7 @@ if (summary) {
 
 return (
   <>
-    {state.nftCheck ? (
+    {!state.nftCheck ? (
       <Modal
         style={{
           "@media screen and (max-width: 768px)": {
