@@ -339,9 +339,14 @@ function getVesselManager(_amount) {
   })
     .then((res) => {
       const [[_maxFeePercentageRaw], [_borrowingFeeRaw]] = res;
+
+      let borrowingFee;
+
+      borrowingFee = ethers.utils.formatUnits(_borrowingFeeRaw);
+
       State.update({
         _maxFeePercentage: _maxFeePercentageRaw,
-        borrowingFee: ethers.utils.formatUnits(_borrowingFeeRaw),
+        borrowingFee,
       });
     })
     .catch((err) => {
@@ -352,7 +357,7 @@ function getVesselManager(_amount) {
 useEffect(() => {
   if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
   if (state.tab === "Close") return;
-  if (state.isBigerThanBalance) return;
+  if ((IS_GRAVITA_DAPP || IS_PREON_DAPP) && state.isBigerThanBalance) return;
   const price = prices[data.underlyingToken.symbol];
 
   if (IS_GRAVITA_DAPP) {
@@ -457,6 +462,31 @@ useEffect(() => {
       borrowTokenBal,
     });
   }
+
+  if (IS_ETHOS_DAPP) {
+    if (!Number(state.borrowAmount)) return;
+    let totalDebt,
+      collateralRatio, //  like _yourLTV
+      liquidationPrice;
+
+    totalDebt = Big(state.borrowAmount || 0)
+      .plus(10)
+      .plus(state.borrowingFee)
+      .toFixed();
+    collateralRatio = Big(state.amount || 0)
+      .mul(prices[data.underlyingToken.symbol])
+      .div(totalDebt)
+      .toFixed();
+
+    liquidationPrice = Big(totalDebt)
+      .div(Big(state.amount).mul(data.MCR))
+      .toFixed();
+    State.update({
+      totalDebt,
+      collateralRatio,
+      liquidationPrice,
+    });
+  }
 }, [state.borrowAmount, state.amount]);
 
 const onAmountChange = (amount) => {
@@ -536,10 +566,25 @@ return (
             {state.tab === "Adjust" && (
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
             )}
-            <StyledInfoItem>
-              <div>Your LTV</div>
-              <div className="white">{state.yourLTV}%</div>
-            </StyledInfoItem>
+            {IS_GRAVITA_DAPP ||
+              (IS_PREON_DAPP && (
+                <StyledInfoItem>
+                  <div>Your LTV</div>
+                  <div className="white">{state.yourLTV}%</div>
+                </StyledInfoItem>
+              ))}
+
+            {IS_ETHOS_DAPP && (
+              <StyledInfoItem>
+                <div>Collateral Ratio</div>
+                <div className="white">
+                  {Big(state.collateralRatio || 0)
+                    .mul(100)
+                    .toFixed(2)}
+                  %
+                </div>
+              </StyledInfoItem>
+            )}
             {state.tab === "Adjust" && (
               <StyledInfoItem>
                 <div>Your Collateral</div>
@@ -754,6 +799,7 @@ return (
                     _assetAmount: state.amount,
                     _debtTokenAmount: state.borrowAmount,
                     _maxFeePercentage: state._maxFeePercentage,
+                    collateralRatio: state.collateralRatio,
                     onApprovedSuccess: () => {
                       if (!state.gas) state.getTrade();
                     },
@@ -786,6 +832,7 @@ return (
                     yourLTV: state.yourLTV,
                     _assetAmount: state.amount,
                     _debtTokenAmount: state.borrowAmount,
+                    collateralRatio: state.collateralRatio,
                     onApprovedSuccess: () => {
                       if (!state.gas) state.getTrade();
                     },
