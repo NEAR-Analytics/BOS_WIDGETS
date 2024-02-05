@@ -163,7 +163,6 @@ return (
         </div>
       </div>
     </div>
-    {console.log(dataState)}
     <Widget
       src={`ndcdev.near/widget/Dashboard.Components.MetricsDisplay.index`}
       props={{
