@@ -293,7 +293,7 @@ const renderTx = (tx, i, isL1) => {
 
             console.log("isComplete", isComplete);
 
-            if (typeof isComplete === "boolean") return <></>;
+            if (typeof isComplete !== "boolean") return <></>;
             return (
               <>
                 {isComplete ? (
