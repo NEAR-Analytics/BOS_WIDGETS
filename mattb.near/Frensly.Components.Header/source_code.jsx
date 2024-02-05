@@ -1,6 +1,6 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const {
-  Buttons: { ButtonPrimary },
+  Buttons,
 } = $("@mattb/frensly/commons");
 
 const FRENSLY_LOGO =
@@ -90,15 +90,15 @@ return (
         discover frensly people just like you
       </p>
       <label htmlFor="search">
-        <ButtonPrimary>Discover frens</ButtonPrimary>
+        <Buttons.ButtonPrimary>Discover frens</Buttons.ButtonPrimary>
       </label>
 
-      <ButtonPrimary
+      <Buttons.ButtonPrimary
         target="_blank"
         href="/mattb.near/widget/NearBadger.Pages.Main"
       >
         Verify my profile
-      </ButtonPrimary>
+      </Buttons.ButtonPrimary>
     </div>
   </Header>
 );
