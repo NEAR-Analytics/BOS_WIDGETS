@@ -1,9 +1,9 @@
 const data = props.data || {};
 const type = props.type || "";
-const record = props.file || "hyperfiles.near/type/attestation";
+const record = props.file || "";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
-const schemaType = props.schema || "hyperfiles.near/type/schema";
-const typeSrc = props.typeSrc || "attestations.near";
+const schema = props.schema || "hyperfiles.near/type/schema";
+const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "every.near/type/thing";
@@ -126,8 +126,10 @@ State.init({
   config: data,
   isModalOpen: false,
   typeSrc,
+  schemaSrc,
   selectedRecord: record,
   selectedType: type,
+  selectedSchema: schema,
   view: defaultView,
   preview: "TEMPLATE",
   template,
@@ -137,11 +139,11 @@ State.init({
   loading: false,
 });
 
-const fetchSchemasList = (typeSrc) => {
-  const response = fetch(`${typeSrc}/type/**`, "final");
+const fetchSchemasList = (schemaSrc) => {
+  const response = fetch(`${schemaSrc}/type/**`, "final");
   if (response) {
     const schemasList = Object.keys(response).map(
-      (key) => `${typeSrc}/type/${key}`
+      (key) => `${schemaSrc}/type/${key}`
     );
     State.update({ schemasList });
   }
@@ -161,9 +163,9 @@ const fetchSchema = (type) => {
 };
 
 useEffect(() => {
-  fetchSchemasList(State.typeSrc);
-  fetchSchema(State.selectedType);
-}, [State.typeSrc, State.selectedType]);
+  fetchSchemasList(State.schemaSrc);
+  fetchSchema(State.selectedSchema);
+}, [State.schemaSrc, State.selectedSchema]);
 
 const handleApply = () => {
   State.update({
@@ -228,6 +230,13 @@ if (types !== null) {
     Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
 }
 
+let availableSchemas = [];
+const schemas = Social.get(`${state.schemaSrc}/type/**`, "final");
+if (schemas !== null) {
+  availableSchemas =
+    Object.keys(schemas)?.map((it) => `${state.schemaSrc}/type/${it}`) || [];
+}
+
 // Update handleTypeChange to handle full schema including nested types
 const handleTypeChange = (e) => {
   const newType = e.target.value;
@@ -241,11 +250,11 @@ const handleTypeChange = (e) => {
 };
 
 const handleSchemaOwnerChange = (e) => {
-  const newTypeSrc = e.target.value;
+  const newSchemaSrc = e.target.value;
   State.update({
-    typeSrc: newTypeSrc,
+    schemaSrc: newSchemaSrc,
   });
-  fetchSchemasList(newTypeSrc);
+  fetchSchemasList(newSchemaSrc);
 };
 
 const renderSchemaSelection = () => {
@@ -254,11 +263,11 @@ const renderSchemaSelection = () => {
       <Label>Schema Owner:</Label>
       <Input
         type="text"
-        value={State.typeSrc}
+        value={State.schemaSrc}
         onChange={handleSchemaOwnerChange}
       />
       <Label>Schema:</Label>
-      <Select value={State.selectedType} onChange={handleTypeChange}>
+      <Select value={State.selectedSchema} onChange={handleSchemaChange}>
         {State.schemasList.map((schema) => (
           <option key={schema} value={schema}>
             {schema}
@@ -333,21 +342,24 @@ return (
             <Row>
               <Input
                 type="text"
-                value={state.newTypeSrc}
-                onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-                placeholder={typeSrc}
+                value={state.newSchemaSrc}
+                onChange={(e) => State.update({ newSchemaSrc: e.target.value })}
+                placeholder={schemaSrc}
               />
               <Button
-                onClick={() => State.update({ typeSrc: state.newTypeSrc })}
+                onClick={() => State.update({ schemaSrc: state.newSchemaSrc })}
               >
                 apply
               </Button>
             </Row>
             <Label>Schema</Label>
             <Row>
-              <Select value={state.selectedType} onChange={handleTypeChange}>
+              <Select
+                value={state.selectedSchema}
+                onChange={handleSchemaChange}
+              >
                 <option value="">Choose a schema</option>
-                {availableTypes?.map((it) => (
+                {availableSchemas?.map((it) => (
                   <option value={it} key={it}>
                     {it}
                   </option>
@@ -368,7 +380,7 @@ return (
               src="flowscience.near/widget/attest"
               props={{
                 item: {
-                  type: state.selectedType,
+                  type: attestationType,
                   value: state.data,
                 },
                 onChange: handleOnChange,
@@ -388,7 +400,7 @@ return (
       ) : (
         <Widget
           src="flowscience.near/widget/schema.editor"
-          props={{ typeSrc: state.selectedType }}
+          props={{ schemaSrc: state.selectedSchema }}
         />
       )}
     </SidePanel>
