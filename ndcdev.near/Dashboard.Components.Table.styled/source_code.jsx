@@ -6,6 +6,10 @@ return {
       overflow-y: hidden;
       overflow-x: scroll;
     }
+    @media screen and (max-width: 1025px) {
+      overflow-y: hidden;
+      overflow-x: scroll;
+    }
     -webkit-overflow-scrolling: touch;
   `,
 };
