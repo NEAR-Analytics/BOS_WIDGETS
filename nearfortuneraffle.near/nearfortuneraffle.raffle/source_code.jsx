@@ -28,7 +28,6 @@ const Modal = ({ isOpen, onClose }) => {
     left: "50%",
     transform: "translateX(-50%)",
     width: "50%",
-    maxWidth: "400px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
@@ -36,7 +35,7 @@ const Modal = ({ isOpen, onClose }) => {
     zIndex: 3,
 
     "@media screen and (max-width: 768px)": {
-      width: "100%",
+      width: "90%",
     },
   };
 
@@ -154,15 +153,13 @@ const NotificationModal = ({ isOpen, onClose }) => {
     left: "50%",
     transform: "translateX(-50%)",
     width: "50%",
-    maxWidth: "400px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     zIndex: 3,
-
     "@media screen and (max-width: 768px)": {
-      width: "100%",
+      width: "90%",
     },
   };
 
@@ -565,13 +562,13 @@ return (
   <>
     {state.nftCheck ? (
       <Modal
-        style={{ "@media screen and (max-width: 768px)": { width: "100%" } }}
+        style={{ "@media screen and (max-width: 768px)": { width: "90%" } }}
         isOpen={isModalOpen}
         onClose={closeModal}
       />
     ) : (
       <NotificationModal
-        style={{ "@media screen and (max-width: 768px)": { width: "100%" } }}
+        style={{ "@media screen and (max-width: 768px)": { width: "90%" } }}
         isOpen={isModalOpen}
         onClose={closeModal}
       />
