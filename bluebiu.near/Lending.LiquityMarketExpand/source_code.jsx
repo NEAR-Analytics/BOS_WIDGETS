@@ -355,62 +355,108 @@ useEffect(() => {
   if (state.isBigerThanBalance) return;
   const price = prices[data.underlyingToken.symbol];
 
-  // IS_GRAVITA_DAPP
-  let assetInUSD,
-    totalDebt,
-    _yourLTV,
-    borrowingFee,
-    liquidationPrice,
-    borrowTokenBal;
+  if (IS_GRAVITA_DAPP) {
+    let assetInUSD,
+      totalDebt,
+      _yourLTV,
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal;
 
-  if (state.tab === "Borrow") {
-    assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
-    if (state.borrowAmount) {
-      _yourLTV = Big(state.borrowAmount).div(assetInUSD.minus(20));
+    if (state.tab === "Borrow") {
+      assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
+      if (state.borrowAmount) {
+        _yourLTV = Big(state.borrowAmount).div(assetInUSD.minus(20));
+      }
+      if (_yourLTV) {
+        totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
+      }
     }
-    if (_yourLTV) {
-      totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
-    }
-  }
-  if (state.tab === "Adjust") {
-    assetInUSD = Big(state.amount || 0)
-      .plus(data.vesselDeposit)
-      .mul(price)
-      .mul(Big(data["MAX_LTV"]));
-    _yourLTV = Big(state.borrowAmount || 0)
-      .plus(data.vesselDebt)
-      .div(assetInUSD.minus(20));
-    if (_yourLTV) {
-      totalDebt = Big(state.amount || 0)
+    if (state.tab === "Adjust") {
+      assetInUSD = Big(state.amount || 0)
         .plus(data.vesselDeposit)
         .mul(price)
-        .mul(_yourLTV);
+        .mul(Big(data["MAX_LTV"]));
+      _yourLTV = Big(state.borrowAmount || 0)
+        .plus(data.vesselDebt)
+        .div(assetInUSD.minus(20));
+      if (_yourLTV) {
+        totalDebt = Big(state.amount || 0)
+          .plus(data.vesselDeposit)
+          .mul(price)
+          .mul(_yourLTV);
+      }
     }
-  }
 
-  if (assetInUSD) {
-    borrowTokenBal = assetInUSD
-      .minus(20)
-      .minus(assetInUSD.minus(20).mul(0.02))
-      .toFixed(2);
-  }
-  if (totalDebt) {
-    borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
+    if (assetInUSD) {
+      borrowTokenBal = assetInUSD
+        .minus(20)
+        .minus(assetInUSD.minus(20).mul(0.02))
+        .toFixed(2);
+    }
+    if (totalDebt) {
+      borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
 
-    liquidationPrice = totalDebt
-      .div(state.amount)
-      .div(Big(data["MAX_LTV"]))
-      .toFixed(2);
+      liquidationPrice = totalDebt
+        .div(state.amount)
+        .div(Big(data["MAX_LTV"]))
+        .toFixed(2);
+    }
+    State.update({
+      totalDebt: Big(totalDebt || 0).toFixed(2),
+      yourLTV: Big(_yourLTV || 0)
+        .mul(100)
+        .toFixed(2),
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal,
+    });
   }
-  State.update({
-    totalDebt: Big(totalDebt || 0).toFixed(2),
-    yourLTV: Big(_yourLTV || 0)
-      .mul(100)
-      .toFixed(2),
-    borrowingFee,
-    liquidationPrice,
-    borrowTokenBal,
-  });
+  if (IS_PREON_DAPP) {
+    let assetInUSD,
+      totalDebt,
+      _yourLTV,
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal;
+    const liquidationFee = 20;
+    borrowingFee = Big(state.borrowAmount || 0)
+      .mul(0.005)
+      .toFixed();
+    totalDebt = Big(state.borrowAmount || 0)
+      .plus(Big(borrowingFee))
+      .plus(liquidationFee)
+      .toFixed();
+    liquidationPrice = Big(totalDebt)
+      .div(Big(state.amount).mul(Big(data["MAX_LTV"])))
+      .toFixed();
+    if (state.tab === "Borrow") {
+      assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
+    }
+    if (state.tab === "Adjust") {
+      assetInUSD = Big(state.amount || 0)
+        .plus(data.vesselDeposit)
+        .mul(price)
+        .mul(Big(data["MAX_LTV"]));
+    }
+
+    if (assetInUSD) {
+      borrowTokenBal = assetInUSD
+        .minus(20)
+        .minus(assetInUSD.minus(20).mul(0.02))
+        .toFixed();
+    }
+
+    State.update({
+      totalDebt,
+      // yourLTV: Big(_yourLTV || 0)
+      //   .mul(100)
+      //   .toFixed(2),
+      borrowingFee,
+      liquidationPrice,
+      borrowTokenBal,
+    });
+  }
 }, [state.borrowAmount, state.amount]);
 
 const onAmountChange = (amount) => {
@@ -506,14 +552,16 @@ return (
             {state.tab === "Borrow" && (
               <StyledInfoItem>
                 <div>Liquidation Price</div>
-                <div className="white">{state.liquidationPrice} USD</div>
+                <div className="white">
+                  {Number(state.liquidationPrice).toFixed(2)} USD
+                </div>
               </StyledInfoItem>
             )}
 
             <StyledInfoItem>
               <div>Borrowing Fee</div>
               <div className="white">
-                {state.borrowingFee}
+                {Number(state.borrowingFee).toFixed(2)}
                 {data.BORROW_TOKEN}
               </div>
             </StyledInfoItem>
@@ -521,7 +569,7 @@ return (
             <StyledInfoItem>
               <div>Total Debt</div>
               <div className="white">
-                {state.totalDebt}
+                {Number(state.totalDebt).toFixed(2)}
                 {data.BORROW_TOKEN}
               </div>
             </StyledInfoItem>
