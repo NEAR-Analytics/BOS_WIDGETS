@@ -374,7 +374,7 @@ return (Store, status, { Route }) => {
           <img src={FRENSLY_LOGO} />
         </Logo>
         <SearchWrapper>
-          <Search type="text" id="search" name="search" placeholder="Search frens" onChange={(e) => {
+          <Search type="text" id="search" name="search" placeholder="Search frens" autoComplete="off" onChange={(e) => {
             Store.update({
               searchTerm: e.target.value
             });
