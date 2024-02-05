@@ -1,6 +1,4 @@
 const $ = VM.require("sdks.near/widget/Loader");
-$(State);
-
 const { useSharedContext } = $("@sdks/hooks");
 const { RoutesManager } = $("@sdks/routes-manager");
 const OWNER = "mattb.near";
@@ -10,6 +8,8 @@ const Main = styled.div`
     overflow:hidden;
     background: #fff;
     border: 2px solid rgba(0,0,0,.05);
+    padding-bottom:1.8rem;
+    margin-bottom:1rem;
 `;
 
 const Wrapper = styled.div`
@@ -22,7 +22,6 @@ const { Toolbar } = useSharedContext({
   from: [`${OWNER}/widget/Frensly.Components.Toolbar`],
   skeletons: {
     Toolbar: VM.require("mattb.near/widget/Frensly.Skeletons.Toolbar"),
-    Home: VM.require("mattb.near/widget/Frensly.Skeletons.Toolbar"),
   },
 });
 
