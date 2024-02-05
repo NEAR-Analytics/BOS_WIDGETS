@@ -429,13 +429,17 @@ return (
     {state.show ? (
       <TriggerShowPanel
         onMouseOut={handleOnMouseLeave}
-        style={{ margin: "0px -7px" }}
+        style={{
+          margin: "0px -7px",
+          top: props.widgets && props.widgets.length ? "10px" : "0",
+        }}
       >
         <SupportingSpan />
 
         <ActionsWrapper
           style={{
-            background: props.widgets && props.widgets.length ? "#DB504A" : "",
+            backgroundColor:
+              props.widgets && props.widgets.length ? "" : "#DB504A!important",
           }}
         >
           <TriggerShowLabel />
