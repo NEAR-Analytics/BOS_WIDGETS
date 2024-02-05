@@ -137,6 +137,8 @@ const {
   TVL,
   BAL_APR,
   swapFee,
+  APR,
+  pjAPR,
 } = data;
 State.init({
   currentTab: "STAKE_TAB",
@@ -178,13 +180,15 @@ return (
             </div>
           </GridItem>
           <GridItem>
-            {/* <div className="title-secondary">
-              {Big(BAL_APR || 0)
-                .plus(Big(swapFee || 0))
-                .toFixed()}
+            <div className="title-secondary">
+              {Big(APR || 0)
+                .mul(100)
+                .toFixed(2)}
               %
             </div>
-            <div className="title-sub">proj. %</div> */}
+            <div className="title-sub">
+              proj.{Big(pjAPR).mul(100).toFixed(2)} %
+            </div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
