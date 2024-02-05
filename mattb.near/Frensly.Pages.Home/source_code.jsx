@@ -9,8 +9,8 @@ const Sections = styled.div`
   }
 `;
 
-return (
-  <>
+return (Store, status, props) => {
+  return <>
     <Widget src="mattb.near/widget/Frensly.Components.Header" />
 
     <Sections>
@@ -18,4 +18,4 @@ return (
       <Widget src="mattb.near/widget/Frensly.Components.HowToJoin" />
     </Sections>
   </>
-);
+};
