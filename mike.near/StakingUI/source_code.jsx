@@ -4,8 +4,10 @@ const openAnotherModal = (validatorAddress, amount) => {
   Near.call(validatorAddress, "unstake", { amount });
 };
 
+const yoctoZeroes = "000000000000000000000000";
+
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
-  const [stakingAmount, setStakingAmount] = useState(1000000000000000000000000);
+  const [stakingAmount, setStakingAmount] = useState("3");
   const handleCancel = () => {
     // eventually add fade-out effect
     setShowStakingModal(false);
@@ -62,7 +64,7 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
         }}
       />
       <button
-        onClick={(e) => handleUnstake(stakingAmount)}
+        onClick={(e) => handleUnstake(`${stakingAmount}${yoctoZeroes}`)}
         style={{ padding: "13px", margin: "13px auto", display: "block" }}
       >
         Unstake
