@@ -130,7 +130,9 @@ const statefulLoad = (Store, status, namespace) => {
 
 return (namespace) => {
   if (Array.isArray(namespace)) {
-    return (actualNamespace) => statefulLoad(namespace[0], namespace[1], actualNamespace);
+    return (actualNamespace) => {
+        return statefulLoad(namespace[0], namespace[1], actualNamespace);
+    };
   }
 
   return load(...parseRequest(namespace));
