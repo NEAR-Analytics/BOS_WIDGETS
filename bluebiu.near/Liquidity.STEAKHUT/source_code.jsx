@@ -161,15 +161,69 @@ if (!sender) {
     })
   }
 }
-const ALL_DATA_URL = 'https://api.thegraph.com/subgraphs/name/0xsirloin/steakhutlb'
+// const ALL_DATA_URL = 'https://api.thegraph.com/subgraphs/name/0xsirloin/steakhutlb'
 const {
   pairs,
   addresses,
-  // ALL_DATA_URL,
+  ALL_DATA_URL,
   ICON_VAULT_MAP,
   USER_DATA_BASE,
   LAST_SNAP_SHOT_DATA_URL,
-} = dexConfig
+} = {
+  ALL_DATA_URL: 'https://api.thegraph.com/subgraphs/name/0xsirloin/steakhutlb',
+  // USER_DATA_BASE: 'https://wire2.gamma.xyz/quickswap/polygon/user/',
+  LAST_SNAP_SHOT_DATA_URL: 'https://wire2.gamma.xyz/database/quickswap/polygon/hypervisors/lastSnapshot',
+  pairs: [{
+    id: "SHLB_USDC.e-USDC_C",
+    strategy: "Balanced",
+    strategy2: "Concentrated",
+    token0: "USDC.e",
+    token1: "USDC",
+  }, {
+    id: "SHLB_USDT-USDC_B",
+    strategy: "Balanced",
+    strategy2: "Concentrated",
+    token0: "USDC.e",
+    token1: "USDC",
+    ammName: 'QuickSwap',
+    ammImage: 'https://app.gamma.xyz/_next/static/media/icon.ea1fec4d.svg'
+  }, {
+    id: "SHLB_USDC.e-USDC_C",
+    strategy: "Balanced",
+    strategy2: "Concentrated",
+    token0: "USDC.e",
+    token1: "USDC",
+    ammName: 'QuickSwap',
+    ammImage: 'https://app.gamma.xyz/_next/static/media/icon.ea1fec4d.svg'
+  }],
+  addresses: {
+    'USDC.e': "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664",
+    'USDC': "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+    'USDt': '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7',
+    'USDT.e': '0xc7198437980c041c805a1edcba50c1ce5db95118',
+    'JOE': '0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd',
+    'WAVAX': '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7',
+    'WETH.e': '0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab',
+    'BTC.b': '0x152b9d0fdc40c096757f570a51e494bd4b943e50',
+
+    "SHLB_USDC.e-USDC_C": "0x37e0f0513ae3d3c4403e7b11c8a15b06c7cb1412",
+    "SHLB_USDT-USDC_B": "0xb41506675a0977a34e8cec7da8c061d6753b5b03",
+    "SHLB_USDT-USDC_C": "0xc4bbd4ba96eaf7ccb3d0f2e0819b1f6e5c900b16",
+    "SHLB_USDT.e-USDt_B": "0x07462883abb2350e5243b94aeb27f4d37e3238e8",
+    "SHLB_USDT.e-USDt_C": "0x9f44e67ba256c18411bb041375e572e3dd11fa72",
+    "SHLB_USDC.e-USDC_B": "0x3b27aee8df3a3791eb57b59a770a530a93dc0221",
+    "SHLB_JOE-AVAX_B": "0x89547441489262feb5cee346fdacb9037c2574db",
+    "SHLB_AVAX-USDC_B": "0x668530302c6ecc4ebe693ec877b79300ac72527c",
+    "SHLB_WETH-AVAX_B": "0x9c9cea14731821f4d08889717043977e6dee766a",
+    "BTC.b/USDC_B": "0x9cc15d1204d768380cec8d35bc1d8e1945083397",
+    "SHLB_BTC.b-AVAX_B": "0x536d7e7423e8fb799549caf574cfa12aae95ffcd",
+  },
+  ICON_VAULT_MAP: {
+    'USDC.e': 'https://raw.githubusercontent.com/traderjoe-xyz/joe-tokenlists/main/logos/0xB6076C93701D6a07266c31066B298AeC6dd65c2d/logo.png',
+    'USDC': '',
+    'USDt': ''
+  }
+}
 function fetchAllData() {
   State.update({
     loading: true
