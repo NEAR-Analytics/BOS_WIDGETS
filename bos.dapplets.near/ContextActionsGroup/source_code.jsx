@@ -38,7 +38,6 @@ const handleApplyClick = () => {
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
-  z-index: 500;
 
   .OverlayTrigger {
     position: absolute;
@@ -54,6 +53,7 @@ const OverlayTriggerWrapper = styled.div`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    z-index: 500;
   }
 `;
 const SupportingSpan = styled.span`
