@@ -28,6 +28,9 @@ const WidgetBadgeWrapper = styled.div`
     justify-content: center;
     border-radius: 4%;
     backdrop-filter: blur(1px);
+    div {
+        padding: 2px;
+    }
 `;
 
 return (
