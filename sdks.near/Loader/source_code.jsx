@@ -1,6 +1,3 @@
-let Store = null;
-let status = null;
-
 let TYPES = {};
 const TYPE_LIBRARY = "@";
 const TYPE_IMAGE = "img:";
@@ -109,15 +106,7 @@ const load = (account, resourceType, path, version) => {
   );
 }
 
-return (namespace) => {
-  if (Array.isArray(namespace)) {
-    Store = namespace[0];
-    status = namespace[1];
-
-    return;
-  }
-
-  if (Store && !status[namespace]) {
+const statefulLoad = (Store, status, namespace) => {
     let defaultValue = namespace.includes("hook") ? () => {} : {};
     console.log(namespace, defaultValue, { [namespace]: {defaultValue} })
 
@@ -137,6 +126,11 @@ return (namespace) => {
     checkDependencyLoaded();
 
     return status[namespace];
+}
+
+return (namespace) => {
+  if (Array.isArray(namespace)) {
+    return (actualNamespace) => statefulLoad(namespace[0], namespace[1], actualNamespace);
   }
 
   return load(...parseRequest(namespace));
