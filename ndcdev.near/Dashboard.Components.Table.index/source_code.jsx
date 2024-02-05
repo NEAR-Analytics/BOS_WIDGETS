@@ -87,6 +87,11 @@ const fetchDapps = () => {
   setLoading(true);
 
   API.get_dapps().then((resp) => {
+    if (!resp.body) {
+      setLoading(false);
+      return;
+    }
+
     const dapps = resp.body;
     if (dapps)
       setAllDapps(
@@ -95,7 +100,6 @@ const fetchDapps = () => {
           .reduce((a, b) => [...a, ...b], []),
       );
   });
-  setLoading(false);
 };
 
 const fetchData = () => {
@@ -104,10 +108,20 @@ const fetchData = () => {
   let newDataSet = {};
 
   const promises = filtredDAOs.flatMap((daoId) => {
-    newDataSet[daoId] = {};
+    newDataSet[daoId] = {
+      balance: 0,
+      interactedAccounts: 0,
+      dappsUsed: 0,
+      retention: {
+        start: 0,
+        end: 0,
+      },
+    };
 
     return [
       API.get_retentions(daoId).then((resp) => {
+        if (!resp.body) return;
+
         const data = resp.body;
 
         if (data) {
@@ -122,6 +136,8 @@ const fetchData = () => {
         }
       }),
       API.get_balance(daoId).then((resp) => {
+        if (!resp.body) return;
+
         const data = resp.body;
         if (data)
           newDataSet[daoId].balance =
@@ -129,16 +145,14 @@ const fetchData = () => {
               ?.amount ?? 0;
       }),
       API.get_contract_relations(daoId).then((resp) => {
+        if (!resp.body) return;
+
         const interactedAccounts = resp.body;
         if (interactedAccounts) {
           newDataSet[daoId].interactedAccounts = interactedAccounts.length;
-
           newDataSet[daoId].dappsUsed = allDapps.filter((dapp) =>
             interactedAccounts.includes(dapp),
           ).length;
-          console.log(interactedAccounts);
-          console.log(allDapps.length);
-          console.log(newDataSet[daoId].dappsUsed);
         }
       }),
     ];
