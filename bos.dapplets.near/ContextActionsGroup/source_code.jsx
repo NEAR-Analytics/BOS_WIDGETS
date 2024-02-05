@@ -433,7 +433,11 @@ return (
       >
         <SupportingSpan />
 
-        <ActionsWrapper>
+        <ActionsWrapper
+          style={{
+            background: props.widgets && props.widgets.length ? "#DB504A" : "",
+          }}
+        >
           <TriggerShowLabel />
 
           {props.widgets.map((widget) => (
