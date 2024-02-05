@@ -1,7 +1,8 @@
-const $ = VM.require("sdks.near/widget/Loader");
-const { StatefulDependency } = $("@sdks/abstracts");
-
 const RoutesManager = (Store, status, routes, { page }) => {
+  const $ = VM.require("sdks.near/widget/Loader");
+  $(Store);
+  const { StatefulDependency } = $("@sdks/abstracts");
+
   const Router = {
     ...StatefulDependency(Store, status, "Router"),
     name: "Router",
