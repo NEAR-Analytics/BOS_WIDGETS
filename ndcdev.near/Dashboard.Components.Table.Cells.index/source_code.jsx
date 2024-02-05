@@ -58,14 +58,17 @@ const getPercentage = (start, end, divider) => {
   return val > 100 ? 100 : val;
 };
 
-const formatValue = (val) =>
-  val >= 1000000000
-    ? `${parseFloat(val / 1000000000).toFixed(2)}B`
-    : val >= 1000000
-    ? `${parseFloat(val / 1000000).toFixed(2)}M`
-    : val >= 1000
-    ? `${parseFloat(val / 1000).toFixed(2)}K`
-    : val.toFixed(2);
+const formatValue = (val) => {
+  const value = val ?? 0;
+
+  return value >= 1000000000
+    ? `${parseFloat(value / 1000000000).toFixed(2)}B`
+    : value >= 1000000
+    ? `${parseFloat(value / 1000000).toFixed(2)}M`
+    : value >= 1000
+    ? `${parseFloat(value / 1000).toFixed(2)}K`
+    : value.toFixed(2);
+};
 
 const { dataSet } = props;
 
