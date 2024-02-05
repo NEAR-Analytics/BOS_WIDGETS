@@ -93,6 +93,7 @@ const {
   _debtTokenAmount,
   onApprovedSuccess,
   isBigerThanBalance,
+  collateralRatio,
   yourLTV,
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
@@ -254,26 +255,40 @@ if (!_assetAmount) {
   );
 }
 
-if (isBigerThanBalance) {
-  return (
-    <Button disabled={true} className={actionText.toLowerCase()}>
-      Insufficient Balance
-    </Button>
-  );
+if (IS_GRAVITA_DAPP && IS_PREON_DAPP) {
+  if (isBigerThanBalance) {
+    return (
+      <Button disabled={true} className={actionText.toLowerCase()}>
+        Insufficient Balance
+      </Button>
+    );
+  }
+  if (Big(yourLTV).gt(Big(data.MAX_LTV).mul(100))) {
+    return (
+      <Button disabled={true} className={actionText.toLowerCase()}>
+        LTV must be below {Big(data.MAX_LTV).mul(100).toFixed(2)}%
+      </Button>
+    );
+  }
+}
+if (IS_ETHOS_DAPP) {
+  if (
+    Big(collateralRatio || 0)
+      .mul(100)
+      .lt(Big(data.MCR).mul(100))
+  ) {
+    return (
+      <Button disabled={true} className={actionText.toLowerCase()}>
+        {`Collateral Ratio must above the MCR of ${Big(data.MCR).mul(100)}%`}
+      </Button>
+    );
+  }
 }
 
 if (Big(_debtTokenAmount || 0).lt(data["MIN_DEBT"])) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       A minimum of {data["MIN_DEBT"]} {data.BORROW_TOKEN}
-    </Button>
-  );
-}
-
-if (Big(yourLTV).gt(Big(data.MAX_LTV).mul(100))) {
-  return (
-    <Button disabled={true} className={actionText.toLowerCase()}>
-      LTV must be below {Big(data.MAX_LTV).mul(100).toFixed(2)}%
     </Button>
   );
 }
