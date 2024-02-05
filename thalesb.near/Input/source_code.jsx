@@ -92,10 +92,49 @@ const MaxButton = styled.button`
   }
 `;
 
-const usdcImage =
-  "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389";
+const GhostButton = styled.button`
+  margin-top: ${(props) => props.marginTop || 0}px;
+  width: ${(props) => props.width || "100%"};
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease, opacity 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
 
-const { onConfirm, balance, type } = props;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
+const {
+  onConfirm,
+  balance,
+  type,
+  loading,
+  address,
+  decimals,
+  isCollateral,
+  selectedItem,
+} = props;
 
 const [inputValue, setInputValue] = useState("");
 
@@ -105,7 +144,7 @@ const handleInputChange = (e) => {
 return (
   <InputGroup>
     <Container>
-      <Icon src={usdcImage} alt="Currency Icon" />
+      <Icon src={selectedItem.image} alt="Currency Icon" />
       <Input
         id="supply-input"
         placeholder="0.00"
@@ -115,18 +154,28 @@ return (
       <MaxButton onClick={() => setInputValue(balance)}>MAX</MaxButton>
     </Container>
     <InputLabel htmlFor="supply-input">
-      Wallet Balance: {balance} USDC
+      Balance: {balance} {selectedItem.name}
     </InputLabel>
-
-    <Button
-      marginTop={24}
-      color={type === "borrow" && "#FFF"}
-      bgColor={type === "borrow" && "#AA00FA"}
-      onClick={() =>
-        onConfirm("0x2791bca1f2de4661ed88a30c99a7a9449aa84174", inputValue)
-      }
-    >
-      {type === "borrow" ? "BORROW" : "SUPPLY"}
-    </Button>
+    {type === "withdraw" ? (
+      <GhostButton
+        marginTop={45}
+        disabled={balance && balance === 0}
+        onClick={() => {
+          onConfirm(address, inputValue, decimals);
+        }}
+      >
+        {loading ? "Loading" : "Withdraw"}
+      </GhostButton>
+    ) : (
+      <Button
+        marginTop={24}
+        color={type === "borrow" && "#FFF"}
+        bgColor={type === "borrow" && "#AA00FA"}
+        disabled={balance && balance === 0}
+        onClick={() => onConfirm(address, inputValue, decimals, isCollateral)}
+      >
+        {type === "borrow" ? "BORROW" : "SUPPLY"}
+      </Button>
+    )}
   </InputGroup>
 );
