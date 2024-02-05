@@ -38,7 +38,7 @@ const BalanceDisplay = styled.div`
   align-items: center;
   gap: 10px;
   margin-bottom: 12px;
-  margin-top: 18px;
+  margin-top: 48px;
 `;
 
 const BalanceAmount = styled.div`
@@ -210,7 +210,7 @@ const InfoLabel = styled.span`
 `;
 
 const InfoValue = styled.span`
-  color: white;
+  color: #888baf;
 `;
 
 const CollateralInfo = () => (
@@ -234,6 +234,36 @@ const CollateralInfo = () => (
   </InfoSection>
 );
 
+const InfoSectionModal = styled.div`
+  background: #292a3d;
+  border-radius: 8px;
+  width: 60%;
+  padding: 24px;
+  color: white;
+  margin-top: ${(props) => props.marginTop || 0}px;
+`;
+
+const CollateralInfoModal = () => (
+  <InfoSectionModal>
+    <InfoRow>
+      <InfoLabel>Collateral value</InfoLabel>
+      <InfoValue>0.7900</InfoValue>
+    </InfoRow>
+    <InfoRow>
+      <InfoLabel>Liquidation point</InfoLabel>
+      <InfoValue>0.0000</InfoValue>
+    </InfoRow>
+    <InfoRow>
+      <InfoLabel>Borrow capacity</InfoLabel>
+      <InfoValue>0.5100</InfoValue>
+    </InfoRow>
+    <InfoRow>
+      <InfoLabel>Available to borrow</InfoLabel>
+      <InfoValue>0.5100</InfoValue>
+    </InfoRow>
+  </InfoSectionModal>
+);
+
 const APRSection = styled.div`
   display: flex;
   justify-content: space-between;
@@ -249,6 +279,10 @@ const SectionTitle = styled.h2`
 const ButtonContainer = styled.div`
   display: flex;
   gap: 6px;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+
   @media (max-width: 1024px) {
     display: none;
   }
@@ -277,6 +311,10 @@ const Button = styled.button`
   margin-top: ${(props) => props.marginTop || 0}px;
   transition: background-color 0.3s ease, transform 0.2s ease,
     box-shadow 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+
+  text-align: center;
 
   &:hover,
   &:focus {
@@ -302,6 +340,10 @@ const GhostButton = styled.button`
   margin-right: 10px;
   transition: background-color 0.3s ease, transform 0.2s ease,
     box-shadow 0.2s ease, opacity 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+
+  text-align: center;
 
   &:hover,
   &:focus {
@@ -364,7 +406,7 @@ const BalanceLabel = styled.span`
   font-size: 16px;
   font-weight: 700;
   line-height: 22px;
-
+  margin-right: 10px;
   text-align: right;
   color: #fff;
 `;
@@ -416,6 +458,14 @@ const SectionHeader = styled.span`
   font-weight: 700;
 `;
 
+const SectionSubHeader = styled.span`
+  color: #888baf;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+`;
+
 const DropdownContainer = styled.div`
   position: relative;
 
@@ -423,7 +473,30 @@ const DropdownContainer = styled.div`
     border-radius: 24px;
     background: #373a53;
     padding: 16px;
-    color: red;
+    width: 19vw;
+
+    @media (max-width: 1680px) {
+      min-width: 24vw;
+    }
+
+    @media (max-width: 1440px) {
+      min-width: 28vw;
+    }
+
+    @media (max-width: 1380px) {
+      min-width: 25vw;
+    }
+    @media (max-width: 1200px) {
+      min-width: 30vw;
+    }
+
+    @media (max-width: 1024px) {
+      min-width: min-content;
+    }
+
+    @media (max-width: 728px) {
+      min-width: min-content;
+    }
   }
 `;
 
@@ -595,62 +668,15 @@ const CryptoCurrencyPair = () => {
   return (
     <CryptoContainer>
       <CryptoPairIcon>
-        <CryptoIcon src={ethImage} alt="Ethereum" />
-        <OverlappingCryptoIcon src={usdcImage} alt="USDC" />
+        <CryptoIcon src={selectedItem.networkImage} alt="Ethereum" />
+        <OverlappingCryptoIcon src={selectedItem.image} alt="USDC" />
       </CryptoPairIcon>
-      <CryptoLabel>USDC</CryptoLabel>
-      <CryptoLabel color="#888baf">Ethereum</CryptoLabel>
+      <CryptoLabel>{selectedItem.name}</CryptoLabel>
+      <CryptoLabel color="#888baf">{selectedItem.network}</CryptoLabel>
     </CryptoContainer>
   );
 };
 
-const StyledItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  border-radius: 6px;
-
-  color: white;
-
-  z-index: 999;
-  width: 265px;
-
-  &:focus {
-    opacity: 0.8;
-  }
-`;
-
-const StyledTokenGroup = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > div {
-    margin: 0 8px;
-  }
-`;
-
-const StyledToken = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #555;
-  color: white;
-`;
-
-const CryptoDropdownItem = ({}) => {
-  const rightTokens = ["USDC", "ETH"];
-  return (
-    <StyledItem>
-      <StyledTokenGroup>
-        <CryptoIcon src={ethImage} alt="Ethereum" />
-      </StyledTokenGroup>
-    </StyledItem>
-  );
-};
 // NetworkDropdown component
 const NetworkDropdown = ({ selectedNetwork, onChange }) => {
   return (
@@ -665,7 +691,13 @@ const NetworkDropdown = ({ selectedNetwork, onChange }) => {
         <CryptoCurrencyPair />
         <DropdownMenu.Content sideOffset={5}>
           <DropdownMenu.Item className="DropdownMenuItem">
-            <CryptoDropdownItem />
+            <Widget
+              props={{
+                updateSelectedItem: updateSelectedItem,
+                selectedItem: selectedItem,
+              }}
+              src="thalesb.near/widget/NetworkDropdown"
+            />
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
@@ -722,29 +754,168 @@ const CenterContainer = styled.div`
   margin-right: 4px;
 `;
 
-const CollateralItemComponent = ({ item }) => (
+const CollateralItemComponent = ({ item, balance }) => (
   <Container>
-    <Icon src={usdcImage} alt="ETH" />
+    <Icon src={item.image} alt="coin image" />
 
     <InfoContainer>
-      <CollateralLabel>{item.label}</CollateralLabel>
+      <CollateralLabel>{item.name}</CollateralLabel>
 
       <SubLabelContainer>
         <SubLabel>{item.subLabel}</SubLabel>
         <CenterContainer>{CircleDivider}</CenterContainer>
-        <Value>{item.value}</Value>
+        <Value>{balance ? balance : "0.00"}</Value>
         <SmallIcon>{WalletIcon}</SmallIcon>
       </SubLabelContainer>
     </InfoContainer>
   </Container>
 );
 
-const collateralItems = [
-  { label: "Ethereum", subLabel: "ETH", value: "28.00" },
-  { label: "Ethereum", subLabel: "ETH", value: "28.00" },
-  { label: "Ethereum", subLabel: "ETH", value: "28.00" },
-  { label: "Ethereum", subLabel: "ETH", value: "28.00" },
-];
+const ContainerModal = styled.div`
+  width: 100%;
+
+  .DialogOverlay {
+    background: #000000b2;
+    position: fixed;
+    inset: 0;
+    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .DialogContent {
+    background-color: #1e202f;
+    z-index: 999;
+    border-radius: 6px;
+    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 860px;
+    max-height: 85vh;
+    padding: 25px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .DialogContent:focus {
+    outline: none;
+  }
+
+  .DialogTitle {
+    margin: 0;
+    font-weight: 500;
+    color: var(--mauve-12);
+    font-size: 17px;
+  }
+
+  .DialogDescription {
+    margin: 10px 0 20px;
+    color: var(--mauve-11);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .Button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0 15px;
+    font-size: 15px;
+    line-height: 1;
+    font-weight: 500;
+    height: 35px;
+  }
+  .Button.violet {
+    background-color: white;
+    color: var(--violet-11);
+    box-shadow: 0 2px 10px var(--black-a7);
+  }
+  .Button.violet:hover {
+    background-color: var(--mauve-3);
+  }
+  .Button.violet:focus {
+    box-shadow: 0 0 0 2px black;
+  }
+  .Button.green {
+    background-color: var(--green-4);
+    color: var(--green-11);
+  }
+  .Button.green:hover {
+    background-color: var(--green-5);
+  }
+  .Button.green:focus {
+    box-shadow: 0 0 0 2px var(--green-7);
+  }
+
+  .IconButton {
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .Fieldset {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .Label {
+    font-size: 15px;
+    color: var(--violet-11);
+    width: 90px;
+    text-align: right;
+  }
+
+  .Input {
+    width: 100%;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0 10px;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--violet-11);
+    box-shadow: 0 0 0 1px var(--violet-7);
+    height: 35px;
+  }
+  .Input:focus {
+    box-shadow: 0 0 0 2px var(--violet-8);
+  }
+
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+`;
+
+const { address, addToast, selectedItem, updateSelectedItem } = props;
+
+const { contractInfo, collateralItems } = selectedItem;
 
 const rowSpan = Math.floor(collateralItems.length / 2) * 1;
 
@@ -763,16 +934,6 @@ const abi = fetch(
 
 if (!abi) return "Loading...";
 
-const contractInfo = {
-  network: "Polygon Mainnet",
-  address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
-  chainId: 137,
-  httpRpcUrl: "https://polygon-rpc.com/",
-  borrowAssetCoingeckoId: "usdc",
-};
-
-const { address } = props;
-
 const balancesPromise = new Promise((resolve, reject) => {
   const rpcProvider = new ethers.providers.JsonRpcProvider(
     contractInfo.httpRpcUrl
@@ -783,20 +944,52 @@ const balancesPromise = new Promise((resolve, reject) => {
     abi.body,
     rpcProvider
   );
-
-  const newContractAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174";
   const newContract = new ethers.Contract(
-    newContractAddress,
+    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
     abi.body,
     rpcProvider
   );
 
+  function fetchBalancesForCollateralItem(item) {
+    const collateralContract = new ethers.Contract(
+      item.address,
+      abi.body,
+      rpcProvider
+    );
+    return Promise.all([
+      collateralContract.balanceOf(address),
+      contract.collateralBalanceOf(address, item.address),
+    ]).then(([tokenBalance, collateralBalance]) => {
+      const formattedTokenBalance = ethers.utils.formatUnits(
+        tokenBalance,
+        item.decimals
+      );
+      const formattedCollateralBalance = ethers.utils.formatUnits(
+        collateralBalance,
+        item.decimals
+      );
+      return {
+        name: item.name,
+        tokenBalance: formattedTokenBalance,
+        collateralBalance: formattedCollateralBalance,
+      };
+    });
+  }
+
   contract
     .balanceOf(address)
-    .then((balance) => Promise.all([balance, contract.decimals()]))
-    .then(([balance, decimals]) => {
+    .then((balance) =>
+      Promise.all([
+        balance,
+        contract.decimals(),
+        // Fetch balances for all collateral items
+        Promise.all(
+          collateralItems.map((item) => fetchBalancesForCollateralItem(item))
+        ),
+      ])
+    )
+    .then(([balance, decimals, collateralBalances]) => {
       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
-      const assetBalance = balance;
 
       return Promise.all([
         newContract.balanceOf(address),
@@ -807,89 +1000,95 @@ const balancesPromise = new Promise((resolve, reject) => {
           newDecimals
         );
 
-        const unformattedSupplyBalance = newBalance;
         return {
           formattedBalance,
-          assetBalance,
+          assetBalance: balance,
           supplyBalance: supplyBalanceFormatted,
-          unformattedSupplyBalance,
+          unformattedSupplyBalance: newBalance,
+          collateralBalances, //
         };
       });
     })
-    .then(
-      ({
-        formattedBalance,
-        assetBalance,
-        supplyBalance,
-        unformattedSupplyBalance,
-      }) => {
-        State.update({
-          formattedBalance: formattedBalance,
-          assetBalance: assetBalance,
-          supplyBalance: supplyBalance,
-          unformattedSupplyBalance: unformattedSupplyBalance,
-        });
-        resolve();
-      }
-    )
+    .then((result) => {
+      // Update the state with all balances
+      State.update({
+        ...result,
+      });
+      resolve();
+    })
     .catch((error) => {
       reject(error);
     });
 });
 
-const withdrawToContract = (address, amount) => {
+const withdrawToContract = (address, amount, decimals) => {
   const contract = new ethers.Contract(
     contractInfo.address,
     abi.body,
     Ethers.provider().getSigner()
   );
-  console.log("aquii");
+
+  console.log("salveee clan", amount);
+
+  const adjustedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
+
   contract
-    .withdraw(address, state.assetBalance)
+    .withdraw(address, adjustedAmount)
     .then((tx) => {
       console.log(`Transaction submitted: ${tx.hash}`);
+      addToast(`Transaction submitted: ${tx.hash}`, "success");
       // Wait for the transaction to be mined
+      State.update({ loadingWithdraw: true });
       return tx.wait();
     })
     .then((receipt) => {
       console.log(`Transaction confirmed: ${receipt.transactionHash}`);
       // Update state or UI as needed
-      State.update({ lastTransactionHash: receipt.transactionHash });
+      State.update({
+        lastTransactionHash: receipt.transactionHash,
+        loadingWithdraw: false,
+      });
+      addToast("Withdrawal successful", "success");
     })
     .catch((error) => {
+      addToast(`Transaction failed: ${error.message}`, "error");
       console.error(`Transaction failed: ${error.message}`);
     });
   console.log("finalizou");
 };
 
-const supplyToContract = (address, amount) => {
+const supplyToContract = (address, amount, decimals, isCollateral) => {
   const contract = new ethers.Contract(
     contractInfo.address,
     abi.body,
     Ethers.provider().getSigner()
   );
-  console.log("salveee clan", amount);
-  //TODO: put the decimals inside props so we don't need to call the decimals function each time.
-  // We also use this decimals in other places so we should put it in a props, and since we just have 2
-  // assets, we can put it in props since this doesn't change.
-  const decimals = 6;
+  console.log("salveee clan", amount, decimals);
+
   const adjustedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
 
   contract
     .supply(address, adjustedAmount)
     .then((tx) => {
       console.log(`Transaction submitted: ${tx.hash}`);
-
+      addToast(`Transaction submitted: ${tx.hash}`, "error");
+      if (isCollateral) {
+        State.update({ loadingSupplyCollateral: true });
+      } else {
+        State.update({ loadingSupply: true });
+      }
       return tx.wait();
     })
     .then((receipt) => {
       console.log(`Transaction confirmed: ${receipt.transactionHash}`);
-
-      State.update({ lastTransactionHash: receipt.transactionHash });
-      //TODO: Temos que descobrir como atualizar o balanço sem quebrar o componente.
-      //ps: eu acho que já resolvi, depois testar.
+      addToast("Supply successful", "success");
+      State.update({
+        lastTransactionHash: receipt.transactionHash,
+        loadingSupply: false,
+      });
     })
     .catch((error) => {
+      addToast(`Transaction failed: ${error.message}`, "error");
       console.error(`Transaction failed: ${error.message}`);
     });
 };
@@ -897,14 +1096,21 @@ const supplyToContract = (address, amount) => {
 return (
   <GridContainer key={address + Math.random()}>
     {/* Network dropdown and liquidation risk section */}
-
-    <GridItem span={3}>
+    {/* <button
+      onClick={() => {
+        console.log("salve");
+        addToast("Transaction submitted: ${tx.hash}", "success");
+      }}
+    >
+      teste
+    </button> */}
+    <GridItem span={4}>
       <NetworkDropdown
         selectedNetwork={selectedNetwork}
         onChange={handleNetworkChange}
       />
     </GridItem>
-    <GridItem span={9}>
+    <GridItem span={8}>
       <SectionHeader>Liquidation Risk</SectionHeader>
       <LiquidationRiskBar riskPercent={40} />
     </GridItem>
@@ -913,37 +1119,89 @@ return (
     <GridItem span={4}>
       <SectionHeader>Balance</SectionHeader>
       <BalanceDisplay>
-        <img src={usdcImage} style={{ width: 48, height: 48 }} alt="ETH" />
+        <img
+          src={selectedItem.image}
+          style={{ width: 48, height: 48 }}
+          alt="ETH"
+        />
         <BalanceAmount>
           {state.formattedBalance ? state.formattedBalance : 0}
         </BalanceAmount>
       </BalanceDisplay>
-      <SubAmount>
+      {/* <SubAmount>
         <SubAmountText>124.000 USD</SubAmountText>
         <SubArrow> {ArrowPath}</SubArrow>
-      </SubAmount>
-      <GhostButton
-        marginTop={24}
-        disabled={state.formattedBalance && state.formattedBalance === 0}
-        onClick={() => {
-          withdrawToContract(
-            "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-            10000
-          );
-        }}
-      >
-        Withdraw
-      </GhostButton>
+      </SubAmount> */}
+      <ContainerModal>
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <GhostButton
+              marginTop={45}
+              disabled={
+                (state.formattedBalance && state.formattedBalance === 0) ||
+                state.loadingWithdraw
+              }
+            >
+              {state.loadingWithdraw ? "Loading..." : "Withdraw"}
+            </GhostButton>
+          </Dialog.Trigger>
+
+          <Dialog.Overlay className="DialogOverlay" />
+          <Dialog.Content className="DialogContent">
+            <Dialog.Title className="DialogTitle">
+              Withdraw {selectedItem.name}
+            </Dialog.Title>
+            <div style={{ display: "flex", flexDirection: "row", gap: 24 }}>
+              <Widget
+                props={{
+                  onConfirm: withdrawToContract,
+                  balance: state.formattedBalance,
+                  loading: state.loadingWithdraw,
+                  selectedItem: selectedItem,
+                  decimals: 6,
+                  address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+                  type: "withdraw",
+                }}
+                src="thalesb.near/widget/Input"
+              />
+              <CollateralInfoModal />
+            </div>
+            <Dialog.Close asChild>
+              <div className="IconButton" aria-label="Close">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="Essential icons/X-mark">
+                    <path
+                      id="Union"
+                      d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                      fill="white"
+                    />
+                  </g>
+                </svg>
+              </div>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Root>
+      </ContainerModal>
     </GridItem>
 
     {/* Supply USDC Section */}
     <GridItem span={4}>
-      <SectionHeader>Supply USDC</SectionHeader>
+      <SectionHeader>Supply {selectedItem.name}</SectionHeader>
       <Widget
         props={{
           onConfirm: supplyToContract,
+          decimals: 6,
+          address: selectedItem.address,
           balance: state.supplyBalance,
           type: "supply",
+          loading: state.loadingSupply,
+          selectedItem: selectedItem,
         }}
         src="thalesb.near/widget/Input"
       />
@@ -951,12 +1209,15 @@ return (
 
     {/* Borrow USDC Section */}
     <GridItem span={4}>
-      <SectionHeader>Borrow USDC</SectionHeader>
+      <SectionHeader>Borrow {selectedItem.name}</SectionHeader>
       <Widget
         props={{
-          onConfirm: supplyToContract,
-          balance: 0,
+          // onConfirm: supplyToContract,
+          // decimals: 6,
+          // balance: 0,
+          selectedItem: selectedItem,
           type: "borrow",
+          // loading: state.loadingSupply,
         }}
         src="thalesb.near/widget/Input"
       />
@@ -966,25 +1227,306 @@ return (
 
     {/* Collateral Section */}
     <GridItem span={6} rowSpan={collateralRowSpan}>
-      <SectionHeader>Collateral</SectionHeader>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <SectionHeader>Collateral</SectionHeader>
+        <SectionSubHeader>Asset</SectionSubHeader>
+      </div>
       {collateralItems.map((item, index) => (
         <div key={index}>
           <CollateralItem>
-            <CollateralItemComponent item={item} />
+            <CollateralItemComponent
+              item={item}
+              balance={
+                state.collateralBalances && state.collateralBalances[index]
+                  ? state.collateralBalances[index].tokenBalance.slice(0, 6)
+                  : "0.00"
+              }
+            />
             <ActionGroup>
               <ActionContainer>
-                <BalanceLabel>1.000</BalanceLabel>
-                <BalanceValue>0.7900</BalanceValue>
+                <BalanceLabel>
+                  {state.collateralBalances && state.collateralBalances[index]
+                    ? state.collateralBalances[index].collateralBalance.slice(
+                        0,
+                        6
+                      )
+                    : "0.00"}
+                </BalanceLabel>
+                {/* <BalanceValue>0.7900</BalanceValue> */}
               </ActionContainer>
               <ButtonContainer>
-                <Button width={65}>Supply</Button>
-                <GhostButton width={80}>Withdraw</GhostButton>
+                <ContainerModal>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <Button
+                        disabled={
+                          (state.collateralBalances &&
+                            state.collateralBalances[index].tokenBalance ===
+                              0) ||
+                          state.loadingSupplyCollateral
+                        }
+                      >
+                        {state.loadingSupplyCollateral
+                          ? "Loading..."
+                          : "Supply"}
+                      </Button>
+                    </Dialog.Trigger>
+
+                    <Dialog.Overlay className="DialogOverlay" />
+                    <Dialog.Content className="DialogContent">
+                      <Dialog.Title className="DialogTitle">
+                        Supply {item.name}
+                      </Dialog.Title>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+
+                          gap: 24,
+                        }}
+                      >
+                        <Widget
+                          props={{
+                            onConfirm: supplyToContract,
+                            decimals: item.decimals,
+                            address: item.address,
+                            loading: state.loadingSupplyCollateral,
+                            selectedItem: item,
+                            balance:
+                              state.collateralBalances &&
+                              state.collateralBalances[index].tokenBalance,
+
+                            type: "supply",
+                            isCollateral,
+                          }}
+                          src="thalesb.near/widget/Input"
+                        />
+                        <CollateralInfoModal />
+                      </div>
+                      <Dialog.Close asChild>
+                        <div className="IconButton" aria-label="Close">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g id="Essential icons/X-mark">
+                              <path
+                                id="Union"
+                                d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                                fill="white"
+                              />
+                            </g>
+                          </svg>
+                        </div>
+                      </Dialog.Close>
+                    </Dialog.Content>
+                  </Dialog.Root>
+                </ContainerModal>
+                <ContainerModal>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <GhostButton
+                        disabled={
+                          (state.collateralBalances &&
+                            state.collateralBalances[index]
+                              .collateralBalance === 0) ||
+                          state.loadingWithdrawCollateral
+                        }
+                      >
+                        {state.loadingWithdraw ? "Loading..." : "Withdraw"}
+                      </GhostButton>
+                    </Dialog.Trigger>
+
+                    <Dialog.Overlay className="DialogOverlay" />
+                    <Dialog.Content className="DialogContent">
+                      <Dialog.Title className="DialogTitle">
+                        Supply {item.name}
+                      </Dialog.Title>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 24,
+                        }}
+                      >
+                        <Widget
+                          props={{
+                            onConfirm: withdrawToContract,
+                            address: item.address,
+                            selectedItem: item,
+                            balance:
+                              state.collateralBalances &&
+                              state.collateralBalances[index].collateralBalance,
+                            loading: state.loadingWithdrawCollateral,
+                            type: "withdraw",
+                          }}
+                          src="thalesb.near/widget/Input"
+                        />
+                        <CollateralInfoModal />
+                      </div>
+                      <Dialog.Close asChild>
+                        <div className="IconButton" aria-label="Close">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g id="Essential icons/X-mark">
+                              <path
+                                id="Union"
+                                d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                                fill="white"
+                              />
+                            </g>
+                          </svg>
+                        </div>
+                      </Dialog.Close>
+                    </Dialog.Content>
+                  </Dialog.Root>
+                </ContainerModal>
               </ButtonContainer>
             </ActionGroup>
           </CollateralItem>
           <ButtonContainerMobile>
-            <Button width="100%">Supply</Button>
-            <GhostButton width="100%">Withdraw</GhostButton>
+            <ContainerModal>
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <Button
+                    width="100%"
+                    disabled={
+                      (state.collateralBalances &&
+                        state.collateralBalances[index].tokenBalance === 0) ||
+                      state.loadingSupplyCollateral
+                    }
+                  >
+                    {state.loadingSupplyCollateral ? "Loading..." : "Supply"}
+                  </Button>
+                </Dialog.Trigger>
+
+                <Dialog.Overlay className="DialogOverlay" />
+                <Dialog.Content className="DialogContent">
+                  <Dialog.Title className="DialogTitle">
+                    Supply {item.name}
+                  </Dialog.Title>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+
+                      gap: 24,
+                    }}
+                  >
+                    <Widget
+                      props={{
+                        onConfirm: supplyToContract,
+                        decimals: item.decimals,
+                        address: item.address,
+                        loading: state.loadingSupplyCollateral,
+                        selectedItem: item,
+                        balance:
+                          state.collateralBalances &&
+                          state.collateralBalances[index].tokenBalance,
+
+                        type: "supply",
+                      }}
+                      src="thalesb.near/widget/Input"
+                    />
+                    <CollateralInfoModal />
+                  </div>
+                  <Dialog.Close asChild>
+                    <div className="IconButton" aria-label="Close">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g id="Essential icons/X-mark">
+                          <path
+                            id="Union"
+                            d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Root>
+            </ContainerModal>
+            <ContainerModal>
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <GhostButton
+                    width="100%"
+                    disabled={
+                      (state.formattedBalance &&
+                        state.formattedBalance === 0) ||
+                      state.loadingWithdrawCollateral
+                    }
+                  >
+                    {state.loadingWithdrawCollateral
+                      ? "Loading..."
+                      : "Withdraw"}
+                  </GhostButton>
+                </Dialog.Trigger>
+
+                <Dialog.Overlay className="DialogOverlay" />
+                <Dialog.Content className="DialogContent">
+                  <Dialog.Title className="DialogTitle">
+                    Supply {item.name}
+                  </Dialog.Title>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 24,
+                    }}
+                  >
+                    <Widget
+                      props={{
+                        onConfirm: withdrawToContract,
+                        address: item.address,
+                        loading: state.loadingWithdrawCollateral,
+                        selectedItem: item,
+                        balance:
+                          state.collateralBalances &&
+                          state.collateralBalances[index].collateralBalance,
+
+                        type: "withdraw",
+                      }}
+                      src="thalesb.near/widget/Input"
+                    />
+                    <CollateralInfoModal />
+                  </div>
+                  <Dialog.Close asChild>
+                    <div className="IconButton" aria-label="Close">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g id="Essential icons/X-mark">
+                          <path
+                            id="Union"
+                            d="M7.5364 6.2636C7.18492 5.91213 6.61508 5.91213 6.2636 6.2636C5.91213 6.61508 5.91213 7.18492 6.2636 7.5364L10.7272 12L6.2636 16.4636C5.91213 16.8151 5.91213 17.3849 6.2636 17.7364C6.61508 18.0879 7.18492 18.0879 7.5364 17.7364L12 13.2728L16.4636 17.7364C16.8151 18.0879 17.3849 18.0879 17.7364 17.7364C18.0879 17.3849 18.0879 16.8151 17.7364 16.4636L13.2728 12L17.7364 7.5364C18.0879 7.18492 18.0879 6.61508 17.7364 6.2636C17.3849 5.91213 16.8151 5.91213 16.4636 6.2636L12 10.7272L7.5364 6.2636Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                  </Dialog.Close>
+                </Dialog.Content>
+              </Dialog.Root>
+            </ContainerModal>
           </ButtonContainerMobile>
         </div>
       ))}
