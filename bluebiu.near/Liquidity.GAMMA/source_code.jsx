@@ -117,14 +117,17 @@ const IconRight = (
   </svg>
 )
 const {
+  toast,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
   curChain,
   isChainSupported,
   onSwitchChain,
-  prices
+  addAction,
+  prices,
 } = props
+
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
     currency: "USD",
@@ -161,7 +164,7 @@ if (!sender) {
     })
   }
 }
-
+const proxyAddress = "0xFc13Ebe7FEB9595D70195E9168aA7F3acE153621"
 const {
   pairs,
   addresses,
@@ -328,7 +331,7 @@ const columnList = [{
 }]
 
 return (
-  <StyledColumn>
+  <StyledColumn style={dexConfig.theme}>
     {state.allData && (
       <Widget
         src={"bluebiu.near/widget/Liquidity.Data.Gamma"}
@@ -367,14 +370,18 @@ return (
     <Widget
       src={"bluebiu.near/widget/Liquidity.Bridge.List"}
       props={{
+        toast,
+        prices,
         columnList,
         loading: state.loading,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
         dataList: state.filterList,
         addresses,
+        addAction,
+        proxyAddress,
         multicallAddress,
-        ICON_VAULT_MAP
+        ICON_VAULT_MAP,
       }}
     />
     {!isChainSupported && (
