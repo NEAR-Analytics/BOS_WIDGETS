@@ -111,7 +111,7 @@ return (
                 ) : (
                   nameHeader
                 )}
-                <div className="ms-3">
+                <div className="ms-2">
                   <Widget
                     src="james.near/widget/BuilderHat"
                     props={{ accountId }}
