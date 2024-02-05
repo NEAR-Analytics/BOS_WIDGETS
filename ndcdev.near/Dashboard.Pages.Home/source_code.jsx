@@ -24,14 +24,19 @@ const [dataState, setDataState] = useState({
 
 const baseUrl = "https://api.pikespeak.ai";
 
-const get = async (url) =>
-  asyncFetch(`${baseUrl}/${url}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-    },
-  });
+const get = async (url) => {
+  try {
+    return asyncFetch(`${baseUrl}/${url}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const API = {
   get_accounts: (accountId) =>
@@ -54,7 +59,6 @@ const API = {
   get_balance: (accountId) => get(`/account/balance/${accountId}`),
   get_dapps: () => get(`/contract-analysis/classification?isDapp=true`),
   // get_dapps_categories: () => get(`/contract-analysis/classification-categories`),
-  
 };
 
 const fetchData = () => {
@@ -71,9 +75,13 @@ const fetchData = () => {
 
   const promises = daos.flatMap((accountId) => [
     API.get_accounts(accountId).then((resp) => {
+      if (!resp.body) return;
+
       newState.totalAccounts += resp.body.length;
     }),
     API.get_unique_accounts_by_period(accountId).then((resp) => {
+      if (!resp.body) return;
+
       newState.uniqueAccounts += parseInt(resp.body[period].data.length);
       newState.uniqueActiveUsers.push(...resp.body[period].data);
       newState.totalTx += resp.body[period].data.reduce(
@@ -155,6 +163,7 @@ return (
         </div>
       </div>
     </div>
+    {console.log(dataState)}
     <Widget
       src={`ndcdev.near/widget/Dashboard.Components.MetricsDisplay.index`}
       props={{
