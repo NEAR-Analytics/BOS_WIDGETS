@@ -111,7 +111,8 @@ const load = (account, resourceType, path, version) => {
 
 return (namespace) => {
   if (Array.isArray(namespace)) {
-    [Store, status] = namespace;
+    Store = namespace[0];
+    status = namespace[1];
 
     return;
   }
