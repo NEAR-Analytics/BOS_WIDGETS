@@ -54,7 +54,7 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
     <div style={containerStyle}>
       <h2 style={titleStyle}>{method} NEAR</h2>
       <input
-        value={amount}
+        defaultValue={amount}
         onChange={(e) => setStakingAmount(e.target.value)}
         style={{
           padding: "13px",
