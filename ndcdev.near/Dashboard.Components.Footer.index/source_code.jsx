@@ -1,9 +1,19 @@
-const { assets, socialLinks } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+const { assets, socialLinks } = VM.require(
+  `ndcdev.near/widget/Dashboard.Config`,
+);
 const { Footer, Social, DashboardText, NearLogo } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Footer.styled`,
 );
 
-if (!assets || !Footer || !Social || !socialLinks || !DashboardText || !NearLogo) return <Widget src="flashui.near/widget/Loading" />;
+if (
+  !assets ||
+  !Footer ||
+  !Social ||
+  !socialLinks ||
+  !DashboardText ||
+  !NearLogo
+)
+  return <Widget src="flashui.near/widget/Loading" />;
 
 return (
   <Footer>
@@ -27,7 +37,7 @@ return (
       </a>
     </Social>
     <NearLogo>
-      <img src={assets.footer.nearLogo} />  
+      <img src={assets.footer.nearLogo} />
     </NearLogo>
   </Footer>
 );
