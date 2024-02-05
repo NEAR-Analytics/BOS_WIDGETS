@@ -57,6 +57,7 @@ const Pagination = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
+  margin-top: 2rem;
   div {
     border: 1px solid transparent;
     background: #8c8c8c;
