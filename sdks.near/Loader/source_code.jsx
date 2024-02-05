@@ -116,7 +116,9 @@ return (namespace) => {
   }
 
   if (Store && !Store.get(namespace)) {
-    Store.update({ [namespace]: {} });
+    let defaultValue = namespace.includes("hook") ? () => {} : {};
+
+    Store.update({ [namespace]: defaultValue });
     let library = load(...parseRequest(namespace));
     
     const checkDependencyLoaded = () => {
