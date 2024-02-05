@@ -287,11 +287,13 @@ const renderTx = (tx, i, isL1) => {
         {isEth ? "ETH " : "USDC"}
         {renderTxLink(h, isL1)}
         {withdrawalActions.map(
-          ({ labelComplete, complete, actionLabel, action }) => {
+          ({ labelComplete, completeKey, actionLabel, action }) => {
+            const isComplete = tx[completeKey];
             return (
               <>
-                {complete && <span>{labelComplete}</span>}
-                {!complete && false && (
+                {isComplete ? (
+                  <span>{labelComplete}</span>
+                ) : (
                   <p style={{ marginTop: 16 }}>
                     <button onClick={() => action(allWithdrawals[i])}>
                       {actionLabel}
