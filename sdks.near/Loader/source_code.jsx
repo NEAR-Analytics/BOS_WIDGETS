@@ -1,4 +1,5 @@
 let Store = null;
+let status = null;
 
 let TYPES = {};
 const TYPE_LIBRARY = "@";
@@ -109,13 +110,13 @@ const load = (account, resourceType, path, version) => {
 }
 
 return (namespace) => {
-  if (typeof namespace === "object" && !Array.isArray(namespace)) {
-    Store = namespace;
+  if (Array.isArray(namespace)) {
+    [Store, status] = namespace;
 
     return;
   }
 
-  if (Store && !Store.get(namespace)) {
+  if (Store && !status[namespace]) {
     let defaultValue = namespace.includes("hook") ? () => {} : {};
 
     Store.update({ [namespace]: defaultValue });
@@ -133,7 +134,7 @@ return (namespace) => {
 
     checkDependencyLoaded();
 
-    return Store.get(namespace);
+    return status[namespace];
   }
 
   return load(...parseRequest(namespace));
