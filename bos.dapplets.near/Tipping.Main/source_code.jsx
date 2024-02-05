@@ -241,7 +241,7 @@ const TippingButton = styled.button`
   display: flex;
   position: relative;
   width: 85px;
-  height: ${(props) => ((props?.context?.parent?.websiteName === 'YouTube') ? '36px' : '18px')};
+  height: ${props => props.forYouTube ? '36px' : '18px'};
   margin-left: 8px;
   padding: 0;
   align-items: center;
@@ -357,6 +357,7 @@ return (
       onMouseLeave={() => State.update({ isHovered: false })}
       onClick={onClick}
       className={state.loading ? "loading " : ""}
+      forYouTube={props?.context?.parent?.websiteName === 'YouTube'}
     >
       <div className="progress-bar"/>
       <div className="icon">
