@@ -564,9 +564,17 @@ if (summary) {
 return (
   <>
     {state.nftCheck ? (
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <Modal
+        style={{ "@media screen and (max-width: 768px)": { width: "100%" } }}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     ) : (
-      <NotificationModal isOpen={isModalOpen} onClose={closeModal} />
+      <NotificationModal
+        style={{ "@media screen and (max-width: 768px)": { width: "100%" } }}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     )}
 
     <Container>
