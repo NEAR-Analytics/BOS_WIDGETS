@@ -31,7 +31,6 @@ const StakeBtnWrap = styled.div`
   column-gap: 14px;
 `;
 
-const BPT_TOKEN_ADDRESS = "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655";
 const BoosterLiteWrapper = "0x98Ef32edd24e2c92525E59afc4475C1242a30184";
 const BoosterLiteABI = [
   {
@@ -57,6 +56,7 @@ const {
 
   tokenIcons,
 } = props;
+
 State.init({
   allowance: 0,
   curToken: "", // token address
@@ -87,7 +87,7 @@ useEffect(() => {
     const usefulSelect = selectData.filter((n) => n);
 
     usefulSelect.unshift({
-      value: BPT_TOKEN_ADDRESS,
+      value: data.LP_token_address,
       text: "BPT",
       icons: tokenIcons,
     });
@@ -197,7 +197,7 @@ useEffect(() => {
       curSymbol: TOKENS[state.curToken].symbol,
     });
   } else {
-    if (state.curToken === BPT_TOKEN_ADDRESS) {
+    if (state.curToken === data.LP_token_address) {
       State.update({
         curTokenBal: data.bptAmount,
         curSymbol: "BPT",
@@ -315,6 +315,9 @@ const simpleToExactAmount = (amount, decimals) => {
 };
 
 function handleStakeBPT() {
+  State.update({
+    isStaking: true,
+  });
   const { Aura_Pool_ID } = data;
   const BPTContract = new ethers.Contract(
     BoosterLiteWrapper,
@@ -370,7 +373,7 @@ function handleStakeBPT() {
 }
 
 function handleStake() {
-  if (state.curToken === BPT_TOKEN_ADDRESS) {
+  if (state.curToken === data.LP_token_address) {
     handleStakeBPT();
   } else {
     handleStakeToken();
@@ -475,13 +478,22 @@ function handleStakeToken() {
     });
 }
 
+function fillBalance() {
+  State.update({
+    inputValue: state.curTokenBal,
+  });
+}
+
 const renderExtra = () => {
   return (
     <>
       <AmountList>
         <span></span>
         <span>
-          Balance: <span className="amount-white">{state.curTokenBal}</span>
+          Balance:{" "}
+          <span className="amount-white" onClick={fillBalance}>
+            {Number(state.curTokenBal).toFixed(2)}
+          </span>
           {state.curSymbol}
         </span>
       </AmountList>
