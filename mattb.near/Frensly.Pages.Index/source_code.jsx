@@ -1,4 +1,6 @@
 const $ = VM.require("sdks.near/widget/Loader");
+$(State);
+
 const { useSharedContext } = $("@sdks/hooks");
 const { RoutesManager } = $("@sdks/routes-manager");
 const OWNER = "mattb.near";
