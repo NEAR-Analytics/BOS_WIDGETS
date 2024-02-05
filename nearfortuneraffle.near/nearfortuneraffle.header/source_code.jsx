@@ -23,7 +23,7 @@ const logo =
 
 return (
   <Nav>
-    <img src={logo} style={{ cursor: "pointer" }} width="120px" />
+    <img src={logo} width="120px" />
     <LoginBtn>
       {context.accountId ? (
         context.accountId
