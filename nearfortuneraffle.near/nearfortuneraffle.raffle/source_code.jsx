@@ -34,11 +34,6 @@ const Modal = ({ isOpen, onClose }) => {
     padding: "20px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     zIndex: 3,
-
-    "@media screen and (max-width: 768px)": {
-      width: "90%",
-      maxWidth: "90%",
-    },
   };
 
   return (
@@ -152,10 +147,6 @@ const NotificationModal = ({ isOpen, onClose }) => {
     padding: "20px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     zIndex: 3,
-    "@media screen and (max-width: 768px)": {
-      width: "90%",
-      maxWidth: "90%",
-    },
   };
 
   return (
@@ -562,27 +553,9 @@ if (summary && !errorMessage) {
 return (
   <>
     {!state.nftCheck ? (
-      <Modal
-        style={{
-          "@media screen and (max-width: 768px)": {
-            width: "90%",
-            maxWidth: "90%",
-          },
-        }}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      />
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     ) : (
-      <NotificationModal
-        style={{
-          "@media screen and (max-width: 768px)": {
-            width: "90%",
-            maxWidth: "90%",
-          },
-        }}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      />
+      <NotificationModal isOpen={isModalOpen} onClose={closeModal} />
     )}
 
     <Container>
