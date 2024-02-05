@@ -108,7 +108,7 @@ return {
 
   TooltipText: styled.span`
     visibility: hidden;
-    width: 150px;
+    min-width: 150px;
     background-color: #ffffff;
     text-align: center;
     border-radius: 3px;
