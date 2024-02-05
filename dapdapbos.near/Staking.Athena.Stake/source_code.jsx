@@ -384,7 +384,10 @@ return (
     <AmountList>
       <span></span>
       <span>
-        Balance: <span className="amount-white">{state.curTokenBal}</span>
+        Balance:{" "}
+        <span className="amount-white">
+          {Number(state.curTokenBal).toFixed(2)}
+        </span>
         {/* {TOKENS[curToken].symbol} */}
       </span>
     </AmountList>
