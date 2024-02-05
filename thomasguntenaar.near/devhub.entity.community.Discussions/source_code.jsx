@@ -67,6 +67,7 @@ const Tag = styled.div`
 
 const [sort, setSort] = useState("timedesc");
 
+console.log("context", context.accountId);
 let test = Social.get(`${context.accountId}/post/main`, {
   options: { with_block_height: true },
 });
@@ -83,117 +84,122 @@ return (
                 src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
                 props={{
                   onSubmit: (v) => {
-                    Social.set(`${context.accountId}/post/main`, v, {
-                      onCommit: (data) => {
-                        console.log("onCommit");
-                        console.log("data", data);
+                    const result = Social.set(
+                      `${context.accountId}/post/main`,
+                      v,
+                      {
+                        onCommit: (data) => {
+                          console.log("onCommit");
+                          console.log("data", data);
 
-                        const Social = {
-                          get: (...args) => {
-                            if (args.length < 1) {
-                              throw new Error(
-                                "Missing argument 'keys' for Social.get"
+                          const Social = {
+                            get: (...args) => {
+                              if (args.length < 1) {
+                                throw new Error(
+                                  "Missing argument 'keys' for Social.get"
+                                );
+                              }
+                              return cachedSocialGet(
+                                args[0],
+                                false,
+                                args[1],
+                                args[2],
+                                args[3]
                               );
-                            }
-                            return cachedSocialGet(
-                              args[0],
-                              false,
-                              args[1],
-                              args[2],
-                              args[3]
-                            );
-                          },
-                        };
-
-                        function cachedSocialGet(
-                          keys,
-                          recursive,
-                          blockId,
-                          options,
-                          cacheOptions
-                        ) {
-                          keys = Array.isArray(keys) ? keys : [keys];
-                          return cachedPromise(
-                            (invalidate) =>
-                              this.cache.socialGet(
-                                this.near,
-                                keys,
-                                recursive,
-                                blockId,
-                                options,
-                                invalidate,
-                                cacheOptions
-                              ),
-                            options?.subscribe
-                          );
-                        }
-
-                        function socialGet(
-                          near,
-                          keys,
-                          recursive,
-                          blockId,
-                          options,
-                          invalidate,
-                          cacheOptions
-                        ) {
-                          if (!near) {
-                            return null;
-                          }
-                          keys = Array.isArray(keys) ? keys : [keys];
-                          keys = keys.map((key) =>
-                            recursive ? `${key}/**` : `${key}`
-                          );
-                          const args = {
-                            keys,
-                            options,
+                            },
                           };
-                          let data = this.cachedViewCall(
-                            near,
-                            near.config.contractName,
-                            "get",
-                            args,
+
+                          function cachedSocialGet(
+                            keys,
+                            recursive,
                             blockId,
+                            options,
+                            cacheOptions
+                          ) {
+                            keys = Array.isArray(keys) ? keys : [keys];
+                            return cachedPromise(
+                              (invalidate) =>
+                                this.cache.socialGet(
+                                  this.near,
+                                  keys,
+                                  recursive,
+                                  blockId,
+                                  options,
+                                  invalidate,
+                                  cacheOptions
+                                ),
+                              options?.subscribe
+                            );
+                          }
+
+                          function socialGet(
+                            near,
+                            keys,
+                            recursive,
+                            blockId,
+                            options,
                             invalidate,
                             cacheOptions
-                          );
-                          if (data === null) {
-                            return null;
-                          }
-
-                          if (keys.length === 1) {
-                            const parts = keys[0].split("/");
-                            for (let i = 0; i < parts.length; i++) {
-                              const part = parts[i];
-                              if (part === "*" || part === "**") {
-                                break;
-                              }
-                              data = data?.[part];
+                          ) {
+                            if (!near) {
+                              return null;
                             }
+                            keys = Array.isArray(keys) ? keys : [keys];
+                            keys = keys.map((key) =>
+                              recursive ? `${key}/**` : `${key}`
+                            );
+                            const args = {
+                              keys,
+                              options,
+                            };
+                            let data = this.cachedViewCall(
+                              near,
+                              near.config.contractName,
+                              "get",
+                              args,
+                              blockId,
+                              invalidate,
+                              cacheOptions
+                            );
+                            if (data === null) {
+                              return null;
+                            }
+
+                            if (keys.length === 1) {
+                              const parts = keys[0].split("/");
+                              for (let i = 0; i < parts.length; i++) {
+                                const part = parts[i];
+                                if (part === "*" || part === "**") {
+                                  break;
+                                }
+                                data = data?.[part];
+                              }
+                            }
+
+                            return data;
                           }
 
-                          return data;
-                        }
-
-                        console.log("test", test);
-                        // Near.get(
-                        //   "${REPL_DEVHUB_CONTRACT}",
-                        //   "get_block_height",
-                        //   {
-                        //     onReturn: (blockHeight) => {
-                        //       Near.call(
-                        //         "${REPL_DEVHUB_CONTRACT}",
-                        //         "create_discussion",
-                        //         {
-                        //           community_handle: "...",
-                        //           near_social_post_block_height: blockHeight,
-                        //         }
-                        //       );
-                        //     },
-                        //   }
-                        // );
-                      },
-                    });
+                          console.log("test", test);
+                          // Near.get(
+                          //   "${REPL_DEVHUB_CONTRACT}",
+                          //   "get_block_height",
+                          //   {
+                          //     onReturn: (blockHeight) => {
+                          //       Near.call(
+                          //         "${REPL_DEVHUB_CONTRACT}",
+                          //         "create_discussion",
+                          //         {
+                          //           community_handle: "...",
+                          //           near_social_post_block_height: blockHeight,
+                          //         }
+                          //       );
+                          //     },
+                          //   }
+                          // );
+                        },
+                      }
+                    );
+                    console.log("result", result);
                   },
                 }}
               />
