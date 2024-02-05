@@ -1,6 +1,5 @@
 // type: primary || secondary
 
-
 const Wrapper = styled.button`
   --white: #fff;
   --primary: #783ae3;
@@ -9,7 +8,7 @@ const Wrapper = styled.button`
   /* --dark:#979ABE */
 
   width: ${(props) => {
-    return props.block ? '100%' : 'auto'
+    return props.block ? "100%" : "auto";
   }};
 
   display: flex;
@@ -31,7 +30,6 @@ const Wrapper = styled.button`
 
   border-radius: 8px;
   /* font-size: ${size === "lg" ? "20px" : "16px"}; */
-  font-weight: bold;
   overflow: hidden;
 
   &:disabled {
@@ -43,7 +41,8 @@ const Wrapper = styled.button`
   }
 `;
 
-const { type, text, disabled, loading, className, style, onClick, block } = props;
+const { type, text, disabled, loading, className, style, onClick, block } =
+  props;
 
 const handleClick = () => {
   if (loading || disabled) return false;
