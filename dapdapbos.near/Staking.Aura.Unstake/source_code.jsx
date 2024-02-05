@@ -234,6 +234,11 @@ const renderPoolIcon = () => {
     });
   }
 };
+function fillBalance() {
+  State.update({
+    inputValue: stakedAmount,
+  });
+}
 
 return (
   <StakePanel>
@@ -255,7 +260,11 @@ return (
       {/* <span>${stakedAmount}</span> */}
       <span></span>
       <span>
-        You Staked: <span className="amount-white">{stakedAmount}</span> BPT
+        You Staked:{" "}
+        <span className="amount-white" onClick={fillBalance}>
+          {stakedAmount}
+        </span>{" "}
+        BPT
       </span>
     </AmountList>
     <UnStakeBtnWrap>
