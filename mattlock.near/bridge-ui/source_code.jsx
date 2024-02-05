@@ -290,6 +290,9 @@ const renderTx = (tx, i, isL1) => {
         {withdrawalActions.map(
           ({ labelComplete, completeKey, actionLabel, action }) => {
             const isComplete = tx[completeKey];
+
+            console.log("isComplete", isComplete);
+
             if (typeof isComplete === "boolean") return <></>;
             return (
               <>
