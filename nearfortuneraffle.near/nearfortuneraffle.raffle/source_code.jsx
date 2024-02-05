@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose }) => {
 
   return (
     <div style={overlayStyle} onClick={onClose}>
-      <div style={modalStyle} className="modal">
+      <div style={modalStyle} className="modal" class="modal-sm">
         <div onClick={(e) => e.stopPropagation()} className="modal-content">
           <p
             style={{
