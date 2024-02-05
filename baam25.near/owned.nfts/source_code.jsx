@@ -99,7 +99,7 @@ const Page = ({ children }) => {
     </div>
   );
 };
-const Number = () => {
+const PagNumber = () => {
   if (paginations.length < 4) {
     return (
       <Pagination>
@@ -196,6 +196,6 @@ return (
         </div>
       ))}
     </Contaienr>
-    <Number />
+    <PagNumber />
   </Wrapper>
 );
