@@ -27,7 +27,7 @@ const WidgetBadgeWrapper = styled.div`
     -webkit-box-pack: center;
     justify-content: center;
     border-radius: 4%;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(0.5px);
     div {
         padding: 2px;
     }
