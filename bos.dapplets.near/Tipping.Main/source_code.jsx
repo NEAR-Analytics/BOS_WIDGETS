@@ -1,9 +1,6 @@
 let accountId;
 let itemGlobalId;
 
-console.log(props)
-
-
 if (props.accountGId && props.itemGId) {
   accountId = props.accountGId;
   itemGlobalId = props.itemGId;
