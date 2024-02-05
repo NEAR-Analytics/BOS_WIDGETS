@@ -27,7 +27,7 @@ const Modal = ({ isOpen, onClose }) => {
     borderRadius: "1rem",
     left: "50%",
     transform: "translateX(-50%)",
-    width: "400px",
+    width: "350px",
 
     height: "auto",
     backgroundColor: "#fff",
@@ -140,7 +140,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
     borderRadius: "1rem",
     left: "50%",
     transform: "translateX(-50%)",
-    width: "400px",
+    width: "350px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
@@ -551,7 +551,7 @@ if (summary && !errorMessage) {
 
 return (
   <>
-    {!state.nftCheck ? (
+    {state.nftCheck ? (
       <Modal isOpen={isModalOpen} onClose={closeModal} />
     ) : (
       <NotificationModal isOpen={isModalOpen} onClose={closeModal} />
