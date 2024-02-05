@@ -30,6 +30,14 @@ State.update({
   }, "final", true) || '0'
 })
 
+useEffect(() => {
+  State.update({
+    disabled: false,
+    loading: false,
+    amount: '0',
+  })
+}, [totalTipsByItemId])
+
 /**
  * From near-api-js/blob/master/packages/utils/src/format.ts
  */
