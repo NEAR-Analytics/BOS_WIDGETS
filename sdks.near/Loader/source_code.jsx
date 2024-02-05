@@ -1,6 +1,3 @@
-let Store = null;
-let status = null;
-
 let TYPES = {};
 const TYPE_LIBRARY = "@";
 const TYPE_IMAGE = "img:";
@@ -119,6 +116,7 @@ return (namespace) => {
 
   if (Store && !status[namespace]) {
     let defaultValue = namespace.includes("hook") ? () => {} : {};
+    console.log(namespace, defaultValue, { [namespace]: {defaultValue} })
 
     Store.update({ [namespace]: defaultValue });
     let library = load(...parseRequest(namespace));
