@@ -68,6 +68,7 @@ const {
   tokens,
   L1ExplorerLink,
   L2ExplorerLink,
+  withdrawalActions,
 } = props;
 if (!tokens) {
   tokens = {
