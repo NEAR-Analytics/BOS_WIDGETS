@@ -584,9 +584,9 @@ const handleApprove = (data, callback) => {
 
 // withdrawals
 
-const handleFinalizeEthWithdrawal = (i) => {
+const handleFinalizeEthWithdrawal = (withdrawal) => {
   const { l1BatchNumber, l2MessageIndex, l2TxNumberInBlock, message, proof } =
-    allWithdrawals[i].withdrawalArgs;
+    withdrawal.withdrawalArgs;
 
   const contract = new ethers.Contract(
     contracts[network].eth.deposit,
@@ -607,6 +607,15 @@ const handleFinalizeEthWithdrawal = (i) => {
     )
     .then((res) => console.log(res));
 };
+
+const withdrawalActions = [
+  {
+    labelComplete: "(finalized)",
+    completeKey: "finalized",
+    actionLabel: "Finalize",
+    action: handleFinalizeEthWithdrawal,
+  },
+];
 
 const handleWithdrawEth = (data) => {
   const value = ethers.utils.parseUnits(data.amount);
@@ -803,6 +812,7 @@ return (
         tokens,
         allDeposits,
         allWithdrawals,
+        withdrawalActions,
       }}
     />
   </>
