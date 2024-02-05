@@ -220,16 +220,24 @@ const ButtonPlus = styled.div`
   }
 `;
 const WrapperButtonPlusDefault = styled.div`
-width: 40px;
-height: 40px;
-border-radius: 0px 4px 4px 0px;
+    width: 43px;
+    height: 49px;
+    border-radius: 0px 4px 4px 0px;
+    position: absolute;
+    top: 30px;
+    background: #DB504A;
+    z-index: 1081;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 const ButtonPlusDefault = styled.div`
   display: flex;
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #fff;
+bottom: 7px;
+    background: #DB504A;
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
@@ -248,7 +256,7 @@ const ButtonPlusDefault = styled.div`
   &:after {
     content: "";
     display: block;
-    height: 1px;
+    height: 1.5px;
     width: 11px;
     border-radius: 2px;
     background: #fff;
