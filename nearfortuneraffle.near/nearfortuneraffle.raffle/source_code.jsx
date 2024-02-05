@@ -635,7 +635,6 @@ return (
             <a href="#" class="underline">
               privacy
             </a>
-            .
           </span>
         </EnterBtnWrapper>
 
