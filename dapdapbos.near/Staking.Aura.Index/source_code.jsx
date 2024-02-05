@@ -75,7 +75,7 @@ const GridItem = styled.div`
     display: flex;
     column-gap: 10px;
     padding-right: 18px;
-    justify-content: center;
+    justify-content: right;
   }
   &.action-item-head {
     display: flex;
@@ -616,7 +616,6 @@ function getMultiPoolTokens() {
     name: "getPoolTokens",
     params: [id],
   }));
-  console.log(222222, calls);
   // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
   multicall({
     abi: PoolContractABI,
@@ -788,21 +787,16 @@ const getPoolIcon = (tokenAssets) => {
   }
 };
 
-const renderPoolIcon = () => {
+const renderPoolIcon = (tokenAssets) => {
   const icons = getPoolIcon(tokenAssets);
+
   if (icons) {
     return icons.map((addr, index) => {
-      if (TOKENS[addr]) {
-        return (
-          <span key={index} style={{ marginRight: -12 }}>
-            <Widget
-              src="dapdapbos.near/widget/UI.Avatar"
-              props={{ src: TOKENS[addr].icon }}
-            />
-          </span>
-        );
-      }
-      return null;
+      return (
+        <span key={index} style={{ marginRight: -12 }}>
+          <Widget src="dapdapbos.near/widget/UI.Avatar" props={{ src: addr }} />
+        </span>
+      );
     });
   }
 };
@@ -1002,8 +996,15 @@ return (
                     </div>
                   </GridItem>
                   <GridItem>
-                    <div className="title-secondary">%</div>
-                    <div className="title-sub">proj. %</div>
+                    <div className="title-secondary">
+                      {Big(item.APR || 0)
+                        .mul(100)
+                        .toFixed(2)}
+                      %
+                    </div>
+                    <div className="title-sub">
+                      proj.{Big(item.pjAPR).mul(100).toFixed(2)} %
+                    </div>
                   </GridItem>
                   <GridItem>
                     <div className="title-secondary">${item.stakedAmount}</div>
