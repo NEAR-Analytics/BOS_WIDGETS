@@ -290,6 +290,7 @@ const renderTx = (tx, i, isL1) => {
         {withdrawalActions.map(
           ({ labelComplete, completeKey, actionLabel, action }) => {
             const isComplete = tx[completeKey];
+            if (typeof finalized === "boolean") return <></>;
             return (
               <>
                 {isComplete ? (
@@ -304,18 +305,6 @@ const renderTx = (tx, i, isL1) => {
               </>
             );
           }
-        )}
-        {typeof finalized === "boolean" && (
-          <>
-            <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
-            {!finalized && false && (
-              <p style={{ marginTop: 16 }}>
-                <button onClick={() => handleFinalizeEthWithdrawal(i)}>
-                  Finalize
-                </button>
-              </p>
-            )}
-          </>
         )}
       </p>
     </>
