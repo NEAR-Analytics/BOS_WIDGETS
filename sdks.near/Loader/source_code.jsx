@@ -1,3 +1,6 @@
+let Store = null;
+let status = null;
+
 let TYPES = {};
 const TYPE_LIBRARY = "@";
 const TYPE_IMAGE = "img:";
