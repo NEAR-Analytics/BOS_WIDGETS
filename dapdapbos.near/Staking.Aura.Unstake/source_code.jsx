@@ -98,7 +98,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, account, TOKENS, switchChain } = props;
+const { data, account, TOKENS, switchChain, toast } = props;
 const {
   poolName,
   tokenAssets,
@@ -208,7 +208,23 @@ const handleUnStake = () => {
         });
     })
     .catch((err) => {
-      console.log("getPoolTokens_error:", err);
+      if (!err?.message.includes("user rejected transaction")) {
+        toast.fail?.({
+          title: "Transaction Failed",
+          text: err?.data?.message || err?.message,
+        });
+      } else {
+        toast.fail?.({
+          title: "Transaction Failed",
+          text: `User rejected the request. Details: 
+          MetaMask Tx Signature: User denied transaction signature. `,
+        });
+      }
+    })
+    .finally(() => {
+      State.update({
+        unstaking: false,
+      });
     });
 };
 
