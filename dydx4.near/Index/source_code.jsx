@@ -1,4 +1,5 @@
 const defaultChainId = 11155111;
+const defaultChainName = "Sepolia testnet";
 
 const orderOpen = "OPEN";
 const orderFilled = "FILLED";
@@ -227,13 +228,13 @@ const headers = {
 const fundAccount = () => {
   faucetDydx(state.dydx_account, 0)
     .then((r) => {
-      if (!r.ok) {
+      if (r.status == 202) {
+        console.log("fundAccount", r);
+        loadAccount();
+      } else {
         State.update({
           error_msg: JSON.stringify(r),
         });
-      } else {
-        console.log("fundAccount", r);
-        loadAccount();
       }
     })
     .catch((ex) =>
@@ -275,7 +276,7 @@ const loadOrders = () => {
       }
     )
       .then((r) => {
-        console.log("orders num", r?.body.length);
+        // console.log("orders num", r?.body.length);
         State.update({ orders: r?.body });
       })
       .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
@@ -400,7 +401,7 @@ const placeUserOrder = (side) => {
     triggerPrice: price,
   };
 
-  console.log(params);
+  //  console.log(params);
 
   if (type == "MARKET") {
     getDydxLatestBlockHeight(getNetwork()).then((latestBlockHeight) => {
@@ -465,7 +466,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
   if (!!state.chainId && state.chainId !== defaultChainId) {
     return (
       <div>
-        <div>{`Please switch to chainId ${defaultChainId}`}</div>
+        <div>{`Please switch to ${defaultChainName}`}</div>
         <div>
           <button onClick={() => switchNetwork(defaultChainId)}>Switch</button>
         </div>
@@ -517,19 +518,29 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                 <div class="collateral">
                   <div class="text-wrapper">Equity</div>
                   <div class="div">
-                    ${Number(state.account.equity).toLocaleString()}
+                    $
+                    {Number(state.account.equity).toLocaleString(undefined, {
+                      maximumFractionDigits: 2,
+                    })}
                   </div>
                 </div>
                 <div class="collateral">
                   <div class="text-wrapper">Free collateral</div>
                   <div class="div">
-                    ${Number(state.account.freeCollateral).toLocaleString()}
+                    $
+                    {Number(state.account.freeCollateral).toLocaleString(
+                      undefined,
+                      { maximumFractionDigits: 2 }
+                    )}
                   </div>
                 </div>
                 <div class="collateral">
                   <div class="text-wrapper">{state.orderMarketId}</div>
                   <div class="div">
-                    ${Number(state.orderPrice).toLocaleString()}
+                    $
+                    {Number(state.orderPrice).toLocaleString(undefined, {
+                      maximumFractionDigits: 2,
+                    })}
                   </div>
                 </div>
               </div>
@@ -667,6 +678,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                       aria-label="Select a pair"
                       onChange={(e) => {
                         State.update({
+                          userOrderPrice: undefined,
                           orderMarketId: e.target.value,
                         });
                         updateOrders();
@@ -802,7 +814,13 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                         </div>
 
                         {order.status == "OPEN" && (
-                          <div class="cancel">
+                          <div
+                            class="cancel"
+                            style={{
+                              backgroundColor: "rgb(129, 37, 37)",
+                              border: "1px solid rgb(197, 51, 51)",
+                            }}
+                          >
                             <div
                               type="button"
                               class="text-wrapper-2"
@@ -814,6 +832,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                                   order.ticker
                                 );
                               }}
+                              style={{ color: "white" }}
                             >
                               Cancel
                             </div>
