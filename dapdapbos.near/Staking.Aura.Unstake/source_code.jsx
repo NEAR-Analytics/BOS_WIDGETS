@@ -122,33 +122,28 @@ const handleSwitch = (isChecked) => {
 };
 
 const handleInputChange = (e) => {
+  const { value } = e.target;
+  if (isNaN(Number(value))) return;
+  const isZero = Big(value || 0).eq(0);
+  if (isZero) {
+    State.update({
+      inputValue: value,
+      canUnstake: false,
+    });
+    return;
+  }
+  const obj = {};
+  obj.inputValue = value;
+
+  if (Big(value || 0).lt(stakedAmount || 0)) {
+    obj.canUnstake = true;
+  } else {
+    obj.canUnstake = false;
+  }
   State.update({
-    inputValue: e.target.value,
+    ...obj,
   });
 };
-
-useEffect(() => {
-  if (!state.inputValue) {
-    // input none
-    State.update({
-      canUnstake: false,
-    });
-    return false;
-  }
-
-  if (
-    !isNaN(Number(state.inputValue)) &&
-    Big(state.inputValue || 0).lt(stakedAmount || 0)
-  ) {
-    State.update({
-      canUnstake: true,
-    });
-  } else {
-    State.update({
-      canUnstake: false,
-    });
-  }
-}, [state.inputValue]);
 
 const handleUnStake = () => {
   State.update({
@@ -245,7 +240,6 @@ return (
     <div className="input-group">
       <input
         value={state.inputValue}
-        type="number"
         className="form-control bos-input-number"
         placeholder="0.0"
         onChange={handleInputChange}
