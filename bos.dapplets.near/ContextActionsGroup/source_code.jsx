@@ -8,8 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  //   state.showMenu ? null : State.update({ show: false });
-  console.log("");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -492,7 +491,7 @@ return (
         onMouseOut={handleOnMouseLeave}
         style={{
           margin: "0px -7px",
-          top: props.widgets && props.widgets.length ? "-10px" : "0",
+          top: props.widgets && props.widgets.length ? "" : "-10px",
         }}
       >
         <SupportingSpan />
