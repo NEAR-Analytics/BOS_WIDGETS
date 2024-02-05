@@ -318,7 +318,7 @@ const ConnectWallet = () => {
       <ConnectContainer>
         <Title>CONNECT WALLET</Title>
         <ConnectSubTitle>
-          You must be connected to see dashboard information!
+          You must be connected to see Dashboard & Markets information!
         </ConnectSubTitle>
         <Web3Connect
           className="connectWallet"
@@ -532,6 +532,398 @@ if (state.sender === undefined) {
   }
 }
 
+const ContainerToast = styled.div`
+  .ToastViewport {
+    --viewport-padding: 25px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: var(--viewport-padding);
+    gap: 10px;
+    width: 390px;
+    max-width: 100vw;
+    margin: 0;
+    list-style: none;
+    z-index: 2147483647;
+    outline: none;
+  }
+
+  .ToastRoot {
+    background-color: #323345;
+    border-radius: 6px;
+    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+      hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    padding: 15px;
+    display: grid;
+    grid-template-areas: "title action" "description action";
+    grid-template-columns: auto max-content;
+    column-gap: 15px;
+    align-items: center;
+  }
+  .ToastRoot[data-state="open"] {
+    animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ToastRoot[data-state="closed"] {
+    animation: hide 100ms ease-in;
+  }
+  .ToastRoot[data-swipe="move"] {
+    transform: translateX(var(--radix-toast-swipe-move-x));
+  }
+  .ToastRoot[data-swipe="cancel"] {
+    transform: translateX(0);
+    transition: transform 200ms ease-out;
+  }
+  .ToastRoot[data-swipe="end"] {
+    animation: swipeOut 100ms ease-out;
+  }
+
+  @keyframes hide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes swipeOut {
+    from {
+      transform: translateX(var(--radix-toast-swipe-end-x));
+    }
+    to {
+      transform: translateX(calc(100% + var(--viewport-padding)));
+    }
+  }
+
+  .ToastTitle {
+    display: flex; /* Use Flexbox */
+    align-items: center; /* Vertically center the flex items */
+    gap: 10px; /* Space between the flex items */
+
+    /* Keep your previous styles */
+    grid-area: title;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: white;
+    font-size: 15px;
+  }
+
+  .ToastDescription {
+    grid-area: description;
+    margin-left: 5px;
+    color: #888baf;
+    font-size: 14px;
+    line-height: 20px;
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .IconButton {
+    border-radius: 100%;
+    height: 25px;
+    width: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .ToastAction {
+    grid-area: action;
+  }
+
+  .Button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .Button.small {
+    font-size: 12px;
+    padding: 0 10px;
+    line-height: 25px;
+    height: 25px;
+  }
+  .Button.large {
+    font-size: 15px;
+    padding: 0 15px;
+    line-height: 35px;
+    height: 35px;
+  }
+  .Button.violet {
+    background-color: white;
+    color: var(--violet-11);
+    box-shadow: 0 2px 10px var(--black-a7);
+  }
+  .Button.violet:hover {
+    background-color: var(--mauve-3);
+  }
+
+  .Button.violet:focus {
+    box-shadow: 0 0 0 2px black;
+  }
+  .Button.green {
+    background-color: var(--green-2);
+    color: var(--green-11);
+    box-shadow: inset 0 0 0 1px var(--green-7);
+  }
+  .Button.green:hover {
+    box-shadow: inset 0 0 0 1px var(--green-8);
+  }
+  .Button.green:focus {
+    box-shadow: 0 0 0 2px var(--green-8);
+  }
+
+  .toast-close-button {
+    background: none; /* Remove default button background */
+    border: none; /* Remove default button border */
+    margin-bottom: 5px;
+    cursor: pointer; /* Optional: Ensure it looks clickable */
+  }
+
+  /* Style the span inside Toast.Close for the "×" appearance */
+  .toast-close-button span {
+    display: inline-block;
+    color: white; /* Or any color you prefer */
+    font-size: 24px; /* Adjust size as needed */
+    font-weight: bold; /* Optional: makes the "×" bolder */
+  }
+`;
+const SuccessIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12ZM15.6103 10.1859C15.8511 9.84887 15.773 9.38046 15.4359 9.1397C15.0989 8.89894 14.6305 8.97701 14.3897 9.31407L11.1543 13.8436L9.53033 12.2197C9.23744 11.9268 8.76256 11.9268 8.46967 12.2197C8.17678 12.5126 8.17678 12.9874 8.46967 13.2803L10.7197 15.5303C10.8756 15.6862 11.0921 15.7656 11.3119 15.7474C11.5316 15.7293 11.7322 15.6153 11.8603 15.4359L15.6103 10.1859Z"
+      fill="#35CC00"
+    />
+  </svg>
+);
+
+const ErrorIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM10.2803 9.21967C9.98744 8.92678 9.51256 8.92678 9.21967 9.21967C8.92678 9.51256 8.92678 9.98744 9.21967 10.2803L10.9393 12L9.21967 13.7197C8.92678 14.0126 8.92678 14.4874 9.21967 14.7803C9.51256 15.0732 9.98744 15.0732 10.2803 14.7803L12 13.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L13.0607 12L14.7803 10.2803C15.0732 9.98744 15.0732 9.51256 14.7803 9.21967C14.4874 8.92678 14.0126 8.92678 13.7197 9.21967L12 10.9393L10.2803 9.21967Z"
+      fill="#FF4242"
+    />
+  </svg>
+);
+
+const [open, setOpen] = useState(false);
+const [toasts, setToasts] = useState([]);
+
+const [items, setItems] = useState({
+  ethereum: [
+    {
+      name: "USDC",
+      address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      networkImage:
+        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
+      image:
+        "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+      network: "Ethereum",
+      contractInfo: {
+        network: "Polygon Mainnet",
+        address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+        chainId: 137,
+        httpRpcUrl: "https://polygon-rpc.com/",
+        borrowAssetCoingeckoId: "usdc",
+      },
+      collateralItems: [
+        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
+        // A funcao de bulk ao inves do contrato...matic, eth.
+        {
+          name: "Chainlink",
+          address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+          decimals: 18,
+          subLabel: "LINK",
+          image:
+            "https://assets.coingecko.com/coins/images/877/standard/chainlink-new-logo.png?1696502009",
+          value: "28.00",
+        },
+        {
+          name: "Compound",
+          address: "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+          decimals: 18,
+          subLabel: "COMP",
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xc00e94Cb662C3520282E6f5717214004A7f26888/logo.png",
+          value: "28.00",
+        },
+        {
+          name: "Uniswap",
+          address: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+          decimals: 18,
+          subLabel: "UNI",
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984/logo.png",
+          value: "28.00",
+        },
+        {
+          name: "Wrapped Bitcoin",
+          address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "WBTC",
+          value: "28.00",
+        },
+      ],
+    },
+    {
+      name: "ETH",
+      address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      networkImage:
+        "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
+      image:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+      network: "Ethereum",
+      contractInfo: {
+        network: "Polygon Mainnet",
+        address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+        chainId: 137,
+        httpRpcUrl: "https://polygon-rpc.com/",
+        borrowAssetCoingeckoId: "usdc",
+      },
+      collateralItems: [
+        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
+        // A funcao de bulk ao inves do contrato...matic, eth.
+        {
+          name: "Coinbase Wrapped Staked ETH",
+          address: "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+          decimals: 18,
+          subLabel: "cbETH",
+          image:
+            "https://assets.coingecko.com/coins/images/27008/standard/cbeth.png?1696526061",
+          value: "28.00",
+        },
+        {
+          name: "Lido Wrapped Staked ETH",
+          address: "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+          decimals: 18,
+          subLabel: "wstETH",
+          image:
+            "https://assets.coingecko.com/coins/images/13442/standard/steth_logo.png?1696513206",
+          value: "28.00",
+        },
+        {
+          name: "Rocket Pool ETH",
+          address: "0xae78736Cd615f374D3085123A210448E74Fc6393",
+          decimals: 18,
+          subLabel: "rETH",
+          image:
+            "https://assets.coingecko.com/coins/images/20764/standard/reth.png?1696520159",
+          value: "28.00",
+        },
+      ],
+    },
+  ],
+  polygon: [
+    {
+      name: "USDC",
+      address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      networkImage:
+        "https://raw.githubusercontent.com/sushiswap/list/master/logos/native-currency-logos/matic.svg",
+      image:
+        "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+      network: "Polygon",
+      contractInfo: {
+        network: "Polygon Mainnet",
+        address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
+        chainId: 137,
+        httpRpcUrl: "https://polygon-rpc.com/",
+        borrowAssetCoingeckoId: "usdc",
+      },
+      collateralItems: [
+        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
+        // A funcao de bulk ao inves do contrato...matic, eth.
+        {
+          name: "Wrapped Ethereum",
+          address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+          decimals: 18,
+          subLabel: "WETH",
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          value: "28.00",
+        },
+        {
+          name: "Stader MaticX",
+          address: "0xfa68FB4628DFF1028CFEc22b4162FCcd0d45efb6",
+          decimals: 18,
+          image:
+            "https://assets.coingecko.com/coins/images/25383/standard/maticx.png?1696524516",
+          subLabel: "MaticX",
+          value: "28.00",
+        },
+        {
+          name: "Staked MATIC (PoS)",
+          address: "0x3A58a54C066FdC0f2D55FC9C89F0415C92eBf3C4",
+          decimals: 18,
+          image:
+            "https://assets.coingecko.com/coins/images/24185/standard/stMATIC.png?1696523373",
+          subLabel: "stMATIC",
+          value: "28.00",
+        },
+        {
+          name: "Wrapped Bitcoin",
+          address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "WBTC",
+          value: "28.00",
+        },
+      ],
+    },
+  ],
+});
+const [selectedItem, setSelectedItem] = useState(items.ethereum[0]); // Default to the first item
+
+const addToast = (message, type) => {
+  const newToast = { id: Date.now(), message, type };
+  setToasts((prevToasts) => [...prevToasts, newToast]);
+
+  // Automatically remove the toast after a delay
+  setTimeout(() => {
+    setToasts((prevToasts) =>
+      prevToasts.filter((toast) => toast.id !== newToast.id)
+    );
+  }, 5000);
+};
+
+// Function to update the selected item based on a network and an index
+const updateSelectedItem = (network, index) => {
+  setSelectedItem(items[network.toLowerCase()][index]);
+};
+
 return (
   <Layout>
     <Container>
@@ -596,7 +988,10 @@ return (
               <>
                 <Widget
                   props={{
+                    addToast: addToast,
                     address: state.sender,
+                    selectedItem: selectedItem,
+                    updateSelectedItem: updateSelectedItem,
                   }}
                   src="thalesb.near/widget/DashboardLayout"
                 />
@@ -746,5 +1141,32 @@ return (
         )}
       </div>
     </Container>
+    <ContainerToast>
+      <Toast.Provider swipeDirection="right">
+        {toasts.map((toast) => (
+          <Toast.Root key={toast.id} className="ToastRoot" open={true}>
+            <Toast.Title className="ToastTitle">
+              {toast.type === "error" ? <ErrorIcon /> : <SuccessIcon />}
+              {toast.type === "error" ? "Error" : "Success"}
+            </Toast.Title>
+            <Toast.Description className="ToastDescription">
+              {toast.message}
+            </Toast.Description>
+            <Toast.Close
+              className="toast-close-button"
+              aria-label="Close"
+              onClick={() =>
+                setToasts((currentToasts) =>
+                  currentToasts.filter((t) => t.id !== toast.id)
+                )
+              }
+            >
+              <span aria-hidden>×</span>
+            </Toast.Close>
+          </Toast.Root>
+        ))}
+        <Toast.Viewport className="ToastViewport" />
+      </Toast.Provider>
+    </ContainerToast>
   </Layout>
 );
