@@ -3,12 +3,13 @@ const {
   // defaultPair,
   // pair,
   data,
+  toast,
   addresses,
-  // proxyAddress,
+  proxyAddress,
+  addAction,
   ICON_VAULT_MAP
 } = props;
 
-const proxyAddress = "0xFc13Ebe7FEB9595D70195E9168aA7F3acE153621"
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -127,11 +128,16 @@ const InputSuffix = styled.div`
     font-weight: 500;
     line-height: normal;
   }
+  img {
+    width: 20px;
+    border-radius: 50%;
+  }
 
 `
 const StyledImageList = styled.div`
   display: flex;
   align-items: center;
+  
 `
 const PriceWrap = styled.div`
   margin-top: 6px;
@@ -179,8 +185,10 @@ const StyledButton = styled.button`
   justify-content: center;
   height: 46px;
   border-radius: 8px;
-  background: #FFF;
-  color: #1E2028;
+  /* background: #FFF; */
+  /* color: #1E2028; */
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   font-family: Gantari;
   font-size: 16px;
   font-weight: 500;
@@ -204,12 +212,6 @@ const StyledLoading = styled.div`
     }
   }
 `
-
-
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 
 const iconCircle = (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -269,7 +271,7 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
 };
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
+// if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 const { token0, token1, decimals0, decimals1, id } = data || defaultPair;
 
 const hypeAddress = addresses[id];
@@ -432,11 +434,9 @@ const handleToken0Change = (amount) => {
     proxyAbi,
     Ethers.provider()
   );
-  console.log(hypeAddress, addresses[token0], token0Wei);
   proxyContract
     .getDepositAmount(hypeAddress, addresses[token0], token0Wei)
     .then((depositAmount) => {
-      console.log("depositAmount", depositAmount);
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
 
       State.update({ amount1 });
@@ -518,7 +518,7 @@ const handleApprove = (isToken0) => {
     ? Big(amount0).toFixed(decimals0)
     : Big(amount1).toFixed(decimals1);
 
-  const toastId = props.toast?.loading({
+  const toastId = toast?.loading({
     title: `Approve ${amount} ${_token}`,
   });
 
@@ -550,8 +550,8 @@ const handleApprove = (isToken0) => {
         : { isToken1Approved: true, isToken1Approving: false };
 
       State.update({ ...payload, isLoading: false, loadingMsg: "" });
-      props.toast?.dismiss(toastId);
-      props.toast?.success({
+      toast?.dismiss(toastId);
+      toast?.success({
         title: "Approve Successfully!",
         text: `Approve ${amount} ${_token}`,
         tx: receipt.transactionHash,
@@ -566,8 +566,8 @@ const handleApprove = (isToken0) => {
         isToken0Approving: false,
         isToken1Approving: false,
       });
-      props.toast?.dismiss(toastId);
-      props.toast?.fail({
+      toast?.dismiss(toastId);
+      toast?.fail({
         title: "Approve Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
@@ -576,7 +576,7 @@ const handleApprove = (isToken0) => {
     });
 };
 const handleDeposit = () => {
-  const toastId = props.toast?.loading({
+  const toastId = toast?.loading({
     title: `Depositing...`,
   });
   State.update({
@@ -634,8 +634,8 @@ const handleDeposit = () => {
       const { refetch } = props;
       if (refetch) refetch();
 
-      props.toast?.dismiss(toastId);
-      props.toast?.success({
+      toast?.dismiss(toastId);
+      toast?.success({
         title: "Deposit Successfully!",
       });
     })
@@ -645,8 +645,8 @@ const handleDeposit = () => {
         isLoading: false,
         loadingMsg: error,
       });
-      props.toast?.dismiss(toastId);
-      props.toast?.fail({
+      toast?.dismiss(toastId);
+      toast?.fail({
         title: "Deposit Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
@@ -656,7 +656,7 @@ const handleDeposit = () => {
 };
 
 const handleWithdraw = () => {
-  const toastId = props.toast?.loading({
+  const toastId = toast?.loading({
     title: `Withdrawing...`,
   });
   State.update({
@@ -707,8 +707,8 @@ const handleWithdraw = () => {
       const { refetch } = props;
       if (refetch) refetch();
 
-      props.toast?.dismiss(toastId);
-      props.toast?.success({
+      toast?.dismiss(toastId);
+      toast?.success({
         title: "Withdraw Successfully!",
       });
     })
@@ -718,8 +718,8 @@ const handleWithdraw = () => {
         isLoading: false,
         loadingMsg: error,
       });
-      props.toast?.dismiss(toastId);
-      props.toast?.fail({
+      toast?.dismiss(toastId);
+      toast?.fail({
         title: "Withdraw Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
@@ -728,29 +728,7 @@ const handleWithdraw = () => {
     });
 };
 
-const DELAY = 1000 * 60 * 5;
-const timer = Storage.privateGet("priceTimer");
-function getPrice() {
-  asyncFetch("/dapdap/get-token-price-by-dapdap", {
-    Authorization: AccessKey,
-  })
-    .then((res) => {
-      const data = JSON.parse(res.body);
-      data.native = data.aurora;
-      delete data.aurora;
-      Storage.privateSet("tokensPrice", data);
-      setTimeout(getPrice, DELAY);
-    })
-    .catch((err) => {
-      setTimeout(getPrice, DELAY);
-    });
-}
-if (!Storage.privateGet("priceTimer")) {
-  getPrice();
-  Storage.privateSet("priceTimer", 1);
-}
-
-const tokensPrice = Storage.privateGet("tokensPrice");
+const tokensPrice = prices;
 
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
@@ -847,7 +825,7 @@ return (
               !isToken0Approving &&
               !isToken1Approving ? (
 
-              <StyledButton disabled={isLoading || !amount0 || !amount1}>
+              <StyledButton disabled={isLoading || !amount0 || !amount1} onClick={handleDeposit}>
                 {
                   isLoading ? (
                     <StyledLoading>{iconCircle}</StyledLoading>
