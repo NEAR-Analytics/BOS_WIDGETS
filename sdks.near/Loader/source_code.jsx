@@ -115,7 +115,7 @@ return (namespace) => {
     return;
   }
 
-  if (Store) {
+  if (Store && !Store.get(namespace)) {
     Store.update({ [namespace]: {} });
     let library = load(...parseRequest(namespace));
     
