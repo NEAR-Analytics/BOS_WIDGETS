@@ -32,10 +32,9 @@ const SwitchThumb = styled("Switch.Thumb")`
 `;
 // switch end
 
-const StakePanel = styled.div`
+const Wrap = styled.div`
   width: 510px;
   margin: 0 auto;
-
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
@@ -45,6 +44,9 @@ const StakePanel = styled.div`
   .input-group {
     column-gap: 5px;
   }
+  .avatars {
+    margin-right: 20px;
+  }
   .input-group-append {
     display: flex;
     align-items: center;
@@ -52,16 +54,14 @@ const StakePanel = styled.div`
     width: 138px;
     height: 34px;
     background: #2e3142;
-    border: ${props.border || "1px solid #d0d5dd"};
-    box-shadow: ${props.border || "0px 1px 2px rgba(16, 24, 40, 0.05)"};
+    border: 1px solid #d0d5dd;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
     border-radius: 10px !important;
     color: white;
     font-size: 14px;
   }
-  .avatars {
-    margin-right: 20px;
-  }
 `;
+
 const AmountList = styled.div`
   display: flex;
   font-size: var(--fz12);
@@ -252,7 +252,7 @@ function fillBalance() {
 }
 
 return (
-  <StakePanel>
+  <Wrap>
     <div className="input-group">
       <input
         value={state.inputValue}
@@ -299,5 +299,5 @@ return (
         }}
       />
     </UnStakeBtnWrap>
-  </StakePanel>
+  </Wrap>
 );
