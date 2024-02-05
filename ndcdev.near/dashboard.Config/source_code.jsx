@@ -1,15 +1,12 @@
 return {
   ndcDAOs: [
-    "congress-hom-v1.ndc-gwg.near",
-    "congress-coa-v1.ndc-gwg.near",
-    "congress-tc-v1.ndc-gwg.near",
-    // "gaming-dao.sputnik-dao.near",
-    // "marketing.sputnik-dao.near",
-    // "nearglobedao.sputnik-dao.near",
-    // "ndc-degens.sputnik-dao.near",
-    // "ac_dao.near",
-    // "onboard.sputnik-dao.near",
-    // "she-is-near.sputnik-dao.near",
+    "gaming-dao.sputnik-dao.near",
+    "marketing.sputnik-dao.near",
+    "nearglobedao.sputnik-dao.near",
+    "ndc-degens.sputnik-dao.near",
+    "ac_dao.near",
+    "onboard.sputnik-dao.near",
+    "she-is-near.sputnik-dao.near",
   ],
   socialLinks: {
     near: 'https://near.org',
