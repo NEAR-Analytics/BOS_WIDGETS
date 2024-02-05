@@ -37,8 +37,8 @@ const Wrapper = styled.div`
 const shareSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
+    width="23"
+    height="23"
     fill="currentColor"
     viewBox="0 0 16 16"
     stroke="currentColor"
@@ -111,7 +111,7 @@ return (
                 ) : (
                   nameHeader
                 )}
-                <div className="ms-1">
+                <div className="ms-3">
                   <Widget
                     src="james.near/widget/BuilderHat"
                     props={{ accountId }}
