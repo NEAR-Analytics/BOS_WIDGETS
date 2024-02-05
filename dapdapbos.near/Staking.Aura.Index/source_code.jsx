@@ -1059,7 +1059,7 @@ return (
           chain: curChain,
           onSwitchChain: onSwitchChain,
           switchingChain: switchingChain,
-          // theme: dexConfig.theme?.button,
+          theme: dexConfig.theme,
         }}
       />
     )}
