@@ -38,7 +38,12 @@ return (
     {props.widgets.map((widget) => (
       <WidgetWrapper key={widget.linkId}>
         {props.isEditMode ? (
-          <WidgetBadgeWrapper>
+          <WidgetBadgeWrapper
+            style={{
+              display:
+                widget.linkAuthorId === context.accountId ? "flex" : "none",
+            }}
+          >
             {widget.linkAuthorId === context.accountId ? (
               <Widget
                 src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
