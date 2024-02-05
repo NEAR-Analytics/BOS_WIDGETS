@@ -166,13 +166,7 @@ return (
   <Wrapper>
     <Contaienr>
       {nfts?.slice(page * perPage, (page + 1) * perPage)?.map((nft) => (
-        <div
-          key={nft.tokenId}
-          className={`${
-            selectedNft?.tokenId === nft.tokenId ? "selected" : ""
-          }`}
-          onClick={() => updateState({ selectedNft: nft })}
-        >
+        <div key={nft.tokenId}>
           <Widget
             src="mob.near/widget/NftImage"
             props={{
