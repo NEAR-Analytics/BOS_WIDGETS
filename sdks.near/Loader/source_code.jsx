@@ -106,32 +106,40 @@ const load = (account, resourceType, path, version) => {
   );
 }
 
-const statefulLoad = (Store, status, namespace) => {
-    let defaultValue = namespace.includes("hook") ? () => {} : {};
-    console.log(namespace, defaultValue, { [namespace]: {defaultValue} })
+return (namespace, status) => {
+  if (typeof namespace === "object" && !Array.isArray(namespace)) {
+    const StatefulLoader = {
+        Store: namespace,
+        status: status,
+        load: (namespace) => {
+            if (!StatefulLoader.status[namespace]) {
+                let defaultValue = namespace.includes("hook") ? () => {} : {};
 
-    Store.update({ [namespace]: defaultValue });
-    let library = load(...parseRequest(namespace));
-    
-    const checkDependencyLoaded = () => {
-      setTimeout(() => {
-        if (library) {
-          Store.update({ [namespace]: library });
-        } else {
-          checkDependencyLoaded();
+                StatefulLoader.Store.update({ [namespace]: {} });
+                let library = load(...parseRequest(namespace));
+                console.log("Status ", StatefulLoader.status);
+                
+                const checkDependencyLoaded = () => {
+                    setTimeout(() => {
+                        if (library) {
+                            StatefulLoader.Store.update({ [namespace]: library });
+                        } else {
+                            checkDependencyLoaded();
+                        }
+                    }, 200);
+                }
+
+
+                checkDependencyLoaded();
+                return StatefulLoader.status[namespace] || {};
+            }
+
+            return StatefulLoader.status[namespace];
         }
-      }, 200);
     }
 
-    checkDependencyLoaded();
-
-    return status[namespace];
-}
-
-return (namespace) => {
-  if (Array.isArray(namespace)) {
     return (actualNamespace) => {
-        return statefulLoad(namespace[0], namespace[1], actualNamespace);
+        return StatefulLoader.load(actualNamespace);
     };
   }
 
