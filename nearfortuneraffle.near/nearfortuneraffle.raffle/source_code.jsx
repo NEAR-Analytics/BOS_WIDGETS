@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose }) => {
     left: "50%",
     transform: "translateX(-50%)",
     width: "50%",
-    maxWidth: "400px",
+    maxWidth: "600px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose }) => {
 
   return (
     <div style={overlayStyle} onClick={onClose}>
-      <div style={modalStyle} className="modal" class="modal-sm">
+      <div style={modalStyle} className="modal">
         <div onClick={(e) => e.stopPropagation()} className="modal-content">
           <p
             style={{
@@ -146,7 +146,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
     left: "50%",
     transform: "translateX(-50%)",
     width: "50%",
-    maxWidth: "400px",
+    maxWidth: "600px",
     height: "auto",
     backgroundColor: "#fff",
     padding: "20px",
