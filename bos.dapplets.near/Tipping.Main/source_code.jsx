@@ -241,7 +241,7 @@ const TippingButton = styled.button`
   display: flex;
   position: relative;
   width: 85px;
-  height: props?.context?.parent?.websiteName? === 'YouTube' ? 36px : 18px;
+  height: ${(props) => ((props?.context?.parent?.websiteName === 'YouTube') ? '36px' : '18px')};
   margin-left: 8px;
   padding: 0;
   align-items: center;
