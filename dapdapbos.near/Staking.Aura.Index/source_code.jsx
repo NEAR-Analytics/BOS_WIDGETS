@@ -163,11 +163,6 @@ const EmptyWrap = styled.div`
 `;
 // assets end
 
-const POOL_TYPES = {
-  WeightedPool: "WeightedPool",
-  ComposableStablePool: "ComposableStablePool",
-  StablePool: "StablePool",
-};
 const {
   toast,
   curChain,
@@ -180,292 +175,8 @@ const {
   dexConfig,
   prices,
 } = props;
-const POOLS = [
-  {
-    poolName: "WETH-wstETH",
-    Rewards_contract_address: "0x026d163C28cC7dbf57d6ED57f14208Ee412CA526",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0xbad20c15a773bf03ab973302f61fabcea5101f0a",
-    Balancer_Gauge: "0x27519F69b2Ac912aeb6fE066180FB25a17c71755",
-    Aura_Stash: "0xe2F2499474B4Bef0a7320c1D2b0FEfFD5430Acf8",
-    Balancer_Pool_ID:
-      "0xbad20c15a773bf03ab973302f61fabcea5101f0a000000000000000000000034",
-    Aura_Pool_ID: 0,
-    poolType: POOL_TYPES.WeightedPool,
-  },
-  {
-    poolName: "staBAL3-EURe",
-    Rewards_contract_address: "0xf4116f1be90057e6f85b0dcc14c47c84cc4575da",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x0c1b9ce6bf6c01f587c2ee98b0ef4b20c6648753",
-    Balancer_Gauge: "0x492cd2290e5b971eab622d6325cef6a329cf8a58",
-    Aura_Stash: "0x727d3d124bc9880d06aa7508c78c2c1f4e7369b2",
-    Balancer_Pool_ID:
-      "0x0c1b9ce6bf6c01f587c2ee98b0ef4b20c6648753000000000000000000000050",
-    Aura_Pool_ID: 14,
-    poolType: POOL_TYPES.ComposableStablePool,
-  },
-  {
-    poolName: "USDT-sDAI-USDC",
-    Rewards_contract_address: "0x7513105d6cf9d18756d95ded81d6d3f68db4b8da",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655",
-    Balancer_Gauge: "0xdec0362b3229690fbe4f88c57472610588bb9a2e",
-    Aura_Stash: "0xffd046ed3635697c98c5ee1ac92f6c7ed1c9da54",
-    Balancer_Pool_ID:
-      "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655000000000000000000000066",
-    Aura_Pool_ID: 21,
-    poolType: POOL_TYPES.ComposableStablePool,
-  },
-  {
-    poolName: "stEUR-EURe",
-    Rewards_contract_address: "0x408883e983695dec78cf66480e6efef907a73c21",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x06135a9ae830476d3a941bae9010b63732a055f4",
-    Balancer_Gauge: "0x49b7c059bf0a71583918928d33c84dcb2aa001f8",
-    Aura_Stash: "0xf2a9d8ea9bebf593977e98da1e642403c8834e06",
-    Balancer_Pool_ID:
-      "0x06135a9ae830476d3a941bae9010b63732a055f4000000000000000000000065",
-    Aura_Pool_ID: 22,
-    poolType: POOL_TYPES.ComposableStablePool,
-  },
-  {
-    poolName: "wstETH-GNO",
-    Rewards_contract_address: "0x14a81c9283cc16897daa3f466847baa260b770eb",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x4683e340a8049261057d5ab1b29c8d840e75695e",
-    Balancer_Gauge: "0xb812249d60b80c7cbc9398e382ed6dfdf82e23d2",
-    Aura_Stash: "0x95d41829eb179d549ede8e6db31c10818c7a4e0f",
-    Balancer_Pool_ID:
-      "0x4683e340a8049261057d5ab1b29c8d840e75695e00020000000000000000005a",
-    Aura_Pool_ID: 15,
-    poolType: POOL_TYPES.WeightedPool,
-  },
-  {
-    poolName: "staBAL3-GNO",
-    Rewards_contract_address: "0x7e6ccd111b56dd650af9d598e23f0cb0da7e59e7",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x274dedb9356c3e1e24bfe2bf3d4349fbdbfa0d14",
-    Balancer_Gauge: "0x4489dc0ff2a43023f2a85efdc4614d250612dd0d",
-    Aura_Stash: "0x429dc5616f9c78131a4bb592b1a0eb6f5e996c0e",
-    Balancer_Pool_ID:
-      "0x274dedb9356c3e1e24bfe2bf3d4349fbdbfa0d14000200000000000000000054",
-    Aura_Pool_ID: 12,
-    poolType: POOL_TYPES.WeightedPool,
-  },
-  {
-    poolName: "staBAL3-WETH-WBTC",
-    Rewards_contract_address: "0x112EA63D3A70bB7926F95DA81EaDF71Aba0f0955",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x66888e4f35063ad8bb11506a6fde5024fb4f1db0",
-    Balancer_Gauge: "0x9fF4e3925B88B6885083A88c2283a21CD504D3d4",
-    Aura_Stash: "0x353a64558c8670974216BDa16c3d420FADE65293",
-    Balancer_Pool_ID:
-      "0x66888e4f35063ad8bb11506a6fde5024fb4f1db0000100000000000000000053",
-    Aura_Pool_ID: 13,
-    poolType: POOL_TYPES.WeightedPool,
-  },
+const { POOLS, TOKENS } = dexConfig;
 
-  // {
-  //   poolName: "wstETH-BAL-AURA",
-  //   Rewards_contract_address: "0x51867537e5532186E76BA5380235512A9A4ca52a",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0x00df7f58e1cf932ebe5f54de5970fb2bdf0ef06d",
-  //   Balancer_Gauge: "0x64cee2356f959E78DB36A4C23a28f0454447C3dF",
-  //   Aura_Stash: "0xbcb983169F5206E7a01DdB75f22489965fB9eF66",
-  //   Balancer_Pool_ID:
-  //     "0x00df7f58e1cf932ebe5f54de5970fb2bdf0ef06d00010000000000000000005b",
-  //   Aura_Pool_ID: 17,
-  //   poolType: POOL_TYPES.WeightedPool,
-  // },
-  // {
-  //   poolName: "crvUSD-sDAI",
-  //   Rewards_contract_address: "0xfad4505c5bf3d3654ba7c97a0cea6e7b35882959",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0xc9f00c3a713008ddf69b768d90d4978549bfdf94",
-  //   Balancer_Gauge: "0xb079bd76dd9b5f9a8d3954e4250fc25be0549ac0",
-  //   Aura_Stash: "0x19e21f4a9283f940e871f648efd07051cd274eaa",
-  //   Balancer_Pool_ID:
-  //     "0xc9f00c3a713008ddf69b768d90d4978549bfdf9400000000000000000000006d",
-  //   Aura_Pool_ID: 23,
-  //   poolType: POOL_TYPES.ComposableStablePool,
-  // },
-  {
-    poolName: "wstETH-COW",
-    Rewards_contract_address: "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62",
-    Rewards_depositor_contract_address:
-      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-    LP_token_address: "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff6",
-    Balancer_Gauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83",
-    Aura_Stash: "0x918a3d87ddb20f225647e1560f4f66f8e0590311",
-    Balancer_Pool_ID:
-      "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff600020000000000000000005c",
-    Aura_Pool_ID: 20,
-    poolType: POOL_TYPES.WeightedPool,
-  },
-  // {
-  //   poolName: "sDAI-wstETH",
-  //   Rewards_contract_address: "0x49aadc30b5ccc57bddd55ac8bd7d8db7cf1f2b8b",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0xbc2acf5e821c5c9f8667a36bb1131dad26ed64f9",
-  //   Balancer_Gauge: "0x4d13d387f372dbe5125b7d78e75094ac85b31edc",
-  //   Aura_Stash: "0x6363d0c1f5cbc85e49af00cd8da1827f7a417b19",
-  //   Balancer_Pool_ID:
-  //     "0xbc2acf5e821c5c9f8667a36bb1131dad26ed64f9000200000000000000000063",
-  //   Aura_Pool_ID: 19,
-  //   poolType: POOL_TYPES.WeightedPool,
-  // },
-  // {
-  //   poolName: "sDAI-EURe",
-  //   Rewards_contract_address: "0xde151980d461696543aa07a19bbe2603b20ecbae",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0xdd439304a77f54b1f7854751ac1169b279591ef7",
-  //   Balancer_Gauge: "0xbb2598b89202596a743be0b615001d7d5164f167",
-  //   Aura_Stash: "0x6068eb7490748a1a49830b58524c002b545c1ce2",
-  //   Balancer_Pool_ID:
-  //     "0xdd439304a77f54b1f7854751ac1169b279591ef7000000000000000000000064",
-  //   Aura_Pool_ID: 18,
-  //   poolType: POOL_TYPES.ComposableStablePool,
-  // },
-  // {
-  //   poolName: "staBAL3-wstETH",
-  //   Rewards_contract_address: "0xddb26f9864da5cf70c680942be91fc7e9aa2401c",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0xeb30c85cc528537f5350cf5684ce6a4538e13394",
-  //   Balancer_Gauge: "0xef23c2ec60a1ea3ed6a44681fb72356cb411177e",
-  //   Aura_Stash: "0x44b9143e4582b5141b654b9486a52b4124d9b623",
-  //   Balancer_Pool_ID:
-  //     "0xeb30c85cc528537f5350cf5684ce6a4538e13394000200000000000000000059",
-  //   Aura_Pool_ID: 16,
-  //   poolType: POOL_TYPES.WeightedPool,
-  // },
-];
-const TOKENS = {
-  "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252": {
-    address: "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252",
-    chainId,
-    name: "WBTC",
-    symbol: "WBTC",
-    icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    decimals: 8,
-  },
-  "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1": {
-    address: "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-    chainId,
-    name: "WETH",
-    symbol: "WETH",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2.png",
-    decimals: 18,
-  },
-  "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb": {
-    address: "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb",
-    chainId,
-    name: "GNO",
-    symbol: "GNO",
-    icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0x6810e776880C02933D47DB1b9fc05908e5386b96/logo.png",
-    decimals: 18,
-  },
-  "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6": {
-    address: "0x6C76971f98945AE98dD7d4DFcA8711ebea946eA6",
-    chainId,
-    name: "wstETH",
-    symbol: "wstETH",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
-    decimals: 18,
-  },
-  "0x1509706a6c66CA549ff0cB464de88231DDBe213B": {
-    address: "0x1509706a6c66CA549ff0cB464de88231DDBe213B",
-    chainId,
-    name: "AURA",
-    symbol: "AURA",
-    icon: "https://app.aura.finance/assets/aura-362899d2.png",
-    decimals: 18,
-  },
-  "0xaBEf652195F98A91E490f047A5006B71c85f058d": {
-    address: "0xaBEf652195F98A91E490f047A5006B71c85f058d",
-    chainId,
-    name: "crvUSD",
-    symbol: "crvUSD",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xabef652195f98a91e490f047a5006b71c85f058d.png",
-    decimals: 18,
-  },
-  "0xaf204776c7245bF4147c2612BF6e5972Ee483701": {
-    address: "0xaf204776c7245bF4147c2612BF6e5972Ee483701",
-    chainId,
-    name: "sDAI",
-    symbol: "sDAI",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0x83f20f44975d03b1b09e64809b757c47f942beea.png",
-    decimals: 18,
-  },
-  "0x2086f52651837600180dE173B09470F54EF74910": {
-    address: "0x2086f52651837600180dE173B09470F54EF74910",
-    chainId,
-    name: "staBAL3",
-    symbol: "staBAL3",
-    icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
-    decimals: 18,
-  },
-  "0x7eF541E2a22058048904fE5744f9c7E4C57AF717": {
-    address: "0x7eF541E2a22058048904fE5744f9c7E4C57AF717",
-    chainId,
-    name: "BAL",
-    symbol: "BAL",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xba100000625a3754423978a60c9317c58a424e3d.png",
-    decimals: 18,
-  },
-  "0x4ECaBa5870353805a9F068101A40E0f32ed605C6": {
-    address: "0x4ECaBa5870353805a9F068101A40E0f32ed605C6",
-    chainId,
-    name: "USDT",
-    symbol: "USDT",
-    icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png",
-    decimals: 6,
-  },
-  "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83": {
-    address: "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
-    chainId,
-    name: "USDC",
-    symbol: "USDC",
-    icon: "https://assets-cdn.trustwallet.com/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
-    decimals: 6,
-  },
-  "0x177127622c4A00F3d409B75571e12cB3c8973d3c": {
-    address: "0x177127622c4A00F3d409B75571e12cB3c8973d3c",
-    chainId,
-    name: "COW",
-    symbol: "COW",
-    icon: "https://raw.githubusercontent.com/balancer/tokenlists/main/src/assets/images/tokens/0xdef1ca1fb7fbcdc777520aa7f396b4e015f497ab.png",
-    decimals: 18,
-  },
-  "0xcB444e90D8198415266c6a2724b7900fb12FC56E": {
-    address: "0xcB444e90D8198415266c6a2724b7900fb12FC56E",
-    chainId,
-    name: "EURe",
-    symbol: "EURe",
-    icon: "https://assets.coingecko.com/coins/images/23354/large/eur.png?1643926562",
-    decimals: 18,
-  },
-  "0x004626A008B1aCdC4c74ab51644093b155e59A23": {
-    address: "0x004626A008B1aCdC4c74ab51644093b155e59A23",
-    chainId,
-    name: "stEUR",
-    symbol: "stEUR",
-    icon: "https://assets.coingecko.com/coins/images/32036/large/stEUR-x4.png",
-    decimals: 18,
-  },
-};
 const RewardsContractABI = [
   {
     inputs: [],
@@ -724,7 +435,6 @@ State.init({
   totalRewardsAmount: 0,
   isClaiming: false,
   isAllClaiming: false,
-
   flag1: false,
   flag2: false,
   flag3: false,
@@ -764,11 +474,12 @@ function getMultiRewards(pool, index) {
       params: [account],
     },
   ];
-  multiCallV2({
+  multicall({
     abi: RewardsContractABI,
     calls,
     options: {},
     multicallAddress,
+    provider: Ethers.provider(),
   })
     .then((res) => {
       console.log("getMultiRewards_res", res);
@@ -810,13 +521,19 @@ function getMultiLPToken(pool, index) {
     },
   ];
 
-  multiCallV2({ abi: LPTokenABI, calls, options: {}, multicallAddress })
+  multicall({
+    abi: LPTokenABI,
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
     .then((res) => {
       console.log("getMultiLPToken res:", res);
       const temp = [...state.poolsList];
       const [[balance], [totalSupply], [swapFeePer]] = res;
 
-      temp[index].bptAmount = ethers.utils.formatUnits(balance);
+      temp[index].bptAmount = ethers.utils.formatUnits(balance || 0);
       temp[index].bptTotalSupply = totalSupply;
       temp[index].swapFee = Big(ethers.utils.formatUnits(swapFeePer))
         .mul(100)
@@ -832,65 +549,65 @@ function getMultiLPToken(pool, index) {
     });
 }
 
-function multiCallV2({ abi, calls, options, multicallAddress }) {
-  const MULTICALL_ABI = [
-    {
-      inputs: [
-        { internalType: "bool", name: "requireSuccess", type: "bool" },
-        {
-          components: [
-            { internalType: "address", name: "target", type: "address" },
-            { internalType: "bytes", name: "callData", type: "bytes" },
-          ],
-          internalType: "struct Multicall2.Call[]",
-          name: "calls",
-          type: "tuple[]",
-        },
-      ],
-      name: "tryAggregate",
-      outputs: [
-        {
-          components: [
-            { internalType: "bool", name: "success", type: "bool" },
-            { internalType: "bytes", name: "returnData", type: "bytes" },
-          ],
-          internalType: "struct Multicall2.Result[]",
-          name: "returnData",
-          type: "tuple[]",
-        },
-      ],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-  ];
-  const MulticallContract = new ethers.Contract(
-    multicallAddress,
-    MULTICALL_ABI,
-    Ethers.provider().getSigner()
-  );
+// function multiCallV2({ abi, calls, options, multicallAddress }) {
+//   const MULTICALL_ABI = [
+//     {
+//       inputs: [
+//         { internalType: "bool", name: "requireSuccess", type: "bool" },
+//         {
+//           components: [
+//             { internalType: "address", name: "target", type: "address" },
+//             { internalType: "bytes", name: "callData", type: "bytes" },
+//           ],
+//           internalType: "struct Multicall2.Call[]",
+//           name: "calls",
+//           type: "tuple[]",
+//         },
+//       ],
+//       name: "tryAggregate",
+//       outputs: [
+//         {
+//           components: [
+//             { internalType: "bool", name: "success", type: "bool" },
+//             { internalType: "bytes", name: "returnData", type: "bytes" },
+//           ],
+//           internalType: "struct Multicall2.Result[]",
+//           name: "returnData",
+//           type: "tuple[]",
+//         },
+//       ],
+//       stateMutability: "nonpayable",
+//       type: "function",
+//     },
+//   ];
+//   const MulticallContract = new ethers.Contract(
+//     multicallAddress,
+//     MULTICALL_ABI,
+//     Ethers.provider().getSigner()
+//   );
 
-  const { requireSuccess, ...overrides } = options || {};
-  const itf = new ethers.utils.Interface(abi);
-  const calldata = calls.map((call) => ({
-    target: call.address.toLowerCase(),
-    callData: itf.encodeFunctionData(call.name, call.params),
-  }));
-  return MulticallContract.callStatic
-    .tryAggregate(requireSuccess || true, calldata, overrides)
-    .then((res) => {
-      const temp = res.map((call, i) => {
-        const [result, data] = call;
-        return result && data !== "0x"
-          ? itf.decodeFunctionResult(calls[i].name, data)
-          : null;
-      });
-      return temp;
-    })
-    .catch((err) => {
-      console.log(55555, err);
-      // onError?.(err);
-    });
-}
+//   const { requireSuccess, ...overrides } = options || {};
+//   const itf = new ethers.utils.Interface(abi);
+//   const calldata = calls.map((call) => ({
+//     target: call.address?.toLowerCase(),
+//     callData: itf.encodeFunctionData(call.name, call.params),
+//   }));
+//   return MulticallContract.callStatic
+//     .tryAggregate(requireSuccess || true, calldata, overrides)
+//     .then((res) => {
+//       const temp = res.map((call, i) => {
+//         const [result, data] = call;
+//         return result && data !== "0x"
+//           ? itf.decodeFunctionResult(calls[i].name, data)
+//           : null;
+//       });
+//       return temp;
+//     })
+//     .catch((err) => {
+//       console.log(55555, err);
+//       // onError?.(err);
+//     });
+// }
 function getMultiPoolTokens() {
   const ids = state.poolsList.map((item) => item.Balancer_Pool_ID);
 
@@ -899,13 +616,14 @@ function getMultiPoolTokens() {
     name: "getPoolTokens",
     params: [id],
   }));
-
+  console.log(222222, calls);
   // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
-  multiCallV2({
+  multicall({
     abi: PoolContractABI,
     calls,
     options: {},
     multicallAddress,
+    provider: Ethers.provider(),
   })
     .then((res) => {
       console.log("getMultiPoolTokens res:", res);
