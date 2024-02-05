@@ -138,12 +138,6 @@ function Property({ property, value }) {
   }
 }
 
-const renderAttestWidget = async () => {
-  const schemaProperties = await renderSchemaProperties(selectedSchema);
-
-  return <Container>{schemaProperties}</Container>;
-};
-
 return (
   <Container>
     {createWidgetSrc ? (
