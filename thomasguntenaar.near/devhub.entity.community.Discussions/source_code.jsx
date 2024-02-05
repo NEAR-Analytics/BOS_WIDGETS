@@ -2,11 +2,6 @@ const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
   "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
-const { getDepositAmountForWriteAccess } = VM.require(
-  "${REPL_DEVHUB}/widget/core.lib.common"
-);
-
-getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 getCommunity = getCommunity || (() => <></>);
 setCommunitySocialDB = setCommunitySocialDB || (() => <></>);
@@ -72,26 +67,10 @@ const Tag = styled.div`
 
 const [sort, setSort] = useState("timedesc");
 
-const grantPost = Near.view(
-  "${REPL_SOCIAL_CONTRACT}",
-  "is_write_permission_granted",
-  {
-    predecessor_id: "${REPL_DEVHUB_LEGACY}",
-    key: context.accountId + "/main/post",
-  }
-);
-
-const userStorageDeposit = Near.view(
-  "${REPL_SOCIAL_CONTRACT}",
-  "storage_balance_of",
-  {
-    account_id: context.accountId,
-  }
-);
-
-if (grantPost === null || userStorageDeposit === null) {
-  return;
-}
+let test = Social.get(`${context.accountId}/post/main`, {
+  options: { with_block_height: true },
+});
+console.log("test", test);
 
 return (
   <div className="w-100" style={{ maxWidth: "100%" }}>
@@ -104,32 +83,117 @@ return (
                 src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
                 props={{
                   onSubmit: (v) => {
-                    let createDiscussionTx = [
-                      {
-                        contractName: "${REPL_DEVHUB_CONTRACT}",
-                        methodName: "create_discussion",
-                        args: {
-                          handle,
-                          data: v,
-                        },
-                        gas: Big(10).pow(14),
-                      },
-                    ];
+                    Social.set(`${context.accountId}/post/main`, v, {
+                      onCommit: (data) => {
+                        console.log("onCommit");
+                        console.log("data", data);
 
-                    if (grantPost === false) {
-                      createDiscussionTx.unshift({
-                        contractName: "${REPL_SOCIAL_CONTRACT}",
-                        methodName: "grant_write_permission",
-                        args: {
-                          predecessor_id: "${REPL_DEVHUB_CONTRACT}",
-                          keys: [context.accountId + "/post/main"],
-                        },
-                        gas: Big(10).pow(14),
-                        deposit:
-                          getDepositAmountForWriteAccess(userStorageDeposit),
-                      });
-                    }
-                    Near.call(createDiscussionTx);
+                        const Social = {
+                          get: (...args) => {
+                            if (args.length < 1) {
+                              throw new Error(
+                                "Missing argument 'keys' for Social.get"
+                              );
+                            }
+                            return cachedSocialGet(
+                              args[0],
+                              false,
+                              args[1],
+                              args[2],
+                              args[3]
+                            );
+                          },
+                        };
+
+                        function cachedSocialGet(
+                          keys,
+                          recursive,
+                          blockId,
+                          options,
+                          cacheOptions
+                        ) {
+                          keys = Array.isArray(keys) ? keys : [keys];
+                          return cachedPromise(
+                            (invalidate) =>
+                              this.cache.socialGet(
+                                this.near,
+                                keys,
+                                recursive,
+                                blockId,
+                                options,
+                                invalidate,
+                                cacheOptions
+                              ),
+                            options?.subscribe
+                          );
+                        }
+
+                        function socialGet(
+                          near,
+                          keys,
+                          recursive,
+                          blockId,
+                          options,
+                          invalidate,
+                          cacheOptions
+                        ) {
+                          if (!near) {
+                            return null;
+                          }
+                          keys = Array.isArray(keys) ? keys : [keys];
+                          keys = keys.map((key) =>
+                            recursive ? `${key}/**` : `${key}`
+                          );
+                          const args = {
+                            keys,
+                            options,
+                          };
+                          let data = this.cachedViewCall(
+                            near,
+                            near.config.contractName,
+                            "get",
+                            args,
+                            blockId,
+                            invalidate,
+                            cacheOptions
+                          );
+                          if (data === null) {
+                            return null;
+                          }
+
+                          if (keys.length === 1) {
+                            const parts = keys[0].split("/");
+                            for (let i = 0; i < parts.length; i++) {
+                              const part = parts[i];
+                              if (part === "*" || part === "**") {
+                                break;
+                              }
+                              data = data?.[part];
+                            }
+                          }
+
+                          return data;
+                        }
+
+                        console.log("test", test);
+                        // Near.get(
+                        //   "${REPL_DEVHUB_CONTRACT}",
+                        //   "get_block_height",
+                        //   {
+                        //     onReturn: (blockHeight) => {
+                        //       Near.call(
+                        //         "${REPL_DEVHUB_CONTRACT}",
+                        //         "create_discussion",
+                        //         {
+                        //           community_handle: "...",
+                        //           near_social_post_block_height: blockHeight,
+                        //         }
+                        //       );
+                        //     },
+                        //   }
+                        // );
+                      },
+                    });
                   },
                 }}
               />
