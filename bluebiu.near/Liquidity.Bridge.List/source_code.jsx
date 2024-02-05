@@ -143,12 +143,16 @@ const StyledVaultImage = styled.div`
 `
 
 const {
+  toast,
+  prices,
   loading,
   dataList,
   dataIndex,
   columnList,
   onChangeDataIndex,
   addresses,
+  addAction,
+  proxyAddress,
   ICON_VAULT_MAP
 } = props
 
@@ -201,7 +205,12 @@ return (
                     src={"bluebiu.near/widget/Liquidity.Bridge.Detail"}
                     props={{
                       data: dataList[dataIndex],
+                      toast,
+                      theme,
+                      prices,
                       addresses,
+                      addAction,
+                      proxyAddress,
                       ICON_VAULT_MAP
                     }}
                   />}
