@@ -693,7 +693,10 @@ return (
         src={`${config.ownerId}/widget/NRC-20.AssetSelect`}
         props={{
           title: "Tick",
-          disabled: !state.registeredTokenContracts,
+          disabled:
+            !state.registeredTokenContracts ||
+            !state.balances ||
+            !state.tokenInfos,
           data:
             state.balances && state.tokenInfos && state.registeredTokenContracts
               ? state.registeredTokenContracts
