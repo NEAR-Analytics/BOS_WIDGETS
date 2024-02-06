@@ -51,7 +51,7 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn ${
-      loading || follow ? "btn-light" : "btn-outline-light"
+      loading || follow ? "btn-dark" : "btn-outline-light"
     } rounded-5`}
     data={data}
   >
