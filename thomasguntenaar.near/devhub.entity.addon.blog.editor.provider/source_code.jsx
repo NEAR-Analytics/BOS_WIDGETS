@@ -1,5 +1,5 @@
 const { getPost } =
-  VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract") ||
+  VM.require("thomasguntenaar.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
 const { Layout, handle } = props;
@@ -94,7 +94,7 @@ const handleOnSubmit = (v, isEdit) => {
   console.log(isEdit);
   if (isEdit) {
     Near.call({
-      contractName: "${REPL_DEVHUB_LEGACY}",
+      contractName: "devgovgigs.near",
       methodName: "edit_post",
       args: {
         id: v.id,
@@ -109,7 +109,7 @@ const handleOnSubmit = (v, isEdit) => {
     });
   } else {
     Near.call({
-      contractName: "${REPL_DEVHUB_LEGACY}",
+      contractName: "devgovgigs.near",
       methodName: "add_post",
       args: {
         labels: ["blog", handle],
