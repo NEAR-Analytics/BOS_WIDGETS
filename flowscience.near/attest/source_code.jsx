@@ -54,6 +54,21 @@ State.init({
   UID: generateUID(),
 });
 
+const data = {
+  attestation: {
+    [schemaUID]: JSON.stringify({
+      data: {
+        UID: state.UID,
+        recipientId: state.recipientId,
+        expireDate: state.expireDate,
+        expireTime: state.expireTime,
+        revokeDate: state.revokeDate,
+      },
+      type: state.selectedType,
+    }),
+  },
+};
+
 const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
     return (
@@ -229,5 +244,11 @@ return (
         ))}
       </>
     )}
+    <Widget
+      src="efiz.near/widget/Every.Raw.View"
+      props={{
+        value: { data, template: { src: state.template } },
+      }}
+    />
   </Container>
 );
