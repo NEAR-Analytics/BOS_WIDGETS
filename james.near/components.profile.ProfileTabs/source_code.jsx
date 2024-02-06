@@ -22,7 +22,7 @@ const pills = [
 ];
 
 const Container = styled.div`
-  background-color: #888;
+  background-color: #0e1111;
 `;
 
 const Nav = styled.div`
@@ -47,7 +47,7 @@ const Nav = styled.div`
 `;
 
 const StyledContent = styled.div`
-  background-color: #888;
+  background-color: #0e1111;
   padding: 23px;
   #pills-nfts {
     .nft-card {
