@@ -21,7 +21,7 @@ const WidgetBadgeWrapper = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 4%;
-  backdrop-filter: blur(1px);
+//   backdrop-filter: blur(1px);
 `;
 
 return (
@@ -47,7 +47,9 @@ return (
             null}
           </WidgetBadgeWrapper>
         ) : null}
-        <Widget src={widget.src} props={widget.props} />
+        <div style={{ backdropFilter: "blur(1px)" }}>
+          <Widget src={widget.src} props={widget.props} />
+        </div>
       </div>
     ))}
   </Container>
