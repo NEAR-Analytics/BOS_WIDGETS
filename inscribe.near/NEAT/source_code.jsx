@@ -182,6 +182,7 @@ const TabContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 56px;
+  flex-flow: wrap;
 
   @media (max-width: 768px) {
     gap: 20px;
