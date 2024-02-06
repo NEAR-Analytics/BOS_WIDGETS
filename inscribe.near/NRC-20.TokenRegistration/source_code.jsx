@@ -555,8 +555,7 @@ function checkImageUpload() {
         const conetntkb = new Blob([dataUrl]).size / 1024;
         if (originalkb > 16) {
           State.update({
-            uploadError:
-              "The SVG icon must be less than 16KB",
+            uploadError: "The SVG icon must be less than 16KB",
           });
           return;
         } else if (conetntkb > 32) {
@@ -565,7 +564,6 @@ function checkImageUpload() {
           });
           return;
         }
-        console.log(dataUrl);
         State.update({ dataUrl });
       } else {
         State.update({ uploadError: "Icon must be in SVG format" });
