@@ -242,7 +242,6 @@ const TippingButton = styled.button`
   position: relative;
   width: 85px;
   height: 18px;
-  margin-left: 8px;
   padding: 0;
   align-items: center;
   flex-shrink: 0;
