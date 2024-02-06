@@ -15,7 +15,11 @@ State.init({ note: note || "" });
 return (
   <div>
     <div className="mb-2">
-      <h4>Notas de mexi🧁</h4>
+      <h4>ETH Cinco de Mayo - Lessons Learnead</h4>
+      <h5>
+        Please write down 5 of the best things in the hackathon and what you
+        learned from them
+      </h5>
       <textarea
         type="text"
         rows={10}
