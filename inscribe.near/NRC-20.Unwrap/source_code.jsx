@@ -756,6 +756,7 @@ return (
           value: state.tickerInput
             ? state.tickerInput.toUpperCase()
             : undefined,
+          disabled: !state.ftBalances || !state.tokenInfos,
         }}
       />
       {state.assetSelectError && (
