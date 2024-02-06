@@ -48,6 +48,13 @@ function generateUID() {
 }
 
 let UID = generateUID();
+const handleUID = (e) => {
+  const newUID = e.target.value;
+  State.update({
+    UID: newUID,
+  });
+  return UID;
+};
 
 const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
