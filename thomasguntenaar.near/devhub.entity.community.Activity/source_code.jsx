@@ -1,10 +1,10 @@
 const { handle } = props;
 
 const { getCommunity } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 );
 
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 if (!getCommunity || !href) {
   return <p>Loading modules...</p>;
@@ -41,19 +41,19 @@ return (
       <div class="d-flex w-100">
         <MainContent>
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.feature.post-search.panel"}
+            src={"thomasguntenaar.near/widget/devhub.feature.post-search.panel"}
             props={{
               hideHeader: true,
               tag: communityData.tag,
               children: (
                 <Widget
                   src={
-                    "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
+                    "thomasguntenaar.near/widget/devhub.components.molecule.PostControls"
                   }
                   props={{
                     title: "Post",
                     href: href({
-                      widgetSrc: "${REPL_DEVHUB}/widget/app",
+                      widgetSrc: "thomasguntenaar.near/widget/app",
                       params: {
                         page: "create",
                         labels: [communityData.tag],
@@ -69,7 +69,7 @@ return (
         </MainContent>
         <SidebarContainer>
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.community.Sidebar"}
+            src={"thomasguntenaar.near/widget/devhub.entity.community.Sidebar"}
             props={{ community: communityData }}
           />
         </SidebarContainer>
