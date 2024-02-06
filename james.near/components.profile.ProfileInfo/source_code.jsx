@@ -324,7 +324,7 @@ const InfoSection = () => {
 
         {context.accountId === accountId && (
           <Button variant="outline" onClick={() => setEditMode(true)}>
-            Edit Profile
+            Edit
           </Button>
         )}
       </div>
