@@ -7,8 +7,9 @@ const {
   withdrawETHGas,
   withdrawERC20Gas,
   formatHealthFactor,
+  account,
 } = props;
-console.log("WITHDRAW:", props);
+
 if (!data) {
   return <div />;
 }
@@ -258,20 +259,6 @@ function allowanceForGateway(tokenAddress) {
     });
 }
 
-/**
- *
- * @param {string} chainId
- * @param {string} address user address
- * @param {string} asset asset address
- * @param {string} action 'deposit' | 'withdraw' | 'borrow' | 'repay'
- * @param {string} amount amount in USD with 2 fixed decimals
- * @returns
- */
-function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
-  return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
-}
-
 function update() {
   allowanceForGateway(aTokenAddress)
     .then((amount) => Number(amount.toString()))
@@ -325,26 +312,6 @@ function debounce(fn, wait) {
   };
 }
 
-const updateNewHealthFactor = debounce(() => {
-  State.update({ newHealthFactor: "-" });
-
-  Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((address) => {
-      getNewHealthFactor(
-        chainId,
-        address,
-        data.underlyingAsset,
-        "withdraw",
-        state.amountInUSD
-      ).then((response) => {
-        const newHealthFactor = formatHealthFactor(response.body);
-        State.update({ newHealthFactor });
-      });
-    });
-}, 1000);
-
 const changeValue = (value) => {
   if (Number(value) > shownMaxValue) {
     value = shownMaxValue;
@@ -359,7 +326,6 @@ const changeValue = (value) => {
     State.update({
       amountInUSD,
     });
-    updateNewHealthFactor();
   } else {
     State.update({
       amountInUSD: "0.00",
@@ -369,15 +335,17 @@ const changeValue = (value) => {
   State.update({ amount: value });
 };
 
+// const disabled =
+//   (state.newHealthFactor !== "∞" &&
+//     (!isValid(state.newHealthFactor) ||
+//       state.newHealthFactor === "" ||
+//       Big(state.newHealthFactor).lt(1))) ||
+//   !state.amount ||
+//   !isValid(state.amount) ||
+//   Number(state.amount) === 0;
 const disabled =
-  (state.newHealthFactor !== "∞" &&
-    (!isValid(state.newHealthFactor) ||
-      state.newHealthFactor === "" ||
-      Big(state.newHealthFactor).lt(1))) ||
-  !state.amount ||
-  !isValid(state.amount) ||
-  Number(state.amount) === 0;
-
+  !state.amount || !isValid(state.amount) || Number(state.amount) === 0;
+console.log(3333, state, disabled);
 return (
   <Widget
     src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
