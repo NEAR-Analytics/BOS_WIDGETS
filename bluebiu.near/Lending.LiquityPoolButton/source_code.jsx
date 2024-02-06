@@ -304,7 +304,7 @@ function handleClick() {
   if (actionText === "Deposit") {
     contract
       .provideToSP(...params, {
-        gasLimit: 350000,
+        gasLimit: 700000,
       })
       .then((tx) => {
         tx.wait()
@@ -363,7 +363,7 @@ function handleClick() {
   if (actionText === "Withdraw") {
     contract
       .withdrawFromSP(...params, {
-        gasLimit: 350000,
+        gasLimit: 700000,
       })
       .then((tx) => {
         tx.wait()
