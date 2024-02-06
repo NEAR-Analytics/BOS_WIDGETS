@@ -290,6 +290,7 @@ function handleClick() {
     abi,
     Ethers.provider().getSigner()
   );
+
   const tokenArray = Object.keys(data.config.markets);
 
   const _amount = ethers.utils.parseUnits(amount);
@@ -304,7 +305,7 @@ function handleClick() {
   if (actionText === "Deposit") {
     contract
       .provideToSP(...params, {
-        gasLimit: 4000000,
+        gasLimit: 350000,
       })
       .then((tx) => {
         tx.wait()
@@ -363,7 +364,7 @@ function handleClick() {
   if (actionText === "Withdraw") {
     contract
       .withdrawFromSP(...params, {
-        gasLimit: 4000000,
+        gasLimit: 350000,
       })
       .then((tx) => {
         tx.wait()
