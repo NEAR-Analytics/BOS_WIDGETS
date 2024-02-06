@@ -1,8 +1,8 @@
 const data = props.data || {};
 const type = props.type || "";
-const record = props.file || "";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
-const schema = props.schema || "hyperfiles.near/type/schema";
+const schema = props.schema || "";
+const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
 const buildEdges = props.buildEdges;
@@ -12,11 +12,6 @@ const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
   const parts = type.split("/");
-  typeSrc = parts[0];
-}
-
-if (record !== "") {
-  const parts = record.split("/");
   typeSrc = parts[0];
 }
 
@@ -127,7 +122,6 @@ State.init({
   isModalOpen: false,
   typeSrc,
   schemaSrc,
-  selectedRecord: record,
   selectedType: type,
   selectedSchema: schema,
   view: defaultView,
@@ -238,6 +232,17 @@ if (schemas !== null) {
 }
 
 // Update handleTypeChange to handle full schema including nested types
+const handleSchemaChange = (e) => {
+  const newSchema = e.target.value;
+  State.update({
+    selectedSchema: newSchema,
+    templateVal: "",
+    data: {},
+    loading: true,
+  });
+};
+
+// Update handleTypeChange to handle full schema including nested types
 const handleTypeChange = (e) => {
   const newType = e.target.value;
   State.update({
@@ -246,7 +251,6 @@ const handleTypeChange = (e) => {
     data: {},
     loading: true,
   });
-  fetchSchema(newType);
 };
 
 const handleSchemaOwnerChange = (e) => {
@@ -290,7 +294,7 @@ const renderProperties = (properties, data, onChange) => {
   return properties.map((property) => {
     const propertyType = property.type;
     if (
-      propertyType.startsWith("${schemaSrc}.near/type/") &&
+      propertyType.startsWith("${typeSrc}.near/type/") &&
       state.schemas[propertyType]
     ) {
       // Use the stored schema from the state
@@ -369,18 +373,27 @@ return (
           </FormContainer>
 
           <FormContainer>
-            {state.fullSchema &&
-              state.fullSchema.properties &&
-              renderProperties(
-                state.fullSchema.properties,
-                state.data,
-                handleOnChange
-              )}
+            <Row>
+              <Label>UID</Label>
+            </Row>
+            <Input
+              type="text"
+              value={state.UID}
+              readOnly // Make this field read-only if you don't want users to edit it
+            />
+            <Row>
+              <Label>Attestor</Label>
+            </Row>
+            <Input
+              type="text"
+              value={context.accountId}
+              readOnly // Make this field read-only if you don't want users to edit it
+            />
             <Widget
               src="flowscience.near/widget/attest"
               props={{
                 item: {
-                  type: attestationType,
+                  type: state.selectedSchema,
                   value: state.data,
                 },
                 onChange: handleOnChange,
@@ -455,7 +468,7 @@ return (
             </>
           ) : (
             <Widget
-              src="efiz.near/widget/Every.Raw.View"
+              src="hyperfiles.near/widget/hyperfile.view"
               props={{ value: state.config || {} }}
             />
           )}
