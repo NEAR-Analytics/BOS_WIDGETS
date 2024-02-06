@@ -313,7 +313,7 @@ function makeAdjustContract() {
       abi,
       Ethers.provider().getSigner()
     ).adjustVessel(...params, {
-      gasLimit: 350000,
+      gasLimit: 700000,
     });
   }
   if (IS_ETHOS_DAPP) {
@@ -361,7 +361,7 @@ function makeAdjustContract() {
       abi,
       Ethers.provider().getSigner()
     ).adjustTrove(...params, {
-      gasLimit: 350000,
+      gasLimit: 700000,
     });
   }
 }
