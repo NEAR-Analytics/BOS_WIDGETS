@@ -218,16 +218,6 @@ const StyledGasBox = styled.div`
   line-height: normal;
 `;
 
-const AdjustBox = styled.div`
-  padding: 5px 0;
-  display: flex;
-  align-items: center;
-  .txt {
-    margin-left: 5px;
-    color: white;
-  }
-`;
-
 const {
   expand,
   addAction,
@@ -260,12 +250,12 @@ switch (vesselStatus) {
 
 State.init({
   tab: TABS[0],
-  isCollIncrease: true, // increase or decrease COLL
   yourLTV: 0,
   borrowingFee: 0,
   liquidationPrice: 0,
   totalDebt: 0,
   _maxFeePercentage: 0, //ethos need
+  maxBorrowAmount: 0, // adjust need
 });
 
 useEffect(() => {
@@ -356,7 +346,12 @@ function getVesselManager(_amount) {
 
 useEffect(() => {
   if (state.tab === "Close") return;
-  if ((IS_GRAVITA_DAPP || IS_PREON_DAPP) && state.isBigerThanBalance) return;
+  if (
+    (IS_GRAVITA_DAPP || IS_PREON_DAPP) &&
+    state.isAssetBigerThanBalance &&
+    state.isDebtBigerThanBalance
+  )
+    return;
   const price = prices[data.underlyingToken.symbol];
 
   if (IS_GRAVITA_DAPP) {
@@ -365,6 +360,7 @@ useEffect(() => {
       _yourLTV,
       borrowingFee,
       liquidationPrice,
+      maxBorrowAmount,
       borrowTokenBal;
     if (state.tab === "Borrow") {
       if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
@@ -399,6 +395,12 @@ useEffect(() => {
         .plus(data.vesselDebt)
         .div(assetInUSD);
 
+      maxBorrowAmount = Big(assetInUSD)
+        .mul(Big(data["MAX_LTV"]))
+        .minus(data.vesselDebt)
+        .minus(assetInUSD.minus(20).mul(0.02))
+        .toFixed();
+
       if (_yourLTV) {
         totalDebt = Big(state.borrowAmount || 0).plus(data.vesselDebt);
       }
@@ -420,6 +422,7 @@ useEffect(() => {
       borrowingFee,
       liquidationPrice,
       borrowTokenBal,
+      maxBorrowAmount,
     });
   }
   if (IS_PREON_DAPP) {
@@ -503,16 +506,13 @@ const onAmountChange = (amount) => {
   if (isZero) {
     State.update({
       amount,
-      buttonClickable: false,
-      // isBigerThanBalance: false,
     });
     return;
   }
   const params = { amount };
-  params.isBigerThanBalance = Big(amount || 0).gt(
+  params.isAssetBigerThanBalance = Big(amount || 0).gt(
     data.userUnderlyingBalance || 0
   );
-  params.buttonClickable = !params.isBigerThanBalance;
 
   State.update(params);
 
@@ -525,7 +525,6 @@ const onBorrowAmountChange = (amount) => {
   if (isZero) {
     State.update({
       borrowAmount: amount,
-      buttonClickable: false,
     });
     return;
   }
@@ -533,9 +532,16 @@ const onBorrowAmountChange = (amount) => {
     getVesselManager(amount);
   }
   const params = { borrowAmount: amount };
-  params.isBigerThanBalance = Big(amount || 0).gt(
-    Big(state.borrowTokenBal || 0)
-  );
+  if (state.tab === "Borrow") {
+    params.isDebtBigerThanBalance = Big(amount || 0).gt(
+      Big(state.borrowTokenBal || 0)
+    );
+  }
+  if (state.tab === "Adjust") {
+    params.isDebtBigerThanBalance = Big(amount || 0).gt(
+      Big(state.maxBorrowAmount || 0)
+    );
+  }
   State.update(params);
   state.debouncedGetTrade();
 };
@@ -745,22 +751,19 @@ return (
                   },
                 }}
               />
-              <AdjustBox>
-                <Widget
-                  src="bluebiu.near/widget/Avalanche.Lending.Switch"
-                  props={{
-                    onChange: (e) => {
-                      State.update({
-                        isCollIncrease: !state.isCollIncrease,
-                      });
-                    },
-                    active: state.isCollIncrease,
-                  }}
-                />
-                <span className="txt">
-                  {state.isCollIncrease ? "INCREASE" : "DECREASE"}
-                </span>
-              </AdjustBox>
+              <Widget
+                src="bluebiu.near/widget/Lending.MarketInput"
+                props={{
+                  icon: data.BORROW_URL,
+                  symbol: data.BORROW_TOKEN,
+                  balance: state.maxBorrowAmount,
+                  price: prices[data.BORROW_TOKEN] || 0,
+                  amount: state.borrowAmount,
+                  onChange: (val) => {
+                    onBorrowAmountChange(val);
+                  },
+                }}
+              />
             </>
           ) : null}
 
@@ -792,15 +795,14 @@ return (
                 <Widget
                   src="bluebiu.near/widget/Lending.LiquityMarketButton"
                   props={{
-                    disabled:
-                      state.tab === "Close" ? false : !state.buttonClickable,
                     actionText: state.tab,
                     ...props,
                     data: {
                       ...data,
                       config: dexConfig,
                     },
-                    isBigerThanBalance: state.isBigerThanBalance,
+                    isAssetBigerThanBalance: state.isAssetBigerThanBalance,
+                    isDebtBigerThanBalance: state.isDebtBigerThanBalance,
                     addAction,
                     toast,
                     chainId,
@@ -828,16 +830,15 @@ return (
                 <Widget
                   src="bluebiu.near/widget/Lending.LiquityAdjustButton"
                   props={{
-                    disabled: !state.buttonClickable,
                     actionText: state.tab,
                     ...props,
                     data: {
                       ...data,
                       config: dexConfig,
                     },
-                    isBigerThanBalance: state.isBigerThanBalance,
+                    isAssetBigerThanBalance: state.isAssetBigerThanBalance,
+                    isDebtBigerThanBalance: state.isDebtBigerThanBalance,
                     _maxFeePercentage: state._maxFeePercentage,
-                    isCollIncrease: state.isCollIncrease,
                     unsignedTx: state.unsignedTx,
                     isError: state.isError,
                     // loading: state.loading,
