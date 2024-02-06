@@ -33,6 +33,20 @@ State.init({
   ...item.value,
 });
 
+function generateUID() {
+  const length = 16; // This will create a 64-bit number (16 hexadecimal characters)
+  // randomly change the case of a character
+  const randomCase = (char) =>
+    Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase();
+  // Generate a random hexadecimal number and convert it to a string
+  let uid = "";
+  for (let i = 0; i < length; i++) {
+    const randomChar = Math.floor(Math.random() * 16).toString(16); // Generate a single random hexadecimal character
+    uid += randomCase(randomChar); // Append the character in either case to the UID
+  }
+  return uid;
+}
+
 const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
     return (
