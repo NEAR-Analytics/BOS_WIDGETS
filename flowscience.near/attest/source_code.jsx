@@ -5,6 +5,8 @@ const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
 const revokeDate = props.revokeDate;
+const refUID = props.refUID;
+const payload = props.payload;
 
 const Input = styled.input`
   height: 30px;
@@ -197,18 +199,18 @@ return (
     </Label>
     <Input
       type="text"
-      value="attestations.near/thing/0123456789123456"
+      value={refUID}
       onChange={(e) => State.update({ refUID: e.target.value })}
-      placeholder={refUID}
+      placeholder="attestations.near/thing/0123456789123456"
     />
     <Label>
       <b>Data: </b>
     </Label>
     <Input
       type="text"
-      value="# This is markdown text."
+      value={payload}
       onChange={(e) => State.update({ payload: e.target.value })}
-      placeholder={payload}
+      placeholder="# This is markdown text."
     />
 
     {createWidgetSrc ? (
