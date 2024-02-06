@@ -68,8 +68,7 @@ const handleProposal = () => {
             {
               method_name: "dismiss_hook",
               args: fc_args,
-              gas: "50000000000000",
-              deposit: "0"
+              gas: "50000000000000"
             }
           ]
         }
@@ -158,33 +157,25 @@ return (
         daoId: daoId,
         label: "House",
         placeholder: "Select house account",
-        onUpdate: onChangeDao,
-        dev: props.dev
+        onUpdate: onChangeDao
       }}
     />
     <div className="mb-3">
       <h5>Member</h5>
-      <Widget
-        src={
-          "astraplusplus.ndctools.near/widget/DAO.Proposal.Common.AccountAutoComplete"
-        }
-        props={{
-          placeholder: "Specify member account",
-          accountId: state.member,
-          onChange: onChangeMember
-        }}
+      <input
+        type="text"
+        onChange={(e) => onChangeMember(e.target.value)}
+        placeholder="Member Account ID"
       />
     </div>
     <div className="mb-3">
       <h5>Proposal Description</h5>
       <Widget
-        src={"devhub.near/widget/devhub.components.molecule.Compose"}
+        src="sking.near/widget/Common.Inputs.Markdown"
         props={{
-          data: state.description,
-          onChange: onChangeDescription,
-          autocompleteEnabled: true,
-          autoFocus: false,
-          placeholder: defaultDescription
+          onChange: (value) => onChangeDescription(value),
+          height: "270px",
+          initialText: defaultDescription
         }}
       />
     </div>
@@ -202,7 +193,7 @@ return (
     {state.error && <div className="text-danger">{state.error}</div>}
     <div className="ms-auto">
       <Widget
-        src="astraplusplus.ndctools.near/widget/Common.Components.Button"
+        src="sking.near/widget/Common.Button"
         props={{
           children: "Create Proposal",
           onClick: handleProposal,
@@ -212,7 +203,7 @@ return (
       />
       {onClose && (
         <Widget
-          src="astraplusplus.ndctools.near/widget/Common.Components.Button"
+          src="sking.near/widget/Common.Button"
           props={{
             children: "Close",
             onClick: onClose,
