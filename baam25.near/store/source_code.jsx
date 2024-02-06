@@ -1,6 +1,9 @@
 const accountId = props.accountId || context.accountId;
 const store = props.store;
 const customStyle = props.customStyle || "";
+const description = props.description || "";
+const showHeader = props.showHeader || true;
+const Header = props.Header;
 // Paginaton
 const perPage = props.perPage || 48;
 const AFFILIATE_ACCOUNT = props.affiliateAccount || "baam25.near";
@@ -293,7 +296,8 @@ const filterItems = [
 ];
 return nfts ? (
   <Container>
-    <h1 className="store">{store}</h1>
+    {showHeader && (Header ?? <h1 className="store">{store}</h1>)}
+    {description && description}
     <Stats>
       {Object.keys(stats).map((label) => (
         <Total key={label}>
