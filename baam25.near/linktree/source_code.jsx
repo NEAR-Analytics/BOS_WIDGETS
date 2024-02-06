@@ -5,15 +5,28 @@ const accountId = loggedIn
   ? context.accountId ?? "baam25.near"
   : props.accountId ?? "baam25.near";
 const viewingOwnAccount = accountId === context.accountId;
-const showNFTs = props.showNFTs || true;
-const showTags = props.showTags || true;
+const showNFTs = props.showNFTs
+  ? typeof props.showNFTs === "string"
+    ? JSON.parse(props.showNFTs)
+    : props.showNFTs
+  : true;
+const isLink = props.isLink
+  ? typeof props.isLink === "string"
+    ? JSON.parse(props.isLink)
+    : props.isLink
+  : true;
+const showTags = props.showTags
+  ? typeof props.showTags === "string"
+    ? JSON.parse(props.showTags)
+    : props.showTags
+  : true;
+
 const customExternalLinks = props.customExternalLinks || [
   "website",
   "github",
   "twitter",
   "telegram",
 ]; // ex: ["telegram"] only shows telegram
-const isLink = props.isLink || true;
 
 const AVAILABLE_THEMES = {
   default: "Default",
