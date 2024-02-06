@@ -363,7 +363,7 @@ return (
     {state.showPreview ? (
       <PreviewWrapper>
         <Widget
-          src="${REPL_NEAR}/widget/v1.Posts.Post"
+          src="near/widget/v1.Posts.Post"
           loading={<div className="w-100" style={{ height: "200px" }} />}
           props={{
             accountId: context.accountId,
@@ -376,7 +376,7 @@ return (
       <>
         <Avatar>
           <Widget
-            src="${REPL_MOB}/widget/Image"
+            src="mob.near/widget/Image"
             props={{
               image: profile.image,
               alt: profile.name,
@@ -415,7 +415,7 @@ return (
     {autocompleteEnabled && state.showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
+          src="thomasguntenaar.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: state.mentionInput,
             onSelect: autoCompleteAccountId,
