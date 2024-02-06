@@ -6,11 +6,12 @@ const handleRemoveWidget = (linkId) => {
 
 const Container = styled.div`
   display: flex;
-  position: relative;
+//   position: relative;
 `;
 
 const WidgetWrapper = styled.div`
   max-width: 100%;
+    position: relative;
 `;
 
 const WidgetBadgeWrapper = styled.div`
