@@ -28,7 +28,7 @@ const emojiArray = [
 
 const accountThatIsLoggedIn = context.accountId;
 
-const libSrcArray = [widgets.libEmojis];
+const libSrcArray = [widgets.libs.libEmojis];
 
 const initLibsCalls = {
   emojis: [
@@ -99,120 +99,120 @@ function reactionsStateUpdate(obj) {
 
 // =============== CSS Styles ===============
 const Button = styled.button`
-  min-width: fit-content;
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  height: 2.5em;
-  padding: 6px 12px;
-  margin: 2px 0;
-  border: 0;
-  border-radius: .375rem;
-  ${
-    !disabled &&
-    `:hover {
-    background: #EBEBEB; 
-    outline: 1px solid #C6C7C8;
-    }`
-  }
-  
-`;
+    min-width: fit-content;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: start;
+    height: 2.5em;
+    padding: 6px 12px;
+    margin: 2px 0;
+    border: 0;
+    border-radius: .375rem;
+    ${
+      !disabled &&
+      `:hover {
+      background: #EBEBEB; 
+      outline: 1px solid #C6C7C8;
+      }`
+    }
+    
+  `;
 
 const SmallReactButton = styled.button`
-  background: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: start;
-  width: fit-content;
-  height: 2.5em;
-  padding: 6px 12px;
-  margin: 2px 0;
-  border: 0;
-  border-radius: .375rem;
-  ${
-    !disabled &&
-    `:hover {
-    background: #EBEBEB; 
-    outline: 1px solid #C6C7C8;
-    }`
-  }
-`;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: start;
+    width: fit-content;
+    height: 2.5em;
+    padding: 6px 12px;
+    margin: 2px 0;
+    border: 0;
+    border-radius: .375rem;
+    ${
+      !disabled &&
+      `:hover {
+      background: #EBEBEB; 
+      outline: 1px solid #C6C7C8;
+      }`
+    }
+  `;
 
 const SmallButton = styled.button`
-position: relative;
-  border: 0;
-  background: transparent;
-  width: 35px;
-  height: 35px;
-  color: ${({ isHeart }) => (isHeart ? "red" : "")};
-`;
+  position: relative;
+    border: 0;
+    background: transparent;
+    width: 35px;
+    height: 35px;
+    color: ${({ isHeart }) => (isHeart ? "red" : "")};
+  `;
 
 const SmallButtonSpan = styled.span`
-  font-size: 19px;
-  :hover{
-      position: absolute;
-      font-size: 35px;
-      bottom: -5px;
-      width: 35px;
-      height: 40px;
-      transform: translateX(-50%) translateY(-50%);
-  }
-  
-  @media (max-width: 599px) {
-      ::before { 
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(255, 255, 255, .4);
-          content: "";}
-      :hover{
-      ::before { 
-          position: absolute;
-          width: 100%;
-          height: 120%;
-          background-color: rgba(255, 255, 255, .4);
-          content: "";}
-  }
-      
-  }
-`;
+    font-size: 19px;
+    :hover{
+        position: absolute;
+        font-size: 35px;
+        bottom: -5px;
+        width: 35px;
+        height: 40px;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+    @media (max-width: 599px) {
+        ::before { 
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, .4);
+            content: "";}
+        :hover{
+        ::before { 
+            position: absolute;
+            width: 100%;
+            height: 120%;
+            background-color: rgba(255, 255, 255, .4);
+            content: "";}
+    }
+        
+    }
+  `;
 
 // =============== NEW CSS Styles ===============!!!!!!!!
 const EmojiWrapper = styled.div`
-  display: inline-block;
-  position: relative;
-  overflow: visible !important;
-  padding-left: 8px;
-`;
+    display: inline-block;
+    position: relative;
+    overflow: visible !important;
+    padding-left: 8px;
+  `;
 
 const EmojiListWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0.5rem;
-  
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
-  position: absolute;
-  right: 0;
-  width: 370px;
-  max-width: 35vw;
-  flex-wrap: wrap;
-  display: ${({ show }) => (show ? "flex" : "none")};
-  transform: translateY(-10%);
-  zIndex: 2;
-`;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.5rem;
+    
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    position: absolute;
+    right: 0;
+    width: 370px;
+    max-width: 35vw;
+    flex-wrap: wrap;
+    display: ${({ show }) => (show ? "flex" : "none")};
+    transform: translateY(-10%);
+    zIndex: 2;
+  `;
 
 const SpinnerContainer = styled.div`
-  height: 1rem;
-  width: 1rem;
-  marginTop: 2px;
-`;
+    height: 1rem;
+    width: 1rem;
+    marginTop: 2px;
+  `;
 
 const CallLibrary = styled.div`
-  display: none;
-`;
+    display: none;
+  `;
 
 // =============== NEW JSX ===============!!!!!!!!
 const Overlay = () => {
@@ -262,7 +262,7 @@ const renderReaction = (item, isInButton) => {
       (!item.accounts.includes(context.accountId) && !isInButton)) && (
       <span>
         <Widget
-          src={widgets.wikiOnSocialDB_TooltipProfiles}
+          src={widgets.views.standardWidgets.wikiOnSocialDB_TooltipProfiles}
           className={isInButton ? "ps-3" : ""}
           props={{ accounts: item.accounts, emoji: item.emoji }}
         />
