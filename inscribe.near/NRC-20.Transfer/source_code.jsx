@@ -681,15 +681,64 @@ return (
       />
       <div>Don't transfer NRC-20 tokens to CEXs' addresses!!!</div>
     </WarningStyle>
-    <Widget
-      src={`${config.ownerId}/widget/NEAT.FormInput`}
-      props={{
-        title: "Tick",
-        value: state.tickInput,
-        onChange: updateTickInput,
-        error: state.tickInputError,
-      }}
-    />
+    <div>
+      <Widget
+        src={`${config.ownerId}/widget/NRC-20.AssetSelect`}
+        props={{
+          title: "Tick",
+          data:
+            state.balances && state.tokenInfos
+              ? state.balances
+                  .map((balance) => {
+                    const tokenInfo = state.tokenInfos.find(
+                      (tokenInfo) =>
+                        tokenInfo.ticker.toLowerCase() === balance.ticker
+                    );
+                    if (tokenInfo?.decimals) {
+                      return {
+                        ticker: balance.ticker,
+                        amount: Big(balance.amount)
+                          .div(Big(10).pow(tokenInfo.decimals))
+                          .toFixed(),
+                      };
+                    } else {
+                      return balance;
+                    }
+                  })
+                  .sort((a, b) => {
+                    if (!Big(a.amount).eq(b.amount)) {
+                      return Big(a.amount).gt(Big(b.amount)) ? -1 : 1;
+                    } else {
+                      return a.ticker.localeCompare(b.ticker);
+                    }
+                  })
+                  .map((a) => {
+                    const tokenInfo = state.tokenInfos.find(
+                      (tokenInfo) => tokenInfo.ticker.toLowerCase() === a.ticker
+                    );
+                    return {
+                      ...a,
+                      amount: toLocaleString(
+                        a.amount,
+                        Big(a.amount).eq(0) ? 0 : tokenInfo.decimals
+                      ),
+                    };
+                  })
+              : [],
+          updateSelectValue: updateTickInput,
+          updateError: (error) => {
+            State.update({
+              tickInputError: error,
+            });
+          },
+          value: state.tickInput ? state.tickInput.toUpperCase() : undefined,
+          disabled: !state.balances || !state.tokenInfos || !accountId,
+        }}
+      />
+      {state.assetSelectError && (
+        <InputError>{state.assetSelectError}</InputError>
+      )}
+    </div>
     <Widget
       src={`${config.ownerId}/widget/NEAT.FormInput`}
       props={{
