@@ -36,7 +36,7 @@ let newLibsCalls = state.functionsToCallByLibrary;
 
 State.update({ libsCalls: newLibsCalls });
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 const versions = state.versions ?? [];
 
