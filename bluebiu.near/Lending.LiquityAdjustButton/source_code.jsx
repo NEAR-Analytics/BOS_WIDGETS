@@ -79,7 +79,6 @@ const Button = styled.button`
 `;
 
 const {
-  disabled,
   actionText,
   _assetAmount,
   data,
@@ -92,9 +91,10 @@ const {
   gas,
   _debtTokenAmount,
   onApprovedSuccess,
-  isBigerThanBalance,
+
+  isAssetBigerThanBalance,
+  isDebtBigerThanBalance,
   yourLTV,
-  isCollIncrease,
   _maxFeePercentage,
   IS_ETHOS_DAPP,
   IS_PREON_DAPP,
@@ -114,14 +114,6 @@ useEffect(() => {
   });
 }, []);
 
-useEffect(() => {
-  if (!isCollIncrease) {
-    State.update({
-      isApproved: true,
-    });
-  }
-}, [isCollIncrease]);
-
 // useEffect(() => {
 //   if (!account || !gas) return;
 //   const provider = Ethers.provider();
@@ -134,7 +126,7 @@ useEffect(() => {
 //   });
 // }, [account, gas]);
 
-if (!_assetAmount) {
+if (!_assetAmount && !_debtTokenAmount) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Enter An Amount
@@ -142,7 +134,7 @@ if (!_assetAmount) {
   );
 }
 
-if (isBigerThanBalance) {
+if (isAssetBigerThanBalance || isDebtBigerThanBalance) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Insufficient Balance
@@ -190,9 +182,7 @@ const getAllowance = () => {
   });
 };
 
-if (isCollIncrease) {
-  getAllowance();
-}
+getAllowance();
 
 if (!state.isApproved) {
   const handleApprove = () => {
@@ -270,12 +260,12 @@ if (!state.isApproved) {
 
 function makeAdjustContract() {
   const _asset = data.underlyingToken.address;
-  const _assetSent = isCollIncrease ? ethers.utils.parseUnits(_assetAmount) : 0;
-  const _collWithdrawal = isCollIncrease
-    ? 0
-    : ethers.utils.parseUnits(_assetAmount);
-  const _debtTokenChange = 0;
-  const _isDebtIncrease = false;
+  const _assetSent = _assetAmount ? ethers.utils.parseUnits(_assetAmount) : 0;
+  const _collWithdrawal = 0;
+  const _debtTokenChange = _debtTokenAmount
+    ? ethers.utils.parseUnits(_debtTokenAmount)
+    : 0;
+  const _isDebtIncrease = Big(_debtTokenAmount || 0).gt(0);
   let _upperHint;
   let _lowerHint;
 
@@ -323,7 +313,7 @@ function makeAdjustContract() {
       abi,
       Ethers.provider().getSigner()
     ).adjustVessel(...params, {
-      gasLimit: 4000000,
+      gasLimit: 350000,
     });
   }
   if (IS_ETHOS_DAPP) {
@@ -365,12 +355,13 @@ function makeAdjustContract() {
       _upperHint,
       _lowerHint,
     ];
+    console.log(33333, params);
     return new ethers.Contract(
       data.config.BorrowerOperations,
       abi,
       Ethers.provider().getSigner()
     ).adjustTrove(...params, {
-      gasLimit: 4000000,
+      gasLimit: 350000,
     });
   }
 }
@@ -430,7 +421,7 @@ function handleAdjust() {
 
 return (
   <Button
-    disabled={state.pending || disabled || estimating || !state.isGasEnough}
+    disabled={state.pending || estimating || !state.isGasEnough}
     className={actionText.toLowerCase()}
     onClick={handleAdjust}
   >
