@@ -16,7 +16,7 @@ const handleOpenMenu = () => {
 };
 
 const handleCloseMenu = () => {
-  State.update({ showMenu: false });
+  State.update({ showMenu: false, show: false });
 };
 
 const handleSelectComponent = (component) => {
