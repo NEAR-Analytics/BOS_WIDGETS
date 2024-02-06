@@ -1,4 +1,4 @@
-const { normalize } = VM.require("${REPL_DEVHUB}/widget/core.lib.stringUtils");
+const { normalize } = VM.require("thomasguntenaar.near/widget/core.lib.stringUtils");
 
 normalize || (normalize = () => {});
 
@@ -40,7 +40,7 @@ const NavUnderline = styled.ul`
 
 const { tab, permissions, community, view } = props;
 
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -57,28 +57,28 @@ const [isLinkCopied, setLinkCopied] = useState(false);
 const tabs = [
   {
     title: "Announcements",
-    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Announcements",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Announcements",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Discussions",
-    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Discussions",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Discussions",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Activity",
-    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Activity",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Activity",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Teams",
-    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Teams",
+    view: "thomasguntenaar.near/widget/devhub.entity.community.Teams",
     params: {
       handle: community.handle,
     },
@@ -89,7 +89,7 @@ const tabs = [
   addon.enabled &&
     tabs.push({
       title: addon.display_name,
-      view: "${REPL_DEVHUB}/widget/devhub.page.addon",
+      view: "thomasguntenaar.near/widget/devhub.page.addon",
       params: { addon },
     });
 });
@@ -99,7 +99,7 @@ const onShareClick = () =>
     .writeText(
       href({
         gateway: "near.social",
-        widgetSrc: "${REPL_DEVHUB}/widget/app",
+        widgetSrc: "thomasguntenaar.near/widget/app",
         params: { page: "community", handle: community.handle },
       })
     )
@@ -243,10 +243,10 @@ return (
       <div className="d-flex align-items-end gap-3 ms-auto mb-md-5 me-4">
         {permissions.can_configure && (
           <Link
-            to={`/${REPL_DEVHUB}/widget/app?page=community.configuration&handle=${community.handle}`}
+            to={`/thomasguntenaar.near/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
@@ -270,7 +270,7 @@ return (
           </Link>
         )}
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark shadow-none" },
             notRounded: true,
@@ -300,7 +300,7 @@ return (
               <li className="nav-item" key={title}>
                 <Link
                   to={href({
-                    widgetSrc: "${REPL_DEVHUB}/widget/app",
+                    widgetSrc: "thomasguntenaar.near/widget/app",
                     params: {
                       page: "community",
                       handle: community.handle,
@@ -329,12 +329,12 @@ return (
               <span>Required tags:</span>
               <Link
                 to={href({
-                  widgetSrc: "${REPL_DEVHUB}/widget/app",
+                  widgetSrc: "thomasguntenaar.near/widget/app",
                   params: { page: "feed", tag: community.tag },
                 })}
               >
                 <Widget
-                  src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+                  src={"thomasguntenaar.near/widget/devhub.components.atom.Tag"}
                   props={{
                     tag: community.tag,
                   }}
@@ -345,12 +345,12 @@ return (
           {context.accountId && (
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
+                "thomasguntenaar.near/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "${REPL_DEVHUB}/widget/app",
+                  widgetSrc: "thomasguntenaar.near/widget/app",
                   params: {
                     page: "create",
                     labels: [community.tag],
