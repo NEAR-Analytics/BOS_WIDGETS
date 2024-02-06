@@ -298,6 +298,10 @@ const InfoSection = () => {
             Edit
           </Button>
         )}
+
+        {context.accountId !== accountId && (
+          <Widget src="james.near/widget/FollowButton" props={{ accountId }} />
+        )}
       </div>
       <div className="account-info-section">
         <h3>{profile.name}</h3>
