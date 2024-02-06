@@ -3,6 +3,7 @@ const onChange = props.onChange;
 const selectedSchema = props.selectedSchema;
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
+const expireTime = props.expireTime;
 const revokeDate = props.revokeDate;
 
 const Input = styled.input`
@@ -174,7 +175,7 @@ return (
       placeholder={recipientId}
     />
     <Label>
-      <b>Expire Date: </b>
+      <b>Expiration Date: </b>
     </Label>
     <Input
       type="date"
@@ -183,12 +184,12 @@ return (
       placeholder=""
     />
     <Label>
-      <b>Revoke Date: </b>
+      <b>Expiration Time: </b>
     </Label>
     <Input
-      type="date"
-      value={revokeDate}
-      onChange={(e) => State.update({ revokeDate: e.target.value })}
+      type="time"
+      value={expireTime}
+      onChange={(e) => State.update({ expireTime: e.target.value })}
       placeholder=""
     />
     <Label>
