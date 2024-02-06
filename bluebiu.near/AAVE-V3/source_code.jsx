@@ -242,6 +242,7 @@ const markets = [
     usageAsCollateralEnabled: true,
     variableBorrowAPY: "",
     variableDebtTokenAddress: "0x56f58d9BE10929CdA709c4134eF7343D73B080Cf",
+    LTV: 0.8,
   },
   {
     id: "",
@@ -260,6 +261,7 @@ const markets = [
     availableLiquidityUSD: "",
     variableBorrowAPY: "",
     supportPermit: false,
+    LTV: 0.8,
   },
   {
     id: "",
@@ -278,6 +280,7 @@ const markets = [
     availableLiquidityUSD: "",
     variableBorrowAPY: "",
     supportPermit: false,
+    LTV: 0.8,
   },
 
   {
@@ -297,6 +300,7 @@ const markets = [
     availableLiquidityUSD: "",
     variableBorrowAPY: "",
     supportPermit: false,
+    LTV: 0.97,
   },
   {
     id: "",
@@ -315,6 +319,7 @@ const markets = [
     availableLiquidityUSD: "",
     variableBorrowAPY: "",
     supportPermit: false,
+    LTV: 0.75,
   },
   {
     id: "",
@@ -333,10 +338,10 @@ const markets = [
     availableLiquidityUSD: "",
     variableBorrowAPY: "",
     supportPermit: false,
+    LTV: 0.75,
   },
 ];
 
-// console.log("markets", markets);
 const marketsMapping = markets.reduce((prev, cur) => {
   prev[cur.underlyingAsset] = cur;
   return prev;
@@ -1146,7 +1151,7 @@ const body = isChainSupported ? (
       chain: curChain,
       onSwitchChain: onSwitchChain,
       switchingChain: switchingChain,
-      theme: dexConfig.theme?.button,
+      theme: dexConfig.theme,
     }}
   />
 );
