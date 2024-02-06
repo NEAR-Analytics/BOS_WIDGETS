@@ -67,7 +67,7 @@ const data = fetch("https://graph.mintbase.xyz", {
   }),
 });
 let nfts = data?.body?.data?.mb_views_nft_tokens;
-
+if (!nfts) return "Loading";
 const nft_earnings = data?.body?.data?.nft_earnings;
 const nft_activities = data?.body?.data?.nft_activities;
 const owners =
@@ -91,12 +91,25 @@ if (nfts.length) {
   floorPrice = YoctoToNear(_price(lowestPrice).toString()) + " NEAR";
 }
 
+const sortByName = () => {
+  nfts.sort((a, b) => {
+    const nameA = a.title; // Ignore case during comparison
+    const nameB = b.title;
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    // names must be equal
+    return 0;
+  });
+};
+
 // Filter
 switch (filter) {
-  case "name":
-    nfts.sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
-    );
+  case "Name":
+    sortByName();
     break;
   case "Price: Low To High":
     nfts.sort((a, b) => {
@@ -125,6 +138,7 @@ switch (filter) {
     nfts = nfts.filter((nft) => nft.owner === accountId);
     break;
   default:
+    sortByName();
     break;
 }
 // GET Volume
@@ -294,7 +308,7 @@ const filterItems = [
     onSelect: () => setFilter("Owned by me"),
   },
 ];
-return nfts ? (
+return (
   <Container>
     {showHeader && (Header ?? <h1 className="store">{store}</h1>)}
     {description && description}
@@ -396,6 +410,4 @@ return nfts ? (
       }}
     />
   </Container>
-) : (
-  <p>loading...</p>
 );
