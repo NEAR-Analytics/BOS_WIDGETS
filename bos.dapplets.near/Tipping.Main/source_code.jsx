@@ -27,14 +27,11 @@ const LIMIT_PER_ITEM = 10;
 const STEP = 0.05
 const DEBOUNCE_DELAY = 2000; // in ms
 
-const [balanceTips, setBalanceTips] = useState('0');
-
-useEffect(() => {
-  const totalTipsByItemId = Near.view(TIPPING_CONTRACT_NAME, "getTotalTipsByItemId", {
+State.update({
+  totalTipsByItemId: Near.view(TIPPING_CONTRACT_NAME, "getTotalTipsByItemId", {
     itemId: itemGlobalId
   }, "final", true) || '0'
-  if (totalTipsByItemId !== balanceTips) setBalanceTips(totalTipsByItemId);
-}, []);
+})
 
 /**
  * From near-api-js/blob/master/packages/utils/src/format.ts
@@ -154,7 +151,7 @@ function calculateFee(num) {
 }
 
 useEffect(() => {
-  if (equals(balanceTips, '0')) {
+  if (equals(state.totalTipsByItemId, '0')) {
     State.update({
       accountId,
       disabled: false,
@@ -162,7 +159,7 @@ useEffect(() => {
       amount: '0',
       tooltip: 'Send donation',
     })
-  } else if (formatNear(balanceTips) === LIMIT_PER_ITEM) {
+  } else if (formatNear(state.totalTipsByItemId) === LIMIT_PER_ITEM) {
     State.update({
       accountId,
       disabled: true,
@@ -179,7 +176,7 @@ useEffect(() => {
       tooltip: 'Send donation',
     })
   }
-}, [accountId, balanceTips]);
+}, [accountId, state.totalTipsByItemId]);
 
 const onDebounceDonate = () => {
   State.update({
@@ -210,7 +207,7 @@ const onDebounceDonate = () => {
 const debouncedDonate = debounce(onDebounceDonate, DEBOUNCE_DELAY, 'donate')
 
 const onClick = () => {
-  const result = formatNear(sum(balanceTips, state.amount, STEP_YOCTO));
+  const result = formatNear(sum(state.totalTipsByItemId, state.amount, STEP_YOCTO));
   if (result > LIMIT_PER_ITEM) {
     if (state.amount === '0') {
       State.update({
@@ -231,7 +228,7 @@ const onClick = () => {
     })
     return
   }
-  const expectedItemAmount = sum(balanceTips, state.amount, STEP_YOCTO)
+  const expectedItemAmount = sum(state.totalTipsByItemId, state.amount, STEP_YOCTO)
   const expectedExpenses = sum(state.amount, STEP_YOCTO)
   if (lte(expectedItemAmount, MAX_AMOUNT_PER_ITEM) && lte(expectedExpenses, MAX_AMOUNT_PER_TIP)) {
     State.update({
@@ -247,7 +244,7 @@ const TippingButton = styled.button`
   display: flex;
   position: relative;
   width: 85px;
-  height: ${(props) => (props.isYouTube ? '36px' : '18px')};
+  height: '18px';
   padding: 0;
   align-items: center;
   flex-shrink: 0;
@@ -346,9 +343,9 @@ const TippingButton = styled.button`
 `;
 
 const createLabel = () => {
-  if (balanceTips === '0' && state.amount === '0') return state.isHovered ? '+ ' + STEP : 'Tip'
+  if (state.totalTipsByItemId === '0' && state.amount === '0') return state.isHovered ? '+ ' + STEP : 'Tip'
   if (state.amount === '0') {
-    return state.isHovered ? '+ ' + STEP : formatNear(balanceTips)
+    return state.isHovered ? '+ ' + STEP : formatNear(state.totalTipsByItemId)
   } else {
     return '+ ' + (state.isHovered ? formatNear(sum(state.amount, STEP_YOCTO)) : formatNear(state.amount))
   }
@@ -362,7 +359,6 @@ return (
       onMouseLeave={() => State.update({ isHovered: false })}
       onClick={onClick}
       className={state.loading ? "loading " : ""}
-      isYouTube={props?.context?.parent?.parsed?.websiteName === 'YouTube'}
     >
       <div className="progress-bar"/>
       <div className="icon">
