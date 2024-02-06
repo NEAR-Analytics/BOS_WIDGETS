@@ -227,11 +227,11 @@ const config = getConfig(context.networkId);
 const markets = [
   {
     aTokenAddress: "0x9002ecb8a06060e3b56669c6B8F18E1c3b119914",
-    availableLiquidity: 0, //TODO
+    availableLiquidity: 0,
     availableLiquidityUSD: "",
     borrowingEnabled: true,
     decimals: 18,
-    id: "",
+    id: "1",
     isIsolated: false,
     marketReferencePriceInUsd: prices["ETH"],
     name: "Ethereum",
@@ -245,7 +245,7 @@ const markets = [
     LTV: 0.8,
   },
   {
-    id: "",
+    id: "2",
     underlyingAsset: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
     name: "Wrapped Ether",
     symbol: "WETH",
@@ -264,7 +264,7 @@ const markets = [
     LTV: 0.8,
   },
   {
-    id: "",
+    id: "3",
     underlyingAsset: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
     name: "USD Coin",
     symbol: "USDC",
@@ -284,7 +284,7 @@ const markets = [
   },
 
   {
-    id: "",
+    id: "4",
     underlyingAsset: "0x493257fd37edb34451f62edf8d2a0c418852ba4c",
     name: "Tether USD",
     symbol: "USDT",
@@ -303,7 +303,7 @@ const markets = [
     LTV: 0.97,
   },
   {
-    id: "",
+    id: "5",
     underlyingAsset: "0x493257fd37edb34451f62edf8d2a0c418852ba4c",
     name: "Dai Stablecoin",
     symbol: "DAI",
@@ -322,7 +322,7 @@ const markets = [
     LTV: 0.75,
   },
   {
-    id: "",
+    id: "6",
     underlyingAsset: "0x503234F203fC7Eb888EEC8513210612a43Cf6115",
     decimals: 18,
     symbol: "LUSD",
@@ -341,6 +341,63 @@ const markets = [
     LTV: 0.75,
   },
 ];
+
+function getLiquidity() {
+  const aTokenAddresss = markets.map((item) => item.aTokenAddress);
+  const variableDebtTokenAddresss = markets.map(
+    (item) => item.variableDebtTokenAddress
+  );
+
+  const calls = aTokenAddresss
+    .map((addr) => ({
+      address: addr,
+      name: "totalSupply",
+    }))
+    .concat(
+      variableDebtTokenAddresss.map((addr) => ({
+        address: addr,
+        name: "totalSupply",
+      }))
+    );
+
+  multicall({
+    abi: [
+      {
+        inputs: [],
+        name: "totalSupply",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("getLiquidity_res", res);
+      const l = res.length;
+      const aTokenTotal = res.slice(0, l / 2);
+      const debtTotal = res.slice(l / 2);
+
+      for (let i = 0; i < markets.length; i++) {
+        const liquidityAmount = Big(aTokenTotal[i])
+          .minus(Big(debtTotal[i]))
+          .toFixed();
+        markets[i].availableLiquidity = liquidityAmount;
+        markets[i].availableLiquidityUSD = Big(
+          ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
+        )
+          .mul(prices[markets[i].symbol])
+          .toFixed();
+      }
+    })
+    .catch((err) => {
+      console.log("getLiquidity_err", err);
+    });
+}
+getLiquidity();
 
 const marketsMapping = markets.reduce((prev, cur) => {
   prev[cur.underlyingAsset] = cur;
@@ -1072,6 +1129,7 @@ const body = isChainSupported ? (
             formatHealthFactor,
             withdrawETHGas,
             withdrawERC20Gas,
+            account,
           }}
         />
         <Widget
