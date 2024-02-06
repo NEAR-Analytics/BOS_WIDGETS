@@ -85,7 +85,6 @@ const Wrapper = styled.div`
   .content-blur-wrapper {
     overflow: hidden;
     width: 100%;
-    margin-top: 12px;
     border-radius: 16px;
     border: 1px solid rgb(207, 217, 222);
     aspect-ratio: 1.777;
