@@ -1,5 +1,5 @@
 const multiSelectMode = props.multiSelectMode ?? false;
-let { proposalString, proposalId, daoId, daoConfig, showNavButton } = props;
+let { proposalString, proposalId, daoId, daoConfig } = props;
 const accountId = context.accountId;
 
 const CoADaoId = props.dev
@@ -291,6 +291,19 @@ const expensiveWork = () => {
           : isAllowedTo(proposalKinds[kindName], actions.VoteRemove)
       ];
 
+  // --- end check user permissions
+  // --- Votes required:
+  // TODO: Needs to be reviewed
+
+  // Fixes pikespeak API for single proposal
+  Object.keys(my_proposal.vote_counts).forEach((k) => {
+    if (typeof my_proposal.vote_counts[k] !== "string") return;
+    my_proposal.vote_counts[k] = my_proposal.vote_counts[k]
+      .match(/.{1,2}/g)
+      .slice(0, 3)
+      .map((a) => parseInt(a));
+  });
+
   let totalVotesNeeded = 0;
 
   if (policy?.roles) {
@@ -327,13 +340,13 @@ const expensiveWork = () => {
   }
 
   if (isVotingBodyDao) {
-    const votesConfig = Near.view(daoId, "get_proposal_consent", {
-      id: proposal.id
-    });
-    if (votesConfig === null) {
-      return;
+    if (my_proposal.typeName === "Dissolve") {
+      totalVotesNeeded = daoConfig?.super_consent?.quorum;
+    } else if (my_proposal.typeName === "Pre Vote") {
+      totalVotesNeeded = daoConfig?.pre_vote_support;
+    } else {
+      totalVotesNeeded = daoConfig?.simple_consent?.quorum;
     }
-    totalVotesNeeded = votesConfig.quorum;
   }
 
   let totalVotes = {
@@ -344,14 +357,11 @@ const expensiveWork = () => {
     total: 0
   };
 
-  Object.values(my_proposal.votes).forEach((vote) => {
-    if (vote === "Approve") {
-      totalVotes.yes++;
-    } else if (vote === "Reject") {
-      totalVotes.no++;
-    } else if (vote === "Remove") {
-      totalVotes.spam++;
-    }
+  Object.keys(my_proposal.vote_counts).forEach((key) => {
+    if (key === "all") return;
+    totalVotes.yes += my_proposal.vote_counts[key][0];
+    totalVotes.no += my_proposal.vote_counts[key][1];
+    totalVotes.spam += my_proposal.vote_counts[key][2];
   });
 
   if (isVotingBodyDao) {
@@ -483,7 +493,7 @@ const handleVote = ({
         contractName: daoId,
         methodName: isCongressDaoID ? "vote" : "act_proposal",
         args: args,
-        gas: 300000000000000
+        gas: 200000000000000
       }
     ];
     if (showNotification) {
@@ -576,8 +586,7 @@ return (
       dev: props.dev,
       HoMDaoId,
       CoADaoId,
-      registry,
-      showNavButton
+      registry
     }}
   />
 );
