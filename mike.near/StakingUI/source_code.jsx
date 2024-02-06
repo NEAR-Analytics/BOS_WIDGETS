@@ -42,9 +42,6 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
     display: "flex",
     flexDirection: "column",
     transition: "opacity 0.3s ease-out",
-    // transform: "rotate(19deg) skewX(31deg) skewY(19deg) scale(.666)",
-    // transform: "rotate(19deg)",
-    // transformOrigin = "50% 66%",
   };
 
   const titleStyle = {
@@ -318,7 +315,6 @@ useEffect(async () => {
 const LoadingModal = () => {
   // This helps with the flash of red if it hasn't loaded yet
   if (!!!ProgressBar) {
-    // console.log('ProgressBar not ready');
     return <></>;
   } else {
     if (!!!context.accountId) {
@@ -373,25 +369,22 @@ const stakingModalDisplayStyles = {
 };
 
 const StakeUnstakeWithdrawModal = () => {
-  // This helps with the flash of red if it hasn't loaded yet
-  if (!!!StakeUnstakeWithdraw) {
+  if (!StakeUnstakeWithdraw) {
     return <></>;
   } else {
     const handleOutsideClick = (e) => {
-      // because we stop event propagation, we can just close it here
       setShowStakingModal(false);
     };
 
     const outerDivStyle = {
       position: "fixed",
-      top: 0,
+      top: "6%",
       left: 0,
       width: "100%",
-      // height: "100%",
-      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      backgroundImage:
+        "radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 66%, transparent 80%)",
       display: "flex",
       justifyContent: "center",
-      alignItems: "center",
       zIndex: 998,
       cursor: "pointer",
       ...stakingModalDisplayStyles,
@@ -402,19 +395,16 @@ const StakeUnstakeWithdrawModal = () => {
       position: "relative",
       width: "37%",
       height: "auto",
-      maxHeight: "90%",
+      overflowY: "hidden",
       padding: "1%",
       background:
         "radial-gradient(ellipse, rgba(151, 151, 255, .8) 19%, rgba(0, 0, 0, 0.8) 100%)",
-      // backgroundColor: "rgba(0, 0, 0, .3)",
-      backdropFilter: "grayscale(100%)",
       borderRadius: "13px",
       boxShadow:
         "0 0 15px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4), 0 0 25px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.2), 0 0 35px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
     };
 
     return (
@@ -479,7 +469,6 @@ if (!!!context.accountId) {
             textShadow: `-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,3px 3px 3px #000`,
             letterSpacing: "6px",
             textTransform: "uppercase",
-            // boxShadow: "3px 3px 3px 3px #f2f1e9",
           }}
         >
           Staking
@@ -535,6 +524,7 @@ if (!!!context.accountId) {
                       height: "6px",
                       background:
                         "linear-gradient(to right, #00ec97, #fff, #00ec97)",
+                      filter: "saturate(19%)",
                     }}
                   />
                 </div>
@@ -572,21 +562,10 @@ if (!!!context.accountId) {
                         // overflow: "hidden",
                       }}
                     >
-                      <span
-                        style={
-                          {
-                            // overflow: "hidden",
-                            // whiteSpace: "nowrap",
-                            // textOverflow: "ellipsis",
-                          }
-                        }
-                      >
-                        {formatNearAmount(detail.stakedBalance)}
-                      </span>
+                      <span>{formatNearAmount(detail.stakedBalance)}</span>
                       <button
                         style={{
                           marginLeft: "10px",
-                          // whiteSpace: 'nowrap',
                         }}
                         onClick={() =>
                           walletStake({
@@ -651,7 +630,6 @@ if (!!!context.accountId) {
               </div>
             </div>
 
-            {/*<div style={{backgroundColor: "rgba(0, 0, 0, 0.6)", padding: "10px", margin: "auto", maxWidth: "85%"}}>*/}
             <div
               style={{
                 background:
@@ -701,6 +679,7 @@ if (!!!context.accountId) {
                       height: "6px",
                       background:
                         "linear-gradient(to right, #ff7966, #fff, #ff7966)",
+                      filter: "saturate(19%)",
                     }}
                   />
                 </div>
