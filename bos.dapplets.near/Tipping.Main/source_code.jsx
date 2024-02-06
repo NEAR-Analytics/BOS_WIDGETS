@@ -11,6 +11,9 @@ if (props.accountGId && props.itemGId) {
 } else if (props.context && props.context.id && props.context.authorUsername) {
   accountId = props.context.authorUsername + '/twitter';
   itemGlobalId = 'tweet/' + props.context.id;
+} else if (props.context?.parsed?.id && props.context?.parsed?.authorUsername) {
+  accountId = props.context.parsed.authorUsername + '/twitter';
+  itemGlobalId = 'tweet/' + props.context.parsed.id;
 } else {
   console.error('The context should provide accountGId with itemGId or accountId with blockHeight props.');
   return <></>;
