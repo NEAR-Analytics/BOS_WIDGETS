@@ -319,7 +319,7 @@ const InfoSection = () => {
         <Widget
           src="mob.near/widget/Image"
           loading=""
-          props={{ image: profile.image }}
+          props={{ image: profile.image, className: "me-3" }}
         />
 
         {context.accountId === accountId && (
