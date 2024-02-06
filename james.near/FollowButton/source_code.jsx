@@ -55,12 +55,6 @@ return (
     } rounded-5`}
     data={data}
   >
-    {loading
-      ? "Loading"
-      : follow
-      ? "Connected"
-      : inverse
-      ? "Mutual"
-      : "Connect"}
+    {loading ? "Loading" : follow ? "Undo" : "Connect"}
   </CommitButton>
 );
