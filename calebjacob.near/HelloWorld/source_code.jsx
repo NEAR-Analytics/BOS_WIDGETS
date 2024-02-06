@@ -16,12 +16,14 @@
   to see your changes reflected in the <Component /> reference.
 */
 
+import { useState } from 'react';
+
 export function BWEComponent() {
   const [count, setCount] = useState(0);
 
   return (
-    <div>
-      <h1>Welcome!!!</h1>
+    <div className="wrapper">
+      <h1>Welcome!</h1>
 
       <Component
         src="calebjacob.near/Message"
