@@ -7,6 +7,8 @@ const handleRemoveWidget = (linkId) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 12px;
+  gap: 10px;
 `;
 
 const WidgetBadgeWrapper = styled.div`
