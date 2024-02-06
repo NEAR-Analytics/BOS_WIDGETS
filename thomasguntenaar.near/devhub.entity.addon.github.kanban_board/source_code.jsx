@@ -1,5 +1,5 @@
 const { DataRequest } = VM.require(
-  "${REPL_DEVHUB}/widget/core.lib.data-request"
+  "thomasguntenaar.near/widget/core.lib.data-request"
 );
 DataRequest || (DataRequest = { paginated: () => {} });
 
@@ -157,7 +157,7 @@ const GithubKanbanBoard = ({
                   <div class="d-flex flex-column gap-2">
                     {tickets.map((ticket) => (
                       <Widget
-                        src={`${REPL_DEVHUB}/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                        src={`thomasguntenaar.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
                         props={{ metadata: metadata.ticket, payload: ticket }}
                         key={ticket.id}
                       />
