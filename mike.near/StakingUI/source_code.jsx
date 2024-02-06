@@ -1,7 +1,14 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
 
-const openAnotherModal = (validatorAddress, amount) => {
-  Near.call(validatorAddress, "unstake", { amount });
+const openAnotherModal = ({ validator, method, amount }) => {
+  switch (method) {
+    case "stake":
+      Near.call(validator, "deposit_and_stake", { amount }, null, amount);
+      break;
+    case "unstake":
+      Near.call(validator, "unstake", { amount });
+      break;
+  }
 };
 
 const yoctoZeroes = "000000000000000000000000";
@@ -12,10 +19,13 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
     // eventually add fade-out effect
     setShowStakingModal(false);
   };
-
   const handleUnstake = (amount) => {
     console.log("Unstaking...", amount);
-    openAnotherModal(validator, amount);
+    openAnotherModal({ validator, method, amount });
+  };
+  const handleStake = (amount) => {
+    console.log("Staking...", amount);
+    openAnotherModal({ validator, method, amount });
   };
 
   const containerStyle = {
@@ -64,10 +74,19 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
         }}
       />
       <button
-        onClick={(e) => handleUnstake(`${stakingAmount}${yoctoZeroes}`)}
+        onClick={(e) => {
+          console.log("aloha method", method);
+          if (method === "unstake") {
+            handleUnstake(`${stakingAmount}${yoctoZeroes}`);
+          } else if (method === "stake") {
+            // Assuming you have a function handleStake for the "stake" action
+            handleStake(`${stakingAmount}${yoctoZeroes}`);
+          }
+        }}
         style={{ padding: "13px", margin: "13px auto", display: "block" }}
       >
-        Unstake
+        {/* Assuming you want to dynamically change the button text as well */}
+        {method === "unstake" ? "Unstake" : "Stake"}
       </button>
       <button
         onClick={handleCancel}
@@ -341,6 +360,11 @@ const walletUnstake = ({ validator, amount }) => {
   setStakingModalData({ validator, method: "unstake", amount });
   setShowStakingModal(true);
 };
+const walletStake = ({ validator, amount }) => {
+  console.log("aloha stake validator", validator);
+  setStakingModalData({ validator, method: "stake", amount });
+  setShowStakingModal(true);
+};
 
 // debug by commenting this badboy out to see it
 const stakingModalDisplayStyles = {
@@ -363,7 +387,7 @@ const StakeUnstakeWithdrawModal = () => {
       top: 0,
       left: 0,
       width: "100%",
-      height: "100%",
+      // height: "100%",
       backgroundColor: "rgba(0, 0, 0, 0.6)",
       display: "flex",
       justifyContent: "center",
@@ -426,173 +450,292 @@ if (!!!context.accountId) {
   return (
     <div
       style={{
-        fontFamily: "'Lucida Console', Monaco, monospace",
-        padding: "6px",
+        position: relative,
+        width: "100%",
+        filter: "contrast(166%)",
       }}
     >
-      <LoadingModal />
-      <StakeUnstakeWithdrawModal />
-      <h1 style={{ color: "#fff" }}>Staking</h1>
-      <div>
+      <div
+        style={{
+          fontFamily: "'Lucida Console', Monaco, monospace",
+          padding: "13px 16px",
+          maxWidth: "900px",
+          margin: "0 auto",
+          background: `radial-gradient(circle at top right, slategray, transparent 80%), 
+                         radial-gradient(circle at center, darkslategray, transparent 83%)`,
+          backgroundImage:
+            'url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxmaWx0ZXIgaWQ9Im4iPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjYiIG51bU9jdGF2ZXM9IjEiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMSAwIDAgMCAwICAwIDEgMCAwIDAgIDAgMCAxIDAgMCAgMCAwIDAgMC41IDAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIC8+PC9zdmc+")',
+          backgroundBlendMode: "hard-light",
+          borderRadius: "16px 16px 0 0",
+          filter: "saturate(6) grayscale(6%)",
+        }}
+      >
+        <LoadingModal />
+        <StakeUnstakeWithdrawModal />
+        <h1
+          style={{
+            textAlign: "center",
+            color: "#f2f1e9",
+            textShadow: `-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,3px 3px 3px #000`,
+            letterSpacing: "6px",
+            textTransform: "uppercase",
+            // boxShadow: "3px 3px 3px 3px #f2f1e9",
+          }}
+        >
+          Staking
+        </h1>
         <div>
           <div>
-            <h3>Highlighted</h3>
             <div
-              className="faux-table"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "6px 0",
+                background:
+                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.42) 30%, rgba(0, 0, 0, 0.2) 70%)",
+                padding: "10px",
+                margin: "auto",
+                marginBottom: "13px",
+                color: "#fff",
+                borderRadius: "6px",
               }}
             >
+              <h3>Active</h3>
               <div
+                className="faux-table"
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  margin: "6px 0",
+                  borderRadius: "6px",
+                  boxShadow: "0 0 1px 0 #f2f1e9",
                 }}
               >
                 <div
-                  className="faux-table-header"
                   style={{
                     display: "flex",
-                    borderRadius: "6px 6px 0 0",
-                    background: "#000",
-                    color: "#f2f1e9",
-                    textTransform: "uppercase",
-                    padding: "9px",
-                    fontWeight: "bold",
+                    flexDirection: "column",
                   }}
                 >
-                  <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>Unstaked</div>
-                  <div style={{ flex: 1, padding: "0 10px" }}>Can Withdraw</div>
-                </div>
-                <div
-                  style={{
-                    height: "6px",
-                    background:
-                      "linear-gradient(to right, #00ec97, #fff, #00ec97)",
-                  }}
-                />
-              </div>
-
-              {highlightedRows.map((detail) => (
-                <div
-                  key={detail.validatorAddress}
-                  className="faux-table-row"
-                  style={{
-                    display: "flex",
-                    background: "#111",
-                    color: "#fff",
-                    borderBottom: "1px solid #333",
-                    padding: "10px",
-                  }}
-                >
-                  <div style={{ flex: 3, padding: "0 10px" }}>
-                    {detail.validatorAddress}
-                  </div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>
-                    {formatNearAmount(detail.stakedBalance)}
-                    <button style={{ marginLeft: "10px" }}>Stake</button>
-                  </div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>
-                    {formatNearAmount(detail.unstakedBalance) === "0.000"
-                      ? "—"
-                      : formatNearAmount(detail.unstakedBalance)}
-                    <button
-                      onClick={() =>
-                        walletUnstake({
-                          validator: detail.validatorAddress,
-                          amount: detail.stakedBalance,
-                        })
-                      }
-                    >
-                      Unstake
-                    </button>
-                    {detail.isUnstakedBalanceAvailable ? (
-                      <button
-                        style={{ marginLeft: "10px" }}
-                        onClick={() => console.log("unimplemented bro")}
-                      >
-                        Withdraw
-                      </button>
-                    ) : null}
+                  <div
+                    className="faux-table-header"
+                    style={{
+                      display: "flex",
+                      borderRadius: "6px 6px 0 0",
+                      background: "#000",
+                      color: "#f2f1e9",
+                      textTransform: "uppercase",
+                      padding: "9px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    <div style={{ flex: 2, padding: "0 10px" }}>Validator</div>
+                    <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
+                    <div style={{ flex: 2, padding: "0 10px" }}>Unstaked</div>
                   </div>
                   <div
                     style={{
-                      flex: 1,
-                      padding: "0 10px",
+                      height: "6px",
+                      background:
+                        "linear-gradient(to right, #00ec97, #fff, #00ec97)",
+                    }}
+                  />
+                </div>
+                {highlightedRows.map((detail) => (
+                  <div
+                    key={detail.validatorAddress}
+                    className="faux-table-row"
+                    style={{
+                      display: "flex",
+                      background: "#111",
+                      color: "#fff",
+                      borderBottom: "1px solid rgba(250, 250, 250, 0.3)",
+                      padding: "10px",
+                      alignItems: "center",
                     }}
                   >
-                    {detail.isUnstakedBalanceAvailable !== null
-                      ? detail.isUnstakedBalanceAvailable.toString()
-                      : ""}
+                    <div
+                      style={{
+                        flex: 2,
+                        padding: "0 10px",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {detail.validatorAddress}
+                    </div>
+                    <div
+                      style={{
+                        flex: 2,
+                        padding: "0 10px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        // overflow: "hidden",
+                      }}
+                    >
+                      <span
+                        style={
+                          {
+                            // overflow: "hidden",
+                            // whiteSpace: "nowrap",
+                            // textOverflow: "ellipsis",
+                          }
+                        }
+                      >
+                        {formatNearAmount(detail.stakedBalance)}
+                      </span>
+                      <button
+                        style={{
+                          marginLeft: "10px",
+                          // whiteSpace: 'nowrap',
+                        }}
+                        onClick={() =>
+                          walletStake({
+                            validator: detail.validatorAddress,
+                            amount: "0",
+                          })
+                        }
+                      >
+                        Stake
+                      </button>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flex: 2,
+                        padding: "0 10px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          flex: 1,
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {formatNearAmount(detail.unstakedBalance) === "0.000"
+                          ? "—"
+                          : formatNearAmount(detail.unstakedBalance)}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "start",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        <button
+                          onClick={() =>
+                            walletUnstake({
+                              validator: detail.validatorAddress,
+                              amount: detail.stakedBalance,
+                            })
+                          }
+                          style={{ marginBottom: "10px" }}
+                        >
+                          Unstake
+                        </button>
+                        {detail.isUnstakedBalanceAvailable && (
+                          <button
+                            onClick={() => console.log("unimplemented bro")}
+                          >
+                            Withdraw
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3>Others</h3>
+            {/*<div style={{backgroundColor: "rgba(0, 0, 0, 0.6)", padding: "10px", margin: "auto", maxWidth: "85%"}}>*/}
             <div
-              className="faux-table"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                margin: "6px 0",
+                background:
+                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.42) 30%, rgba(0, 0, 0, 0.1) 70%)",
+                padding: "10px",
+                margin: "auto",
+                maxWidth: "85%",
+                color: "#fff",
+                borderRadius: "6px",
+                maxHeight: "100vh",
+                overflow: "auto",
               }}
             >
+              <h3>Others</h3>
               <div
+                className="faux-table"
                 style={{
                   display: "flex",
                   flexDirection: "column",
+                  margin: "6px 0",
+                  borderRadius: "6px",
+                  boxShadow: "0 0 1px 0 #f2f1e9",
                 }}
               >
                 <div
-                  className="faux-table-header"
                   style={{
                     display: "flex",
-                    borderRadius: "6px 6px 0 0",
-                    background: "#000",
-                    color: "#f2f1e9",
-                    textTransform: "uppercase",
-                    padding: "10px",
-                    fontWeight: "bold",
+                    flexDirection: "column",
                   }}
                 >
-                  <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>Staked</div>
+                  <div
+                    className="faux-table-header"
+                    style={{
+                      display: "flex",
+                      borderRadius: "6px 6px 0 0",
+                      background: "#000",
+                      color: "#f2f1e9",
+                      textTransform: "uppercase",
+                      padding: "10px",
+                      fontSize: "1.3em",
+                    }}
+                  >
+                    <div style={{ flex: 3, padding: "0 10px" }}>Validator</div>
+                  </div>
+                  <div
+                    style={{
+                      height: "6px",
+                      background:
+                        "linear-gradient(to right, #ff7966, #fff, #ff7966)",
+                    }}
+                  />
                 </div>
-                <div
-                  style={{
-                    height: "6px",
-                    background:
-                      "linear-gradient(to right, #ff7966, #fff, #ff7966)",
-                  }}
-                />
+                {rangedRows.map((detail) => (
+                  <div
+                    key={detail.validatorAddress}
+                    className="faux-table-row"
+                    style={{
+                      display: "flex",
+                      background: "#111",
+                      color: "#fff",
+                      borderBottom: "1px solid rgba(250, 250, 250, 0.3)",
+                      padding: "10px",
+                      alignItems: "center",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        flex: 3,
+                        padding: "0 10px",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        marginRight: "10px",
+                      }}
+                    >
+                      {detail.validatorAddress}
+                    </div>
+                    <div style={{ flex: 1, padding: "0 10px" }}>
+                      <button style={{ marginLeft: "10px" }}>Stake</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              {rangedRows.map((detail) => (
-                <div
-                  key={detail.validatorAddress}
-                  className="faux-table-row"
-                  style={{
-                    display: "flex",
-                    background: "#111",
-                    color: "#fff",
-                    borderBottom: "1px solid #333",
-                    padding: "10px",
-                  }}
-                >
-                  <div style={{ flex: 3, padding: "0 10px" }}>
-                    {detail.validatorAddress}
-                  </div>
-                  <div style={{ flex: 2, padding: "0 10px" }}>
-                    <button style={{ marginLeft: "10px" }}>Stake</button>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
