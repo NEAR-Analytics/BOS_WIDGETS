@@ -336,7 +336,10 @@ for (let i = 0; i < data.body.length; i++) {
               </span>
             </div>
             <div className="p-4">
-              <img style={screen} src={`${frank.screenshotUrl}`}></img>
+              <a href={`${frank.url}`} target="_blank">
+                {" "}
+                <img style={screen} src={`${frank.screenshotUrl}`}></img>{" "}
+              </a>
             </div>
           </div>
         </div>
@@ -482,7 +485,7 @@ return (
       </div>
       <div style={{ width: "100%", height: "85px" }}></div>
       <Widget
-        src="forefront_tak.near/widget/Forefront.footer"
+        src="forefront_tak.near/widget/Forefront.Footer"
         props={{
           beBackground: "#fff",
           titlenelowBackground: themeColor?.footer?.titlenelowBackground,
