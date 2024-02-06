@@ -170,9 +170,9 @@ return (
     </Label>
     <Input
       type="text"
-      value="recipient.near"
+      value={recipientId}
       onChange={(e) => State.update({ recipientId: e.target.value })}
-      placeholder={recipientId}
+      placeholder="recipient.near"
     />
     <Label>
       <b>Expiration Date: </b>
