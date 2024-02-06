@@ -79,7 +79,6 @@ const Button = styled.button`
 `;
 
 const {
-  disabled,
   actionText,
   data,
   chainId,
@@ -92,7 +91,8 @@ const {
   _assetAmount,
   _debtTokenAmount,
   onApprovedSuccess,
-  isBigerThanBalance,
+  isAssetBigerThanBalance,
+  isDebtBigerThanBalance,
   collateralRatio,
   yourLTV,
   IS_ETHOS_DAPP,
@@ -230,7 +230,7 @@ if (actionText === "Close") {
   return (
     <Button
       onClick={handleClose}
-      disabled={state.pending || disabled}
+      disabled={state.pending}
       className={actionText.toLowerCase()}
     >
       {state.pending ? (
@@ -256,7 +256,7 @@ if (!_assetAmount) {
 }
 
 if (IS_GRAVITA_DAPP && IS_PREON_DAPP) {
-  if (isBigerThanBalance) {
+  if (isAssetBigerThanBalance || isDebtBigerThanBalance) {
     return (
       <Button disabled={true} className={actionText.toLowerCase()}>
         Insufficient Balance
@@ -561,7 +561,7 @@ function handleBorrow() {
 return (
   <>
     <Button
-      disabled={state.pending || disabled || estimating || !state.isGasEnough}
+      disabled={state.pending || estimating || !state.isGasEnough}
       className={actionText.toLowerCase()}
       onClick={handleBorrow}
     >
