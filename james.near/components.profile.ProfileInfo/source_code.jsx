@@ -79,35 +79,6 @@ const Container = styled.div`
     }
   }
 
-  .about-section {
-          color: var(--White-100, #fff);
-
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    h3 {
-      color: var(--White-100, #fff);
-      /* Body/10px */
-      font-size: 17px;
-      font-style: normal;
-      font-weight: 555;
-      line-height: normal;
-      margin: 0;
-    }
-
-    p {
-      color: var(--White-100, #fff);
-
-      /* Body/14px */
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 170%; /* 23.8px */
-      margin: 0;
-    }
-  }
-
   .link-section {
     display: flex;
     flex-direction: column;
@@ -344,12 +315,6 @@ const InfoSection = () => {
       <div className="badge-section">
         <Badges tags={profile.tags} />
       </div>
-      {profile.description && (
-        <div className="about-section">
-          <h3>ABOUT</h3>
-          <Markdown text={profile.description} />
-        </div>
-      )}
       {profile.location && (
         <div className="location-section">
           <span>
