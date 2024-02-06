@@ -17,7 +17,7 @@ const StyledBox = styled.div`
     100% {
       opacity: 1;
       transform: translateY(0);
-      height: 292px;
+      height: 300px;
       border: 1px solid #373a53;
       border-top: none;
     }
@@ -27,7 +27,7 @@ const StyledBox = styled.div`
     0% {
       opacity: 1;
       transform: translateY(0);
-      height: 292px;
+      height: 300px;
       border: 1px solid #373a53;
       border-top: none;
     }
@@ -409,9 +409,7 @@ useEffect(() => {
     }
     State.update({
       totalDebt: Big(totalDebt || 0).toFixed(2),
-      yourLTV: Big(_yourLTV || 0)
-        .mul(100)
-        .toFixed(2),
+      yourLTV: Big(_yourLTV || 0).toFixed(2),
       borrowingFee,
       liquidationPrice,
       borrowTokenBal,
@@ -567,7 +565,8 @@ return (
             {state.tab === "Adjust" && (
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
             )}
-            {IS_GRAVITA_DAPP || IS_PREON_DAPP ? (
+            {(state.tab === "Borrow" || state.tab === "Adjust") &&
+            (IS_GRAVITA_DAPP || IS_PREON_DAPP) ? (
               <StyledInfoItem>
                 <div>Your LTV</div>
                 <div className="white">
