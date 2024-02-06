@@ -29,10 +29,6 @@ const Row = styled.div`
 const Label = styled.label`
 `;
 
-State.init({
-  ...item.value,
-});
-
 function generateUID() {
   const length = 16; // This will create a 64-bit number (16 hexadecimal characters)
   // randomly change the case of a character
@@ -47,14 +43,10 @@ function generateUID() {
   return uid;
 }
 
-let UID = generateUID();
-const handleUID = (e) => {
-  const newUID = e.target.value;
-  State.update({
-    UID: newUID,
-  });
-  return UID;
-};
+State.init({
+  ...item.value,
+  UID: generateUID(),
+});
 
 const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
@@ -163,6 +155,22 @@ function Property({ property, value }) {
 
 return (
   <Container>
+    <Row>
+      <Label>UID</Label>
+    </Row>
+    <Input
+      type="text"
+      value={state.UID}
+      readOnly // Make this field read-only if you don't want users to edit it
+    />
+    <Row>
+      <Label>Attestor</Label>
+    </Row>
+    <Input
+      type="text"
+      value={context.accountId}
+      readOnly // Make this field read-only if you don't want users to edit it
+    />
     {createWidgetSrc ? (
       <>
         <Widget src={createWidgetSrc} props={{ onChange }} />
