@@ -420,7 +420,7 @@ useEffect(() => {
   if (IS_PREON_DAPP) {
     let assetInUSD,
       totalDebt,
-      _yourLTV,
+      yourLTV,
       borrowingFee,
       liquidationPrice,
       borrowTokenBal;
@@ -431,6 +431,9 @@ useEffect(() => {
     totalDebt = Big(state.borrowAmount || 0)
       .plus(Big(borrowingFee))
       .plus(liquidationFee)
+      .toFixed();
+    yourLTV = Big(totalDebt)
+      .div(Big(state.amount).mul(prices[data.underlyingToken.symbol]))
       .toFixed();
     liquidationPrice = Big(totalDebt)
       .div(Big(state.amount).mul(Big(data["MAX_LTV"])))
@@ -454,9 +457,7 @@ useEffect(() => {
 
     State.update({
       totalDebt,
-      // yourLTV: Big(_yourLTV || 0)
-      //   .mul(100)
-      //   .toFixed(2),
+      yourLTV,
       borrowingFee,
       liquidationPrice,
       borrowTokenBal,
@@ -566,13 +567,17 @@ return (
             {state.tab === "Adjust" && (
               <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
             )}
-            {IS_GRAVITA_DAPP ||
-              (IS_PREON_DAPP && (
-                <StyledInfoItem>
-                  <div>Your LTV</div>
-                  <div className="white">{state.yourLTV}%</div>
-                </StyledInfoItem>
-              ))}
+            {IS_GRAVITA_DAPP || IS_PREON_DAPP ? (
+              <StyledInfoItem>
+                <div>Your LTV</div>
+                <div className="white">
+                  {Big(state.yourLTV || 0)
+                    .mul(100)
+                    .toFixed(2)}
+                  %
+                </div>
+              </StyledInfoItem>
+            ) : null}
 
             {IS_ETHOS_DAPP && (
               <StyledInfoItem>
@@ -594,30 +599,31 @@ return (
                 </div>
               </StyledInfoItem>
             )}
-            {state.tab === "Borrow" && (
-              <StyledInfoItem>
-                <div>Liquidation Price</div>
-                <div className="white">
-                  {Number(state.liquidationPrice).toFixed(2)} USD
-                </div>
-              </StyledInfoItem>
-            )}
+            {state.tab === "Borrow" || state.tab === "Adjust" ? (
+              <>
+                <StyledInfoItem>
+                  <div>Liquidation Price</div>
+                  <div className="white">
+                    {Number(state.liquidationPrice).toFixed(2)} USD
+                  </div>
+                </StyledInfoItem>
+                <StyledInfoItem>
+                  <div>Borrowing Fee</div>
+                  <div className="white">
+                    {Number(state.borrowingFee).toFixed(2)}
+                    {data.BORROW_TOKEN}
+                  </div>
+                </StyledInfoItem>
 
-            <StyledInfoItem>
-              <div>Borrowing Fee</div>
-              <div className="white">
-                {Number(state.borrowingFee).toFixed(2)}
-                {data.BORROW_TOKEN}
-              </div>
-            </StyledInfoItem>
-
-            <StyledInfoItem>
-              <div>Total Debt</div>
-              <div className="white">
-                {Number(state.totalDebt).toFixed(2)}
-                {data.BORROW_TOKEN}
-              </div>
-            </StyledInfoItem>
+                <StyledInfoItem>
+                  <div>Total Debt</div>
+                  <div className="white">
+                    {Number(state.totalDebt).toFixed(2)}
+                    {data.BORROW_TOKEN}
+                  </div>
+                </StyledInfoItem>
+              </>
+            ) : null}
 
             {state.tab === "Borrow" && (
               <StyledInfoTips>
