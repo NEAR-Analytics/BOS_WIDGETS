@@ -79,7 +79,6 @@ const Button = styled.button`
 `;
 
 const {
-  disabled,
   actionText,
   amount,
   data,
@@ -90,7 +89,7 @@ const {
   loading: estimating,
   gas,
   onApprovedSuccess,
-  isBigerThanBalance,
+  isAssetBigerThanBalance,
 } = props;
 // for Yours
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -127,7 +126,7 @@ if (!amount) {
   );
 }
 
-if (isBigerThanBalance) {
+if (isAssetBigerThanBalance) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Insufficient Balance
@@ -425,7 +424,7 @@ function handleClick() {
 return (
   <>
     <Button
-      disabled={state.pending || disabled}
+      disabled={state.pending}
       className={actionText.toLowerCase()}
       onClick={handleClick}
     >
