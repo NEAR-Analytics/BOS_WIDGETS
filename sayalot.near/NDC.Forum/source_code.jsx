@@ -18,6 +18,8 @@ let {
   sharedArticleId,
   sharedCommentId,
   topicShared,
+  callLibs,
+  mainStateUpdate,
 } = props;
 
 const splitedTopic = topicShared ? topicShared.split("-class") : undefined;
@@ -117,10 +119,10 @@ State.init({
   sbtsNames: initSbtsNames,
   sbts: topicShared ? [topicShared] : initSbtsNames,
   firstRender: !isNaN(sharedBlockHeight) || typeof sharedArticleId === "string",
-  usersSBTs: [],
+  // usersSBTs: [],
 });
 
-const usersSBTs = state.usersSBTs;
+// const usersSBTs = state.usersSBTs;
 
 let newLibsCalls = state.functionsToCallByLibrary;
 
@@ -130,7 +132,7 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
@@ -397,7 +399,9 @@ const renderSelectorLabel = () => {
 //==============================================END COMPONENTS======================================================
 
 //=================================================FUNCTIONS========================================================
-
+function stateUpdate(obj) {
+  State.update(obj);
+}
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags ?? [];
   let newFormatTags = {};
@@ -417,9 +421,9 @@ const initialCreateState = {
   sbts: [sbtWhiteList[0]],
 };
 
-function mainStateUpdate(obj) {
-  State.update(obj);
-}
+// function mainStateUpdate(obj) {
+//   State.update(obj);
+// }
 
 function handleOpenArticle(articleToRenderData) {
   State.update({
@@ -485,31 +489,6 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  return (
-    <Widget
-      src={src}
-      props={{
-        mainStateUpdate,
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        callerWidget,
-        ...extraProps,
-        usersSBTs,
-      }}
-    />
-  );
-}
-
 function handleSbtSelection(selectedSbt) {
   State.update({
     sbts: [selectedSbt],
@@ -557,7 +536,7 @@ return (
     {(state.showShareModal || state.showShareSearchModal) &&
       renderShareInteraction()}
     <Widget
-      src={widgets.header}
+      src={widgets.views.editableWidgets.header}
       props={{
         isTest,
         mainStateUpdate,
@@ -579,7 +558,7 @@ return (
       state.displayedTabId == tabs.SHOW_KANBAN_VIEW.id) && (
       <div className="my-3 col-lg-8 col-md-8 col-sm-12">
         <Widget
-          src={widgets.newStyledComponents.Input.Select}
+          src={widgets.views.standardWidgets.newStyledComponents.Input.Select}
           props={{
             label: renderSelectorLabel(),
             value: sbts[0],
@@ -591,7 +570,7 @@ return (
     )}
     {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
-        src={widgets.showArticlesList}
+        src={widgets.views.editableWidgets.showArticlesList}
         props={{
           isTest,
           articlesToRender,
@@ -620,7 +599,7 @@ return (
     {state.articleToRenderData.title &&
       state.displayedTabId == tabs.SHOW_ARTICLE.id && (
         <Widget
-          src={widgets.articleView}
+          src={widgets.views.editableWidgets.articleView}
           props={{
             isTest,
             widgets,
@@ -639,7 +618,7 @@ return (
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
       <Widget
-        src={widgets.showArticlesListSortedByAuthors}
+        src={widgets.views.editableWidgets.showArticlesListSortedByAuthors}
         props={{
           isTest,
           finalArticles,
@@ -654,7 +633,7 @@ return (
 
     {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
       <Widget
-        src={widgets.create}
+        src={widgets.views.editableWidgets.create}
         props={{
           isTest,
           addressForArticles,
@@ -678,7 +657,7 @@ return (
 
     {state.displayedTabId === tabs.SHOW_KANBAN_VIEW.id && (
       <Widget
-        src={widgets.kanbanBoard}
+        src={widgets.views.editableWidgets.kanbanBoard}
         props={{
           isTest,
           widgets,
@@ -701,7 +680,7 @@ return (
       {libSrcArray.map((src) => {
         return callLibs(
           src,
-          mainStateUpdate,
+          stateUpdate,
           state.functionsToCallByLibrary,
           { baseAction: baseActions.articlesBaseAction, kanbanColumns },
           "NDC.Forum"
