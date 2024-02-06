@@ -34,7 +34,7 @@ return (
     >
       <ImgContainer>
         <Widget
-          src={widgets.profileShortInlineBlock}
+          src={widgets.views.editableWidgets.profileShortInlineBlock}
           props={{
             widgets,
             accountId: authorArticlesArray[0].author,
