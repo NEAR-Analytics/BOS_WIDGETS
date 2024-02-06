@@ -1,6 +1,6 @@
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 );
 
 getCommunity = getCommunity || (() => <></>);
@@ -76,7 +76,7 @@ return (
             (communityData?.admins ?? []).includes(context.accountId) && (
               <div className="card p-4">
                 <Widget
-                  src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
+                  src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
                   }}
@@ -104,11 +104,11 @@ return (
           </div>
 
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.components.organism.Feed"
+            src="thomasguntenaar.near/widget/devhub.components.organism.Feed"
             props={{
               showFlagAccountFeature: true,
               filteredAccountIds: [
-                `${handle}.community.${REPL_DEVHUB_CONTRACT}`,
+                `${handle}.community.devhub.near`,
               ],
               sort: sort,
             }}
@@ -132,7 +132,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
+                  src="thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
