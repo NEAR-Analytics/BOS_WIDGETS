@@ -17,6 +17,7 @@ if (badgeData.length > 0 || badgeData === "") {
 }
 
 const colorOptions = {
+  yellow: { fill: "#ffd046", stroke: "#f0a957" },
   red: { fill: "#cc3333", stroke: "#FF4500" },
   blue: { fill: "#1E90FF", stroke: "#0000FF" },
   gray: { fill: "#808080", stroke: "#696969" },
