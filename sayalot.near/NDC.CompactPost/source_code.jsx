@@ -12,7 +12,7 @@ const {
   callLibs,
 } = props;
 
-const libSrcArray = [widgets.libArticle];
+const libSrcArray = [widgets.libs.libArticle];
 
 State.init({
   showModal: false,
@@ -84,35 +84,35 @@ const Spinner = () => {
 };
 
 const ModalContainer = styled.div`
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  backdrop-filter: blur(10px);
-  z-index: 1;
-`;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  `;
 
 const ChangeLabelMainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: white;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid black;
-`;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid black;
+  `;
 
 const ClosePopUpContainer = styled.div`
-  display: flex;  
-  flex-direction: row-reverse;
-`;
+    display: flex;  
+    flex-direction: row-reverse;
+  `;
 
 const CloseIcon = styled.div`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 function handleLabelSelection(selectedLabel) {
   State.update({
@@ -131,7 +131,7 @@ const modal = (
         <CloseIcon className="bi bi-x" onClick={closeModal}></CloseIcon>
       </ClosePopUpContainer>
       <Widget
-        src={widgets.newStyledComponents.Input.Select}
+        src={widgets.views.standardWidgets.newStyledComponents.Input.Select}
         props={{
           label: "Select new label",
           placeholder: kanbanColumns[0],
@@ -143,7 +143,7 @@ const modal = (
         }}
       />
       <Widget
-        src={widgets.newStyledComponents.Input.Button}
+        src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
         props={{
           className: "info my-3",
           onClick: moveArticleListener,
@@ -177,7 +177,7 @@ const header = (
             className="link-dark text-truncate w-100"
           >
             <Widget
-              src={widgets.profileImage}
+              src={widgets.views.standardWidgets.profileImage}
               props={{
                 metadata,
                 accountId: article.author,
@@ -191,7 +191,9 @@ const header = (
         <div className="w-25">
           <div className="d-flex justify-content-end">
             <Widget
-              src={widgets.newStyledComponents.Input.Button}
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
               props={{
                 size: "sm",
                 className: "info outline icon",
@@ -219,8 +221,8 @@ const borders = {
 };
 
 const CursorPointer = styled.p`
-  cursor: pointer;
-`;
+    cursor: pointer;
+  `;
 
 function toggleShowModal() {
   State.update({ showModal: !state.showModal });
@@ -233,7 +235,9 @@ const articleTags = article.tags ? (
       return (
         <CursorPointer onClick={() => handleFilterArticles(filter)}>
           <Widget
-            src={widgets.newStyledComponents.Element.Badge}
+            src={
+              widgets.views.standardWidgets.newStyledComponents.Element.Badge
+            }
             props={{
               children: tag,
               variant: "round info",
@@ -257,7 +261,7 @@ const articleTitle = (
 const footerActionButtons = (
   <div className="d-flex justify-content-start w-100">
     <Widget
-      src={widgets.newStyledComponents.Input.Button}
+      src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
       props={{
         children: (
           <div className="d-flex align-items-center justify-content-center">
@@ -272,7 +276,7 @@ const footerActionButtons = (
       }}
     />
     <Widget
-      src={widgets.newStyledComponents.Input.Button}
+      src={widgets.views.standardWidgets.newStyledComponents.Input.Button}
       props={{
         children: (
           <div className="d-flex align-items-center justify-content-center">
@@ -291,20 +295,20 @@ const footerActionButtons = (
 );
 
 const CallLibrary = styled.div`
-  display: block;
-`;
+    display: block;
+  `;
 
 const Card = styled.div`
-  user-select: none;
-  &:hover {
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
-  }
-
-`;
+    user-select: none;
+    &:hover {
+      box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    }
+  
+  `;
 
 const LimitedMarkdown = styled.div`
-      max-height: 6em;
-`;
+        max-height: 6em;
+  `;
 
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = (
