@@ -1,7 +1,7 @@
 const accountId = props.accountId ?? context.accountId ?? "";
 
 const buildersEdge = Social.keys(
-  `${context.accountId}/badge/builder/${props.accountId}`,
+  `${context.accountId}/badge/builder/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -9,7 +9,7 @@ const buildersEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.accountId}/badge/builder/${context.accountId}`,
+  `${accountId}/badge/builder/${context.accountId}`,
   undefined,
   {
     values_only: true,
@@ -35,11 +35,11 @@ const data = {
       key: "badge",
       value: {
         type,
-        accountId: props.accountId,
+        accountId,
       },
     }),
     notify: JSON.stringify({
-      key: props.accountId,
+      key: accountId,
       value: {
         type,
       },
@@ -97,7 +97,7 @@ return (
       data={data}
     >
       {isBuilder && <i className="bi-16 bi bi-check"></i>}
-      {isBuilder ? "Revoke" : isInverse ? "Accept Badge" : "Revoke Badge"}
+      {isBuilder ? "Revoke" : isInverse ? "Accept Badge" : "Assign Badge"}
     </CommitButton>
   </Wrapper>
 );
