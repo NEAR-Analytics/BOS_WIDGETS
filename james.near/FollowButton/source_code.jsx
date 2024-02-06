@@ -55,6 +55,6 @@ return (
     } rounded-5`}
     data={data}
   >
-    {loading ? "Loading" : follow ? "Undo" : "Connect"}
+    {loading ? "Loading" : follow ? "Unfollow" : "Connect"}
   </CommitButton>
 );
