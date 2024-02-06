@@ -6,7 +6,8 @@ const handleRemoveWidget = (linkId) => {
 
 const Container = styled.div`
   display: flex;
-//   position: relative;
+    gap: 8px;
+    margin-left: 8px;
 `;
 
 const WidgetWrapper = styled.div`
