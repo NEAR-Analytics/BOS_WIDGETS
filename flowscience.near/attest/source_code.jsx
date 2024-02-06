@@ -47,6 +47,8 @@ function generateUID() {
   return uid;
 }
 
+let UID = generateUID();
+
 const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
     return (
