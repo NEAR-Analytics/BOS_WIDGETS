@@ -116,6 +116,20 @@ const CenteredDiv = styled.div`
   text-align: center;
 `;
 
+function generateUID() {
+  const length = 16; // This will create a 64-bit number (16 hexadecimal characters)
+  // randomly change the case of a character
+  const randomCase = (char) =>
+    Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase();
+  // Generate a random hexadecimal number and convert it to a string
+  let uid = "";
+  for (let i = 0; i < length; i++) {
+    const randomChar = Math.floor(Math.random() * 16).toString(16); // Generate a single random hexadecimal character
+    uid += randomCase(randomChar); // Append the character in either case to the UID
+  }
+  return uid;
+}
+
 State.init({
   data,
   config: data,
@@ -131,6 +145,7 @@ State.init({
   thingId,
   schemas: {},
   loading: false,
+  UID: generateUID(),
 });
 
 const fetchSchemasList = (schemaSrc) => {
@@ -390,7 +405,7 @@ return (
               readOnly // Make this field read-only if you don't want users to edit it
             />
             <Widget
-              src="flowscience.near/widget/attest"
+              src="efiz.near/widget/create"
               props={{
                 item: {
                   type: state.selectedSchema,
