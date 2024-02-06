@@ -533,10 +533,9 @@ const onBorrowAmountChange = (amount) => {
     getVesselManager(amount);
   }
   const params = { borrowAmount: amount };
-
-  if (Big(amount).gt(Big(state.borrowTokenBal || 0))) {
-    params.isBigerThanBalance = true;
-  }
+  params.isBigerThanBalance = Big(amount || 0).gt(
+    Big(state.borrowTokenBal || 0)
+  );
   State.update(params);
   state.debouncedGetTrade();
 };
