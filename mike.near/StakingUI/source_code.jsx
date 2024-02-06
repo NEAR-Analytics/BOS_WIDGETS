@@ -639,8 +639,6 @@ if (!!!context.accountId) {
                 maxWidth: "85%",
                 color: "#fff",
                 borderRadius: "6px",
-                maxHeight: "100vh",
-                overflow: "auto",
               }}
             >
               <h3>Others</h3>
@@ -683,37 +681,45 @@ if (!!!context.accountId) {
                     }}
                   />
                 </div>
-                {rangedRows.map((detail) => (
-                  <div
-                    key={detail.validatorAddress}
-                    className="faux-table-row"
-                    style={{
-                      display: "flex",
-                      background: "#111",
-                      color: "#fff",
-                      borderBottom: "1px solid rgba(250, 250, 250, 0.3)",
-                      padding: "10px",
-                      alignItems: "center",
-                      overflow: "hidden",
-                    }}
-                  >
+                <div
+                  className={"white-scrollbar"}
+                  style={{
+                    maxHeight: "90vh",
+                    overflow: "auto",
+                  }}
+                >
+                  {rangedRows.map((detail) => (
                     <div
+                      key={detail.validatorAddress}
+                      className="faux-table-row"
                       style={{
-                        flex: 3,
-                        padding: "0 10px",
+                        display: "flex",
+                        background: "#111",
+                        color: "#fff",
+                        borderBottom: "1px solid rgba(250, 250, 250, 0.3)",
+                        padding: "10px",
+                        alignItems: "center",
                         overflow: "hidden",
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        marginRight: "10px",
                       }}
                     >
-                      {detail.validatorAddress}
+                      <div
+                        style={{
+                          flex: 3,
+                          padding: "0 10px",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                          marginRight: "10px",
+                        }}
+                      >
+                        {detail.validatorAddress}
+                      </div>
+                      <div style={{ flex: 1, padding: "0 10px" }}>
+                        <button style={{ marginLeft: "10px" }}>Stake</button>
+                      </div>
                     </div>
-                    <div style={{ flex: 1, padding: "0 10px" }}>
-                      <button style={{ marginLeft: "10px" }}>Stake</button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
