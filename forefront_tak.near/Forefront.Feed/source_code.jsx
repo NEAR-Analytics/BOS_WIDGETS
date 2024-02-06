@@ -233,7 +233,7 @@ return (
       )}
       <div style={{ width: "100%", height: "85px" }}></div>
       <Widget
-        src="forefront_tak.near/widget/Forefront.footer"
+        src="forefront_tak.near/widget/Forefront.Footer"
         props={{
           beBackground: "#fff",
           titlenelowBackground: themeColor?.footer?.titlenelowBackground,
