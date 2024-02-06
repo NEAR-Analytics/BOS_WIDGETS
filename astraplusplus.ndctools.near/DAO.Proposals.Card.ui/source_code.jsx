@@ -26,24 +26,12 @@ const {
   currentuserCongressHouse,
   CoADaoId,
   HoMDaoId,
-  registry,
-  showNavButton
+  registry
 } = props;
-const proposalURL = `https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=${daoId}&proposalId=${
-  proposal.id
-}${props.dev ? "&dev=true" : ""}`;
 const accountId = context.accountId;
 const [showNotificationModal, setNotificationModal] = useState(false);
 const [voteDetails, setVoteDetails] = useState(null);
-const expirationTime =
-  isCongressDaoID || isVotingBodyDao
-    ? submission_time +
-      (daoConfig?.vote_duration ?? daoConfig?.voting_duration ?? 0)
-    : policy?.proposal_period
-    ? parseInt(
-        Big(submission_time).add(Big(policy.proposal_period)).div(1000000)
-      )
-    : null;
+
 function checkVotesForCongressDao(value) {
   if (isCongressDaoID) {
     return votes[accountId]?.vote === value;
@@ -205,7 +193,7 @@ function renderPermission({ isAllowedToVote }) {
 }
 
 const execProposal = ({ daoId, id }) =>
-  Near.call(daoId, "execute", { id }, 150000000000000);
+  Near.call(daoId, "execute", { id }, 50000000000000);
 
 const slashPreVoteProposal = ({ id }) =>
   Near.call(daoId, "slash_prevote_proposal", { id }, 300000000000000);
@@ -265,20 +253,13 @@ function renderHeader({ typeName, id, daoId, statusName }) {
     <div className="card__header">
       <div className="d-flex flex-column gap-2">
         <div className="d-flex align-items-center justify-content-between">
-          <div className="d-flex align-items-center gap-2">
-            <h4>{typeName}</h4>
-            {showNavButton && (
-              <a target="_blank" rel="noopener noreferrer" href={proposalURL}>
-                <h5>
-                  <i class="bi bi-box-arrow-up-right"></i>
-                </h5>
-              </a>
-            )}
-          </div>
+          <h4>{typeName}</h4>
           <div className="d-flex align-items-center gap-2">
             {(isCongressDaoID || isVotingBodyDao) &&
               statusName === "Approved" &&
-              expirationTime + (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
+              proposal?.submission_time +
+                (daoConfig?.vote_duration ?? daoConfig?.voting_duration) +
+                (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
                 Date.now() && (
                 <Widget
                   src="nearui.near/widget/Input.Button"
@@ -348,29 +329,39 @@ function renderHeader({ typeName, id, daoId, statusName }) {
             }}
           />
 
-          {statusName === "In Progress" && expirationTime > Date.now() && (
-            <Widget
-              src="nearui.near/widget/Element.Badge"
-              props={{
-                children: (
-                  <div className="counter-text">
-                    <Widget
-                      src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
-                      props={{
-                        timeToCheck: expirationTime
-                      }}
-                    />
-                  </div>
-                ),
-                variant: `info round`,
-                size: "lg"
-              }}
-            />
-          )}
+          {(isCongressDaoID || isVotingBodyDao) &&
+            statusName === "In Progress" &&
+            proposal?.submission_time +
+              (daoConfig?.vote_duration ?? daoConfig?.voting_duration) >
+              Date.now() && (
+              <Widget
+                src="nearui.near/widget/Element.Badge"
+                props={{
+                  children: (
+                    <div className="counter-text">
+                      <Widget
+                        src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
+                        props={{
+                          timeToCheck:
+                            proposal?.submission_time +
+                            (daoConfig?.vote_duration ??
+                              daoConfig?.voting_duration)
+                        }}
+                      />
+                    </div>
+                  ),
+                  variant: `info round`,
+                  size: "lg"
+                }}
+              />
+            )}
           {isCongressDaoID &&
             daoConfig?.cooldown !== 0 &&
             statusName !== "In Progress" &&
-            expirationTime + daoConfig?.cooldown > Date.now() && (
+            proposal?.submission_time +
+              (daoConfig?.vote_duration ?? daoConfig?.voting_duration) +
+              daoConfig?.cooldown >
+              Date.now() && (
               <Widget
                 src="nearui.near/widget/Element.Badge"
                 props={{
@@ -380,7 +371,11 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                       <Widget
                         src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
                         props={{
-                          timeToCheck: expirationTime + daoConfig?.cooldown
+                          timeToCheck:
+                            proposal?.submission_time +
+                            (daoConfig?.vote_duration ??
+                              daoConfig?.voting_duration) +
+                            daoConfig?.cooldown
                         }}
                       />
                     </div>
@@ -454,17 +449,22 @@ function renderData({
             </div>
           </div>
         )}
-        {expirationTime && (
+        {(isCongressDaoID || isVotingBodyDao) && (
           <div className="info_section">
             <b>Expired at</b>
             <div>
               <small className="text-muted">
-                {new Date(expirationTime).toLocaleString()}
+                {new Date(
+                  submission_time +
+                    (daoConfig?.vote_duration ??
+                      daoConfig?.voting_duration ??
+                      0)
+                ).toLocaleString()}
               </small>
             </div>
           </div>
         )}
-        {totalVotesNeeded > 0 && (
+        {totalVotesNeeded && (
           <div className="info_section no-border">
             <b>Required Votes</b>
             <div>
@@ -851,8 +851,6 @@ function renderPreVoteButtons({ proposal }) {
   );
 }
 
-const [footerModal, setFooterModal] = useState({});
-
 function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
   const items = [
     {
@@ -892,7 +890,9 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
       icon: "bi bi-share",
       widget: "Common.Modals.Share",
       props: {
-        url: proposalURL,
+        url: `https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=${daoId}&proposalId=${
+          proposal.id
+        }${props.dev ? "&dev=true" : ""}`,
         text: "Explore this new proposal from our DAO! Your support and feedback are essential as we work towards a decentralized future. Review the details and join the discussion here:"
       }
     }
@@ -916,30 +916,21 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
   }
 
   const renderModal = (item, index) => {
-    const toggleKey = proposal.id + item.title;
-
     return (
       <Widget
         src="astraplusplus.ndctools.near/widget/Layout.Modal"
         props={{
-          open: footerModal[toggleKey],
-          onOpenChange: () =>
-            setFooterModal((prevState) => ({
-              ...prevState,
-              [toggleKey]: !prevState[toggleKey]
-            })),
           content: (
             <Widget
               src={`astraplusplus.ndctools.near/widget/${item.widget}`}
               props={item.props}
             />
           ),
-          avoidDefaultDomBehavior: true,
           toggle: (
             <div
               key={index}
               className={
-                "d-flex gap-3 align-items-center justify-content-center user-select-none" +
+                "d-flex gap-2 align-items-center justify-content-center user-select-none" +
                 (index !== items.length - 1 ? " border-end" : "")
               }
             >
@@ -957,7 +948,7 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
   };
 
   return (
-    <div className="d-flex gap-4 justify-content-between mt-2 border-top pt-4 flex-wrap">
+    <div className="d-flex gap-3 justify-content-between mt-2 border-top pt-4 flex-wrap">
       {items.map(renderModal)}
     </div>
   );
@@ -1007,57 +998,45 @@ const NotificationModal = () => {
       src="astraplusplus.ndctools.near/widget/Layout.Modal"
       props={{
         content: (
-          <div className="ndc-card p-4">
-            {/* sputnik dao proposal is expired */}
-            {!isCongressDaoID &&
-              !isVotingBodyDao &&
-              new Date().getTime() > new Date(expirationTime).getTime() && (
-                <div className="alert alert-info">
-                  Please note: This proposal has expired. Your vote will only
-                  mark the proposal as 'Expired' and won't affect the
-                  decision-making process.
-                </div>
-              )}
-            <div className="d-flex flex-column gap-3">
-              Do you want to notify proposer: {proposer} about the vote?
-              <div className="d-flex gap-3 justify-content-end">
-                <Widget
-                  src="nearui.near/widget/Input.Button"
-                  props={{
-                    children: <>No</>,
-                    size: "sm",
-                    variant: "danger outline",
-                    onClick: () => {
-                      handleVote({
-                        action: voteDetails,
-                        daoId,
-                        proposalId: proposal.id,
-                        proposer,
-                        showNotification: false
-                      });
-                      setNotificationModal(false);
-                    }
-                  }}
-                />
-                <Widget
-                  src="nearui.near/widget/Input.Button"
-                  props={{
-                    children: <>Yes</>,
-                    variant: "info outline",
-                    size: "sm",
-                    onClick: () => {
-                      handleVote({
-                        action: voteDetails,
-                        daoId,
-                        proposalId: proposal.id,
-                        proposer,
-                        showNotification: true
-                      });
-                      setNotificationModal(false);
-                    }
-                  }}
-                />
-              </div>
+          <div className="ndc-card d-flex flex-column gap-3 p-4">
+            Do you want to notify proposer: {proposer} about the vote?
+            <div className="d-flex gap-3 justify-content-end">
+              <Widget
+                src="nearui.near/widget/Input.Button"
+                props={{
+                  children: <>No</>,
+                  size: "sm",
+                  variant: "danger outline",
+                  onClick: () => {
+                    handleVote({
+                      action: voteDetails,
+                      daoId,
+                      proposalId: proposal.id,
+                      proposer,
+                      showNotification: false
+                    });
+                    setNotificationModal(false);
+                  }
+                }}
+              />
+              <Widget
+                src="nearui.near/widget/Input.Button"
+                props={{
+                  children: <>Yes</>,
+                  variant: "info outline",
+                  size: "sm",
+                  onClick: () => {
+                    handleVote({
+                      action: voteDetails,
+                      daoId,
+                      proposalId: proposal.id,
+                      proposer,
+                      showNotification: true
+                    });
+                    setNotificationModal(false);
+                  }
+                }}
+              />
             </div>
           </div>
         ),
@@ -1069,60 +1048,52 @@ const NotificationModal = () => {
   );
 };
 
-const Content = useMemo(() => {
-  return (
-    <>
-      {renderPermission({ isAllowedToVote: isAllowedToVote.every((v) => v) })}
-      {renderHeader({ typeName, id, daoId, statusName })}
-      {renderData({
-        proposer,
-        category,
-        description,
-        submission_time,
-        totalVotesNeeded
-      })}
-      {!!showMultiVote &&
-        renderMultiVoteButtons({
-          daoId,
-          proposal,
-          canVote
-        })}
-
-      {statusName !== "Pre Vote" &&
-        !showMultiVote &&
-        renderVoteButtons({
-          totalVotes,
-          statusName,
-          votes,
-          accountId,
-          isAllowedToVote,
-          handleVote: (action) => {
-            if (isVotingBodyDao) {
-              return handleVote({
-                action,
-                daoId,
-                proposalId: proposal.id,
-                proposer
-              });
-            } else {
-              setNotificationModal(true);
-              setVoteDetails(action);
-            }
-          }
-        })}
-
-      {statusName === "Pre Vote" &&
-        renderPreVoteButtons({
-          proposal
-        })}
-    </>
-  );
-}, [proposal.id]);
-
 return (
   <Wrapper className="ndc-card" status={statusName}>
     <NotificationModal />
-    {Content}
+    {renderPermission({ isAllowedToVote: isAllowedToVote.every((v) => v) })}
+    {renderHeader({ typeName, id, daoId, statusName })}
+    {renderData({
+      proposer,
+      category,
+      description,
+      submission_time,
+      totalVotesNeeded
+    })}
+    {!!showMultiVote &&
+      renderMultiVoteButtons({
+        daoId,
+        proposal,
+        canVote
+      })}
+
+    {statusName !== "Pre Vote" &&
+      !showMultiVote &&
+      renderVoteButtons({
+        totalVotes,
+        statusName,
+        votes,
+        accountId,
+        isAllowedToVote,
+        handleVote: (action) => {
+          if (isVotingBodyDao) {
+            return handleVote({
+              action,
+              daoId,
+              proposalId: proposal.id,
+              proposer
+            });
+          } else {
+            setNotificationModal(true);
+            setVoteDetails(action);
+          }
+        }
+      })}
+
+    {statusName === "Pre Vote" &&
+      renderPreVoteButtons({
+        proposal
+      })}
     {renderFooter({
       totalVotes,
       votes,
