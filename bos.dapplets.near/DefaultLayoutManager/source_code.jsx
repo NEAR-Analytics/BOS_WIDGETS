@@ -11,7 +11,8 @@ const Container = styled.div`
 
 const WidgetWrapper = styled.div`
   max-width: 100%;
-    position: relative;
+  min-width: 18px;
+  position: relative;
 `;
 
 const WidgetBadgeWrapper = styled.div`
