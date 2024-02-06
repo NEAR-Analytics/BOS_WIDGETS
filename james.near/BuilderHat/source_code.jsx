@@ -1,6 +1,19 @@
-const accountId = props.accountId ?? "every.near";
+const accountId = props.accountId || context.accountId;
 if (!accountId) {
   return "";
+}
+
+const color =
+  props.color ?? Social.get(`${context.accountId}/badge/builder/${accountId}`);
+
+let isBuilder = props.isBuilder ?? false;
+
+const badgeData =
+  props.badgeData ??
+  Social.get(`${context.accountId}/badge/builder/${accountId}`);
+
+if (badgeData.length > 0 || badgeData === "") {
+  isBuilder = true;
 }
 
 const colorOptions = {
@@ -17,17 +30,12 @@ const colorOptions = {
   orange: { fill: "#FFA500", stroke: "#FF8C00" },
 };
 
-const color = props.color ?? "gray";
-
-const { fill, stroke } = colorOptions[color] || {
-  fill: "#ffd046",
-  stroke: "#f0a957",
+const { fill, stroke } = colorOptions[color] ?? {
+  fill: "#808080",
+  stroke: "#696969",
 };
 
-const isBuilder =
-  props.isBuilder || Social.get(`gov.near/badge/builder/accounts/${accountId}`);
-
-const content = !isBuilder ? (
+const content = isBuilder ? (
   <span style={{ verticalAlign: "center" }}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
