@@ -146,7 +146,7 @@ function makeCloseContract() {
     );
 
     return contract.closeVessel(data.underlyingToken.address, {
-      gasLimit: 350000,
+      gasLimit: 700000,
     });
   }
 
