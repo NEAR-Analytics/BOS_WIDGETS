@@ -355,7 +355,6 @@ function getVesselManager(_amount) {
 }
 
 useEffect(() => {
-  if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
   if (state.tab === "Close") return;
   if ((IS_GRAVITA_DAPP || IS_PREON_DAPP) && state.isBigerThanBalance) return;
   const price = prices[data.underlyingToken.symbol];
@@ -367,46 +366,54 @@ useEffect(() => {
       borrowingFee,
       liquidationPrice,
       borrowTokenBal;
-
     if (state.tab === "Borrow") {
+      if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
       assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
       if (state.borrowAmount) {
-        _yourLTV = Big(state.borrowAmount).div(assetInUSD.minus(20));
+        _yourLTV = Big(state.borrowAmount).div(assetInUSD);
       }
       if (_yourLTV) {
         totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
       }
+      if (assetInUSD) {
+        borrowTokenBal = assetInUSD
+          .minus(20)
+          .minus(assetInUSD.minus(20).mul(0.02))
+          .toFixed(2);
+      }
+      if (totalDebt) {
+        borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
+
+        liquidationPrice = totalDebt
+          .div(state.amount)
+          .div(Big(data["MAX_LTV"]))
+          .toFixed(2);
+      }
     }
     if (state.tab === "Adjust") {
+      // if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
       assetInUSD = Big(state.amount || 0)
         .plus(data.vesselDeposit)
-        .mul(price)
-        .mul(Big(data["MAX_LTV"]));
+        .mul(price);
       _yourLTV = Big(state.borrowAmount || 0)
         .plus(data.vesselDebt)
-        .div(assetInUSD.minus(20));
+        .div(assetInUSD);
+
       if (_yourLTV) {
-        totalDebt = Big(state.amount || 0)
-          .plus(data.vesselDeposit)
-          .mul(price)
-          .mul(_yourLTV);
+        totalDebt = Big(state.borrowAmount || 0).plus(data.vesselDebt);
+      }
+
+      if (totalDebt) {
+        borrowingFee = Big(state.borrowAmount || 0)
+          .mul(0.02)
+          .toFixed(2);
+        liquidationPrice = totalDebt
+          .div(Big(data.vesselDeposit).plus(state.amount || 0))
+          .div(Big(data["MAX_LTV"]))
+          .toFixed(2);
       }
     }
 
-    if (assetInUSD) {
-      borrowTokenBal = assetInUSD
-        .minus(20)
-        .minus(assetInUSD.minus(20).mul(0.02))
-        .toFixed(2);
-    }
-    if (totalDebt) {
-      borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
-
-      liquidationPrice = totalDebt
-        .div(state.amount)
-        .div(Big(data["MAX_LTV"]))
-        .toFixed(2);
-    }
     State.update({
       totalDebt: Big(totalDebt || 0).toFixed(2),
       yourLTV: Big(_yourLTV || 0).toFixed(2),
@@ -416,6 +423,7 @@ useEffect(() => {
     });
   }
   if (IS_PREON_DAPP) {
+    if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
     let assetInUSD,
       totalDebt,
       yourLTV,
@@ -463,6 +471,7 @@ useEffect(() => {
   }
 
   if (IS_ETHOS_DAPP) {
+    if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
     if (!Number(state.borrowAmount)) return;
     let totalDebt,
       collateralRatio, //  like _yourLTV
