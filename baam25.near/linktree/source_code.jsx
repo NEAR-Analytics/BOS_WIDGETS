@@ -7,7 +7,7 @@ const accountId = loggedIn
 const viewingOwnAccount = accountId === context.accountId;
 const showNFTs = props.showNFTs || true;
 const showTags = props.showTags || true;
-const customExternalLinks = props.showTags || [
+const customExternalLinks = props.customExternalLinks || [
   "website",
   "github",
   "twitter",
