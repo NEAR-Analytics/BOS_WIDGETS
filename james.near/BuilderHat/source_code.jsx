@@ -197,7 +197,7 @@ return (
     loading={content}
     src="mob.near/widget/N.Common.OverlayTrigger"
     props={{
-      popup: <div>Builder Hat</div>,
+      popup: <div>{color} builder hat</div>,
       children: content,
     }}
   />
