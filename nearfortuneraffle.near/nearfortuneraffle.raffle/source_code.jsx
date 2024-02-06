@@ -1,3 +1,4 @@
+//modal starts
 const [isModalOpen, setIsModalOpen] = useState(false);
 
 const openModal = () => {
@@ -199,6 +200,8 @@ const ButtonWithModal = ({ openModal }) => {
   );
 };
 
+//modal ends
+
 const Image1 =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588123/rafflestore/weekBanner_cwsvjc.png";
 const Image2 =
@@ -251,138 +254,6 @@ const StyledIcon = styled.img`
     max-width: 100%;
     height: auto;
 `;
-
-const Post = (
-  <Wrapper>
-    <h2>Entered</h2>
-    <ImageGroup>
-      <StyledImage src={Image1} alt="raffle pics" />
-      <StyledImage src={Image2} alt="raffle pics" />
-    </ImageGroup>
-    <p>
-      Thanks for entering the raffle! Winners will be emailed on Feb. 15 11:59pm
-    </p>
-    <ShareBtn>
-      <span>Share on twitter</span>
-    </ShareBtn>
-  </Wrapper>
-);
-
-const backgroundImage =
-  "https://res.cloudinary.com/zbsoft/image/upload/v1700160172/raffle/background.png";
-
-const bannerImg =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1706123137/rafflestore/IMG-20240107-WA0036_bxl0f4.jpg";
-
-const sharDogIcon =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
-
-const accountId = context.accountId;
-const contractId = "mint.sharddog.near";
-
-const returnedData = Social.get(`${accountId}/formData/*`);
-
-if (!contractId) {
-  return `Missing "contractId"`;
-}
-
-if (!accountId) {
-  return `Please login`;
-}
-
-const [email, setEmail] = useState("");
-const [fullname, setFullname] = useState("");
-const [message, setSuccessMessage] = useState("");
-const [errorMessage, setErrorMessage] = useState("");
-const [isLoading, setIsLoading] = useState(false);
-const [summary, setSummary] = useState(false);
-
-console.log(email);
-
-console.log(fullname);
-const sendData = () => {
-  if (!email.trim() || !fullname.trim()) {
-    setErrorMessage("Please enter both email and name");
-    return;
-  }
-  setIsLoading(true);
-  asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
-      fullname
-    )}`,
-  })
-    .then((response) => {
-      console.log(response.body.status);
-
-      if (response.ok) {
-        if (response.body.status === "success") {
-          setSuccessMessage(
-            "Thanks for participating, we would get back to you soon"
-          );
-          setErrorMessage("");
-          setEmail("");
-          setFullname("");
-          console.log("Data submitted successfully");
-        } else if (
-          response.body.status === "error" &&
-          response.body.message === "Email already exists."
-        ) {
-          setErrorMessage("Email already exists, try different one");
-          setSuccessMessage("");
-          console.log("Email already exists...");
-          console.log(response.body.message + "test");
-          console.log(errorMessage);
-        } else {
-          setErrorMessage("Failed to submit data, try again");
-          console.log("Failed to submit data, try again");
-        }
-      } else {
-        console.log(`HTTP error! Status: ${response.status}`);
-      }
-    })
-    .finally(() => {
-      setIsLoading(false);
-      setSummary(true);
-    });
-};
-
-const nfts = Near.view(contractId, "nft_tokens_for_owner", {
-  account_id: accountId,
-  from_index: "0",
-  limit: 200,
-});
-
-const nftTitle = "Kano is bos jollof - 1";
-const nftTitle2 = "Black Dragon Token - 652";
-const nftTitle3 = "ShardDog - 1555";
-const nftTitle4 = "Kano is bos jollof - 2";
-const nftTitle5 = "Black Dragon Token - 531";
-
-console.log(nfts[0].metadata.title);
-
-const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
-State.init({ nftCheck: false });
-
-for (let i = 0; i < nfts.length; i++) {
-  if (
-    nfts[i].metadata.title === nftTitle ||
-    nfts[i].metadata.title === nftTitle2 ||
-    nfts[i].metadata.title === nftTitle3 ||
-    nfts[i].metadata.title === nftTitle4 ||
-    nfts[i].metadata.title === nftTitle5
-  ) {
-    State.update({ nftCheck: true });
-    break;
-  }
-}
-
-if (!nfts) {
-  return "";
-}
 
 const Container = styled.div`
 
@@ -540,6 +411,141 @@ const CloseDate = styled.div`
 const Entries = styled.div`
    width: 50%;
 `;
+
+const Post = (
+  <Wrapper>
+    <h2>Entered</h2>
+    <ImageGroup>
+      <StyledImage src={Image1} alt="raffle pics" />
+      <StyledImage src={Image2} alt="raffle pics" />
+    </ImageGroup>
+    <p>
+      Thanks for entering the raffle! Winners will be emailed on Feb. 15 11:59pm
+    </p>
+    <ShareBtn>
+      <span>Share on twitter</span>
+    </ShareBtn>
+  </Wrapper>
+);
+
+const backgroundImage =
+  "https://res.cloudinary.com/zbsoft/image/upload/v1700160172/raffle/background.png";
+
+const bannerImg =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1706123137/rafflestore/IMG-20240107-WA0036_bxl0f4.jpg";
+
+const sharDogIcon =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
+
+const accountId = context.accountId;
+const contractId = "mint.sharddog.near";
+
+const returnedData = Social.get(`${accountId}/formData/*`);
+
+if (!contractId) {
+  return `Missing "contractId"`;
+}
+
+if (!accountId) {
+  return `Please login`;
+}
+
+const [email, setEmail] = useState("");
+const [fullname, setFullname] = useState("");
+const [message, setSuccessMessage] = useState("");
+const [errorMessage, setErrorMessage] = useState("");
+const [isLoading, setIsLoading] = useState(false);
+const [summary, setSummary] = useState(false);
+
+console.log(email);
+
+console.log(fullname);
+const sendData = () => {
+  if (!email.trim() || !fullname.trim()) {
+    setErrorMessage("Please enter both email and name");
+    return;
+  }
+  setIsLoading(true);
+  asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
+      fullname
+    )}`,
+  })
+    .then((response) => {
+      console.log(response.body.status);
+
+      if (response.ok) {
+        if (response.body.status === "success") {
+          setSuccessMessage(
+            "Thanks for participating, we would get back to you soon"
+          );
+          setErrorMessage("");
+          setEmail("");
+          setFullname("");
+          console.log("Data submitted successfully");
+        } else if (
+          response.body.status === "error" &&
+          response.body.message === "Email already exists."
+        ) {
+          setErrorMessage("Email already exists, try different one");
+          setSuccessMessage("");
+          console.log("Email already exists...");
+          console.log(response.body.message + "test");
+          console.log(errorMessage);
+        } else {
+          setErrorMessage("Failed to submit data, try again");
+          console.log("Failed to submit data, try again");
+        }
+      } else {
+        console.log(`HTTP error! Status: ${response.status}`);
+      }
+    })
+    .finally(() => {
+      setIsLoading(false);
+      setSummary(true);
+    });
+};
+
+const nfts = Near.view(contractId, "nft_tokens_for_owner", {
+  account_id: accountId,
+  from_index: "0",
+  limit: 200,
+});
+
+const nftTitle = "Kano is bos jollof - 1";
+const nftTitle2 = "Black Dragon Token - 652";
+const nftTitle3 = "ShardDog - 1555";
+const nftTitle4 = "Kano is bos jollof - 2";
+const nftTitle5 = "Black Dragon Token - 531";
+const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #145 - 229";
+
+console.log(nfts[0].metadata.title);
+console.log(nfts);
+
+const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
+State.init({ nftCheck: false });
+
+for (let i = 0; i < nfts.length; i++) {
+  if (
+    nfts[i].metadata.title === nftTitle ||
+    nfts[i].metadata.title === nftTitle2 ||
+    nfts[i].metadata.title === nftTitle3 ||
+    nfts[i].metadata.title === nftTitle4 ||
+    nfts[i].metadata.title === nftTitle5 ||
+    nfts[i].metadata.title === nftTitle6
+  ) {
+    State.update({ nftCheck: true });
+    break;
+  }
+}
+
+if (!nfts) {
+  return "";
+}
 
 if (summary && !errorMessage) {
   return Post;
