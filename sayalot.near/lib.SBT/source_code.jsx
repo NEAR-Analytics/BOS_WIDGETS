@@ -1,3 +1,5 @@
+// lib.SBT
+
 const {
   isTest,
   stateUpdate,
@@ -10,11 +12,47 @@ const {
 const libName = "SBT"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
 
+const sbtWhiteList =
+  context.networkId === "testnet"
+    ? [
+        {
+          value: "fractal-v2.i-am-human.testnet - class 1",
+          title: "Fractal",
+          default: true,
+        },
+        {
+          value: "community-v2.i-am-human.testnet - class 1",
+          title: "Community",
+        },
+      ]
+    : [
+        {
+          value: "fractal.i-am-human.near - class 1",
+          title: "General",
+          default: true,
+        },
+        { value: "community.i-am-human.near - class 1", title: "OG" },
+        { value: "community.i-am-human.near - class 2", title: "Contributor" },
+        {
+          value: "community.i-am-human.near - class 3",
+          title: "Core Contributor",
+        },
+        { value: "elections.ndc-gwg.near - class 2", title: "HoM" },
+        { value: "elections.ndc-gwg.near - class 3", title: "CoA" },
+        { value: "elections.ndc-gwg.near - class 4", title: "TC" },
+        { value: "public", title: "Public" },
+      ];
+
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
   functionsToCallByLibrary
 );
 let resultFunctionsToCall = [];
+
+const registryContract =
+  context.networkId === "mainnet"
+    ? "registry.i-am-human.near"
+    : "registry-v2.i-am-human.testnet";
 
 // START LIB CALLS SECTION
 // This lib does not call any other lib
@@ -33,15 +71,22 @@ function libStateUpdate(obj) {
 }
 
 // START LIB FUNCTIONS: EDIT set functions you need
+
+function getSBTWhiteList(props) {
+  const {} = props;
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "getSBTWhiteList";
+  });
+
+  return sbtWhiteList;
+}
+
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-  const userSBTs = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    {
-      account: accountId,
-    }
-  );
+  const userSBTs = Near.view(registryContract, "sbt_tokens_by_owner", {
+    account: accountId,
+  });
   const isSBTContractLoaded = userSBTs !== null;
   if (!isSBTContractLoaded) {
     return undefined;
@@ -75,19 +120,15 @@ function isValidUser(props) {
   return { ...usersValidityBySBT };
 }
 
-function getLoggedUserSbts(props) {
+function getUserSBTs(props) {
   const { accountId } = props;
-  const userSBTs = Near.view(
-    "registry.i-am-human.near",
-    "sbt_tokens_by_owner",
-    {
-      account: accountId,
-    }
-  );
+  const userSBTs = Near.view(registryContract, "sbt_tokens_by_owner", {
+    account: accountId,
+  });
 
   if (userSBTs) {
     resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-      return call.functionName !== "getLoggedUserSbts";
+      return call.functionName !== "getUserSBTs";
     });
   }
 
@@ -97,10 +138,12 @@ function getLoggedUserSbts(props) {
 
 // EDIT: set functions you want to export
 function callFunction(call) {
-  if (call.functionName === "isValidUser") {
+  if (call.functionName === "getSBTWhiteList") {
+    return getSBTWhiteList(call.props);
+  } else if (call.functionName === "isValidUser") {
     return isValidUser(call.props);
-  } else if (call.functionName === "getLoggedUserSbts") {
-    return getLoggedUserSbts(call.props);
+  } else if (call.functionName === "getUserSBTs") {
+    return getUserSBTs(call.props);
   }
 }
 
