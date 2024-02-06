@@ -332,7 +332,9 @@ return (
         }
       }}
       style={{
-        border: `1px solid ${variantColor}`,
+        border: `1px solid ${
+          disabled ? "rgb(105, 105, 105, 0.5)" : variantColor
+        }`,
         cursor: "pointer",
       }}
     >
