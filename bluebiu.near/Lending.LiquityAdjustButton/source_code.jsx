@@ -272,7 +272,7 @@ function makeAdjustContract() {
   let params;
   let abi;
   if (IS_GRAVITA_DAPP || IS_PREON_DAPP) {
-    _upperHint = "0x0000000000000000000000000000000000000000";
+    _upperHint = "0xA1B7bbade134DB3B14B56056480e81c60Ab77377";
     _lowerHint = "0x0000000000000000000000000000000000000000";
     abi = [
       {
