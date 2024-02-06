@@ -1,6 +1,7 @@
 const item = props.item;
 const onChange = props.onChange;
 const selectedSchema = props.selectedSchema;
+const recipientId = props.recipientId;
 
 const Input = styled.input`
   height: 30px;
@@ -155,22 +156,58 @@ function Property({ property, value }) {
 
 return (
   <Container>
-    <Row>
-      <Label>UID</Label>
-    </Row>
+    <Label>
+      <b>UID:</b> {state.UID}
+    </Label>
+    <Label>
+      <b>Attestor:</b> {context.accountId}
+    </Label>
+    <Label>
+      <b>Recipient: </b>
+    </Label>
     <Input
       type="text"
-      value={state.UID}
-      readOnly // Make this field read-only if you don't want users to edit it
+      value="recipient.near"
+      onChange={(e) => State.update({ recipientId: e.target.value })}
+      placeholder={recipientId}
     />
-    <Row>
-      <Label>Attestor</Label>
-    </Row>
+    <Label>
+      <b>Expire Date: </b>
+    </Label>
+    <Input
+      type="date"
+      value="mm-dd-yyyy"
+      onChange={(e) => State.update({ expiration: e.target.value })}
+      placeholder={expiration}
+    />
+    <Label>
+      <b>Revoke Date: </b>
+    </Label>
+    <Input
+      type="date"
+      value="mm-dd-yyyy"
+      onChange={(e) => State.update({ revoke: e.target.value })}
+      placeholder={revoke}
+    />
+    <Label>
+      <b>refUID: </b>
+    </Label>
     <Input
       type="text"
-      value={context.accountId}
-      readOnly // Make this field read-only if you don't want users to edit it
+      value="attestations.near/thing/0123456789123456"
+      onChange={(e) => State.update({ refUID: e.target.value })}
+      placeholder={refUID}
     />
+    <Label>
+      <b>Data: </b>
+    </Label>
+    <Input
+      type="text"
+      value="# This is markdown text."
+      onChange={(e) => State.update({ payload: e.target.value })}
+      placeholder={payload}
+    />
+
     {createWidgetSrc ? (
       <>
         <Widget src={createWidgetSrc} props={{ onChange }} />
