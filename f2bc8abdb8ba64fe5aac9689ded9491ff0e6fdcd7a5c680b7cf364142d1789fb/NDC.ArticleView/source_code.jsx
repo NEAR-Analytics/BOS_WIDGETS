@@ -79,6 +79,7 @@ const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 
 const CursorPointer = styled.div`
+    margin-bottom: 0.5rem;
     cursor: pointer;
   `;
 
