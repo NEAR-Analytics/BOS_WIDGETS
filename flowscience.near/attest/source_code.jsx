@@ -1,6 +1,6 @@
 const item = props.item;
 const onChange = props.onChange;
-const selectedSchema = props.selectedSchema;
+const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
@@ -52,7 +52,7 @@ function generateUID() {
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  schema: state.selectedSchema,
+  selectedSchema: selectedSchema,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
   expireTime: state.expireTime,
@@ -61,11 +61,12 @@ State.init({
   refUID: state.refUID,
   payload: state.payload,
   data: state.data,
+  metadata: "",
 });
 
 const data = {
   attestation: {
-    [schemaUID]: JSON.stringify({
+    [selectedSchema]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
         attestor: context.accountId,
@@ -76,8 +77,8 @@ const data = {
         revokeTime: state.revokeTime,
         refUID: state.refUID,
         payload: state.payload,
+        schema: state.selectedSchema,
       },
-      schema: state.selectedSchema,
     }),
   },
 };
@@ -100,26 +101,6 @@ const DynamicInput = ({ type, onChange, value, placeholder }) => {
       />
     );
   }
-};
-
-const fetchSchemaProperties = async (schemaIdentifier) => {
-  const schema = JSON.parse(
-    (await Social.get(schemaIdentifier, "final")) || "{}"
-  );
-  return schema.properties || [];
-};
-
-// Function to render input fields for schema properties
-const renderSchemaProperties = async (schemaIdentifier) => {
-  const properties = await fetchSchemaProperties(schemaIdentifier);
-  return properties.map((property) => (
-    <div key={property.name}>
-      <Label>{property.name}</Label>
-      <Row>
-        <Property property={property} value={State[property.name] || ""} />
-      </Row>
-    </div>
-  ));
 };
 
 // Primitive checks
@@ -244,7 +225,6 @@ return (
       onChange={(e) => State.update({ payload: e.target.value })}
       placeholder="# This is markdown text."
     />
-
     {createWidgetSrc ? (
       <>
         <Widget src={createWidgetSrc} props={{ onChange }} />
@@ -262,7 +242,7 @@ return (
       </>
     )}
     <Button onClick={handleSave}>Save</Button>
-
+    <hr></hr>Preview:
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
