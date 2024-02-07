@@ -33,22 +33,9 @@ const InfoValue = styled.span`
   color: #888baf;
 `;
 
-const { getApr } = VM.require("thalesb.near/widget/compound-requests");
+const { aprData } = props;
 
-State.init({
-  aprData,
-});
-
-useEffect(() => {
-  getApr({
-    cometAddress: props.selectedItem.contractInfo.address,
-    rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
-  }).then((data) => {
-    State.update({ aprData: data });
-  });
-}, []);
-
-const earnRewardsApr = (state.aprData.rewards.earn_rewards_apr || 0) * 100;
+const earnRewardsApr = (aprData.rewards.earn_rewards_apr || 0) * 100;
 
 return (
   <>
@@ -56,9 +43,7 @@ return (
     <InfoSection marginTop={12}>
       <InfoRow>
         <InfoLabel>APR</InfoLabel>
-        <InfoValue>
-          {Number(state.aprData.supplyApr || 0).toFixed(2)}%
-        </InfoValue>
+        <InfoValue>{Number(aprData.supplyApr || 0).toFixed(2)}%</InfoValue>
       </InfoRow>
       <InfoRow>
         <InfoLabel>Fee</InfoLabel>
@@ -67,7 +52,7 @@ return (
       <InfoRow>
         <InfoLabel>Interest</InfoLabel>
         <InfoValue>
-          {Number(earnRewardsApr + state.aprData.supplyApr || 0).toFixed(2)}%
+          {Number(earnRewardsApr + aprData.supplyApr || 0).toFixed(2)}%
         </InfoValue>
       </InfoRow>
     </InfoSection>
