@@ -426,7 +426,6 @@ const handleToken0Change = (amount) => {
     decimals0
   );
 
-  console.log('====token0Wei', token0Wei)
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
   ];
@@ -438,7 +437,6 @@ const handleToken0Change = (amount) => {
   proxyContract
     .getDepositAmount(hypeAddress, addresses[token0], token0Wei)
     .then((depositAmount) => {
-      console.log('====depositAmount', depositAmount)
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
 
       State.update({ amount1 });
@@ -446,6 +444,7 @@ const handleToken0Change = (amount) => {
       checkApproval(amount, amount1);
     })
     .catch((e) => {
+      console.log('====e', e)
       State.update({
         isLoading: true,
         isError: true,
