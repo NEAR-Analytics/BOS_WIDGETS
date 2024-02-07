@@ -21,7 +21,6 @@ const debounce = (func, wait) => {
 };
 
 const _search = (term) => {
-  console.log(props.apps)
   const terms = (term || "")
     .toLowerCase()
     .split(/[^\w._\/-]/)
