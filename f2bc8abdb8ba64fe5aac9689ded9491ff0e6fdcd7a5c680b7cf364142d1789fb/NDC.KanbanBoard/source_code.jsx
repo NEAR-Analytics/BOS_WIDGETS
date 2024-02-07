@@ -102,7 +102,7 @@ function getColumnWidth() {
 }
 
 return (
-  <div>
+  <div className="container">
     <div className="row mb-2">
       {kanbanRequiredTags.length > 0 ? (
         <div className="col">
@@ -171,7 +171,7 @@ return (
     <div className="row">
       {articlesPerLabel.map((col) => {
         return (
-          <div className={`col-${getColumnWidth()}`}>
+          <div className={`col-lg-${getColumnWidth()} col-12 mb-4`}>
             <div className="card">
               <div className="card-body border-secondary">
                 <h6 className="card-title">
