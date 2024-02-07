@@ -55,11 +55,16 @@ const Button = styled.button`
   &:last-child {
     margin-right: 0;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const Container = styled.div`
   background-color: #323345;
-  border: 2px solid transparent;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -125,6 +130,12 @@ const GhostButton = styled.button`
   }
 `;
 
+const ErrorLabel = styled.span`
+  width: 100%;
+  color: #ff4d4f;
+  text-align: left;
+`;
+
 const {
   onConfirm,
   balance,
@@ -132,36 +143,80 @@ const {
   loading,
   address,
   decimals,
+  isBaseAsset,
   isCollateral,
   selectedItem,
+  min,
 } = props;
 
 const [inputValue, setInputValue] = useState("");
 
+function validateMinimumAmount(value) {
+  if (!props.min) return;
+
+  if (value < min) {
+    return State.update({ error: `Minimum amount is ${props.min}` });
+  } else if (value > balance) {
+    return State.update({ error: `Insufficient balance` });
+  } else {
+    return State.update({ error: "" });
+  }
+}
+
 const handleInputChange = (e) => {
   setInputValue(e.target.value);
 };
+
+useEffect(() => {
+  if (!props.min || !inputValue) return;
+
+  validateMinimumAmount(Number(inputValue));
+}, [inputValue, props.balance, props.min]);
+
+//TODO: eu fiz a lógica do erro aqui ignorando o do borrow pq eu vi
+// que vc fez uma com error e tal porém esse tipo de logica deixa o input
+// muito bugado, mas deixei ai, depois olhamos isso quando o borrow
+//tiver pronto.
 return (
   <InputGroup>
-    <Container>
+    <Container
+      //Don't put this logic on the styled components or it will break.
+      style={{
+        border:
+          (inputValue > balance && type !== "borrow") || state.error
+            ? "2px solid #ff4d4f"
+            : "2px solid transparent",
+      }}
+    >
       <Icon src={selectedItem.image} alt="Currency Icon" />
       <Input
         id="supply-input"
         placeholder="0.00"
+        min={min}
         value={inputValue}
         onChange={handleInputChange}
       />
       <MaxButton onClick={() => setInputValue(balance)}>MAX</MaxButton>
     </Container>
+    {inputValue > balance && type !== "borrow" && (
+      <ErrorLabel>Insufficient balance!</ErrorLabel>
+    )}
+    {state.error && <ErrorLabel>{state.error}</ErrorLabel>}
     <InputLabel htmlFor="supply-input">
-      Balance: {balance} {selectedItem.name}
+      Balance: {balance ? balance : "0.00"} {selectedItem.name}
     </InputLabel>
     {type === "withdraw" ? (
       <GhostButton
         marginTop={45}
-        disabled={balance && balance === 0}
+        disabled={
+          !(inputValue > 0) ||
+          !balance ||
+          balance === 0 ||
+          state.error ||
+          inputValue > balance
+        }
         onClick={() => {
-          onConfirm(address, inputValue, decimals);
+          onConfirm(address, inputValue, decimals, isBaseAsset);
         }}
       >
         {loading ? "Loading" : "Withdraw"}
@@ -171,8 +226,16 @@ return (
         marginTop={24}
         color={type === "borrow" && "#FFF"}
         bgColor={type === "borrow" && "#AA00FA"}
-        disabled={balance && balance === 0}
-        onClick={() => onConfirm(address, inputValue, decimals, isCollateral)}
+        disabled={
+          !(inputValue > 0) ||
+          !balance ||
+          balance === 0 ||
+          state.error ||
+          (inputValue > balance && type !== "borrow")
+        }
+        onClick={() =>
+          onConfirm(address, inputValue, decimals, isBaseAsset, isCollateral)
+        }
       >
         {type === "borrow" ? "BORROW" : "SUPPLY"}
       </Button>
