@@ -88,12 +88,12 @@ const ERC20_ABI = [
   },
 ];
 
-const { multicallAddress, account, update, dapp, onLoad, multicall, markets } =
+const { multicallAddress, account, update, name, onLoad, multicall, markets } =
   props;
 
 useEffect(() => {
   if (!multicallAddress || !update || !account) return "";
-  console.log(`${dapp}-update`);
+  console.log(`${name}-update`);
   let _cTokensData = {};
   let _loanToValue = {};
   let _underlyPrice = {};
@@ -103,7 +103,7 @@ useEffect(() => {
   let oTokensLength = Object.values(markets).length;
 
   const formatedData = (key) => {
-    console.log(`${dapp}-${key}`, count);
+    console.log(`${name}-${key}`, count);
     if (count < 4) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
@@ -155,7 +155,7 @@ useEffect(() => {
         userUnderlyingBalance: _underlyingBalance[market.address],
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
-        dapp,
+        dapp: name,
       };
     });
 
@@ -398,4 +398,4 @@ useEffect(() => {
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
-}, []);
+}, [update, account]);
