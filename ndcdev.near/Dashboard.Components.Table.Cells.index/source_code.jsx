@@ -58,19 +58,26 @@ const getPercentage = (start, end, divider) => {
   return val > 100 ? 100 : val;
 };
 
-const formatValue = (val) => {
-  const value = val ?? 0;
-
-  return value >= 1000000000
-    ? `${parseFloat(value / 1000000000).toFixed(2)}B`
-    : value >= 1000000
-    ? `${parseFloat(value / 1000000).toFixed(2)}M`
-    : value >= 1000
-    ? `${parseFloat(value / 1000).toFixed(2)}K`
-    : value.toFixed(2);
-};
+const formatValue = (value) =>
+  value
+    ? value >= 1000000000
+      ? `${parseFloat(value / 1000000000).toFixed(2)}B`
+      : value >= 1000000
+      ? `${parseFloat(value / 1000000).toFixed(2)}M`
+      : value >= 1000
+      ? `${parseFloat(value / 1000).toFixed(2)}K`
+      : Number.isInteger(value)
+      ? value
+      : value.toFixed(2)
+    : "﹣";
 
 const { dataSet } = props;
+
+const TooltipContent = ({ key, value }) => (
+  <div className="justify-content-between w-100 d-flex gap-2">
+    <div>{key}:</div> <div>{formatValue(value)}</div>
+  </div>
+);
 
 return (
   <Container>
@@ -93,17 +100,44 @@ return (
               }
             />
             <div className="position-relative">
-              {retention.end} / {retention.start}
+              <Widget
+                src={`ndcdev.near/widget/Dashboard.Components.Tooltip.index`}
+                props={{
+                  content: (
+                    <>
+                      <TooltipContent key="Start" value={retention.start} />
+                      <TooltipContent key="End" value={retention.end} />
+                    </>
+                  ),
+                  minWidth: "max-content",
+                  icon: <i>{formatValue(retention.end / retention.start)}</i>,
+                }}
+              />
             </div>
           </Cell>
-          <Cell>{dappsUsed}</Cell>
+          <Cell>{formatValue(dappsUsed)}</Cell>
           <Cell>
             <Colored
               width={10}
               color={balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB"}
             />
             <div className="position-relative">
-              {formatValue(balance / interactedAccounts)}
+              <Widget
+                src={`ndcdev.near/widget/Dashboard.Components.Tooltip.index`}
+                props={{
+                  content: (
+                    <>
+                      <TooltipContent key="Balance" value={balance} />
+                      <TooltipContent
+                        key="Accounts"
+                        value={interactedAccounts}
+                      />
+                    </>
+                  ),
+                  minWidth: "max-content",
+                  icon: <i>{formatValue(balance / interactedAccounts)}</i>,
+                }}
+              />
             </div>
           </Cell>
         </div>
