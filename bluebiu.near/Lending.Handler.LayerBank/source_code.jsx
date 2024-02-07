@@ -96,27 +96,6 @@ useEffect(() => {
       gasLimit: 4000000,
     };
 
-    const CNativeTokenContract = new ethers.Contract(
-      data.config.unitrollerAddress,
-      [
-        {
-          inputs: [],
-          name: "supply",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "repayBorrow",
-          outputs: [],
-          stateMutability: "payable",
-          type: "function",
-        },
-      ],
-      Ethers.provider().getSigner()
-    );
-
     const CTokenContract = new ethers.Contract(
       data.config.unitrollerAddress,
       CTOKEN_ABI,
@@ -126,7 +105,6 @@ useEffect(() => {
     contract = CTokenContract;
 
     if (data.actionText === "Deposit") {
-      contract = isETH ? CNativeTokenContract : CTokenContract;
       method = "supply";
       params = isETH ? [data.address, 0] : [data.address, parsedAmount];
     }
@@ -142,9 +120,8 @@ useEffect(() => {
     }
 
     if (data.actionText === "Repay") {
-      contract = isETH ? CNativeTokenContract : CTokenContract;
       method = "repayBorrow";
-      params = isETH ? [] : [data.address, parsedAmount];
+      params = isETH ? [data.address, 0] : [data.address, parsedAmount];
     }
   }
 
