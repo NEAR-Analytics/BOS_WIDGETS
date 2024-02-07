@@ -67,7 +67,7 @@ function OnboardingFlow() {
     daofollowEdge && Object.keys(daofollowEdge).length > 0;
   console.log("Caleddd", context.accountId, userCompletedOnboarding);
   useEffect(() => {
-    if (context.accountId && userCompletedOnboarding) {
+    if (context.accountId && !userCompletedOnboarding) {
       setShowModal(true);
     } else {
       setShowModal(false);
