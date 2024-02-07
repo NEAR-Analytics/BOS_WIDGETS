@@ -1,5 +1,3 @@
-const { Footer } = VM.require(`memiko.near/widget/mem.Components.Footer`);
-
 let fontCss = fetch(
   "https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;1,600&display=swap",
 );
@@ -53,7 +51,6 @@ function AppLayout({ pageProps, children }) {
     <Theme>
       <Container>
         <Content>{children}</Content>
-        <Footer />
       </Container>
     </Theme>
   );
