@@ -76,6 +76,7 @@ function OnboardingFlow() {
 
   useEffect(() => {
     if (step > 3) {
+      setShowModal(false);
       Storage.privateSet(StorageKey.userCompletedOnboarding, true);
     }
   }, [step]);
@@ -253,9 +254,6 @@ function OnboardingFlow() {
             variant="primary"
             onClick={() => {
               setStep(step + 1);
-              if (step === 3) {
-                setShowModal(false);
-              }
             }}
           >
             {step === 3 ? "Finish" : "Next"}
