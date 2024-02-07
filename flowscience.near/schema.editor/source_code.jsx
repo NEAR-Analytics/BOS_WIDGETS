@@ -1,5 +1,6 @@
 const typeSrc = props.typeSrc || "";
 const blockHeight = props.blockHeight || "final";
+const selectedSchema = props.selectedSchema;
 let type = {
   name: "",
   properties: [],
@@ -15,13 +16,16 @@ State.init({
   newPropertyType: "string",
   newWidgetKey: "",
   newWidgetSrc: "",
-  newTypeSrc: "hyperfiles.near",
+  newTypeSrc: "",
   typeSrc: "hyperfiles.near",
   expanded: false,
+  schemaUID: "",
 });
 
 let importedTypes = [];
 if (state.typeSrc !== "") {
+  const defaultTypes = Social.get(`every.near/type/**`, "final");
+  const hyperfilesTypes = Social.get(`hyperfiles.near/type/**`, "final");
   const types = Social.get(`${state.typeSrc}/type/**`, "final");
   if (!types) {
     return <></>;
@@ -172,6 +176,10 @@ const composeData = () => {
       [state.typeName]: JSON.stringify({
         properties: state.properties,
         widgets: state.widgets,
+        resolver: {
+          type: resolverType,
+          data: resolverData, // Include the accountIds for the attester resolver
+        },
       }),
     },
   };
@@ -198,6 +206,18 @@ function MultiSelect({ value, onChange }) {
     </Select>
   );
 }
+
+const resolverType = state.resolverType;
+const resolverData = state.resolverData;
+
+const handleResolverTypeChange = (e) => {
+  setResolverType(e.target.value);
+};
+
+// This function will be called by the AttResolver component
+const handleResolverDataChange = (newData) => {
+  setResolverData(newData);
+};
 
 return (
   <Container>
@@ -247,8 +267,8 @@ return (
         <br></br>
         <b>1.</b> [Field Name]: give a meaningful name to the data<br></br>
         <b>2.</b> [Field Type]: select an appropriate primitive for the data.{" "}
-        <a href="">
-          <i>[Create field types]</i>
+        <a href="https://everything.dev/every.near/widget/every.type.create">
+          <i>[Define new types]</i>
         </a>
         <br></br>
         <b>3.</b> [Single/Multi]: will the data contain multiple objects of the
@@ -331,18 +351,29 @@ return (
       <hr></hr>
       <Row>
         <Text>
-          <b>Resolver Address:</b>
+          <b>Resolver:</b>
         </Text>
-        <Input
-          type="text"
-          placeholder="(e.g. resolver.near)"
-          value={state.resolverId}
-          onChange={handleResolverIdChange}
-        />
+        <Select value={resolverType} onChange={handleResolverTypeChange}>
+          <option value="">None</option>
+          <option value="attester.resolver">Attester Resolver</option>
+          {/* ... (other resolver options) */}
+        </Select>
+        {resolverType === "attester.resolver" && (
+          <Widget
+            src="flowscience.near/widget/attester.resolver"
+            props={{
+              item: {
+                type: resolverType,
+                value: resolverData,
+              },
+              onChange: handleResolverDataChange,
+            }}
+          />
+        )}
       </Row>
       <i>
-        *Optional smart contract that gets executed with every attestation of
-        this type. (Can be used to verify, limit, act upon any attestation)
+        *Optional logic that gets executed with every attestation of this type.
+        (Can be used to verify, limit, act upon any attestation)
       </i>
       <hr></hr>
       <Row>
