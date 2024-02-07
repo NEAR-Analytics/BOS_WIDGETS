@@ -169,7 +169,44 @@ function Property({ property, value }) {
 }
 
 const handleSave = () => {
-  Social.set(data);
+  // Check if selectedSchema is correctly set in the state before saving
+  if (!state.selectedSchema) {
+    console.error("Selected schema is undefined");
+    return;
+  }
+
+  // Use the selectedSchema from state
+  const attestationData = {
+    [state.selectedSchema]: JSON.stringify({
+      fields: {
+        objectUID: state.objectUID,
+        attestor: context.accountId,
+        recipientId: state.recipientId,
+        expireDate: state.expireDate,
+        expireTime: state.expireTime,
+        revokeDate: state.revokeDate,
+        revokeTime: state.revokeTime,
+        refUID: state.refUID,
+        payload: state.payload,
+        schemaState: state.schemaState,
+      },
+    }),
+  };
+
+  // Construct the final data structure to save
+  const saveData = {
+    attestation: attestationData,
+  };
+
+  Social.set(saveData)
+    .then(() => {
+      // Handle the success of the operation
+      console.log("Attestation saved successfully");
+    })
+    .catch((error) => {
+      // Handle any errors that occur during the save
+      console.error("Error saving attestation:", error);
+    });
 };
 
 return (
