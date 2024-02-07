@@ -67,10 +67,11 @@ const initLibsCalls = {
   ],
 };
 
+//To slice the article body and show the showMore button just uncoment the sliceContent: true, un the State.init
 State.init({
   tabSelected: tabs[0].id,
   comments: [],
-  sliceContent: true,
+  // sliceContent: true,
   libsCalls: initLibsCalls,
 });
 
