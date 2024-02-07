@@ -6,8 +6,7 @@ const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
 const buildEdges = props.buildEdges;
-const template = props.template || "every.near/type/thing";
-const thingId = props.thingId;
+const template = props.template || "hyperfiles.near/type/attestation";
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
@@ -128,7 +127,6 @@ State.init({
   preview: "TEMPLATE",
   template,
   templateVal: template,
-  thingId,
   schemas: {},
   loading: false,
 });
@@ -180,7 +178,7 @@ const handleSave = () => {
   }
 
   const data = {
-    thing: {
+    attestation: {
       [thingId]: JSON.stringify({
         data: state.config,
         template: {
@@ -383,15 +381,7 @@ return (
               }}
             />
           </FormContainer>
-          <Footer>
-            <Button onClick={() => handleApply()}>apply</Button>
-            <Button
-              onClick={() => State.update({ isModalOpen: true })}
-              disabled={state.config === undefined}
-            >
-              save
-            </Button>
-          </Footer>
+          <Footer></Footer>
         </>
       ) : (
         <Widget
@@ -406,7 +396,7 @@ return (
           <Header>
             <Row style={{ justifyContent: "space-between" }}>
               <div>
-                <Label>Template:</Label>
+                <Label>Hyperfile (set of edges)</Label>
                 <Input
                   value={state.templateVal}
                   onChange={(e) =>
@@ -414,45 +404,26 @@ return (
                   }
                 />
               </div>
-              <Select
-                value={state.preview}
-                onChange={(e) => State.update({ preview: e.target.value })}
-              >
-                <option value="TEMPLATE">template</option>
-                <option value="RAW">raw</option>
-              </Select>
+
               <Button>
                 <a
                   className={`btn`}
-                  href={`https://jutsu.ai/editor/${state.template}`}
+                  href={`https://draw.everything.dev/${state.template}`}
                   target="_blank"
                 >
-                  <i className=" me-1">
-                    <svg
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="2 2 18 18"
-                      width="16px"
-                      height="16px"
-                    >
-                      <path d="M12.16 3h-.32L9.21 8.25h5.58zm4.3 5.25h5.16l-2.07-4.14C19.21 3.43 18.52 3 17.76 3h-3.93l2.63 5.25zm4.92 1.5h-8.63V20.1zM11.25 20.1V9.75H2.62zM7.54 8.25 10.16 3H6.24c-.76 0-1.45.43-1.79 1.11L2.38 8.25h5.16z"></path>
-                    </svg>
-                  </i>
-                  <span>Open in Jutsu</span>
+                  <span>Open on Canvas</span>
                 </a>
               </Button>
             </Row>
           </Header>
-          {state.preview === "TEMPLATE" ? (
-            <>
-              {(state.template && (
-                <Widget src={state.template} props={{ data: state.config }} />
-              )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
-            </>
+          {state.preview === "RAW" ? (
+            <></>
           ) : (
             <Widget
-              src="hyperfiles.near/widget/hyperfile.view"
-              props={{ value: state.config || {} }}
+              src="hack.near/widget/graph.view"
+              props={{
+                accounts: [context.accountId, state.recipientId, state.refUID],
+              }}
             />
           )}
         </>
@@ -460,30 +431,5 @@ return (
         <></>
       )}
     </MainContent>
-    {state.isModalOpen && (
-      <ModalOverlay>
-        <ModalContent>
-          <ModalTitle>Make an attestation</ModalTitle>
-          <p>option to provide a thing id</p>
-          <Row style={{ gap: "8px" }}>
-            <Input
-              value={state.thingId}
-              onChange={(e) => State.update({ thingId: e.target.value })}
-              placeholder="thing id"
-            />
-          </Row>
-          <Widget
-            src="efiz.near/widget/Every.Raw.View"
-            props={{
-              value: { data: state.config, template: { src: state.template } },
-            }}
-          />
-          <Button onClick={handleSave}>Save</Button>
-          <Button onClick={() => State.update({ isModalOpen: false })}>
-            Cancel
-          </Button>
-        </ModalContent>
-      </ModalOverlay>
-    )}
   </Container>
 );
