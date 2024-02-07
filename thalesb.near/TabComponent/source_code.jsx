@@ -101,6 +101,7 @@ const MenuContainer = styled.div`
     width: 100%;
     border-radius:8px;
     height: 50px;
+    text-align:center;
     &:hover,
     &:focus {
       opacity: 0.8;
@@ -509,21 +510,6 @@ if (
       }
     });
 }
-const switchNetwork = () => {
-  Ethers.send("wallet_addEthereumChain", [
-    {
-      chainId: "0x89",
-      chainName: "Matic Mainnet",
-      nativeCurrency: {
-        name: "Matic",
-        symbol: "MATIC",
-        decimals: 18,
-      },
-      rpcUrls: ["https://rpc-mainnet.maticvigil.com/"],
-      blockExplorerUrls: ["https://explorer.matic.network/"],
-    },
-  ]);
-};
 
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -537,7 +523,7 @@ const ContainerToast = styled.div`
     --viewport-padding: 25px;
     position: fixed;
     bottom: 0;
-    right: 0;
+    right: left;
     display: flex;
     flex-direction: column;
     padding: var(--viewport-padding);
@@ -607,11 +593,9 @@ const ContainerToast = styled.div`
   }
 
   .ToastTitle {
-    display: flex; /* Use Flexbox */
-    align-items: center; /* Vertically center the flex items */
-    gap: 10px; /* Space between the flex items */
-
-    /* Keep your previous styles */
+    display: flex;
+    align-items: center;
+    gap: 10px;
     grid-area: title;
     margin-bottom: 5px;
     font-weight: 500;
@@ -625,7 +609,6 @@ const ContainerToast = styled.div`
     color: #888baf;
     font-size: 14px;
     line-height: 20px;
-
     overflow-wrap: break-word;
     word-break: break-word;
   }
@@ -664,43 +647,19 @@ const ContainerToast = styled.div`
     line-height: 35px;
     height: 35px;
   }
-  .Button.violet {
-    background-color: white;
-    color: var(--violet-11);
-    box-shadow: 0 2px 10px var(--black-a7);
-  }
-  .Button.violet:hover {
-    background-color: var(--mauve-3);
-  }
-
-  .Button.violet:focus {
-    box-shadow: 0 0 0 2px black;
-  }
-  .Button.green {
-    background-color: var(--green-2);
-    color: var(--green-11);
-    box-shadow: inset 0 0 0 1px var(--green-7);
-  }
-  .Button.green:hover {
-    box-shadow: inset 0 0 0 1px var(--green-8);
-  }
-  .Button.green:focus {
-    box-shadow: 0 0 0 2px var(--green-8);
-  }
 
   .toast-close-button {
-    background: none; /* Remove default button background */
-    border: none; /* Remove default button border */
+    background: none;
+    border: none;
     margin-bottom: 5px;
-    cursor: pointer; /* Optional: Ensure it looks clickable */
+    cursor: pointer;
   }
 
-  /* Style the span inside Toast.Close for the "×" appearance */
   .toast-close-button span {
     display: inline-block;
-    color: white; /* Or any color you prefer */
-    font-size: 24px; /* Adjust size as needed */
-    font-weight: bold; /* Optional: makes the "×" bolder */
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
   }
 `;
 const SuccessIcon = () => (
@@ -717,6 +676,26 @@ const SuccessIcon = () => (
       d="M2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12ZM15.6103 10.1859C15.8511 9.84887 15.773 9.38046 15.4359 9.1397C15.0989 8.89894 14.6305 8.97701 14.3897 9.31407L11.1543 13.8436L9.53033 12.2197C9.23744 11.9268 8.76256 11.9268 8.46967 12.2197C8.17678 12.5126 8.17678 12.9874 8.46967 13.2803L10.7197 15.5303C10.8756 15.6862 11.0921 15.7656 11.3119 15.7474C11.5316 15.7293 11.7322 15.6153 11.8603 15.4359L15.6103 10.1859Z"
       fill="#35CC00"
     />
+  </svg>
+);
+
+const WarningIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="Status icons/Warning">
+      <path
+        id="Subtract"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2.25 12C2.25 6.61522 6.61522 2.25 12 2.25C17.3848 2.25 21.75 6.61522 21.75 12C21.75 17.3848 17.3848 21.75 12 21.75C6.61522 21.75 2.25 17.3848 2.25 12ZM10.9562 10.5584C12.1025 9.98533 13.3931 11.0206 13.0823 12.2639L12.3733 15.0999L12.4148 15.0792C12.7852 14.894 13.2357 15.0441 13.421 15.4146C13.6062 15.7851 13.4561 16.2356 13.0856 16.4208L13.0441 16.4416C11.8979 17.0147 10.6072 15.9794 10.9181 14.7361L11.6271 11.9001L11.5856 11.9208C11.2151 12.1061 10.7646 11.9559 10.5793 11.5854C10.3941 11.2149 10.5443 10.7644 10.9148 10.5792L10.9562 10.5584ZM12 9C12.4142 9 12.75 8.66421 12.75 8.25C12.75 7.83579 12.4142 7.5 12 7.5C11.5858 7.5 11.25 7.83579 11.25 8.25C11.25 8.66421 11.5858 9 12 9Z"
+        fill="#FAD200"
+      />
+    </g>
   </svg>
 );
 
@@ -744,22 +723,33 @@ const [items, setItems] = useState({
   ethereum: [
     {
       name: "USDC",
-      address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      bulkerAddress: "0x74a81F84268744a40FEBc48f8b812a1f188D80C3",
       networkImage:
         "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
       image:
         "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
       network: "Ethereum",
+      decimals: 6,
+      chainId: 1,
       contractInfo: {
-        network: "Polygon Mainnet",
-        address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
-        chainId: 137,
-        httpRpcUrl: "https://polygon-rpc.com/",
+        network: "Ethereum Mainnet",
+        address: "0xc3d688B66703497DAA19211EEdff47f25384cdc3",
+        chainId: 1,
+        httpRpcUrl: "https://ethereum.publicnode.com",
         borrowAssetCoingeckoId: "usdc",
       },
       collateralItems: [
-        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
-        // A funcao de bulk ao inves do contrato...matic, eth.
+        {
+          name: "Ethereum",
+          address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+          decimals: 18,
+          subLabel: "ETH",
+          isBaseAsset: true,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          value: "28.00",
+        },
         {
           name: "Chainlink",
           address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
@@ -800,22 +790,25 @@ const [items, setItems] = useState({
     },
     {
       name: "ETH",
-      address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+      isBaseAsset: true,
+      bulkerAddress: "0xa397a8C2086C554B531c02E29f3291c9704B00c7",
       networkImage:
         "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/eth.png",
       image:
         "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
       network: "Ethereum",
+      decimals: 18,
+      chainId: 1,
+
       contractInfo: {
-        network: "Polygon Mainnet",
-        address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
-        chainId: 137,
-        httpRpcUrl: "https://polygon-rpc.com/",
-        borrowAssetCoingeckoId: "usdc",
+        network: "Ethereum Mainnet",
+        address: "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
+        chainId: 1,
+        httpRpcUrl: "https://ethereum.publicnode.com",
+        borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
-        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
-        // A funcao de bulk ao inves do contrato...matic, eth.
         {
           name: "Coinbase Wrapped Staked ETH",
           address: "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
@@ -848,13 +841,16 @@ const [items, setItems] = useState({
   ],
   polygon: [
     {
-      name: "USDC",
+      name: "USDC.e",
       address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      bulkerAddress: "0x59e242D352ae13166B4987aE5c990C232f7f7CD6",
       networkImage:
         "https://raw.githubusercontent.com/sushiswap/list/master/logos/native-currency-logos/matic.svg",
       image:
         "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
       network: "Polygon",
+      decimals: 6,
+      chainId: 137,
       contractInfo: {
         network: "Polygon Mainnet",
         address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
@@ -863,8 +859,16 @@ const [items, setItems] = useState({
         borrowAssetCoingeckoId: "usdc",
       },
       collateralItems: [
-        //TODO: O primeiro asset tem que dar uma olhada pq parece que ele usa
-        // A funcao de bulk ao inves do contrato...matic, eth.
+        {
+          name: "Matic",
+          address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+          isBaseAsset: true,
+          decimals: 18,
+          subLabel: "MATIC",
+          image:
+            "https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@1a63530be6e374711a8554f31b17e4cb92c25fa5/128/color/matic.png",
+          value: "28.00",
+        },
         {
           name: "Wrapped Ethereum",
           address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
@@ -904,8 +908,203 @@ const [items, setItems] = useState({
       ],
     },
   ],
+  base: [
+    {
+      name: "ETH",
+      address: "0x4200000000000000000000000000000000000006",
+      bulkerAddress: "0x78D0677032A35c63D142a48A2037048871212a8C",
+      networkImage:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
+      image:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+      network: "Base",
+      isBaseAsset: true,
+      decimals: 18,
+      chainId: 8453,
+      contractInfo: {
+        network: "Base Mainnet",
+        address: "0x46e6b214b524310239732D51387075E0e70970bf",
+        chainId: 8453,
+        httpRpcUrl: "https://mainnet.base.org",
+        borrowAssetCoingeckoId: "eth",
+      },
+      collateralItems: [
+        {
+          name: "Coinbase Wrapped Staked ETH",
+          address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+          decimals: 18,
+          subLabel: "cbETH",
+          image:
+            "https://assets.coingecko.com/coins/images/27008/standard/cbeth.png?1696526061",
+          value: "28.00",
+        },
+      ],
+    },
+    {
+      name: "USDbC",
+      address: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+      bulkerAddress: "0x78D0677032A35c63D142a48A2037048871212a8C",
+      networkImage:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
+      image:
+        "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+      network: "Base",
+      decimals: 6,
+      chainId: 8453,
+      contractInfo: {
+        network: "Base Mainnet",
+        address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+        chainId: 8453,
+        httpRpcUrl: "https://mainnet.base.org",
+        borrowAssetCoingeckoId: "eth",
+      },
+      collateralItems: [
+        {
+          name: "Coinbase Wrapped Staked ETH",
+          address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+          decimals: 18,
+          subLabel: "cbETH",
+          image:
+            "https://assets.coingecko.com/coins/images/27008/standard/cbeth.png?1696526061",
+          value: "28.00",
+        },
+        {
+          name: "Ethereum",
+          address: "0x4200000000000000000000000000000000000006",
+          decimals: 18,
+          subLabel: "ETH",
+          isBaseAsset: true,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          value: "28.00",
+        },
+      ],
+    },
+  ],
+  arbitrum: [
+    {
+      name: "USDC.e",
+      address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      bulkerAddress: "0xbdE8F31D2DdDA895264e27DD990faB3DC87b372d",
+      networkImage:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
+      image:
+        "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+      network: "Arbitrum",
+      decimals: 6,
+      chainId: 42161,
+      contractInfo: {
+        network: "Arbitrum One",
+        address: "0xA5EDBDD9646f8dFF606d7448e414884C7d905dCAx",
+        chainId: 42161,
+        httpRpcUrl: "https://arbitrum-mainnet.infura.io",
+        borrowAssetCoingeckoId: "eth",
+      },
+      collateralItems: [
+        {
+          name: "Arbitrum",
+          address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "ARB",
+          value: "28.00",
+        },
+        {
+          name: "Ether",
+          address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+          decimals: 18,
+          isBaseAsset: true,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          subLabel: "ETH",
+          value: "28.00",
+        },
+        {
+          name: "GMX",
+          address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+          decimals: 18,
+          image:
+            "https://assets.coingecko.com/coins/images/18323/small/arbit.png?163153246",
+          subLabel: "GMX",
+          value: "28.00",
+        },
+        {
+          name: "Wrapped Bitcoin",
+          address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "WBTC",
+          value: "28.00",
+        },
+      ],
+    },
+    {
+      name: "USDC",
+      address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      bulkerAddress: "0xbdE8F31D2DdDA895264e27DD990faB3DC87b372d",
+      networkImage:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
+      image:
+        "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+      network: "Arbitrum",
+      decimals: 6,
+      chainId: 42161,
+      contractInfo: {
+        network: "Arbitrum One",
+        address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+        chainId: 42161,
+        httpRpcUrl: "https://arbitrum-mainnet.infura.io",
+        borrowAssetCoingeckoId: "eth",
+      },
+      collateralItems: [
+        {
+          name: "Arbitrum",
+          address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "ARB",
+          value: "28.00",
+        },
+        {
+          name: "Ether",
+          address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+          decimals: 18,
+          isBaseAsset: true,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+          subLabel: "ETH",
+          value: "28.00",
+        },
+        {
+          name: "GMX",
+          address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+          decimals: 18,
+          image:
+            "https://assets.coingecko.com/coins/images/18323/small/arbit.png?163153246",
+          subLabel: "GMX",
+          value: "28.00",
+        },
+        {
+          name: "Wrapped Bitcoin",
+          address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+          decimals: 18,
+          image:
+            "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+          subLabel: "WBTC",
+          value: "28.00",
+        },
+      ],
+    },
+  ],
 });
-const [selectedItem, setSelectedItem] = useState(items.ethereum[0]); // Default to the first item
+
+const activeTab = Storage.privateGet("activeTab");
+const [selectedItem, setSelectedItem] = useState(
+  activeTab ? activeTab : items.ethereum[0]
+); // Default to the first item
 
 const addToast = (message, type) => {
   const newToast = { id: Date.now(), message, type };
@@ -919,9 +1118,67 @@ const addToast = (message, type) => {
   }, 5000);
 };
 
+const switchNetwork = (networkName) => {
+  let params = {};
+
+  if (networkName === "Ethereum") {
+    params = {
+      chainId: "0x1",
+      chainName: "Ethereum Mainnet",
+      nativeCurrency: {
+        name: "Ether",
+        symbol: "ETH",
+        decimals: 18,
+      },
+      rpcUrls: ["https://ethereum.publicnode.com"],
+      blockExplorerUrls: ["https://etherscan.io"],
+    };
+  } else if (networkName === "Polygon") {
+    params = {
+      chainId: "0x89",
+      chainName: "Matic Mainnet",
+      nativeCurrency: {
+        name: "Matic",
+        symbol: "MATIC",
+        decimals: 18,
+      },
+      rpcUrls: ["https://polygon-rpc.com"],
+      blockExplorerUrls: ["https://explorer.matic.network/"],
+    };
+  } else if (networkName === "Base") {
+    params = {
+      chainId: "0x2105",
+      chainName: "Base Mainnet",
+      nativeCurrency: {
+        name: "Ethereum",
+        symbol: "ETH",
+        decimals: 18,
+      },
+      rpcUrls: ["https://mainnet.base.org"],
+      blockExplorerUrls: ["https://basescan.org/"],
+    };
+  } else if (networkName === "Arbitrum") {
+    params = {
+      chainId: "0xa4b1",
+      chainName: "Arbitrum One",
+      nativeCurrency: {
+        name: "Ethereum",
+        symbol: "ETH",
+        decimals: 18,
+      },
+      rpcUrls: ["https://arbitrum-mainnet.infura.io"],
+      blockExplorerUrls: ["https://explorer.arbitrum.io"],
+    };
+  }
+  Ethers.send("wallet_addEthereumChain", [params]);
+};
+
 // Function to update the selected item based on a network and an index
 const updateSelectedItem = (network, index) => {
-  setSelectedItem(items[network.toLowerCase()][index]);
+  const selectedItem = items[network.toLowerCase()][index];
+  Storage.privateSet("activeTab", selectedItem);
+  switchNetwork(network);
+  setSelectedItem(selectedItem);
 };
 
 return (
@@ -940,8 +1197,12 @@ return (
           Dashboard
         </div>
         <div className={`connectWalletContainer`}>
-          {state.chainId !== undefined && state.chainId !== 137 ? (
-            <div className="switchButton" onClick={() => switchNetwork()}>
+          {state.chainId !== undefined &&
+          state.chainId !== selectedItem.chainId ? (
+            <div
+              className="switchButton"
+              onClick={() => switchNetwork(selectedItem.network)}
+            >
               Switch Network
             </div>
           ) : (
@@ -967,9 +1228,13 @@ return (
         </div>
 
         <div className="alignCenter">
-          {state.chainId !== undefined && state.chainId !== 137 ? (
-            <button className="switchWallet" onClick={() => switchNetwork()}>
-              Switch to Polygon
+          {state.chainId !== undefined &&
+          state.chainId !== selectedItem.chainId ? (
+            <button
+              className="switchWallet"
+              onClick={() => switchNetwork(selectedItem.network)}
+            >
+              Switch to {selectedItem.network}
             </button>
           ) : (
             <Web3Connect
@@ -992,6 +1257,7 @@ return (
                     address: state.sender,
                     selectedItem: selectedItem,
                     updateSelectedItem: updateSelectedItem,
+                    switchNetwork: switchNetwork,
                   }}
                   src="thalesb.near/widget/DashboardLayout"
                 />
@@ -1132,7 +1398,7 @@ return (
                     },
                   ],
                 }}
-                src="umulamahri.near/widget/CompoundMarkets"
+                src="thalespollum.near/widget/CompoundMarkets"
               />
             ) : null}
           </>
@@ -1146,8 +1412,18 @@ return (
         {toasts.map((toast) => (
           <Toast.Root key={toast.id} className="ToastRoot" open={true}>
             <Toast.Title className="ToastTitle">
-              {toast.type === "error" ? <ErrorIcon /> : <SuccessIcon />}
-              {toast.type === "error" ? "Error" : "Success"}
+              {toast.type === "error" ? (
+                <ErrorIcon />
+              ) : toast.type === "warning" ? (
+                <WarningIcon />
+              ) : (
+                <SuccessIcon />
+              )}
+              {toast.type === "error"
+                ? "Error"
+                : toast.type === "warning"
+                ? "Warning"
+                : "Success"}
             </Toast.Title>
             <Toast.Description className="ToastDescription">
               {toast.message}
