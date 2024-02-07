@@ -117,7 +117,7 @@ return (
         chain,
         mainnet,
         display: state.displayNetwork,
-        currentChainId: state.currentChainId,
+        currentChainId: state.currentChainId || props.defaultChainId,
         onClose: () => {
           State.update({
             displayNetwork: false,
