@@ -15,7 +15,7 @@ const NetworksColumn = styled.div`
 `;
 
 const AssetsColumn = styled.div`
-  flex: 1; /* Equal width */
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -88,7 +88,9 @@ const baseImage =
 const arbitrumImage =
   "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png";
 
-const [activeBlockchain, setActiveBlockchain] = useState("Ethereum");
+const [activeBlockchain, setActiveBlockchain] = useState(
+  selectedItem.network ? selectedItem.network : "Ethereum"
+);
 
 const assets = {
   Ethereum: [
@@ -122,7 +124,7 @@ return (
         onMouseEnter={() => setActiveBlockchain("Polygon")}
         isActive={activeBlockchain === "Polygon"}
       />
-      {/* <NetworkItem
+      <NetworkItem
         name="Base"
         icon={baseImage}
         onMouseEnter={() => setActiveBlockchain("Base")}
@@ -133,9 +135,10 @@ return (
         icon={arbitrumImage}
         onMouseEnter={() => setActiveBlockchain("Arbitrum")}
         isActive={activeBlockchain === "Arbitrum"}
-      /> */}
+      />
     </NetworksColumn>
     {/* Assets Column */}
+
     <AssetsColumn>
       {assets[activeBlockchain].map((asset, index) => (
         <AssetItem
