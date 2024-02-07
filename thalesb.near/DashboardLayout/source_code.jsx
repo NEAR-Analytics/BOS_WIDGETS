@@ -814,12 +814,21 @@ const abi = fetch(
 const abiBulk = fetch(
   "https://raw.githubusercontent.com/ThalesBMC/bulk-api/main/BulkAbi.json"
 );
-
+const { getApr } = VM.require("thalesb.near/widget/compound-requests");
 if (!abi || !abiBulk) return "Loading...";
 
 useEffect(() => {
+  getApr({
+    cometAddress: props.selectedItem.contractInfo.address,
+    rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
+  }).then((data) => {
+    console.log("atualizou");
+    State.update({ aprData: data });
+  });
+}, [selectedItem]);
+
+useEffect(() => {
   const balancesPromise = new Promise((resolve, reject) => {
-    console.log("entrou no balancesPromise");
     const rpcProvider = new ethers.providers.JsonRpcProvider(
       contractInfo.httpRpcUrl
     );
@@ -834,6 +843,12 @@ useEffect(() => {
       rpcProvider
     );
 
+    /**
+     * Fetches the balances for a collateral item.
+     *
+     * @param {Object} item - The collateral item.
+     * @returns {Promise<Object>} - A promise that resolves to an object containing the balances.
+     */
     function fetchBalancesForCollateralItem(item) {
       if (item.isBaseAsset) {
         // For the base asset, fetch the native balance directly from the network
@@ -943,6 +958,14 @@ useEffect(() => {
   });
 }, [state.lastTransactionHash, selectedItem]);
 
+/**
+ * Withdraws an asset to a contract.
+ *
+ * @param {string} assetAddress - The address of the asset.
+ * @param {number} amount - The amount to withdraw.
+ * @param {number} decimals - The number of decimals for the asset.
+ * @param {boolean} isBaseAsset - Indicates if the asset is the base asset.
+ */
 const withdrawToContract = (assetAddress, amount, decimals, isBaseAsset) => {
   const contractProxyAllowance = new ethers.Contract(
     contractInfo.address,
@@ -1059,6 +1082,13 @@ const withdrawToContract = (assetAddress, amount, decimals, isBaseAsset) => {
   }
 };
 
+/**
+ * Checks the allowance and supplies the asset to a contract.
+ * @param {string} assetAddress - The address of the asset.
+ * @param {number} amount - The amount of the asset to supply.
+ * @param {number} decimals - The number of decimals for the asset.
+ * @param {boolean} isBaseAsset - Indicates if the asset is the base asset.
+ */
 function checkAllowanceAndSupply(assetAddress, amount, decimals, isBaseAsset) {
   const contractProxyAllowance = new ethers.Contract(
     contractInfo.address,
@@ -1198,6 +1228,13 @@ function checkAllowanceAndSupply(assetAddress, amount, decimals, isBaseAsset) {
   }
 }
 
+/**
+ * Supplies a specified amount of tokens to a contract.
+ *
+ * @param {string} address - The address of the contract.
+ * @param {number} amount - The amount of tokens to supply.
+ * @param {number} decimals - The number of decimal places for the token.
+ */
 const supplyToContract = (address, amount, decimals) => {
   const contract = new ethers.Contract(
     contractInfo.address,
@@ -1240,7 +1277,7 @@ const positionData = useCache(
     return getCollateralsWithLiquidationData({
       userAddress: address,
       cometAddress: selectedItem.contractInfo.address,
-      rpcUrl: selectedItem.contractInfo.httpRpcUrl,
+      rpcUrl: selectedItem.contractInfo.httpRpcUrlBorrow,
     });
   },
   "positionData" +
@@ -1316,7 +1353,7 @@ return (
                 }}
                 src="thalesb.near/widget/Input"
               />
-              {/* //TODO: is making too many request
+              {/* 
               <PositionContainer>
                 <Widget
                   src="thalesb.near/widget/PositionInfo"
@@ -1621,18 +1658,18 @@ return (
     {/* APR Section */}
     <GridItem span={3}>
       <Widget
-        key={"netBorrowApr" + Math.random()}
         src="thalesb.near/widget/NetBorrowApr"
         props={{
+          aprData: state.aprData,
           selectedItem: selectedItem,
         }}
       />
     </GridItem>
     <GridItem span={3}>
       <Widget
-        key={"netSupplyApr" + Math.random()}
         src="thalesb.near/widget/NetSupplyApr"
         props={{
+          aprData: state.aprData,
           selectedItem: selectedItem,
         }}
       />
