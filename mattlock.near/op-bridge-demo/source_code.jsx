@@ -4,7 +4,7 @@ TODO
 [x] use a block range op sepolia RPC (blockpi) for subsequent calls after tenderly
 [x] get balances for eth on all networks
 [] add mainnet contract addresses
-[] clean up network contracts and remove const contract addresses and contract instances
+[x] clean up network contracts and remove const contract addresses and contract instances
 [] clean up withdraw and deposits
 [] only get withdraw message data when user clicks prove or claim
 [] add erc20 deposit for usdc
