@@ -22,8 +22,6 @@ if (!Array.isArray(data.tags) && typeof data.tags === "object") {
 
 data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 
-console.log(data);
-
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
