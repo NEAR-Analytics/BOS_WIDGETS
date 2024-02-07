@@ -587,6 +587,7 @@ return (
             props={{
               handleCloseMenu: handleCloseMenu,
               onSelect: handleSelectComponent,
+              apps: props.apps,
             }}
             src="bos.dapplets.near/widget/ComponentsSearch"
           />
