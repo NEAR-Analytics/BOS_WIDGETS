@@ -5,8 +5,6 @@ const requiredTag = props.filterTag;
 const boostedTag = props.boostedTag;
 const inputTerm = props.term;
 
-console.log(props.apps)
-
 const debounce = (func, wait) => {
   const pause = wait || 350;
   let timeout;
@@ -23,6 +21,7 @@ const debounce = (func, wait) => {
 };
 
 const _search = (term) => {
+  console.log(props.apps)
   const terms = (term || "")
     .toLowerCase()
     .split(/[^\w._\/-]/)
