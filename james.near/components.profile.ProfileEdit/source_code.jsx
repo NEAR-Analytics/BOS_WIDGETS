@@ -7,6 +7,10 @@ const { Button, Avatar, InputField, TextEditor } = VM.require(
   TextEditor: () => <></>,
 };
 
+if (!Button || !Avatar || !InputField || !TextEditor) {
+  return "";
+}
+
 const accountId = context.accountId;
 
 if (!accountId) {
