@@ -15,17 +15,13 @@ TODO bridge-ui
 [x] add buttons prove and claim withdrawals to bridge-ui
 */
 
-const L1StandardBridgeProxy = `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`;
 const L2StandardBridge = "0x4200000000000000000000000000000000000010";
-const ETH_ADDR = "0x0000000000000000000000000000000000000000";
-const DEFAULT_AMOUNT_ETH = "0.01";
-const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
-const L2_OUTPUT_ORACLE_CONTRACT = `0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F`;
-const L1_OPTIMISM_PORTAL_CONTRACT = `0x16Fc5058F25648194471939df75CF27A2fdC48BC`;
-const HASH_ZERO =
-  "0x0000000000000000000000000000000000000000000000000000000000000000";
 const L2_L1_MESSAGE_PASSER_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
+const DEFAULT_AMOUNT_ETH = "0.01";
+const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
+const HASH_ZERO =
+  "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 const OP_SEPOLIA_CHAIN_ID = 11155420;
 const SEPOLIA_CHAIN_ID = 11155111;
@@ -109,12 +105,16 @@ if (!state.chainId) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      let network = "incorrect";
+      let network = "incorrect",
+        log;
       if (chainId === SEPOLIA_CHAIN_ID || chainId === OP_SEPOLIA_CHAIN_ID) {
         network = "testnet";
       }
       if (chainId === ETH_CHAIN_ID || chainId === OP_CHAIN_ID) {
         network = "mainnet";
+      }
+      if (chainId === OP_SEPOLIA_CHAIN_ID || chainId === OP_CHAIN_ID) {
+        log = depositDisabledMsg;
       }
       console.log("chainId", chainId, network);
 
@@ -125,7 +125,7 @@ if (!state.chainId) {
         network === "testnet" ? "sepolia-optimism." : "optimistic"
       }etherscan.io/tx/`;
 
-      State.update({ chainId, network, L1ExplorerLink, L2ExplorerLink });
+      State.update({ chainId, network, log, L1ExplorerLink, L2ExplorerLink });
     })
     .catch((e) => {
       console.log(e);
@@ -141,8 +141,7 @@ if (!network) {
 if (!VALID_CHAIN_ID.includes(chainId)) {
   return (
     <p>
-      {chainId} Please switch to Ethereum or Optimism mainnet; or Sepolia or OP
-      Sepolia
+      Please switch to Ethereum or Optimism mainnet; or Sepolia or OP Sepolia
     </p>
   );
 }
@@ -212,10 +211,9 @@ const contracts = {
   testnet: {
     l1Provider: sepoliaProvider,
     l2Provider: opSepoliaProviderOG,
-    bridge: {
-      L1ERC20BridgeProxy: "0x927DdFcc55164a59E0F33918D13a2D559bC10ce7",
-      L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
-    },
+    L1StandardBridgeProxy: `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`,
+    L2OutputOracleProxy: `0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F`,
+    L1OptimismPortalProxy: `0x16Fc5058F25648194471939df75CF27A2fdC48BC`,
     eth: {
       deposit: "0x1908e2BF4a88F91E4eF0DC72f02b8Ea36BEa2319",
       withdraw: "0x000000000000000000000000000000000000800A",
@@ -236,7 +234,7 @@ const L2StandardBridgeAbiIface = new ethers.utils.Interface(
 );
 
 const L1StandardBridgeProxyContract = new ethers.Contract(
-  L1StandardBridgeProxy,
+  contracts[network].L1StandardBridgeProxy,
   L1StandardBridgeProxyAbi.body,
   sepoliaProviderFilter
 );
@@ -328,9 +326,11 @@ if (sender && chainId && !state.initLogs) {
                 minGasLimit,
                 message,
                 withdrawalHash,
+                proven: false,
+                claimed: false,
+                isEth: true,
               };
 
-              withdrawal.isEth = true;
               ethWithdrawals.push(withdrawal);
 
               if (withdrawalMessages === withdrawalMessagesTarget) {
@@ -346,7 +346,7 @@ if (sender && chainId && !state.initLogs) {
               // ];
 
               // const l1Contract = new ethers.Contract(
-              //   L1_OPTIMISM_PORTAL_CONTRACT,
+              //   contracts[network].L1OptimismPortalProxy,
               //   opPortalAbi,
               //   sepoliaProvider
               // );
@@ -405,7 +405,7 @@ function handleDepositEth() {
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: L1StandardBridgeProxy,
+      to: contracts[network].L1StandardBridgeProxy,
       data: encodedData,
       value: DEFAULT_AMOUNT,
       gasLimit,
@@ -455,7 +455,7 @@ function handleWithdrawalInitiating() {
 
 const getMessageBedrockOutput = (l2BlockNumber, callback) => {
   const contract = new ethers.Contract(
-    L2_OUTPUT_ORACLE_CONTRACT,
+    contracts[network].L2OutputOracleProxy,
     L2OutputOracleAbi.body,
     goerliProvider
   );
@@ -590,7 +590,7 @@ const handleWithdrawalProve = (which) => {
       }
 
       const contract = new ethers.Contract(
-        L1_OPTIMISM_PORTAL_CONTRACT,
+        contracts[network].L1OptimismPortalProxy,
         L1OptimismPortalAbi.body,
         Ethers.provider().getSigner()
       );
@@ -621,7 +621,7 @@ const handleWithdrawalClaim = (which) => {
   ];
 
   const contract = new ethers.Contract(
-    L1_OPTIMISM_PORTAL_CONTRACT,
+    contracts[network].L1OptimismPortalProxy,
     proofAbi,
     Ethers.provider().getSigner()
   );
@@ -670,6 +670,21 @@ const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
       callback(balance);
     });
 };
+
+const withdrawalActions = [
+  {
+    labelComplete: "(proven)",
+    completeKey: "proven",
+    actionLabel: "Prove",
+    action: handleWithdrawalProve,
+  },
+  {
+    labelComplete: "(claimed)",
+    completeKey: "claimed",
+    actionLabel: "claim",
+    action: handleWithdrawalClaim,
+  },
+];
 
 if (sender && !state.balancesUpdated) {
   // l1
@@ -758,6 +773,7 @@ return (
         tokens,
         allDeposits,
         allWithdrawals,
+        withdrawalActions,
       }}
     />
   </>
