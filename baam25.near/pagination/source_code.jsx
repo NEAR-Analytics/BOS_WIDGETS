@@ -42,7 +42,7 @@ const Pagination = styled.div`
     color: white;
     cursor: pointer;
     :hover {
-      background: ${bgColor}90;
+      opacity: 0.7;
     }
     &.active {
       background: white;
