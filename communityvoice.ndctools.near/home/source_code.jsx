@@ -169,7 +169,7 @@ return (
   <>
     {sbtWhiteList ? (
       <Widget
-        src={widgets.ndcForum}
+        src={widgets.views.editableWidgets.ndcForum}
         props={{
           sharedBlockHeight,
           tagShared,
@@ -192,7 +192,9 @@ return (
         }}
       />
     ) : (
-      <Widget src={widgets.newStyledComponents.Feedback.Spinner} />
+      <Widget
+        src={widgets.views.standardWidgets.newStyledComponents.Feedback.Spinner}
+      />
     )}
     <CallLibrary>
       {libSrcArray.map((src) => {
