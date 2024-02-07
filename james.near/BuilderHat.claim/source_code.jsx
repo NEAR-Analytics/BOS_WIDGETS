@@ -90,6 +90,7 @@ return (
                   onCommit: () => {
                     setEditMode(false);
                   },
+                  force: true,
                 }
               );
             }}
@@ -109,7 +110,7 @@ return (
       <div className="d-flex flex-column">
         <span className="d-flex flex-row">
           <p className="me-2" style={{ color: "#fff" }}>
-            Builder Hat:
+            Builder Hat
           </p>
           <Widget
             src="james.near/widget/BuilderHat"
