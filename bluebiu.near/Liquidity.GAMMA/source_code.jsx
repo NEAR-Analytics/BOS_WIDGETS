@@ -156,18 +156,13 @@ if (!sender) {
       }}
     />
   );
-} else {
-  const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
-  if (index > -1) {
-    State.update({
-      chainIndex: index,
-    })
-  }
 }
-const proxyAddress = "0xFc13Ebe7FEB9595D70195E9168aA7F3acE153621"
+// const proxyAddress = "0xFc13Ebe7FEB9595D70195E9168aA7F3acE153621"
+
 const {
   pairs,
   addresses,
+  proxyAddress,
   ALL_DATA_URL,
   ICON_VAULT_MAP,
   USER_DATA_BASE,
@@ -208,12 +203,6 @@ function handleChangeChainIndex(index) {
   onSwitchChain({
     chainId: `0x${Number(chain.chain_id).toString(16)}`,
   });
-  State.update({
-    allData: null,
-    dataList: [],
-    categoryIndex: 0,
-    userPositions: null
-  })
 }
 function handleSearchInput(event) {
   State.update({
@@ -241,12 +230,23 @@ useEffect(() => {
     })
   }
 }, [state.dataList, state.token, state.categoryIndex])
-if (!state.allData) {
-  fetchAllData()
-}
 if (sender && state.userPositions === undefined) {
   fetchUserData();
 }
+
+useEffect(() => {
+  const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
+  if (index > -1) {
+    State.update({
+      chainIndex: index,
+      allData: null,
+      dataList: [],
+      categoryIndex: 0,
+      userPositions: null
+    })
+    fetchAllData()
+  }
+}, [curChain])
 const columnList = [{
   width: '30%',
   key: 'pool',
@@ -330,7 +330,7 @@ const columnList = [{
   }
 }]
 
-return (
+return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> : (
   <StyledColumn style={dexConfig.theme}>
     {state.allData && (
       <Widget
@@ -352,9 +352,6 @@ return (
         }}
       />
     )}
-    {/* <Widget
-      src={"bluebiu.near/widget/Liquidity.Bridge.Logo"}
-    /> */}
     <Widget
       src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
       props={{
@@ -373,7 +370,6 @@ return (
         toast,
         prices,
         columnList,
-        loading: state.loading,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
         dataList: state.filterList,
