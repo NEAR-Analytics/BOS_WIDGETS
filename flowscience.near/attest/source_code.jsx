@@ -1,6 +1,6 @@
 const item = props.item;
 const onChange = props.onChange;
-const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const selectedSchema = props.selectedSchema ?? "";
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
