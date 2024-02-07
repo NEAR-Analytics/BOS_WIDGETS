@@ -18,8 +18,6 @@ TODO bridge-ui
 const L2StandardBridge = "0x4200000000000000000000000000000000000010";
 const L2_L1_MESSAGE_PASSER_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
-const DEFAULT_AMOUNT_ETH = "0.01";
-const DEFAULT_AMOUNT = ethers.utils.parseUnits(DEFAULT_AMOUNT_ETH, 18);
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -415,7 +413,7 @@ const isGoerli = chainId === 5;
 
 // user actions
 
-function handleDepositEth() {
+function handleDepositEth(data) {
   const encodedData = L1StandardBridgeProxyIface.encodeFunctionData(
     "depositETH(uint32, bytes)",
     [200000, []]
@@ -426,7 +424,7 @@ function handleDepositEth() {
     .sendTransaction({
       to: contracts[network].L1StandardBridgeProxy,
       data: encodedData,
-      value: DEFAULT_AMOUNT,
+      value: ethers.utils.parseUnits(data.amount),
       gasLimit,
     })
     .then((tx) => {
@@ -446,15 +444,11 @@ function handleDeposit(data) {
   }
 }
 
-function handleWithdrawalInitiating() {
-  console.log("withdraw");
-
+function handleWithdrawalInitiatingEth(data) {
   const encodedData = L2StandardBridgeAbiIface.encodeFunctionData(
     "withdraw(address, uint256, uint32, bytes)",
-    [ETH_WITHDRAWAL_TARGET, DEFAULT_AMOUNT, 0, []]
+    [ETH_WITHDRAWAL_TARGET, ethers.utils.parseUnits(data.amount), 0, []]
   );
-
-  console.log("encoded", encodedData);
 
   Ethers.provider()
     .getSigner()
@@ -470,6 +464,13 @@ function handleWithdrawalInitiating() {
     .catch((e) => {
       console.log("bridge error:", e);
     });
+}
+
+function handleWithdrawalInitiating(data) {
+  console.log("handleWithdrawalInitiating", data);
+  if (data.assetId === "eth") {
+    return handleDepositEth(data);
+  }
 }
 
 const getMessageBedrockOutput = (l2BlockNumber, callback) => {
@@ -737,7 +738,7 @@ if (sender && !state.balancesUpdated) {
 const onAction = (data) => {
   if (!data.amount) return;
   if (data.action === "deposit") handleDeposit(data);
-  if (data.action === "withdraw") handleWithdraw(data);
+  if (data.action === "withdraw") handleWithdrawalInitiating(data);
 };
 
 const onTabChange = (tab) => {
