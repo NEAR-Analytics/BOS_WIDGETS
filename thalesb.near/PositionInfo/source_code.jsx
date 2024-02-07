@@ -3,8 +3,6 @@ State.init({
   position,
 });
 
-const { getUserPosition } = VM.require("thalesb.near/widget/compound-requests");
-
 const InfoSection = styled.div`
   color: white;
   margin-top: ${(props) => props.marginTop || 0}px;
@@ -36,10 +34,11 @@ const abi = fetch(
 
 if (!abi) return "Loading...";
 
-const contractInfo = {
-  address: props.cometAddress,
-  baseAddress: props.baseTokenAddress,
-};
+const { contractData, position } = props;
+
+const { getCollateralsWithLiquidationData } = VM.require(
+  "thalesb.near/widget/compound-requests"
+);
 
 useEffect(() => {
   if (Ethers.provider()) {
@@ -51,17 +50,29 @@ useEffect(() => {
   }
 }, [Ethers]);
 
-useEffect(() => {
-  if (!state.address) return;
+const positionData = useCache(
+  () => {
+    if (!contractData) return Promise.resolve({});
 
-  getUserPosition({
-    userAddress: state.address,
-    cometAddress: contractInfo.address,
-    rpcUrl: props.httpRpcUrl,
-  }).then((position) => {
+    return getCollateralsWithLiquidationData({
+      cometAddress: props.contractData.cometAddress,
+      rpcUrl: props.contractData.httpRpcUrl,
+      userAddress: props.contractData.userAddress,
+    });
+  },
+  "getCollateralsWithLiquidationData",
+  {
+    subscribe: false,
+  }
+);
+
+useEffect(() => {
+  if (!contractData) {
     State.update({ position });
-  });
-}, [state.address]);
+  } else {
+    State.update({ position: positionData });
+  }
+}, [position, positionData]);
 
 return (
   <InfoSection>
@@ -73,7 +84,9 @@ return (
     </InfoRow>
     <InfoRow>
       <InfoLabel>Liquidation point</InfoLabel>
-      <InfoValue>0.0000</InfoValue>
+      <InfoValue>
+        {Number(state.position.liquidationPoint || 0).toFixed(4)}
+      </InfoValue>
     </InfoRow>
     <InfoRow>
       <InfoLabel>Borrow capacity</InfoLabel>
