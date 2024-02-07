@@ -14,6 +14,7 @@ if (!accountId) {
 }
 
 const profile = Social.getr(`${accountId}/profile`);
+const badges = Social.getr(`${accountId}/badge`);
 
 if (!profile) {
   return "";
@@ -27,7 +28,7 @@ const [github, setGithub] = useState(profile.linktree.github ?? "");
 const [telegram, setTelegram] = useState(profile.linktree.telegram ?? "");
 const [website, setWebsite] = useState(profile.linktree.website ?? "");
 const [image, setImage] = useState(profile.image ?? {});
-const [hatColor, setHatColor] = useState(profile.badge.builder ?? "");
+const [hatColor, setHatColor] = useState(badges.builder ?? "");
 
 const onNameChange = useCallback((e) => {
   setName(e.target.value);
