@@ -67,6 +67,7 @@ const data = {
     [schemaUID]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
+        attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
         expireTime: state.expireTime,
@@ -192,7 +193,7 @@ const handleSave = () => {
 return (
   <Container>
     <Label>
-      <b>UID:</b> {state.UID}
+      <b>UID:</b> {state.objectUID}
     </Label>
     <Label>
       <b>Attestor:</b> {context.accountId}
