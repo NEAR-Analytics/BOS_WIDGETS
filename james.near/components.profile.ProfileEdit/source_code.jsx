@@ -16,7 +16,7 @@ if (!accountId) {
 const profile = Social.getr(`${accountId}/profile`);
 const badges = Social.getr(`${accountId}/badge`);
 
-if (!profile) {
+if (!profile || !badges) {
   return "";
 }
 
