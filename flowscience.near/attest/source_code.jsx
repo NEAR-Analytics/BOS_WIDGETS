@@ -51,20 +51,31 @@ function generateUID() {
 
 State.init({
   ...item.value,
-  UID: generateUID(),
+  objectUID: generateUID(),
+  schema: state.selectedSchema,
+  recipientId: state.recipientId,
+  expireDate: state.expireDate,
+  expireTime: state.expireTime,
+  revokeDate: state.revokeDate,
+  revokeTime: state.revokeTime,
+  refUID: state.refUID,
+  payload: state.payload,
 });
 
 const data = {
   attestation: {
     [schemaUID]: JSON.stringify({
-      data: {
-        UID: state.UID,
+      fields: {
+        objectUID: state.objectUID,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
         expireTime: state.expireTime,
         revokeDate: state.revokeDate,
+        revokeTime: state.revokeTime,
+        refUID: state.refUID,
+        payload: state.payload,
       },
-      type: state.selectedType,
+      schema: state.selectedSchema,
     }),
   },
 };
@@ -174,6 +185,10 @@ function Property({ property, value }) {
   }
 }
 
+const handleSave = () => {
+  Social.set(data);
+};
+
 return (
   <Container>
     <Label>
@@ -244,10 +259,12 @@ return (
         ))}
       </>
     )}
+    <Button onClick={handleSave}>Save</Button>
+
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
-        value: { data, template: { src: state.template } },
+        value: { data, template: { src: "hyperfiles.near/type/attestation" } },
       }}
     />
   </Container>
