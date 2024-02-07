@@ -205,7 +205,7 @@ return (
           )}
 
           {state.selectedTab == "render" && (
-            <div>
+            <div className="mw-100 overflow-auto">
               {blockHeightToWidgetRender(state.selectedBlockHeight, versions)}
             </div>
           )}
