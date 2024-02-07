@@ -26,7 +26,6 @@ const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
 const content = data.body;
-const timeLastEdit = data.timeLastEdit;
 const id = data.id ?? `${data.author}-${data.timeCreate}`;
 const upVotes = data.upVotes;
 
@@ -527,9 +526,9 @@ return (
             >
               <i className="bi bi-clock"></i>
               <TimestampText>
-                <span>{getPublicationDate(timeLastEdit)}</span>
+                <span>{getPublicationDate(data.timeCreate)}</span>
                 <span>by</span>
-                <b>{author}</b>
+                <b>{data.author}</b>
               </TimestampText>
             </TextLowerSectionContainer>
             <Widget
