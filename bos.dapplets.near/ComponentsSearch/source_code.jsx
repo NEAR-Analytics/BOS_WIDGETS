@@ -4,19 +4,10 @@ let totalComponents = 0;
 let totalApps = 0;
 const componentsUrl = "/#/near/widget/ComponentsPage";
 
-console.log(props.apps);
-
 State.init({
   currentPage: 0,
-  selectedTab: props.tab || "apps",
   selectedComponent: props.selectedComponent || null,
 });
-
-if (props.tab && props.tab !== state.selectedTab) {
-  State.update({
-    selectedTab: props.tab,
-  });
-}
 
 const tagsData = Social.get("*/widget/*/metadata/tags/*", "final");
 
@@ -35,13 +26,6 @@ if (data) {
         tagsData[accountId].widget[widgetName]?.metadata?.tags["dapplet"] ===
         "";
       if (hasAppTag) totalApps++;
-
-      if (state.selectedTab === "apps") {
-        const hasAppTag =
-          tagsData[accountId].widget[widgetName]?.metadata?.tags["dapplet"] ===
-          "";
-        if (!hasAppTag) return;
-      }
 
       result.push({
         accountId,
