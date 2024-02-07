@@ -2,23 +2,30 @@ const POSITION_STORAGE_KEY = "POSITION_STATE";
 const COLLATERAL_STORAGE_KEY = "COLLATERAL_STATE";
 
 const abi = fetch(
-  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json",
+  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json"
 );
 
 if (!abi) return "Loading...";
 
 const secondsPerYear = 60 * 60 * 24 * 365;
 
+/**
+ * Calculates the Annual Percentage Rate (APR) for a given Compound contract.
+ * @param {Object} options - The options for calculating the APR.
+ * @param {string} options.cometAddress - The address of the Compound contract.
+ * @param {string} options.rpcUrl - The URL of the JSON-RPC provider.
+ * @returns {Promise<Object>} - A promise that resolves to an object containing the APR and other related information.
+ */
 function getApr({ cometAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl),
+    new ethers.providers.JsonRpcProvider(rpcUrl)
   );
 
   return new Promise((resolve, reject) => {
     asyncFetch(
-      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data",
+      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data"
     ).then((res) => {
       const rewards = JSON.parse(res.body);
 
@@ -84,11 +91,19 @@ function getApr({ cometAddress, rpcUrl }) {
   });
 }
 
+/**
+ * Retrieves the minimum borrow amount from a compound contract.
+ *
+ * @param {Object} options - The options object.
+ * @param {string} options.cometAddress - The address of the compound contract.
+ * @param {string} options.rpcUrl - The RPC URL for the provider.
+ * @returns {Promise<number>} A promise that resolves to the minimum borrow amount.
+ */
 function getMinimumBorrowAmount({ cometAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl),
+    new ethers.providers.JsonRpcProvider(rpcUrl)
   );
 
   return new Promise((resolve, reject) => {
@@ -101,7 +116,7 @@ function getMinimumBorrowAmount({ cometAddress, rpcUrl }) {
           .catch(reject)
           .then((res) => {
             const minimumBorrowAmount = Number(
-              ethers.utils.formatUnits(res.toString(), decimals),
+              ethers.utils.formatUnits(res.toString(), decimals)
             );
 
             resolve(minimumBorrowAmount);
@@ -110,6 +125,16 @@ function getMinimumBorrowAmount({ cometAddress, rpcUrl }) {
   });
 }
 
+/**
+ * Retrieves collateral assets information for a user.
+ *
+ * @param {Object} options - The options for retrieving collateral assets.
+ * @param {string} options.cometAddress - The contract address.
+ * @param {string} options.userAddress - The user address.
+ * @param {string} options.rpcUrl - The RPC URL.
+ * @returns {Promise<Object>} A promise that resolves to the collateral assets information.
+ * @throws {Error} If no contract address, RPC URL, or user address is provided.
+ */
 function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
   if (!cometAddress) throw new Error("No contract address provided");
 
@@ -120,7 +145,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl),
+    new ethers.providers.JsonRpcProvider(rpcUrl)
   );
 
   function getAssetsPromises(numAssets) {
@@ -145,7 +170,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
           const assetContract = new ethers.Contract(
             asset[1],
             ["function decimals() view returns (uint8)"],
-            new ethers.providers.JsonRpcProvider(rpcUrl),
+            new ethers.providers.JsonRpcProvider(rpcUrl)
           );
 
           return assetContract.decimals().then((decimals) => {
@@ -155,7 +180,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               decimals: decimals.toString(),
             };
           });
-        }),
+        })
       );
     }
 
@@ -185,15 +210,15 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               asset,
               balance: ethers.utils.formatUnits(
                 balance[0],
-                data.prices[asset].decimals,
+                data.prices[asset].decimals
               ),
               borrowBalance: ethers.utils.formatUnits(
                 borrowBalance,
-                data.prices[asset].decimals,
+                data.prices[asset].decimals
               ),
             };
           });
-        }),
+        })
       );
     }
 
@@ -222,7 +247,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
         liquidationFactor: asset[6] / 1e18,
         supplyCap: ethers.utils.formatUnits(
           asset[7],
-          data.prices[asset[1]].decimals,
+          data.prices[asset[1]].decimals
         ),
         decimals: data.prices[asset[1]].decimals,
         price: data.prices[asset[1]].price,
@@ -271,7 +296,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               borrowedInBase,
               borrowBalance: ethers.utils.formatUnits(
                 borrowBalance,
-                baseDecimals,
+                baseDecimals
               ),
             };
           });
@@ -297,6 +322,15 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
   });
 }
 
+/**
+ * Calculates the liquidation data for a user's collaterals.
+ *
+ * @param {Object} options - The options for calculating liquidation data.
+ * @param {string} options.cometAddress - The address of the Compound contract.
+ * @param {string} options.rpcUrl - The RPC URL for connecting to the blockchain.
+ * @param {string} options.userAddress - The address of the user.
+ * @returns {Promise<Object>} A promise that resolves to the liquidation data.
+ */
 function getCollateralsWithLiquidationData({
   cometAddress,
   rpcUrl,
@@ -321,11 +355,11 @@ function getCollateralsWithLiquidationData({
       {
         liquidationCapacity: 0,
         borrowCapacity: 0,
-      },
+      }
     );
 
     const liquidationRisk = Math.round(
-      (data.borrowBalance / liquidation.liquidationCapacity) * 100,
+      (data.borrowBalance / liquidation.liquidationCapacity) * 100
     );
 
     return {
