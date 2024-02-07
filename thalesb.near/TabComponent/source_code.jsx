@@ -539,8 +539,8 @@ const [items, setItems] = useState({
         network: "Ethereum Mainnet",
         address: "0xc3d688B66703497DAA19211EEdff47f25384cdc3",
         chainId: 1,
-        httpRpcUrl:
-          "https://mainnet.infura.io/v3/655041508b31489cab8dfb85a17868d3",
+        httpRpcUrl: "https://ethereum.publicnode.com",
+        httpRpcUrlBorrow: "https://eth-pokt.nodies.app",
         borrowAssetCoingeckoId: "usdc",
       },
       collateralItems: [
@@ -609,8 +609,8 @@ const [items, setItems] = useState({
         network: "Ethereum Mainnet",
         address: "0xA17581A9E3356d9A858b789D68B4d866e593aE94",
         chainId: 1,
-        httpRpcUrl:
-          "https://mainnet.infura.io/v3/655041508b31489cab8dfb85a17868d3",
+        httpRpcUrl: "https://ethereum.publicnode.com",
+        httpRpcUrlBorrow: "https://eth-pokt.nodies.app",
         borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
@@ -660,8 +660,8 @@ const [items, setItems] = useState({
         network: "Polygon Mainnet",
         address: "0xF25212E676D1F7F89Cd72fFEe66158f541246445",
         chainId: 137,
-        httpRpcUrl:
-          "https://polygon-mainnet.infura.io/v3/655041508b31489cab8dfb85a17868d3",
+        httpRpcUrl: "https://polygon-rpc.com/",
+        httpRpcUrlBorrow: "https://polygon-bor.publicnode.com",
         borrowAssetCoingeckoId: "usdc",
       },
       collateralItems: [
@@ -732,6 +732,7 @@ const [items, setItems] = useState({
         address: "0x46e6b214b524310239732D51387075E0e70970bf",
         chainId: 8453,
         httpRpcUrl: "https://mainnet.base.org",
+        httpRpcUrlBorrow: "https://base.llamarpc.com",
         borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
@@ -762,6 +763,7 @@ const [items, setItems] = useState({
         address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
         chainId: 8453,
         httpRpcUrl: "https://mainnet.base.org",
+        httpRpcUrlBorrow: "https://base.llamarpc.com",
         borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
@@ -801,10 +803,10 @@ const [items, setItems] = useState({
       chainId: 42161,
       contractInfo: {
         network: "Arbitrum One",
-        address: "0xA5EDBDD9646f8dFF606d7448e414884C7d905dCAx",
+        address: "0xA5EDBDD9646f8dFF606d7448e414884C7d905dCA",
         chainId: 42161,
-        httpRpcUrl:
-          "https://arbitrum-mainnet.infura.io/v3/655041508b31489cab8dfb85a17868d3",
+        httpRpcUrl: "https://arbitrum-mainnet.infura.io",
+        httpRpcUrlBorrow: "https://arb-mainnet-public.unifra.io",
         borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
@@ -862,8 +864,8 @@ const [items, setItems] = useState({
         network: "Arbitrum One",
         address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
         chainId: 42161,
-        httpRpcUrl:
-          "https://arbitrum-mainnet.infura.io/v3/655041508b31489cab8dfb85a17868d3",
+        httpRpcUrl: "https://arbitrum-mainnet.infura.io",
+        httpRpcUrlBorrow: "https://arb-mainnet-public.unifra.io",
         borrowAssetCoingeckoId: "eth",
       },
       collateralItems: [
@@ -909,6 +911,7 @@ const [items, setItems] = useState({
   ],
 });
 
+//TODO: adicionar outros assets
 const marketsContracts = [
   {
     network: "Ethereum",
@@ -1039,6 +1042,147 @@ const marketsContracts = [
       },
     ],
   },
+  // {
+  //   network: "Base",
+  //   address: "0x46e6b214b524310239732D51387075E0e70970bf",
+  //   chainId: 8453,
+  //   httpRpcUrl: "https://mainnet.base.org",
+  //   borrowAssetCoingeckoId: "usd-coin",
+  //   borrowDecimals: 18,
+  //   baseTokenName: "ETH",
+  //   baseTokenSymbol: "ETH",
+  //   networkIcon:
+  //     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
+  //   baseCoinIcon:
+  //     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+  //   collateralAssets: [
+  //     {
+  //       name: "Coinbase Wrapped Staked ETH",
+  //       address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+  //       decimals: 18,
+  //       coingegkoId: "coinbase-wrapped-staked-eth",
+  //       icon: "https://app.compound.finance/images/assets/asset_cbETH.svg",
+  //     },
+  //   ],
+  // },
+  // {
+  //   network: "Base",
+  //   address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+  //   chainId: 8453,
+  //   httpRpcUrl: "https://mainnet.base.org",
+  //   borrowAssetCoingeckoId: "usd-coin",
+  //   borrowDecimals: 6,
+  //   baseTokenName: "ETH",
+  //   baseTokenSymbol: "USDbC",
+  //   networkIcon:
+  //     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png",
+  //   baseCoinIcon:
+  //     "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  //   collateralAssets: [
+  //     {
+  //       name: "Coinbase Wrapped Staked ETH",
+  //       address: "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+  //       decimals: 18,
+  //       coingegkoId: "coinbase-wrapped-staked-eth",
+  //       icon: "https://app.compound.finance/images/assets/asset_cbETH.svg",
+  //     },
+  //     {
+  //       name: "Ethereum",
+  //       address: "0x4200000000000000000000000000000000000006",
+  //       decimals: 18,
+  //       coingegkoId: "ethereum",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+  //     },
+  //   ],
+  // },
+  // {
+  //   network: "Arbitrum",
+  //   address: "0xA5EDBDD9646f8dFF606d7448e414884C7d905dCA",
+  //   chainId: 42161,
+  //   httpRpcUrl: "https://1rpc.io/arb",
+  //   borrowAssetCoingeckoId: "arbitrum",
+  //   borrowDecimals: 6,
+  //   baseTokenName: "Arbitrum",
+  //   baseTokenSymbol: "USDC.e",
+  //   networkIcon:
+  //     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
+  //   baseCoinIcon:
+  //     "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  //   collateralAssets: [
+  //     {
+  //       name: "Arbitrum",
+  //       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+  //       decimals: 18,
+  //       coingegkoId: "arbitrum",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+  //     },
+  //     {
+  //       name: "Ether",
+  //       address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+  //       decimals: 18,
+  //       coingegkoId: "ethereum",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+  //     },
+  //     {
+  //       name: "GMX",
+  //       address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+  //       decimals: 18,
+  //       coingegkoId: "gmx",
+  //       icon: "https://assets.coingecko.com/coins/images/18323/small/arbit.png?163153246",
+  //     },
+  //     {
+  //       name: "Wrapped Bitcoin",
+  //       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+  //       decimals: 18,
+  //       coingegkoId: "wrapped-bitcoin",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+  //     },
+  //   ],
+  // },
+  // {
+  //   network: "Arbitrum",
+  //   address: "0x9c4ec768c28520B50860ea7a15bd7213a9fF58bf",
+  //   chainId: 42161,
+  //   httpRpcUrl: "https://1rpc.io/arb",
+  //   borrowAssetCoingeckoId: "arbitrum",
+  //   borrowDecimals: 6,
+  //   baseTokenName: "Arbitrum",
+  //   baseTokenSymbol: "USDC",
+  //   networkIcon:
+  //     "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png",
+  //   baseCoinIcon:
+  //     "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389",
+  //   collateralAssets: [
+  //     {
+  //       name: "Arbitrum",
+  //       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+  //       decimals: 18,
+  //       coingegkoId: "arbitrum",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+  //     },
+  //     {
+  //       name: "Ether",
+  //       address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+  //       decimals: 18,
+  //       coingegkoId: "ethereum",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+  //     },
+  //     {
+  //       name: "GMX",
+  //       address: "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
+  //       decimals: 18,
+  //       coingegkoId: "gmx",
+  //       icon: "https://assets.coingecko.com/coins/images/18323/small/arbit.png?163153246",
+  //     },
+  //     {
+  //       name: "Wrapped Bitcoin",
+  //       address: "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
+  //       decimals: 18,
+  //       coingegkoId: "wrapped-bitcoin",
+  //       icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/bitcoin/info/logo.png",
+  //     },
+  //   ],
+  // },
 ];
 
 const activeTab = Storage.privateGet("activeTab");
@@ -1047,6 +1191,11 @@ const [selectedItem, setSelectedItem] = useState(
   activeTab ? activeTab : items.ethereum[0]
 ); // Default to the first item
 
+/**
+ * Adds a new toast to the list of toasts.
+ * @param {string} message - The message content of the toast.
+ * @param {string} type - The type of the toast.
+ */
 const addToast = (message, type) => {
   const newToast = { id: Date.now(), message, type };
   setToasts((prevToasts) => [...prevToasts, newToast]);
@@ -1059,6 +1208,10 @@ const addToast = (message, type) => {
   }, 5000);
 };
 
+/**
+ * Switches the network based on the provided network name.
+ * @param {string} networkName - The name of the network to switch to.
+ */
 const switchNetwork = (networkName) => {
   let params = {};
 
@@ -1114,7 +1267,12 @@ const switchNetwork = (networkName) => {
   Ethers.send("wallet_addEthereumChain", [params]);
 };
 
-// Function to update the selected item based on a network and an index
+/**
+ * Updates the selected item in the network.
+ *
+ * @param {string} network - The network name.
+ * @param {number} index - The index of the selected item.
+ */
 const updateSelectedItem = (network, index) => {
   const selectedNetwork = items[network.toLowerCase()][index];
   Storage.privateSet("activeTab", selectedNetwork);
