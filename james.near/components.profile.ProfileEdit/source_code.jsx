@@ -28,7 +28,7 @@ const [github, setGithub] = useState(profile.linktree.github ?? "");
 const [telegram, setTelegram] = useState(profile.linktree.telegram ?? "");
 const [website, setWebsite] = useState(profile.linktree.website ?? "");
 const [image, setImage] = useState(profile.image ?? {});
-const [hatColor, setHatColor] = useState(badges.builder ?? "");
+const [hatColor, setHatColor] = useState(badges.builder.accountId ?? "");
 
 const onNameChange = useCallback((e) => {
   setName(e.target.value);
