@@ -4,11 +4,6 @@
  *
  * @returns {JSX.Element} The Borrow component.
  */
-State.init({
-  refetchKey,
-  forceRefetch: false,
-});
-
 const { getMinimumBorrowAmount } = VM.require(
   "thalesb.near/widget/compound-requests"
 );
@@ -36,18 +31,14 @@ useEffect(() => {
   }
 }, [Ethers]);
 
-const minimumBorrowAmount = useCache(
-  () => {
-    return getMinimumBorrowAmount({
-      cometAddress: props.selectedItem.contractInfo.address,
-      rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
-    });
-  },
-  "getMinimumBorrowAmount" + props.selectedItem.contractInfo.address,
-  {
-    subscribe: false,
-  }
-);
+useEffect(() => {
+  getMinimumBorrowAmount({
+    cometAddress: props.selectedItem.contractInfo.address,
+    rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
+  }).then((balance) => {
+    State.update({ minimumBorrowAmount: balance });
+  });
+}, [props.selectedItem.contractInfo.address]);
 
 function handleBorrowError(e) {
   if (props.addToast) {
@@ -94,16 +85,6 @@ function borrow(amount) {
     .catch(handleBorrowError);
 }
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    State.update({ forceRefetch: true });
-  }, 30 * 1000);
-
-  return () => {
-    clearInterval(interval);
-  };
-}, []);
-
 return (
   <Widget
     src="thalesb.near/widget/Input"
@@ -114,7 +95,10 @@ return (
       },
       loading: state.loadingBorrow,
       balance: Math.floor((props.borrowBalance + Number.EPSILON) * 1000) / 1000,
-      min: minBorrowAmount && props.borrowedBalance < 1 ? minBorrowAmount : 0,
+      min:
+        state.minimumBorrowAmount && props.borrowedBalance < 1
+          ? state.minimumBorrowAmount
+          : 0,
       selectedItem: props.selectedItem,
     }}
   />
