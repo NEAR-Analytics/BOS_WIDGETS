@@ -351,7 +351,6 @@ useEffect(() => {
       amount,
       data.underlyingToken.decimals
     );
-
     options = {
       value:
         isETH && ["Repay", "Deposit"].includes(data.actionText)
