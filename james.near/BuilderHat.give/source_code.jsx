@@ -102,6 +102,7 @@ return (
                   onCommit: () => {
                     setEditMode(false);
                   },
+                  force: true,
                 }
               );
             }}
