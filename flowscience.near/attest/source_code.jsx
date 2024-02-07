@@ -49,10 +49,23 @@ function generateUID() {
   return uid;
 }
 
+const fetchSchema = (schemaId) => {
+  // Simulate fetching schema details asynchronously
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const schemaDetails = {
+        /* mock schema details based on schemaId */
+      };
+      resolve(schemaDetails);
+    }, 1000); // Simulate network request delay
+  });
+};
+
 State.init({
   ...item.value,
   objectUID: generateUID(),
   selectedSchema: selectedSchema,
+  schemaDetails: schemaDetails,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
   expireTime: state.expireTime,
@@ -63,6 +76,19 @@ State.init({
   data: state.data,
   metadata: "",
 });
+
+useEffect(() => {
+  if (!state.initialFetchCompleted) {
+    // Assuming you introduce a flag like this
+    fetchSchema(state.selectedSchema)
+      .then((schemaDetails) => {
+        State.update({ schemaDetails, initialFetchCompleted: true });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch schema details:", error);
+      });
+  }
+}, [state.selectedSchema]);
 
 const data = {
   attestation: {
@@ -119,13 +145,6 @@ const type = JSON.parse(Social.get(item.type, "final") || "null");
 const properties = type.properties || [];
 const createWidgetSrc = type.widgets?.create;
 
-const handleInputChange = (name, value) => {
-  State.update({ [name]: value });
-  if (props.onChange) {
-    props.onChange({ [name]: value });
-  }
-};
-
 function Property({ property, value }) {
   // If property is multiple values
   if (property.isMulti === "true") {
@@ -177,7 +196,7 @@ const handleSave = () => {
 
   // Use the selectedSchema from state
   const attestationData = {
-    [state.selectedSchema]: JSON.stringify({
+    data: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
         attestor: context.accountId,
@@ -190,6 +209,7 @@ const handleSave = () => {
         payload: state.payload,
         schemaState: state.schemaState,
       },
+      schema: state.selectedSchema,
     }),
   };
 
@@ -207,6 +227,104 @@ const handleSave = () => {
       // Handle any errors that occur during the save
       console.error("Error saving attestation:", error);
     });
+};
+
+// Update handleTypeChange to handle full schema including nested types
+const handleSchemaChange = (e) => {
+  const newSchema = e.target.value;
+  State.update({
+    selectedSchema: newSchema,
+    templateVal: "",
+    data: {},
+    loading: true,
+  });
+};
+
+const renderSchemaSelection = () => {
+  return (
+    <FormContainer>
+      <Label>Schema Owner:</Label>
+      <Input
+        type="text"
+        value={State.schemaSrc}
+        onChange={handleSchemaOwnerChange}
+      />
+      <Label>Schema:</Label>
+      <Select value={State.selectedSchema} onChange={handleSchemaChange}>
+        {State.schemasList.map((schema) => (
+          <option key={schema} value={schema}>
+            {schema}
+          </option>
+        ))}
+      </Select>
+      {/* Additional form elements here */}
+    </FormContainer>
+  );
+};
+
+// Dynamically render input fields based on the fetched schema details
+const renderSchemaInputs = () => {
+  const { schemaDetails } = State;
+  if (!schemaDetails || !schemaDetails.properties) return null;
+
+  return schemaDetails.properties.map((property) => (
+    <div key={property.name}>
+      <Label>{property.name}</Label>
+      <Input
+        type="text" // Adjust the type based on the property type
+        value={State.data[property.name] || ""}
+        onChange={(e) => handleInputChange(property.name, e.target.value)}
+      />
+    </div>
+  ));
+};
+
+// Handle input changes for dynamically rendered fields
+const handleInputChange = (propertyName, value) => {
+  const newData = { ...State.data, [propertyName]: value };
+  State.update({ data: newData });
+};
+
+// A function to render properties, adjusted to use stored schemas from the state
+const renderProperties = (properties, data, onChange) => {
+  if (state.loading) {
+    return <div>Loading...</div>; // Show loading indicator while data is being fetched
+  }
+  if (!properties) {
+    return <div>No properties to display</div>; // Add a condition for no properties
+  }
+  return properties.map((property) => {
+    const propertyType = property.type;
+    if (
+      propertyType.startsWith("${typeSrc}.near/type/") &&
+      state.schemas[propertyType]
+    ) {
+      // Use the stored schema from the state
+      const nestedSchema = state.schemas[propertyType];
+      if (nestedSchema && nestedSchema.properties) {
+        return renderProperties(
+          nestedSchema.properties,
+          data[property.name],
+          onChange
+        );
+      } else {
+        // Handle the case where the nested schema is not available yet
+        // This could be a placeholder or a loading indicator
+        return <div>Loading...</div>;
+      }
+    } else {
+      // Render a simple input for primitive types
+      return (
+        <Input
+          key={property.name}
+          type={property.type === "string" ? "text" : property.type}
+          value={data[property.name] || ""}
+          placeholder={property.name}
+          onChange={(e) => onChange(property.name, e.target.value)}
+        />
+      );
+    }
+  });
 };
 
 return (
@@ -278,6 +396,7 @@ return (
         ))}
       </>
     )}
+    {renderSchemaInputs()}
     <Button onClick={handleSave}>Save</Button>
     <hr></hr>Preview:
     <Widget
