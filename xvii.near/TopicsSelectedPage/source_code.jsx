@@ -6,11 +6,6 @@ const accounts = [
     link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Ac7a0557c30a8cb25a98b95e3da06ef14",
   },
   {
-    id: "dabbie3229.near",
-    topic: "Gender in Web3 (women in near the ecosystem)",
-    link: "https://docs.google.com/document/d/1qxHZu6IKTxxdIJrJNsIGAiHepkH58KyTincgv2i9VtU/edit?usp=sharing",
-  },
-  {
     id: "hannah17.near",
     topic: "Decentralized Finance (DeFi) and Ref Finance",
     link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Abbb13b4fcaaf810401efcddf801f76bf",
@@ -21,19 +16,9 @@ const accounts = [
     link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3Adfd9a2ceaee89886caf94023da680d92",
   },
   {
-    id: "ca391bd08dff676aba646e23d2a099dd2cefa728f11d864940e05433f09a4371",
-    topic: "The impacts of musical NFT’s on near ecosystem",
-    link: "https://docs.google.com/document/d/10RgXhAs6aaI_6JKy9oTjowjUElUxYeR_-amQpDegYIo/edit",
-  },
-  {
     id: "xvii.near",
     topic: "DeFi on NEAR VS ETH",
     link: "https://www.mintbase.xyz/meta/nrc.mintbase1.near%3A42580d5f861aca030c5d52539eccc69a",
-  },
-  {
-    id: "racheludoka.near",
-    topic: "Airdrop campaign and it's effects on new projects",
-    link: "https://docs.google.com/document/d/1vBMw-TuXuzM5D1jiugBwBJ8lPPEgNmTmwHoKItGqdus/edit?usp=drivesdk",
   },
   {
     id: "bheegem.near",
