@@ -338,7 +338,7 @@ const InfoSection = () => {
 const EditSection = () => {
   return (
     <Widget
-      src="buildhub.near/widget/components.profile.ProfileEdit"
+      src="james.near/widget/components.profile.ProfileEdit"
       loading=""
       props={{ setEditMode }}
     />
