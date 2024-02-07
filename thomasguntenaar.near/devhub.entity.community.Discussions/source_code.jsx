@@ -67,32 +67,6 @@ const Tag = styled.div`
 
 const [sort, setSort] = useState("timedesc");
 
-function fetchGraphQL(operationsDoc, operationName, variables) {
-  return asyncFetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
-    method: "POST",
-    headers: { "x-hasura-role": "dataplatform_near" },
-    body: JSON.stringify({
-      query: operationsDoc,
-      variables: variables,
-      operationName: operationName,
-    }),
-  });
-}
-let lastPostSocialApi = Social.index("post", "main", {
-  limit: 1,
-  order: "desc",
-});
-
-if (lastPostSocialApi == null) {
-  return "Loading...";
-}
-
-// console.log("context", context.accountId);
-// let test = Social.get(`${context.accountId}/post/main`, {
-//   options: { with_block_height: true },
-// });
-// console.log("test", test);
-
 function repostOnDiscussions(blockHeight) {
   Near.call([
     {
@@ -100,25 +74,7 @@ function repostOnDiscussions(blockHeight) {
       methodName: "create_discussion",
       args: {
         handle,
-        data: {
-          [`discussions.${handle}.community.devhub.near`]: {
-            index: {
-              repost: JSON.stringify([
-                {
-                  key: "main",
-                  value: {
-                    type: "repost",
-                    item: {
-                      type: "social",
-                      path: context.accountId + "/post/main",
-                      blockHeight,
-                    },
-                  },
-                },
-              ]),
-            },
-          },
-        },
+        blockHeight,
       },
       gas: Big(10).pow(14),
     },
@@ -126,65 +82,27 @@ function repostOnDiscussions(blockHeight) {
 }
 
 function setSocialDbAndRepost(v) {
+  // TODO remove
+  console.log("v", v);
   // Post to users social db
-  const result = Social.set(`${context.accountId}/post/main`, v, {
+  const result = Social.set(v, {
     onCommit: (data) => {
-      // TODO remove
-      console.log("onCommit");
-      console.log("data", data);
-
-      Social.get(`${context.accountId}/post/main`, v, {
-        onCommit: (data) => {
-          // TODO data.blockHeight
-          repostOnDiscussions(data.blockHeight);
+      console.log("onCommit data", data);
+      // TODO move to devhub-contract.jsx
+      Near.asyncView("social.near", "get", {
+        keys: [`${context.accountId}/**`],
+        options: {
+          with_block_height: true,
         },
-      });
-      // const lastPostQuery = `
-      //     query IndexerQuery {
-      //       dataplatform_near_social_feed_posts( limit: 1, order_by: { block_height: desc }) {
-      //           block_height
-      //       }
-      //     }
-      //     `;
-
-      // fetchGraphQL(lastPostQuery, "IndexerQuery", {})
-      //   .then((feedIndexerResponse) => {
-      //     // TODO remove
-      //     console.log("feedIndexerResponse", feedIndexerResponse);
-      //     if (
-      //       feedIndexerResponse &&
-      //       feedIndexerResponse.body.data.dataplatform_near_social_feed_posts
-      //         .length > 0
-      //     ) {
-      //       const nearSocialBlockHeight = lastPostSocialApi[0].blockHeight;
-      //       const feedIndexerBlockHeight =
-      //         feedIndexerResponse.body.data
-      //           .dataplatform_near_social_feed_posts[0].block_height;
-      //       // TODO necessary?
-      //       const lag = nearSocialBlockHeight - feedIndexerBlockHeight;
-      //       let shouldFallback = lag > 2 || !feedIndexerBlockHeight;
-      //       if (shouldFallback === true) {
-      //         console.log(
-      //           "Falling back to Social index feed. Block difference is: ",
-      //           nearSocialBlockHeight - feedIndexerBlockHeight
-      //         );
-      //       }
-
-      //       repostOnDiscussions(nearSocialBlockHeight);
-      //     } else {
-      //       console.log(
-      //         "Falling back to Social index feed. No QueryApi data received."
-      //       );
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log(
-      //       "Error while fetching QueryApi feed (falling back to index feed): ",
-      //       error
-      //     );
-      //   });
+      })
+        .then((response) => {
+          let blockHeight = response[context.accountId]["post"][":block"];
+          repostOnDiscussions(blockHeight);
+        })
+        .catch(console.log);
     },
   });
+  // TODO remove
   console.log("result", result);
 }
 
@@ -198,15 +116,13 @@ return (
               <Widget
                 src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                 props={{
-                  onSubmit: (v) => {
-                    setSocialDbAndRepost(v);
-                  },
+                  onSubmit: setSocialDbAndRepost,
                 }}
               />
             </div>
           )}
           <div className="d-flex flex-wrap justify-content-between">
-            <Heading>Announcements</Heading>
+            <Heading>Discussions</Heading>
             <div className="d-flex align-items-center gap-2">
               <select
                 name="sort"
