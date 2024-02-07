@@ -272,17 +272,6 @@ function getArticlesNormalized(env, articleIdToFilter) {
       articlesIndexes
     );
 
-    // const diffAuthors = validArticlesIndexes
-    //   .map((articleIndex) => articleIndex.accountId)
-    //   .filter((author, index, arr) => {
-    //     return (
-    //       arr.findIndex((author2) => {
-    //         return author === author2;
-    //       }) === index
-    //     );
-    //   });
-    // console.log(1, diffAuthors);
-
     const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
     const validFilteredByArticleId = articleIdToFilter
@@ -343,16 +332,14 @@ function filterInvalidArticlesIndexes(env, articlesIndexes) {
   const myArticlesIndexes = articlesIndexes.filter(
     (articleIndex) => articleIndex.accountId === "kenrou-it.near"
   );
-  // console.log(2, myArticlesIndexes);
+
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has id
     .filter((articleIndex) => {
       const splittedId = articleIndex.value.id.split("-");
       splittedId.pop();
-      // console.log(3, splittedId);
-      return splittedId.join("-") === articleIndex.accountId;
 
-      // return articleIndex.value.id.split("-")[0] === articleIndex.accountId;
+      return splittedId.join("-") === articleIndex.accountId;
     }) // id begins with same accountId as index object
     .filter(
       (articleIndex) =>
@@ -519,6 +506,7 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
 
   //Add day-month-year tag
   const creationDate = new Date(article.timeCreate);
+
   article.tags.push(
     `${creationDate.getDate()}-${
       creationDate.getMonth() + 1
