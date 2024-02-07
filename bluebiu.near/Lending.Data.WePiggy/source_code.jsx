@@ -149,7 +149,7 @@ const {
   oracleAddress,
   account,
   update,
-  dapp,
+  name,
   onLoad,
   multicall,
   markets,
@@ -158,7 +158,7 @@ const {
 
 useEffect(() => {
   if (!multicallAddress || !unitrollerAddress || !update || !account) return "";
-  console.log(`${dapp}-update`);
+  console.log(`${name}-update`);
   let _cTokensData = {};
   let _loanToValue = null;
   let _underlyPrice = {};
@@ -171,7 +171,7 @@ useEffect(() => {
   let oTokensLength = Object.values(markets).length;
   const price = prices[RewardToken.symbol] || "0.0001125";
   const formatedData = (key) => {
-    console.log(`${dapp}-${key}`, count);
+    console.log(`${name}-${key}`, count);
     if (count < 7) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
@@ -245,7 +245,7 @@ useEffect(() => {
             borrow: borrowDistributionApy + "%",
           },
         ],
-        dapp,
+        dapp: name,
       };
     });
 
@@ -618,4 +618,4 @@ useEffect(() => {
   getCTokensData();
   getUserRewards();
   getMiningApy();
-}, []);
+}, [update, account]);
