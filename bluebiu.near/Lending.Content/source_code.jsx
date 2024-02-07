@@ -16,12 +16,11 @@ const {
   nativeCurrency,
   tab,
 } = props;
-
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
   });
-}, []);
+}, [chainIdNotSupport]);
 
 const handleTableButtonClick = (address, actionText) => {
   const market = state.markets[address];
