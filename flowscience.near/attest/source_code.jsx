@@ -36,7 +36,7 @@ const Label = styled.label`
 `;
 
 function generateUID() {
-  const length = 16; // This will create a 64-bit number (16 hexadecimal characters)
+  const length = 32; // This will create a 128-bit number (32 hexadecimal characters)
   // randomly change the case of a character
   const randomCase = (char) =>
     Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase();
