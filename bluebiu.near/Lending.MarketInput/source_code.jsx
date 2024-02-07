@@ -50,7 +50,7 @@ const StyledBalanceAmount = styled.span`
   cursor: pointer;
 `;
 
-const { icon, symbol, balance, price, amount, onChange } = props;
+const { icon, symbol, balance, price, amount, decimals, onChange } = props;
 
 return (
   <StyledBox>
@@ -88,7 +88,7 @@ return (
         Balance:
         <StyledBalanceAmount
           onClick={() => {
-            onChange(balance);
+            onChange(Big(balance).toFixed(decimals));
           }}
         >
           <Widget
