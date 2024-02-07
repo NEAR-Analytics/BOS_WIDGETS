@@ -6,17 +6,18 @@ const { Circle } = VM.require(
 if (!Circle) return <Widget src="flashui.near/widget/Loading" />;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
-const formatValue = (val) => {
-  const value = val ?? 0;
-
-  return value >= 1000000000
-    ? `${parseFloat(value / 1000000000).toFixed(2)}B`
-    : value >= 1000000
-    ? `${parseFloat(value / 1000000).toFixed(2)}M`
-    : value >= 1000
-    ? `${parseFloat(value / 1000).toFixed(2)}K`
-    : value;
-};
+const formatValue = (value) =>
+  value
+    ? value >= 1000000000
+      ? `${parseFloat(value / 1000000000).toFixed(2)}B`
+      : value >= 1000000
+      ? `${parseFloat(value / 1000000).toFixed(2)}M`
+      : value >= 1000
+      ? `${parseFloat(value / 1000).toFixed(2)}K`
+      : Number.isInteger(value)
+      ? value
+      : value.toFixed(2)
+    : "﹣";
 
 return (
   <div className="item">
