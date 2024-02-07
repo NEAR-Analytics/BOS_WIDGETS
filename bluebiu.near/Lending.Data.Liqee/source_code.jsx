@@ -139,7 +139,7 @@ const {
   oracleAddress,
   account,
   update,
-  dapp,
+  name,
   onLoad,
   multicall,
   markets,
@@ -147,7 +147,7 @@ const {
 
 useEffect(() => {
   if (!multicallAddress || !unitrollerAddress || !update || !account) return "";
-  console.log(`${dapp}-update`);
+  console.log(`${name}-update`);
   let _cTokensData = {};
   let _loanToValue = null;
   let _underlyPrice = {};
@@ -158,7 +158,7 @@ useEffect(() => {
   let oTokensLength = Object.values(markets).length;
 
   const formatedData = (key) => {
-    console.log(`${dapp}-${key}`, count);
+    console.log(`${name}-${key}`, count);
     if (count < 5) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
@@ -213,7 +213,7 @@ useEffect(() => {
         userMerberShip: _userMerberShip[market.address],
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
-        dapp,
+        dapp: name,
       };
     });
 
@@ -521,4 +521,4 @@ useEffect(() => {
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
-}, []);
+}, [update, account]);
