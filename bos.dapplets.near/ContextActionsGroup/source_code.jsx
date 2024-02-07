@@ -21,7 +21,17 @@ const handleCloseMenu = () => {
 
 const handleSelectComponent = (component) => {
   State.update({ showMenu: false });
-  props.createUserLink(`${component.accountId}/widget/${component.widgetName}`);
+
+  const widgetId = `${component.accountId}/widget/${component.widgetName}`;
+
+  // For backward compatibility
+  if (props.apps) {
+    const app = props.apps.find((app) => app.componentId === widgetId);
+    props.createUserLink(app.id);
+  } else {
+    // ToDo: delete legacy
+    props.createUserLink(widgetId);
+  }
 };
 
 const handleRemoveWidget = (linkId) => {
@@ -57,11 +67,11 @@ const OverlayTriggerWrapper = styled.div`
   }
 `;
 const SupportingSpan = styled.span`
- display: inline-block;
-    width: 100%;
-    height: 30px;
-    margin-bottom: 0px;
-    `;
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  margin-bottom: 0px;
+`;
 
 const TriggerShowPanel = styled.div`
   width: 40px;
@@ -73,7 +83,6 @@ const TriggerShowPanel = styled.div`
   position: absolute;
   right: -33px;
   top: 10px;
-
 `;
 
 const TriggerShowLabel = styled.div`
@@ -179,7 +188,7 @@ const ButtonPlus = styled.div`
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   &:before {
     content: "";
     display: block;
@@ -219,24 +228,24 @@ const ButtonPlus = styled.div`
   }
 `;
 const WrapperButtonPlusDefault = styled.div`
-    width: 43px;
-    height: 49px;
-    border-radius: 0px 4px 4px 0px;
-    position: absolute;
-    top: 30px;
-    background: #DB504A;
-    z-index: 1081;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 43px;
+  height: 49px;
+  border-radius: 0px 4px 4px 0px;
+  position: absolute;
+  top: 30px;
+  background: #db504a;
+  z-index: 1081;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const ButtonPlusDefault = styled.div`
   display: flex;
   width: 22px;
   height: 22px;
   border-radius: 50%;
-bottom: 7px;
-    background: #DB504A;
+  bottom: 7px;
+  background: #db504a;
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
@@ -282,12 +291,12 @@ bottom: 7px;
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
-  
+
   z-index: 1200;
   // styles for edit mode
-  background:rgba(255, 255, 255, 0.35);
-  width:100%;
-  height:100%;
+  background: rgba(255, 255, 255, 0.35);
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -352,9 +361,9 @@ const iconDropdown = (
 );
 
 const ButtonEdit = styled.button`
-position: absolute;
-    top: -30px;
-    margin-bottom: 0;
+  position: absolute;
+  top: -30px;
+  margin-bottom: 0;
   border: none;
   cursor: pointer;
   width: 22px;
@@ -365,20 +374,19 @@ position: absolute;
   border-radius: 50%;
   padding: 0;
 
- border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   box-sizing: border-box;
   background: #fff;
   transition: all 0.3s;
   &:hover {
     transform: scale(1.2);
   }
-
 `;
 
 const ButtonApply = styled.button`
-position: absolute;
-    top: -30px;
-    margin-bottom: 0;
+  position: absolute;
+  top: -30px;
+  margin-bottom: 0;
   border: none;
   width: 22px;
   height: 22px;
@@ -423,8 +431,6 @@ const ActionBlock = styled.span`
   div {
     z-index: 1000;
   }
-
-
 `;
 
 const FloatingModal = styled.div`
