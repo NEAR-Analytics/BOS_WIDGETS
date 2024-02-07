@@ -98,14 +98,14 @@ const assets = {
     { name: "ETH", icon: ethImage },
   ],
   Polygon: [{ name: "USDC.e", icon: usdcImage }],
-  Base: [
-    { name: "ETH", icon: ethImage },
-    { name: "USDbC", icon: usdcImage },
-  ],
-  Arbitrum: [
-    { name: "USDC.e", icon: usdcImage },
-    { name: "USDC", icon: usdcImage },
-  ],
+  // Base: [
+  //   { name: "ETH", icon: ethImage },
+  //   { name: "USDbC", icon: usdcImage },
+  // ],
+  // Arbitrum: [
+  //   { name: "USDC.e", icon: usdcImage },
+  //   { name: "USDC", icon: usdcImage },
+  // ],
 };
 
 return (
@@ -124,7 +124,7 @@ return (
         onMouseEnter={() => setActiveBlockchain("Polygon")}
         isActive={activeBlockchain === "Polygon"}
       />
-      <NetworkItem
+      {/* <NetworkItem
         name="Base"
         icon={baseImage}
         onMouseEnter={() => setActiveBlockchain("Base")}
@@ -135,7 +135,7 @@ return (
         icon={arbitrumImage}
         onMouseEnter={() => setActiveBlockchain("Arbitrum")}
         isActive={activeBlockchain === "Arbitrum"}
-      />
+      /> */}
     </NetworksColumn>
     {/* Assets Column */}
 
