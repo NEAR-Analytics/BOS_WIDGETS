@@ -180,7 +180,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
           - Kano is bos jollof - 1 <br />
           - Kano is bos jollof - 2 <br />
           - Black Dragon Token - 652 <br />
-          - Black Dragon Token - 531 <br />- ShardDog - 1555
+          - Black Dragon Token - 531 <br />- ShardDog - 1555 <br />- NEARWEEK
+          NEWSLETTER EDITION #146 - 33
         </div>
       </div>
     </div>
@@ -372,7 +373,7 @@ const PrizeBtn = styled.button`
     padding: 0.5rem 1rem;
     border-width: 1px;
     border-radius: 1rem;
-    align-items: flex-end;
+    align-items: center;
     flex-direction: column;
     display: flex;
     gap: 10px;
@@ -521,7 +522,7 @@ const nftTitle2 = "Black Dragon Token - 652";
 const nftTitle3 = "ShardDog - 1555";
 const nftTitle4 = "Kano is bos jollof - 2";
 const nftTitle5 = "Black Dragon Token - 531";
-const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #145 - 229";
+const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #146 - 33";
 
 console.log(nfts[0].metadata.title);
 console.log(nfts);
@@ -584,9 +585,11 @@ return (
             <b>If you have one of the following:</b> <br />
             Black Dragon Token - 652 <br />
             Kano is bos jollof - 1 <br />
+            Kano is bos jollof - 2 <br />
             Black Dragon Token - 531 <br />
-            ShardDog - 1555
-            <br /> you can enter the raffle to win!
+            ShardDog - 1555 <br />
+            NEARWEEK NEWSLETTER EDITION #146 - 33
+            <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
         <PrizeWrapper>
@@ -602,9 +605,9 @@ return (
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li>1.10 $NEAR</li>
-              <li>2.T-shirt</li>
-              <li>3.Mystery Box</li>
+              <li>1. 10 $NEAR</li>
+              <li>2. T-shirt</li>
+              <li>3. Mystery Box</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
