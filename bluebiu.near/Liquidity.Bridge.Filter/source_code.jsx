@@ -112,7 +112,7 @@ return (
     </Search>
     <ChainsWrapper>
       <Chains>
-        {chains.map((chain, index) => {
+        {chains && chains.map((chain, index) => {
           return <Chain key={index} className={index === chainIndex ? 'active' : ''} onClick={() => onChangeChainIndex(index)}>
             <img src={chain.logo} alt={chain.name} />
           </Chain>
