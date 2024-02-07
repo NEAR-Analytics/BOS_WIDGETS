@@ -101,6 +101,14 @@ if (!state.initialized) {
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
+if (!sender) {
+  return (
+    <div className="w3button">
+      <Web3Connect connectLabel="Connect to a wallet" />
+    </div>
+  );
+}
+
 if (!state.chainId) {
   Ethers.provider()
     .getNetwork()
@@ -174,34 +182,12 @@ if (
   return "";
 }
 
-// rpc providers
-
-const opSepoliaProvider = new ethers.providers.JsonRpcProvider(
-  `https://optimism-sepolia.gateway.tenderly.co`
-);
-const opSepoliaProviderRange = new ethers.providers.JsonRpcProvider(
-  `https://optimism-sepolia.blockpi.network/v1/rpc/public`
-);
-const opSepoliaProviderOG = new ethers.providers.JsonRpcProvider(
-  `https://sepolia.optimism.io`
-);
-const sepoliaProvider = new ethers.providers.JsonRpcProvider(
-  `https://ethereum-sepolia.publicnode.com`
-);
-const sepoliaProviderFilter = new ethers.providers.JsonRpcProvider(
-  `https://sepolia.gateway.tenderly.co`
-);
-
 // TODO UPDATE contracts and mainnet providers
 const contracts = {
   mainnet: {
-    l1Provider: ethereumProvider,
-    l2Provider: zksyncProvider,
-    bridge: {
-      L1ETHBridgeProxy: "0x32400084C286CF3E17e7B677ea9583e60a000324",
-      L1ERC20BridgeProxy: "0x57891966931Eb4Bb6FB81430E6cE0A03AAbDe063",
-      L2ERC20Bridge: "0x11f943b2c77b743AB90f4A0Ae7d5A4e7FCA3E102",
-    },
+    L1StandardBridgeProxy: `0x99C9fc46f92E8a1c0deC1b1747d010903E884bE1`,
+    L2OutputOracleProxy: `0xdfe97868233d1aa22e815a266982f2cf17685a27`,
+    L1OptimismPortalProxy: `0xbEb5Fc579115071764c7423A4f12eDde41f106Ed`,
     eth: {
       decimals: 18,
       deposit: "0x32400084C286CF3E17e7B677ea9583e60a000324",
@@ -209,8 +195,6 @@ const contracts = {
     },
   },
   testnet: {
-    l1Provider: sepoliaProvider,
-    l2Provider: opSepoliaProviderOG,
     L1StandardBridgeProxy: `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`,
     L2OutputOracleProxy: `0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F`,
     L1OptimismPortalProxy: `0x16Fc5058F25648194471939df75CF27A2fdC48BC`,
@@ -221,13 +205,50 @@ const contracts = {
     },
   },
 };
+if (network === "mainnet") {
+  Object.assign(contracts.mainnet, {
+    l1Provider: new ethers.providers.JsonRpcProvider(
+      `https://ethereum.blockpi.network/v1/rpc/public`
+    ),
+    l1ProviderFilter: new ethers.providers.JsonRpcProvider(
+      `https://mainnet.gateway.tenderly.co`
+    ),
+    l2Provider: new ethers.providers.JsonRpcProvider(
+      `https://mainnet.optimism.io`
+    ),
+    l2ProviderFilter: new ethers.providers.JsonRpcProvider(
+      `https://optimism.gateway.tenderly.co	`
+    ),
+    l2ProviderRange: new ethers.providers.JsonRpcProvider(
+      `https://optimism.blockpi.network/v1/rpc/public`
+    ),
+  });
+} else {
+  Object.assign(contracts.testnet, {
+    l1Provider: new ethers.providers.JsonRpcProvider(
+      `https://ethereum-sepolia.publicnode.com`
+    ),
+    l1ProviderFilter: new ethers.providers.JsonRpcProvider(
+      `https://sepolia.gateway.tenderly.co`
+    ),
+    l2Provider: new ethers.providers.JsonRpcProvider(
+      `https://sepolia.optimism.io`
+    ),
+    l2ProviderFilter: new ethers.providers.JsonRpcProvider(
+      `https://optimism-sepolia.gateway.tenderly.co`
+    ),
+    l2ProviderRange: new ethers.providers.JsonRpcProvider(
+      `https://optimism-sepolia.blockpi.network/v1/rpc/public`
+    ),
+  });
+}
 
 // contract instances
 
 const L2StandardBridgeContract = new ethers.Contract(
   L2StandardBridge,
   L2StandardBridgeAbi.body,
-  opSepoliaProvider
+  contracts[network].l2ProviderFilter
 );
 const L2StandardBridgeAbiIface = new ethers.utils.Interface(
   L2StandardBridgeAbi.body
@@ -236,7 +257,7 @@ const L2StandardBridgeAbiIface = new ethers.utils.Interface(
 const L1StandardBridgeProxyContract = new ethers.Contract(
   contracts[network].L1StandardBridgeProxy,
   L1StandardBridgeProxyAbi.body,
-  sepoliaProviderFilter
+  contracts[network].l1ProviderFilter
 );
 const L1StandardBridgeProxyIface = new ethers.utils.Interface(
   L1StandardBridgeProxyAbi.body
@@ -259,8 +280,6 @@ if (sender && chainId && !state.initLogs) {
     ).then((events) => {
       console.log("withdrawal events", events);
 
-      // todo use diff RPC for block range calls to OP sepolia
-
       let withdrawalMessages = 0;
       const withdrawalMessagesTarget = events.length;
 
@@ -276,7 +295,7 @@ if (sender && chainId && !state.initLogs) {
           const messagePasserContract = new ethers.Contract(
             L2_L1_MESSAGE_PASSER_CONTRACT,
             messagePasserAbi,
-            opSepoliaProviderRange
+            contracts[network].l2ProviderRange
           );
 
           messagePasserContract
@@ -348,7 +367,7 @@ if (sender && chainId && !state.initLogs) {
               // const l1Contract = new ethers.Contract(
               //   contracts[network].L1OptimismPortalProxy,
               //   opPortalAbi,
-              //   sepoliaProvider
+              //   contracts[network].L2Provider
               // );
 
               // l1Contract
@@ -515,7 +534,7 @@ const hashMessageHash = (messageHash) => {
 };
 
 const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
-  opSepoliaProviderOG
+  contracts[network].l2Provider
     .send("eth_getProof", [
       L2_L1_MESSAGE_PASSER_CONTRACT,
       [slot],
@@ -530,7 +549,7 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
       };
       console.log("stateTrieProof", stateTrieProof);
 
-      opSepoliaProvider
+      contracts[network].l2Provider
         .send("eth_getBlockByNumber", [l2BlockNumber, false])
         .then((block) => {
           console.log("block", block);
@@ -713,16 +732,6 @@ if (sender && !state.balancesUpdated) {
   return "";
 }
 
-// end functional
-
-if (!sender) {
-  return (
-    <div className="w3button">
-      <Web3Connect connectLabel="Connect to a wallet" />
-    </div>
-  );
-}
-
 // bridge-ui functions
 
 const onAction = (data) => {
@@ -739,7 +748,7 @@ const onTabChange = (tab) => {
     (chainId === OP_CHAIN_ID || chainId === OP_SEPOLIA_CHAIN_ID);
   const withdrawDisabled =
     tab === "withdraw" &&
-    (chainId === ETHEREUM_CHAIN_ID || chainId === SEPOLIA_CHAIN_ID);
+    (chainId === ETH_CHAIN_ID || chainId === SEPOLIA_CHAIN_ID);
 
   if (depositDisabled) {
     log = depositDisabledMsg;
