@@ -145,7 +145,6 @@ const StyledVaultImage = styled.div`
 const {
   toast,
   prices,
-  loading,
   dataList,
   dataIndex,
   columnList,
@@ -174,53 +173,50 @@ function renderTD(data, column, index) {
 return (
   <Wrapper>
     {
-      loading ? (
-        <Widget src="bluebiu.near/widget/0vix.LendingSpinner" />
-      ) : (
-        <Table>
-          <THead>
-            {
-              columnList.map((column, index) => {
-                return (
-                  <Th key={index} style={{ width: column.width }}>{column.label}</Th>
-                )
-              })
-            }
-          </THead>
-          <TBody>
-            {dataList && dataList.map((data, index) => {
-              return (
-                <TrWrapper key={data.id}>
-                  <Tr onClick={() => onChangeDataIndex(index)}>
-                    {
-                      columnList.map((column, columnIndex) => {
-                        return (
-                          <Td key={index + columnIndex} className={column.direction === 'column' ? 'column' : ''} style={{ width: column.width }}>{renderTD(data, column, index, columnIndex)}</Td>
-                        )
-                      })
-                    }
-                  </Tr>
-                  {index === dataIndex && <Widget
-                    key={data.id}
-                    src={"bluebiu.near/widget/Liquidity.Bridge.Detail"}
-                    props={{
-                      data: dataList[dataIndex],
-                      toast,
-                      theme,
-                      prices,
-                      addresses,
-                      addAction,
-                      proxyAddress,
-                      ICON_VAULT_MAP
-                    }}
-                  />}
-                </TrWrapper>
-              )
-            })}
 
-          </TBody>
-        </Table>
-      )
+      <Table>
+        <THead>
+          {
+            columnList.map((column, index) => {
+              return (
+                <Th key={index} style={{ width: column.width }}>{column.label}</Th>
+              )
+            })
+          }
+        </THead>
+        <TBody>
+          {dataList && dataList.map((data, index) => {
+            return (
+              <TrWrapper key={data.id}>
+                <Tr onClick={() => onChangeDataIndex(index)}>
+                  {
+                    columnList.map((column, columnIndex) => {
+                      return (
+                        <Td key={index + columnIndex} className={column.direction === 'column' ? 'column' : ''} style={{ width: column.width }}>{renderTD(data, column, index, columnIndex)}</Td>
+                      )
+                    })
+                  }
+                </Tr>
+                {index === dataIndex && <Widget
+                  key={data.id}
+                  src={"bluebiu.near/widget/Liquidity.Bridge.Detail"}
+                  props={{
+                    data: dataList[dataIndex],
+                    toast,
+                    theme,
+                    prices,
+                    addresses,
+                    addAction,
+                    proxyAddress,
+                    ICON_VAULT_MAP
+                  }}
+                />}
+              </TrWrapper>
+            )
+          })}
+
+        </TBody>
+      </Table>
     }
   </Wrapper>
 )
