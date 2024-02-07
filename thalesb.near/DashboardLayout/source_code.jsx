@@ -186,13 +186,6 @@ const CollateralItem = styled.div`
   }
 `;
 
-const InfoSection = styled.div`
-  background: #292a3d;
-  border-radius: 8px;
-  color: white;
-  margin-top: ${(props) => props.marginTop || 0}px;
-`;
-
 const InfoRow = styled.div`
   display: flex;
   justify-content: space-between;
@@ -212,27 +205,6 @@ const InfoLabel = styled.span`
 const InfoValue = styled.span`
   color: #888baf;
 `;
-
-const CollateralInfo = () => (
-  <InfoSection>
-    <InfoRow>
-      <InfoLabel>Collateral value</InfoLabel>
-      <InfoValue>0.7900</InfoValue>
-    </InfoRow>
-    <InfoRow>
-      <InfoLabel>Liquidation point</InfoLabel>
-      <InfoValue>0.0000</InfoValue>
-    </InfoRow>
-    <InfoRow>
-      <InfoLabel>Borrow capacity</InfoLabel>
-      <InfoValue>0.5100</InfoValue>
-    </InfoRow>
-    <InfoRow>
-      <InfoLabel>Available to borrow</InfoLabel>
-      <InfoValue>0.5100</InfoValue>
-    </InfoRow>
-  </InfoSection>
-);
 
 const InfoSectionModal = styled.div`
   background: #292a3d;
@@ -321,6 +293,10 @@ const Button = styled.button`
     opacity: 0.8;
 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &:last-child {
@@ -468,7 +444,7 @@ const SectionSubHeader = styled.span`
 
 const DropdownContainer = styled.div`
   position: relative;
-
+  z-index: 9999;
   .DropdownMenuItem {
     border-radius: 24px;
     background: #373a53;
@@ -677,8 +653,7 @@ const CryptoCurrencyPair = () => {
   );
 };
 
-// NetworkDropdown component
-const NetworkDropdown = ({ selectedNetwork, onChange }) => {
+const NetworkDropdown = ({}) => {
   return (
     <DropdownContainer>
       <DropdownMenu.Root>
@@ -913,7 +888,7 @@ const ContainerModal = styled.div`
   }
 `;
 
-const { address, addToast, selectedItem, updateSelectedItem } = props;
+const { address, addToast, selectedItem, updateSelectedItem, ethPrice } = props;
 
 const { contractInfo, collateralItems } = selectedItem;
 
@@ -932,6 +907,10 @@ const abi = fetch(
   "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json"
 );
 
+const abiBulk = fetch(
+  "https://raw.githubusercontent.com/ThalesBMC/bulk-api/main/BulkAbi.json"
+);
+
 if (!abi) return "Loading...";
 
 const balancesPromise = new Promise((resolve, reject) => {
@@ -945,35 +924,62 @@ const balancesPromise = new Promise((resolve, reject) => {
     rpcProvider
   );
   const newContract = new ethers.Contract(
-    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+    selectedItem.address,
     abi.body,
     rpcProvider
   );
 
   function fetchBalancesForCollateralItem(item) {
-    const collateralContract = new ethers.Contract(
-      item.address,
-      abi.body,
-      rpcProvider
-    );
-    return Promise.all([
-      collateralContract.balanceOf(address),
-      contract.collateralBalanceOf(address, item.address),
-    ]).then(([tokenBalance, collateralBalance]) => {
-      const formattedTokenBalance = ethers.utils.formatUnits(
-        tokenBalance,
-        item.decimals
+    if (item.isBaseAsset) {
+      // For the base asset, fetch the native balance directly from the network
+      return rpcProvider.getBalance(address).then((nativeBalance) => {
+        const formattedNativeBalance = ethers.utils.formatUnits(
+          nativeBalance,
+          "ether"
+        );
+        return contract
+          .collateralBalanceOf(address, item.address)
+          .then((collateralBalance) => {
+            const formattedCollateralBalance = ethers.utils.formatUnits(
+              collateralBalance,
+              item.decimals
+            );
+
+            // Return the object with both balances after fetching the collateral balance
+            return {
+              name: item.name,
+              tokenBalance: formattedNativeBalance,
+              collateralBalance: formattedCollateralBalance,
+            };
+          });
+      });
+    } else {
+      const collateralContract = new ethers.Contract(
+        item.address,
+        abi.body,
+        rpcProvider
       );
-      const formattedCollateralBalance = ethers.utils.formatUnits(
-        collateralBalance,
-        item.decimals
-      );
-      return {
-        name: item.name,
-        tokenBalance: formattedTokenBalance,
-        collateralBalance: formattedCollateralBalance,
-      };
-    });
+
+      return Promise.all([
+        collateralContract.balanceOf(address),
+        contract.collateralBalanceOf(address, item.address),
+      ]).then(([tokenBalance, collateralBalance]) => {
+        const formattedTokenBalance = ethers.utils.formatUnits(
+          tokenBalance,
+          item.decimals
+        );
+        const formattedCollateralBalance = ethers.utils.formatUnits(
+          collateralBalance,
+          item.decimals
+        );
+
+        return {
+          name: item.name,
+          tokenBalance: formattedTokenBalance,
+          collateralBalance: formattedCollateralBalance,
+        };
+      });
+    }
   }
 
   contract
@@ -992,20 +998,30 @@ const balancesPromise = new Promise((resolve, reject) => {
       const formattedBalance = ethers.utils.formatUnits(balance, decimals);
 
       return Promise.all([
-        newContract.balanceOf(address),
+        selectedItem.isBaseAsset
+          ? rpcProvider.getBalance(address)
+          : newContract.balanceOf(address),
         newContract.decimals(),
       ]).then(([newBalance, newDecimals]) => {
-        const supplyBalanceFormatted = ethers.utils.formatUnits(
-          newBalance,
-          newDecimals
-        );
+        let supplyBalanceFormatted;
+        if (selectedItem.isBaseAsset) {
+          supplyBalanceFormatted = ethers.utils.formatUnits(
+            newBalance,
+            "ether"
+          );
+        } else {
+          supplyBalanceFormatted = ethers.utils.formatUnits(
+            newBalance,
+            newDecimals
+          );
+        }
 
         return {
           formattedBalance,
           assetBalance: balance,
           supplyBalance: supplyBalanceFormatted,
           unformattedSupplyBalance: newBalance,
-          collateralBalances, //
+          collateralBalances,
         };
       });
     })
@@ -1021,42 +1037,278 @@ const balancesPromise = new Promise((resolve, reject) => {
     });
 });
 
-const withdrawToContract = (address, amount, decimals) => {
-  const contract = new ethers.Contract(
+const withdrawToContract = (assetAddress, amount, decimals, isBaseAsset) => {
+  const contractProxyAllowance = new ethers.Contract(
     contractInfo.address,
     abi.body,
     Ethers.provider().getSigner()
   );
 
-  console.log("salveee clan", amount);
+  // If isBaseAsset is true, check and potentially set allowance before withdrawing
+  if (isBaseAsset) {
+    const comet = contractInfo.address; // Comet contract address
+    const to = address; // recipient's actual address
+    const amountData = ethers.utils.parseEther(amount.toString());
+    const abiCoder = new ethers.utils.AbiCoder();
 
-  const adjustedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
+    // Encode the transaction data
+    const data = abiCoder.encode(
+      ["address", "address", "uint"],
+      [comet, to, amountData]
+    );
+    const actionsEncoded = [
+      ethers.utils.formatBytes32String("ACTION_WITHDRAW_NATIVE_TOKEN"),
+    ];
+    const dataArr = [data];
 
-  contract
-    .withdraw(address, adjustedAmount)
-    .then((tx) => {
-      console.log(`Transaction submitted: ${tx.hash}`);
-      addToast(`Transaction submitted: ${tx.hash}`, "success");
-      // Wait for the transaction to be mined
-      State.update({ loadingWithdraw: true });
-      return tx.wait();
-    })
-    .then((receipt) => {
-      console.log(`Transaction confirmed: ${receipt.transactionHash}`);
-      // Update state or UI as needed
-      State.update({
-        lastTransactionHash: receipt.transactionHash,
-        loadingWithdraw: false,
+    const contractBulk = new ethers.Contract(
+      selectedItem.bulkerAddress,
+      abiBulk.body,
+      Ethers.provider().getSigner()
+    );
+
+    // Function to execute the .invoke call
+    const executeInvoke = () => {
+      console.log(dataArr, " initiating invoke");
+      contractBulk
+        .invoke(actionsEncoded, dataArr, { value: amountData })
+        .then((tx) => {
+          console.log("Transaction hash:", tx.hash);
+          return tx.wait(); // Wait for the transaction to be mined
+        })
+        .then((receipt) => {
+          State.update({
+            lastTransactionHash: receipt.transactionHash,
+          });
+          console.log("Transaction successful with receipt:", receipt);
+        })
+        .catch((error) => {
+          addToast(`Transaction failed: ${error.message}`, "error");
+          console.error("Transaction failed:", error);
+        });
+    };
+
+    // Initial promise to handle allowance logic
+    contractProxyAllowance
+      .isAllowed(address, selectedItem.bulkerAddress)
+      .then((isAllowed) => {
+        if (!isAllowed) {
+          console.log("Need to call allow");
+          addToast(`Please approve the contract and wait`, "warning");
+
+          return contractProxyAllowance
+            .allow(selectedItem.bulkerAddress, true)
+            .then((tx) => {
+              console.log(`Allowance transaction hash: ${tx.hash}`);
+              addToast(`Transaction submitted: ${tx.hash}`, "success");
+
+              return tx.wait().then((receipt) => {
+                addToast(
+                  `Approval confirmed: ${receipt.transactionHash}`,
+                  "success"
+                );
+
+                console.log(
+                  `Allowance transaction confirmed with receipt: ${receipt.transactionHash}`
+                );
+                // After allowance is set, execute the .invoke call
+                executeInvoke();
+              });
+            });
+        } else {
+          console.log("Allowance already set, no need to call allow");
+          // Allowance is already set, directly execute the .invoke call
+          executeInvoke();
+        }
+      })
+      .catch((error) => {
+        addToast(`Transaction failed: ${error.message}`, "error");
+        console.error("Transaction failed:", error);
       });
-      addToast("Withdrawal successful", "success");
-    })
-    .catch((error) => {
-      addToast(`Transaction failed: ${error.message}`, "error");
-      console.error(`Transaction failed: ${error.message}`);
-    });
-  console.log("finalizou");
+  } else {
+    const adjustedAmount = ethers.utils.parseUnits(amount.toString(), decimals);
+    const contract = new ethers.Contract(
+      contractInfo.address,
+      abi.body,
+      Ethers.provider().getSigner()
+    );
+    contract
+      .withdraw(assetAddress, adjustedAmount)
+      .then((tx) => {
+        console.log(`Transaction submitted: ${tx.hash}`);
+        addToast(`Transaction submitted: ${tx.hash}`, "success");
+
+        State.update({ loadingWithdraw: true });
+        return tx.wait();
+      })
+      .then((receipt) => {
+        console.log(`Transaction confirmed: ${receipt.transactionHash}`);
+
+        State.update({
+          lastTransactionHash: receipt.transactionHash,
+          loadingWithdraw: false,
+        });
+        addToast("Withdrawal successful", "success");
+      })
+      .catch((error) => {
+        addToast(`Transaction failed: ${error.message}`, "error");
+        console.error(`Transaction failed: ${error.message}`);
+        // Optionally update state to reflect error
+        State.update({ loadingWithdraw: false });
+      });
+  }
 };
 
+function checkAllowanceAndSupply(
+  assetAddress,
+  amount,
+  decimals,
+  isBaseAsset,
+  isCollateral
+) {
+  const contractProxyAllowance = new ethers.Contract(
+    contractInfo.address,
+    abi.body,
+    Ethers.provider().getSigner()
+  );
+
+  const MaxUint256 = ethers.BigNumber.from(
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  );
+
+  if (isBaseAsset) {
+    const comet = contractInfo.address; // Comet contract address
+    const to = address; // Recipient's actual address
+    const amountData = ethers.utils.parseEther(amount.toString());
+    const abiCoder = new ethers.utils.AbiCoder();
+
+    // Encode the transaction data
+    const data = abiCoder.encode(
+      ["address", "address", "uint"],
+      [comet, to, amountData]
+    );
+    const actionsEncoded = [
+      ethers.utils.formatBytes32String("ACTION_SUPPLY_NATIVE_TOKEN"),
+    ];
+    const dataArr = [data];
+
+    const contractBulk = new ethers.Contract(
+      selectedItem.bulkerAddress,
+      abiBulk.body,
+      Ethers.provider().getSigner()
+    );
+
+    // Function to execute the .invoke call
+    const executeInvoke = () => {
+      console.log(dataArr, " initiating invoke");
+      contractBulk
+        .invoke(actionsEncoded, dataArr, { value: amountData })
+        .then((tx) => {
+          console.log("Transaction hash:", tx.hash);
+          return tx.wait(); // Wait for the transaction to be mined
+        })
+        .then((receipt) => {
+          State.update({
+            lastTransactionHash: receipt.transactionHash,
+          });
+          console.log("Transaction successful with receipt:", receipt);
+        })
+        .catch((error) => {
+          addToast(`Transaction failed: ${error.message}`, "error");
+          console.error("Transaction failed:", error);
+        });
+    };
+
+    // Initial promise to handle allowance logic
+    contractProxyAllowance
+      .isAllowed(address, selectedItem.bulkerAddress)
+      .then((isAllowed) => {
+        if (!isAllowed) {
+          console.log("Need to call allow");
+          addToast(`Please approve the contract`, "warning");
+
+          return contractProxyAllowance
+            .allow(selectedItem.bulkerAddress, true)
+            .then((tx) => {
+              console.log(`Allowance transaction hash: ${tx.hash}`);
+              addToast(`Transaction submitted: ${tx.hash}`, "success");
+              return tx.wait().then((receipt) => {
+                addToast(
+                  `Approval confirmed: ${receipt.transactionHash}`,
+                  "success"
+                );
+
+                console.log(
+                  `Allowance transaction confirmed with receipt: ${receipt.transactionHash}`
+                );
+                // After allowance is set, execute the .invoke call
+                executeInvoke();
+              });
+            });
+        } else {
+          console.log("Allowance already set, no need to call allow");
+          // Allowance is already set, directly execute the .invoke call
+          executeInvoke();
+        }
+      })
+      .catch((error) => {
+        addToast(`Transaction failed: ${error.message}`, "error");
+        console.error("Transaction failed:", error);
+      });
+  } else {
+    const contract = new ethers.Contract(
+      assetAddress,
+      abi.body,
+      Ethers.provider().getSigner()
+    );
+
+    contract
+      .allowance(address, contractInfo.address)
+      .then((allowance) => {
+        console.log(`Current allowance: ${allowance}`);
+        if (allowance.eq(0)) {
+          console.log("Approving...");
+          addToast(`Please approve the contract`, "warning");
+
+          return contract
+            .approve(contractInfo.address, MaxUint256)
+            .then((approvalTx) => {
+              console.log(`Approval transaction hash: ${approvalTx.hash}`);
+              addToast(`Transaction submitted: ${approvalTx.hash}`, "success");
+              return approvalTx.wait(); // Wait for the transaction to be mined
+            })
+            .then((approvalResult) => {
+              console.log(
+                `Approval confirmed: ${approvalResult.transactionHash}`
+              );
+              addToast(
+                `Approval confirmed: ${approvalResult.transactionHash}`,
+                "success"
+              );
+            })
+            .catch((error) => {
+              addToast(`Approval failed: ${error.message}`, "error");
+              console.error(`Approval failed: ${error.message}`);
+              throw new Error("Approval failed, cannot proceed to supply.");
+            });
+        } else {
+          return Promise.resolve(); // Resolve immediately if allowance is sufficient
+        }
+      })
+      .then(() => {
+        // Proceed with supply operation
+        return supplyToContract(assetAddress, amount, decimals, isCollateral);
+      })
+      .catch((error) => {
+        addToast(`Error during supply operation: ${error.message}`, "error");
+        console.error(`Error during supply operation: ${error.message}`);
+      });
+  }
+}
+
+//TODO: possivelmente temos que remover os update de loading
+// Porque ele nao esta funcionando mais, temos que descobrir
+// alguma forma de mostrar loading na tela... ou so remover por inteiro.
 const supplyToContract = (address, amount, decimals, isCollateral) => {
   const contract = new ethers.Contract(
     contractInfo.address,
@@ -1071,7 +1323,7 @@ const supplyToContract = (address, amount, decimals, isCollateral) => {
     .supply(address, adjustedAmount)
     .then((tx) => {
       console.log(`Transaction submitted: ${tx.hash}`);
-      addToast(`Transaction submitted: ${tx.hash}`, "error");
+      addToast(`Transaction submitted: ${tx.hash}`, "success");
       if (isCollateral) {
         State.update({ loadingSupplyCollateral: true });
       } else {
@@ -1096,14 +1348,7 @@ const supplyToContract = (address, amount, decimals, isCollateral) => {
 return (
   <GridContainer key={address + Math.random()}>
     {/* Network dropdown and liquidation risk section */}
-    {/* <button
-      onClick={() => {
-        console.log("salve");
-        addToast("Transaction submitted: ${tx.hash}", "success");
-      }}
-    >
-      teste
-    </button> */}
+
     <GridItem span={4}>
       <NetworkDropdown
         selectedNetwork={selectedNetwork}
@@ -1125,20 +1370,18 @@ return (
           alt="ETH"
         />
         <BalanceAmount>
-          {state.formattedBalance ? state.formattedBalance : 0}
+          {state.formattedBalance ? state.formattedBalance.slice(0, 8) : 0}
         </BalanceAmount>
       </BalanceDisplay>
-      {/* <SubAmount>
-        <SubAmountText>124.000 USD</SubAmountText>
-        <SubArrow> {ArrowPath}</SubArrow>
-      </SubAmount> */}
+      <SubAmount></SubAmount>
       <ContainerModal>
         <Dialog.Root>
           <Dialog.Trigger asChild>
             <GhostButton
               marginTop={45}
               disabled={
-                (state.formattedBalance && state.formattedBalance === 0) ||
+                !state.formattedBalance ||
+                state.formattedBalance === "0.0" ||
                 state.loadingWithdraw
               }
             >
@@ -1158,13 +1401,20 @@ return (
                   balance: state.formattedBalance,
                   loading: state.loadingWithdraw,
                   selectedItem: selectedItem,
-                  decimals: 6,
-                  address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+                  decimals: selectedItem.decimals,
+                  address: selectedItem.address,
+                  isBaseAsset: selectedItem.isBaseAsset,
                   type: "withdraw",
                 }}
                 src="thalesb.near/widget/Input"
               />
-              <CollateralInfoModal />
+              <Widget
+                src="thalesb.near/widget/PositionInfo"
+                props={{
+                  cometAddress: selectedItem.contractInfo.address,
+                  baseAddress: selectedItem.address,
+                }}
+              />
             </div>
             <Dialog.Close asChild>
               <div className="IconButton" aria-label="Close">
@@ -1195,13 +1445,14 @@ return (
       <SectionHeader>Supply {selectedItem.name}</SectionHeader>
       <Widget
         props={{
-          onConfirm: supplyToContract,
-          decimals: 6,
+          onConfirm: checkAllowanceAndSupply,
+          decimals: selectedItem.decimals,
           address: selectedItem.address,
           balance: state.supplyBalance,
           type: "supply",
           loading: state.loadingSupply,
           selectedItem: selectedItem,
+          isBaseAsset: selectedItem.isBaseAsset,
         }}
         src="thalesb.near/widget/Input"
       />
@@ -1213,13 +1464,14 @@ return (
       <Widget
         props={{
           // onConfirm: supplyToContract,
-          // decimals: 6,
+          decimals: selectedItem.decimals,
           // balance: 0,
           selectedItem: selectedItem,
           type: "borrow",
+          addToast: addToast,
           // loading: state.loadingSupply,
         }}
-        src="thalesb.near/widget/Input"
+        src="thalesb.near/widget/Borrow"
       />
     </GridItem>
 
@@ -1260,9 +1512,9 @@ return (
                     <Dialog.Trigger asChild>
                       <Button
                         disabled={
-                          (state.collateralBalances &&
-                            state.collateralBalances[index].tokenBalance ===
-                              0) ||
+                          !state.collateralBalances ||
+                          state.collateralBalances[index].tokenBalance ===
+                            "0.0" ||
                           state.loadingSupplyCollateral
                         }
                       >
@@ -1287,7 +1539,7 @@ return (
                       >
                         <Widget
                           props={{
-                            onConfirm: supplyToContract,
+                            onConfirm: checkAllowanceAndSupply,
                             decimals: item.decimals,
                             address: item.address,
                             loading: state.loadingSupplyCollateral,
@@ -1295,8 +1547,8 @@ return (
                             balance:
                               state.collateralBalances &&
                               state.collateralBalances[index].tokenBalance,
-
                             type: "supply",
+                            isBaseAsset: item.isBaseAsset,
                             isCollateral,
                           }}
                           src="thalesb.near/widget/Input"
@@ -1330,9 +1582,9 @@ return (
                     <Dialog.Trigger asChild>
                       <GhostButton
                         disabled={
-                          (state.collateralBalances &&
-                            state.collateralBalances[index]
-                              .collateralBalance === 0) ||
+                          !state.collateralBalances ||
+                          state.collateralBalances[index].collateralBalance ===
+                            "0.0" ||
                           state.loadingWithdrawCollateral
                         }
                       >
@@ -1362,6 +1614,7 @@ return (
                               state.collateralBalances[index].collateralBalance,
                             loading: state.loadingWithdrawCollateral,
                             type: "withdraw",
+                            isBaseAsset: item.isBaseAsset,
                           }}
                           src="thalesb.near/widget/Input"
                         />
@@ -1399,8 +1652,8 @@ return (
                   <Button
                     width="100%"
                     disabled={
-                      (state.collateralBalances &&
-                        state.collateralBalances[index].tokenBalance === 0) ||
+                      !state.collateralBalances[index].tokenBalance ||
+                      state.collateralBalances[index].tokenBalance === "0.0" ||
                       state.loadingSupplyCollateral
                     }
                   >
@@ -1423,7 +1676,7 @@ return (
                   >
                     <Widget
                       props={{
-                        onConfirm: supplyToContract,
+                        onConfirm: checkAllowanceAndSupply,
                         decimals: item.decimals,
                         address: item.address,
                         loading: state.loadingSupplyCollateral,
@@ -1431,7 +1684,7 @@ return (
                         balance:
                           state.collateralBalances &&
                           state.collateralBalances[index].tokenBalance,
-
+                        isBaseAsset: item.isBaseAsset,
                         type: "supply",
                       }}
                       src="thalesb.near/widget/Input"
@@ -1466,8 +1719,8 @@ return (
                   <GhostButton
                     width="100%"
                     disabled={
-                      (state.formattedBalance &&
-                        state.formattedBalance === 0) ||
+                      !state.formattedBalance ||
+                      state.formattedBalance === "0.0" ||
                       state.loadingWithdrawCollateral
                     }
                   >
@@ -1498,7 +1751,7 @@ return (
                         balance:
                           state.collateralBalances &&
                           state.collateralBalances[index].collateralBalance,
-
+                        isBaseAsset: item.isBaseAsset,
                         type: "withdraw",
                       }}
                       src="thalesb.near/widget/Input"
@@ -1532,41 +1785,30 @@ return (
       ))}
     </GridItem>
     <GridItem span={3}>
-      <SectionHeader>Net Borrow APR</SectionHeader>
-      <InfoSection marginTop={12}>
-        <InfoRow>
-          <InfoLabel>APR</InfoLabel>
-          <InfoValue>0.7900</InfoValue>
-        </InfoRow>
-        <InfoRow>
-          <InfoLabel>Fee</InfoLabel>
-          <InfoValue>0.0000</InfoValue>
-        </InfoRow>
-        <InfoRow>
-          <InfoLabel>Interest</InfoLabel>
-          <InfoValue>0.5100</InfoValue>
-        </InfoRow>
-      </InfoSection>
+      <Widget
+        src="thalesb.near/widget/NetBorrowApr"
+        props={{
+          selectedItem: selectedItem,
+        }}
+      />
     </GridItem>
     <GridItem span={3}>
-      <SectionHeader>Net Supply APR</SectionHeader>
-      <InfoSection marginTop={12}>
-        <InfoRow>
-          <InfoLabel>APR</InfoLabel>
-          <InfoValue>0.7900</InfoValue>
-        </InfoRow>
-        <InfoRow>
-          <InfoLabel>Fee</InfoLabel>
-          <InfoValue>0.0000</InfoValue>
-        </InfoRow>
-        <InfoRow>
-          <InfoLabel>Interest</InfoLabel>
-          <InfoValue>0.5100</InfoValue>
-        </InfoRow>
-      </InfoSection>
+      <Widget
+        src="thalesb.near/widget/NetSupplyApr"
+        props={{
+          selectedItem: selectedItem,
+        }}
+      />
     </GridItem>
     <GridItem span={6} style={{ maxHeight: "220px" }} rowSpan={2}>
-      <CollateralInfo />
+      <Widget
+        src="thalesb.near/widget/PositionInfo"
+        props={{
+          cometAddress: selectedItem.contractInfo.address,
+          baseAddress: selectedItem.address,
+          httpRpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
+        }}
+      />
     </GridItem>
   </GridContainer>
 );
