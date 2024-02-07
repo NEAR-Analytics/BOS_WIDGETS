@@ -110,8 +110,8 @@ return {
     visibility: hidden;
     min-width: 150px;
     background-color: #ffffff;
-    text-align: center;
-    border-radius: 3px;
+    text-align: justify;
+    border-radius: 5px;
     padding: 5px;
     position: absolute;
     z-index: 1;
