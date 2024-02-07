@@ -1,4 +1,4 @@
-const { Select, Check, TooltipContainer, TooltipText } = VM.require(
+const { Select, Check } = VM.require(
   `ndcdev.near/widget/Dashboard.Components.Select.styled`,
 );
 
@@ -38,20 +38,6 @@ const setTitle = () => {
   }
 };
 
-const TooltipIcon = styled.i`
-  &:hover + ${TooltipText} {
-    visibility: visible;
-    opacity: 1;
-    white-space: pre-wrap;
-    color: #6b6c75;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    box-shadow: 50px 20px 50px 50px rgba(0, 0, 0, 0.05);
-  }
-`;
-
 const handleOpen = () => {
   if (onFilterClick) {
     onFilterClick(id);
@@ -66,10 +52,13 @@ return (
       <div className="selected" onClick={handleOpen}>
         {setTitle()}
         {isTooltipVisible && (
-          <TooltipContainer>
-            <TooltipIcon className="bi bi-info-circle-fill"></TooltipIcon>
-            <TooltipText>{hintText}</TooltipText>
-          </TooltipContainer>
+          <Widget
+            src={`ndcdev.near/widget/Dashboard.Components.Tooltip.index`}
+            props={{
+              content: hintText,
+              icon: <i className="bi bi-info-circle-fill" />,
+            }}
+          />
         )}
       </div>
       <div className="d-flex gap-2">
