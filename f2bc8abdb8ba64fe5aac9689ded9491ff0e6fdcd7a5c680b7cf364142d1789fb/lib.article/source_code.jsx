@@ -520,7 +520,9 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
   //Add day-month-year tag
   const creationDate = new Date(article.timeCreate);
   article.tags.push(
-    `${creationDate.getDate()}-${creationDate.getMonth()}-${creationDate.getFullYear()}`
+    `${creationDate.getDate()}-${
+      creationDate.getMonth() + 1
+    }-${creationDate.getFullYear()}`
   );
 
   if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
