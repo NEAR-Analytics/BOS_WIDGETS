@@ -1,9 +1,17 @@
+/**
+ * Renders the Borrow component.
+ * Allows the user to borrow a specified amount from a contract.
+ *
+ * @returns {JSX.Element} The Borrow component.
+ */
 State.init({
   refetchKey,
   forceRefetch: false,
 });
 
-const { getUserPosition } = VM.require("thalesb.near/widget/compound-requests");
+const { getMinimumBorrowAmount } = VM.require(
+  "thalesb.near/widget/compound-requests"
+);
 
 const SectionHeader = styled.span`
   color: #fff;
@@ -28,19 +36,18 @@ useEffect(() => {
   }
 }, [Ethers]);
 
-useEffect(() => {
-  if (!state.address) return;
-
-  getUserPosition({
-    userAddress: state.address,
-    cometAddress: props.selectedItem.contractInfo.address,
-    rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
-    force: state.forceRefetch,
-    collateralAssets: selectedItem.collateralAssets,
-  }).then((position) => {
-    State.update({ position, forceRefetch: false });
-  });
-}, [state.address, state.forceRefetch]);
+const minimumBorrowAmount = useCache(
+  () => {
+    return getMinimumBorrowAmount({
+      cometAddress: props.selectedItem.contractInfo.address,
+      rpcUrl: props.selectedItem.contractInfo.httpRpcUrl,
+    });
+  },
+  "getMinimumBorrowAmount" + props.selectedItem.contractInfo.address,
+  {
+    subscribe: false,
+  }
+);
 
 function handleBorrowError(e) {
   if (props.addToast) {
@@ -50,6 +57,11 @@ function handleBorrowError(e) {
   console.error(e);
 }
 
+/**
+ * Borrow function to withdraw a specified amount from a contract.
+ *
+ * @param {number} amount - The amount to be borrowed.
+ */
 function borrow(amount) {
   const contract = new ethers.Contract(
     props.selectedItem.contractInfo.address,
@@ -85,7 +97,7 @@ function borrow(amount) {
 useEffect(() => {
   const interval = setInterval(() => {
     State.update({ forceRefetch: true });
-  }, 15 * 1000);
+  }, 30 * 1000);
 
   return () => {
     clearInterval(interval);
@@ -101,12 +113,8 @@ return (
         borrow(amount);
       },
       loading: state.loadingBorrow,
-      balance: Number(state.position.borrowCapacityBase || 0),
-      min:
-        state.position.minBorrowAmount &&
-        state.position.borrowedInBase < state.position.minBorrowAmount
-          ? state.position.minBorrowAmount
-          : 0,
+      balance: Math.floor((props.borrowBalance + Number.EPSILON) * 1000) / 1000,
+      min: minBorrowAmount && props.borrowedBalance < 1 ? minBorrowAmount : 0,
       selectedItem: props.selectedItem,
     }}
   />
