@@ -527,8 +527,6 @@ return (
               <i className="bi bi-clock"></i>
               <TimestampText>
                 <span>{getPublicationDate(data.timeCreate)}</span>
-                <span>by</span>
-                <b>{data.author}</b>
               </TimestampText>
             </TextLowerSectionContainer>
             <Widget
