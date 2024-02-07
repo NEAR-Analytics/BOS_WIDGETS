@@ -1269,30 +1269,28 @@ const { getCollateralsWithLiquidationData } = VM.require(
   "thalesb.near/widget/compound-requests"
 );
 
-const positionData = useCache(
-  () => {
-    if (!selectedItem.contractInfo.address || !address)
-      return Promise.resolve({});
+useEffect(() => {
+  getCollateralsWithLiquidationData({
+    userAddress: address,
+    cometAddress: selectedItem.contractInfo.address,
+    rpcUrl: selectedItem.contractInfo.httpRpcUrlBorrow,
+  }).then((data) => {
+    State.update({ positionData: data });
+  });
 
-    return getCollateralsWithLiquidationData({
+  const interval = setInterval(() => {
+    getCollateralsWithLiquidationData({
       userAddress: address,
       cometAddress: selectedItem.contractInfo.address,
       rpcUrl: selectedItem.contractInfo.httpRpcUrlBorrow,
+    }).then((data) => {
+      State.update({ positionData: data });
     });
-  },
-  "positionData" +
-    selectedItem.contractInfo.address +
-    address +
-    state.refetchPositionKey,
-  { subscribe: false }
-);
+  }, 45 * 1000);
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    State.update({ refetchPositionKey: Date.now() });
-  }, 30 * 1000);
-
-  return () => clearInterval(interval);
+  return () => {
+    clearInterval(interval);
+  };
 }, []);
 
 return (
@@ -1308,7 +1306,9 @@ return (
     </GridItem>
     <GridItem span={8}>
       <SectionHeader>Liquidation Risk</SectionHeader>
-      <LiquidationRiskBar riskPercent={positionData?.liquidationRisk || 0} />
+      <LiquidationRiskBar
+        riskPercent={state.positionData?.liquidationRisk || 0}
+      />
     </GridItem>
     {/* Balance Section */}
 
@@ -1353,7 +1353,7 @@ return (
                 }}
                 src="thalesb.near/widget/Input"
               />
-              {/* 
+              {/*
               <PositionContainer>
                 <Widget
                   src="thalesb.near/widget/PositionInfo"
@@ -1401,8 +1401,8 @@ return (
           selectedItem: selectedItem,
           type: "borrow",
           addToast: addToast,
-          borrowBalance: positionData?.borrowCapacityBase || 0,
-          borrowedBalance: positionData?.borrowedInBase || 0,
+          borrowBalance: state.positionData?.borrowCapacityBase || 0,
+          borrowedBalance: state.positionData?.borrowedInBase || 0,
         }}
         src="thalesb.near/widget/Borrow"
       />
@@ -1679,7 +1679,7 @@ return (
       <Widget
         src="thalesb.near/widget/PositionInfo"
         props={{
-          position: positionData,
+          position: state.positionData,
         }}
       />
     </GridItem>
