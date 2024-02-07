@@ -60,6 +60,7 @@ State.init({
   revokeTime: state.revokeTime,
   refUID: state.refUID,
   payload: state.payload,
+  data: state.data,
 });
 
 const data = {
@@ -265,7 +266,7 @@ return (
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
-        value: { data, template: { src: "hyperfiles.near/type/attestation" } },
+        value: data,
       }}
     />
   </Container>
