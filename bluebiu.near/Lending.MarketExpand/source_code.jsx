@@ -367,6 +367,7 @@ return (
             props={{
               icon: data.underlyingToken?.icon,
               symbol: data.underlyingToken?.symbol,
+              decimals: data.underlyingToken?.decimals,
               balance:
                 state.tab === "Supply"
                   ? data.userUnderlyingBalance
