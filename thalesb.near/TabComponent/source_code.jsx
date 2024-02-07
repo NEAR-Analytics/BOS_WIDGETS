@@ -1212,7 +1212,7 @@ return (
               props={{
                 contracts: marketsContracts,
               }}
-              src="zika.near/widget/CompoundMarkets"
+              src="thalesb.near/widget/CompoundMarkets"
             />
           ) : null}
         </>
