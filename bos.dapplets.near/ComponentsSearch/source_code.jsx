@@ -4,6 +4,8 @@ let totalComponents = 0;
 let totalApps = 0;
 const componentsUrl = "/#/near/widget/ComponentsPage";
 
+console.log(props.apps);
+
 State.init({
   currentPage: 0,
   selectedTab: props.tab || "apps",
