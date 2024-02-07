@@ -1,31 +1,55 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
 
-const openAnotherModal = ({ validator, method, amount }) => {
-  switch (method) {
-    case "stake":
-      Near.call(validator, "deposit_and_stake", { amount }, null, amount);
-      break;
-    case "unstake":
-      Near.call(validator, "unstake", { amount });
-      break;
-  }
-};
-
 const yoctoZeroes = "000000000000000000000000";
 
+const [stakingAmount, setStakingAmount] = useState("6");
+const [unstakingWithdrawlAmount, setUnstakingWithdrawlAmount] = useState("19");
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
-  const [stakingAmount, setStakingAmount] = useState("3");
+  // console.log('aloha top of stakeunstakewithdraw amount', amount);
+  // const [stakingAmount, setStakingAmount] = useState(amount);
+
+  const openAnotherModal = ({ validator, method, amount }) => {
+    console.log("aloha top of openAnotherModal amount", amount);
+    // Let's explicitly have these in a switch so no one tries any funny business with methods
+    switch (method) {
+      case "stake":
+        Near.call(
+          validator,
+          "deposit_and_stake",
+          { amount: stakingAmount },
+          null,
+          amount
+        );
+        break;
+      case "unstake":
+        Near.call(validator, "unstake", {
+          amount: unstakingWithdrawlAmount + yoctoZeroes,
+        });
+        break;
+      case "withdraw":
+        // Near.call(validator, "withdraw", { amount });
+        Near.call(validator, "withdraw", {
+          amount: unstakingWithdrawlAmount + yoctoZeroes,
+        });
+        break;
+    }
+  };
+
   const handleCancel = () => {
     // eventually add fade-out effect
     setShowStakingModal(false);
   };
   const handleUnstake = (amount) => {
-    console.log("Unstaking...", amount);
+    console.log("Unstaking…", amount);
     openAnotherModal({ validator, method, amount });
   };
   const handleStake = (amount) => {
-    console.log("Staking...", amount);
+    console.log("Staking…", amount);
     openAnotherModal({ validator, method, amount });
+  };
+  const handleWithdraw = () => {
+    console.log("Withdrawing…", unstakingWithdrawlAmount);
+    openAnotherModal({ validator, method, amount: unstakingWithdrawlAmount });
   };
 
   const containerStyle = {
@@ -61,7 +85,8 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
     <div style={containerStyle}>
       <h2 style={titleStyle}>{method} NEAR</h2>
       <input
-        defaultValue={amount}
+        // defaultValue={stakingAmount}
+        value={stakingAmount}
         onChange={(e) => setStakingAmount(e.target.value)}
         style={{
           padding: "13px",
@@ -78,12 +103,21 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
           } else if (method === "stake") {
             // Assuming you have a function handleStake for the "stake" action
             handleStake(`${stakingAmount}${yoctoZeroes}`);
+          } else if (method === "withdraw") {
+            // handleWithdraw(`${stakingAmount}${yoctoZeroes}`);
+            handleWithdraw();
           }
         }}
         style={{ padding: "13px", margin: "13px auto", display: "block" }}
       >
         {/* Assuming you want to dynamically change the button text as well */}
-        {method === "unstake" ? "Unstake" : "Stake"}
+        <span
+          style={{
+            textTransform: "capitalize",
+          }}
+        >
+          {method}
+        </span>
       </button>
       <button
         onClick={handleCancel}
@@ -95,6 +129,23 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
   );
 };
 
+// Interesting, this seems to need to be above the StakeUnstakeWithdrawModal declaration
+const walletUnstake = ({ validator, amount }) => {
+  setStakingModalData({ validator, method: "unstake", amount });
+  setShowStakingModal(true);
+};
+const walletWithdraw = ({ validator, amount }) => {
+  console.log("aloha walletWithdraw amount", amount);
+  // setStakingModalData({ validator, method: "withdraw", amount });
+  setStakingModalData({ validator, method: "withdraw" });
+  setShowStakingModal(true);
+};
+const walletStake = ({ validator, amount }) => {
+  console.log("aloha stake validator", validator);
+  setStakingModalData({ validator, method: "stake", amount });
+  setShowStakingModal(true);
+};
+
 const { mainnetValidators } = VM.require(
   "mike.near/widget/StakingUI.getValidators"
 );
@@ -103,7 +154,7 @@ const { mainnetValidators } = VM.require(
 const [progressVal, setProgressVal] = useState(0);
 // 219 validators, sending at least two messages, sometimes a third.
 // this sane starting place helps so the progress bar doesn't jump around
-const [progressMax, setProgressMax] = useState(440);
+const [progressMax, setProgressMax] = useState(442);
 const [started, setStarted] = useState(false);
 const [showProgressBar, setShowProgressBar] = useState(true);
 const [validatorStakingDetails, setValidatorStakingDetails] = useState([]);
@@ -351,17 +402,6 @@ const LoadingModal = () => {
   }
 };
 
-// Interesting, this seems to need to be above the StakeUnstakeWithdrawModal declaration
-const walletUnstake = ({ validator, amount }) => {
-  setStakingModalData({ validator, method: "unstake", amount });
-  setShowStakingModal(true);
-};
-const walletStake = ({ validator, amount }) => {
-  console.log("aloha stake validator", validator);
-  setStakingModalData({ validator, method: "stake", amount });
-  setShowStakingModal(true);
-};
-
 // debug by commenting this badboy out to see it
 const stakingModalDisplayStyles = {
   display: showStakingModal ? "flex" : "none",
@@ -454,7 +494,7 @@ if (!!!context.accountId) {
           background: `radial-gradient(circle at top right, slategray, transparent 80%), 
                          radial-gradient(circle at center, darkslategray, transparent 83%)`,
           backgroundImage:
-            'url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxmaWx0ZXIgaWQ9Im4iPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjYiIG51bU9jdGF2ZXM9IjEiLz48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMSAwIDAgMCAwICAwIDEgMCAwIDAgIDAgMCAxIDAgMCAgMCAwIDAgMC41IDAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIC8+PC9zdmc+")',
+            'url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiPjxkZWZzPjxmaWx0ZXIgaWQ9InNsYXRlTm9pc2UiIHg9Ii01MCUiIHk9Ii01MCUiIHdpZHRoPSIyMDAlIiBoZWlnaHQ9IjIwMCUiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIxLjkiIG51bU9jdGF2ZXM9IjYiIHJlc3VsdD0ibm9pc2UiLz48ZmVHYXVzc2lhbkJsdXIgaW49Im5vaXNlIiBzdGREZXZpYXRpb249IjIiIHJlc3VsdD0iYmx1cnJlZE5vaXNlIi8+PGZlQ29tcG9uZW50VHJhbnNmZXIgaW49InNsYXRlTm9pc2UiPjxmZUZ1bmNSIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuOSIgaW50ZXJjZXB0PSIwLjA1Ii8+PGZlRnVuY0cgdHlwZT0ibGluZWFyIiBzbG9wZT0iMC45IiBpbnRlcmNlcHQ9IjAuMDUiLz48ZmVGdW5jQiB0eXBlPSJsaW5lYXIiIHNsb3BlPSIwLjk1IiBpbnRlcmNlcHQ9IjAuMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI3NsYXRlTm9pc2UpIiBmaWxsPSJkYXJrZ3JheSIgLz48L3N2Zz4=")',
           backgroundBlendMode: "hard-light",
           borderRadius: "16px 16px 0 0",
           filter: "saturate(6) grayscale(6%)",
@@ -478,7 +518,9 @@ if (!!!context.accountId) {
             <div
               style={{
                 background:
-                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.42) 30%, rgba(0, 0, 0, 0.2) 70%)",
+                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0.2) 70%)",
+                filter: "drop-shadow(3px 3px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "contrast(0.1)",
                 padding: "10px",
                 margin: "auto",
                 marginBottom: "13px",
@@ -524,7 +566,7 @@ if (!!!context.accountId) {
                       height: "6px",
                       background:
                         "linear-gradient(to right, #00ec97, #fff, #00ec97)",
-                      filter: "saturate(19%)",
+                      filter: "saturate(13%)",
                     }}
                   />
                 </div>
@@ -557,15 +599,15 @@ if (!!!context.accountId) {
                         flex: 2,
                         padding: "0 10px",
                         display: "flex",
-                        justifyContent: "space-between",
                         alignItems: "center",
-                        // overflow: "hidden",
                       }}
                     >
                       <span>{formatNearAmount(detail.stakedBalance)}</span>
                       <button
                         style={{
                           marginLeft: "10px",
+                          background:
+                            "linear-gradient(to right, #9797ff 6%, rgba(151, 151, 255, 0.6) 100%, #17d9d4 100%)",
                         }}
                         onClick={() =>
                           walletStake({
@@ -612,13 +654,27 @@ if (!!!context.accountId) {
                               amount: detail.stakedBalance,
                             })
                           }
-                          style={{ marginBottom: "10px" }}
+                          style={{
+                            marginBottom: "10px",
+                            background:
+                              "linear-gradient(to right, #9797ff 6%, rgba(151, 151, 255, 0.6) 100%, #17d9d4 100%)",
+                          }}
                         >
                           Unstake
                         </button>
                         {detail.isUnstakedBalanceAvailable && (
                           <button
-                            onClick={() => console.log("unimplemented bro")}
+                            style={{
+                              background:
+                                "linear-gradient(to right, #9797ff 6%, rgba(151, 151, 255, 0.6) 100%, #17d9d4 100%)",
+                            }}
+                            onClick={() =>
+                              walletWithdraw({
+                                validator: detail.validatorAddress,
+                                amount: detail.unstakedBalance,
+                                // amount: "19", // this likely needs to be another RPC call here
+                              })
+                            }
                           >
                             Withdraw
                           </button>
@@ -633,7 +689,9 @@ if (!!!context.accountId) {
             <div
               style={{
                 background:
-                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.42) 30%, rgba(0, 0, 0, 0.1) 70%)",
+                  "radial-gradient(circle at top left, rgba(0, 0, 0, 0.6) 19%, rgba(0, 0, 0, 0.1) 100%)",
+                filter: "drop-shadow(3px 3px 3px rgba(255, 255, 255, 0.6)",
+                backdropFilter: "contrast(0.6)",
                 padding: "10px",
                 margin: "auto",
                 maxWidth: "85%",
@@ -677,7 +735,7 @@ if (!!!context.accountId) {
                       height: "6px",
                       background:
                         "linear-gradient(to right, #ff7966, #fff, #ff7966)",
-                      filter: "saturate(19%)",
+                      filter: "saturate(13%)",
                     }}
                   />
                 </div>
@@ -715,7 +773,15 @@ if (!!!context.accountId) {
                         {detail.validatorAddress}
                       </div>
                       <div style={{ flex: 1, padding: "0 10px" }}>
-                        <button style={{ marginLeft: "10px" }}>Stake</button>
+                        <button
+                          style={{
+                            marginLeft: "10px",
+                            background:
+                              "linear-gradient(to right, #9797ff 6%, rgba(151, 151, 255, 0.6) 100%, #17d9d4 100%)",
+                          }}
+                        >
+                          Stake
+                        </button>
                       </div>
                     </div>
                   ))}
