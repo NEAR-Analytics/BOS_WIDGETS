@@ -340,7 +340,7 @@ const MenuContainer = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    z-index: 9999;
     padding: 0 16px;
 
     .item,
