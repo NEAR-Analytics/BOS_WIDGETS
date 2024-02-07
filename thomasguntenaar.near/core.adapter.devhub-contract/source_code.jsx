@@ -99,6 +99,10 @@ function getAllCommunitiesMetadata() {
   );
 }
 
+function getSocialWithBlockHeight(data) {
+  return Near.view("social.near", "get", data) ?? null;
+}
+
 function getAllLabels() {
   return Near.view("devgovgigs.near", "get_all_labels") ?? null;
 }
