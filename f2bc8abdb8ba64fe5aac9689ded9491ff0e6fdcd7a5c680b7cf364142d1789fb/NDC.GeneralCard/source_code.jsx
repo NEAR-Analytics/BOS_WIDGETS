@@ -323,7 +323,7 @@ const profileImageStyles = {
 //=================================================COMPONENTS=======================================================
 
 const inner = (
-  <div className="d-flex flex-row mx-1">
+  <div className="d-flex flex-row mx-1 mw-50">
     <Widget
       src={widgets.views.standardWidgets.newStyledComponents.Element.User}
       props={{
