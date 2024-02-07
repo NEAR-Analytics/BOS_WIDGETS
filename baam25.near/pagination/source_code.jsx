@@ -32,23 +32,22 @@ const Pagination = styled.div`
   display: flex;
   gap: 1rem;
   justify-content: center;
-  --primary-color: ${bgColor};
   ${customStyle}
   div {
     border: 1px solid transparent;
-    background: var(--primary-color);
+    background: ${bgColor};
     border-radius: 2px;
     padding: 10px;
     font-size: 12px;
     color: white;
     cursor: pointer;
     :hover {
-      background: var(--primary-light);
+      background: ${bgColor}90;
     }
     &.active {
       background: white;
-      color: var(--primary-color);
-      border-color: var(--primary-color);
+      color: ${bgColor};
+      border-color: ${bgColor};
     }
   }
 `;
