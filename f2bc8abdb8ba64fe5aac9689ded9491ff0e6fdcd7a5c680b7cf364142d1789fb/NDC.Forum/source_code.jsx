@@ -148,7 +148,7 @@ if (state.filterBy.parameterName == "author") {
 const navigationPills = [
   { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
   { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
-  { id: tabs.SHOW_KANBAN_VIEW.id, title: "Kanban view" },
+  { id: tabs.SHOW_KANBAN_VIEW.id, title: "Kanban" },
 ];
 
 const navigationButtons = [
