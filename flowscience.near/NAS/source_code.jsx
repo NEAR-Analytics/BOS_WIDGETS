@@ -2,6 +2,7 @@ const data = props.data || {};
 const type = props.type || "";
 const attestationType = props.attestation || "hyperfiles.near/type/attestation";
 const schema = props.schema || "";
+const selectedSchema = props.selectedSchema ?? "";
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
@@ -122,7 +123,7 @@ State.init({
   typeSrc,
   schemaSrc,
   selectedType: type,
-  selectedSchema: schema,
+  selectedSchema: selectedSchema,
   view: defaultView,
   preview: "TEMPLATE",
   template,
