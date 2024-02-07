@@ -64,7 +64,6 @@ const Button = styled.button`
 
 const Container = styled.div`
   background-color: #323345;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -140,11 +139,9 @@ const {
   onConfirm,
   balance,
   type,
-  loading,
   address,
   decimals,
   isBaseAsset,
-  isCollateral,
   selectedItem,
   min,
 } = props;
@@ -219,7 +216,7 @@ return (
           onConfirm(address, inputValue, decimals, isBaseAsset);
         }}
       >
-        {loading ? "Loading" : "Withdraw"}
+        Withdraw
       </GhostButton>
     ) : (
       <Button
@@ -233,9 +230,7 @@ return (
           state.error ||
           (inputValue > balance && type !== "borrow")
         }
-        onClick={() =>
-          onConfirm(address, inputValue, decimals, isBaseAsset, isCollateral)
-        }
+        onClick={() => onConfirm(address, inputValue, decimals, isBaseAsset)}
       >
         {type === "borrow" ? "BORROW" : "SUPPLY"}
       </Button>
