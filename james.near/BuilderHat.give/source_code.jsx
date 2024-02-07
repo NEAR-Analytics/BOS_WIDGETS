@@ -94,7 +94,7 @@ return (
                 {
                   badge: {
                     builder: {
-                      [accountId]: hatColor,
+                      [recipient]: hatColor,
                     },
                   },
                 },
