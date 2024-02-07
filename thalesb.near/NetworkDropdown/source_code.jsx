@@ -82,6 +82,12 @@ const usdcImage =
 const maticImage =
   "https://raw.githubusercontent.com/sushiswap/list/master/logos/native-currency-logos/matic.svg";
 
+const baseImage =
+  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png";
+
+const arbitrumImage =
+  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png";
+
 const [activeBlockchain, setActiveBlockchain] = useState("Ethereum");
 
 const assets = {
@@ -89,7 +95,15 @@ const assets = {
     { name: "USDC", icon: usdcImage },
     { name: "ETH", icon: ethImage },
   ],
-  Polygon: [{ name: "USDC", icon: usdcImage }],
+  Polygon: [{ name: "USDC.e", icon: usdcImage }],
+  Base: [
+    { name: "ETH", icon: ethImage },
+    { name: "USDbC", icon: usdcImage },
+  ],
+  Arbitrum: [
+    { name: "USDC.e", icon: usdcImage },
+    { name: "USDC", icon: usdcImage },
+  ],
 };
 
 return (
@@ -108,6 +122,18 @@ return (
         onMouseEnter={() => setActiveBlockchain("Polygon")}
         isActive={activeBlockchain === "Polygon"}
       />
+      {/* <NetworkItem
+        name="Base"
+        icon={baseImage}
+        onMouseEnter={() => setActiveBlockchain("Base")}
+        isActive={activeBlockchain === "Base"}
+      />
+      <NetworkItem
+        name="Arbitrum"
+        icon={arbitrumImage}
+        onMouseEnter={() => setActiveBlockchain("Arbitrum")}
+        isActive={activeBlockchain === "Arbitrum"}
+      /> */}
     </NetworksColumn>
     {/* Assets Column */}
     <AssetsColumn>
