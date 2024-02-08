@@ -47,7 +47,7 @@ const ERC20_ABI = [
   },
 ];
 const Button = styled.button`
-  background: var(--switch-color);
+  background: var(--button-color);
   line-height: 46px;
   height: 46px;
   border-radius: 10px;
