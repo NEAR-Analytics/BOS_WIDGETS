@@ -16,7 +16,7 @@ return (
       and we'll send a search robot with a flashlight!
     </Text>
     <Logo src={assets.notFoundLogo} />
-    <Text>Join to our social</Text>
+    <Text>Join our community</Text>
     <Social>
       <a href={socialLinks.near} target="_blank">
         <img src={assets.nearLogo} />
