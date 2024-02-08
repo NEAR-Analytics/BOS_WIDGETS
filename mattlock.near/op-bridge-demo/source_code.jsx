@@ -455,6 +455,12 @@ function handleWithdrawalInitiatingEth(data) {
     })
     .then((tx) => {
       console.log("tx:", tx);
+      State.update({
+        log: "Please refresh to see your withdrawal below.",
+      });
+      setTimeout(() => {
+        State.update({ log: null });
+      }, 3000);
     })
     .catch((e) => {
       console.log("bridge error:", e);
