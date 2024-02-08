@@ -185,7 +185,7 @@ const handleRemoveWidget = (key) => {
 
 const composeData = () => {
   const data = {
-    type: {
+    schema: {
       [state.typeName]: JSON.stringify({
         properties: state.properties,
         widgets: state.widgets,
