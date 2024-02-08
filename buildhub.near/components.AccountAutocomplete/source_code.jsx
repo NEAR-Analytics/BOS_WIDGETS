@@ -54,7 +54,6 @@ function onResultClick(id) {
 
 const Wrapper = styled.div`
   position: relative;
-
   &::before {
     content: "";
     display: block;
@@ -79,19 +78,16 @@ const Scroller = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-
   > * {
     max-width: 175px;
     flex-grow: 0;
     flex-shrink: 0;
-
     button {
       border: 1px solid #eceef0;
       background: #fff !important;
       border-radius: 6px;
       padding: 3px 6px;
       transition: all 200ms;
-
       &:focus,
       &:hover {
         border-color: #687076;
@@ -107,7 +103,6 @@ const CloseButton = styled.button`
     padding: 12px;
     color white;
     transition: all 200ms;
-
     &:hover {
        transform:scale(1.2);
     }
