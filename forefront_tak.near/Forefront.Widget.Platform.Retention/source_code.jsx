@@ -312,7 +312,7 @@ let third = (
               themeColor.chartColor,
               {
                 title: "",
-                subtitle: `Growth of new users (who use Near platforms)`,
+                subtitle: ``,
                 stacking: "normal",
               }
             )}
