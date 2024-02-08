@@ -11,3 +11,5 @@ function generateUID() {
   }
   return uid;
 }
+
+return { generateUID };
