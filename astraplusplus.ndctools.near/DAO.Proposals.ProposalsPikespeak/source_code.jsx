@@ -32,8 +32,7 @@ const isVotingBodyDao = daoId === VotingBodyDaoId;
 const proposalsCount = Near.view(daoId, "number_of_proposals");
 
 if (proposalsCount === null) return;
-const STORAGE_FILTERS_KEY = daoId + "_filters";
-const storageFiltersData = Storage.privateGet(STORAGE_FILTERS_KEY);
+
 State.init({
   daoId,
   page: 0,
@@ -50,15 +49,6 @@ State.init({
   daoConfig: null,
   tab: "active"
 });
-
-if (
-  storageFiltersData &&
-  JSON.stringify(state.filters) !== storageFiltersData
-) {
-  State.update({
-    filters: JSON.parse(storageFiltersData)
-  });
-}
 
 function getPreVoteVotes(supported) {
   const votes = {};
@@ -239,9 +229,9 @@ function getDaoConfig() {
 getDaoConfig();
 
 return (
-  <div className="p-2 p-sm-0">
+  <>
     <div
-      className="d-flex align-items-center gap-2 flex-wrap"
+      className="d-flex align-items-center gap-2 flex-wrap-reverse justify-content-end"
       id="proposals-top"
     >
       <Widget
@@ -289,32 +279,30 @@ return (
           }
         }}
       />
-      <div className="d-none d-sm-flex">
-        <Widget
-          src="nearui.near/widget/Input.Button"
-          props={{
-            children: (
-              <>
-                Table View
-                {state.tableView ? (
-                  <i className="bi bi-x-lg"></i>
-                ) : (
-                  <i className="bi bi-table"></i>
-                )}
-              </>
-            ),
-            variant: "info outline",
-            size: "md",
-            onClick: () => {
-              Storage.privateSet("tableView", !state.tableView);
-              State.update({
-                ...state,
-                tableView: !state.tableView
-              });
-            }
-          }}
-        />
-      </div>
+      <Widget
+        src="nearui.near/widget/Input.Button"
+        props={{
+          children: (
+            <>
+              Table View
+              {state.tableView ? (
+                <i className="bi bi-x-lg"></i>
+              ) : (
+                <i className="bi bi-table"></i>
+              )}
+            </>
+          ),
+          variant: "info outline",
+          size: "md",
+          onClick: () => {
+            Storage.privateSet("tableView", !state.tableView);
+            State.update({
+              ...state,
+              tableView: !state.tableView
+            });
+          }
+        }}
+      />
       <Widget
         src="astraplusplus.ndctools.near/widget/Layout.Modal"
         props={{
@@ -347,17 +335,12 @@ return (
               props={{
                 filters: state.filters,
                 cancel: () => {
-                  Storage.privateSet(STORAGE_FILTERS_KEY, null);
                   State.update({
                     ...state,
                     filtersOpen: false
                   });
                 },
                 applyFilters: (filters) => {
-                  Storage.privateSet(
-                    STORAGE_FILTERS_KEY,
-                    JSON.stringify(filters)
-                  );
                   State.update({
                     ...state,
                     filters,
@@ -371,126 +354,107 @@ return (
         }}
       />
     </div>
-    {res !== null && !res.body ? (
+    {res !== null && !res.body && (
       <div className="alert alert-danger mt-2" role="alert">
-        Network issue. Please try again later.
+        Couldn't fetch proposals from API. Please try again later.
       </div>
-    ) : (
+    )}
+    {isVotingBodyDao && (
+      <div className="w-100 mt-2">
+        <Widget
+          src={`astraplusplus.ndctools.near/widget/DAO.Layout.Tabs`}
+          props={{
+            allowHref: false,
+            tabs: {
+              active: {
+                name: "Active"
+              },
+              draft: {
+                name: "Draft"
+              }
+            },
+            tab: state.tab,
+            update: (state) => update(state)
+          }}
+        />
+      </div>
+    )}
+    <div>
+      {state.tableView ? (
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.Table.index"
+          props={{
+            state,
+            resPerPage,
+            proposals: res === null ? null : res.body,
+            isCongressDaoID,
+            isVotingBodyDao,
+            daoConfig: state.daoConfig,
+            dev: props.dev
+          }}
+        />
+      ) : (
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.CardsList"
+          props={{
+            state,
+            resPerPage,
+            proposals: res === null ? null : res.body,
+            isCongressDaoID,
+            isVotingBodyDao,
+            daoConfig: state.daoConfig,
+            dev: props.dev
+          }}
+        />
+      )}
+
+      <div className="d-flex justify-content-center my-4">
+        <Widget
+          src="nearui.near/widget/Navigation.PrevNext"
+          props={{
+            hasPrev: state.page > 0,
+            hasNext: hasNextHandler(),
+            onPrev: () => {
+              update({
+                page: state.page - 1
+              });
+            },
+            onNext: () => {
+              update({
+                page: state.page + 1
+              });
+            },
+            nextHref: `#proposals-top`
+          }}
+        />
+      </div>
+    </div>
+    {state.multiSelectMode && (
       <>
-        {isVotingBodyDao && (
-          <div className="w-100 mt-2">
-            <Widget
-              src={`astraplusplus.ndctools.near/widget/DAO.Layout.Tabs`}
-              props={{
-                allowHref: false,
-                tabs: {
-                  active: {
-                    name: "Active"
-                  },
-                  draft: {
-                    name: "Draft"
-                  }
-                },
-                tab: state.tab,
-                update: (state) => update(state)
-              }}
-            />
-          </div>
-        )}
-        <div className="d-none d-sm-block">
-          {state.tableView ? (
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.Table.index"
-              props={{
-                state,
-                resPerPage,
-                proposals: res === null ? null : res.body,
-                isCongressDaoID,
-                isVotingBodyDao,
-                daoConfig: state.daoConfig,
-                dev: props.dev
-              }}
-            />
-          ) : (
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.CardsList"
-              props={{
-                state,
-                resPerPage,
-                proposals: res === null ? null : res.body,
-                isCongressDaoID,
-                isVotingBodyDao,
-                daoConfig: state.daoConfig,
-                dev: props.dev
-              }}
-            />
-          )}
-        </div>
-
-        <div className="d-block d-sm-none">
-          <Widget
-            src="astraplusplus.ndctools.near/widget/DAO.Proposals.CardsList"
-            props={{
-              state,
-              resPerPage,
-              proposals: res === null ? null : res.body,
-              isCongressDaoID,
-              isVotingBodyDao,
-              daoConfig: state.daoConfig,
-              dev: props.dev
-            }}
-          />
-        </div>
-
-        <div className="d-flex justify-content-center my-4">
-          <Widget
-            src="nearui.near/widget/Navigation.PrevNext"
-            props={{
-              hasPrev: state.page > 0,
-              hasNext: hasNextHandler(),
-              onPrev: () => {
-                update({
-                  page: state.page - 1
-                });
-              },
-              onNext: () => {
-                update({
-                  page: state.page + 1
-                });
-              },
-              nextHref: `#proposals-top`
-            }}
-          />
-        </div>
-
-        {state.multiSelectMode && (
-          <>
-            <div
-              style={{
-                height: 180,
-                width: "100%"
-              }}
-            ></div>
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.MultiVote"
-              props={{
-                daoId: state.daoId,
-                view: "submit",
-                onHideMultiSelect: () => {
-                  State.update({
-                    ...state,
-                    multiSelectMode: false
-                  });
-                  Storage.privateSet("multiSelectMode", false);
-                },
-                isCongressDaoID,
-                isVotingBodyDao,
-                dev: props.dev
-              }}
-            />
-          </>
-        )}
+        <div
+          style={{
+            height: 180,
+            width: "100%"
+          }}
+        ></div>
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.MultiVote"
+          props={{
+            daoId: state.daoId,
+            view: "submit",
+            onHideMultiSelect: () => {
+              State.update({
+                ...state,
+                multiSelectMode: false
+              });
+              Storage.privateSet("multiSelectMode", false);
+            },
+            isCongressDaoID,
+            isVotingBodyDao,
+            dev: props.dev
+          }}
+        />
       </>
     )}
-  </div>
+  </>
 );
