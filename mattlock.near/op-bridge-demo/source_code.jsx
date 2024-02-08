@@ -455,12 +455,10 @@ function handleWithdrawalInitiatingEth(data) {
     })
     .then((tx) => {
       console.log("tx:", tx);
+      // todo turn into rendered link
       State.update({
-        log: "Please refresh to see your withdrawal below.",
+        log: "Withdrawal " + L2ExplorerLink + tx.hash,
       });
-      setTimeout(() => {
-        State.update({ log: null });
-      }, 3000);
     })
     .catch((e) => {
       console.log("bridge error:", e);
