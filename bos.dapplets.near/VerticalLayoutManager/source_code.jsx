@@ -32,10 +32,13 @@ return (
       <div style={{ position: "relative" }} key={widget.linkId}>
         {props.isEditMode ? (
           <WidgetBadgeWrapper
-            title={`Remove ${widget.src.split("widget/").pop()}`}
+            title={
+              widget.linkAuthorId === context.accountId
+                ? `Remove ${widget.src.split("widget/").pop()}`
+                : "disable in edit mode"
+            }
             style={{
-              display:
-                widget.linkAuthorId === context.accountId ? "flex" : "none",
+              opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
             }}
           >
             {widget.linkAuthorId === context.accountId ? (
