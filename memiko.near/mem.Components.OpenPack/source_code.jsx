@@ -1,1 +1,1 @@
-return <>Unable to open new packs, wait listing on ref.finance.</>;
+return <div className={"text-center"}>Please wait listing on ref.finance.</div>;
