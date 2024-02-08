@@ -72,6 +72,9 @@ const queryHashes = [
   { id: 3, hash: "f4da72ec-736e-4018-88f5-1b617bdb03ab" }, //  user retention/ yearly
   { id: 4, hash: "dd11b2c2-507b-4a4e-8ad0-88325a382974" }, //  user retention/ monthly
   { id: 5, hash: "47c40b4d-633a-4d01-b8db-3b2ef5548db2" }, //  pie charts
+  { id: 22, hash: "08f321f5-9d46-443e-b3e1-56ebb7d46c5f" }, // distribution
+  { id: 33, hash: "d43213ff-7191-43b5-9219-fbcf22235c08" }, // growth
+  { id: 44, hash: "d9038dd9-03b3-451c-9844-70b52a1cb828" }, // monthly
 ];
 const tabs = {
   left: "User Retention (monthly)",
@@ -126,7 +129,58 @@ const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
   };
   return props;
 };
+const getStackingProps = (data, keys, colors, chartOption) => {
+  data = data || [];
+  colors = colors || [];
+  chartOption = chartOption || {};
+  const { categoryKey, seriesNameKey, seriesValueKey } = keys;
 
+  const categoriesData = [...new Set(data.map((i) => i[categoryKey]))];
+  const seriesNames = [...new Set(data.map((i) => i[seriesNameKey]))];
+  const initialSeries = seriesNames.reduce((t, i) => {
+    const c = categoriesData.reduce((t, i) => {
+      t[i] = 0;
+      return t;
+    }, {});
+    t[i] = c;
+    return t;
+  }, {});
+  const initialSeriesData = data.reduce((t, i) => {
+    t[i[seriesNameKey]][i[categoryKey]] = i[seriesValueKey];
+    return t;
+  }, initialSeries);
+  const seriesData = Object.entries(initialSeriesData).map((i) => {
+    const values = Object.values(i[1]);
+    const eachSeries = { name: i[0], data: values };
+    return eachSeries;
+  });
+  console.log(dataFormat);
+  const props = {
+    data: {
+      categories: categoriesData,
+      series: seriesData,
+    },
+    colors: colors,
+    chartOption: {
+      yAxisTitle: "y axis title",
+      tooltipShare: true,
+      stacking: "normal",
+      dataLabels: false,
+      title: {
+        text: "title",
+      },
+      subtitle: {
+        text: "subtitle",
+      },
+      ...chartOption,
+    },
+
+    overrideOptions: {},
+    themeColor: { chart: themeColor.chart },
+    spinnerColors: themeColor.spinnerColors,
+  };
+  return props;
+};
 const getPieProps = (data, [key, value], colors, chartOption) => {
   data = data || [];
   colors = colors || [];
@@ -528,6 +582,109 @@ let fifth = (
   </div>
 );
 
+let percent = (
+  <div
+    className="my-4 shadow-sm  rounded-4"
+    style={{ background: themeColor?.sbt_area?.section_bg }}
+  >
+    <div className="row w-100 pb-2 px-2 mx-0">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="shadow-sm rounded-2 overflow-auto"
+      >
+        <div className="col-md-12">
+          <Widget
+            src="lord1.near/widget/column-stack-chart"
+            props={getStackingProps(
+              state.data?.hash22?.data,
+              {
+                categoryKey: "project",
+                seriesNameKey: "count",
+                seriesValueKey: "singer",
+              },
+              themeColor.chartColor,
+              {
+                yAxisTitle: "Percent",
+                tooltipShare: true,
+                stacking: "percent",
+                dataLabels: false,
+                title: {
+                  text: "Share of User' transaction in each platform",
+                },
+                subtitle: {
+                  text: "",
+                },
+              }
+            )}
+          />
+        </div>
+      </div>
+    </div>{" "}
+  </div>
+);
+let both = (
+  <div className="row w-100 pb-2 px-2 mx-0">
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-2 overflow-auto"
+    >
+      <div className="row">
+        <div className="col-md-6">
+          <Widget
+            src="lord1.near/widget/column-stack-chart"
+            props={getStackingProps(
+              state.data?.hash33?.data,
+              {
+                categoryKey: "date",
+                seriesNameKey: "project",
+                seriesValueKey: "growth",
+              },
+              themeColor.chartColor,
+              {
+                yAxisTitle: "New Users",
+                tooltipShare: true,
+                stacking: "false",
+                dataLabels: false,
+                title: {
+                  text: "New Users Growth",
+                },
+                subtitle: {
+                  text: "",
+                },
+              }
+            )}
+          />
+        </div>
+        <div className="col-md-6">
+          <Widget
+            src="lord1.near/widget/column-stack-chart"
+            props={getStackingProps(
+              state.data?.hash44?.data,
+              {
+                categoryKey: "date",
+                seriesNameKey: "project",
+                seriesValueKey: "new_user",
+              },
+              themeColor.chartColor,
+              {
+                yAxisTitle: "New Users",
+                tooltipShare: true,
+                stacking: "false",
+                dataLabels: false,
+                title: {
+                  text: "Monthly New Users",
+                },
+                subtitle: {
+                  text: "",
+                },
+              }
+            )}
+          />
+        </div>
+      </div>{" "}
+    </div>
+  </div>
+);
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
@@ -553,7 +710,8 @@ return (
       {fourth}
       {fifth}
       {third}
-      {second}
+      {both}
+      {percent} {second}
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
