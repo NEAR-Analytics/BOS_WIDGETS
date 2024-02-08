@@ -518,12 +518,14 @@ return (
                       ? "WidgetHover"
                       : ""
                   }
-                  title={`Remove ${widget.src.split("widget/").pop()}`}
+                  title={
+                    widget.linkAuthorId === context.accountId
+                      ? `Remove ${widget.src.split("widget/").pop()}`
+                      : "disable in edit mode"
+                  }
                   style={{
-                    display:
-                      widget.linkAuthorId === context.accountId
-                        ? "flex"
-                        : "none",
+                    opacity:
+                      widget.linkAuthorId === context.accountId ? "1" : "0",
                   }}
                 >
                   {widget.linkAuthorId === context.accountId ? (
@@ -554,7 +556,7 @@ return (
           ) : (
             <ButtonEdit
               style={{
-                display:
+                opacity:
                   props.widgets && props.widgets.length ? "flex" : "none",
               }}
               onClick={handleEditClick}
