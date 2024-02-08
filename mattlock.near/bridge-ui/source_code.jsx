@@ -299,11 +299,9 @@ const renderTx = (tx, i, isL1) => {
                 {isComplete ? (
                   <span>{labelComplete}</span>
                 ) : (
-                  <p style={{ marginTop: 16 }}>
-                    <button onClick={() => action(allWithdrawals[i])}>
-                      {actionLabel}
-                    </button>
-                  </p>
+                  <button onClick={() => action(allWithdrawals[i])}>
+                    {actionLabel}
+                  </button>
                 )}
               </>
             );
