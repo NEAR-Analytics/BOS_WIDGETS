@@ -58,18 +58,21 @@ const getPercentage = (start, end, divider) => {
   return val > 100 ? 100 : val;
 };
 
-const formatValue = (value) =>
-  value
-    ? value >= 1000000000
-      ? `${parseFloat(value / 1000000000).toFixed(2)}B`
-      : value >= 1000000
-      ? `${parseFloat(value / 1000000).toFixed(2)}M`
-      : value >= 1000
-      ? `${parseFloat(value / 1000).toFixed(2)}K`
-      : Number.isInteger(value)
-      ? value
-      : value.toFixed(2)
-    : "﹣";
+const formatValue = (value) => {
+  const val = value ? parseFloat(value) : null;
+
+  if (!val) return "﹣";
+
+  return val >= 1000000000
+    ? `${parseFloat(val / 1000000000).toFixed(2)}B`
+    : val >= 1000000
+    ? `${parseFloat(val / 1000000).toFixed(2)}M`
+    : val >= 1000
+    ? `${parseFloat(val / 1000).toFixed(2)}K`
+    : Number.isInteger(val)
+    ? val
+    : val.toFixed(2);
+};
 
 const { dataSet } = props;
 
@@ -119,7 +122,11 @@ return (
           <Cell>
             <Colored
               width={10}
-              color={balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB"}
+              color={
+                balance &&
+                interactedAccounts &&
+                (balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB")
+              }
             />
             <div className="position-relative">
               <Widget
