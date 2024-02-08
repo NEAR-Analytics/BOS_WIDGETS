@@ -255,10 +255,6 @@ const Hashtag = ({ children }) => {
 };
 
 const Badges = ({ tags }) => {
-  if (!tags) {
-    return null;
-  }
-
   tags = Object.keys(tags);
 
   return (
