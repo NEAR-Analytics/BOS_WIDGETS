@@ -18,9 +18,10 @@ TODO bridge-ui
 const L2StandardBridge = "0x4200000000000000000000000000000000000010";
 const L2_L1_MESSAGE_PASSER_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
+const L2_L1_MESSAGE_PASSER_ADDR = `"0x58cc85b8d04ea49cc6dbd3cbffd00b4b8d6cb3ef"`;
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
-
+const WITHDRAW_INIT_GAS_LIMIT = 150000;
 const OP_SEPOLIA_CHAIN_ID = 11155420;
 const SEPOLIA_CHAIN_ID = 11155111;
 const ETH_CHAIN_ID = 1;
@@ -35,7 +36,7 @@ const depositDisabledMsg =
   "For deposits, please switch to Ethereum mainnet or Sepolia testnet.";
 const withdrawDisabledMsg =
   "For withdrawals, please switch to OP mainnet or OP Sepolia testnet.";
-
+const abiCoder = new ethers.utils.AbiCoder();
 const tokens = {
   eth: {
     icon: "https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628",
@@ -272,7 +273,7 @@ if (sender && chainId && !state.initLogs) {
     L2StandardBridgeContract.queryFilter(
       L2StandardBridgeContract.filters.WithdrawalInitiated(
         undefined,
-        undefined,
+        ETH_WITHDRAWAL_TARGET,
         sender
       )
     ).then((events) => {
@@ -301,25 +302,22 @@ if (sender && chainId && !state.initLogs) {
               messagePasserContract.filters.MessagePassed(
                 undefined,
                 undefined,
-                "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294",
-                undefined,
-                undefined,
-                undefined,
-                undefined
+                L2_L1_MESSAGE_PASSER_ADDR
               ),
               blockNumber - 150,
               blockNumber
             )
             .then((events) => {
+              console.log("messagePasserContract events".events);
+
               const event = events.filter(
                 ({ data }) => data.indexOf(sender.substring(2)) > -1
               )[0];
 
               withdrawalMessages++;
               console.log(
-                "withdrawal message",
                 withdrawalMessages,
-                blockNumber,
+                "withdrawal message event",
                 event
               );
 
@@ -343,7 +341,7 @@ if (sender && chainId && !state.initLogs) {
                 minGasLimit,
                 message,
                 withdrawalHash,
-                proven: false,
+                proven: !!event ? false : undefined,
                 claimed: false,
                 isEth: true,
               };
@@ -407,10 +405,6 @@ if (sender && chainId && !state.initLogs) {
   return "";
 }
 
-const isMainnet = chainId === 1 || chainId === 10;
-const isOPGoerli = chainId === 420;
-const isGoerli = chainId === 5;
-
 // user actions
 
 function handleDepositEth(data) {
@@ -428,7 +422,7 @@ function handleDepositEth(data) {
       gasLimit,
     })
     .then((tx) => {
-      consle.log("tx:", tx);
+      console.log("tx:", tx);
     })
     .catch((e) => {
       console.log("bridge error:", e);
@@ -445,9 +439,10 @@ function handleDeposit(data) {
 }
 
 function handleWithdrawalInitiatingEth(data) {
+  const value = ethers.utils.parseUnits(data.amount);
   const encodedData = L2StandardBridgeAbiIface.encodeFunctionData(
     "withdraw(address, uint256, uint32, bytes)",
-    [ETH_WITHDRAWAL_TARGET, ethers.utils.parseUnits(data.amount), 0, []]
+    [ETH_WITHDRAWAL_TARGET, value, 0, []]
   );
 
   Ethers.provider()
@@ -455,11 +450,11 @@ function handleWithdrawalInitiatingEth(data) {
     .sendTransaction({
       to: L2StandardBridge,
       data: encodedData,
-      value: DEFAULT_AMOUNT,
-      gasLimit,
+      value,
+      gasLimit: WITHDRAW_INIT_GAS_LIMIT,
     })
     .then((tx) => {
-      consle.log("tx:", tx);
+      console.log("tx:", tx);
     })
     .catch((e) => {
       console.log("bridge error:", e);
@@ -469,7 +464,7 @@ function handleWithdrawalInitiatingEth(data) {
 function handleWithdrawalInitiating(data) {
   console.log("handleWithdrawalInitiating", data);
   if (data.assetId === "eth") {
-    return handleDepositEth(data);
+    return handleWithdrawalInitiatingEth(data);
   }
 }
 
@@ -477,7 +472,7 @@ const getMessageBedrockOutput = (l2BlockNumber, callback) => {
   const contract = new ethers.Contract(
     contracts[network].L2OutputOracleProxy,
     L2OutputOracleAbi.body,
-    goerliProvider
+    contracts[network].l1Provider
   );
 
   contract
@@ -507,6 +502,7 @@ const getMessageBedrockOutput = (l2BlockNumber, callback) => {
 };
 
 const hashLowLevelMessage = (withdrawal) => {
+  console.log("hashLowLevelMessage", withdrawal);
   const types = [
     "uint256",
     "address",
@@ -515,7 +511,7 @@ const hashLowLevelMessage = (withdrawal) => {
     "uint256",
     "bytes",
   ];
-  const encoded = ethers.utils.defaultAbiCoder.encode(types, [
+  const encoded = abiCoder.encode(types, [
     withdrawal.messageNonce,
     withdrawal.sender,
     withdrawal.target,
@@ -535,6 +531,7 @@ const hashMessageHash = (messageHash) => {
 };
 
 const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
+  console.log("getBedrockMessageProof", l2BlockNumber);
   contracts[network].l2Provider
     .send("eth_getProof", [
       L2_L1_MESSAGE_PASSER_CONTRACT,
@@ -568,8 +565,7 @@ const getBedrockMessageProof = (l2BlockNumber, slot, callback) => {
     });
 };
 
-const handleWithdrawalProve = (which) => {
-  const withdrawal = state.ethWithdrawals[which];
+const handleWithdrawalProve = (withdrawal) => {
   console.log("handleWithdrawalProve", withdrawal);
 
   getMessageBedrockOutput(withdrawal.blockNumber, (output) => {
@@ -603,12 +599,6 @@ const handleWithdrawalProve = (which) => {
 
       console.log("proof args:", args);
 
-      if (!isGoerli) {
-        return State.update({
-          console: "switch to Goerli to sign the proof",
-        });
-      }
-
       const contract = new ethers.Contract(
         contracts[network].L1OptimismPortalProxy,
         L1OptimismPortalAbi.body,
@@ -627,9 +617,8 @@ const handleWithdrawalProve = (which) => {
   });
 };
 
-const handleWithdrawalClaim = (which) => {
-  const withdrawal = state.ethWithdrawals[which];
-  console.log("handleWithdrawalProve", withdrawal);
+const handleWithdrawalClaim = (withdrawal) => {
+  console.log("handleWithdrawalClaim", withdrawal);
 
   const args = [
     withdrawal.messageNonce,
@@ -642,7 +631,7 @@ const handleWithdrawalClaim = (which) => {
 
   const contract = new ethers.Contract(
     contracts[network].L1OptimismPortalProxy,
-    proofAbi,
+    L1OptimismPortalAbi.body,
     Ethers.provider().getSigner()
   );
 
