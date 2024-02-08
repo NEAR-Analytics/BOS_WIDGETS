@@ -1,7 +1,6 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
-console.log("aloha StakingUI propz", props);
+// console.log("aloha StakingUI propz", props);
 const yoctoZeroes = "000000000000000000000000";
-console.log("aloha numbah", Math.floor(1.1));
 
 const [stakingAmount, setStakingAmount] = useState("6");
 const [unstakingWithdrawlAmount, setUnstakingWithdrawlAmount] = useState("19");
