@@ -301,7 +301,7 @@ if (!state.isApproved && wrapType === 0) {
 }
 
 function add_action(param_body) {
-  asyncFetch("https://api.dapdap.net/api/uniswap/records/add", {
+  asyncFetch("https://api.dapdap.tech/api/uniswap/records/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
