@@ -48,7 +48,7 @@ return (
                 : "disable in edit mode "
             }
             style={{
-              opacity: widget.linkAuthorId === context.accountId ? "1" : "none",
+              opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
             }}
           >
             {widget.linkAuthorId === context.accountId ? (
