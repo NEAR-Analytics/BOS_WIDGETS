@@ -118,10 +118,10 @@ const Card = styled.div`
 const HeaderCard = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
     padding: 0px;
     gap: 12px;
     width: 100%;
+    flex-wrap: wrap;
   `;
 
 const profilePictureStyles = {
