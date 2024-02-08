@@ -541,7 +541,7 @@ useEffect(() => {
       .then((res) => {
         _underlyingBalance = {};
         for (let i = 0, len = res.length; i < len; i++) {
-          _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i][0]
+          _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i]
             ? ethers.utils.formatUnits(
                 res[i][0]._hex,
                 underlyingTokens[i].decimals
@@ -566,6 +566,7 @@ useEffect(() => {
         }
       })
       .catch((err) => {
+        console.log(err);
         setTimeout(() => {
           getWalletBalance();
         }, 500);
@@ -612,39 +613,49 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
-        const exchangeRateStored = ethers.utils.formatUnits(res[0][0]._hex, 18);
-        const userSupply = ethers.utils.formatUnits(
-          res[3][0][0]._hex,
-          oToken.underlyingToken.decimals
-        );
-        const totalSupply = ethers.utils.formatUnits(
-          res[1][0]._hex,
-          oToken.underlyingToken.decimals
-        );
+        const exchangeRateStored = res[0]
+          ? ethers.utils.formatUnits(res[0][0]._hex, 18)
+          : "0";
+        const userSupply = res[3]
+          ? ethers.utils.formatUnits(
+              res[3][0][0]._hex,
+              oToken.underlyingToken.decimals
+            )
+          : "0";
+        const totalSupply = res[1]
+          ? ethers.utils.formatUnits(
+              res[1][0]._hex,
+              oToken.underlyingToken.decimals
+            )
+          : "0";
         _cTokensData[oToken.address] = {
           ...oToken,
           exchangeRateStored,
           totalSupply: Big(totalSupply).mul(exchangeRateStored).toString(),
-          totalBorrows: ethers.utils.formatUnits(
-            res[2][0]._hex,
-            oToken.underlyingToken.decimals
-          ),
+          totalBorrows: res[2]
+            ? ethers.utils.formatUnits(
+                res[2][0]._hex,
+                oToken.underlyingToken.decimals
+              )
+            : "0",
           userSupply: Big(userSupply).mul(exchangeRateStored).toString(),
-          userBorrow: ethers.utils.formatUnits(
-            res[3][0][1]._hex,
-            oToken.underlyingToken.decimals
-          ),
+          userBorrow: res[3]
+            ? ethers.utils.formatUnits(
+                res[3][0][1]._hex,
+                oToken.underlyingToken.decimals
+              )
+            : "0",
         };
         const rateCalls = [
           {
             address: rateModelSlopeAddress,
             name: "getBorrowRate",
-            params: [res[4][0], res[2][0], res[5][0]],
+            params: [res[4][0], res[2][0], res[5][0] || "0"],
           },
           {
             address: rateModelSlopeAddress,
             name: "getSupplyRate",
-            params: [res[4][0], res[2][0], res[5][0], res[6][0]],
+            params: [res[4][0], res[2][0], res[5][0] || "0", res[6][0]],
           },
         ];
         multicall({
@@ -656,19 +667,22 @@ useEffect(() => {
         })
           .then((rateRes) => {
             oTokensLength--;
-            _cTokensData[oToken.address].borrowRatePerTimestamp =
-              ethers.utils.formatUnits(rateRes[0][0]._hex, 18);
-            _cTokensData[oToken.address].supplyRatePerTimestamp =
-              ethers.utils.formatUnits(rateRes[1][0]._hex, 18);
+            _cTokensData[oToken.address].borrowRatePerTimestamp = rateRes[0]
+              ? ethers.utils.formatUnits(rateRes[0][0]._hex || "0", 18)
+              : "0";
+            _cTokensData[oToken.address].supplyRatePerTimestamp = rateRes[1]
+              ? ethers.utils.formatUnits(rateRes[1][0]._hex || "0", 18)
+              : "0";
             if (oTokensLength === 0) {
               count++;
               formatedData("oTokens data");
             }
           })
           .catch((err) => {
-            setTimeout(() => {
-              getCTokenData(oToken);
-            }, 1000);
+            console.log("oTokens data err", err);
+            // setTimeout(() => {
+            //   getCTokenData(oToken);
+            // }, 1000);
           });
       })
       .catch(() => {
