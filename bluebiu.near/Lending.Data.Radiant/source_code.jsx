@@ -183,7 +183,9 @@ useEffect(() => {
       .getAssetsPrices(underlyingTokensAddress)
       .then((res) => {
         const scale =
-          dappName === "Agave" || dappName === "Valas Finance"
+          dappName === "Agave" ||
+          dappName === "Valas Finance" ||
+          oracleAddress === "0x8429d0AFade80498EAdb9919E41437A14d45A00B"
             ? 1000000000000000000
             : 100000000;
         const parsedRes = res.map((price, i) => {
@@ -465,13 +467,15 @@ useEffect(() => {
           );
 
           markets[_address].userMerberShip = item[8];
-          markets[_address].userSupply = Big(item[0].toString())
-            .div(decimals)
-            .toFixed();
-          markets[_address].userBorrow = Big(item[1].toString())
-            .add(item[2].toString())
-            .div(decimals)
-            .toFixed();
+          markets[_address].userSupply = item[0]
+            ? Big(item[0].toString()).div(decimals).toFixed()
+            : "0";
+          markets[_address].userBorrow = item[1]
+            ? Big(item[1].toString())
+                .add(item[2].toString())
+                .div(decimals)
+                .toFixed()
+            : "0";
         });
         count++;
         formatedData("getUserReserveData");
@@ -710,7 +714,7 @@ useEffect(() => {
     let totalUnclaimed = Big(0);
     let totalDailyRewards = Big(0);
     const _markets = {};
-
+    console.log("markets", markets);
     Object.values(markets).forEach((market, i) => {
       const underlyingPrice = market.underlyingPrice;
       const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
