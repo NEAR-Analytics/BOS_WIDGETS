@@ -255,6 +255,19 @@ const Hashtag = ({ children }) => {
 };
 
 const Badges = ({ tags }) => {
+  if (!tags) {
+    return (
+      <>
+        <div className="d-flex flex-row">
+          <h3 className="mt-2 me-2">CONTEXT</h3>
+          <span className="m-1">
+            <Widget src="james.near/widget/BuilderHat" props={{ accountId }} />
+          </span>
+        </div>
+      </>
+    );
+  }
+
   tags = Object.keys(tags);
 
   return (
