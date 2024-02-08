@@ -504,14 +504,14 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
 
-  //Add day-month-year tag
+  //Add day-month-year tag if it doesn't exists yet
   const creationDate = new Date(article.timeCreate);
 
-  article.tags.push(
-    `${creationDate.getDate()}-${
-      creationDate.getMonth() + 1
-    }-${creationDate.getFullYear()}`
-  );
+  const dateTag = `${creationDate.getDate()}-${
+    creationDate.getMonth() + 1
+  }-${creationDate.getFullYear()}`;
+
+  if (!article.tags.includes(dateTag)) article.tags.push(dateTag);
 
   if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
     article.sbts = ["fractal.i-am-human.near - class 1"];
