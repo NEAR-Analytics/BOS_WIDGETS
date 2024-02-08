@@ -46,7 +46,7 @@ const Content = styled.div`
   width: 320px;
   border-radius: 16px;
   border: 1px solid #373a53;
-  background: #262836;
+  background: #303142;
   @media (max-width: 900px) {
     width: 100%;
     border-radius: 16px 16px 0px 0px;
