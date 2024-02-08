@@ -6,7 +6,7 @@ return {
       overflow-y: hidden;
       overflow-x: scroll;
     }
-    @media screen and (max-width: 1025px) {
+    @media screen and (max-width: 1341px) {
       overflow-y: hidden;
       overflow-x: scroll;
     }
