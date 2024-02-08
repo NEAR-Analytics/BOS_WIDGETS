@@ -1,22 +1,20 @@
 const ProgressBar = VM.require("mike.near/widget/ProgressBar");
-
+console.log("aloha StakingUI propz", props);
 const yoctoZeroes = "000000000000000000000000";
+console.log("aloha numbah", Math.floor(1.1));
 
 const [stakingAmount, setStakingAmount] = useState("6");
 const [unstakingWithdrawlAmount, setUnstakingWithdrawlAmount] = useState("19");
 const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
-  // console.log('aloha top of stakeunstakewithdraw amount', amount);
-  // const [stakingAmount, setStakingAmount] = useState(amount);
-
   const openAnotherModal = ({ validator, method, amount }) => {
-    console.log("aloha top of openAnotherModal amount", amount);
+    // console.log('aloha top of openAnotherModal amount', amount);
     // Let's explicitly have these in a switch so no one tries any funny business with methods
     switch (method) {
       case "stake":
         Near.call(
           validator,
           "deposit_and_stake",
-          { amount: stakingAmount },
+          { amount: `${stakingAmount}${yoctoZeroes}` },
           null,
           amount
         );
@@ -84,20 +82,32 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
   return (
     <div style={containerStyle}>
       <h2 style={titleStyle}>{method} NEAR</h2>
-      <input
-        // defaultValue={stakingAmount}
-        value={stakingAmount}
-        onChange={(e) => setStakingAmount(e.target.value)}
-        style={{
-          padding: "13px",
-          width: "80%",
-          margin: "13px auto",
-          display: "block",
-        }}
-      />
+      {method == "stake" ? (
+        <input
+          value={stakingAmount}
+          onChange={(e) => setStakingAmount(e.target.value)}
+          style={{
+            padding: "13px",
+            width: "80%",
+            margin: "13px auto",
+            display: "block",
+          }}
+        />
+      ) : (
+        <input
+          value={unstakingWithdrawlAmount}
+          onChange={(e) => setUnstakingWithdrawlAmount(e.target.value)}
+          style={{
+            padding: "13px",
+            width: "80%",
+            margin: "13px auto",
+            display: "block",
+          }}
+        />
+      )}
       <button
         onClick={(e) => {
-          console.log("aloha method", method);
+          // console.log('aloha method', method);
           if (method === "unstake") {
             handleUnstake(`${stakingAmount}${yoctoZeroes}`);
           } else if (method === "stake") {
@@ -105,12 +115,11 @@ const StakeUnstakeWithdraw = ({ validator, method, amount }) => {
             handleStake(`${stakingAmount}${yoctoZeroes}`);
           } else if (method === "withdraw") {
             // handleWithdraw(`${stakingAmount}${yoctoZeroes}`);
-            handleWithdraw();
+            handleWithdraw(`${stakingAmount}${yoctoZeroes}`);
           }
         }}
         style={{ padding: "13px", margin: "13px auto", display: "block" }}
       >
-        {/* Assuming you want to dynamically change the button text as well */}
         <span
           style={{
             textTransform: "capitalize",
@@ -281,10 +290,23 @@ function createValidatorQueries(validators) {
             "final"
           ).then((isAvailable) => {
             updateProgress();
+            // todo: can make this a var
+            setStakingAmount(
+              parseInt(Math.floor(parseNearAmount(stakedBalance)))
+            );
+            setUnstakingWithdrawlAmount(
+              parseInt(Math.floor(parseNearAmount(unstakedBalance)))
+            );
             return {
               validatorAddress,
               stakedBalance,
+              stakedBalanceWholeNums: parseInt(
+                Math.floor(parseNearAmount(stakedBalance))
+              ),
               unstakedBalance,
+              unstakedBalanceWholeNums: parseInt(
+                Math.floor(parseNearAmount(unstakedBalance))
+              ),
               isHighlight,
               isUnstakedBalanceAvailable: isAvailable,
             };
@@ -313,6 +335,7 @@ function createValidatorQueries(validators) {
       });
   });
 
+  // only fair we tell the end user about the prep work for the promises
   updateProgress(wrappedPromises.length);
   Promise.all(wrappedPromises)
     .then((results) => {
@@ -602,7 +625,7 @@ if (!!!context.accountId) {
                         alignItems: "center",
                       }}
                     >
-                      <span>{formatNearAmount(detail.stakedBalance)}</span>
+                      <span>{detail.stakedBalanceWholeNums}</span>
                       <button
                         style={{
                           marginLeft: "10px",
@@ -612,7 +635,7 @@ if (!!!context.accountId) {
                         onClick={() =>
                           walletStake({
                             validator: detail.validatorAddress,
-                            amount: "0",
+                            amount: "0", // what the heck, it's from state and not passed in
                           })
                         }
                       >
@@ -637,13 +660,12 @@ if (!!!context.accountId) {
                       >
                         {formatNearAmount(detail.unstakedBalance) === "0.000"
                           ? "—"
-                          : formatNearAmount(detail.unstakedBalance)}
+                          : detail.unstakedBalanceWholeNums}
                       </div>
                       <div
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "start",
                           paddingLeft: "10px",
                         }}
                       >
@@ -694,7 +716,6 @@ if (!!!context.accountId) {
                 backdropFilter: "contrast(0.6)",
                 padding: "10px",
                 margin: "auto",
-                maxWidth: "85%",
                 color: "#fff",
                 borderRadius: "6px",
               }}
