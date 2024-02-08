@@ -1,4 +1,5 @@
 const { AppLayout } = VM.require(`memiko.near/widget/mem.Layouts.App`);
+const { Config } = VM.require(`./.Config.App`);
 
 const { page, ...passProps } = props;
 
@@ -7,7 +8,7 @@ if (!page) page = "home";
 
 const pageProps = {
   page,
-  contractName: "memiko.near",
+  contractName: Config.contract,
   ...passProps,
 };
 
