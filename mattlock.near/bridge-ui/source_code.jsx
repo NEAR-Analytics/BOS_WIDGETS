@@ -453,11 +453,15 @@ return (
     <div className="border border-secondary border-bottom-0 border-light" />
     <div className="p-4 d-grid gap-3">
       <div>
-        <h4 style={{ marginTop: 16 }}>Withdrawals: {allWithdrawals.length}</h4>
+        <p style={{ marginTop: 16, fontWeight: "bold" }}>
+          Withdrawals: {allWithdrawals.length}
+        </p>
         <div className="tx-list">
           {allWithdrawals.map((tx, i) => renderTx(tx, i, false))}
         </div>
-        <h4 style={{ marginTop: 16 }}>Deposits: {allDeposits.length}</h4>
+        <p style={{ marginTop: 16, fontWeight: "bold" }}>
+          Deposits: {allDeposits.length}
+        </p>
         <div className="tx-list">
           {allDeposits.map((tx, i) => renderTx(tx, i, true))}
         </div>
