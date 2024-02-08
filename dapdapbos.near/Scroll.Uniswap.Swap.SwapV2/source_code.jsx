@@ -172,7 +172,7 @@ const getSelectableTokens = (currency, cb) => {
     return;
   }
   asyncFetch(
-    `https://api.dapdap.net/api/uniswap/pair?chain_id=${chainId}&token=${address}`
+    `https://api.dapdap.tech/api/uniswap/pair?chain_id=${chainId}&token=${address}`
   )
     .then((res) => {
       if (Number(res.body?.code) !== 0) throw new Error();
