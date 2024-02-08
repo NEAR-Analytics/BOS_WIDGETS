@@ -135,48 +135,55 @@ const code = `
         value;
 
     const points = []
-
-    for (first in data) {
+     for (first in data) {
         if (Object.hasOwnProperty.call(data, first)) {
-            firstVal = 0;
-            firstLevel = {
-                id: 'id_' + firstI,
-                name: first,
-                color: Highcharts.getOptions().colors[firstI]
-            };
-            lastI = 0;
-            for (last in data[first]) {
-                if (Object.hasOwnProperty.call(data[first], last)) {
-                    lastLevel = {
-                        id: firstLevel.id + '_' + lastI,
-                        name: last,
-                        parent: firstLevel.id,
+          firstVal = 0;
+          firstLevel = {
+            id: 'id_' + firstI,
+            name: first,
+            color: Highcharts.getOptions().colors[firstI]
+          };
+          lastI = 0;
+          for (last in data[first]) {
+            if (Object.hasOwnProperty.call(data[first], last)) {
+              lastLevel = {
+                id: firstLevel.id + '_' + lastI,
+                name: last,
+                parent: firstLevel.id,
+              };
+              points.push(lastLevel);
+              valueI = 0;
+              if (typeof data[first][last] === 'object') {
+                for (value in data[first][last]) {
+                  if (Object.hasOwnProperty.call(
+                      data[first][last], value
+                    )) {
+                    valueLevel = {
+                      id: lastLevel.id + '_' + valueI,
+                      name: value,
+                      parent: lastLevel.id,
+                      value: Math.round(+data[first][last][value])
                     };
-                    points.push(lastLevel);
-                    valueI = 0;
-                    for (value in data[first][last]) {
-                        if (Object.hasOwnProperty.call(
-                            data[first][last], value
-                        )) {
-                            valueLevel = {
-                                id: lastLevel.id + '_' + valueI,
-                                name: value,
-                                parent: lastLevel.id,
-                                value: Math.round(+data[first][last][value])
-                            };
-                            firstVal += valueLevel.value;
-                            points.push(valueLevel);
-                            valueI = valueI + 1;
-                        }
-                    }
-                    lastI = lastI + 1;
+                    firstVal += valueLevel.value;
+                    points.push(valueLevel);
+                    valueI = valueI + 1;
+                  }
                 }
+              } else {
+                lastLevel.value = Math.round(+data[first][last])
+                firstVal += lastLevel.value;
+                valueI = valueI + 1;
+              }
+
+              lastI = lastI + 1;
             }
-            firstLevel.value = Math.round(firstVal / lastI);
-            points.push(firstLevel);
-            firstI = firstI + 1;
+          }
+          firstLevel.value = Math.round(firstVal / lastI);
+          points.push(firstLevel);
+          firstI = firstI + 1;
         }
-    }
+      }
+    
     Highcharts.chart('container', {
         series: [{
             name: chartName,
@@ -267,8 +274,7 @@ return (
   </div>
 );
 
-//  props = {
-//   data:{
+// example-data-1 = {
 //     "Dapp": {
 //         "Kaikai": {
 //             "volume1": 2,
@@ -278,10 +284,20 @@ return (
 //     "Games": {
 //         "Sweat": {
 //             "volume1": 4,
-//             "volume2": 3
 //         }
 //     }
-// },
+// }
+// example-data-2 = {
+//         "Kaikai": {
+//             "volume1": 2
+//         },
+//         "Sweat": {
+//             "volume1": 4,
+//             "volume2": 14,
+//         }
+// }
+//  props = {
+//   data: data,
 //   colors: ["blue", "red"], //optional : tow colors
 // chartOption: {
 //    chartName : 'chart name',
