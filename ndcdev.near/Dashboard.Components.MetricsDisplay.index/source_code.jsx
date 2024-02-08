@@ -17,17 +17,20 @@ const Item = ({ value, text, color }) => {
 return (
   <Items>
     <Item
-      value={loading ? false : totalTx}
+      value={totalTx}
+      loading={loading}
       text="Total Number of Transactions"
       color="#A39ACD"
     />
     <Item
-      value={loading ? false : totalAccounts}
+      value={totalAccounts}
+      loading={loading}
       text="Total Number of Accounts"
       color="#5398DD"
     />
     <Item
-      value={loading ? false : uniqueAccounts}
+      value={uniqueAccounts}
+      loading={loading}
       text="Today Unique Active Users"
       color="#E89DBB"
     />
