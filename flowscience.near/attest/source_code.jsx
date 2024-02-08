@@ -1,6 +1,6 @@
 const item = props.item;
 const onChange = props.onChange;
-const selectedSchema = props.selectedSchema ?? "";
+const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
@@ -75,6 +75,7 @@ State.init({
   payload: state.payload,
   data: state.data,
   metadata: "",
+  schemasList: [],
 });
 
 useEffect(() => {
@@ -240,91 +241,10 @@ const handleSchemaChange = (e) => {
   });
 };
 
-const renderSchemaSelection = () => {
-  return (
-    <FormContainer>
-      <Label>Schema Owner:</Label>
-      <Input
-        type="text"
-        value={State.schemaSrc}
-        onChange={handleSchemaOwnerChange}
-      />
-      <Label>Schema:</Label>
-      <Select value={State.selectedSchema} onChange={handleSchemaChange}>
-        {State.schemasList.map((schema) => (
-          <option key={schema} value={schema}>
-            {schema}
-          </option>
-        ))}
-      </Select>
-      {/* Additional form elements here */}
-    </FormContainer>
-  );
-};
-
-// Dynamically render input fields based on the fetched schema details
-const renderSchemaInputs = () => {
-  const { schemaDetails } = State;
-  if (!schemaDetails || !schemaDetails.properties) return null;
-
-  return schemaDetails.properties.map((property) => (
-    <div key={property.name}>
-      <Label>{property.name}</Label>
-      <Input
-        type="text" // Adjust the type based on the property type
-        value={State.data[property.name] || ""}
-        onChange={(e) => handleInputChange(property.name, e.target.value)}
-      />
-    </div>
-  ));
-};
-
 // Handle input changes for dynamically rendered fields
 const handleInputChange = (propertyName, value) => {
   const newData = { ...State.data, [propertyName]: value };
   State.update({ data: newData });
-};
-
-// A function to render properties, adjusted to use stored schemas from the state
-const renderProperties = (properties, data, onChange) => {
-  if (state.loading) {
-    return <div>Loading...</div>; // Show loading indicator while data is being fetched
-  }
-  if (!properties) {
-    return <div>No properties to display</div>; // Add a condition for no properties
-  }
-  return properties.map((property) => {
-    const propertyType = property.type;
-    if (
-      propertyType.startsWith("${typeSrc}.near/type/") &&
-      state.schemas[propertyType]
-    ) {
-      // Use the stored schema from the state
-      const nestedSchema = state.schemas[propertyType];
-      if (nestedSchema && nestedSchema.properties) {
-        return renderProperties(
-          nestedSchema.properties,
-          data[property.name],
-          onChange
-        );
-      } else {
-        // Handle the case where the nested schema is not available yet
-        // This could be a placeholder or a loading indicator
-        return <div>Loading...</div>;
-      }
-    } else {
-      // Render a simple input for primitive types
-      return (
-        <Input
-          key={property.name}
-          type={property.type === "string" ? "text" : property.type}
-          value={data[property.name] || ""}
-          placeholder={property.name}
-          onChange={(e) => onChange(property.name, e.target.value)}
-        />
-      );
-    }
-  });
 };
 
 return (
@@ -396,7 +316,6 @@ return (
         ))}
       </>
     )}
-    {renderSchemaInputs()}
     <Button onClick={handleSave}>Save</Button>
     <hr></hr>Preview:
     <Widget
