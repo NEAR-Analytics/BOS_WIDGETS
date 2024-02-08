@@ -108,6 +108,24 @@ if (prop.typeSrc !== "" && state.typeName === "") {
   loadType();
 }
 
+const loadSchema = () => {
+  const parts = state.newSchema.split("/");
+  schema = JSON.parse(Social.get(state.newSchema, blockHeight) || null);
+  if (schema) {
+    schema.name = parts[2];
+    State.update({
+      schemaUID: schema.UID,
+      properties: schema.properties,
+      resolver: schema.resolver,
+      revocable: schema.revocable,
+    });
+  }
+};
+
+if (prop.schemaSrc !== "" && state.schemaName === "") {
+  loadSchema();
+}
+
 const handleAddProperty = () => {
   if (state.newPropertyName.trim() === "") return;
 
@@ -185,13 +203,13 @@ const handleRemoveWidget = (key) => {
 
 const composeData = () => {
   const data = {
-    schema: {
+    type: {
       [state.typeName]: JSON.stringify({
         properties: state.properties,
         widgets: state.widgets,
         resolver: {
           type: resolverType,
-          data: resolverData, // Include the accountIds for the attester resolver
+          data: resolverData,
         },
         schemaUID: generateUID(),
       }),
