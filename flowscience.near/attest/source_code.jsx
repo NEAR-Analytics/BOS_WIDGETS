@@ -1,6 +1,7 @@
 const item = props.item;
 const onChange = props.onChange;
 const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const schemaUID = props.schemaUID;
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
@@ -35,19 +36,7 @@ const Row = styled.div`
 const Label = styled.label`
 `;
 
-function generateUID() {
-  const length = 42; // This will create a 168-bit number (42 hexadecimal characters)
-  // randomly change the case of a character
-  const randomCase = (char) =>
-    Math.random() > 0.5 ? char.toUpperCase() : char.toLowerCase();
-  // Generate a random hexadecimal number and convert it to a string
-  let uid = "";
-  for (let i = 0; i < length; i++) {
-    const randomChar = Math.floor(Math.random() * 16).toString(16); // Generate a single random hexadecimal character
-    uid += randomCase(randomChar); // Append the character in either case to the UID
-  }
-  return uid;
-}
+const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 
 const fetchSchema = (schemaId) => {
   // Simulate fetching schema details asynchronously
@@ -64,6 +53,7 @@ const fetchSchema = (schemaId) => {
 State.init({
   ...item.value,
   objectUID: generateUID(),
+  schemaUID: state.schemaUID,
   selectedSchema: selectedSchema,
   schemaDetails: schemaDetails,
   recipientId: state.recipientId,
@@ -93,9 +83,10 @@ useEffect(() => {
 
 const data = {
   attestation: {
-    [selectedSchema]: JSON.stringify({
+    schemaUID: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
+        schemaUID: props.schemaUID,
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
@@ -195,31 +186,7 @@ const handleSave = () => {
     return;
   }
 
-  // Use the selectedSchema from state
-  const attestationData = {
-    data: JSON.stringify({
-      fields: {
-        objectUID: state.objectUID,
-        attestor: context.accountId,
-        recipientId: state.recipientId,
-        expireDate: state.expireDate,
-        expireTime: state.expireTime,
-        revokeDate: state.revokeDate,
-        revokeTime: state.revokeTime,
-        refUID: state.refUID,
-        payload: state.payload,
-        schemaState: state.schemaState,
-      },
-      schema: state.selectedSchema,
-    }),
-  };
-
-  // Construct the final data structure to save
-  const saveData = {
-    attestation: attestationData,
-  };
-
-  Social.set(saveData)
+  Social.set(data)
     .then(() => {
       // Handle the success of the operation
       console.log("Attestation saved successfully");
