@@ -6,13 +6,10 @@ const code = `
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-markdown-editor-lite@1.3.4/lib/index.js" crossorigin></script>
 <link rel="stylesheet" href="https://unpkg.com/react-markdown-editor-lite@1.3.4/lib/index.css" />
-
 <style>
 ${embedCss}
 </style>
-
 <div id="react-root"></div>
-
 <script>
 let isEditorInitialized = false;
 let editorInstance = null;
@@ -34,10 +31,8 @@ function MarkdownEditor(props) {
       className: "full",
     }); 
 }
-
 const domContainer = document.querySelector('#react-root');
 const root = ReactDOM.createRoot(domContainer);
-
 window.addEventListener("message", (event) => {
   if (!isEditorInitialized) {
     root.render(React.createElement(MarkdownEditor, {
@@ -51,7 +46,6 @@ window.addEventListener("message", (event) => {
     }
   }
 });
-
 </script>
 `;
 return (
@@ -62,3 +56,4 @@ return (
     onMessage={props.onChange}
   />
 );
+	
