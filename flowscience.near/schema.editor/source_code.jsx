@@ -1,11 +1,21 @@
-const typeSrc = props.typeSrc || "";
+const typeSrc = props.typeSrc || "every.near";
+const schemaSrc = props.schemaSrc;
 const blockHeight = props.blockHeight || "final";
 const selectedSchema = props.selectedSchema;
-const schemaUID = props.schemaUID;
+const resolverType = state.resolverType;
+const resolverData = state.resolverData;
+
 let type = {
   name: "",
   properties: [],
   widgets: {},
+};
+
+let schemaType = {
+  UID: "",
+  resolver: "",
+  revocable: boolean,
+  properties: [],
 };
 
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
@@ -20,9 +30,9 @@ State.init({
   newWidgetKey: "",
   newWidgetSrc: "",
   newTypeSrc: "",
-  typeSrc: "hyperfiles.near",
+  typeSrc: typeSrc,
   expanded: false,
-  schemaUID: props.schemaUID,
+  schemaUID: "",
 });
 
 let importedTypes = [];
@@ -211,14 +221,10 @@ function MultiSelect({ value, onChange }) {
   );
 }
 
-const resolverType = state.resolverType;
-const resolverData = state.resolverData;
-
 const handleResolverTypeChange = (e) => {
   setResolverType(e.target.value);
 };
 
-// This function will be called by the AttResolver component
 const handleResolverDataChange = (newData) => {
   setResolverData(newData);
 };
