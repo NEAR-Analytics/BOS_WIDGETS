@@ -24,12 +24,15 @@ return {
     .select-dao {
       width: 50%;
       @media screen and (max-width: 768px) {
-        width: 75%;
+        width: 100%;
         min-width: 150px;
       }
     }
     .select-period {
       width: 150px;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
   `,
 
