@@ -121,10 +121,38 @@ dataState.uniqueActiveUsers
     dailyTotalUsers.data.push(element.unique_users);
   });
 
+
+const onSelectChange = (value) => {
+  const isDefaultOption = value === defaultDAOOption;
+
+  const updateSelectedDAOs = () => {
+    if (isDefaultOption) {
+      const all = [...ndcDAOs, defaultDAOOption];
+      if (selectedDAOs.length === all.length) {
+        return []
+      }
+      return all;
+    } else if (selectedDAOs.includes(value)) {
+      return selectedDAOs.filter(dao => dao !== value && dao !== defaultDAOOption);
+    } else {
+    
+      return [...selectedDAOs, value];
+    }
+  };
+
+  setSelectedDAOs(updateSelectedDAOs());
+}
+
+const SelectContainer = styled.div`
+  @media screen and (max-width: 768px){
+    flex-direction: column;
+  }
+`
+
 return (
   <Container>
     <div className="section">
-      <div className="d-flex w-100 gap-3 justify-content-between">
+      <SelectContainer className="d-flex w-100 gap-3 justify-content-between">
         <div className="select-dao">
           <Widget
             src={`ndcdev.near/widget/Dashboard.Components.Select.index`}
@@ -135,17 +163,7 @@ return (
               values: selectedDAOs,
               containerClass: "selected-container",
               onClear: () => setSelectedDAOs([]),
-              onChange: (value) => {
-                setSelectedDAOs(
-                  value === defaultDAOOption
-                    ? []
-                    : selectedDAOs.includes(value)
-                    ? selectedDAOs.filter(
-                        (dao) => dao !== value && dao !== defaultDAOOption,
-                      )
-                    : [...selectedDAOs, value],
-                );
-              },
+              onChange: onSelectChange,
             }}
           />
         </div>
@@ -161,7 +179,7 @@ return (
             }}
           />
         </div>
-      </div>
+      </SelectContainer>
     </div>
     <Widget
       src={`ndcdev.near/widget/Dashboard.Components.MetricsDisplay.index`}
