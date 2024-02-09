@@ -1,13 +1,10 @@
 const data = props.data || {};
 const type = props.type || "";
-const attestationType = props.attestation || "hyperfiles.near/type/attestation";
-const schema = props.schema || "";
-const selectedSchema = props.selectedSchema ?? "";
+const attestationType = "hyperfiles.near/type/attestation";
+const selectedSchema = "" ?? "attestations.near/type/isTrue";
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
-const buildEdges = props.buildEdges;
-const template = props.template || "hyperfiles.near/type/attestation";
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
@@ -119,7 +116,6 @@ const CenteredDiv = styled.div`
 State.init({
   data,
   config: data,
-  isModalOpen: false,
   typeSrc,
   schemaSrc,
   selectedType: type,
@@ -132,97 +128,6 @@ State.init({
   loading: false,
 });
 
-const fetchSchemasList = (schemaSrc) => {
-  const response = fetch(`${schemaSrc}/type/**`, "final");
-  if (response) {
-    const schemasList = Object.keys(response).map(
-      (key) => `${schemaSrc}/type/${key}`
-    );
-    State.update({ schemasList });
-  }
-};
-
-const fetchSchema = (type) => {
-  if (!type) return;
-  const response = fetch(type, "final");
-  if (response) {
-    const schema = JSON.parse(response);
-    State.update((prevState) => ({
-      ...prevState,
-      schemas: { ...prevState.schemas, [type]: schema },
-      loading: false,
-    }));
-  }
-};
-
-useEffect(() => {
-  fetchSchemasList(State.schemaSrc);
-  fetchSchema(State.selectedSchema);
-}, [State.schemaSrc, State.selectedSchema]);
-
-const handleApply = () => {
-  State.update({
-    config: state.data,
-    template: state.templateVal,
-  });
-  // set the props for the main content
-};
-
-const handleSave = () => {
-  // create the thing
-  State.update({ isModalOpen: false });
-  const thingId = state.thingId || Math.random();
-  let edges = [];
-  if (buildEdges) {
-    const newPath = `${context.accountId}/thing/${thingId}`;
-    edges = buildEdges(newPath, state.selectedType);
-  }
-
-  const data = {
-    attestation: {
-      [thingId]: JSON.stringify({
-        data: state.config,
-        template: {
-          src: state.template,
-        },
-        type: state.selectedType,
-      }),
-    },
-    index: {
-      thing: JSON.stringify({
-        key: thingId,
-        value: {
-          type: state.selectedType,
-        },
-      }),
-    },
-  };
-  if (edges.length) {
-    data.index.edge = JSON.stringify(edges);
-  }
-  Social.set(data, {
-    onCommit: () => {
-      State.update({
-        data: {},
-        isModalOpen: false,
-        config: undefined,
-      });
-    },
-    onCancel: () => {
-      State.update({
-        isModalOpen: false,
-      });
-    },
-  });
-};
-
-let availableTypes = [];
-const types = Social.get(`${state.typeSrc}/type/**`, "final");
-if (types !== null) {
-  availableTypes =
-    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
-}
-
 let availableSchemas = [];
 const schemas = Social.get(`${state.schemaSrc}/type/**`, "final");
 if (schemas !== null) {
@@ -230,26 +135,17 @@ if (schemas !== null) {
     Object.keys(schemas)?.map((it) => `${state.schemaSrc}/type/${it}`) || [];
 }
 
-// Update handleTypeChange to handle full schema including nested types
 const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
   State.update({
     selectedSchema: newSchema,
-    templateVal: "",
     data: {},
-    loading: true,
   });
-};
-
-// Update handleTypeChange to handle full schema including nested types
-const handleTypeChange = (e) => {
-  const newType = e.target.value;
-  State.update({
-    selectedType: newType,
-    templateVal: "",
-    data: {},
-    loading: true,
-  });
+  if (!state.selectedSchema) {
+    console.error("Selected schema is undefined");
+    return;
+  }
+  // Trigger fetching the new schema details here if necessary
 };
 
 const handleSchemaOwnerChange = (e) => {
@@ -258,70 +154,6 @@ const handleSchemaOwnerChange = (e) => {
     schemaSrc: newSchemaSrc,
   });
   fetchSchemasList(newSchemaSrc);
-};
-
-const renderSchemaSelection = () => {
-  return (
-    <FormContainer>
-      <Label>Schema Owner:</Label>
-      <Input
-        type="text"
-        value={State.schemaSrc}
-        onChange={handleSchemaOwnerChange}
-      />
-      <Label>Schema:</Label>
-      <Select value={State.selectedSchema} onChange={handleSchemaChange}>
-        {State.schemasList.map((schema) => (
-          <option key={schema} value={schema}>
-            {schema}
-          </option>
-        ))}
-      </Select>
-      {/* Additional form elements here */}
-    </FormContainer>
-  );
-};
-
-// A function to render properties, adjusted to use stored schemas from the state
-const renderProperties = (properties, data, onChange) => {
-  if (state.loading) {
-    return <div>Loading...</div>; // Show loading indicator while data is being fetched
-  }
-  if (!properties) {
-    return <div>No properties to display</div>; // Add a condition for no properties
-  }
-  return properties.map((property) => {
-    const propertyType = property.type;
-    if (
-      propertyType.startsWith("${typeSrc}.near/type/") &&
-      state.schemas[propertyType]
-    ) {
-      // Use the stored schema from the state
-      const nestedSchema = state.schemas[propertyType];
-      if (nestedSchema && nestedSchema.properties) {
-        return renderProperties(
-          nestedSchema.properties,
-          data[property.name],
-          onChange
-        );
-      } else {
-        // Handle the case where the nested schema is not available yet
-        // This could be a placeholder or a loading indicator
-        return <div>Loading...</div>;
-      }
-    } else {
-      // Render a simple input for primitive types
-      return (
-        <Input
-          key={property.name}
-          type={property.type === "string" ? "text" : property.type}
-          value={data[property.name] || ""}
-          placeholder={property.name}
-          onChange={(e) => onChange(property.name, e.target.value)}
-        />
-      );
-    }
-  });
 };
 
 return (
@@ -375,8 +207,8 @@ return (
               src="flowscience.near/widget/attest"
               props={{
                 item: {
-                  type: state.selectedSchema,
                   value: state.data,
+                  selectedSchema: state.selectedSchema,
                 },
                 onChange: handleOnChange,
               }}
@@ -387,7 +219,7 @@ return (
       ) : (
         <Widget
           src="flowscience.near/widget/schema.editor"
-          props={{ schemaSrc: state.selectedSchema }}
+          props={{ schemaSrc: state.schemaSrc }}
         />
       )}
     </SidePanel>
