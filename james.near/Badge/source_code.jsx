@@ -1,28 +1,26 @@
-const image = props.image;
+const imageUrl = props.imageUrl;
 
-const accountId = props.accountId ?? context.accountId;
-if (!accountId) {
-  return "";
+const attestorId = props.attestorId ?? "devs.near";
+const accountId = props.accountId ?? "hack.near";
+
+const badgeId = props.badgeId ?? "builder";
+
+let badge = props.badge ?? false;
+
+let checkpoint =
+  props.checkpoint ||
+  Social.get(`${attestorId}/badge/${badgeId}/accounts/${accountId}`);
+
+if (checkpoint.length > 0 || checkpoint === "") {
+  badge = true;
 }
 
-const color =
-  props.color || Social.get(`${accountId}/badge/builder/${accountId}`);
-
-let isBuilder = props.isBuilder ?? false;
-
-const badgeData =
-  props.badgeData ||
-  Social.get(`${context.accountId}/badge/builder/${accountId}`) ||
-  Social.get(`${accountId}/badge/builder/${accountId}`);
-
-if (badgeData.length > 0 || badgeData === "") {
-  isBuilder = true;
-}
+const imageSrc =
+  imageUrl ||
+  "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw";
 
 return (
   <>
-    {isBuilder && image && (
-      <Widget src="mob.near/widget/Image" props={{ image }} />
-    )}
+    <span>{badge && <img src={imageSrc} />}</span>
   </>
 );
