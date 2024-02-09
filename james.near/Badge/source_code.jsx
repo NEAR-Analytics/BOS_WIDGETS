@@ -21,6 +21,6 @@ const imageSrc =
 
 return (
   <>
-    <span>{badge && <img src={imageSrc} />}</span>
+    <span>{badge && <img src={imageSrc} alt="✅" />}</span>
   </>
 );
