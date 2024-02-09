@@ -1,7 +1,9 @@
 const data = props.data || {};
 const type = props.type || "";
 const attestationType = "hyperfiles.near/type/attestation";
-const selectedSchema = "" ?? "attestations.near/type/isTrue";
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema ?? "attestations.near/type/isTrue"
+);
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
 const schemaSrc = props.schemaSrc || "attestations.near";
