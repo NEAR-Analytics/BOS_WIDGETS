@@ -2,9 +2,10 @@ const themeColor = props.themeColor;
 const generaltheme = {
   height: "110px",
   align: "center",
-  description: "Tracking the activity of Developers on the NEAR ecosystem.",
+  description:
+    "Tracking the activity of Developers in the NEAR ecosystem.(whole ecosystem)",
   brand: "Developer' Tracker 🏦",
-  fontsize: "100",
+  fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -18,11 +19,11 @@ const generaltheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const areatheme = {
-  height: "150px",
+  height: "90px",
   align: "left",
   description: "In which categories are developers most active?",
   brand: "Activity",
-  fontsize: "300",
+  fontsize: "25px",
   fontweight: "25px",
   afterbrand: " by category",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -36,11 +37,11 @@ const areatheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 const projecttheme = {
-  height: "150px",
+  height: "90px",
   align: "left",
   description: "Which projects do developers use most?",
   brand: "Project",
-  fontsize: "300",
+  fontsize: "25px",
   fontweight: "25px",
   afterbrand: "interactions",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -55,11 +56,11 @@ const projecttheme = {
 };
 
 const daotheme = {
-  height: "150px",
+  height: "90px",
   align: "left",
   description: "Developers activity per DAO",
   brand: "DAO",
-  fontsize: "300",
+  fontsize: "25px",
   fontweight: "25px",
   afterbrand: "activity",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -77,7 +78,7 @@ const flowtheme = {
   align: "center",
   description: "Developers inflow and outflow of funds from and to CEXs",
   brand: "CEX inflow vs outflow",
-  fontsize: "100",
+  fontsize: "25px",
   fontweight: "15px",
   afterbrand: "",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -96,7 +97,7 @@ const staketheme = {
   align: "center",
   description: "NEAR staking and unstaking activity of developers",
   brand: "Staking",
-  fontsize: "100",
+  fontsize: "25px",
   fontweight: "15px",
   afterbrand: "Behavior",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -351,33 +352,106 @@ return (
           </div>
         </div>
       </div>
-
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      >
-        <Widget src="lord1.near/widget/header-dynamic" props={areatheme} />
-        <div className="row w-100 pb-2 px-2 mx-0">
+      <div className="row">
+        <div className=" col-12 col-md-8">
           <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="shadow-sm rounded-2 overflow-auto"
+            className="my-4 shadow-sm  rounded-4"
+            style={{ background: themeColor?.sbt_area?.section_bg }}
           >
-            <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.data?.hash4?.data,
-                rowsCount: 10,
-                columns: [
-                  { title: "Activity area", key: "project", colors: "#806ce1" },
-                  { title: "Transactions", key: "transactions", round: "yes" },
-                  { title: "Users", key: "active_users", round: "yes" },
-                  { title: "Avg Trxs", key: "avg_trxs" },
-                  { title: "Volume(Near)", key: "amount_near", round: "yes" },
-                  { title: "Fee (Near)", key: "fee_in_near", round: "yes" },
-                ],
-              }}
-            />
+            <Widget src="lord1.near/widget/header-dynamic" props={areatheme} />
+            <div className="row w-100 pb-2 px-2 mx-0">
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="shadow-sm rounded-2 overflow-auto"
+              >
+                <Widget
+                  src="lord1.near/widget/table-pagination"
+                  props={{
+                    themeColor: {
+                      table_pagination: themeColor.table_pagination,
+                    },
+                    data: state.data?.hash4?.data,
+                    rowsCount: 10,
+                    columns: [
+                      {
+                        title: "Activity area",
+                        key: "project",
+                        colors: "#806ce1",
+                      },
+                      {
+                        title: "Transactions",
+                        key: "transactions",
+                        round: "yes",
+                        description:
+                          "The number of developer transactions in the entire ecosystem",
+                      },
+                      {
+                        title: "Users",
+                        key: "active_users",
+                        round: "yes",
+                        description:
+                          "The number of developers who are interacting in each area and section",
+                      },
+                      {
+                        title: "Avg Trxs",
+                        key: "avg_trxs",
+                        description:
+                          "The average number of developer transactions in the entire ecosystem",
+                      },
+                      {
+                        title: "Volume(Near)",
+                        key: "amount_near",
+                        round: "yes",
+                        description:
+                          "The Volume of developer transactions (in Near) in the entire ecosystem",
+                      },
+                      { title: "Fee (Near)", key: "fee_in_near", round: "yes" },
+                    ],
+                  }}
+                />
+              </div>
+            </div>
+          </div>{" "}
+        </div>{" "}
+        <div className=" col-12 col-md-4">
+          <div
+            className="my-4 shadow-sm  rounded-4"
+            style={{ background: themeColor?.sbt_area?.section_bg }}
+          >
+            <Widget src="lord1.near/widget/header-dynamic" props={daotheme} />
+            <div className="row w-100 pb-2 px-2 mx-0">
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="shadow-sm rounded-2 overflow-auto"
+              >
+                <Widget
+                  src="lord1.near/widget/table-pagination"
+                  props={{
+                    themeColor: {
+                      table_pagination: themeColor.table_pagination,
+                    },
+                    data: state.data?.hash11?.data,
+                    columns: [
+                      { title: "Project", key: "project", colors: "#806ce1" },
+                      {
+                        title: "Transactions",
+                        key: "transactions",
+                        round: "yes",
+                        description:
+                          "Transactions of developers that are related to DAOs",
+                      },
+                      {
+                        title: "Active Users",
+                        key: "active_users",
+                        round: "yes",
+                        description: "How many developers are members of Dao?",
+                      },
+                    ],
+                    rowsCount: 10,
+                  }}
+                />
+              </div>
+            </div>{" "}
           </div>
         </div>
       </div>
@@ -388,7 +462,7 @@ return (
       >
         <Widget src="lord1.near/widget/header-dynamic" props={projecttheme} />
         <div className="row g-4 w-100 pb-2 mx-0">
-          <div className="col-6">
+          <div className="col-12 col-md-3">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
               className="shadow-sm rounded-2 overflow-auto"
@@ -411,7 +485,7 @@ return (
               />
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-12 col-md-3">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
               className="shadow-sm rounded-2 overflow-auto"
@@ -434,7 +508,7 @@ return (
               />
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-12 col-md-3">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
               className="shadow-sm rounded-2 overflow-auto"
@@ -453,7 +527,7 @@ return (
               />
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-12 col-md-3">
             <div
               style={{ background: themeColor?.sbt_area?.card_bg }}
               className="shadow-sm rounded-2 overflow-auto"
@@ -475,144 +549,126 @@ return (
           </div>
         </div>
       </div>
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      >
-        <Widget src="lord1.near/widget/header-dynamic" props={staketheme} />
-        <div className="row w-100 pb-2 px-2 mx-0">
+      <div className="row">
+        <div className=" col-12 col-md-6">
           <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="shadow-sm rounded-2"
+            className="my-4 shadow-sm  rounded-4"
+            style={{ background: themeColor?.sbt_area?.section_bg }}
           >
-            <Widget
-              src="lord1.near/widget/multiple-mix-chart"
-              props={{
-                data: state.data?.hash9?.data,
-                charts: [
-                  {
-                    title: "Volume(Near)",
-                    subtitle:
-                      "How much staked or unstaked by developers' wallets",
-                    dateKey: "week",
-                    oppKey: "staking_amount",
-                    negKey: "unstaking_amount",
-                    oppTitle: "Staking",
-                    negTitle: "Unstaking",
-                    type: "spline",
-                  },
-                  {
-                    title: "User",
-                    subtitle: "How many User staked or unstaked",
-                    dateKey: "week",
-                    oppKey: "staking_signer",
-                    negKey: "unstaking_signer",
-                    oppTitle: "Staking",
-                    negTitle: "Unstaking",
-                    type: "areaspline",
-                  },
-                  {
-                    title: "Transactions",
-                    subtitle:
-                      "How many staked or unstaked transaction done by developers",
-                    dateKey: "week",
-                    oppKey: "staking_trxs",
-                    negKey: "unstaking_trxs",
-                    oppTitle: "Staking",
-                    negTitle: "Unstaking",
-                    type: "column",
-                  },
-                ],
-                themeColor: { chart: themeColor.chart },
-                colors: themeColor.chartColor,
-                spinnerColors: themeColor?.spinnerColors,
-              }}
-            />
+            <Widget src="lord1.near/widget/header-dynamic" props={staketheme} />
+            <div className="row w-100 pb-2 px-2 mx-0">
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="shadow-sm rounded-2"
+              >
+                <Widget
+                  src="lord1.near/widget/multiple-mix-chart"
+                  props={{
+                    data: state.data?.hash9?.data,
+                    charts: [
+                      {
+                        title: "Volume(Near)",
+                        subtitle:
+                          "How much staked or unstaked by developers' wallets",
+                        dateKey: "week",
+                        oppKey: "staking_amount",
+                        negKey: "unstaking_amount",
+                        oppTitle: "Staking",
+                        negTitle: "Unstaking",
+                        type: "spline",
+                      },
+                      {
+                        title: "User",
+                        subtitle: "How many User staked or unstaked",
+                        dateKey: "week",
+                        oppKey: "staking_signer",
+                        negKey: "unstaking_signer",
+                        oppTitle: "Staking",
+                        negTitle: "Unstaking",
+                        type: "areaspline",
+                      },
+                      {
+                        title: "Transactions",
+                        subtitle:
+                          "How many staked or unstaked transaction done by developers",
+                        dateKey: "week",
+                        oppKey: "staking_trxs",
+                        negKey: "unstaking_trxs",
+                        oppTitle: "Staking",
+                        negTitle: "Unstaking",
+                        type: "column",
+                      },
+                    ],
+                    themeColor: { chart: themeColor.chart },
+                    colors: themeColor.chartColor,
+                    spinnerColors: themeColor?.spinnerColors,
+                  }}
+                />
+              </div>
+            </div>
+          </div>{" "}
+        </div>
+        <div className=" col-12 col-md-6">
+          <div
+            className="my-4 shadow-sm  rounded-4"
+            style={{ background: themeColor?.sbt_area?.section_bg }}
+          >
+            <Widget src="lord1.near/widget/header-dynamic" props={flowtheme} />
+            <div className="row g-4 w-100 pb-2 px-2 mx-0">
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="shadow-sm rounded-2"
+              >
+                <Widget
+                  src="lord1.near/widget/multiple-mix-chart"
+                  props={{
+                    data: state.data?.hash10?.data,
+                    charts: [
+                      {
+                        title: "Near Volume",
+                        subtitle:
+                          "The developers' interactions with Cexs, inflow and outflow- Volume(Near)",
+                        dateKey: "week",
+                        oppKey: "inflow_amount",
+                        negKey: "outflow_amount",
+                        oppTitle: "inflow",
+                        negTitle: "outflow",
+                        type: "areaspline",
+                      },
+                      {
+                        title: "Sender/Receiver",
+                        subtitle:
+                          "The developers' interactions with Cexs, inflow and outflow- wallets",
+                        dateKey: "week",
+                        oppKey: "inflow_signer",
+                        negKey: "outflow_signer",
+                        oppTitle: "inflow",
+                        negTitle: "outflow",
+                        type: "column",
+                      },
+                      {
+                        title: "Send/Receive transactions",
+                        subtitle:
+                          "The developer's interactions with Cexs, inflow and outflow- transactions",
+                        dateKey: "week",
+                        oppKey: "inflow_trxs",
+                        negKey: "outflow_trxs",
+                        oppTitle: "inflow",
+                        negTitle: "outflow",
+                        type: "column",
+                      },
+                    ],
+                    themeColor: { chart: themeColor.chart },
+                    colors: themeColor.chartColor,
+                    spinnerColors: themeColor?.spinnerColors,
+                  }}
+                />
+              </div>{" "}
+            </div>
           </div>
         </div>
       </div>
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      >
-        <Widget src="lord1.near/widget/header-dynamic" props={flowtheme} />
-        <div className="row g-4 w-100 pb-2 px-2 mx-0">
-          <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="shadow-sm rounded-2"
-          >
-            <Widget
-              src="lord1.near/widget/multiple-mix-chart"
-              props={{
-                data: state.data?.hash10?.data,
-                charts: [
-                  {
-                    title: "Near Volume",
-                    subtitle:
-                      "The developers' interactions with Cexs, inflow and outflow- Volume(Near)",
-                    dateKey: "week",
-                    oppKey: "inflow_amount",
-                    negKey: "outflow_amount",
-                    oppTitle: "inflow",
-                    negTitle: "outflow",
-                    type: "areaspline",
-                  },
-                  {
-                    title: "Sender/Receiver",
-                    subtitle:
-                      "The developers' interactions with Cexs, inflow and outflow- wallets",
-                    dateKey: "week",
-                    oppKey: "inflow_signer",
-                    negKey: "outflow_signer",
-                    oppTitle: "inflow",
-                    negTitle: "outflow",
-                    type: "column",
-                  },
-                  {
-                    title: "Send/Receive transactions",
-                    subtitle:
-                      "The SBT holder's interactions with Cexs, inflow and outflow- transactions",
-                    dateKey: "week",
-                    oppKey: "inflow_trxs",
-                    negKey: "outflow_trxs",
-                    oppTitle: "inflow",
-                    negTitle: "outflow",
-                    type: "column",
-                  },
-                ],
-                themeColor: { chart: themeColor.chart },
-                colors: themeColor.chartColor,
-                spinnerColors: themeColor?.spinnerColors,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        className="my-4 shadow-sm  rounded-4"
-        style={{ background: themeColor?.sbt_area?.section_bg }}
-      >
-        <Widget src="lord1.near/widget/header-dynamic" props={daotheme} />
-        <div className="row w-100 pb-2 px-2 mx-0">
-          <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="shadow-sm rounded-2 overflow-auto"
-          >
-            <Widget
-              src="lord1.near/widget/table-pagination"
-              props={{
-                themeColor: { table_pagination: themeColor.table_pagination },
-                data: state.data?.hash11?.data,
-                columns: [
-                  { title: "Project", key: "project", colors: "#806ce1" },
-                  { title: "Transactions", key: "transactions", round: "yes" },
-                  { title: "Active Users", key: "active_users", round: "yes" },
-                ],
-              }}
-            />
-          </div>
-        </div>
-      </div>
+
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
