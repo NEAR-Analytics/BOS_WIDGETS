@@ -83,10 +83,10 @@ useEffect(() => {
 
 const data = {
   attestation: {
-    schemaUID: JSON.stringify({
+    [state.schemaUID]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
-        schemaUID: props.schemaUID,
+        schemaUID: schemaUID,
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
