@@ -9,14 +9,14 @@ const HomeLink = styled.a`
   :hover {
     text-decoration: none;
   }
-`
+`;
 
 return (
   <NavBar>
     <HomeLink href={`/ndcdev.near/widget/Dashboard.App?page=home`}>
       <div className="d-flex gap-3 align-items-center">
         <img src={assets.logoWhite} />
-        <div className="header-text" >NDC DASHBOARD</div>
+        <div className="header-text">NDC DASHBOARD</div>
       </div>
     </HomeLink>
     <div className="color-text">FOR PEOPLE BY PEOPLE</div>
