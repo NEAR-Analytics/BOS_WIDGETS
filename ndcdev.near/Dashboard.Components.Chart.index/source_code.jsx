@@ -107,7 +107,6 @@ const code = `
 
 return (
   <div className="section py-5">
-    {console.log(chartData)}
     <Card>
       <div>{props.title}</div>
       {props.loading ? (
