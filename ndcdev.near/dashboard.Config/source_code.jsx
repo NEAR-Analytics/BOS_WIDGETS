@@ -1,12 +1,15 @@
 return {
   ndcDAOs: [
-    "gaming-dao.sputnik-dao.near",
     "marketing.sputnik-dao.near",
-    "nearglobedao.sputnik-dao.near",
+    "gaming-dao.sputnik-dao.near",
     "ndc-degens.sputnik-dao.near",
-    "ac_dao.near",
-    "onboard.sputnik-dao.near",
     "she-is-near.sputnik-dao.near",
+    "research-collective.sputnik-dao.near",
+    "onboarddao.sputnik-dao.near",
+    "build.sputnik-dao.near",
+    "ac_dao.near",
+    "nearglobedao.sputnik-dao.near",
+    "nearnftwg.sputnik-dao.near",
   ],
   socialLinks: {
     near: "https://near.org",
