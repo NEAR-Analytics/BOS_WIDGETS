@@ -31,6 +31,10 @@ const Container = styled.div`
   align-items: flex-start;
   padding-top: 1rem;
   -webkit-overflow-scrolling: touch;
+
+  @media screen and (max-width: 1341px) {
+    padding-bottom: 1rem;
+  }
 `;
 
 const Colored = styled.div`
@@ -82,6 +86,13 @@ const TooltipContent = ({ key, value }) => (
   </div>
 );
 
+const DaoName = styled.div`
+  white-space: nowrap;       
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+  max-width: 100%; 
+`
+
 return (
   <Container>
     {Object.entries(dataSet).map(
@@ -91,7 +102,7 @@ return (
       ) => (
         <div key={index} className="w-100 d-flex align-items-center gap-2">
           <Cell>
-            <div className="dao-name">{daoId}</div>
+            <DaoName className="dao-name">{daoId}</DaoName>
           </Cell>
           <Cell>
             <Colored
