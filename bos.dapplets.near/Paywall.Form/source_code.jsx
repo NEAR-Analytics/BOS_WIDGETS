@@ -123,13 +123,16 @@ const iconBtnUpload = (
 
 const WrapperWidget = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
+  min-width: 350px;
+  max-width: 780px;
+  width: 100%;
   padding: 10px;
   border-radius: 16px;
+  box-sizing: border-box;
   border: 1px solid #8899a6;
   background: #fff;
-  box-sizing: border-box;
-  width: 100%;
 
   .ButtonUpload {
     cursor: pointer;
@@ -261,7 +264,8 @@ const ButtonCancel = styled.button`
   align-items: center;
   color: #fff;
   font-size: 14px;
-  width: 230px;
+  max-width: 230px;
+  width: 100%;
   height: 44px;
   font-weight: 400;
   line-height: 149%;
@@ -290,7 +294,8 @@ const ButtonSend = styled.button`
   align-items: center;
   color: #fff;
   font-size: 14px;
-  width: 230px;
+  max-width: 230px;
+  width: 100%;
   height: 44px;
   font-weight: 400;
   line-height: 149%;
