@@ -68,6 +68,7 @@ const OverlayTriggerWrapper = styled.div`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    z-index: 600;
   }
 `;
 const SupportingSpan = styled.span`
