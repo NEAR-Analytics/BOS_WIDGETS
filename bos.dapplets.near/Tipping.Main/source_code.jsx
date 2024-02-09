@@ -19,7 +19,8 @@ if (props.accountGId && props.itemGId) {
   return <></>;
 }
 
-const userAccountId = context.accountId || props.nearAccountId
+const { nearAccountId } = props
+const userAccountId = nearAccountId || context.accountId
 
 const TIPPING_CONTRACT_NAME = "v2.tipping.near";
 const MAX_AMOUNT_PER_ITEM = '10000000000000000000000000'; // 10 NEAR
