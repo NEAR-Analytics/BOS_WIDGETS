@@ -15,7 +15,7 @@ return {
       }
 
       ::-webkit-scrollbar-thumb {
-        background: #8799D2;
+        background: #8799d2;
         border-radius: 5px;
       }
 
