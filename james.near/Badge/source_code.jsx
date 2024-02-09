@@ -17,7 +17,7 @@ if (checkpoint.length > 0 || checkpoint === "") {
 
 const imageSrc =
   imageUrl ||
-  "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw";
+  "https://builders.mypinata.cloud/ipfs/QmPFStM3F842nFwW3taftACD1UjaLT1wbMzePi39eefSyU";
 
 return (
   <>
