@@ -1,6 +1,4 @@
-const [image, setImage] = useState(props.imageUrl);
-const defaultImageUrl =
-  "https://builders.mypinata.cloud/ipfs/QmPFStM3F842nFwW3taftACD1UjaLT1wbMzePi39eefSyU";
+const imageUrl = props.imageUrl;
 
 const attestorId = props.attestorId ?? "devs.near";
 const accountId = props.accountId ?? "hack.near";
@@ -17,20 +15,12 @@ if (checkpoint.length > 0 || checkpoint === "") {
   badge = true;
 }
 
-const handleImageError = () => {
-  setImage(defaultImageUrl);
-};
+const imageSrc =
+  imageUrl ||
+  "https://builders.mypinata.cloud/ipfs/QmPFStM3F842nFwW3taftACD1UjaLT1wbMzePi39eefSyU";
 
 return (
   <>
-    {badge && (
-      <span>
-        <img
-          src={image || defaultImageUrl}
-          onError={handleImageError}
-          alt="📛"
-        />
-      </span>
-    )}
+    <span>{badge && <img src={imageSrc} />}</span>
   </>
 );
