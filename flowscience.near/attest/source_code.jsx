@@ -1,7 +1,6 @@
 const item = props.item;
 const onChange = props.onChange;
-const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
-const schemaUID = props.schemaUID;
+const selectedSchema = props.selectedSchema || "attestations.near/type/isTrue";
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
@@ -38,42 +37,27 @@ const Label = styled.label`
 
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 
-const fetchSchema = (schemaId) => {
+const fetchSchema = () => {
   // Simulate fetching schema details asynchronously
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const schemaDetails = {
+      const schemaFields = {
         /* mock schema details based on schemaId */
       };
-      resolve(schemaDetails);
+      resolve(schemaFields);
     }, 1000); // Simulate network request delay
   });
 };
 
-State.init({
-  ...item.value,
-  objectUID: generateUID(),
-  schemaUID: state.schemaUID,
-  selectedSchema: selectedSchema,
-  schemaDetails: schemaDetails,
-  recipientId: state.recipientId,
-  expireDate: state.expireDate,
-  expireTime: state.expireTime,
-  revokeDate: state.revokeDate,
-  revokeTime: state.revokeTime,
-  refUID: state.refUID,
-  payload: state.payload,
-  data: state.data,
-  metadata: "",
-  schemasList: [],
+fetchSchema("attestations.near/type/isTrue").then((schemaFields) => {
+  console.log(schemaFields); // Logs the fetched schema details
 });
 
 useEffect(() => {
   if (!state.initialFetchCompleted) {
-    // Assuming you introduce a flag like this
     fetchSchema(state.selectedSchema)
-      .then((schemaDetails) => {
-        State.update({ schemaDetails, initialFetchCompleted: true });
+      .then((schemaFields) => {
+        State.update({ schemaFields, initialFetchCompleted: true });
       })
       .catch((error) => {
         console.error("Failed to fetch schema details:", error);
@@ -81,21 +65,32 @@ useEffect(() => {
   }
 }, [state.selectedSchema]);
 
-const data = {
+State.init({
+  ...item.value,
+  objectUID: generateUID(),
+  selectedSchema: selectedSchema,
+  schemaFields: schemaFields,
+  recipientId: state.recipientId,
+  expireDate: state.expireDate,
+  expireTime: state.expireTime,
+  refUID: state.refUID,
+  payload: state.payload,
+  attestData: state.attestData,
+  metadata: "",
+  schemasList: [],
+});
+
+const attestData = {
   attestation: {
-    [state.schemaUID]: JSON.stringify({
+    [selectedSchema]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
-        schemaUID: schemaUID,
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
         expireTime: state.expireTime,
-        revokeDate: state.revokeDate,
-        revokeTime: state.revokeTime,
         refUID: state.refUID,
         payload: state.payload,
-        schema: state.selectedSchema,
       },
     }),
   },
@@ -186,7 +181,7 @@ const handleSave = () => {
     return;
   }
 
-  Social.set(data)
+  Social.set(attestData)
     .then(() => {
       // Handle the success of the operation
       console.log("Attestation saved successfully");
@@ -202,16 +197,14 @@ const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
   State.update({
     selectedSchema: newSchema,
-    templateVal: "",
-    data: {},
-    loading: true,
+    schemaFields: Social.get(selectedSchema),
   });
 };
 
 // Handle input changes for dynamically rendered fields
 const handleInputChange = (propertyName, value) => {
-  const newData = { ...State.data, [propertyName]: value };
-  State.update({ data: newData });
+  const newAttestData = { ...State.attestData, [propertyName]: value };
+  State.update({ attestData: newAttestData });
 };
 
 return (
@@ -259,7 +252,7 @@ return (
       placeholder="attestations.near/thing/0123456789123456"
     />
     <Label>
-      <b>Data: </b>
+      <b>Data Payload: </b>
     </Label>
     <Input
       type="text"
@@ -288,7 +281,7 @@ return (
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
-        value: data,
+        value: attestData,
       }}
     />
   </Container>
