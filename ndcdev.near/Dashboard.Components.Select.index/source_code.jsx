@@ -68,7 +68,7 @@ return (
             onClick={() => onClear() && setOpen(false)}
           />
         )}
-        <i onClick={handleOpen} className="bi bi-chevron-down fs-5 mt-1" />
+        <i onClick={handleOpen} className={`bi bi-chevron-${isOpenDropdown ? 'up': 'down'} fs-5 mt-1`} />
       </div>
     </div>
     {isOpenDropdown && (
