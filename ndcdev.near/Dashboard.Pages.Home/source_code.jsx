@@ -121,7 +121,6 @@ dataState.uniqueActiveUsers
     dailyTotalUsers.data.push(element.unique_users);
   });
 
-
 const onSelectChange = (value) => {
   const isDefaultOption = value === defaultDAOOption;
 
@@ -129,25 +128,30 @@ const onSelectChange = (value) => {
     if (isDefaultOption) {
       const all = [...ndcDAOs, defaultDAOOption];
       if (selectedDAOs.length === all.length) {
-        return []
+        return [];
       }
       return all;
     } else if (selectedDAOs.includes(value)) {
-      return selectedDAOs.filter(dao => dao !== value && dao !== defaultDAOOption);
+      return selectedDAOs.filter(
+        (dao) => dao !== value && dao !== defaultDAOOption,
+      );
     } else {
-    
       return [...selectedDAOs, value];
     }
   };
 
   setSelectedDAOs(updateSelectedDAOs());
-}
+};
 
 const SelectContainer = styled.div`
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
   }
-`
+`;
+
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 return (
   <Container>
@@ -171,10 +175,10 @@ return (
           <Widget
             src={`ndcdev.near/widget/Dashboard.Components.Select.index`}
             props={{
-              options: PERIODS,
+              options: PERIODS.map((v) => capitalizeFirstLetter(v)),
               isOpen: selectOpen,
               values: period,
-              onChange: setPeriod,
+              onChange: (v) => setPeriod(v.toLowerCase()),
               containerClass: "selected-container",
             }}
           />
