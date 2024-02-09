@@ -49,7 +49,7 @@ const fetchSchema = () => {
   });
 };
 
-fetchSchema("attestations.near/type/isTrue").then((schemaFields) => {
+fetchSchema(selectedSchema).then((schemaFields) => {
   console.log(schemaFields); // Logs the fetched schema details
 });
 
@@ -68,14 +68,14 @@ useEffect(() => {
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: selectedSchema,
+  selectedSchema: state.selectedSchema,
   schemaFields: schemaFields,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
   expireTime: state.expireTime,
   refUID: state.refUID,
   payload: state.payload,
-  attestData: state.attestData,
+  attestData: props.data,
   metadata: "",
   schemasList: [],
 });
