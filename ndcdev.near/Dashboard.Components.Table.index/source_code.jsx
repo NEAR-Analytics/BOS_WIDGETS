@@ -101,22 +101,23 @@ const sortByDAOName = (keys) =>
       return obj;
     }, {});
 
-    const filterDAO = (value) => {
-      let newSelection;
-    
-      if (value === defaultDAOOption) {
-        const all = [defaultDAOOption, ...ndcDAOs];
-        const isCurrentSelectionFull = selectedDAOs.length === all.length;
-        newSelection = isCurrentSelectionFull ? [] : all;
-      } else if (selectedDAOs.includes(value)) {
-        newSelection = selectedDAOs.filter(daoId => daoId !== value && daoId !== defaultDAOOption);
-      } else {
-        newSelection = [...selectedDAOs, value];
-      }
-    
-      setSelectedDAOs(newSelection);
-    };
-    
+const filterDAO = (value) => {
+  let newSelection;
+
+  if (value === defaultDAOOption) {
+    const all = [defaultDAOOption, ...ndcDAOs];
+    const isCurrentSelectionFull = selectedDAOs.length === all.length;
+    newSelection = isCurrentSelectionFull ? [] : all;
+  } else if (selectedDAOs.includes(value)) {
+    newSelection = selectedDAOs.filter(
+      (daoId) => daoId !== value && daoId !== defaultDAOOption,
+    );
+  } else {
+    newSelection = [...selectedDAOs, value];
+  }
+
+  setSelectedDAOs(newSelection);
+};
 
 const fetchDapps = () => {
   setLoading(true);
