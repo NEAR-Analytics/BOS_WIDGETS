@@ -38,8 +38,8 @@ const areatheme = {
 
 const queryHashes = [
   { id: 0, hash: "b5367144-cab7-4958-8aee-47413aee5f48" }, // year
-  { id: 1, hash: "e29fa083-fcce-4ed5-bbe1-3c2360f4e4ef" }, // build pie
-  { id: 2, hash: "9fd4c873-ac7a-4eb3-81fa-1275e643d521" }, // update pie
+  { id: 1, hash: "e29fa083-fcce-4ed5-bbe1-3c2360f4e4ef" }, // deposited near pie
+  { id: 2, hash: "9fd4c873-ac7a-4eb3-81fa-1275e643d521" }, // widget pie
   { id: 3, hash: "9eea11d0-09c3-4f3d-bbb6-08ac45fde825" }, // total pie
   { id: 4, hash: "2f9faa31-2158-44be-aaac-895358c37752" }, // dev list
   { id: 9, hash: "c4a45c73-69c5-4afa-ade7-dc6561609c40" }, // total
@@ -196,7 +196,7 @@ const formatNumber = (num) => {
     return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
   }
 
-  if (num < 1000 && num > 0.0001) {
+  if (num < 0 && num > 0.0001) {
     return (Math.round(num * 1000) / 1000).toFixed(3) + "";
   }
 
@@ -207,7 +207,7 @@ const singers = {
   height: "110px",
   align: "center",
   brand: "Developers",
-  description: `${formatNumber(state.data?.hash9?.data[0].singers)}`,
+  description: `${formatNumber(state.data?.hash9?.data[0].singer)}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -260,8 +260,8 @@ const widget = {
 const update_trxs = {
   height: "110px",
   align: "center",
-  brand: "Update Trxs",
-  description: `${formatNumber(state.data?.hash9?.data[0].update_trxs)}`,
+  brand: "Deposits",
+  description: `${formatNumber(state.data?.hash9?.data[0].deposit)}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -278,8 +278,8 @@ const update_trxs = {
 const credits = {
   height: "110px",
   align: "center",
-  brand: "Credits",
-  description: `${formatNumber(state.data?.hash9?.data[0].credits)}`,
+  brand: "Forks",
+  description: `${formatNumber(state.data?.hash9?.data[0].fork_of)}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -296,8 +296,10 @@ const credits = {
 const build_trxs = {
   height: "110px",
   align: "center",
-  brand: "Build Trxs",
-  description: `${formatNumber(state.data?.hash9?.data[0].build_trxs)}`,
+  brand: "Build | Update",
+  description: `${formatNumber(
+    state.data?.hash9?.data[0].build_trxs
+  )} | ${formatNumber(state.data?.hash9?.data[0].update_trxs)}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -330,7 +332,10 @@ let header = (
           <OverlayTrigger
             placement="top"
             overlay={
-              <Tooltip> Number of transactions (build + update) </Tooltip>
+              <Tooltip>
+                {" "}
+                Number of transactions (build + update + both){" "}
+              </Tooltip>
             }
           >
             <div>
@@ -345,7 +350,7 @@ let header = (
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
-            overlay={<Tooltip> Number of widgets created </Tooltip>}
+            overlay={<Tooltip> Number of components created </Tooltip>}
           >
             <div>
               {" "}
@@ -359,7 +364,8 @@ let header = (
             overlay={
               <Tooltip>
                 {" "}
-                Number of transactions for updating the components{" "}
+                Deposited volume in Near token for BOS development to
+                (social.near) contract
               </Tooltip>
             }
           >
@@ -375,12 +381,7 @@ let header = (
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
-            overlay={
-              <Tooltip>
-                The total number of imported widgets by individuals is referred
-                to as credits
-              </Tooltip>
-            }
+            overlay={<Tooltip>How many fork done by users so far</Tooltip>}
           >
             <div>
               {" "}
@@ -393,9 +394,10 @@ let header = (
             placement="top"
             overlay={
               <Tooltip>
-                The total number of transactions that have caused the widget to
-                be created (not subsequent transactions that are considered
-                updates).
+                The number of transactions resulting in component updates (
+                {formatNumber(state.data?.hash9?.data[0].update_trxs)}) or
+                build({formatNumber(state.data?.hash9?.data[0].build_trxs)}) or
+                both ({formatNumber(state.data?.hash9?.data[0].both)})
               </Tooltip>
             }
           >
@@ -432,16 +434,9 @@ let zero = (
                 type: "spline",
                 id: 1,
               },
-
               {
-                key: "update_trxs",
-                seriesName: "Update Trxs",
-                type: "spline",
-                id: 1,
-              },
-              {
-                key: "build_trxs",
-                seriesName: "Build Trxs",
+                key: "forks",
+                seriesName: "Forks",
                 type: "column",
                 id: 1,
               },
@@ -483,14 +478,8 @@ let zero = (
                 id: 2,
               },
               {
-                key: "cum_update_trxs",
-                seriesName: "Total Update Trxs",
-                type: "areaspline",
-                id: 2,
-              },
-              {
-                key: "cum_build_trxs",
-                seriesName: "Total Build Trxs",
+                key: "cum_forks",
+                seriesName: "Total Forks",
                 type: "areaspline",
                 id: 2,
               },
@@ -592,7 +581,7 @@ let second = (
           style={{ color: themeColor?.sbt_area?.card_title_color }}
           className="pt-4 ps-4"
         >
-          <i> Number of Devs based on Build Trxs</i>
+          <i> Number of Devs based on Near deposited </i>
         </h6>
         <Widget
           src="lord1.near/widget/Pie-chart"
@@ -619,7 +608,7 @@ let second = (
           style={{ color: themeColor?.sbt_area?.card_title_color }}
           className="pt-4 ps-4"
         >
-          <i> Number of Devs based on Update Trxs</i>
+          <i> Number of Devs based on component number</i>
         </h6>
         <Widget
           src="lord1.near/widget/Pie-chart"
@@ -695,7 +684,8 @@ let third = (
               {
                 title: "Trxs",
                 key: "total_trxs",
-                description: "Total transactions (Build + Update widgets) ",
+                description:
+                  "Total transactions (Build + Update) related to widget development ",
               },
               {
                 title: "Widget",
@@ -709,19 +699,38 @@ let third = (
                 description: "The first day of BOS development activity",
               },
               {
-                title: "Active date",
+                title: "Active days",
                 key: "active_date",
-                description: "Number of days which developer has been active",
+                description: "Number of days that developer has been active",
+              },
+              {
+                title: "Near Deposited",
+                key: "deposit",
+                description:
+                  "Deposited volume in Near token for BOS development to social.near contract",
+              },
+              {
+                title: "Forks",
+                key: "fork_of",
+                description: "How many fork done by user so far ",
               },
               {
                 title: "Update Trxs",
                 key: "update_trxs",
-                description: "Number of transactions for updating components ",
+                description:
+                  "The number of transactions resulting in component updates ",
               },
               {
                 title: "Build Trxs",
                 key: "build_trxs",
-                description: "Number of transactions for building components",
+                description:
+                  "The number of transactions resulting in component builds",
+              },
+              {
+                title: "Both",
+                key: "both",
+                description:
+                  "The number of transactions resulting in component builds and updates together",
               },
               {
                 title: "Trxs Rank",
@@ -743,6 +752,13 @@ let third = (
                 colors: "#806ce1",
                 description:
                   "The rank of developers based on the age of their activities. The less the better.",
+              },
+              {
+                title: "Deposit Rank",
+                key: "deposit_rank",
+                colors: "#806ce1",
+                description:
+                  "The rank of developers based on the deposited volume (Near). The less the better.",
               },
               { title: "Stars Received", key: "stars_received" },
               { title: "Stars Sent", key: "stars_sent" },
