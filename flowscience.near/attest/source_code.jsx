@@ -1,6 +1,8 @@
 const item = props.item;
 const onChange = props.onChange;
-const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const selectedSchema =
+  props.item.selectedSchema ?? "attestations.near/type/isTrue";
+const [schemaFields, setSchemaFields] = useState({});
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
 const expireTime = props.expireTime;
@@ -37,34 +39,6 @@ const Label = styled.label`
 
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 
-const fetchSchema = () => {
-  // Simulate fetching schema details asynchronously
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const schemaFields = {
-        /* mock schema details based on schemaId */
-      };
-      resolve(schemaFields);
-    }, 1000); // Simulate network request delay
-  });
-};
-
-fetchSchema(selectedSchema).then((schemaFields) => {
-  console.log(schemaFields); // Logs the fetched schema details
-});
-
-useEffect(() => {
-  if (!state.initialFetchCompleted) {
-    fetchSchema(state.selectedSchema)
-      .then((schemaFields) => {
-        State.update({ schemaFields, initialFetchCompleted: true });
-      })
-      .catch((error) => {
-        console.error("Failed to fetch schema details:", error);
-      });
-  }
-}, [state.selectedSchema]);
-
 State.init({
   ...item.value,
   objectUID: generateUID(),
@@ -77,7 +51,6 @@ State.init({
   payload: state.payload,
   attestData: props.data,
   metadata: "",
-  schemasList: [],
 });
 
 const attestData = {
@@ -175,7 +148,6 @@ function Property({ property, value }) {
 }
 
 const handleSave = () => {
-  // Check if selectedSchema is correctly set in the state before saving
   if (!state.selectedSchema) {
     console.error("Selected schema is undefined");
     return;
@@ -183,16 +155,13 @@ const handleSave = () => {
 
   Social.set(attestData)
     .then(() => {
-      // Handle the success of the operation
       console.log("Attestation saved successfully");
     })
     .catch((error) => {
-      // Handle any errors that occur during the save
       console.error("Error saving attestation:", error);
     });
 };
 
-// Update handleTypeChange to handle full schema including nested types
 const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
   State.update({
@@ -201,11 +170,34 @@ const handleSchemaChange = (e) => {
   });
 };
 
-// Handle input changes for dynamically rendered fields
 const handleInputChange = (propertyName, value) => {
   const newAttestData = { ...State.attestData, [propertyName]: value };
   State.update({ attestData: newAttestData });
 };
+
+const fetchSchema = (schemaId) => {
+  // Assuming Social.get synchronously returns the schema details or null if not found
+  const schemaDetails = Social.get(`${schemaId}`, "final");
+  if (schemaDetails) {
+    try {
+      // Assuming the schema details are returned as a JSON string
+      const parsedSchemaDetails = JSON.parse(schemaDetails);
+      setSchemaFields(parsedSchemaDetails);
+    } catch (error) {
+      console.error("Failed to parse schema details:", error);
+      setSchemaFields({}); // Reset or handle error appropriately
+    }
+  } else {
+    console.log("Schema details not found for:", schemaId);
+    setSchemaFields({}); // Reset or handle not found case
+  }
+};
+
+useEffect(() => {
+  if (selectedSchema) {
+    fetchSchema(selectedSchema);
+  }
+}, [selectedSchema]); // Dependency on selectedSchema ensures fetchSchema is called when it changes
 
 return (
   <Container>
