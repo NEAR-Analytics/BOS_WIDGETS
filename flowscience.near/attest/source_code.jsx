@@ -148,7 +148,7 @@ function Property({ property, value }) {
 }
 
 const handleSave = () => {
-  if (!state.selectedSchema) {
+  if (!selectedSchema) {
     console.error("Selected schema is undefined");
     return;
   }
@@ -177,7 +177,7 @@ const handleInputChange = (propertyName, value) => {
 
 const fetchSchema = (selectedSchema) => {
   // Assuming Social.get synchronously returns the schema details or null if not found
-  const schemaDetails = Social.get(`${selectedSchema}`, "final");
+  const schemaDetails = Social.get(selectedSchema, "final");
   if (schemaDetails) {
     try {
       // Assuming the schema details are returned as a JSON string
