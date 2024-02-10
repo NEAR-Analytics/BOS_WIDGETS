@@ -4,13 +4,15 @@ if (!props.data || !props.columns) {
 
 const data = props.data || [];
 const columns = props.columns;
-
+const withoutSearchBar = props.withoutSearchBar;
 State.init({
   currentPage: 1,
   searchValue: "",
   sort: null, // { name: "asc", key: "star" } //asc -desc
 });
 const rowsCount = props.rowsCount || 5;
+const totalPages = Math.ceil(data.length / rowsCount);
+
 const themeColor = props.themeColor;
 const handleSearch = (event) => {
   const value = event.target.value;
@@ -50,12 +52,12 @@ const sortedDate = (data) => {
   const sorted = data.sort((a, b) => {
     if (state.sort.name === "asc") {
       return typeof a[state.sort.key] === "number"
-        ? b[state.sort.key] - a[state.sort.key]
-        : b[state.sort.key].localeCompare(a[state.sort.key]);
+        ? b[state.sort.key] ?? 0 - a[state.sort.key] ?? 0
+        : (b[state.sort.key] ?? "").localeCompare(a[state.sort.key] ?? "");
     }
     return typeof a[state.sort.key] === "number"
-      ? a[state.sort.key] - b[state.sort.key]
-      : a[state.sort.key].localeCompare(b[state.sort.key]);
+      ? a[state.sort.key] ?? 0 - b[state.sort.key] ?? 0
+      : (a[state.sort.key] ?? "").localeCompare(b[state.sort.key] ?? "");
   });
   return sorted;
 };
@@ -126,6 +128,220 @@ const triangleState = (key) => {
     ))
   );
 };
+
+const buttonsIcons = (
+  <ul
+    className="pagination pagination-sm gap-2 mb-0 "
+    style={{ height: 56, padding: 12 }}
+  >
+    <li className="page-item">
+      <button
+        onClick={() => {
+          State.update({ currentPage: 1 });
+        }}
+        className="page-link btn"
+        style={{
+          width: 42,
+          height: 32,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          borderColor: themeColor?.table_pagination?.btn_border ?? "#000",
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          backgroundColor: btn
+            ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+            : themeColor?.table_pagination?.btn_bg ?? "transparent",
+        }}
+      >
+        <span
+          style={{ fontSize: "0.6rem" }}
+          className="w-25 d-inline-block fw-light"
+        >
+          1
+        </span>
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+      </button>
+    </li>
+    <li className="page-item">
+      <button
+        onClick={() => {
+          const page = state.currentPage - 1;
+          if (page > 0) State.update({ currentPage: page });
+        }}
+        className="page-link btn"
+        style={{
+          width: 32,
+          height: 32,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          borderColor: themeColor?.table_pagination?.btn_border ?? "#000",
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          backgroundColor: btn
+            ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+            : themeColor?.table_pagination?.btn_bg ?? "transparent",
+        }}
+      >
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+      </button>
+    </li>
+    <li className="page-item">
+      <button
+        onClick={() => {
+          const page = state.currentPage;
+          if (handlePagination().buttons.length >= page)
+            State.update({ currentPage: page });
+        }}
+        className="page-link btn"
+        style={{
+          width: 32,
+          height: 32,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          borderColor: themeColor?.table_pagination?.btn_border ?? "#000",
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          backgroundColor: btn
+            ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+            : themeColor?.table_pagination?.btn_bg ?? "transparent",
+        }}
+      >
+        {state.currentPage}
+      </button>
+    </li>
+    <li className="page-item">
+      <button
+        onClick={() => {
+          const page = state.currentPage + 1;
+          if (handlePagination().buttons.length >= page)
+            State.update({ currentPage: page });
+        }}
+        className="page-link btn"
+        style={{
+          width: 32,
+          height: 32,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          borderColor: themeColor?.table_pagination?.btn_border ?? "#000",
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          backgroundColor: btn
+            ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+            : themeColor?.table_pagination?.btn_bg ?? "transparent",
+        }}
+      >
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+      </button>
+    </li>
+
+    <li className="page-item">
+      <button
+        onClick={() => {
+          State.update({ currentPage: totalPages });
+        }}
+        className="page-link btn"
+        style={{
+          width: 42,
+          height: 32,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 8,
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          borderColor: themeColor?.table_pagination?.btn_border ?? "#000",
+          color: themeColor?.table_pagination?.btn_color ?? "#000",
+          backgroundColor: btn
+            ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
+            : themeColor?.table_pagination?.btn_bg ?? "transparent",
+        }}
+      >
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+        <svg
+          width="17"
+          height="16"
+          viewBox="0 0 17 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
+            fill={themeColor?.table_pagination?.btn_color ?? "#000"}
+          />
+        </svg>
+
+        <span
+          style={{ fontSize: "0.6rem" }}
+          className="w-25 d-inline-block fw-light"
+        >
+          {totalPages}
+        </span>
+      </button>
+    </li>
+  </ul>
+);
 return (
   <div className="table-responsive">
     <div
@@ -307,28 +523,30 @@ return (
               })}
         </tbody>
       </Table>
-      <input
-        type="text"
-        placeholder="Search..."
-        color={themeColor?.table_pagination?.btn_color}
-        onChange={handleSearch}
-        style={{
-          width: "20%",
-          height: "30px",
-          borderRadius: "50px",
-          "margin-left": "2px",
-          "margin-top": "2px",
-          "margin-buttom": "2px",
-          backgroundColor: themeColor?.table_pagination?.input_bg,
-          color: themeColor?.table_pagination?.btn_color,
-          border: `0.5px solid ${
-            themeColor?.table_pagination?.btn_border ?? "#000"
-          }`,
-        }}
-      />
+      {!withoutSearchBar && (
+        <input
+          type="text"
+          placeholder="Search..."
+          color={themeColor?.table_pagination?.btn_color}
+          onChange={handleSearch}
+          style={{
+            width: "20%",
+            height: "30px",
+            borderRadius: "50px",
+            "margin-left": "2px",
+            "margin-top": "2px",
+            "margin-buttom": "2px",
+            backgroundColor: themeColor?.table_pagination?.input_bg,
+            color: themeColor?.table_pagination?.btn_color,
+            border: `0.5px solid ${
+              themeColor?.table_pagination?.btn_border ?? "#000"
+            }`,
+          }}
+        />
+      )}
     </div>
 
-    {!rowsCount ? (
+    {!rowsCount || totalPages === 1 ? (
       ""
     ) : (
       <div
@@ -337,212 +555,7 @@ return (
           backgroundColor: themeColor?.table_pagination?.table_bg,
         }}
       >
-        <div>
-          <ul
-            className="pagination pagination-sm gap-2 mb-0 "
-            style={{ height: 56, padding: 12 }}
-          >
-            <li className="page-item">
-              <button
-                onClick={() => {
-                  State.update({ currentPage: 1 });
-                }}
-                className="page-link btn"
-                style={{
-                  width: 32,
-                  height: 32,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 8,
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  borderColor:
-                    themeColor?.table_pagination?.btn_border ?? "#000",
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  backgroundColor: btn
-                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
-                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
-                }}
-              >
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-              </button>
-            </li>
-            <li className="page-item">
-              <button
-                onClick={() => {
-                  const page = state.currentPage - 1;
-                  if (page > 0) State.update({ currentPage: page });
-                }}
-                className="page-link btn"
-                style={{
-                  width: 32,
-                  height: 32,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 8,
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  borderColor:
-                    themeColor?.table_pagination?.btn_border ?? "#000",
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  backgroundColor: btn
-                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
-                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
-                }}
-              >
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.3292 12L11.2692 11.06L8.21589 8L11.2692 4.94L10.3292 4L6.32923 8L10.3292 12Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-              </button>
-            </li>
-            <li className="page-item">
-              <button
-                onClick={() => {
-                  const page = state.currentPage;
-                  if (handlePagination().buttons.length >= page)
-                    State.update({ currentPage: page });
-                }}
-                className="page-link btn"
-                style={{
-                  width: 32,
-                  height: 32,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 8,
-                  borderColor:
-                    themeColor?.table_pagination?.btn_border ?? "#000",
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  backgroundColor: btn
-                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
-                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
-                }}
-              >
-                {state.currentPage}
-              </button>
-            </li>
-            <li className="page-item">
-              <button
-                onClick={() => {
-                  const page = state.currentPage + 1;
-                  if (handlePagination().buttons.length >= page)
-                    State.update({ currentPage: page });
-                }}
-                className="page-link btn"
-                style={{
-                  width: 32,
-                  height: 32,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 8,
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  borderColor:
-                    themeColor?.table_pagination?.btn_border ?? "#000",
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  backgroundColor: btn
-                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
-                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
-                }}
-              >
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-              </button>
-            </li>
-
-            <li className="page-item">
-              <button
-                onClick={() => {
-                  const totalPages = Math.ceil(data.length / rowsCount);
-                  State.update({ currentPage: totalPages });
-                }}
-                className="page-link btn"
-                style={{
-                  width: 32,
-                  height: 32,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 8,
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  borderColor:
-                    themeColor?.table_pagination?.btn_border ?? "#000",
-                  color: themeColor?.table_pagination?.btn_color ?? "#000",
-                  backgroundColor: btn
-                    ? themeColor?.table_pagination?.btn_bg_active ?? "gray"
-                    : themeColor?.table_pagination?.btn_bg ?? "transparent",
-                }}
-              >
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-                <svg
-                  width="17"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.20923 4L5.26923 4.94L8.32256 8L5.26923 11.06L6.20923 12L10.2092 8L6.20923 4Z"
-                    fill={themeColor?.table_pagination?.btn_color ?? "#000"}
-                  />
-                </svg>
-              </button>
-            </li>
-          </ul>
-        </div>
+        <div>{buttonsIcons}</div>
       </div>
     )}
   </div>
@@ -566,6 +579,7 @@ return (
 //      "percent": "hidden" or visible},
 
 //   ],
+//    withoutSearchBar : true,
 //   rowsCount: 2, // if zero or null , the whole table will be render
 //   className: "table-bordered",
 //   themeColor: {
