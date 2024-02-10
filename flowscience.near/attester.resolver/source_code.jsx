@@ -1,4 +1,5 @@
 const [accountIds, setAccountIds] = useState([]);
+const resolverData = accountIds;
 const [inputValue, setInputValue] = useState("");
 
 const handleAddAccountId = () => {
