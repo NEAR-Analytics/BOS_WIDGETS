@@ -1,7 +1,7 @@
 const item = props.item;
 const onChange = props.onChange;
 const selectedSchema =
-  props.item.selectedSchema ?? "attestations.near/type/isTrue";
+  props.item.selectedSchema || "attestations.near/type/isTrue";
 const [schemaFields, setSchemaFields] = useState({});
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
