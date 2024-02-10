@@ -396,6 +396,7 @@ let fourth = (
           props={{
             themeColor: { table_pagination: themeColor.table_pagination },
             data: state.data?.hash4?.data,
+            withoutSearchBar: "yes",
             rowsCount: 15,
             columns: [
               {
@@ -420,84 +421,72 @@ let fourth = (
                 key: "one_month_later",
                 description:
                   "The retention percentage of users who remained active one month after joining",
-                colors: "#334a93",
               },
               {
                 title: "2 Month",
                 key: "two_month_later",
                 description:
                   "The retention percentage of users who remained active two month after joining",
-                colors: "#334a93",
               },
               {
                 title: "3 Month",
                 key: "three_month_later",
                 description:
                   "The retention percentage of users who remained active three month after joining",
-                colors: "#334a93",
               },
               {
                 title: "4 Month",
                 key: "four_month_later",
                 description:
                   "The retention percentage of users who remained active four month after joining",
-                colors: "#334a93",
               },
               {
                 title: "5 Month",
                 key: "five_month_later",
                 description:
                   "The retention percentage of users who remained active five month after joining",
-                colors: "#334a93",
               },
               {
                 title: "6 Month",
                 key: "six_month_later",
                 description:
                   "The retention percentage of users who remained active six month after joining",
-                colors: "#334a93",
               },
               {
                 title: "7 Month",
                 key: "seven_month_later",
                 description:
                   "The retention percentage of users who remained active seven month after joining",
-                colors: "#334a93",
               },
               {
                 title: "8 Month",
                 key: "eight_month_later",
                 description:
                   "The retention percentage of users who remained active eight month after joining",
-                colors: "#334a93",
               },
               {
                 title: "9 Month",
                 key: "nine_month_later",
                 description:
                   "The retention percentage of users who remained active nine month after joining",
-                colors: "#334a93",
               },
               {
                 title: "10 Month",
                 key: "ten_month_later",
                 description:
                   "The retention percentage of users who remained active ten month after joining",
-                colors: "#334a93",
               },
               {
                 title: "11 Month",
                 key: "eleven_month_later",
                 description:
                   "The retention percentage of users who remained active eleven month after joining",
-                colors: "#334a93",
               },
               {
                 title: "12 Month",
                 key: "twelve_month_later",
                 description:
                   "The retention percentage of users who remained active twelve month after joining",
-                colors: "#334a93",
               },
             ],
           }}
@@ -525,6 +514,8 @@ let fifth = (
           props={{
             themeColor: { table_pagination: themeColor.table_pagination },
             data: state.data?.hash3?.data,
+            withoutSearchBar: "yes",
+
             rowsCount: 6,
             columns: [
               {
