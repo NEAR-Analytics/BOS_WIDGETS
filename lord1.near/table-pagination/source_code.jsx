@@ -526,7 +526,7 @@ return (
       {!withoutSearchBar && (
         <div className="row p-0 m-0">
           <input
-            className="col col-sm-6"
+            className="col col-sm-4"
             type="text"
             placeholder="Search..."
             color={themeColor?.table_pagination?.btn_color}
