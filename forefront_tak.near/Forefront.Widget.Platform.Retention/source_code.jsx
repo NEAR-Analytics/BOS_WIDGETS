@@ -681,7 +681,7 @@ return (
     <div className="pl-2">
       {" "}
       <Widget src="lord1.near/widget/header-dynamic" props={retention} />
-      <div className="w-100 d-flex justify-content-center">
+      <div className="w-100 d-flex justify-content-left">
         <Container>
           <ul className="tabContent">
             {Object.values(tabs).map((tab) => (
