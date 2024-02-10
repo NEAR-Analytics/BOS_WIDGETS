@@ -309,49 +309,7 @@ return (
       background: themeColor?.page_bg,
     }}
   >
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
-          headerText: "Forefront",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../forefront_tak.near/widget/Forefront.Home",
-              title: "Homepage",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Discover",
-              link: "../../forefront_tak.near/widget/Forefront.Discover",
-              title: "Dashboards",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Feed",
-              link: "../../forefront_tak.near/widget/Forefront.Feed",
-              title: "Feed",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-          ],
-          backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-          textcolor: "#fff",
-        }}
-      />
-    </div>
-    <div style={{ marginLeft: "6rem" }}>
+    <div>
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
@@ -365,7 +323,7 @@ return (
         <Widget
           src="efiz.near/widget/marquee"
           props={{
-            text: "Welcome to Forefront Tak",
+            text: "",
             fontFamily: "Arial",
             fontSize: "20px",
             backgroundColor: themeColor?.header_bg,
@@ -384,7 +342,6 @@ return (
           />
         </div>
       </div>
-
       <Widget
         src="lord1.near/widget/header-dynamic"
         props={{
@@ -409,7 +366,6 @@ return (
         }}
       />
       <div style={{ width: "100%", height: "45px" }}></div>
-
       <div>
         <div className="content">
           <div>{buttonbar}</div>
@@ -421,18 +377,6 @@ return (
         </div>
       </div>
       <div style={{ width: "100%", height: "85px" }}></div>
-      <Widget
-        src="forefront_tak.near/widget/Forefront.Footer"
-        props={{
-          beBackground: "#fff",
-          titlenelowBackground: themeColor?.footer?.titlenelowBackground,
-          titleBackground: themeColor?.footer?.titleBackground,
-          svgBackground: "#806ce1",
-          fromBackground: themeColor?.footer?.fromBackground,
-          toBackground: themeColor?.footer?.toBackground,
-          belowBackground: themeColor?.footer?.belowBackground,
-        }}
-      />
     </div>
   </div>
 );
