@@ -1,9 +1,14 @@
 const typeSrc = props.typeSrc || "every.near";
-const schemaSrc = props.schemaSrc;
+const schemaSrc = props.schemaSrc ?? "attestations.near";
 const blockHeight = props.blockHeight || "final";
-const selectedSchema = props.selectedSchema;
-const resolverType = state.resolverType;
-const resolverData = state.resolverData;
+const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const [resolverPath, setResolverPath] = useState(
+  "flowscience.near/widget/attester.resolver"
+);
+const [resolverData, setResolverData] = Social.get(resolverPath.accountIds) || [
+  "james.near",
+  "build.near",
+];
 
 let type = {
   name: "",
@@ -13,9 +18,12 @@ let type = {
 
 let schemaType = {
   UID: "",
-  resolver: "",
+  resolver: {
+    resolverPath: state.resolverPath,
+    resolverData: state.resolverData,
+  },
   revocable: boolean,
-  properties: [],
+  schema: Social.get(`${schemaSrc}/schema/**`, "final"),
 };
 
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
@@ -32,7 +40,8 @@ State.init({
   newTypeSrc: "",
   typeSrc: typeSrc,
   expanded: false,
-  schemaUID: "",
+  selectedSchema: selectedSchema,
+  schemaUID: state.selectedSchema.UID,
 });
 
 let importedTypes = [];
@@ -201,17 +210,17 @@ const handleRemoveWidget = (key) => {
   State.update({ widgets: updatedWidgets });
 };
 
-const composeData = () => {
+const schemaData = () => {
   const data = {
-    type: {
-      [state.typeName]: JSON.stringify({
+    schemas: {
+      [state.selectedSchema]: JSON.stringify({
+        schemaUID: generateUID(),
         properties: state.properties,
-        widgets: state.widgets,
+        resolverPath: state.resolverPath,
         resolver: {
-          type: resolverType,
+          type: resolverPath,
           data: resolverData,
         },
-        schemaUID: generateUID(),
       }),
     },
   };
@@ -239,8 +248,8 @@ function MultiSelect({ value, onChange }) {
   );
 }
 
-const handleResolverTypeChange = (e) => {
-  setResolverType(e.target.value);
+const handleResolverPathChange = (e) => {
+  setResolverPath(e.target.value);
 };
 
 const handleResolverDataChange = (newData) => {
@@ -255,11 +264,11 @@ return (
       </Text>
       <Input
         type="text"
-        value={state.newType}
-        onChange={(e) => State.update({ newType: e.target.value })}
+        value={state.newSchema}
+        onChange={(e) => State.update({ newSchema: e.target.value })}
         placeholder={"accountId/type/schemaId"}
       />
-      <Button onClick={loadType}>load</Button>
+      <Button onClick={loadSchema}>load</Button>
     </Row>
     <Row>
       <Text>
@@ -381,18 +390,18 @@ return (
         <Text>
           <b>Resolver:</b>
         </Text>
-        <Select value={resolverType} onChange={handleResolverTypeChange}>
+        <Select value={resolverPath} onChange={handleResolverPathChange}>
           <option value="">None</option>
           <option value="attester.resolver">Attester Resolver</option>
           {/* ... (other resolver options) */}
         </Select>
-        {resolverType === "attester.resolver" && (
+        {resolverPath === "attester.resolver" && (
           <Widget
             src="flowscience.near/widget/attester.resolver"
             props={{
               item: {
-                type: resolverType,
-                value: resolverData,
+                type: item.resolverPath,
+                value: item.resolverData,
               },
               onChange: handleResolverDataChange,
             }}
@@ -419,7 +428,7 @@ return (
       <Row>
         <CommitButton
           force
-          data={composeData()}
+          data={schemaData()}
           disabled={state.properties.length === 0}
           className="styless"
         >
