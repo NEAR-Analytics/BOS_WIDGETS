@@ -13,13 +13,12 @@
 
 import { useState } from 'react';
 import Message from './Message';
-import s from './styles.module.css';
 
 function HelloWorld() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className={s.wrapper}>
+    <div className="wrapper">
       <h1>Welcome!</h1>
 
       <Message props={{ message: 'Hello world!' }} />
@@ -31,4 +30,4 @@ function HelloWorld() {
   );
 }
 
-export default HelloWorld as BWEComponent;  
+export default HelloWorld as BWEComponent;
