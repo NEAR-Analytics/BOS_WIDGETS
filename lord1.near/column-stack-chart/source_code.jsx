@@ -132,7 +132,8 @@ const code = `
       const chart = Highcharts.chart('container', {
         colors:colors,
         chart: {
-          type: 'column'
+          type: 'column',
+          backgroundColor: 'transparent'
         },
         title: {
           text: titleChart,
