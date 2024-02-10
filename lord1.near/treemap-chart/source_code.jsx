@@ -120,7 +120,7 @@ const code = `
 
 
 
-      Highcharts.theme = theme;
+      Highcharts.theme = {...theme,colors};
       Highcharts.setOptions(Highcharts.theme);
 
     let firstLevel,
@@ -185,7 +185,7 @@ const code = `
       }
     
     Highcharts.chart('container', {
-      colors:colors,
+      	colors:colors,
         series: [{
             name: chartName,
             type: 'treemap',
