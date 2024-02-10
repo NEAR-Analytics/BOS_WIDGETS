@@ -130,6 +130,7 @@ const code = `
       Highcharts.setOptions(Highcharts.theme);
      
       const chart = Highcharts.chart('container', {
+        colors:colors,
         chart: {
           type: 'column'
         },
