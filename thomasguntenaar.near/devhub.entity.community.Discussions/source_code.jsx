@@ -124,14 +124,14 @@ function checkHashes() {
       { subscribe: false }
     );
 
-    console.log("transaction", transaction)
+    console.log("transaction", transaction);
 
     if (transaction !== null) {
       const transaction_method_name =
         transaction?.body?.result?.transaction?.actions[0].FunctionCall
           .method_name;
 
-      console.log("transaction_method_name", transaction_method_name)
+      console.log("transaction_method_name", transaction_method_name);
       if (transaction_method_name === "set") {
         // props.onDraftStateChange(null);
         console.log("getBlockHeightAndRepost");
@@ -147,18 +147,17 @@ function checkHashes() {
 }
 
 function getBlockHeightAndRepost() {
-    Near.asyncView("social.near", "get", {
-      keys: [`${context.accountId}/**`],
-      options: {
-        with_block_height: true,
-      },
+  Near.asyncView("social.near", "get", {
+    keys: [`${context.accountId}/**`],
+    options: {
+      with_block_height: true,
+    },
+  })
+    .then((response) => {
+      let blockHeight = response[context.accountId]["post"][":block"];
+      repostOnDiscussions(blockHeight);
     })
-      .then((response) => {
-        let blockHeight = response[context.accountId]["post"][":block"];
-        repostOnDiscussions(blockHeight);
-      })
-      .catch(console.log);
-  }
+    .catch(console.log);
 }
 
 console.log(`discussions.${handle}.community.devhub.near`);
