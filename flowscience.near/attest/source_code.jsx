@@ -175,9 +175,9 @@ const handleInputChange = (propertyName, value) => {
   State.update({ attestData: newAttestData });
 };
 
-const fetchSchema = (schemaId) => {
+const fetchSchema = (selectedSchema) => {
   // Assuming Social.get synchronously returns the schema details or null if not found
-  const schemaDetails = Social.get(`${schemaId}`, "final");
+  const schemaDetails = Social.get(`${selectedSchema}`, "final");
   if (schemaDetails) {
     try {
       // Assuming the schema details are returned as a JSON string
