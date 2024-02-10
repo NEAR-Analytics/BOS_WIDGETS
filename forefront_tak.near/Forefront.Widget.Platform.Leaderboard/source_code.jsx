@@ -379,29 +379,34 @@ let bar_race_trxs = (
     }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <Widget
-      src="lord1.near/widget/bar-race"
-      props={getBarRaceProps(
-        state.data?.hash8?.data,
-        ["Project", "date", "Transaction"],
-        themeColor.chartColor,
-        {
-          btn_bg: "",
-          stepTime: 500,
-          barInChart: 10,
-          subBarChart: "",
-          title: {
-            text: "Top 10 platform in terms of transaction number",
-          },
-          subtitle: {
-            upSize: 20,
-            downSize: 15,
-            positionX: 0,
-            positionY: 0,
-          },
-        }
-      )}
-    />
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="w-100 mx-auto shadow-sm rounded-4"
+    >
+      <Widget
+        src="lord1.near/widget/bar-race"
+        props={getBarRaceProps(
+          state.data?.hash8?.data,
+          ["Project", "date", "Transaction"],
+          themeColor.chartColor,
+          {
+            btn_bg: "",
+            stepTime: 500,
+            barInChart: 10,
+            subBarChart: "",
+            title: {
+              text: "Top 10 platform in terms of transaction number",
+            },
+            subtitle: {
+              upSize: 20,
+              downSize: 15,
+              positionX: 0,
+              positionY: 0,
+            },
+          }
+        )}
+      />
+    </div>
   </div>
 );
 let bar_race_user = (
@@ -622,6 +627,7 @@ let numeric = (
         props={{
           themeColor: { table_pagination: themeColor.table_pagination },
           data: state.data?.hash7?.data,
+          withoutSearchBar: "yes",
           rowsCount: 3,
           columns: [
             {
@@ -640,21 +646,18 @@ let numeric = (
               title: "Contract Calls",
               key: "contract_calls",
               description: "Number of contract calls in the certain interval",
-              colors: "#334a93",
               round: "yes",
             },
             {
               title: "Transaction",
               key: "transaction",
               description: "Number of transactions in the certain interval",
-              colors: "#334a93",
               round: "yes",
             },
             {
               title: "Users",
               key: "users",
               description: "Number of users in the certain interval",
-              colors: "#334a93",
               round: "yes",
             },
 
@@ -662,7 +665,6 @@ let numeric = (
               title: "Volume",
               key: "volume",
               description: " deposited volume (Near) in the certain interval",
-              colors: "#334a93",
               round: "yes",
             },
           ],
@@ -707,7 +709,6 @@ let fourth = (
                 key: "contract_calls",
                 description:
                   "Number of contract calls for each platform in last 7 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -715,14 +716,12 @@ let fourth = (
                 key: "transaction",
                 description:
                   "Number of transactions for each platform in last 7 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
                 title: "Users",
                 key: "users",
                 description: "Number of users for each platform in last 7 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -730,7 +729,6 @@ let fourth = (
                 key: "avg_tx",
                 description:
                   "Average number of transactions per user for each platform in last 7 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -738,7 +736,6 @@ let fourth = (
                 key: "volume",
                 description:
                   " deposited volume (Near) for each platform in last 7 days",
-                colors: "#334a93",
                 round: "yes",
               },
             ],
@@ -784,7 +781,6 @@ let fifth = (
                 key: "contract_calls",
                 description:
                   "Number of contract calls for each platform in last 30 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -792,7 +788,6 @@ let fifth = (
                 key: "transaction",
                 description:
                   "Number of transactions for each platform in last 30 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -800,7 +795,6 @@ let fifth = (
                 key: "users",
                 description:
                   "Number of users for each platform in last 30 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -808,7 +802,6 @@ let fifth = (
                 key: "avg_tx",
                 description:
                   "Average number of transactions per user for each platform in last 30 days",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -816,7 +809,6 @@ let fifth = (
                 key: "volume",
                 description:
                   " deposited volume (Near) for each platform in last 30 days",
-                colors: "#334a93",
                 round: "yes",
               },
             ],
@@ -869,7 +861,6 @@ let sixth = (
                 key: "contract_calls",
                 description:
                   "Number of contract calls for each platform in total",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -877,14 +868,12 @@ let sixth = (
                 key: "transaction",
                 description:
                   "Number of transactions for each platform in total",
-                colors: "#334a93",
                 round: "yes",
               },
               {
                 title: "Users",
                 key: "users",
                 description: "Number of users for each platform in total",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -892,7 +881,6 @@ let sixth = (
                 key: "avg_tx",
                 description:
                   "Average number of transactions per user for each platform in total",
-                colors: "#334a93",
                 round: "yes",
               },
               {
@@ -900,7 +888,6 @@ let sixth = (
                 key: "volume",
                 description:
                   " deposited volume (Near) for each platform in total",
-                colors: "#334a93",
                 round: "yes",
               },
             ],
@@ -939,7 +926,7 @@ return (
       {fourth}
       {fifth} {sixth}
       <div className="row w-100 py-4 g-4">
-        <div className=" col-12 col-md-6">
+        <div className=" col-12 col-md-12">
           {" "}
           <Widget
             src="lord1.near/widget/header-dynamic"
@@ -968,7 +955,7 @@ return (
           {growth_user}
           {growth_volume}
         </div>
-        <div className=" col-12 col-md-6">
+        <div className=" col-12 col-md-12">
           <Widget
             src="lord1.near/widget/header-dynamic"
             props={platform_growth}
