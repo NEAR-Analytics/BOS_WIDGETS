@@ -1,16 +1,14 @@
-import s from './styles.module.css';
-
 type Props = {
-  message?: string;
+  message: string;
 };
 
-function Message({ message = 'Default message...' }: Props) {
+function Message({ message }: Props) {
   return (
-    <div className={s.wrapper}>
-      <h2 className={s.title}>BOS Says:</h2>
-      <p className={s.message}>{message}</p>
+    <div className="wrapper">
+      <h2>BOS Says:</h2>
+      <p>{message}</p>
     </div>
   );
 }
 
-export default Message as BWEComponent<Props>;        
+export default Message as BWEComponent<Props>;
