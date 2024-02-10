@@ -185,6 +185,7 @@ const code = `
       }
     
     Highcharts.chart('container', {
+      colors:colors,
         series: [{
             name: chartName,
             type: 'treemap',
