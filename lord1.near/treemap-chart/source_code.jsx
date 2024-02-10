@@ -186,6 +186,9 @@ const code = `
     
     Highcharts.chart('container', {
       	colors:colors,
+        chart : {
+            backgroundColor: "transparent",
+        },
         series: [{
             name: chartName,
             type: 'treemap',
@@ -239,7 +242,7 @@ const code = `
 
 return (
   <div
-    className="w-100 d-flex justify-content-center align-items-center"
+    className="w-100 d-flex justify-content-center align-items-center "
     style={{
       minHeight: "300px",
       minWidth: "300px",
