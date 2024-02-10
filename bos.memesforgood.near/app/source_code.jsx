@@ -175,15 +175,15 @@ const nav = ["Home", "Donate", "Create Giveaway", "Join", "Feed", "Partner"];
 const footerLinks = [
   {
     icon: "bafkreihrmb552uwtgwsh7z43mqvffxjqkj27yv3lapugltneurks4dtgcq",
-    url: "/",
+    url: "https://x.com/memesforgood",
   },
   {
     icon: "bafkreiccgejbzxntsnwdxwldxk42qmzccar2jn7lq3kcf6mo7umiulcyou",
-    url: "/",
+    url: "https://yearofchef.org/telegram",
   },
   {
     icon: "bafkreigclspyg25v6lzm3mspga2zbojkg2llmd3jng2v2php4lamfrww2y",
-    url: "/",
+    url: "https://www.forgood.meme/mob.near/widget/MyPage?accountId=memesforgood.near",
   },
 ];
 
@@ -263,13 +263,13 @@ return (
     <Footer>
       <div className="links">
         {footerLinks.map((link) => (
-          <a href={link.url} key={link.icon}>
+          <a href={link.url} target="_blank" key={link.icon}>
             <img src={ipfsToImg(link.icon)} alt={link.icon} />
           </a>
         ))}{" "}
       </div>
       <div className="copyright">
-        ⚡️ powered by <a href="https://everything.dev/"> everything.dev</a>
+        ⚡️ powered by <a href="https://everything.dev/" target="_blank"> everything.dev</a>
       </div>
     </Footer>
   </Container>
