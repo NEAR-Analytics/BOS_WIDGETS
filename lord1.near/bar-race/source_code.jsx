@@ -96,6 +96,10 @@ const code = `
     #play-controls{
       display : flex;
       gap : 1rem;
+      padding-bottom : 0.7rem;
+    }
+    #container{
+      border-radius : 0.3rem;
     }
     #play-pause-button{
       border-radius : 1rem;
@@ -473,7 +477,7 @@ const code = `
 
 return (
   <div
-    className="w-100 d-flex justify-content-center align-items-center"
+    className="w-100 d-flex justify-content-center align-items-center bg-primary"
     style={{
       minHeight: "300px",
       minWidth: "300px",
@@ -510,15 +514,15 @@ return (
 );
 
 //  props = {
-//   data: {
-//   "title one":{
-//     "date1": 15,
-//     "date": 25,
-//   },
-//   "title tow":{
-//     "date1": 65,
-//     "date": 29,
-//   },
+// data: {
+// "title one":{
+//   "date1": 15,
+//   "date": 25,
+// },
+// "title tow":{
+//   "date1": 65,
+//   "date": 29,
+// },
 // },
 //   colors: ["blue", "red"], //optional : tow colors
 // chartOption: {
