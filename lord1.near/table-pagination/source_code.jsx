@@ -343,7 +343,7 @@ const buttonsIcons = (
   </ul>
 );
 return (
-  <div className="table-responsive">
+  <div className="table-responsive pb-2">
     <div
       style={{
         backgroundColor: themeColor?.table_pagination?.table_bg,
@@ -524,25 +524,27 @@ return (
         </tbody>
       </Table>
       {!withoutSearchBar && (
-        <input
-          type="text"
-          placeholder="Search..."
-          color={themeColor?.table_pagination?.btn_color}
-          onChange={handleSearch}
-          style={{
-            width: "20%",
-            height: "30px",
-            borderRadius: "50px",
-            "margin-left": "2px",
-            "margin-top": "2px",
-            "margin-buttom": "2px",
-            backgroundColor: themeColor?.table_pagination?.input_bg,
-            color: themeColor?.table_pagination?.btn_color,
-            border: `0.5px solid ${
-              themeColor?.table_pagination?.btn_border ?? "#000"
-            }`,
-          }}
-        />
+        <div className="row p-0 m-0">
+          <input
+            className="col col-sm-6"
+            type="text"
+            placeholder="Search..."
+            color={themeColor?.table_pagination?.btn_color}
+            onChange={handleSearch}
+            style={{
+              height: "30px",
+              borderRadius: "50px",
+              "margin-left": "2px",
+              "margin-top": "2px",
+              "margin-buttom": "2px",
+              backgroundColor: themeColor?.table_pagination?.input_bg,
+              color: themeColor?.table_pagination?.btn_color,
+              border: `0.5px solid ${
+                themeColor?.table_pagination?.btn_border ?? "#000"
+              }`,
+            }}
+          />
+        </div>
       )}
     </div>
 
