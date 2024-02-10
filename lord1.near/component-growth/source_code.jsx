@@ -36,6 +36,59 @@ const areatheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
+const retention = {
+  height: "90px",
+  align: "left",
+  description: "Devs Retention Analysis by Year/Month (BOS Devs)",
+  brand: "Devs",
+  fontsize: "25px",
+  fontweight: "50px",
+  afterbrand: "Retention",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const Container = styled.div`
+ &&{text-align:left};
+  .tabContent{
+    display: inline-flex;
+    align-items: left;
+    background: rgba(26, 46, 51, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 3px 4px;
+    list-style-type: none;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+  }
+  .tab-item .active {
+    background: #304352;
+  }
+  .tab-item button {
+    background-color: transparent;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
+  }
+`;
+const tabs = {
+  left: "User Retention (monthly)",
+  middle: "User Retention (annually)",
+};
+const setTab = (tab) => State.update({ tab });
+
 const queryHashes = [
   { id: 0, hash: "b5367144-cab7-4958-8aee-47413aee5f48" }, // year
   { id: 1, hash: "e29fa083-fcce-4ed5-bbe1-3c2360f4e4ef" }, // deposited near pie
@@ -45,6 +98,8 @@ const queryHashes = [
   { id: 9, hash: "c4a45c73-69c5-4afa-ade7-dc6561609c40" }, // total
   { id: 10, hash: "43a71a7a-c4e3-4174-b4c8-3e21baeacc98" }, // trxs daily
   { id: 11, hash: "c19a9392-ba34-4531-8e25-06d9b8d8715f" }, // new and active dev(weekly)
+  { id: 12, hash: "9c80469d-a30e-442e-98a4-52def7a48a8f" }, // retention monthly
+  { id: 13, hash: "0cc4fe9b-8e71-4ea9-91da-ea56846295c8" }, // retention yearly
 ];
 
 State.init({
@@ -52,6 +107,7 @@ State.init({
   data: [],
   isLoading: true,
   error: [],
+  tab: tabs.left,
 });
 
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
@@ -771,6 +827,239 @@ let third = (
     </div>
   </div>
 );
+
+let fourth = (
+  <div
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.left ? "" : "none",
+    }}
+    className="shadow-sm rounded-2 overflow-auto p-2"
+  >
+    {" "}
+    <div className="row w-100 pb-2 px-2 mx-0">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="shadow-sm rounded-2 overflow-auto"
+      >
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.data?.hash12?.data,
+            rowsCount: 15,
+            columns: [
+              {
+                title: "Earliest month",
+                key: "earliest_date",
+                description:
+                  "The earliest month of developers' activity (BOS development).",
+                colors: "#8b76f3",
+              },
+
+              {
+                title: "New Devs",
+                key: "new_users",
+                round: "yes",
+
+                description:
+                  "The count of new developers who joined the BOS development in the specified month.",
+                colors: "#8b76f3",
+              },
+              {
+                title: "1 Month",
+                key: "one_month_later",
+                description:
+                  "The retention percentage of developers who remained active one month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "2 Month",
+                key: "two_month_later",
+                description:
+                  "The retention percentage of developers who remained active two month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "3 Month",
+                key: "three_month_later",
+                description:
+                  "The retention percentage of developers who remained active three month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "4 Month",
+                key: "four_month_later",
+                description:
+                  "The retention percentage of developers who remained active four month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "5 Month",
+                key: "five_month_later",
+                description:
+                  "The retention percentage of developers who remained active five month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "6 Month",
+                key: "six_month_later",
+                description:
+                  "The retention percentage of developers who remained active six month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "7 Month",
+                key: "seven_month_later",
+                description:
+                  "The retention percentage of developers who remained active seven month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "8 Month",
+                key: "eight_month_later",
+                description:
+                  "The retention percentage of developers who remained active eight month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "9 Month",
+                key: "nine_month_later",
+                description:
+                  "The retention percentage of developers who remained active nine month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "10 Month",
+                key: "ten_month_later",
+                description:
+                  "The retention percentage of developers who remained active ten month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "11 Month",
+                key: "eleven_month_later",
+                description:
+                  "The retention percentage of developers who remained active eleven month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "12 Month",
+                key: "twelve_month_later",
+                description:
+                  "The retention percentage of developers who remained active twelve month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "13 Month",
+                key: "thirteen_month_later",
+                description:
+                  "The retention percentage of developers who remained active 13 month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "14 Month",
+                key: "fourteen_month_later",
+                description:
+                  "The retention percentage of developers who remained active 14 month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "15 Month",
+                key: "fifteen_month_later",
+                description:
+                  "The retention percentage of developers who remained active 15 month after joining",
+                colors: "#334a93",
+              },
+              {
+                title: "16 Month",
+                key: "sixteen_month_later",
+                description:
+                  "The retention percentage of developers who remained active 16 month after joining",
+                colors: "#334a93",
+              },
+            ],
+          }}
+        />{" "}
+      </div>{" "}
+    </div>
+  </div>
+);
+let fifth = (
+  <div
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.middle ? "" : "none",
+    }}
+    className="shadow-sm rounded-2 overflow-auto p-2"
+  >
+    <div className="row w-100 pb-2 px-2 mx-0">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="shadow-sm rounded-2 overflow-auto"
+      >
+        {" "}
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.data?.hash13?.data,
+            rowsCount: 6,
+            columns: [
+              {
+                title: "Earliest year",
+                key: "earliest_date",
+                description:
+                  "The earliest year of developers' activity (BOS development).",
+                colors: "#8b76f3",
+              },
+
+              {
+                title: "New Devs",
+                key: "new_users",
+                round: "yes",
+
+                description:
+                  "The count of new developers who joined the platform in the specified year.",
+                colors: "#8b76f3",
+              },
+              {
+                title: "1 year later",
+                key: "one_year_later",
+                description:
+                  "The retention percentage of developers who remained active one year after joining",
+              },
+              {
+                title: "2 year later",
+                key: "two_year_later",
+                description:
+                  "The retention percentage of developers who remained active two year after joining",
+              },
+              {
+                title: "3 year later",
+                key: "three_year_later",
+                description:
+                  "The retention percentage of developers who remained active three year after joining",
+              },
+              {
+                title: "4 year later",
+                key: "four_year_later",
+                description:
+                  "The retention percentage of developers who remained active four year after joining",
+              },
+              {
+                title: "5 year later",
+                key: "five_year_later",
+                description:
+                  "The retention percentage of developers who remained active five year after joining",
+              },
+            ],
+          }}
+        />{" "}
+      </div>
+    </div>
+  </div>
+);
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
@@ -779,7 +1068,26 @@ return (
       {first}
       {second}
       {third}
-
+      <Widget src="lord1.near/widget/header-dynamic" props={retention} />
+      <div>
+        <Container>
+          <ul className="tabContent">
+            {Object.values(tabs).map((tab) => (
+              <li key={tab} className="tab-item">
+                <button
+                  className={`${state.tab === tab ? "active" : ""}`}
+                  aria-current="page"
+                  onClick={() => setTab(tab)}
+                >
+                  {tab}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Container>
+        {fourth}
+        {fifth}
+      </div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
           state.error.map((er) => (
