@@ -294,6 +294,7 @@ const code = `
 
         chart = Highcharts.chart('container', {
           chart: {
+	        backgroundColor: "transparent",
             animation: {
               duration: 500
             },
@@ -477,7 +478,7 @@ const code = `
 
 return (
   <div
-    className="w-100 d-flex justify-content-center align-items-center "
+    className="w-100 d-flex justify-content-center align-items-center"
     style={{
       minHeight: "300px",
       minWidth: "300px",
