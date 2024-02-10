@@ -477,7 +477,7 @@ const code = `
 
 return (
   <div
-    className="w-100 d-flex justify-content-center align-items-center bg-primary"
+    className="w-100 d-flex justify-content-center align-items-center "
     style={{
       minHeight: "300px",
       minWidth: "300px",
