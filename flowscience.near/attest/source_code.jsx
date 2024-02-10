@@ -1,14 +1,16 @@
-const item = props.item;
-const onChange = props.onChange;
 const selectedSchema =
   props.item.selectedSchema ?? "attestations.near/type/isTrue";
 const [schemaFields, setSchemaFields] = useState({});
-const recipientId = props.recipientId;
-const expireDate = props.expireDate;
-const expireTime = props.expireTime;
-const revokeDate = props.revokeDate;
-const refUID = props.refUID;
-const payload = props.payload;
+const {
+  item,
+  onChange,
+  recipientId,
+  expireDate,
+  expireTime,
+  revokeDate,
+  refUID,
+  payload,
+} = props;
 
 const Input = styled.input`
   height: 30px;
@@ -175,29 +177,28 @@ const handleInputChange = (propertyName, value) => {
   State.update({ attestData: newAttestData });
 };
 
-const fetchSchema = (selectedSchema) => {
-  // Assuming Social.get synchronously returns the schema details or null if not found
-  const schemaDetails = Social.get(selectedSchema, "final");
+const fetchSchema = (schema) => {
+  // Example fetch logic, adjust based on your API/backend
+  const schemaDetails = Social.get(schema, "final");
   if (schemaDetails) {
     try {
-      // Assuming the schema details are returned as a JSON string
       const parsedSchemaDetails = JSON.parse(schemaDetails);
       setSchemaFields(parsedSchemaDetails);
     } catch (error) {
       console.error("Failed to parse schema details:", error);
-      setSchemaFields({}); // Reset or handle error appropriately
+      setSchemaFields({});
     }
   } else {
-    console.log("Schema details not found for:", selectedSchema);
-    setSchemaFields({}); // Reset or handle not found case
+    console.log("Schema details not found for:", schema);
+    setSchemaFields({});
   }
 };
 
 useEffect(() => {
-  if (!selectedSchema) {
-    fetchSchema(props.item.selectedSchema);
+  if (item.selectedSchema) {
+    fetchSchema(item.selectedSchema);
   }
-}, [selectedSchema]); // Dependency on selectedSchema ensures fetchSchema is called when it changes
+}, [item.selectedSchema]); // Reacts whenever item.selectedSchema changes
 
 return (
   <Container>
