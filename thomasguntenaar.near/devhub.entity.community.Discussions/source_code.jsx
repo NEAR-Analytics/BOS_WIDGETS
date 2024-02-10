@@ -99,21 +99,68 @@ function setSocialDbAndRepost(v) {
   Social.set(v, {
     onCommit: (data) => {
       console.log("onCommit data", data);
-
-      Near.asyncView("social.near", "get", {
-        keys: [`${context.accountId}/**`],
-        options: {
-          with_block_height: true,
-        },
-      })
-        .then((response) => {
-          let blockHeight = response[context.accountId]["post"][":block"];
-          repostOnDiscussions(blockHeight);
-        })
-        .catch(console.log);
+      // onCommit is dead after redirect to near wallet
     },
   });
 }
+
+function checkHashes() {
+  if (props.transactionHashes) {
+    const transaction = useCache(
+      () =>
+        asyncFetch("https://rpc.mainnet.near.org", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: "dontcare",
+            method: "tx",
+            params: [props.transactionHashes, context.accountId],
+          }),
+        }).then((res) => res),
+      props.transactionHashes + context.accountId,
+      { subscribe: false }
+    );
+
+    console.log("transaction", transaction)
+
+    if (transaction !== null) {
+      const transaction_method_name =
+        transaction?.body?.result?.transaction?.actions[0].FunctionCall
+          .method_name;
+
+      console.log("transaction_method_name", transaction_method_name)
+      if (transaction_method_name === "set") {
+        // props.onDraftStateChange(null);
+        console.log("getBlockHeightAndRepost");
+        getBlockHeightAndRepost();
+      }
+
+      // show the latest created post to user
+      if (transaction_method_name === "create_discussion") {
+        console.log("discussions created in the last call");
+      }
+    }
+  }
+}
+
+function getBlockHeightAndRepost() {
+    Near.asyncView("social.near", "get", {
+      keys: [`${context.accountId}/**`],
+      options: {
+        with_block_height: true,
+      },
+    })
+      .then((response) => {
+        let blockHeight = response[context.accountId]["post"][":block"];
+        repostOnDiscussions(blockHeight);
+      })
+      .catch(console.log);
+  }
+}
+
 console.log(`discussions.${handle}.community.devhub.near`);
 
 return (
@@ -165,7 +212,6 @@ return (
           )}
           <div className={postsExists && "card p-4"}>
             {/* TODO: this feed is from https://near.org/near/widget/ComponentDetailsPage?src=mob.near/widget/ProfileTabs */}
-            {/* We will have to replace it with pogoda's https://t.me/c/1822948693/5050/5075 */}
             <Widget
               key="feed"
               src="mob.near/widget/MainPage.N.Feed"
@@ -175,9 +221,8 @@ return (
                 ],
               }}
             />
-
             {/* This is our custom feed which uses the one from near builders which should also show reposts! */}
-            {/* <Widget
+            <Widget
               src="thomasguntenaar.near/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
@@ -189,7 +234,7 @@ return (
                 setPostExists: setPostExists,
                 showFlagAccountFeature: true,
               }}
-            /> */}
+            />
           </div>
         </div>
       </MainContent>
