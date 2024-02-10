@@ -188,7 +188,7 @@ const fetchSchema = (selectedSchema) => {
       setSchemaFields({}); // Reset or handle error appropriately
     }
   } else {
-    console.log("Schema details not found for:", schemaId);
+    console.log("Schema details not found for:", selectedSchema);
     setSchemaFields({}); // Reset or handle not found case
   }
 };
