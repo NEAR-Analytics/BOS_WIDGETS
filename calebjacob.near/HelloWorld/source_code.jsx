@@ -13,12 +13,13 @@
 
 import { useState } from 'react';
 import Message from './Message';
+import s from './styles.module.css';
 
 function HelloWorld() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="wrapper">
+    <div className={s.wrapper}>
       <h1>Welcome!</h1>
 
       <Message props={{ message: 'Hello world!' }} />
