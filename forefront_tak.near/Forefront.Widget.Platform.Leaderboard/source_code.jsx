@@ -906,7 +906,7 @@ return (
         src="lord1.near/widget/header-dynamic"
         props={platform_leaderboard}
       />
-      <div className="w-100 d-flex justify-content-center">
+      <div className="w-100 d-flex justify-content-left">
         <Container>
           <ul className="tabContent">
             {Object.values(tabs).map((tab) => (
@@ -932,7 +932,7 @@ return (
             src="lord1.near/widget/header-dynamic"
             props={platform_dominance}
           />
-          <div className="w-100 d-flex justify-content-center">
+          <div className="w-100 d-flex justify-content-left">
             <Container>
               <ul className="tabContent">
                 {Object.values(treemap_tabs).map((treemap_tab) => (
@@ -960,7 +960,7 @@ return (
             src="lord1.near/widget/header-dynamic"
             props={platform_growth}
           />
-          <div className="w-100 d-flex justify-content-center">
+          <div className="w-100 d-flex justify-content-left">
             <Container>
               <ul className="tabContent">
                 {Object.values(barrace_tabs).map((barrace_tab) => (
