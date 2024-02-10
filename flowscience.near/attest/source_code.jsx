@@ -1,7 +1,7 @@
 const item = props.item;
 const onChange = props.onChange;
 const selectedSchema =
-  props.item.selectedSchema || "attestations.near/type/isTrue";
+  props.item.selectedSchema ?? "attestations.near/type/isTrue";
 const [schemaFields, setSchemaFields] = useState({});
 const recipientId = props.recipientId;
 const expireDate = props.expireDate;
@@ -42,7 +42,7 @@ const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: state.selectedSchema,
+  selectedSchema: props.item.selectedSchema,
   schemaFields: schemaFields,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
@@ -194,8 +194,8 @@ const fetchSchema = (selectedSchema) => {
 };
 
 useEffect(() => {
-  if (selectedSchema) {
-    fetchSchema(selectedSchema);
+  if (!selectedSchema) {
+    fetchSchema(props.item.selectedSchema);
   }
 }, [selectedSchema]); // Dependency on selectedSchema ensures fetchSchema is called when it changes
 
