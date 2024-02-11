@@ -137,6 +137,10 @@ if (schemas !== null) {
     Object.keys(schemas)?.map((it) => `${state.schemaSrc}/type/${it}`) || [];
 }
 
+console.log(`Fetching schema for: ${selectedSchema}`);
+const schemaDetails = Social.get(selectedSchema, "final");
+console.log(`Response for ${selectedSchema}:`, schemaDetails);
+
 const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
   State.update({
@@ -174,36 +178,11 @@ return (
       </Row>
       {state.view === "CREATE_THING" ? (
         <>
-          <FormContainer>
-            <Label>Schema Owner:</Label>
-            <Row>
-              <Input
-                type="text"
-                value={state.newSchemaSrc}
-                onChange={(e) => State.update({ newSchemaSrc: e.target.value })}
-                placeholder={schemaSrc}
-              />
-              <Button
-                onClick={() => State.update({ schemaSrc: state.newSchemaSrc })}
-              >
-                apply
-              </Button>
-            </Row>
-            <Label>Schema</Label>
-            <Row>
-              <Select
-                value={state.selectedSchema}
-                onChange={handleSchemaChange}
-              >
-                <option value="">Choose a schema</option>
-                {availableSchemas?.map((it) => (
-                  <option value={it} key={it}>
-                    {it}
-                  </option>
-                ))}
-              </Select>
-            </Row>
-          </FormContainer>
+          <Widget
+            src="flowscience.near/widget/SchemaSelector"
+            onSchemaChange={setSelectedSchema}
+            onSchemaSrcChange={setSchemaSrc}
+          />
           <FormContainer>
             <Widget
               src="flowscience.near/widget/attest"
