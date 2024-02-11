@@ -39,6 +39,7 @@ return (daoId, proposalId, factoryId) => {
       }
       console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
+        console.log("inside newLastProposalId", newLastProposalId);
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
           limit: 200,
@@ -47,8 +48,11 @@ return (daoId, proposalId, factoryId) => {
         filteredProposals = proposals.filter((item) =>
           filterStatusArray.includes(item.status)
         );
-
-        newLastProposalId -= resPerPage;
+        if (reverse) {
+          newLastProposalId -= resPerPage;
+        } else {
+          newLastProposalId += resPerPage;
+        }
       }
       console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
@@ -67,6 +71,7 @@ return (daoId, proposalId, factoryId) => {
       }
       console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
+        console.log("inside newLastProposalId", newLastProposalId);
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
           limit: 200,
@@ -78,7 +83,11 @@ return (daoId, proposalId, factoryId) => {
           return filterKindArray.includes(kind);
         });
 
-        newLastProposalId -= resPerPage;
+        if (reverse) {
+          newLastProposalId -= resPerPage;
+        } else {
+          newLastProposalId += resPerPage;
+        }
       }
       console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
