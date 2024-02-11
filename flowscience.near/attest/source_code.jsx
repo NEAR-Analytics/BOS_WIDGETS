@@ -51,7 +51,7 @@ State.init({
   expireTime: state.expireTime,
   refUID: state.refUID,
   payload: state.payload,
-  attestData: props.data,
+  attestData: props.item,
   metadata: "",
 });
 
@@ -194,6 +194,42 @@ const fetchSchema = (schema) => {
   }
 };
 
+// Render dynamic inputs based on schemaFields
+const renderDynamicInputs = () => {
+  // Check if the schemaFields have the expected structure and contain field definitions.
+  // For simplicity, let's assume schemaFields directly contain the definitions.
+
+  // Example of handling a known schema structure
+  if (selectedSchema.endsWith("isTrue")) {
+    // Directly render a boolean input for isTrue schema
+    return (
+      <Row>
+        <Label>Is True:</Label>
+        <Select
+          onChange={(e) => handleInputChange("isTrue", e.target.value)}
+          value={item.value["isTrue"] || "false"}
+        >
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </Select>
+      </Row>
+    );
+  } else {
+    // For other schemas, dynamically render inputs based on schemaFields
+    return Object.entries(schemaFields).map(([fieldName, fieldProps]) => (
+      <Row key={fieldName}>
+        <Label>{fieldName}</Label>
+        <DynamicInput
+          type={fieldProps.type}
+          onChange={(e) => handleInputChange(fieldName, e.target.value)}
+          value={item.value[fieldName] || ""}
+          placeholder={fieldProps.placeholder || ""}
+        />
+      </Row>
+    ));
+  }
+};
+
 useEffect(() => {
   if (item.selectedSchema) {
     fetchSchema(item.selectedSchema);
@@ -202,6 +238,7 @@ useEffect(() => {
 
 return (
   <Container>
+    {renderDynamicInputs()}
     <Label>
       <b>UID:</b> {state.objectUID}
     </Label>
