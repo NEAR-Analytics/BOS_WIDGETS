@@ -43,7 +43,7 @@ const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: props.item.selectedSchema,
+  selectedSchema: selectedSchema,
   schemaFields: schemaFields,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
@@ -56,9 +56,9 @@ State.init({
 
 const attestData = {
   attestation: {
-    [selectedSchema]: JSON.stringify({
+    [selectedSchema]: {
       fields: {
-        objectUID: state.objectUID,
+        objectUID: generateUID(),
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
@@ -66,7 +66,7 @@ const attestData = {
         refUID: state.refUID,
         payload: state.payload,
       },
-    }),
+    },
   },
 };
 
