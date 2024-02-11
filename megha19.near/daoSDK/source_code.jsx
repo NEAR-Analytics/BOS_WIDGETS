@@ -41,19 +41,21 @@ return (daoId, proposalId, factoryId) => {
       console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
         console.log("inside newLastProposalId", newLastProposalId);
-        const proposals = DaoSDK.getProposals({
-          offset: newLastProposalId,
+        Near.asyncView(daoId, "get_proposals", {
+          from_index: offset,
           limit: limit,
+        }).then((proposals) => {
+          console.log("inside proposals", proposals);
+          console.log("inside filteredProposals", filteredProposals);
+          filteredProposals = proposals.filter((item) =>
+            filterStatusArray.includes(item.status)
+          );
+          if (reverse) {
+            newLastProposalId -= limit;
+          } else {
+            newLastProposalId += limit;
+          }
         });
-        console.log("inside proposals", proposals);
-        filteredProposals = proposals.filter((item) =>
-          filterStatusArray.includes(item.status)
-        );
-        if (reverse) {
-          newLastProposalId -= limit;
-        } else {
-          newLastProposalId += limit;
-        }
       }
       console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
@@ -74,22 +76,24 @@ return (daoId, proposalId, factoryId) => {
       console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
         console.log("inside newLastProposalId", newLastProposalId);
-        const proposals = DaoSDK.getProposals({
-          offset: newLastProposalId,
+        Near.asyncView(daoId, "get_proposals", {
+          from_index: offset,
           limit: limit,
-        });
-        console.log("inside proposals", proposals);
-        filteredProposals = proposals.filter((item) => {
-          const kind =
-            typeof kind === "string" ? kind : Object.keys(item.kind)[0];
-          return filterKindArray.includes(kind);
-        });
+        }).then((proposals) => {
+          console.log("inside proposals", proposals);
+          console.log("inside filteredProposals", filteredProposals);
+          filteredProposals = proposals.filter((item) => {
+            const kind =
+              typeof kind === "string" ? kind : Object.keys(item.kind)[0];
+            return filterKindArray.includes(kind);
+          });
 
-        if (reverse) {
-          newLastProposalId -= limit;
-        } else {
-          newLastProposalId += limit;
-        }
+          if (reverse) {
+            newLastProposalId -= limit;
+          } else {
+            newLastProposalId += limit;
+          }
+        });
       }
       console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
