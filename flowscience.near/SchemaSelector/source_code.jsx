@@ -1,63 +1,92 @@
-const [selectedSchema, setSelectedSchema] =
-  useState("") || "attestations.near/type/isTrue";
-const schemaType = props.schemaType || "hyperfiles.near/type/schema";
-const schemaSrc = props.schemaSrc || "attestations.near";
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
-State.init({
-  schemaSrc,
-  selectedSchema: selectedSchema,
-  schemas: {},
-});
+const Button = styled.button`
+  `;
 
-let availableSchemas = [];
-const schemas = Social.get(`${state.schemaSrc}/type/**`, "final");
-if (schemas !== null) {
-  availableSchemas =
-    Object.keys(schemas)?.map((it) => `${state.schemaSrc}/type/${it}`) || [];
-}
+const FormContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 20px;
+`;
 
-console.log(`Fetching schema for: ${selectedSchema}`);
-const schemaDetails = Social.get(selectedSchema, "final");
-console.log(`Response for ${selectedSchema}:`, schemaDetails);
+const Select = styled.select`
+  `;
+
+const Label = styled.label`
+`;
+
+const Input = styled.input`
+  `;
+
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema || "attestations.near/type/isTrue"
+);
+const [inputSchemaSrc, setInputSchemaSrc] = useState(
+  props.schemaSrc || "attestations.near"
+);
+const [schemaSrc, setSchemaSrc] = useState(
+  props.schemaSrc || "attestations.near"
+);
+const [availableSchemas, setAvailableSchemas] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+
+const fetchSchemasList = () => {
+  setIsLoading(true);
+  const schemas = Social.get(`${inputSchemaSrc}/type/**`, "final");
+  if (schemas !== null) {
+    const schemasList = Object.keys(schemas).map(
+      (key) => `${inputSchemaSrc}/type/${key}`
+    );
+    setAvailableSchemas(schemasList);
+  }
+  setIsLoading(false);
+  // Optionally handle state update using the State object if needed
+  // State.update({ schemaSrc: inputSchemaSrc });
+};
 
 const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
-  State.update({
-    selectedSchema: newSchema,
-  });
-  if (!state.selectedSchema) {
-    console.error("Selected schema is undefined");
-    return;
-  }
+  setSelectedSchema(newSchema);
+  // Update the global state if necessary
+  // State.update({ selectedSchema: newSchema });
 };
 
 const handleSchemaOwnerChange = (e) => {
-  const newSchemaSrc = e.target.value;
-  State.update({
-    schemaSrc: newSchemaSrc,
-  });
-  fetchSchemasList(newSchemaSrc);
+  setInputSchemaSrc(e.target.value);
 };
 
-const renderSchemaSelection = () => {
-  return (
-    <FormContainer>
-      <Label>Schema Owner:</Label>
+const handleApplyClick = () => {
+  setSchemaSrc(inputSchemaSrc);
+  fetchSchemasList();
+};
+
+return (
+  <FormContainer>
+    <Label>Schema Owner:</Label>
+    <Row>
       <Input
         type="text"
-        value={State.schemaSrc}
+        value={inputSchemaSrc}
         onChange={handleSchemaOwnerChange}
       />
-      <Label>Schema:</Label>
-      <Select value={State.selectedSchema} onChange={handleSchemaChange}>
-        {State.schemasList.map((schema) => (
-          <option key={schema} value={schema}>
-            {schema}
-          </option>
-        ))}
-      </Select>
-    </FormContainer>
-  );
-};
-
-return { renderSchemaSelection };
+      <Button onClick={handleApplyClick}>apply</Button>
+    </Row>
+    <Label>Schema:</Label>
+    <Row>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Select value={selectedSchema} onChange={handleSchemaChange}>
+          <option value="">Choose a schema</option>
+          {availableSchemas.map((schema) => (
+            <option key={schema} value={schema}>
+              {schema}
+            </option>
+          ))}
+        </Select>
+      )}
+    </Row>
+  </FormContainer>
+);
