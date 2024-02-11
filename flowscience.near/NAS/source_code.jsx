@@ -2,11 +2,11 @@ const data = props.data || {};
 const type = props.type || "";
 const attestationType = "hyperfiles.near/type/attestation";
 const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema ?? ""
+  props.selectedSchema ?? "attestations.near/type/isTrue"
 );
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
-const schemaSrc = props.schemaSrc || "attestations.near";
+const schemaSrc = props.schemaSrc ?? "attestations.near";
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
@@ -121,7 +121,7 @@ State.init({
   typeSrc,
   schemaSrc,
   selectedType: type,
-  selectedSchema: selectedSchema,
+  selectedSchema: state.selectedSchema,
   view: defaultView,
   preview: "TEMPLATE",
   template,
@@ -155,7 +155,6 @@ return (
             src="flowscience.near/widget/SchemaSelector"
             onSchemaChange={setSelectedSchema}
             onSchemaSrcChange={setSchemaSrc}
-            selectedSchema={selectedSchema}
             onSelectedSchemaChange={handleSelectedSchemaChange}
           />
           <FormContainer>
@@ -164,7 +163,7 @@ return (
               props={{
                 item: {
                   value: state.data,
-                  selectedSchema: { selectedSchema },
+                  selectedSchema: selectedSchema,
                 },
                 onChange: handleOnChange,
               }}
