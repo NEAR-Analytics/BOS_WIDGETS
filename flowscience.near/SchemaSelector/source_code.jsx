@@ -23,9 +23,6 @@ const Input = styled.input`
 const [selectedSchema, setSelectedSchema] = useState(
   props.selectedSchema || "attestations.near/type/isTrue"
 );
-const [inputSchemaSrc, setInputSchemaSrc] = useState(
-  props.schemaSrc || "attestations.near"
-);
 const [schemaSrc, setSchemaSrc] = useState(
   props.schemaSrc || "attestations.near"
 );
@@ -34,16 +31,16 @@ const [isLoading, setIsLoading] = useState(false);
 
 const fetchSchemasList = () => {
   setIsLoading(true);
-  const schemas = Social.get(`${inputSchemaSrc}/type/**`, "final");
+  const schemas = Social.get(`${schemaSrc}/type/**`, "final");
   if (schemas !== null) {
     const schemasList = Object.keys(schemas).map(
-      (key) => `${inputSchemaSrc}/type/${key}`
+      (key) => `${schemaSrc}/type/${key}`
     );
     setAvailableSchemas(schemasList);
   }
   setIsLoading(false);
   // Optionally handle state update using the State object if needed
-  // State.update({ schemaSrc: inputSchemaSrc });
+  // State.update({ schemaSrc: schemaSrc });
 };
 
 const handleSchemaChange = (e) => {
@@ -54,11 +51,11 @@ const handleSchemaChange = (e) => {
 };
 
 const handleSchemaOwnerChange = (e) => {
-  setInputSchemaSrc(e.target.value);
+  setschemaSrc(e.target.value);
 };
 
 const handleApplyClick = () => {
-  setSchemaSrc(inputSchemaSrc);
+  setSchemaSrc(schemaSrc);
   fetchSchemasList();
 };
 
@@ -66,11 +63,7 @@ return (
   <FormContainer>
     <Label>Schema Owner:</Label>
     <Row>
-      <Input
-        type="text"
-        value={inputSchemaSrc}
-        onChange={handleSchemaOwnerChange}
-      />
+      <Input type="text" value={schemaSrc} onChange={handleSchemaOwnerChange} />
       <Button onClick={handleApplyClick}>apply</Button>
     </Row>
     <Label>Schema:</Label>
