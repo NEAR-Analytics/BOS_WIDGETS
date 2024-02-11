@@ -25,6 +25,52 @@ return (daoId, proposalId, factoryId) => {
         limit: limit,
       });
     },
+    // reverse: boolean, resPerPage: number, status:string, offset: number
+    getFilteredProposalsByStatus: ({ resPerPage, reverse, status, offset }) => {
+      let newLastProposalId = offset ?? 0;
+      let filteredProposals = [];
+      if (reverse && !offset) {
+        newLastProposalId = DaoSDK.getLastProposalId();
+      }
+      while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
+        const proposals = DaoSDK.getProposals({
+          offset: newLastProposalId,
+          limit: 200,
+        });
+
+        filteredProposals = proposals.filter((item) => item.status === status);
+
+        newLastProposalId -= resPerPage;
+      }
+
+      return filteredProposals.slice(0, resPerPage);
+    },
+    // reverse: boolean, resPerPage: number, kind:string, offset: number
+    getFilteredProposalsByKind: ({ resPerPage, reverse, kind, offset }) => {
+      let newLastProposalId = offset ?? 0;
+      let filteredProposals = [];
+      if (reverse && !offset) {
+        newLastProposalId = DaoSDK.getLastProposalId();
+      }
+      while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
+        const proposals = DaoSDK.getProposals({
+          offset: newLastProposalId,
+          limit: 200,
+        });
+
+        filteredProposals = proposals.filter((item) => {
+          if (typeof kind === "string") {
+            return item.kind === kind;
+          } else {
+            return Object.keys(item.kind)[0] === kind;
+          }
+        });
+
+        newLastProposalId -= resPerPage;
+      }
+
+      return filteredProposals.slice(0, resPerPage);
+    },
 
     // ROLES + PERMISSIONS + PROPOSALS
     // returns array of members for a particular groupId
@@ -40,7 +86,7 @@ return (daoId, proposalId, factoryId) => {
         : [];
     },
     // return [{ members:{},permissions:{},name:"" }]
-    getGroupsAndMembers: ({ groupId }) => {
+    getGroupsAndMembers: () => {
       const policy = DaoSDK.getPolicy(daoId);
       const data = [];
       if (Array.isArray(policy.roles)) {
@@ -216,12 +262,16 @@ return (daoId, proposalId, factoryId) => {
 
     // UTILS
     call: ({ methodName, args, deposit, gas, additionalCalls }) => {
+      const policy = DaoSDK.getPolicy();
+      const minDeposit = Big(policy?.proposal_bond);
+      // make sure that the deposit is more/equal than bond amount
+      const finalDeposit = Big(deposit).gt(minDeposit) ? deposit : minDeposit;
       const calls = [
         {
           contractName: daoId,
           methodName,
           args,
-          deposit: deposit,
+          deposit: finalDeposit,
           gas: gas,
         },
       ];
@@ -269,22 +319,12 @@ return (daoId, proposalId, factoryId) => {
 
     // PROPOSALS
     addProposal: ({ proposal, deposit, gas, additionalCalls }) => {
-      const policy = DaoSDK.getPolicy();
-      if (!policy) {
-        return;
-      }
-      const minDeposit = Big(policy?.proposal_bond);
-      // make sure that the deposit is more/equal than bond amount
-      const finalDeposit = Big(deposit).gt(minDeposit)
-        ? Big(deposit)
-        : minDeposit;
-
       return DaoSDK.call({
         methodName: "add_proposal",
         args: {
           proposal: proposal,
         },
-        deposit: finalDeposit.toString(),
+        deposit,
         gas,
         additionalCalls,
       });
@@ -308,7 +348,6 @@ return (daoId, proposalId, factoryId) => {
       if (Array.isArray(additionalCalls)) {
         calls = calls.concat(additionalCalls);
       }
-      console.log(calls);
       return Near.call(calls);
     },
 
