@@ -35,6 +35,7 @@ return (
     <div className="container text-center">
       <img
         className="rounded mx-auto d-block img-fluid"
+        style={{ maxWidth: "500px" }}
         src={`https://ipfs.near.social/ipfs/${dropInfo.img}`}
         alt="uploaded"
       />
