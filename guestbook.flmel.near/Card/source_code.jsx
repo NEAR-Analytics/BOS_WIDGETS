@@ -1,11 +1,9 @@
-const { message, latest } = props;
+const { message } = props;
 const availableColors = ['red', 'orange', 'lime', 'green', 'teal', 'cyan', 'violet', 'indigo', 'fuchsia', 'pink', 'rose', 'blue', 'sky'];
-
-const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)];
 
 return <>
   <div
-    class={`bg-${randomColor}-200 border-2 border-slate-800 p-4 rounded-3xl mb-4 flex-1 ${message.premium ? 'font-bold' : ''} break-inside-avoid-column`}>
+    class="bg-indigo-200 border-2 border-slate-800 p-4 rounded-3xl mb-4 flex-1 font-bold break-inside-avoid-column">
     <div class="py-2 px-4 rounded-xl bg-white py-4 ">
       <svg width="38px" height="38px" viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -16,13 +14,10 @@ return <>
           fill="currentColor" />
       </svg>
 
-      {latest &&
-        <div class="h-20"></div>
-      }
-      <div>
+      <blockquote>
         <p class="text-xl">{message.text}</p>
         <div class="h-2 w-20 bg-slate-700 my-4"></div>
-        <div class="text-lg flex justify-between items-center">
+        <footer class="text-lg flex justify-between items-center">
           <a href={`https://testnet.nearblocks.io/address/${message.sender}`}>{message.sender}</a>
           {/* message is premium */}
           {message.premium &&
@@ -34,8 +29,8 @@ return <>
               </svg>
             </span>
           }
-        </div>
-      </div>
+        </footer>
+      </blockquote>
     </div>
   </div>
 </>
