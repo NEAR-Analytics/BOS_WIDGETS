@@ -202,6 +202,10 @@ return (
       />
       <h4 className="mt-0 mb-0 text-truncate">{name}</h4>
     </uiKitComponents.profileTab>
+    <uiKitComponents.button onClick={() => alert("Test")}>
+      Test
+    </uiKitComponents.button>
+
     <uiKitComponents.body>
       <uiKitComponents.navigationBar>
         <uiKitComponents.button onClick={routesNavigator.studentsPage}>
