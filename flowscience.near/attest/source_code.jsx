@@ -239,7 +239,7 @@ useEffect(() => {
 return (
   <Container>
     <h4>Attest</h4>
-    {renderDynamicInputs()}
+    {selectedSchema ? renderDynamicInputs() : "Select a schema."}
     <hr></hr>
     <h4>Metadata</h4>
     <Label>
