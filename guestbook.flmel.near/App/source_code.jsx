@@ -3,9 +3,17 @@ if (context.loading) {
 }
 
 const guestbookExampleContract = "guestbook.flmel.near";
+const messages = Near.view(guestbookExampleContract, "get_messages", {});
+
+if (messages === null) {
+  return "Loading...";
+};
+
+const [latestMessage, ...rest] = messages.reverse();
 
 const [message, setMessage] = useState('');
-const [amount, setAmount] = useState(0);
+const [premium, setPremium] = useState(false);
+const [theme, setTheme] = useState(null)
 
 function handleMessageChange(e) {
   setMessage(e.target.value);
@@ -16,64 +24,72 @@ function handleAmountChange(e) {
 };
 
 function postMessage() {
-  // Near.call(guestbookExampleContract, "add_message", { message });
-}
+  const deposit = premium ? "100000000000000000000000" : "0";
 
-// const messages = Near.view(guestbookExampleContract, "get_messages", {});
-
-let messages = [
-  {
-    premium: false,
-    sender: 'evaluator.flmel.testnet',
-    text: 'Hello from Evaluator'
-  },
-  {
-    premium: true,
-    sender: 'evaluator.flmel.testnet',
-    text: 'Hello from Evaluator'
-  },
-  {
-    premium: false,
-    sender: 'evaluator.flmel.testnet',
-    text: '�B7rⱵEp�K%U)���zFw7XJ�Y�65%G��'
-  },
-  {
-    premium: true,
-    sender: 'evaluator.flmel.testnet',
-    text: '�B7rⱵEp�K%U)���zFw7XJ�Y�65%G��'
-  },
-  {
-    premium: false,
-    sender: 'flmel.testnet',
-    text: 'messagegeeeee non premium'
-  },
-  { premium: true, sender: 'flmel.testnet', text: 'premium' }
-]
+  Near.call(guestbookExampleContract, "add_message", { message }, "300000000000000", deposit);
+};
 
 function addMessage() {
-  const message = "Hello, World!";
-
   Near.call(guestbookExampleContract, "add_message", { message });
+};
+
+// TailwindCSS
+const tailwindCssUrl = "https://dl.dropboxusercontent.com/scl/fi/xwrs3zdjjauf96vqrv8pb/gb-output.css?rlkey=ajjk53tv2lwm2am6xu3242788&dl=0";
+const tailwindCss = fetch(tailwindCssUrl).body;
+
+if (!tailwindCss) return "Loading CSS";
+
+if (!theme) {
+  setTheme(styled.div`${tailwindCss}`)
 }
 
-function Card(props) {
-  const { message } = props;
-  return <>
-    {message.text}
-  </>
-}
+const Theme = theme;
 
 return <>
-  <div>
-    <input onChange={handleChange} value={message} />
-    <button onClick={postMessage}>Add to our GusetBook</button>
-  </div>
+  <Theme>
+    <div class="container mx-auto text-gray-700">
+      <div class="flex space-x-4 mt-8">
+        <Widget
+          src="guestbook.flmel.near/widget/Card"
+          props={{ message: latestMessage, latest: true }}
+          class="w-1/2" />
 
-  {messages.map((message) =>
-    <>
-      {Card({ message })}
-    </>
-  )}
+        <div class="w-1/2">
+          <h1 class="text-8xl font-bold">GuestBook Example</h1>
+          <textarea
+            type="text"
+            value={message}
+            onChange={handleMessageChange}
+            class="border-2 border-slate-800 rounded-xl p-2 w-full mt-4 font-bold text-lg"
+            placeholder="Your review here" />
 
 
+          <div class="flex items-center space-x-4 my-2">
+            <label class="form-check-label font-bold" for="flexCheckDefault">
+              Make Premium
+            </label>
+            <input class="form-check-input border-2 border-slate-800 py-2 px-2" type="checkbox"
+              checked={premium}
+              onClick={() => setPremium(!premium)} />
+          </div>
+
+          <button onClick={postMessage}
+            class="rounded-xl py-2 px-6 bg-slate-800 hover:bg-slate-600 transition text-xl text-gray-100">Add Yours</button>
+        </div>
+      </div>
+
+      <div class="columns-3 break-inside-avoid-column mt-4">
+        {rest.map((message) =>
+          <>
+            <Widget
+              src="guestbook.flmel.near/widget/Card"
+              props={{ message }}
+              class="w-1/3" />
+          </>
+
+        )}
+      </div>
+
+    </div>
+  </Theme>
 </>
