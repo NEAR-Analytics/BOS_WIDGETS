@@ -130,36 +130,9 @@ State.init({
   loading: false,
 });
 
-let availableSchemas = [];
-const schemas = Social.get(`${state.schemaSrc}/type/**`, "final");
-if (schemas !== null) {
-  availableSchemas =
-    Object.keys(schemas)?.map((it) => `${state.schemaSrc}/type/${it}`) || [];
-}
-
-console.log(`Fetching schema for: ${selectedSchema}`);
-const schemaDetails = Social.get(selectedSchema, "final");
-console.log(`Response for ${selectedSchema}:`, schemaDetails);
-
-const handleSchemaChange = (e) => {
-  const newSchema = e.target.value;
-  State.update({
-    selectedSchema: newSchema,
-    data: {},
-  });
-  if (!state.selectedSchema) {
-    console.error("Selected schema is undefined");
-    return;
-  }
-  // Trigger fetching the new schema details here if necessary
-};
-
-const handleSchemaOwnerChange = (e) => {
-  const newSchemaSrc = e.target.value;
-  State.update({
-    schemaSrc: newSchemaSrc,
-  });
-  fetchSchemasList(newSchemaSrc);
+const handleSelectedSchemaChange = (newSelectedSchema) => {
+  setSelectedSchema(newSelectedSchema);
+  // Here you would also handle any other logic that needs to occur when the schema changes
 };
 
 return (
@@ -182,6 +155,8 @@ return (
             src="flowscience.near/widget/SchemaSelector"
             onSchemaChange={setSelectedSchema}
             onSchemaSrcChange={setSchemaSrc}
+            selectedSchema={selectedSchema}
+            onSelectedSchemaChange={handleSelectedSchemaChange}
           />
           <FormContainer>
             <Widget
@@ -189,7 +164,7 @@ return (
               props={{
                 item: {
                   value: state.data,
-                  selectedSchema: state.selectedSchema,
+                  selectedSchema: { selectedSchema },
                 },
                 onChange: handleOnChange,
               }}
