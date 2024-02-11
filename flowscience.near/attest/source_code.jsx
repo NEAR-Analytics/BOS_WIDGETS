@@ -1,5 +1,4 @@
-const selectedSchema =
-  props.item.selectedSchema ?? "attestations.near/type/isTrue";
+const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
 const [schemaFields, setSchemaFields] = useState({});
 const {
   item,
@@ -57,7 +56,7 @@ State.init({
 
 const attestData = {
   attestation: {
-    [props.item.selectedSchema]: JSON.stringify({
+    [selectedSchema]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
         attestor: context.accountId,
