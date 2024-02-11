@@ -25,8 +25,13 @@ return (daoId, proposalId, factoryId) => {
         limit: limit,
       });
     },
-    // reverse: boolean, resPerPage: number, status:string, offset: number
-    getFilteredProposalsByStatus: ({ resPerPage, reverse, status, offset }) => {
+    // reverse: boolean, resPerPage: number, filterStatusArray:Array<string>, offset: number
+    getFilteredProposalsByStatus: ({
+      resPerPage,
+      reverse,
+      filterStatusArray,
+      offset,
+    }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
       if (reverse && !offset) {
@@ -38,15 +43,22 @@ return (daoId, proposalId, factoryId) => {
           limit: 200,
         });
 
-        filteredProposals = proposals.filter((item) => item.status === status);
+        filteredProposals = proposals.filter((item) =>
+          filterStatusArray.includes(item.status)
+        );
 
         newLastProposalId -= resPerPage;
       }
 
       return filteredProposals.slice(0, resPerPage);
     },
-    // reverse: boolean, resPerPage: number, kind:string, offset: number
-    getFilteredProposalsByKind: ({ resPerPage, reverse, kind, offset }) => {
+    // reverse: boolean, resPerPage: number, filterKindArray:Array<string>, offset: number
+    getFilteredProposalsByKind: ({
+      resPerPage,
+      reverse,
+      filterKindArray,
+      offset,
+    }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
       if (reverse && !offset) {
@@ -59,11 +71,9 @@ return (daoId, proposalId, factoryId) => {
         });
 
         filteredProposals = proposals.filter((item) => {
-          if (typeof kind === "string") {
-            return item.kind === kind;
-          } else {
-            return Object.keys(item.kind)[0] === kind;
-          }
+          const kind =
+            typeof kind === "string" ? kind : Object.keys(item.kind)[0];
+          return filterKindArray.includes(kind);
         });
 
         newLastProposalId -= resPerPage;
