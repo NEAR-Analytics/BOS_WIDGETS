@@ -37,19 +37,20 @@ return (daoId, proposalId, factoryId) => {
       if (reverse && !offset) {
         newLastProposalId = DaoSDK.getLastProposalId();
       }
+      console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
           limit: 200,
         });
-
+        console.log("inside proposals", proposals);
         filteredProposals = proposals.filter((item) =>
           filterStatusArray.includes(item.status)
         );
 
         newLastProposalId -= resPerPage;
       }
-
+      console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
     },
     // reverse: boolean, resPerPage: number, filterKindArray:Array<string>, offset: number
@@ -64,12 +65,13 @@ return (daoId, proposalId, factoryId) => {
       if (reverse && !offset) {
         newLastProposalId = DaoSDK.getLastProposalId();
       }
+      console.log("newLastProposalId", newLastProposalId);
       while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
           limit: 200,
         });
-
+        console.log("inside proposals", proposals);
         filteredProposals = proposals.filter((item) => {
           const kind =
             typeof kind === "string" ? kind : Object.keys(item.kind)[0];
@@ -78,7 +80,7 @@ return (daoId, proposalId, factoryId) => {
 
         newLastProposalId -= resPerPage;
       }
-
+      console.log("filteredProposals", filteredProposals);
       return filteredProposals.slice(0, resPerPage);
     },
 
