@@ -51,13 +51,13 @@ State.init({
   expireTime: state.expireTime,
   refUID: state.refUID,
   payload: state.payload,
-  attestData: props.item,
+  attestData: props.data,
   metadata: "",
 });
 
 const attestData = {
   attestation: {
-    [selectedSchema]: JSON.stringify({
+    [props.item.selectedSchema]: JSON.stringify({
       fields: {
         objectUID: state.objectUID,
         attestor: context.accountId,
@@ -177,9 +177,9 @@ const handleInputChange = (propertyName, value) => {
   State.update({ attestData: newAttestData });
 };
 
-const fetchSchema = (schema) => {
+const fetchSchema = (selectedSchema) => {
   // Example fetch logic, adjust based on your API/backend
-  const schemaDetails = Social.get(schema, "final");
+  const schemaDetails = Social.get(selectedSchema, "final");
   if (schemaDetails) {
     try {
       const parsedSchemaDetails = JSON.parse(schemaDetails);
@@ -194,42 +194,6 @@ const fetchSchema = (schema) => {
   }
 };
 
-// Render dynamic inputs based on schemaFields
-const renderDynamicInputs = () => {
-  // Check if the schemaFields have the expected structure and contain field definitions.
-  // For simplicity, let's assume schemaFields directly contain the definitions.
-
-  // Example of handling a known schema structure
-  if (selectedSchema.endsWith("isTrue")) {
-    // Directly render a boolean input for isTrue schema
-    return (
-      <Row>
-        <Label>Is True:</Label>
-        <Select
-          onChange={(e) => handleInputChange("isTrue", e.target.value)}
-          value={item.value["isTrue"] || "false"}
-        >
-          <option value="true">True</option>
-          <option value="false">False</option>
-        </Select>
-      </Row>
-    );
-  } else {
-    // For other schemas, dynamically render inputs based on schemaFields
-    return Object.entries(schemaFields).map(([fieldName, fieldProps]) => (
-      <Row key={fieldName}>
-        <Label>{fieldName}</Label>
-        <DynamicInput
-          type={fieldProps.type}
-          onChange={(e) => handleInputChange(fieldName, e.target.value)}
-          value={item.value[fieldName] || ""}
-          placeholder={fieldProps.placeholder || ""}
-        />
-      </Row>
-    ));
-  }
-};
-
 useEffect(() => {
   if (item.selectedSchema) {
     fetchSchema(item.selectedSchema);
@@ -238,10 +202,6 @@ useEffect(() => {
 
 return (
   <Container>
-    <h4>Attest</h4>
-    {selectedSchema ? renderDynamicInputs() : "Select a schema."}
-    <hr></hr>
-    <h4>Metadata</h4>
     <Label>
       <b>UID:</b> {state.objectUID}
     </Label>
@@ -293,6 +253,20 @@ return (
       onChange={(e) => State.update({ payload: e.target.value })}
       placeholder="# This is markdown text."
     />
+    {Object.keys(schemaFields).map((fieldName) => {
+      const { type, placeholder } = schemaFields[fieldName];
+      return (
+        <Row key={fieldName}>
+          <Label>{fieldName}:</Label>
+          <DynamicInput
+            type={type}
+            onChange={(e) => handleInputChange(fieldName, e.target.value)}
+            value={item.value[fieldName] || ""}
+            placeholder={placeholder}
+          />
+        </Row>
+      );
+    })}
     {createWidgetSrc ? (
       <>
         <Widget src={createWidgetSrc} props={{ onChange }} />
