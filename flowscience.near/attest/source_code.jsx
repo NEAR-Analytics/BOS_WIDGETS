@@ -57,8 +57,7 @@ State.init({
 const attestData = {
   attestation: {
     [selectedSchema]: {
-      fields: {
-        objectUID: generateUID(),
+      [generateUID()]: {
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
