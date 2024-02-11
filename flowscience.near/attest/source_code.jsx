@@ -171,8 +171,14 @@ const handleSchemaChange = (e) => {
 };
 
 const handleInputChange = (propertyName, value) => {
-  const newAttestData = { ...State.attestData, [propertyName]: value };
-  State.update({ attestData: newAttestData });
+  // Update local component state or global State here
+  // For example, using a hypothetical update function:
+  updateAttestationData(propertyName, value);
+
+  // Call props.onChange if it's intended to propagate changes up
+  if (onChange) {
+    onChange({ ...item, [propertyName]: value });
+  }
 };
 
 const fetchSchema = (selectedSchema) => {
@@ -193,10 +199,24 @@ const fetchSchema = (selectedSchema) => {
 };
 
 useEffect(() => {
-  if (item.selectedSchema) {
-    fetchSchema(item.selectedSchema);
-  }
-}, [item.selectedSchema]); // Reacts whenever item.selectedSchema changes
+  const fetchSchemaDetails = async () => {
+    const schemaDetailsRaw = Social.get(`${selectedSchema}`, "final");
+    if (schemaDetailsRaw) {
+      try {
+        const schemaDetails = JSON.parse(schemaDetailsRaw);
+        setSchemaFields(schemaDetails.properties || {});
+      } catch (error) {
+        console.error("Error parsing schema details:", error);
+        setSchemaFields({});
+      }
+    } else {
+      console.log("Schema details not found for:", selectedSchema);
+      setSchemaFields({});
+    }
+  };
+
+  fetchSchemaDetails();
+}, [selectedSchema]);
 
 return (
   <Container>
@@ -251,20 +271,17 @@ return (
       onChange={(e) => State.update({ payload: e.target.value })}
       placeholder="# This is markdown text."
     />
-    {Object.keys(schemaFields).map((fieldName) => {
-      const { type, placeholder } = schemaFields[fieldName];
-      return (
-        <Row key={fieldName}>
-          <Label>{fieldName}:</Label>
-          <DynamicInput
-            type={type}
-            onChange={(e) => handleInputChange(fieldName, e.target.value)}
-            value={item.value[fieldName] || ""}
-            placeholder={placeholder}
-          />
-        </Row>
-      );
-    })}
+    {Object.entries(schemaFields).map(([fieldName, details]) => (
+      <Row key={fieldName}>
+        <Label>{fieldName}:</Label>
+        <DynamicInput
+          type={details.type}
+          onChange={(e) => handleInputChange(fieldName, e.target.value)}
+          value={item.value[fieldName] || ""}
+          placeholder={details.placeholder || fieldName}
+        />
+      </Row>
+    ))}
     {createWidgetSrc ? (
       <>
         <Widget src={createWidgetSrc} props={{ onChange }} />
