@@ -34,6 +34,7 @@ return (daoId, proposalId, factoryId) => {
     }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
+      const limit = 100;
       if (reverse && !offset) {
         newLastProposalId = DaoSDK.getLastProposalId();
       }
@@ -42,16 +43,16 @@ return (daoId, proposalId, factoryId) => {
         console.log("inside newLastProposalId", newLastProposalId);
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
-          limit: 200,
+          limit: limit,
         });
         console.log("inside proposals", proposals);
         filteredProposals = proposals.filter((item) =>
           filterStatusArray.includes(item.status)
         );
         if (reverse) {
-          newLastProposalId -= resPerPage;
+          newLastProposalId -= limit;
         } else {
-          newLastProposalId += resPerPage;
+          newLastProposalId += limit;
         }
       }
       console.log("filteredProposals", filteredProposals);
@@ -66,6 +67,7 @@ return (daoId, proposalId, factoryId) => {
     }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
+      const limit = 100;
       if (reverse && !offset) {
         newLastProposalId = DaoSDK.getLastProposalId();
       }
@@ -74,7 +76,7 @@ return (daoId, proposalId, factoryId) => {
         console.log("inside newLastProposalId", newLastProposalId);
         const proposals = DaoSDK.getProposals({
           offset: newLastProposalId,
-          limit: 200,
+          limit: limit,
         });
         console.log("inside proposals", proposals);
         filteredProposals = proposals.filter((item) => {
@@ -84,9 +86,9 @@ return (daoId, proposalId, factoryId) => {
         });
 
         if (reverse) {
-          newLastProposalId -= resPerPage;
+          newLastProposalId -= limit;
         } else {
-          newLastProposalId += resPerPage;
+          newLastProposalId += limit;
         }
       }
       console.log("filteredProposals", filteredProposals);
