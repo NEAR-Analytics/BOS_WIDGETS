@@ -26,11 +26,7 @@ function handleAmountChange(e) {
 function postMessage() {
   const deposit = premium ? "100000000000000000000000" : "0";
 
-  Near.call(guestbookExampleContract, "add_message", { message }, "300000000000000", deposit);
-};
-
-function addMessage() {
-  Near.call(guestbookExampleContract, "add_message", { message });
+  Near.call(guestbookExampleContract, "add_message", { text: message }, "300000000000000", deposit);
 };
 
 // TailwindCSS
@@ -47,6 +43,14 @@ const Theme = theme;
 
 return <>
   <Theme>
+    {props.transactionHashes !== undefined ?
+      <Widget
+        src="guestbook.flmel.near/widget/Modal"
+        props={{ transactionHashes: props.transactionHashes }}
+      />
+      : <></>
+    }
+
     <div class="container mx-auto text-gray-700">
       <div class="flex space-x-4 mt-8">
         <Widget
