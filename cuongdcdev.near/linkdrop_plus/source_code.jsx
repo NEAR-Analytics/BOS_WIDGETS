@@ -68,7 +68,7 @@ const createDrop = () => {
           public_keys: state.publicKeys,
           deposit_per_use: Near2Yocto(state.amount ?? "0.05"),
         },
-        deposit: Near2Yocto(state.publicKeys.length * state.amount + 0.3),
+        deposit: Near2Yocto(state.publicKeys.length * state.amount + 0.05),
       },
     ]);
   });
