@@ -20,6 +20,13 @@ const LogoIcon = styled.img`
     height: 192px; 
 `;
 
+const Title = styled.h1`
+    fontSize: 36px;
+    color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
+`;
+
 return (
   <Wrapper className="root">
     <LogoIcon
@@ -27,7 +34,7 @@ return (
       decoding="async"
       data-nimg="fill"
     />
-    <h1 style={{ fontSize: 36 }}>Mercury</h1>
+    <Title>Mercury</Title>
     <p style={{ fontSize: 12 }}>Powered by Blocksmith Labs</p>
     <button className="btn btn-primary mt-4" style={{ padding: "6px 24px" }}>
       Login with Discord
