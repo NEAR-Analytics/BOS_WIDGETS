@@ -177,7 +177,11 @@ const NotificationModal = ({ isOpen, onClose }) => {
         <div>
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
-          NEWSLETTER EDITION #146 - 33
+          <b>
+            Black Dragon Token - 652 <br />
+            Black Dragon Token - 531
+          </b>{" "}
+          <br />
         </div>
       </div>
     </div>
@@ -513,7 +517,8 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #146 - 33";
+const nftTitle = "Black Dragon Token - 652";
+const nftTitle2 = "Black Dragon Token - 531";
 
 console.log(nfts[0].metadata.title);
 console.log(nfts);
@@ -522,7 +527,10 @@ const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (nfts[i].metadata.title === nftTitle6) {
+  if (
+    nfts[i].metadata.title === nftTitle ||
+    nfts[i].metadata.title === nftTitle2
+  ) {
     State.update({ nftCheck: true });
     break;
   }
@@ -554,10 +562,10 @@ return (
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>Nearweek Raffle</Title>
+          <Title>El Cartel Raffle</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
-            <Text>Available for 3 winners</Text>
+            <Text>Available for 200 winners</Text>
           </Description>
         </TitleContainer>
         <InstructionWrapper>
@@ -567,7 +575,11 @@ return (
           </InstructionContent>
           <InstructionContent>
             <b>If you have one of the following:</b> <br />
-            NEARWEEK NEWSLETTER EDITION #146 - 33
+            <b>
+              - Black Dragon Token - 652
+              <br /> - Black Dragon Token - 531
+            </b>
+            <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
@@ -577,16 +589,14 @@ return (
             <PrizeIcon>
               <PrizeBtn>
                 <img src={sharDogIcon} />
-                <span>NEARWEEK NEWSLETTER EDITION #146 - 33</span>
+                <span>El Cartel Raffle</span>
               </PrizeBtn>
             </PrizeIcon>
             <PrizeDetail>
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li>1. 10 $NEAR</li>
-              <li>2. T-shirt</li>
-              <li>3. Mystery Box</li>
+              <li>$200 $NEAR</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
