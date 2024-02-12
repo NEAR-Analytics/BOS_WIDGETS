@@ -1,4 +1,4 @@
-function RenderBadges(props) {
+function RenderBadge(props) {
   const children = props.children ?? "Badge";
   const variant = props.variant ?? ""; // primary, secondary, danger, success, info, outline, white, circle, round, black, soft, transparent, openSans
   const size = props.size ?? "md"; // sm, md, lg
@@ -311,4 +311,4 @@ function RenderBadges(props) {
   );
 }
 
-return { RenderBadges };
+return { RenderBadge };
