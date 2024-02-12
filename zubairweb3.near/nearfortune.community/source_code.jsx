@@ -575,8 +575,11 @@ return (
           </InstructionContent>
           <InstructionContent>
             <b>If you have one of the following:</b> <br />
-            Kano is bos jollof - 1<br />
-            Kano is bos jollof - 2<br />
+            <b style={{ color: "purple" }}>
+              Kano is bos jollof - 1<br />
+              Kano is bos jollof - 2
+            </b>
+            <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
