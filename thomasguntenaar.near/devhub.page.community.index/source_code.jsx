@@ -67,6 +67,7 @@ const tabs = [
     view: "thomasguntenaar.near/widget/devhub.entity.community.Discussions",
     params: {
       handle: community.handle,
+      transactionHashes: props.transactionHashes,
     },
   },
   {
