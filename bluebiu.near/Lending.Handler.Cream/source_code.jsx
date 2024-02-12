@@ -63,7 +63,10 @@ const UNITROLLER_ABI = [
 const { update, data, amount, account, onLoad } = props;
 
 useEffect(() => {
-  if (!update || !data.actionText || !data.underlyingToken) return;
+  const isCollateral = data.actionText.includes("Collateral");
+  if (!data.actionText || !data.underlyingToken) return;
+
+  if (!isCollateral && !update) return;
 
   const isETH = data.underlyingToken.isNative;
 
@@ -142,7 +145,7 @@ useEffect(() => {
     }
   }
 
-  if (data.actionText.includes("Collateral")) {
+  if (isCollateral) {
     if (!data.config.lendingPoolAddress || !data.underlyingToken) return;
     const isEnter = data.actionText === "Enable as Collateral";
 
