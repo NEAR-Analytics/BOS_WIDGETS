@@ -45,6 +45,7 @@ const fetchSchemasList = () => {
 
 const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
+  console.log(`New schema selected: ${newSchema}`); // Log the new schema selection
   setSelectedSchema(newSchema);
   // Update the global state if necessary
   if (props.onSelectedSchemaChange) {
@@ -53,10 +54,13 @@ const handleSchemaChange = (e) => {
 };
 
 const handleSchemaOwnerChange = (e) => {
-  setschemaSrc(e.target.value);
+  const newSchemaSrc = e.target.value;
+  console.log(`Schema Owner changed to: ${newSchemaSrc}`); // Log the new Schema Owner
+  setSchemaSrc(newSchemaSrc);
 };
 
 const handleApplyClick = () => {
+  console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
   setSchemaSrc(schemaSrc);
   fetchSchemasList();
 };
