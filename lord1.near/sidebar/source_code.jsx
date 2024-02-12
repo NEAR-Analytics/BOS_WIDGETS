@@ -29,6 +29,7 @@ const SideBarBody = styled.div`
 visibility : ${state.showFullSide ? "visible" : "hidden"};
 opacity : ${state.showFullSide ? "1" : "0"};
 position:absolute;
+min-height : 80vh;
 background: ${props.backgroundColor};
 display: flex;
 z-index:1;
