@@ -188,17 +188,16 @@ const getAllowance = () => {
   });
 };
 
-if (inputCurrency.address !== "native") {
+if (!inputCurrency.isNative) {
   getAllowance();
 } else {
   State.update({ isApproved: true });
 }
 
 const wrapType =
-  inputCurrency.address === "native" && outputCurrency.address === wethAddress
+  inputCurrency.isNative && outputCurrency.address === wethAddress
     ? 1
-    : inputCurrency.address === wethAddress &&
-      outputCurrency.address === "native"
+    : inputCurrency.address === wethAddress && outputCurrency.isNative
     ? 2
     : 0;
 
