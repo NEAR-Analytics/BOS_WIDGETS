@@ -47,7 +47,9 @@ const handleSchemaChange = (e) => {
   const newSchema = e.target.value;
   setSelectedSchema(newSchema);
   // Update the global state if necessary
-  props.onSelectedSchemaChange(newSchema);
+  if (props.onSelectedSchemaChange) {
+    props.onSelectedSchemaChange(newSchema);
+  }
 };
 
 const handleSchemaOwnerChange = (e) => {
