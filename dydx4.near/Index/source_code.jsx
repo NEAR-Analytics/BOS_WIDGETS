@@ -72,6 +72,10 @@ ${css}
   }
 }
 
+.component, .orders-log {
+    border-color: rgb(74, 74, 99)!important;
+    border-image: none!important;
+}
 
 .order-tabs ul {
      position: relative;
