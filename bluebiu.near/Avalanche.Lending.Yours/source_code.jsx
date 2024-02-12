@@ -170,7 +170,7 @@ useEffect(() => {
   if (markets) {
     formatData();
   }
-}, []);
+}, [markets, currentDapp]);
 
 return (
   <>
