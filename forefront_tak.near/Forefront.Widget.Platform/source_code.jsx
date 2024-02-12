@@ -441,7 +441,7 @@ return (
         }}
       />
     </div>
-    <div className=" flex-grow-1  px-2">
+    <div style={{ minWidth: "80%" }} className=" flex-grow-1  px-2">
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
