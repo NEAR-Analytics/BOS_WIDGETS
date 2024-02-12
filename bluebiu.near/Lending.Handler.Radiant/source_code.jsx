@@ -318,7 +318,10 @@ const wethGateWayAbi = [
 const { update, data, amount, account, onLoad } = props;
 
 useEffect(() => {
-  if (!update || !data.actionText || !data.underlyingToken) return;
+  const isCollateral = data.actionText.includes("Collateral");
+  if (!data.actionText || !data.underlyingToken) return;
+
+  if (!isCollateral && !update) return;
 
   let params = [];
 
@@ -326,10 +329,9 @@ useEffect(() => {
 
   let contract = null;
 
-  const isETH = data.underlyingToken.address === "native";
+  const isETH = data.underlyingToken.isNative;
 
   let options = {};
-
   if (["Deposit", "Repay", "Withdraw", "Borrow"].includes(data.actionText)) {
     if (
       !amount ||
@@ -390,7 +392,7 @@ useEffect(() => {
       Ethers.provider().getSigner()
     );
   }
-  if (data.actionText.includes("Collateral")) {
+  if (isCollateral) {
     if (!data.config.lendingPoolAddress || !data.underlyingToken) return;
     const isEnter = data.actionText === "Enable as Collateral";
     contract = new ethers.Contract(
@@ -403,7 +405,6 @@ useEffect(() => {
 
     params = [data.underlyingToken.address, isEnter];
   }
-
   if (!contract) return;
   console.log("HANDLER: ", contract, method, params, options, isETH);
 
