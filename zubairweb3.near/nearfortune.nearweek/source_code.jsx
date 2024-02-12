@@ -513,16 +513,15 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #146 - 33";
+const nftTitle = "NEARWEEK NEWSLETTER EDITION #146 - 33";
 
 console.log(nfts[0].metadata.title);
 console.log(nfts);
 
-const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (nfts[i].metadata.title === nftTitle6) {
+  if (nfts[i].metadata.title === nftTitle) {
     State.update({ nftCheck: true });
     break;
   }
