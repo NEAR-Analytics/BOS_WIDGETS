@@ -17,7 +17,7 @@ const [formValues, setFormValues] = useState({
   payload: props.payload || "",
 });
 const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema ?? "attestations.near/type/isTrue"
+  props.selectedSchema || "attestations.near/type/isTrue"
 );
 const [schemaFields, setSchemaFields] = useState({});
 const {
@@ -198,9 +198,9 @@ const handleInputChange = (fieldName, newValue) => {
   }));
 };
 
-const fetchSchema = (selectedSchema) => {
+const fetchSchema = (schema) => {
   // Example fetch logic, adjust based on your API/backend
-  const schemaDetails = Social.get(selectedSchema, "final");
+  const schemaDetails = Social.get(schema, "final");
   if (schemaDetails) {
     try {
       const parsedSchemaDetails = JSON.parse(schemaDetails);
