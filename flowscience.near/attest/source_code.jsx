@@ -172,8 +172,8 @@ const handleSave = () => {
     attestation: {
       [selectedSchema]: {
         // Generate a UID for the attestation if necessary or use an existing one
-        [formValues.objectUID || state.objectUID]: {
-          ...formValues, // Spread the formValues into the attestation data
+        [state.objectUID]: {
+          ...formValues,
           attestor: context.accountId,
         },
       },
@@ -202,11 +202,11 @@ const handleSchemaChange = (e) => {
 };
 
 const handleInputChange = (propertyName, value) => {
-  // Update the local state
-  setFormValues((prev) => ({ ...prev, [propertyName]: value }));
-
-  // Update the global state
-  State.update({ [propertyName]: value });
+  // Update the local state with the new value for the given property
+  setFormValues((prev) => ({
+    ...prev,
+    [propertyName]: value,
+  }));
 };
 
 const fetchSchema = (selectedSchema) => {
@@ -259,8 +259,8 @@ return (
     </Label>
     <Input
       type="text"
-      value={recipientId}
-      onChange={(e) => State.update({ recipientId: e.target.value })}
+      value={formValues.recipientId}
+      onChange={(e) => handleInputChange("recipientId", e.target.value)}
       placeholder="recipient.near"
     />
     <Label>
@@ -268,8 +268,8 @@ return (
     </Label>
     <Input
       type="date"
-      value={expireDate}
-      onChange={(e) => State.update({ expireDate: e.target.value })}
+      value={formValues.expireDate}
+      onChange={(e) => handleInputChange("expireDate", e.target.value)}
       placeholder=""
     />
     <Label>
@@ -277,8 +277,8 @@ return (
     </Label>
     <Input
       type="time"
-      value={expireTime}
-      onChange={(e) => State.update({ expireTime: e.target.value })}
+      value={formValues.expireTime}
+      onChange={(e) => handleInputChange("expireTime", e.target.value)}
       placeholder=""
     />
     <Label>
@@ -286,8 +286,8 @@ return (
     </Label>
     <Input
       type="text"
-      value={refUID}
-      onChange={(e) => State.update({ refUID: e.target.value })}
+      value={formValues.refUID}
+      onChange={(e) => handleInputChange("refUID", e.target.value)}
       placeholder="attestations.near/thing/0123456789123456"
     />
     <Label>
@@ -295,8 +295,8 @@ return (
     </Label>
     <Input
       type="text"
-      value={payload}
-      onChange={(e) => State.update({ payload: e.target.value })}
+      value={formValues.payload}
+      onChange={(e) => handleInputChange("payload", e.target.value)}
       placeholder="# This is markdown text."
     />
     {Object.entries(schemaFields).map(([fieldName, details]) => (
@@ -331,7 +331,7 @@ return (
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
-        value: attestData,
+        value: formValues,
       }}
     />
   </Container>
