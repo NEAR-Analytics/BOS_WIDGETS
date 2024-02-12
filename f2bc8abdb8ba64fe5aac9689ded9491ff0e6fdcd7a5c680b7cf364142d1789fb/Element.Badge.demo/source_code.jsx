@@ -3,7 +3,16 @@ const { RenderBadges } = VM.require(
 );
 
 const sizes = ["sm", "md", "lg"];
-const variants = ["info"];
+const variants = [
+  "primary",
+  "secondary",
+  "danger",
+  "success",
+  "info",
+  "white",
+  "black",
+  "disabled",
+];
 
 return (
   <div className="d-flex flex-column gap-4 py-4">
@@ -14,15 +23,15 @@ return (
             {RenderBadges({
               children: (
                 <>
-                  <i className="bi bi-hand-thumbs-up" />
                   <span>4 {variant}</span>
                 </>
               ),
-              variant: "info soft openSans cursorPointer",
+              variant: `${variant} openSans cursorPointer`,
               size,
               onClick: () => {
                 console.log("Click");
               },
+              icon: "bi-hand-thumbs-up",
             })}
           </div>
         ))}
