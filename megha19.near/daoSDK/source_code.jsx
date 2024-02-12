@@ -156,11 +156,9 @@ return (daoId, proposalId, factoryId) => {
       }
       return Promise.all(promiseArray).then((res) => {
         const proposals = [].concat(...res);
-        filteredProposals = proposals.filter((item) => {
-          if (filterKindArray.length > 0) {
-            filterStatusArray.includes(item.status);
-          }
-        });
+        filteredProposals = proposals.filter((item) =>
+          filterFunction(item, filterStatusArray, filterKindArray)
+        );
         const newArray = filteredProposals.slice(0, resPerPage);
         if (reverse) {
           newArray.reverse();
