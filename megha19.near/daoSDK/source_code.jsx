@@ -49,11 +49,15 @@ return (daoId, proposalId, factoryId) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
       const limit = 30;
+      const lastProposalId = DaoSDK.getLastProposalId();
       if (reverse && !offset) {
-        newLastProposalId = sdk.getLastProposalId();
+        newLastProposalId = lastProposalId;
       }
       const promiseArray = [];
-      while (newLastProposalId > 0) {
+      while (
+        (reverse && newLastProposalId > 0) ||
+        (!reverse && newLastProposalId < lastProposalId)
+      ) {
         promiseArray.push(
           Near.asyncView(daoId, "get_proposals", {
             from_index:
@@ -91,11 +95,15 @@ return (daoId, proposalId, factoryId) => {
     }) => {
       let newLastProposalId = offset ?? 0;
       const limit = 30;
+      const lastProposalId = DaoSDK.getLastProposalId();
       if (reverse && !offset) {
-        newLastProposalId = sdk.getLastProposalId();
+        newLastProposalId = lastProposalId;
       }
       const promiseArray = [];
-      while (newLastProposalId > 0) {
+      while (
+        (reverse && newLastProposalId > 0) ||
+        (!reverse && newLastProposalId < lastProposalId)
+      ) {
         promiseArray.push(
           Near.asyncView(daoId, "get_proposals", {
             from_index:
@@ -135,12 +143,16 @@ return (daoId, proposalId, factoryId) => {
     }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
+      const lastProposalId = DaoSDK.getLastProposalId();
       const limit = 30;
       if (reverse && !offset) {
-        newLastProposalId = sdk.getLastProposalId();
+        newLastProposalId = lastProposalId;
       }
       const promiseArray = [];
-      while (newLastProposalId > 0) {
+      while (
+        (reverse && newLastProposalId > 0) ||
+        (!reverse && newLastProposalId < lastProposalId)
+      ) {
         promiseArray.push(
           Near.asyncView(daoId, "get_proposals", {
             from_index:
