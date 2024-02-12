@@ -159,7 +159,7 @@ const checkApproval = (token0Amount, token1Amount) => {
     .catch((e) => console.log(e));
 
   const token1Contract = new ethers.Contract(
-    addresses[token0.symbol],
+    addresses[token1.symbol],
     abi,
     Ethers.provider()
   );
@@ -175,7 +175,8 @@ const checkApproval = (token0Amount, token1Amount) => {
 };
 
 const handleTokenChange = (amount, symbol) => {
-  symbol === token0.symbol ? setAmount0(amount) : setAmount1(amount)
+  (symbol === token0.symbol) ? setAmount0(amount) : setAmount1(amount)
+
 
   if (Number(amount) === 0) {
     symbol === token0.symbol ? setAmount1("") : setAmount0("")
@@ -191,14 +192,13 @@ const handleTokenChange = (amount, symbol) => {
     loadingMsg: "Computing deposit amount..."
   })
 
-  const decimals = symbol === token0.symbol ? token0.decimals : token1.decimals
+  const decimals = (symbol === token0.symbol ? token0.decimals : token1.decimals)
   const otherDecimals = symbol === token0.symbol ? token1.decimals : token0.decimals
 
   const tokenWei = ethers.utils.parseUnits(
     Big(amount).toFixed(decimals),
     decimals
   );
-
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
   ];
@@ -357,12 +357,13 @@ const handleDeposit = () => {
       });
     });
 };
-if (amount0 === '0.01' && amount1 === '') {
-  handleTokenChange('0.01', token0.symbol)
-}
 onLoad({
   onTokenChange: handleTokenChange
 })
+
+if (amount0 === '0.01' && amount1 === '') {
+  sender && handleTokenChange('0.01', token0.symbol)
+}
 return (
   <StyledButtonList>
     {isInSufficient && <StyledButton disabled>InSufficient Balance</StyledButton>}
