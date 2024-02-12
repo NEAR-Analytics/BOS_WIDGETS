@@ -217,7 +217,6 @@ useEffect(() => {
           formatedData('getTotalApr')
         },
         error => {
-          // console.log('=====error', error)
           setTimeout(() => {
             getTotalApr()
           }, 500)
