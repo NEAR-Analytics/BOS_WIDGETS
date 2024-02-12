@@ -5,7 +5,11 @@ return (
     >
       Click me synchronous
     </button>
-    <button onClick={() => VM.asyncRequire("sdks.near/widget/Utils.CryptoJS")}>
+    <button
+      onClick={() =>
+        console.log(VM.asyncRequire("sdks.near/widget/Utils.CryptoJS"))
+      }
+    >
       Click me asynchronous
     </button>
   </>
