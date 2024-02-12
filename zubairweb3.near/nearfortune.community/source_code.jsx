@@ -178,8 +178,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
           <b>
-            Kano is bos jollop - 1<br />
-            Kano is bos jollop - 2
+            Kano is bos jollof - 1<br />
+            Kano is bos jollof - 2
           </b>
           <br />
         </div>
