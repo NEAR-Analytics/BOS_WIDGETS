@@ -112,53 +112,53 @@ const [template, setTemplate] = useState("What did you have in mind?");
 
 return (
   <div
+    className="d-flex"
     style={{
       background: themeColor?.page_bg,
     }}
   >
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
-          headerText: "Forefront",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../forefront_tak.near/widget/Forefront.Home",
-              title: "Homepage",
+    <Widget
+      src="lord1.near/widget/sidebar"
+      props={{
+        headerIcon:
+          "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
+        headerText: "Forefront",
+        footerIcon:
+          "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
+        footerText: "",
+        headerLink: "test",
+        footerLink: "test",
+        links: [
+          {
+            text: "Home",
+            link: "../../forefront_tak.near/widget/Forefront.Home",
+            title: "Homepage",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Discover",
-              link: "../../forefront_tak.near/widget/Forefront.Discover",
-              title: "Dashboards",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Feed",
-              link: "../../forefront_tak.near/widget/Forefront.Feed",
-              title: "Feed",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
+          },
+          {
+            text: "Discover",
+            link: "../../forefront_tak.near/widget/Forefront.Discover",
+            title: "Dashboards",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
+          },
+          {
+            text: "Feed",
+            link: "../../forefront_tak.near/widget/Forefront.Feed",
+            title: "Feed",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-          ],
-          backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-          textcolor: "#fff",
-        }}
-      />
-    </div>
-    <div style={{ marginLeft: "6rem" }}>
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+          },
+        ],
+        backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
+        textcolor: "#fff",
+        className: "align-self-start",
+      }}
+    />
+    <div style={{ minWidth: "80%" }} className=" flex-grow-1  px-2">
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
@@ -169,19 +169,26 @@ return (
           marginBottom: "1rem",
         }}
       >
-        <Widget
-          src="efiz.near/widget/marquee"
-          props={{
-            text: "Welcome to Forefront Tak",
-            fontFamily: "Arial",
-            fontSize: "20px",
-            backgroundColor: themeColor?.header_bg,
-            height: "30px",
-            width: "100%",
-            textColor: themeColor?.horizen_bg,
+        <div className="flex-grow-1">
+          <Widget
+            src="efiz.near/widget/marquee"
+            props={{
+              text: "Welcome to Forefront Tak",
+              fontFamily: "Arial",
+              fontSize: "20px",
+              backgroundColor: themeColor?.header_bg,
+              height: "30px",
+              width: "100%",
+              textColor: themeColor?.horizen_bg,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flexBasis: "30px",
           }}
-        />
-        <div onClick={handelLight}>
+          onClick={handelLight}
+        >
           <Widget
             src="lord1.near/widget/dark-light"
             props={{
