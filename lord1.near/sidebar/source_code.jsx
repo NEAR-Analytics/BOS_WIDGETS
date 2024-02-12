@@ -1,5 +1,6 @@
 const styles = props.styles || {};
 const bootstrapClassName = props.className || "";
+const activeSidebarIcon = props.activeIcon || "";
 State.init({
   wichPage: 0,
   showFullSide: false,
@@ -160,7 +161,7 @@ return (
         {props.links.map((data, index) => {
           return (
             <>
-              {state.wichPage === index ? (
+              {data.text === activeSidebarIcon ? (
                 <X>
                   <SidebarItem onClick={() => pageHandler(0)}>
                     <a href={data.link}>
