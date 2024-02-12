@@ -566,7 +566,9 @@ return (
           </InstructionContent>
           <InstructionContent>
             <b>If you have one of the following:</b> <br />
-            NEARWEEK NEWSLETTER EDITION #146 - 33
+            <b style={{ color: "purple" }}>
+              NEARWEEK NEWSLETTER EDITION #146 - 33
+            </b>
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
