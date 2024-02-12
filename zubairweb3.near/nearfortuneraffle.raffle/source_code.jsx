@@ -177,9 +177,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
         <div>
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
-          <b>
-            Sharddog - 155 <br />
-          </b>
+          - ShardDog - 1555 <br />- NEARWEEK
         </div>
       </div>
     </div>
@@ -472,7 +470,7 @@ const sendData = () => {
     },
     body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
       fullname
-    )}&category=sharddog`,
+    )}`,
   })
     .then((response) => {
       console.log(response.body.status);
@@ -495,15 +493,6 @@ const sendData = () => {
           console.log("Email already exists...");
           console.log(response.body.message + "test");
           console.log(errorMessage);
-        } else if (
-          response.body.status === "error" &&
-          response.body.message ===
-            "Reached maximum number of participants, try another raffle."
-        ) {
-          setErrorMessage(
-            "Reached maximum number of participants, try another raffle."
-          );
-          setSuccessMessage("");
         } else {
           setErrorMessage("Failed to submit data, try again");
           console.log("Failed to submit data, try again");
@@ -526,7 +515,9 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
 
 const nftTitle = "ShardDog - 1555";
 
-const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
+console.log(nfts[0].metadata.title);
+console.log(nfts);
+
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
@@ -562,7 +553,7 @@ return (
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>Sharddog Raffle</Title>
+          <Title>ShardDog - 1555</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
             <Text>Available for 200 winners</Text>
@@ -574,9 +565,8 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            <b>If you have one of the following NFT:</b> <br />
-            <b style={{ color: "purple" }}>- Sharddog 155</b>
-            <br />
+            <b>If you have one of the following:</b> <br />
+            <b style={{ color: "purple" }}>- ShardDog - 1555</b> <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
@@ -586,7 +576,7 @@ return (
             <PrizeIcon>
               <PrizeBtn>
                 <img src={sharDogIcon} />
-                <span>Sharddog Raffle</span>
+                <span>ShardDog - 1555 </span>
               </PrizeBtn>
             </PrizeIcon>
             <PrizeDetail>
