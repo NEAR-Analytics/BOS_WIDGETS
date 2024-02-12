@@ -557,7 +557,7 @@ return (
           <Title>Nearweek Raffle</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
-            <Text>Available for 3 winners</Text>
+            <Text>Available for 200 winners</Text>
           </Description>
         </TitleContainer>
         <InstructionWrapper>
@@ -584,9 +584,7 @@ return (
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li>1. 10 $NEAR</li>
-              <li>2. T-shirt</li>
-              <li>3. Mystery Box</li>
+              <li>$200 $NEAR</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
