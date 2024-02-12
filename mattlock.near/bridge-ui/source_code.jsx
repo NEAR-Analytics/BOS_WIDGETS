@@ -281,7 +281,7 @@ const renderTxLink = (tx, isL1) => {
 };
 
 const renderTx = (tx, i, isL1) => {
-  const { transactionHash: h, finalized, isEth } = tx;
+  const { transactionHash: h, isEth } = tx;
   return (
     <>
       <p style={{ textAlign: "left" }}>
@@ -290,8 +290,6 @@ const renderTx = (tx, i, isL1) => {
         {withdrawalActions.map(
           ({ labelComplete, completeKey, actionLabel, action }) => {
             const isComplete = tx[completeKey];
-
-            console.log("isComplete", isComplete);
 
             if (typeof isComplete !== "boolean") return <></>;
             return (
