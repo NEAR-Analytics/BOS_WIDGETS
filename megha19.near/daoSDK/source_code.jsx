@@ -157,7 +157,7 @@ return (daoId, proposalId, factoryId) => {
           Near.asyncView(daoId, "get_proposals", {
             from_index:
               newLastProposalId - limit > 0 ? newLastProposalId - limit : limit,
-            limit: limit,
+            limit: newLastProposalId - limit > 0 ? limit : 0,
           })
         );
         if (reverse) {
