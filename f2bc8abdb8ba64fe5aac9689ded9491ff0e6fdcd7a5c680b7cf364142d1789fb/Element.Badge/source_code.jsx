@@ -5,6 +5,7 @@ function RenderBadges(props) {
   const className = props.className ?? "";
   const as = props.as ?? "span";
   const onClickFunction = props.onClick ?? (() => {});
+  const icon = props.icon;
   const otherProps = props.otherProps ?? {};
 
   const Wrapper = styled[as]`
@@ -58,6 +59,12 @@ function RenderBadges(props) {
     background: #ffd50d;
     border-color: #ffd50d;
 
+    ${
+      onClickFunction
+        ? "&:hover {color: white !important; background: #dab70f !important;}"
+        : ""
+    }
+
     &.outline {
       background: #ffd50d10;
       color: #dab70f;
@@ -81,6 +88,12 @@ function RenderBadges(props) {
     color: #fff;
     background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
     border-color: transparent;
+    
+    ${
+      onClickFunction
+        ? "&:hover {color: white !important; background: #9333ea !important;}"
+        : ""
+    }
 
     &.outline {
       background: #9333ea10;
@@ -106,6 +119,12 @@ function RenderBadges(props) {
     background: #e5484d;
     color: #fff;
 
+    ${
+      onClickFunction
+        ? "&:hover {color: white !important; background: red !important;}"
+        : ""
+    }
+
     &.outline {
       background: #e5484d10;
       color: #e5484d;
@@ -129,6 +148,12 @@ function RenderBadges(props) {
     background: #82e299;
     color: #11181c;
     border-color: #82e299;
+
+    ${
+      onClickFunction
+        ? "&:hover {color: white !important; background: #82e299 !important;}"
+        : ""
+    }
 
     &.outline {
       background: #82e29910;
@@ -154,6 +179,12 @@ function RenderBadges(props) {
     color: #fff;
     border-color: #4498e0;
 
+    ${
+      onClickFunction
+        ? "&:hover {color: white !important; background: #0d6efd !important;}"
+        : ""
+    }
+
     &.outline {
       background: #4498e010;
       color: #4498e0;
@@ -161,8 +192,8 @@ function RenderBadges(props) {
     }
 
     &.soft {
-      background: #4498e010;
-      color: #4498e0;
+      background: #EDF5FC;
+      color: #4498E0;
       border-color: transparent !important;
     }
 
@@ -177,6 +208,12 @@ function RenderBadges(props) {
     background: #fff;
     color: #11181c;
     border-color: #fff;
+
+    ${
+      onClickFunction
+        ? "&:hover {color: black !important; background: #efefef !important;}"
+        : ""
+    }
 
     &.outline {
       background: transparent;
@@ -202,6 +239,12 @@ function RenderBadges(props) {
     color: #fff;
     border-color: #11181c;
 
+    ${
+      onClickFunction
+        ? "&:hover {color: black !important; background: #efefef !important;}"
+        : ""
+    }
+
     &.outline {
       background: transparent;
       color: #11181c;
@@ -225,6 +268,12 @@ function RenderBadges(props) {
     background: #efefef;
     color: #11181c;
     border-color: #efefef;
+
+    ${
+      onClickFunction
+        ? "&:hover {color: #fff !important; background: #11181c !important;}"
+        : ""
+    }
 
     &.outline {
       background: transparent;
@@ -256,6 +305,7 @@ function RenderBadges(props) {
       onClick={onClickFunction}
       {...otherProps}
     >
+      {icon && <i className={`bi ${icon}`} />}
       {children}
     </Wrapper>
   );
