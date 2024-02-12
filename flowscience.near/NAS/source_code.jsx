@@ -156,6 +156,7 @@ return (
             onSchemaChange={setSelectedSchema}
             onSchemaSrcChange={setSchemaSrc}
             onSelectedSchemaChange={handleSelectedSchemaChange}
+            selectedSchema={selectedSchema}
           />
           <FormContainer>
             <Widget
@@ -166,6 +167,7 @@ return (
                   selectedSchema: selectedSchema,
                 },
                 onChange: handleOnChange,
+                selectedSchema: selectedSchema,
               }}
             />
           </FormContainer>
