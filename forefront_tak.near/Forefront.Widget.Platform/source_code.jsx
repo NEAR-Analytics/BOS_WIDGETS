@@ -166,6 +166,95 @@ const handelLight = () => {
   State.update({ light: !isLight });
 };
 
+const main = {};
+const linkStyle = {
+  "text-decoration": "none",
+  display: "inline-block",
+};
+const time = {
+  float: "right",
+  color: themeColor.card?.text_color,
+};
+
+const toptip = {
+  "font-size": "15px",
+  color: "#e7ad06",
+  "box-shadow": "0 0px 20px rgba(36, 6, 231, 0.2)",
+  "border-radius": "1000px",
+  "min-width": "min-content",
+  "aspect-ratio": "1",
+  border: "2px outset  #e7d106",
+};
+const avatar = {
+  "border-radius": "13px",
+  border: "2px solid lightgray",
+  width: "100%",
+  height: "100%",
+};
+
+const screen = {
+  "border-radius": "13px",
+  border: "2px solid lightgray",
+  width: "100%",
+  height: "10%",
+  minHeight: "10%",
+};
+const box = {
+  height: "280px",
+  "margin-top": "3.5%",
+  float: "left",
+  padding: "0.5%",
+  "@media (min-width: 1000px)": {
+    height: "380px",
+  },
+};
+const innerbox = {
+  "box-shadow": "0 20px 20px rgba(128, 117, 226, 0.15)",
+  "font-size": "12px",
+  "border-top": "1px solid  lightgray",
+  "border-left": "1px solid  lightgray",
+  "border-right": "1px solid  lightgray",
+
+  height: "280px",
+  padding: "2%",
+  "border-radius": "13px",
+  "@media (min-width: 1000px)": {
+    height: "380px",
+  },
+};
+
+const insidebox = {
+  "font-size": "15px",
+  "padding-bottom": "10px",
+  "border-radius": "13px",
+  width: "100%",
+  "max-height": "50%",
+  "margin-bottom": "10px",
+};
+const middlebox = {
+  "font-size": "13px",
+  "border-radius": "13px",
+  width: "100%",
+  "max-height": "35%",
+  "margin-top": "10px",
+  "padding-top": "2.5%",
+  "padding-bottom": "0.5%",
+};
+const middownbox = {
+  "font-size": "10px",
+  color: themeColor.card?.text_color,
+  "border-radius": "13px",
+  width: "100%",
+  height: "35px",
+  "margin-top": "0.5%",
+  "margin-bottom": "3%",
+};
+const downbox = {
+  "font-size": "10px",
+  width: "100%",
+  "max-height": "5%",
+};
+
 const Container = styled.div`
   .tabContent{
     display:inline-flex;
@@ -265,7 +354,6 @@ let buttonbar = (
     </ul>
   </Container>
 );
-
 const tvl = (
   <div className="w-100" style={{ display: state.tab === "tvl" ? "" : "none" }}>
     <Widget
@@ -303,13 +391,57 @@ const retention = (
     />
   </div>
 );
+
 return (
   <div
+    className="d-flex"
     style={{
       background: themeColor?.page_bg,
     }}
   >
-    <div>
+    <div className=" position-sticky top-0 align-self-start">
+      <Widget
+        src="lord1.near/widget/sidebar"
+        props={{
+          headerIcon:
+            "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
+          headerText: "Forefront",
+          footerIcon:
+            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
+          footerText: "",
+          headerLink: "test",
+          footerLink: "test",
+          links: [
+            {
+              text: "Home",
+              link: "../../forefront_tak.near/widget/Forefront.Home",
+              title: "Homepage",
+
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
+            },
+            {
+              text: "Discover",
+              link: "../../forefront_tak.near/widget/Forefront.Discover",
+              title: "Dashboards",
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
+            },
+            {
+              text: "Feed",
+              link: "../../forefront_tak.near/widget/Forefront.Feed",
+              title: "Feed",
+
+              image:
+                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+            },
+          ],
+          backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
+          textcolor: "#fff",
+        }}
+      />
+    </div>
+    <div className=" flex-grow-1  px-2">
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
@@ -320,19 +452,26 @@ return (
           marginBottom: "1rem",
         }}
       >
-        <Widget
-          src="efiz.near/widget/marquee"
-          props={{
-            text: "",
-            fontFamily: "Arial",
-            fontSize: "20px",
-            backgroundColor: themeColor?.header_bg,
-            height: "30px",
-            width: "100%",
-            textColor: themeColor?.horizen_bg,
+        <div className="flex-grow-1">
+          <Widget
+            src="efiz.near/widget/marquee"
+            props={{
+              text: "Welcome to Forefront Tak",
+              fontFamily: "Arial",
+              fontSize: "20px",
+              backgroundColor: themeColor?.header_bg,
+              height: "30px",
+              width: "100%",
+              textColor: themeColor?.horizen_bg,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flexBasis: "30px",
           }}
-        />
-        <div onClick={handelLight}>
+          onClick={handelLight}
+        >
           <Widget
             src="lord1.near/widget/dark-light"
             props={{
@@ -342,16 +481,18 @@ return (
           />
         </div>
       </div>
+
       <Widget
         src="lord1.near/widget/header-dynamic"
         props={{
           height: "150px",
           align: "center",
-          description: "Explore the Near platforms stats",
-          brand: "Near",
+          description:
+            "Explore the analytical dashboards and components at the same time.",
+          brand: "Forefront",
           fontsize: "100",
           fontweight: "25px",
-          afterbrand: "Platforms",
+          afterbrand: "Tak",
           afterbrandcolor:
             themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
           fontbrand: " Arial, sans-serif",
@@ -366,6 +507,7 @@ return (
         }}
       />
       <div style={{ width: "100%", height: "45px" }}></div>
+
       <div>
         <div className="content">
           <div>{buttonbar}</div>
@@ -377,6 +519,18 @@ return (
         </div>
       </div>
       <div style={{ width: "100%", height: "85px" }}></div>
+      <Widget
+        src="forefront_tak.near/widget/Forefront.Footer"
+        props={{
+          beBackground: "#fff",
+          titlenelowBackground: themeColor?.footer?.titlenelowBackground,
+          titleBackground: themeColor?.footer?.titleBackground,
+          svgBackground: "#806ce1",
+          fromBackground: themeColor?.footer?.fromBackground,
+          toBackground: themeColor?.footer?.toBackground,
+          belowBackground: themeColor?.footer?.belowBackground,
+        }}
+      />
     </div>
   </div>
 );
