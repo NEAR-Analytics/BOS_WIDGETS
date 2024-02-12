@@ -1,3 +1,17 @@
+const filterFunction = (item, filterStatusArray, filterKindArray) => {
+  const kind = typeof kind === "string" ? kind : Object.keys(item.kind)[0];
+  if (filterStatusArray.length > 0 && filterKindArray.length > 0) {
+    return (
+      filterStatusArray.includes(item.status) && filterKindArray.includes(kind)
+    );
+  } else if (filterKindArray.length > 0) {
+    return filterKindArray.includes(kind);
+  } else if (filterStatusArray.length > 0) {
+    return filterStatusArray.includes(item.status);
+  }
+  return true;
+};
+
 return (daoId, proposalId, factoryId) => {
   const DaoSDK = {
     getDaoVersion: () => {
@@ -34,31 +48,39 @@ return (daoId, proposalId, factoryId) => {
     }) => {
       let newLastProposalId = offset ?? 0;
       let filteredProposals = [];
-      const limit = 100;
+      const limit = 30;
       if (reverse && !offset) {
-        newLastProposalId = DaoSDK.getLastProposalId();
+        newLastProposalId = sdk.getLastProposalId();
       }
-      console.log("newLastProposalId", newLastProposalId);
-      while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
-        console.log("inside newLastProposalId", newLastProposalId);
-        Near.asyncView(daoId, "get_proposals", {
-          from_index: offset,
-          limit: limit,
-        }).then((proposals) => {
-          console.log("inside proposals", proposals);
-          console.log("inside filteredProposals", filteredProposals);
-          filteredProposals = proposals.filter((item) =>
-            filterStatusArray.includes(item.status)
-          );
-          if (reverse) {
-            newLastProposalId -= limit;
-          } else {
-            newLastProposalId += limit;
-          }
-        });
+      const promiseArray = [];
+      while (newLastProposalId > 0) {
+        promiseArray.push(
+          Near.asyncView(daoId, "get_proposals", {
+            from_index:
+              newLastProposalId - limit > 0 ? newLastProposalId - limit : limit,
+            limit: limit,
+          })
+        );
+        if (reverse) {
+          newLastProposalId -= limit;
+        } else {
+          newLastProposalId += limit;
+        }
       }
-      console.log("filteredProposals", filteredProposals);
-      return filteredProposals.slice(0, resPerPage);
+      return Promise.all(promiseArray).then((res) => {
+        const proposals = [].concat(...res);
+        filteredProposals = proposals.filter((item) =>
+          filterStatusArray.includes(item.status)
+        );
+        const newArray = filteredProposals.slice(0, resPerPage);
+        if (reverse) {
+          newArray.reverse();
+        }
+        return {
+          filteredProposals: newArray,
+          totalLength: filteredProposals.length,
+        };
+      });
     },
     // reverse: boolean, resPerPage: number, filterKindArray:Array<string>, offset: number
     getFilteredProposalsByKind: ({
@@ -68,37 +90,87 @@ return (daoId, proposalId, factoryId) => {
       offset,
     }) => {
       let newLastProposalId = offset ?? 0;
-      let filteredProposals = [];
-      const limit = 100;
+      const limit = 30;
       if (reverse && !offset) {
-        newLastProposalId = DaoSDK.getLastProposalId();
+        newLastProposalId = sdk.getLastProposalId();
       }
-      console.log("newLastProposalId", newLastProposalId);
-      while (filteredProposals.length < resPerPage && newLastProposalId > 0) {
-        console.log("inside newLastProposalId", newLastProposalId);
-        Near.asyncView(daoId, "get_proposals", {
-          from_index: offset,
-          limit: limit,
-        }).then((proposals) => {
-          console.log("inside proposals", proposals);
-          console.log("inside filteredProposals", filteredProposals);
-          filteredProposals = proposals.filter((item) => {
-            const kind =
-              typeof kind === "string" ? kind : Object.keys(item.kind)[0];
-            return filterKindArray.includes(kind);
-          });
-
-          if (reverse) {
-            newLastProposalId -= limit;
-          } else {
-            newLastProposalId += limit;
+      const promiseArray = [];
+      while (newLastProposalId > 0) {
+        promiseArray.push(
+          Near.asyncView(daoId, "get_proposals", {
+            from_index:
+              newLastProposalId - limit > 0 ? newLastProposalId - limit : limit,
+            limit: limit,
+          })
+        );
+        if (reverse) {
+          newLastProposalId -= limit;
+        } else {
+          newLastProposalId += limit;
+        }
+      }
+      return Promise.all(promiseArray).then((res) => {
+        const proposals = [].concat(...res);
+        const filteredProposals = proposals.filter((item) => {
+          const kind =
+            typeof kind === "string" ? kind : Object.keys(item.kind)[0];
+          return filterKindArray.includes(kind);
+        });
+        const newArray = filteredProposals.slice(0, resPerPage);
+        if (reverse) {
+          newArray.reverse();
+        }
+        return {
+          filteredProposals: newArray,
+          totalLength: filteredProposals.length,
+        };
+      });
+    },
+    getFilteredProposalsByStatusAndkind: ({
+      resPerPage,
+      reverse,
+      filterKindArray,
+      filterStatusArray,
+      offset,
+    }) => {
+      let newLastProposalId = offset ?? 0;
+      let filteredProposals = [];
+      const limit = 30;
+      if (reverse && !offset) {
+        newLastProposalId = sdk.getLastProposalId();
+      }
+      const promiseArray = [];
+      while (newLastProposalId > 0) {
+        promiseArray.push(
+          Near.asyncView(daoId, "get_proposals", {
+            from_index:
+              newLastProposalId - limit > 0 ? newLastProposalId - limit : limit,
+            limit: limit,
+          })
+        );
+        if (reverse) {
+          newLastProposalId -= limit;
+        } else {
+          newLastProposalId += limit;
+        }
+      }
+      return Promise.all(promiseArray).then((res) => {
+        const proposals = [].concat(...res);
+        filteredProposals = proposals.filter((item) => {
+          if (filterKindArray.length > 0) {
+            filterStatusArray.includes(item.status);
           }
         });
-      }
-      console.log("filteredProposals", filteredProposals);
-      return filteredProposals.slice(0, resPerPage);
+        const newArray = filteredProposals.slice(0, resPerPage);
+        if (reverse) {
+          newArray.reverse();
+        }
+        return {
+          filteredProposals: newArray,
+          totalLength: filteredProposals.length,
+        };
+      });
     },
-
     // ROLES + PERMISSIONS + PROPOSALS
     // returns array of members for a particular groupId
     getMembersByGroupId: ({ groupId }) => {
