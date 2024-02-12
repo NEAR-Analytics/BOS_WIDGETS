@@ -162,8 +162,8 @@ useEffect(() => {
   );
 
   const path = [
-    inputCurrency.address === "native" ? wethAddress : inputCurrency.address,
-    outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
+    inputCurrency.isNative ? wethAddress : inputCurrency.address,
+    outputCurrency.isNative ? wethAddress : outputCurrency.address,
   ];
 
   const Iface = new ethers.utils.Interface(QUOTER_ABI);
@@ -228,7 +228,6 @@ useEffect(() => {
     const RouterIface = new ethers.utils.Interface(ROUTER_ABI);
     const deadline = Math.ceil(Date.now() / 1000) + 60;
     const options = {
-      gasLimit: result.gasEstimate,
       value: inputCurrency.isNative ? amount : "0",
     };
     const _amountOut = Big(result.amountOut)
@@ -247,26 +246,27 @@ useEffect(() => {
         sqrtPriceLimitX96: "0",
       },
     ];
-    console.log(inputs, outputCurrency.isNative);
-    const multicallParams = [];
-    const encodedDataCallSwap = RouterIface.encodeFunctionData(
-      "exactInputSingle",
-      inputs
-    );
-
-    multicallParams.push(encodedDataCallSwap);
-
-    if (outputCurrency.isNative) {
-      multicallParams.push(
-        RouterIface.encodeFunctionData("unwrapWETH9", ["0", account])
-      );
-    }
-
     const multicallContract = new ethers.Contract(
       routerAddress,
       ROUTER_ABI,
       Ethers.provider().getSigner()
     );
+
+    let method = "";
+    let params = [];
+
+    if (inputCurrency.isNative) {
+      method = "exactInputSingle";
+      params = inputs[0];
+    } else {
+      method = "multicall";
+      params.push(RouterIface.encodeFunctionData("exactInputSingle", inputs));
+      if (outputCurrency.isNative) {
+        params.push(
+          RouterIface.encodeFunctionData("unwrapWETH9", ["0", account])
+        );
+      }
+    }
 
     const _amount = Big(
       ethers.utils.formatUnits(result.amountOut, outputCurrency.decimals)
@@ -294,8 +294,10 @@ useEffect(() => {
       noPair: false,
     };
     const getTx = (_gas) => {
-      multicallContract.populateTransaction
-        .multicall(multicallParams, { ...options, gasLimit: _gas || 4000000 })
+      multicallContract.populateTransaction[method](params, {
+        ...options,
+        gasLimit: _gas || 4000000,
+      })
         .then((res) => {
           onLoad({
             ...returnData,
@@ -310,17 +312,12 @@ useEffect(() => {
         });
     };
     const estimateGas = () => {
-      multicallContract.estimateGas
-        .multicall(multicallParams, options)
+      multicallContract.estimateGas[method](params, options)
         .then((_gas) => {
           getTx(_gas);
         })
         .catch((err) => {
-          console.log("estimate error", err);
-          onLoad({
-            ...returnData,
-            noPair: false,
-          });
+          getTx();
         });
     };
     estimateGas();
