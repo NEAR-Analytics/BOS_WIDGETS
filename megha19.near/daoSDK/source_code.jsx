@@ -171,6 +171,7 @@ return (daoId, proposalId, factoryId) => {
         filteredProposals = proposals.filter((item) =>
           filterFunction(item, filterStatusArray, filterKindArray)
         );
+        console.log("Total", filteredProposals);
         const newArray = filteredProposals.slice(0, resPerPage);
         if (reverse) {
           newArray.reverse();
