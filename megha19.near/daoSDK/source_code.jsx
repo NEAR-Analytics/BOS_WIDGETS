@@ -156,8 +156,8 @@ return (daoId, proposalId, factoryId) => {
         promiseArray.push(
           Near.asyncView(daoId, "get_proposals", {
             from_index:
-              newLastProposalId - limit > 0 ? newLastProposalId - limit : limit,
-            limit: newLastProposalId - limit > 0 ? limit : 0,
+              newLastProposalId - limit > 0 ? newLastProposalId - limit : 0,
+            limit: limit,
           })
         );
         if (reverse) {
