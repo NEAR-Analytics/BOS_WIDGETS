@@ -232,8 +232,13 @@ useEffect(() => {
     }
   };
 
-  fetchSchemaDetails();
-}, [selectedSchema, props.selectedSchema]);
+  fetchSchemaDetails(selectedSchema);
+}, [selectedSchema]);
+
+const onInputChange = (fieldName, newValue) => {
+  // Call handleOnChange with the change
+  props.onChange({ [fieldName]: newValue });
+};
 
 return (
   <Container>
