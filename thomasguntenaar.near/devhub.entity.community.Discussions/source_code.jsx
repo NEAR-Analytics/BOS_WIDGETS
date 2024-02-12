@@ -79,10 +79,9 @@ function repostOnDiscussions(blockHeight) {
       methodName: "create_discussion",
       args: {
         handle,
-        blockHeight,
+        block_height: blockHeight,
       },
       gas: Big(10).pow(14),
-      deposit: Big(10).pow(22),
     },
   ]);
 }
@@ -94,73 +93,55 @@ function repostOnDiscussions(blockHeight) {
  * blockheight from my profile and reposting that message.
  */
 
-function setSocialDbAndRepost(v) {
-  // Post to users social db
-  Social.set(v, {
-    onCommit: (data) => {
-      console.log("onCommit data", data);
-      // onCommit is dead after redirect to near wallet
-    },
-  });
-}
-
-function checkHashes() {
+async function checkHashes() {
   if (props.transactionHashes) {
-    const transaction = useCache(
-      () =>
-        asyncFetch("https://rpc.mainnet.near.org", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            jsonrpc: "2.0",
-            id: "dontcare",
-            method: "tx",
-            params: [props.transactionHashes, context.accountId],
-          }),
-        }).then((res) => res),
-      props.transactionHashes + context.accountId,
-      { subscribe: false }
-    );
+    asyncFetch("https://rpc.mainnet.near.org", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: "dontcare",
+        method: "tx",
+        params: [props.transactionHashes, context.accountId],
+      }),
+    }).then((transaction) => {
+      if (transaction !== null) {
+        const transaction_method_name =
+          transaction?.body?.result?.transaction?.actions[0].FunctionCall
+            .method_name;
 
-    console.log("transaction", transaction);
+        if (transaction_method_name === "set") {
+          getBlockHeightAndRepost();
+        }
 
-    if (transaction !== null) {
-      const transaction_method_name =
-        transaction?.body?.result?.transaction?.actions[0].FunctionCall
-          .method_name;
-
-      console.log("transaction_method_name", transaction_method_name);
-      if (transaction_method_name === "set") {
-        // props.onDraftStateChange(null);
-        console.log("getBlockHeightAndRepost");
-        getBlockHeightAndRepost();
+        // show the latest created post to user
+        if (transaction_method_name === "create_discussion") {
+          console.log("Discussions created in the last call, show it to user.");
+        }
       }
-
-      // show the latest created post to user
-      if (transaction_method_name === "create_discussion") {
-        console.log("discussions created in the last call");
-      }
-    }
+    });
   }
 }
 
 function getBlockHeightAndRepost() {
   Near.asyncView("social.near", "get", {
-    keys: [`${context.accountId}/**`],
+    keys: [`${context.accountId}/post/**`],
     options: {
       with_block_height: true,
     },
   })
     .then((response) => {
-      let blockHeight = response[context.accountId]["post"][":block"];
+      let blockHeight = response[context.accountId][":block"];
       repostOnDiscussions(blockHeight);
     })
-    .catch(console.log);
+    .catch((error) => {
+      console.log("error", error);
+    });
 }
 
-console.log(`discussions.${handle}.community.devhub.near`);
+checkHashes();
 
 return (
   <div className="w-100" style={{ maxWidth: "100%" }}>
@@ -169,11 +150,10 @@ return (
         <div className="d-flex flex-column gap-4">
           {context.accountId && (
             <div className="card p-4">
-              {/* TODO: compose is only used for post not repost */}
               <Widget
                 src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                 props={{
-                  onSubmit: (v) => setSocialDbAndRepost(v),
+                  onSubmit: (v) => Social.set(v),
                   communityAccountId: `discussions.${handle}.community.devhub.near`,
                 }}
               />
@@ -204,11 +184,11 @@ return (
               </select>
             </div>
           </div>
-          {!postsExists && (
+          {/* TODO: add this with the new feed {!postsExists && (
             <div>
               <h6>No discussions exists.</h6>
             </div>
-          )}
+          )} */}
           <div className={postsExists && "card p-4"}>
             {/* TODO: this feed is from https://near.org/near/widget/ComponentDetailsPage?src=mob.near/widget/ProfileTabs */}
             <Widget
