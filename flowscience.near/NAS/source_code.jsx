@@ -135,6 +135,22 @@ const handleSelectedSchemaChange = (newSelectedSchema) => {
   // Here you would also handle any other logic that needs to occur when the schema changes
 };
 
+const handleOnChange = (updatedItem) => {
+  // Assuming updatedItem is an object with { key: value } pairs representing changes
+  console.log("Changes from attest:", updatedItem);
+
+  // Update your state accordingly
+  // This example assumes you have a state.data object that you're updating
+  // Ensure you have a state setup to handle this in NAS if using React's useState
+  setState((prevState) => ({
+    ...prevState,
+    data: {
+      ...prevState.data,
+      ...updatedItem, // This merges the changes into the existing data object
+    },
+  }));
+};
+
 return (
   <Container>
     <SidePanel>
@@ -153,8 +169,6 @@ return (
         <>
           <Widget
             src="flowscience.near/widget/SchemaSelector"
-            onSchemaChange={setSelectedSchema}
-            onSchemaSrcChange={setSchemaSrc}
             onSelectedSchemaChange={handleSelectedSchemaChange}
             selectedSchema={selectedSchema}
           />
@@ -164,7 +178,6 @@ return (
               props={{
                 item: {
                   value: state.data,
-                  selectedSchema: selectedSchema,
                 },
                 onChange: handleOnChange,
                 selectedSchema: selectedSchema,
