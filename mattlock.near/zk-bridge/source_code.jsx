@@ -2,15 +2,15 @@
 
 const ETHEREUM_CHAIN_ID = 1;
 const ZKSYNC_CHAIN_ID = 324;
-const GOERLI_CHAIN_ID = 5;
-const ZKSYNC_GOERLI_CHAIN_ID = 280;
+const SEPOLIA_CHAIN_ID = 11155111;
+const ZKSYNC_SEPOLIA_CHAIN_ID = 300;
 const L1_MESSENGER_ADDRESS = "0x0000000000000000000000000000000000008008";
 const l2TxGasLimit = "900000";
 const l2TxGasLimitWithdraw = "6000000";
 const l2TxGasPerPubdataByte = "800";
 const l2MaxGasPrice = "2";
 const depositDisabledMsg =
-  "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
+  "For deposits, please switch to Ethereum mainnet or Sepolia testnet.";
 const withdrawDisabledMsg =
   "For withdrawals, please switch to zkSync mainnet or zkSync testnet.";
 const sortByBlockNumber = (a, b) => b.blockNumber - a.blockNumber;
@@ -35,7 +35,7 @@ const catchApproveError = (e) => {
 const approvedTx = (tx, zkSync) => {
   State.update({
     log: "Approved",
-    explorerLink: `https://${network === "testnet" ? "goerli." : ""}${
+    explorerLink: `https://${network === "testnet" ? "sepolia." : ""}${
       zkSync ? "explorer.zksync.io/" : "etherscan.io/"
     }tx/${tx.hash}`,
     isLoading: false,
@@ -105,17 +105,17 @@ const ethereumProvider = new ethers.providers.JsonRpcProvider(
 const zksyncProvider = new ethers.providers.JsonRpcProvider(
   "https://mainnet.era.zksync.io"
 );
-const goerliProvider = new ethers.providers.JsonRpcProvider(
-  "https://rpc.ankr.com/eth_goerli"
+const sepoliaProvider = new ethers.providers.JsonRpcProvider(
+  "https://ethereum-sepolia.publicnode.com"
 );
-const zksyncGoerliProvider = new ethers.providers.JsonRpcProvider(
-  "https://testnet.era.zksync.dev"
+const zksyncSepoliaProvider = new ethers.providers.JsonRpcProvider(
+  "https://sepolia.era.zksync.dev"
 );
 const providersByChainId = {
   [ETHEREUM_CHAIN_ID]: ethereumProvider,
   [ZKSYNC_CHAIN_ID]: zksyncProvider,
-  [GOERLI_CHAIN_ID]: goerliProvider,
-  [ZKSYNC_GOERLI_CHAIN_ID]: zksyncGoerliProvider,
+  [SEPOLIA_CHAIN_ID]: sepoliaProvider,
+  [ZKSYNC_SEPOLIA_CHAIN_ID]: zksyncSepoliaProvider,
 };
 
 // get account
@@ -133,7 +133,7 @@ if (!state.chainId) {
     .getNetwork()
     .then(({ chainId }) => {
       let network = "incorrect";
-      if (chainId === GOERLI_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID) {
+      if (chainId === SEPOLIA_CHAIN_ID || chainId === ZKSYNC_SEPOLIA_CHAIN_ID) {
         network = "testnet";
       }
       if (chainId === ETHEREUM_CHAIN_ID || chainId === ZKSYNC_CHAIN_ID) {
@@ -141,11 +141,25 @@ if (!state.chainId) {
       }
       console.log("chainId", chainId, network);
       let log, depositDisabled;
-      if (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID) {
+      if (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_SEPOLIA_CHAIN_ID) {
         log = depositDisabledMsg;
         depositDisabled = true;
       }
-      State.update({ chainId, network, log, depositDisabled });
+      const L1ExplorerLink = `https://${
+        network === "testnet" ? "sepolia." : ""
+      }etherscan.io/tx/`;
+      const L2ExplorerLink = `https://${
+        network === "testnet" ? "sepolia." : ""
+      }zksync.io/tx/`;
+
+      State.update({
+        chainId,
+        network,
+        log,
+        depositDisabled,
+        L1ExplorerLink,
+        L2ExplorerLink,
+      });
     });
   return "";
 }
@@ -157,7 +171,7 @@ if (!network) {
 
 if (network === "incorrect") {
   return (
-    <p>Please switch to Ethereum or zkSync mainnet (or Goerli testnets)</p>
+    <p>Please switch to Ethereum or zkSync mainnet (or Sepolia testnets)</p>
   );
 }
 
@@ -176,11 +190,6 @@ const contracts = {
       deposit: "0x32400084C286CF3E17e7B677ea9583e60a000324",
       withdraw: "0x000000000000000000000000000000000000800A", // l2 token
     },
-    weth: {
-      deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
-      withdraw: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91", // l2 token
-      decimals: 18,
-    },
     usdc: {
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
       withdraw: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4", // l2 token
@@ -188,27 +197,20 @@ const contracts = {
     },
   },
   testnet: {
-    l1Provider: goerliProvider,
-    l2Provider: zksyncGoerliProvider,
+    l1Provider: sepoliaProvider,
+    l2Provider: zksyncSepoliaProvider,
     bridge: {
-      L1ERC20BridgeProxy: "0x927DdFcc55164a59E0F33918D13a2D559bC10ce7",
-      L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
+      L1ERC20BridgeProxy: "0x2Ae09702F77a4940621572fBcDAe2382D44a2cbA",
+      L2ERC20Bridge: "0x681A1AFdC2e06776816386500D2D461a6C96cB45",
     },
     eth: {
-      deposit: "0x1908e2BF4a88F91E4eF0DC72f02b8Ea36BEa2319",
+      deposit: "0x9A6DE0f62Aa270A8bCB1e2610078650D539B1Ef9",
       withdraw: "0x000000000000000000000000000000000000800A",
       decimals: 18,
     },
-    weth: {
-      // deposit: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-      deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
-      withdraw: undefined, // not found yet
-      decimals: 18,
-    },
     usdc: {
-      // deposit: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
-      deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
-      withdraw: "0x0faF6df7054946141266420b43783387A78d82A9",
+      deposit: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+      withdraw: "0xaF2B4bCe93c39626C829b8e9dD537cCEB938D87D",
       decimals: 6,
     },
   },
@@ -406,11 +408,8 @@ if (!state.initLogs) {
 
   L2BridgeEth.queryFilter(L2BridgeEth.filters.Transfer(sender, sender)).then(
     (ethDeposits) => {
-      //TODO disambig eth deposits
-      ethDeposits.forEach((d) => (d.isEth = true));
-
       State.update({
-        ethDeposits,
+        ethDeposits: ethDeposits.map((d) => ({ ...d, isEth: true })),
       });
     }
   );
@@ -772,10 +771,10 @@ const onTabChange = (tab) => {
 
   const depositDisabled =
     tab === "deposit" &&
-    (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID);
+    (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_SEPOLIA_CHAIN_ID);
   const withdrawDisabled =
     tab === "withdraw" &&
-    (chainId === ETHEREUM_CHAIN_ID || chainId === GOERLI_CHAIN_ID);
+    (chainId === ETHEREUM_CHAIN_ID || chainId === SEPOLIA_CHAIN_ID);
 
   if (depositDisabled) {
     log = depositDisabledMsg;
