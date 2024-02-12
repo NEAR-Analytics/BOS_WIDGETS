@@ -11,6 +11,19 @@ const {
   payload,
 } = props;
 
+const initialFormValues = {
+  recipientId: props.recipientId || "",
+  expireDate: props.expireDate || "",
+  expireTime: props.expireTime || "",
+  revokeDate: props.revokeDate || "",
+  refUID: props.refUID || "",
+  payload: props.payload || "",
+  // Initialize dynamic schema fields here as well
+};
+
+// Initialize state
+const [formValues, setFormValues] = useState(initialFormValues);
+
 const Input = styled.input`
   height: 30px;
 `;
@@ -57,7 +70,7 @@ State.init({
 const attestData = {
   attestation: {
     [selectedSchema]: {
-      [generateUID()]: {
+      [state.objectUID]: {
         attestor: context.accountId,
         recipientId: state.recipientId,
         expireDate: state.expireDate,
@@ -69,10 +82,16 @@ const attestData = {
   },
 };
 
-const DynamicInput = ({ type, onChange, value, placeholder }) => {
+const DynamicInput = ({ fieldName, type, value, placeholder }) => {
+  const handleChange = (e) => {
+    const newValue =
+      type === "boolean" ? e.target.value === "true" : e.target.value;
+    handleInputChange(fieldName, newValue);
+  };
+
   if (type === "boolean") {
     return (
-      <Select onChange={onChange} value={value}>
+      <Select onChange={handleChange} value={String(value)}>
         <option value="true">true</option>
         <option value="false">false</option>
       </Select>
@@ -81,8 +100,8 @@ const DynamicInput = ({ type, onChange, value, placeholder }) => {
     return (
       <Input
         type={type}
-        onChange={onChange}
-        value={value}
+        onChange={handleChange}
+        value={value || ""}
         placeholder={placeholder}
       />
     );
@@ -148,14 +167,26 @@ function Property({ property, value }) {
 }
 
 const handleSave = () => {
-  if (!selectedSchema) {
-    console.error("Selected schema is undefined");
-    return;
-  }
+  // Construct the attestData object using formValues state
+  const attestData = {
+    attestation: {
+      [selectedSchema]: {
+        // Generate a UID for the attestation if necessary or use an existing one
+        [formValues.objectUID || state.objectUID]: {
+          ...formValues, // Spread the formValues into the attestation data
+          attestor: context.accountId,
+        },
+      },
+    },
+  };
 
+  // Save the attestation data
   Social.set(attestData)
     .then(() => {
       console.log("Attestation saved successfully");
+      if (onChange) {
+        onChange(attestData); // Invoke onChange with the new attestation data if provided
+      }
     })
     .catch((error) => {
       console.error("Error saving attestation:", error);
@@ -171,14 +202,11 @@ const handleSchemaChange = (e) => {
 };
 
 const handleInputChange = (propertyName, value) => {
-  // Update local component state or global State here
-  // For example, using a hypothetical update function:
-  updateAttestationData(propertyName, value);
+  // Update the local state
+  setFormValues((prev) => ({ ...prev, [propertyName]: value }));
 
-  // Call props.onChange if it's intended to propagate changes up
-  if (onChange) {
-    onChange({ ...item, [propertyName]: value });
-  }
+  // Update the global state
+  State.update({ [propertyName]: value });
 };
 
 const fetchSchema = (selectedSchema) => {
@@ -275,10 +303,10 @@ return (
       <Row key={fieldName}>
         <Label>{fieldName}:</Label>
         <DynamicInput
+          fieldName={fieldName}
           type={details.type}
-          onChange={(e) => handleInputChange(fieldName, e.target.value)}
-          value={item.value[fieldName] || ""}
-          placeholder={details.placeholder || fieldName}
+          value={formValues[fieldName]}
+          placeholder={`Enter ${fieldName}`}
         />
       </Row>
     ))}
