@@ -448,6 +448,8 @@ return (
           prices,
           ...dexConfig,
           slippage: state.slippage,
+          multicallAddress: props.multicallAddress,
+          multicall: props.multicall,
           onLoad: (data) => {
             console.log("amountOutFn", data);
             State.update({
