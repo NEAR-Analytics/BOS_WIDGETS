@@ -199,57 +199,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -405,18 +411,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -435,57 +464,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -628,38 +663,56 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
+
 function dollarNonCentFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -743,18 +796,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -773,57 +849,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -1130,6 +1212,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1164,11 +1247,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1186,17 +1269,17 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -1279,6 +1362,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1313,11 +1397,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1331,16 +1415,27 @@ function yoctoToNear(yocto, format) {
 }
 
 function fiatValue(big, price) {
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -1423,6 +1518,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1457,21 +1553,21 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1657,19 +1753,631 @@ function formatLine(line, offset, format) {
 
   return result.trimEnd();
 }
+
+function collectNestedReceiptWithOutcomeOld(
+  idOrHash,
+  parsedMap,
+) {
+  const parsedElement = parsedMap.get(idOrHash);
+  if (!parsedElement) {
+    return { id: idOrHash };
+  }
+  const { receiptIds, ...restOutcome } = parsedElement.outcome;
+  return {
+    ...parsedElement,
+    outcome: {
+      ...restOutcome,
+      nestedReceipts: receiptIds.map((id) =>
+        collectNestedReceiptWithOutcomeOld(id, parsedMap),
+      ),
+    },
+  };
+}
+
+function parseReceipt(
+  receipt,
+  outcome,
+  transaction,
+) {
+  if (!receipt) {
+    return {
+      id: outcome.id,
+      predecessorId: transaction.signer_id,
+      receiverId: transaction.receiver_id,
+      actions: transaction.actions.map(mapRpcActionToAction1),
+    };
+  }
+  return {
+    id: receipt.receipt_id,
+    predecessorId: receipt.predecessor_id,
+    receiverId: receipt.receiver_id,
+    actions:
+      'Action' in receipt.receipt
+        ? receipt.receipt.Action.actions.map(mapRpcActionToAction1)
+        : [],
+  };
+}
+
+function mapNonDelegateRpcActionToAction(
+  rpcAction,
+) {
+  if (rpcAction === 'CreateAccount') {
+    return {
+      kind: 'createAccount',
+      args: {},
+    };
+  }
+  if ('DeployContract' in rpcAction) {
+    return {
+      kind: 'deployContract',
+      args: rpcAction.DeployContract,
+    };
+  }
+  if ('FunctionCall' in rpcAction) {
+    return {
+      kind: 'functionCall',
+      args: {
+        methodName: rpcAction.FunctionCall.method_name,
+        args: rpcAction.FunctionCall.args,
+        deposit: rpcAction.FunctionCall.deposit,
+        gas: rpcAction.FunctionCall.gas,
+      },
+    };
+  }
+  if ('Transfer' in rpcAction) {
+    return {
+      kind: 'transfer',
+      args: rpcAction.Transfer,
+    };
+  }
+  if ('Stake' in rpcAction) {
+    return {
+      kind: 'stake',
+      args: {
+        publicKey: rpcAction.Stake.public_key,
+        stake: rpcAction.Stake.stake,
+      },
+    };
+  }
+  if ('AddKey' in rpcAction) {
+    return {
+      kind: 'addKey',
+      args: {
+        publicKey: rpcAction.AddKey.public_key,
+        accessKey: {
+          nonce: rpcAction.AddKey.access_key.nonce,
+          permission:
+            rpcAction.AddKey.access_key.permission === 'FullAccess'
+              ? {
+                  type: 'fullAccess',
+                }
+              : {
+                  type: 'functionCall',
+                  contractId:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .receiver_id,
+                  methodNames:
+                    rpcAction.AddKey.access_key.permission.FunctionCall
+                      .method_names,
+                },
+        },
+      },
+    };
+  }
+  if ('DeleteKey' in rpcAction) {
+    return {
+      kind: 'deleteKey',
+      args: {
+        publicKey: rpcAction.DeleteKey.public_key,
+      },
+    };
+  }
+  return {
+    kind: 'deleteAccount',
+    args: {
+      beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
+    },
+  };
+}
+function mapRpcInvalidAccessKeyError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+
+  if (error === 'DepositWithFunctionCall') {
+    return {
+      type: 'depositWithFunctionCall',
+    };
+  }
+  if (error === 'RequiresFullAccess') {
+    return {
+      type: 'requiresFullAccess',
+    };
+  }
+  if ('AccessKeyNotFound' in error) {
+    const { account_id, public_key } = error.AccessKeyNotFound;
+    return {
+      type: 'accessKeyNotFound',
+      accountId: account_id,
+      publicKey: public_key,
+    };
+  }
+  if ('ReceiverMismatch' in error) {
+    const { ak_receiver, tx_receiver } = error.ReceiverMismatch;
+    return {
+      type: 'receiverMismatch',
+      akReceiver: ak_receiver,
+      transactionReceiver: tx_receiver,
+    };
+  }
+  if ('MethodNameMismatch' in error) {
+    const { method_name } = error.MethodNameMismatch;
+    return {
+      type: 'methodNameMismatch',
+      methodName: method_name,
+    };
+  }
+  if ('NotEnoughAllowance' in error) {
+    const { account_id, allowance, cost, public_key } =
+      error.NotEnoughAllowance;
+    return {
+      type: 'notEnoughAllowance',
+      accountId: account_id,
+      allowance: allowance,
+      cost: cost,
+      publicKey: public_key,
+    };
+  }
+
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcCompilationError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CodeDoesNotExist' in error) {
+    return {
+      type: 'codeDoesNotExist',
+      accountId: error.CodeDoesNotExist.account_id,
+    };
+  }
+  if ('PrepareError' in error) {
+    return {
+      type: 'prepareError',
+    };
+  }
+  if ('WasmerCompileError' in error) {
+    return {
+      type: 'wasmerCompileError',
+      msg: error.WasmerCompileError.msg,
+    };
+  }
+  if ('UnsupportedCompiler' in error) {
+    return {
+      type: 'unsupportedCompiler',
+      msg: error.UnsupportedCompiler.msg,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcFunctionCallError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('CompilationError' in error) {
+    return {
+      type: 'compilationError',
+      error: mapRpcCompilationError(error.CompilationError),
+    };
+  }
+  if ('LinkError' in error) {
+    return {
+      type: 'linkError',
+      msg: error.LinkError.msg,
+    };
+  }
+  if ('MethodResolveError' in error) {
+    return {
+      type: 'methodResolveError',
+    };
+  }
+  if ('WasmTrap' in error) {
+    return {
+      type: 'wasmTrap',
+    };
+  }
+  if ('WasmUnknownError' in error) {
+    return {
+      type: 'wasmUnknownError',
+    };
+  }
+  if ('HostError' in error) {
+    return {
+      type: 'hostError',
+    };
+  }
+  if ('_EVMError' in error) {
+    return {
+      type: 'evmError',
+    };
+  }
+  if ('ExecutionError' in error) {
+    return {
+      type: 'executionError',
+      error: error.ExecutionError,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+function mapRpcNewReceiptValidationError(
+  error,
+) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidPredecessorId' in error) {
+    return {
+      type: 'invalidPredecessorId',
+      accountId: error.InvalidPredecessorId.account_id,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      accountId: error.InvalidReceiverId.account_id,
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      accountId: error.InvalidSignerId.account_id,
+    };
+  }
+  if ('InvalidDataReceiverId' in error) {
+    return {
+      type: 'invalidDataReceiverId',
+      accountId: error.InvalidDataReceiverId.account_id,
+    };
+  }
+  if ('ReturnedValueLengthExceeded' in error) {
+    return {
+      type: 'returnedValueLengthExceeded',
+      length: error.ReturnedValueLengthExceeded.length,
+      limit: error.ReturnedValueLengthExceeded.limit,
+    };
+  }
+  if ('NumberInputDataDependenciesExceeded' in error) {
+    return {
+      type: 'numberInputDataDependenciesExceeded',
+      numberOfInputDataDependencies:
+        error.NumberInputDataDependenciesExceeded
+          .number_of_input_data_dependencies,
+      limit: error.NumberInputDataDependenciesExceeded.limit,
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptActionError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  const { kind } = error;
+  if (kind === 'DelegateActionExpired') {
+    return {
+      type: 'delegateActionExpired',
+    };
+  }
+  if (kind === 'DelegateActionInvalidSignature') {
+    return {
+      type: 'delegateActionInvalidSignature',
+    };
+  }
+  if ('DelegateActionSenderDoesNotMatchTxReceiver' in kind) {
+    return {
+      type: 'delegateActionSenderDoesNotMatchTxReceiver',
+      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
+      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
+    };
+  }
+  if ('DelegateActionAccessKeyError' in kind) {
+    return {
+      type: 'delegateActionAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
+    };
+  }
+  if ('DelegateActionInvalidNonce' in kind) {
+    return {
+      type: 'delegateActionInvalidNonce',
+      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
+      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
+    };
+  }
+  if ('DelegateActionNonceTooLarge' in kind) {
+    return {
+      type: 'delegateActionNonceTooLarge',
+      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
+      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
+    };
+  }
+  if ('AccountAlreadyExists' in kind) {
+    return {
+      type: 'accountAlreadyExists',
+      accountId: kind.AccountAlreadyExists.account_id,
+    };
+  }
+  if ('AccountDoesNotExist' in kind) {
+    return {
+      type: 'accountDoesNotExist',
+      accountId: kind.AccountDoesNotExist.account_id,
+    };
+  }
+  if ('CreateAccountOnlyByRegistrar' in kind) {
+    return {
+      type: 'createAccountOnlyByRegistrar',
+      accountId: kind.CreateAccountOnlyByRegistrar.account_id,
+      registrarAccountId:
+        kind.CreateAccountOnlyByRegistrar.registrar_account_id,
+      predecessorId: kind.CreateAccountOnlyByRegistrar.predecessor_id,
+    };
+  }
+  if ('CreateAccountNotAllowed' in kind) {
+    return {
+      type: 'createAccountNotAllowed',
+      accountId: kind.CreateAccountNotAllowed.account_id,
+      predecessorId: kind.CreateAccountNotAllowed.predecessor_id,
+    };
+  }
+  if ('ActorNoPermission' in kind) {
+    return {
+      type: 'actorNoPermission',
+      accountId: kind.ActorNoPermission.account_id,
+      actorId: kind.ActorNoPermission.actor_id,
+    };
+  }
+  if ('DeleteKeyDoesNotExist' in kind) {
+    return {
+      type: 'deleteKeyDoesNotExist',
+      accountId: kind.DeleteKeyDoesNotExist.account_id,
+      publicKey: kind.DeleteKeyDoesNotExist.public_key,
+    };
+  }
+  if ('AddKeyAlreadyExists' in kind) {
+    return {
+      type: 'addKeyAlreadyExists',
+      accountId: kind.AddKeyAlreadyExists.account_id,
+      publicKey: kind.AddKeyAlreadyExists.public_key,
+    };
+  }
+  if ('DeleteAccountStaking' in kind) {
+    return {
+      type: 'deleteAccountStaking',
+      accountId: kind.DeleteAccountStaking.account_id,
+    };
+  }
+  if ('LackBalanceForState' in kind) {
+    return {
+      type: 'lackBalanceForState',
+      accountId: kind.LackBalanceForState.account_id,
+      amount: kind.LackBalanceForState.amount,
+    };
+  }
+  if ('TriesToUnstake' in kind) {
+    return {
+      type: 'triesToUnstake',
+      accountId: kind.TriesToUnstake.account_id,
+    };
+  }
+  if ('TriesToStake' in kind) {
+    return {
+      type: 'triesToStake',
+      accountId: kind.TriesToStake.account_id,
+      stake: kind.TriesToStake.stake,
+      locked: kind.TriesToStake.locked,
+      balance: kind.TriesToStake.balance,
+    };
+  }
+  if ('InsufficientStake' in kind) {
+    return {
+      type: 'insufficientStake',
+      accountId: kind.InsufficientStake.account_id,
+      stake: kind.InsufficientStake.stake,
+      minimumStake: kind.InsufficientStake.minimum_stake,
+    };
+  }
+  if ('FunctionCallError' in kind) {
+    return {
+      type: 'functionCallError',
+      error: mapRpcFunctionCallError(kind.FunctionCallError),
+    };
+  }
+  if ('NewReceiptValidationError' in kind) {
+    return {
+      type: 'newReceiptValidationError',
+      error: mapRpcNewReceiptValidationError(kind.NewReceiptValidationError),
+    };
+  }
+  if ('OnlyImplicitAccountCreationAllowed' in kind) {
+    return {
+      type: 'onlyImplicitAccountCreationAllowed',
+      accountId: kind.OnlyImplicitAccountCreationAllowed.account_id,
+    };
+  }
+  if ('DeleteAccountWithLargeState' in kind) {
+    return {
+      type: 'deleteAccountWithLargeState',
+      accountId: kind.DeleteAccountWithLargeState.account_id,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptInvalidTxError(error) {
+  const UNKNOWN_ERROR = { type: 'unknown' };
+  if ('InvalidAccessKeyError' in error) {
+    return {
+      type: 'invalidAccessKeyError',
+      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
+    };
+  }
+  if ('InvalidSignerId' in error) {
+    return {
+      type: 'invalidSignerId',
+      signerId: error.InvalidSignerId.signer_id,
+    };
+  }
+  if ('SignerDoesNotExist' in error) {
+    return {
+      type: 'signerDoesNotExist',
+      signerId: error.SignerDoesNotExist.signer_id,
+    };
+  }
+  if ('InvalidNonce' in error) {
+    return {
+      type: 'invalidNonce',
+      transactionNonce: error.InvalidNonce.tx_nonce,
+      akNonce: error.InvalidNonce.ak_nonce,
+    };
+  }
+  if ('NonceTooLarge' in error) {
+    return {
+      type: 'nonceTooLarge',
+      transactionNonce: error.NonceTooLarge.tx_nonce,
+      upperBound: error.NonceTooLarge.upper_bound,
+    };
+  }
+  if ('InvalidReceiverId' in error) {
+    return {
+      type: 'invalidReceiverId',
+      receiverId: error.InvalidReceiverId.receiver_id,
+    };
+  }
+  if ('InvalidSignature' in error) {
+    return {
+      type: 'invalidSignature',
+    };
+  }
+  if ('NotEnoughBalance' in error) {
+    return {
+      type: 'notEnoughBalance',
+      signerId: error.NotEnoughBalance.signer_id,
+      balance: error.NotEnoughBalance.balance,
+      cost: error.NotEnoughBalance.cost,
+    };
+  }
+  if ('LackBalanceForState' in error) {
+    return {
+      type: 'lackBalanceForState',
+      signerId: error.LackBalanceForState.signer_id,
+      amount: error.LackBalanceForState.amount,
+    };
+  }
+  if ('CostOverflow' in error) {
+    return {
+      type: 'costOverflow',
+    };
+  }
+  if ('InvalidChain' in error) {
+    return {
+      type: 'invalidChain',
+    };
+  }
+  if ('Expired' in error) {
+    return {
+      type: 'expired',
+    };
+  }
+  if ('ActionsValidation' in error) {
+    return {
+      type: 'actionsValidation',
+    };
+  }
+  if ('TransactionSizeExceeded' in error) {
+    return {
+      type: 'transactionSizeExceeded',
+      size: error.TransactionSizeExceeded.size,
+      limit: error.TransactionSizeExceeded.limit,
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptError(error) {
+  let UNKNOWN_ERROR = { type: 'unknown' };
+  if ('ActionError' in error) {
+    return {
+      type: 'action',
+      error: mapRpcReceiptActionError(error.ActionError),
+    };
+  }
+  if ('InvalidTxError' in error) {
+    return {
+      type: 'transaction',
+      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
+    };
+  }
+  return UNKNOWN_ERROR;
+}
+
+function mapRpcReceiptStatus(status) {
+  if ('SuccessValue' in status) {
+    return { type: 'successValue', value: status.SuccessValue };
+  }
+  if ('SuccessReceiptId' in status) {
+    return { type: 'successReceiptId', receiptId: status.SuccessReceiptId };
+  }
+  if ('Failure' in status) {
+    return { type: 'failure', error: mapRpcReceiptError(status.Failure) };
+  }
+  return { type: 'unknown' };
+}
+
+function mapRpcActionToAction1(rpcAction) {
+  if (typeof rpcAction === 'object' && 'Delegate' in rpcAction) {
+    return {
+      kind: 'delegateAction',
+      args: {
+        actions: rpcAction.Delegate.delegate_action.actions.map(
+          (subaction, index) => ({
+            ...mapNonDelegateRpcActionToAction(subaction),
+            delegateIndex: index,
+          }),
+        ),
+        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
+        senderId: rpcAction.Delegate.delegate_action.sender_id,
+      },
+    };
+  }
+  return mapNonDelegateRpcActionToAction(rpcAction);
+}
+
+function parseOutcomeOld(outcome) {
+  return {
+    blockHash: outcome.block_hash,
+    tokensBurnt: outcome.outcome.tokens_burnt,
+    gasBurnt: outcome.outcome.gas_burnt,
+    status: mapRpcReceiptStatus(outcome.outcome.status),
+    logs: outcome.outcome.logs,
+    receiptIds: outcome.outcome.receipt_ids,
+  };
+}
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1679,18 +2387,25 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1707,102 +2422,151 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 /* END_INCLUDE: "includes/near.jsx" */
 
@@ -2060,7 +2824,12 @@ function MainComponent({
       header: <span>{t ? t('txns:depositValue') : 'DEPOSIT VALUE'}</span>,
       key: 'deposit',
       cell: (row) => (
-        <span>{yoctoToNear(row.actions_agg?.deposit || 0, true)} Ⓝ</span>
+        <span>
+          {row.actions_agg?.deposit
+            ? yoctoToNear(row.actions_agg?.deposit, true)
+            : ''}{' '}
+          Ⓝ
+        </span>
       ),
       tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
@@ -2071,8 +2840,10 @@ function MainComponent({
       key: 'transaction_fee',
       cell: (row) => (
         <span>
-          {' '}
-          {yoctoToNear(row.outcomes_agg?.transaction_fee || 0, true)} Ⓝ
+          {row.outcomes_agg?.transaction_fee
+            ? yoctoToNear(row.outcomes_agg?.transaction_fee, true)
+            : ''}{' '}
+          Ⓝ
         </span>
       ),
       tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
@@ -2262,7 +3033,9 @@ function MainComponent({
             className="hover:no-underline"
           >
             <a className="text-green-500 hover:no-underline">
-              {localFormat(row.block?.block_height)}
+              {row.block?.block_height
+                ? localFormat(row.block?.block_height)
+                : ''}
             </a>
           </a>
         </span>
@@ -2319,8 +3092,14 @@ function MainComponent({
               <Tooltip.Trigger asChild>
                 <span>
                   {!showAge
-                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
-                    : getTimeAgoString(nanoToMilli(row.block_timestamp))}
+                    ? row.block_timestamp
+                      ? formatTimestampToString(
+                          nanoToMilli(row.block_timestamp),
+                        )
+                      : ''
+                    : row.block_timestamp
+                    ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                    : ''}
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2329,8 +3108,12 @@ function MainComponent({
                 side="bottom"
               >
                 {showAge
-                  ? formatTimestampToString(nanoToMilli(row.block_timestamp))
-                  : getTimeAgoString(nanoToMilli(row.block_timestamp))}
+                  ? row.block_timestamp
+                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                    : ''
+                  : row.block_timestamp
+                  ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                  : ''}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
@@ -2351,7 +3134,8 @@ function MainComponent({
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 px-3 text-sm mb-4 text-nearblue-600">
-              A total of {localFormat(totalCount)} transactions found
+              A total of {totalCount ? localFormat(totalCount.toString()) : 0}{' '}
+              transactions found
             </p>
           </div>
           <div className=" flex items-center px-2 text-sm mb-4 text-nearblue-600 lg:ml-auto">
