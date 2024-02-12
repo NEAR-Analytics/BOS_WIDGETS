@@ -175,7 +175,6 @@ const checkApproval = (token0Amount, token1Amount) => {
 };
 
 const handleTokenChange = (amount, symbol) => {
-  console.log('=====amount', amount, '=====symbol', symbol)
   symbol === token0.symbol ? setAmount0(amount) : setAmount1(amount)
 
   if (Number(amount) === 0) {
@@ -208,11 +207,9 @@ const handleTokenChange = (amount, symbol) => {
     proxyAbi,
     Ethers.provider()
   );
-  console.log('proxyAddress', proxyAddress, '====hypeAddress', hypeAddress, 'addresses[symbol]', addresses[symbol], 'tokenWei', tokenWei)
   proxyContract
     .getDepositAmount(ethers.utils.getAddress(hypeAddress), addresses[symbol], tokenWei)
     .then((depositAmount) => {
-      console.log('===depositAmount', depositAmount)
       const otherAmount = getFromDepositAmount(depositAmount, otherDecimals);
       symbol === token0.symbol ? setAmount1(otherAmount) : setAmount0(otherAmount)
       State.update({
@@ -221,7 +218,6 @@ const handleTokenChange = (amount, symbol) => {
       checkApproval(amount, otherAmount);
     })
     .catch((e) => {
-      console.log('====e', e)
       State.update({
         isLoading: true,
         isError: true,
@@ -329,8 +325,8 @@ const handleDeposit = () => {
       addAction?.({
         type: "Liquidity",
         action: "Deposit",
-        token0,
-        token1,
+        token0: token0.symbol,
+        token1: token1.symbol,
         amount: amount0,
         template: "Gamma",
         status: status,
@@ -361,7 +357,9 @@ const handleDeposit = () => {
       });
     });
 };
-
+if (amount0 === '0.01' && amount1 === '') {
+  handleTokenChange('0.01', token0.symbol)
+}
 onLoad({
   onTokenChange: handleTokenChange
 })
