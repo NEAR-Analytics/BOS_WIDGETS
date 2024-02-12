@@ -1,6 +1,6 @@
-function RenderBadge(props) {
+function RenderBadges(props) {
   const children = props.children ?? "Badge";
-  const variant = props.variant ?? ""; // primary, secondary, danger, success, info, outline, white, circle, round, black, soft, transparent
+  const variant = props.variant ?? ""; // primary, secondary, danger, success, info, outline, white, circle, round, black, soft, transparent, openSans
   const size = props.size ?? "md"; // sm, md, lg
   const className = props.className ?? "";
   const as = props.as ?? "span";
@@ -8,6 +8,7 @@ function RenderBadge(props) {
   const otherProps = props.otherProps ?? {};
 
   const Wrapper = styled[as]`
+  ${onClickFunction ? "cursor: pointer;" : ""}
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -23,6 +24,11 @@ function RenderBadge(props) {
   line-height: 1;
   border: 1px solid transparent;
 
+  &.openSans {
+    font-family: Open Sans;
+    font-weight: 400;
+  }
+
   &.circle {
     padding: 0;
     width: 1.7em;
@@ -36,13 +42,13 @@ function RenderBadge(props) {
   }
 
   &.md {
-    padding: 4px 14px;
+    padding: 4px 10px;
     font-size: 12px;
     border-radius: 8px;
   }
 
   &.lg {
-    padding: 6px 20px;
+    padding: 8px 12px;
     font-size: 14px;
     border-radius: 10px;
   }
@@ -255,4 +261,4 @@ function RenderBadge(props) {
   );
 }
 
-return { RenderBadge };
+return { RenderBadges };
