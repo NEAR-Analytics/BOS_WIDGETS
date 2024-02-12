@@ -177,11 +177,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
         <div>
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
-          - Kano is bos jollof - 1 <br />
-          - Kano is bos jollof - 2 <br />
-          - Black Dragon Token - 652 <br />
-          - Black Dragon Token - 531 <br />- ShardDog - 1555 <br />- NEARWEEK
-          NEWSLETTER EDITION #146 - 33
+          - ShardDog - 1555 <br />- NEARWEEK
         </div>
       </div>
     </div>
@@ -517,28 +513,15 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const nftTitle = "Kano is bos jollof - 1";
-const nftTitle2 = "Black Dragon Token - 652";
-const nftTitle3 = "ShardDog - 1555";
-const nftTitle4 = "Kano is bos jollof - 2";
-const nftTitle5 = "Black Dragon Token - 531";
-const nftTitle6 = "NEARWEEK NEWSLETTER EDITION #146 - 33";
+const nftTitle = "ShardDog - 1555";
 
 console.log(nfts[0].metadata.title);
 console.log(nfts);
 
-const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (
-    nfts[i].metadata.title === nftTitle ||
-    nfts[i].metadata.title === nftTitle2 ||
-    nfts[i].metadata.title === nftTitle3 ||
-    nfts[i].metadata.title === nftTitle4 ||
-    nfts[i].metadata.title === nftTitle5 ||
-    nfts[i].metadata.title === nftTitle6
-  ) {
+  if (nfts[i].metadata.title === nftTitle) {
     State.update({ nftCheck: true });
     break;
   }
@@ -570,10 +553,10 @@ return (
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>Black Dragon Raffle</Title>
+          <Title>ShardDog - 1555</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
-            <Text>Available for 3 winners</Text>
+            <Text>Available for 200 winners</Text>
           </Description>
         </TitleContainer>
         <InstructionWrapper>
@@ -583,12 +566,7 @@ return (
           </InstructionContent>
           <InstructionContent>
             <b>If you have one of the following:</b> <br />
-            Black Dragon Token - 652 <br />
-            Kano is bos jollof - 1 <br />
-            Kano is bos jollof - 2 <br />
-            Black Dragon Token - 531 <br />
-            ShardDog - 1555 <br />
-            NEARWEEK NEWSLETTER EDITION #146 - 33
+            <b style={{ color: "purple" }}>- ShardDog - 1555</b> <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
         </InstructionWrapper>
@@ -605,9 +583,7 @@ return (
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li>1. 10 $NEAR</li>
-              <li>2. T-shirt</li>
-              <li>3. Mystery Box</li>
+              <li>$200 $NEAR</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
