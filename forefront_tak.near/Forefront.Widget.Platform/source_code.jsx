@@ -310,48 +310,48 @@ return (
       background: themeColor?.page_bg,
     }}
   >
-    <div className=" position-sticky top-0 align-self-start">
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
-          headerText: "Forefront",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../forefront_tak.near/widget/Forefront.Home",
-              title: "Homepage",
+    <Widget
+      className="bg-primary"
+      src="lord1.near/widget/sidebar"
+      props={{
+        headerIcon:
+          "https://i.near.social/magic/large/https://near.social/magic/img/account/forefront_tak.near",
+        headerText: "Forefront",
+        footerIcon:
+          "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
+        footerText: "",
+        headerLink: "test",
+        footerLink: "test",
+        links: [
+          {
+            text: "Home",
+            link: "../../forefront_tak.near/widget/Forefront.Home",
+            title: "Homepage",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Discover",
-              link: "../../forefront_tak.near/widget/Forefront.Discover",
-              title: "Dashboards",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Feed",
-              link: "../../forefront_tak.near/widget/Forefront.Feed",
-              title: "Feed",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
+          },
+          {
+            text: "Discover",
+            link: "../../forefront_tak.near/widget/Forefront.Discover",
+            title: "Dashboards",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
+          },
+          {
+            text: "Feed",
+            link: "../../forefront_tak.near/widget/Forefront.Feed",
+            title: "Feed",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-          ],
-          backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
-          textcolor: "#fff",
-        }}
-      />
-    </div>
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+          },
+        ],
+        backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
+        textcolor: "#fff",
+        className: "align-self-start",
+      }}
+    />
     <div style={{ minWidth: "80%" }} className=" flex-grow-1  px-2">
       <div
         style={{
