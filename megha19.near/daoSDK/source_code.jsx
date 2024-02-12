@@ -168,6 +168,7 @@ return (daoId, proposalId, factoryId) => {
       }
       return Promise.all(promiseArray).then((res) => {
         const proposals = [].concat(...res);
+        console.log("non", proposals);
         filteredProposals = proposals.filter((item) =>
           filterFunction(item, filterStatusArray, filterKindArray)
         );
