@@ -1,6 +1,3 @@
-const styles = props.styles || {};
-const bootstrapClassName = props.className || "";
-const activeSidebarIcon = props.activeIcon || "";
 State.init({
   wichPage: 0,
   showFullSide: false,
@@ -32,10 +29,9 @@ const SideBarBody = styled.div`
 visibility : ${state.showFullSide ? "visible" : "hidden"};
 opacity : ${state.showFullSide ? "1" : "0"};
 position:absolute;
-min-height : 80vh;
 background: ${props.backgroundColor};
 display: flex;
-z-index:10;
+z-index:1;
 justify-content: space-between;
 flex-direction:column;
 align-items: center;
@@ -53,9 +49,10 @@ opacity : 1;
 position:relative;
 }
 `;
-const SidebarItems = styled.div`
- align-items:"center";
+const SidebarItems = styled.div` align-items:"center";
 justify-content:spacce-between;
+margin:auto;
+
 `;
 const SidebarItem = styled.div` text-align:center;
 margin:1rem 0;
@@ -105,7 +102,7 @@ justify-content:center;
 cursor:pointer;
 top:1rem;
 box-shadow: 0px 0px 20px -1px rgba(210, 200, 250, 100);
-z-index: 11;
+z-index: 2;
 
 @media (min-width: 576px) {
 right:-12px;
@@ -115,10 +112,7 @@ height : 25px;
 }
 `;
 return (
-  <div
-    style={{ zIndex: 5, ...styles }}
-    className={`position-sticky top-0 ${bootstrapClassName}`}
-  >
+  <div>
     <GrowSidebarBtn onClick={sidebarHandler}>
       {!state.showFullSide ? (
         <svg
@@ -161,7 +155,7 @@ return (
         {props.links.map((data, index) => {
           return (
             <>
-              {data.text === activeSidebarIcon ? (
+              {state.wichPage === index ? (
                 <X>
                   <SidebarItem onClick={() => pageHandler(0)}>
                     <a href={data.link}>
