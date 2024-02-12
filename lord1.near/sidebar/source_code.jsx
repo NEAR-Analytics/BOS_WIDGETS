@@ -1,3 +1,5 @@
+const styles = props.styles || {};
+const bootstrapClassName = props.className || "";
 State.init({
   wichPage: 0,
   showFullSide: false,
@@ -112,7 +114,10 @@ height : 25px;
 }
 `;
 return (
-  <div className={`position-sticky top-0 ${props.className || ""}`}>
+  <div
+    style={{ zIndex: 5, ...styles }}
+    className={`position-sticky top-0 ${bootstrapClassName}`}
+  >
     <GrowSidebarBtn onClick={sidebarHandler}>
       {!state.showFullSide ? (
         <svg
