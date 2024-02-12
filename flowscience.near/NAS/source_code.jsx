@@ -141,6 +141,8 @@ const handleOnChange = (updatedItem) => {
 
   // Update your state accordingly
   // This example assumes you have a state.data object that you're updating
+  State.update({ data: { ...state.data, ...value } });
+
   // Ensure you have a state setup to handle this in NAS if using React's useState
   setState((prevState) => ({
     ...prevState,
