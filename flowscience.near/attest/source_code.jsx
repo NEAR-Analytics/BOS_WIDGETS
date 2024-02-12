@@ -1,4 +1,24 @@
-const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const initialFormValues = {
+  recipientId: props.recipientId || "",
+  expireDate: props.expireDate || "",
+  expireTime: props.expireTime || "",
+  revokeDate: props.revokeDate || "",
+  refUID: props.refUID || "",
+  payload: props.payload || "",
+};
+
+// Initialize state
+const [formValues, setFormValues] = useState({
+  recipientId: props.recipientId || "",
+  expireDate: props.expireDate || "",
+  expireTime: props.expireTime || "",
+  revokeDate: props.revokeDate || "",
+  refUID: props.refUID || "",
+  payload: props.payload || "",
+});
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema ?? "attestations.near/type/isTrue"
+);
 const [schemaFields, setSchemaFields] = useState({});
 const {
   item,
@@ -10,19 +30,6 @@ const {
   refUID,
   payload,
 } = props;
-
-const initialFormValues = {
-  recipientId: props.recipientId || "",
-  expireDate: props.expireDate || "",
-  expireTime: props.expireTime || "",
-  revokeDate: props.revokeDate || "",
-  refUID: props.refUID || "",
-  payload: props.payload || "",
-  // Initialize dynamic schema fields here as well
-};
-
-// Initialize state
-const [formValues, setFormValues] = useState(initialFormValues);
 
 const Input = styled.input`
   height: 30px;
@@ -56,7 +63,7 @@ const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: selectedSchema,
+  selectedSchema: props.selectedSchema,
   schemaFields: schemaFields,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
@@ -69,40 +76,37 @@ State.init({
 
 const attestData = {
   attestation: {
-    [selectedSchema]: {
+    [props.selectedSchema]: {
       [state.objectUID]: {
-        attestor: context.accountId,
-        recipientId: state.recipientId,
-        expireDate: state.expireDate,
-        expireTime: state.expireTime,
-        refUID: state.refUID,
-        payload: state.payload,
+        ...formValues,
       },
     },
   },
 };
 
-const DynamicInput = ({ fieldName, type, value, placeholder }) => {
+const DynamicInput = ({ fieldName, type, onChange, value, placeholder }) => {
+  // Ensure that the onChange function is properly calling handleInputChange with the correct values
   const handleChange = (e) => {
     const newValue =
       type === "boolean" ? e.target.value === "true" : e.target.value;
-    handleInputChange(fieldName, newValue);
+    onChange(fieldName, newValue);
   };
 
   if (type === "boolean") {
     return (
       <Select onChange={handleChange} value={String(value)}>
-        <option value="true">true</option>
-        <option value="false">false</option>
+        <option value="">Select...</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
       </Select>
     );
   } else {
     return (
       <Input
-        type={type}
+        type="text" // Change this if you have other types you want to handle differently
         onChange={handleChange}
         value={value || ""}
-        placeholder={placeholder}
+        placeholder={placeholder || `Enter ${fieldName}`}
       />
     );
   }
@@ -167,25 +171,11 @@ function Property({ property, value }) {
 }
 
 const handleSave = () => {
-  // Construct the attestData object using formValues state
-  const attestData = {
-    attestation: {
-      [selectedSchema]: {
-        // Generate a UID for the attestation if necessary or use an existing one
-        [state.objectUID]: {
-          ...formValues,
-          attestor: context.accountId,
-        },
-      },
-    },
-  };
-
-  // Save the attestation data
   Social.set(attestData)
     .then(() => {
       console.log("Attestation saved successfully");
       if (onChange) {
-        onChange(attestData); // Invoke onChange with the new attestation data if provided
+        onChange(attestData);
       }
     })
     .catch((error) => {
@@ -201,11 +191,10 @@ const handleSchemaChange = (e) => {
   });
 };
 
-const handleInputChange = (propertyName, value) => {
-  // Update the local state with the new value for the given property
+const handleInputChange = (fieldName, newValue) => {
   setFormValues((prev) => ({
     ...prev,
-    [propertyName]: value,
+    [fieldName]: newValue,
   }));
 };
 
@@ -244,7 +233,7 @@ useEffect(() => {
   };
 
   fetchSchemaDetails();
-}, [selectedSchema]);
+}, [selectedSchema, props.selectedSchema]);
 
 return (
   <Container>
@@ -306,7 +295,8 @@ return (
           fieldName={fieldName}
           type={details.type}
           value={formValues[fieldName]}
-          placeholder={`Enter ${fieldName}`}
+          onChange={handleInputChange}
+          placeholder={details.placeholder || `Enter ${fieldName}`}
         />
       </Row>
     ))}
@@ -331,7 +321,7 @@ return (
     <Widget
       src="efiz.near/widget/Every.Raw.View"
       props={{
-        value: formValues,
+        value: attestData,
       }}
     />
   </Container>
