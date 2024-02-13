@@ -53,10 +53,10 @@ function formatAmount(number) {
 
   if (number >= 1e3 && number < 1e6) {
     str_num = number / 1e3;
-    return str_num.toFixed(2) + "k";
+    return str_num.toFixed(2) + "K";
   } else if (number >= 1e6) {
     str_num = number / 1e6;
-    return str_num.toFixed(2) + "m";
+    return str_num.toFixed(2) + "M";
   } else {
     return Number(str_num).toFixed(2);
   }
