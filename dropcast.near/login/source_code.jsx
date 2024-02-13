@@ -31,12 +31,17 @@ const Title = styled.h1`
 `;
 
 const goLoginDiscord = async () => {
-  const OAuthData = new URLSearchParams({
+  const params = {
     client_id: CLIENT_ID,
     redirect_uri: `${BASE_URL}discord`,
     scope: OAuthScope,
     response_type: "code",
-  });
+  };
+
+  const OAuthData = Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+
   return (window.location.href = `https://discordapp.com/oauth2/authorize?${OAuthData}`);
 };
 
