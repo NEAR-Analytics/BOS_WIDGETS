@@ -1,59 +1,165 @@
 // CommunityVoice.GeneralCard
+// Comes from NDC.GeneralCard
 //===============================================INITIALIZATION=====================================================
+const { RenderButton } = VM.require(
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Input.Button"
+);
+const { RenderBadge, RenderMultipleBadge } = VM.require(
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Element.Badge"
+);
+const { RenderBodyNew, RenderBodyOld } = VM.require(
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/CommunityVoice.ArticleBody"
+);
 
-const {
-  widgets,
-  isTest,
-  data,
-  handleOpenArticle,
-  handleFilterArticles,
-  addressForArticles,
-  authorForWidget,
-  handleShareButton,
-  callLibs,
-} = props;
+const { widgets, isTest, data } = props;
+
+if (!widgets) {
+  widgets = {
+    thisForum:
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/home",
+    views: {
+      editableWidgets: {
+        ndcForum:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum",
+        create:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.Create",
+        header:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.NavBar",
+        showArticlesList:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.AllArticlesList",
+        showArticlesListSortedByAuthors:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.AllArticlesSortByAuthors",
+        articlesByAuthorCard:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticlesByAuthorCard",
+        generalCard:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/CommunityVoice.GeneralCard",
+        newArticleBody: RenderBodyNew,
+        oldArticleBody: RenderBodyOld,
+        articleView:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView",
+        reactions:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Reactions",
+        addComment:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/CommunityVoice.AddComment",
+        commentView:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CommentView",
+        upVoteButton:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.UpVoteButton",
+        profileShortInlineBlock:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/Profile.ShortInlineBlock",
+        tagsEditor:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor",
+        kanbanBoard:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.KanbanBoard",
+        compactPost:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CompactPost",
+        articleHistory:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler",
+      },
+      standardWidgets: {
+        fasterTextInput:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput",
+        markownEditorIframe:
+          "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe",
+        styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+        newStyledComponents: {
+          Element: {
+            Badge: RenderBadge,
+            MultipleBadges: RenderMultipleBadge,
+            User: "nearui.near/widget/Element.User",
+          },
+          Feedback: {
+            Spinner: "nearui.near/widget/Feedback.Spinner",
+          },
+          Input: {
+            Button: RenderButton,
+            Checkbox: "nearui.near/widget/Input.Checkbox",
+            Select: "nearui.near/widget/Input.Select",
+          },
+        },
+        socialMarkdown: "mob.near/widget/SocialMarkdown",
+        profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
+        profileImage: "mob.near/widget/ProfileImage",
+        wikiOnSocialDB_TooltipProfiles:
+          "testwiki.near/widget/WikiOnSocialDB_TooltipProfiles",
+        navBarImg: "mob.near/widget/Image",
+      },
+    },
+    libs: {
+      libSBT:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.SBT",
+      libComment:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment",
+      libArticle:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article",
+      libEmojis:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis",
+      libUpVotes:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.upVotes",
+      libNotifications:
+        "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.notifications",
+    },
+  };
+}
+
+if (!data) {
+  data = {
+    title: "aa",
+    author: "ayelen.near",
+    lastEditor: "ayelen.near",
+    timeLastEdit: 1707411253704,
+    timeCreate: 1699406465524,
+    body: "asd\n@ayelen.near",
+    version: 2,
+    navigation_id: null,
+    tags: ["7-11-2023", "test"],
+    id: "ayelen.near-1699406465524",
+    sbts: ["fractal.i-am-human.near - class 1"],
+    blockHeight: 112398490,
+    upVotes: [
+      {
+        accountId: "ayelen.near",
+        blockHeight: 106745180,
+        value: {
+          upVoteId: "uv-ayelen.near-1701189001307",
+          sbts: ["fractal.i-am-human.near - class 1"],
+        },
+      },
+      {
+        accountId: "silkking.near",
+        blockHeight: 105302475,
+        value: {
+          upVoteId: "uv-silkking.near-1699543277363",
+          sbts: ["fractal.i-am-human.near - class 1"],
+        },
+      },
+    ],
+  };
+}
+
+data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
 const content = data.body;
-const timeLastEdit = data.timeLastEdit;
 const id = data.id ?? `${data.author}-${data.timeCreate}`;
 const upVotes = data.upVotes;
 
-//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in CommunityVoice.lib.SBT and here.
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
-
-const libSrcArray = [widgets.libComment];
 
 function stateUpdate(obj) {
   State.update(obj);
 }
 
-const initLibsCalls = {
-  comment: [
-    {
-      functionName: "canUserCreateComment",
-      key: "canLoggedUserCreateComment",
-      props: {
-        accountId: context.accountId,
-        sbtsNames: articleSbts,
-      },
-    },
-  ],
-};
-
 State.init({
-  verified: true,
-  start: true,
-  voted: false,
   sliceContent: true,
-  libsCalls: initLibsCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
+const canLoggedUserCreateComment = true;
 
 //=================================================END CONSTS=======================================================
 
@@ -65,50 +171,31 @@ function getPublicationDate(creationTimestamp) {
   return new Date(creationTimestamp).toDateString();
 }
 
-function getUserName() {
-  const profile = data.authorProfile;
-
-  return profile.name ?? getShortUserName();
-}
-
-const getShortUserName = () => {
-  const userId = accountId;
-
-  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
-  const name = userId.slice(0, -5); // truncate .near
-
-  return name.length > 20 ? `${name.slice(0, 20)}...` : name;
-};
-
-function toggleShowModal() {
-  State.update({ showModal: !state.showModal });
-}
-
 //================================================END FUNCTIONS=====================================================
 
 //==============================================STYLED COMPONENTS===================================================
 
 const CardContainer = styled.div`
-  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
-`;
+    box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+  `;
 
 const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px;
-  gap: 16px;
-  background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
-  border-radius: 10px;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+    background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+    border-radius: 10px;
+  `;
 const HeaderCard = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  `;
 
 const profilePictureStyles = {
   width: "45px",
@@ -116,201 +203,186 @@ const profilePictureStyles = {
   borderRadius: "50%",
 };
 const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 4px;
-  width: 70%;
-`;
-const HeaderButtonsContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+    width: 70%;
+  `;
+const HeaderRightSideContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  `;
 const HeaderContentText = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  cursor: pointer;
-`;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    cursor: pointer;
+  `;
 const NominationName = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0;
-  align-items: center;
-  color: #000000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0;
+    align-items: center;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `;
 const NominationUser = styled.p`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  margin: 0px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #828688;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    margin: 0px;
+    line-height: 120%;
+    display: flex;
+    align-items: center;
+    color: #828688;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  `;
 
 const KeyIssues = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 12px;
-  gap: 12px;
-  background: #ffffff;  
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: 6px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 12px;
+    background: #ffffff;  
+    border: 1px solid rgb(248, 248, 249);
+    border-radius: 6px;
+    width: 100%;
+  `;
 const KeyIssuesContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 12px;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+    width: 100%;
+  `;
 const KeyIssuesHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 12px;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+  `;
 const KeyIssuesTitle = styled.p`
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 120%;
-  margin-bottom: 0;
-`;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 120%;
+    margin-bottom: 0;
+  `;
 const KeyIssuesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-  overflow-y: scroll;
-  max-height: 250px;
-  width: 100%;
-  border: 1px solid rgb(248, 248, 249);
-  border-radius: var(--bs-border-radius-lg) !important;
-`;
-
-const ArticleBodyContainer = styled.div`
-  margin: 0 0.5rem 0.5rem 0.5rem;
-`;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+    overflow-y: scroll;
+    max-height: 250px;
+    width: 100%;
+    border: 1px solid rgb(248, 248, 249);
+    border-radius: var(--bs-border-radius-lg) !important;
+  `;
 
 const LowerSection = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 8px;
-`;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+  `;
 const LowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 12px;
-  align-self: stretch;
-`;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+  `;
 const ButtonsLowerSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  width: 100%;
-`;
-const TextLowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
-  width: 239px;
-  height: 24px;
-  cursor: pointer;
-
-  flex-grow: 1;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: inherit;
+    padding: 0px;
+    width: 100%;
+  `;
+const TimeContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 4px;
+    cursor: pointer;
+  
+    flex-grow: 1;
+  `;
 const TimestampText = styled.div`
-  font-style: italic;
-  font-weight: 300;
-  font-size: 11px;
-  line-height: 14px;
-  margin: 0px;
-  gap: 2px;
-  color: #000000;
-
-  b {
-    font-weight: 600;
-  }
-`;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 14px;
+    margin: 0px;
+    gap: 2px;
+    color: #000000;
+  
+    b {
+      font-weight: 600;
+    }
+  `;
 const ButtonsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 4px;
-  width: 87px;
-  height: 28px;
-`;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 4px;
+    width: 87px;
+    height: 28px;
+  `;
 const TagSection = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 4px;
-  flex-wrap: wrap;
-  overflow: hidden;
-  cursor: pointer;
-`;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    flex-wrap: wrap;
+    overflow: hidden;
+    cursor: pointer;
+  `;
 
 const Element = styled.div`
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-
-  &:hover {
-    border-radius: 6px;
-    background: #f8f8f9;
-  }
-`;
-
-const CallLibrary = styled.div`
-  display: none;
-`;
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+  
+    &:hover {
+      border-radius: 6px;
+      background: #f8f8f9;
+    }
+  `;
 //============================================END STYLED COMPONENTS=================================================
 
 //=================================================MORE STYLES======================================================
-
-const communityVoiceProfileImageStyles = {
-  width: profilePictureStyles.width,
-  height: profilePictureStyles.height,
-  borderRadius: profilePictureStyles.borderRadius,
-  overflow: "hidden",
-};
 
 //===============================================END MORE STYLES====================================================
 
 //=================================================COMPONENTS=======================================================
 
 const inner = (
-  <div className="d-flex flex-row mx-1">
+  <div className="d-flex flex-row mx-1 mw-50">
     <Widget
-      src={widgets.newStyledComponents.Element.User}
+      src={widgets.views.standardWidgets.newStyledComponents.Element.User}
       props={{
         accountId,
         options: {
@@ -329,20 +401,16 @@ const renderTags = () => {
     <>
       {tags &&
         tags.map((tag) => {
-          const filter = { filterBy: "tag", value: tag };
-
           return (
-            <div onClick={() => handleFilterArticles(filter)}>
-              {tag && (
-                <Widget
-                  src={widgets.newStyledComponents.Element.Badge}
-                  props={{
+            <div>
+              {tag &&
+                widgets.views.standardWidgets.newStyledComponents.Element.Badge(
+                  {
                     children: tag,
-                    variant: "round info outline",
-                    size: "lg",
-                  }}
-                />
-              )}
+                    variant: "disabled",
+                    size: "md",
+                  }
+                )}
             </div>
           );
         })}
@@ -350,47 +418,72 @@ const renderTags = () => {
   );
 };
 
-const renderArticleBody = () => {
-  let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
+const renderBottomButtonsSection = () => {
+  const number = 0;
+  const joinedButtons = {
+    thumbs: [
+      {
+        children: <>{`${number}`}</>,
+        icon: { ubication: "before", name: "bi-hand-thumbs-up" },
+        onClick: () => {
+          console.log("Button thumbs up clicked");
+        },
+      },
+      {
+        children: <>{`${number}`}</>,
+        icon: { ubication: "after", name: "bi-hand-thumbs-down" },
+        onClick: () => {
+          console.log("Button thumbs down clicked");
+        },
+      },
+    ],
+  };
+
+  const simpleButtons = {
+    comments: {
+      children: <>{`${number} Comments`}</>,
+      icon: { ubication: "before", name: "bi-chat-left" },
+      onClick: () => {
+        console.log("Button comment clicked");
+      },
+    },
+    reactions: {
+      children: <>{`${number} Reactions`}</>,
+      icon: { ubication: "before", name: "bi-emoji-smile" },
+      onClick: () => {
+        console.log("Button reactions clicked");
+      },
+    },
+    save: {
+      children: <>Save</>,
+      icon: { ubication: "before", name: "bi-bookmark" },
+      onClick: () => {
+        console.log("Button save clicked");
+      },
+    },
+  };
+
   return (
-    <ArticleBodyContainer>
-      <Widget
-        src="mob.near/widget/SocialMarkdown"
-        props={{
-          text: displayedContent,
-          onHashtag: (hashtag) => (
-            <span
-              key={hashtag}
-              className="d-inline-flex"
-              style={{ fontWeight: 500 }}
-            >
-              <a
-                href={`https://near.social/${authorForWidget}/widget/${widgets.communityVoice}?tagShared=${hashtag}`}
-                target="_blank"
-              >
-                #{hashtag}
-              </a>
-            </span>
-          ),
-        }}
-      />
-      {state.sliceContent && content.length > 1000 && (
-        <Widget
-          src={widgets.styledComponents}
-          props={{
-            Button: {
-              text: `Show more`,
-              size: "sm",
-              className: "w-100 justify-content-center",
-              onClick: () => {
-                State.update({ sliceContent: false });
-              },
-              icon: <i className="bi bi-chat-square-text-fill"></i>,
-            },
-          }}
-        />
+    <>
+      {Object.keys(joinedButtons).map((button) =>
+        widgets.views.standardWidgets.newStyledComponents.Element.MultipleBadges(
+          {
+            variant: "info soft openSans cursorPointer",
+            size: "lg",
+            buttonsData: joinedButtons[button],
+          }
+        )
       )}
-    </ArticleBodyContainer>
+      {Object.keys(simpleButtons).map((button) =>
+        widgets.views.standardWidgets.newStyledComponents.Element.Badge({
+          variant: "info soft openSans cursorPointer",
+          size: "lg",
+          children: simpleButtons[button].children,
+          onClickFunction: simpleButtons[button].onClick,
+          icon: simpleButtons[button].icon,
+        })
+      )}
+    </>
   );
 };
 
@@ -399,86 +492,58 @@ const renderArticleBody = () => {
 //===================================================RENDER========================================================
 
 return (
-  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
+  <CardContainer className="bg-white rounded-3 p-3 m-3 col-12">
     <Card>
-      {state.showModal && (
-        <Widget
-          src={widgets.addComment}
-          props={{
-            widgets,
-            article: data,
-            isReplying: false,
-            isTest,
-            username: data.author,
-            id,
-            onCloseModal: toggleShowModal,
-            callLibs,
-          }}
-        />
-      )}
-      <HeaderCard className="d-flex justify-content-between pb-1 border-bottom border-dark">
+      <HeaderCard className="d-flex justify-content-between pb-1">
         <div className="d-flex align-items-center gap-2">
           <Widget
-            src="mob.near/widget/Profile.OverlayTrigger"
+            src={widgets.views.standardWidgets.profileOverlayTrigger}
             props={{ accountId, children: inner }}
           />
-          {
-            //   <HeaderContent>
-            //   <HeaderContentText
-            //     onClick={() => {
-            //       handleOpenArticle(data);
-            //     }}
-            //   >
-            //     <NominationName>{getUserName()}</NominationName>
-            //     <NominationUser>{getShortUserName()}</NominationUser>
-            //   </HeaderContentText>
-            // </HeaderContent>
-          }
         </div>
-        <HeaderButtonsContainer>
-          <Widget
-            src={widgets.upVoteButton}
-            props={{
-              isTest,
-              authorForWidget,
-              reactedElementData: data,
-              widgets,
-              disabled:
-                !context.accountId ||
-                context.accountId === accountId ||
-                (articleSbts.length > 0 && !canLoggedUserCreateComment),
-              articleSbts,
-              upVotes,
-              callLibs,
-            }}
-          />
-          <Widget
-            src={widgets.newStyledComponents.Input.Button}
-            props={{
-              size: "sm",
-              className: "info outline icon",
-              children: <i className="bi bi-share"></i>,
-              onClick: () =>
-                handleShareButton(true, {
-                  type: "sharedBlockHeight",
-                  value: data.blockHeight,
-                }),
-            }}
-          />
-        </HeaderButtonsContainer>
+        <HeaderRightSideContainer>
+          <TimeContainer className="align-items-center">
+            <TimestampText>
+              <span>{getPublicationDate(data.timeCreate)}</span>
+            </TimestampText>
+          </TimeContainer>
+          {widgets.views.standardWidgets.newStyledComponents.Input.Button({
+            size: "sm",
+            className: "info soft icon",
+            children: <i className="bi bi-flag"></i>,
+            onClick: () => {
+              console.log("click flag button");
+            },
+          })}
+          {widgets.views.standardWidgets.newStyledComponents.Input.Button({
+            size: "sm",
+            className: "info soft icon",
+            children: <i className="bi bi-share"></i>,
+            onClick: () => {
+              console.log("click share button");
+            },
+          })}
+        </HeaderRightSideContainer>
       </HeaderCard>
       <KeyIssuesHeader>
         <KeyIssuesTitle
           role="button"
           onClick={() => {
-            handleOpenArticle(data);
+            // handleOpenArticle(data);
           }}
         >
           {title}
         </KeyIssuesTitle>
       </KeyIssuesHeader>
       <KeyIssuesContent>
-        <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
+        <KeyIssuesContainer>
+          {widgets.views.editableWidgets.oldArticleBody({
+            widgets,
+            authorForWidget,
+            content,
+            sliceContent: state.sliceContent,
+          })}
+        </KeyIssuesContainer>
       </KeyIssuesContent>
       <LowerSection>
         <LowerSectionContainer>
@@ -495,86 +560,10 @@ return (
             </KeyIssues>
           )}
           <ButtonsLowerSection>
-            <TextLowerSectionContainer
-              className="align-items-center"
-              onClick={() => {
-                handleOpenArticle(data);
-              }}
-            >
-              <i className="bi bi-clock"></i>
-              <TimestampText>
-                <span>{getPublicationDate(timeLastEdit)}</span>
-                <span>by</span>
-                <b>{author}</b>
-              </TimestampText>
-            </TextLowerSectionContainer>
-            <Widget
-              src={widgets.reactions}
-              props={{
-                widgets,
-                isTest,
-                authorForWidget,
-                elementReactedId: id,
-                disabled:
-                  !context.accountId ||
-                  context.accountId === accountId ||
-                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
-                callLibs,
-                sbtsNames: articleSbts,
-              }}
-            />
+            {renderBottomButtonsSection()}
           </ButtonsLowerSection>
-          <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-start">
-              <Widget
-                src={widgets.newStyledComponents.Input.Button}
-                props={{
-                  children: (
-                    <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">Add comment</span>
-                      <i className="bi bi-chat-square-text-fill"></i>
-                    </div>
-                  ),
-                  disabled:
-                    !context.accountId ||
-                    context.accountId === accountId ||
-                    (articleSbts.length > 0 && !canLoggedUserCreateComment),
-                  size: "sm",
-                  className: "info outline w-25",
-                  onClick: toggleShowModal,
-                }}
-              />
-              <Widget
-                src={widgets.newStyledComponents.Input.Button}
-                props={{
-                  children: (
-                    <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">View</span>
-                      <i className="bi bi-eye fs-6"></i>
-                    </div>
-                  ),
-                  size: "sm",
-                  className: "info w-25",
-                  onClick: () => {
-                    handleOpenArticle(data);
-                  },
-                }}
-              />
-            </div>
-          </div>
         </LowerSectionContainer>
       </LowerSection>
     </Card>
-    <CallLibrary>
-      {libSrcArray.map((src) => {
-        return callLibs(
-          src,
-          stateUpdate,
-          state.libsCalls,
-          { baseAction: "communityVoiceComment" },
-          "General card"
-        );
-      })}
-    </CallLibrary>
   </CardContainer>
 );
