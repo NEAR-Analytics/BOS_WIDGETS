@@ -7,6 +7,7 @@ const {
   articleToRenderData,
   authorForWidget,
   handleEditArticle,
+  handleDeleteArticle,
   handleShareButton,
   callLibs,
   baseActions,
@@ -485,8 +486,14 @@ const CallLibrary = styled.div`
 
 const HeaderButtonsContainer = styled.div`
     display: flex;
+    justify-content: flex-end;
     gap: 0.5rem;
   `;
+
+const EditDeleteButtonsContainer = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    `;
 
 const AcordionContainer = styled.div`--bs-accordion-border-width: 0px!important;`;
 
@@ -688,22 +695,40 @@ return (
                     }}
                   />
                   {context.accountId == accountId && (
-                    <Widget
-                      src={
-                        widgets.views.standardWidgets.newStyledComponents.Input
-                          .Button
-                      }
-                      props={{
-                        children: (
-                          <div className="d-flex justify-content-center align-items-center">
-                            <span className="mx-2">Edit</span>
-                            <i className="bi bi-pencil"></i>
-                          </div>
-                        ),
-                        className: `info outline mt-2`,
-                        onClick: () => handleEditArticle(articleToRenderData),
-                      }}
-                    />
+                    <EditDeleteButtonsContainer>
+                      <Widget
+                        src={
+                          widgets.views.standardWidgets.newStyledComponents
+                            .Input.Button
+                        }
+                        props={{
+                          children: (
+                            <div className="d-flex justify-content-center align-items-center">
+                              <span className="mx-2">Edit</span>
+                              <i className="bi bi-pencil"></i>
+                            </div>
+                          ),
+                          className: `info outline mt-2`,
+                          onClick: () => handleEditArticle(articleToRenderData),
+                        }}
+                      />
+                      <Widget
+                        src={
+                          widgets.views.standardWidgets.newStyledComponents
+                            .Input.Button
+                        }
+                        props={{
+                          children: (
+                            <div className="d-flex justify-content-center align-items-center">
+                              <i className="bi bi-trash"></i>
+                            </div>
+                          ),
+                          className: `danger outline mt-2`,
+                          onClick: () =>
+                            handleDeleteArticle(articleToRenderData),
+                        }}
+                      />
+                    </EditDeleteButtonsContainer>
                   )}
                 </div>
               </div>
