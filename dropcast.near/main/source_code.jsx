@@ -3,7 +3,7 @@ const Owner = "dropcast.near";
 const API_URL = "http://localhost:3000";
 const user = props.user || {};
 const token = props.token || "";
-
+console.log(token, user, "==>tttttttt");
 //Styles
 const Wrapper = styled.div`
   display: flex;
