@@ -1,117 +1,102 @@
-const { CSS } = VM.require("buildhub.near/widget/components.CSS") || {
-  CSS: () => <></>,
+const { page, tab, ...passProps } = props;
+
+const { routes } = VM.require("buildhub.near/widget/config.app") ?? {
+  routes: {},
 };
-const config = {
-  theme: {
-    // add key values to define colors
-    "--main-color": "black",
-    "--secondary-color": "white",
-    background: "var(--main-color)",
-    color: "var(--secondary-color)",
-    height: "100vh",
-  },
-  layout: {
-    src: "devs.near/widget/Layout",
-    props: {
-      variant: "standard",
-    },
-  },
-  blocks: {
-    // these get passed to the layout and children
-    Header: () => (
-      // customize your header
+
+const { AppLayout } = VM.require("buildhub.near/widget/template.AppLayout") || {
+  AppLayout: () => <></>,
+};
+
+if (!page) page = Object.keys(routes)[0] || "home";
+
+const Root = styled.div`
+  --stroke-color: rgba(255, 255, 255, 0.2);
+  --bg-1: #0b0c14;
+  --bg-1-hover: #17181c;
+  --bg-1-hover-transparent: rgba(23, 24, 28, 0);
+  --bg-2: #23242b;
+  --label-color: #fff;
+  --font-color: #fff;
+  --font-muted-color: #cdd0d5;
+  --black: #000;
+  --system-red: #fd2a5c;
+  --yellow: #ffaf51;
+
+  --compose-bg: #23242b;
+
+  --post-bg: #23242b;
+  --post-bg-hover: #1d1f25;
+  --post-bg-transparent: rgba(23, 24, 28, 0);
+
+  --button-primary-bg: #ffaf51;
+  --button-outline-bg: transparent;
+  --button-default-bg: #23242b;
+
+  --button-primary-color: #000;
+  --button-outline-color: #cdd0d5;
+  --button-default-color: #cdd0d5;
+
+  --button-primary-hover-bg: #e49b48;
+  --button-outline-hover-bg: rgba(255, 255, 255, 0.2);
+  --button-default-hover-bg: #17181c;
+`;
+
+function Router({ active, routes }) {
+  // this may be converted to a module at devs.near/widget/Router
+  const routeParts = active.split(".");
+
+  let currentRoute = routes;
+  let src = "";
+  let defaultProps = {};
+
+  for (let part of routeParts) {
+    if (currentRoute[part]) {
+      currentRoute = currentRoute[part];
+      src = currentRoute.path;
+
+      if (currentRoute.init) {
+        defaultProps = { ...defaultProps, ...currentRoute.init };
+      }
+    } else {
+      // Handle 404 or default case for unknown routes
+      return <p>404 Not Found</p>;
+    }
+  }
+
+  return (
+    <div key={active}>
       <Widget
-        src="buildhub.near/widget/components.Navbar"
-        props={{ routes: config.router.routes, ...passProps, page: props.page }}
+        src={src}
+        props={{
+          currentPath: `/buildhub.near/widget/app?page=${page}`,
+          page: tab,
+          ...passProps,
+          ...defaultProps,
+        }}
       />
-    ),
-    Footer: () => <></>,
-  },
-  router: {
-    param: "page",
-    routes: {
-      home: {
-        path: "builddao.near/widget/home.Home",
-        blockHeight: "final",
-        init: {
-          name: "Home",
-        },
-        default: true,
-      },
-      feed: {
-        path: "buildhub.near/widget/page.feed",
-        blockHeight: "final",
-        init: {
-          name: "Activity",
-        },
-      },
-      projects: {
-        path: "buildhub.near/widget/page.projects",
-        blockHeight: "final",
-        init: {
-          name: "Projects",
-        },
-        hide: true,
-      },
-      proposal: {
-        path: "buildhub.near/widget/Proposals",
-        blockHeight: "final",
-        init: {
-          name: "Proposals",
-        },
-        hide: true,
-      },
-      resources: {
-        path: "buildhub.near/widget/page.resources",
-        blockHeight: "final",
-        init: {
-          name: "Resources",
-        },
-      },
-      library: {
-        path: "buildhub.near/widget/page.library",
-        blockHeight: "final",
-        init: {
-          name: "Library",
-        },
-      },
-      profile: {
-        path: "buildhub.near/widget/page.profile",
-        blockHeight: "final",
-        init: {
-          name: "Profile",
-        },
-        hide: true,
-      },
-      inspect: {
-        path: "buildhub.near/widget/page.inspect",
-        blockHeight: "final",
-        init: {
-          name: "Inspect",
-        },
-        hide: true,
-      },
-      project: {
-        path: "buildhub.near/widget/page.project",
-        blockHeight: "final",
-        init: {
-          name: "Project Page",
-        },
-        hide: true,
-      },
-      notifications: {
-        path: "buildhub.near/widget/page.notifications",
-        blockHeight: "final",
-        init: {
-          name: "Notifications",
-        },
-        hide: true,
-      },
-    },
-  },
-};
+    </div>
+  );
+}
+
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+`;
+
+const Content = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
 return (
-  <CSS>
-    <Widget src="buildhub.near/widget/app.view" props={{ config, ...props }} />
-  </CSS>
+  <Root>
+    <Container>
+      <AppLayout page={page} routes={routes} {...props}>
+        <Content>
+          <Router active={page} routes={routes} />
+        </Content>
+      </AppLayout>
+    </Container>
+  </Root>
 );
