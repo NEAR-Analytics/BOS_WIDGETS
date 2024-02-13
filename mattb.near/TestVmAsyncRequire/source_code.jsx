@@ -1,9 +1,7 @@
 const [loading, setLoading] = useState(true);
 
-VM.asyncRequire(["sdks.near/widget/Utils.NearFS"]).then(({
-    NearFS
-}) => {
-  console.log(NearFS.getIpfsUrl("somecid"));
+VM.asyncRequire(["sdks.near/widget/Utils.NearFS"]).then((result) => {
+  console.log(result);
 });
 
 
