@@ -4,7 +4,7 @@ const { routes } = VM.require("apps.near/widget/project.config") ?? {
   routes: {},
 };
 
-const { AppLayout } = VM.require("buildhub.near/widget/template.AppLayout") || {
+const { AppLayout } = VM.require("apps.near/widget/project.layout") || {
   AppLayout: () => <></>,
 };
 
