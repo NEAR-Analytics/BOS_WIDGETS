@@ -1,6 +1,9 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
 const API_URL = "http://localhost:3000";
+const CLIENT_ID = "1206878767633534976";
+const BASE_URL = "https://near.org/dropcast.near/widget/";
+const OAuthScope = ["identify", "guilds"].join(" ");
 
 //Styles
 const Wrapper = styled.div`
@@ -27,6 +30,16 @@ const Title = styled.h1`
     background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
 `;
 
+const goLoginDiscord = async () => {
+  const OAuthData = new URLSearchParams({
+    client_id: CLIENT_ID,
+    redirect_uri: `${BASE_URL}discord`,
+    scope: OAuthScope,
+    response_type: "code",
+  });
+  return (window.location.href = `https://discordapp.com/oauth2/authorize?${OAuthData}`);
+};
+
 return (
   <Wrapper className="root">
     <LogoIcon
@@ -36,7 +49,11 @@ return (
     />
     <Title>Mercury</Title>
     <p style={{ fontSize: 12 }}>Powered by Blocksmith Labs</p>
-    <button className="btn btn-primary mt-4" style={{ padding: "6px 24px" }}>
+    <button
+      className="btn btn-primary mt-4"
+      style={{ padding: "6px 24px" }}
+      onClick={goLoginDiscord}
+    >
       Login with Discord
     </button>
   </Wrapper>
