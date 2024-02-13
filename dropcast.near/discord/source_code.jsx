@@ -8,6 +8,12 @@ const API_URL = "http://localhost:3000/api";
 
 const discordCode = props.code || "";
 
+const convertObject = (params) => {
+  return Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+};
+
 const fetchData = () => {
   const params = {
     client_id: CLIENT_ID,
@@ -18,9 +24,7 @@ const fetchData = () => {
     scope: OAuthScope,
   };
 
-  const urlSearchParams = Object.keys(params)
-    .map((param) => `${param}=${params[param]}`)
-    .join("&");
+  const urlSearchParams = convertObject(params);
 
   let promise = asyncFetch(`https://discordapp.com/api/v9/oauth2/token`, {
     headers: {
@@ -37,7 +41,7 @@ const fetchData = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         method: "POST",
-        body: data.body,
+        body: convertObject(data.body),
       }).then((res) => {
         console.log(res, "==>res");
         //   return <Widget src={`${Owner}/widget/main`} />;
