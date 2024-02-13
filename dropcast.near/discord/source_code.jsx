@@ -44,7 +44,7 @@ const fetchData = () => {
 
   promise.then((data) => {
     if (data.status === 200) {
-      asyncFetch(`${API_URL}/auth`, {
+      asyncFetch(`${API_URL}/auth/discord`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
