@@ -4,6 +4,7 @@ const CLIENT_ID = "1206878767633534976";
 const CLIENT_SECRET = "GhYxHW-FZyo0pqK26xx7BVgwTa5VCLn6";
 const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
+const API_URL = "http://localhost:3000/api";
 
 const discordCode = props.code || "";
 
@@ -34,8 +35,16 @@ const fetchData = () => {
 
   promise.then((data) => {
     if (data.status === 200) {
-      return console.log(data, "===>data");
-      return <Widget src={`${Owner}/widget/main`} />;
+      asyncFetch(`${API_URL}/auth`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        method: "POST",
+        body: JSON.stringify(data.body),
+      }).then((res) => {
+        console.log(res, "==>res");
+        //   return <Widget src={`${Owner}/widget/main`} />;
+      });
     } else {
       return <Widget src={`${Owner}/widget/login`} />;
     }
