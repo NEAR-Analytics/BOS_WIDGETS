@@ -399,7 +399,7 @@ return (
           {
             text: "Discover",
             link: "../../forefront_tak.near/widget/Forefront.Discover",
-            title: "Dashboards",
+            title: "Discover",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
@@ -465,10 +465,10 @@ return (
           align: "center",
           description:
             "Explore the analytical dashboards and components at the same time.",
-          brand: "Forefront",
+          brand: "Discover",
           fontsize: "100",
           fontweight: "25px",
-          afterbrand: "Tak",
+          afterbrand: "",
           afterbrandcolor:
             themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
           fontbrand: " Arial, sans-serif",
