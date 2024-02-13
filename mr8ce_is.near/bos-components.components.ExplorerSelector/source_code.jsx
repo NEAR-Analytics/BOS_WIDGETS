@@ -221,7 +221,7 @@ function MainComponent(props) {
               src={
                 "https://pikespeak.ai/static/media/pikespeak_logo.0e695acc13a944a571c4.png"
               }
-              alt=PikePeakai"
+              alt="PikePeakai"
             />
           </a>
           <a
