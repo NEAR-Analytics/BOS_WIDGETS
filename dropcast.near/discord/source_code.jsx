@@ -8,6 +8,10 @@ const API_URL = "http://localhost:3000/api";
 
 const discordCode = props.code || "";
 
+State.init({
+  loaded: false,
+});
+
 const convertObject = (params) => {
   return Object.keys(params)
     .map((param) => `${param}=${params[param]}`)
@@ -15,6 +19,10 @@ const convertObject = (params) => {
 };
 
 const fetchData = () => {
+  State.update({
+    loaded: true,
+  });
+
   const params = {
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -53,4 +61,4 @@ const fetchData = () => {
 };
 
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
-else fetchData();
+else if (!state.loaded) fetchData();
