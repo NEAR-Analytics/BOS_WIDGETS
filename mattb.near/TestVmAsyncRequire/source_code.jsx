@@ -1,6 +1,7 @@
-VM.prepare(["sdks.near/widget/Utils.CryptoJS"]);
-
-console.log(VM.require("sdks.near/widget/Utils.CryptoJS"));
+VM.prepare(["sdks.near/widget/Utils.CryptoJS"]).then((result) => {
+    console.log("Load: ", result);
+    console.log(VM.require("sdks.near/widget/Utils.CryptoJS"));
+});
 
 return (
   <>
