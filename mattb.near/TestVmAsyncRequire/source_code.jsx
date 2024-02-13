@@ -4,7 +4,7 @@ VM.prepare(["sdks.near/widget/Utils.NearFS"]).then((result) => {
   setLoading(false);
 });
 
-const NearFS = VM.require("sdks.near/widget/NearFS");
+const NearFS = VM.require("sdks.near/widget/Utils.NearFS");
 console.log(NearFS.getIpfsUrl("somecid"));
 
 return (
