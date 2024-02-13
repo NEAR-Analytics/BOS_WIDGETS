@@ -200,6 +200,32 @@ function MainComponent(props) {
           </a>
           <a
             href={
+              !hasLinkPikePeakai
+                ? href || config.pikepeakai + path
+                : config.pikepeakai
+            }
+            onClick={() => {
+              onSelect("pikepeakai");
+            }}
+            className={`h-45 w-65 relative shadow-md flex justify-center items-center flex-col m-2 rounded-lg border-2 border-solid ${
+              selected === "pikepeakai"
+                ? "border-neargreen-200"
+                : "border-gray-100"
+            }`}
+          >
+            <span className="text-xs text-center absolute bg-neargreen-200 text-white p-1 rounded-bl-md rounded-tr right-0 top-0">
+              Recommended
+            </span>
+            <img
+              className="h-16 w-44"
+              src={
+                "https://pikespeak.ai/static/media/pikespeak_logo.0e695acc13a944a571c4.png"
+              }
+              alt=PikePeakai"
+            />
+          </a>
+          <a
+            href={
               !hasLinkNearExplorer
                 ? config.nearexplorer + path
                 : config.nearexplorer
