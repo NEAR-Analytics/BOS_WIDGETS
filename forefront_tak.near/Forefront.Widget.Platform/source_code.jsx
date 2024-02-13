@@ -334,7 +334,7 @@ return (
           {
             text: "Discover",
             link: "../../forefront_tak.near/widget/Forefront.Discover",
-            title: "Dashboards",
+            title: "Discover",
             image:
               "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
           },
@@ -398,12 +398,11 @@ return (
         props={{
           height: "150px",
           align: "center",
-          description:
-            "Explore the analytical dashboards and components at the same time.",
-          brand: "Forefront",
+          description: "Explore the analytical stats of Near platforms.",
+          brand: "Near",
           fontsize: "100",
           fontweight: "25px",
-          afterbrand: "Tak",
+          afterbrand: "Platforms",
           afterbrandcolor:
             themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
           fontbrand: " Arial, sans-serif",
