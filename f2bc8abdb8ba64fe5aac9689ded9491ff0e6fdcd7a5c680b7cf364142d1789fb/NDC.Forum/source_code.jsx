@@ -247,7 +247,7 @@ if (state.filterBy.parameterName === "tag") {
 
 //=============================================STYLED COMPONENTS====================================================
 const CallLibrary = styled.div`
-  display: block;
+  display: none;
 `;
 
 const ShareInteractionGeneralContainer = styled.div`
