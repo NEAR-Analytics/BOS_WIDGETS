@@ -1,52 +1,35 @@
-const {
-  values,
-  multiple,
-  options,
-  onChange,
-  defaultValue,
-  isOpen,
-  onClear,
-  containerClass,
-  text,
-  isTooltipVisible,
-  hintText,
-  onFilterClick,
-  filterIsOpen,
-  id,
-  noBorder,
-} = props;
+const { assets } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+
+if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 
 const Select = styled.div`
   position: relative;
   width: 100%;
   cursor: pointer;
-  border-radius: 100px;
-  border: 1px solid #f8f8f8;
-  font-size: 14px;
-  font-style: normal;
-
-  @media screen and (max-width: 768px) {
-    border: 1px solid #e3e3e0;
-  }
 
   .selected-container {
+    color: white !important;
     width: 100%;
     border-radius: 10px;
+    background: #a39acd;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 16px;
-  }
+    padding: 10px 25px;
 
-  .selected {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
+    &.black {
+      background: #1e1d22;
+    }
 
-    i {
-      color: #b0afb1;
+    .selected {
+      border: 0;
+      width: 100%;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      text-transform: capitalize;
+      letter-spacing: 0.12px;
     }
   }
 
@@ -54,6 +37,7 @@ const Select = styled.div`
     width: 100%;
     max-height: 12rem;
     overflow-y: scroll;
+    font-size: 18px;
     background: #fff;
     color: initial;
     border-radius: 6px;
@@ -80,7 +64,8 @@ const Select = styled.div`
       }
 
       &:hover {
-        background: #f8f8f8;
+        color: black;
+        background: rgb(163 155 205 / 20%);
       }
     }
   }
@@ -152,6 +137,23 @@ const TooltipText = styled.span`
   }
 `;
 
+const {
+  values,
+  multiple,
+  options,
+  onChange,
+  defaultValue,
+  isOpen,
+  onClear,
+  containerClass,
+  text,
+  isTooltipVisible,
+  hintText,
+  onFilterClick,
+  filterIsOpen,
+  id,
+} = props;
+
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
 const isOpenDropdown = !!filterIsOpen ? filterIsOpen : open;
@@ -175,21 +177,21 @@ const handleOpen = () => {
 };
 
 return (
-  <Select onClick={() => !multiple && handleOpen()} noBorder={noBorder}>
+  <Select onClick={() => !multiple && handleOpen()}>
     <div className={containerClass}>
-      <div className="selected w-100" onClick={handleOpen}>
+      <div className="selected" onClick={handleOpen}>
+        {setTitle()}
         {isTooltipVisible && (
           <Widget
-            src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
+            src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
             props={{
               content: hintText,
-              icon: <i className="ph ph-info fs-5" />,
+              icon: <i className="bi bi-info-circle-fill" />,
             }}
           />
         )}
-        {setTitle()}
       </div>
-      <div className="d-flex gap-2 align-items-center">
+      <div className="d-flex gap-2">
         {multiple && values.length > 0 && (
           <i
             className="bi bi-x fs-5 mt-1 mr-1"
@@ -198,7 +200,9 @@ return (
         )}
         <i
           onClick={handleOpen}
-          className={`ph ph-caret-${isOpenDropdown ? "up" : "down"} fs-5`}
+          className={`bi bi-chevron-${
+            isOpenDropdown ? "up" : "down"
+          } fs-5 mt-1`}
         />
       </div>
     </div>
