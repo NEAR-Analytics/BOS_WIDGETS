@@ -137,6 +137,7 @@ function MainComponent(props) {
   const href = getHref(path);
   const hasLinkNearblocks = props?.path ? !linkNearblocks(path) : false;
   const hasLinkNearExplorer = props?.path ? !linkNearExplorer(path) : false;
+  const hasLinkPikePeakai = props?.path ? !hasLinkPikePeakai(path) : false;
 
   function onSelect(value) {
     setSelected(value);
