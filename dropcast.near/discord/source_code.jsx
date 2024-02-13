@@ -53,7 +53,7 @@ const fetchData = () => {
       }).then((res) => {
         const result = res.body;
         console.log(result, "==>reusult");
-        if (result.user)
+        if (result.token)
           return <Widget src={`${Owner}/widget/main`} props={result} />;
         else if (result.error) return result.message;
       });
