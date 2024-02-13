@@ -1,3 +1,2 @@
-const params = new URLSearchParams(window.location.search);
-console.log(params, "==>params");
+console.log(props.tab, "==>params");
 return <div>Hello World</div>;
