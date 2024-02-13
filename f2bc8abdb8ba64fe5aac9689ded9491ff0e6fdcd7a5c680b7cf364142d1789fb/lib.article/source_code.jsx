@@ -134,6 +134,20 @@ function createArticle(props) {
   return article;
 }
 
+function deleteArticle(props) {
+  const { article, onCommit, onCancel } = props;
+
+  article.deletedArticle = true;
+
+  saveHandler(article, onCommit, onCancel);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "deleteArticle";
+  });
+
+  return article;
+}
+
 const saveHandler = (article, onCommit, onCancel) => {
   if (article.title && article.body) {
     const newData = composeData(article);
@@ -440,7 +454,11 @@ function filterValidator(articles) {
 function filterValidArticles(articles) {
   let filteredArticles = filterValidator(filteredArticles ?? articles);
 
-  return filteredArticles;
+  const filteredArticlesWithoutDeletedOnes = filteredArticles.filter(
+    (article) => !article.deletedArticle
+  );
+
+  return filteredArticlesWithoutDeletedOnes;
 }
 
 function filterMultipleKanbanTags(articleTags, kanbanTags) {
@@ -528,6 +546,8 @@ function callFunction(call) {
     return canUserCreateArticle(call.props);
   } else if (call.functionName === "createArticle") {
     return createArticle(call.props);
+  } else if (call.functionName === "deleteArticle") {
+    return deleteArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getArticles") {
