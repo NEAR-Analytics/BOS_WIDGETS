@@ -15,7 +15,7 @@ function Page() {
     default: {
       return (
         <Widget
-          src={`ndcdev.near/widget/Dashboard.Pages.NotFound.index`}
+          src={`ndcdev.near/widget/Dashboard.Pages.NotFound`}
           props={passProps}
         />
       );
