@@ -1,13 +1,11 @@
 const [loading, setLoading] = useState(true);
 
-VM.prepare(["sdks.near/widget/Utils.NearFS"]).then((result) => {
-  setLoading(false);
+VM.asyncRequire(["sdks.near/widget/Utils.NearFS"]).then(({
+    NearFS
+}) => {
+  console.log(NearFS.getIpfsUrl("somecid"));
 });
 
-if (!loading) {
-  const NearFS = VM.require("sdks.near/widget/Utils.NearFS");
-  console.log(NearFS.getIpfsUrl("somecid"));
-}
 
 return (
   <>
