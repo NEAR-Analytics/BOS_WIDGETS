@@ -61,11 +61,15 @@ function RenderButton(props) {
     align-items: center;
   }
 
-  &.primary,
-  &.primary:hover {
+  &.primary {
     color: #11181c;
     background: #ffd50d;
     border-color: #ffd50d;
+
+    &:hover {
+      background: #dab70f !important;
+      color: #ffd50d !important;
+    }
 
     &.outline {
       background: transparent;
@@ -80,11 +84,15 @@ function RenderButton(props) {
     }
   }
 
-  &.secondary,
-  &.secondary:hover {
+  &.secondary {
     color: #fff;
     background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
     border-color: transparent;
+
+    &:hover {
+      color: white !important;
+      background: #4f46e5 !important;  
+    }
 
     &.outline {
       background: transparent;
@@ -115,11 +123,15 @@ function RenderButton(props) {
     // }
   }
 
-  &.danger,
-  &.danger:hover {
+  &.danger {
     border-color: #e5484d;
     background: #e5484d;
     color: #fff;
+
+    &:hover {
+      color: white !important;
+      background: red !important;
+    }
 
     &.outline {
       background: transparent;
@@ -128,11 +140,15 @@ function RenderButton(props) {
     }
   }
 
-  &.success,
-  &.success:hover {
+  &.success {
     background: #00ec97;
     color: #11181c;
     border-color: #00ec97;
+
+    &:hover {
+      color: white !important;
+      background: #82e299 !important;
+    }
 
     &.outline {
       background: transparent;
@@ -141,11 +157,15 @@ function RenderButton(props) {
     }
   }
 
-  &.info,
-  &.info:hover {
+  &.info {
     background: #4498e0;
     color: #fff;
     border-color: #4498e0;
+
+    &:hover {
+      color: white !important;
+      background: #0d6efd !important;
+    }
 
     &.outline {
       background: transparent;
@@ -160,11 +180,15 @@ function RenderButton(props) {
     }
   }
 
-  &.disabled,
-  &:disabled {
+  &.disabled {
     background: #f0f0f0 !important;
     color: #aaa !important;
     border-color: #f0f0f0 !important;
+
+    &:hover {
+      color: #fff !important;
+      background: #11181c !important;
+    }
 
     &.outline {
       background: transparent !important;
