@@ -694,6 +694,12 @@ return (
                   <span className="symbol">{data.underlyingToken.symbol}</span>
                 </div>
               </StyledInfoItem>
+              {Big(tokenBal || 0).lt(Big(data.vesselDebt || 0)) ? (
+                <StyledInfoTips>
+                  More GRAI must be acquired in order to close the Vessel.
+                </StyledInfoTips>
+              ) : null}
+
               <StyledInfoTips>
                 <img
                   src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
