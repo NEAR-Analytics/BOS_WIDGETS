@@ -20,16 +20,13 @@ const fetchData = () => {
     .map((param) => `${param}=${params[param]}`)
     .join("&");
 
-  let promise = asyncFetch(
-    `https://discordapp.com/api/v9/oauth2/token`,
-    urlSearchParams,
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      method: "POST",
-    }
-  );
+  let promise = asyncFetch(`https://discordapp.com/api/v9/oauth2/token`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    method: "POST",
+    body: urlSearchParams,
+  });
 
   promise.then((data) => {
     console.log(data, "==>daata");
