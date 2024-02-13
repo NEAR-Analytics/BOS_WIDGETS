@@ -42,7 +42,7 @@ const goLoginDiscord = async () => {
     .map((param) => `${param}=${params[param]}`)
     .join("&");
 
-  return (window.location.href = `https://discordapp.com/oauth2/authorize?${OAuthData}`);
+  return (location.href = `https://discordapp.com/oauth2/authorize?${OAuthData}`);
 };
 
 return (
