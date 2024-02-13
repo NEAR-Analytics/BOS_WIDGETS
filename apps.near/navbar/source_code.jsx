@@ -3,12 +3,15 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
 };
 
 const Navbar = styled.div`
+  width: 64px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 48px;
+  padding: 24px 48px;
   width: 100%;
+
   background-color: #0b0c14;
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
 `;
@@ -75,12 +78,21 @@ const NavLink = ({ to, children }) => (
 const [showMenu, setShowMenu] = useState(false);
 const toggleDropdown = () => setShowMenu(!showMenu);
 
-const ActionButton = () => (
+const SignInOrConnect = () => (
   <>
-    <Widget
-      src="apps.near/widget/FollowButton"
-      props={{ accountId: "every.near" }}
-    />
+    {context.accountId ? (
+      <Widget
+        src="buildhub.near/widget/components.buttons.UserDropdown"
+        props={{ logOut: props.logOut }}
+      />
+    ) : (
+      <a
+        href={"https://nearbuilders.org/join"}
+        style={{ textDecoration: "none" }}
+      >
+        <Button variant={"outline"}>Sign In</Button>
+      </a>
+    )}
   </>
 );
 
@@ -119,8 +131,9 @@ const AppHeader = ({ page, routes, ...props }) => (
               );
             })}
         </ButtonGroup>
+
         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-          <ActionButton />
+          <SignInOrConnect />
         </div>
       </DesktopNavigation>
       <MobileNavigation>
@@ -172,7 +185,7 @@ const AppHeader = ({ page, routes, ...props }) => (
               })}
           </ButtonGroup>
           <div className="d-flex w-100 justify-content-center">
-            <ActionButton />
+            <SignInOrConnect />
           </div>
         </div>
       )}
