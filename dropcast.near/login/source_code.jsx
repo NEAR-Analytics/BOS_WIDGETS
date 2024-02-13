@@ -30,20 +30,20 @@ const Title = styled.h1`
     background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
 `;
 
-const goLoginDiscord = async () => {
-  const params = {
-    client_id: CLIENT_ID,
-    redirect_uri: `${BASE_URL}discord`,
-    scope: OAuthScope,
-    response_type: "code",
-  };
+const LoginButton = styled.a`
+    padding: 6px 24px;
+`;
 
-  const OAuthData = Object.keys(params)
-    .map((param) => `${param}=${params[param]}`)
-    .join("&");
-
-  return (location.href = `https://discordapp.com/oauth2/authorize?${OAuthData}`);
+const params = {
+  client_id: CLIENT_ID,
+  redirect_uri: `${BASE_URL}discord`,
+  scope: OAuthScope,
+  response_type: "code",
 };
+
+const OAuthData = Object.keys(params)
+  .map((param) => `${param}=${params[param]}`)
+  .join("&");
 
 return (
   <Wrapper className="root">
@@ -54,12 +54,11 @@ return (
     />
     <Title>Mercury</Title>
     <p style={{ fontSize: 12 }}>Powered by Blocksmith Labs</p>
-    <button
+    <LoginButton
       className="btn btn-primary mt-4"
-      style={{ padding: "6px 24px" }}
-      onClick={goLoginDiscord}
+      href={`https://discordapp.com/oauth2/authorize?${OAuthData}`}
     >
       Login with Discord
-    </button>
+    </LoginButton>
   </Wrapper>
 );
