@@ -1,7 +1,11 @@
-VM.prepare(["sdks.near/widget/Utils.CryptoJS"]).then((result) => {
-    console.log("Load: ", result);
-    console.log(VM.require("sdks.near/widget/Utils.CryptoJS"));
+const [loading, setLoading] = useState(true);
+
+VM.prepare(["sdks.near/widget/Utils.Ethereum.ENSResolver"]).then((result) => {
+  setLoading(false);
 });
+
+const ENSResolver = VM.require("sdks.near/widget/Utils.Ethereum.ENSResolver");
+console.log(ENSResolver.resolve("ionoproxy.eth"));
 
 return (
   <>
