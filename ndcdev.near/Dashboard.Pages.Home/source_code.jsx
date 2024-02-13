@@ -73,19 +73,13 @@ const baseUrl = "https://api.pikespeak.ai";
 
 const get = async (url) => {
   try {
-    return useCache(
-      () =>
-        // TODO: need better API for this, fetching all members daos is not efficient
-        asyncFetch(`${baseUrl}/${url}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-          },
-        }),
-      url,
-      { subscribe: false },
-    );
+    return asyncFetch(`${baseUrl}/${url}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+      },
+    });
   } catch (e) {
     console.log(e);
   }
@@ -125,33 +119,35 @@ const fetchData = () => {
   };
 
   const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
-  const resp = null;
 
-  daos.flatMap((accountId) => {
-    resp = API.get_accounts(accountId);
-    if (!resp.body) return;
+  const promises = daos.flatMap((accountId) => [
+    API.get_accounts(accountId).then((resp) => {
+      if (!resp.body) return;
 
-    newState.totalAccounts += resp.body.length;
+      newState.totalAccounts += resp.body.length;
+    }),
+    API.get_unique_accounts_by_period(accountId).then((resp) => {
+      if (!resp.body) return;
 
-    resp = API.get_unique_accounts_by_period(accountId);
-    if (!resp.body) return;
+      newState.uniqueAccounts += parseInt(resp.body[period].data.length);
+      newState.uniqueActiveUsers.push(...resp.body[period].data);
+      newState.totalTx += resp.body[period].data.reduce(
+        (memo, current) => memo + parseInt(current.tx_count),
+        0,
+      );
+      newState.dailyTotalTx.push(
+        ...resp.body[period].data.map((item) => ({
+          date: item.day,
+          count: parseInt(item.tx_count),
+        })),
+      );
+    }),
+  ]);
 
-    newState.uniqueAccounts += parseInt(resp.body[period].data.length);
-    newState.uniqueActiveUsers.push(...resp.body[period].data);
-    newState.totalTx += resp.body[period].data.reduce(
-      (memo, current) => memo + parseInt(current.tx_count),
-      0,
-    );
-    newState.dailyTotalTx.push(
-      ...resp.body[period].data.map((item) => ({
-        date: item.day,
-        count: parseInt(item.tx_count),
-      })),
-    );
+  Promise.all(promises).then(() => {
+    setDataState(newState);
+    setLoading(false);
   });
-
-  setDataState(newState);
-  setLoading(false);
 };
 
 useEffect(() => {
