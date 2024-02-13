@@ -1,10 +1,14 @@
 const accountId = context.accountId;
+const Owner = "dropcast.near";
 const CLIENT_ID = "1206878767633534976";
 const CLIENT_SECRET = "GhYxHW-FZyo0pqK26xx7BVgwTa5VCLn6";
 const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
 
 const discordCode = props.code || "";
+
+if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
+else fetchData();
 
 const fetchData = () => {
   const params = {
@@ -29,12 +33,11 @@ const fetchData = () => {
   });
 
   promise.then((data) => {
-    console.log(data, "==>daata");
+    if (data.status === 200) {
+      return console.log(data, "===>data");
+      return <Widget src={`${Owner}/widget/main`} />;
+    } else {
+      return <Widget src={`${Owner}/widget/login`} />;
+    }
   });
 };
-
-if (!discordCode || !accountId)
-  return (window.location.href = `${BASE_URL}login`);
-else fetchData();
-
-return <div>Hello World</div>;
