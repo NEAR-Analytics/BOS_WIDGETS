@@ -1,10 +1,57 @@
-const { ndcDAOs } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
-const { Container, ChartContainer } = VM.require(
-  `ndcdev.near/widget/Dashboard.Pages.styled`,
-);
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 4.5rem;
 
-if (!ndcDAOs || !Container || !ChartContainer)
-  return <Widget src="flashui.near/widget/Loading" />;
+  @media screen and (max-width: 768px) {
+    padding: 3rem 2rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 400;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  .select-dao {
+    width: 50%;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      min-width: 150px;
+    }
+  }
+  .select-period {
+    width: 150px;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
+`;
+
+const ChartContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+
+  @media screen and (max-width: 1188px) {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+`;
+
+const { ndcDAOs } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+
+if (!ndcDAOs) return <Widget src="flashui.near/widget/Loading" />;
 
 const PERIODS = ["daily", "weekly", "monthly"];
 const defaultDAOOption = "All DAOs";
@@ -26,13 +73,19 @@ const baseUrl = "https://api.pikespeak.ai";
 
 const get = async (url) => {
   try {
-    return asyncFetch(`${baseUrl}/${url}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
-      },
-    });
+    return useCache(
+      () =>
+        // TODO: need better API for this, fetching all members daos is not efficient
+        asyncFetch(`${baseUrl}/${url}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
+          },
+        }),
+      url,
+      { subscribe: false },
+    );
   } catch (e) {
     console.log(e);
   }
@@ -72,35 +125,33 @@ const fetchData = () => {
   };
 
   const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
+  const resp = null;
 
-  const promises = daos.flatMap((accountId) => [
-    API.get_accounts(accountId).then((resp) => {
-      if (!resp.body) return;
+  daos.flatMap((accountId) => {
+    resp = API.get_accounts(accountId);
+    if (!resp.body) return;
 
-      newState.totalAccounts += resp.body.length;
-    }),
-    API.get_unique_accounts_by_period(accountId).then((resp) => {
-      if (!resp.body) return;
+    newState.totalAccounts += resp.body.length;
 
-      newState.uniqueAccounts += parseInt(resp.body[period].data.length);
-      newState.uniqueActiveUsers.push(...resp.body[period].data);
-      newState.totalTx += resp.body[period].data.reduce(
-        (memo, current) => memo + parseInt(current.tx_count),
-        0,
-      );
-      newState.dailyTotalTx.push(
-        ...resp.body[period].data.map((item) => ({
-          date: item.day,
-          count: parseInt(item.tx_count),
-        })),
-      );
-    }),
-  ]);
+    resp = API.get_unique_accounts_by_period(accountId);
+    if (!resp.body) return;
 
-  Promise.all(promises).then(() => {
-    setDataState(newState);
-    setLoading(false);
+    newState.uniqueAccounts += parseInt(resp.body[period].data.length);
+    newState.uniqueActiveUsers.push(...resp.body[period].data);
+    newState.totalTx += resp.body[period].data.reduce(
+      (memo, current) => memo + parseInt(current.tx_count),
+      0,
+    );
+    newState.dailyTotalTx.push(
+      ...resp.body[period].data.map((item) => ({
+        date: item.day,
+        count: parseInt(item.tx_count),
+      })),
+    );
   });
+
+  setDataState(newState);
+  setLoading(false);
 };
 
 useEffect(() => {
@@ -159,7 +210,7 @@ return (
       <SelectContainer className="d-flex w-100 gap-3 justify-content-between">
         <div className="select-dao">
           <Widget
-            src={`ndcdev.near/widget/Dashboard.Components.Select.index`}
+            src={`ndcdev.near/widget/Dashboard.Components.Select`}
             props={{
               options: ndcDAOs,
               defaultValue: defaultDAOOption,
@@ -173,7 +224,7 @@ return (
         </div>
         <div className="select-period">
           <Widget
-            src={`ndcdev.near/widget/Dashboard.Components.Select.index`}
+            src={`ndcdev.near/widget/Dashboard.Components.Select`}
             props={{
               options: PERIODS.map((v) => capitalizeFirstLetter(v)),
               isOpen: selectOpen,
@@ -186,7 +237,7 @@ return (
       </SelectContainer>
     </div>
     <Widget
-      src={`ndcdev.near/widget/Dashboard.Components.MetricsDisplay.index`}
+      src={`ndcdev.near/widget/Dashboard.Components.Aggregators`}
       props={{
         totalTx: dataState.totalTx,
         totalAccounts: dataState.totalAccounts,
@@ -196,7 +247,7 @@ return (
     />
     <ChartContainer>
       <Widget
-        src={`ndcdev.near/widget/Dashboard.Components.Chart.index`}
+        src={`ndcdev.near/widget/Dashboard.Components.Chart`}
         props={{
           title: "DAILY NUMBER OF TRANSACTIONS",
           data: dailyTotal,
@@ -204,7 +255,7 @@ return (
         }}
       />
       <Widget
-        src={`ndcdev.near/widget/Dashboard.Components.Chart.index`}
+        src={`ndcdev.near/widget/Dashboard.Components.Chart`}
         props={{
           title: "UNIQUE ACTIVE USERS",
           data: dailyTotalUsers,
@@ -214,7 +265,7 @@ return (
     </ChartContainer>
     <div className="section py-5 flex-column">
       <Widget
-        src={`ndcdev.near/widget/Dashboard.Components.Table.index`}
+        src={`ndcdev.near/widget/Dashboard.Components.Table`}
         props={{ ndcDAOs, API }}
       />
     </div>
