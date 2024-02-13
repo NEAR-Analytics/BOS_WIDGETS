@@ -21,7 +21,8 @@ const fetchData = () => {
     .join("&");
 
   let promise = asyncFetch(
-    `https://discordapp.com/api/v9/oauth2/token?${urlSearchParams}`,
+    `https://discordapp.com/api/v9/oauth2/token`,
+    urlSearchParams,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
