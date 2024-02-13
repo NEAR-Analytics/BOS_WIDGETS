@@ -137,7 +137,7 @@ function MainComponent(props) {
   const href = getHref(path);
   const hasLinkNearblocks = props?.path ? !linkNearblocks(path) : false;
   const hasLinkNearExplorer = props?.path ? !linkNearExplorer(path) : false;
-  const hasLinkPikePeakai = props?.path ? !hasLinkPikePeakai(path) : false;
+  const hasLinkpikepeakai = props?.path ? !hasLinkpikepeakai(path) : false;
 
   function onSelect(value) {
     setSelected(value);
@@ -201,7 +201,7 @@ function MainComponent(props) {
           </a>
           <a
             href={
-              !hasLinkPikePeakai
+              !hasLinkpikepeakai
                 ? href || config.pikepeakai + path
                 : config.pikepeakai
             }
@@ -222,7 +222,7 @@ function MainComponent(props) {
               src={
                 "https://pikespeak.ai/static/media/pikespeak_logo.0e695acc13a944a571c4.png"
               }
-              alt="PikePeakai"
+              alt="pikepeakai"
             />
           </a>
           <a
