@@ -186,10 +186,9 @@ useEffect(() => {
 
   const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
   const wrapType =
-    inputCurrency.address === "native" && outputCurrency.address === wethAddress
+    inputCurrency.isNative && outputCurrency.address === wethAddress
       ? 1
-      : inputCurrency.address === wethAddress &&
-        outputCurrency.address === "native"
+      : inputCurrency.address === wethAddress && outputCurrency.isNative
       ? 2
       : 0;
 
@@ -305,9 +304,9 @@ useEffect(() => {
         .mul(100)
         .toString();
     }
-    const withdrawMode = outputCurrency.address === "native" ? 1 : 2;
+    const withdrawMode = outputCurrency.isNative ? 1 : 2;
     const options = {
-      value: inputCurrency.address === "native" ? amount : 0,
+      value: inputCurrency.isNative ? amount : 0,
     };
     const swapData = ethers.utils.defaultAbiCoder.encode(
       ["address", "address", "uint8"],
@@ -338,35 +337,36 @@ useEffect(() => {
 
     const params = [paths, _amountOut, deadline];
 
+    const createTx = (_gas) => {
+      RouterContract.populateTransaction
+        .swap(...params, {
+          ...options,
+          gasLimit: _gas || 5000000,
+        })
+        .then((res) => {
+          onLoad({
+            ...returnData,
+            noPair: false,
+            gas: _gas,
+            unsignedTx: res,
+          });
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+            noPair: false,
+            gas: _gas,
+          });
+        });
+    };
+
     RouterContract.estimateGas
       .swap(...params, options)
       .then((_gas) => {
-        RouterContract.populateTransaction
-          .swap(...params, {
-            ...options,
-            gasLimit: _gas,
-          })
-          .then((res) => {
-            onLoad({
-              ...returnData,
-              noPair: false,
-              gas: _gas,
-              unsignedTx: res,
-            });
-          })
-          .catch((err) => {
-            onLoad({
-              ...returnData,
-              noPair: false,
-              gas: _gas,
-            });
-          });
+        createTx(_gas);
       })
       .catch((err) => {
-        onLoad({
-          ...returnData,
-          noPair: false,
-        });
+        createTx();
       });
   };
   getPoolAddress();
