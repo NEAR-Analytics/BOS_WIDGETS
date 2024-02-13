@@ -1,11 +1,11 @@
 const [loading, setLoading] = useState(true);
 
-VM.prepare(["sdks.near/widget/Utils.Ethereum.ENSResolver"]).then((result) => {
+VM.prepare(["sdks.near/widget/Utils.NearFS"]).then((result) => {
   setLoading(false);
 });
 
-const ENSResolver = VM.require("sdks.near/widget/Utils.Ethereum.ENSResolver");
-console.log(ENSResolver.resolve("ionoproxy.eth"));
+const NearFS = VM.require("sdks.near/widget/NearFS");
+console.log(NearFS.getIpfsUrl("somecid"));
 
 return (
   <>
