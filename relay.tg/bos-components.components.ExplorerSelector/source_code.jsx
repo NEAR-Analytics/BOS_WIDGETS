@@ -24,7 +24,7 @@ function MainComponent(props) {
     pikepeakai:
       props?.network === "testnet"
         ? "https://pikespeak.ai"
-        : "https://pikespeak.ai/",
+        : "https://pikespeak.ai",
   };
 
   function removePlural(word) {
@@ -105,6 +105,26 @@ function MainComponent(props) {
       }
     return false;
   }
+  function linkpikepeakai(link) {
+    if (link)
+      switch (getFirstPathSegment(link)) {
+        case "":
+          return true;
+        case "accounts":
+          return true;
+        case "transactions":
+          return true;
+        case "blocks":
+          return true;
+        case "stats":
+          return true;
+        case "nodes":
+          return true;
+        default:
+          return false;
+      }
+    return false;
+  }
 
   function getFirstPathSegment(url) {
     const match = url.match(/\/([^/]+)/);
@@ -137,6 +157,7 @@ function MainComponent(props) {
   const href = getHref(path);
   const hasLinkNearblocks = props?.path ? !linkNearblocks(path) : false;
   const hasLinkNearExplorer = props?.path ? !linkNearExplorer(path) : false;
+  const hasLinkpikepeakai = props?.path ? !linkpikepeakai(path) : false;
 
   function onSelect(value) {
     setSelected(value);
@@ -200,9 +221,7 @@ function MainComponent(props) {
           </a>
           <a
             href={
-              !hasLinkpikepeakai
-                ? href || config.pikepeakai + path
-                : config.pikepeakai
+              !hasLinkpikepeakai ? config.pikepeakai + path : config.pikepeakai
             }
             onClick={() => {
               onSelect("pikepeakai");
@@ -214,7 +233,7 @@ function MainComponent(props) {
             }`}
           >
             <span className="text-xs text-center absolute bg-neargreen-200 text-white p-1 rounded-bl-md rounded-tr right-0 top-0">
-              Recommended
+              New
             </span>
             <img
               className="h-16 w-44"
