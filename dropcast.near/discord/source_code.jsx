@@ -51,8 +51,10 @@ const fetchData = () => {
         method: "POST",
         body: convertObject(data.body),
       }).then((res) => {
-        console.log(res, "==>res");
-        //   return <Widget src={`${Owner}/widget/main`} />;
+        const result = res.body;
+        if (result.user)
+          return <Widget src={`${Owner}/widget/main`} props={result} />;
+        else if (result.error) return result.message;
       });
     } else {
       return <Widget src={`${Owner}/widget/login`} />;
