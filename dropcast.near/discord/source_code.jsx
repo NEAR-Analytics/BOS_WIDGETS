@@ -37,7 +37,7 @@ const fetchData = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         method: "POST",
-        body: JSON.stringify(data.body),
+        body: data.body,
       }).then((res) => {
         console.log(res, "==>res");
         //   return <Widget src={`${Owner}/widget/main`} />;
