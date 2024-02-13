@@ -8,9 +8,6 @@ const API_URL = "http://localhost:3000/api";
 
 const discordCode = props.code || "";
 
-if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
-else fetchData();
-
 const fetchData = () => {
   const params = {
     client_id: CLIENT_ID,
@@ -50,3 +47,6 @@ const fetchData = () => {
     }
   });
 };
+
+if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
+else fetchData();
