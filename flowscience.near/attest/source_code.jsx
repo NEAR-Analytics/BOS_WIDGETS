@@ -1,13 +1,3 @@
-const initialFormValues = {
-  recipientId: props.recipientId || "",
-  expireDate: props.expireDate || "",
-  expireTime: props.expireTime || "",
-  revokeDate: props.revokeDate || "",
-  refUID: props.refUID || "",
-  payload: props.payload || "",
-};
-
-// Initialize state
 const [formValues, setFormValues] = useState({
   recipientId: props.recipientId || "",
   expireDate: props.expireDate || "",
@@ -17,7 +7,7 @@ const [formValues, setFormValues] = useState({
   payload: props.payload || "",
 });
 const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
+  props.selectedSchema ?? "attestations.near/type/isTrue"
 );
 const [schemaFields, setSchemaFields] = useState({});
 const {
@@ -63,7 +53,7 @@ const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: props.selectedSchema,
+  selectedSchema: state.selectedSchema,
   schemaFields: schemaFields,
   recipientId: state.recipientId,
   expireDate: state.expireDate,
@@ -76,7 +66,7 @@ State.init({
 
 const attestData = {
   attestation: {
-    [props.selectedSchema]: {
+    [selectedSchema]: {
       [state.objectUID]: {
         ...formValues,
       },
@@ -201,6 +191,7 @@ const handleInputChange = (fieldName, newValue) => {
 const fetchSchema = (schema) => {
   // Example fetch logic, adjust based on your API/backend
   const schemaDetails = Social.get(schema, "final");
+  console.log(schemaDetails);
   if (schemaDetails) {
     try {
       const parsedSchemaDetails = JSON.parse(schemaDetails);
@@ -218,6 +209,7 @@ const fetchSchema = (schema) => {
 useEffect(() => {
   const fetchSchemaDetails = async () => {
     const schemaDetailsRaw = Social.get(`${selectedSchema}`, "final");
+    console.log(schemaDetailsRaw);
     if (schemaDetailsRaw) {
       try {
         const schemaDetails = JSON.parse(schemaDetailsRaw);
@@ -305,22 +297,6 @@ return (
         />
       </Row>
     ))}
-    {createWidgetSrc ? (
-      <>
-        <Widget src={createWidgetSrc} props={{ onChange }} />
-      </>
-    ) : (
-      <>
-        {properties?.map((property) => (
-          <div key={property.name}>
-            <Label>{property.name}</Label>
-            <Row>
-              <Property property={property} value={item.value[property.name]} />
-            </Row>
-          </div>
-        ))}
-      </>
-    )}
     <Button onClick={handleSave}>Save</Button>
     <hr></hr>Preview:
     <Widget
