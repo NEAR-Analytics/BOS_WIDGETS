@@ -363,6 +363,8 @@ useEffect(() => {
       maxBorrowAmount,
       borrowTokenBal;
     if (state.tab === "Borrow") {
+      if (Big(state.borrowAmount || 0).gt(Big(state.borrowTokenBal || 0)))
+        return;
       if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
       assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
       if (state.borrowAmount) {
