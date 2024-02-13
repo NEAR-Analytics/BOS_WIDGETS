@@ -284,10 +284,9 @@ useEffect(() => {
   }
 
   const wrapType =
-    inputCurrency.address === "native" && outputCurrency.address === wethAddress
+    inputCurrency.isNative && outputCurrency.address === wethAddress
       ? 1
-      : inputCurrency.address === wethAddress &&
-        outputCurrency.address === "native"
+      : inputCurrency.address === wethAddress && outputCurrency.isNative
       ? 2
       : 0;
 
@@ -403,7 +402,7 @@ useEffect(() => {
     const encodedDataCallSwap = RouterIface.encodeFunctionData(method, inputs);
     multicallParams.push(encodedDataCallSwap);
 
-    if (outputCurrency.isNative === "native") {
+    if (outputCurrency.isNative) {
       multicallParams.push(
         RouterIface.encodeFunctionData("unwrapWETH9", ["0", account])
       );
@@ -442,29 +441,31 @@ useEffect(() => {
       noPair: false,
     };
 
+    const createTx = (gas) => {
+      multicallContract.populateTransaction
+        .multicall(multicallParams, { ...options, gasLimit: gas || 400000 })
+        .then((res) => {
+          onLoad({
+            ...returnData,
+            gas,
+            unsignedTx: res,
+          });
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+            gas,
+          });
+        });
+    };
+
     multicallContract.estimateGas
       .multicall(multicallParams, options)
       .then((gas) => {
-        multicallContract.populateTransaction
-          .multicall(multicallParams, { ...options, gasLimit: gas })
-          .then((res) => {
-            onLoad({
-              ...returnData,
-              gas,
-              unsignedTx: res,
-            });
-          })
-          .catch((err) => {
-            onLoad({
-              ...returnData,
-              gas,
-            });
-          });
+        createTx(gas);
       })
       .catch((err) => {
-        onLoad({
-          ...returnData,
-        });
+        createTx();
       });
   };
 
