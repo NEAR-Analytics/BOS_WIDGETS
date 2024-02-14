@@ -106,10 +106,10 @@ const changeTab = (tab) => {
   State.update({ tab });
 };
 
-const changeMemberOption = (e) => {
+const changeMemberOption = (value) => {
   State.update({
     ...state,
-    member_option: e.value,
+    member_option: value,
   });
 };
 
@@ -139,9 +139,7 @@ return (
             <Widget
               props={{
                 noLabel: true,
-                value: MEMBER_OPTIONS.find(
-                  (row) => row.value === state.member_option
-                ),
+                value: state.member_option,
                 options: MEMBER_OPTIONS,
                 onChange: changeMemberOption,
               }}
