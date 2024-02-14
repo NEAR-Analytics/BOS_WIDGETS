@@ -8,11 +8,11 @@ return {
         name: "View",
       },
     },
-    collab: {
-      path: "apps.near/widget/git",
+    build: {
+      path: "apps.near/widget/directory",
       blockHeight: "final",
       init: {
-        name: "Build",
+        name: "Explore",
       },
     },
     social: {
