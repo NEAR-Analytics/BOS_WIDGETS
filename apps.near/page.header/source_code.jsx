@@ -101,8 +101,8 @@ const Header = ({ ...props }) => {
       <Content>
         <Logo src={logoLink} />
         <Tagline>
-          Designed to connect and empower builders in a{" "}
-          <span className="muted">multi-chain ecosystem</span>
+          build
+          <span className="muted">anything</span>
         </Tagline>
         <Widget
           src="buildhub.near/widget/components.TrialAccountBanner"
