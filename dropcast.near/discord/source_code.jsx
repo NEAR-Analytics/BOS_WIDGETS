@@ -69,5 +69,11 @@ const fetchData = () => {
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded) fetchData();
 
-if (state.token) return <Widget src={`${Owner}/widget/main`} props={state} />;
+if (state.token)
+  return (
+    <Widget
+      src={`${Owner}/widget/main`}
+      props={{ TOKEN: state.token, USER: state.user }}
+    />
+  );
 return <div>{result.error || `Loading`}</div>;
