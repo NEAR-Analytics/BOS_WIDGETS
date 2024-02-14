@@ -380,8 +380,8 @@ const AuthProcess = ({ platform }) => {
         <Step>2. Write down your Farcaster handle</Step>
         <StepDescription>
           <ProfileInput
-            value={selectedProfile}
-            onChange={({ target: { value: text } }) => setSelectedProfile(text)}
+            value={selectedHandle}
+            onChange={({ target: { value: text } }) => setSelectedHandle(text)}
           />
         </StepDescription>
         <Step>3. Sign a proof</Step>
