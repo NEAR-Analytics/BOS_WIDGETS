@@ -25,6 +25,7 @@ let {
   callLibs,
   baseActions,
   handleOnCommitArticle,
+  sharedSearchInputValue,
 } = props;
 
 const libSrcArray = [widgets.libs.libUpVotes];
@@ -51,6 +52,7 @@ if (articlesToRender.length > 0) {
 State.init({
   start: Date.now(),
   libsCalls: initLibsCalls,
+  searchInputValue: sharedSearchInputValue ?? "",
 });
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
@@ -71,13 +73,28 @@ let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   }
 });
 
+const articlesFilteredBySerch =
+  state.searchInputValue === ""
+    ? finalArticlesWithUpVotes
+    : finalArticlesWithUpVotes.filter((article) => {
+        if (article) {
+          return (
+            article.title.includes(state.searchInputValue) ||
+            article.body.includes(state.searchInputValue) ||
+            article.author.includes(state.searchInputValue)
+          );
+        } else {
+          return true;
+        }
+      });
+
 const fiveDaysTimeLapse = 432000000;
 
-const newestArticlesWithUpVotes = finalArticlesWithUpVotes
+const newestArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit > Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.timeLastEdit - a.timeLastEdit);
 
-const olderArticlesWithUpVotes = finalArticlesWithUpVotes
+const olderArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit < Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.upVotes.length - a.upVotes.length);
 
@@ -140,6 +157,10 @@ function allArticlesListStateUpdate(obj) {
   State.update(obj);
 }
 
+function handleSearch(e) {
+  State.update({ searchInputValue: e.target.value });
+}
+
 //================================================END FUNCTIONS=====================================================
 return (
   <>
@@ -194,6 +215,18 @@ return (
     ) : (
       <h6>You can't post since you don't own this SBT</h6>
     )}
+    <Widget
+      src={widgets.views.standardWidgets.styledComponents}
+      props={{
+        Input: {
+          label: "Search",
+          value: state.searchInputValue,
+          type: "text",
+          placeholder: "You You can search by title or content",
+          handleChange: handleSearch,
+        },
+      }}
+    />
     <ShareSearchRow>
       <ShareSearchText>Share search</ShareSearchText>
       <Widget
@@ -202,7 +235,7 @@ return (
           size: "sm",
           className: "info outline icon",
           children: <i className="bi bi-share"></i>,
-          onClick: () => handleShareSearch(true),
+          onClick: () => handleShareSearch(true, state.searchInputValue),
         }}
       />
     </ShareSearchRow>
