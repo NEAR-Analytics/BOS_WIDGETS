@@ -361,7 +361,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
-        <FinishButton onClick={() => verifyHandle("lens")}>Finish</FinishButton>
+        <FinishButton onClick={() => verifyProof("lens")}>Finish</FinishButton>
       </AuthProcessWrapper>
     ),
     farcaster: (
