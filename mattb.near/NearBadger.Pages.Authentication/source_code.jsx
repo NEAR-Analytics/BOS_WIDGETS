@@ -79,6 +79,7 @@ const Modal = styled.div`
     padding:5rem 2rem;
     margin-top:auto;
     margin-bottom:auto;
+    background-color:#fff;
 `;
 
 const Logo = styled.img`
