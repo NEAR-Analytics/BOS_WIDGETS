@@ -79,10 +79,16 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   align-items: stretch;
-  flex-direction: column;
-  background: white;
+  background: rgb(23,23,23);
   overflow: auto;
   position: relative;
+`;
+
+const PageWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  color: rgb(229 229 229);
 `;
 
 const changePage = (page) => {
@@ -100,5 +106,6 @@ return (
       src={`${Owner}/widget/sidebar`}
       props={{ API_URL, USER, PAGES, currentPage: state.page, changePage }}
     />
+    <PageWrapper>page</PageWrapper>
   </Wrapper>
 );
