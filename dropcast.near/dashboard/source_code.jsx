@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   padding: 64px;
   position: relative;
   align-items: stretch;
+  flex-direction: column;
   color: rgb(229 229 229);
   background: rgb(23,23,23);
 `;
@@ -92,5 +93,18 @@ return (
         </Tab>
       ))}
     </Tabs>
+    {state.tab === "my_projects" && (
+      <div
+        className="d-flex justify-content-between"
+        style={{ padding: "25px 0" }}
+      >
+        <div className="d-flex flex-direction-column">
+          <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+        </div>
+        <div className="d-flex flex-direction-column">
+          <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+        </div>
+      </div>
+    )}
   </Wrapper>
 );
