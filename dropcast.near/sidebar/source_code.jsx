@@ -79,10 +79,10 @@ return (
     <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between">
       <div className="d-flex align-items-center gap-3">
         <Avatar
-          src="https://cdn.discordapp.com/avatars/1050807227251953754/b249444edb0aabe2b4e2b6e2b2381265.png"
+          src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
           alt=""
         />
-        <p className="m-0">pontrue</p>
+        <p className="m-0">{USER.name}</p>
       </div>
       <button className="btn p-0" style={{ width: 30, color: "white" }}>
         <svg
