@@ -436,19 +436,7 @@ useEffect(() => {
       liquidationPrice,
       borrowTokenBal;
     const liquidationFee = 20;
-    borrowingFee = Big(state.borrowAmount || 0)
-      .mul(0.005)
-      .toFixed();
-    totalDebt = Big(state.borrowAmount || 0)
-      .plus(Big(borrowingFee))
-      .plus(liquidationFee)
-      .toFixed();
-    yourLTV = Big(totalDebt)
-      .div(Big(state.amount).mul(prices[data.underlyingToken.symbol]))
-      .toFixed();
-    liquidationPrice = Big(totalDebt)
-      .div(Big(state.amount).mul(Big(data["MAX_LTV"])))
-      .toFixed();
+
     if (state.tab === "Borrow") {
       assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
     }
@@ -465,7 +453,21 @@ useEffect(() => {
         .minus(assetInUSD.minus(20).mul(0.02))
         .toFixed();
     }
-
+    console.log(2222222, state.borrowAmount, borrowTokenBal);
+    if (Big(state.borrowAmount || 0).gt(Big(borrowTokenBal || 0))) return;
+    borrowingFee = Big(state.borrowAmount || 0)
+      .mul(0.005)
+      .toFixed();
+    totalDebt = Big(state.borrowAmount || 0)
+      .plus(Big(borrowingFee))
+      .plus(liquidationFee)
+      .toFixed();
+    yourLTV = Big(totalDebt)
+      .div(Big(state.amount).mul(prices[data.underlyingToken.symbol]))
+      .toFixed();
+    liquidationPrice = Big(totalDebt)
+      .div(Big(state.amount).mul(Big(data["MAX_LTV"])))
+      .toFixed();
     State.update({
       totalDebt,
       yourLTV,
