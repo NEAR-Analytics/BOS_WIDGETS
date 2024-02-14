@@ -70,6 +70,7 @@ const Tagline = styled.h1`
   text-align: center;
   font-size: 3rem;
   font-style: normal;
+  font-family: Courier;
   font-weight: 500;
   line-height: 120%; /* 57.6px */
   margin: 0;
@@ -100,7 +101,7 @@ const Header = ({ ...props }) => {
     <HeaderContainer>
       <Content>
         <Logo src={logoLink} />
-        <Tagline>edit apps/widget/project</Tagline>
+        <Tagline>apps/widget/project</Tagline>
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
