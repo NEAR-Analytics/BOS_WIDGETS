@@ -385,7 +385,7 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <Step>2. Write down your Farcaster handle</Step>
         <StepDescription>
-            <ProfileInput value={selectedProfile} onChange={({ target: { value: text } }) => setSelectedProfile(text)}
+            <ProfileInput value={selectedProfile} onChange={({ target: { value: text } }) => setSelectedProfile(text)} />
         </StepDescription>
         <Step>3. Sign a proof</Step>
         <StepDescription>
