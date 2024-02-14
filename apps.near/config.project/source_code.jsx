@@ -2,7 +2,7 @@ return {
   type: "app",
   routes: {
     main: {
-      path: "apps.near/widget/project",
+      path: "apps.near/widget/root",
       blockHeight: "final",
       init: {
         name: "View",
