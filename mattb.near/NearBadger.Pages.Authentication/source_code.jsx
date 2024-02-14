@@ -14,16 +14,15 @@ const FARCASTER_BLACK_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreif2ff55fa7
 const [platform, setPlatform] = useState("");
 
 const Main = styled.div`
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
     width:100%;
-    height:100vh;
+    min-height:100vh;
+    padding:3rem 0;
 `;
 
 const Modal = styled.div`
     display:flex;
+    max-width:350px;
+    margin:auto;
     align-items:center;
     justify-content:center;
     flex-direction:column;
@@ -31,6 +30,7 @@ const Modal = styled.div`
     border-radius:20px;
     padding:5rem 2rem;
     margin-top:auto;
+    margin-bottom:auto;
 `;
 
 const Logo = styled.img`
