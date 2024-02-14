@@ -4,7 +4,7 @@ if (!accountId) {
 }
 let { src } = props;
 
-let contract = "beta-v2.integrations.near";
+let contract = "staging.integrations.near";
 
 console.log("qer..", src);
 const [verificationItems, setVerificationItems] = useState([
@@ -121,21 +121,23 @@ const [verifications, setVerifications] = useState({
 const handleVerify = async (index) => {
   // Make API and smart contract calls based on your logic
   // Update verifications state based on results
-  const base_url = "https://api.nearbadger.vercel.app";
+  const base_url = "https://api.nearbadger.vercel.app/sign";
 
-  console.log("response here..", response);
   let action = verificationItems[index];
   asyncFetch(`${base_url}${action.endpoint}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ accountId }),
-    mode: "no-cors",
   })
     .then((response) => {
-      let res = response.body;
+      let res = response.body.signature;
+      console.log("th lowww..", res, response);
       Near.call(contract, "update_contract_age", {
         signature: res.signature,
         account_age: res.accountInfo,
-        max_block_height: res.max_block_height,
+        max_block_height: res.expirationBlockHeight,
       });
     })
     .catch((err) => console.log(err));
@@ -153,13 +155,19 @@ const handleSelection = (index, fromQ) => {
 const isCardSelected = selectedIndex !== null;
 
 useEffect(() => {
-  verificationItems.forEach((item, index) => {
-    const result = Near.view(contract, item.viewFunction, {
-      account_id: accountId,
-    });
-    const newItems = [...verificationItems];
-    newItems[index].status = result;
-    setVerificationItems(newItems);
+  Promise.all(
+    verificationItems.map((item, index) =>
+      Near.asyncView(contract, item.viewFunction, {
+        account_id: accountId,
+      }).then((result) => {
+        const newItems = [...verificationItems];
+        newItems[index].status = result;
+        return newItems[index];
+      })
+    )
+  ).then((newItemsArray) => {
+    const mergedItems = newItemsArray.flat();
+    setVerificationItems(mergedItems);
   });
   if (src !== null) {
     handleSelection(src, true);
@@ -183,7 +191,7 @@ return (
           disabled={isCardSelected && selectedIndex !== index}
           onClick={() => handleVerify(index)}
         >
-          verify info
+          {item.status ? "Verified!" : "verify info"}
         </button>
       </VerificationCard>
     ))}
