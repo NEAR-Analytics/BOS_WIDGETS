@@ -236,8 +236,8 @@ State.init({
 });
 const themeColor = state.light ? lightColors : darkColors;
 const handelLight = () => {
-  let bool = state.light;
-  State.update({ light: !bool });
+  const isLight = state.light;
+  State.update({ light: !isLight });
 };
 const setTab = (tab) => State.update({ tab });
 
@@ -270,73 +270,79 @@ const Container = styled.div`
 
 return (
   <div
+    className="d-flex"
     style={{
       background: themeColor?.page_bg,
     }}
   >
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/flipsides.png",
-          headerText: "Flipside",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../lord1.near/widget/home",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Dashboards",
-              link: "../../lord1.near/widget/Flipside-Home-page",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Contracts",
-              link: "../../leslug.near/widget/NearContractVisualizerV2",
+    <Widget
+      src="lord1.near/widget/sidebar"
+      props={{
+        headerIcon:
+          "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/flipsides.png",
+        headerText: "Flipside",
+        footerIcon:
+          "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
+        footerText: "",
+        headerLink: "test",
+        footerLink: "test",
+        links: [
+          {
+            text: "Home",
+            title: "Home Page",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
-              title: "Top NEAR projects profiler",
-            },
-            {
-              text: "Im human",
-              link: "../../lord1.near/widget/im-human",
-              title: "I Am Human SBT tracker",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-            },
-            {
-              text: "NDC",
-              link: "../../lord1.near/widget/NDC",
-              title: "NDC tracker",
+            link: "../../lord1.near/widget/home",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
+          },
+          {
+            text: "Dashboards",
+            title: "Dashboards",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-            {
-              text: "Election",
-              link: "../../lord1.near/widget/election",
-              title: "Election tracker",
+            link: "../../lord1.near/widget/Flipside-Home-page",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
+          },
+          {
+            text: "Contracts",
+            link: "../../leslug.near/widget/NearContractVisualizerV2",
 
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
-            },
-          ],
-          backgroundColor: themeColor?.sideBar?.sideBar_bg,
-          textcolor: themeColor?.sideBar?.sideBar_color,
-        }}
-      />
-    </div>
-    <div style={{ marginLeft: "6rem" }}>
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
+            title: "Top NEAR projects profiler",
+          },
+          {
+            text: "Im human",
+            link: "../../lord1.near/widget/im-human",
+            title: "I Am Human SBT tracker",
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
+          },
+          {
+            text: "NDC",
+            link: "../../lord1.near/widget/NDC",
+            title: "NDC tracker",
+
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
+          },
+          {
+            text: "Election",
+            link: "../../lord1.near/widget/election",
+            title: "Election tracker",
+
+            image:
+              "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
+          },
+        ],
+        backgroundColor: themeColor?.sideBar?.sideBar_bg,
+        textcolor: themeColor?.sideBar?.sideBar_color,
+
+        className: "align-self-start",
+        activeIcon: "Im human",
+      }}
+    />
+    <div style={{ minWidth: "80%" }} className=" flex-grow-1  px-2">
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
@@ -347,24 +353,34 @@ return (
           marginBottom: "1rem",
         }}
       >
-        <Widget
-          src="efiz.near/widget/marquee"
-          props={{
-            text: "Broaden your horizon with Flipside",
-            fontFamily: "Arial",
-            fontSize: "20px",
-            backgroundColor: themeColor?.header_bg,
-            height: "60px",
-            width: "100%",
-            textColor: themeColor?.horizen_bg,
+        <div className="flex-grow-1">
+          <Widget
+            src="efiz.near/widget/marquee"
+            props={{
+              text: "Broaden your horizon with Flipside",
+              fontFamily: "Arial",
+              fontSize: "20px",
+              backgroundColor: themeColor?.header_bg,
+              height: "30px",
+              width: "100%",
+              textColor: themeColor?.horizen_bg,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            flexBasis: "30px",
           }}
-        />
-
-        <img
           onClick={handelLight}
-          Width={30}
-          src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
-        />
+        >
+          <Widget
+            src="lord1.near/widget/dark-light"
+            props={{
+              theme: state.light ? "light" : "dark",
+              variableStyles: "--toggle-size: 15px;",
+            }}
+          />
+        </div>
       </div>
       <div
         style={{
