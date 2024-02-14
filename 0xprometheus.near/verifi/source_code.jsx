@@ -1,3 +1,29 @@
+let { src } = props;
+
+console.log("qer..", src);
+const [verificationItems, setVerificationItems] = useState([
+  {
+    title: "Verify Account is Older than 1 year",
+    status: verifications.accountAge,
+  },
+  {
+    title: "Verify Account is Older than 6 months",
+    status: verifications.accountAge,
+  },
+  {
+    title: "Verify Account is Older than 2 year",
+    status: verifications.accountAge,
+  },
+  {
+    title: "Verify Account has connected to more than 5 contracts",
+    status: verifications.accountAge,
+  },
+  { title: "Verify Number of Contracts", status: verifications.contracts },
+  { title: "Verify Balance", status: verifications.balance },
+  { title: "Verify Lens Handle", status: verifications.lensHandle },
+]);
+const [selectedIndex, setSelectedIndex] = useState(null);
+
 const wrapper = styled.div`
   font-family: sans-serif;
   margin: 0;
@@ -15,6 +41,33 @@ const VerificationCard = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: transform 0.2s ease-in-out;
+  ${({ selected }) =>
+    selected &&
+    `
+      background-color: blue; /* or your desired highlight color */
+    `}
+  button {
+    display: block; /* Show the button inside the card */
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+    }
+
+    & + button { /* Spacing between buttons */
+      margin-top: 10px;
+    }
+
+    &:hover {
+      background-color: #2a69a5;
+      position: relative;
+      transform: scale(0.95);
+    }
 `;
 
 // VerificationTitle
@@ -35,7 +88,7 @@ const VerificationTooltip = styled.span`
   display: none;
   position: absolute;
   top: 0;
-  left: 100%;
+  left: 50%;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 5px;
@@ -74,42 +127,40 @@ const handleVerify = async () => {
   // Update verifications state based on results
 };
 
+const handleSelection = (index) => {
+  if (selectedIndex !== index) {
+    console.log("handler speaker.. ", selectedIndex, index, verificationItems);
+
+    const newItems = [...verificationItems];
+    console.log("loner..", newItems);
+    const selectedItem = newItems.splice(index, 1)[0]; // Remove selected item
+    console.log("splixed..", selectedItem, newItems);
+    newItems.unshift(selectedItem); // Add selected item to the front
+    console.log("get fina....", newItems);
+    setVerificationItems(newItems);
+    setSelectedIndex(0);
+  }
+};
+const isCardSelected = selectedIndex !== null;
+
 return (
   <wrapper>
     <h2>Account Verification</h2>
-    <VerificationCard>
-      <VerificationTitle>Verify Account Age</VerificationTitle>
-      <VerificationStatus verified={verifications.accountAge}>
-        {/* Update this based on your logic */}
-      </VerificationStatus>
-      <VerificationTooltip>
-        Account must be at least 1 year old.
-      </VerificationTooltip>
-      <button onClick={handleVerifyContracts}>Verify Contracts</button>
-    </VerificationCard>
-    <VerificationCard>
-      <VerificationTitle>Verify Number of Contracts</VerificationTitle>
-      <VerificationStatus verified={verifications.contracts}>
-        {/* Update this based on your logic */}
-      </VerificationStatus>
-      <VerificationTooltip>You have currently X contracts.</VerificationTooltip>
-      <button onClick={handleVerifyContracts}>Verify Contracts</button>
-    </VerificationCard>
-    <VerificationCard>
-      <VerificationTitle>Verify Balance</VerificationTitle>
-      <VerificationStatus verified={verifications.balance}>
-        {/* Update this based on your logic */}
-      </VerificationStatus>
-      <VerificationTooltip>Your current balance is X NEAR.</VerificationTooltip>
-      <button onClick={handleVerifyContracts}>Verify Contracts</button>
-    </VerificationCard>
-    <VerificationCard>
-      <VerificationTitle>Verify Lens Handle</VerificationTitle>
-      <VerificationStatus verified={verifications.lensHandle}>
-        {/* Update this based on your logic */}
-      </VerificationStatus>
-      <VerificationTooltip>Your Lens handle is X.</VerificationTooltip>
-      <button onClick={handleVerifyContracts}>Verify Contracts</button>
-    </VerificationCard>
+    {verificationItems.map((item, index) => (
+      <VerificationCard
+        key={index}
+        selected={selectedIndex === index}
+        onClick={() => handleSelection(index)}
+      >
+        <VerificationTitle>{item.title}</VerificationTitle>
+        <VerificationStatus verified={item.status}></VerificationStatus>
+        <VerificationTooltip>
+          Account must be at least 1 year old.
+        </VerificationTooltip>
+        <button disabled={isCardSelected && selectedIndex !== index}>
+          verify info
+        </button>
+      </VerificationCard>
+    ))}
   </wrapper>
 );
