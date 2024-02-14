@@ -130,10 +130,10 @@ return (
     </Tabs>
     {state.tab === "my_projects" && (
       <div
-        className="d-flex justify-content-between gap-3"
+        className="d-flex justify-content-between align-items-center gap-3"
         style={{ padding: "25px 0" }}
       >
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column w-50">
           <p>{`These are the projects on Vulcan which you're a member of.`}</p>
           <div style={{ width: 240 }}>
             <Widget
@@ -147,8 +147,17 @@ return (
             />
           </div>
         </div>
-        <div className="d-flex flex-direction-column">
-          <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+        <div
+          className="d-flex flex-column w-50 p-4 rounded-3"
+          style={{ backgroundColor: "rgb(38, 38, 38)" }}
+        >
+          <h6>{`Note`}</h6>
+          <p
+            className="m-0"
+            style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}
+          >
+            {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
+          </p>
         </div>
       </div>
     )}
