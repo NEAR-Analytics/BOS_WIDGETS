@@ -56,7 +56,7 @@ useEffect(() => {
   });
 }, [verificationItems, src]);
 
-const [selectedIndex, setSelectedIndex] = useState(src || null);
+const [selectedIndex, setSelectedIndex] = useState(null);
 
 const wrapper = styled.div`
   font-family: sans-serif;
