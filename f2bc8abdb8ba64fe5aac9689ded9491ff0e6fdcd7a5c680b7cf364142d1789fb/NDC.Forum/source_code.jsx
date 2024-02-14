@@ -17,6 +17,7 @@ let {
   kanbanExcludedTags,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
   callLibs,
   mainStateUpdate,
@@ -629,9 +630,9 @@ function handleShareButton(showShareModal, sharedElement) {
   State.update({ showShareModal, sharedElement });
 }
 
-function handleShareSearch(showShareSearchModal) {
+function handleShareSearch(showShareSearchModal, searchInputValue) {
   //showShareSearchModal is a boolean
-  State.update({ showShareSearchModal, sharingSearch: true });
+  State.update({ showShareSearchModal, sharingSearch: true, searchInputValue });
 }
 
 function getLink() {
@@ -640,7 +641,10 @@ function getLink() {
       state.filterBy.parameterName === "tag"
         ? `tagShared=${state.filterBy.parameterValue}&`
         : ""
-    }topicShared=${sbts[0].replace(/\s+/g, "")}`;
+    }topicShared=${sbts[0].replace(/\s+/g, "")}${
+      state.searchInputValue !== "" &&
+      `&sharedSearchInputValue=${state.searchInputValue}`
+    }`;
   } else {
     return `https://near.social/${widgets.thisForum}?${isTest && "isTest=t&"}${
       state.sharedElement.type
@@ -719,6 +723,7 @@ return (
           callLibs,
           baseActions,
           handleOnCommitArticle,
+          sharedSearchInputValue,
         }}
       />
     )}
