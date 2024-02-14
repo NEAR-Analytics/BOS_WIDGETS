@@ -1,11 +1,10 @@
-const label = props.label || "Label";
-const noLabel = props.noLabel || false;
-const placeholder = props.placeholder || "Select an option";
-const value = props.value || "";
-const width = props.width || "270px";
-const options = props.options || [];
-const onChange = props.onChange || (() => {});
-const error = props.error || "";
+const label = props.label ?? "Label";
+const noLabel = props.noLabel ?? false;
+const placeholder = props.placeholder ?? "Select an option";
+const value = props.value ?? "";
+const options = props.options ?? [];
+const onChange = props.onChange ?? (() => {});
+const error = props.error ?? "";
 
 const Container = styled.div`
   gap: 0.45em;
@@ -77,7 +76,7 @@ const scaleOut = styled.keyframes`
 const Content = styled.div`
   padding: 0;
   gap: 0.5em;
-  width: ${width};
+  width: 320px;
   display: flex;
   font-size: 14px;
   overflow-y: auto;
@@ -142,11 +141,16 @@ const Item = styled.button`
 return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
-    <Select.Root value={value} onValueChange={(value) => onChange(value)}>
+    <Select.Root
+      value={value?.value}
+      onValueChange={(value) =>
+        onChange(options.find((option) => option.value === value))
+      }
+    >
       <Select.Trigger asChild={true}>
         <Input>
           <Select.Value
-            aria-label={value}
+            aria-label={value.value}
             placeholder={<Placeholder>{placeholder}</Placeholder>}
           />
           <Select.Icon>
@@ -170,7 +174,7 @@ return (
       </Select.Trigger>
 
       <Select.Content asChild={true} position="popper">
-        <Content className="menu">
+        <Content>
           <Select.Viewport asChild={true}>
             <Viewport>
               {options.map(({ text, value }) => (
