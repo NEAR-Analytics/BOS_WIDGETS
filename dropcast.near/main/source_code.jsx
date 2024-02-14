@@ -106,6 +106,13 @@ return (
       src={`${Owner}/widget/sidebar`}
       props={{ API_URL, USER, PAGES, currentPage: state.page, changePage }}
     />
-    <PageWrapper>page</PageWrapper>
+    <PageWrapper>
+      {state.page === "dashboard" && (
+        <Widget
+          src={`${Owner}/widget/dashbaord`}
+          props={{ API_URL, USER, TOKEN }}
+        />
+      )}
+    </PageWrapper>
   </Wrapper>
 );
