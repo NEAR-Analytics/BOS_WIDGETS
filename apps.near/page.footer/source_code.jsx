@@ -136,7 +136,7 @@ const Footer = () => {
           {NearSocialIcon}
         </a>
       </SocialContainer>
-      <p>{date.getFullYear()} -- Builders</p>
+      <p>{date.getFullYear()} ~ Open Web</p>
     </Container>
   );
 };
