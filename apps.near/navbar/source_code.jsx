@@ -78,6 +78,15 @@ const NavLink = ({ to, children }) => (
 const [showMenu, setShowMenu] = useState(false);
 const toggleDropdown = () => setShowMenu(!showMenu);
 
+const ActionButton = () => (
+  <>
+    <Widget
+      src="apps.near/widget/FollowButton"
+      props={{ accountId: props.accountId }}
+    />
+  </>
+);
+
 const AppHeader = ({ page, routes, ...props }) => (
   <Navbar>
     <div className="d-flex align-items-center justify-content-between w-100">
@@ -113,6 +122,9 @@ const AppHeader = ({ page, routes, ...props }) => (
               );
             })}
         </ButtonGroup>
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+          <ActionButton />
+        </div>
       </DesktopNavigation>
       <MobileNavigation>
         <Link
@@ -162,6 +174,9 @@ const AppHeader = ({ page, routes, ...props }) => (
                 );
               })}
           </ButtonGroup>
+          <div className="d-flex w-100 justify-content-center">
+            <ActionButton />
+          </div>
         </div>
       )}
     </MobileNavigation>
