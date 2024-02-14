@@ -7,7 +7,7 @@ const Navbar = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 48px;
+  padding: 25px 48px;
   width: 100%;
   background-color: #0b0c14;
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
