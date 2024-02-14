@@ -3,6 +3,8 @@ const Owner = props.Owner || "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
 const USER = props.USER || {};
 const PAGES = props.PAGES || [];
+const currentPage = props.currentPage;
+const changePage = props.changePage;
 
 //Styles
 const Wrapper = styled.div`
@@ -67,7 +69,7 @@ return (
           className="d-flex text-white align-items-center gap-2 rbt-token-removeable"
         >
           {page.icon}
-          <SelectedIcon />
+          {currentPage === page.value && <SelectedIcon />}
           {page.title}
         </div>
       ))}
