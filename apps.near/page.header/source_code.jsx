@@ -100,7 +100,7 @@ const Header = ({ ...props }) => {
     <HeaderContainer>
       <Content>
         <Logo src={logoLink} />
-        <Tagline>edit apps/widget/project and save to reload</Tagline>
+        <Tagline>edit apps/widget/project</Tagline>
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
