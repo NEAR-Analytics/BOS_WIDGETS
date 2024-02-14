@@ -123,8 +123,6 @@ const [verifications, setVerifications] = useState({
 });
 
 const handleVerify = async (index) => {
-  // Make API and smart contract calls based on your logic
-  // Update verifications state based on results
   const base_url = "https://api.nearbadger.vercel.app/sign";
 
   let action = verificationItems[index];
@@ -137,10 +135,9 @@ const handleVerify = async (index) => {
   })
     .then((response) => {
       let res = response.body.signature;
-      console.log("th lowww..", res, response);
       Near.call(contract, action.changeMethod, {
         signature: res.signature,
-        account_age: res.accountInfo,
+        account_info: res.accountInfo,
         max_block_height: res.expirationBlockHeight,
       });
     })
