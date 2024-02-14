@@ -67,10 +67,13 @@ return (
         <div
           key={index}
           className="d-flex text-white align-items-center gap-2 rbt-token-removeable"
+          onClick={() => changePage(page.value)}
         >
           {page.icon}
           {currentPage === page.value && <SelectedIcon />}
-          {page.title}
+          <p style={{ color: currentPage === page.value ? "white" : "grey" }}>
+            {page.title}
+          </p>
         </div>
       ))}
     </div>
