@@ -27,7 +27,7 @@ const Title = styled.h2`
     font-size: 24px;
     color: transparent;
     background-clip: text;
-    background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
+    background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777);
 `;
 
 const Avatar = styled.img`
@@ -42,7 +42,7 @@ const SelectedIcon = styled.div`
     height: 8px;
     position: absolute;
     border-radius: 0.375rem;
-    background-image: linear-gradient(to left,#facc15,#ea580c, rgba(250,204,21,0));
+    background-image: linear-gradient(to right ,#facc15,#ea580c);
 `;
 
 return (
