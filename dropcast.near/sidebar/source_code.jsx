@@ -62,21 +62,17 @@ return (
       </p>
     </div>
 
-    <div className="d-flex flex-column mt-5 gap-3">
+    <div className="d-flex flex-column mt-5 gap-4">
       {PAGES.map((page, index) => (
         <div
           key={index}
-          className="d-flex text-white align-items-center gap-2 rbt-token-removeable"
+          style={{ color: currentPage === page.value ? "white" : "grey" }}
+          className="d-flex align-items-center gap-2 rbt-token-removeable"
           onClick={() => changePage(page.value)}
         >
           {page.icon}
           {currentPage === page.value && <SelectedIcon />}
-          <p
-            style={{ color: currentPage === page.value ? "white" : "grey" }}
-            className="m-0"
-          >
-            {page.title}
-          </p>
+          <p className="m-0">{page.title}</p>
         </div>
       ))}
     </div>
