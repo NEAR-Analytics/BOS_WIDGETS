@@ -350,6 +350,7 @@ return (
         backgroundColor: `${state.light ? "#d2cafa" : "rgb(49,62,89)"}`,
         textcolor: "#fff",
         className: "align-self-start",
+        activeIcon: "Platform",
       }}
     />
     <div style={{ minWidth: "80%" }} className=" flex-grow-1  px-2">
