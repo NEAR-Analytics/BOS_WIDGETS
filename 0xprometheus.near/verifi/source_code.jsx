@@ -1,27 +1,49 @@
+const accountId = context.accountId;
+if (!accountId) {
+  return <h1>Please connect your wallet!</h1>;
+}
 let { src } = props;
+
+let contract = "beta-v2.integrations.near";
 
 console.log("qer..", src);
 const [verificationItems, setVerificationItems] = useState([
   {
     title: "Verify Account is Older than 1 year",
-    status: verifications.accountAge,
+    status: true,
+    endpoint: "/account-age",
+    viewFunction: "is_one_year_old"
   },
   {
     title: "Verify Account is Older than 6 months",
-    status: verifications.accountAge,
+    status: false,
+    endpoint: "/account-age",
+    viewFunction: "six_month_old"
   },
   {
     title: "Verify Account is Older than 2 year",
-    status: verifications.accountAge,
+    status: false,
+    endpoint: "/account-age",
+    viewFunction: "is_two_year_old"
   },
   {
     title: "Verify Account has connected to more than 5 contracts",
-    status: verifications.accountAge,
-  },
-  { title: "Verify Number of Contracts", status: verifications.contracts },
-  { title: "Verify Balance", status: verifications.balance },
-  { title: "Verify Lens Handle", status: verifications.lensHandle },
+    status: false,
+    endpoint: "/connected-contracts",
+    viewFunction: "connected_to_5_contracts"
+  }
 ]);
+
+useEffect(() => {
+  verificationItems.forEach((item, index) => {
+    const result = Near.view(contract, item.viewFunction, { account_id: accountId });
+    const newItems = [...verificationItems];
+    newItems[index].status = result;
+    setVerificationItems(newItems);
+    
+  });
+}, [verificationItems])
+
 const [selectedIndex, setSelectedIndex] = useState(null);
 
 const wrapper = styled.div`
@@ -45,10 +67,10 @@ const VerificationCard = styled.div`
   ${({ selected }) =>
     selected &&
     `
-      background-color: blue; /* or your desired highlight color */
+      background-color: blue;
     `}
   button {
-    display: block; /* Show the button inside the card */
+    display: block;
     background-color: #337ab7;
     color: #fff;
     border: none;
@@ -57,7 +79,6 @@ const VerificationCard = styled.div`
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease-in-out;
-    }
 
     & + button { /* Spacing between buttons */
       margin-top: 10px;
@@ -80,24 +101,9 @@ const VerificationTitle = styled.h3`
 // VerificationStatus
 const VerificationStatus = styled.div`
   font-size: 14px;
-  color: ${(props) => (props.verified ? "#008000" : "#f00")};
+  color: red;
 `;
 
-// VerificationTooltip
-const VerificationTooltip = styled.span`
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 5px;
-  font-size: 12px;
-
-  ${VerificationCard}:hover & {
-    display: block;
-  }
-`;
 
 // VerificationButton
 const VerificationButton = styled.button`
@@ -122,21 +128,34 @@ const [verifications, setVerifications] = useState({
   lensHandle: null,
 });
 
-const handleVerify = async () => {
+const handleVerify = async (index) => {
   // Make API and smart contract calls based on your logic
   // Update verifications state based on results
+  const base_url = "https://api.nearbadger.vercel.app";
+
+  console.log("response here..", response);
+  let action = verificationItems[index];
+  asyncFetch(`${base_url}${action.endpoint}`, {
+    method: "POST",
+    body: JSON.stringify({ accountId }),
+    mode: "no-cors",
+  })
+    .then((response) => {
+      let res = response.body;
+      Near.call(contract, "update_contract_age", {
+        signature: res.signature,
+        account_age: res.accountInfo,
+        max_block_height: res.max_block_height,
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 const handleSelection = (index) => {
   if (selectedIndex !== index) {
-    console.log("handler speaker.. ", selectedIndex, index, verificationItems);
-
     const newItems = [...verificationItems];
-    console.log("loner..", newItems);
     const selectedItem = newItems.splice(index, 1)[0]; // Remove selected item
-    console.log("splixed..", selectedItem, newItems);
     newItems.unshift(selectedItem); // Add selected item to the front
-    console.log("get fina....", newItems);
     setVerificationItems(newItems);
     setSelectedIndex(0);
   }
@@ -145,7 +164,7 @@ const isCardSelected = selectedIndex !== null;
 
 return (
   <wrapper>
-    <h2>Account Verification</h2>
+    <h2>Available Stamp Verifications</h2>
     {verificationItems.map((item, index) => (
       <VerificationCard
         key={index}
@@ -153,11 +172,13 @@ return (
         onClick={() => handleSelection(index)}
       >
         <VerificationTitle>{item.title}</VerificationTitle>
-        <VerificationStatus verified={item.status}></VerificationStatus>
-        <VerificationTooltip>
-          Account must be at least 1 year old.
-        </VerificationTooltip>
-        <button disabled={isCardSelected && selectedIndex !== index}>
+        <VerificationStatus verified={true}></VerificationStatus>
+        <button
+        style={{ backgroundColor: item.status ? "green" : "" }}
+        verified={true}
+          disabled={isCardSelected && selectedIndex !== index}
+          onClick={() => handleVerify(index)}
+        >
           verify info
         </button>
       </VerificationCard>
