@@ -10,6 +10,9 @@ const discordCode = props.code || "";
 
 State.init({
   loaded: false,
+  error: "",
+  token: "",
+  user: {},
 });
 
 const convertObject = (params) => {
@@ -54,8 +57,8 @@ const fetchData = () => {
         const result = res.body;
         console.log(result, "==>reusult");
         if (result.token)
-          return <Widget src={`${Owner}/widget/main`} props={result} />;
-        else if (result.error) return result.message;
+          State.update({ token: result.token, user: result.user });
+        else if (result.error) State.update({ error: result.error });
       });
     } else {
       return <Widget src={`${Owner}/widget/login`} />;
@@ -65,3 +68,6 @@ const fetchData = () => {
 
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded) fetchData();
+
+if (state.token) return <Widget src={`${Owner}/widget/main`} props={state} />;
+return <div>{result.error || `Loading`}</div>;
