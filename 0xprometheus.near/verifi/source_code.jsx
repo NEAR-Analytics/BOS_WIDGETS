@@ -12,39 +12,40 @@ const [verificationItems, setVerificationItems] = useState([
     title: "Verify Account is Older than 1 year",
     status: true,
     endpoint: "/account-age",
-    viewFunction: "is_one_year_old"
+    viewFunction: "is_one_year_old",
   },
   {
     title: "Verify Account is Older than 6 months",
     status: false,
     endpoint: "/account-age",
-    viewFunction: "six_month_old"
+    viewFunction: "six_month_old",
   },
   {
     title: "Verify Account is Older than 2 year",
     status: false,
     endpoint: "/account-age",
-    viewFunction: "is_two_year_old"
+    viewFunction: "is_two_year_old",
   },
   {
     title: "Verify Account has connected to more than 5 contracts",
     status: false,
     endpoint: "/connected-contracts",
-    viewFunction: "connected_to_5_contracts"
-  }
+    viewFunction: "connected_to_5_contracts",
+  },
 ]);
 
 useEffect(() => {
   verificationItems.forEach((item, index) => {
-    const result = Near.view(contract, item.viewFunction, { account_id: accountId });
+    const result = Near.view(contract, item.viewFunction, {
+      account_id: accountId,
+    });
     const newItems = [...verificationItems];
     newItems[index].status = result;
     setVerificationItems(newItems);
-    
   });
-}, [verificationItems])
+}, [verificationItems]);
 
-const [selectedIndex, setSelectedIndex] = useState(null);
+const [selectedIndex, setSelectedIndex] = useState(src || null);
 
 const wrapper = styled.div`
   font-family: sans-serif;
@@ -79,6 +80,7 @@ const VerificationCard = styled.div`
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease-in-out;
+  }
 
     & + button { /* Spacing between buttons */
       margin-top: 10px;
@@ -103,7 +105,6 @@ const VerificationStatus = styled.div`
   font-size: 14px;
   color: red;
 `;
-
 
 // VerificationButton
 const VerificationButton = styled.button`
@@ -174,8 +175,8 @@ return (
         <VerificationTitle>{item.title}</VerificationTitle>
         <VerificationStatus verified={true}></VerificationStatus>
         <button
-        style={{ backgroundColor: item.status ? "green" : "" }}
-        verified={true}
+          style={{ backgroundColor: item.status ? "green" : "" }}
+          verified={true}
           disabled={isCardSelected && selectedIndex !== index}
           onClick={() => handleVerify(index)}
         >
