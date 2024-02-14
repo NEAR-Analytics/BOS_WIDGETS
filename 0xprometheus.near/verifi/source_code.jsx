@@ -12,25 +12,29 @@ const [verificationItems, setVerificationItems] = useState([
     title: "Verify Account is Older than 1 year",
     status: true,
     endpoint: "/account-age",
-    viewFunction: "is_one_year_old",
+    viewMethod: "is_one_year_old",
+    changeMethod: "update_contract_age",
   },
   {
     title: "Verify Account is Older than 6 months",
     status: false,
     endpoint: "/account-age",
-    viewFunction: "six_month_old",
+    viewMethod: "six_month_old",
+    changeMethod: "update_contract_age",
   },
   {
     title: "Verify Account is Older than 2 year",
     status: false,
     endpoint: "/account-age",
-    viewFunction: "is_two_year_old",
+    viewMethod: "is_two_year_old",
+    changeMethod: "update_contract_age",
   },
   {
     title: "Verify Account has connected to more than 5 contracts",
     status: false,
     endpoint: "/connected-contracts",
-    viewFunction: "connected_to_5_contracts",
+    viewMethod: "connected_to_5_contracts",
+    changeMethod: "update_access_key",
   },
 ]);
 
@@ -134,7 +138,7 @@ const handleVerify = async (index) => {
     .then((response) => {
       let res = response.body.signature;
       console.log("th lowww..", res, response);
-      Near.call(contract, "update_contract_age", {
+      Near.call(contract, action.changeMethod, {
         signature: res.signature,
         account_age: res.accountInfo,
         max_block_height: res.expirationBlockHeight,
@@ -157,7 +161,7 @@ const isCardSelected = selectedIndex !== null;
 useEffect(() => {
   Promise.all(
     verificationItems.map((item, index) =>
-      Near.asyncView(contract, item.viewFunction, {
+      Near.asyncView(contract, item.viewMethod, {
         account_id: accountId,
       }).then((result) => {
         const newItems = [...verificationItems];
