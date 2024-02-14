@@ -100,14 +100,7 @@ const Header = ({ ...props }) => {
     <HeaderContainer>
       <Content>
         <Logo src={logoLink} />
-        <Tagline>
-          build
-          <span className="muted">anything</span>
-        </Tagline>
-        <Widget
-          src="buildhub.near/widget/components.TrialAccountBanner"
-          props={props}
-        />
+        <Tagline>edit apps/widget/project and save to reload</Tagline>
       </Content>
       <Grid src={gridLink} />
       <LeftBlur src={leftBlur} />
