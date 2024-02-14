@@ -82,7 +82,7 @@ const ActionButton = () => (
   <>
     <Widget
       src="apps.near/widget/FollowButton"
-      props={{ accountId: props.accountId }}
+      props={{ accountId: "every.near" }}
     />
   </>
 );
