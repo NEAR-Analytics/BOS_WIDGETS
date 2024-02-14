@@ -142,10 +142,10 @@ function checkPasscode() {
 // Users that already voted
 const [voted, setVoted] = useState([1]);
 
-// Functions
+// Function for voting
 function vote() {
   if (candidate > 0 && party > 0) {
-    // console.log(context.accountId);
+    // console.log(accountId);
     // console.log(voted);
     // setCandidates([...candidates]);
     setState({
@@ -154,7 +154,13 @@ function vote() {
     });
     // Update
     // !!!
-    setVoteToRender((vote) => vote.candidates[candidate - 1]);
+    setVoteToRender((vote) => ({
+      ...vote,
+      candidates: vote.candidates.map((c, i) =>
+        i === candidate - 1 ? { ...c, votes: c.votes + 1 } : c
+      ),
+      voters: vote.voters.concat(accountId),
+    }));
   } else {
     // Set an error on the dropdown
     setState({
@@ -242,8 +248,9 @@ return (
                     // Check if the vote has password
                     voteToRender.passcode === "" || opened ? (
                       // Check if the vote reached to its voters limit
-                      voteToRender.limit !== "" &&
-                      voteToRender.limit > voteToRender.voters.length ? (
+                      voteToRender.limit === "" ||
+                      (voteToRender.limit !== "" &&
+                        voteToRender.limit > voteToRender.voters.length) ? (
                         <div className="body-contents">
                           <i>
                             <svg
@@ -282,9 +289,7 @@ return (
                           <p
                             style={{
                               color: "green",
-                              display: voteToRender.voters.includes(
-                                context.accountId
-                              )
+                              display: voteToRender.voters.includes(accountId)
                                 ? "block"
                                 : "none",
                             }}
@@ -295,9 +300,7 @@ return (
                             <div className="flex">
                               <select
                                 disabled={
-                                  voteToRender.voters.includes(
-                                    context.accountId
-                                  )
+                                  voteToRender.voters.includes(accountId)
                                     ? true
                                     : false
                                 }
@@ -325,9 +328,7 @@ return (
                               OR
                               <select
                                 disabled={
-                                  voteToRender.voters.includes(
-                                    context.accountId
-                                  )
+                                  voteToRender.voters.includes(accountId)
                                     ? true
                                     : false
                                 }
@@ -361,7 +362,7 @@ return (
                             </div>
                             <button
                               disabled={
-                                voteToRender.voters.includes(context.accountId)
+                                voteToRender.voters.includes(accountId)
                                   ? true
                                   : false
                               }
