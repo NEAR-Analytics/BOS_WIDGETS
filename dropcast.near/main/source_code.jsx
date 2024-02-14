@@ -16,6 +16,11 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-if (!accountId || !user || !token)
-  return <Widget src={`${Owner}/widget/login`} />;
-return <Wrapper className="root">main</Wrapper>;
+// if (!accountId || !user || !token)
+//   return <Widget src={`${Owner}/widget/login`} />;
+
+return (
+  <Wrapper className="root">
+    <Widget src={`${Owner}/widget/sidebar`} props={(API_URL, user)} />
+  </Wrapper>
+);
