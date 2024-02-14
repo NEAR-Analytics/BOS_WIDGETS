@@ -26,7 +26,6 @@ const [selectedHandle, setSelectedHandle] = useState("");
 const [proof, setProof] = useState("");
 const [finished, setFinished] = useState(false);
 
-
 if (!evmAddress && Ethers.provider()) {
   Ethers.provider()
     .send("eth_requestAccounts", [])
@@ -96,7 +95,7 @@ const AuthButton = styled.div`
     position:relative;
     padding:.4rem .7rem .4rem 2.7rem;
     border-radius:7px;
-    background-color:${({ background }) => `${background || "#eaeaea"}`};
+    background-color:${({ background }) => `${background || "#f2f2f2"}`};
     font-size:.8rem;
     font-weight:bold;
     border:1px solid ${({ border }) => `${border || "rgba(0,0,0,.05)"}`};
@@ -256,45 +255,45 @@ const ProfileInput = styled.input`
 `;
 
 const signProof = (platform) => {
-    asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          accountId: context.accountId,
-          handle: selectedHandle,
-        }),
-      }).then(({ body: { challenge } }) => {
-        EthereumSigner.sign(challenge.toString()).then((proof) => {
-          setProof(proof);
-        });
-      });
-}
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      accountId: context.accountId,
+      handle: selectedHandle,
+    }),
+  }).then(({ body: { challenge } }) => {
+    EthereumSigner.sign(challenge.toString()).then((proof) => {
+      setProof(proof);
+    });
+  });
+};
 
 const verifyProof = (platform) => {
-    asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        accountId: context.accountId,
-        handle: selectedHandle,
-        proof,
-      }),
-    }).then(({ body: { expirationBlockHeight, signature } }) => {
-      Near.call(REGISTRY_CONTRACT, "register_social", {
-        platform,
-        signature,
-        handle: selectedHandle,
-        proof,
-        max_block_height: expirationBlockHeight,
-      });
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      accountId: context.accountId,
+      handle: selectedHandle,
+      proof,
+    }),
+  }).then(({ body: { expirationBlockHeight, signature } }) => {
+    Near.call(REGISTRY_CONTRACT, "register_social", {
+      platform,
+      signature,
+      handle: selectedHandle,
+      proof,
+      max_block_height: expirationBlockHeight,
     });
-}
+  });
+};
 
 const AuthMethods = () => {
   return (
@@ -360,17 +359,9 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <Step>3. Sign a proof</Step>
         <StepDescription>
-          <button
-            onClick={() => signProof("lens")}
-          >
-            Sign proof
-          </button>
+          <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
-        <FinishButton
-          onClick={() => verifyHandle("lens")}
-        >
-          Finish
-        </FinishButton>
+        <FinishButton onClick={() => verifyHandle("lens")}>Finish</FinishButton>
       </AuthProcessWrapper>
     ),
     farcaster: (
@@ -388,7 +379,10 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <Step>2. Write down your Farcaster handle</Step>
         <StepDescription>
-            <ProfileInput value={selectedProfile} onChange={({ target: { value: text } }) => setSelectedProfile(text)} />
+          <ProfileInput
+            value={selectedProfile}
+            onChange={({ target: { value: text } }) => setSelectedProfile(text)}
+          />
         </StepDescription>
         <Step>3. Sign a proof</Step>
         <StepDescription>
