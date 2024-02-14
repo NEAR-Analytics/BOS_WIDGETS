@@ -34,29 +34,7 @@ const [verificationItems, setVerificationItems] = useState([
   },
 ]);
 
-const handleSelection = (index) => {
-  if (selectedIndex !== index) {
-    const newItems = [...verificationItems];
-    const selectedItem = newItems.splice(index, 1)[0]; // Remove selected item
-    newItems.unshift(selectedItem); // Add selected item to the front
-    setVerificationItems(newItems);
-    setSelectedIndex(0);
-  }
-};
-
-useEffect(() => {
-  handleSelection(src);
-  verificationItems.forEach((item, index) => {
-    const result = Near.view(contract, item.viewFunction, {
-      account_id: accountId,
-    });
-    const newItems = [...verificationItems];
-    newItems[index].status = result;
-    setVerificationItems(newItems);
-  });
-}, [verificationItems, src]);
-
-const [selectedIndex, setSelectedIndex] = useState(null);
+const [selectedIndex, setSelectedIndex] = useState(src || null);
 
 const wrapper = styled.div`
   font-family: sans-serif;
@@ -163,7 +141,30 @@ const handleVerify = async (index) => {
     .catch((err) => console.log(err));
 };
 
+const handleSelection = (index, fromQ) => {
+  if (selectedIndex !== index || fromQ) {
+    const newItems = [...verificationItems];
+    const selectedItem = newItems.splice(index, 1)[0]; // Remove selected item
+    newItems.unshift(selectedItem); // Add selected item to the front
+    setVerificationItems(newItems);
+    setSelectedIndex(0);
+  }
+};
 const isCardSelected = selectedIndex !== null;
+
+useEffect(() => {
+  verificationItems.forEach((item, index) => {
+    const result = Near.view(contract, item.viewFunction, {
+      account_id: accountId,
+    });
+    const newItems = [...verificationItems];
+    newItems[index].status = result;
+    setVerificationItems(newItems);
+  });
+  if (src !== null) {
+    handleSelection(src, true);
+  }
+}, [src]);
 
 return (
   <wrapper>
