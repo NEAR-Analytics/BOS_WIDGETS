@@ -70,12 +70,47 @@ const TABS = [
   },
 ];
 
+const MEMBER_OPTIONS = [
+  {
+    text: "All",
+    value: "all",
+  },
+  {
+    text: "Whitelist Status: Active",
+    value: "status_active",
+  },
+  {
+    text: "Whitelist Status: Closed",
+    value: "status_closed",
+  },
+  {
+    text: "Whitelist Obtained: All",
+    value: "obtained_all",
+  },
+  {
+    text: "Whitelist Obtained: Yes",
+    value: "obtained_yes",
+  },
+  {
+    text: "Whitelist Obtained: No",
+    value: "obtained_no",
+  },
+];
+
 State.init({
   tab: "my_projects",
+  member_option: "all",
 });
 
 const changeTab = (tab) => {
   State.update({ tab });
+};
+
+const changeMemberOption = (e) => {
+  State.update({
+    ...state,
+    member_option: e.value,
+  });
 };
 
 return (
@@ -95,11 +130,24 @@ return (
     </Tabs>
     {state.tab === "my_projects" && (
       <div
-        className="d-flex justify-content-between"
+        className="d-flex justify-content-between gap-3"
         style={{ padding: "25px 0" }}
       >
-        <div className="d-flex flex-direction-column">
+        <div className="d-flex flex-column">
           <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+          <div style={{ width: 240 }}>
+            <Widget
+              props={{
+                noLabel: true,
+                value: MEMBER_OPTIONS.find(
+                  (row) => row.value === state.member_option
+                ),
+                options: MEMBER_OPTIONS,
+                onChange: changeMemberOption,
+              }}
+              src={`${Owner}/widget/Select`}
+            />
+          </div>
         </div>
         <div className="d-flex flex-direction-column">
           <p>{`These are the projects on Vulcan which you're a member of.`}</p>
