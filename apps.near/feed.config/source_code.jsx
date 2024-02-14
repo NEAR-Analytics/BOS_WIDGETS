@@ -14,7 +14,7 @@ return {
   type: "app",
   routes: {
     all: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "All",
@@ -23,7 +23,7 @@ return {
       },
     },
     updates: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Updates",
@@ -47,7 +47,7 @@ return {
       },
     },
     question: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Question",
@@ -62,7 +62,7 @@ return {
       },
     },
     answer: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Answer",
@@ -80,7 +80,7 @@ return {
       },
     },
     opportunity: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Opportunity",
@@ -96,7 +96,7 @@ return {
       },
     },
     idea: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Idea",
@@ -114,7 +114,7 @@ return {
       },
     },
     task: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Task",
@@ -132,7 +132,7 @@ return {
       },
     },
     feedback: {
-      path: "buildhub.near/widget/Feed",
+      path: "apps.near/widget/Spindle",
       blockHeight: "final",
       init: {
         name: "Feedback",
