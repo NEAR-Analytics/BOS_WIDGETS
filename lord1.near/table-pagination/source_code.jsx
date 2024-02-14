@@ -52,11 +52,11 @@ const sortedDate = (data) => {
   const sorted = data.sort((a, b) => {
     if (state.sort.name === "asc") {
       return typeof a[state.sort.key] === "number"
-        ? b[state.sort.key] ?? 0 - a[state.sort.key] ?? 0
+        ? (b[state.sort.key] ?? 0) - (a[state.sort.key] ?? 0)
         : (b[state.sort.key] ?? "").localeCompare(a[state.sort.key] ?? "");
     }
     return typeof a[state.sort.key] === "number"
-      ? a[state.sort.key] ?? 0 - b[state.sort.key] ?? 0
+      ? (a[state.sort.key] ?? 0) - (b[state.sort.key] ?? 0)
       : (a[state.sort.key] ?? "").localeCompare(b[state.sort.key] ?? "");
   });
   return sorted;
@@ -343,8 +343,9 @@ const buttonsIcons = (
   </ul>
 );
 return (
-  <div className="table-responsive pb-2">
+  <div className="pb-2">
     <div
+      className="table-responsive"
       style={{
         backgroundColor: themeColor?.table_pagination?.table_bg,
       }}
@@ -523,10 +524,12 @@ return (
               })}
         </tbody>
       </Table>
+    </div>
+    <div>
       {!withoutSearchBar && (
-        <div className="row p-0 m-0">
+        <div className="row p-0 m-0 my-2">
           <input
-            className="col col-sm-4"
+            className="col-8 col-sm-6"
             type="text"
             placeholder="Search..."
             color={themeColor?.table_pagination?.btn_color}
@@ -546,20 +549,19 @@ return (
           />
         </div>
       )}
+      {!rowsCount || totalPages === 1 ? (
+        ""
+      ) : (
+        <div
+          className="d-flex justify-content-center"
+          style={{
+            backgroundColor: themeColor?.table_pagination?.table_bg,
+          }}
+        >
+          <div>{buttonsIcons}</div>
+        </div>
+      )}
     </div>
-
-    {!rowsCount || totalPages === 1 ? (
-      ""
-    ) : (
-      <div
-        className="d-flex justify-content-center"
-        style={{
-          backgroundColor: themeColor?.table_pagination?.table_bg,
-        }}
-      >
-        <div>{buttonsIcons}</div>
-      </div>
-    )}
   </div>
 );
 
@@ -601,4 +603,107 @@ return (
 //       columntextcolor: ""
 //     },
 //   },
+// };
+
+// data for test
+// const props = {
+//   data: [
+//     {
+//       rank: 3690,
+//       function: "upvote",
+//       SINGER: "robert.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0029,
+//       target: "kazanderdad.near",
+//       total: 1,
+//     },
+//     {
+//       rank: 3689,
+//       function: "upvote",
+//       SINGER: "igris.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "❌",
+//       fee: 0.0011,
+//       target:
+//         "983dcdc8e0d80d1f8938118161e1ec08be6557809afccd5ec396354f28a2ce78",
+//       total: 0,
+//     },
+//     {
+//       rank: 3688,
+//       function: "upvote",
+//       SINGER: "igris.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0013,
+//       target:
+//         "983dcdc8e0d80d1f8938118161e1ec08be6557809afccd5ec396354f28a2ce78",
+//       total: 1,
+//     },
+//     {
+//       rank: 3687,
+//       function: "upvote",
+//       SINGER: "klaynramos.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0019,
+//       target: "larkim.near",
+//       total: 1,
+//     },
+//     {
+//       rank: 3686,
+//       function: "remove upvote",
+//       SINGER: "klaynramos.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0006,
+//       target: "larkim.near",
+//       total: 1,
+//     },
+//     {
+//       rank: 3685,
+//       function: "upvote",
+//       SINGER: "lcuric.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0009,
+//       target: "chefsale.near",
+//       total: 1,
+//     },
+//     {
+//       rank: 3684,
+//       function: "upvote",
+//       SINGER: "ftdgoodluck.near",
+//       time: "2023-09-07 00:00:00.000",
+//       status: "✅",
+//       fee: 0.0049,
+//       target: "iamgalt.near",
+//       total: 1,
+//     },
+//   ],
+//   columns: [
+//     { title: "Number", key: "rank", colors: "#806ce1" },
+//     {
+//       title: "Status",
+//       key: "status",
+//     },
+//     { title: "Timestamp", key: "time" },
+//     {
+//       title: "Signer",
+//       key: "SINGER",
+//       link: "yes",
+//       beforehref: "https://near.social/mob.near/widget/ProfilePage?accountId=",
+//       hyperlink: "yes",
+//     },
+//     { title: "Function ", key: "function" },
+//     {
+//       title: "Target",
+//       key: "target",
+//       link: "yes",
+//       beforehref: "https://near.social/mob.near/widget/ProfilePage?accountId=",
+//       hyperlink: "yes",
+//     },
+//     { title: "Fee(Near)", key: "fee" },
+//   ],
+//   rowsCount: 3,
 // };
