@@ -30,6 +30,7 @@ const Modal = styled.div`
     border:1px solid rgba(0,0,0,.1);
     border-radius:20px;
     padding:5rem 2rem;
+    margin-top:auto;
 `;
 
 const Logo = styled.img`
