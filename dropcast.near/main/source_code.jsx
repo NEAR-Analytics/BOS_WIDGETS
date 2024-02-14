@@ -109,7 +109,7 @@ return (
     <PageWrapper>
       {state.page === "dashboard" && (
         <Widget
-          src={`${Owner}/widget/dashbaord`}
+          src={`${Owner}/widget/dashboard`}
           props={{ API_URL, USER, TOKEN }}
         />
       )}
