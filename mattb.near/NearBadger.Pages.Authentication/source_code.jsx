@@ -63,6 +63,8 @@ const Main = styled.div`
     width:100%;
     min-height:100vh;
     padding:3rem 0;
+    background-color:#fafafa;
+    border-radius:20px;
 `;
 
 const Modal = styled.div`
