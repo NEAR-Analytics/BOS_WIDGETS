@@ -71,7 +71,10 @@ return (
         >
           {page.icon}
           {currentPage === page.value && <SelectedIcon />}
-          <p style={{ color: currentPage === page.value ? "white" : "grey" }}>
+          <p
+            style={{ color: currentPage === page.value ? "white" : "grey" }}
+            className="m-0"
+          >
             {page.title}
           </p>
         </div>
