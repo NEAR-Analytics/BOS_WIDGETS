@@ -82,7 +82,7 @@ return (
           src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
           alt=""
         />
-        <p className="m-0">{USER.name}</p>
+        <p className="m-0">{USER.username}</p>
       </div>
       <button className="btn p-0" style={{ width: 30, color: "white" }}>
         <svg
