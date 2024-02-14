@@ -2,8 +2,9 @@ const { accountId } = props;
 
 const $ = VM.require("sdks.near/widget/Loader");
 const { LensSDK } = $("@sdks/lens-sdk");
+const { EthereumSigner } = $("@sdks/eth-signer");
 
-const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app/";
+const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app";
 const VERIFY_PLATFORM_ENDPOINT = "verify";
 const CHALLENGE_ENDPONT = "challenge";
 const LOGO_URL =
@@ -15,12 +16,16 @@ const FARCASTER_LOGO_URL =
 const FARCASTER_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
 
+const REGISTRY_CONTRACT = "beta-v2.integrations.near";
+
 const [platform, setPlatform] = useState("");
 const [evmAddress, setEvmAddress] = useState("");
 const [loadedProfiles, setLoadedProfiles] = useState(false);
 const [lensProfiles, setLensProfiles] = useState([]);
-const [farcasterProfiles, setFarcasterProfiles] = useState([]);
 const [selectedHandle, setSelectedHandle] = useState("");
+const [proof, setProof] = useState("");
+const [finished, setFinished] = useState(false);
+
 
 if (!evmAddress && Ethers.provider()) {
   Ethers.provider()
@@ -43,10 +48,12 @@ useEffect(() => {
       })
       .then((profiles) => {
         if (profiles) {
-            const handles = profiles.map((profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`);
+          const handles = profiles.map(
+            (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
+          );
 
-            setSelectedHandle(handles[0]);
-            setLensProfiles(handles);
+          setSelectedHandle(handles[0]);
+          setLensProfiles(handles);
         }
       });
   }
@@ -182,6 +189,7 @@ const StepDescription = styled.div`
         
         :hover {
             box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+            border:1px solid rgba(0,0,0,.05);
             transition: all .2s;
             color:#000;
             background-color:#F2F2F2;
@@ -224,7 +232,8 @@ const Handle = styled.button`
     color:#000;
     background-color:#F2F2F2;
     border:1px solid rgba(0,0,0,.05);
-    box-shadow: 0 0 0 ${({selected}) => selected ? "3px" : "0px"} rgba(0,0,0,.05);
+    box-shadow: 0 0 0 ${({ selected }) =>
+      selected ? "3px" : "0px"} rgba(0,0,0,.05);
     padding:.3rem 1rem;
     font-size:.8rem;
     cursor:pointer;
@@ -238,6 +247,51 @@ const Handle = styled.button`
         color:#000;
     }
 `;
+
+const ProfileInput = styled.input`
+    
+`;
+
+const signProof = (platform) => {
+    asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          accountId: context.accountId,
+          handle: selectedHandle,
+        }),
+      }).then(({ body: { challenge } }) => {
+        EthereumSigner.sign(challenge.toString()).then((proof) => {
+          setProof(proof);
+        });
+      });
+}
+
+const verifyProof = (platform) => {
+    asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        accountId: context.accountId,
+        handle: selectedHandle,
+        proof,
+      }),
+    }).then(({ body: { expirationBlockHeight, signature } }) => {
+      Near.call(REGISTRY_CONTRACT, "register_social", {
+        platform,
+        signature,
+        handle: selectedHandle,
+        proof,
+        max_block_height: expirationBlockHeight,
+      });
+    });
+}
 
 const AuthMethods = () => {
   return (
@@ -265,10 +319,19 @@ const AuthMethods = () => {
 };
 
 const AvailableHandles = ({ handles }) => {
-    return <>
-        {handles.map(handle => <Handle selected={selectedHandle == handle} onClick={() => setSelectedHandle(handle)}>{handle}</Handle>)}
+  return (
+    <>
+      {handles.map((handle) => (
+        <Handle
+          selected={selectedHandle == handle}
+          onClick={() => setSelectedHandle(handle)}
+        >
+          {handle}
+        </Handle>
+      ))}
     </>
-}
+  );
+};
 
 const AuthProcess = ({ platform }) => {
   const process = {
@@ -287,27 +350,24 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <Step>2. Choose a profile</Step>
         <StepDescription>
-            {lensProfiles.length > 0 && <AvailableHandles handles={lensProfiles} />}
-            {lensProfiles.length == 0 && "No profiles to show yet."}
+          {lensProfiles.length > 0 && (
+            <AvailableHandles handles={lensProfiles} />
+          )}
+          {lensProfiles.length == 0 && "No profiles to show yet."}
         </StepDescription>
-        <Step>3. Sign a message</Step>
+        <Step>3. Sign a proof</Step>
         <StepDescription>
-          <button onClick={() => {
-              console.log(context.accountId, selectedHandle);
-              asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/lens`, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                      "Accept": "application/json"
-                  },
-                  body: JSON.stringify({
-                      accountId: context.accountId,
-                      handle: selectedHandle
-                  })
-              }).then((challenge) => console.log(challenge))
-          }}>Sign message</button>
+          <button
+            onClick={() => signProof("lens")}
+          >
+            Sign proof
+          </button>
         </StepDescription>
-        <FinishButton>Finish</FinishButton>
+        <FinishButton
+          onClick={() => verifyHandle("lens")}
+        >
+          Finish
+        </FinishButton>
       </AuthProcessWrapper>
     ),
     farcaster: (
@@ -323,13 +383,15 @@ const AuthProcess = ({ platform }) => {
             disconnectLabel="Disconnect wallet"
           />
         </StepDescription>
-        <Step>2. Choose a profile</Step>
-        <StepDescription>No profiles to show yet.</StepDescription>
-        <Step>3. Sign a message</Step>
+        <Step>2. Write down your Farcaster handle</Step>
         <StepDescription>
-          <button>Sign message</button>
+            <ProfileInput value={selectedProfile} onChange={({ target: { value: text } }) => setSelectedProfile(text)}
         </StepDescription>
-        <FinishButton>Finish</FinishButton>
+        <Step>3. Sign a proof</Step>
+        <StepDescription>
+          <button onClick={signProof("farcaster")}>Sign proof</button>
+        </StepDescription>
+        <FinishButton onClick={verifyProof("farcaster")}>Finish</FinishButton>
       </AuthProcessWrapper>
     ),
   };
