@@ -141,16 +141,11 @@ const Item = styled.button`
 return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
-    <Select.Root
-      value={value?.value}
-      onValueChange={(value) =>
-        onChange(options.find((option) => option.value === value))
-      }
-    >
+    <Select.Root value={value} onValueChange={(value) => onChange(value)}>
       <Select.Trigger asChild={true}>
         <Input>
           <Select.Value
-            aria-label={value.value}
+            aria-label={value}
             placeholder={<Placeholder>{placeholder}</Placeholder>}
           />
           <Select.Icon>
