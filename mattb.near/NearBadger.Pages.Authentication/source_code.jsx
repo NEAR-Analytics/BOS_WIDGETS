@@ -386,9 +386,9 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <Step>3. Sign a proof</Step>
         <StepDescription>
-          <button onClick={signProof("farcaster")}>Sign proof</button>
+          <button onClick={() => signProof("farcaster")}>Sign proof</button>
         </StepDescription>
-        <FinishButton onClick={verifyProof("farcaster")}>Finish</FinishButton>
+        <FinishButton onClick={() => verifyProof("farcaster")}>Finish</FinishButton>
       </AuthProcessWrapper>
     ),
   };
