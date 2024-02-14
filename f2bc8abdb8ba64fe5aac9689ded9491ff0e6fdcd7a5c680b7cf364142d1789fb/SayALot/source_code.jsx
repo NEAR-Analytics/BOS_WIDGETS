@@ -7,6 +7,7 @@ let {
   accountId,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
 } = props;
 
@@ -210,6 +211,7 @@ return (
           kanbanExcludedLabels,
           sharedArticleId,
           sharedCommentId,
+          sharedSearchInputValue,
           topicShared,
           callLibs,
           mainStateUpdate,
