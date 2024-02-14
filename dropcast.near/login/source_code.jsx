@@ -27,7 +27,7 @@ const Title = styled.h1`
     fontSize: 36px;
     color: transparent;
     background-clip: text;
-    background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
+    background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777);
 `;
 
 const LoginButton = styled.a`
