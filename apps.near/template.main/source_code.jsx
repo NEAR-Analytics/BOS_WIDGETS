@@ -20,10 +20,7 @@ const ContentContainer = styled.div`
 `;
 
 const Header = ({ page, routes, ...props }) => (
-  <Widget
-    src="apps.near/widget/navbar"
-    props={{ accountId: "devs.near", page, routes, ...props }}
-  />
+  <Widget src="apps.near/widget/navbar" props={{ page, routes, ...props }} />
 );
 
 const Footer = (props) => {
