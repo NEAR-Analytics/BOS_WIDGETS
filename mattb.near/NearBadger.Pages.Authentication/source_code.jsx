@@ -361,7 +361,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
-        <FinishButton onClick={() => verifyProof("lens")}>Finish</FinishButton>
+        <FinishButton onClick={() => verifyProof("lens")}>Claim profile</FinishButton>
       </AuthProcessWrapper>
     ),
     farcaster: (
@@ -388,7 +388,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("farcaster")}>Sign proof</button>
         </StepDescription>
-        <FinishButton onClick={() => verifyProof("farcaster")}>Finish</FinishButton>
+        <FinishButton onClick={() => verifyProof("farcaster")}>Claim profile</FinishButton>
       </AuthProcessWrapper>
     ),
   };
