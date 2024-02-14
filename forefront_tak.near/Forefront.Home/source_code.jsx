@@ -1101,7 +1101,7 @@ return (
                   >
                     <Widget
                       src="mob.near/widget/ProfileImage"
-                      props={{ accountId: "lord1.near" }}
+                      props={{ accountId: "forefront_tak.near" }}
                     />
                   </Link>
                 </td>
