@@ -1,5 +1,8 @@
 const { accountId } = props;
 
+const $ = VM.require("sdks.near/widget/Loader");
+const { LensSDK } = $("@sdks/lens-sdk");
+
 const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app/";
 const VERIFY_PLATFORM_ENDPOINT = "verify";
 const CHALLENGE_ENDPONT = "challenge";
@@ -9,9 +12,45 @@ const LENS_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i";
 const FARCASTER_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreia2gbtoqi6ysk2grk3v3n2qkwgfjogml5icntyp5ykdij6q457lay";
-const FARCASTER_BLACK_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
+const FARCASTER_BLACK_LOGO_URL =
+  "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
 
 const [platform, setPlatform] = useState("");
+const [evmAddress, setEvmAddress] = useState("");
+const [loadedProfiles, setLoadedProfiles] = useState(false);
+const [lensProfiles, setLensProfiles] = useState([]);
+const [farcasterProfiles, setFarcasterProfiles] = useState([]);
+const [selectedHandle, setSelectedHandle] = useState("");
+
+if (!evmAddress && Ethers.provider()) {
+  Ethers.provider()
+    .send("eth_requestAccounts", [])
+    .then(([account]) => {
+      setEvmAddress(account);
+    });
+}
+
+useEffect(() => {
+  if (!evmAddress) {
+    return;
+  }
+
+  if (platform == "lens") {
+    LensSDK = new LensSDK(State, state);
+    LensSDK.authentication
+      .profiles({
+        for: evmAddress,
+      })
+      .then((profiles) => {
+        if (profiles) {
+            const handles = profiles.map((profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`);
+
+            setSelectedHandle(handles[0]);
+            setLensProfiles(handles);
+        }
+      });
+  }
+}, [platform]);
 
 const Main = styled.div`
     width:100%;
@@ -145,6 +184,7 @@ const StepDescription = styled.div`
             box-shadow: 0 0 0 3px rgba(0,0,0,.05);
             transition: all .2s;
             color:#000;
+            background-color:#F2F2F2;
         }
     }
 `;
@@ -177,6 +217,28 @@ const AuthProcessWrapper = styled.div`
     justify-content:center;
 `;
 
+const Handle = styled.button`
+    align-self:center;
+    border-radius:50px;
+    font-weight:bold;
+    color:#000;
+    background-color:#F2F2F2;
+    border:1px solid rgba(0,0,0,.05);
+    box-shadow: 0 0 0 ${({selected}) => selected ? "3px" : "0px"} rgba(0,0,0,.05);
+    padding:.3rem 1rem;
+    font-size:.8rem;
+    cursor:pointer;
+    transition: all .2s;
+    text-decoration:none!important;
+    margin-right:10px;
+
+    :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.05);
+        transition: all .2s;
+        color:#000;
+    }
+`;
+
 const AuthMethods = () => {
   return (
     <>
@@ -202,6 +264,12 @@ const AuthMethods = () => {
   );
 };
 
+const AvailableHandles = ({ handles }) => {
+    return <>
+        {handles.map(handle => <Handle selected={selectedHandle == handle} onClick={() => setSelectedHandle(handle)}>{handle}</Handle>)}
+    </>
+}
+
 const AuthProcess = ({ platform }) => {
   const process = {
     lens: (
@@ -212,18 +280,32 @@ const AuthProcess = ({ platform }) => {
         </Header>
         <Step>1. Connect your EVM wallet</Step>
         <StepDescription>
-            <Web3Connect 
-                connectLabel="Connect wallet"
-                disconnectLabel="Disconnect wallet"
-            />
+          <Web3Connect
+            connectLabel="Connect wallet"
+            disconnectLabel="Disconnect wallet"
+          />
         </StepDescription>
         <Step>2. Choose a profile</Step>
         <StepDescription>
-            No profiles to show yet.
+            {lensProfiles.length > 0 && <AvailableHandles handles={lensProfiles} />}
+            {lensProfiles.length == 0 && "No profiles to show yet."}
         </StepDescription>
         <Step>3. Sign a message</Step>
         <StepDescription>
-            <button>Sign message</button>
+          <button onClick={() => {
+              console.log(context.accountId, selectedHandle);
+              asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/lens`, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Accept": "application/json"
+                  },
+                  body: JSON.stringify({
+                      accountId: context.accountId,
+                      handle: selectedHandle
+                  })
+              }).then((challenge) => console.log(challenge))
+          }}>Sign message</button>
         </StepDescription>
         <FinishButton>Finish</FinishButton>
       </AuthProcessWrapper>
@@ -236,18 +318,16 @@ const AuthProcess = ({ platform }) => {
         </Header>
         <Step>1. Connect your EVM wallet</Step>
         <StepDescription>
-            <Web3Connect 
-                connectLabel="Connect wallet"
-                disconnectLabel="Disconnect wallet"
-            />
+          <Web3Connect
+            connectLabel="Connect wallet"
+            disconnectLabel="Disconnect wallet"
+          />
         </StepDescription>
         <Step>2. Choose a profile</Step>
-        <StepDescription>
-            No profiles to show yet.
-        </StepDescription>
+        <StepDescription>No profiles to show yet.</StepDescription>
         <Step>3. Sign a message</Step>
         <StepDescription>
-            <button>Sign message</button>
+          <button>Sign message</button>
         </StepDescription>
         <FinishButton>Finish</FinishButton>
       </AuthProcessWrapper>
@@ -266,8 +346,8 @@ return (
       {platform && <AuthProcess platform={platform} />}
 
       <Disclaimer>
-        Authenticating your account doesn't grant nearbadger write access to your
-        account
+        Authenticating your account doesn't grant nearbadger write access to
+        your account
       </Disclaimer>
     </Modal>
   </Main>
