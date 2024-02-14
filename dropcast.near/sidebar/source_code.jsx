@@ -1,6 +1,7 @@
 const accountId = context.accountId;
 const Owner = props.Owner || "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
+const user = props.user || {};
 
 //Styles
 const Wrapper = styled.div`
@@ -24,6 +25,21 @@ const Title = styled.h2`
     color: transparent;
     background-clip: text;
     background-image: linear-gradient(to bottom right, #facc15, #fb923c, #db2777, rgb(251 146 60 / 0));
+`;
+
+const Avatar = styled.img`
+    width: 40px;
+    height: 40px;
+    border-radius : 50px;
+`;
+
+const SelectedIcon = styled.div`
+    left: -5px;
+    width: 20%;
+    height: 8px;
+    position: absolute;
+    border-radius: 0.375rem;
+    background-image: linear-gradient(to left,#facc15,#ea580c, rgba(250,204,21,0));
 `;
 
 return (
@@ -61,6 +77,7 @@ return (
             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
           />
         </svg>
+        <SelectedIcon />
         Dashboard
       </div>
       <div className="d-flex text-white align-items-center gap-2 rbt-token-removeable">
@@ -82,6 +99,31 @@ return (
         </svg>
         Account
       </div>
+    </div>
+    <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between">
+      <div className="d-flex align-items-center gap-3">
+        <Avatar
+          src="https://cdn.discordapp.com/avatars/1050807227251953754/b249444edb0aabe2b4e2b6e2b2381265.png"
+          alt=""
+        />
+        <p className="m-0">pontrue</p>
+      </div>
+      <button className="btn p-0" style={{ width: 30, color: "white" }}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+          />
+        </svg>
+      </button>
     </div>
   </Wrapper>
 );
