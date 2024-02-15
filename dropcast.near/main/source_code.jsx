@@ -77,7 +77,7 @@ State.init({
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 89vh;
+  height: 88vh;
   align-items: stretch;
   background: rgb(23,23,23);
   overflow: auto;
@@ -87,7 +87,7 @@ const Wrapper = styled.div`
 const PageWrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 89vh;
+  height: 100%;
   color: rgb(229 229 229);
 `;
 
