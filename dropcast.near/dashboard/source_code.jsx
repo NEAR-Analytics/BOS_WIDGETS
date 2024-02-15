@@ -52,6 +52,12 @@ const SelectedTab = styled.span`
   background-image: linear-gradient(to right, rgb(250, 204, 21), rgb(234, 88, 12));
 `;
 
+const GridWrapper = styled.div`
+  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+`;
+
 const TABS = [
   {
     label: "My Projects",
@@ -159,6 +165,36 @@ return (
             {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
           </p>
         </div>
+      </div>
+    )}
+
+    {state.tab === "other_projects" && (
+      <div className="d-flex flex-column">
+        <p className="py-4 m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
+        <GridWrapper>
+          <div
+            className="rounded-3 p-3 shadow-lg"
+            style={{ backgroundColor: "rgb(38, 38, 38)" }}
+          >
+            <img
+              className="w-100 object-fit-cover rounded-3"
+              src="https://cdn.discordapp.com/icons/988431580538224641/e77dc47375e528b351f7ec287be40080.png?size=1024"
+            />
+            <div className="text-center px-2 py-3">
+              <h5>AOI NFT</h5>
+              <p style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
+                666 AOI NFT collections will stored on NEAR Blockchain, powered
+                by utilities to amplify your thrill.
+              </p>
+            </div>
+          </div>
+          <div className="rounded-3 p-3 shadow-lg">
+            <img
+              className="w-100 object-fit-cover rounded-3"
+              src="https://cdn.discordapp.com/icons/988431580538224641/e77dc47375e528b351f7ec287be40080.png?size=1024"
+            />
+          </div>
+        </GridWrapper>
       </div>
     )}
   </Wrapper>
