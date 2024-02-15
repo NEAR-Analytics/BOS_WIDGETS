@@ -11,9 +11,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 64px;
   position: relative;
-  align-items: stretch;
   flex-direction: column;
-  justify-content: center;
   color: rgb(229 229 229);
   background: rgb(23,23,23);
 `;
