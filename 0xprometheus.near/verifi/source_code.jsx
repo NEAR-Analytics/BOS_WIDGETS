@@ -186,7 +186,11 @@ return (
         selected={selectedIndex === index}
         onClick={() => handleSelection(index)}
       >
-        <VerificationTitle>{item.title}</VerificationTitle>
+        <VerificationTitle
+          style={{ color: selectedIndex === index ? "#fff" : "" }}
+        >
+          {item.title}
+        </VerificationTitle>
         <VerificationStatus verified={true}></VerificationStatus>
         <button
           style={{ backgroundColor: item.status ? "green" : "" }}
