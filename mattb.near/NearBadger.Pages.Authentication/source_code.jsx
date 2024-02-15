@@ -381,7 +381,7 @@ const Auth = () => {
           {platform && <AuthProcess platform={platform} />}
           <Disclaimer>
               Authenticating your profile <b>doesn't grant</b> nearbadger write access to
-            your account.<br/><br/>Each issued verification will remain <b>valid for 6 months</b>.
+            your account.<br/><br/>Each issued verification will remain <b>valid for 3 months</b>.
           </Disclaimer>
         </>}
     </>
