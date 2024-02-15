@@ -457,7 +457,7 @@ return (
           </svg>
           <div className="view-code-text">View Code</div>
         </div>
-        <div>Powered by DapDap & BOS</div>
+        <div>Powered by DapDap & NEAR</div>
       </Power>
       {state.displayCurrencySelect && (
         <Widget
