@@ -8,11 +8,12 @@ const changePage = props.changePage;
 
 //Styles
 const Wrapper = styled.div`
-  display: flex;
+  top: 0px;
   width: 256px;
   height: 100%;  
+  display: flex;
   color: #d4d4d4;
-  position: relative;
+  position: sticky;
   align-items: center;
   background: #262626;
   flex-direction: column;
