@@ -157,10 +157,31 @@ function createComment(props) {
 
   onClick();
 
-  saveComment(comment, replyingTo, articleId, onCommit, onCancel);
+  saveComment(comment, replyingTo, articleId, onCommit, onCancel, false);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
+  });
+
+  return comment;
+}
+
+function deleteComment(props) {
+  const { comment, articleId, onCommit, onCancel } = props;
+
+  if (!comment.commentId) {
+    console.error("comment.commentId should be provided when editing comment");
+    return;
+  }
+
+  const replyingTo = undefined;
+
+  comment.isDeleted = true;
+
+  saveComment(comment, replyingTo, articleId, onCommit, onCancel, true);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "deleteComment";
   });
 
   return comment;
@@ -178,7 +199,7 @@ function editComment(props) {
 
   onClick();
 
-  saveComment(comment, replyingTo, articleId, onCommit, onCancel);
+  saveComment(comment, replyingTo, articleId, onCommit, onCancel, false);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "editComment";
@@ -211,7 +232,7 @@ function extractMentions(text) {
   return [...accountIds];
 }
 
-function composeCommentData(comment, replyingTo, articleId) {
+function composeCommentData(comment, replyingTo, articleId, isDelete) {
   if (replyingTo) {
     //We add the following so the user been replied get's a notification
     comment.text = `@${replyingTo} ${comment.text}`;
@@ -229,7 +250,7 @@ function composeCommentData(comment, replyingTo, articleId) {
     },
   };
 
-  const mentions = extractMentions(comment.text);
+  const mentions = isDelete ? [] : extractMentions(comment.text);
 
   if (mentions.length > 0) {
     const dataToAdd = getNotificationData(
@@ -249,9 +270,21 @@ function composeCommentData(comment, replyingTo, articleId) {
   return data;
 }
 
-function saveComment(comment, replyingTo, articleId, onCommit, onCancel) {
+function saveComment(
+  comment,
+  replyingTo,
+  articleId,
+  onCommit,
+  onCancel,
+  isDelete
+) {
   if (comment.text) {
-    const newData = composeCommentData(comment, replyingTo, articleId);
+    const newData = composeCommentData(
+      comment,
+      replyingTo,
+      articleId,
+      isDelete
+    );
     Social.set(newData, {
       force: true,
       onCommit,
@@ -315,8 +348,12 @@ function getValidComments(props) {
     );
   });
 
-  const lastEditionCommentsWithEditionMark = lastEditionComments.map(
-    (comment) => {
+  const lastEditionCommentsWithoutDeletedOnes = lastEditionComments.filter(
+    (comment) => !comment.value.comment.isDeleted
+  );
+
+  const lastEditionCommentsWithEditionMark =
+    lastEditionCommentsWithoutDeletedOnes.map((comment) => {
       const commentsWithThisCommentId = normComments.filter((compComment) => {
         return (
           comment.value.comment.commentId ===
@@ -329,8 +366,7 @@ function getValidComments(props) {
       }
 
       return comment;
-    }
-  );
+    });
 
   const commentsAuthors = lastEditionCommentsWithEditionMark.map((comment) => {
     return comment.accountId;
@@ -439,6 +475,8 @@ function callFunction(call) {
     return createComment(call.props);
   } else if (call.functionName === "editComment") {
     return editComment(call.props);
+  } else if (call.functionName === "deleteComment") {
+    return deleteComment(call.props);
   } else if (call.functionName === "getValidComments") {
     return getValidComments(call.props);
   } else if (call.functionName === "canUserCreateComment") {
