@@ -50,14 +50,14 @@ return (
   <Wrapper>
     <div className="d-flex justify-content-center align-items-center flex-column pt-5">
       <LogoIcon
-        src="https://vulcanapp.io/_next/static/media/logo.24108d07.svg"
+        src="https://dropcast.nearverselabs.com/logo.png"
         decoding="async"
         data-nimg="fill"
       />
       <Title>Vulcan</Title>
 
       <p className="m-0" style={{ fontSize: 12 }}>
-        Managed by Nearverse Labs
+        powered by Nearverse Labs
       </p>
     </div>
 
