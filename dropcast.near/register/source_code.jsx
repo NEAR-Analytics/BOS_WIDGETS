@@ -18,20 +18,33 @@ const Wrapper = styled.div`
   background: rgb(23,23,23);
 `;
 
-const ProjectButton = styled.button`
-    color: #FFF;
-    padding: 8px 16px;
-    border-radius: 6px;
-    background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
+const Label = styled.label`
+    font-szie: 14px;
+    margin-bottom: 4px;
 `;
 
 return (
   <Wrapper>
     <div
-      className="d-flex flex-column rounded-3"
+      className="d-flex flex-column rounded-3 gap-4"
       style={{ padding: 48, background: "rgb(38, 38, 38)" }}
     >
-      gggh
+      <div>
+        <h5 className="m-0" style={{ fontSize: 18 }}>
+          Register Project
+        </h5>
+        <p
+          className="m-0 mt-1"
+          style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+        >
+          This information will be displayed publicly.
+        </p>
+      </div>
+      <div>
+        <Label>
+          Project <span className="text-danger">*</span>
+        </Label>
+      </div>
     </div>
   </Wrapper>
 );
