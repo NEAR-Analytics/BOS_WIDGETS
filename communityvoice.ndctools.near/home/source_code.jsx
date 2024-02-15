@@ -7,6 +7,7 @@ let {
   accountId,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
 } = props;
 
@@ -169,6 +170,7 @@ return (
   <>
     {sbtWhiteList ? (
       <Widget
+        src={widgets.ndcForum}
         src={widgets.views.editableWidgets.ndcForum}
         props={{
           sharedBlockHeight,
@@ -186,6 +188,7 @@ return (
           kanbanExcludedLabels,
           sharedArticleId,
           sharedCommentId,
+          sharedSearchInputValue,
           topicShared,
           callLibs,
           mainStateUpdate,
