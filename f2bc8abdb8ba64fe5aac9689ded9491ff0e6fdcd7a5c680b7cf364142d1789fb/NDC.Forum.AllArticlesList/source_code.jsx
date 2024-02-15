@@ -79,9 +79,15 @@ const articlesFilteredBySerch =
     : finalArticlesWithUpVotes.filter((article) => {
         if (article) {
           return (
-            article.title.includes(state.searchInputValue) ||
-            article.body.includes(state.searchInputValue) ||
-            article.author.includes(state.searchInputValue)
+            article.title
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.body
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.author
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase())
           );
         } else {
           return true;
@@ -138,6 +144,11 @@ const ShareSearchText = styled.h6`
     margin-bottom: 0;
     margin-left: 1rem;
     margin-right: 1rem;
+  `;
+
+const SearchResult = styled.span`
+    margin-left: 0.5rem;
+    font-size: small;
   `;
 
 //=================================================END CONSTS=======================================================
@@ -222,11 +233,15 @@ return (
           label: "Search",
           value: state.searchInputValue,
           type: "text",
-          placeholder: "You You can search by title or content",
+          placeholder: "You can search by title, content or author",
           handleChange: handleSearch,
         },
       }}
     />
+    {state.searchInputValue !== "" &&
+      sortedFinalArticlesWithUpVotes.length > 0 && (
+        <SearchResult className="text-secondary">{`Found ${sortedFinalArticlesWithUpVotes.length} articles searching for "${state.searchInputValue}"`}</SearchResult>
+      )}
     <ShareSearchRow>
       <ShareSearchText>Share search</ShareSearchText>
       <Widget
@@ -297,7 +312,11 @@ return (
             );
           })
         ) : (
-          <h5>No articles uploaded using this SBT yet</h5>
+          <h5>{`No articles ${
+            state.searchInputValue !== ""
+              ? `haver been found searching for ${state.searchInputValue}`
+              : "uploaded using this SBT yet"
+          }`}</h5>
         )}
       </ArticlesListContainer>
     </NoMargin>
