@@ -30,6 +30,7 @@ const { CreateDAO } = VM.require("daotooling.near/widget/CreateDAO");
 //RageQuit
 //SetDrip
 //GetDrip
+//SendTxnToDAO // Submit a txn hash as a custom fc proposal for rest of group/role to approve or reject & execute
 
 return {
   CreateDAO,
