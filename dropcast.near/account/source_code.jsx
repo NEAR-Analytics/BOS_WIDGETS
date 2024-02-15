@@ -22,10 +22,10 @@ return (
     <div className="d-flex gap-3 align-items-center">
       <img
         style={{ width: 64, height: 64, borderRadius: 50 }}
-        src="https://cdn.discordapp.com/avatars/1050807227251953754/b249444edb0aabe2b4e2b6e2b2381265.png"
+        src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
         alt=""
       />
-      <h4 className="m-0">pontrue</h4>
+      <h4 className="m-0">{USER.username}</h4>
     </div>
     <div
       className="mt-5 rounded-3"
