@@ -51,11 +51,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -218,30 +218,48 @@ const Skeleton = (props) => {
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
+
 function dollarNonCentFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -325,18 +343,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -355,57 +396,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -548,23 +595,33 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 function dollarNonCentFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -648,18 +705,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -678,57 +758,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -871,38 +957,56 @@ function yoctoToNear(yocto, format) {
   return format ? localFormat(near) : near;
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 
 function dollarFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number);
+
+  // Format to two decimal places without thousands separator
+  const formattedNumber = bigNumber.toFixed(2);
+
+  // Add comma as a thousands separator
+  const parts = formattedNumber.split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const dollarFormattedNumber = `${parts.join('.')}`;
+
+  return dollarFormattedNumber;
 }
+
 function dollarNonCentFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-  return formattedNumber;
+  const bigNumber = new Big(number).toFixed(0);
+
+  // Extract integer part and format with commas
+  const integerPart = bigNumber.toString();
+  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  return formattedInteger;
 }
 
 function weight(number) {
+  let sizeInBytes = new Big(number);
+
+  if (sizeInBytes.lt(0)) {
+    throw new Error('Invalid input. Please provide a non-negative number.');
+  }
+
   const suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   let suffixIndex = 0;
 
-  while (number >= 1000 && suffixIndex < suffixes.length - 1) {
-    number /= 1000;
+  while (sizeInBytes.gte(1000) && suffixIndex < suffixes.length - 1) {
+    sizeInBytes = sizeInBytes.div(1000); // Assign the result back to sizeInBytes
     suffixIndex++;
   }
 
-  return number.toFixed(2) + ' ' + suffixes[suffixIndex];
+  const formattedSize = sizeInBytes.toFixed(2) + ' ' + suffixes[suffixIndex];
+
+  return formattedSize;
 }
 
 function convertToUTC(timestamp, hour) {
@@ -986,18 +1090,41 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year == 1) {
-    return Math.ceil(intervals.year) + ' year ago';
-  } else if (intervals.year > 1) {
-    return Math.ceil(intervals.year) + ' years ago';
-  } else if (intervals.month > 1) {
-    return Math.ceil(intervals.month) + ' months ago';
-  } else if (intervals.day > 1) {
-    return Math.ceil(intervals.day) + ' days ago';
-  } else if (intervals.hour > 1) {
-    return Math.ceil(intervals.hour) + ' hours ago';
-  } else if (intervals.minute > 1) {
-    return Math.ceil(intervals.minute) + ' minutes ago';
+  if (intervals.year >= 1) {
+    return (
+      Math.floor(intervals.year) +
+      ' year' +
+      (Math.floor(intervals.year) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.month >= 1) {
+    return (
+      Math.floor(intervals.month) +
+      ' month' +
+      (Math.floor(intervals.month) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.day >= 1) {
+    return (
+      Math.floor(intervals.day) +
+      ' day' +
+      (Math.floor(intervals.day) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.hour >= 1) {
+    return (
+      Math.floor(intervals.hour) +
+      ' hour' +
+      (Math.floor(intervals.hour) > 1 ? 's' : '') +
+      ' ago'
+    );
+  } else if (intervals.minute >= 1) {
+    return (
+      Math.floor(intervals.minute) +
+      ' minute' +
+      (Math.floor(intervals.minute) > 1 ? 's' : '') +
+      ' ago'
+    );
   } else {
     return 'a few seconds ago';
   }
@@ -1016,57 +1143,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -1360,6 +1493,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1394,11 +1528,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1426,8 +1560,8 @@ function MainComponent({
   const [holderLoading, setHolderLoading] = useState(false);
   const [stats, setStats] = useState({} );
   const [token, setToken] = useState({} );
-  const [transfers, setTransfers] = useState(0);
-  const [holders, setHolders] = useState(0);
+  const [transfers, setTransfers] = useState('');
+  const [holders, setHolders] = useState('');
   const [pageTab, setPageTab] = useState('Transfers');
   const [showMarketCap, setShowMarketCap] = useState(false);
   const config = getConfig(network);
@@ -1472,6 +1606,7 @@ function MainComponent({
         )
         .catch(() => {});
     }
+
     function fetchStatsData() {
       asyncFetch(`${config?.backendUrl}stats`, {
         method: 'GET',
@@ -1565,12 +1700,18 @@ function MainComponent({
                         ${dollarFormat(token?.price)}
                         {stats?.near_price && (
                           <div className="text-nearblue-700 mx-1 text-sm flex flex-row items-center">
-                            @ {localFormat(token?.price / stats?.near_price)} Ⓝ
+                            @{' '}
+                            {localFormat(
+                              (
+                                Big(token?.price) / Big(stats?.near_price)
+                              ).toString(),
+                            )}{' '}
+                            Ⓝ
                           </div>
                         )}
                         {token?.change_24 !== null &&
                         token?.change_24 !== undefined ? (
-                          token?.change_24 > 0 ? (
+                          Number(token?.change_24) > 0 ? (
                             <div className="text-neargreen text-sm flex flex-row items-center">
                               {' '}
                               (+{dollarFormat(token?.change_24)}%)
@@ -1578,7 +1719,7 @@ function MainComponent({
                           ) : (
                             <div className="text-red-500 text-sm flex flex-row items-center">
                               {' '}
-                              ({dollarFormat(token?.change_24 || 0)}%)
+                              ({dollarFormat(token?.change_24)}%)
                             </div>
                           )
                         ) : null}
@@ -1656,9 +1797,9 @@ function MainComponent({
                           <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100">
                             $
                             {dollarNonCentFormat(
-                              token?.market_cap ||
-                                token?.fully_diluted_market_cap ||
-                                0,
+                              Number(token?.market_cap)
+                                ? token?.market_cap
+                                : token?.fully_diluted_market_cap,
                             )}
                           </p>
                         )}
@@ -1686,7 +1827,9 @@ function MainComponent({
                     </div>
                   ) : (
                     <div className="w-full md:w-3/4 break-words">
-                      {dollarNonCentFormat(token?.total_supply || 0)}
+                      {token?.total_supply
+                        ? dollarNonCentFormat(token?.total_supply)
+                        : ''}
                     </div>
                   )}
                 </div>
@@ -1700,7 +1843,7 @@ function MainComponent({
                     </div>
                   ) : (
                     <div className="w-full md:w-3/4 break-words">
-                      {localFormat(transfers)}
+                      {transfers ? localFormat(transfers) : ''}
                     </div>
                   )}
                 </div>
@@ -1712,7 +1855,7 @@ function MainComponent({
                     </div>
                   ) : (
                     <div className="w-full md:w-3/4 break-words">
-                      {localFormat(holders)}
+                      {holders ? localFormat(holders) : ''}
                     </div>
                   )}
                 </div>
