@@ -172,7 +172,6 @@ return (
           <Widget
             src="flowscience.near/widget/SchemaSelector"
             onSelectedSchemaChange={handleSelectedSchemaChange}
-            selectedSchema={selectedSchema}
           />
           <FormContainer>
             <Widget
@@ -182,7 +181,7 @@ return (
                   value: state.data,
                 },
                 onChange: handleOnChange,
-                selectedSchema: selectedSchema,
+                selectedSchema: state.selectedSchema,
               }}
             />
           </FormContainer>
