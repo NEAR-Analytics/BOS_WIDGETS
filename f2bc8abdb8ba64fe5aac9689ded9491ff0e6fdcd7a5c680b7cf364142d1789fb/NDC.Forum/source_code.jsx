@@ -488,7 +488,7 @@ function onCommitDeletArticle() {
     showDeleteModal: false,
     deleteArticleData: undefined,
     displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
-    articleToRenderData: {},
+    articleToRenderData: undefined,
     filterBy: { parameterName: "", parameterValue: {} },
     editArticleData: undefined,
   });
