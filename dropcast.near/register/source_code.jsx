@@ -19,8 +19,15 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-    font-szie: 14px;
+    font-size: 14px;
     margin-bottom: 4px;
+`;
+
+const StepButton = styled.button`
+    color: #FFF;
+    padding: 12px;
+    border-radius: 6px;
+    background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
 `;
 
 const OPTIONS = [
@@ -72,6 +79,72 @@ return (
           src={`${Owner}/widget/Select`}
         />
       </div>
+      <div className="d-flex flex-column">
+        <Label>
+          Description <span className="text-danger">*</span>
+        </Label>
+        <textarea
+          rows="3"
+          name="description"
+          placeholder="Description"
+          className="w-full px-2 py-1 shadow-sm rounded-3"
+          style={{ fontSize: 14 }}
+        />
+        <p
+          className="m-0 mt-1"
+          style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+        >
+          Write a few sentences about your project.
+        </p>
+      </div>
+      <div className="d-flex flex-column">
+        <Label>Mint Price</Label>
+        <input
+          type="number"
+          min="0"
+          name="mint_price"
+          placeholder="Mint Price"
+          className="w-full px-2 py-1 rounded-3 border-0"
+          style={{ fontSize: 14 }}
+        />
+      </div>
+      <div className="d-flex flex-column">
+        <Label>Mint Date</Label>
+        <input
+          type="date"
+          name="mint_date"
+          placeholder="Mint Date"
+          className="w-full px-2 py-1 rounded-3 border-0"
+          style={{ fontSize: 14 }}
+        />
+      </div>
+      <div className="d-flex flex-column">
+        <Label>Supply</Label>
+        <input
+          name="supply"
+          className="w-full px-2 py-1 rounded-3 border-0"
+          style={{ fontSize: 14 }}
+        />
+      </div>
+      <div className="d-flex flex-column">
+        <Label>Discord</Label>
+        <input
+          name="discord"
+          placeholder="Discord invite Link"
+          className="w-full px-2 py-1 rounded-3 border-0"
+          style={{ fontSize: 14 }}
+        />
+      </div>
+      <div className="d-flex flex-column">
+        <Label>Twitter</Label>
+        <input
+          name="twitter"
+          placeholder="Twitter"
+          className="w-full px-2 py-1 rounded-3 border-0"
+          style={{ fontSize: 14 }}
+        />
+      </div>
+      <StepButton className="btn">Next Step</StepButton>
     </div>
   </Wrapper>
 );
