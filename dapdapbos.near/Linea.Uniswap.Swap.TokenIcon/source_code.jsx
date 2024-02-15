@@ -7,7 +7,7 @@ const DEFAULT_TOKEN_ICON = "/defalut_token.png";
 const cached_icons = Storage.privateGet("cached_icons") || {};
 
 const getIconByAddress = (address) => {
-  return `https://assets.dapdap.tech/images/${address.toLowerCase()}.png`;
+  return `https://assets.dapdap.net/images/${address.toLowerCase()}.png`;
 };
 
 const size = props.size || 22;
