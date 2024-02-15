@@ -7,6 +7,7 @@ let {
   accountId,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
 } = props;
 
@@ -39,14 +40,21 @@ function createSbtOptions() {
   return state.sbtWhiteList;
 }
 
+// const componentsOwner =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const componentsOwner = "sayalot.near";
 
 const authorForWidget = "sayalot.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
 
 const configWidget = "SayALot";
 
 const widgets = {
-  thisForum: `${authorForWidget}/widget/${configWidget}`,
+  // thisForum: `${authorForWidget}/widget/${configWidget}`, //////////////////////////////////////////////////////
+  thisForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/${configWidget}`, //////////////////////////////////////////////////////
 
   views: {
     editableWidgets: {
@@ -180,6 +188,7 @@ return (
           kanbanExcludedLabels,
           sharedArticleId,
           sharedCommentId,
+          sharedSearchInputValue,
           topicShared,
           callLibs,
           mainStateUpdate,
