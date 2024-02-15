@@ -8,12 +8,11 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  //   state.showMenu
-  //     ? null
-  //     : props.isEditMode
-  //     ? null
-  //     : State.update({ show: false });
-  console.log("");
+  state.showMenu
+    ? null
+    : props.isEditMode
+    ? null
+    : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -578,7 +577,7 @@ return (
               style={{
                 transform:
                   props.widgets && props.widgets.length
-                    ? "translateY(6px)"
+                    ? "translateY(-25px)"
                     : "translateY(39px)",
 
                 position:
