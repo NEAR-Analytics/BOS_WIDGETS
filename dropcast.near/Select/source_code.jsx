@@ -1,10 +1,11 @@
-const label = props.label ?? "Label";
-const noLabel = props.noLabel ?? false;
-const placeholder = props.placeholder ?? "Select an option";
-const value = props.value ?? "";
-const options = props.options ?? [];
-const onChange = props.onChange ?? (() => {});
-const error = props.error ?? "";
+const label = props.label || "Label";
+const noLabel = props.noLabel || false;
+const placeholder = props.placeholder || "Select an option";
+const value = props.value || "";
+const width = props.width || 270;
+const options = props.options || [];
+const onChange = props.onChange || (() => {});
+const error = props.error || "";
 
 const Container = styled.div`
   gap: 0.45em;
@@ -76,7 +77,7 @@ const scaleOut = styled.keyframes`
 const Content = styled.div`
   padding: 0;
   gap: 0.5em;
-  width: 270px;
+  width: ${width}px;
   display: flex;
   font-size: 14px;
   overflow-y: auto;
