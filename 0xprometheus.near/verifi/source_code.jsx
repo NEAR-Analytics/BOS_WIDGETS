@@ -179,7 +179,7 @@ useEffect(() => {
   if (src !== null) {
     handleSelection(src, true);
   }
-}, []);
+}, [src]);
 
 return (
   <wrapper>
