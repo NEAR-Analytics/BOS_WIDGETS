@@ -8,11 +8,12 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu
-    ? null
-    : props.isEditMode
-    ? null
-    : State.update({ show: false });
+  //   state.showMenu
+  //     ? null
+  //     : props.isEditMode
+  //     ? null
+  //     : State.update({ show: false });
+  console.log;
 };
 
 const handleOpenMenu = () => {
@@ -498,7 +499,7 @@ return (
     </div>
     {state.show ? (
       <TriggerShowPanel
-        // onMouseOut={handleOnMouseLeave}
+        onMouseOut={handleOnMouseLeave}
         style={{
           margin: "0px -7px",
           top: props.widgets && props.widgets.length ? "" : "-10px",
