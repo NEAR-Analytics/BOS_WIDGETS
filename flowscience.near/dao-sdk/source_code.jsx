@@ -19,8 +19,9 @@ const { ProposeBounty } = VM.require("sking.near/widget/DAO.Bounties");
 const { ClaimBounty } = VM.require("sking.near/widget/DAO.Bounty");
 const { GetFollowers } = VM.require("hack.near/widget/DAO.Page");
 const { FollowDAO } = VM.require("hack.near/widget/DAO.Page");
-const { GetGroups } = VM.require("hack.near/widget/DAO.Page");
-const { JoinGroup } = VM.require("hack.near/widget/DAO.Page");
+const { GetGroups } = VM.require("devs.near/widget/every.group");
+const { JoinGroup } = VM.require("devs.near/widget/every.group");
+const { CreateGroup } = VM.require("devs.near/widget/every.group");
 
 return {
   CreateDAO,
@@ -45,4 +46,5 @@ return {
   FollowDAO,
   GetGroups,
   JoinGroup,
+  CreateGroup,
 };
