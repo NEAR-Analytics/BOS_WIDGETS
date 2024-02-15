@@ -113,6 +113,12 @@ return (
           props={{ API_URL, USER, TOKEN }}
         />
       )}
+      {state.page === "account" && (
+        <Widget
+          src={`${Owner}/widget/account`}
+          props={{ API_URL, USER, TOKEN }}
+        />
+      )}
     </PageWrapper>
   </Wrapper>
 );
