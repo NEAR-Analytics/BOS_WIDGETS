@@ -19,5 +19,6 @@ return (
         utilities to amplify your thrill.
       </p>
     </div>
+    <hr />
   </Wrapper>
 );
