@@ -8,11 +8,12 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu
-    ? null
-    : props.isEditMode
-    ? null
-    : State.update({ show: false });
+  //   state.showMenu
+  //     ? null
+  //     : props.isEditMode
+  //     ? null
+  //     : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
@@ -68,7 +69,7 @@ const OverlayTriggerWrapper = styled.div`
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    z-index: 600;
+    z-index: 79;
   }
 `;
 const SupportingSpan = styled.span`
