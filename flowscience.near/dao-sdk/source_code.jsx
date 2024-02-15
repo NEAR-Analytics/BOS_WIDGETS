@@ -13,7 +13,7 @@ const { GetConfig } = VM.require("mob.near/widget/DAO.Proposals");
 const { SetConfig } = VM.require("mob.near/widget/DAO.Proposals");
 const { GetProposal } = VM.require("mob.near/widget/DAO.Proposals");
 const { CreateProposal } = VM.require("mob.near/widget/DAO.Proposal");
-Vote;
+const { Vote } = VM.require("mob.near/widget/DAO.Proposal");
 const { GetBounty } = VM.require("sking.near/widget/DAO.Bounties");
 const { ProposeBounty } = VM.require("sking.near/widget/DAO.Bounties");
 const { ClaimBounty } = VM.require("sking.near/widget/DAO.Bounty");
