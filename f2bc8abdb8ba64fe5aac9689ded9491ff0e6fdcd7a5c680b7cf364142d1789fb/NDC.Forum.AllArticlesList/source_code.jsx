@@ -75,8 +75,8 @@ let finalArticlesWithUpVotes = articlesToRender.map((article) => {
 
 const articlesFilteredBySerch =
   !state.searchInputValue && state.searchInputValue === ""
-    ? sortedFinalArticlesWithUpVotes
-    : sortedFinalArticlesWithUpVotes.filter((article) => {
+    ? finalArticlesWithUpVotes
+    : finalArticlesWithUpVotes.filter((article) => {
         if (article.title && article.body && article.author) {
           return (
             article.title
