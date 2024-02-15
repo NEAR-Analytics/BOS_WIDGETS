@@ -20,9 +20,7 @@ const Label = styled.label`
 const Input = styled.input`
   `;
 
-const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
-);
+const [selectedSchema, setSelectedSchema] = useState("");
 const [schemaSrc, setSchemaSrc] = useState(
   props.schemaSrc || "attestations.near"
 );
