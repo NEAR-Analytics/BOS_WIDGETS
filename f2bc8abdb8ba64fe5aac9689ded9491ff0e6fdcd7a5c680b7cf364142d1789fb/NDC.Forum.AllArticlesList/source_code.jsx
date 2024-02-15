@@ -74,10 +74,10 @@ let finalArticlesWithUpVotes = articlesToRender.map((article) => {
 });
 
 const articlesFilteredBySerch =
-  state.searchInputValue === ""
-    ? finalArticlesWithUpVotes
-    : finalArticlesWithUpVotes.filter((article) => {
-        if (article) {
+  state.searchInputValue && state.searchInputValue === ""
+    ? sortedFinalArticlesWithUpVotes
+    : sortedFinalArticlesWithUpVotes.filter((article) => {
+        if (article.title && article.body && article.author) {
           return (
             article.title
               .toLowerCase()
