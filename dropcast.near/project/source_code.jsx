@@ -32,12 +32,12 @@ return (
     />
     <div className="text-center px-2 py-3">
       <h5>AOI NFT</h5>
-      <p style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
+      <p className="m-0" style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
         666 AOI NFT collections will stored on NEAR Blockchain, powered by
         utilities to amplify your thrill.
       </p>
     </div>
-    <hr />
+    <hr className="mt-0" />
     <div className="d-flex flex-column gap-3">
       <div className="d-flex justify-content-between">
         <Label>Whitelist</Label>
