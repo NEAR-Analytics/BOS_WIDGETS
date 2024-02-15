@@ -1,3 +1,5 @@
+const type = props.type || "other";
+
 const Wrapper = styled.div`
     padding: 20px;
     border-radius: 8px;
@@ -37,28 +39,33 @@ return (
         utilities to amplify your thrill.
       </p>
     </div>
-    <hr className="mt-0" />
-    <div className="d-flex flex-column gap-3">
-      <div className="d-flex justify-content-between">
-        <Label>Whitelist</Label>
-        <div className="d-flex align-items-center gap-2">
-          <BadgeIcon />
-          <Value style={{ fontSize: 12 }}>Active</Value>
+    {type === "other" && (
+      <>
+        <hr className="mt-0" />
+        <div className="d-flex flex-column gap-3">
+          <div className="d-flex justify-content-between">
+            <Label>Whitelist</Label>
+            <div className="d-flex align-items-center gap-2">
+              <BadgeIcon />
+              <Value style={{ fontSize: 12 }}>Active</Value>
+            </div>
+          </div>
+          <div className="d-flex justify-content-between">
+            <Label>Mint date</Label>
+            <Value>TBD</Value>
+          </div>
+          <div className="d-flex justify-content-between">
+            <Label>Mint price</Label>
+            <Value>TBD</Value>
+          </div>
+          <div className="d-flex justify-content-between">
+            <Label>Supply</Label>
+            <Value>2610</Value>
+          </div>
         </div>
-      </div>
-      <div className="d-flex justify-content-between">
-        <Label>Mint date</Label>
-        <Value>TBD</Value>
-      </div>
-      <div className="d-flex justify-content-between">
-        <Label>Mint price</Label>
-        <Value>TBD</Value>
-      </div>
-      <div className="d-flex justify-content-between">
-        <Label>Supply</Label>
-        <Value>2610</Value>
-      </div>
-    </div>
+      </>
+    )}
+
     <hr />
     <div className="d-flex justify-content-center gap-5 mt-3 mb-1">
       <a
