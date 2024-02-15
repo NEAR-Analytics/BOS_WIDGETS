@@ -24,11 +24,25 @@ const ProjectButton = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
 `;
 
+State.init({
+  isRegister: false,
+});
+
+const handleNewProject = () => {
+  State.update({
+    isRegister: true,
+  });
+};
+
+if (state.isRegister) return <Widget src={`${Owner}/widget/register`} />;
+
 return (
   <Wrapper>
     <p>Start by creating a new Vulcan Project</p>
     <div>
-      <ProjectButton className="btn">+ New Project</ProjectButton>
+      <ProjectButton className="btn" onClick={handleNewProject}>
+        + New Project
+      </ProjectButton>
     </div>
   </Wrapper>
 );
