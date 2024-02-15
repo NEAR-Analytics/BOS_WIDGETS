@@ -169,13 +169,25 @@ return (
     )}
 
     {state.tab === "other_projects" && (
-      <div className="d-flex flex-column">
-        <p className="py-4 m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
+      <div className="d-flex flex-column gap-4 py-4">
+        <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
         <GridWrapper>
           <Widget src={`${Owner}/widget/project`} />
           <Widget src={`${Owner}/widget/project`} />
           <Widget src={`${Owner}/widget/project`} />
           <Widget src={`${Owner}/widget/project`} />
+        </GridWrapper>
+      </div>
+    )}
+
+    {state.tab === "past_projects" && (
+      <div className="d-flex flex-column gap-4 py-4">
+        <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
+        <GridWrapper>
+          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
+          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
+          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
+          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
         </GridWrapper>
       </div>
     )}
