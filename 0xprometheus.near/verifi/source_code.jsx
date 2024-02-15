@@ -148,9 +148,15 @@ const handleSelection = (index, fromQ) => {
   if (selectedIndex !== index || fromQ) {
     const newItems = [...verificationItems];
     const selectedItem = newItems.splice(index, 1)[0]; // Remove selected item
+    console.log("opium", selectedItem);
     newItems.unshift(selectedItem); // Add selected item to the front
     setVerificationItems(newItems);
-    setSelectedIndex(0);
+    console.log("updated?", newItems, verificationItems);
+    if (fromQ) {
+      setSelectedIndex(index);
+    } else {
+      setSelectedIndex(0);
+    }
   }
 };
 const isCardSelected = selectedIndex !== null;
@@ -173,7 +179,7 @@ useEffect(() => {
   if (src !== null) {
     handleSelection(src, true);
   }
-}, [src]);
+}, []);
 
 return (
   <wrapper>
