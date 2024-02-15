@@ -17,6 +17,7 @@ let {
   kanbanExcludedTags,
   sharedArticleId,
   sharedCommentId,
+  sharedSearchInputValue,
   topicShared,
   callLibs,
   mainStateUpdate,
@@ -148,7 +149,7 @@ if (state.filterBy.parameterName == "author") {
 const navigationPills = [
   { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
   { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
-  { id: tabs.SHOW_KANBAN_VIEW.id, title: "Kanban view" },
+  { id: tabs.SHOW_KANBAN_VIEW.id, title: "Kanban" },
 ];
 
 const navigationButtons = [
@@ -247,7 +248,7 @@ if (state.filterBy.parameterName === "tag") {
 
 //=============================================STYLED COMPONENTS====================================================
 const CallLibrary = styled.div`
-  display: block;
+  display: none;
 `;
 
 const ShareInteractionGeneralContainer = styled.div`
@@ -375,6 +376,85 @@ const renderShareInteraction = () => {
   );
 };
 
+const renderDeleteModal = () => {
+  const ModalCard = styled.div`
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+  `;
+  const ModalContainer = styled.div`
+    display: flex;
+    width: 400px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid transparent;
+    margin-left: auto;
+    margin-right: auto;
+    margin-buttom: 50%;
+    @media only screen and (max-width: 480px) {
+      width: 90%;
+    }
+  `;
+  const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    align-self: stretch;
+  `;
+  const Footer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: end;
+    gap: 16px;
+    align-self: stretch;
+  `;
+
+  return (
+    <ModalCard>
+      <ModalContainer>
+        <Container>
+          <h3 className="w-100">Delete this post?</h3>
+          <Footer>
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: "Yes, delete it",
+                onClick: deletePostListener,
+                variant: "danger",
+              }}
+            />
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: "Cancel",
+                onClick: closeDeleteArticleModal,
+                variant: "info outline",
+              }}
+            />
+          </Footer>
+        </Container>
+      </ModalContainer>
+    </ModalCard>
+  );
+};
+
 const renderSelectorLabel = () => {
   return (
     <>
@@ -402,6 +482,38 @@ const renderSelectorLabel = () => {
 function stateUpdate(obj) {
   State.update(obj);
 }
+
+function onCommitDeletArticle() {
+  State.update({
+    showDeleteModal: false,
+    deleteArticleData: undefined,
+    displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
+    articleToRenderData: undefined,
+    filterBy: { parameterName: "", parameterValue: {} },
+    editArticleData: undefined,
+  });
+}
+
+function deletePostListener() {
+  //To test without commiting use the next line and comment the rest
+  // onCommit();
+  State.update({ saving: true });
+  const article = state.deleteArticleData;
+
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+  newLibsCalls.article.push({
+    functionName: "deleteArticle",
+    key: "deletedArticle",
+    props: {
+      article,
+      onCommit: onCommitDeletArticle,
+      onCancel: closeDeleteArticleModal,
+    },
+  });
+
+  State.update({ functionsToCallByLibrary: newLibsCalls });
+}
+
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags ?? [];
   let newFormatTags = {};
@@ -437,6 +549,20 @@ function handleEditArticle(articleData) {
   State.update({
     displayedTabId: tabs.ARTICLE_WORKSHOP.id,
     editArticleData: articleData,
+  });
+}
+
+function handleDeleteArticle(articleData) {
+  State.update({
+    showDeleteModal: true,
+    deleteArticleData: articleData,
+  });
+}
+
+function closeDeleteArticleModal() {
+  State.update({
+    showDeleteModal: false,
+    deleteArticleData: undefined,
   });
 }
 
@@ -504,9 +630,9 @@ function handleShareButton(showShareModal, sharedElement) {
   State.update({ showShareModal, sharedElement });
 }
 
-function handleShareSearch(showShareSearchModal) {
+function handleShareSearch(showShareSearchModal, searchInputValue) {
   //showShareSearchModal is a boolean
-  State.update({ showShareSearchModal, sharingSearch: true });
+  State.update({ showShareSearchModal, sharingSearch: true, searchInputValue });
 }
 
 function getLink() {
@@ -515,7 +641,10 @@ function getLink() {
       state.filterBy.parameterName === "tag"
         ? `tagShared=${state.filterBy.parameterValue}&`
         : ""
-    }topicShared=${sbts[0].replace(/\s+/g, "")}`;
+    }topicShared=${sbts[0].replace(/\s+/g, "")}${
+      state.searchInputValue !== "" &&
+      `&sharedSearchInputValue=${state.searchInputValue}`
+    }`;
   } else {
     return `https://near.social/${widgets.thisForum}?${isTest && "isTest=t&"}${
       state.sharedElement.type
@@ -533,6 +662,7 @@ function handleOnCommitArticle(articleToRenderData) {
 //===============================================END FUNCTIONS======================================================
 return (
   <>
+    {state.showDeleteModal && renderDeleteModal()}
     {(state.showShareModal || state.showShareSearchModal) &&
       renderShareInteraction()}
     <Widget
@@ -593,6 +723,7 @@ return (
           callLibs,
           baseActions,
           handleOnCommitArticle,
+          sharedSearchInputValue,
         }}
       />
     )}
@@ -608,6 +739,7 @@ return (
             authorForWidget,
             handleEditArticle,
             handleShareButton,
+            handleDeleteArticle,
             callLibs,
             baseActions,
             kanbanColumns,
