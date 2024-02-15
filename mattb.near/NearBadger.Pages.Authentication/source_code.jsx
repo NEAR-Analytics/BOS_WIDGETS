@@ -16,7 +16,7 @@ const FARCASTER_LOGO_URL =
 const FARCASTER_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
 
-const REGISTRY_CONTRACT = "beta-v2.integrations.near";
+const REGISTRY_CONTRACT = "staging.integrations.near";
 
 const [platform, setPlatform] = useState("");
 const [evmAddress, setEvmAddress] = useState("");
@@ -25,6 +25,11 @@ const [lensProfiles, setLensProfiles] = useState([]);
 const [selectedHandle, setSelectedHandle] = useState("");
 const [proof, setProof] = useState("");
 const [finished, setFinished] = useState(false);
+const [displayError, setDisplayError] = useState(false);
+const [success, setSuccess] = useState(false);
+const cleanSelectedHandle = useMemo(() => {
+    return selectedHandle[0] == "@" ? selectedHandle.substring(1, selectedHandle.length) : selectedHandle;
+}, [selectedHandle]);
 
 if (!evmAddress && Ethers.provider()) {
   Ethers.provider()
@@ -251,8 +256,31 @@ const Handle = styled.button`
 `;
 
 const ProfileInput = styled.input`
-    
+    border:0;
+    padding: .5rem;
+    border:1px solid rgba(0,0,0,.1);
+    border-radius:10px;
 `;
+
+const ErrorPill = styled.div`
+  background-color: #D32F2F;
+  border-color: #B71C1C;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 8px;
+  padding: 20px;
+  color: white;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom:1rem;
+  font-size:.8rem;
+`;
+
+const ErrorModal = () => {
+    return <>
+        {displayError && <ErrorPill>Looks like there was an error verifying your profile ownership. Please, review each step and try again.</ErrorPill>}
+    </>;
+}
 
 const signProof = (platform) => {
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
@@ -263,16 +291,21 @@ const signProof = (platform) => {
     },
     body: JSON.stringify({
       accountId: context.accountId,
-      handle: selectedHandle,
+      handle: cleanSelectedHandle,
     }),
-  }).then(({ body: { challenge } }) => {
-    EthereumSigner.sign(challenge.toString()).then((proof) => {
-      setProof(proof);
-    });
+  }).then(({ ok, body: { challenge } }) => {
+    if (ok) {
+        EthereumSigner.sign(challenge.toString()).then((proof) => {
+          setProof(proof);
+        });
+    } else {
+        setDisplayError(true);
+    }
   });
 };
 
 const verifyProof = (platform) => {
+  setDisplayError(false);
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
     method: "POST",
     headers: {
@@ -281,17 +314,22 @@ const verifyProof = (platform) => {
     },
     body: JSON.stringify({
       accountId: context.accountId,
-      handle: selectedHandle,
+      handle: cleanSelectedHandle,
       proof,
     }),
-  }).then(({ body: { expirationBlockHeight, signature } }) => {
-    Near.call(REGISTRY_CONTRACT, "register_social", {
-      platform,
-      signature,
-      handle: selectedHandle,
-      proof,
-      max_block_height: expirationBlockHeight,
-    });
+  }).then(({ok, body: { expirationBlockHeight, signature } }) => {
+    if (ok) {
+        setSuccess(true);
+        Near.call(REGISTRY_CONTRACT, "register_social", {
+          platform,
+          signature,
+          handle: cleanSelectedHandle,
+          proof,
+          max_block_height: expirationBlockHeight,
+        });
+    } else {
+        setDisplayError(true);
+    }
   });
 };
 
@@ -335,6 +373,31 @@ const AvailableHandles = ({ handles }) => {
   );
 };
 
+const Auth = () => {
+    return <>
+        {!success && <>
+            <p>This app requires {accountId || "you"} to verify a profile</p>
+        {!platform && <AuthMethods />}
+          {platform && <AuthProcess platform={platform} />}
+          <Disclaimer>
+              Authenticating your profile <b>doesn't grant</b> nearbadger write access to
+            your account.<br/><br/>Each issued verification will remain <b>valid for 6 months</b>.
+          </Disclaimer>
+        </>}
+    </>
+}
+
+const Success = () => <>
+    {success && <>
+        <div style={{textAlign: "center"}}>
+            <Header>
+              Your identity has been successfully verified!
+            </Header>
+            <p>You may now get back to the app you were browsing</p>
+        </div>
+    </>}
+</>
+
 const AuthProcess = ({ platform }) => {
   const process = {
     lens: (
@@ -361,6 +424,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
+          <ErrorModal />
         <FinishButton onClick={() => verifyProof("lens")}>Claim profile</FinishButton>
       </AuthProcessWrapper>
     ),
@@ -381,6 +445,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <ProfileInput
             value={selectedHandle}
+            placeholder="@handle"
             onChange={({ target: { value: text } }) => setSelectedHandle(text)}
           />
         </StepDescription>
@@ -388,6 +453,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("farcaster")}>Sign proof</button>
         </StepDescription>
+        <ErrorModal />
         <FinishButton onClick={() => verifyProof("farcaster")}>Claim profile</FinishButton>
       </AuthProcessWrapper>
     ),
@@ -400,14 +466,8 @@ return (
   <Main>
     <Modal>
       <Logo src={LOGO_URL}></Logo>
-      <p>This app requires {accountId || "you"} to verify a profile</p>
-      {!platform && <AuthMethods />}
-      {platform && <AuthProcess platform={platform} />}
-
-      <Disclaimer>
-        Authenticating your account doesn't grant nearbadger write access to
-        your account
-      </Disclaimer>
+      <Auth />
+      <Success />
     </Modal>
   </Main>
 );
