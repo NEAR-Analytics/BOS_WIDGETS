@@ -3,7 +3,6 @@ const Owner = "dropcast.near";
 const API_URL = "http://localhost:3000";
 const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
-console.log(TOKEN, USER, "==>tttttttt");
 
 const PAGES = [
   {
