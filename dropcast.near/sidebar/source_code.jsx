@@ -54,7 +54,7 @@ return (
         decoding="async"
         data-nimg="fill"
       />
-      <Title>Vulcan</Title>
+      <Title>Dropcast</Title>
 
       <p className="m-0" style={{ fontSize: 12 }}>
         powered by Nearverse Labs
