@@ -134,6 +134,20 @@ function createArticle(props) {
   return article;
 }
 
+function deleteArticle(props) {
+  const { article, onCommit, onCancel } = props;
+
+  article.deletedArticle = true;
+
+  saveHandler(article, onCommit, onCancel);
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "deleteArticle";
+  });
+
+  return article;
+}
+
 const saveHandler = (article, onCommit, onCancel) => {
   if (article.title && article.body) {
     const newData = composeData(article);
@@ -272,17 +286,6 @@ function getArticlesNormalized(env, articleIdToFilter) {
       articlesIndexes
     );
 
-    // const diffAuthors = validArticlesIndexes
-    //   .map((articleIndex) => articleIndex.accountId)
-    //   .filter((author, index, arr) => {
-    //     return (
-    //       arr.findIndex((author2) => {
-    //         return author === author2;
-    //       }) === index
-    //     );
-    //   });
-    // console.log(1, diffAuthors);
-
     const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
     const validFilteredByArticleId = articleIdToFilter
@@ -343,16 +346,14 @@ function filterInvalidArticlesIndexes(env, articlesIndexes) {
   const myArticlesIndexes = articlesIndexes.filter(
     (articleIndex) => articleIndex.accountId === "kenrou-it.near"
   );
-  // console.log(2, myArticlesIndexes);
+
   return articlesIndexes
     .filter((articleIndex) => articleIndex.value.id) // Has id
     .filter((articleIndex) => {
       const splittedId = articleIndex.value.id.split("-");
       splittedId.pop();
-      // console.log(3, splittedId);
-      return splittedId.join("-") === articleIndex.accountId;
 
-      // return articleIndex.value.id.split("-")[0] === articleIndex.accountId;
+      return splittedId.join("-") === articleIndex.accountId;
     }) // id begins with same accountId as index object
     .filter(
       (articleIndex) =>
@@ -453,7 +454,11 @@ function filterValidator(articles) {
 function filterValidArticles(articles) {
   let filteredArticles = filterValidator(filteredArticles ?? articles);
 
-  return filteredArticles;
+  const filteredArticlesWithoutDeletedOnes = filteredArticles.filter(
+    (article) => !article.deletedArticle
+  );
+
+  return filteredArticlesWithoutDeletedOnes;
 }
 
 function filterMultipleKanbanTags(articleTags, kanbanTags) {
@@ -517,6 +522,15 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
 
+  //Add day-month-year tag if it doesn't exists yet
+  const creationDate = new Date(article.timeCreate);
+
+  const dateTag = `${creationDate.getDate()}-${
+    creationDate.getMonth() + 1
+  }-${creationDate.getFullYear()}`;
+
+  if (!article.tags.includes(dateTag)) article.tags.push(dateTag);
+
   if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
     article.sbts = ["fractal.i-am-human.near - class 1"];
   }
@@ -532,6 +546,8 @@ function callFunction(call) {
     return canUserCreateArticle(call.props);
   } else if (call.functionName === "createArticle") {
     return createArticle(call.props);
+  } else if (call.functionName === "deleteArticle") {
+    return deleteArticle(call.props);
   } else if (call.functionName === "canUserEditArticle") {
     return canUserEditArticle(call.props);
   } else if (call.functionName === "getArticles") {
