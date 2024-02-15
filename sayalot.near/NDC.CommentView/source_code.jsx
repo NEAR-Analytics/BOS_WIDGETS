@@ -18,7 +18,20 @@ const {
 State.init({
   showModal: false,
   hasReply: false,
+  functionsToCallByLibrary: {
+    comment: [],
+  },
 });
+
+const libSrcArray = [widgets.libs.libComment];
+
+function stateUpdate(obj) {
+  State.update(obj);
+}
+
+const CallLibrary = styled.div`
+  display: none;
+`;
 
 const CommentCard = styled.div`
     margin-left: ${isReply ? "2rem" : "0"};
@@ -274,6 +287,124 @@ const AnswerContainer = styled.div`
     width: 96%;;
   `;
 
+const renderDeleteModal = () => {
+  const ModalCard = styled.div`
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+  `;
+  const ModalContainer = styled.div`
+    display: flex;
+    width: 400px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid transparent;
+    margin-left: auto;
+    margin-right: auto;
+    margin-buttom: 50%;
+    @media only screen and (max-width: 480px) {
+      width: 90%;
+    }
+  `;
+  const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    align-self: stretch;
+  `;
+  const Footer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: end;
+    gap: 16px;
+    align-self: stretch;
+  `;
+
+  return (
+    <ModalCard>
+      <ModalContainer>
+        <Container>
+          <h3 className="w-100">Delete this comment?</h3>
+          <Footer>
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: "Yes, delete it",
+                onClick: deleteCommentListener,
+                variant: "danger",
+              }}
+            />
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: "Cancel",
+                onClick: closeDeleteCommentModal,
+                variant: "info outline",
+              }}
+            />
+          </Footer>
+        </Container>
+      </ModalContainer>
+    </ModalCard>
+  );
+};
+
+function onCommitDeletArticle() {
+  State.update({
+    showDeleteModal: false,
+  });
+}
+
+function closeDeleteCommentModal() {
+  State.update({
+    showDeleteModal: false,
+  });
+}
+
+function deleteCommentListener() {
+  //To test without commiting use the next line and comment the rest
+  // onCommit();
+  State.update({ saving: true });
+  const comment = data.value.comment;
+
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+  newLibsCalls.comment.push({
+    functionName: "deleteComment",
+    key: "deletedComment",
+    props: {
+      comment,
+      articleId: articleToRenderData.id,
+      onCommit: onCommitDeletcomment,
+      onCancel: closeDeleteCommentModal,
+    },
+  });
+
+  State.update({ functionsToCallByLibrary: newLibsCalls });
+}
+
+function handleDeleteComment() {
+  State.update({
+    showDeleteModal: true,
+  });
+}
+
 function closeModal() {
   State.update({ showModal: false });
 }
@@ -312,6 +443,7 @@ function handleReplyListener() {
 
 return (
   <>
+    {state.showDeleteModal && renderDeleteModal()}
     <CommentCard id={data.value.comment.commentId}>
       <CommentCardHeader>
         <CommentUserContent>
@@ -345,6 +477,20 @@ return (
                 ),
                 className: `info outline mt-2`,
                 onClick: () => handleEditComment(),
+              }}
+            />
+            <Widget
+              src={
+                widgets.views.standardWidgets.newStyledComponents.Input.Button
+              }
+              props={{
+                children: (
+                  <div className="d-flex justify-content-center align-items-center">
+                    <i className="bi bi-trash"></i>
+                  </div>
+                ),
+                className: `danger outline mt-2`,
+                onClick: () => handleDeleteComment(),
               }}
             />
           </CommentEdition>
@@ -468,5 +614,16 @@ return (
         })}
       </>
     )}
+    <CallLibrary>
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: baseActions.commentBaseAction },
+          "NDC.CommentView"
+        );
+      })}
+    </CallLibrary>
   </>
 );
