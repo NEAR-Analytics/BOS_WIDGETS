@@ -239,8 +239,11 @@ return (
       }}
     />
     {state.searchInputValue !== "" &&
+      state.searchInputValue &&
       sortedFinalArticlesWithUpVotes.length > 0 && (
-        <SearchResult className="text-secondary">{`Found ${sortedFinalArticlesWithUpVotes.length} articles searching for "${state.searchInputValue}"`}</SearchResult>
+        <SearchResult className="text-secondary">
+          {`Found ${sortedFinalArticlesWithUpVotes.length} articles searching for "${state.searchInputValue}"`}
+        </SearchResult>
       )}
     <ShareSearchRow>
       <ShareSearchText>Share search</ShareSearchText>
