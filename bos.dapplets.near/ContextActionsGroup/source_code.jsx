@@ -7,7 +7,8 @@ const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
 
-const handleOnMouseLeave = () => {
+const handleOnMouseLeave = (e) => {
+  e.stopPropagation();
   //   state.showMenu
   //     ? null
   //     : props.isEditMode
