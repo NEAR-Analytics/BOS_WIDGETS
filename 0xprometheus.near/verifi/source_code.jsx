@@ -152,11 +152,7 @@ const handleSelection = (index, fromQ) => {
     newItems.unshift(selectedItem); // Add selected item to the front
     setVerificationItems(newItems);
     console.log("updated?", newItems, verificationItems);
-    if (fromQ) {
-      setSelectedIndex(index);
-    } else {
-      setSelectedIndex(0);
-    }
+    setSelectedIndex(0);
   }
 };
 const isCardSelected = selectedIndex !== null;
@@ -175,10 +171,10 @@ useEffect(() => {
   ).then((newItemsArray) => {
     const mergedItems = newItemsArray.flat();
     setVerificationItems(mergedItems);
+    if (src !== null) {
+      handleSelection(src, true);
+    }
   });
-  if (src !== null) {
-    handleSelection(src, true);
-  }
 }, [src]);
 
 return (
