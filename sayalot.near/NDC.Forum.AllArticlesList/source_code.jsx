@@ -25,6 +25,7 @@ let {
   callLibs,
   baseActions,
   handleOnCommitArticle,
+  sharedSearchInputValue,
 } = props;
 
 const libSrcArray = [widgets.libs.libUpVotes];
@@ -51,6 +52,7 @@ if (articlesToRender.length > 0) {
 State.init({
   start: Date.now(),
   libsCalls: initLibsCalls,
+  searchInputValue: sharedSearchInputValue ?? "",
 });
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
@@ -71,13 +73,34 @@ let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   }
 });
 
+const articlesFilteredBySerch =
+  !state.searchInputValue || state.searchInputValue === ""
+    ? finalArticlesWithUpVotes
+    : finalArticlesWithUpVotes.filter((article) => {
+        if (article.title && article.body && article.author) {
+          return (
+            article.title
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.body
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase()) ||
+            article.author
+              .toLowerCase()
+              .includes(state.searchInputValue.toLowerCase())
+          );
+        } else {
+          return true;
+        }
+      });
+
 const fiveDaysTimeLapse = 432000000;
 
-const newestArticlesWithUpVotes = finalArticlesWithUpVotes
+const newestArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit > Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.timeLastEdit - a.timeLastEdit);
 
-const olderArticlesWithUpVotes = finalArticlesWithUpVotes
+const olderArticlesWithUpVotes = articlesFilteredBySerch
   .filter((article) => article.timeLastEdit < Date.now() - fiveDaysTimeLapse)
   .sort((a, b) => b.upVotes.length - a.upVotes.length);
 
@@ -123,6 +146,11 @@ const ShareSearchText = styled.h6`
     margin-right: 1rem;
   `;
 
+const SearchResult = styled.span`
+    margin-left: 0.5rem;
+    font-size: small;
+  `;
+
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
@@ -138,6 +166,10 @@ function getDateLastEdit(timestamp) {
 
 function allArticlesListStateUpdate(obj) {
   State.update(obj);
+}
+
+function handleSearch(e) {
+  State.update({ searchInputValue: e.target.value });
 }
 
 //================================================END FUNCTIONS=====================================================
@@ -194,6 +226,25 @@ return (
     ) : (
       <h6>You can't post since you don't own this SBT</h6>
     )}
+    <Widget
+      src={widgets.views.standardWidgets.styledComponents}
+      props={{
+        Input: {
+          label: "Search",
+          value: state.searchInputValue,
+          type: "text",
+          placeholder: "You can search by title, content or author",
+          handleChange: handleSearch,
+        },
+      }}
+    />
+    {state.searchInputValue !== "" &&
+      state.searchInputValue &&
+      sortedFinalArticlesWithUpVotes.length > 0 && (
+        <SearchResult className="text-secondary">
+          {`Found ${sortedFinalArticlesWithUpVotes.length} articles searching for "${state.searchInputValue}"`}
+        </SearchResult>
+      )}
     <ShareSearchRow>
       <ShareSearchText>Share search</ShareSearchText>
       <Widget
@@ -202,7 +253,7 @@ return (
           size: "sm",
           className: "info outline icon",
           children: <i className="bi bi-share"></i>,
-          onClick: () => handleShareSearch(true),
+          onClick: () => handleShareSearch(true, state.searchInputValue),
         }}
       />
     </ShareSearchRow>
@@ -264,7 +315,11 @@ return (
             );
           })
         ) : (
-          <h5>No articles uploaded using this SBT yet</h5>
+          <h5>{`No articles ${
+            state.searchInputValue !== ""
+              ? `haver been found searching for ${state.searchInputValue}`
+              : "uploaded using this SBT yet"
+          }`}</h5>
         )}
       </ArticlesListContainer>
     </NoMargin>
