@@ -52,7 +52,7 @@ return (
       decoding="async"
       data-nimg="fill"
     />
-    <Title>Mercury</Title>
+    <Title>Dropcast</Title>
     <p style={{ fontSize: 12 }}>Powered by Blocksmith Labs</p>
     <LoginButton
       className="btn btn-primary mt-4"
