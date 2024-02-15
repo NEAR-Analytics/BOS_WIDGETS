@@ -174,6 +174,8 @@ return (
         <GridWrapper>
           <Widget src={`${Owner}/widget/project`} />
           <Widget src={`${Owner}/widget/project`} />
+          <Widget src={`${Owner}/widget/project`} />
+          <Widget src={`${Owner}/widget/project`} />
         </GridWrapper>
       </div>
     )}
