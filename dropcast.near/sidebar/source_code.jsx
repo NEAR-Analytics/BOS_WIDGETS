@@ -10,7 +10,7 @@ const changePage = props.changePage;
 const Wrapper = styled.div`
   display: flex;
   width: 256px;
-  height: 100vh;  
+  height: 89vh;  
   color: #d4d4d4;
   position: relative;
   align-items: center;
