@@ -54,9 +54,7 @@ return (
         data-nimg="fill"
       />
       <Title>Vulcan</Title>
-      <p className="m-0" style={{ fontSize: 12 }}>
-        Powered by Blocksmith Labs
-      </p>
+
       <p className="m-0" style={{ fontSize: 12 }}>
         Managed by Nearverse Labs
       </p>
