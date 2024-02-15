@@ -8,7 +8,7 @@ const TOKEN = props.TOKEN || "";
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   padding: 64px;
   position: relative;
   align-items: stretch;
