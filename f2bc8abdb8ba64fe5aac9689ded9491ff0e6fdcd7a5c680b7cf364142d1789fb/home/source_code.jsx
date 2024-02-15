@@ -1,211 +1,497 @@
-// home
+const { Button, Dropdown, TextArea, Input, Link, Tag } = props;
 
-let {
-  sharedBlockHeight,
-  tagShared,
-  isTest,
-  accountId,
-  sharedArticleId,
-  sharedCommentId,
-  topicShared,
-} = props;
+const Styled = {
+  Button: styled.button`
+    width: max-content;
+    padding: ${(props) => (Button.size === "sm" ? "4px 12px" : "8px 20px")};
+    height: ${(props) => (Button.size === "sm" ? "28px" : "")};
+    font-size: ${(props) => (Button.size === "sm" ? "12px" : "14px")};
+    border-radius: ${(props) => (Button.size === "sm" ? "6px" : "10px")};
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    border: 0;
 
-const initLibsCalls = {
-  SBT: [
-    {
-      functionName: "getSBTWhiteList",
-      key: "sbtWhiteList",
-      props: {},
-    },
-  ],
+    &.danger {
+      border: 1px solid #c23f38;
+      background: #f1d6d5;
+      color: #c23f38;
+    }
+
+    &.primary {
+      background: #ffd50d;
+
+      &:hover {
+        background: #e7c211;
+      }
+
+      &.dark {
+        color: #fff;
+        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+
+        &:hover {
+          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+        }
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        background: #c3cace;
+        color: #828688;
+        border: 0;
+
+        &:hover {
+          background: #c3cace;
+          color: #828688;
+        }
+      }
+    }
+
+    &.secondary {
+      background: transparent;
+      border: 1px solid;
+      border-color: #ffd50d;
+      color: #ffd50d;
+
+      &:hover {
+        border-color: #e7c211;
+        color: #e7c211;
+      }
+
+      &.dark {
+        color: #4f46e5;
+        border-color: #4f46e5;
+
+        &:hover {
+          border-color: #2f2a87;
+          color: #2f2a87;
+        }
+      }
+
+      &:disabled {
+        border-color: #c3cace;
+        color: #828688;
+        cursor: not-allowed;
+
+        &:hover {
+          border-color: #c3cace;
+          color: #828688;
+        }
+      }
+    }
+
+    i {
+      margin: 0;
+      margin-left: ${(props) => (props.text ? "5px" : "0")};
+    }
+  `,
+
+  Link: styled.a`
+    width: max-content;
+    padding: ${(props) => (Link.size === "sm" ? "4px 12px" : "8px 20px")};
+    height: ${(props) => (Link.size === "sm" ? "28px" : "")};
+    font-size: ${(props) => (Link.size === "sm" ? "12px" : "14px")};
+    border-radius: ${(props) => (Link.size === "sm" ? "6px" : "10px")};
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    border: 0;
+    color: black;
+
+    &:hover {
+      text-decoration: none;
+      color: black;
+    }
+
+    &.danger {
+      border: 1px solid #c23f38;
+      background: #f1d6d5;
+      color: #c23f38;
+    }
+
+    &.primary {
+      background: #ffd50d;
+
+      &:hover {
+        background: #e7c211;
+      }
+
+      &.dark {
+        color: #fff;
+        background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+
+        &:hover {
+          background: linear-gradient(90deg, #792ac0 0%, #423abd 100%);
+        }
+      }
+
+      &:disabled {
+        background: #c3cace;
+        color: #828688;
+        border: 0;
+      }
+    }
+
+    &.secondary {
+      background: transparent;
+      border: 1px solid;
+      border-color: #ffd50d;
+      color: #ffd50d;
+
+      &:hover {
+        border-color: #e7c211;
+        color: #e7c211;
+      }
+
+      &.dark {
+        color: #4f46e5;
+        border-color: #4f46e5;
+
+        &:hover {
+          border-color: #2f2a87;
+          color: #2f2a87;
+        }
+      }
+
+      &:disabled {
+        border-color: #c3cace;
+        color: #828688;
+      }
+    }
+
+    i {
+      margin: 0 0 0 5px;
+    }
+  `,
+
+  Select: styled.select`
+    padding: 8px 10px;
+    width: 100%;
+    height: 40px;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
+  `,
+  TextArea: styled.textarea`
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
+  `,
+  Input: styled.input`
+    padding: 8px 10px;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d0d6d9;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #828688;
+  `,
+  Tag: styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid #9333ea;
+    color: #9333ea;
+    background: linear-gradient(
+      90deg,
+      rgba(147, 51, 234, 0.1) 0%,
+      rgba(79, 70, 229, 0.1) 100%
+    );
+    border-radius: 100px;
+
+    &.dark {
+      color: #fff;
+      background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
+    }
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 150px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 120%;
+      margin-bottom: 0;
+    }
+  `,
 };
 
-State.init({
-  functionsToCallByLibrary: initLibsCalls,
-  usersSBTs: [],
-});
-
-const usersSBTs = state.usersSBTs;
-
-let newLibsCalls = state.functionsToCallByLibrary;
-
-State.update({ libsCalls: newLibsCalls });
-
-const sbtWhiteList = state.sbtWhiteList
-  ? state.sbtWhiteList.map((sbt) => sbt.value)
-  : undefined;
-
-function createSbtOptions() {
-  return state.sbtWhiteList;
-}
-
-// const componentsOwner =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const componentsOwner = "sayalot.near";
-
-const authorForWidget = "communityvoice.ndctools.near";
-// const authorForWidget =
-// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-// const authorForWidget = "kenrou-it.near";
-// const authorForWidget = "silkking.near";
-
-const configWidget = "home";
-
-const widgets = {
-  thisForum: `${authorForWidget}/widget/${configWidget}`,
-
-  views: {
-    editableWidgets: {
-      ndcForum: `${componentsOwner}/widget/NDC.Forum`,
-      create: `${componentsOwner}/widget/NDC.Forum.Create`,
-      header: `${componentsOwner}/widget/NDC.NavBar`,
-      showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
-      showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
-      articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-      generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
-      articleView: `${componentsOwner}/widget/NDC.ArticleView`,
-      reactions: `${componentsOwner}/widget/NDC.Reactions`,
-      addComment: `${componentsOwner}/widget/NDC.AddComment`,
-      commentView: `${componentsOwner}/widget/NDC.CommentView`,
-      upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
-      profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
-      tagsEditor: `${componentsOwner}/widget/TagsEditor`,
-      kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
-      compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
-      articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
-    },
-    standardWidgets: {
-      fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
-      markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
-      styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-      newStyledComponents: {
-        Element: {
-          Badge: "nearui.near/widget/Element.Badge",
-          User: "nearui.near/widget/Element.User",
-        },
-        Feedback: {
-          Spinner: "nearui.near/widget/Feedback.Spinner",
-        },
-        Input: {
-          Button: "nearui.near/widget/Input.Button",
-          Checkbox: "nearui.near/widget/Input.Checkbox",
-          Select: "nearui.near/widget/Input.Select",
-        },
-      },
-      socialMarkdown: "mob.near/widget/SocialMarkdown",
-      profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
-      profileImage: "mob.near/widget/ProfileImage",
-      wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
-      navBarImg: "mob.near/widget/Image",
-    },
-  },
-
-  libs: {
-    libSBT: `sayalot.near/widget/lib.SBT`,
-    libComment: `sayalot.near/widget/lib.comment`,
-    libArticle: `sayalot.near/widget/lib.article`,
-    libEmojis: `sayalot.near/widget/lib.emojis`,
-    libUpVotes: `sayalot.near/widget/lib.upVotes`,
-    libNotifications: `sayalot.near/widget/lib.notifications`,
-  },
-};
-
-const libSrcArray = [widgets.libs.libSBT];
-
-const brand = {
-  brandName: "Community Voice",
-  logoHref:
-    "https://ipfs.near.social/ipfs/bafkreifhkslni6dlocxya35vjft3fefk2am5uzkagmjjzobdjqlhrnbjz4",
-  logoRemWidth: 12,
-  logoRemHeight: 4,
-};
-
-const baseActions = {
-  commentBaseAction: "communityVoiceComment",
-  articlesBaseAction: "communityVoiceArticle",
-  upVoteBaseAction: "communityVoiceUpVote",
-  reactionBaseAction: "communityVoiceReaction",
-};
-
-const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
-
-const kanbanRequiredTags = [];
-const kanbanExcludedTags = [];
-
-const CallLibrary = styled.div`
-    display: none;
+const Container = styled.div`
+  h4 {
+    margin: 10px 0;
+  }
 `;
 
-function mainStateUpdate(obj) {
-  State.update(obj);
-}
+const Label = styled.label`
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  margin-bottom: 5px;
+`;
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
+if (Link)
+  return (
+    <Styled.Link
+      size={Link.size}
+      className={`align-items-center d-flex ${Link.className ?? "primary"}`}
+      href={Link.href}
+      disabled={Link.disabled}
+    >
+      <div>{Link.text}</div>
+      {Link.icon && (
+        <div className={`${Link.size === "sm" ? "fs-7" : "fs-6"}`}>
+          {Link.icon}
+        </div>
+      )}
+    </Styled.Link>
+  );
+
+if (Button)
+  return (
+    <Styled.Button
+      size={Button.size}
+      className={`align-items-center d-flex ${Button.className ?? "primary"}`}
+      onClick={Button.onClick}
+      disabled={Button.disabled}
+      text={Button.text}
+    >
+      <div>{Button.text}</div>
+      {Button.icon && (
+        <div className={`${Button.size === "sm" ? "fs-7" : "fs-6"}`}>
+          {Button.icon}
+        </div>
+      )}
+    </Styled.Button>
+  );
+
+if (Tag)
+  return (
+    <Styled.Tag className={Tag.className}>
+      <p title={Tag.title}>{Tag.title}</p>
+    </Styled.Tag>
+  );
+
+if (Dropdown)
+  return (
+    <div>
+      <Label>{Dropdown.label}</Label>
+      <Styled.Select
+        value={Dropdown.value}
+        onChange={(e) => Dropdown.handleChange(e.target.value)}
+      >
+        {Dropdown.options.map((opt) => (
+          <>
+            {opt.default ? (
+              <option default value={opt.value}>
+                {opt.title}
+              </option>
+            ) : (
+              <option value={opt.value}>{opt.title}</option>
+            )}
+          </>
+        ))}
+      </Styled.Select>
+    </div>
+  );
+
+if (TextArea)
+  return (
+    <div>
+      {TextArea.label && <Label>{TextArea.label}</Label>}
+      <Styled.TextArea
+        value={TextArea.value}
+        placeholder={TextArea.placeholder}
+        onChange={TextArea.handleChange}
+        rows={5}
+      />
+
+      {TextArea.maxLength && (
+        <div className="d-flex justify-content-end">
+          <small style={{ fontSize: 12 }} className="text-secondary">
+            {parseInt(TextArea.maxLength) - TextArea.value.length ?? 0} left
+          </small>
+        </div>
+      )}
+    </div>
+  );
+
+if (Input)
+  return (
+    <div>
+      <Label>{Input.label}</Label>
+      <Styled.Input
+        value={Input.value}
+        type={Input.type ?? "text"}
+        placeholder={Input.placeholder}
+        onChange={Input.handleChange}
+        maxLength={Input.maxLength}
+        min={Input.min}
+        max={Input.max}
+      />
+
+      {Input.maxLength && (
+        <div className="d-flex justify-content-end">
+          <small style={{ fontSize: 12 }} className="text-secondary">
+            {parseInt(Input.maxLength) - Input.value.length ?? 0} left
+          </small>
+        </div>
+      )}
+    </div>
+  );
+
+const WidgetButton = ({ type, size, className, disabled, text, icon }) => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      [type ?? "Button"]: {
+        size,
+        className,
+        disabled,
+        text,
+        icon,
+      },
+    }}
+  />
+);
+
+const WidgetSelect = () => (
+  <Widget
+    src={"rubycop.near/widget/NDC.StyledComponents"}
+    props={{
+      Dropdown: {
+        label: "Select label",
+        options: [
+          { title: "Select value", default: true, value: 0 },
+          { title: "value 1", value: 1 },
+          { title: "value 2", value: 2 },
+        ],
+      },
+    }}
+  />
+);
+
+const WidgetInput = ({ type }) => {
+  State.init({ [type]: "" });
+
   return (
     <Widget
-      src={src}
+      src={"rubycop.near/widget/NDC.StyledComponents"}
       props={{
-        mainStateUpdate,
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        callerWidget,
-        ...extraProps,
-        usersSBTs,
+        [type]: {
+          label: "Select label",
+          placeholder: "Placeholder text here...",
+          maxLength: "20",
+          min: new Date(),
+          value: state[type],
+          handleChange: (e) => State.update({ [type]: e.target.value }),
+        },
       }}
     />
   );
-}
+};
 
 return (
-  <>
-    {sbtWhiteList ? (
+  <Container>
+    <h4>Button</h4>
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
+      <WidgetButton text="Primary" />
+      <WidgetButton text="Primary" icon={<i class="bi bi-check-lg"></i>} />
+      <WidgetButton
+        text="Secondary"
+        className="secondary"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton disabled text="Primary" />
+      <WidgetButton disabled className="secondary" text="Secondary" />
+      <WidgetButton size="sm" text="Primary" />
+      <WidgetButton size="sm" className="secondary" text="Secondary" />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
+      <WidgetButton text="Primary Dark" className="primary dark" />
+      <WidgetButton
+        text="Primary Dark"
+        className="primary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton
+        text="Secondary Dark"
+        className="secondary dark"
+        icon={<i class="bi bi-check-lg"></i>}
+      />
+      <WidgetButton disabled className="primary dark" text="Primary dark" />
+      <WidgetButton disabled className="secondary dark" text="Secondary dark" />
+      <WidgetButton size="sm" className="primary dark" text="Primary dark" />
+      <WidgetButton
+        size="sm"
+        className="secondary dark"
+        text="Secondary dark"
+      />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
+      <WidgetButton
+        text="Danger"
+        className="danger"
+        icon={<i class="bi bi-trash" />}
+      />
+    </div>
+
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
+      <WidgetButton
+        size="sm"
+        className="secondary dark"
+        icon={<i class="bi bi-share"></i>}
+      />
+      <WidgetButton
+        disabled
+        size="sm"
+        className="secondary dark"
+        icon={<i class="bi bi-share"></i>}
+      />
+    </div>
+
+    <h4>Link Button</h4>
+    <div className="d-flex align-items-end flex-wrap gap-2">
+      <WidgetButton type="Link" text="Primary" className="primary dark" />
+      <WidgetButton type="Link" text="Secondary" className="secondary dark" />
+    </div>
+
+    <h4>Tag</h4>
+    <div className="d-flex align-items-end flex-wrap gap-2 mb-2">
       <Widget
-        src={widgets.views.editableWidgets.ndcForum}
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{ Tag: { title: "Lorem ipsum", className: "dark" } }}
+      />
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
+        props={{ Tag: { title: "Lorem ipsum" } }}
+      />
+      <Widget
+        src={"rubycop.near/widget/NDC.StyledComponents"}
         props={{
-          sharedBlockHeight,
-          tagShared,
-          isTest,
-          accountId,
-          sbtWhiteList,
-          authorForWidget,
-          widgets,
-          brand,
-          baseActions,
-          createSbtOptions,
-          kanbanColumns,
-          kanbanRequiredLabels,
-          kanbanExcludedLabels,
-          sharedArticleId,
-          sharedCommentId,
-          topicShared,
-          callLibs,
-          mainStateUpdate,
+          Tag: {
+            title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          },
         }}
       />
-    ) : (
-      <Widget
-        src={widgets.views.standardWidgets.newStyledComponents.Feedback.Spinner}
-      />
-    )}
-    <CallLibrary>
-      {libSrcArray.map((src) => {
-        return callLibs(
-          src,
-          mainStateUpdate,
-          state.functionsToCallByLibrary,
-          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
-          "home"
-        );
-      })}
-    </CallLibrary>
-  </>
+    </div>
+
+    <h4>Select</h4>
+    <WidgetSelect />
+
+    <h4>Input</h4>
+    <WidgetInput type="Input" />
+    <WidgetInput type="TextArea" />
+  </Container>
 );
