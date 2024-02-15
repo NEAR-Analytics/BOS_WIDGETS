@@ -1,0 +1,81 @@
+const { Components } = VM.require("buildhub.near/widget/components");
+const { CreateDAO } = VM.require("hack.near/widget/CreateDAO");
+const { EveryDAO } = VM.require("hack.near/widget/Every.DAO");
+const { GetDAO } = VM.require("mob.near/widget/DAO.Proposals");
+const { GetPermissions } = VM.require("sking.near/widget/DAO.Permissions");
+const { SetPermissions } = VM.require("sking.near/widget/DAO.Permissions");
+const { GrantPermissions } = VM.require("every.near/widget/Settings");
+const { GetPolicy } = VM.require("mob.near/widget/DAO.Proposals");
+const { SetPolicy } = VM.require("mob.near/widget/DAO.Proposals");
+const { AddMember } = VM.require("hack.near/widget/DAO.Members");
+const { RemoveMember } = VM.require("hack.near/widget/DAO.Members");
+const { GetConfig } = VM.require("mob.near/widget/DAO.Proposals");
+const { SetConfig } = VM.require("mob.near/widget/DAO.Proposals");
+const { GetProposal } = VM.require("mob.near/widget/DAO.Proposals");
+const { CreateProposal } = VM.require("mob.near/widget/DAO.Proposal");
+const { GetBounty } = VM.require("sking.near/widget/DAO.Bounties");
+const { ProposeBounty } = VM.require("sking.near/widget/DAO.Bounties");
+const { ClaimBounty } = VM.require("sking.near/widget/DAO.Bounty");
+const { GetFollowers } = VM.require("hack.near/widget/DAO.Page");
+const { FollowDAO } = VM.require("hack.near/widget/DAO.Page");
+const { GetGroups } = VM.require("hack.near/widget/DAO.Page");
+const { JoinGroup } = VM.require("hack.near/widget/DAO.Page");
+
+function Pagination({
+  totalPages,
+  maxVisiblePages,
+  onPageClick,
+  selectedPage,
+  ThemeContainer,
+}) {
+  return (
+    <Widget
+      src="buildhub.near/widget/components.Pagination"
+      props={{
+        totalPages,
+        maxVisiblePages,
+        onPageClick,
+        selectedPage,
+        ThemeContainer,
+      }}
+    />
+  );
+}
+
+function Post(props) {
+  return (
+    <Widget
+      loading={<div className="w-100" style={{ height: "200px" }} />}
+      src={"buildhub.near/widget/components.Post"}
+      props={{ ...props }}
+    />
+  );
+}
+
+function User(props) {
+  return (
+    <Widget
+      loading={<div style={{ widget: "3rem", height: "3rem" }} />}
+      src="buildhub.near/widget/components.User"
+      props={{ ...props }}
+    />
+  );
+}
+
+return {
+  CreateDAO,
+  GetDAO,
+  Post,
+  ProgressState,
+  Modal,
+  Bullet,
+  Step,
+  Hashtag,
+  InputField,
+  UploadField,
+  TextBox,
+  TextEditor,
+  Checkbox,
+  Avatar,
+  User,
+};
