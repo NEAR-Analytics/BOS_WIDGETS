@@ -111,8 +111,10 @@ const AuthButton = styled.div`
     box-shadow: 0 0 0 0px rgba(0,0,0,.05);
     transition: all .2s;
 
-    :not(:last-of-type) {
-        margin-bottom:10px;
+    margin-bottom:10px;
+
+    :last-of-type {
+        margin-bottom:20px;
     }
 
     :hover {
@@ -147,10 +149,10 @@ const AuthButton = styled.div`
 `;
 
 const Disclaimer = styled.p`
-    margin-top:20px;
     max-width:300px;
     font-size:.7rem;
     text-align:center;
+    margin-bottom:7px;
 `;
 
 const Header = styled.h3`
@@ -381,7 +383,10 @@ const Auth = () => {
           {platform && <AuthProcess platform={platform} />}
           <Disclaimer>
               Authenticating your profile <b>doesn't grant</b> nearbadger write access to
-            your account.<br/><br/>Each issued verification will remain <b>valid for 3 months</b>.
+            your account.
+          </Disclaimer>
+            <Disclaimer>
+              Each issued verification will remain <b>valid for 3 months</b>.
           </Disclaimer>
         </>}
     </>
