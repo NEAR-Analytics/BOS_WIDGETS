@@ -48,7 +48,7 @@ const OAuthData = Object.keys(params)
 return (
   <Wrapper className="root">
     <LogoIcon
-      src="https://vulcanapp.io/_next/static/media/logo.24108d07.svg"
+      src="https://dropcast.nearverselabs.com/logo.png"
       decoding="async"
       data-nimg="fill"
     />
