@@ -8,6 +8,7 @@ const Wrapper = styled.div`
 return (
   <Wrapper>
     <img
+      style={{ height: 192 }}
       className="w-100 object-fit-cover rounded-3"
       src="https://cdn.discordapp.com/icons/988431580538224641/e77dc47375e528b351f7ec287be40080.png?size=1024"
     />
