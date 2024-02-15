@@ -191,7 +191,7 @@ return (
         <button
           style={{ backgroundColor: item.status ? "green" : "" }}
           verified={true}
-          disabled={isCardSelected && selectedIndex !== index}
+          disabled={item.status || (isCardSelected && selectedIndex !== index)}
           onClick={() => handleVerify(index)}
         >
           {item.status ? "Verified!" : "verify info"}
