@@ -572,19 +572,22 @@ return (
           )}
         </ActionsWrapper>
         {props.widgets && props.widgets.length ? (
-          <ButtonPlus
-            style={{
-              transform:
-                props.widgets && props.widgets.length
-                  ? "translateY(6px)"
-                  : "translateY(39px)",
+          <>
+            <SupportingSpan />
+            <ButtonPlus
+              style={{
+                transform:
+                  props.widgets && props.widgets.length
+                    ? "translateY(6px)"
+                    : "translateY(39px)",
 
-              position:
-                props.widgets && props.widgets.length ? "unset" : "absolute",
-              zIndex: "1081",
-            }}
-            onClick={handleOpenMenu}
-          />
+                position:
+                  props.widgets && props.widgets.length ? "unset" : "absolute",
+                zIndex: "1081",
+              }}
+              onClick={handleOpenMenu}
+            />
+          </>
         ) : (
           <WrapperButtonPlusDefault>
             {" "}
