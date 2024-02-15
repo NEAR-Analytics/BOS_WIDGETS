@@ -8,11 +8,11 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  //   state.showMenu
-  //     ? null
-  //     : props.isEditMode
-  //     ? null
-  //     : State.update({ show: false });
+  state.showMenu
+    ? null
+    : props.isEditMode
+    ? null
+    : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -88,6 +88,7 @@ const TriggerShowPanel = styled.div`
   position: absolute;
   right: -33px;
   top: 10px;
+  z-index: 79;
 `;
 
 const TriggerShowLabel = styled.div`
