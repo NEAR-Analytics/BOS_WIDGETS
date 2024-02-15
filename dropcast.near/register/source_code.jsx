@@ -23,6 +23,24 @@ const Label = styled.label`
     margin-bottom: 4px;
 `;
 
+const OPTIONS = [
+  {
+    text: "All",
+    value: "all",
+  },
+];
+
+State.init({
+  option: "",
+});
+
+const changeOption = (value) => {
+  State.update({
+    ...state,
+    option: value,
+  });
+};
+
 return (
   <Wrapper>
     <div
@@ -44,6 +62,15 @@ return (
         <Label>
           Project <span className="text-danger">*</span>
         </Label>
+        <Widget
+          props={{
+            noLabel: true,
+            options: OPTIONS,
+            value: state.option,
+            onChange: changeOption,
+          }}
+          src={`${Owner}/widget/Select`}
+        />
       </div>
     </div>
   </Wrapper>
