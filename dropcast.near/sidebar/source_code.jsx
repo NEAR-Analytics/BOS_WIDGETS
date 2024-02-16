@@ -6,6 +6,7 @@ const PAGES = props.PAGES || [];
 const currentPage = props.currentPage;
 const changePage = props.changePage;
 const sidebar = props.sidebar || false;
+const openSidebar = props.openSidebar || (() => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -23,6 +24,10 @@ const Wrapper = styled.div`
         z-index: 2;
         ${!sidebar && `display: none;`}
         position: absolute;
+
+        .close {
+          display: flex;
+        }
     }
 `;
 
@@ -53,8 +58,36 @@ const SelectedIcon = styled.div`
     background-image: linear-gradient(to right ,#facc15,#ea580c);
 `;
 
+const CloseButton = styled.button`
+    top: 10px;
+    padding: 0;
+    z-index: 1;
+    width: 29px;
+    right: 10px;
+    height: 29px;
+    color: white;
+    display: none;
+    border: 1px solid;  
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+`;
+
 return (
   <Wrapper className="sidebar">
+    <CloseButton className="btn close" onClick={openSidebar}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
+        />
+      </svg>
+    </CloseButton>
     <div className="d-flex justify-content-center align-items-center flex-column pt-5">
       <LogoIcon
         src="https://dropcast.nearverselabs.com/logo.png"
