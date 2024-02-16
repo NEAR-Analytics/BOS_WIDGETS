@@ -20,6 +20,7 @@ State.init({
   stNearBalance: null,
   stNearBalanceIsFetched: false,
   dataIntervalStarted: false,
+  isStNearMaxSelected: false,
   action: "stake",
 });
 
@@ -155,7 +156,7 @@ const handleInputStNear = (value) => {
       validation: "",
     });
   }
-  State.update({ value });
+  State.update({ value, isStNearMaxSelected: false });
 };
 
 const getUserAddress = () => {
@@ -176,11 +177,10 @@ const onClickMaxNear = () => {
 };
 
 const onClickMaxstNear = () => {
-  const value =
-    state.stNearBalance > 0.1
-      ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
-      : "0";
-  handleInputStNear(value);
+  handleInputStNear(
+    (Math.trunc(parseFloat(state.stNearBalance) * 100) / 100).toFixed(2)
+  );
+  State.update({ isStNearMaxSelected: true });
 };
 
 // UPDATE DATA
@@ -194,7 +194,7 @@ const updateData = () => {
 
 if (!state.dataIntervalStarted) {
   State.update({ dataIntervalStarted: true });
-
+  updateData();
   setInterval(() => {
     updateData();
   }, 20000);
@@ -317,7 +317,12 @@ const renderActions = (
     <TokensList>
       <ActionItem
         onClick={() => {
-          State.update({ action: "stake" });
+          State.update({
+            action: "stake",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "stake"}
       >
@@ -340,7 +345,12 @@ const renderActions = (
       </ActionItem>
       <ActionItem
         onClick={() => {
-          State.update({ action: "fast" });
+          State.update({
+            action: "fast",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "fast"}
       >
@@ -365,7 +375,12 @@ const renderActions = (
 
       <ActionItem
         onClick={() => {
-          State.update({ action: "delayed" });
+          State.update({
+            action: "delayed",
+            value: "0",
+            validation: "",
+            isStNearMaxSelected: false,
+          });
         }}
         active={state.action == "delayed"}
       >
