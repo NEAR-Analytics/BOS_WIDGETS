@@ -217,7 +217,9 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged(),
