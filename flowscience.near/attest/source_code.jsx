@@ -1,3 +1,6 @@
+const item = props.item;
+const onChange = props.onChange;
+
 const [formValues, setFormValues] = useState({
   recipientId: props.recipientId || "",
   expireDate: props.expireDate || "",
@@ -6,20 +9,6 @@ const [formValues, setFormValues] = useState({
   refUID: props.refUID || "",
   payload: props.payload || "",
 });
-const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema ?? "attestations.near/type/isTrue"
-);
-const [schemaFields, setSchemaFields] = useState({});
-const {
-  item,
-  onChange,
-  recipientId,
-  expireDate,
-  expireTime,
-  revokeDate,
-  refUID,
-  payload,
-} = props;
 
 const Input = styled.input`
   height: 30px;
@@ -53,15 +42,6 @@ const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 State.init({
   ...item.value,
   objectUID: generateUID(),
-  selectedSchema: state.selectedSchema,
-  schemaFields: schemaFields,
-  recipientId: state.recipientId,
-  expireDate: state.expireDate,
-  expireTime: state.expireTime,
-  refUID: state.refUID,
-  payload: state.payload,
-  attestData: props.data,
-  metadata: "",
 });
 
 const attestData = {
@@ -74,29 +54,21 @@ const attestData = {
   },
 };
 
-const DynamicInput = ({ fieldName, type, onChange, value, placeholder }) => {
-  // Ensure that the onChange function is properly calling handleInputChange with the correct values
-  const handleChange = (e) => {
-    const newValue =
-      type === "boolean" ? e.target.value === "true" : e.target.value;
-    onChange(fieldName, newValue);
-  };
-
+const DynamicInput = ({ type, onChange, value, placeholder }) => {
   if (type === "boolean") {
     return (
-      <Select onChange={handleChange} value={String(value)}>
-        <option value="">Select...</option>
-        <option value="true">True</option>
-        <option value="false">False</option>
+      <Select onChange={onChange} value={value}>
+        <option value="true">true</option>
+        <option value="false">false</option>
       </Select>
     );
   } else {
     return (
       <Input
-        type="text" // Change this if you have other types you want to handle differently
-        onChange={handleChange}
-        value={value || ""}
-        placeholder={placeholder || `Enter ${fieldName}`}
+        type={type}
+        onChange={onChange}
+        value={value}
+        placeholder={placeholder}
       />
     );
   }
@@ -173,66 +145,34 @@ const handleSave = () => {
     });
 };
 
-const handleSchemaChange = (e) => {
-  const newSchema = e.target.value;
-  State.update({
-    selectedSchema: newSchema,
-    schemaFields: Social.get(selectedSchema),
-  });
-};
+const handleInputChange = (name, value) => {
+  // Update local form state
+  setFormValues((prev) => ({ ...prev, [name]: value }));
 
-const handleInputChange = (fieldName, newValue) => {
-  setFormValues((prev) => ({
-    ...prev,
-    [fieldName]: newValue,
-  }));
-};
-
-const fetchSchema = (schema) => {
-  console.log(`Fetching schema details for: ${schema}`);
-  const schemaDetails = Social.get(schema, "final");
-  console.log(`Raw schema details: ${schemaDetails}`);
-  if (schemaDetails) {
-    try {
-      const parsedSchemaDetails = JSON.parse(schemaDetails);
-      console.log(`Parsed schema details:`, parsedSchemaDetails);
-      setSchemaFields(parsedSchemaDetails);
-    } catch (error) {
-      console.error("Failed to parse schema details:", error);
-    }
-  } else {
-    console.log("Schema details not found for:", schema);
+  // Propagate changes if an external onChange handler is provided
+  if (onChange) {
+    onChange({ ...formValues, [name]: value });
   }
-};
-
-useEffect(() => {
-  const fetchSchemaDetails = async () => {
-    const schemaDetailsRaw = Social.get(`${selectedSchema}`, "final");
-    console.log(schemaDetailsRaw);
-    if (schemaDetailsRaw) {
-      try {
-        const schemaDetails = JSON.parse(schemaDetailsRaw);
-        setSchemaFields(schemaDetails.properties || {});
-      } catch (error) {
-        console.error("Error parsing schema details:", error);
-        setSchemaFields({});
-      }
-    } else {
-      console.log("Schema details not found for:", selectedSchema);
-      setSchemaFields({});
-    }
-  };
-
-  fetchSchemaDetails(selectedSchema);
-}, [selectedSchema]);
-
-const onInputChange = (fieldName, newValue) => {
-  // Call handleOnChange with the change
-  props.onChange({ [fieldName]: newValue });
 };
 
 return (
   <Container>
+    {createWidgetSrc ? (
+      <>
+        <Widget src={createWidgetSrc} props={{ onChange }} />
+      </>
+    ) : (
+      <>
+        {properties?.map((property) => (
+          <div key={property.name}>
+            <Label>{property.name}</Label>
+            <Row>
+              <Property property={property} value={item.value[property.name]} />
+            </Row>
+          </div>
+        ))}
+      </>
+    )}
     <Label>
       <b>UID:</b> {state.objectUID}
     </Label>
@@ -284,18 +224,6 @@ return (
       onChange={(e) => handleInputChange("payload", e.target.value)}
       placeholder="# This is markdown text."
     />
-    {Object.entries(schemaFields).map(([fieldName, details]) => (
-      <Row key={fieldName}>
-        <Label>{fieldName}:</Label>
-        <DynamicInput
-          fieldName={fieldName}
-          type={details.type}
-          value={formValues[fieldName]}
-          onChange={handleInputChange}
-          placeholder={details.placeholder || `Enter ${fieldName}`}
-        />
-      </Row>
-    ))}
     <Button onClick={handleSave}>Save</Button>
     <hr></hr>Preview:
     <Widget
