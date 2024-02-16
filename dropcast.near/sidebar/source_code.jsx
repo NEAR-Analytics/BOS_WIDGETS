@@ -24,7 +24,7 @@ const Wrapper = styled.div`
         width: ${sidebar ? "55%" : 0};
         z-index: 2;
         position: absolute;
-
+        ${!sidebar && "display: none"}
         .close {
           display: flex;
         }
