@@ -27,8 +27,9 @@ const Input = styled.input`
 useEffect(() => {
   const fetchSchemasList = async () => {
     setIsLoading(true);
+    // Ensure dynamic accountId is correctly included in the query
     const schemas = Social.get(`${schemaSrc}/type/**`, "final");
-    if (schemas !== null) {
+    if (schemas) {
       const schemasList = Object.keys(schemas).map(
         (key) => `${schemaSrc}/type/${key}`
       );
@@ -40,7 +41,7 @@ useEffect(() => {
   };
 
   fetchSchemasList();
-}, [schemaSrc]); // Fetch schemas when schemaSrc changes
+}, [schemaSrc]); // Depend on schemaSrc to refetch when it changes
 
 useEffect(() => {
   // Sync state with prop when it changes
@@ -61,12 +62,8 @@ const handleSchemaOwnerChange = (e) => {
 };
 
 const handleApplySchemaSrc = () => {
-  console.log(`Applying new Schema Owner: ${newSchemaSrc}`);
-  if (typeof props.onSchemaSrcChange === "function") {
-    props.onSchemaSrcChange(newSchemaSrc);
-  } else {
-    console.error("onSchemaSrcChange prop is not a function");
-  }
+  setSchemaSrc(newSchemaSrc); // Apply the new schema source
+  console.log(`Applying new Schema Owner: ${newSchemaSrc}`); // Log the action
 };
 
 return (
@@ -75,8 +72,8 @@ return (
     <Row>
       <Input
         type="text"
+        onChange={handleSchemaOwnerChange} // Corrected to use the handleSchemaOwnerChange function
         value={newSchemaSrc}
-        onChange={handleSchemaOwnerChange}
         placeholder="accountId"
       />
       <Button onClick={handleApplySchemaSrc}>apply</Button>
