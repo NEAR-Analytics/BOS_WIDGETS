@@ -113,6 +113,11 @@ const changePage = (page) => {
   State.update({
     page,
   });
+  setTimeout(() => {
+    State.update({
+      sidebar: false,
+    });
+  }, 500);
 };
 
 const openSidebar = (value) => {
