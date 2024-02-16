@@ -106,8 +106,7 @@ const Cards = communities.map((com) => {
   return {
     title: com.name,
     description: com.description,
-    href:
-      "/thomasguntenaar.near/widget/app?page=community&handle=" + com.handle,
+    href: "/thomasguntenaar.near/widget/app?page=community&handle=" + com.handle,
   };
 });
 
