@@ -189,20 +189,19 @@ const handleInputChange = (fieldName, newValue) => {
 };
 
 const fetchSchema = (schema) => {
-  // Example fetch logic, adjust based on your API/backend
+  console.log(`Fetching schema details for: ${schema}`);
   const schemaDetails = Social.get(schema, "final");
-  console.log(schemaDetails);
+  console.log(`Raw schema details: ${schemaDetails}`);
   if (schemaDetails) {
     try {
       const parsedSchemaDetails = JSON.parse(schemaDetails);
+      console.log(`Parsed schema details:`, parsedSchemaDetails);
       setSchemaFields(parsedSchemaDetails);
     } catch (error) {
       console.error("Failed to parse schema details:", error);
-      setSchemaFields({});
     }
   } else {
     console.log("Schema details not found for:", schema);
-    setSchemaFields({});
   }
 };
 
