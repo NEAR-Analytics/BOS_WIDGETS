@@ -140,9 +140,13 @@ const handleSchemaSrcChange = (newSchemaSrc) => {
   console.log("New schema source:", schemaSrc);
 };
 
+useEffect(() => {
+  console.log("New schema source:", schemaSrc); // Correctly logs after updates
+}, [schemaSrc]); // Listen for changes to schemaSrc
+
 const handleOnChange = (updatedItem) => {
   // Assuming updatedItem is an object with { key: value } pairs representing changes
-  console.log("Changes from attest:", updatedItem);
+  //console.log("Changes from attest:", updatedItem);
 
   // Update your state accordingly
   // This example assumes you have a state.data object that you're updating
@@ -158,6 +162,8 @@ const handleOnChange = (updatedItem) => {
 useEffect(() => {
   // Assuming setSelectedSchema is the state setter for selectedSchema in NAS
   setSelectedSchema(props.selectedSchema);
+  console.log("New schema from props:", selectedSchema);
+
   // You might also want to perform other actions when selectedSchema changes
 }, [props.selectedSchema]); // This effect runs whenever props.selectedSchema changes
 
