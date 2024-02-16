@@ -128,6 +128,7 @@ return (
         USER,
         PAGES,
         changePage,
+        openSidebar,
         sidebar: state.sidebar,
         currentPage: state.page,
       }}
