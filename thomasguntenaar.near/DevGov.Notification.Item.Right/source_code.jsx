@@ -1,5 +1,4 @@
-const { href } =
-  VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
 return props.post === undefined ? (
   "Loading ..."
