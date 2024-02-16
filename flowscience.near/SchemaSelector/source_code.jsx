@@ -1,3 +1,12 @@
+const initialSchemaSrc = props.schemaSrc || "attestations.near";
+const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
+const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
+const [availableSchemas, setAvailableSchemas] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema || "attestations.near/type/isTrue"
+);
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -14,14 +23,6 @@ const Label = styled.label`
 `;
 const Input = styled.input`
   `;
-const initialSchemaSrc = props.schemaSrc || "attestations.near";
-const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
-const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
-const [availableSchemas, setAvailableSchemas] = useState([]);
-const [isLoading, setIsLoading] = useState(true);
-const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
-);
 
 useEffect(() => {
   const fetchSchemasList = async () => {
@@ -61,6 +62,9 @@ const handleSchemaOwnerChange = (e) => {
 
 const handleApplySchemaSrc = () => {
   setSchemaSrc(newSchemaSrc);
+  props.onSchemaSrcChange(newSchemaSrc); // Make sure this matches the prop passed from NAS.
+  console.log("Applying new Schema Owner:", newSchemaSrc); // You mentioned seeing this log.
+
   console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
 };
 
