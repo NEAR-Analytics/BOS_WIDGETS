@@ -35,37 +35,41 @@ const Skeleton = (props) => {
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -220,57 +224,63 @@ function formatTimestampToString(timestamp) {
   return formattedDate;
 }
 
-function convertToMetricPrefix(number) {
+function convertToMetricPrefix(numberStr) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
 
+  let result = new Big(numberStr);
   let count = 0;
-  while (Math.abs(number) >= 1000 && count < prefixes.length - 1) {
-    number /= 1000;
+
+  while (result.abs().gte('1e3') && count < prefixes.length - 1) {
+    result = result.div(1e3);
     count++;
   }
 
-  // Check if the number is close to an integer value
-  if (Math.abs(number) >= 10) {
-    number = Math.round(number); // Round the number to the nearest whole number
-    return number + ' ' + prefixes[count];
+  // Check if the value is an integer or has more than two digits before the decimal point
+  if (result.abs().lt(1e2) && result.toFixed(2) !== result.toFixed(0)) {
+    result = result.toFixed(2);
+  } else {
+    result = result.toFixed(0);
   }
 
-  return (
-    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
-  );
+  return result.toString() + ' ' + prefixes[count];
 }
+
 function formatNumber(value) {
+  let bigValue = new Big(value);
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixIndex = 0;
 
-  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
-    value /= 1000;
+  while (bigValue.gte(10000) && suffixIndex < suffixes.length - 1) {
+    bigValue = bigValue.div(1000);
     suffixIndex++;
   }
 
-  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  const formattedValue = bigValue.toFixed(1).replace(/\.0+$/, '');
   return `${formattedValue} ${suffixes[suffixIndex]}`;
 }
+
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
-  return `${near} Ⓝ`;
+  return `${near}`;
 }
 
 function currency(number) {
-  let absNumber = Math.abs(number);
+  let absNumber = new Big(number).abs();
 
   const suffixes = ['', 'K', 'M', 'B', 'T', 'Q'];
   let suffixIndex = 0;
 
-  while (absNumber >= 1000 && suffixIndex < suffixes.length - 1) {
-    absNumber /= 1000;
+  while (absNumber.gte(1000) && suffixIndex < suffixes.length - 1) {
+    absNumber = absNumber.div(1000); // Divide using big.js's div method
     suffixIndex++;
   }
 
-  let shortNumber = parseFloat(absNumber.toFixed(2));
+  const formattedNumber = absNumber.toFixed(2); // Format with 2 decimal places
 
-  return (number < 0 ? '-' : '') + shortNumber + ' ' + suffixes[suffixIndex];
+  return (
+    (number < '0' ? '-' : '') + formattedNumber + ' ' + suffixes[suffixIndex]
+  );
 }
 
 function formatDate(dateString) {
@@ -420,15 +430,15 @@ function convertAmountToReadableString(amount, type) {
   let value;
   let suffix;
 
-  const nearNomination = Math.pow(10, 24);
+  const nearNomination = new Big(10).pow(24);
 
-  const amountInNear = Number(amount) / nearNomination;
+  const amountInNear = new Big(amount).div(nearNomination);
 
   if (type === 'totalSupply' || type === 'totalStakeAmount') {
-    value = formatWithCommas((amountInNear / 1e6).toFixed(1));
+    value = formatWithCommas(amountInNear.div(1e6).toFixed(1));
     suffix = 'M';
   } else if (type === 'seatPriceAmount') {
-    value = formatWithCommas(Math.round(amountInNear).toString());
+    value = formatWithCommas(amountInNear.round().toString());
   } else {
     value = amount.toString();
   }
@@ -436,13 +446,16 @@ function convertAmountToReadableString(amount, type) {
 }
 
 function convertTimestampToTime(timestamp) {
-  const hours = Math.floor(timestamp / 3600);
-  const minutes = Math.floor((timestamp % 3600) / 60);
-  const seconds = Math.floor(timestamp % 60);
+  const timestampBig = new Big(timestamp);
 
-  return `${hours.toString().padStart(2, '0')}H ${minutes
-    .toString()
-    .padStart(2, '0')}M ${seconds.toString().padStart(2, '0')}S`;
+  const hours = timestampBig.div(3600).round(0, 0).toString();
+  const minutes = timestampBig.mod(3600).div(60).round(0, 0).toString();
+  const seconds = timestampBig.mod(60).round(0, 0).toString();
+
+  return `${hours.padStart(2, '0')}H ${minutes.padStart(
+    2,
+    '0',
+  )}M ${seconds.padStart(2, '0')}S`;
 }
 
 function yoctoToNear(yocto, format) {
@@ -454,16 +467,27 @@ function yoctoToNear(yocto, format) {
 }
 
 function fiatValue(big, price) {
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -546,6 +570,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -580,53 +605,56 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function convertTimestampToTime(timestamp) {
-  const hours = Math.floor(timestamp / 3600);
-  const minutes = Math.floor((timestamp % 3600) / 60);
-  const seconds = Math.floor(timestamp % 60);
+  const timestampBig = new Big(timestamp);
 
-  return `${hours.toString().padStart(2, '0')}H ${minutes
-    .toString()
-    .padStart(2, '0')}M ${seconds.toString().padStart(2, '0')}S`;
+  const hours = timestampBig.div(3600).round(0, 0).toString();
+  const minutes = timestampBig.mod(3600).div(60).round(0, 0).toString();
+  const seconds = timestampBig.mod(60).round(0, 0).toString();
+
+  return `${hours.padStart(2, '0')}H ${minutes.padStart(
+    2,
+    '0',
+  )}M ${seconds.padStart(2, '0')}S`;
 }
 
 function yoctoToNear(yocto, format) {
@@ -638,16 +666,27 @@ function yoctoToNear(yocto, format) {
 }
 
 function fiatValue(big, price) {
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -730,6 +769,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -764,21 +804,21 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -856,6 +896,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -890,11 +931,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -933,11 +974,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -961,6 +1002,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -995,11 +1037,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1013,16 +1055,27 @@ function yoctoToNear(yocto, format) {
 }
 
 function fiatValue(big, price) {
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -1105,6 +1158,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1139,21 +1193,21 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1225,14 +1279,16 @@ function MainComponent({ network, currentPage, setPage }) {
 
 (initialValidatorFullData);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalSuppy, setTotalSupplay] = useState(0);
+  const [totalSuppy, setTotalSupply] = useState('');
+  const [totalCount, setTotalCount] = useState('');
   const [expanded, setExpanded] = useState([]);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [latestBlock, setLatestBlock] = useState(0);
   const errorMessage = 'No validator data!';
   const config = getConfig(network);
 
-  const TotalSupply = yoctoToNear(Number(totalSuppy || 0), false);
+  const TotalSupply = totalSuppy ? yoctoToNear(totalSuppy, false) : '';
+
   useEffect(() => {
     function fetchValidatorData(page) {
       setIsLoading(true);
@@ -1280,7 +1336,7 @@ function MainComponent({ network, currentPage, setPage }) {
         .then((res) => {
           const data = res.body;
           if (res.status === 200) {
-            setTotalSupplay(data.stats[0].total_supply || 0);
+            setTotalSupply(data.stats[0].total_supply || 0);
           }
         })
         .catch(() => {})
@@ -1306,6 +1362,9 @@ function MainComponent({ network, currentPage, setPage }) {
     fetchTotalSuppy();
     fetchValidatorData(currentPage);
   }, [config?.backendUrl, currentPage]);
+  validatorFullData[currentPage]?.total
+    ? setTotalCount(validatorFullData[currentPage]?.total)
+    : '';
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 1);
@@ -1390,6 +1449,7 @@ function MainComponent({ network, currentPage, setPage }) {
         return {};
     }
   };
+
   const columns = [
     {
       header: <span></span>,
@@ -1425,16 +1485,45 @@ function MainComponent({ network, currentPage, setPage }) {
       header: <span>VALIDATOR</span>,
       key: 'accountId',
       cell: (row) => (
-        <span>
-          <a href={`/address/${row.accountId}`} className="hover:no-underline">
-            <a className="text-green-500 hover:no-underline">
-              {shortenAddress(row.accountId)}
-            </a>
-          </a>
-          <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
-        </span>
+        <>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <a
+                  href={`/address/${row.accountId}`}
+                  className="hover:no-underline"
+                >
+                  <a className="text-green-500 hover:no-underline">
+                    {shortenAddress(row.accountId)}
+                  </a>
+                </a>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="start"
+                side="top"
+              >
+                {row.accountId}
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="start"
+                side="bottom"
+              >
+                {row.publicKey}
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
+        </>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
+      tdClassName: 'pl-6 py-4 text-sm text-nearblue-600 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
@@ -1540,7 +1629,7 @@ function MainComponent({ network, currentPage, setPage }) {
             row?.contractStake;
           if (visibleStake) {
             return `${convertAmountToReadableString(
-              Math.abs(Number(visibleStake)),
+              visibleStake,
               'seatPriceAmount',
             )}  Ⓝ`;
           }
@@ -1900,7 +1989,6 @@ function MainComponent({ network, currentPage, setPage }) {
                   rel="noreferrer noopener"
                   target="_blank"
                 >
-                  {' '}
                   data{' '}
                 </a>
                 &nbsp;to promote your own node!
@@ -1959,7 +2047,7 @@ function MainComponent({ network, currentPage, setPage }) {
                     ) : (
                       <>
                         {convertAmountToReadableString(
-                          Number(validatorFullData[currentPage]?.seatPrice),
+                          validatorFullData[currentPage]?.seatPrice,
                           'seatPriceAmount',
                         )}
                         Ⓝ
@@ -1977,7 +2065,9 @@ function MainComponent({ network, currentPage, setPage }) {
                         <Tooltip.Provider>
                           <Tooltip.Root>
                             <Tooltip.Trigger asChild>
-                              <span>{formatNumber(Number(TotalSupply))}</span>
+                              <span>
+                                {TotalSupply ? formatNumber(TotalSupply) : ''}
+                              </span>
                             </Tooltip.Trigger>
                             <Tooltip.Content
                               className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
@@ -2022,7 +2112,7 @@ function MainComponent({ network, currentPage, setPage }) {
                   {!validatorFullData[currentPage]?.totalSeconds ? (
                     <Skeleton className="h-3 w-32" />
                   ) : (
-                    convertTimestampToTime(timeRemaining)
+                    convertTimestampToTime(timeRemaining.toString())
                   )}
                 </div>
               </div>
@@ -2037,15 +2127,15 @@ function MainComponent({ network, currentPage, setPage }) {
                         <div
                           className="bg-green-500 h-2 rounded-full"
                           style={{
-                            width: `${validatorFullData[
-                              currentPage
-                            ]?.epochProgress.toFixed(1)}%`,
+                            width: `${Big(
+                              validatorFullData[currentPage]?.epochProgress,
+                            ).toFixed(1)}%`,
                           }}
                         ></div>
                       </div>
-                      {`${validatorFullData[currentPage]?.epochProgress.toFixed(
-                        0,
-                      )}%`}
+                      {`${Big(
+                        validatorFullData[currentPage]?.epochProgress,
+                      ).toFixed(0)}%`}
                     </div>
                   )}
                 </div>
@@ -2076,7 +2166,7 @@ function MainComponent({ network, currentPage, setPage }) {
                 props={{
                   columns: columns,
                   data: validatorFullData[currentPage]?.validatorEpochData,
-                  count: validatorFullData[currentPage]?.total,
+                  count: totalCount,
                   isLoading: isLoading,
                   renderRowSubComponent: ExpandedRow,
                   expanded,
