@@ -2,73 +2,74 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
 const Button = styled.button`
   `;
-
 const FormContainer = styled.div`
   border: 1px solid #ccc;
   padding: 20px;
 `;
-
 const Select = styled.select`
   `;
-
 const Label = styled.label`
 `;
-
 const Input = styled.input`
   `;
-
-const [selectedSchema, setSelectedSchema] = useState("");
-const [schemaSrc, setSchemaSrc] = useState(
-  props.schemaSrc || "attestations.near"
-);
+const initialSchemaSrc = props.schemaSrc || "attestations.near";
+const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
+const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
 const [availableSchemas, setAvailableSchemas] = useState([]);
-const [isLoading, setIsLoading] = useState(false);
+const [isLoading, setIsLoading] = useState(true);
+const [selectedSchema, setSelectedSchema] = useState(
+  props.selectedSchema || "attestations.near/type/isTrue"
+);
 
-const fetchSchemasList = () => {
-  setIsLoading(true);
-  const schemas = Social.get(`${schemaSrc}/type/**`, "final");
-  if (schemas !== null) {
-    const schemasList = Object.keys(schemas).map(
-      (key) => `${schemaSrc}/type/${key}`
-    );
-    setAvailableSchemas(schemasList);
-  }
-  setIsLoading(false);
-  // Optionally handle state update using the State object if needed
-  // State.update({ schemaSrc: schemaSrc });
-};
+useEffect(() => {
+  const fetchSchemasList = async () => {
+    setIsLoading(true);
+    const schemas = Social.get(`${schemaSrc}/type/**`, "final");
+    if (schemas !== null) {
+      const schemasList = Object.keys(schemas).map(
+        (key) => `${schemaSrc}/type/${key}`
+      );
+      setAvailableSchemas(schemasList);
+    } else {
+      setAvailableSchemas([]);
+    }
+    setIsLoading(false);
+  };
+
+  fetchSchemasList();
+}, [schemaSrc]); // Fetch schemas when schemaSrc changes
 
 const handleSchemaChange = (e) => {
-  const newSchema = e.target.value;
+  setSelectedSchema(e.target.value);
   console.log(`New schema selected: ${newSchema}`); // Log the new schema selection
-  setSelectedSchema(newSchema);
-  // Update the global state if necessary
+
   if (props.onSelectedSchemaChange) {
-    props.onSelectedSchemaChange(newSchema);
+    props.onSelectedSchemaChange(e.target.value);
   }
 };
 
 const handleSchemaOwnerChange = (e) => {
-  const newSchemaSrc = e.target.value;
-  console.log(`Schema Owner changed to: ${newSchemaSrc}`); // Log the new Schema Owner
-  setSchemaSrc(newSchemaSrc);
+  setNewSchemaSrc(e.target.value);
 };
 
-const handleApplyClick = () => {
+const handleApplySchemaSrc = () => {
+  setSchemaSrc(newSchemaSrc);
   console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
-  setSchemaSrc(schemaSrc);
-  fetchSchemasList();
 };
 
 return (
   <FormContainer>
     <Label>Schema Owner:</Label>
     <Row>
-      <Input type="text" value={schemaSrc} onChange={handleSchemaOwnerChange} />
-      <Button onClick={handleApplyClick}>apply</Button>
+      <Input
+        type="text"
+        value={newSchemaSrc}
+        onChange={handleSchemaOwnerChange}
+        placeholder="accountId"
+      />
+      <Button onClick={handleApplySchemaSrc}>apply</Button>
     </Row>
     <Label>Schema:</Label>
     <Row>
