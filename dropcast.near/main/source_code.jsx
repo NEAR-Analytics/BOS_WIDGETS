@@ -92,6 +92,8 @@ const PageWrapper = styled.div`
 `;
 
 const SidebarButton = styled.button`
+    top: 5px;
+    left: 5px;
     padding: 0;
     z-index: 1;
     width: 29px;
