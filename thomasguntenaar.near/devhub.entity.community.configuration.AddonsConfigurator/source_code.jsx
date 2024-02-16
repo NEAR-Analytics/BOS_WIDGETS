@@ -2,7 +2,8 @@ const { getAllAddons } =
   VM.require("thomasguntenaar.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
-const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
+const { href } =
+  VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
 const availableAddons = getAllAddons() || [];
 
@@ -270,7 +271,9 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
         <div className="d-flex justify-content-center pt-2">
           <div className="d-flex gap-2 flex-grow-1 px-4">
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.components.molecule.Select"}
+              src={
+                "thomasguntenaar.near/widget/devhub.components.molecule.Select"
+              }
               props={{
                 className: "flex-grow-1",
                 options: availableAddons.map((addon) => ({
@@ -300,7 +303,9 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: "btn-success" },
               disabled: !changesMade,
