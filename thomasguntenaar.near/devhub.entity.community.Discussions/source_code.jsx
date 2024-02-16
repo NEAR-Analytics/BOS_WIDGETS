@@ -86,13 +86,6 @@ function repostOnDiscussions(blockHeight) {
   ]);
 }
 
-/**
- * I'm posting this message in the discussions of community devhub-test.
- * Which posts this to my profile @thomasguntenaar.near and reposts it
- * to discusssions.devhub-test.community.devhub.near by getting the latest
- * blockheight from my profile and reposting that message.
- */
-
 async function checkHashes() {
   if (props.transactionHashes) {
     asyncFetch("https://rpc.mainnet.near.org", {
@@ -151,11 +144,16 @@ return (
           {context.accountId && (
             <div className="card p-4">
               <Widget
-                src={
-                  "thomasguntenaar.near/widget/devhub.entity.community.Compose"
-                }
+                src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                 props={{
-                  onSubmit: (v) => Social.set(v),
+                  onSubmit: (v) => {
+                    Social.set(v, {
+                      force: true,
+                      onCommit: () => {
+                        getBlockHeightAndRepost();
+                      },
+                    });
+                  },
                   communityAccountId: `discussions.${handle}.community.devhub.near`,
                 }}
               />
@@ -197,7 +195,9 @@ return (
               key="feed"
               src="mob.near/widget/MainPage.N.Feed"
               props={{
-                accounts: [`discussions.${handle}.community.devhub.near`],
+                accounts: [
+                  `discussions.${handle}.community.devhub.near`,
+                ],
               }}
             />
             {/* This is our custom feed which uses the one from near builders which should also show reposts! */}
