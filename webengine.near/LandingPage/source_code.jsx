@@ -3,7 +3,7 @@ import s from './LandingPage.module.css';
 
 function LandingPage() {
   const [showContainerBoundaries, setShowContainerBoundaries] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   const buildUrl = (componentPath) => {
     return `/${componentPath}?showContainerBoundaries=${showContainerBoundaries}`;
