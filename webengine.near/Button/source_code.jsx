@@ -5,15 +5,13 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
 };
 
-function Button({ children = "Click Me", className = '', loading, type = 'button', onClick, disabled, ...props }: ButtonProps) {
+function Button({ children = "Click Me", className = '', loading, type = 'button', ...props }: ButtonProps) {
   return (
     <button
       className={`${s.button} ${className}`}
       aria-busy={loading}
       type={type}
-      onClick={onClick}
-      disabled={disabled}
-      // {...props} https://github.com/near/bos-web-engine/issues/291
+      {...props}
     >
       <span className={s.content}>{children}</span>
     </button>
