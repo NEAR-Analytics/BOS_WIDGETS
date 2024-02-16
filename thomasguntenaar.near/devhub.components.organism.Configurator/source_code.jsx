@@ -284,7 +284,9 @@ const Configurator = ({
           ) : null}
 
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: "btn-outline-danger shadow-none border-0" },
               label: cancelLabel || "Cancel",
@@ -292,7 +294,9 @@ const Configurator = ({
             }}
           />
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: classNames.submit || "btn-success" },
               disabled: !form.hasUnsubmittedChanges || !isFormValid(),
