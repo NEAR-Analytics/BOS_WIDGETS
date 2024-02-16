@@ -28,9 +28,11 @@ const [finished, setFinished] = useState(false);
 const [displayError, setDisplayError] = useState(false);
 const [success, setSuccess] = useState(false);
 const cleanSelectedHandle = useMemo(() => {
-  return selectedHandle[0] == "@"
+  let cleanAddress = selectedHandle[0] == "@"
     ? selectedHandle.substring(1, selectedHandle.length)
     : selectedHandle;
+
+  return cleanAddress.split(".eth").shift();
 }, [selectedHandle]);
 
 if (!evmAddress && Ethers.provider()) {
@@ -460,14 +462,19 @@ const AuthProcess = ({ platform }) => {
           <img src={FARCASTER_BLACK_LOGO_URL} width="100%" />
           Farcaster
         </Header>
-        <Step>1. Connect your EVM wallet</Step>
+          <Step>1. Link your EVM address to your Farcaster profile</Step>
+        <StepDescription>
+          To do so, go to the Warpcast app and click <b>Settings {">"} Connected addresses {">"} Connect address</b><br/><br/>
+          If you already did it, you can skip this step
+        </StepDescription>
+        <Step>2. Connect your EVM wallet</Step>
         <StepDescription>
           <Web3Connect
             connectLabel="Connect wallet"
             disconnectLabel="Disconnect wallet"
           />
         </StepDescription>
-        <Step>2. Write down your Farcaster handle</Step>
+        <Step>3. Write down your Farcaster handle</Step>
         <StepDescription>
           <ProfileInput
             value={selectedHandle}
@@ -475,7 +482,7 @@ const AuthProcess = ({ platform }) => {
             onChange={({ target: { value: text } }) => setSelectedHandle(text)}
           />
         </StepDescription>
-        <Step>3. Sign a proof</Step>
+        <Step>4. Sign a proof</Step>
         <StepDescription>
           <button onClick={() => signProof("farcaster")}>Sign proof</button>
         </StepDescription>
