@@ -92,7 +92,9 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"thomasguntenaar.near/widget/devhub.page.community.index"}
+                      src={
+                        "thomasguntenaar.near/widget/devhub.page.community.index"
+                      }
                       props={{
                         ...passProps,
                         ...p,
