@@ -93,7 +93,7 @@ return (
         <Widget
           props={{
             noLabel: true,
-            width: "35vw",
+            width: "40vw",
             options: state.projects,
             value: state.selected,
             onChange: changeOption,
