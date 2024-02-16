@@ -152,12 +152,6 @@ const BackgroundImageContainer = styled.div`
   `}
 `;
 
-// console.log("state in banner header: ", state);
-// console.log("props in banner header: ", props);
-// console.log("background image: ", backgroundImage);
-// console.log("image style: ", imageStyle);
-// console.log("profile image: ", profileImage);
-
 const CameraSvg = ({ height }) => (
   <svg
     width={height}
@@ -240,12 +234,10 @@ return (
       >
         <Widget
           src={`${ownerId}/widget/Project.ProfileImage`}
-          // image={profileImage}
           props={{
             profile,
             accountId,
             style: { ...imageStyle },
-            // imageStyle: { ...imageStyle },
             className: "mb-2",
             imageClassName: "rounded-circle w-100 img-thumbnail d-block",
             thumbnail: false,
