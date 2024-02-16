@@ -132,12 +132,12 @@ State.init({
 
 const handleSelectedSchemaChange = (newSelectedSchema) => {
   setSelectedSchema(newSelectedSchema);
-  // Here you would also handle any other logic that needs to occur when the schema changes
+  console.log("New selected schema:", selectedSchema);
 };
 
 const handleSchemaSrcChange = (newSchemaSrc) => {
   setSchemaSrc(newSchemaSrc);
-  // Perform additional actions if necessary, like fetching new schemas
+  console.log("New schema source:", schemaSrc);
 };
 
 const handleOnChange = (updatedItem) => {
