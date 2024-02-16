@@ -105,10 +105,7 @@ const sortByOptions = [
 
 const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
   const tags = useCache(
-    () =>
-      Near.asyncView("devhub.near", "get_all_labels").then(
-        (res) => res
-      ),
+    () => Near.asyncView("devhub.near", "get_all_labels").then((res) => res),
     handle,
     { subscribe: false }
   );
