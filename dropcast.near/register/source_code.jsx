@@ -31,6 +31,9 @@ const Card = styled.div`
     background: rgb(38, 38, 38);
     @media (max-width: 510px) {
       padding: 15px;
+      .menu {
+        width: 80vw;
+      }
     }  
 `;
 
