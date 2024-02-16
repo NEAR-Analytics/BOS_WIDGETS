@@ -56,8 +56,12 @@ const handleSchemaOwnerChange = (e) => {
 
 const handleApplySchemaSrc = () => {
   setSchemaSrc(newSchemaSrc);
-  console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
 };
+
+// Add a useEffect to log the updated state
+useEffect(() => {
+  console.log(`Current Schema Owner: ${schemaSrc}`); // This logs the updated value
+}, [schemaSrc]);
 
 return (
   <FormContainer>
