@@ -112,12 +112,8 @@ State.init({
 const changePage = (page) => {
   State.update({
     page,
+    sidebar: false,
   });
-  setTimeout(() => {
-    State.update({
-      sidebar: false,
-    });
-  }, 500);
 };
 
 const openSidebar = (value) => {
