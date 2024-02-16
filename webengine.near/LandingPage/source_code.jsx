@@ -46,7 +46,7 @@ function LandingPage() {
 
           <ul className={s.list}>
             <li>
-              <a className={s.link} href={buildUrl('webengine.near/PostsFeed')}>Social Feed</a>
+              <a className={s.link} href={buildUrl('webengine.near/SocialFeedPage')}>Social Feed</a>
             </li>
             <li>
               <a className={s.link} href={buildUrl('bwe-demos.near/StateAndTrust.Root')}>
