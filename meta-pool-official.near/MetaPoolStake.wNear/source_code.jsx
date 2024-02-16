@@ -251,11 +251,10 @@ const onClickMaxwNear = () => {
 };
 
 const onClickMaxstNear = () => {
-  const value =
-    state.stNearBalance > 0.1
-      ? (parseFloat(state.stNearBalance) - 0.1).toFixed(2)
-      : "0";
-  handleInputStNear(value);
+  handleInputStNear(
+    (Math.trunc(parseFloat(state.stNearBalance) * 100) / 100).toFixed(2)
+  );
+  State.update({ isStNearMaxSelected: true });
 };
 
 // UPDATE DATA
