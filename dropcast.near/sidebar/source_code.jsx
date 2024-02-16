@@ -21,9 +21,8 @@ const Wrapper = styled.div`
     flex-direction: column;
     transition: all 1s ease-out;
     @media (max-width: 510px) {
-        width: 55%;
+        width: ${sidebar ? "55%" : 0};
         z-index: 2;
-        ${!sidebar && `display: none;`}
         position: absolute;
 
         .close {
