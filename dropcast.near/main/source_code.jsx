@@ -70,13 +70,18 @@ const PAGES = [
 
 //Styles
 const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 88vh;
-  align-items: stretch;
-  background: rgb(23,23,23);
-  overflow: auto;
-  position: relative;
+    display: flex;
+    width: 100%;
+    height: 88vh;
+    align-items: stretch;
+    background: rgb(23,23,23);
+    overflow: auto;
+    position: relative;
+    @media (max-width: 510px) {
+        .sidebar-btn {
+            display: flex;
+        }
+    }
 `;
 
 const PageWrapper = styled.div`
@@ -92,7 +97,7 @@ const SidebarButton = styled.button`
     width: 29px;
     height: 29px;
     color: white;
-    display: flex;
+    display: none;
     border: 1px solid;  
     position: absolute;
     align-items: center;
@@ -133,14 +138,17 @@ return (
         currentPage: state.page,
       }}
     />
-    <SidebarButton className="btn" onClick={openSidebar}>
+    <SidebarButton className="btn sidebar-btn" onClick={openSidebar}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
         height="1em"
-        viewBox="0 0 8 8"
+        viewBox="0 0 24 24"
       >
-        <path fill="currentColor" d="M2.5 0L1 1.5L3.5 4L1 6.5L2.5 8l4-4z" />
+        <path
+          fill="currentColor"
+          d="M3 7h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2m18 10H7a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2m0-8H7a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2m0 4H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2"
+        />
       </svg>
     </SidebarButton>
     <PageWrapper>
