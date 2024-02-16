@@ -109,6 +109,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -143,11 +144,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -161,16 +162,27 @@ function yoctoToNear(yocto, format) {
 }
 
 function fiatValue(big, price) {
-  const value = Big(big).mul(Big(price)).toString();
-  const formattedNumber = Number(value).toLocaleString('en', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 6,
-  });
+  const value = Big(big).mul(Big(price));
+  const stringValue = value.toFixed(6); // Set the desired maximum fraction digits
+
+  const [integerPart, fractionalPart] = stringValue.split('.');
+
+  // Format integer part with commas
+  const formattedIntegerPart = integerPart.replace(
+    /\B(?=(\d{3})+(?!\d))/g,
+    ',',
+  );
+
+  // Combine formatted integer and fractional parts
+  const formattedNumber = fractionalPart
+    ? `${formattedIntegerPart}.${fractionalPart}`
+    : formattedIntegerPart;
+
   return formattedNumber;
 }
 
 function nanoToMilli(nano) {
-  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
+  return Big(nano).div(Big(10).pow(6)).round().toNumber();
 }
 
 function truncateString(str, maxLength, suffix) {
@@ -253,6 +265,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -287,21 +300,21 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -391,7 +404,7 @@ function MainComponent(props) {
         }),
         'near-supply': (stat) => ({
           x: new Date(stat.date).valueOf(),
-          y: Number(yoctoToNear(Number(stat.total_supply), false)),
+          y: Number(yoctoToNear(stat.total_supply, false)),
           date: stat.date,
         }),
         blocks: (stat) => ({
