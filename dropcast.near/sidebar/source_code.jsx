@@ -24,14 +24,6 @@ const Wrapper = styled.div`
     }
 `;
 
-const Temp = styled.div`
-    @media (max-width: 510px) {
-        width: 100%;
-        z-index: 1;
-        position: absolute;
-    }
-`;
-
 const LogoIcon = styled.img`
     width: 100px; 
     height: 100px; 
@@ -60,7 +52,7 @@ const SelectedIcon = styled.div`
 `;
 
 return (
-  <Wrapper>
+  <Wrapper className="sidebar">
     <div className="d-flex justify-content-center align-items-center flex-column pt-5">
       <LogoIcon
         src="https://dropcast.nearverselabs.com/logo.png"
