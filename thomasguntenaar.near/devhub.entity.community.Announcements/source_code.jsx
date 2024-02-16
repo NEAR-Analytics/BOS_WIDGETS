@@ -81,9 +81,7 @@ return (
             (communityData?.admins ?? []).includes(context.accountId) && (
               <div className="card p-4">
                 <Widget
-                  src={
-                    "thomasguntenaar.near/widget/devhub.entity.community.Compose"
-                  }
+                  src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
                     communityAccountId: `${handle}.community.devhub.near`,
@@ -126,7 +124,9 @@ return (
               src="thomasguntenaar.near/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
-                filteredAccountIds: [`${handle}.community.devhub.near`],
+                filteredAccountIds: [
+                  `${handle}.community.devhub.near`,
+                ],
                 sort: sort,
                 setPostExists: setPostExists,
                 showFlagAccountFeature: true,
