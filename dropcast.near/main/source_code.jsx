@@ -70,6 +70,7 @@ const PAGES = [
 
 State.init({
   page: "dashboard",
+  sidebar: false,
 });
 
 //Styles
@@ -105,6 +106,19 @@ return (
       src={`${Owner}/widget/sidebar`}
       props={{ API_URL, USER, PAGES, currentPage: state.page, changePage }}
     />
+    <button
+      className="btn p-0 text-white d-flex justify-content-center align-items-center position-absolute"
+      style={{ border: "1px solid", width: 29, height: 29 }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 8 8"
+      >
+        <path fill="currentColor" d="M2.5 0L1 1.5L3.5 4L1 6.5L2.5 8l4-4z" />
+      </svg>
+    </button>
     <PageWrapper>
       {state.page === "dashboard" && (
         <Widget
