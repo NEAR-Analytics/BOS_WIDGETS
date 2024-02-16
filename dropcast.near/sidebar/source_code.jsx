@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
     background: #262626;
     flex-direction: column;
-    transition: all 1s ease-out;
+    transition: width 2s ease-out;
     @media (max-width: 510px) {
         width: ${sidebar ? "55%" : 0};
         z-index: 2;
