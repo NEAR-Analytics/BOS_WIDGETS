@@ -4,9 +4,7 @@ const attestationType = "hyperfiles.near/type/attestation";
 const [selectedSchema, setSelectedSchema] = useState(props.selectedSchema);
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
-const [schemaSrc, setSchemaSrc] = useState(
-  props.schemaSrc ?? "attestations.near"
-);
+const [schemaSrc, setSchemaSrc] = useState("initialSchemaSrcValue");
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
@@ -185,8 +183,10 @@ return (
         <>
           <Widget
             src="flowscience.near/widget/SchemaSelector"
-            onSelectedSchemaChange={handleSelectedSchemaChange}
-            onSchemaSrcChange={handleSchemaSrcChange}
+            props={{
+              onSelectedSchemaChange: handleSelectedSchemaChange,
+              onSchemaSrcChange: handleSchemaSrcChange,
+            }}
           />
           <FormContainer>
             <Widget
