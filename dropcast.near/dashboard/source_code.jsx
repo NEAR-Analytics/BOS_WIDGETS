@@ -36,6 +36,9 @@ const Tab = styled.div`
   padding: 16px 4px;
   position: relative;
   align-items: center;
+  @media (max-width: 510px) {
+    text-align: center;
+  }
 `;
 
 const Counter = styled.span`
@@ -43,6 +46,9 @@ const Counter = styled.span`
   padding: 2px 10px;
   border-radius: 50px;
   background-image: linear-gradient(to right, rgb(250, 204, 21), rgb(234, 88, 12));
+  @media (max-width: 510px) {
+    padding: 2px 7px;
+  }
 `;
 
 const SelectedTab = styled.span`
@@ -59,6 +65,21 @@ const GridWrapper = styled.div`
   gap: 10px;
   display: grid;
   grid-template-columns: repeat(3,minmax(0,1fr));
+`;
+
+const MyProjectCard = styled.div`
+  gap: 16px;
+  display: flex;
+  padding: 25px 0;
+  align-items: center;
+  justify-content: space-between;
+  @media (max-width: 510px) {
+    flex-direction: column;
+
+    .w-50:{
+      width: 100% !important;
+    }
+  }
 `;
 
 const TABS = [
@@ -138,10 +159,7 @@ return (
       ))}
     </Tabs>
     {state.tab === "my_projects" && (
-      <div
-        className="d-flex justify-content-between align-items-center gap-3"
-        style={{ padding: "25px 0" }}
-      >
+      <MyProjectCard>
         <div className="d-flex flex-column w-50">
           <p>{`These are the projects on Vulcan which you're a member of.`}</p>
           <div style={{ width: 240 }}>
@@ -168,7 +186,7 @@ return (
             {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
           </p>
         </div>
-      </div>
+      </MyProjectCard>
     )}
 
     {state.tab === "other_projects" && (
