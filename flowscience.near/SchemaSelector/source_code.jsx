@@ -61,11 +61,12 @@ const handleSchemaOwnerChange = (e) => {
 };
 
 const handleApplySchemaSrc = () => {
-  setSchemaSrc(newSchemaSrc);
-  props.onSchemaSrcChange(newSchemaSrc); // Make sure this matches the prop passed from NAS.
-  console.log("Applying new Schema Owner:", newSchemaSrc); // You mentioned seeing this log.
-
-  console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
+  console.log(`Applying new Schema Owner: ${newSchemaSrc}`);
+  if (typeof props.onSchemaSrcChange === "function") {
+    props.onSchemaSrcChange(newSchemaSrc);
+  } else {
+    console.error("onSchemaSrcChange prop is not a function");
+  }
 };
 
 return (
