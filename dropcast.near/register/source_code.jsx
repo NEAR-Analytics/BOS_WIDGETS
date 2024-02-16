@@ -30,8 +30,8 @@ const StepButton = styled.button`
 
 State.init({
   error: "",
-  selected: "",
-  projects: [],
+  selected: "0",
+  projects: [{ text: "Loading", value: "0" }],
   loaded: false,
 });
 
