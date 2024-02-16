@@ -3,15 +3,18 @@ const tokenDecimals = 24;
 const contractId = "meta-pool.near";
 const GAS = "200000000000000";
 
-const { isSignedIn, update, state, handleInputstNear, onClickMaxstNear } =
+const { isSignedIn, update, state, handleInputStNear, onClickMaxstNear } =
   props;
 
 const onSubmitDelayedUnstake = () => {
   // manage register stNEAR - should make a call attached
-  const args = {
-    amount: Big(state.value).mul(Big(10).pow(tokenDecimals)).toFixed(0),
-  };
-  Near.call(contractId, "unstake", args, GAS, 0);
+  if(state.metrics?.st_near_price){
+    const amount = state.isStNearMaxSelected ? state.stNearBalance : state.value
+    const args = {
+      amount: Big(amount).mul(state.metrics?.st_near_price).mul(Big(10).pow(tokenDecimals)).toFixed(0),
+    };
+    Near.call(contractId, "unstake", args, GAS, 0);
+  }
 };
 
 const StakeContainer = styled.div`
@@ -185,7 +188,7 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.stNearBalance}
+                {state.stNearBalance? (Math.trunc(parseFloat(state.stNearBalance)*100000)/100000).toFixed(5) : ""}
                 stNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
@@ -231,7 +234,7 @@ return (
               : "0",
           placeholder: "Enter stNEAR amount",
           value: state.value,
-          onChange: (e) => handleInputstNear(e.target.value),
+          onChange: (e) => handleInputStNear(e.target.value),
           onClickMax: onClickMaxstNear,
           inputError: state.validation !== "",
           balance: stNearBalance ?? "-",
@@ -248,7 +251,7 @@ return (
         props={{
           value:
             state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value / state.metrics?.st_near_price_usd).toFixed(5)
+              ? (state.value * state.metrics?.st_near_price).toFixed(5)
               : 0,
           iconName: "NEAR",
           token: "stNEAR",
