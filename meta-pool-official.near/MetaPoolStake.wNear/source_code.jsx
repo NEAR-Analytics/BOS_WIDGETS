@@ -182,7 +182,7 @@ const getwNearBalance = () => {
 
       const balance = Big(receiverBalanceHex.toString())
         .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
+        .toFixed(5)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
       console.log("wNEABALANCE", balance);
       State.update({
