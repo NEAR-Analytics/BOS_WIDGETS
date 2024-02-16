@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
     background: #262626;
     flex-direction: column;
-    transition: width 2s ease-out;
+    transition: width 1s ease-out;
     @media (max-width: 510px) {
         width: ${sidebar ? "55%" : 0};
         z-index: 2;
@@ -75,74 +75,76 @@ const CloseButton = styled.button`
 
 return (
   <Wrapper className="sidebar">
-    <CloseButton className="btn close" onClick={() => openSidebar(false)}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="1em"
-        height="1em"
-        viewBox="0 0 24 24"
-      >
-        <path
-          fill="currentColor"
-          d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
-        />
-      </svg>
-    </CloseButton>
-    <div className="d-flex justify-content-center align-items-center flex-column pt-5">
-      <LogoIcon
-        src="https://dropcast.nearverselabs.com/logo.png"
-        decoding="async"
-        data-nimg="fill"
-      />
-      <Title>Dropcast</Title>
-
-      <p className="m-0" style={{ fontSize: 12 }}>
-        powered by Nearverse Labs
-      </p>
-    </div>
-
-    <div className="d-flex flex-column mt-5 gap-4">
-      {PAGES.map((page, index) => (
-        <div
-          key={index}
-          style={{ color: currentPage === page.value ? "white" : "grey" }}
-          className="d-flex align-items-center gap-2 rbt-token-removeable"
-          onClick={() => changePage(page.value)}
-        >
-          {page.icon}
-          {currentPage === page.value && <SelectedIcon />}
-          <p className="m-0">{page.title}</p>
-        </div>
-      ))}
-    </div>
-    <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between align-items-center">
-      <div className="d-flex align-items-center gap-3">
-        <Avatar
-          src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
-          alt=""
-        />
-        <p className="m-0">{USER.username}</p>
-      </div>
-      <a
-        className="btn p-0"
-        style={{ width: 30, color: "white" }}
-        href={`https://near.org/${Owner}/widget/login`}
-      >
+    <div className="d-flex flex-column align-items-center left-side">
+      <CloseButton className="btn close" onClick={() => openSidebar(false)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          width="1em"
+          height="1em"
           viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          aria-hidden="true"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            fill="currentColor"
+            d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
           />
         </svg>
-      </a>
+      </CloseButton>
+      <div className="d-flex justify-content-center align-items-center flex-column pt-5">
+        <LogoIcon
+          src="https://dropcast.nearverselabs.com/logo.png"
+          decoding="async"
+          data-nimg="fill"
+        />
+        <Title>Dropcast</Title>
+
+        <p className="m-0" style={{ fontSize: 12 }}>
+          powered by Nearverse Labs
+        </p>
+      </div>
+
+      <div className="d-flex flex-column mt-5 gap-4">
+        {PAGES.map((page, index) => (
+          <div
+            key={index}
+            style={{ color: currentPage === page.value ? "white" : "grey" }}
+            className="d-flex align-items-center gap-2 rbt-token-removeable"
+            onClick={() => changePage(page.value)}
+          >
+            {page.icon}
+            {currentPage === page.value && <SelectedIcon />}
+            <p className="m-0">{page.title}</p>
+          </div>
+        ))}
+      </div>
+      <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between align-items-center">
+        <div className="d-flex align-items-center gap-3">
+          <Avatar
+            src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
+            alt=""
+          />
+          <p className="m-0">{USER.username}</p>
+        </div>
+        <a
+          className="btn p-0"
+          style={{ width: 30, color: "white" }}
+          href={`https://near.org/${Owner}/widget/login`}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
+          </svg>
+        </a>
+      </div>
     </div>
   </Wrapper>
 );
