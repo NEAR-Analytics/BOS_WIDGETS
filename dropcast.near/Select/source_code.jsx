@@ -2,7 +2,7 @@ const label = props.label || "Label";
 const noLabel = props.noLabel || false;
 const placeholder = props.placeholder || "Select an option";
 const value = props.value || "";
-const width = props.width || 270;
+const width = props.width || "270px";
 const options = props.options || [];
 const onChange = props.onChange || (() => {});
 const error = props.error || "";
@@ -77,7 +77,7 @@ const scaleOut = styled.keyframes`
 const Content = styled.div`
   padding: 0;
   gap: 0.5em;
-  width: ${width}px;
+  width: ${width};
   display: flex;
   font-size: 14px;
   overflow-y: auto;
