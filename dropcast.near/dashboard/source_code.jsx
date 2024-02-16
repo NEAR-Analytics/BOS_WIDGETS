@@ -76,7 +76,7 @@ const MyProjectCard = styled.div`
   @media (max-width: 510px) {
     flex-direction: column;
 
-    .w-50:{
+    .w-50 {
       width: 100% !important;
     }
   }
