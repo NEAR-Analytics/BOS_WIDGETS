@@ -5,6 +5,7 @@ const USER = props.USER || {};
 const PAGES = props.PAGES || [];
 const currentPage = props.currentPage;
 const changePage = props.changePage;
+const sidebar = props.sidebar || false;
 
 //Styles
 const Wrapper = styled.div`
@@ -20,7 +21,7 @@ const Wrapper = styled.div`
     @media (max-width: 510px) {
         width: 55%;
         z-index: 2;
-        display: none;
+        ${!sidebar && `display: none;`}
         position: absolute;
     }
 `;
