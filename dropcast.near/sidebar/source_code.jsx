@@ -20,6 +20,9 @@ const Wrapper = styled.div`
     background: #262626;
     flex-direction: column;
     transition: width 1s ease-out;
+    .left-side{
+        display: flex;
+    }
     @media (max-width: 510px) {
         width: ${sidebar ? "55%" : 0};
         z-index: 2;
@@ -80,7 +83,7 @@ const CloseButton = styled.button`
 
 return (
   <Wrapper className="sidebar">
-    <div className="d-flex flex-column align-items-center left-side">
+    <div className="flex-column align-items-center left-side">
       <CloseButton className="btn close" onClick={() => openSidebar(false)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
