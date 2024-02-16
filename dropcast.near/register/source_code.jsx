@@ -37,7 +37,32 @@ const OPTIONS = [
 
 State.init({
   option: "",
+  loaded: false,
+  error: "",
 });
+
+const getProjects = () => {
+  State.update({
+    loaded: true,
+  });
+  let promise = asyncFetch(`${API_URL}/api/project/chanel`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "GET",
+  });
+
+  promise.then((data) => {
+    console.log(data, "===>data");
+    if (data.status === 200) {
+    } else {
+      State.update({
+        loaded: true,
+      });
+    }
+  });
+};
 
 const changeOption = (value) => {
   State.update({
@@ -45,6 +70,8 @@ const changeOption = (value) => {
     option: value,
   });
 };
+
+if (!state.loaded) getProjects();
 
 return (
   <Wrapper>
