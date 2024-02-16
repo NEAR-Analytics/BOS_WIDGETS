@@ -32,7 +32,7 @@ const Card = styled.div`
     @media (max-width: 510px) {
       padding: 15px;
       .menu {
-        width: 72vw;
+        width: 74vw;
       }
     }  
 `;
