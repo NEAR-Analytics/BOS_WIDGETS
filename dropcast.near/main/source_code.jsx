@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-const API_URL = "http://localhost:3000";
+const API_URL = "https://dropcast.nearverselabs.com";
 const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
 
