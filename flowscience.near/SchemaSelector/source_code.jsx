@@ -43,6 +43,11 @@ useEffect(() => {
   fetchSchemasList();
 }, [schemaSrc]); // Depend on schemaSrc to refetch when it changes
 
+if (!schemas) {
+  console.error(`Failed to fetch schemas for ${schemaSrc}`);
+  // Handle the error appropriately in the UI
+}
+
 useEffect(() => {
   // Sync state with prop when it changes
   setSelectedSchema(props.selectedSchema);
