@@ -1,4 +1,4 @@
-const data = props.data || {};
+const [data, setData] = useState({});
 const type = props.type || "";
 const attestationType = "hyperfiles.near/type/attestation";
 const [selectedSchema, setSelectedSchema] = useState(props.selectedSchema);
@@ -149,12 +149,9 @@ const handleOnChange = (updatedItem) => {
   State.update({ data: { ...state.data, ...value } });
 
   // Ensure you have a state setup to handle this in NAS if using React's useState
-  setState((prevState) => ({
+  setData((prevState) => ({
     ...prevState,
-    data: {
-      ...prevState.data,
-      ...updatedItem, // This merges the changes into the existing data object
-    },
+    ...updatedItem,
   }));
 };
 
