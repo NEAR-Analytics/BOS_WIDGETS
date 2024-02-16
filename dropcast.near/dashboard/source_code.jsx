@@ -6,15 +6,18 @@ const TOKEN = props.TOKEN || "";
 
 //Styles
 const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 64px;
-  position: relative;
-  align-items: stretch;
-  flex-direction: column;
-  color: rgb(229 229 229);
-  background: rgb(23,23,23);
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 64px;
+    position: relative;
+    align-items: stretch;
+    flex-direction: column;
+    color: rgb(229 229 229);
+    background: rgb(23,23,23);
+    @media (max-width: 510px) {
+      padding: 29px;
+    }
 `;
 
 const Tabs = styled.div`
