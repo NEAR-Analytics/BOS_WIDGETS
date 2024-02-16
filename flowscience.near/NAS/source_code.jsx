@@ -4,7 +4,9 @@ const attestationType = "hyperfiles.near/type/attestation";
 const [selectedSchema, setSelectedSchema] = useState(props.selectedSchema);
 const schemaType = props.schemaType || "hyperfiles.near/type/schema";
 const typeSrc = props.typeSrc || "hyperfiles.near";
-const schemaSrc = props.schemaSrc ?? "attestations.near";
+const [schemaSrc, setSchemaSrc] = useState(
+  props.schemaSrc ?? "attestations.near"
+);
 const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
@@ -133,6 +135,11 @@ const handleSelectedSchemaChange = (newSelectedSchema) => {
   // Here you would also handle any other logic that needs to occur when the schema changes
 };
 
+const handleSchemaSrcChange = (newSchemaSrc) => {
+  setSchemaSrc(newSchemaSrc);
+  // Perform additional actions if necessary, like fetching new schemas
+};
+
 const handleOnChange = (updatedItem) => {
   // Assuming updatedItem is an object with { key: value } pairs representing changes
   console.log("Changes from attest:", updatedItem);
@@ -150,6 +157,12 @@ const handleOnChange = (updatedItem) => {
     },
   }));
 };
+
+useEffect(() => {
+  // Assuming setSelectedSchema is the state setter for selectedSchema in NAS
+  setSelectedSchema(props.selectedSchema);
+  // You might also want to perform other actions when selectedSchema changes
+}, [props.selectedSchema]); // This effect runs whenever props.selectedSchema changes
 
 return (
   <Container>
@@ -170,6 +183,7 @@ return (
           <Widget
             src="flowscience.near/widget/SchemaSelector"
             onSelectedSchemaChange={handleSelectedSchemaChange}
+            onSchemaSrcChange={handleSchemaSrcChange}
           />
           <FormContainer>
             <Widget
