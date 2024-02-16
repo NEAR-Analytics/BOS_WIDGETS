@@ -101,7 +101,9 @@ return (
       {admins.map((admin, index) => (
         <div className="admins-item" key={index}>
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
+            }
             props={{
               accountId: admin,
               nearDevGovGigsWidgetsAccountId: "thomasguntenaar.near",
