@@ -137,7 +137,7 @@ const handleSelectedSchemaChange = (newSelectedSchema) => {
 
 const handleSchemaSrcChange = (newSchemaSrc) => {
   setSchemaSrc(newSchemaSrc);
-  console.log("New schema source:", schemaSrc);
+  console.log("New schema source:", newSchemaSrc);
 };
 
 useEffect(() => {
