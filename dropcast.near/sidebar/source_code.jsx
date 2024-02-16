@@ -19,6 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
     background: #262626;
     flex-direction: column;
+    transition: all 1s ease-out;
     @media (max-width: 510px) {
         width: 55%;
         z-index: 2;
