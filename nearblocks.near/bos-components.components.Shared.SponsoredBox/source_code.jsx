@@ -236,6 +236,7 @@ function timeAgo(unixTimestamp) {
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
 }
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -270,11 +271,11 @@ function isAction(type) {
   return actions.includes(type.toUpperCase());
 }
 function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
