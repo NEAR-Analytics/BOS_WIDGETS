@@ -102,7 +102,9 @@ return (
       </div>
     </Tile>
     <Widget
-      src={"thomasguntenaar.near/widget/devhub.components.molecule.PostControls"}
+      src={
+        "thomasguntenaar.near/widget/devhub.components.molecule.PostControls"
+      }
       props={{
         onClick: () => setPreviewConnect(!previewConnect),
         icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
