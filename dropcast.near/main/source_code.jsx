@@ -68,11 +68,6 @@ const PAGES = [
   },
 ];
 
-State.init({
-  page: "dashboard",
-  sidebar: false,
-});
-
 //Styles
 const Wrapper = styled.div`
   display: flex;
@@ -104,9 +99,20 @@ const SidebarButton = styled.button`
     justify-content: center;
 `;
 
+State.init({
+  page: "dashboard",
+  sidebar: false,
+});
+
 const changePage = (page) => {
   State.update({
     page,
+  });
+};
+
+const openSidebar = () => {
+  State.update({
+    sidebar: !state.sidebar,
   });
 };
 
@@ -117,9 +123,16 @@ return (
   <Wrapper className="root">
     <Widget
       src={`${Owner}/widget/sidebar`}
-      props={{ API_URL, USER, PAGES, currentPage: state.page, changePage }}
+      props={{
+        API_URL,
+        USER,
+        PAGES,
+        changePage,
+        sidebar: state.sidebar,
+        currentPage: state.page,
+      }}
     />
-    <SidebarButton className="btn">
+    <SidebarButton className="btn" onClick={openSidebar}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
