@@ -40,36 +40,6 @@ if (!page) {
   page = "home";
 }
 
-// Track visits
-
-if ("${REPL_POSTHOG_API_KEY}".length === 47) {
-  useEffect(() => {
-    const hashedUserId = context.accountId
-      ? Array.from(nacl.hash(Buffer.from(context.accountId)))
-          .map((b) => ("00" + b.toString(16)).slice(-2))
-          .join("")
-      : "unauthenticated";
-
-    fetch("https://eu.posthog.com/capture/", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-
-      body: JSON.stringify({
-        api_key: "${REPL_POSTHOG_API_KEY}",
-        event: "devhub_pageview",
-        properties: {
-          distinct_id: hashedUserId,
-          page,
-          ...props,
-        },
-        timestamp: new Date().toISOString(),
-      }),
-    });
-  }, [props]);
-}
-
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
@@ -91,15 +61,6 @@ function Page() {
         />
       );
     }
-    case "announcements": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.page.announcements"}
-          props={passProps}
-        />
-      );
-    }
-
     // ?page=community
     case "community": {
       return (
@@ -131,7 +92,9 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"thomasguntenaar.near/widget/devhub.page.community.index"}
+                      src={
+                        "thomasguntenaar.near/widget/devhub.page.community.index"
+                      }
                       props={{
                         ...passProps,
                         ...p,
@@ -160,32 +123,6 @@ function Page() {
         <Widget
           src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
           props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
-        />
-      );
-    }
-
-    case "create-proposal": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.entity.proposal.Editor"}
-          props={{ ...passProps }}
-        />
-      );
-    }
-
-    case "proposals": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.page.proposals"}
-          props={passProps}
-        />
-      );
-    }
-    case "proposal": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.entity.proposal.Proposal"}
-          props={passProps}
         />
       );
     }
@@ -219,14 +156,6 @@ function Page() {
       return (
         <Widget
           src={"thomasguntenaar.near/widget/devhub.page.blog"}
-          props={passProps}
-        />
-      );
-    }
-    case "blogv2": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.page.blogv2"}
           props={passProps}
         />
       );
