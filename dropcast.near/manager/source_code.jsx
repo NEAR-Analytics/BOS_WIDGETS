@@ -34,7 +34,10 @@ const handleNewProject = () => {
   });
 };
 
-if (state.isRegister) return <Widget src={`${Owner}/widget/register`} />;
+if (state.isRegister)
+  return (
+    <Widget src={`${Owner}/widget/register`} props={{ API_URL, USER, TOKEN }} />
+  );
 
 return (
   <Wrapper>
