@@ -41,7 +41,9 @@ if (!handles || handles.length === 0) {
 
             <a href={includesHttp ? tg : "https://t.me/" + tg} target="_blank">
               <Widget
-                src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+                src={
+                  "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+                }
                 props={{
                   classNames: { root: "btn-primary" },
                   label: "View More",
