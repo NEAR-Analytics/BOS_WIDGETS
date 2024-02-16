@@ -155,7 +155,7 @@ const getstNearBalance = () => {
 
       const balance = Big(receiverBalanceHex.toString())
         .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
+        .toFixed(5)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
       console.log("stNEABALANCE", balance);
       State.update({
@@ -251,10 +251,8 @@ const onClickMaxwNear = () => {
 };
 
 const onClickMaxstNear = () => {
-  handleInputStNear(
-    (Math.trunc(parseFloat(state.stNearBalance) * 100) / 100).toFixed(2)
-  );
-  State.update({ isStNearMaxSelected: true });
+  handleInputStNear((Math.trunc(parseFloat(state.stNearBalance)*100)/100).toFixed(2));
+  State.update({ isStNearMaxSelected: true});
 };
 
 // UPDATE DATA
