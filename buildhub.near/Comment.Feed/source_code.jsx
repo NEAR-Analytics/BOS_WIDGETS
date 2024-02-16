@@ -8,9 +8,11 @@ const index = {
     subscribe: props.subscribe,
   },
 };
+
 const groupId = props.groupId;
 const permissions = props.permissions;
 const raw = !!props.raw;
+
 const renderItem = (a) =>
   a.value.type === "md" && (
     <Widget
@@ -29,6 +31,7 @@ const renderItem = (a) =>
       }}
     />
   );
+
 const ShowMore = styled.div`
   padding: 4px 0px 4px 64px;
   line-height: 24px;
@@ -49,6 +52,7 @@ const ShowMore = styled.div`
     z-index: -1;
   }
 `;
+
 return (
   <Widget
     loading={false}
