@@ -167,13 +167,7 @@ const getCheck = () => {
 };
 
 const removeCheck = () => {
-  Near.call(
-    CONTRACT,
-    "remove_check",
-    undefined,
-    undefined,
-    MIN_NEEDED_YOCTO_NEAR
-  );
+  Near.call(CONTRACT, "remove_check");
 };
 
 return (
