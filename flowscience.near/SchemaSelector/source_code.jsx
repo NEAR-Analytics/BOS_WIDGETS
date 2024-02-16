@@ -41,6 +41,11 @@ useEffect(() => {
   fetchSchemasList();
 }, [schemaSrc]); // Fetch schemas when schemaSrc changes
 
+useEffect(() => {
+  // Sync state with prop when it changes
+  setSelectedSchema(props.selectedSchema);
+}, [props.selectedSchema]); // Re-run effect if props.selectedSchema changes
+
 const handleSchemaChange = (e) => {
   setSelectedSchema(e.target.value);
   console.log(`New schema selected: ${newSchema}`); // Log the new schema selection
@@ -56,12 +61,8 @@ const handleSchemaOwnerChange = (e) => {
 
 const handleApplySchemaSrc = () => {
   setSchemaSrc(newSchemaSrc);
+  console.log(`Applying new Schema Owner: ${schemaSrc}`); // Optionally log when applying a new Schema Owner
 };
-
-// Add a useEffect to log the updated state
-useEffect(() => {
-  console.log(`Current Schema Owner: ${schemaSrc}`); // This logs the updated value
-}, [schemaSrc]);
 
 return (
   <FormContainer>
