@@ -30,6 +30,7 @@ const Card = styled.div`
     background: rgb(38, 38, 38);
     @media (max-width: 510px) {
       padding: 15px;
+      height: 100%;
       .menu {
         width: 74vw;
       }
