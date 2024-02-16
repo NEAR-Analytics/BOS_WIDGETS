@@ -6,7 +6,7 @@ const PAGES = props.PAGES || [];
 const currentPage = props.currentPage;
 const changePage = props.changePage;
 const sidebar = props.sidebar || false;
-const openSidebar = props.openSidebar || (() => {});
+const openSidebar = props.openSidebar || ((value) => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -75,7 +75,7 @@ const CloseButton = styled.button`
 
 return (
   <Wrapper className="sidebar">
-    <CloseButton className="btn close" onClick={openSidebar}>
+    <CloseButton className="btn close" onClick={() => openSidebar(false)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
