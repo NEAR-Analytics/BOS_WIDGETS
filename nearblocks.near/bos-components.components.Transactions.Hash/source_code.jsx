@@ -32,29 +32,6 @@ const Skeleton = (props) => {
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-const ArrowDown = (props) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={24}
-      height={24}
-      {...props}
-    >
-      <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
 function getConfig(network) {
   switch (network) {
@@ -183,7 +160,6 @@ function MainComponent(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [txn, setTxn] = useState({} );
   const [error, setError] = useState(false);
-  const [isToggle, setIsToggle] = useState(false);
   const [rpcTxn, setRpcTxn] = useState(
     {} ,
   );
@@ -293,56 +269,9 @@ function MainComponent(props) {
                   {hash === ' ' ? (
                     <h2>{t ? t('txns:txn.tabs.overview') : 'Overview'}</h2>
                   ) : hash === 'execution' ? (
-                    pageHash !== 'execution' ? (
-                      <>
-                        <h2>
-                          {isToggle
-                            ? 'Enhanced Plan'
-                            : t
-                            ? t('txns:txn.tabs.execution')
-                            : 'Execution Plan'}
-                        </h2>
-                      </>
-                    ) : (
-                      <Popover.Root key={isToggle}>
-                        <Popover.Trigger asChild>
-                          <button
-                            className="flex border border-green-900/10 text-xs  rounded focus:outline-none"
-                            aria-label="Update dimensions"
-                          >
-                            {isToggle
-                              ? 'Enhanced Plan'
-                              : t
-                              ? t('txns:txn.tabs.execution')
-                              : 'Execution Plan'}
-                            <ArrowDown className="h-4 w-4 fill-current ml-1" />
-                          </button>
-                        </Popover.Trigger>
-                        <Popover.Content
-                          className="bg-white w-60 shadow-lg border rounded-lg slide-down mt-4"
-                          sideOffset={5}
-                        >
-                          <ul className="divide-y">
-                            <li
-                              onClick={() => setIsToggle(false)}
-                              className={`py-2 text-nearblue-600 ${
-                                !isToggle ? 'bg-gray-300' : ''
-                              }`}
-                            >
-                              {t('txns:txn.tabs.execution') || 'Execution Plan'}
-                            </li>
-                            <li
-                              onClick={() => setIsToggle(true)}
-                              className={`py-2 text-nearblue-600 ${
-                                isToggle ? 'bg-gray-300' : ''
-                              }`}
-                            >
-                              Enhanced Plan
-                            </li>
-                          </ul>
-                        </Popover.Content>
-                      </Popover.Root>
-                    )
+                    <h2>
+                      {t ? t('txns:txn.tabs.execution') : 'Execution Plan'}
+                    </h2>
                   ) : (
                     <h2>{t ? t('txns:txn.tabs.comments') : 'Comments'}</h2>
                   )}
@@ -365,29 +294,18 @@ function MainComponent(props) {
               }
             </Tabs.Content>
             <Tabs.Content value={hashes[1]}>
-              {isToggle ? (
-                <Widget
-                  src={`${config.ownerId}/widget/bos-components.components.Transactions.Execution`}
-                  props={{
-                    network: network,
-                    t: t,
-                    txn: txn,
-                    rpcTxn: rpcTxn,
-                    loading: isLoading,
-                  }}
-                />
-              ) : (
+              {
                 <Widget
                   src={`${config.ownerId}/widget/bos-components.components.Transactions.Receipt`}
                   props={{
-                    network: network,
-                    t: t,
                     txn: txn,
                     rpcTxn: rpcTxn,
                     loading: isLoading,
+                    network: network,
+                    t: t,
                   }}
                 />
-              )}
+              }
             </Tabs.Content>
             <Tabs.Content value={hashes[2]}>
               <div className="px-4 sm:px-6 py-3"></div>
