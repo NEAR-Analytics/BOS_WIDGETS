@@ -5717,7 +5717,9 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(error) {
+function mapRpcNewReceiptValidationError(
+  error,
+) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -6513,7 +6515,9 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(error) {
+function mapRpcNewReceiptValidationError(
+  error,
+) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -7212,7 +7216,9 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(error) {
+function mapRpcNewReceiptValidationError(
+  error,
+) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -7902,7 +7908,9 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(error) {
+function mapRpcNewReceiptValidationError(
+  error,
+) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
