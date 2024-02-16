@@ -20,6 +20,7 @@ const Wrapper = styled.div`
     @media (max-width: 510px) {
         width: 55%;
         z-index: 2;
+        display: none;
         position: absolute;
     }
 `;
