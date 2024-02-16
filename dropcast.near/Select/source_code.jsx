@@ -170,7 +170,7 @@ return (
       </Select.Trigger>
 
       <Select.Content asChild={true} position="popper">
-        <Content>
+        <Content className="menu">
           <Select.Viewport asChild={true}>
             <Viewport>
               {options.map(({ text, value }) => (
