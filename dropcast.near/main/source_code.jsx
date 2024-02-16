@@ -115,9 +115,9 @@ const changePage = (page) => {
   });
 };
 
-const openSidebar = () => {
+const openSidebar = (value) => {
   State.update({
-    sidebar: !state.sidebar,
+    sidebar: value,
   });
 };
 
@@ -138,7 +138,10 @@ return (
         currentPage: state.page,
       }}
     />
-    <SidebarButton className="btn sidebar-btn" onClick={openSidebar}>
+    <SidebarButton
+      className="btn sidebar-btn"
+      onClick={() => openSidebar(true)}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
