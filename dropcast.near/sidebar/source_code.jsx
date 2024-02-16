@@ -19,7 +19,7 @@ const Wrapper = styled.div`
     align-items: center;
     background: #262626;
     flex-direction: column;
-    transition: width 1s ease-out;
+    transition: width 2s ease-out;
     .left-side{
         display: flex;
     }
