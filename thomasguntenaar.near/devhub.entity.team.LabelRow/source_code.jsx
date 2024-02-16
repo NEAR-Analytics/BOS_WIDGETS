@@ -212,7 +212,9 @@ return (
       <td class=" justify-content-center align-items-center p-3">
         {editMode ? (
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: "btn-outline-danger" },
               icon: {
@@ -225,7 +227,9 @@ return (
           />
         ) : (
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={
+              "thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            }
             props={{
               classNames: { root: "btn-outline-light text-dark" },
               icon: {
