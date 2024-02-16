@@ -40,9 +40,7 @@ return (
         labels, including restricted ones.
       </h5>
       <Widget
-        src={
-          "thomasguntenaar.near/widget/devhub.components.molecule.PostControls"
-        }
+        src={"thomasguntenaar.near/widget/devhub.components.molecule.PostControls"}
         props={{
           icon: "bi bi-gear-wide-connected",
           className: "mb-3",
@@ -77,9 +75,7 @@ return (
             }
           >
             <Widget
-              src={
-                "thomasguntenaar.near/widget/devhub.components.molecule.Button"
-              }
+              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: {
                   root: "btn-outline-danger shadow-none border-0",
@@ -89,9 +85,7 @@ return (
               }}
             />
             <Widget
-              src={
-                "thomasguntenaar.near/widget/devhub.components.molecule.Button"
-              }
+              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn" },
                 icon: {
