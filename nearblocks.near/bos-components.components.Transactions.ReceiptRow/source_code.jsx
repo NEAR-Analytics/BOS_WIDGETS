@@ -1185,9 +1185,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -1551,14 +1549,15 @@ const ReceiptStatus = (props) => {
 
 ,
   ) {
-    const { width = 16, format = 'default' } = options;
+    const { width, format } = options;
 
     let result = '';
     let line = '';
+    const w = width ? width : 16;
 
     for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % width === 0) {
-        result += formatLine(line, i - width, format) + '\n';
+      if (i > 0 && i % w === 0) {
+        result += formatLine(line, i - w, format) + '\n';
         line = '';
       }
 
@@ -1568,7 +1567,7 @@ const ReceiptStatus = (props) => {
 
     if (line.length > 0) {
       result +=
-        formatLine(line, data.length - (data.length % width), format) + '\n';
+        formatLine(line, data.length - (data.length % w), format) + '\n';
     }
 
     return result;
@@ -1582,7 +1581,11 @@ const ReceiptStatus = (props) => {
 
     try {
       const parsed = JSON.parse(decoded.toString());
-      pretty = JSON.stringify(parsed, null, 2);
+      if (parsed) {
+        pretty = JSON.stringify(parsed, null, 2);
+      } else {
+        pretty = hexDump(decoded, { format: 'twos' });
+      }
     } catch {
       pretty = hexDump(decoded, { format: 'twos' });
     }
@@ -2481,9 +2484,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -2847,14 +2848,14 @@ const FunctionCall = (props) => {
 
 ,
   ) {
-    const { width = 16, format = 'default' } = options;
+    const { width, format } = options;
 
     let result = '';
     let line = '';
-
+    const w = width ? width : 16;
     for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % width === 0) {
-        result += formatLine(line, i - width, format) + '\n';
+      if (i > 0 && i % w === 0) {
+        result += formatLine(line, i - w, format) + '\n';
         line = '';
       }
 
@@ -2864,7 +2865,7 @@ const FunctionCall = (props) => {
 
     if (line.length > 0) {
       result +=
-        formatLine(line, data.length - (data.length % width), format) + '\n';
+        formatLine(line, data.length - (data.length % w), format) + '\n';
     }
 
     return result;
@@ -2875,10 +2876,13 @@ const FunctionCall = (props) => {
 
     let pretty = '';
     const decoded = Buffer.from(args, 'base64');
-
     try {
       const parsed = JSON.parse(decoded.toString());
-      pretty = JSON.stringify(parsed, null, 2);
+      if (parsed) {
+        pretty = JSON.stringify(parsed, null, 2);
+      } else {
+        pretty = hexDump(decoded, { format: 'twos' });
+      }
     } catch {
       pretty = hexDump(decoded, { format: 'twos' });
     }
@@ -2890,7 +2894,7 @@ const FunctionCall = (props) => {
     <div className="py-1">
       <FaCode className="inline-flex text-yellow-500 mr-1" />
       {t ? t('txns:txn.actions.functionCall.0') : 'Called method'}
-      <span className="font-bold">{args.method_name}</span>{' '}
+      <span className="font-bold">{args?.method_name}</span>{' '}
       {t ? t('txns:txn.actions.functionCall.1') : 'in contract'}
       <a href={`/address/${receiver}`} className="hover:no-underline">
         <a className="text-green-500 font-bold hover:no-underline">
@@ -2900,7 +2904,7 @@ const FunctionCall = (props) => {
       <textarea
         readOnly
         rows={4}
-        defaultValue={displayArgs(args.args_base64 || args.args)}
+        defaultValue={displayArgs(args?.args_base64 || args?.args)}
         className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
       ></textarea>
     </div>
