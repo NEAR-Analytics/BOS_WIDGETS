@@ -46,7 +46,7 @@ State.init({
 
 const attestData = {
   attestation: {
-    [selectedSchema]: {
+    [props.item.selectedSchema]: {
       [state.objectUID]: {
         ...formValues,
       },
