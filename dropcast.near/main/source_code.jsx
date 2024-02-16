@@ -91,6 +91,19 @@ const PageWrapper = styled.div`
   color: rgb(229 229 229);
 `;
 
+const SidebarButton = styled.button`
+    padding: 0;
+    z-index: 1;
+    width: 29px;
+    height: 29px;
+    color: white;
+    display: flex;
+    border: 1px solid;  
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+`;
+
 const changePage = (page) => {
   State.update({
     page,
@@ -106,10 +119,7 @@ return (
       src={`${Owner}/widget/sidebar`}
       props={{ API_URL, USER, PAGES, currentPage: state.page, changePage }}
     />
-    <button
-      className="btn p-0 text-white d-flex justify-content-center align-items-center position-absolute"
-      style={{ border: "1px solid", width: 29, height: 29 }}
-    >
+    <SidebarButton className="btn">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -118,7 +128,7 @@ return (
       >
         <path fill="currentColor" d="M2.5 0L1 1.5L3.5 4L1 6.5L2.5 8l4-4z" />
       </svg>
-    </button>
+    </SidebarButton>
     <PageWrapper>
       {state.page === "dashboard" && (
         <Widget
