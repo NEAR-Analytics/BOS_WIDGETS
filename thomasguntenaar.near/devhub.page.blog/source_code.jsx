@@ -94,7 +94,9 @@ if (showEditScreenData) {
 }
 return (
   <div className="w-100">
-    <Widget src={`thomasguntenaar.near/widget/devhub.components.island.banner`} />
+    <Widget
+      src={`thomasguntenaar.near/widget/devhub.components.island.banner`}
+    />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
