@@ -75,7 +75,7 @@ return (
         </div>
       ))}
     </div>
-    <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between">
+    <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between align-items-center">
       <div className="d-flex align-items-center gap-3">
         <Avatar
           src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
