@@ -28,7 +28,9 @@ const [finished, setFinished] = useState(false);
 const [displayError, setDisplayError] = useState(false);
 const [success, setSuccess] = useState(false);
 const cleanSelectedHandle = useMemo(() => {
-    return selectedHandle[0] == "@" ? selectedHandle.substring(1, selectedHandle.length) : selectedHandle;
+  return selectedHandle[0] == "@"
+    ? selectedHandle.substring(1, selectedHandle.length)
+    : selectedHandle;
 }, [selectedHandle]);
 
 if (!evmAddress && Ethers.provider()) {
@@ -69,12 +71,14 @@ const Main = styled.div`
     padding:3rem 0;
     background-color:#fafafa;
     border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 `;
 
 const Modal = styled.div`
     display:flex;
     max-width:350px;
-    margin:auto;
     align-items:center;
     justify-content:center;
     flex-direction:column;
@@ -84,6 +88,8 @@ const Modal = styled.div`
     margin-top:auto;
     margin-bottom:auto;
     background-color:#fff;
+    flex-grow:0;
+    flex-shrink:1;
 `;
 
 const Logo = styled.img`
@@ -218,7 +224,7 @@ const FinishButton = styled.a`
     cursor:pointer;
     transition: all .2s;
     text-decoration:none!important;
-    margin-right:10px;
+    margin-bottom:15px;
     
     :hover {
         box-shadow: 0 0 0 3px rgba(0,0,0,.05);
@@ -279,10 +285,17 @@ const ErrorPill = styled.div`
 `;
 
 const ErrorModal = () => {
-    return <>
-        {displayError && <ErrorPill>Looks like there was an error verifying your profile ownership. Please, review each step and try again.</ErrorPill>}
-    </>;
-}
+  return (
+    <>
+      {displayError && (
+        <ErrorPill>
+          Looks like there was an error verifying your profile ownership.
+          Please, review each step and try again.
+        </ErrorPill>
+      )}
+    </>
+  );
+};
 
 const signProof = (platform) => {
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
@@ -297,11 +310,11 @@ const signProof = (platform) => {
     }),
   }).then(({ ok, body: { challenge } }) => {
     if (ok) {
-        EthereumSigner.sign(challenge.toString()).then((proof) => {
-          setProof(proof);
-        });
+      EthereumSigner.sign(challenge.toString()).then((proof) => {
+        setProof(proof);
+      });
     } else {
-        setDisplayError(true);
+      setDisplayError(true);
     }
   });
 };
@@ -319,18 +332,18 @@ const verifyProof = (platform) => {
       handle: cleanSelectedHandle,
       proof,
     }),
-  }).then(({ok, body: { expirationBlockHeight, signature } }) => {
+  }).then(({ ok, body: { expirationBlockHeight, signature } }) => {
     if (ok) {
-        setSuccess(true);
-        Near.call(REGISTRY_CONTRACT, "register_social", {
-          platform,
-          signature,
-          handle: cleanSelectedHandle,
-          proof,
-          max_block_height: expirationBlockHeight,
-        });
+      setSuccess(true);
+      Near.call(REGISTRY_CONTRACT, "register_social", {
+        platform,
+        signature,
+        handle: cleanSelectedHandle,
+        proof,
+        max_block_height: expirationBlockHeight,
+      });
     } else {
-        setDisplayError(true);
+      setDisplayError(true);
     }
   });
 };
@@ -376,32 +389,38 @@ const AvailableHandles = ({ handles }) => {
 };
 
 const Auth = () => {
-    return <>
-        {!success && <>
-            <p>This app requires {accountId || "you"} to verify a profile</p>
-        {!platform && <AuthMethods />}
+  return (
+    <>
+      {!success && (
+        <>
+          <p>This app requires {accountId || "you"} to verify a profile</p>
+          {!platform && <AuthMethods />}
           {platform && <AuthProcess platform={platform} />}
           <Disclaimer>
-              Authenticating your profile <b>doesn't grant</b> nearbadger write access to
-            your account.
+            Authenticating your profile <b>doesn't grant</b> nearbadger write
+            access to your account.
           </Disclaimer>
-            <Disclaimer>
-              Each issued verification will remain <b>valid for 3 months</b>.
+          <Disclaimer>
+            Each issued verification will remain <b>valid for 3 months</b>.
           </Disclaimer>
-        </>}
+        </>
+      )}
     </>
-}
+  );
+};
 
-const Success = () => <>
-    {success && <>
-        <div style={{textAlign: "center"}}>
-            <Header>
-              Your identity has been successfully verified!
-            </Header>
-            <p>You may now get back to the app you were browsing</p>
+const Success = () => (
+  <>
+    {success && (
+      <>
+        <div style={{ textAlign: "center" }}>
+          <Header>Your identity has been successfully verified!</Header>
+          <p>You may now get back to the app you were browsing</p>
         </div>
-    </>}
-</>
+      </>
+    )}
+  </>
+);
 
 const AuthProcess = ({ platform }) => {
   const process = {
@@ -429,8 +448,10 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
-          <ErrorModal />
-        <FinishButton onClick={() => verifyProof("lens")}>Claim profile</FinishButton>
+        <ErrorModal />
+        <FinishButton onClick={() => verifyProof("lens")}>
+          Claim profile
+        </FinishButton>
       </AuthProcessWrapper>
     ),
     farcaster: (
@@ -459,7 +480,9 @@ const AuthProcess = ({ platform }) => {
           <button onClick={() => signProof("farcaster")}>Sign proof</button>
         </StepDescription>
         <ErrorModal />
-        <FinishButton onClick={() => verifyProof("farcaster")}>Claim profile</FinishButton>
+        <FinishButton onClick={() => verifyProof("farcaster")}>
+          Claim profile
+        </FinishButton>
       </AuthProcessWrapper>
     ),
   };
