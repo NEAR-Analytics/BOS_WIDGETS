@@ -8,15 +8,28 @@ const changePage = props.changePage;
 
 //Styles
 const Wrapper = styled.div`
-  top: 0px;
-  width: 256px;
-  height: 100%;  
-  display: flex;
-  color: #d4d4d4;
-  position: sticky;
-  align-items: center;
-  background: #262626;
-  flex-direction: column;
+    top: 0px;
+    width: 256px;
+    height: 100%;  
+    display: flex;
+    color: #d4d4d4;
+    position: sticky;
+    align-items: center;
+    background: #262626;
+    flex-direction: column;
+    @media (max-width: 510px) {
+        width: 55%;
+        z-index: 2;
+        position: absolute;
+    }
+`;
+
+const Temp = styled.div`
+    @media (max-width: 510px) {
+        width: 100%;
+        z-index: 1;
+        position: absolute;
+    }
 `;
 
 const LogoIcon = styled.img`
