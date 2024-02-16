@@ -66,7 +66,7 @@ const _amountIn = Big(inputCurrencyAmount)
   .mul(Big(10).pow(inputCurrency.decimals))
   .toFixed();
 const fetchTradeInfo = () => {
-  asyncFetch(`https://api.dapdap.tech/api/uniswap/v2/quote`, {
+  asyncFetch(`https://api.dapdap.net/api/uniswap/v2/quote`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
