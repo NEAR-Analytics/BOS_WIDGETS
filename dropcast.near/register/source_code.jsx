@@ -23,7 +23,6 @@ const Card = styled.div`
     gap: 24px;
     display: flex;
     width: 100%;
-    height: 100%;
     padding: 48px;
     border-radius: 8px;
     position: relative;
