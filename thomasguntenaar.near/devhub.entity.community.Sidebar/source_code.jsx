@@ -10,9 +10,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={
-          "thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"
-        }
+        src={"thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
