@@ -6,14 +6,32 @@ const TOKEN = props.TOKEN || "";
 
 //Styles
 const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 64px;
-  position: relative;
-  flex-direction: column;
-  color: rgb(229 229 229);
-  background: rgb(23,23,23);
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 64px;
+    position: relative;
+    flex-direction: column;
+    color: rgb(229 229 229);
+    background: rgb(23,23,23);
+    @media (max-width: 510px) {
+      padding: 25px;
+    }  
+`;
+
+const Card = styled.div`
+    gap: 24px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 48px;
+    border-radius: 8px;
+    position: relative;
+    flex-direction: column;
+    background: rgb(38, 38, 38);
+    @media (max-width: 510px) {
+      padding: 15px;
+    }  
 `;
 
 const Label = styled.label`
@@ -71,10 +89,7 @@ if (!state.loaded) getProjects();
 
 return (
   <Wrapper>
-    <div
-      className="d-flex flex-column rounded-3 gap-4"
-      style={{ padding: 48, background: "rgb(38, 38, 38)" }}
-    >
+    <Card>
       <div>
         <h5 className="m-0" style={{ fontSize: 18 }}>
           Register Project
@@ -167,6 +182,6 @@ return (
         />
       </div>
       <StepButton className="btn">Next Step</StepButton>
-    </div>
+    </Card>
   </Wrapper>
 );
