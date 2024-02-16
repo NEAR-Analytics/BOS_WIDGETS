@@ -28,17 +28,11 @@ const StepButton = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
 `;
 
-const OPTIONS = [
-  {
-    text: "All",
-    value: "all",
-  },
-];
-
 State.init({
-  option: "",
-  loaded: false,
   error: "",
+  selected: "",
+  projects: [],
+  loaded: false,
 });
 
 const getProjects = () => {
@@ -54,8 +48,10 @@ const getProjects = () => {
   });
 
   promise.then((data) => {
-    console.log(data, "===>data");
     if (data.status === 200) {
+      State.update({
+        projects: data.body,
+      });
     } else {
       State.update({
         loaded: true,
@@ -67,7 +63,7 @@ const getProjects = () => {
 const changeOption = (value) => {
   State.update({
     ...state,
-    option: value,
+    selected: value,
   });
 };
 
@@ -97,8 +93,8 @@ return (
         <Widget
           props={{
             noLabel: true,
-            options: OPTIONS,
-            value: state.option,
+            options: projects,
+            value: state.selected,
             onChange: changeOption,
           }}
           src={`${Owner}/widget/Select`}
