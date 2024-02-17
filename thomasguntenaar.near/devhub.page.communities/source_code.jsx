@@ -105,9 +105,7 @@ const StyledDropdown = styled.div`
 
 return (
   <div className="w-100">
-    <Widget
-      src={`thomasguntenaar.near/widget/devhub.components.island.banner`}
-    />
+    <Widget src={`thomasguntenaar.near/widget/devhub.components.island.banner`} />
     <div style={{ background: "#f4f4f4" }}>
       <div
         className="d-flex justify-content-between p-4"
