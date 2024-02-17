@@ -89,7 +89,7 @@ const {
   loading: estimating,
   gas,
   onApprovedSuccess,
-  isAssetBigerThanBalance,
+  isBigerThanBalance,
 } = props;
 // for Yours
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -109,7 +109,6 @@ useEffect(() => {
   if (!account || !gas) return;
   const provider = Ethers.provider();
   provider.getBalance(account).then((rawBalance) => {
-    console.log(222, rawBalance, rawBalance.toString());
     State.update({
       gasBalance: rawBalance.toString(),
       isGasEnough: !Big(rawBalance.toString()).lt(gas.toString()),
@@ -126,7 +125,7 @@ if (!amount) {
   );
 }
 
-if (isAssetBigerThanBalance) {
+if (isBigerThanBalance) {
   return (
     <Button disabled={true} className={actionText.toLowerCase()}>
       Insufficient Balance
