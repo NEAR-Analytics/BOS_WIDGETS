@@ -41,7 +41,9 @@ useEffect(() => {
     .getNetwork()
     .then(({ chainId }) => {
       State.update({
-        displayNetwork: ![chain.id, mainnet.id].includes(chainId),
+        displayNetwork: props.defaultChainId
+          ? props.defaultChainId !== chainId
+          : ![chain.id, mainnet.id].includes(chainId),
         chainId,
         loaded: true,
       });
