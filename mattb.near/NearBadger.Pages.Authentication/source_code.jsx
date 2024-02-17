@@ -28,19 +28,26 @@ const [finished, setFinished] = useState(false);
 const [displayError, setDisplayError] = useState(false);
 const [success, setSuccess] = useState(false);
 const cleanSelectedHandle = useMemo(() => {
-  let cleanAddress = selectedHandle[0] == "@"
-    ? selectedHandle.substring(1, selectedHandle.length)
-    : selectedHandle;
+  let cleanAddress =
+    selectedHandle[0] == "@"
+      ? selectedHandle.substring(1, selectedHandle.length)
+      : selectedHandle;
 
   return cleanAddress.split(".eth").shift();
 }, [selectedHandle]);
+const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 
 if (!evmAddress && Ethers.provider()) {
-  Ethers.provider()
-    .send("eth_requestAccounts", [])
-    .then(([account]) => {
-      setEvmAddress(account);
-    });
+  setLoadingEvmAddress(true);
+
+  if (!loadingEvmAddress) {
+      Ethers.provider()
+        .send("eth_requestAccounts", [])
+        .then(([account]) => {
+          setEvmAddress(account);
+          setLoadingEvmAddress(false);
+        });
+  }
 }
 
 useEffect(() => {
@@ -55,7 +62,7 @@ useEffect(() => {
         for: evmAddress,
       })
       .then((profiles) => {
-        if (profiles) {
+        if (profiles.length > 0) {
           const handles = profiles.map(
             (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
           );
@@ -350,16 +357,22 @@ const verifyProof = (platform) => {
   });
 };
 
+const disabledAuthButtonStyles = {
+    opacity: ".5",
+    pointerEvents: "none"
+}
+
 const AuthMethods = () => {
   return (
     <>
-      <AuthButton onClick={() => setPlatform("lens")}>
+      <AuthButton style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => setPlatform("lens")}>
         <span className="badge">
           <img src={LENS_LOGO_URL} width="100%" />
         </span>
         Authenticate on Lens
       </AuthButton>
       <AuthButton
+        style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => setPlatform("farcaster")}
         background="#8A63D1"
         color="#FFF"
@@ -395,9 +408,9 @@ const Auth = () => {
     <>
       {!success && (
         <>
-          <p>This app requires {accountId || "you"} to verify a profile</p>
           {!platform && <AuthMethods />}
           {platform && <AuthProcess platform={platform} />}
+            
           <Disclaimer>
             Authenticating your profile <b>doesn't grant</b> nearbadger write
             access to your account.
@@ -416,7 +429,7 @@ const Success = () => (
     {success && (
       <>
         <div style={{ textAlign: "center" }}>
-          <Header>Your identity has been successfully verified!</Header>
+          <Header>Identity successfully verified!</Header>
           <p>You may now get back to the app you were browsing</p>
         </div>
       </>
@@ -432,7 +445,7 @@ const AuthProcess = ({ platform }) => {
           <img src={LENS_LOGO_URL} width="100%" />
           Lens Protocol
         </Header>
-        <Step>1. Connect your EVM wallet</Step>
+        <Step>1. Connect your Ethereum wallet</Step>
         <StepDescription>
           <Web3Connect
             connectLabel="Connect wallet"
@@ -462,12 +475,17 @@ const AuthProcess = ({ platform }) => {
           <img src={FARCASTER_BLACK_LOGO_URL} width="100%" />
           Farcaster
         </Header>
-          <Step>1. Link your EVM address to your Farcaster profile</Step>
+        <Step>1. Link your Ethereum address to your Farcaster profile</Step>
         <StepDescription>
-          To do so, go to the Warpcast app and click <b>Settings {">"} Connected addresses {">"} Connect address</b><br/><br/>
+          To do so, go to the Warpcast app and click{" "}
+          <b>
+            Settings {">"} Connected addresses {">"} Connect address
+          </b>
+          <br />
+          <br />
           If you already did it, you can skip this step
         </StepDescription>
-        <Step>2. Connect your EVM wallet</Step>
+        <Step>2. Connect your Ethereum wallet</Step>
         <StepDescription>
           <Web3Connect
             connectLabel="Connect wallet"
@@ -497,10 +515,25 @@ const AuthProcess = ({ platform }) => {
   return process[platform] || <>Auth method not found</>;
 };
 
+const RequireNearAccount = () => {
+  return (
+    <>
+      <p style={{ textAlign: "center" }}>
+        {context.accountId == null
+          ? <>Connect your NEAR account to start the verification process</>
+          : <>This app requires <b>{
+              accountId || context.accountId || "you"
+            }</b> to verify a profile</>}
+      </p>
+    </>
+  );
+};
+
 return (
   <Main>
     <Modal>
       <Logo src={LOGO_URL}></Logo>
+      <RequireNearAccount />
       <Auth />
       <Success />
     </Modal>
