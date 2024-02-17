@@ -37,17 +37,15 @@ const cleanSelectedHandle = useMemo(() => {
 }, [selectedHandle]);
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 
-if (!evmAddress && Ethers.provider()) {
+if (!evmAddress && !loadingEvmAddress) {
   setLoadingEvmAddress(true);
 
-  if (!loadingEvmAddress) {
-      Ethers.provider()
-        .send("eth_requestAccounts", [])
-        .then(([account]) => {
-          setEvmAddress(account);
-          setLoadingEvmAddress(false);
-        });
-  }
+  Ethers.provider()
+    .send("eth_requestAccounts", [])
+    .then(([account]) => {
+      setEvmAddress(account);
+      setLoadingEvmAddress(false);
+    });
 }
 
 useEffect(() => {
