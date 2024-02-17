@@ -37,7 +37,7 @@ const cleanSelectedHandle = useMemo(() => {
 }, [selectedHandle]);
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 
-console.log(platform);
+console.log(platform, showPlatform);
 
 if (showPlatform) {
     setPlatform(showPlatform);
