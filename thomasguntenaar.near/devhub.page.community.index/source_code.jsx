@@ -1,6 +1,4 @@
-const { normalize } = VM.require(
-  "thomasguntenaar.near/widget/core.lib.stringUtils"
-);
+const { normalize } = VM.require("thomasguntenaar.near/widget/core.lib.stringUtils");
 
 normalize || (normalize = () => {});
 
@@ -249,9 +247,7 @@ return (
             to={`/thomasguntenaar.near/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={
-                "thomasguntenaar.near/widget/devhub.components.molecule.Button"
-              }
+              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
