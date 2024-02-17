@@ -41,11 +41,13 @@ if (!evmAddress && Ethers.provider()) {
    if (Ethers.provider().provider?.isMetaMask) {
        const [ account ] = Ethers.provider().provider._state.accounts;
        setEvmAddress(account);
-   }
-
-   if (Ethers.provider().provider?.connector) {
+   } else if (Ethers.provider().provider?.connector) {
        const [ account ] = Ethers.provider().provider.connector.accounts;
        setEvmAddress(account);
+   } else {
+       Ethers.provider().send("eth_requestAccounts", []).then((([account]) => {
+           setEvmAddress(account);
+       }));
    }
 }
 
