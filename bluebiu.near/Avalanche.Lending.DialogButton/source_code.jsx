@@ -353,7 +353,7 @@ return (
                   action: actionText,
                   token: data.underlyingToken,
                   amount,
-                  template: data.dappName,
+                  template: data.dappName || data.dapp,
                   add: false,
                   status,
                   transactionHash,
