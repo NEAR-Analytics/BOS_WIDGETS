@@ -1,7 +1,7 @@
 const RubikLogo = () => {
   const { LogoWrapper, Square, Dot } = VM.require(
     "rubik-ui.near/widget/RubikUI.Styled.Core"
-  ) || { LogoWrapper: () => <></>, Square => <></>, Dot => <></> };
+  ) || { LogoWrapper: () => <></>, Square: => <></>, Dot: => <></> };
   return (
     <LogoWrapper>
       <Square>
