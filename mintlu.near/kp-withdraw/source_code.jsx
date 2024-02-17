@@ -19,15 +19,23 @@ if (context.accountId) {
   let current_balance_near = Yocto2Near(current_balance);
 
   return (
-    <div>
+    <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh', // Adjust this according to your layout
+  }}>
+    <div style={{ marginBottom: '20px' }}>
       Current User Balance is: {current_balance_near} NEAR
-      <button
-        className="btn btn-lg btn-primary mt-3"
-        onClick={(e) => withdraw()}
-      >
-        Withdraw Keypom Balance
-      </button>
     </div>
+    <button
+      className="btn btn-lg btn-primary"
+      onClick={(e) => withdraw()}
+    >
+      Withdraw Keypom Balance
+    </button>
+  </div>
   );
 } else {
   return <div>Please Sign In to Withdraw Balance.</div>;
