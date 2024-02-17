@@ -36,17 +36,10 @@ const cleanSelectedHandle = useMemo(() => {
   return cleanAddress.split(".eth").shift();
 }, [selectedHandle]);
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
-
-console.log(platform, showPlatform);
+const [onInit, setOnInit] = useState(true);
 
 if (showPlatform) {
     setPlatform(showPlatform);
-
-    useEffect(() => {
-        if (platform === "") {
-            setPlatform(showPlatform);
-        }
-    }, [platform]);
 }
 
 if (!evmAddress && Ethers.provider()) {
@@ -124,7 +117,7 @@ const Logo = styled.img`
     }
 `;
 
-const AuthButton = styled.a`
+const AuthButton = styled.button`
     position:relative;
     padding:.4rem .7rem .4rem 2.7rem;
     border-radius:7px;
@@ -377,19 +370,53 @@ const disabledAuthButtonStyles = {
     pointerEvents: "none"
 }
 
+const storePlatform = (platform) => {
+    Storage.set("platform", JSON.stringify({
+        platform: platform,
+        expiration: Date.parse(new Date()) + 6 * 100000
+    }));
+}
+
+const checkStoredPlatform = () => {
+    if (storedPlatform) {
+        const { platform, expiration } = JSON.parse(storedPlatform);
+        if (expiration > Date.parse(new Date())) {
+            setPlatform(platform);
+            Storage.set("platform", null);
+        }
+    }
+}
+
+const storedPlatform = null;
+
+if (onInit) {
+    storedPlatform = Storage.get("platform");
+    checkStoredPlatform();
+    setOnInit(false);
+}
+
+useEffect(() => {
+    checkStoredPlatform()
+}, [storedPlatform]);
+
 const AuthMethods = () => {
   return (
     <>
-      <AuthButton href="#?showPlatform=lens" style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => setPlatform("lens")}>
+      <AuthButton style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => {
+        setPlatform("lens");
+        storePlatform("lens");
+      }}>
         <span className="badge">
           <img src={LENS_LOGO_URL} width="100%" />
         </span>
         Authenticate on Lens
       </AuthButton>
       <AuthButton
-        href="#?showPlatform=farcaster"
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        onClick={() => setPlatform("farcaster")}
+        onClick={() => {
+            setPlatform("farcaster");
+            storePlatform("farcaster");
+        }}
         background="#8A63D1"
         color="#FFF"
         border="rgba(0,0,0,.15)"
