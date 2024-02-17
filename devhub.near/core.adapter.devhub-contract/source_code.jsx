@@ -99,6 +99,10 @@ function getAllCommunitiesMetadata() {
   );
 }
 
+function getSocialWithBlockHeight(data) {
+  return Near.view("social.near", "get", data) ?? null;
+}
+
 function getAllLabels() {
   return Near.view("devgovgigs.near", "get_all_labels") ?? null;
 }
@@ -125,6 +129,15 @@ function getPostsByLabel({ label }) {
 function setCommunitySocialDB({ handle, data }) {
   return (
     Near.call("devhub.near", "set_community_socialdb", {
+      handle,
+      data,
+    }) ?? null
+  );
+}
+
+function createDiscussion({ handle, data }) {
+  return (
+    Near.call("devhub.near", "create_discussion", {
       handle,
       data,
     }) ?? null
