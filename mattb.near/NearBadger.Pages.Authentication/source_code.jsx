@@ -38,8 +38,15 @@ const cleanSelectedHandle = useMemo(() => {
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 
 if (!evmAddress && Ethers.provider()) {
-  console.log(Ethers.provider());
-  Ethers.provider().provider.send("eth_requestAccounts", []).then(({ result: [account] }) => setEvmAddress(account));
+   if (Ethers.provider().provider?.isMetaMask) {
+       const [ account ] = Ethers.provider().provider._state.accounts;
+       setEvmAddress(account);
+   }
+
+   if (Ethers.provider().provider?.connector) {
+       const [ account ] = Ethers.provider().provider.connector.accounts;
+       setEvmAddress(account);
+   }
 }
 
 useEffect(() => {
