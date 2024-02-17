@@ -85,6 +85,7 @@ return (
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
                     communityAccountId: `${handle}.community.devhub.near`,
+                    profileAccountId: `${handle}.community.devhub.near`,
                   }}
                 />
               </div>
