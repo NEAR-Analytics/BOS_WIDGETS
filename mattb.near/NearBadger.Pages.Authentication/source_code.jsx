@@ -372,14 +372,14 @@ const disabledAuthButtonStyles = {
 const AuthMethods = () => {
   return (
     <>
-      <AuthButton href="?showPlatform=lens" style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => setPlatform("lens")}>
+      <AuthButton href="#?showPlatform=lens" style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => setPlatform("lens")}>
         <span className="badge">
           <img src={LENS_LOGO_URL} width="100%" />
         </span>
         Authenticate on Lens
       </AuthButton>
       <AuthButton
-        href="?showPlatform=farcaster"
+        href="#?showPlatform=farcaster"
         style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => setPlatform("farcaster")}
         background="#8A63D1"
@@ -417,6 +417,7 @@ const Auth = () => {
       {!success && (
         <>
           {!platform && <AuthMethods />}
+          {platform && <AuthProcess platform={platform} />}
             
           <Disclaimer>
             Authenticating your profile <b>doesn't grant</b> nearbadger write
