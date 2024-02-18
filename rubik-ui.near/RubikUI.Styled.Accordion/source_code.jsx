@@ -2,7 +2,7 @@ const generateStyleFromProps = props => {
   return Object.keys(props).reduce((styleString, prop) => {
     const kebabCaseProp = prop.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
     if (props[prop]) {
-      styleString += `${kebabCaseProp}: ${props[prop]};!important\n`;
+      styleString += `${kebabCaseProp}: ${props[prop]}!important;\n`;
     }
     return styleString;
   }, '');
@@ -54,7 +54,7 @@ const props = {
 };
 
 return <>
-<Accordion as="ul" maxWidth="800px">
+<Accordion maxWidth="800px">
     {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
 </Accordion>
 </>
