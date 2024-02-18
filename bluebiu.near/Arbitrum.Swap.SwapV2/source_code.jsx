@@ -56,6 +56,11 @@ useEffect(() => {
   const getBestTrade = () => {
     State.update({
       loading: true,
+      unsignedTx: "",
+      outputCurrencyAmount: "",
+      gas: undefined,
+      priceImpact: 0,
+      noPair: true,
     });
   };
 
@@ -86,6 +91,16 @@ useEffect(() => {
     currencySelectType: 0,
   });
 }, [title]);
+
+useEffect(() => {
+  if (loading || !state.getBestTrade) return;
+  const cachedTimer = Storage.privateGet("_swap_timer");
+  clearTimeout(cachedTimer);
+  const _timer = setTimeout(() => {
+    state.getBestTrade();
+  }, 30000);
+  Storage.privateSet("_swap_timer", _timer);
+}, [state.loading]);
 
 const getUnitAmount = () => {
   const bigInputAmount = Big(state.inputCurrencyAmount || 0);
