@@ -123,7 +123,7 @@ State.init({
   preview: "TEMPLATE",
   template,
   templateVal: template,
-  thingId: generateUID,
+  thingId: generateUID(),
 });
 
 const handleOnChange = (value) => {
@@ -147,12 +147,11 @@ const [formValues, setFormValues] = useState({
   payload: props.payload || "",
 });
 
-const attestData = {
-  attestation: {
-    [props.item.selectedSchema]: {
-      [state.thingId]: {
-        ...formValues,
-      },
+const attestation = {
+  [state.selectedType]: {
+    [state.thingId]: {
+      ...formValues,
+      schema: state.data,
     },
   },
 };
@@ -177,23 +176,7 @@ const handleSave = () => {
   }
 
   const data = {
-    attestation: {
-      [thingId]: JSON.stringify({
-        data: state.config,
-        template: {
-          src: state.template,
-        },
-        type: state.selectedType,
-      }),
-    },
-    index: {
-      thing: JSON.stringify({
-        key: thingId,
-        value: {
-          type: state.selectedType,
-        },
-      }),
-    },
+    attestation,
   };
   if (edges.length) {
     data.index.edge = JSON.stringify(edges);
