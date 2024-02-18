@@ -50,7 +50,7 @@ const Cube = styled.div`
   transition: ${props => props.transition || ''};
 `;
 
-const Accordion = styled(Cube).attrs({ as: 'ul' })`
+const Accordion = styled(Cube)`
     padding:0;
     margin:0;
     width:100%;
@@ -67,7 +67,7 @@ const Accordion = styled(Cube).attrs({ as: 'ul' })`
     }
 `;
 
-const AccordionItem = styled(Cube).attrs({ as: 'li' })`
+const AccordionItem = styled(Cube)`
     margin:0;
     padding:0;
     width:100%;
