@@ -50,7 +50,7 @@ const Cube = styled.div`
   transition: ${props => props.transition || ''};
 `;
 
-const Accordion = styled(Cube)`
+const Accordion = styled(Cube).attrs({ as: 'ul' })`
     padding:0;
     margin:0;
     width:100%;
@@ -67,7 +67,7 @@ const Accordion = styled(Cube)`
     }
 `;
 
-const AccordionItem = styled(Cube)`
+const AccordionItem = styled(Cube).attrs({ as: 'li' })`
     margin:0;
     padding:0;
     width:100%;
@@ -91,7 +91,7 @@ const props = {
 };
 
 return <>
-<Accordion as="ul" {...props}>
-    {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
+<Accordion {...props}>
+    {Array.from([1,2,3]).map((data, idx) => <AccordionItem>{idx}</AccordionItem>)}
 </Accordion>
 </>
