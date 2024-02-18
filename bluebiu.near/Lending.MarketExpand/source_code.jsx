@@ -388,7 +388,7 @@ return (
               <StyledDetailItem>
                 <div>Collateral factor</div>
                 <div className="white">
-                  {data.userMerberShip ? "Enable" : "Disable"}
+                  {data.collateralFactor ? "Enable" : "Disable"}
                 </div>
               </StyledDetailItem>
             )}
