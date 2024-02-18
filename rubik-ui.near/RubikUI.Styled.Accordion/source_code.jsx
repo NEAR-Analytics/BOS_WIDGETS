@@ -8,11 +8,12 @@ const generateStyleFromProps = props => {
   }, '');
 };
 
-const Cube = styled.div`
+
+const Facet = styled.div`
   ${props => generateStyleFromProps(props)}
 `;
 
-const Accordion = styled(Cube)`
+const AccordionFacet = styled(Facet)`
     padding:0;
     margin:0;
     width:100%;
@@ -29,7 +30,7 @@ const Accordion = styled(Cube)`
     }
 `;
 
-const AccordionItem = styled(Cube)`
+const AccordionItemFacet = styled(Facet)`
     margin:0;
     padding:0;
     width:100%;
@@ -48,13 +49,24 @@ const AccordionItem = styled(Cube)`
     }
 `;
 
-const props = {
-    maxWidth: "800px",
-    backgroundColor: "red"
+const Cube = ({ as: Component, apply: Facet, onClick, onKeyUp, children, ...rest }) => {
+    const Wrapper = Facet || Component || 'div';
+    
+    return (
+        <Wrapper as={Component} {...rest} onClick={onClick} onKeyUp={onKeyUp}>
+            {children}
+        </Wrapper>
+    );
 };
 
+const Accordion = ({ children, ...props }) => {
+    return <Cube as="ul" apply={AccordionFacet} {...props}>
+        {children}
+    </Cube>;
+}
+
 return <>
-<Accordion {...props}>
-    {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
+<Accordion maxWidth="800px">
+    {Array.from([1,2,3]).map((data, idx) => <AccordionItemFacet as="li">{idx}</AccordionItemFacet>)}
 </Accordion>
 </>
