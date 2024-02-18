@@ -458,21 +458,14 @@ useEffect(() => {
   const provider = Ethers.provider();
   let baseAmount = Big(0);
   if (inputCurrency.isNative) {
-    baseAmount = baseAmount.add(
-      ethers.utils.parseUnits(
-        Big(inputCurrencyAmount || 0).toFixed(inputCurrency.decimals),
-        inputCurrency.decimals
-      )
-    );
+    baseAmount = baseAmount.add(inputCurrencyAmount || 0);
   }
   State.update({ swapping: true });
   const _gas = Big(ethers.utils.formatUnits(gas, 18));
   provider.getBalance(account).then((rawBalance) => {
+    const _rawBalance = Big(ethers.utils.formatUnits(rawBalance, 18));
     State.update({
-      gasBalance: rawBalance.toString(),
-      isGasEnough: !Big(rawBalance.toString())
-        .minus(baseAmount)
-        .lt(gas.toString()),
+      isGasEnough: !_rawBalance.minus(baseAmount).lt(_gas),
       gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
       swapping: false,
     });
