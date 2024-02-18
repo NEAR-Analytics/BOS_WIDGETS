@@ -109,7 +109,7 @@ return (
         prices,
         ...dexConfig,
         onLoad: (data) => {
-          console.log("data", data);
+          console.log("DATA_onLoad:", data);
           State.update({
             loading: false,
             timestamp: Date.now(),
