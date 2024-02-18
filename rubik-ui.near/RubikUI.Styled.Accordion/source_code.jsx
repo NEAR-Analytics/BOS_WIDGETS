@@ -66,7 +66,7 @@ const Accordion = ({ children, ...props }) => {
 }
 
 return <>
-<Accordion maxWidth="800px" onClick={() => console.log("Clicked")}>
+<Accordion maxWidth="800px">
     {Array.from([1,2,3]).map((data, idx) => <AccordionItemFacet as="li">{idx}</AccordionItemFacet>)}
 </Accordion>
 </>
