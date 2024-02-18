@@ -535,6 +535,10 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.sbts = ["fractal.i-am-human.near - class 1"];
   }
 
+  if (!article.category) {
+    article.category = "Uncategorized";
+  }
+
   return article;
 }
 
