@@ -1,53 +1,15 @@
+const generateStyleFromProps = props => {
+  return Object.keys(props).reduce((styleString, prop) => {
+    const kebabCaseProp = prop.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+    if (props[prop]) {
+      styleString += `${kebabCaseProp}: ${props[prop]};\n`;
+    }
+    return styleString;
+  }, '');
+};
+
 const Cube = styled.div`
-  display: ${props => props.display || ''};
-  flex: ${props => props.flex || ''};
-  flex-grow: ${props => props.flexGrow || ''};
-  flex-shrink: ${props => props.flexShrink || ''};
-  flex-basis: ${props => props.flexBasis || ''};
-  flex-direction: ${props => props.flexDirection || ''};
-  flex-wrap: ${props => props.flexWrap || ''};
-  justify-content: ${props => props.justifyContent || ''};
-  align-items: ${props => props.alignItems || ''};
-  align-content: ${props => props.alignContent || ''};
-  align-self: ${props => props.alignSelf || ''};
-  order: ${props => props.order || ''};
-  width: ${props => props.width || ''};
-  height: ${props => props.height || ''};
-  max-width: ${props => props.maxWidth || ''};
-  max-height: ${props => props.maxHeight || ''};
-  margin: ${props => props.margin || ''};
-  margin-top: ${props => props.marginTop || ''};
-  margin-right: ${props => props.marginRight || ''};
-  margin-bottom: ${props => props.marginBottom || ''};
-  margin-left: ${props => props.marginLeft || ''};
-  padding: ${props => props.padding || ''};
-  padding-top: ${props => props.paddingTop || ''};
-  padding-right: ${props => props.paddingRight || ''};
-  padding-bottom: ${props => props.paddingBottom || ''};
-  padding-left: ${props => props.paddingLeft || ''};
-  background: ${props => props.background || ''};
-  color: ${props => props.color || ''};
-  border: ${props => props.border || ''};
-  border-top: ${props => props.borderTop || ''};
-  border-right: ${props => props.borderRight || ''};
-  border-bottom: ${props => props.borderBottom || ''};
-  border-left: ${props => props.borderLeft || ''};
-  border-radius: ${props => props.borderRadius || ''};
-  border-top-left-radius: ${props => props.borderTopLeftRadius || ''};
-  border-top-right-radius: ${props => props.borderTopRightRadius || ''};
-  border-bottom-left-radius: ${props => props.borderBottomLeftRadius || ''};
-  border-bottom-right-radius: ${props => props.borderBottomRightRadius || ''};
-  box-shadow: ${props => props.boxShadow || ''};
-  text-align: ${props => props.textAlign || ''};
-  position: ${props => props.position || ''};
-  top: ${props => props.top || ''};
-  right: ${props => props.right || ''};
-  bottom: ${props => props.bottom || ''};
-  left: ${props => props.left || ''};
-  z-index: ${props => props.zIndex || ''};
-  overflow: ${props => props.overflow || ''};
-  cursor: ${props => props.cursor || ''};
-  transition: ${props => props.transition || ''};
+  ${props => generateStyleFromProps(props)}
 `;
 
 const Accordion = styled(Cube)`
