@@ -189,6 +189,7 @@ const StyledGasBox = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  display: none;
 `;
 
 const TABS = ["Deposit", "Withdraw"];
