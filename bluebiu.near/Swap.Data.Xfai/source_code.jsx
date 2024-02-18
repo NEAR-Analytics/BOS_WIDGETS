@@ -308,10 +308,7 @@ useEffect(() => {
           getTx(_gas);
         })
         .catch((err) => {
-          onLoad({
-            ...returnData,
-            noPair: false,
-          });
+          getTx();
         });
     };
 
