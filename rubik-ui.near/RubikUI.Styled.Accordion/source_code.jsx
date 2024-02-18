@@ -34,7 +34,7 @@ const AccordionItem = styled(Cube)`
     padding:0;
     width:100%;
     padding:13px;
-    cursor:pointer!important;
+    cursor:pointer;
     transition: all .2s;
 
     :hover {
@@ -54,7 +54,7 @@ const props = {
 };
 
 return <>
-<Accordion maxWidth="800px">
+<Accordion {...props}>
     {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
 </Accordion>
 </>
