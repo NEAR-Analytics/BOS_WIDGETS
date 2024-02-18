@@ -43,6 +43,7 @@ const COLUMNS = [
 ];
 
 const data = Object.values(props.markets || {});
+
 const {
   totalCollateralUsd,
   userTotalBorrowUsd,
