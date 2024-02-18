@@ -87,11 +87,12 @@ const AccordionItem = styled(Cube).attrs({ as: 'li' })`
 `;
 
 const props = {
-    maxWidth: "800px"
+    maxWidth: "800px",
+    backgroundColor: "red"
 };
 
 return <>
-<Accordion {...props}>
-    {Array.from([1,2,3]).map((data, idx) => <AccordionItem>{idx}</AccordionItem>)}
+<Accordion as="ul" {...props}>
+    {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
 </Accordion>
 </>
