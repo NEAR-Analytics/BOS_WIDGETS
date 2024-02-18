@@ -2,7 +2,7 @@ const generateStyleFromProps = props => {
   return Object.keys(props).reduce((styleString, prop) => {
     const kebabCaseProp = prop.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
     if (props[prop]) {
-      styleString += `${kebabCaseProp}: ${props[prop]};\n`;
+      styleString += `${kebabCaseProp}: ${props[prop]};!important\n`;
     }
     return styleString;
   }, '');
