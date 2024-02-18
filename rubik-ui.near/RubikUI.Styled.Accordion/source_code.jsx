@@ -92,7 +92,7 @@ const props = {
 };
 
 return <>
-<Accordion as="ul" {...props}>
+<Accordion as="ul" maxWidth="800px">
     {Array.from([1,2,3]).map((data, idx) => <AccordionItem as="li">{idx}</AccordionItem>)}
 </Accordion>
 </>
