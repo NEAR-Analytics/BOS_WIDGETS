@@ -135,6 +135,7 @@ return (
       />
       <ExchangeIcon
         onClick={() => {
+          if (state.loading) return;
           const [inputCurrency, outputCurrency] = [
             state.outputCurrency,
             state.inputCurrency,
@@ -199,7 +200,7 @@ return (
             });
           },
           onApprovedSuccess: () => {
-            if (!state.gas) state.getBestTrade();
+            state.getBestTrade();
           },
           addAction: props.addAction,
           toast: props.toast,
