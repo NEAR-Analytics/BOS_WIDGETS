@@ -282,7 +282,6 @@ useEffect(() => {
         {
           from: path[0],
           to: path[1],
-          stable: false,
           factory: factoryAddress,
         },
       ],
@@ -306,10 +305,11 @@ useEffect(() => {
       priceImpact,
     };
 
-    const getTx = (_gas) => {
+    const getTx = (_gas, gasPrice) => {
       RouterContract.populateTransaction[method](...params, {
         ...options,
-        gasLimit: _gas,
+        gasLimit: _gas ? _gas : 4000000,
+        gasPrice,
       })
         .then((res) => {
           onLoad({
@@ -327,16 +327,24 @@ useEffect(() => {
           });
         });
     };
+
+    const getGasPrice = (_gas) => {
+      Ethers.provider()
+        .getGasPrice()
+        .then((gasPrice) => {
+          getTx(_gas, gasPrice);
+        })
+        .catch((err) => {
+          getTx(_gas, null);
+        });
+    };
     const estimateGas = () => {
       RouterContract.estimateGas[method](...params, options)
         .then((_gas) => {
-          getTx(_gas);
+          getGasPrice(_gas);
         })
         .catch((err) => {
-          onLoad({
-            ...returnData,
-            noPair: false,
-          });
+          getGasPrice(null);
         });
     };
 
