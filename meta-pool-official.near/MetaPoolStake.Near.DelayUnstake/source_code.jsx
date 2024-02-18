@@ -6,14 +6,75 @@ const GAS = "200000000000000";
 const { isSignedIn, update, state, handleInputStNear, onClickMaxstNear } =
   props;
 
+State.init({
+  openModal: false,
+  validation: "",
+  nearUsdPrice: null,
+  nearUsdPriceIsFetched: false,
+  metrics: null,
+  metricsIsFetched: false,
+  nearBalance: null,
+  nearBalanceIsFetched: false,
+  stNearBalance: null,
+  stNearBalanceIsFetched: false,
+  EpochInfo: null,
+  EpochInfoIsFetched: false,
+  dataIntervalStarted: false,
+  isStNearMaxSelected: false,
+  action: "stake",
+  contractState: null,
+  contractStateIsFetched: false,
+  accountInfo: null,
+  accountInfoIsFetched: false,
+  feeBP: 30,
+});
+
 const onSubmitDelayedUnstake = () => {
   // manage register stNEAR - should make a call attached
-  if(state.metrics?.st_near_price){
-    const amount = state.isStNearMaxSelected ? state.stNearBalance : state.value
+  if (state.metrics?.st_near_price) {
+    const amount = state.isStNearMaxSelected
+      ? state.stNearBalance
+      : state.value;
     const args = {
-      amount: Big(amount).mul(state.metrics?.st_near_price).mul(Big(10).pow(tokenDecimals)).toFixed(0),
+      amount: Big(amount)
+        .mul(state.metrics?.st_near_price)
+        .mul(Big(10).pow(tokenDecimals))
+        .toFixed(0),
     };
     Near.call(contractId, "unstake", args, GAS, 0);
+  }
+};
+
+const withdrawDelayedUnstake = () => {
+  Near.call(contractId, "withdraw_unstaked", args, GAS, 0);
+};
+
+const getWithdraw = () => {
+  if (state.accountInfo && state.epochInfo) {
+    // if (state.accountInfo.can_withdraw) {
+    //   console.log("setIsUnstakeReady(true)");
+    // } else {
+    console.log("setIsUnstakeReady(false)");
+    // if (state.epochInfo.endOfEpochCached && state.accountInfo) {
+    // const msToEndOfEpoch = Math.max(
+    //   0,
+    //   state.epochInfo.endOfEpochCached.getTime() - new Date().getTime()
+    // );
+    const extraTime =
+      state.accountInfo.unstake_full_epochs_wait_left > 0
+        ? (state.accountInfo.unstake_full_epochs_wait_left - 1) *
+          state.epochInfo.epochDurationMs
+        : 0;
+    // setUnstakeCountdown(
+    //   formatTimeCountdown(Date.now() + msToEndOfEpoch + extraTime + 60*60*1000)
+    // );
+    return `Pending Delayed Unstake - ${Big(state.accountInfo.unstaked).div(
+      Big(10).pow(tokenDecimals)
+    )} NEAR - Available ~${new Date(
+      state.epochInfo.endOfEpochCached.getTime() + extraTime + 60 * 60 * 1000
+    ).toLocaleString()}`;
+    // }
+    // }
   }
 };
 
@@ -188,7 +249,12 @@ return (
             </StakeFormTopContainerLeftContent1>
             <StakeFormTopContainerLeftContent2>
               <span>
-                {state.stNearBalance? (Math.trunc(parseFloat(state.stNearBalance)*100000)/100000).toFixed(5) : ""}
+                {state.stNearBalance
+                  ? (
+                      Math.trunc(parseFloat(state.stNearBalance) * 100000) /
+                      100000
+                    ).toFixed(5)
+                  : ""}
                 stNEAR
               </span>
             </StakeFormTopContainerLeftContent2>
@@ -225,6 +291,47 @@ return (
       )}
     </StakeForm>
     <StakeFormWrapper>
+      {state.accountInfo &&
+        Big(state.accountInfo.unstaked).gt(0) &&
+        !state.accountInfo.can_withdraw && (
+          <p
+            style={{
+              width: "100%",
+              backgroundColor: "rgb(206, 255, 26)",
+              textAlign: "center",
+              fontWeight: "700",
+              padding: "8px 0",
+            }}
+          >
+            {getWithdraw()}
+          </p>
+        )}
+      {state.accountInfo &&
+        Big(state.accountInfo.unstaked).gt(0) &&
+        state.accountInfo.can_withdraw && (
+          <div
+            style={{
+              width: "100%",
+              backgroundColor: "rgb(206, 255, 26)",
+              textAlign: "center",
+              fontWeight: "700",
+              padding: "8px",
+            }}
+          >
+            {`Delayed Unstake available - ${Big(state.accountInfo.unstaked).div(
+              Big(10).pow(tokenDecimals)
+            )} NEAR`}
+            <Widget
+              src={`${authorId}/widget/MetaPoolStake.Common.Button`}
+              props={{
+                disabled: !isSignedIn,
+                onClick: () => withdrawDelayedUnstake(),
+                text: "Withdraw",
+              }}
+            />
+          </div>
+        )}
+
       <Widget
         src={`${authorId}/widget/MetaPoolStake.Common.Input`}
         props={{
