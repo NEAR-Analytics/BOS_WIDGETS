@@ -192,15 +192,16 @@ const handleApprove = () => {
 if (!state.isApproved) {
   return (
     <Button onClick={handleApprove} disabled={state.loading}>
-      {state.loading && (
+      {state.loading ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Approve"
       )}
-      Approve
     </Button>
   );
 }
@@ -273,15 +274,16 @@ return (
       }}
       disabled={state.loading}
     >
-      {state.loading && (
+      {state.loading ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
             size: 16,
           }}
         />
+      ) : (
+        "Confirm"
       )}
-      Confirm
     </Button>
   </>
 );
