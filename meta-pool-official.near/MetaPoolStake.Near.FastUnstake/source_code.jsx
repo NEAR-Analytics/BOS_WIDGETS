@@ -10,7 +10,13 @@ const onSubmitFastUnstake = () => {
   // manage register stNEAR - should make a call attached
   const amount = state.isStNearMaxSelected ? state.stNearBalance : state.value;
   const stNearToBurn = Big(amount).mul(Big(10).pow(tokenDecimals));
-  const minExpectedNear = stNearToBurn.mul(state.metrics.st_near_price);
+  const minExpectedNear =
+    state.contractState && state.feeBP
+      ? (((amount * state.metrics.st_near_price * (10000 - state.feeBP)) /
+          10000) *
+          99) /
+        100
+      : 0;
   const tx = {
     contractName: contractId,
     methodName: "liquid_unstake",
@@ -261,8 +267,14 @@ return (
         src={`${authorId}/widget/MetaPoolStake.Common.YouWillGet`}
         props={{
           value:
-            state.metrics && state.value && parseFloat(state.value) > 0
-              ? (state.value * state.metrics?.st_near_price).toFixed(5)
+            state.metrics &&
+            state.value &&
+            state.feeBP &&
+            parseFloat(state.value) > 0
+              ? (
+                  ((state.value * state.metrics?.st_near_price) / 10000) *
+                  (10000 - state.feeBP)
+                ).toFixed(5)
               : 0,
           iconName: "NEAR",
           token: "stNEAR",
@@ -279,6 +291,17 @@ return (
           text: isSignedIn ? "Unstake" : "Connect wallet",
         }}
       />
+      <p
+        style={{
+          width: "100%",
+          backgroundColor: "rgb(206, 255, 26)",
+          textAlign: "center",
+          fontWeight: "700",
+          padding: "8px 0",
+        }}
+      >
+        Fee is {(state.feeBP / 100).toFixed(2)}%
+      </p>
     </StakeFormWrapper>
     <Widget
       src={`${authorId}/widget/MetaPoolStake.Common.Popup.Index`}
