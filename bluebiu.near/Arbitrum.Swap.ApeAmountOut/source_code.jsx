@@ -165,8 +165,8 @@ useEffect(() => {
   );
 
   const path = [
-    inputCurrency.address === "native" ? wethAddress : inputCurrency.address,
-    outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
+    inputCurrency.isNative ? wethAddress : inputCurrency.address,
+    outputCurrency.isNative ? wethAddress : outputCurrency.address,
   ];
 
   const RouterContract = new ethers.Contract(
