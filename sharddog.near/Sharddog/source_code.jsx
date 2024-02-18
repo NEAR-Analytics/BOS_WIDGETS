@@ -1,4 +1,4 @@
-const limit = 20;
+const limit = 1000;
 
 State.init({
   offset: 0,
@@ -29,6 +29,7 @@ function fetchTokens() {
             {nft_contract_id: {_eq: "nft.bluntdao.near"}},
             {nft_contract_id: {_eq: "meteor.sharddog.near"}},
              {nft_contract_id: {_eq: "open.sharddog.near"}},
+             {nft_contract_id: {_eq: "harvestmoon.sharddog.near"}},
           ]
         }
               order_by: {minted_timestamp: desc}
