@@ -454,7 +454,7 @@ useEffect(() => {
         .minus(assetInUSD.minus(20).mul(0.02))
         .toFixed();
     }
-    console.log(2222222, state.borrowAmount, borrowTokenBal);
+
     if (Big(state.borrowAmount || 0).gt(Big(borrowTokenBal || 0))) return;
     borrowingFee = Big(state.borrowAmount || 0)
       .mul(0.005)
