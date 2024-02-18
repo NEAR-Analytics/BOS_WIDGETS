@@ -49,8 +49,12 @@ const AccordionItemFacet = styled(Facet)`
     }
 `;
 
-const Cube = ({ as: Component, apply: Facet, onClick, onKeyUp, children, ...rest }) => {
-    const Wrapper = Facet || Component || 'div';
+const Cube = ({ as: Component, apply: Facet, extend: CustomFacetCSS, onClick, onKeyUp, children, ...rest }) => {
+    const FinalFacet = styled(Facet)`
+        ${CustomFacetCSS || ''}
+    `;
+    
+    const Wrapper = FinalFacet || Component || 'div';
     
     return (
         <Wrapper as={Component} {...rest} onClick={onClick} onKeyUp={onKeyUp}>
@@ -65,8 +69,12 @@ const Accordion = ({ children, ...props }) => {
     </Cube>;
 }
 
+const MyAccordionExtension = `
+    background-color:red;
+`;
+
 return <>
-<Accordion maxWidth="800px" onClick={() => {
+<Accordion extend={MyAccordionExtension} maxWidth="800px" onClick={() => {
     console.log("Clicked");
 }}>
     {Array.from([1,2,3]).map((data, idx) => <AccordionItemFacet as="li">{idx}</AccordionItemFacet>)}
