@@ -189,6 +189,7 @@ const StyledGasBox = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  display: none;
 `;
 
 const TABS = ["Supply", "Borrow"];
@@ -235,6 +236,7 @@ useEffect(() => {
 
 const onAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
+  if (amount.split(".")[1].length > 18) return;
   const isZero = Big(amount || 0).eq(0);
   if (isZero) {
     State.update({
@@ -501,7 +503,7 @@ return (
             amount: state.amount,
             account,
             onLoad: (_data) => {
-              console.log(_data);
+              console.log("handler_onLoad:", _data);
               State.update({
                 ..._data,
                 loading: false,
