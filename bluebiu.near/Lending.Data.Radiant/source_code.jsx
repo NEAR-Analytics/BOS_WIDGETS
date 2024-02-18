@@ -346,11 +346,13 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
+        console.info("getReserveConfigurationData_res:", res);
         res.forEach((item, i) => {
           const _address = underlyingTokensAddress[i];
           markets[_address].loanToValue = Big(item[1].toString())
             .div(100)
             .toNumber();
+          markets[_address].collateralFactor = item[6];
         });
         count++;
         formatedData("getConfigurationData");
@@ -432,7 +434,9 @@ useEffect(() => {
 
           const netApyBig = Big(depositAPY0).minus(variableBorrowAPYRaw);
           markets[_address].supplyApy = depositAPY + "%";
-          markets[_address].borrowApy = variableBorrowAPY + "%";
+          if (!markets[_address]?.borrowApy) {
+            markets[_address].borrowApy = variableBorrowAPY + "%";
+          }
           markets[_address].totalBorrows = Big(totalDebt).toFixed(4);
           markets[_address].totalSupply = Big(totalDeposit).toFixed(4);
           markets[_address].liquidity = Big(marketSize).toFixed(4);
@@ -460,6 +464,7 @@ useEffect(() => {
       provider: Ethers.provider(),
     })
       .then((res) => {
+        console.info("getUserReserveData_res: ", res);
         res.forEach((item, i) => {
           const _address = underlyingTokensAddress[i];
           const decimals = Big(10).pow(
@@ -714,7 +719,7 @@ useEffect(() => {
     let totalUnclaimed = Big(0);
     let totalDailyRewards = Big(0);
     const _markets = {};
-    console.log("markets", markets);
+    console.log("formatedData_markets", markets);
     Object.values(markets).forEach((market, i) => {
       const underlyingPrice = market.underlyingPrice;
       const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
@@ -740,24 +745,31 @@ useEffect(() => {
         );
       }
 
-      let distributionApy = [];
-      if (rewardToken) {
-        distributionApy = [
-          {
-            ...rewardToken,
-            supply: market.rewardSupplyApy + "%",
-            borrow: market.rewardBorrowApy + "%",
-          },
-        ];
-        totalUnclaimed = totalUnclaimed.plus(market.unclaimed);
-        totalDailyRewards = totalDailyRewards.plus(market.dailyRewards);
-      }
+      if (!market?.distributionApy) {
+        let distributionApy = [];
+        if (rewardToken) {
+          distributionApy = [
+            {
+              ...rewardToken,
+              supply: market.rewardSupplyApy + "%",
+              borrow: market.rewardBorrowApy + "%",
+            },
+          ];
+          totalUnclaimed = totalUnclaimed.plus(market.unclaimed);
+          totalDailyRewards = totalDailyRewards.plus(market.dailyRewards);
+        }
 
-      _markets[market.address] = {
-        ...market,
-        distributionApy,
-        dapp: dappName,
-      };
+        _markets[market.address] = {
+          ...market,
+          distributionApy,
+          dapp: dappName,
+        };
+      } else {
+        _markets[market.address] = {
+          ...market,
+          dapp: dappName,
+        };
+      }
     });
     let rewards = [];
     if (rewardToken) {
