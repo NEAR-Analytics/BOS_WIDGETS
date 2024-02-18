@@ -23,8 +23,9 @@ const RewardIcon = styled.img`
 `;
 const RewardApy = styled.div`
   font-weight: 400;
-  line-height: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  color: #979abe;
+  font-family: Gantari;
 `;
 
 const { apy, distributionApy, key } = props;
@@ -40,7 +41,7 @@ return (
         })
         .map((reward) => (
           <RewardApyItem key={reward.symbol}>
-            <RewardIcon src={reward.icon} />
+            {reward.icon ? <RewardIcon src={reward.icon} /> : null}
             <RewardApy>{reward[key]}</RewardApy>
           </RewardApyItem>
         ))}
