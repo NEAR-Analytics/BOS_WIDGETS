@@ -13,6 +13,7 @@ const {
   callLibs,
   handleEditArticle,
   baseActions,
+  categories,
   switchShowPreview,
 } = props;
 
@@ -25,6 +26,7 @@ data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
+const category = data.category;
 const content = data.body;
 const id = data.id ?? `${data.author}-${data.timeCreate}`;
 const upVotes = data.upVotes;
@@ -98,6 +100,12 @@ function switchShowPreviewExists() {
   return exists;
 }
 
+function getArticleCategoryColor() {
+  const articleCategory = categories.filter((cat) => cat.value === category);
+
+  return articleCategory.color;
+}
+
 //================================================END FUNCTIONS=====================================================
 
 //==============================================STYLED COMPONENTS===================================================
@@ -149,6 +157,21 @@ const HeaderContentText = styled.div`
     padding: 0px;
     cursor: pointer;
   `;
+
+const CategoryContainer = styled.div``;
+
+const CategoryColorIndicator = styled.i`
+  color: ${getArticleCategoryColor()};
+  margin-right: 0.3rem;
+`;
+
+const CategoryText = styled.span`
+    font-style: normal;
+    font-size: 12px;
+    line-height: 120%;
+    margin-bottom: 0;
+`;
+
 const NominationName = styled.p`
     font-weight: 500;
     font-size: 14px;
@@ -193,6 +216,11 @@ const KeyIssuesContent = styled.div`
     width: 100%;
   `;
 const KeyIssuesHeader = styled.div`
+    padding: 0px;
+    gap: 12px;
+  `;
+
+const TagsContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -499,6 +527,12 @@ return (
         >
           {title}
         </KeyIssuesTitle>
+        {category && (
+          <CategoryContainer className="d-flex align-items-center">
+            <CategoryColorIndicator className="bi bi-square-fill"></CategoryColorIndicator>
+            <CategoryText>{category}</CategoryText>
+          </CategoryContainer>
+        )}
       </KeyIssuesHeader>
       <KeyIssuesContent>
         <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
@@ -508,9 +542,9 @@ return (
           {tags.length > 0 && (
             <KeyIssues>
               <KeyIssuesContent>
-                <KeyIssuesHeader>
+                <TagsContainer>
                   <KeyIssuesTitle>Tags</KeyIssuesTitle>
-                </KeyIssuesHeader>
+                </TagsContainer>
                 <div className="d-flex w-100">
                   <TagSection>{renderTags()}</TagSection>
                 </div>
