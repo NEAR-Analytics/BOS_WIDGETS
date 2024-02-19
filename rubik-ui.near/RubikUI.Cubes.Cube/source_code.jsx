@@ -7,6 +7,9 @@ const Cube = ({
   children,
   ...Properties
 }) => {
+  FacetAttributes ??= [];
+  FacetOptions ??= [];
+    
   const hasMediaStyles = Object.keys(Properties).find((key) =>
     key.startsWith("media")
   );
