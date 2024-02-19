@@ -1,0 +1,8 @@
+const user = context.accountId;
+const props = {"schema_version":"0.3.0","address":"donate.potlock.near","cssStyle":".card {  background: linear-gradient(to bottom right, #ff8080, #00bfff); /* Gradient background */  padding: 40px;    width: 100%;    height: 100%;  color: #ffffff; /* Text color */}.card-header {  text-align: center;  font-family: sans-serif; /* Sans-serif font */  font-weight: bold;  font-size: 30px;}.card-header button {  /* Button styles */  background-color: #fffff; /* Complementary color to the background */  color: #ffffff; /* Text color */  border: none;  padding: 10px 20px;  font-size: 20px;  cursor: pointer;  transition: background-color 0.3s ease;}.card-header button:hover {  background-color: #0080ff; /* Button hover effect */}.card input {  /* Input styles */  background-color: #ffffff; /* Complementary color to the background */  color: #000000; /* Text color */  border: 1px solid #dddddd;  padding: 10px;  font-size: 16px;}.card label {  /* Label styles */  font-size: 30px;  color: #ffffff; /* Text color */}))","metadata":{"name":"","version":"0.1.0","authors":[""]},"body":{"functions":[{"name":"get_donations_for_recipient","kind":"view","label":"View Potlock Donation For Recipent","button":"View","className":"","classButton":"btn-primary fs-2","labelDeposit":"","export":true,"params":{"serialization_type":"json","args":[{"name":"Recipient ID","type_schema":{"type":"$ref"},"value":"magicbuild.near"}]},"deposit":0,"gas":30000000000000,"depositUnit":"near","selfInputDeposit":false,"gasUnit":"yoctoNEAR"}]}} 
+
+return (
+  <>
+    <Widget src={'magicbuild.near/widget/widget'} props={props} />
+  </>
+);
