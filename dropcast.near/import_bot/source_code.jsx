@@ -63,6 +63,7 @@ State.init({
   discord: false,
   submitted: false,
   error: "",
+  selected_roles: {},
 });
 
 const handleImportBot = () => {
@@ -97,8 +98,13 @@ const handleSubmit = () => {
   });
 };
 
-const onChange = (value) => {
-  console.log(value, "==.value");
+const onChange = (value, key) => {
+  console.log(value, "==.value", key);
+  State.update({
+    selected_roles: {
+      [key]: value,
+    },
+  });
 };
 
 return (
@@ -127,14 +133,19 @@ return (
           {`Please choose allowlist roles (if any). You can update these at anytime `}
         </p>
         <div>
-          <Widget
-            props={{
-              value: "test1",
-              label: "test1",
-              onChange,
-            }}
-            src={`frichard5.near/widget/NDC-checkbox`}
-          />
+          {state.roles.map((role) => (
+            <Widget
+              key={role.id}
+              props={{
+                value: role.id,
+                label: role.name,
+                onChange: (value) => {
+                  onChange(value, role.id);
+                },
+              }}
+              src={`frichard5.near/widget/NDC-checkbox`}
+            />
+          ))}
         </div>
         <StepButton className="btn" onClick={handleSubmit}>
           Submit
