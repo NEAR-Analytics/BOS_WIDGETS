@@ -22,20 +22,20 @@ const L2_L1_MESSAGE_PASSER_ADDR = `"0x58cc85b8d04ea49cc6dbd3cbffd00b4b8d6cb3ef"`
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 const WITHDRAW_INIT_GAS_LIMIT = 150000;
-const OP_SEPOLIA_CHAIN_ID = 11155420;
-const SEPOLIA_CHAIN_ID = 11155111;
+const FRAX_HOLESKY_CHAIN_ID = 2522;
+const HOLESKY_CHAIN_ID = 17000;
 const ETH_CHAIN_ID = 1;
-const OP_CHAIN_ID = 10;
+const FRAX_CHAIN_ID = 252;
 const VALID_CHAIN_ID = [
   ETH_CHAIN_ID,
-  OP_CHAIN_ID,
-  SEPOLIA_CHAIN_ID,
-  OP_SEPOLIA_CHAIN_ID,
+  FRAX_CHAIN_ID,
+  HOLESKY_CHAIN_ID,
+  FRAX_HOLESKY_CHAIN_ID,
 ];
 const depositDisabledMsg =
-  "For deposits, please switch to Ethereum mainnet or Sepolia testnet.";
+  "For deposits, please switch to Ethereum mainnet or Holesky testnet.";
 const withdrawDisabledMsg =
-  "For withdrawals, please switch to OP mainnet or OP Sepolia testnet.";
+  "For withdrawals, please switch to OP mainnet or OP Holesky testnet.";
 const abiCoder = new ethers.utils.AbiCoder();
 const tokens = {
   eth: {
@@ -114,23 +114,23 @@ if (!state.chainId) {
     .then(({ chainId }) => {
       let network = "incorrect",
         log;
-      if (chainId === SEPOLIA_CHAIN_ID || chainId === OP_SEPOLIA_CHAIN_ID) {
+      if (chainId === HOLESKY_CHAIN_ID || chainId === FRAX_HOLESKY_CHAIN_ID) {
         network = "testnet";
       }
-      if (chainId === ETH_CHAIN_ID || chainId === OP_CHAIN_ID) {
+      if (chainId === ETH_CHAIN_ID || chainId === FRAX_CHAIN_ID) {
         network = "mainnet";
       }
-      if (chainId === OP_SEPOLIA_CHAIN_ID || chainId === OP_CHAIN_ID) {
+      if (chainId === FRAX_HOLESKY_CHAIN_ID || chainId === FRAX_CHAIN_ID) {
         log = depositDisabledMsg;
       }
       console.log("chainId", chainId, network);
 
       const L1ExplorerLink = `https://${
-        network === "testnet" ? "sepolia." : ""
+        network === "testnet" ? "holesky." : ""
       }etherscan.io/tx/`;
-      const L2ExplorerLink = `https://${
-        network === "testnet" ? "sepolia-optimism." : "optimistic"
-      }etherscan.io/tx/`;
+      const L2ExplorerLink = `https://explorer.${
+        network === "testnet" ? "testnet." : ""
+      }frax.com/tx/`;
 
       State.update({ chainId, network, log, L1ExplorerLink, L2ExplorerLink });
     })
@@ -148,7 +148,7 @@ if (!network) {
 if (!VALID_CHAIN_ID.includes(chainId)) {
   return (
     <p>
-      Please switch to Ethereum or Optimism mainnet; or Sepolia or OP Sepolia
+      Please switch to Ethereum or Optimism mainnet; or Holesky or OP Holesky
     </p>
   );
 }
@@ -194,11 +194,11 @@ const contracts = {
     },
   },
   testnet: {
-    L1StandardBridgeProxy: `0xFBb0621E0B23b5478B630BD55a5f21f67730B0F1`,
-    L2OutputOracleProxy: `0x90E9c4f8a994a250F6aEfd61CAFb4F2e895D458F`,
-    L1OptimismPortalProxy: `0x16Fc5058F25648194471939df75CF27A2fdC48BC`,
+    L1StandardBridgeProxy: `0x0BaafC217162f64930909aD9f2B27125121d6332`,
+    L2OutputOracleProxy: `0x715EA64DA13F4d0831ece4Ad3E8c1aa013167F32`,
+    L1OptimismPortalProxy: `0xB9c64BfA498d5b9a8398Ed6f46eb76d90dE5505d`,
     eth: {
-      deposit: "0x1908e2BF4a88F91E4eF0DC72f02b8Ea36BEa2319",
+      deposit: "0x0BaafC217162f64930909aD9f2B27125121d6332",
       withdraw: "0x000000000000000000000000000000000000800A",
       decimals: 18,
     },
@@ -225,19 +225,19 @@ if (network === "mainnet") {
 } else {
   Object.assign(contracts.testnet, {
     l1Provider: new ethers.providers.JsonRpcProvider(
-      `https://ethereum-sepolia.publicnode.com`
+      `https://ethereum-holesky.publicnode.com`
     ),
     l1ProviderFilter: new ethers.providers.JsonRpcProvider(
-      `https://sepolia.gateway.tenderly.co`
+      `https://holesky.gateway.tenderly.co`
     ),
     l2Provider: new ethers.providers.JsonRpcProvider(
-      `https://sepolia.optimism.io`
+      `https://rpc.testnet.frax.com`
     ),
     l2ProviderFilter: new ethers.providers.JsonRpcProvider(
-      `https://optimism-sepolia.gateway.tenderly.co`
+      `https://rpc.testnet.frax.com`
     ),
     l2ProviderRange: new ethers.providers.JsonRpcProvider(
-      `https://optimism-sepolia.blockpi.network/v1/rpc/public`
+      `https://rpc.testnet.frax.com`
     ),
   });
 }
@@ -739,10 +739,10 @@ const onTabChange = (tab) => {
 
   const depositDisabled =
     tab === "deposit" &&
-    (chainId === OP_CHAIN_ID || chainId === OP_SEPOLIA_CHAIN_ID);
+    (chainId === FRAX_CHAIN_ID || chainId === FRAX_HOLESKY_CHAIN_ID);
   const withdrawDisabled =
     tab === "withdraw" &&
-    (chainId === ETH_CHAIN_ID || chainId === SEPOLIA_CHAIN_ID);
+    (chainId === ETH_CHAIN_ID || chainId === HOLESKY_CHAIN_ID);
 
   if (depositDisabled) {
     log = depositDisabledMsg;
