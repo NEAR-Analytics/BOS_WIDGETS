@@ -5,6 +5,7 @@ const CLIENT_ID = "1206878767633534976";
 const API_URL = props.API_URL || "http://localhost:3000";
 const data = props.data || {};
 const onClose = props.onClose || (() => {});
+const changePage = props.changePage || ((page) => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -218,7 +219,9 @@ return (
           <p>
             {`You can manage your project information and use admin functions from the Manager tab.`}
           </p>
-          <StepButton className="btn">Goto Dashboard</StepButton>
+          <StepButton className="btn" onClick={() => changePage("dashboard")}>
+            Goto Dashboard
+          </StepButton>
         </>
       )}
     </Card>
