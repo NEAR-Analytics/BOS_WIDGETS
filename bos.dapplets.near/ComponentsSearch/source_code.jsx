@@ -156,7 +156,7 @@ return (
           return (
             <Item key={app.id}>
               <Widget
-                src="lisofffa.near/widget/SearchCard"
+                src="bos.dapplets.near/widget/SearchCard"
                 props={{
                   src: app.id,
                   metadata: app.metadata,
