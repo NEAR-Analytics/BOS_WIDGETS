@@ -82,6 +82,12 @@ State.init({
   selected_roles: {},
 });
 
+const convertObject = (params) => {
+  return Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+};
+
 const handleImportBot = () => {
   let promise = asyncFetch(
     `${API_URL}/api/project/roles?guild_id=${data.guild_id}`,
@@ -115,7 +121,7 @@ const handleSubmit = () => {
       "x-auth-token": TOKEN,
     },
     method: "POST",
-    body: { ...data, selected_roles },
+    body: convertObject({ ...data, selected_roles }),
   });
 
   promise.then((data) => {
