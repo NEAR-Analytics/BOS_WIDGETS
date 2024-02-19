@@ -2,6 +2,7 @@ const accountId = context.accountId;
 const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
 const TOKEN = props.TOKEN || "";
+const changePage = props.changePage || ((page) => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -241,6 +242,7 @@ return (
           API_URL,
           TOKEN,
           onClose,
+          changePage,
           data: {
             guild_id: state.selected,
             description: state.description,
