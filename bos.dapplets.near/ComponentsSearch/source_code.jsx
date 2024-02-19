@@ -58,7 +58,6 @@ if (data) {
 
   result.sort((a, b) => b.blockHeight - a.blockHeight);
   components = result;
-  //   .slice(0, state.currentPage * limitPerPage + limitPerPage);
 }
 
 function onSearchChange({ result, term }) {
