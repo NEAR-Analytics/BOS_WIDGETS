@@ -74,32 +74,6 @@ const Label = styled.label`
 const Input = styled.input`
   `;
 
-const ModalOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-`;
-
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
-  min-width: 500px;
-  height: 100%;
-  overflow: scroll;
-`;
-
-const ModalTitle = styled.h3`
-  margin-bottom: 10px;
-`;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -116,13 +90,10 @@ const CenteredDiv = styled.div`
 State.init({
   data,
   config: data,
-  isModalOpen: false,
   typeSrc,
   selectedType: type,
   view: defaultView,
   preview: "TEMPLATE",
-  template,
-  templateVal: template,
   thingId: generateUID(),
 });
 
@@ -134,10 +105,9 @@ useEffect(() => {
   // Logic that was previously in handleApply
   State.update({
     config: state.data,
-    template: state.templateVal,
   });
   // Additional logic if needed
-}, [state.data, state.templateVal]); // Dependencies
+}, [state.data]); // Dependencies
 
 const [formValues, setFormValues] = useState({
   recipientId: props.recipientId || "",
@@ -206,7 +176,7 @@ if (types !== null) {
 }
 
 const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value, templateVal: "", data: {} });
+  State.update({ selectedType: e.target.value, data: {} });
 };
 
 return (
@@ -331,13 +301,7 @@ return (
             </Row>
           </FormContainer>
           <Footer>
-            <Button onClick={() => handleApply()}>apply</Button>
-            <Button
-              onClick={() => State.update({ isModalOpen: true })}
-              disabled={state.config === undefined}
-            >
-              save
-            </Button>
+            <Button onClick={handleSave}>Save</Button>
           </Footer>
         </>
       ) : (
