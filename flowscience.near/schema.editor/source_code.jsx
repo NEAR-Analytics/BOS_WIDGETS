@@ -6,8 +6,7 @@ const [resolverPath, setResolverPath] = useState(
   "flowscience.near/widget/attester.resolver"
 );
 const [resolverData, setResolverData] = Social.get(resolverPath.accountIds) || [
-  "james.near",
-  "build.near",
+  "hyperfiles.near",
 ];
 const [revocable, setRevocable] = useState(true);
 
@@ -17,6 +16,7 @@ let type = {
   widgets: {},
 };
 
+//define the schema type, not currently being used
 let schemaType = {
   UID: "",
   resolver: {
@@ -36,13 +36,12 @@ State.init({
   widgets: type.widgets || {},
   newPropertyName: "",
   newPropertyType: "string",
-  newWidgetKey: "",
-  newWidgetSrc: "",
   newTypeSrc: "",
   typeSrc: typeSrc,
   schemaSrc: schemaSrc,
   expanded: false,
   selectedSchema: selectedSchema,
+  schemaData: schema.properties || [],
   revocable: revocable,
   schemaUID: state.selectedSchema.UID,
 });
@@ -121,15 +120,15 @@ if (prop.typeSrc !== "" && state.typeName === "") {
 }
 
 const loadSchema = () => {
+  State.update({ selectedSchema: newSchema });
   const parts = state.newSchema.split("/");
   schema = JSON.parse(Social.get(state.newSchema, blockHeight) || null);
   if (schema) {
     schema.name = parts[2];
     State.update({
-      schemaUID: schema.UID,
-      properties: schema.properties,
-      resolver: schema.resolver,
-      revocable: schema.revocable,
+      schemaName: schema.name,
+      schemaData: schema.properties,
+      widgets: type.widgets,
     });
   }
 };
@@ -190,7 +189,7 @@ const handleSchemaNameChange = (e) => {
 
 const schemaData = () => {
   const data = {
-    schemas: {
+    schema: {
       [state.selectedSchema]: JSON.stringify({
         schemaUID: generateUID(),
         properties: state.properties,
