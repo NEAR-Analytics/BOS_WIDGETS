@@ -46,10 +46,9 @@ return (
       onError={handleImageNotFound}
     />
     <div className="text-center px-2 py-3">
-      <h5>AOI NFT</h5>
+      <h5>{project.name}</h5>
       <p className="m-0" style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
-        666 AOI NFT collections will stored on NEAR Blockchain, powered by
-        utilities to amplify your thrill.
+        {project.description}
       </p>
     </div>
     {type === "other" && (
@@ -65,15 +64,15 @@ return (
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint date</Label>
-            <Value>TBD</Value>
+            <Value>{`${project.mint_date || "TBD"}`}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint price</Label>
-            <Value>TBD</Value>
+            <Value>{`${project.mint_price}TBD`}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Supply</Label>
-            <Value>2610</Value>
+            <Value>{`${project.supply || "TBD"}`}</Value>
           </div>
         </div>
       </>
@@ -83,7 +82,8 @@ return (
     <div className="d-flex justify-content-center gap-5 mt-3 mb-1">
       <a
         className="btn p-1"
-        href="https://twitter.com/TheCrocsNEAR?t=qpKuY4QpHuXUVY2w-OH4Xw&amp;s=09"
+        href={project.twitter}
+        disabled={!!project.twitter}
         target="_blank"
       >
         <svg
@@ -94,7 +94,12 @@ return (
           <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
         </svg>
       </a>
-      <a className="btn p-1" href="https://discord.gg/Zkn3hjRK" target="_blank">
+      <a
+        className="btn p-1"
+        href={project.discord}
+        disabled={!!project.discord}
+        target="_blank"
+      >
         <svg
           className="fill-white"
           width="24"
