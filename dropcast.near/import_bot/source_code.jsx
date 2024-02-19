@@ -1,8 +1,9 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-const API_URL = props.API_URL || "http://localhost:3000";
-const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
+const CLIENT_ID = "1206878767633534976";
+const API_URL = props.API_URL || "http://localhost:3000";
+const guild_id = props.guild_id || "";
 
 //Styles
 const Wrapper = styled.div`
@@ -50,6 +51,13 @@ const StepButton = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
 `;
 
+const StepButtonLink = styled.a`
+    color: #FFF;
+    padding: 12px 40px;
+    border-radius: 6px;
+    background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
+`;
+
 State.init({
   discord: false,
   submitted: false,
@@ -80,9 +88,14 @@ return (
           {`Please Import bot into discord and place it above all the Allowlist
         roles in Settings -> Roles`}
         </p>
-        <StepButton className="btn" onClick={handleImportBot}>
+        <StepButtonLink
+          href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${guild_id}&disable_guild_select=true`}
+          target="_blank"
+          className="btn"
+          onClick={handleImportBot}
+        >
           Import Bot Into Discord
-        </StepButton>
+        </StepButtonLink>
       </Card>
     )}
     {state.discord && !state.submitted && (
