@@ -1,9 +1,28 @@
 const { page, tab, ...passProps } = props;
 
-const { routes } = props.routes ??
-  VM.require("hack.near/widget/app.config") ?? {
-    routes: {},
-  };
+const routes = props.routes ?? {
+  main: {
+    path: "hack.near/widget/page.index",
+    blockHeight: "final",
+    init: {
+      name: "View",
+    },
+  },
+  build: {
+    path: "hack.near/widget/page.build",
+    blockHeight: "final",
+    init: {
+      name: "Build",
+    },
+  },
+  social: {
+    path: "hack.near/widget/page.feed",
+    blockHeight: "final",
+    init: {
+      name: "Learn",
+    },
+  },
+};
 
 const { MainLayout } = VM.require("apps.near/widget/template.main") || {
   MainLayout: () => <></>,
