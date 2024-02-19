@@ -123,7 +123,7 @@ const handleSubmit = () => {
     method: "POST",
     body: convertObject({
       ...data,
-      selected_roles: convertObject(state.selected_roles),
+      selected_roles: JSON.stringify(state.selected_roles),
     }),
   });
 
