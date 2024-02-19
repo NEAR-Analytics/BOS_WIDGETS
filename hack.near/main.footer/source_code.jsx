@@ -134,7 +134,7 @@ const Footer = () => {
           {NearSocialIcon}
         </a>
       </LinksContainer>
-      <Widget src="hack.near/widget/dev.Badge" />
+      <Widget src="hack.near/widget/dev.badge" />
     </Container>
   );
 };
