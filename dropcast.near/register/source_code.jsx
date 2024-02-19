@@ -245,6 +245,7 @@ return (
           changePage,
           data: {
             guild_id: state.selected,
+            name: state.projects.find((e) => e.value === state.selected)?.text,
             icon: state.projects.find((e) => e.value === state.selected)?.icon,
             description: state.description,
             mint_price: state.mint_price,
