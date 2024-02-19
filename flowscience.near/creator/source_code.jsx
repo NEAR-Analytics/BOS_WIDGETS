@@ -130,13 +130,14 @@ const handleOnChange = (value) => {
   State.update({ data: { ...state.data, ...value } });
 };
 
-const handleApply = () => {
+useEffect(() => {
+  // Logic that was previously in handleApply
   State.update({
     config: state.data,
     template: state.templateVal,
   });
-  // set the props for the main content
-};
+  // Additional logic if needed
+}, [state.data, state.templateVal]); // Dependencies
 
 const [formValues, setFormValues] = useState({
   recipientId: props.recipientId || "",
@@ -306,24 +307,28 @@ return (
                 placeholder=""
               />
             </Row>
-            <Label>
-              <b>refUID: </b>
-            </Label>
-            <Input
-              type="text"
-              value={formValues.refUID}
-              onChange={(e) => handleInputChange("refUID", e.target.value)}
-              placeholder="attestations.near/thing/0123456789123456"
-            />
-            <Label>
-              <b>Data Payload: </b>
-            </Label>
-            <Input
-              type="text"
-              value={formValues.payload}
-              onChange={(e) => handleInputChange("payload", e.target.value)}
-              placeholder="# This is markdown text."
-            />
+            <Row>
+              <Label>
+                <b>refUID: </b>
+              </Label>
+              <Input
+                type="text"
+                value={formValues.refUID}
+                onChange={(e) => handleInputChange("refUID", e.target.value)}
+                placeholder="attestations.near/thing/0123456789123456"
+              />
+            </Row>
+            <Row>
+              <Label>
+                <b>Data Payload: </b>
+              </Label>
+              <Input
+                type="text"
+                value={formValues.payload}
+                onChange={(e) => handleInputChange("payload", e.target.value)}
+                placeholder="# This is markdown text."
+              />
+            </Row>
           </FormContainer>
           <Footer>
             <Button onClick={() => handleApply()}>apply</Button>
@@ -342,90 +347,5 @@ return (
         />
       )}
     </SidePanel>
-    <MainContent>
-      {state.view === "CREATE_ATTESTATION" ? (
-        <>
-          <Header>
-            <Row style={{ justifyContent: "space-between" }}>
-              <div>
-                <Label>Template:</Label>
-                <Input
-                  value={state.templateVal}
-                  onChange={(e) =>
-                    State.update({ templateVal: e.target.value })
-                  }
-                />
-              </div>
-              <Select
-                value={state.preview}
-                onChange={(e) => State.update({ preview: e.target.value })}
-              >
-                <option value="TEMPLATE">template</option>
-                <option value="RAW">raw</option>
-              </Select>
-              <Button>
-                <a
-                  className={`btn`}
-                  href={`https://nearpad.dev/editor/${state.template}`}
-                  target="_blank"
-                >
-                  <i className=" me-1">
-                    <svg
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="2 2 18 18"
-                      width="16px"
-                      height="16px"
-                    >
-                      <path d="M12.16 3h-.32L9.21 8.25h5.58zm4.3 5.25h5.16l-2.07-4.14C19.21 3.43 18.52 3 17.76 3h-3.93l2.63 5.25zm4.92 1.5h-8.63V20.1zM11.25 20.1V9.75H2.62zM7.54 8.25 10.16 3H6.24c-.76 0-1.45.43-1.79 1.11L2.38 8.25h5.16z"></path>
-                    </svg>
-                  </i>
-                  <span>Open NEARpad</span>
-                </a>
-              </Button>
-            </Row>
-          </Header>
-          {state.preview === "TEMPLATE" ? (
-            <>
-              {(state.template && (
-                <Widget src={state.template} props={{ data: state.config }} />
-              )) || <CenteredDiv>set a template and click apply</CenteredDiv>}
-            </>
-          ) : (
-            <Widget
-              src="efiz.near/widget/Every.Raw.View"
-              props={{ value: state.config || {} }}
-            />
-          )}
-        </>
-      ) : (
-        <></>
-      )}
-    </MainContent>
-    {state.isModalOpen && (
-      <ModalOverlay>
-        <ModalContent>
-          <ModalTitle>create thing</ModalTitle>
-          <p>option to provide a thing id</p>
-          <Row style={{ gap: "8px" }}>
-            <Input
-              value={state.thingId}
-              onChange={(e) => State.update({ thingId: e.target.value })}
-              placeholder="thing id"
-            />
-          </Row>
-          <Widget
-            src="efiz.near/widget/Every.Raw.View"
-            props={{
-              value: { data: state.config, template: { src: state.template } },
-            }}
-          />
-          <Button onClick={handleSave}>Save</Button>
-          <Button onClick={() => State.update({ isModalOpen: false })}>
-            Cancel
-          </Button>
-        </ModalContent>
-      </ModalOverlay>
-    )}
   </Container>
 );
