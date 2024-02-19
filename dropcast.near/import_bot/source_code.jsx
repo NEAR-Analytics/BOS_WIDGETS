@@ -121,7 +121,7 @@ const handleSubmit = () => {
       "x-auth-token": TOKEN,
     },
     method: "POST",
-    body: convertObject({ ...data, selected_roles }),
+    body: convertObject({ ...data, selected_roles: state.selected_roles }),
   });
 
   promise.then((data) => {
