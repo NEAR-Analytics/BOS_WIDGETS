@@ -165,56 +165,62 @@ return (
                       active: `https://near.org/abnakore.near/widget/ManageParties?vote=${voteToRender.id}`,
                     }}
                   />
-                  <div className="body-contents">
-                    <h1>Manage Parties</h1>
-                    <Widget
-                      src="abnakore.near/widget/Table"
-                      props={{
-                        headings: ["S/N", "Party Name", "Acronym"],
-                        data: Object.values(
-                          voteToRender.parties.map((c, i) =>
-                            [i + 1].concat(Object.values(c))
-                          )
-                        ),
-                      }}
-                    />
-                    <div className="form">
-                      <secText>Add Party</secText>
-                      <div className="flex">
-                        <Widget
-                          src="abnakore.near/widget/Input.jsx"
-                          props={{
-                            type: "text",
-                            placeholder: "Party Name",
-                            required: true,
-                            item: "name",
-                            items: newParty,
-                            setItem: setNewParty,
-                            otherAttributes: {
-                              value: newParty.name,
-                            },
-                          }}
-                        />
-                        <Widget
-                          src="abnakore.near/widget/Input.jsx"
-                          props={{
-                            type: "text",
-                            placeholder: "Acronym",
-                            required: true,
-                            item: "acronym",
-                            items: newParty,
-                            setItem: setNewParty,
-                            otherAttributes: {
-                              value: newParty.acronym,
-                            },
-                          }}
-                        />
+                  {voteToRender.creator === accountId ? (
+                    <div className="body-contents">
+                      <h1>Manage Parties</h1>
+                      <Widget
+                        src="abnakore.near/widget/Table"
+                        props={{
+                          headings: ["S/N", "Party Name", "Acronym"],
+                          data: Object.values(
+                            voteToRender.parties.map((c, i) =>
+                              [i + 1].concat(Object.values(c))
+                            )
+                          ),
+                        }}
+                      />
+                      <div className="form">
+                        <secText>Add Party</secText>
+                        <div className="flex">
+                          <Widget
+                            src="abnakore.near/widget/Input.jsx"
+                            props={{
+                              type: "text",
+                              placeholder: "Party Name",
+                              required: true,
+                              item: "name",
+                              items: newParty,
+                              setItem: setNewParty,
+                              otherAttributes: {
+                                value: newParty.name,
+                              },
+                            }}
+                          />
+                          <Widget
+                            src="abnakore.near/widget/Input.jsx"
+                            props={{
+                              type: "text",
+                              placeholder: "Acronym",
+                              required: true,
+                              item: "acronym",
+                              items: newParty,
+                              setItem: setNewParty,
+                              otherAttributes: {
+                                value: newParty.acronym,
+                              },
+                            }}
+                          />
+                        </div>
+                        <button onClick={save} onCommit={refresh()}>
+                          Add
+                        </button>
                       </div>
-                      <button onClick={save} onCommit={refresh()}>
-                        Add
-                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="body-contents">
+                      <h1>Can not access this page</h1>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="body-contents">
