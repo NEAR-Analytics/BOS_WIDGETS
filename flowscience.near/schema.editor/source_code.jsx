@@ -1,5 +1,5 @@
 const typeSrc = props.typeSrc || "every.near";
-const schemaSrc = props.schemaSrc ?? "attestations.near";
+const schemaSrc = context.accountId ?? props.schemaSrc ?? "attestations.near";
 const blockHeight = props.blockHeight || "final";
 const selectedSchema = props.selectedSchema;
 const [resolverPath, setResolverPath] = useState(
@@ -39,6 +39,7 @@ State.init({
   newWidgetSrc: "",
   newTypeSrc: "",
   typeSrc: typeSrc,
+  schemaSrc: schemaSrc,
   expanded: false,
   selectedSchema: selectedSchema,
   schemaUID: state.selectedSchema.UID,
@@ -179,35 +180,6 @@ const handleMultiChange = (e, index) => {
 
 const handleTypeNameChange = (e) => {
   State.update({ typeName: e.target.value.toLowerCase() });
-};
-
-const handleWidgetKeyChange = (e) => {
-  State.update({ newWidgetKey: e.target.value.toLowerCase() });
-};
-
-const handleWidgetSrcChange = (e) => {
-  State.update({ newWidgetSrc: e.target.value });
-};
-
-const handleAddWidget = () => {
-  if (state.newWidgetKey.trim() === "" || state.newWidgetSrc.trim() === "")
-    return;
-
-  const newWidget = {
-    [state.newWidgetKey]: state.newWidgetSrc,
-  };
-
-  State.update({
-    widgets: { ...state.widgets, ...newWidget },
-    newWidgetKey: "",
-    newWidgetSrc: "",
-  });
-};
-
-const handleRemoveWidget = (key) => {
-  const updatedWidgets = { ...state.widgets };
-  delete updatedWidgets[key];
-  State.update({ widgets: updatedWidgets });
 };
 
 const schemaData = () => {
