@@ -45,20 +45,75 @@ const Card = styled.div`
 
 const StepButton = styled.button`
     color: #FFF;
-    padding: 12px 20px;
+    padding: 12px 40px;
     border-radius: 6px;
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
 `;
 
+State.init({
+  discord: false,
+  submitted: false,
+});
+
+const handleImportBot = () => {
+  State.update({
+    discord: true,
+  });
+};
+
+const handleSubmit = () => {
+  State.update({
+    submitted: true,
+  });
+};
+
+const onChange = (value) => {
+  console.log(value, "==.value");
+};
+
 return (
   <Wrapper>
-    <Card>
-      <h4>Import Discrod BOT</h4>
-      <p>
-        {`Please Import bot into discord and place it above all the Allowlist
+    {!state.discord && (
+      <Card>
+        <h4>Import Discrod BOT</h4>
+        <p>
+          {`Please Import bot into discord and place it above all the Allowlist
         roles in Settings -> Roles`}
-      </p>
-      <StepButton className="btn">Import Bot Into Discord</StepButton>
-    </Card>
+        </p>
+        <StepButton className="btn" onClick={handleImportBot}>
+          Import Bot Into Discord
+        </StepButton>
+      </Card>
+    )}
+    {state.discord && !state.submitted && (
+      <Card>
+        <h4>{`Choose Allowlist Role(s)`}</h4>
+        <p>
+          {`Please choose allowlist roles (if any). You can update these at anytime `}
+        </p>
+        <div>
+          <Widget
+            props={{
+              value: "test1",
+              label: "test1",
+              onChange,
+            }}
+            src={`frichard5.near/widget/NDC-checkbox`}
+          />
+        </div>
+        <StepButton className="btn" onClick={handleSubmit}>
+          Submit
+        </StepButton>
+      </Card>
+    )}
+    {state.submitted && (
+      <Card>
+        <h4>{`Listed Successfully`}</h4>
+        <p>
+          {`You can manage your project information and use admin functions from the Manager tab.`}
+        </p>
+        <StepButton className="btn">Goto Dashboard</StepButton>
+      </Card>
+    )}
   </Wrapper>
 );
