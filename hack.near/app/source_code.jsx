@@ -5,30 +5,30 @@ const routes = props.routes ?? {
     path: "hack.near/widget/page.index",
     blockHeight: "final",
     init: {
-      name: "View",
+      name: "Home",
     },
   },
-  build: {
-    path: "hack.near/widget/page.build",
+  docs: {
+    path: "hack.near/widget/page.docs",
     blockHeight: "final",
     init: {
-      name: "Build",
+      name: "Docs",
     },
   },
   social: {
     path: "hack.near/widget/page.feed",
     blockHeight: "final",
     init: {
-      name: "Learn",
+      name: "Activity",
     },
   },
 };
 
-const { MainLayout } = VM.require("apps.near/widget/template.main") || {
-  MainLayout: () => <></>,
+const { AppLayout } = VM.require("hack.near/widget/template.main") || {
+  AppLayout: () => <></>,
 };
 
-if (!page) page = Object.keys(routes)[0] || "root";
+if (!page) page = Object.keys(routes)[0] || "main";
 
 function Router({ active, routes }) {
   const routeParts = active.split(".");
@@ -55,7 +55,7 @@ function Router({ active, routes }) {
       <Widget
         src={src}
         props={{
-          currentPath: `/apps.near/widget/project?page=${page}`,
+          currentPath: `/hack.near/widget/app?page=${page}`,
           page: tab,
           ...passProps,
           ...defaultProps,
@@ -77,10 +77,10 @@ const Content = styled.div`
 
 return (
   <Container>
-    <MainLayout page={page} routes={routes} {...props}>
+    <AppLayout page={page} routes={routes} {...props}>
       <Content>
         <Router active={page} routes={routes} />
       </Content>
-    </MainLayout>
+    </AppLayout>
   </Container>
 );
