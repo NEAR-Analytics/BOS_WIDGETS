@@ -134,9 +134,9 @@ if (!state.chainId) {
       const L1ExplorerLink = `https://${
         network === "testnet" ? "holesky." : ""
       }etherscan.io/tx/`;
-      const L2ExplorerLink = `https://explorer.${
-        network === "testnet" ? "testnet." : ""
-      }frax.com/tx/`;
+      const L2ExplorerLink = `https://${
+        network === "testnet" ? "holesky." : ""
+      }fraxscan.com/tx/`;
 
       State.update({ chainId, network, log, L1ExplorerLink, L2ExplorerLink });
     })
