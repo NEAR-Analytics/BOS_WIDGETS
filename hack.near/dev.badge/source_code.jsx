@@ -28,7 +28,7 @@ return (
         props={{
           className: "image",
           image: {
-            ipfs_cid: "QmXY7q9LeDDb6RuXTL7f1idv3ydjGcLqeHizFGjozbwxC9",
+            url: "https://builders.mypinata.cloud/ipfs/QmXY7q9LeDDb6RuXTL7f1idv3ydjGcLqeHizFGjozbwxC9",
           },
           alt: "Built on NEAR",
         }}
