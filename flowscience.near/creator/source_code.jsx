@@ -189,13 +189,13 @@ return (
           onChange={(e) => State.update({ view: e.target.value })}
         >
           <option value="CREATE_ATTESTATION">attestation</option>
-          <option value="CREATE_TYPE">type</option>
+          <option value="CREATE_TYPE">schema</option>
         </Select>
       </Row>
       {state.view === "CREATE_ATTESTATION" ? (
         <>
           <FormContainer>
-            <Label>Type Source:</Label>
+            <Label>Schema Owner:</Label>
             <Row>
               <Input
                 type="text"
@@ -209,7 +209,7 @@ return (
                 apply
               </Button>
             </Row>
-            <Label>Type</Label>
+            <Label>Schema</Label>
             <Row>
               <Select value={state.selectedType} onChange={handleTypeChange}>
                 <option value="">Select a type</option>
