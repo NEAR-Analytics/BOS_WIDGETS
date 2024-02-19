@@ -64,11 +64,11 @@ return (
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint date</Label>
-            <Value>{`${project.mint_date || "TBD"}`}</Value>
+            <Value>{`${"TBD"}`}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint price</Label>
-            <Value>{`${project.mint_price}TBD`}</Value>
+            <Value>{`${project.mint_price || "TBD"}`}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Supply</Label>
