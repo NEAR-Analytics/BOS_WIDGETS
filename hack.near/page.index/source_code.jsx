@@ -49,6 +49,6 @@ return (
         </Button>
       </Content>
     </HeaderContainer>
-    <Widget src="hack.near/widget/main.footer" />
+    <Widget src="hack.near/widget/src.footer" />
   </>
 );
