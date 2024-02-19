@@ -94,14 +94,14 @@ const ButtonLink = styled.button`
   cursor: pointer;
   text-decoration: none;
   outline: none;
-  border:none;
- background: #fff;
+  border: none;
+  background: #fff;
   &:hover,
   &:focus {
     text-decoration: none;
     outline: none;
-    border:none;
-   background: #fff;
+    border: none;
+    background: #fff;
   }
 `;
 
@@ -118,8 +118,8 @@ const plus = (
       cy="20"
       r="14.4"
       stroke="#7E869E"
-      stroke-opacity="0.25"
-      stroke-width="1.2"
+      strokeOpacity="0.25"
+      strokeWidth="1.2"
     />
     <path
       d="M20 13.3333L20 26.6667"
