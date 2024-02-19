@@ -55,6 +55,6 @@ return (
     }`}
     data={data}
   >
-    {loading ? "Loading..." : follow ? "Connected" : "Connect"}
+    {loading ? "" : follow ? "Connected" : "Connect"}
   </CommitButton>
 );
