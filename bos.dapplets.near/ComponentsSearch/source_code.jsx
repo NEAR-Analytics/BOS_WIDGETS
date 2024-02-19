@@ -57,7 +57,8 @@ if (data) {
   });
 
   result.sort((a, b) => b.blockHeight - a.blockHeight);
-  components = result.slice(0, state.currentPage * limitPerPage + limitPerPage);
+  components = result
+//   .slice(0, state.currentPage * limitPerPage + limitPerPage);
 }
 
 function onSearchChange({ result, term }) {
@@ -273,13 +274,13 @@ return (
         })}
       </Items>
     )}
-    {!state.searchResults && (
-      <Button
-        type="button"
-        onClick={() => State.update({ currentPage: state.currentPage + 1 })}
-      >
-        Load More
-      </Button>
-    )}
+    // {!state.searchResults && (
+    //   <Button
+    //     type="button"
+    //     onClick={() => State.update({ currentPage: state.currentPage + 1 })}
+    //   >
+    //     Load More
+    //   </Button>
+    // )}
   </Wrapper>
 );
