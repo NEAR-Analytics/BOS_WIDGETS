@@ -1,3 +1,8 @@
+const creatorId = props.creatorId ?? "hack.near";
+const appId = props.appId ?? "app";
+
+const linktree = Social.getr(`${creatorId}/widget/${appId}/metadata`);
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -117,26 +122,30 @@ const LinksContainer = styled.div`
   align-items: center;
 `;
 
-const Footer = () => {
-  return (
-    <Container>
-      <LinksContainer>
+return (
+  <Container>
+    <LinksContainer>
+      {project.linktree.twitter && (
         <a href="https://twitter.com/nearbuilders" target="_blank">
           {XIcon}
         </a>
+      )}
+      {project.linktree.telegram && (
         <a href="https://nearbuilders.com/tg-builders" target="_blank">
           {TelegramIcon}
         </a>
+      )}
+      {project.linktree.github && (
         <a href="https://github.com/nearbuilders" target="_blank">
           {GitHubIcon}
         </a>
+      )}
+      {project.linktree.website && (
         <a href="https://devs.near.social" target="_blank">
           {NearSocialIcon}
         </a>
-      </LinksContainer>
-      <Widget src="hack.near/widget/dev.badge" />
-    </Container>
-  );
-};
-
-return { Footer };
+      )}
+    </LinksContainer>
+    <Widget src="hack.near/widget/dev.badge" />
+  </Container>
+);
