@@ -16,7 +16,7 @@ const FARCASTER_LOGO_URL =
 const FARCASTER_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
 
-const REGISTRY_CONTRACT = "staging.integrations.near";
+const REGISTRY_CONTRACT = "checks.integrations.near";
 
 const [platform, setPlatform] = useState("");
 const [evmAddress, setEvmAddress] = useState("");
@@ -39,21 +39,23 @@ const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
 
 if (showPlatform) {
-    setPlatform(showPlatform);
+  setPlatform(showPlatform);
 }
 
 if (!evmAddress && Ethers.provider()) {
-   if (Ethers.provider().provider?.isMetaMask) {
-       const [ account ] = Ethers.provider().provider._state.accounts;
-       setEvmAddress(account);
-   } else if (Ethers.provider().provider?.connector) {
-       const [ account ] = Ethers.provider().provider.connector.accounts;
-       setEvmAddress(account);
-   } else {
-       Ethers.provider().send("eth_requestAccounts", []).then((([account]) => {
-           setEvmAddress(account);
-       }));
-   }
+  if (Ethers.provider().provider?.isMetaMask) {
+    const [account] = Ethers.provider().provider._state.accounts;
+    setEvmAddress(account);
+  } else if (Ethers.provider().provider?.connector) {
+    const [account] = Ethers.provider().provider.connector.accounts;
+    setEvmAddress(account);
+  } else {
+    Ethers.provider()
+      .send("eth_requestAccounts", [])
+      .then(([account]) => {
+        setEvmAddress(account);
+      });
+  }
 }
 
 useEffect(() => {
@@ -366,46 +368,52 @@ const verifyProof = (platform) => {
 };
 
 const disabledAuthButtonStyles = {
-    opacity: ".5",
-    pointerEvents: "none"
-}
+  opacity: ".5",
+  pointerEvents: "none",
+};
 
 const storePlatform = (platform) => {
-    Storage.set("platform", JSON.stringify({
-        platform: platform,
-        expiration: Date.parse(new Date()) + 6 * 100000
-    }));
-}
+  Storage.set(
+    "platform",
+    JSON.stringify({
+      platform: platform,
+      expiration: Date.parse(new Date()) + 6 * 100000,
+    })
+  );
+};
 
 const checkStoredPlatform = () => {
-    if (storedPlatform) {
-        const { platform, expiration } = JSON.parse(storedPlatform);
-        if (expiration > Date.parse(new Date())) {
-            setPlatform(platform);
-            Storage.set("platform", null);
-        }
+  if (storedPlatform) {
+    const { platform, expiration } = JSON.parse(storedPlatform);
+    if (expiration > Date.parse(new Date())) {
+      setPlatform(platform);
+      Storage.set("platform", null);
     }
-}
+  }
+};
 
 const storedPlatform = null;
 
 if (onInit) {
-    storedPlatform = Storage.get("platform");
-    checkStoredPlatform();
-    setOnInit(false);
+  storedPlatform = Storage.get("platform");
+  checkStoredPlatform();
+  setOnInit(false);
 }
 
 useEffect(() => {
-    checkStoredPlatform()
+  checkStoredPlatform();
 }, [storedPlatform]);
 
 const AuthMethods = () => {
   return (
     <>
-      <AuthButton style={context.accountId ? {} : disabledAuthButtonStyles} onClick={() => {
-        setPlatform("lens");
-        storePlatform("lens");
-      }}>
+      <AuthButton
+        style={context.accountId ? {} : disabledAuthButtonStyles}
+        onClick={() => {
+          setPlatform("lens");
+          storePlatform("lens");
+        }}
+      >
         <span className="badge">
           <img src={LENS_LOGO_URL} width="100%" />
         </span>
@@ -414,8 +422,8 @@ const AuthMethods = () => {
       <AuthButton
         style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => {
-            setPlatform("farcaster");
-            storePlatform("farcaster");
+          setPlatform("farcaster");
+          storePlatform("farcaster");
         }}
         background="#8A63D1"
         color="#FFF"
@@ -453,7 +461,7 @@ const Auth = () => {
         <>
           {!platform && <AuthMethods />}
           {platform && <AuthProcess platform={platform} />}
-            
+
           <Disclaimer>
             Authenticating your profile <b>doesn't grant</b> nearbadger write
             access to your account.
@@ -562,11 +570,14 @@ const RequireNearAccount = () => {
   return (
     <>
       <p style={{ textAlign: "center" }}>
-        {context.accountId == null
-          ? <>Connect your NEAR account to start the verification process</>
-          : <>This app requires <b>{
-              accountId || context.accountId || "you"
-            }</b> to verify a profile</>}
+        {context.accountId == null ? (
+          <>Connect your NEAR account to start the verification process</>
+        ) : (
+          <>
+            This app requires <b>{accountId || context.accountId || "you"}</b>{" "}
+            to verify a profile
+          </>
+        )}
       </p>
     </>
   );
