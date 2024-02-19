@@ -550,25 +550,9 @@ return (
           ))}
 
           {props.isEditMode ? (
-            <ButtonApply
-              style={{
-                display:
-                  props.widgets && props.widgets.length ? "flex" : "none",
-              }}
-              onClick={handleApplyClick}
-            >
-              {iconApply}
-            </ButtonApply>
+            <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
           ) : (
-            <ButtonEdit
-              style={{
-                display:
-                  props.widgets && props.widgets.length ? "flex" : "none",
-              }}
-              onClick={handleEditClick}
-            >
-              {iconEdit}
-            </ButtonEdit>
+            <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
           )}
         </ActionsWrapper>
         {props.widgets && props.widgets.length ? (
