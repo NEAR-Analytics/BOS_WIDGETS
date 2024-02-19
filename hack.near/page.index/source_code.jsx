@@ -1,7 +1,3 @@
-const { Footer } = VM.require("hack.near/widget/main.footer") || {
-  Footer: () => <></>,
-};
-
 const { Button } = VM.require("buildhub.near/widget/components");
 
 const imageUrl =
@@ -53,6 +49,6 @@ return (
         </Button>
       </Content>
     </HeaderContainer>
-    <Footer />
+    <Widget src="hack.near/widget/main.footer" />
   </>
 );
