@@ -116,3 +116,147 @@ const changeInput = (value, key) => {
 };
 
 if (!state.loaded) getProjects();
+
+return (
+  <div className="w-100 position-relative" style={{ height: "fit-content" }}>
+    <Wrapper>
+      <Card>
+        <div>
+          <h5 className="m-0" style={{ fontSize: 18 }}>
+            Register Project
+          </h5>
+          <p
+            className="m-0 mt-1"
+            style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+          >
+            This information will be displayed publicly.
+          </p>
+        </div>
+        <div>
+          <Label>
+            Project <span className="text-danger">*</span>
+          </Label>
+          <Widget
+            props={{
+              noLabel: true,
+              width: "40vw",
+              options: state.projects,
+              value: state.selected,
+              onChange: changeOption,
+            }}
+            src={`${Owner}/widget/Select`}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>
+            Description <span className="text-danger">*</span>
+          </Label>
+          <textarea
+            rows="3"
+            name="description"
+            placeholder="Description"
+            value={state.description}
+            className="w-full px-2 py-1 shadow-sm rounded-3"
+            onChange={(e) => changeInput(e.target.value, "description")}
+            style={{ fontSize: 14 }}
+          />
+          <p
+            className="m-0 mt-1"
+            style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+          >
+            Write a few sentences about your project.
+          </p>
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Mint Price</Label>
+          <input
+            type="number"
+            min="0"
+            name="mint_price"
+            placeholder="Mint Price"
+            value={state.mint_price}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "mint_price")}
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Mint Date</Label>
+          <input
+            type="date"
+            name="mint_date"
+            placeholder="Mint Date"
+            value={state.mint_date}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "mint_date")}
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Supply</Label>
+          <input
+            name="supply"
+            value={state.supply}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "supply")}
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Discord</Label>
+          <input
+            name="discord"
+            value={state.discord}
+            placeholder="Discord invite Link"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "discord")}
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Twitter</Label>
+          <input
+            name="twitter"
+            placeholder="Twitter"
+            value={state.twitter}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "twitter")}
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <StepButton
+          className="btn"
+          disabled={
+            // state.selected === "0" ||
+            !state.description
+          }
+          onClick={handleNextStep}
+        >
+          Next Step
+        </StepButton>
+      </Card>
+    </Wrapper>
+    {state.next && (
+      <Widget
+        props={{
+          API_URL,
+          TOKEN,
+          onClose,
+          changePage,
+          data: {
+            guild_id: state.selected,
+            name: state.projects.find((e) => e.value === state.selected)?.text,
+            icon: state.projects.find((e) => e.value === state.selected)?.icon,
+            description: state.description,
+            mint_price: state.mint_price,
+            mint_date: state.mint_date,
+            supply: state.supply,
+            discord: state.discord,
+            twitter: state.twitter,
+          },
+        }}
+        src={`${Owner}/widget/import_bot`}
+      />
+    )}
+  </div>
+);
