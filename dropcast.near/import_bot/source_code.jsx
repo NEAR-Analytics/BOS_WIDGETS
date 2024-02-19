@@ -132,7 +132,10 @@ return (
         <p>
           {`Please choose allowlist roles (if any). You can update these at anytime `}
         </p>
-        <div>
+        <div
+          className="d-flex flex-column"
+          style={{ maxHeight: 300, overflow: "auto", paddingLeft: "15%" }}
+        >
           {state.roles.map((role) => (
             <Widget
               key={role.id}
