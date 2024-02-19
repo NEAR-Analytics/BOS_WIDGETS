@@ -14,7 +14,7 @@ let lastElement = paginations[paginations.length - 1];
 const handlePainate = (to) => {
   if (to !== "...") {
     const nxtPage = parseInt(to);
-    setPage(onClick(nxtPage));
+    onClick(nxtPage);
   }
 };
 const Page = ({ children }) => {
@@ -42,7 +42,7 @@ const Pagination = styled.div`
     color: white;
     cursor: pointer;
     :hover {
-      opacity: 0.7;
+      background: ${bgColor}90;
     }
     &.active {
       background: white;
