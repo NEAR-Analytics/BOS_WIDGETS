@@ -15,7 +15,7 @@ State.init({
   communityId,
   contractId,
   buttonText,
-  linkUrl,
+  link,
   bgColor,
   name,
 });
@@ -23,9 +23,13 @@ State.init({
 const handleCreate = () =>
   Social.set({
     widget: {
-      [`${state.name}`]: {
-        "": `const accountId = props.accountId ?? context.accountId; const ownerId = props.ownerId ?? "hack.near"; const pageId = props.pageId ?? "community.page"; return <Widget src="hack.near/widget/community.page" props={{ accountId, communityId: "${state.communityId}", contractId: "${state.contractId}", h1: "${state.h1}",
-        h2: "${state.h2}", tagline: "${state.tagline}", mainColor: "${state.mainColor}", buttonText: "${state.buttonText}", link: "${state.link}" }} />`,
+      [`page.${state.name}`]: {
+        "": `const accountId = props.accountId ?? context.accountId; const creatorId = props.creatorId ?? context.accountId ?? "every.near"; const pageId = props.pageId ?? "page.index"; return <Widget src="hack.near/widget/page.common" props={{ accountId, h1: "${
+          state.h1
+        }",
+        h2: "${state.h2}", tagline: "${state.tagline}", bgColor: "${
+          state.bgColor ?? "#000"
+        }", buttonText: "${state.buttonText}", link: "${state.link}" }} />`,
         metadata: {
           tags: {
             build: "",
