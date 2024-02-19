@@ -98,7 +98,7 @@ const handleNextStep = () => {
 if (!state.loaded) getProjects();
 
 return (
-  <div className="w-100 position-relative">
+  <div className="w-100 position-relative" style={{ height: "fit-content" }}>
     <Wrapper>
       <Card>
         <div>
