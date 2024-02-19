@@ -1,7 +1,19 @@
 const { currentPath, page, ...passProps } = props;
 
-const { routes } = VM.require("apps.near/widget/config.docs") ?? {
-  routes: {},
+const { routes } = Social.getr("hack.near/widget/page.docs/config/routes") ?? {
+  type: "app",
+  routes: {
+    guide: {
+      path: "buildhub.near/widget/Resources",
+      blockHeight: "final",
+      init: {
+        name: "Guide",
+        icon: "bi-map",
+        mdPath:
+          "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
+      },
+    },
+  },
 };
 
 const { SidebarLayout } = VM.require("apps.near/widget/template.sidebar") || {
