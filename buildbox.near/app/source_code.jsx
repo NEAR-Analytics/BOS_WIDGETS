@@ -19,6 +19,12 @@ const Root = styled.div`
   height: 100%;
 `;
 
+const [activeRoute, setActiveRoute] = useState(page);
+
+useEffect(() => {
+  setActiveRoute(page);
+}, [page]);
+
 function Router({ active, routes }) {
   // this may be converted to a module at devs.near/widget/Router
   const routeParts = active.split(".");
@@ -65,9 +71,9 @@ const Content = styled.div`
 return (
   <Root>
     <Container>
-      <AppLayout active={page} routes={routes}>
+      <AppLayout active={activeRoute} routes={routes}>
         <Content>
-          <Router active={page} routes={routes} />
+          <Router active={activeRoute} routes={routes} />
         </Content>
       </AppLayout>
     </Container>
