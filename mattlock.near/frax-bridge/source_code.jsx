@@ -22,20 +22,20 @@ const L2_L1_MESSAGE_PASSER_ADDR = `"0x45A98115D5722C6cfC48D711e0053758E7C0b8ad"`
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 const WITHDRAW_INIT_GAS_LIMIT = 150000;
-const FRAX_HOLESKY_CHAIN_ID = 2522;
+const FRAXTAL_HOLESKY_CHAIN_ID = 2522;
 const HOLESKY_CHAIN_ID = 17000;
 const ETH_CHAIN_ID = 1;
-const FRAX_CHAIN_ID = 252;
+const FRAXTAL_CHAIN_ID = 252;
 const VALID_CHAIN_ID = [
   ETH_CHAIN_ID,
-  FRAX_CHAIN_ID,
+  FRAXTAL_CHAIN_ID,
   HOLESKY_CHAIN_ID,
-  FRAX_HOLESKY_CHAIN_ID,
+  FRAXTAL_HOLESKY_CHAIN_ID,
 ];
 const depositDisabledMsg =
   "For deposits, please switch to Ethereum mainnet or Holesky testnet.";
 const withdrawDisabledMsg =
-  "For withdrawals, please switch to OP mainnet or OP Holesky testnet.";
+  "For withdrawals, please switch to Fraxtal mainnet or Fraxtal Holesky testnet.";
 const abiCoder = new ethers.utils.AbiCoder();
 const tokens = {
   eth: {
@@ -114,13 +114,19 @@ if (!state.chainId) {
     .then(({ chainId }) => {
       let network = "incorrect",
         log;
-      if (chainId === HOLESKY_CHAIN_ID || chainId === FRAX_HOLESKY_CHAIN_ID) {
+      if (
+        chainId === HOLESKY_CHAIN_ID ||
+        chainId === FRAXTAL_HOLESKY_CHAIN_ID
+      ) {
         network = "testnet";
       }
-      if (chainId === ETH_CHAIN_ID || chainId === FRAX_CHAIN_ID) {
+      if (chainId === ETH_CHAIN_ID || chainId === FRAXTAL_CHAIN_ID) {
         network = "mainnet";
       }
-      if (chainId === FRAX_HOLESKY_CHAIN_ID || chainId === FRAX_CHAIN_ID) {
+      if (
+        chainId === FRAXTAL_HOLESKY_CHAIN_ID ||
+        chainId === FRAXTAL_CHAIN_ID
+      ) {
         log = depositDisabledMsg;
       }
       console.log("chainId", chainId, network);
@@ -148,7 +154,8 @@ if (!network) {
 if (!VALID_CHAIN_ID.includes(chainId)) {
   return (
     <p>
-      Please switch to Ethereum or Optimism mainnet; or Holesky or OP Holesky
+      Please switch to Ethereum or Optimism mainnet; or Holesky or Fraxtal
+      Holesky
     </p>
   );
 }
@@ -424,7 +431,7 @@ function handleDepositEth(data) {
     .then((tx) => {
       console.log("tx:", tx);
       State.update({
-        log: "Deposit " + L1ExplorerLink + tx.hash,
+        log: "Deposit " + state.L1ExplorerLink + tx.hash,
       });
     })
     .catch((e) => {
@@ -460,7 +467,7 @@ function handleWithdrawalInitiatingEth(data) {
       console.log("tx:", tx);
       // todo turn into rendered link
       State.update({
-        log: "Withdrawal " + L2ExplorerLink + tx.hash,
+        log: "Withdrawal " + state.L2ExplorerLink + tx.hash,
       });
     })
     .catch((e) => {
@@ -742,7 +749,7 @@ const onTabChange = (tab) => {
 
   const depositDisabled =
     tab === "deposit" &&
-    (chainId === FRAX_CHAIN_ID || chainId === FRAX_HOLESKY_CHAIN_ID);
+    (chainId === FRAXTAL_CHAIN_ID || chainId === FRAXTAL_HOLESKY_CHAIN_ID);
   const withdrawDisabled =
     tab === "withdraw" &&
     (chainId === ETH_CHAIN_ID || chainId === HOLESKY_CHAIN_ID);
