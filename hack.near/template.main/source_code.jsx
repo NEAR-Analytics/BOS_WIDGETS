@@ -7,6 +7,8 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
+  // margin-top: calc(-1 * var(--body-top-padding));
+  background-color: var(--bg-1, #0b0c14);
 `;
 
 const ContentContainer = styled.div`
@@ -18,14 +20,22 @@ const ContentContainer = styled.div`
 `;
 
 const Header = ({ page, routes, ...props }) => (
-  <Widget src="hack.near/widget/Navbar" props={{ page, routes, ...props }} />
+  <Widget
+    src="hack.near/widget/src.navbar"
+    props={{ page, routes, ...props }}
+  />
 );
+
+const Footer = (props) => {
+  return <></>;
+};
 
 function AppLayout({ routes, page, children, ...props }) {
   return (
     <Container>
       <Header page={page} routes={routes} {...props} />
       <ContentContainer key={page}>{children}</ContentContainer>
+      <Footer page={page} />
     </Container>
   );
 }
