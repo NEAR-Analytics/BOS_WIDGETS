@@ -4,7 +4,7 @@ const { Button } = VM.require("buildhub.near/widget/components");
 
 const Wrapper = styled.div`
   --section-gap: 23px;
-  padding-top: 42px;
+  padding-top: 39px;
 
   @media (max-width: 1155px) {
     .line-rounded-corners {
@@ -77,7 +77,7 @@ const H2 = styled.h1`
 `;
 
 const Text = styled.p`
-  font-family: ${props.taglineFont ?? "sans-serif"};
+  font-family: ${props.taglineFont ?? "Courier"};
   font-size: ${(p) => p.size ?? "23px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
@@ -112,7 +112,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--section-gap) 24px;
+  padding: var(--section-gap) 23px;
 
   @media (max-width: 768px) {
     padding: var(--section-gap) 12px;
@@ -135,7 +135,11 @@ return (
         <div className="m-3" style={{ maxWidth: "75%" }}>
           <Button variant="primary">
             <a
-              style={{ textDecoration: "none", color: "#000" }}
+              style={{
+                textDecoration: "none",
+                color: "#000",
+                fontFamily: "Courier",
+              }}
               href="https://everything.dev"
             >
               {props.buttonText ?? "Start Here"}
@@ -144,7 +148,6 @@ return (
         </div>
       </Flex>
     </Container>
-    <br />
     <br />
     <Flex>
       <Text
