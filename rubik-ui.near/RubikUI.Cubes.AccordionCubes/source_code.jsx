@@ -28,7 +28,6 @@ const AccordionItem = ({ children, ...props }) => {
 return (
   <>
     <Accordion
-      extend={MyAccordionExtension}
       onClick={() => console.log("Hello world!")}
       width="800px"
       borderTop="4px solid #000"
