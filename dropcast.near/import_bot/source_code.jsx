@@ -90,9 +90,7 @@ return (
         </p>
         <StepButtonLink
           href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${guild_id}&disable_guild_select=true`}
-          target="_blank"
           className="btn"
-          onClick={handleImportBot}
         >
           Import Bot Into Discord
         </StepButtonLink>
