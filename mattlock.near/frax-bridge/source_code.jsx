@@ -423,6 +423,9 @@ function handleDepositEth(data) {
     })
     .then((tx) => {
       console.log("tx:", tx);
+      State.update({
+        log: "Deposit " + L1ExplorerLink + tx.hash,
+      });
     })
     .catch((e) => {
       console.log("bridge error:", e);
