@@ -100,6 +100,13 @@ const handleNextStep = () => {
   });
 };
 
+const onClose = () => {
+  State.update({
+    ...state,
+    next: false,
+  });
+};
+
 const changeInput = (value, key) => {
   State.update({
     ...state,
@@ -233,6 +240,7 @@ return (
         props={{
           API_URL,
           TOKEN,
+          onClose,
           data: {
             guild_id: state.selected,
             description: state.description,
