@@ -109,8 +109,25 @@ const handleImportBot = () => {
 };
 
 const handleSubmit = () => {
-  State.update({
-    submitted: true,
+  let promise = asyncFetch(`${API_URL}/api/project`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "POST",
+    body: JSON.stringify({ ...data, selected_roles }),
+  });
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      State.update({
+        submitted: true,
+      });
+    } else {
+      State.update({
+        error: data.body,
+      });
+    }
   });
 };
 
