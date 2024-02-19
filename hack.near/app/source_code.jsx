@@ -1,67 +1,66 @@
-const project = props.project;
+const { page, tab, ...passProps } = props;
 
-let theme = props.theme;
-let variables = props.variables;
+const { routes } = VM.require("hack.near/widget/app.config") ?? {
+  routes: {},
+};
 
-if (!variables) {
-  variables = `
-  --black: #100f0f;
-  --base950: #4F4A45;
-  --base900: #282726;
-  --base850: #343331;
-  --base800: #403e3c;
-  --base700: #575653;
-  --base600: #6f6e69;
-  --base500: #878580;
-  --base300: #b7b5ac;
-  --base200: #cecdc3;
-  --base150: #dad8ce;
-  --base100: #e6e4d9;
-  --base50: #f2f0e5;
-  --paper: #F6F1EE;
-  `;
-}
+const { MainLayout } = VM.require("apps.near/widget/template.main") || {
+  MainLayout: () => <></>,
+};
 
-if (!theme) {
-  theme = ``;
-}
+if (!page) page = Object.keys(routes)[0] || "root";
 
-const Root = styled.div`
-  ${variables}
-  ${theme}
+function Router({ active, routes }) {
+  const routeParts = active.split(".");
 
-  a {
-    text-decoration: none;
-    color: var(--base900);
+  let currentRoute = routes;
+  let src = "";
+  let defaultProps = {};
+
+  for (let part of routeParts) {
+    if (currentRoute[part]) {
+      currentRoute = currentRoute[part];
+      src = currentRoute.path;
+
+      if (currentRoute.init) {
+        defaultProps = { ...defaultProps, ...currentRoute.init };
+      }
+    } else {
+      return <p>NOTHING FOUND</p>;
+    }
   }
-`;
+
+  return (
+    <div key={active}>
+      <Widget
+        src={src}
+        props={{
+          currentPath: `/apps.near/widget/project?page=${page}`,
+          page: tab,
+          ...passProps,
+          ...defaultProps,
+        }}
+      />
+    </div>
+  );
+}
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  height: 100%;
+`;
+
+const Content = styled.div`
   width: 100%;
-  background-color: var(--base950);
+  height: 100%;
 `;
 
 return (
-  <Root>
-    <Container>
-      <Widget
-        src="hack.near/widget/module.projects"
-        props={{
-          project,
-          children: (p) => {
-            return (
-              <Widget
-                src="hack.near/widget/blocks.container"
-                props={{ ...p, project }}
-              />
-            );
-          },
-        }}
-      />
-    </Container>
-  </Root>
+  <Container>
+    <MainLayout page={page} routes={routes} {...props}>
+      <Content>
+        <Router active={page} routes={routes} />
+      </Content>
+    </MainLayout>
+  </Container>
 );
