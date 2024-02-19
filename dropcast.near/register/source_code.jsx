@@ -195,6 +195,7 @@ return (
         <div className="d-flex flex-column">
           <Label>Supply</Label>
           <input
+            type="number"
             name="supply"
             value={state.supply}
             className="w-full px-2 py-1 rounded-3 border-0"
