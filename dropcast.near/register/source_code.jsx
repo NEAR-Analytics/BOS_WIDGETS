@@ -53,6 +53,12 @@ State.init({
   next: false,
   loaded: false,
   projects: [{ text: "Loading", value: "0" }],
+  description: "",
+  mint_price: "",
+  mint_date: "",
+  supply: "",
+  discord: "",
+  twitter: "",
 });
 
 const getProjects = () => {
@@ -91,6 +97,13 @@ const handleNextStep = () => {
   State.update({
     ...state,
     next: true,
+  });
+};
+
+const changeInput = (value, key) => {
+  State.update({
+    ...state,
+    [key]: value,
   });
 };
 
@@ -134,7 +147,9 @@ return (
             rows="3"
             name="description"
             placeholder="Description"
+            value={state.description}
             className="w-full px-2 py-1 shadow-sm rounded-3"
+            onChange={(e) => changeInput(e.target.value, "description")}
             style={{ fontSize: 14 }}
           />
           <p
@@ -151,7 +166,9 @@ return (
             min="0"
             name="mint_price"
             placeholder="Mint Price"
+            value={state.mint_price}
             className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "mint_price")}
             style={{ fontSize: 14 }}
           />
         </div>
@@ -161,7 +178,9 @@ return (
             type="date"
             name="mint_date"
             placeholder="Mint Date"
+            value={state.mint_date}
             className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "mint_date")}
             style={{ fontSize: 14 }}
           />
         </div>
@@ -169,7 +188,9 @@ return (
           <Label>Supply</Label>
           <input
             name="supply"
+            value={state.supply}
             className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "supply")}
             style={{ fontSize: 14 }}
           />
         </div>
@@ -177,8 +198,10 @@ return (
           <Label>Discord</Label>
           <input
             name="discord"
+            value={state.discord}
             placeholder="Discord invite Link"
             className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "discord")}
             style={{ fontSize: 14 }}
           />
         </div>
@@ -187,11 +210,17 @@ return (
           <input
             name="twitter"
             placeholder="Twitter"
+            value={state.twitter}
             className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => changeInput(e.target.value, "twitter")}
             style={{ fontSize: 14 }}
           />
         </div>
-        <StepButton className="btn" onClick={handleNextStep}>
+        <StepButton
+          className="btn"
+          disabled={state.selected === "0" || !state.description}
+          onClick={handleNextStep}
+        >
           Next Step
         </StepButton>
       </Card>
@@ -201,7 +230,15 @@ return (
         props={{
           API_URL,
           TOKEN,
-          guild_id: state.selected,
+          data: {
+            guild_id: state.selected,
+            description: state.description,
+            mint_price: state.mint_price,
+            mint_date: state.mint_date,
+            supply: state.supply,
+            discord: state.discord,
+            twitter: state.twitter,
+          },
         }}
         src={`${Owner}/widget/import_bot`}
       />
