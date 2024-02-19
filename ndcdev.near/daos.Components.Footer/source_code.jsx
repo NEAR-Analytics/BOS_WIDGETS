@@ -1,5 +1,5 @@
 let { assets, socials, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 const page = props.page;
