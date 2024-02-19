@@ -50,7 +50,7 @@ const data = {
 return (
   <CommitButton
     disabled={loading}
-    className={`btn ${
+    className={`btn btn-sm ${
       loading || follow ? "btn-secondary" : "btn-outline-light"
     }`}
     data={data}
