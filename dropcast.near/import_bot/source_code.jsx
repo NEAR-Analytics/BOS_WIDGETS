@@ -6,6 +6,7 @@ const TOKEN = props.TOKEN || "";
 
 //Styles
 const Wrapper = styled.div`
+    top: 0px;
     display: flex;
     width: 100%;
     height: 100%;
