@@ -87,10 +87,7 @@ const MyAccordionExtension = `
 
 return (
   <>
-    <Accordion
-      extend={MyAccordionExtension}
-      maxWidth="800px"
-    >
+    <Accordion extend={MyAccordionExtension} onClick={() => console.log("Hello world!")} maxWidth="800px">
       {Array.from([1, 2, 3]).map((data, idx) => (
         <AccordionItemFacet as="li">{idx}</AccordionItemFacet>
       ))}
