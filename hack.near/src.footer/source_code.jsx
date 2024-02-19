@@ -128,7 +128,7 @@ return (
       {metadata.linktree.twitter && (
         <a
           href={`${
-            project.linktree.twitter ?? "https://twitter.com/nearbuilders"
+            metadata.linktree.twitter ?? "https://twitter.com/nearbuilders"
           }`}
           target="_blank"
         >
@@ -138,7 +138,7 @@ return (
       {metadata.linktree.telegram && (
         <a
           href={`${
-            project.linktree.telegram ?? "https://nearbuilders.org/tg-builders"
+            metadata.linktree.telegram ?? "https://nearbuilders.org/tg-builders"
           }`}
           target="_blank"
         >
@@ -148,7 +148,7 @@ return (
       {metadata.linktree.github && (
         <a
           href={`${
-            project.linktree.github ?? "https://github.com/nearbuilders"
+            metadata.linktree.github ?? "https://github.com/nearbuilders"
           }`}
           target="_blank"
         >
@@ -157,7 +157,7 @@ return (
       )}
       {metadata.linktree.website && (
         <a
-          href={`${project.linktree.website ?? "https://nearbuilders.org"}`}
+          href={`${metadata.linktree.website ?? "https://nearbuilders.org"}`}
           target="_blank"
         >
           {NearSocialIcon}
