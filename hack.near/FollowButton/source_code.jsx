@@ -1,3 +1,11 @@
+if (
+  !props.accountId ||
+  !context.accountId ||
+  context.accountId === props.accountId
+) {
+  return "";
+}
+
 const followEdge = Social.keys(
   `${context.accountId}/graph/follow/${props.accountId}`,
   undefined,
@@ -43,18 +51,10 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn ${
-      loading || follow ? "btn-secondary" : "btn-outline-secondary"
+      loading || follow ? "btn-secondary" : "btn-outline-light"
     }`}
     data={data}
   >
-    {loading ? (
-      "Loading"
-    ) : follow ? (
-      <b>Following</b>
-    ) : inverse ? (
-      "Follow back"
-    ) : (
-      "Follow"
-    )}
+    {loading ? "Loading..." : follow ? "Unfollow" : "Connect"}
   </CommitButton>
 );
