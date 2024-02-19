@@ -220,10 +220,13 @@ return (
           </div>
         </MyProjectCard>
         <GridWrapper>
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
+          {state.list.map((project) => (
+            <Widget
+              props={{ project }}
+              key={project._id}
+              src={`${Owner}/widget/project`}
+            />
+          ))}
         </GridWrapper>
       </>
     )}
@@ -232,10 +235,13 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
         <GridWrapper>
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
-          <Widget src={`${Owner}/widget/project`} />
+          {state.list.map((project) => (
+            <Widget
+              props={{ project }}
+              key={project._id}
+              src={`${Owner}/widget/project`}
+            />
+          ))}
         </GridWrapper>
       </div>
     )}
