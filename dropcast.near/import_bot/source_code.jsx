@@ -140,7 +140,9 @@ const handleSubmit = () => {
 const onChange = (value, key) => {
   console.log(value, "==.value", key);
   State.update({
+    ...state,
     selected_roles: {
+      ...state.selected_roles,
       [key]: value,
     },
   });
