@@ -3,7 +3,7 @@ const Owner = "dropcast.near";
 const TOKEN = props.TOKEN || "";
 const CLIENT_ID = "1206878767633534976";
 const API_URL = props.API_URL || "http://localhost:3000";
-const guild_id = "940531636251021362";
+const data = props.data || {};
 
 //Styles
 const Wrapper = styled.div`
@@ -59,13 +59,35 @@ const StepButtonLink = styled.a`
 `;
 
 State.init({
+  roles: [],
   discord: false,
   submitted: false,
+  error: "",
 });
 
 const handleImportBot = () => {
-  State.update({
-    discord: true,
+  let promise = asyncFetch(
+    `${API_URL}/api/project/roles?guild_id=${"940531636251021362"}`,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-auth-token": TOKEN,
+      },
+      method: "GET",
+    }
+  );
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      State.update({
+        discord: true,
+        roles: data.body,
+      });
+    } else {
+      State.update({
+        error: data.body,
+      });
+    }
   });
 };
 
@@ -89,7 +111,7 @@ return (
         roles in Settings -> Roles`}
         </p>
         <StepButtonLink
-          href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${guild_id}&disable_guild_select=true`}
+          href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${data.guild_id}&disable_guild_select=true`}
           target="_blank"
           className="btn"
         >
