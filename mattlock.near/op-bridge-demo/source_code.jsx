@@ -423,7 +423,7 @@ function handleDepositEth(data) {
     })
     .then((tx) => {
       State.update({
-        log: "Deposit " + L1ExplorerLink + tx.hash,
+        log: "Deposit " + state.L1ExplorerLink + tx.hash,
       });
     })
     .catch((e) => {
@@ -459,7 +459,7 @@ function handleWithdrawalInitiatingEth(data) {
       console.log("tx:", tx);
       // todo turn into rendered link
       State.update({
-        log: "Withdrawal " + L2ExplorerLink + tx.hash,
+        log: "Withdrawal " + state.L2ExplorerLink + tx.hash,
       });
     })
     .catch((e) => {
