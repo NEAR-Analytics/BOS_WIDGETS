@@ -82,12 +82,12 @@ const Accordion = ({ children, ...props }) => {
 };
 
 const MyAccordionExtension = `
-    background-color:red;
+    
 `;
 
 return (
   <>
-    <Accordion extend={MyAccordionExtension} onClick={() => console.log("Hello world!")} maxWidth="800px">
+    <Accordion extend={MyAccordionExtension} onClick={() => console.log("Hello world!")} width="800px" borderTop="4px solid #000">
       {Array.from([1, 2, 3]).map((data, idx) => (
         <AccordionItemFacet as="li">{idx}</AccordionItemFacet>
       ))}
