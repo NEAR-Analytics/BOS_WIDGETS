@@ -469,8 +469,8 @@ const iconEdit = (
     <path
       d="M12 7L2 7"
       stroke="#747376"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
