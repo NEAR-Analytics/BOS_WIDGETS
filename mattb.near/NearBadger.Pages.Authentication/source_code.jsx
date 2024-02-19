@@ -569,16 +569,18 @@ const AuthProcess = ({ platform }) => {
 const RequireNearAccount = () => {
   return (
     <>
-      <p style={{ textAlign: "center" }}>
-        {context.accountId == null ? (
-          <>Connect your NEAR account to start the verification process</>
-        ) : (
-          <>
-            This app requires <b>{accountId || context.accountId || "you"}</b>{" "}
-            to verify a profile
-          </>
-        )}
-      </p>
+      {!success && (
+        <p style={{ textAlign: "center" }}>
+          {context.accountId == null ? (
+            <>Connect your NEAR account to start the verification process</>
+          ) : (
+            <>
+              This app requires <b>{accountId || context.accountId || "you"}</b>{" "}
+              to verify a profile
+            </>
+          )}
+        </p>
+      )}
     </>
   );
 };
