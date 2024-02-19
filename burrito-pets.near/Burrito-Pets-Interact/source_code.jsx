@@ -469,21 +469,13 @@ return (
                   </div>
                   <br />
                   <div style={{ "text-align": "center" }}>
-                    <a
-                      href="https://forms.gle/DBAzBKAWtnRozaBQ9"
-                      target="_blank"
-                      style={{
-                        color: "black",
-                        background: "#f54866",
-                        color: "white",
-                        "font-weight": "700",
-                        padding: "15px 20px",
-                        "border-radius": "1rem",
-                        border: "none",
+                    <ItemMintButton
+                      onClick={async () => {
+                        getNft();
                       }}
                     >
-                      Request Early Access
-                    </a>
+                      Get NFT
+                    </ItemMintButton>
                   </div>
                   <div style={{ "text-align": "center" }}>{state.error}</div>
                 </div>
