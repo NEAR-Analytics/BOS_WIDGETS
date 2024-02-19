@@ -422,7 +422,9 @@ function handleDepositEth(data) {
       gasLimit,
     })
     .then((tx) => {
-      console.log("tx:", tx);
+      State.update({
+        log: "Deposit " + L1ExplorerLink + tx.hash,
+      });
     })
     .catch((e) => {
       console.log("bridge error:", e);
