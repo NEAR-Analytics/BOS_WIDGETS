@@ -140,7 +140,7 @@ return (
                 color: "#000",
                 fontFamily: "Courier",
               }}
-              href="https://everything.dev"
+              href={`${props.link ?? "https://everything.dev"}`}
             >
               {props.buttonText ?? "Start Here"}
             </a>
