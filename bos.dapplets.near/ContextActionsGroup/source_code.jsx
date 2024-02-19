@@ -23,19 +23,9 @@ const handleCloseMenu = () => {
   State.update({ showMenu: false, show: false });
 };
 
-const handleSelectComponent = (component) => {
+const handleSelectComponent = (app) => {
   State.update({ showMenu: false });
-
-  const widgetId = `${component.accountId}/widget/${component.widgetName}`;
-
-  // For backward compatibility
-  if (props.apps) {
-    const app = props.apps.find((app) => app.componentId === widgetId);
-    props.createUserLink(app.id);
-  } else {
-    // ToDo: delete legacy
-    props.createUserLink(widgetId);
-  }
+  props.createUserLink(app.id);
 };
 
 const handleRemoveWidget = (linkId) => {
