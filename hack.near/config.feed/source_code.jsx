@@ -14,7 +14,7 @@ return {
   type: "app",
   routes: {
     all: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "All",
@@ -23,7 +23,7 @@ return {
       },
     },
     updates: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Updates",
@@ -47,7 +47,7 @@ return {
       },
     },
     documentation: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Documentation",
@@ -71,7 +71,7 @@ return {
       },
     },
     question: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Question",
@@ -86,7 +86,7 @@ return {
       },
     },
     answer: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Answer",
@@ -104,7 +104,7 @@ return {
       },
     },
     opportunity: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Opportunity",
@@ -120,7 +120,7 @@ return {
       },
     },
     idea: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Idea",
@@ -138,7 +138,7 @@ return {
       },
     },
     task: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Task",
@@ -156,7 +156,7 @@ return {
       },
     },
     feedback: {
-      path: "every.near/widget/Feed",
+      path: "apps.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Feedback",
