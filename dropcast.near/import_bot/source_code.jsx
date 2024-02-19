@@ -145,7 +145,7 @@ const onChange = (value, key) => {
     },
   });
 };
-
+console.log(state.selected_roles, "==>selected");
 return (
   <Wrapper>
     <Card>
