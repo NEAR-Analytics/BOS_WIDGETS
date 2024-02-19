@@ -79,7 +79,6 @@ State.init({
   discord: false,
   submitted: false,
   error: "",
-  allowlist: {},
 });
 
 const convertObject = (params) => {
@@ -123,7 +122,7 @@ const handleSubmit = () => {
     method: "POST",
     body: convertObject({
       ...data,
-      allowlist: JSON.stringify(state.allowlist),
+      roles: JSON.stringify(state.roles),
     }),
   });
 
@@ -141,16 +140,16 @@ const handleSubmit = () => {
 };
 
 const onChange = (value, key) => {
-  console.log(value, "==.value", key);
+  const changed = state.roles.map((role) => ({
+    ...role,
+    selected: role.id === key ? value : role.selected,
+  }));
   State.update({
     ...state,
-    allowlist: {
-      ...state.allowlist,
-      [key]: value,
-    },
+    roles: changed,
   });
 };
-console.log(state.allowlist, "==>selected");
+
 return (
   <Wrapper>
     <Card>
