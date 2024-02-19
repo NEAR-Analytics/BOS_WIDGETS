@@ -174,7 +174,7 @@ return (
       {state.page === "manager" && (
         <Widget
           src={`${Owner}/widget/manager`}
-          props={{ API_URL, USER, TOKEN }}
+          props={{ API_URL, USER, TOKEN, changePage }}
         />
       )}
     </PageWrapper>
