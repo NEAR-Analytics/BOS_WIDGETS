@@ -1,39 +1,17 @@
 const { currentPath, page, ...passProps } = props;
 
-const { Post } = VM.require("buildhub.near/widget/components") || {
-  Post: () => <></>,
-};
-
-const routes = {
-  all: {
-    path: "hack.near/widget/feed",
-    blockHeight: "final",
-    init: {
-      name: "Posts",
-      icon: "bi-view-list",
-      requiredHashtags: ["build"],
-    },
-  },
-  tasks: {
-    path: "hack.near/widget/feed",
-    blockHeight: "final",
-    init: {
-      name: "Tasks",
-      icon: "bi-clipboard",
-      requiredHashtags: ["build", "task"],
-      template: `### TASK NAME:
-        ##### Scope
-        Describe the work.
-
-`,
-    },
-  },
-  events: {
-    path: "buildhub.near/widget/events.Calendar",
-    blockHeight: "final",
-    init: {
-      name: "Events",
-      icon: "bi-calendar3",
+const { routes } = Social.getr("hack.near/widget/page.feed/config/routes") ?? {
+  type: "app",
+  routes: {
+    guide: {
+      path: "buildhub.near/widget/Resources",
+      blockHeight: "final",
+      init: {
+        name: "Guide",
+        icon: "bi-map",
+        mdPath:
+          "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
+      },
     },
   },
 };
