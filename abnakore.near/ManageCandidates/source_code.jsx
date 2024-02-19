@@ -174,69 +174,75 @@ return (
                     src="abnakore.near/widget/Aside"
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
                   />
-                  <div className="body-contents">
-                    <h1>Manage Candidates</h1>
-                    <Widget
-                      src="abnakore.near/widget/Table"
-                      props={{
-                        headings: [
-                          "S/N",
-                          "Candidate's Name",
-                          "Party",
-                          "Role",
-                          "Number of votes",
-                        ],
-                        data: Object.values(
-                          voteToRender.candidates
-                            .sort((a, b) => a.name > b.name)
-                            .map((c, i) => [i + 1].concat(Object.values(c)))
-                        ),
-                      }}
-                    />
-                    <div className="form">
-                      <secText>Add Candidate</secText>
-                      <div className="flex">
-                        <Widget
-                          src="abnakore.near/widget/Input.jsx"
-                          props={{
-                            type: "text",
-                            placeholder: "Full Name",
-                            required: true,
-                            item: "name",
-                            items: newCandidate,
-                            setItem: setNewCandidate,
-                            otherAttributes: {
-                              value: newCandidate.name,
-                            },
-                          }}
-                        />
+                  {voteToRender.creator === accountId ? (
+                    <div className="body-contents">
+                      <h1>Manage Candidates</h1>
+                      <Widget
+                        src="abnakore.near/widget/Table"
+                        props={{
+                          headings: [
+                            "S/N",
+                            "Candidate's Name",
+                            "Party",
+                            "Role",
+                            "Number of votes",
+                          ],
+                          data: Object.values(
+                            voteToRender.candidates
+                              .sort((a, b) => a.name > b.name)
+                              .map((c, i) => [i + 1].concat(Object.values(c)))
+                          ),
+                        }}
+                      />
+                      <div className="form">
+                        <secText>Add Candidate</secText>
+                        <div className="flex">
+                          <Widget
+                            src="abnakore.near/widget/Input.jsx"
+                            props={{
+                              type: "text",
+                              placeholder: "Full Name",
+                              required: true,
+                              item: "name",
+                              items: newCandidate,
+                              setItem: setNewCandidate,
+                              otherAttributes: {
+                                value: newCandidate.name,
+                              },
+                            }}
+                          />
 
-                        <select
-                          className="drop-down"
-                          value={newCandidate.party}
-                          onChange={updateDropDown}
-                          name="party"
-                          required
-                        >
-                          <option className="option" value="">
-                            Select Party
-                          </option>
-                          {getUnusedParties().map((party) => (
-                            <option
-                              className="option"
-                              key={party.acronym}
-                              value={party.acronym}
-                            >
-                              {party.name} ({party.acronym})
+                          <select
+                            className="drop-down"
+                            value={newCandidate.party}
+                            onChange={updateDropDown}
+                            name="party"
+                            required
+                          >
+                            <option className="option" value="">
+                              Select Party
                             </option>
-                          ))}
-                        </select>
+                            {getUnusedParties().map((party) => (
+                              <option
+                                className="option"
+                                key={party.acronym}
+                                value={party.acronym}
+                              >
+                                {party.name} ({party.acronym})
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <button onClick={save} onCommit={refresh()}>
+                          Add
+                        </button>
                       </div>
-                      <button onClick={save} onCommit={refresh()}>
-                        Add
-                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="body-contents">
+                      <h1>Can not access this page</h1>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="body-contents">
