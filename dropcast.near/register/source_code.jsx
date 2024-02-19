@@ -52,8 +52,9 @@ const StepButton = styled.button`
 State.init({
   error: "",
   selected: "0",
-  projects: [{ text: "Loading", value: "0" }],
+  next: false,
   loaded: false,
+  projects: [{ text: "Loading", value: "0" }],
 });
 
 const getProjects = () => {
@@ -88,103 +89,123 @@ const changeOption = (value) => {
   });
 };
 
+const handleNextStep = () => {
+  State.update({
+    ...state,
+    next: true,
+  });
+};
+
 if (!state.loaded) getProjects();
 
 return (
-  <Wrapper>
-    <Card>
-      <div>
-        <h5 className="m-0" style={{ fontSize: 18 }}>
-          Register Project
-        </h5>
-        <p
-          className="m-0 mt-1"
-          style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
-        >
-          This information will be displayed publicly.
-        </p>
-      </div>
-      <div>
-        <Label>
-          Project <span className="text-danger">*</span>
-        </Label>
-        <Widget
-          props={{
-            noLabel: true,
-            width: "40vw",
-            options: state.projects,
-            value: state.selected,
-            onChange: changeOption,
-          }}
-          src={`${Owner}/widget/Select`}
-        />
-      </div>
-      <div className="d-flex flex-column">
-        <Label>
-          Description <span className="text-danger">*</span>
-        </Label>
-        <textarea
-          rows="3"
-          name="description"
-          placeholder="Description"
-          className="w-full px-2 py-1 shadow-sm rounded-3"
-          style={{ fontSize: 14 }}
-        />
-        <p
-          className="m-0 mt-1"
-          style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
-        >
-          Write a few sentences about your project.
-        </p>
-      </div>
-      <div className="d-flex flex-column">
-        <Label>Mint Price</Label>
-        <input
-          type="number"
-          min="0"
-          name="mint_price"
-          placeholder="Mint Price"
-          className="w-full px-2 py-1 rounded-3 border-0"
-          style={{ fontSize: 14 }}
-        />
-      </div>
-      <div className="d-flex flex-column">
-        <Label>Mint Date</Label>
-        <input
-          type="date"
-          name="mint_date"
-          placeholder="Mint Date"
-          className="w-full px-2 py-1 rounded-3 border-0"
-          style={{ fontSize: 14 }}
-        />
-      </div>
-      <div className="d-flex flex-column">
-        <Label>Supply</Label>
-        <input
-          name="supply"
-          className="w-full px-2 py-1 rounded-3 border-0"
-          style={{ fontSize: 14 }}
-        />
-      </div>
-      <div className="d-flex flex-column">
-        <Label>Discord</Label>
-        <input
-          name="discord"
-          placeholder="Discord invite Link"
-          className="w-full px-2 py-1 rounded-3 border-0"
-          style={{ fontSize: 14 }}
-        />
-      </div>
-      <div className="d-flex flex-column">
-        <Label>Twitter</Label>
-        <input
-          name="twitter"
-          placeholder="Twitter"
-          className="w-full px-2 py-1 rounded-3 border-0"
-          style={{ fontSize: 14 }}
-        />
-      </div>
-      <StepButton className="btn">Next Step</StepButton>
-    </Card>
-  </Wrapper>
+  <div className="w-100  h-100 position-relative">
+    <Wrapper>
+      <Card>
+        <div>
+          <h5 className="m-0" style={{ fontSize: 18 }}>
+            Register Project
+          </h5>
+          <p
+            className="m-0 mt-1"
+            style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+          >
+            This information will be displayed publicly.
+          </p>
+        </div>
+        <div>
+          <Label>
+            Project <span className="text-danger">*</span>
+          </Label>
+          <Widget
+            props={{
+              noLabel: true,
+              width: "40vw",
+              options: state.projects,
+              value: state.selected,
+              onChange: changeOption,
+            }}
+            src={`${Owner}/widget/Select`}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>
+            Description <span className="text-danger">*</span>
+          </Label>
+          <textarea
+            rows="3"
+            name="description"
+            placeholder="Description"
+            className="w-full px-2 py-1 shadow-sm rounded-3"
+            style={{ fontSize: 14 }}
+          />
+          <p
+            className="m-0 mt-1"
+            style={{ fontSize: 14, color: "rgb(115, 115, 115)" }}
+          >
+            Write a few sentences about your project.
+          </p>
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Mint Price</Label>
+          <input
+            type="number"
+            min="0"
+            name="mint_price"
+            placeholder="Mint Price"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Mint Date</Label>
+          <input
+            type="date"
+            name="mint_date"
+            placeholder="Mint Date"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Supply</Label>
+          <input
+            name="supply"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Discord</Label>
+          <input
+            name="discord"
+            placeholder="Discord invite Link"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <div className="d-flex flex-column">
+          <Label>Twitter</Label>
+          <input
+            name="twitter"
+            placeholder="Twitter"
+            className="w-full px-2 py-1 rounded-3 border-0"
+            style={{ fontSize: 14 }}
+          />
+        </div>
+        <StepButton className="btn" onClick={handleNextStep}>
+          Next Step
+        </StepButton>
+      </Card>
+    </Wrapper>
+    {state.next && (
+      <Widget
+        props={{
+          API_URL,
+          TOKEN,
+        }}
+        src={`${Owner}/widget/import_bot`}
+      />
+    )}
+  </div>
 );
