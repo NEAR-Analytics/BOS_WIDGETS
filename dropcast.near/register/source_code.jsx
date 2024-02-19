@@ -8,7 +8,6 @@ const TOKEN = props.TOKEN || "";
 const Wrapper = styled.div`
     display: flex;
     width: 100%;
-    height: 100%;
     padding: 64px;
     position: relative;
     flex-direction: column;
@@ -99,7 +98,7 @@ const handleNextStep = () => {
 if (!state.loaded) getProjects();
 
 return (
-  <div className="w-100  h-100 position-relative">
+  <div className="w-100 position-relative">
     <Wrapper>
       <Card>
         <div>
