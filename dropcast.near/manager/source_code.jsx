@@ -1,8 +1,8 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
-const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
+const changePage = props.changePage || ((page) => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -39,7 +39,10 @@ const handleNewProject = () => {
 
 if (state.isRegister)
   return (
-    <Widget src={`${Owner}/widget/register`} props={{ API_URL, USER, TOKEN }} />
+    <Widget
+      src={`${Owner}/widget/register`}
+      props={{ API_URL, TOKEN, changePage }}
+    />
   );
 
 return (
