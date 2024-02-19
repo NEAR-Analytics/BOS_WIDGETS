@@ -163,6 +163,9 @@ const iconCloseModal = (
 
 return (
   <Wrapper>
+    <Search>
+      <CloseModal onClick={props.handleCloseMenu}> {iconCloseModal}</CloseModal>
+    </Search>
     {apps.length > 0 ? (
       <Items style={{ paddingRight: apps && apps.length >= 5 ? "20px" : "" }}>
         {apps.map((app) => {
