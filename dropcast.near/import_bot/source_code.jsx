@@ -84,7 +84,7 @@ State.init({
 
 const handleImportBot = () => {
   let promise = asyncFetch(
-    `${API_URL}/api/project/roles?guild_id=${"940531636251021362"}`,
+    `${API_URL}/api/project/roles?guild_id=${data.guild_id}`,
     {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -164,7 +164,7 @@ return (
         roles in Settings -> Roles`}
           </p>
           <StepButtonLink
-            href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${"940531636251021362"}&disable_guild_select=true`}
+            href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${data.guild_id}&disable_guild_select=true`}
             target="_blank"
             className="btn"
             onClick={handleImportBot}
