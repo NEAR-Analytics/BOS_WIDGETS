@@ -9,6 +9,7 @@ const [resolverData, setResolverData] = Social.get(resolverPath.accountIds) || [
   "james.near",
   "build.near",
 ];
+const [revocable, setRevocable] = useState(true);
 
 let type = {
   name: "",
@@ -22,7 +23,7 @@ let schemaType = {
     resolverPath: state.resolverPath,
     resolverData: state.resolverData,
   },
-  revocable: boolean,
+  revocable: revocable,
   schemaData: Social.get(`${schemaSrc}/schema/**`, "final"),
 };
 
@@ -42,6 +43,7 @@ State.init({
   schemaSrc: schemaSrc,
   expanded: false,
   selectedSchema: selectedSchema,
+  revocable: revocable,
   schemaUID: state.selectedSchema.UID,
 });
 
@@ -182,17 +184,21 @@ const handleTypeNameChange = (e) => {
   State.update({ typeName: e.target.value.toLowerCase() });
 };
 
+const handleSchemaNameChange = (e) => {
+  State.update({ schemaName: e.target.value });
+};
+
 const schemaData = () => {
   const data = {
     schemas: {
       [state.selectedSchema]: JSON.stringify({
         schemaUID: generateUID(),
         properties: state.properties,
-        resolverPath: state.resolverPath,
         resolver: {
           type: resolverPath,
           data: resolverData,
         },
+        revocable: revocable,
       }),
     },
   };
@@ -228,6 +234,10 @@ const handleResolverDataChange = (newData) => {
   setResolverData(newData);
 };
 
+const handleRevocableChange = (e) => {
+  setRevocable(e.target.checked);
+};
+
 return (
   <Container>
     <Row>
@@ -238,7 +248,7 @@ return (
         type="text"
         value={state.newSchema}
         onChange={(e) => State.update({ newSchema: e.target.value })}
-        placeholder={"accountId/type/schemaId"}
+        placeholder={"accountId/schema/schemaId"}
       />
       <Button onClick={loadSchema}>load</Button>
     </Row>
@@ -264,8 +274,8 @@ return (
         <Input
           type="text"
           placeholder="schemaId"
-          value={state.typeName}
-          onChange={handleTypeNameChange}
+          value={state.schemaName}
+          onChange={handleSchemaNameChange}
         />
         <i>*overwrites existing path</i>
       </Row>
@@ -358,7 +368,8 @@ return (
         <Input
           type="checkbox"
           defaultChecked="true"
-          onChange={(e) => State.update({ isRevocable: e.target.checked })}
+          checked={revocable}
+          onChange={handleRevocableChange}
         />
       </Row>
       <i>*Determine if attestations of this schema can be revocable.</i>
