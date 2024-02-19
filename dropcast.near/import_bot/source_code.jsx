@@ -133,7 +133,7 @@ return (
           {`Please choose allowlist roles (if any). You can update these at anytime `}
         </p>
         <div
-          className="d-flex flex-column"
+          className="d-flex flex-column w-100"
           style={{ maxHeight: 300, overflow: "auto", paddingLeft: "15%" }}
         >
           {state.roles.map((role) => (
