@@ -1,5 +1,5 @@
-const widgetPath = props.src ?? `${accountId}/widget/${widgetName}`;
-const [accountId, unused, widgetName] = props.src.split("/");
+const widgetPath = props.src ?? "every.near/widget/app";
+// const [accountId, unused, widgetName] = props.src.split("/");
 const blockHeight = props.blockHeight;
 const metadata = props.metadata ?? Social.getr(`${widgetPath}/metadata`);
 
@@ -23,23 +23,11 @@ return (
     <div className="text-truncate">
       <div className="text-truncate">
         <span className="fw-bold">{name}</span>{" "}
+      </div>
+      <div className="text-truncate text-muted">
         <small>
           <span className="font-monospace">{widgetPath}</span>
         </small>
-      </div>
-      <div className="text-truncate text-muted">
-        {tags.length > 0 && (
-          <>
-            {tags.map((tag, i) => (
-              <span
-                key={i}
-                className="me-1 fw-light badge border border-secondary text-bg-light"
-              >
-                #{tag}
-              </span>
-            ))}
-          </>
-        )}
         {description}
       </div>
     </div>
