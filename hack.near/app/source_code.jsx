@@ -1,8 +1,9 @@
 const { page, tab, ...passProps } = props;
 
-const { routes } = VM.require("hack.near/widget/app.config") ?? {
-  routes: {},
-};
+const { routes } = props.routes ??
+  VM.require("hack.near/widget/app.config") ?? {
+    routes: {},
+  };
 
 const { MainLayout } = VM.require("apps.near/widget/template.main") || {
   MainLayout: () => <></>,
