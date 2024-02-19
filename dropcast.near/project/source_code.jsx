@@ -1,4 +1,5 @@
 const type = props.type || "other";
+const project = props.project || {};
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -25,12 +26,24 @@ const Value = styled.div`
     color: white;
     font-size: 14px;
 `;
+
+State.init({
+  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
+});
+
+const handleImageNotFound = (e) => {
+  State.update({
+    avatar: "https://dropcast.nearverselabs.com/comingsoon.jpg",
+  });
+};
+
 return (
   <Wrapper>
     <img
       style={{ height: 192 }}
       className="w-100 object-fit-cover rounded-3"
-      src="https://cdn.discordapp.com/icons/988431580538224641/e77dc47375e528b351f7ec287be40080.png?size=1024"
+      src={state.avatar}
+      onError={handleImageNotFound}
     />
     <div className="text-center px-2 py-3">
       <h5>AOI NFT</h5>
