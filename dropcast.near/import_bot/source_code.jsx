@@ -3,7 +3,7 @@ const Owner = "dropcast.near";
 const TOKEN = props.TOKEN || "";
 const CLIENT_ID = "1206878767633534976";
 const API_URL = props.API_URL || "http://localhost:3000";
-const guild_id = props.guild_id || "";
+const guild_id = "940531636251021362";
 
 //Styles
 const Wrapper = styled.div`
