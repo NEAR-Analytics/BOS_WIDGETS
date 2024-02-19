@@ -131,8 +131,10 @@ const MEMBER_OPTIONS = [
 ];
 
 State.init({
+  loaded: false,
   tab: "my_projects",
   member_option: "all",
+  list: [],
 });
 
 const changeTab = (tab) => {
@@ -145,6 +147,32 @@ const changeMemberOption = (value) => {
     member_option: value,
   });
 };
+
+const getList = () => {
+  let promise = asyncFetch(`${API_URL}/api/project?type=${state.tab}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "GET",
+  });
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      State.update({
+        loaded: true,
+        list: data.body,
+      });
+    } else {
+      State.update({
+        error: data.body,
+      });
+    }
+  });
+};
+
+if (!state.loaded) getList();
+console.log(state.list, "==>list");
 
 return (
   <Wrapper>
@@ -162,34 +190,42 @@ return (
       ))}
     </Tabs>
     {state.tab === "my_projects" && (
-      <MyProjectCard>
-        <div className="d-flex flex-column w-50">
-          <p>{`These are the projects on Vulcan which you're a member of.`}</p>
-          <div style={{ width: 240 }}>
-            <Widget
-              props={{
-                noLabel: true,
-                value: state.member_option,
-                options: MEMBER_OPTIONS,
-                onChange: changeMemberOption,
-              }}
-              src={`${Owner}/widget/Select`}
-            />
+      <>
+        <MyProjectCard>
+          <div className="d-flex flex-column w-50">
+            <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+            <div style={{ width: 240 }}>
+              <Widget
+                props={{
+                  noLabel: true,
+                  value: state.member_option,
+                  options: MEMBER_OPTIONS,
+                  onChange: changeMemberOption,
+                }}
+                src={`${Owner}/widget/Select`}
+              />
+            </div>
           </div>
-        </div>
-        <div
-          className="d-flex flex-column w-50 p-4 rounded-3"
-          style={{ backgroundColor: "rgb(38, 38, 38)" }}
-        >
-          <h6>{`Note`}</h6>
-          <p
-            className="m-0"
-            style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}
+          <div
+            className="d-flex flex-column w-50 p-4 rounded-3"
+            style={{ backgroundColor: "rgb(38, 38, 38)" }}
           >
-            {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
-          </p>
-        </div>
-      </MyProjectCard>
+            <h6>{`Note`}</h6>
+            <p
+              className="m-0"
+              style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}
+            >
+              {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
+            </p>
+          </div>
+        </MyProjectCard>
+        <GridWrapper>
+          <Widget src={`${Owner}/widget/project`} />
+          <Widget src={`${Owner}/widget/project`} />
+          <Widget src={`${Owner}/widget/project`} />
+          <Widget src={`${Owner}/widget/project`} />
+        </GridWrapper>
+      </>
     )}
 
     {state.tab === "other_projects" && (
