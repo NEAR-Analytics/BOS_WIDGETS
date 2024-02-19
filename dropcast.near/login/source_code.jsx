@@ -1,6 +1,5 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-const API_URL = "http://localhost:3000";
 const CLIENT_ID = "1206878767633534976";
 const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
@@ -16,6 +15,7 @@ const Wrapper = styled.div`
   background: #171717;
   justify-content: center;
   flex-direction: column;
+  
 `;
 
 const LogoIcon = styled.img`
