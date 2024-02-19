@@ -38,59 +38,7 @@ const AccordionItemFacet = styled(Facet)`
     }
 `;
 
-const Cube = ({
-  as: Component,
-  apply: Facet,
-  extend: CustomFacetCSS,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  onFocus,
-  onBlur,
-  onScroll,
-  children,
-  ...rest
-}) => {
-  const FinalFacet = styled(Facet)`
-        ${CustomFacetCSS || ""}
-    `;
-
-  const Wrapper = FinalFacet || Component || "div";
-
-  return (
-    <Wrapper
-      as={Component}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onScroll={onScroll}
-      {...rest}
-    >
-      {children}
-    </Wrapper>
-  );
+return {
+  AccordionFacet,
+  AccordionItemFacet
 };
-
-const Accordion = ({ children, ...props }) => {
-  return (
-    <Cube as="ul" apply={AccordionFacet} {...props}>
-      {children}
-    </Cube>
-  );
-};
-
-const MyAccordionExtension = `
-    
-`;
-
-return (
-  <>
-    <Accordion extend={MyAccordionExtension} onClick={() => console.log("Hello world!")} width="800px" borderTop="4px solid #000">
-      {Array.from([1, 2, 3]).map((data, idx) => (
-        <AccordionItemFacet as="li">{idx}</AccordionItemFacet>
-      ))}
-    </Accordion>
-  </>
-);
