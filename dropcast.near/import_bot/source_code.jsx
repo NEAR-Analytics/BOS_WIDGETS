@@ -4,6 +4,7 @@ const TOKEN = props.TOKEN || "";
 const CLIENT_ID = "1206878767633534976";
 const API_URL = props.API_URL || "http://localhost:3000";
 const data = props.data || {};
+const onClose = props.onClose || (() => {});
 
 //Styles
 const Wrapper = styled.div`
@@ -58,6 +59,21 @@ const StepButtonLink = styled.a`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241));
 `;
 
+const CloseButton = styled.button`
+    top: 10px;
+    padding: 0;
+    z-index: 1;
+    width: 29px;
+    right: 10px;
+    height: 29px;
+    color: white;
+    border: 1px solid;  
+    position: absolute;
+    align-items: center;
+    border-radius: 50px;  
+    justify-content: center;
+`;
+
 State.init({
   roles: [],
   discord: false,
@@ -109,60 +125,75 @@ const onChange = (value, key) => {
 
 return (
   <Wrapper>
-    {!state.discord && (
-      <Card>
-        <h4>Import Discrod BOT</h4>
-        <p>
-          {`Please Import bot into discord and place it above all the Allowlist
+    <Card>
+      <CloseButton className="btn" onClick={onClose}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M13.46 12L19 17.54V19h-1.46L12 13.46L6.46 19H5v-1.46L10.54 12L5 6.46V5h1.46L12 10.54L17.54 5H19v1.46z"
+          />
+        </svg>
+      </CloseButton>
+      {!state.discord && (
+        <>
+          <h4>Import Discrod BOT</h4>
+          <p>
+            {`Please Import bot into discord and place it above all the Allowlist
         roles in Settings -> Roles`}
-        </p>
-        <StepButtonLink
-          href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${data.guild_id}&disable_guild_select=true`}
-          target="_blank"
-          className="btn"
-          onClick={handleImportBot}
-        >
-          Import Bot Into Discord
-        </StepButtonLink>
-      </Card>
-    )}
-    {state.discord && !state.submitted && (
-      <Card>
-        <h4>{`Choose Allowlist Role(s)`}</h4>
-        <p>
-          {`Please choose allowlist roles (if any). You can update these at anytime `}
-        </p>
-        <div
-          className="d-flex flex-column w-100"
-          style={{ maxHeight: 300, overflow: "auto", paddingLeft: "15%" }}
-        >
-          {state.roles.map((role) => (
-            <Widget
-              key={role.id}
-              props={{
-                value: role.id,
-                label: role.name,
-                onChange: (value) => {
-                  onChange(value, role.id);
-                },
-              }}
-              src={`frichard5.near/widget/NDC-checkbox`}
-            />
-          ))}
-        </div>
-        <StepButton className="btn" onClick={handleSubmit}>
-          Submit
-        </StepButton>
-      </Card>
-    )}
-    {state.submitted && (
-      <Card>
-        <h4>{`Listed Successfully`}</h4>
-        <p>
-          {`You can manage your project information and use admin functions from the Manager tab.`}
-        </p>
-        <StepButton className="btn">Goto Dashboard</StepButton>
-      </Card>
-    )}
+          </p>
+          <StepButtonLink
+            href={`https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=268435457&scope=bot&guild_id=${data.guild_id}&disable_guild_select=true`}
+            target="_blank"
+            className="btn"
+            onClick={handleImportBot}
+          >
+            Import Bot Into Discord
+          </StepButtonLink>
+        </>
+      )}
+      {state.discord && !state.submitted && (
+        <>
+          <h4>{`Choose Allowlist Role(s)`}</h4>
+          <p>
+            {`Please choose allowlist roles (if any). You can update these at anytime `}
+          </p>
+          <div
+            className="d-flex flex-column w-100"
+            style={{ maxHeight: 300, overflow: "auto", paddingLeft: "15%" }}
+          >
+            {state.roles.map((role) => (
+              <Widget
+                key={role.id}
+                props={{
+                  value: role.id,
+                  label: role.name,
+                  onChange: (value) => {
+                    onChange(value, role.id);
+                  },
+                }}
+                src={`frichard5.near/widget/NDC-checkbox`}
+              />
+            ))}
+          </div>
+          <StepButton className="btn" onClick={handleSubmit}>
+            Submit
+          </StepButton>
+        </>
+      )}
+      {state.submitted && (
+        <>
+          <h4>{`Listed Successfully`}</h4>
+          <p>
+            {`You can manage your project information and use admin functions from the Manager tab.`}
+          </p>
+          <StepButton className="btn">Goto Dashboard</StepButton>
+        </>
+      )}
+    </Card>
   </Wrapper>
 );
