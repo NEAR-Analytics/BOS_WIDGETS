@@ -2,8 +2,8 @@ const { apps } = props;
 
 const CloseModal = styled.span`
   position: absolute;
-  top: -40px;
-  right: 0;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
   transition: all 0.3s;
   &:hover {
@@ -36,20 +36,6 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-`;
-
-const Search = styled.div`
-  width: 392px;
-  height: 46px;
-  position: relative;
-  @media (max-width: 500px) {
-    width: 100%;
-  }
-  input {
-    border-radius: 10px;
-    border: 1px solid #d9d9d9;
-    background: #fff;
-  }
 `;
 
 const H1 = styled.h1`
@@ -163,9 +149,7 @@ const iconCloseModal = (
 
 return (
   <Wrapper>
-    <Search>
-      <CloseModal onClick={props.handleCloseMenu}> {iconCloseModal}</CloseModal>
-    </Search>
+    <CloseModal onClick={props.handleCloseMenu}>{iconCloseModal}</CloseModal>
     {apps.length > 0 ? (
       <Items style={{ paddingRight: apps && apps.length >= 5 ? "20px" : "" }}>
         {apps.map((app) => {
