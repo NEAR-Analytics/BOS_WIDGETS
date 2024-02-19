@@ -218,7 +218,10 @@ return (
         </div>
         <StepButton
           className="btn"
-          disabled={state.selected === "0" || !state.description}
+          disabled={
+            // state.selected === "0" ||
+            !state.description
+          }
           onClick={handleNextStep}
         >
           Next Step
