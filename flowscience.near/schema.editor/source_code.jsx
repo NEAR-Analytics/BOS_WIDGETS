@@ -1,7 +1,7 @@
 const typeSrc = props.typeSrc || "every.near";
 const schemaSrc = props.schemaSrc ?? "attestations.near";
 const blockHeight = props.blockHeight || "final";
-const selectedSchema = props.selectedSchema ?? "attestations.near/type/isTrue";
+const selectedSchema = props.selectedSchema;
 const [resolverPath, setResolverPath] = useState(
   "flowscience.near/widget/attester.resolver"
 );
@@ -23,7 +23,7 @@ let schemaType = {
     resolverData: state.resolverData,
   },
   revocable: boolean,
-  schema: Social.get(`${schemaSrc}/schema/**`, "final"),
+  schemaData: Social.get(`${schemaSrc}/schema/**`, "final"),
 };
 
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
@@ -347,40 +347,6 @@ return (
         <Button
           onClick={handleAddProperty}
           disabled={state.newPropertyName.trim() === ""}
-        >
-          +
-        </Button>
-      </Row>
-      <hr></hr>
-      <Text>
-        <b>Widgets (optional):</b>
-      </Text>
-      {Object.entries(state.widgets)?.map(([key, src]) => (
-        <Row key={key}>
-          <Text>{key}:</Text>
-          <Input type="text" value={src} onChange={() => {}} />
-          <Button onClick={() => handleRemoveWidget(key)}>Remove</Button>
-        </Row>
-      ))}
-      <Row>
-        <Input
-          type="text"
-          placeholder="Widget Name"
-          value={state.newWidgetKey}
-          onChange={handleWidgetKeyChange}
-        />
-        {":"}
-        <Input
-          type="text"
-          placeholder="accountId/widget/name"
-          value={state.newWidgetSrc}
-          onChange={handleWidgetSrcChange}
-        />
-        <Button
-          onClick={handleAddWidget}
-          disabled={
-            state.newWidgetKey.trim() === "" || state.newWidgetSrc.trim() === ""
-          }
         >
           +
         </Button>
