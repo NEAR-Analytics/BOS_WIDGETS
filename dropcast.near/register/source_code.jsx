@@ -201,6 +201,7 @@ return (
         props={{
           API_URL,
           TOKEN,
+          guild_id: state.selected,
         }}
         src={`${Owner}/widget/import_bot`}
       />
