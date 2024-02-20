@@ -65,6 +65,12 @@ State.init({
   twitter: project.twitter || "",
 });
 
+const convertObject = (params) => {
+  return Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+};
+
 const getProjects = () => {
   State.update({
     loaded: true,
@@ -98,7 +104,6 @@ const changeOption = (value) => {
 };
 
 const handleNextStep = () => {
-  console.log("eeeee", type);
   if (type === "edit") {
     let promise = asyncFetch(`${API_URL}/api/project`, {
       headers: {
