@@ -65,7 +65,7 @@ const onSelect = (val) => {
       },
       method: "POST",
       body: convertObject({
-        whitelist: !project.whitelist,
+        whitelist: !state.status,
         project_id: project._id,
       }),
     });
@@ -92,7 +92,7 @@ const ManageButton = (
 
 const Items = [
   {
-    name: `${project.whitelist ? "Disable" : "Enable"} Whitelisting`,
+    name: `${state.status ? "Disable" : "Enable"} Whitelisting`,
     id: "whitelist",
     onSelect,
   },
