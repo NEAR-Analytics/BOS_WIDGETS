@@ -76,7 +76,7 @@ const fetchData = () => {
 
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded && !state.token) fetchData();
-
+console.log(state, "==>state");
 if (state.token)
   return (
     <Widget
