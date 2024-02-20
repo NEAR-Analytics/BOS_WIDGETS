@@ -61,7 +61,7 @@ const fetchData = () => {
 
           if (result.token) {
             Storage.set("token", result.token);
-            Storage.set("user", result.user);
+            Storage.set("user", JSON.stringify(result.user));
             State.update({ token: result.token, user: result.user });
           } else if (result.error)
             State.update({ error: result.error, go_login: true });
