@@ -191,7 +191,7 @@ const Divider = styled.div`
 `;
 
 const DropdownItem = (props) => (
-  <MenuItem onSelect={props.onSelect} disabled={props.disabled}>
+  <MenuItem onSelect={() => props.onSelect(props.id)} disabled={props.disabled}>
     {props?.iconLeft && <IconLeft className={props.iconLeft} />}
     {props.name}
     {props?.iconRight && <IconRight className={props.iconRight} />}
