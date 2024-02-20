@@ -27,6 +27,8 @@ const convertObject = (params) => {
 };
 
 const fetchData = () => {
+  State.update({ loaded: true });
+
   const params = {
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -64,21 +66,17 @@ const fetchData = () => {
             State.update({
               token: result.token,
               user: result.user,
-              loaded: true,
             });
           } else if (result.error)
-            State.update({ error: result.error, loaded: true, go_login: true });
+            State.update({ error: result.error, go_login: true });
         });
       } else {
-        console.log(TOKEN, "=======><===========11111111");
-
-        if (!TOKEN) State.update({ go_login: true, loaded: true });
+        if (!TOKEN) State.update({ go_login: true });
         return;
       }
     })
     .catch((error) => {
-      console.log(TOKEN, "=======><===========22222222");
-      if (!TOKEN) State.update({ go_login: true, loaded: true });
+      if (!TOKEN) State.update({ go_login: true });
     });
 };
 
