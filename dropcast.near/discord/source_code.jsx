@@ -21,7 +21,7 @@ State.init({
 });
 
 if (!DefaultTheme) return;
-
+console.log({ DefaultTheme, TOKEN });
 const convertObject = (params) => {
   return Object.keys(params)
     .map((param) => `${param}=${params[param]}`)
