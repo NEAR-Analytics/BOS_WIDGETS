@@ -80,7 +80,11 @@ const VerificationCard = styled.div`
     }
 
     &:hover {
+      ${({ selected }) =>
+        !selected &&
+        `
       background-color: #2a69a5;
+    `}
       position: relative;
       transform: scale(0.95);
     }
@@ -184,7 +188,7 @@ return (
       <VerificationCard
         key={index}
         selected={selectedIndex === index}
-        onClick={() => handleSelection(index)}
+        onClick={() => setSelectedIndex(index)}
       >
         <VerificationTitle
           style={{ color: selectedIndex === index ? "#fff" : "" }}
