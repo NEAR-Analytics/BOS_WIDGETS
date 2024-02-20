@@ -6,16 +6,14 @@ const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
 // const API_URL = "https://dropcast.nearverselabs.com";
 const API_URL = "http://localhost:2402";
-const DefaultTheme = VM.require("mattb.near/widget/Linktree.Themes.Default");
 const discordCode = props.code || "";
 
 let TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 let USER = Storage.get("user", `${Owner}/widget/discord`);
 
-if (!DefaultTheme) return;
-
 State.init({
   error: "",
+  waiting: false,
   loaded: false,
   go_login: false,
   token: TOKEN,
@@ -101,9 +99,15 @@ if (state.token)
 
 if (!discordCode || !accountId || state.go_login)
   return <Widget src={`${Owner}/widget/login`} />;
-else if (!state.loaded && !state.token)
+else if (state.waiting && !state.loaded && !state.token)
   setTimeout(() => {
     fetchData();
   }, 1000);
+
+if (!state.waiting && !state.loaded && !state.token) {
+  setTimeout(() => {
+    if (!state.token) State.update({ waiting: true });
+  }, 2000);
+}
 
 return <div>{result.error || `Loading`}</div>;
