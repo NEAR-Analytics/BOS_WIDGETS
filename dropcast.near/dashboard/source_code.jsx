@@ -226,7 +226,7 @@ return (
           {!state.loaded && <h5>Loading...</h5>}
           {state[state.tab].map((project) => (
             <Widget
-              props={{ API_URL, project }}
+              props={{ API_URL, TOKEN, project }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
@@ -241,7 +241,7 @@ return (
         <GridWrapper>
           {state[state.tab].map((project) => (
             <Widget
-              props={{ API_URL, project }}
+              props={{ API_URL, TOKEN, project }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
@@ -256,7 +256,7 @@ return (
         <GridWrapper>
           {state[state.tab].map((project) => (
             <Widget
-              props={{ API_URL, project, type: "past" }}
+              props={{ API_URL, TOKEN, project, type: "past" }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
