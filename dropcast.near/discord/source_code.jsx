@@ -46,25 +46,30 @@ const fetchData = () => {
     body: urlSearchParams,
   });
 
-  promise.then((data) => {
-    if (data.status === 200) {
-      asyncFetch(`${API_URL}/api/auth/discord`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        method: "POST",
-        body: convertObject(data.body),
-      }).then((res) => {
-        const result = res.body;
-        console.log(result, "==>reusult");
-        if (result.token)
-          State.update({ token: result.token, user: result.user });
-        else if (result.error) State.update({ error: result.error });
-      });
-    } else {
-      return <Widget src={`${Owner}/widget/login`} />;
-    }
-  });
+  promise
+    .then((data) => {
+      if (data.status === 200) {
+        asyncFetch(`${API_URL}/api/auth/discord`, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          method: "POST",
+          body: convertObject(data.body),
+        }).then((res) => {
+          const result = res.body;
+          console.log(result, "==>reusult");
+          if (result.token)
+            State.update({ token: result.token, user: result.user });
+          else if (result.error) State.update({ error: result.error });
+        });
+      } else {
+        return <Widget src={`${Owner}/widget/login`} />;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      <Widget src={`${Owner}/widget/login`} />;
+    });
 };
 
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
