@@ -29,7 +29,7 @@ const convertObject = (params) => {
 };
 
 const fetchData = () => {
-  State.update({ loaded: true });
+  State.update({ ...state, loaded: true });
 
   const params = {
     client_id: CLIENT_ID,
@@ -66,19 +66,20 @@ const fetchData = () => {
             Storage.set("token", result.token);
             Storage.set("user", result.user);
             State.update({
+              ...state,
               token: result.token,
               user: result.user,
             });
           } else if (result.error)
-            State.update({ error: result.error, go_login: true });
+            State.update({ ...state, error: result.error, go_login: true });
         });
       } else {
-        if (!TOKEN) State.update({ go_login: true });
+        if (!TOKEN) State.update({ ...state, go_login: true });
         return;
       }
     })
     .catch((error) => {
-      if (!TOKEN) State.update({ go_login: true });
+      if (!TOKEN) State.update({ ...state, go_login: true });
     });
 };
 
