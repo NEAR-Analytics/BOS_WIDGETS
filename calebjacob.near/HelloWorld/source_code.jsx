@@ -22,7 +22,7 @@ function HelloWorld() {
     <div className={s.wrapper}>
       <h1>Welcome!</h1>
 
-      <Message props={{ message: 'Hello world!!' }} />
+      <Message props={{ message: 'Hello world!' }} />
 
       <button type="button" onClick={() => setCount((value) => value + 1)}>
         Increase Count: {count}
