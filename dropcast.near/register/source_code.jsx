@@ -5,7 +5,7 @@ const TOKEN = props.TOKEN || "";
 const type = props.type || "edit";
 const project = props.project || {};
 const changePage = props.changePage || ((page) => {});
-
+console.log(project, "==>project");
 //Styles
 const Wrapper = styled.div`
     display: flex;
@@ -57,12 +57,12 @@ State.init({
   loaded: false,
   go_manager: false,
   projects: [{ text: "Loading", value: "0" }],
-  description: project.description || "",
-  mint_price: project.mint_price || "",
-  mint_date: project.mint_date || "",
-  supply: project.supply || "",
-  discord: project.discord || "",
-  twitter: project.twitter || "",
+  description: project?.description || "",
+  mint_price: project?.mint_price || "",
+  mint_date: project?.mint_date || "",
+  supply: project?.supply || "",
+  discord: project?.discord || "",
+  twitter: project?.twitter || "",
 });
 
 const convertObject = (params) => {
