@@ -76,7 +76,6 @@ const fetchData = () => {
     })
     .catch((error) => {
       console.log(error);
-      <Widget src={`${Owner}/widget/login`} />;
     });
 };
 
