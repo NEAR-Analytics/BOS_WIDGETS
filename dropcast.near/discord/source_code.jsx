@@ -10,7 +10,7 @@ const discordCode = props.code || "";
 
 let TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 let USER = Storage.get("user", `${Owner}/widget/discord`);
-
+console.log({ TOKEN });
 State.init({
   error: "",
   loaded: false,
@@ -27,7 +27,7 @@ const convertObject = (params) => {
 
 const fetchData = () => {
   State.update({ ...state, loaded: true });
-
+  if (TOKEN) return;
   const params = {
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
@@ -95,6 +95,9 @@ if (state.token)
 
 if (!discordCode || !accountId || state.go_login)
   return <Widget src={`${Owner}/widget/login`} />;
-else if (!state.loaded && !state.token) fetchData();
-
+else if (!state.loaded && !state.token)
+  setTimeout(() => {
+    fetchData();
+  }, 1000);
+console.log(state);
 return <div>{result.error || `Loading`}</div>;
