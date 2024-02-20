@@ -2,14 +2,16 @@ const Cube = ({
   as: DOMComponent,
   apply: Facet,
   extend: CustomFacetCSS,
-  attributes: FacetAttributes,
-  options: FacetOptions,
+  attributes: CubeAttributes,
+  options: CubeOptions,
+  events: CubeEvents,
   children,
   ...Properties
 }) => {
-  FacetAttributes ??= [];
-  FacetOptions ??= [];
-    
+  CubeAttributes ??= {};
+  CubeOptions ??= {};
+  CubeEvents ??= {};
+
   const hasMediaStyles = Object.keys(Properties).find((key) =>
     key.startsWith("media")
   );
@@ -31,13 +33,30 @@ const Cube = ({
   const attributeClasses = Object.keys(Properties)
     .filter(
       (prop) =>
-        prop in FacetAttributes && Properties[prop] in FacetAttributes[prop]
+        prop in CubeAttributes && Properties[prop] in CubeAttributes[prop]
     )
-    .map((prop) => FacetAttributes[prop][Properties[prop]]);
+    .map((prop) => CubeAttributes[prop][Properties[prop]]);
 
-  const optionClasses = Object.keys(FacetOptions)
+  const optionClasses = Object.keys(CubeOptions)
     .filter((option) => option in Properties)
-    .map((option) => FacetOptions[option]);
+    .map((option) => CubeOptions[option]);
+
+  const combinedEventHandlers = Object.keys(CubeEvents).reduce((events, event) => {
+      if (event in Properties) {
+          return {
+              ...events,
+              [event]: (e) => {
+                  Properties[event](e);
+                  CubeEvents[event](e);
+              }
+          }
+      }
+
+      return {
+          ...events,
+          [event]: CubeEvents[event]
+      };
+  }, {});
 
   const classNames = [...attributeClasses, ...optionClasses].join(" ");
   const Element = styled(Facet || DOMComponent || styled.div``)`
@@ -46,7 +65,7 @@ const Cube = ({
   `;
 
   return (
-    <Element as={DOMComponent} className={classNames} {...Properties}>
+    <Element as={DOMComponent} className={classNames} {...combinedEventHandlers} {...Properties}>
       {children}
     </Element>
   );
