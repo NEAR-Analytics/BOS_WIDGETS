@@ -45,8 +45,9 @@ const Button = styled.button`
 `;
 
 State.init({
-  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
   error: "",
+  status: project.whitelist,
+  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
 });
 
 const convertObject = (params) => {
@@ -71,7 +72,9 @@ const onSelect = (val) => {
 
     promise.then((data) => {
       if (data.status === 200) {
-        project.whitelist = !project.whitelist;
+        State.update({
+          status: !state.status,
+        });
       } else {
         State.update({
           error: data.body,
@@ -123,7 +126,7 @@ return (
         <div className="d-flex flex-column gap-3">
           <div className="d-flex justify-content-between">
             <Label>Whitelist</Label>
-            {project.whitelist ? (
+            {state.status ? (
               <div className="d-flex align-items-center gap-2">
                 <BadgeActiveIcon />
                 <Value style={{ fontSize: 12 }}>Active</Value>
