@@ -12,8 +12,8 @@ const discordCode = props.code || "";
 State.init({
   loaded: false,
   error: "",
-  token: Storage.get("token"),
-  user: Storage.get("user"),
+  token: Storage.get("token", `${Owner}/widget/discord`),
+  user: Storage.get("user", `${Owner}/widget/discord`),
 });
 
 const convertObject = (params) => {
