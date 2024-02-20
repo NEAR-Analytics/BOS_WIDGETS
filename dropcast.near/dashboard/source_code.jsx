@@ -221,7 +221,7 @@ return (
         <GridWrapper>
           {state.list.map((project) => (
             <Widget
-              props={{ project }}
+              props={{ API_URL, project }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
@@ -236,7 +236,7 @@ return (
         <GridWrapper>
           {state.list.map((project) => (
             <Widget
-              props={{ project }}
+              props={{ API_URL, project }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
@@ -251,7 +251,7 @@ return (
         <GridWrapper>
           {state.list.map((project) => (
             <Widget
-              props={{ project, type: "past" }}
+              props={{ API_URL, project, type: "past" }}
               key={project._id}
               src={`${Owner}/widget/project`}
             />
