@@ -138,7 +138,7 @@ State.init({
 });
 
 const changeTab = (tab) => {
-  State.update({ tab });
+  State.update({ tab, loaded: false, list: [] });
 };
 
 const changeMemberOption = (value) => {
