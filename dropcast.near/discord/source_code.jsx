@@ -8,15 +8,13 @@ const OAuthScope = ["identify", "guilds"].join(" ");
 const API_URL = "http://localhost:2402";
 
 const discordCode = props.code || "";
-const TOKEN = Storage.get("token", `${Owner}/widget/main`);
-const USER = Storage.get("user", `${Owner}/widget/main`);
-console.log({ TOKEN, USER });
+
 State.init({
   error: "",
   loaded: false,
   go_login: false,
-  token: Storage.get("token", `${Owner}/widget/main`),
-  user: JSON.parse(Storage.get("user", `${Owner}/widget/main`)),
+  token: Storage.get("token", `${Owner}/widget/discord`),
+  user: Storage.get("user", `${Owner}/widget/discord`),
 });
 
 const convertObject = (params) => {
@@ -64,7 +62,7 @@ const fetchData = () => {
 
           if (result.token) {
             Storage.set("token", result.token);
-            Storage.set("user", JSON.stringify(result.user));
+            Storage.set("user", result.user);
             State.update({ token: result.token, user: result.user });
           } else if (result.error)
             State.update({ error: result.error, go_login: true });
@@ -87,7 +85,7 @@ if (state.token)
   return (
     <Widget
       src={`${Owner}/widget/main`}
-      props={{ TOKEN: state.token, USER: state.user }}
+      props={{ API_URL, TOKEN: state.token, USER: state.user }}
     />
   );
 return <div>{result.error || `Loading`}</div>;
