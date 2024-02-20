@@ -223,6 +223,7 @@ return (
           </div>
         </MyProjectCard>
         <GridWrapper>
+          {!state.loaded && <h5>Loading...</h5>}
           {state[state.tab].map((project) => (
             <Widget
               props={{ API_URL, project }}
