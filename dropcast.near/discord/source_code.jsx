@@ -77,6 +77,7 @@ const fetchData = () => {
 };
 
 const Logout = () => {
+  console.log("lllllllllllllllllll");
   Storage.set("token", null);
   Storage.set("user", null);
 };
