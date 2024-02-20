@@ -6,14 +6,11 @@ const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
 // const API_URL = "https://dropcast.nearverselabs.com";
 const API_URL = "http://localhost:2402";
-// const DefaultTheme = VM.require("mattb.near/widget/Linktree.Themes.Default");
+const DefaultTheme = VM.require("mattb.near/widget/Linktree.Themes.Default");
 const discordCode = props.code || "";
-const paths = Social.get(`*/avtr/**`, "final");
 
 const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 const USER = Storage.get("user", `${Owner}/widget/discord`);
-
-console.log(paths, "==>DefaultTheme", TOKEN);
 
 State.init({
   error: "",
@@ -22,6 +19,8 @@ State.init({
   token: TOKEN,
   user: USER,
 });
+
+if (!DefaultTheme) return;
 
 const convertObject = (params) => {
   return Object.keys(params)
