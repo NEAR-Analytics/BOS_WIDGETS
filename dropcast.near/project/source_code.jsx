@@ -3,6 +3,7 @@ const Owner = "dropcast.near";
 const TOKEN = props.TOKEN || "";
 const type = props.type || "other";
 const project = props.project || {};
+const editMyProject = props.editMyProject || ((val) => {});
 
 const Wrapper = styled.div`
     padding: 20px;
@@ -81,6 +82,8 @@ const onSelect = (val) => {
         });
       }
     });
+  } else if (val === "configure") {
+    editMyProject(project);
   }
 };
 
