@@ -6,11 +6,10 @@ let { src } = props;
 
 let contract = "checks.integrations.near";
 
-console.log("qer..", src);
 const [verificationItems, setVerificationItems] = useState([
   {
     title: "Verify Account is Older than 1 year",
-    status: true,
+    status: false,
     endpoint: "/account-age",
     viewMethod: "is_one_year_old",
     changeMethod: "update_contract_age",
@@ -80,7 +79,11 @@ const VerificationCard = styled.div`
     }
 
     &:hover {
+      ${({ selected }) =>
+        !selected &&
+        `
       background-color: #2a69a5;
+    `}
       position: relative;
       transform: scale(0.95);
     }
@@ -184,7 +187,7 @@ return (
       <VerificationCard
         key={index}
         selected={selectedIndex === index}
-        onClick={() => handleSelection(index)}
+        onClick={() => setSelectedIndex(index)}
       >
         <VerificationTitle
           style={{ color: selectedIndex === index ? "#fff" : "" }}
