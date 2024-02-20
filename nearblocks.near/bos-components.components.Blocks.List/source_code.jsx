@@ -1602,7 +1602,7 @@ function MainComponent({ currentPage, setPage, t, network }) {
 ) => {
             const resp = data?.body?.blocks?.[0];
             if (data.status === 200) {
-              setTotalCount(resp?.count);
+              setTotalCount(resp?.count ?? 0);
             }
           },
         )
@@ -1651,9 +1651,11 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'block_hash',
       cell: (row) => (
         <span>
-          <a href={`/blocks/${row.block_hash}`} className="hover:no-underline">
+          <a href={`/blocks/${row?.block_hash}`} className="hover:no-underline">
             <a className="text-green-500 hover:no-underline">
-              {row.block_height ? localFormat(row.block_height) : ''}
+              {row?.block_height
+                ? localFormat(row?.block_height)
+                : row?.block_height ?? ''}
             </a>
           </a>
         </span>
@@ -1705,13 +1707,13 @@ function MainComponent({ currentPage, setPage, t, network }) {
               <Tooltip.Trigger asChild>
                 <span>
                   {!showAge
-                    ? row.block_timestamp
+                    ? row?.block_timestamp
                       ? formatTimestampToString(
-                          nanoToMilli(row.block_timestamp),
+                          nanoToMilli(row?.block_timestamp),
                         )
                       : ''
-                    : row.block_timestamp
-                    ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                    : row?.block_timestamp
+                    ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                     : ''}
                 </span>
               </Tooltip.Trigger>
@@ -1721,11 +1723,11 @@ function MainComponent({ currentPage, setPage, t, network }) {
                 side="bottom"
               >
                 {showAge
-                  ? row.block_timestamp
-                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                  ? row?.block_timestamp
+                    ? formatTimestampToString(nanoToMilli(row?.block_timestamp))
                     : ''
-                  : row.block_timestamp
-                  ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                  : row?.block_timestamp
+                  ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                   : ''}
               </Tooltip.Content>
             </Tooltip.Root>
@@ -1739,9 +1741,9 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'count',
       cell: (row) => (
         <span>
-          {row.transactions_agg.count
-            ? localFormat(row.transactions_agg.count)
-            : '0'}
+          {row?.transactions_agg?.count
+            ? localFormat(row?.transactions_agg?.count)
+            : row?.transactions_agg?.count ?? ''}
         </span>
       ),
       tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
@@ -1753,7 +1755,9 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'count',
       cell: (row) => (
         <span>
-          {row.receipts_agg.count ? localFormat(row.receipts_agg.count) : '0'}
+          {row?.receipts_agg?.count
+            ? localFormat(row?.receipts_agg?.count)
+            : row?.receipts_agg?.count ?? ''}
         </span>
       ),
       tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
@@ -1766,11 +1770,11 @@ function MainComponent({ currentPage, setPage, t, network }) {
       cell: (row) => (
         <span>
           <a
-            href={`/address/${row.author_account_id}`}
+            href={`/address/${row?.author_account_id}`}
             className="hover:no-underline"
           >
             <a className="text-green-500 hover:no-underline">
-              {shortenAddress(row.author_account_id)}
+              {shortenAddress(row?.author_account_id ?? '')}
             </a>
           </a>
         </span>
@@ -1785,8 +1789,8 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'gas_used',
       cell: (row) => (
         <span>
-          {row.chunks_agg.gas_used !== null
-            ? convertToMetricPrefix(row.chunks_agg.gas_used) + 'gas'
+          {row?.chunks_agg?.gas_used !== null
+            ? convertToMetricPrefix(row?.chunks_agg?.gas_used) + 'gas'
             : ''}
         </span>
       ),
@@ -1799,9 +1803,10 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'gas_limit',
       cell: (row) => (
         <span>
-          {row.chunks_agg.gas_limit !== null
-            ? convertToMetricPrefix(row.chunks_agg.gas_limit) + 'gas'
-            : ''}
+          {row?.chunks_agg?.gas_limit
+            ? convertToMetricPrefix(row?.chunks_agg?.gas_limit)
+            : row?.chunks_agg?.gas_limit ?? ''}
+          gas
         </span>
       ),
       tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
@@ -1813,9 +1818,10 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'gas_price',
       cell: (row) => (
         <span>
-          {row.chunks_agg.gas_used !== undefined && row.gas_price !== null
-            ? gasFee(row.chunks_agg.gas_used, row.gas_price) + 'Ⓝ'
-            : ''}
+          {row?.chunks_agg?.gas_used
+            ? gasFee(row?.chunks_agg?.gas_used, row?.gas_price)
+            : row?.chunks_agg?.gas_used ?? ''}
+          Ⓝ
         </span>
       ),
       tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
@@ -1836,14 +1842,20 @@ function MainComponent({ currentPage, setPage, t, network }) {
             ? t('blocks:listing', {
                 from: start?.block_height
                   ? localFormat(start?.block_height)
-                  : '',
-                to: end?.block_height ? localFormat(end?.block_height) : '',
+                  : start?.block_height ?? '',
+                to: end?.block_height
+                  ? localFormat(end?.block_height)
+                  : end?.block_height ?? '',
                 count: localFormat(totalCount.toString()),
               })
             : `Block #${
-                start?.block_height ? localFormat(start?.block_height) : ''
+                start?.block_height
+                  ? localFormat(start?.block_height)
+                  : start?.block_height ?? ''
               } to ${
-                '#' + end?.block_height ? localFormat(end?.block_height) : ''
+                '#' + end?.block_height
+                  ? localFormat(end?.block_height)
+                  : end?.block_height ?? ''
               } (Total of ${localFormat(totalCount.toString())} blocks)`}{' '}
         </p>
       )}
