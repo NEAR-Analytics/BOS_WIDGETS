@@ -70,11 +70,14 @@ const fetchData = () => {
             State.update({ error: result.error, loaded: true, go_login: true });
         });
       } else {
-        return State.update({ go_login: true, loaded: true });
+        console.log(TOKEN, "=======><===========11111111");
+
+        if (!TOKEN) State.update({ go_login: true, loaded: true });
+        return;
       }
     })
     .catch((error) => {
-      console.log(error, { TOKEN });
+      console.log(TOKEN, "=======><===========22222222");
       if (!TOKEN) State.update({ go_login: true, loaded: true });
     });
 };
