@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-const API_URL = props.API_URL || "http://localhost:3000";
+const API_URL = props.API_URL || "http://localhost:2402";
 const TOKEN = props.TOKEN || "";
 const changePage = props.changePage || ((page) => {});
 
@@ -27,7 +27,17 @@ const ProjectButton = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
 `;
 
+const GridWrapper = styled.div`
+  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  @media (max-width: 510px) {
+    grid-template-columns: repeat(1,minmax(0,1fr));
+  }
+`;
 State.init({
+  list: [],
+  loaded: false,
   isRegister: false,
 });
 
@@ -36,6 +46,31 @@ const handleNewProject = () => {
     isRegister: true,
   });
 };
+
+const getList = () => {
+  let promise = asyncFetch(`${API_URL}/api/project/me`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "GET",
+  });
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      State.update({
+        loaded: true,
+        list: data.body,
+      });
+    } else {
+      State.update({
+        error: data.body,
+      });
+    }
+  });
+};
+
+if (!state.loaded) getList();
 
 if (state.isRegister)
   return (
@@ -53,5 +88,14 @@ return (
         + New Project
       </ProjectButton>
     </div>
+    <GridWrapper>
+      {state.list.map((project) => (
+        <Widget
+          props={{ project }}
+          key={project._id}
+          src={`${Owner}/widget/project`}
+        />
+      ))}
+    </GridWrapper>
   </Wrapper>
 );
