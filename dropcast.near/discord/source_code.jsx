@@ -80,7 +80,7 @@ const fetchData = () => {
 if ((!discordCode || !accountId) && state.go_login)
   return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded && !state.token) fetchData();
-
+console.log(state, "==>state");
 if (state.token)
   return (
     <Widget
