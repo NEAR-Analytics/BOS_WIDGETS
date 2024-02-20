@@ -10,10 +10,11 @@ const API_URL = "http://localhost:2402";
 const discordCode = props.code || "";
 
 State.init({
-  loaded: false,
   error: "",
-  token: Storage.get("token", `${Owner}/widget/discord`),
-  user: Storage.get("user", `${Owner}/widget/discord`),
+  loaded: false,
+  go_login: false,
+  token: Storage.get("token", `${Owner}/widget/main`),
+  user: JSON.parse(Storage.get("user", `${Owner}/widget/main`)),
 });
 
 const convertObject = (params) => {
@@ -63,20 +64,23 @@ const fetchData = () => {
             Storage.set("token", result.token);
             Storage.set("user", JSON.stringify(result.user));
             State.update({ token: result.token, user: result.user });
-          } else if (result.error) State.update({ error: result.error });
+          } else if (result.error)
+            State.update({ error: result.error, go_login: true });
         });
       } else {
-        return <Widget src={`${Owner}/widget/login`} />;
+        return State.update({ go_login: true });
       }
     })
     .catch((error) => {
       console.log(error);
+      return State.update({ go_login: true });
     });
 };
 
-if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
+if ((!discordCode || !accountId) && state.go_login)
+  return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded && !state.token) fetchData();
-console.log(state, "==>state");
+
 if (state.token)
   return (
     <Widget
