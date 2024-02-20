@@ -77,10 +77,6 @@ const fetchData = () => {
     });
 };
 
-if (!discordCode || !accountId || state.go_login)
-  return <Widget src={`${Owner}/widget/login`} />;
-else if (!state.loaded && !state.token) fetchData();
-console.log(state, "==>state");
 if (state.token)
   return (
     <Widget
@@ -88,4 +84,10 @@ if (state.token)
       props={{ API_URL, TOKEN: state.token, USER: state.user }}
     />
   );
+
+if (!discordCode || !accountId || state.go_login)
+  return <Widget src={`${Owner}/widget/login`} />;
+else if (!state.loaded && !state.token) fetchData();
+console.log(state, "==>state");
+
 return <div>{result.error || `Loading`}</div>;
