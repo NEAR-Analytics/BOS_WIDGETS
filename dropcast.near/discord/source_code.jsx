@@ -9,8 +9,10 @@ const API_URL = "http://localhost:2402";
 const DefaultTheme = VM.require("mattb.near/widget/Linktree.Themes.Default");
 const discordCode = props.code || "";
 
-const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
-const USER = Storage.get("user", `${Owner}/widget/discord`);
+let TOKEN = Storage.get("token", `${Owner}/widget/discord`);
+let USER = Storage.get("user", `${Owner}/widget/discord`);
+
+if (!DefaultTheme) return;
 
 State.init({
   error: "",
@@ -20,7 +22,6 @@ State.init({
   user: USER,
 });
 
-if (!DefaultTheme) return;
 console.log({ DefaultTheme, TOKEN });
 const convertObject = (params) => {
   return Object.keys(params)
