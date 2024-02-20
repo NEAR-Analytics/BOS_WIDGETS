@@ -2,8 +2,9 @@ let { trigger, header, subHeader, items, receiver, ...rootProps } = props;
 
 const Root = styled("DropdownMenu.Root")``;
 
-const TriggerWrapper = styled.span`
-  display: inline-block;
+const TriggerWrapper = styled.div`
+  display: flex;
+  width: 100%;
 `;
 
 const Content = styled("DropdownMenu.Content")`
