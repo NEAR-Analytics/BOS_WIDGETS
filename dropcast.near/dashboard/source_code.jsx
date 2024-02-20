@@ -187,7 +187,7 @@ return (
           style={{ opacity: tab.value === state.tab ? 1 : 0.5 }}
         >
           <p className="m-0">{tab.label}</p>
-          <Counter>{state[state.tab].length}</Counter>
+          <Counter>{state[tab.value].length}</Counter>
           {tab.value === state.tab && <SelectedTab />}
         </Tab>
       ))}
@@ -224,7 +224,7 @@ return (
         </MyProjectCard>
         <GridWrapper>
           {!state.loaded && <h5>Loading...</h5>}
-          {state[state.tab].map((project) => (
+          {state.my_projects.map((project) => (
             <Widget
               props={{ API_URL, TOKEN, project }}
               key={project._id}
@@ -239,7 +239,7 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
         <GridWrapper>
-          {state[state.tab].map((project) => (
+          {state.other_projects.map((project) => (
             <Widget
               props={{ API_URL, TOKEN, project }}
               key={project._id}
@@ -254,7 +254,7 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
         <GridWrapper>
-          {state[state.tab].map((project) => (
+          {state.past_projects.map((project) => (
             <Widget
               props={{ API_URL, TOKEN, project, type: "past" }}
               key={project._id}
