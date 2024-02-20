@@ -172,7 +172,6 @@ const getList = () => {
 };
 
 if (!state.loaded) getList();
-console.log(state.list, "==>list");
 
 return (
   <Wrapper>
