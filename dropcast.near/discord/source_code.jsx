@@ -11,7 +11,6 @@ const discordCode = props.code || "";
 
 const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 const USER = Storage.get("user", `${Owner}/widget/discord`);
-console.log({ TOKEN });
 
 State.init({
   error: "",
@@ -75,8 +74,8 @@ const fetchData = () => {
       }
     })
     .catch((error) => {
-      console.log(error);
-      return State.update({ go_login: true, loaded: true });
+      console.log(error, { TOKEN });
+      if (!TOKEN) State.update({ go_login: true, loaded: true });
     });
 };
 
