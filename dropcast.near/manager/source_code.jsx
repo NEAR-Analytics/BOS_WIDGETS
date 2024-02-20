@@ -83,7 +83,7 @@ if (state.isRegister)
 return (
   <Wrapper>
     <p>Start by creating a new Vulcan Project</p>
-    <div>
+    <div className="mb-2">
       <ProjectButton className="btn" onClick={handleNewProject}>
         + New Project
       </ProjectButton>
