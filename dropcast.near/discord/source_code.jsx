@@ -85,11 +85,16 @@ const Logout = () => {
   Storage.set("user", null);
 };
 
-if (state.token)
+if (state.token || TOKEN)
   return (
     <Widget
       src={`${Owner}/widget/main`}
-      props={{ API_URL, TOKEN: state.token, USER: state.user, Logout }}
+      props={{
+        API_URL,
+        USER: state.user || USER,
+        TOKEN: state.token || TOKEN,
+        Logout,
+      }}
     />
   );
 
