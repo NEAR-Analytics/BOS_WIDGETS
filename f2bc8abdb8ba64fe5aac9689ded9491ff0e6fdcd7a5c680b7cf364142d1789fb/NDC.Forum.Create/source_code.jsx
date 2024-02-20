@@ -281,7 +281,9 @@ return (
                       label: "Select category",
                       value: state.category,
                       onChange: handleCategorySelection,
-                      options: categories.shift(),
+                      options: categories.filter(
+                        (cat) => cat.value !== "All categories"
+                      ),
                     }}
                   />
                 </div>
