@@ -5,12 +5,14 @@ const Cube = ({
   attributes: CubeAttributes,
   options: CubeOptions,
   events: CubeEvents,
+  state: CubeState,
   children,
   ...Properties
 }) => {
   CubeAttributes ??= {};
   CubeOptions ??= {};
   CubeEvents ??= {};
+  CubeState ??= null;
 
   const hasMediaStyles = Object.keys(Properties).find((key) =>
     key.startsWith("media")
@@ -51,14 +53,14 @@ const Cube = ({
           ...events,
           [event]: (e) => {
             CustomEvent(e);
-            CubeEvents[event](e);
+            CubeEvents[event](e, CubeState);
           },
         };
       }
 
       return {
         ...events,
-        [event]: CubeEvents[event],
+        [event]: (e) => CubeEvents[event](e, CubeState),
       };
     },
     {}
