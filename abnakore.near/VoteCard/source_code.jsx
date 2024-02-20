@@ -12,7 +12,7 @@ const accountId = context.accountId;
 //   passcode: "null",
 //   candidates: [1, 2, 3, 4, 5, 6, 6, 6],
 //   parties: [1, 2, 3, 4, 5, 6],
-//   voters: ["abnakore.near"],
+//   voters: [],
 //   style: {},
 // };
 
