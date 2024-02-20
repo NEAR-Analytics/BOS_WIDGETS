@@ -98,6 +98,7 @@ const changeOption = (value) => {
 };
 
 const handleNextStep = () => {
+  console.log("eeeee", type);
   if (type === "edit") {
     let promise = asyncFetch(`${API_URL}/api/project`, {
       headers: {
