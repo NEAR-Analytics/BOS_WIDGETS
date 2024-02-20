@@ -2,10 +2,10 @@ const accountId = context.accountId;
 const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
 const TOKEN = props.TOKEN || "";
-const type = props.type || "edit";
+const type = props.type || "register";
 const project = props.project || {};
 const changePage = props.changePage || ((page) => {});
-console.log(project, "==>project");
+
 //Styles
 const Wrapper = styled.div`
     display: flex;
