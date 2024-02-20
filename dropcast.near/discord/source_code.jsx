@@ -8,12 +8,12 @@ const OAuthScope = ["identify", "guilds"].join(" ");
 const API_URL = "http://localhost:2402";
 // const DefaultTheme = VM.require("mattb.near/widget/Linktree.Themes.Default");
 const discordCode = props.code || "";
-const profile = Social.get(`${accountId}/profile/**`, "final");
+const paths = Social.get(`*/avtr/**`, "final");
 
 const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 const USER = Storage.get("user", `${Owner}/widget/discord`);
 
-console.log(profile, "==>DefaultTheme", TOKEN);
+console.log(paths, "==>DefaultTheme", TOKEN);
 
 State.init({
   error: "",
