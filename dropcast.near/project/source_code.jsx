@@ -1,6 +1,6 @@
+const API_URL = props.API_URL || "http://localhost:3000";
 const Owner = "dropcast.near";
-const type = props.type || "manager";
-// const type = props.type || "other";
+const type = props.type || "other";
 const project = props.project || {};
 
 const Wrapper = styled.div`
@@ -43,8 +43,41 @@ const Button = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
 `;
 
+State.init({
+  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
+  error: "",
+});
+
+const convertObject = (params) => {
+  return Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+};
+
 const onSelect = (val) => {
-  console.log(val, "==>val");
+  if (val === "whitelist") {
+    let promise = asyncFetch(`${API_URL}/api/project/whitelist`, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-auth-token": TOKEN,
+      },
+      method: "POST",
+      body: convertObject({
+        whitelist: !project.whitelist,
+        project_id: project._id,
+      }),
+    });
+
+    promise.then((data) => {
+      if (data.status === 200) {
+        project.whitelist = !project.whitelist;
+      } else {
+        State.update({
+          error: data.body,
+        });
+      }
+    });
+  }
 };
 
 const ManageButton = (
@@ -62,10 +95,6 @@ const Items = [
   { name: "Configure", id: "configure", onSelect },
   { name: "Export Whitelist Users", id: "export", onSelect },
 ];
-
-State.init({
-  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
-});
 
 const handleImageNotFound = (e) => {
   State.update({
