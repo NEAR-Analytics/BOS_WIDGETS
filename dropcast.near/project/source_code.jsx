@@ -121,7 +121,7 @@ return (
       <h5>{project.name}</h5>
       <p className="m-0" style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
         {project.description.length > 120
-          ? `${project.description}...`
+          ? `${project.description.slice(0, 120)}...`
           : project.description}
       </p>
     </div>
