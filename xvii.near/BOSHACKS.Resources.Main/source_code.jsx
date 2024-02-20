@@ -16,6 +16,20 @@ const LessonLinks = () => {
 
   const ownerId = "xvii.near";
 
+  const lessonNames = [
+    "Introduction to Blockchain and NEAR Protocol",
+    "Data Retrieval and Analysis",
+    "Data Transformation and Visualization",
+    "Advanced Data Evaluation Methods",
+    "Research Topic Identification",
+    "Governance in Blockchain",
+    "Decentralized Finance (DeFi)",
+    "Non-Fungible Tokens (NFTs)",
+    "Blockchain in Gaming",
+    "Advanced Topics in Cryptography",
+    "Zero-Knowledge Proofs",
+  ];
+
   return (
     <div>
       <Widget src={`${ownerId}/widget/Resources.Header`} />
@@ -28,7 +42,7 @@ const LessonLinks = () => {
           Syllabus
         </a>
       </div>
-      {[...Array(9).keys()].map((num) => (
+      {[...Array(11).keys()].map((num) => (
         <div style={linkContainerStyle} key={num}>
           <a
             style={linkStyle}
@@ -37,7 +51,8 @@ const LessonLinks = () => {
             }`}
             target="_blank"
           >
-            {`Lesson ${num + 1}`}
+            {`Lesson ${num + 1}: ${lessonNames[num]}`}{" "}
+            {/* Modify to include lesson names */}
           </a>
         </div>
       ))}
