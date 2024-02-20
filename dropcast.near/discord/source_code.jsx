@@ -9,6 +9,11 @@ const API_URL = "http://localhost:2402";
 
 const discordCode = props.code || "";
 
+const _token = Storage.get("token");
+const _user = Storage.get("user");
+
+console.log({ _token, _user }, "==>");
+
 State.init({
   loaded: false,
   error: "",
@@ -58,9 +63,12 @@ const fetchData = () => {
         }).then((res) => {
           const result = res.body;
           console.log(result, "==>reusult");
-          if (result.token)
+
+          if (result.token) {
+            Storage.set("token", result.token);
+            Storage.set("user", JSON.stringify(result.user));
             State.update({ token: result.token, user: result.user });
-          else if (result.error) State.update({ error: result.error });
+          } else if (result.error) State.update({ error: result.error });
         });
       } else {
         return <Widget src={`${Owner}/widget/login`} />;
