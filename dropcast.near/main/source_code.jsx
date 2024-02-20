@@ -2,8 +2,14 @@ const accountId = context.accountId;
 const Owner = "dropcast.near";
 // const API_URL = "https://dropcast.nearverselabs.com";
 const API_URL = "http://localhost:2402";
-const USER = props.USER || {};
-const TOKEN = props.TOKEN || "";
+const USER =
+  props.USER || JSON.parse(Storage.get("user", `${Owner}/widget/main`));
+const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/main`);
+
+if (USER && TOKEN) {
+  Storage.set("user", USER);
+  Storage.set("token", TOKEN);
+}
 
 const PAGES = [
   {
@@ -125,8 +131,8 @@ const openSidebar = (value) => {
   });
 };
 
-// if (!accountId || !user || !token)
-//   return <Widget src={`${Owner}/widget/login`} />;
+if (!accountId || !USER || !TOKEN)
+  return <Widget src={`${Owner}/widget/login`} />;
 
 return (
   <Wrapper className="root">
