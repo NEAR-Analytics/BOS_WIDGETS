@@ -280,7 +280,7 @@ return (
           }
           onClick={handleNextStep}
         >
-          Next Step
+          {type === "edit" ? "Edit" : "Next Step"}
         </Button>
       </Card>
     </Wrapper>
