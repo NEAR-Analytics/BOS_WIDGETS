@@ -10,7 +10,7 @@ const discordCode = props.code || "";
 
 let TOKEN = Storage.get("token", `${Owner}/widget/discord`);
 let USER = Storage.get("user", `${Owner}/widget/discord`);
-console.log({ TOKEN });
+
 State.init({
   error: "",
   loaded: false,
@@ -104,5 +104,5 @@ else if (!state.loaded && !state.token)
   setTimeout(() => {
     fetchData();
   }, 1000);
-console.log(state);
+
 return <div>{result.error || `Loading`}</div>;
