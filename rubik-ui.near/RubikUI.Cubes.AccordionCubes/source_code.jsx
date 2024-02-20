@@ -10,8 +10,14 @@ const { AccordionFacet, AccordionItemFacet } = VM.require(
 };
 
 const Accordion = ({ children, ...props }) => {
+  const events = {
+      onClick: (e) => {
+          console.log("Parent event");
+      }
+  };
+    
   return (
-    <Cube as="ul" apply={AccordionFacet} {...props}>
+    <Cube as="ul" apply={AccordionFacet} events={events} {...props}>
       {children}
     </Cube>
   );
