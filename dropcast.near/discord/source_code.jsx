@@ -9,16 +9,11 @@ const API_URL = "http://localhost:2402";
 
 const discordCode = props.code || "";
 
-const _token = Storage.get("token");
-const _user = Storage.get("user");
-
-console.log({ _token, _user }, "==>");
-
 State.init({
   loaded: false,
   error: "",
-  token: "",
-  user: {},
+  token: Storage.get("token"),
+  user: Storage.get("user"),
 });
 
 const convertObject = (params) => {
@@ -80,7 +75,7 @@ const fetchData = () => {
 };
 
 if (!discordCode || !accountId) return <Widget src={`${Owner}/widget/login`} />;
-else if (!state.loaded) fetchData();
+else if (!state.loaded && !state.token) fetchData();
 
 if (state.token)
   return (
