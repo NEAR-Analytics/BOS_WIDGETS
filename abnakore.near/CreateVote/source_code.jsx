@@ -21,7 +21,7 @@ useEffect(() => {
   } else {
     setAllVotes(JSON.parse(Data));
   }
-  console.log(Data, "");
+  //   console.log(Data, "");
 }, [Data === null]);
 
 // Get the current date and time
