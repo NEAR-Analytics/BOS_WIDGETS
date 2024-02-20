@@ -2,6 +2,8 @@ const accountId = context.accountId;
 const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
 const TOKEN = props.TOKEN || "";
+const type = props.type || "edit";
+const project = props.project || {};
 const changePage = props.changePage || ((page) => {});
 
 //Styles
@@ -41,7 +43,7 @@ const Label = styled.label`
     margin-bottom: 4px;
 `;
 
-const StepButton = styled.button`
+const Button = styled.button`
     color: #FFF;
     padding: 12px;
     border-radius: 6px;
@@ -53,13 +55,14 @@ State.init({
   selected: "0",
   next: false,
   loaded: false,
+  go_manager: false,
   projects: [{ text: "Loading", value: "0" }],
-  description: "",
-  mint_price: "",
-  mint_date: "",
-  supply: "",
-  discord: "",
-  twitter: "",
+  description: project.description || "",
+  mint_price: project.mint_price || "",
+  mint_date: project.mint_date || "",
+  supply: project.supply || "",
+  discord: project.discord || "",
+  twitter: project.twitter || "",
 });
 
 const getProjects = () => {
@@ -95,10 +98,43 @@ const changeOption = (value) => {
 };
 
 const handleNextStep = () => {
-  State.update({
-    ...state,
-    next: true,
-  });
+  if (type === "edit") {
+    let promise = asyncFetch(`${API_URL}/api/project`, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-auth-token": TOKEN,
+      },
+      method: "PUT",
+      body: convertObject({
+        project_id: project._id,
+        description: state.description,
+        mint_price: state.mint_price,
+        mint_date: state.mint_date,
+        supply: state.supply,
+        discord: state.discord,
+        twitter: state.twitter,
+      }),
+    });
+
+    promise.then((data) => {
+      if (data.status === 200) {
+        State.update({
+          ...state,
+          go_manager: true,
+        });
+      } else {
+        State.update({
+          ...state,
+          error: data.body,
+        });
+      }
+    });
+  } else {
+    State.update({
+      ...state,
+      next: true,
+    });
+  }
 };
 
 const onClose = () => {
@@ -117,13 +153,21 @@ const changeInput = (value, key) => {
 
 if (!state.loaded) getProjects();
 
+if (state.go_manager)
+  return (
+    <Widget
+      src={`${Owner}/widget/manager`}
+      props={{ API_URL, USER, TOKEN, changePage }}
+    />
+  );
+
 return (
   <div className="w-100 position-relative" style={{ height: "fit-content" }}>
     <Wrapper>
       <Card>
         <div>
           <h5 className="m-0" style={{ fontSize: 18 }}>
-            Register Project
+            {`${type === "edit" ? "Edit" : "Register"} Project`}
           </h5>
           <p
             className="m-0 mt-1"
@@ -136,16 +180,20 @@ return (
           <Label>
             Project <span className="text-danger">*</span>
           </Label>
-          <Widget
-            props={{
-              noLabel: true,
-              width: "40vw",
-              options: state.projects,
-              value: state.selected,
-              onChange: changeOption,
-            }}
-            src={`${Owner}/widget/Select`}
-          />
+          {type === "edit" ? (
+            <p>{project.name}</p>
+          ) : (
+            <Widget
+              props={{
+                noLabel: true,
+                width: "40vw",
+                options: state.projects,
+                value: state.selected,
+                onChange: changeOption,
+              }}
+              src={`${Owner}/widget/Select`}
+            />
+          )}
         </div>
         <div className="d-flex flex-column">
           <Label>
@@ -225,16 +273,15 @@ return (
             style={{ fontSize: 14 }}
           />
         </div>
-        <StepButton
+        <Button
           className="btn"
           disabled={
-            // state.selected === "0" ||
-            !state.description
+            (type !== "edit" && state.selected === "0") || !state.description
           }
           onClick={handleNextStep}
         >
           Next Step
-        </StepButton>
+        </Button>
       </Card>
     </Wrapper>
     {state.next && (
