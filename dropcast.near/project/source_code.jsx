@@ -95,10 +95,8 @@ return (
     <hr />
     <div className="d-flex justify-content-center gap-5 mt-3 mb-1">
       <a
-        className="btn p-1"
+        className={`btn p-1 ${!project.twitter && "disabled border-0"}`}
         href={project.twitter}
-        disabled={!project.twitter}
-        style={{ opacity: project.twitter ? 1 : 0.7 }}
         target="_blank"
       >
         <svg
@@ -110,10 +108,8 @@ return (
         </svg>
       </a>
       <a
-        className="btn p-1"
+        className={`btn p-1  ${!project.discord && "disabled border-0"}`}
         href={project.discord}
-        disabled={!project.discord}
-        style={{ opacity: project.discord ? 1 : 0.7 }}
         target="_blank"
       >
         <svg
