@@ -120,7 +120,9 @@ return (
     <div className="text-center px-2 py-3">
       <h5>{project.name}</h5>
       <p className="m-0" style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
-        {project.description}
+        {project.description.length > 120
+          ? `${project.description}...`
+          : project.description}
       </p>
     </div>
     {(type === "other" || type === "manager") && (
