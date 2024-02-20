@@ -224,13 +224,22 @@ return (
         </MyProjectCard>
         <GridWrapper>
           {!state.loaded && <h5>Loading...</h5>}
-          {state.my_projects.map((project) => (
-            <Widget
-              props={{ API_URL, TOKEN, project }}
-              key={project._id}
-              src={`${Owner}/widget/project`}
-            />
-          ))}
+          {state.my_projects
+            .filter(
+              (e) =>
+                state.member_option === "all" ||
+                (state.member_option === "status_active" &&
+                  e.whitelist === true) ||
+                (state.member_option === "status_closed" &&
+                  e.whitelist === false)
+            )
+            .map((project) => (
+              <Widget
+                props={{ API_URL, TOKEN, project }}
+                key={project._id}
+                src={`${Owner}/widget/project`}
+              />
+            ))}
         </GridWrapper>
       </>
     )}
