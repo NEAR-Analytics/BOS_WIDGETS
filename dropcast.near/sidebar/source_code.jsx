@@ -7,6 +7,7 @@ const currentPage = props.currentPage;
 const changePage = props.changePage;
 const sidebar = props.sidebar || false;
 const openSidebar = props.openSidebar || ((value) => {});
+const Logout = props.Logout;
 
 //Styles
 const Wrapper = styled.div`
@@ -135,6 +136,7 @@ return (
         <a
           className="btn p-0"
           style={{ width: 30, color: "white" }}
+          onClick={Logout}
           href={`https://near.org/${Owner}/widget/login`}
         >
           <svg
