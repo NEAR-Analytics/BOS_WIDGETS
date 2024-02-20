@@ -30,6 +30,9 @@ const LessonLinks = () => {
     "Zero-Knowledge Proofs",
   ];
 
+  // Temporary link for all lessons
+  const temporaryLink = "https://hackmd.io/@XVII/LPCS";
+
   return (
     <div>
       <Widget src={`${ownerId}/widget/Resources.Header`} />
@@ -46,9 +49,7 @@ const LessonLinks = () => {
         <div style={linkContainerStyle} key={num}>
           <a
             style={linkStyle}
-            href={`https://hackmd.io/@doulos819/ncr-${
-              num + 1 < 10 ? `0${num + 1}` : num + 1
-            }`}
+            href={temporaryLink} // Use temporaryLink for all lessons
             target="_blank"
           >
             {`Lesson ${num + 1}: ${lessonNames[num]}`}{" "}
