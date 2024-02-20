@@ -81,6 +81,8 @@ const Logout = () => {
   Storage.set("user", null);
 };
 
+console.log(state, "==>state");
+
 if (state.token)
   return (
     <Widget
