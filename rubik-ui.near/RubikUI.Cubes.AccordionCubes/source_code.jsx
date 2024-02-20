@@ -28,7 +28,7 @@ const AccordionItem = ({ children, ...props }) => {
 return (
   <>
     <Accordion
-      mediaMinWidth800="background-color:red"
+      mediaMaxWidth800="background-color:red"
       onClick={() => console.log("Hello world!")}
       width="800px"
       borderTop="4px solid #000"
