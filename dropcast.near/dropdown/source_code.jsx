@@ -3,8 +3,9 @@ let { trigger, header, subHeader, items, receiver, ...rootProps } = props;
 const Root = styled("DropdownMenu.Root")``;
 
 const TriggerWrapper = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const Content = styled("DropdownMenu.Content")`
