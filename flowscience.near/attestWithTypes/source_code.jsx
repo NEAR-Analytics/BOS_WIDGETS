@@ -117,8 +117,8 @@ const [formValues, setFormValues] = useState({
 });
 
 const attestation = {
-  [state.selectedType]: {
-    [state.thingId]: {
+  [selectedType]: {
+    [thingId]: {
       ...formValues,
       schema: state.data,
     },
@@ -294,7 +294,7 @@ return (
                 type="text"
                 value={formValues.payload}
                 onChange={(e) => handleInputChange("payload", e.target.value)}
-                placeholder="# This is markdown text."
+                placeholder="# This is a string of text."
               />
             </Row>
           </FormContainer>
