@@ -58,7 +58,6 @@ const fetchData = () => {
           body: convertObject(data.body),
         }).then((res) => {
           const result = res.body;
-          console.log(result, "==>reusult");
 
           if (result.token) {
             Storage.set("token", result.token);
@@ -88,6 +87,5 @@ if (state.token)
 if (!discordCode || !accountId || state.go_login)
   return <Widget src={`${Owner}/widget/login`} />;
 else if (!state.loaded && !state.token) fetchData();
-console.log(state, "==>state");
 
 return <div>{result.error || `Loading`}</div>;
