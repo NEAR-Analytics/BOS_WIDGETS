@@ -37,8 +37,10 @@ const GridWrapper = styled.div`
 `;
 State.init({
   list: [],
+  edit: false,
   loaded: false,
   isRegister: false,
+  project: {},
 });
 
 const handleNewProject = () => {
@@ -59,14 +61,24 @@ const getList = () => {
   promise.then((data) => {
     if (data.status === 200) {
       State.update({
+        ...state,
         loaded: true,
         list: data.body,
       });
     } else {
       State.update({
+        ...state,
         error: data.body,
       });
     }
+  });
+};
+
+const editMyProject = (project) => {
+  State.update({
+    ...state,
+    edit: true,
+    project,
   });
 };
 
@@ -77,6 +89,14 @@ if (state.isRegister)
     <Widget
       src={`${Owner}/widget/register`}
       props={{ API_URL, TOKEN, changePage }}
+    />
+  );
+
+if (state.edit)
+  return (
+    <Widget
+      src={`${Owner}/widget/register`}
+      props={{ API_URL, TOKEN, type: "edit", project: state.project }}
     />
   );
 
@@ -91,7 +111,7 @@ return (
     <GridWrapper>
       {state.list.map((project) => (
         <Widget
-          props={{ API_URL, TOKEN, project, type: "manager" }}
+          props={{ API_URL, TOKEN, project, editMyProject, type: "manager" }}
           key={project._id}
           src={`${Owner}/widget/project`}
         />
