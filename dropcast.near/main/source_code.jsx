@@ -1,15 +1,9 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-// const API_URL = "https://dropcast.nearverselabs.com";
-const API_URL = "http://localhost:2402";
+const API_URL = props.API_URL || "http://localhost:2402";
 const USER =
-  props.USER || JSON.parse(Storage.get("user", `${Owner}/widget/main`));
-const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/main`);
-
-if (USER && TOKEN) {
-  Storage.set("user", JSON.stringify(USER));
-  Storage.set("token", TOKEN);
-}
+  props.USER || JSON.parse(Storage.get("user", `${Owner}/widget/discord`));
+const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
 
 const PAGES = [
   {
