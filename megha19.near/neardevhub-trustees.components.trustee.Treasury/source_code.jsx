@@ -3,6 +3,17 @@ License: MIT
 Author: devhub.near
 Homepage: https://github.com/NEAR-DevHub/neardevhub-treasury-dashboard.git#readme
 */
+/* INCLUDE: "includes//common.jsx" */
+const REPL_TREASURY_CONTRACT = "treasurydevhub.near";
+const REPL_TREASURY = "megha19.near";
+// "dashboard.treasury-devdao.near";
+const REPL_DEVHUB = "devhub.near";
+// devhub.near;
+const REPL_PROPOSAL_CONTRACT =
+  "713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c";
+const REPL_NEAR = "near";
+/* END_INCLUDE: "includes//common.jsx" */
+
 const Container = styled.div`
   .bg-dark-grey {
     background-color: #7e868c;
@@ -45,14 +56,15 @@ function convertYoctoToNear(yoctoNear) {
   );
 }
 
-const accountId = "devhub.near";
 const tokensRes = fetch(
-  `https://api.nearblocks.io/v1/account/${accountId}/tokens`
+  `https://api.nearblocks.io/v1/account/${REPL_TREASURY_CONTRACT}/tokens`
 );
 const tokensAndBalances = [];
 const tokens = tokensRes.body.tokens.fts ?? [];
 for (const token of tokens) {
-  const balance = Near.view(token, "ft_balance_of", { account_id: accountId });
+  const balance = Near.view(token, "ft_balance_of", {
+    account_id: REPL_TREASURY_CONTRACT,
+  });
   const ftMetadata = Near.view(token, "ft_metadata");
   if (balance !== null) {
     tokensAndBalances.push({
@@ -67,9 +79,11 @@ for (const token of tokens) {
     });
   }
 }
-const res = fetch(`https://api.nearblocks.io/v1/account/${accountId}`);
+const res = fetch(
+  `https://api.nearblocks.io/v1/account/${REPL_TREASURY_CONTRACT}`
+);
 const txns = fetch(
-  `https://api.nearblocks.io/v1/account/${accountId}/ft-txns/count`
+  `https://api.nearblocks.io/v1/account/${REPL_TREASURY_CONTRACT}/ft-txns/count`
 );
 
 if (res === null || txns === null) {
@@ -81,10 +95,10 @@ return (
     <div className="h5 bold mb-0">Treasury</div>
     <div className="bg-dark-grey text-white p-3 py-3 d-flex gap-2 align-items-center rounded-4">
       <div className="flex-item d-flex gap-2 align-items-center">
-        <div className="h3 bold">{accountId}</div>
+        <div className="h3 bold">{REPL_TREASURY_CONTRACT}</div>
         <i
           class="bi bi-copy"
-          onClick={() => clipboard.writeText(accountId)}
+          onClick={() => clipboard.writeText(REPL_TREASURY_CONTRACT)}
         ></i>
       </div>
       <div className="flex-item d-flex gap-10 text-small">
