@@ -240,7 +240,7 @@ return (
             type="date"
             name="mint_date"
             placeholder="Mint Date"
-            value={state.mint_date}
+            value={state.mint_date ? state.mint_date.slice(0, 10) : ""}
             className="w-full px-2 py-1 rounded-3 border-0"
             onChange={(e) => changeInput(e.target.value, "mint_date")}
             style={{ fontSize: 14 }}
