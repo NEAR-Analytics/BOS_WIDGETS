@@ -43,11 +43,6 @@ const TextLink = styled.div`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
   outline: none;
-
-  &:focus,
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const Text = styled.p`
