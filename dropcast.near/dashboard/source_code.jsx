@@ -131,10 +131,13 @@ const MEMBER_OPTIONS = [
 ];
 
 State.init({
+  list: [],
   loaded: false,
+  my_projects: 0,
+  other_projects: 0,
+  past_projects: 0,
   tab: "my_projects",
   member_option: "all",
-  list: [],
 });
 
 const changeTab = (tab) => {
@@ -162,6 +165,7 @@ const getList = () => {
       State.update({
         loaded: true,
         list: data.body,
+        [state.tab]: data.body.length,
       });
     } else {
       State.update({
@@ -183,7 +187,7 @@ return (
           style={{ opacity: tab.value === state.tab ? 1 : 0.5 }}
         >
           <p className="m-0">{tab.label}</p>
-          <Counter>{tab.count}</Counter>
+          <Counter>{state[state.tab]}</Counter>
           {tab.value === state.tab && <SelectedTab />}
         </Tab>
       ))}
