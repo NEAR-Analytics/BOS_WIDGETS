@@ -9,6 +9,9 @@ const API_URL = "http://localhost:2402";
 
 const discordCode = props.code || "";
 
+const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
+console.log({ TOKEN });
+
 State.init({
   error: "",
   loaded: false,
