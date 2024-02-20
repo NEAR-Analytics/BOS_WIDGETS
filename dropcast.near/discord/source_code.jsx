@@ -76,11 +76,16 @@ const fetchData = () => {
     });
 };
 
+const Logout = () => {
+  Storage.set("token", null);
+  Storage.set("user", null);
+};
+
 if (state.token)
   return (
     <Widget
       src={`${Owner}/widget/main`}
-      props={{ API_URL, TOKEN: state.token, USER: state.user }}
+      props={{ API_URL, TOKEN: state.token, USER: state.user, Logout }}
     />
   );
 
