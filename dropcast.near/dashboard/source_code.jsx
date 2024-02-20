@@ -249,10 +249,13 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
         <GridWrapper>
-          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
-          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
-          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
-          <Widget src={`${Owner}/widget/project`} props={{ type: "past" }} />
+          {state.list.map((project) => (
+            <Widget
+              props={{ project, type: "past" }}
+              key={project._id}
+              src={`${Owner}/widget/project`}
+            />
+          ))}
         </GridWrapper>
       </div>
     )}
