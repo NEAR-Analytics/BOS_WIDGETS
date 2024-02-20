@@ -118,8 +118,8 @@ const [formValues, setFormValues] = useState({
 
 const attestation = {
   ...formValues,
-  type: state.selectedType,
   uid: state.thingId,
+  type: state.selectedType,
   schema: state.data,
 };
 
