@@ -3049,8 +3049,8 @@ function MainComponent(props) {
                     {t('blocks:block.heading.0')}
                     <span key={1} className="font-semibold">
                       {t('blocks:block.heading.1', {
-                        block: block.block_height
-                          ? localFormat(block.block_height)
+                        block: block?.block_height
+                          ? localFormat(block?.block_height)
                           : '',
                       })}
                     </span>
@@ -3060,8 +3060,8 @@ function MainComponent(props) {
                     Block
                     <span key={1} className="font-semibold">
                       #
-                      {block.block_height
-                        ? localFormat(block.block_height)
+                      {block?.block_height
+                        ? localFormat(block?.block_height)
                         : ''}
                     </span>
                   </>
@@ -3087,7 +3087,9 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 font-semibold break-words">
-                  {block.block_height ? localFormat(block.block_height) : ''}
+                  {block?.block_height
+                    ? localFormat(block?.block_height)
+                    : block?.block_height ?? ''}
                 </div>
               )}
             </div>
@@ -3101,7 +3103,7 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block.block_hash}
+                  {block?.block_hash}
                 </div>
               )}
             </div>
@@ -3137,32 +3139,33 @@ function MainComponent(props) {
                 <div className="w-full md:w-3/4 break-words">
                   {t ? (
                     <>
-                      <LinkWrapper href={`/txns?block=${block.block_hash}`}>
+                      <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
                         {t('blocks:block.transactions.1', {
-                          txns: block.transactions_agg.count
-                            ? localFormat(block.transactions_agg.count)
-                            : '',
+                          txns: block?.transactions_agg?.count
+                            ? localFormat(block?.transactions_agg?.count)
+                            : block?.transactions_agg?.count ?? '',
                         })}
                       </LinkWrapper>
                       &nbsp;
                       {t('blocks:block.transactions.2', {
-                        receipts: block.receipts_agg.count
-                          ? localFormat(block.receipts_agg.count)
-                          : '',
+                        receipts: block?.receipts_agg?.count
+                          ? localFormat(block?.receipts_agg?.count)
+                          : block?.receipts_agg?.count ?? '',
                       })}
                     </>
                   ) : (
                     (
-                      <LinkWrapper href={`/txns?block=${block.block_hash}`}>
-                        {block.transactions_agg.count
-                          ? localFormat(block.transactions_agg.count)
-                          : '' + ' transactions'}
+                      <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
+                        {block?.transactions_agg?.count
+                          ? localFormat(block?.transactions_agg?.count)
+                          : block?.transactions_agg?.count ??
+                            '' + ' transactions'}
                       </LinkWrapper>
                     ) +
                     `and ${
-                      block.receipts_agg.count
-                        ? localFormat(block.receipts_agg.count)
-                        : ''
+                      block?.receipts_agg?.count
+                        ? localFormat(block?.receipts_agg?.count)
+                        : block?.receipts_agg?.count ?? ''
                     } receipts`
                   )}
                 </div>
@@ -3179,11 +3182,11 @@ function MainComponent(props) {
               ) : (
                 <div className="w-full md:w-3/4 break-words">
                   <a
-                    href={`/address/${block.author_account_id}`}
+                    href={`/address/${block?.author_account_id}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 hover:no-underline">
-                      {block.author_account_id}
+                      {block?.author_account_id}
                     </a>
                   </a>
                 </div>
@@ -3199,10 +3202,9 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block.chunks_agg.gas_used !== undefined &&
-                  block.chunks_agg.gas_used !== null
-                    ? convertToMetricPrefix(block.chunks_agg.gas_used) + 'gas'
-                    : ''}
+                  {block?.chunks_agg?.gas_used
+                    ? convertToMetricPrefix(block?.chunks_agg?.gas_used) + 'gas'
+                    : (block?.chunks_agg?.gas_used ?? '') + 'gas'}
                 </div>
               )}
             </div>
@@ -3216,9 +3218,10 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block.chunks_agg.gas_limit
-                    ? convertToMetricPrefix(block.chunks_agg.gas_limit) + 'gas'
-                    : ''}
+                  {block?.chunks_agg?.gas_limit
+                    ? convertToMetricPrefix(block?.chunks_agg?.gas_limit) +
+                      'gas'
+                    : (block?.chunks_agg?.gas_limit ?? '') + 'gas'}
                 </div>
               )}
             </div>
@@ -3232,7 +3235,9 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block.gas_price ? gasPrice(block.gas_price) : ''}
+                  {block?.gas_price
+                    ? gasPrice(block?.gas_price)
+                    : block?.gas_price ?? ''}
                 </div>
               )}
             </div>
@@ -3246,9 +3251,10 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block.chunks_agg.gas_used && block.gas_price
-                    ? gasFee(block.chunks_agg.gas_used, block.gas_price) + 'Ⓝ'
-                    : '0 Ⓝ'}
+                  {block?.chunks_agg?.gas_used && block?.gas_price
+                    ? gasFee(block?.chunks_agg?.gas_used, block?.gas_price)
+                    : ''}
+                  Ⓝ
                 </div>
               )}
             </div>
@@ -3263,11 +3269,11 @@ function MainComponent(props) {
               ) : (
                 <div className="w-full md:w-3/4 break-words">
                   <a
-                    href={`/blocks/${block.prev_block_hash}`}
+                    href={`/blocks/${block?.prev_block_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 hover:no-underline">
-                      {block.prev_block_hash}
+                      {block?.prev_block_hash}
                     </a>
                   </a>
                 </div>
