@@ -131,17 +131,16 @@ const MEMBER_OPTIONS = [
 ];
 
 State.init({
-  list: [],
   loaded: false,
-  my_projects: 0,
-  other_projects: 0,
-  past_projects: 0,
+  my_projects: [],
+  other_projects: [],
+  past_projects: [],
   tab: "my_projects",
   member_option: "all",
 });
 
 const changeTab = (tab) => {
-  State.update({ tab, loaded: false, list: [] });
+  State.update({ tab });
 };
 
 const changeMemberOption = (value) => {
@@ -163,12 +162,13 @@ const getList = () => {
   promise.then((data) => {
     if (data.status === 200) {
       State.update({
+        ...state,
+        ...data.body,
         loaded: true,
-        list: data.body,
-        [state.tab]: data.body.length,
       });
     } else {
       State.update({
+        ...state,
         error: data.body,
       });
     }
@@ -187,7 +187,7 @@ return (
           style={{ opacity: tab.value === state.tab ? 1 : 0.5 }}
         >
           <p className="m-0">{tab.label}</p>
-          <Counter>{state[state.tab]}</Counter>
+          <Counter>{state[state.tab].length}</Counter>
           {tab.value === state.tab && <SelectedTab />}
         </Tab>
       ))}
@@ -223,7 +223,7 @@ return (
           </div>
         </MyProjectCard>
         <GridWrapper>
-          {state.list.map((project) => (
+          {state[state.tab].map((project) => (
             <Widget
               props={{ API_URL, project }}
               key={project._id}
@@ -238,7 +238,7 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
         <GridWrapper>
-          {state.list.map((project) => (
+          {state[state.tab].map((project) => (
             <Widget
               props={{ API_URL, project }}
               key={project._id}
@@ -253,7 +253,7 @@ return (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
         <GridWrapper>
-          {state.list.map((project) => (
+          {state[state.tab].map((project) => (
             <Widget
               props={{ API_URL, project, type: "past" }}
               key={project._id}
