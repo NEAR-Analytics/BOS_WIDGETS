@@ -113,7 +113,7 @@ return (
                     <List>
                       {votesToRender.map((vote) => (
                         <a
-                          href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.id}`}
+                          href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.blockHeight}`}
                         >
                           <Widget
                             src="abnakore.near/widget/VoteCard"
