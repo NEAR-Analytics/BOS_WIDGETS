@@ -143,7 +143,7 @@ return (
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint date</Label>
-            <Value>{project.mint_date || "TBD"}</Value>
+            <Value>{project.mint_date2 || "TBD"}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint price</Label>
