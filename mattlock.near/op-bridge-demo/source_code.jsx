@@ -529,7 +529,7 @@ const hashLowLevelMessage = (withdrawal) => {
 };
 
 const hashMessageHash = (messageHash) => {
-  const data = ethers.utils.defaultAbiCoder.encode(
+  const data = abiCoder.encode(
     ["bytes32", "uint256"],
     [ethers.utils.hexlify(messageHash), HASH_ZERO]
   );
