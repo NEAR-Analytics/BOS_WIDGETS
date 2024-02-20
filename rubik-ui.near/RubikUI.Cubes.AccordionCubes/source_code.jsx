@@ -36,6 +36,7 @@ const AccordionItem = ({ children, ...props }) => {
 return (
   <>
     <Accordion
+      state={State}
       mediaMaxWidth800="background-color:red"
       onClick={() => console.log("Hello world!")}
       width="800px"
