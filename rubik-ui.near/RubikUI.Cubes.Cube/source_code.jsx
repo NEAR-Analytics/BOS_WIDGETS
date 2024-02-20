@@ -41,22 +41,28 @@ const Cube = ({
     .filter((option) => option in Properties)
     .map((option) => CubeOptions[option]);
 
-  const combinedEventHandlers = Object.keys(CubeEvents).reduce((events, event) => {
+  const combinedEventHandlers = Object.keys(CubeEvents).reduce(
+    (events, event) => {
       if (event in Properties) {
-          return {
-              ...events,
-              [event]: (e) => {
-                  Properties[event](e);
-                  CubeEvents[event](e);
-              }
-          }
+        const CustomEvent = Properties[event];
+        delete Properties[event];
+          
+        return {
+          ...events,
+          [event]: (e) => {
+            CustomEvent(e);
+            CubeEvents[event](e);
+          },
+        };
       }
 
       return {
-          ...events,
-          [event]: CubeEvents[event]
+        ...events,
+        [event]: CubeEvents[event],
       };
-  }, {});
+    },
+    {}
+  );
 
   const classNames = [...attributeClasses, ...optionClasses].join(" ");
   const Element = styled(Facet || DOMComponent || styled.div``)`
@@ -65,7 +71,12 @@ const Cube = ({
   `;
 
   return (
-    <Element as={DOMComponent} className={classNames} {...combinedEventHandlers} {...Properties}>
+    <Element
+      as={DOMComponent}
+      className={classNames}
+      {...combinedEventHandlers}
+      {...Properties}
+    >
       {children}
     </Element>
   );
