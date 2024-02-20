@@ -8,7 +8,9 @@ const OAuthScope = ["identify", "guilds"].join(" ");
 const API_URL = "http://localhost:2402";
 
 const discordCode = props.code || "";
-
+const TOKEN = Storage.get("token", `${Owner}/widget/main`);
+const USER = Storage.get("user", `${Owner}/widget/main`);
+console.log({ TOKEN, USER });
 State.init({
   error: "",
   loaded: false,
