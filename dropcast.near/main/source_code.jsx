@@ -3,6 +3,7 @@ const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || Storage.get("user", `${Owner}/widget/discord`);
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
+const Logout = props.Logout;
 
 const PAGES = [
   {
@@ -132,9 +133,10 @@ return (
     <Widget
       src={`${Owner}/widget/sidebar`}
       props={{
-        API_URL,
         USER,
         PAGES,
+        Logout,
+        API_URL,
         changePage,
         openSidebar,
         sidebar: state.sidebar,
