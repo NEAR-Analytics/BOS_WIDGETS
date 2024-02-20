@@ -23,6 +23,10 @@ const {
 
 const libSrcArray = [widgets.libs.libArticle];
 
+const categoriesWithoutAllArticles = categories.filter(
+  (categ) => categ.value !== "All categories"
+);
+
 const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
   errTextDublicatedId = "ERROR: there is article with such name";
@@ -33,6 +37,7 @@ State.init({
   functionsToCallByLibrary: {
     article: [],
   },
+  category: categoriesWithoutAllArticles[0],
 });
 
 function createStateUpdate(obj) {
@@ -237,6 +242,7 @@ return (
                     navigation_id: null,
                     tags: tagsArray,
                     id: getRealArticleId(),
+                    category: state.category,
                     sbts,
                   },
                   categories,
@@ -281,9 +287,7 @@ return (
                       label: "Select category",
                       value: state.category,
                       onChange: handleCategorySelection,
-                      options: categories.filter(
-                        (cat) => cat.value !== "All categories"
-                      ),
+                      options: categoriesWithoutAllArticles,
                     }}
                   />
                 </div>
