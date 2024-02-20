@@ -1,5 +1,6 @@
 const API_URL = props.API_URL || "http://localhost:3000";
 const Owner = "dropcast.near";
+const TOKEN = props.TOKEN || "";
 const type = props.type || "other";
 const project = props.project || {};
 
