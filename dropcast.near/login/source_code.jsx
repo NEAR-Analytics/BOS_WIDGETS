@@ -3,9 +3,7 @@ const Owner = "dropcast.near";
 const CLIENT_ID = "1206878767633534976";
 const BASE_URL = "https://near.org/dropcast.near/widget/";
 const OAuthScope = ["identify", "guilds"].join(" ");
-Storage.set("token", null, `${Owner}/widget/discord`);
-Storage.set("user", null, `${Owner}/widget/discord`);
-console.log(Storage.get("token", `${Owner}/widget/discord`), "==>");
+
 //Styles
 const Wrapper = styled.div`
   display: flex;
