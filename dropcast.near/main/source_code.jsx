@@ -7,7 +7,7 @@ const USER =
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/main`);
 
 if (USER && TOKEN) {
-  Storage.set("user", USER);
+  Storage.set("user", JSON.stringify(USER));
   Storage.set("token", TOKEN);
 }
 
