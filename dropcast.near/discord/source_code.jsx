@@ -13,14 +13,12 @@ let USER = Storage.get("user", `${Owner}/widget/discord`);
 
 State.init({
   error: "",
-  waiting: false,
   loaded: false,
   go_login: false,
   token: TOKEN,
   user: USER,
 });
 
-console.log({ DefaultTheme, TOKEN });
 const convertObject = (params) => {
   return Object.keys(params)
     .map((param) => `${param}=${params[param]}`)
@@ -87,8 +85,6 @@ const Logout = () => {
   Storage.set("user", null);
 };
 
-console.log(state, "==>state");
-
 if (state.token)
   return (
     <Widget
@@ -99,15 +95,6 @@ if (state.token)
 
 if (!discordCode || !accountId || state.go_login)
   return <Widget src={`${Owner}/widget/login`} />;
-else if (state.waiting && !state.loaded && !state.token)
-  setTimeout(() => {
-    fetchData();
-  }, 1000);
-
-if (!state.waiting && !state.loaded && !state.token) {
-  setTimeout(() => {
-    if (!state.token) State.update({ waiting: true });
-  }, 2000);
-}
+else if (!state.loaded && !state.token) fetchData();
 
 return <div>{result.error || `Loading`}</div>;
