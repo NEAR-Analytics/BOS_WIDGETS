@@ -5,3 +5,5 @@ function main(param) {
 function second(param) {
   return param + 2;
 }
+
+return { main };
