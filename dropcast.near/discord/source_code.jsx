@@ -10,14 +10,15 @@ const API_URL = "http://localhost:2402";
 const discordCode = props.code || "";
 
 const TOKEN = Storage.get("token", `${Owner}/widget/discord`);
+const USER = Storage.get("user", `${Owner}/widget/discord`);
 console.log({ TOKEN });
 
 State.init({
   error: "",
   loaded: false,
   go_login: false,
-  token: Storage.get("token", `${Owner}/widget/discord`),
-  user: Storage.get("user", `${Owner}/widget/discord`),
+  token: TOKEN,
+  user: USER,
 });
 
 const convertObject = (params) => {
@@ -64,7 +65,7 @@ const fetchData = () => {
 
           if (result.token) {
             Storage.set("token", result.token);
-            Storage.set("user", JSON.stringify(result.user));
+            Storage.set("user", result.user);
             State.update({ token: result.token, user: result.user });
           } else if (result.error)
             State.update({ error: result.error, go_login: true });
