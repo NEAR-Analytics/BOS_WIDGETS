@@ -2,7 +2,9 @@
 const accountId = context.accountId;
 
 // All the votes
-const [allVotes, setAllVotes] = useState([]);
+// Get all the votes
+const allVotes = Social.index("voteChainTest", "vote");
+const otherCandidates = Social.index("voteChainTest", "candidate");
 
 // Tabs
 const [tab, setTab] = useState(props.tab ? props.tab : "all");
@@ -13,23 +15,13 @@ const [watchlist, setWatchlist] = useState([]);
 // Votes to be rendered on the screen
 const [votesToRender, setVotesToRender] = useState(allVotes);
 
-// Get all the votes
-const votesData = Social.get(`abnakore.near/votes`);
-
-useEffect(() => {
-  //   console.log(votesData);
-  if (votesData === undefined) {
-    // Set the candidate to an empty list if there is no candidate
-    setAllVotes([]);
-  } else {
-    setAllVotes(JSON.parse(votesData));
-  }
-  setVotesToRender(allVotes);
-  //   console.log(votesData, "");
-}, [votesData === null]);
-
 // Get The watchlist of the user
 const watchlistData = Social.get(`${accountId}/voteChain_watchlist`);
+
+useEffect(() => {
+  setVotesToRender(allVotes);
+  console.log(votesToRender, allVotes, "votesData");
+}, [allVotes]);
 
 useEffect(() => {
   if (watchlistData === undefined) {
@@ -41,16 +33,19 @@ useEffect(() => {
 }, [watchlistData === null]);
 
 useEffect(() => {
-  console.log(tab, allVotes);
   // Get the only votes the user created
   if (tab === "my_votes") {
-    setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
+    setVotesToRender(
+      allVotes.filter((vote) => vote.value.creator === accountId)
+    );
   } else if (tab === "watchlist") {
-    setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
+    setVotesToRender(
+      allVotes.filter((vote) => watchlist.includes(vote.blockHeight))
+    );
   } else {
     setVotesToRender(allVotes);
   }
-}, [allVotes, tab, watchlist]);
+}, [watchlist]);
 
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
@@ -123,13 +118,9 @@ return (
                           <Widget
                             src="abnakore.near/widget/VoteCard"
                             props={{
-                              name: vote.name,
-                              desc: vote.desc,
-                              open: formatDateTime(vote.openTime),
-                              close: formatDateTime(vote.closeTime),
-                              voted: vote.voters.includes(accountId),
-                              locked: vote.passcode && true,
-                              no_of_candidates: vote.candidates.length,
+                              ...vote.value,
+                              candidates:
+                                vote.value.candidates.concat(otherCandidates),
                               style: {},
                             }}
                           />
