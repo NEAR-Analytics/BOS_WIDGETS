@@ -97,7 +97,8 @@ return (
       <a
         className="btn p-1"
         href={project.twitter}
-        disabled={!!project.twitter}
+        disabled={!project.twitter}
+        style={{ opacity: project.twitter ? 1 : 0.7 }}
         target="_blank"
       >
         <svg
@@ -111,7 +112,8 @@ return (
       <a
         className="btn p-1"
         href={project.discord}
-        disabled={!!project.discord}
+        disabled={!project.discord}
+        style={{ opacity: project.discord ? 1 : 0.7 }}
         target="_blank"
       >
         <svg
