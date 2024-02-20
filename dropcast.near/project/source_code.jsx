@@ -8,11 +8,18 @@ const Wrapper = styled.div`
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 `;
 
-const BadgeIcon = styled.div`
+const BadgeActiveIcon = styled.div`
     width: 12px;
     height: 12px;
     border-radius: 50px;
     background-color: rgb(34, 197, 94);
+`;
+
+const BadgeCloseIcon = styled.div`
+    width: 12px;
+    height: 12px;
+    border-radius: 50px;
+    background-color: red;
 `;
 
 const Label = styled.div`
@@ -57,22 +64,29 @@ return (
         <div className="d-flex flex-column gap-3">
           <div className="d-flex justify-content-between">
             <Label>Whitelist</Label>
-            <div className="d-flex align-items-center gap-2">
-              <BadgeIcon />
-              <Value style={{ fontSize: 12 }}>Active</Value>
-            </div>
+            {project.whitelist ? (
+              <div className="d-flex align-items-center gap-2">
+                <BadgeActiveIcon />
+                <Value style={{ fontSize: 12 }}>Active</Value>
+              </div>
+            ) : (
+              <div className="d-flex align-items-center gap-2">
+                <BadgeCloseIcon />
+                <Value style={{ fontSize: 12 }}>Closed</Value>
+              </div>
+            )}
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint date</Label>
-            <Value>{`${"TBD"}`}</Value>
+            <Value>{project.mint_date || "TBD"}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Mint price</Label>
-            <Value>{`${project.mint_price || "TBD"}`}</Value>
+            <Value>{project.mint_price || "TBD"}</Value>
           </div>
           <div className="d-flex justify-content-between">
             <Label>Supply</Label>
-            <Value>{`${project.supply || "TBD"}`}</Value>
+            <Value>{project.supply || "TBD"}</Value>
           </div>
         </div>
       </>
