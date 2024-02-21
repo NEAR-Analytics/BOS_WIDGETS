@@ -107,7 +107,7 @@ return (
         <Title>Dropcast</Title>
 
         <p className="m-0" style={{ fontSize: 12 }}>
-          Powered by Blocksmith Labs
+          Powered by Nearverse Labs
         </p>
       </div>
 
