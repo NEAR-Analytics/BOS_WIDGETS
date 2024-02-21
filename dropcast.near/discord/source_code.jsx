@@ -68,7 +68,10 @@ const fetchData = () => {
               user: result.user,
             });
           } else if (result.error)
-            State.update({ ...state, error: result.error, go_login: true });
+            State.update({ ...state, error: result.error });
+          setTimeout(() => {
+            State.update({ ...state, go_login: true });
+          }, 10000);
         });
       } else {
         if (!TOKEN) State.update({ ...state, go_login: true });
