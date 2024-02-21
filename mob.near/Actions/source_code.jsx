@@ -1,5 +1,5 @@
 const [accountId, setAccountId] = useState(
-  props.accountId || context.accountId || "root.near"
+  props.accountId || context.accountId || "wrap.near"
 );
 const [actions, setActions] = useState(false);
 
@@ -102,6 +102,7 @@ const Wrapper = styled.div`
 .action {
   margin-bottom: 1em;
   border: 1px solid #eee;
+  overflow: hidden;
 }
 `;
 
@@ -111,12 +112,22 @@ const renderAction = (action) => {
       <div>
         Time:{" "}
         <Widget
+          loading="Xs"
           src="mob.near/widget/TimeAgoMs"
           props={{ timeMs: action.blockTimestamp * 1000 }}
         />{" "}
         ago
       </div>
-      Type: {action.action}
+      <div>Type: {action.action}</div>
+      {action.methodName && <div>Method: {action.methodName}</div>}
+      <div>Receipt: {action.receiptId}</div>
+      <div className="text-nowrap">
+        Predecessor:{" "}
+        <Widget
+          src="mob.near/widget/N.ProfileLine"
+          props={{ accountId: action.predecessorId }}
+        />
+      </div>
     </div>
   );
 };
