@@ -117,9 +117,11 @@ function Thing() {
     case "attestation": {
       // Fetch the attestation data using Social.get with the provided path and blockHeight
       const attestationData = Social.get(path, blockHeight) || "null";
+      console.log(attestationData);
       // Check if the specific attestation record exists in the fetched data
       // Assuming the unique identifier is part of the attestation data structure
       const specificAttestation = attestationData[path.split("/").pop()];
+      console.log(specificAttestation);
 
       // Check the type of attestation and render accordingly
       if (
@@ -163,7 +165,7 @@ return (
   <Container id={path}>
     <Content>
       <Thing />
-      {type}
+      <p>{type}</p>
     </Content>
   </Container>
 );
