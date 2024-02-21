@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     color: rgb(229 229 229);
     justify-content: center;
     background: rgba(23,23,23, 0.7);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
       padding: 25px;
     }  
 `;
@@ -37,7 +37,7 @@ const Card = styled.div`
     flex-direction: column;
     justify-content: center;
     background: rgb(38, 38, 38);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
       padding: 15px;
       height: 100%;
       .menu {
