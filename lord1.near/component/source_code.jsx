@@ -547,12 +547,7 @@ let secondSection = (
                         description:
                           "Total number of BOS development transactions for each component",
                       },
-                      {
-                        title: "Deposits",
-                        key: "deposit",
-                        description:
-                          "Deposited Near to (social.near) contract for BOS development. If you notice that some of your components have the same amount of deposits, it is likely that you have used multi-action transactions, which means that a single transaction resulted in multiple updates or builds.",
-                      },
+
                       {
                         title: "Update Tnxs",
                         key: "update",
