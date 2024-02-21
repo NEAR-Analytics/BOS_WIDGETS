@@ -108,8 +108,8 @@ const SidebarButton = styled.button`
 `;
 
 State.init({
-  page: "dashboard",
   sidebar: false,
+  page: "dashboard",
 });
 
 const changePage = (page) => {
