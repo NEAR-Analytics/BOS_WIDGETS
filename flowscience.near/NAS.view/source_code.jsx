@@ -115,27 +115,33 @@ function Thing() {
       );
     }
     case "attestation": {
-      // Assuming attestation data structure and handling
-      const attestation = JSON.parse(Social.get(path, blockHeight) || "null");
-      // Determine how to render based on attestation.type, e.g., "every.near/type/image"
-      const typeObj = JSON.parse(
-        Social.get(attestation.type, blockHeight) || "null"
-      );
-      const widgetSrc = typeObj?.widgets?.view || "default/widget/path";
-
-      // Additional handling based on attestation content
-      return (
-        <div>
-          <p>Attestation content: {attestation.payload}</p>
-          {/* Render based on typeObj if needed, e.g., for images */}
-          <Widget
-            src={widgetSrc}
-            props={{ data: attestation, path, blockHeight }}
-          />
-        </div>
-      );
-    }
+  // Fetch the attestation data from Social.get
+  const attestation = JSON.parse(Social.get(path, blockHeight) || "null");
+  const attestationData = attestation["Ae8F53bf4DC7311Bdb731A2D21fCCE1C5541b4dB49"] || attestation; // Adjust based on your data structure
+  
+  // Render different content based on the attestation type
+  if (attestationData.type === "every.near/type/image") {
+    // For image types, render an image widget or directly the image if you have a direct link or CID
+    const imageUrl = `https://ipfs.io/ipfs/${attestationData.schema.ipfs_cid}`;
+    return (
+      <div>
+        <p>Recipient ID: {attestationData.recipientId}</p>
+        <p>Expire Date: {attestationData.expireDate}</p>
+        <p>Expire Time: {attestationData.expireTime}</p>
+        <img src={imageUrl} alt="Attestation Content" />
+      </div>
+    );
+  } else {
+    // For other types, render accordingly
+    return (
+      <div>
+        <p>Attestation content:</p>
+        <pre>{JSON.stringify(attestationData, null, 2)}</pre>
+      </div>
+    );
   }
+}
+
   // DEFAULT:
   return <p>The type: {type} is not yet supported.</p>;
 }
