@@ -24,7 +24,7 @@ const Wrapper = styled.div`
     .left-side{
         display: flex;
     }
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
         width: ${sidebar ? "55%" : 0};
         z-index: 2;
         position: absolute;
