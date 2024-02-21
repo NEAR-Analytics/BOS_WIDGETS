@@ -211,7 +211,16 @@ return (
         </Tab>
       ))}
     </Tabs>
-    {state.tab === "my_projects" && (
+    {state.detail && state.selected && (
+      <Widget
+        props={{
+          project: state.selected,
+        }}
+        src={`${Owner}/widget/detail`}
+      />
+    )}
+
+    {!state.detail && state.tab === "my_projects" && (
       <>
         <MyProjectCard>
           <div className="d-flex flex-column w-50">
@@ -263,7 +272,7 @@ return (
       </>
     )}
 
-    {state.tab === "other_projects" && (
+    {!state.detail && state.tab === "other_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
         <GridWrapper>
@@ -278,7 +287,7 @@ return (
       </div>
     )}
 
-    {state.tab === "past_projects" && (
+    {!state.detail && state.tab === "past_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
         <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
         <GridWrapper>
