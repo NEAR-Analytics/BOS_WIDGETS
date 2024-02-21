@@ -7,10 +7,14 @@ const {
   // potId,
   // potDetail,
   onClose,
+  POT_FACTORY_CONTRACT_ID,
   DONATION_CONTRACT_ID,
+  NADABOT_CONTRACT_ID,
+  NADABOT_HUMAN_METHOD,
+  POT,
 } = props;
 
-console.log("props in modal donation: ", props);
+console.log("props in donation modal: ", props);
 
 const projects = registeredProjects || [];
 
@@ -288,91 +292,55 @@ State.init({
   addNote: false,
   donationNote: "",
   donationNoteError: "",
-  // activeRoundsForProject: null, // mapping of potId to { potDetail, isUserHumanVerified }
+  allPots: null,
+  activeRoundsForProject: null, // mapping of potId to { potDetail }
   intervalId: null,
   isUserHumanVerified: null,
-  // activeRound: null,
-  // userShouldVerify: false,
 });
 
-// let activeRoundsForProject = useMemo(() => {
-//   if (!recipientId) return false;
-//   // const activeRounds = Object.entries(allPots).filter(([_id, { approvedProjects, detail }]) => {
-//   //   const { public_round_start_ms, public_round_end_ms } = detail;
-//   //   console.log("public_round_start_ms", public_round_start_ms);
-//   //   const now = Date.now();
-//   //   return (
-//   //     approvedProjects.includes(recipientId) &&
-//   //     public_round_start_ms < now &&
-//   //     public_round_end_ms > now
-//   //   );
-//   // });
-//   const activeRounds = [Object.entries(allPots)[0]]; // TODO: REMOVE THIS LINE
-//   console.log("activeRounds line 33", activeRounds);
-//   return activeRounds.reduce((acc, [id, pot]) => {
-//     console.log("pot line 336: ", pot);
-//     const { sybil_wrapper_provider } = pot.detail;
-//     const [contractId, viewMethodName] = (sybil_wrapper_provider ?? "").split(":");
-//     console.log("line 37: ", contractId, viewMethodName);
-//     acc[id] = {
-//       pot,
-//       isUserHumanVerified:
-//         !contractId || !viewMethodName
-//           ? true
-//           : Near.view(contractId, viewMethodName, { account_id: context.accountId }),
-//     };
-//     return acc;
-//   }, {});
-// }, [allPots, recipientId]);
-
-if (!state.activeRoundsForProject) {
-  console.log("allPots: ", allPots);
-  const activeRounds = Object.entries(allPots).filter(([_id, { approvedProjects, detail }]) => {
-    const { public_round_start_ms, public_round_end_ms } = detail;
-    const now = Date.now();
-    return (
-      approvedProjects.includes(recipientId) &&
-      public_round_start_ms < now &&
-      public_round_end_ms > now
-    );
-  });
-  console.log("active rounds line 337: ", activeRounds);
-  // const activeRounds = [Object.entries(allPots)[0]]; // TODO: REMOVE THIS LINE
+if (state.allPots && !state.activeRoundsForProject) {
+  // pots have been fetched but active rounds have not been determined
+  const activeRounds = Object.entries(state.allPots).filter(
+    ([_id, { approvedProjects, detail }]) => {
+      const { public_round_start_ms, public_round_end_ms } = detail;
+      const now = Date.now();
+      return (
+        approvedProjects.filter((proj) => proj.project_id === recipientId) &&
+        public_round_start_ms < now &&
+        public_round_end_ms > now
+      );
+    }
+  );
   State.update({
     activeRoundsForProject: activeRounds.reduce((acc, [id, pot]) => {
-      const { sybil_wrapper_provider } = pot.detail;
-      const [contractId, viewMethodName] = (sybil_wrapper_provider ?? "").split(":");
-      console.log("line 342: ", contractId, viewMethodName);
       acc[id] = {
         potDetail: pot.detail,
-        isUserHumanVerified:
-          !contractId || !viewMethodName
-            ? true
-            : Near.view(contractId, viewMethodName, { account_id: context.accountId }),
       };
       return acc;
     }, {}),
-    isUserHumanVerified: Near.view(contractId, viewMethodName, { account_id: context.accountId }),
   });
 }
 
-console.log("state in modal donation: ", state);
-console.log(
-  "Object.keys(state.activeRoundsForProject).length: ",
-  Object.keys(state.activeRoundsForProject).length
-);
+if (!state.allPots) {
+  Near.asyncView(POT_FACTORY_CONTRACT_ID, "get_pots", {}).then((pots) => {
+    State.update({
+      allPots: pots.reduce((acc, pot) => {
+        acc[pot.id] = {
+          detail: Near.view(pot.id, "get_config", {}),
+          approvedProjects: Near.view(pot.id, "get_approved_applications", {}),
+        };
+        return acc;
+      }, {}),
+    });
+  });
+}
 
-if (Object.keys(state.activeRoundsForProject).length && state.isUserHumanVerified === null) {
-  // State.update({
-  //   isUserHumanVerified: Near.view("v1.nadabot.near", "is_human", {
-  //     account_id: context.accountId,
-  //   }),
-  // });
-  console.log("LINE 366!!!");
-  Near.asyncView("v1.nadabot.near", "is_human", {
+console.log("state in donation modal: ", state);
+
+if (state.isUserHumanVerified === null) {
+  Near.asyncView(NADABOT_CONTRACT_ID, NADABOT_HUMAN_METHOD, {
     account_id: context.accountId,
   }).then((isUserHumanVerified) => {
-    console.log("isUserHumanVerified line 369: ", isUserHumanVerified);
     State.update({ isUserHumanVerified });
   });
 }
@@ -380,50 +348,8 @@ if (Object.keys(state.activeRoundsForProject).length && state.isUserHumanVerifie
 const activeRound = useMemo(() => {
   if (!state.activeRoundsForProject) return;
   return Object.entries(state.activeRoundsForProject)[0];
-  // return Object.entries(state.activeRoundsForProject).find(
-  //   // take first active round for now TODO: allow user to select
-  //   ([_id, { isUserHumanVerified }]) => isUserHumanVerified
-  // );
 }, [state.activeRoundsForProject]);
 console.log("active round: ", activeRound);
-
-// useEffect(() => {
-//   if (!state.activeRound && state.activeRoundsForProject) {
-//     const activeRound = Object.entries(state.activeRoundsForProject).find(
-//           ([_id, { isUserHumanVerified }]) => isUserHumanVerified
-//         );
-//     // const activeRound = Object.entries(state.activeRoundsForProject)[0]; // take first active round for now TODO: allow user to select
-//     if (activeRound) {
-//       console.log("active round in use effect: ", activeRound)
-//       const { sybil_wrapper_provider } = activeRound.potDetail;
-//       const [contractId, viewMethodName] = (sybil_wrapper_provider ?? "").split(":");
-//       State.update({
-//         activeRound: {
-//           ...activeRound,
-//           sybilWrapperContractId: contractId,
-//           sybilWrapperViewMethodName: viewMethodName,
-//         },
-//         userShouldVerify:
-//             !contractId || !viewMethodName
-//               ? false
-//               : !(Near.view(contractId, viewMethodName, { account_id: context.accountId }) || true),,
-//       })
-//     }
-//     State.update({ activeRound });
-
-//   }
-// }, [state.activeRoundsForProject]);
-
-// if (state.activeRound && state.userShouldVerify) {
-//   // poll for updates
-// }
-
-// activeRoundsForProject = [Object.entries(allPots)[0]]; // TODO: REMOVE THIS LINE
-// console.log("activeRoundsForProject", activeRoundsForProject);
-
-// if (activeRound) activeRound[1].isUserHumanVerified = false; // TODO: REMOVE THIS LINE
-
-// const userShouldVerify = activeRound && !activeRound[1].isUserHumanVerified;
 
 const resetState = () => {
   State.update({
@@ -456,9 +382,6 @@ const handleAddToCart = () => {
 const amountNear =
   state.denomination === "NEAR" ? state.amount : (state.amount / props.nearToUsd).toFixed(2);
 
-const userIsVerified =
-  state.isUserHumanVerified || (activeRound && activeRound[1].isUserHumanVerified);
-
 const handleDonate = () => {
   const amountIndivisible = props.SUPPORTED_FTS.NEAR.toIndivisible(parseFloat(amountNear));
   // TODO: get projectId for random donation
@@ -477,9 +400,7 @@ const handleDonate = () => {
     args.custom_chef_fee_basis_points = 0;
   }
   const potId = activeRound ? activeRound[0] : null;
-  console.log("potId: ", potId);
-  console.log("userIsVerified: ", userIsVerified);
-  const isPotDonation = potId && userIsVerified;
+  const isPotDonation = potId && state.isUserHumanVerified === true;
   if (isPotDonation) {
     args.project_id = projectId;
     if (state.bypassChefFee) {
@@ -764,7 +685,7 @@ return (
                 <AddNote onClick={() => State.update({ addNote: true })}>Add Note</AddNote>
               </Row>
             )}
-            {activeRound && !userIsVerified && (
+            {activeRound && state.isUserHumanVerified === false && (
               <InfoSection>
                 <Icon src={ALERT_ICON_URL} />
                 <Column>
