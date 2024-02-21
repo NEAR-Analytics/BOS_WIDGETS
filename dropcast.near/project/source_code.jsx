@@ -245,7 +245,7 @@ return (
       </div>
     )}
     {state.download && (
-      <div className="d-flex justify-content-center align-items-center">
+      <div className="d-flex mt-1 justify-content-center align-items-center">
         <a
           href={`${API_URL}/${project.guild_id}.csv`}
           download={`Allowlist_${project.guild_id}.csv`}
