@@ -46,7 +46,7 @@ const LinksContainer = styled.div`
 
 return (
   <Navbar className="position-relative">
-    <a href={`/ndcdev.near/widget/daos.App?page=home`}>
+    <a href={`/ndcdev.near/widget/daos.App`}>
       <img src={assets.logoWhite} />
     </a>
     <div className="d-flex gap-5 align-items-center">
