@@ -192,15 +192,19 @@ return (
 
           <p>
             <div>
-              Build Transactions:
+              Build|Update Trxs:
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].build_trxs)}
               </span>
-            </div>
-            <div>
-              Update Transactions:
+              |
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].update_trxs)}
+              </span>
+            </div>
+            <div>
+              Forks:
+              <span style={{ color: props.numberintextColor }}>
+                {formatNumber(state.data[0].fork_of)}
               </span>
             </div>
             <Widget
@@ -209,7 +213,7 @@ return (
             />
             Your Rank 👉
             <span style={{ color: props.numberintextColor }}>
-              {formatNumber(state.data[0].widget_rank)}
+              {formatNumber(state.data[0].trx_rank)}
             </span>
           </p>
         </ParentDiv>
@@ -258,7 +262,7 @@ return (
             <div>
               Active dev or not :
               <span style={{ color: props.numberintextColor }}>
-                {formatNumber(state.data[0].active_or_not)}
+                {formatNumber(state.data[0].deposit)}
               </span>
             </div>
             <Widget
