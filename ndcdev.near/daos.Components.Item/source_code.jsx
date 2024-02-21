@@ -1,6 +1,9 @@
-const { item, index, showMoreDefault, showRepliesDefault } = props;
-let { assets } = VM.require(`ndcdev.near/widget/daos.Config`);
+const { item, index, showMoreDefault, showCommentsDefault } = props;
+let { assets, contractName } = VM.require(`ndcdev.near/widget/daos.Config`);
 assets = assets.home;
+const accountId = context.accountId;
+
+if (!item) return <Widget src="flashui.near/widget/Loading" />;
 
 const Container = styled.div`
   width: 100%;
@@ -50,7 +53,6 @@ const Card = styled.div`
   }
 
   .actions {
-    margin-top: 1rem;
     gap: 3rem;
 
     @media screen and (max-width: 786px) {
@@ -62,7 +64,6 @@ const Card = styled.div`
   .tag {
     border-radius: 50px;
     background: #a4c2fd;
-    min-width: 140px;
     width: max-content;
     padding: 4px 15px;
     font-size: 14px;
@@ -79,33 +80,44 @@ const Card = styled.div`
   }
 `;
 
-const Replies = styled.div`
+const Status = styled.div`
+  border-radius: 50px;
+  border: 1px solid ${(props) => props.color};
+  width: max-content;
+  padding: 4px 15px;
+  font-size: 14px;
+  text-align: center;
+  color: ${(props) => props.color};
+`;
+
+const Comments = styled.div`
   border-top: 1px solid #efefef;
   padding-top: 1rem;
 `;
 
-const ProposalContent = styled.div`
+const Button = styled.a`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  gap: 1rem;
   margin-left: auto;
   height: 40px;
-  width: 180px;
-  padding: 10px;
-  background-color: #a4c2fd1a;
+  padding: 10px 20px;
+  background: #a4c2fd1a;
   border-radius: 18px;
   color: #686467;
-  span {
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  border: 1px solid #a4c2fd1a;
+
+  &:hover {
+    text-decoration: none;
+    border: 1px solid #a4c2fd;
   }
 `;
 
 const CardContainer = styled.div`
   padding: 3px;
-  :hover {
+
+  &:hover {
     position: relative;
     border-radius: 10px;
     background: linear-gradient(
@@ -118,12 +130,36 @@ const CardContainer = styled.div`
 `;
 
 const [showMore, setShowMore] = useState(showMoreDefault);
-const [showReply, setShowReply] = useState(showRepliesDefault);
+const [showComments, setShowComments] = useState(showCommentsDefault);
 const [copiedShareUrl, setCopiedShareUrl] = useState(false);
 const pageName = props.type === "report" ? "reports" : "proposals";
-const [replies, setReplies] = useState([]);
 
-const handleLike = () => {};
+const isLiked = (item) => {
+  return item.likes.find((item) => item.author_id === accountId);
+};
+
+const handleLike = () => {
+  Near.call(contractName, isLiked(item) ? "post_unlike" : "post_like", {
+    id: item.id,
+  });
+};
+
+const colorMap = (status) => {
+  switch (status) {
+    case "New":
+      return "rgb(146 168 210)";
+    case "Closed":
+      return "rgb(196 196 196)";
+    case "InReview":
+      return "rgb(223 193 73)";
+    case "Approved":
+      return "rgb(99 222 100)";
+    case "Rejected":
+      return "rgb(214 113 113)";
+    default:
+      break;
+  }
+};
 
 const CardItem = ({ item, index }) => (
   <CardContainer>
@@ -137,26 +173,18 @@ const CardItem = ({ item, index }) => (
           }}
         />
         <div className="d-flex gap-3 align-items-center justify-content-between">
-          <small>
-            {new Date(item.timestamp / 1000000).toLocaleDateString()}
-          </small>
-          <Widget
-            src={"ndcdev.near/widget/daos.Components.Clipboard"}
-            props={{
-              text: `https://near.org/ndcdev.near/widget/daos.App?page=${pageName}&id=${item.id}`,
-            }}
-          />
+          <Status color={colorMap(item.status)}>{item.status}</Status>
         </div>
       </div>
-      <div className="d-flex flex-column gap-1">
+      <div className="d-flex flex-column gap-2">
         <h3>{item.title}</h3>
         <div className="d-flex flex-column gap-1">
-          {item.post_type === "Proposal" && (
-            <div className="info">
-              <small style={{ width: "150px" }}>Requested amount:</small>
-              <small>{item.requested_amount ?? 0} USD</small>
-            </div>
-          )}
+          <div className="info">
+            <small>
+              <span>Created at:</span>
+              {new Date(item.timestamp / 1000000).toLocaleDateString()}
+            </small>
+          </div>
           <div className="info">
             <small style={{ width: "150px" }}>Requested sponsor:</small>
             <div className="d-flex align-items-center gap-1">
@@ -174,83 +202,81 @@ const CardItem = ({ item, index }) => (
           </div>
         </div>
       </div>
-      <small>
-        <div
-          role="button"
-          className="d-flex gap-2 align-items-center"
-          onClick={() => setShowMore(showMore === index ? null : index)}
-        >
+      <a
+        role="button"
+        onClick={() => setShowMore(showMore === index ? null : index)}
+      >
+        <b>
+          See More
           <i
-            style={{ color: "#A4C2FD" }}
-            className={`fs-5 bi ${
-              showMore === index ? "bi-eye-slash" : "bi-eye"
+            className={`bi blue ${
+              showMore === index ? "bi-eye" : "bi-eye-slash"
             }`}
           />
-          <b>See more</b>
-        </div>
-      </small>
+        </b>
+      </a>
 
       {showMore === index && (
-        <p>
-          <Widget
-            src="ndcdev.near/widget/daos.Components.MarkdownViewer"
-            props={{ text: item.description }}
-          />
-        </p>
+        <Widget
+          src="ndcdev.near/widget/daos.Components.MarkdownViewer"
+          props={{ text: item.description }}
+        />
       )}
 
-      {item.labels && (
+      {item.labels?.length > 0 && (
         <div className="d-flex flex-wrap gap-2">
           {item.labels?.map((tag) => (
-            <div className="tag">{tag}</div>
+            <div className="tag"># {tag}</div>
           ))}
         </div>
       )}
+
       <div className="actions d-flex align-items-center justify-content-between">
         <div role="button" className="d-flex gap-2" onClick={handleLike}>
-          {item.likes.length}
+          <span className="blue">{item.likes.length}</span>
           <i
-            style={{ color: liked ? "#EE9CBF" : "#303030" }}
-            className="bi bi-heart-fill"
+            className={`bi blue ${
+              isLiked(item) ? "bi-heart-fill" : "bi-heart"
+            }`}
           />
-          Like
         </div>
 
         <div
           role="button"
           className="d-flex gap-2"
-          onClick={() => setShowReply(!showReply)}
+          onClick={() => setShowComments(!showComments)}
         >
-          <i style={{ color: "#303030" }} className="bi bi-chat-fill" />
-          Reply
+          <span className="blue">{item.comments.length}</span>
+          <i className="bi blue bi-chat" />
         </div>
-        <div onClick={() => setShowReply(!showReply)}>
-          <i className="bi bi-chevron-down fs-5 mt-1" />
-          Expand Replies
-          <small>({replies.length})</small>
+
+        <div role="button" className="d-flex gap-2">
+          <Widget
+            src={"ndcdev.near/widget/daos.Components.Clipboard"}
+            props={{
+              text: `https://near.org/ndcdev.near/widget/daos.App?page=${pageName}&id=${item.id}`,
+            }}
+          />
         </div>
-        <div></div>
-        <ProposalContent>
-          <span>{`Go to ${item.post_type}`}</span>
-          <Link
-            to={`/ndcdev.near/widget/daos.App?page=${item.post_type}&id=${item.id}`}
-          >
-            <i
-              style={{ color: "#A4C2FD" }}
-              class={"bi bi-box-arrow-up-right"}
-            />
-          </Link>
-        </ProposalContent>
+        <Button
+          href={`/ndcdev.near/widget/daos.App?page=proposals&id=${item.id}`}
+        >
+          {`Open ${item.post_type}`}
+          <i className={"bi blue bi-box-arrow-up-right"} />
+        </Button>
       </div>
 
-      <Replies>
-        {showReply && (
+      {showComments && (
+        <Comments>
           <Widget
-            src="ndcdev.near/widget/daos.Components.ReplyItem"
-            props={{ item, showCreate: true }}
+            src="ndcdev.near/widget/daos.Components.Comments"
+            props={{
+              postId: item.id,
+              showCreate: true,
+            }}
           />
-        )}
-      </Replies>
+        </Comments>
+      )}
     </Card>
   </CardContainer>
 );
