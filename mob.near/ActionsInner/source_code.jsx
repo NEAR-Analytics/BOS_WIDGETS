@@ -87,6 +87,7 @@ function connect() {
 }
 
 useEffect(() => {
+  setActions(false);
   const ws = connect();
 
   return () => {
@@ -102,7 +103,6 @@ const Wrapper = styled.div`
 }
 .action {
   margin-bottom: 1em;
-  border: 1px solid #eee;
   overflow: hidden;
 }
 `;
