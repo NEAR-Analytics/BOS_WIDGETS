@@ -116,10 +116,7 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // Fetch the attestation data using Social.get with the provided path and blockHeight
-      const attestationData = JSON.parse(
-        Social.get(path, blockHeight) || "null"
-      );
-
+      const attestationData = Social.get(path, blockHeight) || "null";
       // Check if the specific attestation record exists in the fetched data
       // Assuming the unique identifier is part of the attestation data structure
       const specificAttestation = attestationData[path.split("/").pop()];
@@ -166,7 +163,7 @@ return (
   <Container id={path}>
     <Content>
       <Thing />
-      type
+      {type}
     </Content>
   </Container>
 );
