@@ -59,11 +59,7 @@ const processActions = (newActions) => {
   );
 };
 
-function connect(forAccountId) {
-  if (accountId !== forAccountId) {
-    return;
-  }
-
+function connect() {
   console.log("Triggered connect");
   const ws = new WebSocket("wss://actions.near.stream/ws");
   let shouldReconnect = true;
