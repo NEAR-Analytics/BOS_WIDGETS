@@ -11,6 +11,7 @@ const Wrapper = styled.div`
     width: 100%;
     padding: 64px;
     position: relative;
+    height: fit-content;
     align-items: stretch;
     flex-direction: column;
     color: rgb(229 229 229);
