@@ -53,7 +53,7 @@ return (
       data-nimg="fill"
     />
     <Title>Dropcast</Title>
-    <p style={{ fontSize: 12 }}>Powered by Blocksmith Labs</p>
+    <p style={{ fontSize: 12 }}>Powered by Nearverse Labs</p>
     <LoginButton
       className="btn btn-primary mt-4"
       href={`https://discordapp.com/oauth2/authorize?${OAuthData}`}
