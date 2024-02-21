@@ -117,13 +117,13 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // get the thing data
-      const thing = JSON.parse(Social.get(path, blockHeight) || "null");
+      const thing = Social.get(path, blockHeight);
       type = thing.type || null;
       // get the type data
-      const typeObj = JSON.parse(Social.get(type, blockHeight) || "null");
+      const typeObj = Social.get(type, blockHeight);
       if (typeObj === null) {
         console.log(
-          `edge case: thing ${path} had an invalid type: ${thingType}`
+          `edge case: attestation ${path} had an invalid type: ${thingType}`
         );
       }
       // determine the widget to render this thing (is there a default view?)
