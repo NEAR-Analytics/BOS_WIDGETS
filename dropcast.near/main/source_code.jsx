@@ -163,19 +163,19 @@ return (
       {state.page === "dashboard" && (
         <Widget
           src={`${Owner}/widget/dashboard`}
-          props={{ API_URL, USER, TOKEN }}
+          props={{ API_URL, USER, TOKEN, Logout }}
         />
       )}
       {state.page === "account" && (
         <Widget
           src={`${Owner}/widget/account`}
-          props={{ API_URL, USER, TOKEN }}
+          props={{ API_URL, USER, TOKEN, Logout }}
         />
       )}
       {state.page === "manager" && (
         <Widget
           src={`${Owner}/widget/manager`}
-          props={{ API_URL, USER, TOKEN, changePage }}
+          props={{ API_URL, USER, TOKEN, Logout, changePage }}
         />
       )}
     </PageWrapper>
