@@ -103,7 +103,9 @@ const res = (
           }}
         />
       )}
-      {!hideName && <span key="name">{name}</span>}
+      {!hideName && (hideAccountId || name !== accountId) && (
+        <span key="name">{name}</span>
+      )}
     </Wrap>
     {!hideCheckmark && (
       <Widget
