@@ -139,11 +139,17 @@ const handleVerify = async (index) => {
   })
     .then((response) => {
       let res = response.body.signature;
-      Near.call(contract, action.changeMethod, {
-        signature: res.signature,
-        account_info: res.accountInfo,
-        max_block_height: res.expirationBlockHeight,
-      });
+      Near.call(
+        contract,
+        action.changeMethod,
+        {
+          signature: res.signature,
+          account_info: res.accountInfo,
+          max_block_height: res.expirationBlockHeight,
+        },
+        "300000000000000",
+        "10000000000000000000000"
+      );
     })
     .catch((err) => console.log(err));
 };
