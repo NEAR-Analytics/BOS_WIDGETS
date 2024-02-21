@@ -244,7 +244,7 @@ return (
             )
             .map((project) => (
               <Widget
-                props={{ API_URL, TOKEN, project }}
+                props={{ API_URL, TOKEN, project, type: "my" }}
                 key={project._id}
                 src={`${Owner}/widget/project`}
               />
