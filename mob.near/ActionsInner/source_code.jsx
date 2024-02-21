@@ -97,6 +97,7 @@ function connect() {
 }
 
 useEffect(() => {
+  setActions(false);
   const { ws, stop } = connect();
 
   return () => {
