@@ -108,29 +108,7 @@ const Wrapper = styled.div`
 `;
 
 const renderAction = (action) => {
-  return (
-    <div>
-      <div>
-        Time:{" "}
-        <Widget
-          loading="Xs"
-          src="mob.near/widget/TimeAgoMs"
-          props={{ timeMs: action.blockTimestamp * 1000 }}
-        />{" "}
-        ago
-      </div>
-      <div>Type: {action.action}</div>
-      {action.methodName && <div>Method: {action.methodName}</div>}
-      <div>Receipt: {action.receiptId}</div>
-      <div className="text-nowrap">
-        Predecessor:{" "}
-        <Widget
-          src="mob.near/widget/N.ProfileLine"
-          props={{ accountId: action.predecessorId }}
-        />
-      </div>
-    </div>
-  );
+  return <Widget src="mob.near/widget/Actions.Action" props={{ action }} />;
 };
 
 return (
