@@ -84,10 +84,10 @@ const handleSearch = (e) => {
   State.update({
     tokens: e.target.value
       ? props.tokens.filter((token) => {
-          console.log(token);
           return (
             token.address === e.target.value ||
-            token.name.toLowerCase().includes(e.target.value?.toLowerCase())
+            token.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+            token.symbol.toLowerCase().includes(e.target.value?.toLowerCase())
           );
         })
       : props.tokens,
