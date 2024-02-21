@@ -55,7 +55,7 @@ const Description = styled.p`
 `;
 
 State.init({
-  url: "",
+  download: false,
   error: "",
   status: project.whitelist,
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
@@ -110,11 +110,9 @@ const onSelect = (val) => {
 
     promise.then((data) => {
       if (data.status === 200) {
-        const url = URL.createObjectURL(new Blob([data.body]));
-        console.log(url, "===>url", data.body);
         State.update({
           ...state,
-          url,
+          download: true,
         });
       } else {
         State.update({
@@ -246,11 +244,15 @@ return (
         </a>
       </div>
     )}
-    <a
-      href={`https://dropcast.nearverselabs.com/logo.png`}
-      download={`Allowlist_${project.guild_id}.png`}
-    >
-      download
-    </a>
+    {project.download && (
+      <div className="d-flex justify-content-center align-items-center">
+        <a
+          href={`${API_URL}/${project.guild_id}.csv`}
+          download={`Allowlist_${project.guild_id}.csv`}
+        >
+          download
+        </a>
+      </div>
+    )}
   </Wrapper>
 );
