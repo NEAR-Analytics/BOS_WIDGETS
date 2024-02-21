@@ -118,9 +118,11 @@ function Thing() {
     case "attestation": {
       // get the thing data
       const thing = Social.get(path, blockHeight);
+      console.log(`Thing: ${thing}`);
       type = thing.type || null;
       // get the type data
       const typeObj = Social.get(type, blockHeight);
+      console.log(`typeObj: ${typeObj}`);
       if (typeObj === null) {
         console.log(
           `edge case: attestation ${path} had an invalid type: ${thingType}`
