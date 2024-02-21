@@ -118,7 +118,9 @@ return (
             <p
               style={{ color: "grey" }}
             >{`If you have this role in the discord server, you are automatically eligible for whitelist`}</p>
-            <Status>eligible</Status>
+            <Status style={{ opacity: state.data[role.id] ? 1 : 0.5 }}>{`${
+              state.data[role.id] ? "" : "Not "
+            }Eligible`}</Status>
           </Card>
         ))}
       </GridWrapper>
