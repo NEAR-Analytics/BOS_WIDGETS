@@ -21,9 +21,7 @@ if (parts.length === 1) {
   type = parts[1];
 }
 
-State.init({
-  view: "THING",
-});
+State.init({});
 
 const Container = styled.div`
   border: 1px solid #ccc;
@@ -142,26 +140,10 @@ function Thing() {
   return <p>The type: {type} is not yet supported.</p>;
 }
 
-function Plugin() {
-  const plugin = plugins[state.view];
-  return (
-    <Container>
-      <Header style={{ justifyContent: "flex-start" }}>
-        <Button
-          onClick={() => {
-            State.update({ view: "THING" });
-          }}
-        >
-          back
-        </Button>
-      </Header>
-      <Widget src={plugin.src} props={{ path, blockHeight }} />
-    </Container>
-  );
-}
-
 return (
   <Container id={path}>
-    <Content>{state.view === "THING" ? <Thing /> : <Plugin />}</Content>
+    <Content>
+      <Thing />
+    </Content>
   </Container>
 );
