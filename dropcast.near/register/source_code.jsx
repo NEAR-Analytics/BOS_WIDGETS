@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     color: rgb(229 229 229);
     background: rgb(23,23,23);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
       padding: 25px;
     }  
 `;
@@ -29,7 +29,7 @@ const Card = styled.div`
     position: relative;
     flex-direction: column;
     background: rgb(38, 38, 38);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
       padding: 15px;
       height: 100%;
       .menu {
