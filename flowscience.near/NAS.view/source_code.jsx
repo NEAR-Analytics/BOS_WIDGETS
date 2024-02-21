@@ -117,27 +117,24 @@ function Thing() {
       );
     }
     case "attestation": {
-      // get the thing data
-      const thing = JSON.parse(Social.get(path, blockHeight) || "null");
-      type = thing.type || null;
-      // get the type data
-      const typeObj = JSON.parse(Social.get(type, blockHeight) || "null");
-      if (typeObj === null) {
-        console.log(
-          `edge case: thing ${path} had an invalid type: ${thingType}`
-        );
-      }
-      // determine the widget to render this thing (is there a default view?)
-      const widgetSrc =
-        options?.templateOverride ||
-        thing.template?.src ||
-        typeObj?.widgets?.view;
-      // Template
+      // Assuming attestation data structure and handling
+      const attestation = JSON.parse(Social.get(path, blockHeight) || "null");
+      // Determine how to render based on attestation.type, e.g., "every.near/type/image"
+      const typeObj = JSON.parse(
+        Social.get(attestation.type, blockHeight) || "null"
+      );
+      const widgetSrc = typeObj?.widgets?.view || "default/widget/path";
+
+      // Additional handling based on attestation content
       return (
-        <Widget
-          src={widgetSrc}
-          props={{ data: thing.data, path, blockHeight }}
-        />
+        <div>
+          <p>Attestation content: {attestation.payload}</p>
+          {/* Render based on typeObj if needed, e.g., for images */}
+          <Widget
+            src={widgetSrc}
+            props={{ data: attestation, path, blockHeight }}
+          />
+        </div>
       );
     }
   }
