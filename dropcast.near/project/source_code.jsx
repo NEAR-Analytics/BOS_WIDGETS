@@ -153,6 +153,8 @@ const Download_Box = () => {
 
 <script>
     window.top.postMessage("loaded", "*");
+        console.log("====>data<=================");
+
     window.addEventListener("message", (event) => {
         const data = event.data;
         console.log(data,"====>data");
