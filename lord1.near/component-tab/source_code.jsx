@@ -160,9 +160,22 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                Total number of transactions that include both build and update
-                transactions, and your rank in terms of the number of dev
-                transactions among other developers
+                <div>
+                  Transactions: Total transactions of a developer (Build +
+                  Update + both) related to widget development
+                </div>
+                <div>
+                  Build Transactions: The number of transactions resulting in
+                  component builds
+                </div>
+                <div>
+                  Update Transactions: The number of transactions resulting in
+                  component updates
+                </div>
+                <div>
+                  Your Rank: Developer rank based on the number of transactions
+                  (the lower the better)
+                </div>
               </Tooltip>
             }
           >
@@ -192,7 +205,7 @@ return (
 
           <p>
             <div>
-              Build|Update Trxs:
+              Build | Update Trxs:
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].build_trxs)}
               </span>
@@ -260,7 +273,7 @@ return (
               </span>
             </div>
             <div>
-              Active dev or not :
+              Deposits :
               <span style={{ color: props.numberintextColor }}>
                 {formatNumber(state.data[0].deposit)}
               </span>
