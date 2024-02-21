@@ -34,6 +34,7 @@ const Content = styled.div`
 `;
 
 function Thing() {
+  console.log(`Type before switch: ${type}`); // Logs the initial type determined from the path
   // Renders the path according to type
   switch (type) {
     case "thing": {
@@ -115,23 +116,22 @@ function Thing() {
     }
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
-      // Fetch the attestation data using Social.get with the provided path and blockHeight
-      const attestationData = Social.get(path, blockHeight) || "null";
-      console.log(attestationData);
-      // Check if the specific attestation record exists in the fetched data
-      // Assuming the unique identifier is part of the attestation data structure
-      const specificAttestation = attestationData[path.split("/").pop()];
-      console.log(specificAttestation);
+      const attestationData = JSON.parse(
+        Social.get(path, blockHeight) || "null"
+      );
+      console.log(`Attestation data: ${JSON.stringify(attestationData)}`); // Logs the fetched attestation data
 
-      // Check the type of attestation and render accordingly
+      // Assuming attestationData is an object and the specific attestation data is nested within
+      const specificAttestation = attestationData[path.split("/").pop()];
+      console.log(
+        `Specific Attestation: ${JSON.stringify(specificAttestation)}`
+      ); // Logs the specific attestation
+
       if (
         specificAttestation &&
         specificAttestation.type === "every.near/type/image"
       ) {
-        // For image types, construct the image URL using the IPFS CID from the schema
         const imageUrl = `https://ipfs.io/ipfs/${specificAttestation.schema.ipfs_cid}`;
-
-        // Render the image along with other attestation details
         return (
           <div>
             <p>Recipient ID: {specificAttestation.recipientId}</p>
@@ -145,7 +145,7 @@ function Thing() {
           </div>
         );
       } else {
-        // For other or undefined types of attestations, render the raw data or handle other specific cases
+        // Handle other or undefined types of attestations
         return (
           <div>
             <p>Attestation Data:</p>
@@ -156,9 +156,11 @@ function Thing() {
         );
       }
     }
+    // DEFAULT case to handle unsupported types
+    default:
+      console.log(`Unsupported type: ${type}`);
+      return <p>The type: {type} is not yet supported.</p>;
   }
-  // DEFAULT:
-  return <p>The type: {type} is not yet supported.</p>;
 }
 
 return (
