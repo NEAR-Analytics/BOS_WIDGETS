@@ -55,6 +55,7 @@ const Description = styled.p`
 `;
 
 State.init({
+  bolb: null,
   error: "",
   status: project.whitelist,
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
@@ -83,10 +84,12 @@ const onSelect = (val) => {
     promise.then((data) => {
       if (data.status === 200) {
         State.update({
+          ...state,
           status: !state.status,
         });
       } else {
         State.update({
+          ...state,
           error: data.body,
         });
       }
@@ -107,8 +110,13 @@ const onSelect = (val) => {
 
     promise.then((data) => {
       if (data.status === 200) {
+        State.update({
+          ...state,
+          bolb: data.body,
+        });
       } else {
         State.update({
+          ...state,
           error: data.body,
         });
       }
@@ -136,6 +144,45 @@ const handleImageNotFound = (e) => {
   State.update({
     avatar: "https://dropcast.nearverselabs.com/comingsoon.jpg",
   });
+};
+
+const Download_Box = () => {
+  const code = `
+<div>Expression: <pre id="exp" /></div>
+<div>Results: <pre id="res" /></div>
+
+<script>
+    window.top.postMessage("loaded", "*");
+    window.addEventListener("message", (event) => {
+        console.log(event);
+        const data = event.data;
+
+        const url = window.URL.createObjectURL(new Blob([data.bolb])); // Create a URL for the Blob
+        const link = document.createElement("a"); // Create a link element
+        link.href = url; // Set the href attribute of the link to the Blob URL
+        link.setAttribute(
+          "download",
+          "AllowList_Export_${project.name}".csv"
+        ); // Set the download attribute to specify the file name
+        document.body.appendChild(link); // Append the link to the document body
+        link.click(); // Simulate a click on the link to trigger the file download
+        document.body.removeChild(link); // Remove the link from the document body
+
+       event.source.postMessage("bolb", "*");
+
+    }, false);
+</script>
+`;
+  return (
+    <iframe
+      className="w-50 h-50 mx-auto border"
+      srcDoc={code}
+      message={{ bolb: state.bolb || "" }}
+      onMessage={(res) => {
+        if (res === "bolb") State.update({ ...state, bolb: null });
+      }}
+    />
+  );
 };
 
 return (
@@ -232,5 +279,6 @@ return (
         </a>
       </div>
     )}
+    {state.bolb && <Download_Box />}
   </Wrapper>
 );
