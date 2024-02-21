@@ -214,6 +214,8 @@ return (
     {state.detail && state.selected && (
       <Widget
         props={{
+          TOKEN,
+          API_URL,
           project: state.selected,
         }}
         src={`${Owner}/widget/detail`}
