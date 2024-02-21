@@ -118,7 +118,7 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // get the thing data
-      const thing = JSON.parse(Social.get({ path })) || "empty";
+      const thing = JSON.parse(Social.get(path)) || "empty";
       console.log({ thing });
       type = thing.type || null;
       // get the type data
