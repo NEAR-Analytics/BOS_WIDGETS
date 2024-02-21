@@ -1,4 +1,5 @@
 import ModuleEntry from './ModuleEntry'
+import s from './Tracker.module.css'
 
 interface PackageCompatibility {
   name: string;
@@ -53,7 +54,7 @@ const needsTesting: PackageCompatibility[] = [
 
 export default function () {
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className={s.wrapper}>
       <h1>NPM Package Compatibility</h1>
       <PackageSection
         name="Functional as Expected"
