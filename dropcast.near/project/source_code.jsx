@@ -148,32 +148,44 @@ const handleImageNotFound = (e) => {
 
 const Download_Box = () => {
   const code = `
-<div>Expression: <pre id="exp" /></div>
-<div>Results: <pre id="res" /></div>
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+     </head>
+  <body>
 
-<script>
-    window.top.postMessage("loaded", "*");
+    <div>Expression: <pre id="exp" /></div>
+    <div>Results: <pre id="res" /></div>
+
+    <script>
+        window.top.postMessage("loaded", "*");
+            
         console.log("====>data<=================");
 
-    window.addEventListener("message", (event) => {
-        const data = event.data;
-        console.log(data,"====>data");
+        window.addEventListener("message", (event) => {
+            const data = event.data;
+            console.log(data,"====>data");
 
-        const url = window.URL.createObjectURL(new Blob([data.bolb])); // Create a URL for the Blob
-        const link = document.createElement("a"); // Create a link element
-        link.href = url; // Set the href attribute of the link to the Blob URL
-        link.setAttribute(
-          "download",
-          "AllowList_Export_${project.name}".csv"
-        ); // Set the download attribute to specify the file name
-        document.body.appendChild(link); // Append the link to the document body
-        link.click(); // Simulate a click on the link to trigger the file download
-        document.body.removeChild(link); // Remove the link from the document body
+            const url = window.URL.createObjectURL(new Blob([data.bolb])); // Create a URL for the Blob
+            const link = document.createElement("a"); // Create a link element
+            link.href = url; // Set the href attribute of the link to the Blob URL
+            link.setAttribute(
+            "download",
+            "AllowList_Export_${project.name}".csv"
+            ); // Set the download attribute to specify the file name
+            document.body.appendChild(link); // Append the link to the document body
+            link.click(); // Simulate a click on the link to trigger the file download
+            document.body.removeChild(link); // Remove the link from the document body
 
-       event.source.postMessage("bolb", "*");
+            event.source.postMessage("bolb", "*");
 
-    }, false);
-</script>
+        }, false);
+
+    </script>
+  </body>
+</html>
 `;
   return (
     <iframe
