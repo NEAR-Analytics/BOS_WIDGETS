@@ -157,6 +157,10 @@ const changeMemberOption = (value) => {
 };
 
 const getList = () => {
+  State.update({
+    ...state,
+    loaded: true,
+  });
   let promise = asyncFetch(`${API_URL}/api/project?type=${state.tab}`, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
