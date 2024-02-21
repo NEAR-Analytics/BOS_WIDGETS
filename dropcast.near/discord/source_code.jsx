@@ -55,7 +55,7 @@ const fetchData = () => {
             "Content-Type": "application/x-www-form-urlencoded",
           },
           method: "POST",
-          body: convertObject(data.body),
+          body: convertObject({ ...data.body, wallet: accountId }),
         }).then((res) => {
           const result = res.body;
 
