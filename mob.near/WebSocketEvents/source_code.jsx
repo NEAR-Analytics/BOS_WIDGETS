@@ -1,9 +1,7 @@
 if (state.ws === undefined) {
   const eventsFilter = {
     status: "SUCCESS",
-    event: {
-      event: "ft_transfer",
-    },
+    event: "ft_transfer",
   };
 
   function startWebSocket(processEvents) {
@@ -45,7 +43,7 @@ if (state.ws === undefined) {
 
   function processEvent(event) {
     return {
-      time: new Date(parseFloat(event.block_timestamp) / 1e6),
+      time: new Date(event.block_timestamp * 1000),
       event: event.event,
       accountId: event.account_id,
       predecessorId: event.predecessor_id,
