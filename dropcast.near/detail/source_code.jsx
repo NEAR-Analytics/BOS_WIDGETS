@@ -43,7 +43,6 @@ const Status = styled.span`
     width: 100%;
     padding: 10px 24px;
     border-radius: 8px;
-    background-image: linear-gradient(to right, rgb(250, 204, 21), rgb(234, 88, 12));
 `;
 
 State.init({
@@ -118,9 +117,13 @@ return (
             <p
               style={{ color: "grey" }}
             >{`If you have this role in the discord server, you are automatically eligible for whitelist`}</p>
-            <Status style={{ opacity: state.data[role.id] ? 1 : 0.5 }}>{`${
-              state.data[role.id] ? "" : "Not "
-            }Eligible`}</Status>
+            <Status
+              style={{
+                backgroundImage: state.data[role.id]
+                  ? `linear-gradient(to right, rgb(81 110 11), rgb(12 234 195))`
+                  : `linear-gradient(to right, rgb(110 11 11), rgb(234 75 12))`,
+              }}
+            >{`${state.data[role.id] ? "" : "Not "}Eligible`}</Status>
           </Card>
         ))}
       </GridWrapper>
