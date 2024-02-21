@@ -118,14 +118,14 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // get the thing data
-      const thing = Social.getr(path, blockHeight) || "empty";
+      const thing = Social.getr(path, blockHeight) || {};
       console.log(thing);
-      schema = thing.type || null;
+      type = thing.type || null;
       // get the type data
       const typeObj = Social.get(type, blockHeight);
       console.log(`typeObj: ${typeObj}`);
       if (typeObj === null) {
-        console.log(`edge case: ${path} had an invalid type: ${schema}`);
+        console.log(`edge case: ${path} had an invalid type: ${thingType}`);
       }
       // determine the widget to render this thing (is there a default view?)
       const widgetSrc =
