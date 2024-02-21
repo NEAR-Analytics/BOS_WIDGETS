@@ -1,5 +1,6 @@
 State.init({
   contract: "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+  api_key: "c19f1YSp1FKWlhQHi4gAx0DbxkFM2r48",
   allNFTS: null,
   init: false,
 });
@@ -11,7 +12,7 @@ const loadingUrl =
 const getNFTsForContract = () => {
   asyncFetch(
     "https://eth-mainnet.g.alchemy.com/nft/v3/" +
-      props.API_KEY +
+      state.api_key +
       "/getNFTsForContract?contractAddress=" +
       state.contract +
       "&withMetadata=true",
