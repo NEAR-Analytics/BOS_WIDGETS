@@ -4,12 +4,16 @@ const TOKEN = props.TOKEN || "";
 const type = props.type || "other";
 const project = props.project || {};
 const editMyProject = props.editMyProject || ((val) => {});
+const showDetail = props.showDetail || ((val) => {});
 
 const Wrapper = styled.div`
     padding: 20px;
     border-radius: 8px;
     background-color: rgb(38, 38, 38);
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+    &:hover {
+      ${type === "my" && "cursor: pointer; opactify:0.8"}
+    }
 `;
 
 const BadgeActiveIcon = styled.div`
