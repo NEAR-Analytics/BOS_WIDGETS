@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     background-color: rgb(38, 38, 38);
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
     &:hover {
-      ${type === "my" && "cursor: pointer; opactify:0.8"}
+      ${type === "my" && "cursor: pointer; opacity: 0.8"}
     }
 `;
 
@@ -154,8 +154,12 @@ const handleImageNotFound = (e) => {
   });
 };
 
+const handleClick = () => {
+  if (type === "my") showDetail(project);
+};
+
 return (
-  <Wrapper>
+  <Wrapper onClick={handleClick}>
     <img
       style={{ height: 192 }}
       className="w-100 object-fit-cover rounded-3"
