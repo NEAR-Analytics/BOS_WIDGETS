@@ -69,7 +69,7 @@ const GridWrapper = styled.div`
   @media (max-width: 874px) {
     grid-template-columns: repeat(1,minmax(0,1fr));
   }
-  @media (max-width: 1400px) {
+  @media (min-width: 874px) and (max-width: 1400px) {
     grid-template-columns: repeat(2,minmax(0,1fr));
   }
 `;
