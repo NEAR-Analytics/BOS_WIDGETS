@@ -116,13 +116,6 @@ const [formValues, setFormValues] = useState({
   payload: props.payload || "",
 });
 
-const attestation = {
-  ...formValues,
-  uid: state.thingId,
-  type: state.selectedType,
-  schema: state.data,
-};
-
 const handleInputChange = (name, value) => {
   // Update local form state
   setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -135,6 +128,8 @@ const handleInputChange = (name, value) => {
 
 const handleSave = () => {
   // create the attestation
+  const thingId = state.thingId;
+  const selectedType = state.selectedType;
   State.update({ isModalOpen: false });
   let edges = [];
   if (buildEdges) {
@@ -143,7 +138,21 @@ const handleSave = () => {
   }
 
   const data = {
-    attestation,
+    attestation: {
+      [thingId]: {
+        ...formValues,
+        type: selectedType,
+        schema: state.data,
+      },
+    },
+    index: {
+      attestation: JSON.stringify({
+        key: thingId,
+        value: {
+          type: selectedType,
+        },
+      }),
+    },
   };
   if (edges.length) {
     data.index.edge = JSON.stringify(edges);
