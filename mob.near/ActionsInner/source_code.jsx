@@ -59,7 +59,11 @@ const processActions = (newActions) => {
   );
 };
 
-function connect() {
+function connect(forAccountId) {
+  if (accountId !== forAccountId) {
+    return;
+  }
+
   console.log("Triggered connect");
   const ws = new WebSocket("wss://actions.near.stream/ws");
 
@@ -75,7 +79,7 @@ function connect() {
   };
   ws.onclose = () => {
     console.log(`WS Connection has been closed`);
-    connect();
+    connect(forAccountId);
   };
   ws.onmessage = (e) => {
     const data = JSON.parse(e.data);
@@ -89,8 +93,7 @@ function connect() {
 }
 
 useEffect(() => {
-  setActions(false);
-  const ws = connect();
+  const ws = connect(accountId);
 
   return () => {
     // shutdown
