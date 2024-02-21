@@ -1,5 +1,6 @@
 const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:3000";
+const TOKEN = props.TOKEN || "";
 const project = props.project || "";
 
 //Styles
