@@ -45,6 +45,15 @@ const Button = styled.button`
     background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
 `;
 
+const Description = styled.p`
+    margin: 0;
+    fontSize: 14px;
+    color: rgb(163, 163, 163);
+    @media (min-width: 874px) {
+      height: 85px;
+    }
+`;
+
 State.init({
   error: "",
   status: project.whitelist,
@@ -119,11 +128,11 @@ return (
     />
     <div className="text-center px-2 py-3">
       <h5>{project.name}</h5>
-      <p className="m-0" style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}>
+      <Description>
         {project.description.length > 120
           ? `${project.description.slice(0, 120)}...`
           : project.description}
-      </p>
+      </Description>
     </div>
     {(type === "other" || type === "manager") && (
       <>
