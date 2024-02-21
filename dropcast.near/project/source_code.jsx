@@ -144,7 +144,7 @@ const Items = [
     id: "export",
     href: state.url,
     name: "Export Whitelist Users",
-    download: `AllowList_Export_${project.guild_id}`,
+    download: `AllowList_Export_${project.guild_id}.csv`,
   },
 ];
 
