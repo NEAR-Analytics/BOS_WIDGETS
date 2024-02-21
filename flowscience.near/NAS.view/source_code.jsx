@@ -120,12 +120,12 @@ function Thing() {
       // get the thing data
       const thing = Social.getr(path, blockHeight) || "empty";
       console.log(thing);
-      thingType = thing.type || null;
+      schema = thing.type || null;
       // get the type data
       const typeObj = Social.get(type, blockHeight);
       console.log(`typeObj: ${typeObj}`);
       if (typeObj === null) {
-        console.log(`edge case: ${path} had an invalid type: ${thingType}`);
+        console.log(`edge case: ${path} had an invalid type: ${schema}`);
       }
       // determine the widget to render this thing (is there a default view?)
       const widgetSrc =
