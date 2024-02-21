@@ -7,9 +7,9 @@ type Props = {
 };
 
 
-function ModuleEntry ({ name, demoLink, note }) {
+function ModuleEntry ({ name = 'package', demoLink, note }) {
   return (
-    <li>
+    <li className={s.wrapper}>
       <a className={s.link} key={name} href={demoLink}>
         {name}
       </a>
