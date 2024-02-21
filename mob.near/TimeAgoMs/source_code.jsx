@@ -3,9 +3,9 @@ if (!props.timeMs) {
 }
 
 const timeMs = parseFloat(props.timeMs);
+const [dateNow, setDateNow] = useState(new Date());
 
 const date = new Date(timeMs);
-const dateNow = new Date();
 const title = `${date.toLocaleTimeString([], {
   hour: "2-digit",
   minute: "2-digit",
@@ -32,6 +32,10 @@ const timeAgo = (diffSec) =>
         day: "numeric",
         year: "numeric",
       });
+
+setTimeout(() => {
+  setDateNow(new Date());
+}, 1000);
 
 return (
   <span className={props.className} title={title}>
