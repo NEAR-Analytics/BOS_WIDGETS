@@ -135,6 +135,8 @@ const MEMBER_OPTIONS = [
 ];
 
 State.init({
+  detail: false,
+  selected: {},
   loaded: false,
   my_projects: [],
   other_projects: [],
@@ -182,6 +184,14 @@ const getList = () => {
     .catch(() => {
       Logout();
     });
+};
+
+const showDetail = (project) => {
+  State.update({
+    ...state,
+    detail: true,
+    selected: project,
+  });
 };
 
 if (!state.loaded) getList();
@@ -244,7 +254,7 @@ return (
             )
             .map((project) => (
               <Widget
-                props={{ API_URL, TOKEN, project, type: "my" }}
+                props={{ API_URL, TOKEN, project, type: "my", showDetail }}
                 key={project._id}
                 src={`${Owner}/widget/project`}
               />
