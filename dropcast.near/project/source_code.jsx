@@ -93,6 +93,26 @@ const onSelect = (val) => {
     });
   } else if (val === "configure") {
     editMyProject(project);
+  } else if (val === "export") {
+    let promise = asyncFetch(`${API_URL}/api/project/export`, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-auth-token": TOKEN,
+      },
+      method: "POST",
+      body: convertObject({
+        project_id: project._id,
+      }),
+    });
+
+    promise.then((data) => {
+      if (data.status === 200) {
+      } else {
+        State.update({
+          error: data.body,
+        });
+      }
+    });
   }
 };
 
