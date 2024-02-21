@@ -235,9 +235,19 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                How many components have you developed, what is your rank based
-                on the number of components, and are you considered an active
-                developer (among the top 50 most active)
+                <div>Components: Total widgets created by a developer</div>
+                <div>
+                  Active or Not: An active developer is equivalent to having a
+                  widget rank of less than 50{" "}
+                </div>
+                <div>
+                  Deposits: Deposited volume in Near token for BOS development
+                  to social.near contract
+                </div>
+                <div>
+                  Your Rank: Developer rank based on the number of widgets (the
+                  lower the better)
+                </div>
               </Tooltip>
             }
           >
@@ -267,9 +277,9 @@ return (
           />
           <p>
             <div>
-              Total Components:
+              Active dev or not ?:
               <span style={{ color: props.numberintextColor }}>
-                {formatNumber(state.data[0].widget)}
+                {formatNumber(state.data[0].active_or_not)}
               </span>
             </div>
             <div>
