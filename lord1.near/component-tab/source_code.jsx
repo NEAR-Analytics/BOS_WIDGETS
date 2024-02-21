@@ -172,6 +172,7 @@ return (
                   Update Transactions: The number of transactions resulting in
                   component updates
                 </div>
+                <div>Forks: How many fork done by developer so far updates</div>
                 <div>
                   Your Rank: Developer rank based on the number of transactions
                   (the lower the better)
@@ -303,9 +304,20 @@ return (
             key="top"
             overlay={
               <Tooltip>
-                When did you first start your development activity, how many
-                days have you been active, and what is your rank based on your
-                dev history
+                <div>
+                  History (day): Number of days from the first day of BOS
+                  development activity until the present day.
+                </div>
+                <div>
+                  Active Since: The first day of BOS development activity
+                </div>
+                <div>
+                  Active Days: Number of days that developer has been active
+                </div>
+                <div>
+                  Your Rank: The rank of developers based on the age of their
+                  activities. (The less the better)
+                </div>
               </Tooltip>
             }
           >
@@ -360,7 +372,21 @@ return (
           <OverlayTrigger
             key="top"
             overlay={
-              <Tooltip>Number of stars received or sent in total</Tooltip>
+              <Tooltip>
+                {" "}
+                <div>
+                  Stars Received: Number of stars received by developer from
+                  other users
+                </div>
+                <div>
+                  Stars Sent: Number of stars sent by developer to other users
+                  to value their work
+                </div>
+                <div>
+                  Your Rank: The rank of developers based number of starts
+                  received (The less the better)
+                </div>
+              </Tooltip>
             }
           >
             <div
