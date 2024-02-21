@@ -246,10 +246,11 @@ return (
         </a>
       </div>
     )}
-    {state.url && (
-      <a href={state.url} download={`Allowlist_${project.guild_id}.csv`}>
-        download
-      </a>
-    )}
+    <a
+      href={`https://dropcast.nearverselabs.com/logo.png`}
+      download={`Allowlist_${project.guild_id}.png`}
+    >
+      download
+    </a>
   </Wrapper>
 );
