@@ -5,20 +5,24 @@ const [actions, setActions] = useState(false);
 
 const Limit = 50;
 
-const actionsFilter = [
-  "account_id",
-  "args_account_id",
-  "args_new_account_id",
-  "args_nft_contract_id",
-  "args_owner_id",
-  "args_receiver_id",
-  "args_sender_id",
-  "predecessor_id",
-  "signer_id",
-].map((key) => ({
-  [key]: accountId,
-  status: "SUCCESS",
-}));
+const actionsFilter = useMemo(
+  () =>
+    [
+      "account_id",
+      "args_account_id",
+      "args_new_account_id",
+      "args_nft_contract_id",
+      "args_owner_id",
+      "args_receiver_id",
+      "args_sender_id",
+      "predecessor_id",
+      "signer_id",
+    ].map((key) => ({
+      [key]: accountId,
+      status: "SUCCESS",
+    })),
+  [accountId]
+);
 
 const toCamel = (s) => {
   return s.replace(/([-_][a-z])/gi, ($1) => {
@@ -27,7 +31,9 @@ const toCamel = (s) => {
 };
 
 function processAction(action) {
-  Object.fromEntries(Object.entries(action).map(([k, v]) => [toCamel(k), v]));
+  action = Object.fromEntries(
+    Object.entries(action).map(([k, v]) => [toCamel(k), v])
+  );
   action.time = new Date(action.blockTimestamp * 1000);
   return action;
 }
@@ -50,6 +56,7 @@ const processActions = (newActions) => {
 };
 
 function connect() {
+  console.log("Triggered connect");
   const ws = new WebSocket("wss://actions.near.stream/ws");
 
   ws.onopen = () => {
@@ -82,6 +89,7 @@ useEffect(() => {
 
   return () => {
     // shutdown
+    console.log("Shutdown");
     ws.close();
   };
 }, [accountId]);
@@ -89,12 +97,13 @@ useEffect(() => {
 const Wrapper = styled.div`
 `;
 
+console.log("Rendering", actions);
+
 return (
   <Wrapper>
     <div className="header">
       Actions of
       <Widget src="mob.near/widget/N.ProfileLine" props={{ accountId }} />
     </div>
-    <div>{JSON.stringify(actions)}</div>
   </Wrapper>
 );
