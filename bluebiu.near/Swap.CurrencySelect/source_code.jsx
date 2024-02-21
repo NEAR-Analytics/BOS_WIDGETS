@@ -116,7 +116,8 @@ const handleSearch = (e) => {
       ? props.tokens.filter((token) => {
           return (
             token.address === e.target.value ||
-            token.name.toLowerCase().includes(e.target.value?.toLowerCase())
+            token.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+            token.symbol.toLowerCase().includes(e.target.value?.toLowerCase())
           );
         })
       : props.tokens,
