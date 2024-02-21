@@ -290,6 +290,7 @@ State.init({
   donationNoteError: "",
   // activeRoundsForProject: null, // mapping of potId to { potDetail, isUserHumanVerified }
   intervalId: null,
+  isUserHumanVerified: null,
   // activeRound: null,
   // userShouldVerify: false,
 });
@@ -325,6 +326,7 @@ State.init({
 // }, [allPots, recipientId]);
 
 if (!state.activeRoundsForProject) {
+  console.log("allPots: ", allPots);
   const activeRounds = Object.entries(allPots).filter(([_id, { approvedProjects, detail }]) => {
     const { public_round_start_ms, public_round_end_ms } = detail;
     const now = Date.now();
@@ -334,11 +336,13 @@ if (!state.activeRoundsForProject) {
       public_round_end_ms > now
     );
   });
+  console.log("active rounds line 337: ", activeRounds);
   // const activeRounds = [Object.entries(allPots)[0]]; // TODO: REMOVE THIS LINE
   State.update({
     activeRoundsForProject: activeRounds.reduce((acc, [id, pot]) => {
       const { sybil_wrapper_provider } = pot.detail;
       const [contractId, viewMethodName] = (sybil_wrapper_provider ?? "").split(":");
+      console.log("line 342: ", contractId, viewMethodName);
       acc[id] = {
         potDetail: pot.detail,
         isUserHumanVerified:
@@ -348,20 +352,40 @@ if (!state.activeRoundsForProject) {
       };
       return acc;
     }, {}),
+    isUserHumanVerified: Near.view(contractId, viewMethodName, { account_id: context.accountId }),
   });
 }
 
-// console.log("state in modal donation: ", state);
+console.log("state in modal donation: ", state);
+console.log(
+  "Object.keys(state.activeRoundsForProject).length: ",
+  Object.keys(state.activeRoundsForProject).length
+);
+
+if (Object.keys(state.activeRoundsForProject).length && state.isUserHumanVerified === null) {
+  // State.update({
+  //   isUserHumanVerified: Near.view("v1.nadabot.near", "is_human", {
+  //     account_id: context.accountId,
+  //   }),
+  // });
+  console.log("LINE 366!!!");
+  Near.asyncView("v1.nadabot.near", "is_human", {
+    account_id: context.accountId,
+  }).then((isUserHumanVerified) => {
+    console.log("isUserHumanVerified line 369: ", isUserHumanVerified);
+    State.update({ isUserHumanVerified });
+  });
+}
 
 const activeRound = useMemo(() => {
   if (!state.activeRoundsForProject) return;
-  // return Object.entries(state.activeRoundsForProject)[0];
-  return Object.entries(state.activeRoundsForProject).find(
-    // take first active round for now TODO: allow user to select
-    ([_id, { isUserHumanVerified }]) => isUserHumanVerified
-  );
+  return Object.entries(state.activeRoundsForProject)[0];
+  // return Object.entries(state.activeRoundsForProject).find(
+  //   // take first active round for now TODO: allow user to select
+  //   ([_id, { isUserHumanVerified }]) => isUserHumanVerified
+  // );
 }, [state.activeRoundsForProject]);
-// console.log("active round: ", activeRound);
+console.log("active round: ", activeRound);
 
 // useEffect(() => {
 //   if (!state.activeRound && state.activeRoundsForProject) {
@@ -399,7 +423,7 @@ const activeRound = useMemo(() => {
 
 // if (activeRound) activeRound[1].isUserHumanVerified = false; // TODO: REMOVE THIS LINE
 
-const userShouldVerify = activeRound && !activeRound[1].isUserHumanVerified;
+// const userShouldVerify = activeRound && !activeRound[1].isUserHumanVerified;
 
 const resetState = () => {
   State.update({
@@ -432,6 +456,9 @@ const handleAddToCart = () => {
 const amountNear =
   state.denomination === "NEAR" ? state.amount : (state.amount / props.nearToUsd).toFixed(2);
 
+const userIsVerified =
+  state.isUserHumanVerified || (activeRound && activeRound[1].isUserHumanVerified);
+
 const handleDonate = () => {
   const amountIndivisible = props.SUPPORTED_FTS.NEAR.toIndivisible(parseFloat(amountNear));
   // TODO: get projectId for random donation
@@ -450,7 +477,9 @@ const handleDonate = () => {
     args.custom_chef_fee_basis_points = 0;
   }
   const potId = activeRound ? activeRound[0] : null;
-  const isPotDonation = potId && !userShouldVerify;
+  console.log("potId: ", potId);
+  console.log("userIsVerified: ", userIsVerified);
+  const isPotDonation = potId && userIsVerified;
   if (isPotDonation) {
     args.project_id = projectId;
     if (state.bypassChefFee) {
@@ -735,7 +764,7 @@ return (
                 <AddNote onClick={() => State.update({ addNote: true })}>Add Note</AddNote>
               </Row>
             )}
-            {userShouldVerify && (
+            {activeRound && !userIsVerified && (
               <InfoSection>
                 <Icon src={ALERT_ICON_URL} />
                 <Column>
