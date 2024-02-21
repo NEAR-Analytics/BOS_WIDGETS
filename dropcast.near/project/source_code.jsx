@@ -49,7 +49,7 @@ const Description = styled.p`
     margin: 0;
     fontSize: 14px;
     color: rgb(163, 163, 163);
-    @media (min-width: 874px) {
+    @media (min-width: 935px) {
       height: 85px;
     }
 `;
