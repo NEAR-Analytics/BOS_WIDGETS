@@ -3,6 +3,9 @@ const [accountId, setAccountId] = useState(
 );
 const [inputActionId, setInputActionId] = useState(accountId);
 
+const actionWidgetSrc =
+  props.actionWidgetSrc || "mob.near/widget/Actions.Action";
+
 return (
   <div>
     <div className="input-group mb-3">
@@ -21,6 +24,9 @@ return (
         Apply
       </button>
     </div>
-    <Widget src="mob.near/widget/ActionsInner" props={{ accountId }} />
+    <Widget
+      src="mob.near/widget/ActionsInner"
+      props={{ accountId, actionWidgetSrc }}
+    />
   </div>
 );
