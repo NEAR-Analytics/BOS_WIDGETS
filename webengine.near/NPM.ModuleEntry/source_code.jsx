@@ -1,3 +1,5 @@
+import s from './ModuleEntry.module.css'
+
 type Props = {
   name: string;
   demoLink: string;
@@ -8,7 +10,7 @@ type Props = {
 function ModuleEntry ({ name, demoLink, note }) {
   return (
     <li>
-      <a key={name} href={demoLink}>
+      <a className={s.link} key={name} href={demoLink}>
         {name}
       </a>
       {note ? <span>: {note}</span> : ''}
