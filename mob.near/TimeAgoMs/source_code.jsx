@@ -33,12 +33,27 @@ const timeAgo = (diffSec) =>
         year: "numeric",
       });
 
-setTimeout(() => {
-  setDateNow(new Date());
-}, 1000);
+const timeoutDelay = (diffSec) =>
+  diffSec < 60000
+    ? 1000
+    : diffSec < 3600000
+    ? (((diffSec / 60000) | 0) + 1) * 60000 - diffSec
+    : 60000;
+
+const diffSec = dateNow.getTime() - timeMs;
+
+useEffect(() => {
+  const id = setTimeout(() => {
+    setDateNow(new Date());
+  }, timeoutDelay(diffSec));
+
+  return () => {
+    clearTimeout(id);
+  };
+}, [dateNow]);
 
 return (
   <span className={props.className} title={title}>
-    {timeAgo(dateNow.getTime() - timeMs, date)}
+    {timeAgo(diffSec)}
   </span>
 );
