@@ -292,7 +292,7 @@ useEffect(() => {
     const _amountOut = Big(amountOut)
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
-
+    let priceImpact = "0";
     if (prices) {
       const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
         prices[outputCurrency.symbol] || 1
