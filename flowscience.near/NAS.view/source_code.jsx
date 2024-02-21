@@ -37,6 +37,7 @@ const Content = styled.div`
 
 function Thing() {
   // Renders the path according to type
+  console.log(type);
   switch (type) {
     case "thing": {
       // get the thing data
