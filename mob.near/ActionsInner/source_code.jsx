@@ -2,6 +2,8 @@ const accountId = props.accountId;
 if (!accountId) {
   return "";
 }
+const actionWidgetSrc =
+  props.actionWidgetSrc || "mob.near/widget/Actions.Action";
 const [actions, setActions] = useState(false);
 
 const Limit = 50;
@@ -108,7 +110,7 @@ const Wrapper = styled.div`
 `;
 
 const renderAction = (action) => {
-  return <Widget src="mob.near/widget/Actions.Action" props={{ action }} />;
+  return <Widget src={actionWidgetSrc} props={{ action }} />;
 };
 
 return (
