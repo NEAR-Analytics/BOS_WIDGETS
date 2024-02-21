@@ -116,45 +116,28 @@ function Thing() {
     }
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
-      const attestationData = JSON.parse(
-        Social.get(path, blockHeight) || "null"
-      );
-      console.log(`Attestation data: ${JSON.stringify(attestationData)}`); // Logs the fetched attestation data
-
-      // Assuming attestationData is an object and the specific attestation data is nested within
-      const specificAttestation = attestationData[path.split("/").pop()];
-      console.log(
-        `Specific Attestation: ${JSON.stringify(specificAttestation)}`
-      ); // Logs the specific attestation
-
-      if (
-        specificAttestation &&
-        specificAttestation.type === "every.near/type/image"
-      ) {
-        const imageUrl = `https://ipfs.io/ipfs/${specificAttestation.schema.ipfs_cid}`;
-        return (
-          <div>
-            <p>Recipient ID: {specificAttestation.recipientId}</p>
-            <p>Expire Date: {specificAttestation.expireDate}</p>
-            <p>Expire Time: {specificAttestation.expireTime}</p>
-            <img
-              src={imageUrl}
-              alt="Attestation Content"
-              style={{ maxWidth: "100%" }}
-            />
-          </div>
-        );
-      } else {
-        // Handle other or undefined types of attestations
-        return (
-          <div>
-            <p>Attestation Data:</p>
-            <pre>
-              {JSON.stringify(specificAttestation || attestationData, null, 2)}
-            </pre>
-          </div>
+      // get the thing data
+      const thing = JSON.parse(Social.get(path, blockHeight) || "null");
+      type = thing.type || null;
+      // get the type data
+      const typeObj = JSON.parse(Social.get(type, blockHeight) || "null");
+      if (typeObj === null) {
+        console.log(
+          `edge case: thing ${path} had an invalid type: ${thingType}`
         );
       }
+      // determine the widget to render this thing (is there a default view?)
+      const widgetSrc =
+        options?.templateOverride ||
+        thing.template?.src ||
+        typeObj?.widgets?.view;
+      // Template
+      return (
+        <Widget
+          src={widgetSrc}
+          props={{ data: thing.data, path, blockHeight }}
+        />
+      );
     }
     // DEFAULT case to handle unsupported types
     default:
