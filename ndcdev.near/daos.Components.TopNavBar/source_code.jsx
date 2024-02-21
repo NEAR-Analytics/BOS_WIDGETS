@@ -1,27 +1,26 @@
 const { assets } = VM.require(`ndcdev.near/widget/daos.Config`);
-const { hasNotifications } = props;
+const { hasNotifications, daoId } = props;
 
 const links = [
   {
-    text: "Proposals",
-    href: "/ndcdev.near/widget/daos.App?page=proposals",
-    icon: <i className="bi bi-file-earmark-text-fill fs-5" />,
-  },
-  {
     text: "Reports",
-    href: "/ndcdev.near/widget/daos.App?page=reports",
-    disabled: true,
+    href: `/ndcdev.near/widget/daos.App?page=reports`,
     icon: <i className="bi bi-clipboard-data-fill fs-5" />,
   },
   {
+    text: "Proposals",
+    href: `/ndcdev.near/widget/daos.App?page=proposals`,
+    icon: <i className="bi bi-file-earmark-text-fill fs-5" />,
+  },
+  {
     text: "Comments",
-    href: "/ndcdev.near/widget/daos.App?page=comments",
+    href: `/ndcdev.near/widget/daos.App?page=comments`,
     disabled: true,
     icon: <i className="bi bi-chat-square-text-fill fs-5" />,
   },
   {
     text: "Favourites",
-    href: "/ndcdev.near/widget/daos.App?page=favourites",
+    href: `/ndcdev.near/widget/daos.App?page=favourites`,
     disabled: true,
     icon: <i className="bi bi-star-fill fs-5" />,
   },
@@ -35,7 +34,7 @@ const Navbar = styled.div`
   gap: 3rem;
   align-items: center;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.5);
+  background: white;
   width: 100%;
 `;
 
@@ -66,7 +65,7 @@ const LinksContainer = styled.div`
 return (
   <Navbar>
     <div className="d-flex gap-3 items-center">
-      <i style={{ color: "#a4c2fd" }} className="bi bi-person-circle fs-5" />
+      <i className="bi bi-person-circle fs-4" />
       <h4>
         <b>My Activity</b>
       </h4>
