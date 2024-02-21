@@ -46,6 +46,8 @@ const Status = styled.span`
 `;
 
 State.init({
+  data: {},
+  loaded: false,
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
 });
 
@@ -55,9 +57,37 @@ const roles =
 
 const handleImageNotFound = (e) => {
   State.update({
+    ...state,
     avatar: "https://dropcast.nearverselabs.com/comingsoon.jpg",
   });
 };
+
+const getData = () => {
+  let promise = asyncFetch(`${API_URL}/api/project/state?id=${project._id}`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "GET",
+  });
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      State.update({
+        ...state,
+        loaded: true,
+        data: data.body,
+      });
+    } else {
+      State.update({
+        ...state,
+        error: data.body,
+      });
+    }
+  });
+};
+
+if (!state.loaded) getData();
 
 return (
   <Wrapper>
