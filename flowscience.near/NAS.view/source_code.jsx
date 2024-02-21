@@ -119,8 +119,8 @@ function Thing() {
     case "attestation": {
       // get the thing data
       const thing = Social.getr(path, blockHeight) || "empty";
-      console.log({ thing });
-      type = thing.type || null;
+      console.log(thing);
+      thingType = thing.type || null;
       // get the type data
       const typeObj = Social.get(type, blockHeight);
       console.log(`typeObj: ${typeObj}`);
