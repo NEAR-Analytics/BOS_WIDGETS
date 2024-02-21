@@ -477,21 +477,16 @@ let ChartSections = (
                   type: "column",
                   id: 1,
                 },
+
                 {
-                  key: "build_trxs",
-                  seriesName: "Daily Build Transaction",
-                  type: "column",
-                  id: 1,
-                },
-                {
-                  key: "update_trxs",
-                  seriesName: "Daily Update Transaction",
+                  key: "forks",
+                  seriesName: "Daily Forks",
                   type: "column",
                   id: 1,
                 },
                 {
                   key: "widget",
-                  seriesName: "Components",
+                  seriesName: "Daily Components",
                   type: "column",
                   id: 1,
                 },
@@ -502,17 +497,12 @@ let ChartSections = (
                   id: 2,
                 },
                 {
-                  key: "cum_update_trxs",
-                  seriesName: "Total Update Transaction",
+                  key: "cum_forks",
+                  seriesName: "Total Forks",
                   type: "spline",
                   id: 2,
                 },
-                {
-                  key: "cum_build_trxs",
-                  seriesName: "Total Build Transaction",
-                  type: "spline",
-                  id: 2,
-                },
+
                 {
                   key: "cum_widget",
                   seriesName: "Total Components",
