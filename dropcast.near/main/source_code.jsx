@@ -78,7 +78,7 @@ const Wrapper = styled.div`
     background: rgb(23,23,23);
     overflow: auto;
     position: relative;
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
         .sidebar-btn {
             display: flex;
         }
