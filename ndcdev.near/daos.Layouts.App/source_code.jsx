@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
 );
 
 if (!fontCss) {
@@ -98,28 +98,32 @@ const Container = styled.div`
 
   .btn-primary {
     border-radius: 10px;
-    background: #151718;
+    background: #a4c2fd;
+    border: 1px solid #a4c2fd;
     color: white !important;
     text-decoration: none;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
-    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.15);
     padding: 10px 40px 10px 25px;
 
     &:hover {
       text-decoration: none;
       cursor: pointer;
+      border: 1px solid #a4c2fd;
     }
   }
 
   .btn-outline-primary {
     border-radius: 10px;
-    border: 1px solid #151718;
+    border: 1px solid #a4c2fd;
     color: #000 !important;
     text-decoration: none;
     display: flex;
     gap: 1rem;
-    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.15);
     padding: 10px 40px 10px 25px;
 
     &:hover {
@@ -133,6 +137,10 @@ const Container = styled.div`
     padding: 5px 10px 5px 20px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
   }
+
+  .blue {
+    color: rgb(146 168 210);
+  }
 `;
 
 const Wrapper = styled.div`
@@ -143,13 +151,18 @@ const Wrapper = styled.div`
   margin: 3rem 0;
 `;
 
-function AppLayout({ page, children }) {
+function AppLayout({ page, props, children }) {
   return (
     <Theme>
       <Container>
         <Widget src={`ndcdev.near/widget/daos.Components.NavBar`} />
         <Wrapper>
-          <Widget src={`ndcdev.near/widget/daos.Components.TopNavBar`} />
+          {page !== "home" && (
+            <Widget
+              src={`ndcdev.near/widget/daos.Components.TopNavBar`}
+              props={props}
+            />
+          )}
           {children}
         </Wrapper>
         <Widget
