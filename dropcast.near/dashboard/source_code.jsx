@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     color: rgb(229 229 229);
     background: rgb(23,23,23);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
       padding: 29px;
     }
 `;
@@ -37,7 +37,7 @@ const Tab = styled.div`
   padding: 16px 4px;
   position: relative;
   align-items: center;
-  @media (max-width: 510px) {
+  @media (max-width: 620px) {
     text-align: center;
   }
 `;
@@ -47,7 +47,7 @@ const Counter = styled.span`
   padding: 2px 10px;
   border-radius: 50px;
   background-image: linear-gradient(to right, rgb(250, 204, 21), rgb(234, 88, 12));
-  @media (max-width: 510px) {
+  @media (max-width: 620px) {
     padding: 2px 7px;
   }
 `;
@@ -80,7 +80,7 @@ const MyProjectCard = styled.div`
   padding: 25px 0;
   align-items: center;
   justify-content: space-between;
-  @media (max-width: 510px) {
+  @media (max-width: 620px) {
     flex-direction: column;
 
     .w-50 {
