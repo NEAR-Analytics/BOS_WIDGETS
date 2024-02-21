@@ -35,6 +35,9 @@ const GridWrapper = styled.div`
   @media (max-width: 510px) {
     grid-template-columns: repeat(1,minmax(0,1fr));
   }
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
 `;
 State.init({
   list: [],
