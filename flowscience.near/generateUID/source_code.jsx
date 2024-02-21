@@ -1,3 +1,6 @@
+// replace with keccak256() sha-256 hashing algo
+// use content of attestation to generate UID
+// ensures all attestations are unique & have unique IDs
 function generateUID() {
   const length = 42; // This will create a 168-bit number (42 hexadecimal characters)
   // randomly change the case of a character
