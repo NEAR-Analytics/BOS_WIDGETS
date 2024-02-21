@@ -170,7 +170,7 @@ return (
           : project.description}
       </Description>
     </div>
-    {(type === "other" || type === "manager") && (
+    {type !== "past" && (
       <>
         <hr className="mt-0" />
         <div className="d-flex flex-column gap-3">
