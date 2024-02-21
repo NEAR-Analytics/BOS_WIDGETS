@@ -35,7 +35,6 @@ const Content = styled.div`
 
 function Thing() {
   // Renders the path according to type
-  console.log(type);
   switch (type) {
     case "thing": {
       // get the thing data
@@ -167,6 +166,7 @@ return (
   <Container id={path}>
     <Content>
       <Thing />
+      type
     </Content>
   </Container>
 );
