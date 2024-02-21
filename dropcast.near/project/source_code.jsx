@@ -111,7 +111,7 @@ const onSelect = (val) => {
     promise.then((data) => {
       if (data.status === 200) {
         const url = URL.createObjectURL(new Blob([data.body]));
-        console.log(url, "===>url");
+        console.log(url, "===>url", data.body);
         State.update({
           ...state,
           url,
