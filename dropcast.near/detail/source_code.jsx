@@ -46,8 +46,10 @@ const Status = styled.span`
 `;
 
 State.init({
-  avatar: project.icon,
+  avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
 });
+
+const roles = project.roles.filter((e) => e.selected === true);
 
 const handleImageNotFound = (e) => {
   State.update({
@@ -60,38 +62,32 @@ return (
     <img
       style={{ height: 192 }}
       className="w-100 object-fit-cover rounded-3"
-      src={
-        "https://cdn.discordapp.com/icons/988431580538224641/e77dc47375e528b351f7ec287be40080.png?size=1024"
-      }
+      src={state.avatar}
       onError={handleImageNotFound}
     />
     <div className="text-center px-2 py-3">
-      <h5>{"Jump Defi"}</h5>
-      <p className="m-0">
-        {`Shardeez are “sharded blocks”
-       on a mission. Shardeez defend the 
-       ecosystems that matter to all life—to
-        bring awareness an...
-`}
-      </p>
+      <h5>{project.name}</h5>
+      <p className="m-0">{project.description}</p>
     </div>
 
     <hr />
 
     <div>
-      <h5 style={{ fontSize: 18 }}>{"Jump Defi"}</h5>
-      <p
-        style={{ color: "grey" }}
-      >{`Please take a look at the whitelist requirements below and see if you are eligible to get whitelist.`}</p>
+      <h5 style={{ fontSize: 18 }}>{project.name}</h5>
+      <p style={{ color: "grey" }}>
+        {`Please take a look at the whitelist requirements below and see if you are eligible to get whitelist.`}
+      </p>
       <GridWrapper>
-        <Card>
-          <h5>Obtain the Jump Defi</h5>
-          <h5>Discord role</h5>
-          <p
-            style={{ color: "grey" }}
-          >{`If you have this role in the discord server, you are automatically eligible for whitelist`}</p>
-          <Status>eligible</Status>
-        </Card>
+        {roles.map((role) => (
+          <Card key={role.id}>
+            <h5>{role.name}</h5>
+            <h5>Discord role</h5>
+            <p
+              style={{ color: "grey" }}
+            >{`If you have this role in the discord server, you are automatically eligible for whitelist`}</p>
+            <Status>eligible</Status>
+          </Card>
+        ))}
       </GridWrapper>
     </div>
   </Wrapper>
