@@ -49,7 +49,8 @@ State.init({
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
 });
 
-const roles = project.roles.filter((e) => e.selected === true);
+console.log(project, "==>");
+const roles = project?.roles?.filter((e) => e.selected === true) || [];
 
 const handleImageNotFound = (e) => {
   State.update({
