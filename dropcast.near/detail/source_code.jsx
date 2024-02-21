@@ -50,7 +50,8 @@ State.init({
 });
 
 console.log(project, "==>");
-const roles = project?.roles?.filter((e) => e.selected === true) || [];
+const roles =
+  JSON.parse(project.roles).filter((e) => e.selected === true) || [];
 
 const handleImageNotFound = (e) => {
   State.update({
