@@ -3,6 +3,7 @@ const Owner = "dropcast.near";
 const API_URL = props.API_URL || "http://localhost:2402";
 const TOKEN = props.TOKEN || "";
 const changePage = props.changePage || ((page) => {});
+const Logout = props.Logout;
 
 //Styles
 const Wrapper = styled.div`
@@ -58,20 +59,25 @@ const getList = () => {
     method: "GET",
   });
 
-  promise.then((data) => {
-    if (data.status === 200) {
-      State.update({
-        ...state,
-        loaded: true,
-        list: data.body,
-      });
-    } else {
-      State.update({
-        ...state,
-        error: data.body,
-      });
-    }
-  });
+  promise
+    .then((data) => {
+      if (data.status === 200) {
+        State.update({
+          ...state,
+          loaded: true,
+          list: data.body,
+        });
+      } else {
+        State.update({
+          ...state,
+          error: data.body,
+        });
+        Logout();
+      }
+    })
+    .catch(() => {
+      Logout();
+    });
 };
 
 const editMyProject = (project) => {
