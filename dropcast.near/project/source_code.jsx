@@ -55,7 +55,7 @@ const Description = styled.p`
 `;
 
 State.init({
-  bolb: null,
+  url: "",
   error: "",
   status: project.whitelist,
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
@@ -110,9 +110,11 @@ const onSelect = (val) => {
 
     promise.then((data) => {
       if (data.status === 200) {
+        const url = URL.createObjectURL(new Blob([data.body]));
+
         State.update({
           ...state,
-          bolb: data.body,
+          url,
         });
       } else {
         State.update({
@@ -137,66 +139,19 @@ const Items = [
     onSelect,
   },
   { name: "Configure", id: "configure", onSelect },
-  { name: "Export Whitelist Users", id: "export", onSelect },
+  {
+    onSelect,
+    id: "export",
+    href: state.url,
+    name: "Export Whitelist Users",
+    download: `AllowList_Export_${project.guild_id}`,
+  },
 ];
 
 const handleImageNotFound = (e) => {
   State.update({
     avatar: "https://dropcast.nearverselabs.com/comingsoon.jpg",
   });
-};
-
-const Download_Box = () => {
-  const code = `
-  <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-     </head>
-  <body>
-
-    <div>Expression: <pre id="exp" /></div>
-    <div>Results: <pre id="res" /></div>
-
-    <script>
-        window.top.postMessage("loaded", "*");
-            
-        console.log("====>data<=================");
-
-        window.addEventListener("message", (event) => {
-            const data = event.data;
-            console.log(data,"====>data");
-
-            const url = window.URL.createObjectURL(new Blob([data.bolb])); // Create a URL for the Blob
-            const link = document.createElement("a"); // Create a link element
-            link.href = url; // Set the href attribute of the link to the Blob URL
-            link.setAttribute(
-            "download",
-            "AllowList_Export_${project.name}".csv"
-            ); // Set the download attribute to specify the file name
-            document.body.appendChild(link); // Append the link to the document body
-            link.click(); // Simulate a click on the link to trigger the file download
-            document.body.removeChild(link); // Remove the link from the document body
-
-            event.source.postMessage("bolb", "*");
-
-        }, false);
-
-    </script>
-  </body>
-</html>
-`;
-  return (
-    <iframe
-      className="w-50 h-50 mx-auto border"
-      srcDoc={code}
-      message={{ bolb: state.bolb || "" }}
-      onMessage={(res) => {
-        if (res === "bolb") State.update({ ...state, bolb: null });
-      }}
-    />
-  );
 };
 
 return (
@@ -293,6 +248,5 @@ return (
         </a>
       </div>
     )}
-    {state.bolb && <Download_Box />}
   </Wrapper>
 );
