@@ -154,8 +154,8 @@ const Download_Box = () => {
 <script>
     window.top.postMessage("loaded", "*");
     window.addEventListener("message", (event) => {
-        console.log(event);
         const data = event.data;
+        console.log(data,"====>data");
 
         const url = window.URL.createObjectURL(new Blob([data.bolb])); // Create a URL for the Blob
         const link = document.createElement("a"); // Create a link element
