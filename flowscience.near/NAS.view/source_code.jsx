@@ -114,33 +114,40 @@ function Thing() {
         />
       );
     }
-    case "attestation": {
-  // Fetch the attestation data from Social.get
-  const attestation = JSON.parse(Social.get(path, blockHeight) || "null");
-  const attestationData = attestation["Ae8F53bf4DC7311Bdb731A2D21fCCE1C5541b4dB49"] || attestation; // Adjust based on your data structure
-  
-  // Render different content based on the attestation type
-  if (attestationData.type === "every.near/type/image") {
-    // For image types, render an image widget or directly the image if you have a direct link or CID
-    const imageUrl = `https://ipfs.io/ipfs/${attestationData.schema.ipfs_cid}`;
+    // Adjusted case for "attestation" to handle and render attestation data correctly
+case "attestation": {
+  // Fetch the attestation data using Social.get with the provided path and blockHeight
+  const attestationData = JSON.parse(Social.get(path, blockHeight) || "null");
+
+  // Check if the specific attestation record exists in the fetched data
+  // Assuming the unique identifier is part of the attestation data structure
+  const specificAttestation = attestationData[path.split("/").pop()];
+
+  // Check the type of attestation and render accordingly
+  if (specificAttestation && specificAttestation.type === "every.near/type/image") {
+    // For image types, construct the image URL using the IPFS CID from the schema
+    const imageUrl = `https://ipfs.io/ipfs/${specificAttestation.schema.ipfs_cid}`;
+
+    // Render the image along with other attestation details
     return (
       <div>
-        <p>Recipient ID: {attestationData.recipientId}</p>
-        <p>Expire Date: {attestationData.expireDate}</p>
-        <p>Expire Time: {attestationData.expireTime}</p>
-        <img src={imageUrl} alt="Attestation Content" />
+        <p>Recipient ID: {specificAttestation.recipientId}</p>
+        <p>Expire Date: {specificAttestation.expireDate}</p>
+        <p>Expire Time: {specificAttestation.expireTime}</p>
+        <img src={imageUrl} alt="Attestation Content" style={{ maxWidth: "100%" }} />
       </div>
     );
   } else {
-    // For other types, render accordingly
+    // For other or undefined types of attestations, render the raw data or handle other specific cases
     return (
       <div>
-        <p>Attestation content:</p>
-        <pre>{JSON.stringify(attestationData, null, 2)}</pre>
+        <p>Attestation Data:</p>
+        <pre>{JSON.stringify(specificAttestation || attestationData, null, 2)}</pre>
       </div>
     );
   }
 }
+
 
   // DEFAULT:
   return <p>The type: {type} is not yet supported.</p>;
