@@ -35,6 +35,7 @@ function processAction(action) {
     Object.entries(action).map(([k, v]) => [toCamel(k), v])
   );
   action.time = new Date(action.blockTimestamp * 1000);
+  action.id = `${action.receiptId}:${action.actionIndex}`;
   return action;
 }
 
@@ -95,15 +96,45 @@ useEffect(() => {
 }, [accountId]);
 
 const Wrapper = styled.div`
+.header {
+  margin-bottom: 1em;
+}
+.action {
+  margin-bottom: 1em;
+  border: 1px solid #eee;
+}
 `;
 
-console.log("Rendering", actions);
+const renderAction = (action) => {
+  return (
+    <div>
+      <div>
+        Time:{" "}
+        <Widget
+          src="mob.near/widget/TimeAgoMs"
+          props={{ timeMs: action.blockTimestamp * 1000 }}
+        />{" "}
+        ago
+      </div>
+      Type: {action.action}
+    </div>
+  );
+};
 
 return (
   <Wrapper>
     <div className="header">
       Actions of
       <Widget src="mob.near/widget/N.ProfileLine" props={{ accountId }} />
+    </div>
+    <div className="actions">
+      {actions
+        ? actions.map((action) => (
+            <div key={action.id} className="action">
+              {renderAction(action)}
+            </div>
+          ))
+        : "Loading"}
     </div>
   </Wrapper>
 );
