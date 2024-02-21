@@ -142,9 +142,7 @@ const Items = [
   {
     onSelect,
     id: "export",
-    href: state.url,
     name: "Export Whitelist Users",
-    download: `AllowList_Export_${project.guild_id}.csv`,
   },
 ];
 
@@ -247,6 +245,11 @@ return (
           </svg>
         </a>
       </div>
+    )}
+    {state.url && (
+      <a href={state.url} download={`Allowlist_${project.guild_id}.csv`}>
+        download
+      </a>
     )}
   </Wrapper>
 );
