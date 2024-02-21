@@ -14,6 +14,14 @@ function Page() {
         />
       );
     }
+    case "activity": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Activity`}
+          props={passProps}
+        />
+      );
+    }
     case "home": {
       return (
         <Widget
@@ -109,7 +117,7 @@ function Page() {
 }
 
 return (
-  <AppLayout page={page}>
+  <AppLayout page={page} props={props}>
     <Page />
   </AppLayout>
 );
