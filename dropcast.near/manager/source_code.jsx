@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     color: rgb(229 229 229);
     background: rgb(23,23,23);
-    @media (max-width: 510px) {
+    @media (max-width: 620px) {
         padding: 29px;
     }   
 `;
