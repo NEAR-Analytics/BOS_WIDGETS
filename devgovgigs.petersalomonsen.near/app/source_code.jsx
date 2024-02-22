@@ -68,7 +68,9 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Provider"}
+          src={
+            "devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Provider"
+          }
           props={{
             ...passProps,
             Children: (p) => {
@@ -92,7 +94,9 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"devgovgigs.petersalomonsen.near/widget/devhub.page.community.index"}
+                      src={
+                        "devgovgigs.petersalomonsen.near/widget/devhub.page.community.index"
+                      }
                       props={{
                         ...passProps,
                         ...p,
@@ -119,7 +123,9 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.post.PostEditor"}
+          src={
+            "devgovgigs.petersalomonsen.near/widget/devhub.entity.post.PostEditor"
+          }
           props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
         />
       );
