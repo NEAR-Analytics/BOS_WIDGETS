@@ -20,12 +20,7 @@ const [jsonSchema, setJsonSchema] = useState({
   title: "",
   description: "",
   schemaType: "object", // Default to 'object'
-  properties: {
-    name: "",
-    type: "",
-    isMulti: false,
-    required: false,
-  },
+  properties: {},
   required: [],
 });
 
@@ -33,17 +28,6 @@ const output = {
   jsonSchema: {
     [jsonSchema.title]: jsonSchema,
   },
-};
-
-//define the schema type, not currently being used
-let easSchema = {
-  UID: "",
-  resolver: {
-    resolverPath: "",
-    resolverData: "",
-  },
-  revocable: True,
-  fields: {},
 };
 
 State.init({
@@ -170,30 +154,17 @@ const handleAddProperty = () => {
   const newProperty = {
     name: state.newPropertyName,
     type: state.newPropertyType,
-    isRequired: state.newPropertyRequired,
+    isRequired: state.newPropertyIsRequired,
     isMulti: state.newPropertyIsMulti,
   };
 
-  // Update local state
-  const updatedProperties = [...state.properties, newProperty];
   State.update({
-    properties: updatedProperties,
+    properties: [...state.properties, newProperty],
     newPropertyName: "",
     newPropertyType: "string",
+    newPropertyisRequired: false,
     newPropertyIsMulti: false,
-    newPropertyIsRequired: false,
   });
-
-  // Update jsonSchema state with the new property
-  setJsonSchema((prevJsonSchema) => ({
-    ...prevJsonSchema,
-    properties: updatedProperties.map((prop) => ({
-      name: prop.name,
-      type: prop.type,
-      required: prop.isRequired,
-      multiple: prop.isMulti,
-    })),
-  }));
 };
 
 const handleRemoveProperty = (index) => {
@@ -208,8 +179,8 @@ const handleRemoveProperty = (index) => {
     properties: updatedProperties.map((prop) => ({
       name: prop.name,
       type: prop.type,
-      required: prop.isRequired,
-      multiple: prop.isMulti,
+      isRequired: prop.isRequired,
+      isMulti: prop.isMulti,
     })),
   }));
 };
@@ -247,9 +218,9 @@ const handleSchemaTypeChange = (e) => {
   setJsonSchema((prev) => ({ ...prev, type: value }));
 };
 
-const handleRequiredChange = (e, index) => {
+const handleRequiredChange = (e) => {
   const value = e.target.value;
-  setJsonSchema((prev) => ({ ...prev, required: value }));
+  setJsonSchema((prev) => ({ ...prev, properties: value }));
 };
 
 function TypeSelect({ value, onChange }) {
