@@ -124,7 +124,9 @@ function Thing() {
       useEffect(() => {
         // Assuming Social.get is synchronous for demonstration; adjust if it's actually asynchronous
         const fetchData = () => {
-          const attestationData = Social.getr(path, blockHeight) || "{}";
+          const attestationData = JSON.stringify(
+            Social.getr(path, blockHeight) || "{}"
+          );
           console.log("Attestation data:", attestationData);
           // Use setState or similar to update your component state with fetched data
         };
