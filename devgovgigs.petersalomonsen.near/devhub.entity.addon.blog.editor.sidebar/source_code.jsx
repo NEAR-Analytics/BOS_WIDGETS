@@ -1,4 +1,4 @@
-const { items, handleItemClick, selectedItem } = props;
+const { data, editPostId, handleItemClick, selectedItem } = props;
 
 const SidebarContainer = styled.div`
   background-color: #f0f0f0;
@@ -8,7 +8,7 @@ const SidebarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  gap: 2px;
+  gap: 4px;
 `;
 
 const SidebarButton = styled.button`
@@ -27,15 +27,23 @@ const SidebarButton = styled.button`
 `;
 
 return (
-  <SidebarContainer>
-    <SidebarButton onClick={() => handleItemClick(null)}>New</SidebarButton>
-    {(items || []).map((it) => (
+  <SidebarContainer id="edit-blog-sidebar">
+    <p>Blog posts</p>
+    <SidebarButton
+      selected={!selectedItem.id}
+      onClick={() => handleItemClick(null)}
+      id="create-new-blog"
+    >
+      New
+    </SidebarButton>
+    {(data || []).map((it) => (
       <SidebarButton
+        id={`edit-blog-selector-${it.post_id}`}
         key={it.post_id}
-        selected={selectedItem.id === it.post_id}
+        selected={parseInt(selectedItem.id) === it.post_id}
         onClick={() => handleItemClick(it.post_id)}
       >
-        {it.post_id}
+        Id: {it.post_id}
       </SidebarButton>
     ))}
   </SidebarContainer>
