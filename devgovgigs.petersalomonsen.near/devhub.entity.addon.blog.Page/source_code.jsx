@@ -1,15 +1,25 @@
+const { getAccountCommunityPermissions } = VM.require(
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+) || { getAccountCommunityPermissions: () => {} };
 const imagelink =
   "https://ipfs.near.social/ipfs/bafkreiajzvmy7574k7mp3if6u53mdukfr3hoc2kjkhjadt6x56vqhd5swy";
 
-function Page({ data }) {
+function Page({ data, onEdit, labels, accountId }) {
   const { category, title, description, subtitle, date, content } = data;
+  const handle = labels?.[1]; // community-handle
+  const permissions = getAccountCommunityPermissions({
+    account_id: accountId,
+    community_handle: handle,
+  });
+  const isAllowedToEdit = permissions?.can_configure ?? false;
   const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
 
     padding: 0 3rem;
-
+    margin-bottom: 2rem;
+    position: relative;
     ${category &&
     `
     span.category {
@@ -43,7 +53,7 @@ function Page({ data }) {
       font-style: normal;
       font-weight: 700;
       line-height: 100%; /* 88px */
-      margin: 1rem 0;
+      margin: 1.5rem 0;
     }
 
     p.subtitle {
@@ -53,6 +63,13 @@ function Page({ data }) {
       font-weight: 400;
       line-height: 110%; /* 35.2px */
       margin: 0;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
     }
 
     @media screen and (max-width: 768px) {
@@ -86,6 +103,11 @@ function Page({ data }) {
     <>
       <BackgroundImage src={imagelink} />
       <Container>
+        {isAllowedToEdit && (
+          <div className="edit-icon" onClick={onEdit}>
+            <div class="bi bi-pencil-square" style={{ fontSize: "30px" }}></div>
+          </div>
+        )}
         {category && <span className="category">{category}</span>}
         <h1>{title}</h1>
         <p className="subtitle">{subtitle}</p>
@@ -93,7 +115,7 @@ function Page({ data }) {
         <p>{description}</p>
         <Widget
           src={
-            "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownViewer"
+            "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
