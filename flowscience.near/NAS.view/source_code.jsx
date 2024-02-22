@@ -120,6 +120,8 @@ function Thing() {
     case "attestation": {
       // get the thing data
       const thing = Social.getr(path, blockHeight) || {};
+      console.log(`Thing after Social.getr: ${thing}`);
+
       console.log(thing);
       console.log(type);
 
@@ -157,6 +159,7 @@ return (
     <Content>
       <Thing />
       <p>{type}</p>
+      <p>{schema}</p>
     </Content>
   </Container>
 );
