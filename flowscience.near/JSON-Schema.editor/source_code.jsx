@@ -175,6 +175,11 @@ const Text = styled.p`
   margin-right: 10px;
 `;
 
+const Label = styled.label`
+  display: block; // Ensures the label is on a new line, above the input
+  margin-bottom: 5px; // Adds some space between the label and the input
+`;
+
 const loadType = () => {
   const parts = state.newType.split("/");
   type = JSON.parse(Social.get(state.newType, blockHeight) || null);
@@ -386,54 +391,88 @@ return (
       </Text>
       {state.properties?.map((property, index) => (
         <Row key={index}>
-          <Input
-            type="text"
-            value={property.name}
-            onChange={(e) => handlePropertyChange(e, index)}
-          />
-          <TypeSelect
-            value={property.type}
-            onChange={(e) => handleTypeChange(e, index)}
-          />
-          <MultiSelect
-            value={property.isMulti}
-            onChange={(e) => handleMultiChange(e, index)}
-          />
-          <RequiredSelect
-            value={property.isRequired}
-            onChange={(e) => handleRequiredChange(e, index)}
-          />
-          <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
+          <div>
+            <Label>Name:</Label>
+            <Input
+              type="text"
+              value={property.name}
+              onChange={(e) => handlePropertyChange(e, index)}
+            />
+          </div>
+          <div>
+            <Label>Type:</Label>
+            <TypeSelect
+              value={property.type}
+              onChange={(e) => handleTypeChange(e, index)}
+            />
+          </div>
+          <div>
+            <Label>isMulti:</Label>
+            <MultiSelect
+              value={property.isMulti}
+              onChange={(e) => handleMultiChange(e, index)}
+            />
+          </div>
+          <div>
+            <Label>Required:</Label>
+            <RequiredSelect
+              value={property.isRequired}
+              onChange={(e) => handleRequiredChange(e, index)}
+            />
+          </div>
+          <div>
+            <Label>Remove:</Label>
+
+            <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
+          </div>
         </Row>
       ))}
       <Row>
-        <Input
-          type="text"
-          placeholder="Property Name"
-          value={state.newPropertyName}
-          onChange={(e) => State.update({ newPropertyName: e.target.value })}
-        />
-        <TypeSelect
-          value={state.newPropertyType}
-          onChange={(e) => State.update({ newPropertyType: e.target.value })}
-        />
-        <MultiSelect
-          value={state.newPropertyIsMulti}
-          onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
-        />
-        <RequiredSelect
-          value={state.newPropertyIsRequired}
-          onChange={(e) =>
-            State.update({ newPropertyIsRequired: e.target.value })
-          }
-        />
-        <Button
-          onClick={handleAddProperty}
-          disabled={state.newPropertyName.trim() === ""}
-        >
-          +
-        </Button>
+        <div>
+          <Label>New Property Name:</Label>
+          <Input
+            type="text"
+            placeholder="Property Name"
+            value={state.newPropertyName}
+            onChange={(e) => State.update({ newPropertyName: e.target.value })}
+          />
+        </div>
+        <div>
+          <Label>New Type:</Label>
+          <TypeSelect
+            value={state.newPropertyType}
+            onChange={(e) => State.update({ newPropertyType: e.target.value })}
+          />
+        </div>
+        <div>
+          <Label>isMulti:</Label>
+          <MultiSelect
+            value={state.newPropertyIsMulti}
+            onChange={(e) =>
+              State.update({ newPropertyIsMulti: e.target.value })
+            }
+          />
+        </div>
+        <div>
+          <Label>Required:</Label>
+          <RequiredSelect
+            value={state.newPropertyIsRequired}
+            onChange={(e) =>
+              State.update({ newPropertyIsRequired: e.target.value })
+            }
+          />
+        </div>
+        <div>
+          <Label>Add:</Label>
+          <Button
+            onClick={handleAddProperty}
+            disabled={state.newPropertyName.trim() === ""}
+          >
+            +
+          </Button>
+        </div>
       </Row>
+
       <hr></hr>
       <Row>
         <CommitButton
