@@ -1,4 +1,3 @@
-let { socialKey } = VM.require(`ndcdev.near/widget/daos.Config`);
 const { form, formEls, setFormEls, handleChange, handleSave } = props;
 
 const TypeSection = styled.div`
