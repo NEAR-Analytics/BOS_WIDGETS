@@ -1,15 +1,9 @@
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
+const path = props.path;
 const typeSrc = props.typeSrc || "every.near";
 const schemaSrc = context.accountId ?? props.schemaSrc ?? "attestations.near";
 const blockHeight = props.blockHeight || "final";
 const selectedSchema = props.selectedSchema;
-const [resolverPath, setResolverPath] = useState(
-  "flowscience.near/widget/attester.resolver"
-);
-const [resolverData, setResolverData] = Social.get(resolverPath.accountIds) || [
-  "hyperfiles.near",
-];
-const [revocable, setRevocable] = useState(true);
 
 let type = {
   name: "",
@@ -17,14 +11,66 @@ let type = {
   widgets: {},
 };
 
-let jsonSchema = {
-  schema: "", // Path
-  id: "", // UID, fetch on load & generate on save
-  title: "", // Name
-  description: "", // String
-  type: "", // object or boolean
-  properties: {}, // description, type, and modifiers
-  required: [], // list of required properties
+const [jsonSchema, setJsonSchema] = useState({
+  schema: path,
+  id: generateUID(),
+  title: schemaTitle,
+  description: "",
+  type: "object", // Default to 'object'
+  properties: [],
+  required: [],
+});
+
+const output = {
+  jsonSchema: {
+    [state.jsonSchema.title]: jsonSchema,
+  },
+};
+
+const handleSave = () => {
+  // create the thing
+  let edges = [];
+  if (buildEdges) {
+    const newPath = `${context.accountId}/thing/${thingId}`;
+    edges = buildEdges(newPath, state.selectedType);
+  }
+
+  const data = {
+    thing: {
+      [thingId]: JSON.stringify({
+        data: state.config,
+        template: {
+          src: state.template,
+        },
+        type: state.selectedType,
+      }),
+    },
+    index: {
+      thing: JSON.stringify({
+        key: thingId,
+        value: {
+          type: state.selectedType,
+        },
+      }),
+    },
+  };
+  if (edges.length) {
+    data.index.edge = JSON.stringify(edges);
+  }
+  Social.set(data, {
+    onCommit: () => {
+      State.update({
+        data: {},
+        isModalOpen: false,
+        config: undefined,
+      });
+    },
+    onCancel: () => {
+      State.update({
+        isModalOpen: false,
+      });
+    },
+  });
 };
 
 //define the schema type, not currently being used
@@ -35,7 +81,7 @@ let schemaType = {
     resolverData: "",
   },
   revocable: True,
-  schemaData: {},
+  fields: {},
 };
 
 const jsonSchemaEASSchema = {
@@ -51,16 +97,15 @@ const jsonSchemaEASSchema = {
       resolverData: "",
     },
     revocable: True,
-    schemaData: {},
+    fields: {},
   }, // description, type, and modifiers
-  required: ["uid", "revocable", "schemaData"],
+  required: ["uid", "revocable", "fields"],
 };
 
 State.init({
   newType: typeSrc,
   typeName: type.name || "",
   properties: type.properties || [],
-  widgets: type.widgets || {},
   newPropertyName: "",
   newPropertyType: "string",
   newTypeSrc: "",
@@ -68,8 +113,10 @@ State.init({
   schemaSrc: schemaSrc,
   expanded: false,
   selectedSchema: selectedSchema,
-  schemaData: schema.properties || [],
   schemaUID: state.selectedSchema.UID,
+  schemaPath: path,
+  schemaDescription: jsonSchema.description,
+  required: jsonSchema.isRequired,
 });
 
 let importedTypes = [];
@@ -153,7 +200,7 @@ const loadSchema = () => {
     schema.name = parts[2];
     State.update({
       schemaName: schema.name,
-      schemaData: schema.properties,
+      properties: schema.properties,
       widgets: type.widgets,
     });
   }
@@ -162,6 +209,14 @@ const loadSchema = () => {
 if (prop.schemaSrc !== "" && state.schemaName === "") {
   loadSchema();
 }
+
+const handleJsonSchemaChange = (e) => {
+  const { name, value } = e.target; // Destructure name and value from the event target
+  setJsonSchema((prevJsonSchema) => ({
+    ...prevJsonSchema,
+    [name]: value, // Dynamically update the property based on input name
+  }));
+};
 
 const handleAddProperty = () => {
   if (state.newPropertyName.trim() === "") return;
@@ -217,24 +272,7 @@ const handleTypeNameChange = (e) => {
 };
 
 const handleSchemaNameChange = (e) => {
-  State.update({ schemaName: e.target.value });
-};
-
-const schemaData = () => {
-  const data = {
-    jsonSchema: {
-      [state.selectedSchema]: JSON.stringify({
-        schemaUID: generateUID(),
-        properties: state.properties,
-        resolver: {
-          type: resolverPath,
-          data: resolverData,
-        },
-        revocable: revocable,
-      }),
-    },
-  };
-  return data;
+  State.update({ schemaTitle: e.target.value });
 };
 
 function TypeSelect({ value, onChange }) {
@@ -302,11 +340,12 @@ return (
         </Text>
         <Input
           type="text"
-          placeholder="TitleYourSchema"
-          value={state.schemaName}
+          name="title"
+          value={schemaTitle}
           onChange={handleSchemaNameChange}
+          placeholder="Schema Title"
         />
-        <i>*overwrites existing path</i>
+        <i>*overwrites existing path when saved</i>
       </Row>
       <Row>
         <Text>
@@ -314,21 +353,19 @@ return (
         </Text>
         <Input
           type="text"
-          placeholder="Be eloquent."
-          value={state.schemaName}
-          onChange={handleSchemaNameChange}
+          placeholder="Concisely explain."
+          value={state.jsonSchema.description}
+          onChange={handleSchemaDescriptionChange}
         />
       </Row>
       <Row>
         <Text>
           <b>Type:</b>
         </Text>
-        <Input
-          type="text"
-          placeholder="object or boolean"
-          value={state.schemaName}
-          onChange={handleSchemaNameChange}
-        />
+        <Select value={value} onChange={handleSchemaTypeChange}>
+          <option value={"object"}>object</option>
+          <option value={"boolean"}>boolean</option>
+        </Select>
       </Row>
       <hr></hr>
       <Text>
@@ -372,7 +409,7 @@ return (
       <Row>
         <Input
           type="text"
-          placeholder="Field Name"
+          placeholder="Property Name"
           value={state.newPropertyName}
           onChange={(e) => State.update({ newPropertyName: e.target.value })}
         />
@@ -401,7 +438,7 @@ return (
       <Row>
         <CommitButton
           force
-          data={schemaData()}
+          data={output}
           disabled={state.properties.length === 0}
           className="styless"
         >
