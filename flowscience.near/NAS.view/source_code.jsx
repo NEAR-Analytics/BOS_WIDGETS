@@ -136,7 +136,7 @@ function Thing() {
       // get the type data
       const typeObj = JSON.parse(Social.get(schema, blockHeight) || "null");
       if (typeObj === null) {
-        console.log(`edge case: ${path} had an invalid schema: ${type}`);
+        console.log(`edge case: ${path} had an invalid schema: ${schema}`);
       }
       // determine the widget to render this thing (is there a default view?)
       const widgetSrc =
