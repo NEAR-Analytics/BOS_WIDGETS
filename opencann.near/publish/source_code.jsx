@@ -159,23 +159,43 @@ return (
     <hr></hr>
     <h5>Featured</h5>
     <p>
-      1){" "}
+      1)
       <a
         href="#/opencann.near/widget/ExperienceSurvey"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <i>Click here to publish a cannabis experience report.</i>
+        <i>Publish a cannabis experience report.</i>
       </a>
     </p>
     <p>
-      2){" "}
+      2)
       <a
         href="#/flowscience.near/widget/create.hypercert"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <i>Click here to publish an impact certificate.</i>
+        <i>Publish an impact certificate.</i>
+      </a>
+    </p>
+    <p>
+      3)
+      <a
+        href="#/flowscience.near/widget/attestWithTypes"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i>Publish an attestation.</i>
+      </a>
+    </p>
+    <p>
+      4)
+      <a
+        href="#/hyperfiles.near/widget/app"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i>Publish a Hyperfile.</i>
       </a>
     </p>
     <hr></hr>
