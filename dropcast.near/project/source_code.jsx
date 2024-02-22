@@ -59,8 +59,9 @@ const Description = styled.p`
 `;
 
 State.init({
-  download: false,
+  file: "",
   error: "",
+  download: false,
   status: project.whitelist,
   avatar: `https://cdn.discordapp.com/icons/${project.guild_id}/${project.icon}.png?size=1024`,
 });
@@ -123,6 +124,7 @@ const onSelect = (val) => {
           State.update({
             ...state,
             download: true,
+            file: data.body,
           });
         }
       } else {
@@ -267,7 +269,7 @@ return (
     {state.download && (
       <div className="d-flex mt-1 justify-content-center align-items-center">
         <a
-          href={`${API_URL}/${project.guild_id}.csv`}
+          href={`${API_URL}/${state.file}`}
           download={`Allowlist_${project.guild_id}.csv`}
         >
           Download CSV
