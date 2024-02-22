@@ -119,6 +119,8 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // Fetch the attestation data directly using the provided path and blockHeight
+      console.log(`Path:`, path); // Ensure to log the actual object
+
       const attestationData = Social.getr(path, blockHeight) || "{}";
       console.log(`Attestation data:`, attestationData); // Ensure to log the actual object
 
