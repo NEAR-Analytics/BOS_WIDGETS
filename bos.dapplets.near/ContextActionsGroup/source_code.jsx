@@ -77,7 +77,7 @@ const TriggerShowPanel = styled.div`
   align-items: center;
   position: absolute;
   right: -33px;
-  top: 10px;
+  top: -20px;
   z-index: 79;
 `;
 
@@ -492,7 +492,7 @@ return (
         onMouseOut={handleOnMouseLeave}
         style={{
           margin: "0px -7px",
-          top: props.widgets && props.widgets.length ? "" : "-10px",
+          top: props.widgets && props.widgets.length ? "" : "-20px",
         }}
       >
         <SupportingSpan />
