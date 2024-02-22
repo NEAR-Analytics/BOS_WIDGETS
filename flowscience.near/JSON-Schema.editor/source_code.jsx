@@ -258,6 +258,15 @@ function MultiSelect({ value, onChange }) {
   );
 }
 
+function RequiredSelect({ value, onChange }) {
+  return (
+    <Select value={value} onChange={onChange}>
+      <option value={false}>no</option>
+      <option value={true}>yes</option>
+    </Select>
+  );
+}
+
 return (
   <Container>
     <Row>
@@ -298,8 +307,29 @@ return (
           onChange={handleSchemaNameChange}
         />
         <i>*overwrites existing path</i>
-      </Row>{" "}
-      {/*Description //Type - boolean or object*/}
+      </Row>
+      <Row>
+        <Text>
+          <b>Description:</b>
+        </Text>
+        <Input
+          type="text"
+          placeholder="Be eloquent."
+          value={state.schemaName}
+          onChange={handleSchemaNameChange}
+        />
+      </Row>
+      <Row>
+        <Text>
+          <b>Type:</b>
+        </Text>
+        <Input
+          type="text"
+          placeholder="object or boolean"
+          value={state.schemaName}
+          onChange={handleSchemaNameChange}
+        />
+      </Row>
       <hr></hr>
       <Text>
         <h4>Schema Properties</h4>
@@ -332,7 +362,7 @@ return (
             value={property.isMulti}
             onChange={(e) => handleMultiChange(e, index)}
           />
-          <MultiSelect
+          <RequiredSelect
             value={property.isRequired}
             onChange={(e) => handleRequiredChange(e, index)}
           />
@@ -354,7 +384,7 @@ return (
           value={state.newPropertyIsMulti}
           onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
         />
-        <MultiSelect
+        <RequiredSelect
           value={state.newPropertyIsRequired}
           onChange={(e) =>
             State.update({ newPropertyIsRequired: e.target.value })
