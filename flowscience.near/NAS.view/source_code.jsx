@@ -119,7 +119,7 @@ function Thing() {
     case "attestation": {
       // get the thing data
       const thing = Social.getr(path, blockHeight) || {};
-      console.log({ thing });
+      console.log(thing);
       console.log(type);
 
       schema = thing.schema || null;
