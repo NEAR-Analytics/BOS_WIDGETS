@@ -5,6 +5,7 @@ const options = props.options;
 // split the path
 const parts = path.split("/");
 const creatorId = parts[0];
+const [attestationData, setAttestationData] = useState(null);
 
 let type;
 let schema;
@@ -33,6 +34,15 @@ const Content = styled.div`
   padding: 1px;
   min-height: 300px;
 `;
+
+useEffect(() => {
+  const fetchData = () => {
+    const data = Social.getr(path); // Adjust this line according to your data fetching method
+    setAttestationData(data);
+  };
+
+  fetchData();
+}, [path, blockHeight]);
 
 function Thing() {
   console.log(`Type before switch: ${type}`); // Logs the initial type determined from the path
@@ -120,17 +130,6 @@ function Thing() {
     case "attestation": {
       // Fetch the attestation data directly using the provided path and blockHeight
       console.log(`Path:`, path); // Ensure to log the actual object
-
-      useEffect(() => {
-        // Assuming Social.get is synchronous for demonstration; adjust if it's actually asynchronous
-        const fetchData = () => {
-          const attestationData = JSON.stringify(Social.getr(path), null, 2);
-          console.log("Attestation data:", attestationData);
-          // Use setState or similar to update your component state with fetched data
-        };
-
-        fetchData();
-      }, [path, blockHeight]); // Rerun when path or blockHeight changes
 
       // Assuming attestationData directly contains the data structure you're interested in
       // No need to extract specificAttestation unless the structure necessitates it
