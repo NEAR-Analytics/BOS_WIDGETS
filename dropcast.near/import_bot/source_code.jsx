@@ -208,7 +208,11 @@ return (
               />
             ))}
           </div>
-          <StepButton className="btn" onClick={handleSubmit}>
+          <StepButton
+            className="btn"
+            disabled={!state.roles.length}
+            onClick={handleSubmit}
+          >
             Submit
           </StepButton>
         </>
