@@ -1,6 +1,10 @@
 const { Tile } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const { data, onSubmit } = props;
 
@@ -50,8 +54,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              // TODO: LEGACY.
-              src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -74,8 +77,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            // TODO: LEGACY.
-            src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               onChange: (e) => setNewItem(e.target.value),
@@ -99,7 +101,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: initialData === handles,
