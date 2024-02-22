@@ -1,5 +1,5 @@
 const { getAllLabels } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllLabels) {
@@ -14,7 +14,8 @@ if (tags === null) {
   return <div>Loading ...</div>;
 }
 
-const onChange = (selectedTags) => props.onTagSearch?.(selectedTags[0]?.name);
+const onChange = (selectedTags) =>
+  props.onTagSearch?.(selectedTags[0]?.name ?? "");
 
 return (
   <Typeahead
