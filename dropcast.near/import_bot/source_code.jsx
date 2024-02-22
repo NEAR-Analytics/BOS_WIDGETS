@@ -75,9 +75,11 @@ const CloseButton = styled.button`
     justify-content: center;
 `;
 
+const roles = data.type === "edit" ? JSON.parse(data.project.roles) : [];
+
 State.init({
-  roles: [],
-  discord: false,
+  roles,
+  discord: data.type === "edit",
   submitted: false,
   error: "",
 });
