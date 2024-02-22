@@ -23,8 +23,8 @@ const Items = [
       </>
     ),
     cta: {
-      href: "https://bit.ly/DevHubOfficeHrs",
-      title: "Book a meeting ↗",
+      href: "/devhub.near/widget/app?page=community&handle=devrel&tab=office-hours-support",
+      title: "Join ↗",
     },
   },
   {
@@ -32,7 +32,7 @@ const Items = [
     description:
       "Explore funding opportunities from DevHub to fuel your vision",
     cta: {
-      href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=developer-dao&tab=Funding",
+      href: "/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding",
       title: "Learn more ↗",
     },
   },
@@ -73,7 +73,7 @@ const Circle = styled.div`
   }
 
   a {
-    color: #00ec97;
+    color: #555555;
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 700;
@@ -124,7 +124,7 @@ const Content = (
 
 return (
   <Widget
-    src="devgovgigs.petersalomonsen.near/widget/devhub.components.island.home-section"
+    src="${REPL_DEVHUB}/widget/devhub.components.island.home-section"
     props={{
       title: "/get support",
       children: Content,
