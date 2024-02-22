@@ -52,7 +52,7 @@ const Button = styled.button`
 
 State.init({
   error: "",
-  selected: "0",
+  selected: type === "edit" ? project._id : "0",
   next: false,
   loaded: false,
   go_manager: false,
@@ -104,43 +104,43 @@ const changeOption = (value) => {
 };
 
 const handleNextStep = () => {
-  if (type === "edit") {
-    let promise = asyncFetch(`${API_URL}/api/project`, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "x-auth-token": TOKEN,
-      },
-      method: "PUT",
-      body: convertObject({
-        project_id: project._id,
-        description: state.description,
-        mint_price: state.mint_price,
-        mint_date: state.mint_date,
-        supply: state.supply,
-        discord: state.discord,
-        twitter: state.twitter,
-      }),
-    });
+  // if (type === "edit") {
+  //   let promise = asyncFetch(`${API_URL}/api/project`, {
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //       "x-auth-token": TOKEN,
+  //     },
+  //     method: "PUT",
+  //     body: convertObject({
+  //       project_id: project._id,
+  //       description: state.description,
+  //       mint_price: state.mint_price,
+  //       mint_date: state.mint_date,
+  //       supply: state.supply,
+  //       discord: state.discord,
+  //       twitter: state.twitter,
+  //     }),
+  //   });
 
-    promise.then((data) => {
-      if (data.status === 200) {
-        State.update({
-          ...state,
-          go_manager: true,
-        });
-      } else {
-        State.update({
-          ...state,
-          error: data.body,
-        });
-      }
-    });
-  } else {
-    State.update({
-      ...state,
-      next: true,
-    });
-  }
+  //   promise.then((data) => {
+  //     if (data.status === 200) {
+  //       State.update({
+  //         ...state,
+  //         go_manager: true,
+  //       });
+  //     } else {
+  //       State.update({
+  //         ...state,
+  //         error: data.body,
+  //       });
+  //     }
+  //   });
+  // } else {
+  State.update({
+    ...state,
+    next: true,
+  });
+  // }
 };
 
 const onClose = () => {
@@ -286,7 +286,7 @@ return (
           }
           onClick={handleNextStep}
         >
-          {type === "edit" ? "Edit" : "Next Step"}
+          Next Step
         </Button>
       </Card>
     </Wrapper>
@@ -298,6 +298,8 @@ return (
           onClose,
           changePage,
           data: {
+            type,
+            project,
             guild_id: state.selected,
             name: state.projects.find((e) => e.value === state.selected)?.text,
             icon: state.projects.find((e) => e.value === state.selected)?.icon,
