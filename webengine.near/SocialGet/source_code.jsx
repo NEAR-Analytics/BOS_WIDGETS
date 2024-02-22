@@ -9,7 +9,7 @@ function SocialGet () {
     // TODO: Will be able to pass generic to socialDb.get() once import is fixed in sandbox
 
     const result = await socialDb.get({
-      key: 'calebjacob.near/profile/**'
+      key: 'root.near/profile/**'
     });
     
     setData(JSON.stringify(result, null, 2));
@@ -17,7 +17,7 @@ function SocialGet () {
 
   return (
     <div className={s.wrapper}>
-      <button onClick={loadData}>Fetch Data</button>
+      <button onClick={loadData}>Fetch Example Profile Data</button>
       <p className={s.data}>{data}</p>
     </div>
   );
