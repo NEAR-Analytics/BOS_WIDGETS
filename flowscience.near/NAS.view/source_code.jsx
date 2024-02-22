@@ -159,7 +159,6 @@ return (
     <Content>
       <Thing />
       <p>{type}</p>
-      <p>{schema}</p>
     </Content>
   </Container>
 );
