@@ -118,35 +118,36 @@ function Thing() {
     }
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
-      // get the thing data
-      const thing = Social.getr(path, blockHeight) || {};
-      console.log(`Thing after Social.getr: ${thing}`);
-      console.log(thing);
-      console.log({ thing });
-      console.log(type);
+      // Fetch the attestation data directly using the provided path and blockHeight
+      const attestationData = JSON.parse(Social.get(path, blockHeight) || "{}");
+      console.log(`Attestation data:`, attestationData); // Ensure to log the actual object
 
-      type = thing.schema || null;
-      console.log(type);
+      // Assuming attestationData directly contains the data structure you're interested in
+      // No need to extract specificAttestation unless the structure necessitates it
 
-      // get the type data
-      const typeObj = Social.get(type, blockHeight);
-      console.log(`typeObj: ${typeObj}`);
-      if (typeObj === null) {
-        console.log(`edge case: ${path} had an invalid type: ${thingType}`);
+      // Here, directly use attestationData to determine how to render
+      // For example, if attestationData contains an image IPFS CID
+      if (attestationData && attestationData.type === "every.near/type/image") {
+        const imageUrl = `https://ipfs.io/ipfs/${attestationData.schema.ipfs_cid}`;
+        return (
+          <div>
+            <p>Recipient ID: {attestationData.recipientId}</p>
+            <p>Expire Date: {attestationData.expireDate}</p>
+            <p>Expire Time: {attestationData.expireTime}</p>
+            <img
+              src={imageUrl}
+              alt="Attestation Content"
+              style={{ maxWidth: "100%" }}
+            />
+          </div>
+        );
+      } else {
+        // For other types of attestations or if the attestation data structure is different,
+        // adjust the rendering logic accordingly
+        return <p>Unsupported attestation type or invalid data structure.</p>;
       }
-      // determine the widget to render this thing (is there a default view?)
-      const widgetSrc =
-        options?.templateOverride ||
-        thing.template?.src ||
-        typeObj?.widgets?.view;
-      // Template
-      return (
-        <Widget
-          src={widgetSrc}
-          props={{ data: thing.data, path, blockHeight }}
-        />
-      );
     }
+
     // DEFAULT case to handle unsupported types
     default:
       console.log(`Unsupported type: ${type}`);
