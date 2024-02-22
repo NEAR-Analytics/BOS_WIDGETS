@@ -19,8 +19,13 @@ const [jsonSchema, setJsonSchema] = useState({
   id: generateUID(),
   title: "",
   description: "",
-  type: "object", // Default to 'object'
-  properties: [],
+  schemaType: "object", // Default to 'object'
+  properties: {
+    name: "",
+    type: "",
+    isMulti: false,
+    required: false,
+  },
   required: [],
 });
 
