@@ -1,9 +1,10 @@
-const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 href || (href = () => {});
 
 State.init({
   tag: props.tag,
+  author: props.author,
   term: "",
 });
 
@@ -18,11 +19,11 @@ const buttonStyle = {
   color: "#f3f3f3",
 };
 
-const PageTitle = styled.h5`
-  color: #04a46e;
+const PageTitle = styled.h1`
+  color: #555555;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 120%; /* 28.8px */
   letter-spacing: -0.24px;
 
@@ -50,6 +51,28 @@ const InputContainer = styled.div`
   }
 `;
 
+const DropdownContainer = styled.div`
+  width: 25%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const StyledDropdown = styled.div`
+  button {
+    width: 100%;
+    text-align: left;
+
+    &::after {
+      position: absolute;
+      right: 8px;
+      top: 45%;
+      transform: translateX(-50%);
+    }
+  }
+`;
+
 return (
   <>
     {!props.hideHeader && (
@@ -57,59 +80,63 @@ return (
         <div className="w-100">
           <PageTitle>Activity Feed</PageTitle>
           <div>
-            <div className="d-flex flex-column flex-lg-row gap-4">
+            <div className="d-flex flex-column flex-md-row gap-4">
               <InputContainer>
                 <div className="position-absolute d-flex ps-3 flex-column h-100 justify-center">
                   <i class="bi bi-search m-auto"></i>
                 </div>
                 <input
                   type="search"
-                  className="ps-5 form-control border border-0"
+                  className="ps-5 form-control border rounded-2"
                   value={state.term ?? ""}
                   onChange={(e) => updateInput(e.target.value)}
                   onKeyDown={(e) => e.key == "Enter" && search()}
                   placeholder={props.placeholder ?? `Search by content`}
                 />
               </InputContainer>
-              <div class="dropdown">
-                <button
-                  class="btn dropdown-toggle bg-white"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Sort{props.recency === "all" ? ": All replies" : ": Latest"}
-                </button>
-                <ul class="dropdown-menu px-2 shadow">
-                  <li>
-                    <a
-                      style={{ borderRadius: "5px" }}
-                      class="dropdown-item link-underline link-underline-opacity-0"
-                      href={href({
-                        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
-                        params: { page: "feed" },
-                      })}
+              <DropdownContainer>
+                <div class="dropdown">
+                  <StyledDropdown>
+                    <button
+                      class="btn dropdown-toggle bg-white border rounded-2"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      Latest
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      style={{ borderRadius: "5px" }}
-                      class="dropdown-item link-underline link-underline-opacity-0"
-                      href={href({
-                        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
-                        params: { page: "feed", recency: "all" },
-                      })}
-                    >
-                      All replies
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                      Sort: {props.recency === "all" ? "All replies" : "Latest"}{" "}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start px-2 shadow">
+                      <li>
+                        <a
+                          style={{ borderRadius: "5px" }}
+                          class="dropdown-item link-underline link-underline-opacity-0"
+                          href={href({
+                            widgetSrc: "${REPL_DEVHUB}/widget/app",
+                            params: { page: "feed" },
+                          })}
+                        >
+                          Latest
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          style={{ borderRadius: "5px" }}
+                          class="dropdown-item link-underline link-underline-opacity-0"
+                          href={href({
+                            widgetSrc: "${REPL_DEVHUB}/widget/app",
+                            params: { page: "feed", recency: "all" },
+                          })}
+                        >
+                          All replies
+                        </a>
+                      </li>
+                    </ul>
+                  </StyledDropdown>
+                </div>
+              </DropdownContainer>
               <div class="dropdown">
                 <Widget
-                  src="devgovgigs.petersalomonsen.near/widget/devhub.feature.post-search.by-author"
+                  src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-author"
                   props={{
                     author: state.author,
                     onAuthorSearch: (author) => {
@@ -120,7 +147,7 @@ return (
               </div>
               <div>
                 <Widget
-                  src="devgovgigs.petersalomonsen.near/widget/devhub.feature.post-search.by-tag"
+                  src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-tag"
                   props={{
                     tag: state.tag,
                     onTagSearch: (tag) => {
@@ -139,13 +166,14 @@ return (
     )}
     <PostContainer>
       <Widget
-        src="devgovgigs.petersalomonsen.near/widget/devhub.entity.post.List"
+        src="${REPL_DEVHUB}/widget/devhub.entity.post.List"
         props={{
           author: state.author,
           tag: state.tag,
           term: state.term,
           recency: props.recency,
           transactionHashes: props.transactionHashes,
+          updateTagInput: (tag) => State.update({ tag }),
         }}
       />
     </PostContainer>
