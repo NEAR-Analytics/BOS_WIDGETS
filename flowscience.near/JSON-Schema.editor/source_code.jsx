@@ -1,3 +1,6 @@
+// TO DO:
+// schema typechecking with PropTypes
+//
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 const path = props.path;
 const typeSrc = props.typeSrc || "every.near";
@@ -27,54 +30,8 @@ const output = {
   },
 };
 
-const handleSave = () => {
-  // create the thing
-  let edges = [];
-  if (buildEdges) {
-    const newPath = `${context.accountId}/thing/${thingId}`;
-    edges = buildEdges(newPath, state.selectedType);
-  }
-
-  const data = {
-    thing: {
-      [thingId]: JSON.stringify({
-        data: state.config,
-        template: {
-          src: state.template,
-        },
-        type: state.selectedType,
-      }),
-    },
-    index: {
-      thing: JSON.stringify({
-        key: thingId,
-        value: {
-          type: state.selectedType,
-        },
-      }),
-    },
-  };
-  if (edges.length) {
-    data.index.edge = JSON.stringify(edges);
-  }
-  Social.set(data, {
-    onCommit: () => {
-      State.update({
-        data: {},
-        isModalOpen: false,
-        config: undefined,
-      });
-    },
-    onCancel: () => {
-      State.update({
-        isModalOpen: false,
-      });
-    },
-  });
-};
-
 //define the schema type, not currently being used
-let schemaType = {
+let easSchema = {
   UID: "",
   resolver: {
     resolverPath: "",
