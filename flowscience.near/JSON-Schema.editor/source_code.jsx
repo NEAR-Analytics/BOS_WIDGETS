@@ -26,7 +26,7 @@ const [jsonSchema, setJsonSchema] = useState({
 
 const output = {
   jsonSchema: {
-    [state.jsonSchema.title]: jsonSchema,
+    [jsonSchema.title]: jsonSchema,
   },
 };
 
@@ -115,8 +115,8 @@ const Text = styled.p`
 `;
 
 const Label = styled.label`
-  display: block; // Ensures the label is on a new line, above the input
-  margin-bottom: 5px; // Adds some space between the label and the input
+  display: block;
+  margin-bottom: 5px;
 `;
 
 const loadType = () => {
@@ -281,9 +281,9 @@ return (
         <Input
           type="text"
           name="title"
-          value={schemaTitle}
+          value={state.schemaTitle}
           onChange={handleSchemaNameChange}
-          placeholder="Schema Title"
+          placeholder="Schema_Title"
         />
         <i>*overwrites existing path when saved</i>
       </Row>
