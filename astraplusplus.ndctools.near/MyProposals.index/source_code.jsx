@@ -128,79 +128,75 @@ return (
         }}
       />
     </div>
-    {res !== null && !res.body ? (
+    {res !== null && !res.body && (
       <div className="alert alert-danger mt-2" role="alert">
-        Network issue. Please try again later.
+        Couldn't fetch proposals from API. Please try again later.
       </div>
-    ) : (
-      <>
-        <div>
-          {state.tableView ? (
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.Table.index"
-              props={{
-                state,
-                resPerPage,
-                proposals: res === null ? null : res.body
-              }}
-            />
-          ) : (
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.CardsList"
-              props={{
-                state,
-                resPerPage,
-                proposals: res === null ? null : res.body,
-                showNavButton: true
-              }}
-            />
-          )}
+    )}
+    <div>
+      {state.tableView ? (
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.Table.index"
+          props={{
+            state,
+            resPerPage,
+            proposals: res === null ? null : res.body
+          }}
+        />
+      ) : (
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.CardsList"
+          props={{
+            state,
+            resPerPage,
+            proposals: res === null ? null : res.body
+          }}
+        />
+      )}
 
-          <div className="d-flex justify-content-center my-4">
-            <Widget
-              src="nearui.near/widget/Navigation.PrevNext"
-              props={{
-                hasPrev: state.page > 0,
-                hasNext: hasNextHandler(),
-                onPrev: () => {
-                  update({
-                    page: state.page - 1
-                  });
-                },
-                onNext: () => {
-                  update({
-                    page: state.page + 1
-                  });
-                },
-                nextHref: `#proposals-top`
-              }}
-            />
-          </div>
-        </div>
-        {state.multiSelectMode && (
-          <>
-            <div
-              style={{
-                height: 180,
-                width: "100%"
-              }}
-            ></div>
-            <Widget
-              src="astraplusplus.ndctools.near/widget/DAO.Proposals.MultiVote"
-              props={{
-                daoId: state.daoId,
-                view: "submit",
-                onHideMultiSelect: () => {
-                  State.update({
-                    ...state,
-                    multiSelectMode: false
-                  });
-                  Storage.privateSet("multiSelectMode", false);
-                }
-              }}
-            />
-          </>
-        )}
+      <div className="d-flex justify-content-center my-4">
+        <Widget
+          src="nearui.near/widget/Navigation.PrevNext"
+          props={{
+            hasPrev: state.page > 0,
+            hasNext: hasNextHandler(),
+            onPrev: () => {
+              update({
+                page: state.page - 1
+              });
+            },
+            onNext: () => {
+              update({
+                page: state.page + 1
+              });
+            },
+            nextHref: `#proposals-top`
+          }}
+        />
+      </div>
+    </div>
+    {state.multiSelectMode && (
+      <>
+        <div
+          style={{
+            height: 180,
+            width: "100%"
+          }}
+        ></div>
+        <Widget
+          src="astraplusplus.ndctools.near/widget/DAO.Proposals.MultiVote"
+          props={{
+            daoId: state.daoId,
+            view: "submit",
+            onHideMultiSelect: () => {
+              State.update({
+                ...state,
+                multiSelectMode: false
+              });
+              Storage.privateSet("multiSelectMode", false);
+            }
+          }}
+        />
       </>
     )}
   </>
