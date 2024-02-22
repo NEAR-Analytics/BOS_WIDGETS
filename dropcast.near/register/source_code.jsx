@@ -299,7 +299,7 @@ return (
           changePage,
           data: {
             type,
-            project,
+            project_id: state.selected,
             roles: type === "edit" ? project.roles : [],
             name:
               type !== "edit"
