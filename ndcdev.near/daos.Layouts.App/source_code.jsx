@@ -141,6 +141,15 @@ const Container = styled.div`
   .blue {
     color: rgb(146 168 210);
   }
+
+  @keyframes scroll {
+    0% {
+      transform: translate(0%);
+    }
+    100% {
+      transform: translate(-100%);
+    }
+  }
 `;
 
 const Wrapper = styled.div`
@@ -156,15 +165,17 @@ function AppLayout({ page, props, children }) {
     <Theme>
       <Container>
         <Widget src={`ndcdev.near/widget/daos.Components.NavBar`} />
-        <Wrapper>
-          {page !== "home" && (
+        {page === "home" ? (
+          children
+        ) : (
+          <Wrapper>
             <Widget
               src={`ndcdev.near/widget/daos.Components.TopNavBar`}
               props={props}
             />
-          )}
-          {children}
-        </Wrapper>
+            {children}
+          </Wrapper>
+        )}
         <Widget
           src={`ndcdev.near/widget/daos.Components.Footer`}
           props={{ page }}
