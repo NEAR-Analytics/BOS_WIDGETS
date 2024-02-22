@@ -119,13 +119,13 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // get the thing data
-      const thing = Social.getr(path, blockHeight) || {};
+      const thing = Social.getr(path, blockHeight);
       console.log(`Thing after Social.getr: ${thing}`);
-
       console.log(thing);
+      console.log({ thing });
       console.log(type);
 
-      schema = thing.schema || null;
+      type = thing.schema || null;
       console.log(type);
 
       // get the type data
