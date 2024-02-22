@@ -125,7 +125,7 @@ function Thing() {
         // Assuming Social.get is synchronous for demonstration; adjust if it's actually asynchronous
         const fetchData = () => {
           const attestationData = JSON.parse(
-            Social.get(path, blockHeight) || "{}"
+            Social.getr(path, blockHeight) || "{}"
           );
           console.log("Attestation data:", attestationData);
           // Use setState or similar to update your component state with fetched data
