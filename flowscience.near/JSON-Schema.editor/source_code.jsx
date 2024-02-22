@@ -41,24 +41,6 @@ let easSchema = {
   fields: {},
 };
 
-const jsonSchemaEASSchema = {
-  schema: `${context.accountId}/jsonschema/${path}`,
-  id: generateUID(),
-  title: "JSON EAS Schema",
-  description: "A JSON Schema for the EAS Schema Type",
-  type: "object", // object or boolean
-  properties: {
-    uid: "",
-    resolver: {
-      resolverPath: "",
-      resolverData: "",
-    },
-    revocable: True,
-    fields: {},
-  }, // description, type, and modifiers
-  required: ["uid", "revocable", "fields"],
-};
-
 State.init({
   newType: typeSrc,
   typeName: type.name || "",
@@ -227,10 +209,6 @@ const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isRequired = e.target.value;
   State.update({ properties: updatedProperties });
-};
-
-const handleTypeNameChange = (e) => {
-  State.update({ typeName: e.target.value.toLowerCase() });
 };
 
 const handleSchemaNameChange = (e) => {
