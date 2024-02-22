@@ -169,7 +169,7 @@ return (
   <Container id={path}>
     <Content>
       <Thing />
-      <p>{Social.getr(path)}</p>
+      <pre>{JSON.stringify(Social.getr(path), null, 2)}</pre>
     </Content>
   </Container>
 );
