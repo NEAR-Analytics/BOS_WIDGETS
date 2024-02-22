@@ -1,6 +1,8 @@
 let { assets, socials, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
+
+if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 
 const page = props.page;
 const showFooterPages = [
