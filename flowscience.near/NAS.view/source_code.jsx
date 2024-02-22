@@ -121,8 +121,18 @@ function Thing() {
       // Fetch the attestation data directly using the provided path and blockHeight
       console.log(`Path:`, path); // Ensure to log the actual object
 
-      const attestationData = Social.getr(path) || "{}";
-      console.log(`Attestation data:`, attestationData); // Ensure to log the actual object
+      useEffect(() => {
+        // Assuming Social.get is synchronous for demonstration; adjust if it's actually asynchronous
+        const fetchData = () => {
+          const attestationData = JSON.parse(
+            Social.get(path, blockHeight) || "{}"
+          );
+          console.log("Attestation data:", attestationData);
+          // Use setState or similar to update your component state with fetched data
+        };
+
+        fetchData();
+      }, [path, blockHeight]); // Rerun when path or blockHeight changes
 
       // Assuming attestationData directly contains the data structure you're interested in
       // No need to extract specificAttestation unless the structure necessitates it
