@@ -7,7 +7,7 @@ const {
   deleteCommunity,
   getCommunity,
   setCommunityAddons,
-} = VM.require("devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract");
+} = VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract");
 
 if (
   !getCommunity ||
