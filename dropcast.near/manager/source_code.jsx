@@ -120,7 +120,14 @@ return (
     <GridWrapper>
       {state.list.map((project) => (
         <Widget
-          props={{ API_URL, TOKEN, project, editMyProject, type: "manager" }}
+          props={{
+            API_URL,
+            TOKEN,
+            project,
+            editMyProject,
+            type: "manager",
+            changePage,
+          }}
           key={project._id}
           src={`${Owner}/widget/project`}
         />
