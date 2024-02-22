@@ -115,6 +115,7 @@ const Button = ({
   icon: iconProps,
   label,
   type,
+  isHidden,
   notRounded,
   ...restProps
 }) => {
@@ -126,6 +127,7 @@ const Button = ({
         "btn d-inline-flex align-items-center gap-2",
         classNames?.root ?? "btn-primary",
         !notRounded ?? "rounded-pill",
+        isHidden ?? false ? "d-none" : "",
       ].join(" ")}
       style={{ width: "fit-content" }}
       {...restProps}
@@ -134,7 +136,7 @@ const Button = ({
         typeof iconProps === "object" &&
         !Array.isArray(iconProps) && (
           <Widget
-            src={"devgovgigs.petersalomonsen.near/widget/devhub.components.atom.Icon"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.atom.Icon"}
             props={iconProps}
           />
         )}
