@@ -24,6 +24,10 @@ const Wrapper = styled.div`
     overflow-x: auto;
     font-family: "Courier New", Courier, monospace;
   }
+
+  a {
+    color: #04a46e;
+  }
 `;
 
 const Embedded = styled.span`
@@ -39,7 +43,7 @@ const renderMention =
   ((accountId) => (
     <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
       <Widget
-        src="neardevgov.near/widget/ProfileLine"
+        src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
           hideAccountId: true,
