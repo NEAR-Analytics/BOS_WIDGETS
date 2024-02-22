@@ -7,6 +7,7 @@ const parts = path.split("/");
 const creatorId = parts[0];
 
 let type;
+let schema;
 if (parts.length === 1) {
   if (parts[0].charAt(0) === "#") {
     // hashtag
