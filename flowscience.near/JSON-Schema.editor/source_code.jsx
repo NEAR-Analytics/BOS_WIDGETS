@@ -1,3 +1,4 @@
+const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 const typeSrc = props.typeSrc || "every.near";
 const schemaSrc = context.accountId ?? props.schemaSrc ?? "attestations.near";
 const blockHeight = props.blockHeight || "final";
@@ -18,7 +19,7 @@ let type = {
 
 let jsonSchema = {
   schema: "", // Path
-  id: "", // UID
+  id: "", // UID, fetch on load & generate on save
   title: "", // Name
   description: "", // String
   type: "", // object or boolean
@@ -30,14 +31,30 @@ let jsonSchema = {
 let schemaType = {
   UID: "",
   resolver: {
-    resolverPath: state.resolverPath,
-    resolverData: state.resolverData,
+    resolverPath: "",
+    resolverData: "",
   },
-  revocable: revocable,
-  schemaData: Social.get(`${schemaSrc}/schema/**`, "final"),
+  revocable: True,
+  schemaData: {},
 };
 
-const { generateUID } = VM.require("flowscience.near/widget/generateUID");
+const jsonSchemaEASSchema = {
+  schema: `${context.accountId}/jsonschema/${path}`,
+  id: generateUID(),
+  title: "JSON EAS Schema",
+  description: "A JSON Schema for the EAS Schema Type",
+  type: "object", // object or boolean
+  properties: {
+    uid: "",
+    resolver: {
+      resolverPath: "",
+      resolverData: "",
+    },
+    revocable: True,
+    schemaData: {},
+  }, // description, type, and modifiers
+  required: ["uid", "revocable", "schemaData"],
+};
 
 State.init({
   newType: typeSrc,
@@ -52,7 +69,6 @@ State.init({
   expanded: false,
   selectedSchema: selectedSchema,
   schemaData: schema.properties || [],
-  revocable: revocable,
   schemaUID: state.selectedSchema.UID,
 });
 
@@ -153,7 +169,7 @@ const handleAddProperty = () => {
   const newProperty = {
     name: state.newPropertyName,
     type: state.newPropertyType,
-    required: state.newPropertyRequired,
+    isRequired: state.newPropertyRequired,
     isMulti: state.newPropertyIsMulti,
   };
 
@@ -162,6 +178,7 @@ const handleAddProperty = () => {
     newPropertyName: "",
     newPropertyType: "string",
     newPropertyIsMulti: false,
+    newPropertyIsRequired: false,
   });
 };
 
@@ -189,6 +206,12 @@ const handleMultiChange = (e, index) => {
   State.update({ properties: updatedProperties });
 };
 
+const handleRequiredChange = (e, index) => {
+  const updatedProperties = [...state.properties];
+  updatedProperties[index].isRequired = e.target.value;
+  State.update({ properties: updatedProperties });
+};
+
 const handleTypeNameChange = (e) => {
   State.update({ typeName: e.target.value.toLowerCase() });
 };
@@ -199,7 +222,7 @@ const handleSchemaNameChange = (e) => {
 
 const schemaData = () => {
   const data = {
-    schema: {
+    jsonSchema: {
       [state.selectedSchema]: JSON.stringify({
         schemaUID: generateUID(),
         properties: state.properties,
@@ -235,18 +258,6 @@ function MultiSelect({ value, onChange }) {
   );
 }
 
-const handleResolverPathChange = (e) => {
-  setResolverPath(e.target.value);
-};
-
-const handleResolverDataChange = (newData) => {
-  setResolverData(newData);
-};
-
-const handleRevocableChange = (e) => {
-  setRevocable(e.target.checked);
-};
-
 return (
   <Container>
     <Row>
@@ -257,7 +268,7 @@ return (
         type="text"
         value={state.newSchema}
         onChange={(e) => State.update({ newSchema: e.target.value })}
-        placeholder={"accountId/schema/schemaId"}
+        placeholder={"account/schema/title"}
       />
       <Button onClick={loadSchema}>load</Button>
     </Row>
@@ -278,29 +289,33 @@ return (
     <FormContainer>
       <Row>
         <Text>
-          <b>Schema Id:</b>
+          <b>Title:</b>
         </Text>
         <Input
           type="text"
-          placeholder="schemaId"
+          placeholder="TitleYourSchema"
           value={state.schemaName}
           onChange={handleSchemaNameChange}
         />
         <i>*overwrites existing path</i>
-      </Row>
+      </Row>{" "}
+      {/*Description //Type - boolean or object*/}
       <hr></hr>
       <Text>
-        <h4>Schema Fields</h4>
-        <i>*Add fields below that are relevant to your use case.</i>
-        <br></br>
-        <b>1.</b> [Field Name]: give a meaningful name to the data<br></br>
-        <b>2.</b> [Field Type]: select an appropriate primitive for the data.{" "}
+        <h4>Schema Properties</h4>
+        <i>*Add properties below that are relevant to your use case.</i>
+        <br />
+        <b>1.</b> [Name]: give a meaningful name to the data
+        <br />
+        <b>2.</b> [Type]: select an appropriate primitive for the data.{" "}
         <a href="https://everything.dev/every.near/widget/every.type.create">
           <i>[Define new types]</i>
         </a>
-        <br></br>
+        <br />
         <b>3.</b> [Single/Multi]: will the data contain multiple objects of the
         selected type?
+        <br />
+        <b>4.</b> [Required]: is this property required?
       </Text>
       {state.properties?.map((property, index) => (
         <Row key={index}>
@@ -316,6 +331,10 @@ return (
           <MultiSelect
             value={property.isMulti}
             onChange={(e) => handleMultiChange(e, index)}
+          />
+          <MultiSelect
+            value={property.isRequired}
+            onChange={(e) => handleRequiredChange(e, index)}
           />
           <Button onClick={() => handleRemoveProperty(index)}>Remove</Button>
         </Row>
@@ -335,6 +354,12 @@ return (
           value={state.newPropertyIsMulti}
           onChange={(e) => State.update({ newPropertyIsMulti: e.target.value })}
         />
+        <MultiSelect
+          value={state.newPropertyIsRequired}
+          onChange={(e) =>
+            State.update({ newPropertyIsRequired: e.target.value })
+          }
+        />
         <Button
           onClick={handleAddProperty}
           disabled={state.newPropertyName.trim() === ""}
@@ -342,46 +367,6 @@ return (
           +
         </Button>
       </Row>
-      <hr></hr>
-      <Row>
-        <Text>
-          <b>Resolver:</b>
-        </Text>
-        <Select value={resolverPath} onChange={handleResolverPathChange}>
-          <option value="">None</option>
-          <option value="attester.resolver">Attester Resolver</option>
-          {/* ... (other resolver options) */}
-        </Select>
-        {resolverPath === "attester.resolver" && (
-          <Widget
-            src="flowscience.near/widget/attester.resolver"
-            props={{
-              item: {
-                type: item.resolverPath,
-                value: item.resolverData,
-              },
-              onChange: handleResolverDataChange,
-            }}
-          />
-        )}
-      </Row>
-      <i>
-        *Optional logic that gets executed with every attestation of this type.
-        (Can be used to verify, limit, act upon any attestation)
-      </i>
-      <hr></hr>
-      <Row>
-        <Text>
-          <b>Is Revocable?</b>
-        </Text>
-        <Input
-          type="checkbox"
-          defaultChecked="true"
-          checked={revocable}
-          onChange={handleRevocableChange}
-        />
-      </Row>
-      <i>*Determine if attestations of this schema can be revocable.</i>
       <hr></hr>
       <Row>
         <CommitButton
