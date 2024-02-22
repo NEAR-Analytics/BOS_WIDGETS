@@ -129,9 +129,7 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // get the thing data
-      const thing = JSON.stringify(
-        Social.getr(`${path}`, blockHeight) || "null"
-      );
+      const thing = Social.getr(`${path}`, blockHeight) || "null";
       console.log(`New attestation: ${thing}`);
       schema = thing.type || null;
       // get the type data
