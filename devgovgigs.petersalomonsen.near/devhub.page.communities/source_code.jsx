@@ -1,5 +1,5 @@
 const { getAllCommunitiesMetadata, createCommunity } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllCommunitiesMetadata || !createCommunity) {
@@ -30,10 +30,6 @@ const [searchKey, setSearchKey] = useState("");
 const [sort, setSort] = useState("");
 
 const communitiesMetadata = getAllCommunitiesMetadata();
-
-if (!communitiesMetadata) {
-  return <p>Loading...</p>;
-}
 
 const SortedAndFiltered = (searchKey, sortBy) => {
   let communities = (communitiesMetadata ?? []).reverse();
@@ -68,96 +64,48 @@ const SortedAndFiltered = (searchKey, sortBy) => {
   return sortedCommunities;
 };
 
-const CTA = styled.button`
-  all: unset;
-
-  color: #f4f4f4;
-
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 125% */
-
-  border-radius: 4px;
-  background: #00ec97;
-
-  display: flex;
-  padding: 14px 16px;
-  align-items: center;
-  gap: 8px;
-
-  &:hover {
-    background: #04a46e;
-  }
-`;
-
 const CardGrid = styled.div`
   width: 100%;
   height: 100%;
 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 768px) {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 2rem;
   }
 `;
 
-const SearchForm = styled.input`
+const InputContainer = styled.div`
   display: flex;
-  padding: 14px 16px;
-  align-items: center;
-  gap: 16px;
-
-  border-radius: 4px;
-  //background: rgba(129, 129, 129, 0.15);
-
-  color: #818181;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 125% */
-
-  border: none;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
 `;
 
-const Sort = styled.select`
-  padding: 14px 16px;
+const StyledDropdown = styled.div`
+  button {
+    text-align: left;
 
-  border-radius: 4px;
-  //background: rgba(129, 129, 129, 0.15);
-
-  color: #818181;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 125% */
-
-  border: none;
+    &::after {
+      position: absolute;
+      right: 8px;
+      top: 45%;
+      transform: translateX(-50%);
+    }
+  }
 `;
 
 return (
   <div className="w-100">
-    <Widget
-      src={`devgovgigs.petersalomonsen.near/widget/devhub.components.island.banner`}
-      props={{
-        title: (
-          <>
-            We are building <br />
-            <span style={{ color: "#151515" }}>
-              a decentralized community
-            </span>{" "}
-            <br />
-            for NEAR Developers.
-          </>
-        ),
-        imageLink:
-          "https://ipfs.near.social/ipfs/bafkreigtpjmgt3aphd3plbcremtvazeo7qsjvguw44m74zthyxbhj4toqe",
-      }}
-    />
+    <Widget src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`} />
     <div style={{ background: "#f4f4f4" }}>
       <div
         className="d-flex justify-content-between p-4"
@@ -166,45 +114,78 @@ return (
         <div className="d-flex flex-column gap-3 w-100">
           <h1
             className="m-0 fs-4"
-            style={{ color: "#04a46e", fontSize: "1.5rem" }}
+            style={{ color: "#555555", fontSize: "1.5rem" }}
           >
             Communities
           </h1>
 
-          <div className="d-flex flex-column-reverse flex-lg-row gap-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center gap-4">
-              <SearchForm
-                type="text"
-                placeholder="🔍 Search Communities"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-              />
-              <Sort
-                class="form-select"
-                onChange={(e) => setSort(e.target.value)}
-              >
-                <option selected value="">
-                  Sort
-                </option>
-                <option value="a-z">A-Z</option>
-                <option value="z-a">Z-A</option>
-              </Sort>
+          <div className="d-flex col-12 flex-column flex-sm-row gap-4 justify-content-between align-items-center">
+            <div className="d-flex flex-column flex-sm-row align-items-center gap-4 col-12 col-sm-6">
+              <InputContainer className="border rounded-2">
+                <div className="position-absolute d-flex ps-3 flex-column h-100 justify-center">
+                  <i class="bi bi-search m-auto"></i>
+                </div>
+                <input
+                  type="search"
+                  className="ps-5 form-control border border-0"
+                  value={searchKey ?? ""}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  placeholder={props.placeholder ?? `Search by name`}
+                />
+              </InputContainer>
+              <div class="dropdown w-100">
+                <StyledDropdown>
+                  <button
+                    class="btn dropdown-toggle border rounded-2 bg-white w-100"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Sort: {sort?.toUpperCase() || "Latest"}
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start px-2 shadow">
+                    <li
+                      onClick={() => setSort("")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      Latest
+                    </li>
+                    <li
+                      onClick={() => setSort("a-z")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      A-Z
+                    </li>
+                    <li
+                      onClick={() => setSort("z-a")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      Z-A
+                    </li>
+                  </ul>
+                </StyledDropdown>
+              </div>
             </div>
             {context.accountId && (
-              <div className="d-flex flex-column justify-content-center">
-                <CTA onClick={() => setShowSpawner(!showSpawner)}>
-                  <i className="bi bi-plus-circle-fill me-1"></i> Create
-                  Community
-                </CTA>
+              <div className="d-flex flex-column justify-content-center align-self-end">
+                <Widget
+                  src={
+                    "${REPL_DEVHUB}/widget/devhub.components.molecule.CommunityControl"
+                  }
+                  props={{
+                    title: "Community",
+                    onClick: () => setShowSpawner(!showSpawner),
+                  }}
+                />
               </div>
             )}
           </div>
         </div>
       </div>
-      <div className="d-flex flex-wrap align-content-start gap-4 p-4 w-100 h-100">
+      <div className="d-flex flex-wrap align-content-start gap-4 py-2 px-4 w-100 h-100">
         {showSpawner && (
           <Widget
-            src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Spawner"
+            src="${REPL_DEVHUB}/widget/devhub.entity.community.Spawner"
             props={{
               data: null,
               onSubmit: onCommunitySubmit,
@@ -216,7 +197,7 @@ return (
           {searchKey === "" && sort === ""
             ? (communitiesMetadata ?? []).reverse().map((communityMetadata) => (
                 <Widget
-                  src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Card"
+                  src="${REPL_DEVHUB}/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
@@ -226,7 +207,7 @@ return (
               ))
             : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
                 <Widget
-                  src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Card"
+                  src="${REPL_DEVHUB}/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
