@@ -178,7 +178,7 @@ const code = `
               lastI = lastI + 1;
             }
           }
-          firstLevel.value = Math.round(firstVal / lastI);
+          firstLevel.value = firstVal;
           points.push(firstLevel);
           firstI = firstI + 1;
         }
