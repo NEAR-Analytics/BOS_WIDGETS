@@ -1,5 +1,6 @@
 let theme = props.theme;
 let variables = props.variables;
+const editData = props.data;
 
 if (!variables) {
   variables = ``;
@@ -37,7 +38,7 @@ return (
     {/* Get any layout */}
     <Container>
       <Widget
-        src="devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.editor.provider"
+        src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.provider"
         props={{
           handle: props.handle,
           Layout: (providerProps) => {
@@ -45,19 +46,28 @@ return (
               providerProps;
             return (
               <Widget
-                src="devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.editor.layout"
+                src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
+                  editData: editData,
                   Sidebar: (p) => (
                     <Widget
-                      src="devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.editor.sidebar"
-                      props={{ items: data, ...p }}
+                      src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.sidebar"
+                      props={{
+                        ...p,
+                        ...providerProps,
+                      }}
                     />
                   ),
                   Content: (p) => (
                     <Widget
-                      src="devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.editor.content"
-                      props={{ onChange, onCancel, onSubmit, ...p }}
+                      src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.content"
+                      props={{
+                        onChange,
+                        onCancel,
+                        onSubmit,
+                        ...p,
+                      }}
                     />
                   ),
                 }}
