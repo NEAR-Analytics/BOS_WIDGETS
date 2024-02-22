@@ -1,6 +1,6 @@
 const { author, recency, tag } = props;
 
-const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -41,46 +41,23 @@ const Gradient = styled.div`
   }
 `;
 
-function Banner() {
-  return (
-    <div className="d-flex flex-column">
-      <Widget
-        src={`devgovgigs.petersalomonsen.near/widget/devhub.components.island.banner`}
-        props={{
-          title: (
-            <>
-              Welcome to /dev/hub,
-              <br />
-              <span style={{ color: "#151515" }}>the home base</span>
-              <br />
-              for developers on NEAR
-            </>
-          ),
-          imageLink:
-            "https://ipfs.near.social/ipfs/bafybeiap2mzwsly4apaldxguiunx4rjwqyadksj5yxuzwrww3kue3ao5qe",
-        }}
-      />
-    </div>
-  );
-}
-
 const FeedPage = ({ recency, tag }) => {
   return (
     <div className="w-100">
-      <Banner />
+      <Widget src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`} />
       <Widget
-        src={"devgovgigs.petersalomonsen.near/widget/devhub.feature.post-search.panel"}
+        src={"${REPL_DEVHUB}/widget/devhub.feature.post-search.panel"}
         props={{
           hideHeader: false,
           children: (
             <Widget
               src={
-                "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.PostControls"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: { page: "create" },
                 }),
               }}
@@ -88,6 +65,7 @@ const FeedPage = ({ recency, tag }) => {
           ),
           recency,
           tag,
+          author,
           transactionHashes: props.transactionHashes,
         }}
       />
