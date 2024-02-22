@@ -202,6 +202,7 @@ return (
                 props={{
                   value: role.id,
                   label: role.name,
+                  checked: role.selected,
                   onChange: (value) => {
                     onChange(value, role.id);
                   },
