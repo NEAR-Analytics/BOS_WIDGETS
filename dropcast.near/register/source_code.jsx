@@ -301,8 +301,14 @@ return (
             type,
             project,
             project_id: state.selected,
-            name: state.projects.find((e) => e.value === state.selected)?.text,
-            icon: state.projects.find((e) => e.value === state.selected)?.icon,
+            name:
+              type !== "edit"
+                ? state.projects.find((e) => e.value === state.selected)?.text
+                : project.name,
+            icon:
+              type !== "edit"
+                ? state.projects.find((e) => e.value === state.selected)?.icon
+                : project.icon,
             description: state.description,
             mint_price: state.mint_price,
             mint_date: state.mint_date,
