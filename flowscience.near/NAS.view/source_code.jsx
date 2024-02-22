@@ -169,7 +169,7 @@ return (
   <Container id={path}>
     <Content>
       <Thing />
-      <p>{type}</p>
+      <p>Social.getr(path)</p>
     </Content>
   </Container>
 );
