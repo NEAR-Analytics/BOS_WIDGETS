@@ -521,16 +521,14 @@ const search = (processedQueryArray, index) => {
 const amountOfResultsToShowFirst = 5;
 
 const buildPostsIndex = () => {
-  return Near.asyncView("devgovgigs.near", "get_posts").then(
-    (posts) => {
-      const index = buildIndex(posts);
-      const data = posts.reduce((acc, post) => {
-        acc[post.id] = post;
-        return acc;
-      }, {});
-      return { index, data };
-    }
-  );
+  return Near.asyncView("${REPL_DEVHUB_LEGACY}", "get_posts").then((posts) => {
+    const index = buildIndex(posts);
+    const data = posts.reduce((acc, post) => {
+      acc[post.id] = post;
+      return acc;
+    }, {});
+    return { index, data };
+  });
 };
 
 const getProcessedPostsCached = () => {
@@ -682,25 +680,19 @@ return (
       </div>
       <div class="dropdown">
         <Widget
-          // TODO: LEGACY.
-          src={"devgovgigs.petersalomonsen.near/widget/gigs-board.feature.post-search.by-author"}
+          src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-author"
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
       <div>
         <Widget
-          // TODO: LEGACY.
-          src={"devgovgigs.petersalomonsen.near/widget/gigs-board.feature.post-search.by-tag"}
+          src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-tag"
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
@@ -718,7 +710,7 @@ return (
       )}
     {state.term && state.term.length > 1 && state.searchResult ? (
       <Widget
-        src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.post.List"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
         props={{
           searchResult: {
             postIds: state.searchResult,
@@ -736,7 +728,7 @@ return (
       />
     ) : (
       <Widget
-        src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.post.List"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
         props={{
           recency: props.recency,
           tag: props.tag,
