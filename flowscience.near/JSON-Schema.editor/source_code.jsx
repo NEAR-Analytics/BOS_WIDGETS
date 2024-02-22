@@ -372,17 +372,17 @@ return (
         <h4>Schema Properties</h4>
         <i>*Add properties below that are relevant to your use case.</i>
         <br />
-        <b>1.</b> [Name]: give a meaningful name to the data
         <br />
-        <b>2.</b> [Type]: select an appropriate primitive for the data.{" "}
+        <b>1.</b> [Name]: describe the property
+        <br />
+        <b>2.</b> [Type]: how is the property structured?
         <a href="https://everything.dev/every.near/widget/every.type.create">
           <i>[Define new types]</i>
         </a>
         <br />
-        <b>3.</b> [Single/Multi]: will the data contain multiple objects of the
-        selected type?
+        <b>3.</b> [Single/Multi]: can the property be an array?
         <br />
-        <b>4.</b> [Required]: is this property required?
+        <b>4.</b> [Required]: is the property required?
       </Text>
       {state.properties?.map((property, index) => (
         <Row key={index}>
