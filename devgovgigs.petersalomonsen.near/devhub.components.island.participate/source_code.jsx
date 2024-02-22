@@ -1,4 +1,4 @@
-const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -28,7 +28,7 @@ const LinkItem = styled.a`
 
   &:hover {
     text-decoration: none;
-    color: #04146e;
+    color: #096d50;
   }
 `;
 
@@ -36,19 +36,19 @@ const Links = [
   {
     links: [
       {
-        title: "Ideate on Devhub",
-        href: "https://www.neardevgov.org/blog/how-to-ideate-on-dev-hub",
+        title: "Ideate on DevHub",
+        href: "/devhub.near/widget/app?page=blog&id=2029",
         count: 1,
       },
       {
         title: "Post a Proposal",
-        href: "https://www.neardevgov.org/blog/how-to-post-proposals-on-devhub",
-        count: 4,
+        href: "/devhub.near/widget/app?page=blog&id=2035",
+        count: 2,
       },
       {
         title: "Host an Event",
-        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=hacks&tab=Wiki%202",
-        count: 7,
+        href: "/devhub.near/widget/app?page=community&handle=hacks&tab=wiki-202",
+        count: 3,
       },
     ],
   },
@@ -57,26 +57,26 @@ const Links = [
       {
         title: "Improve NEAR Docs",
         href: "https://github.com/near/docs",
-        count: 2,
+        count: 4,
       },
       {
         title: "Join the Fellowship",
-        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=fellowship&tab=Wiki%201",
+        href: "/devhub.near/widget/app?page=community&handle=fellowship&tab=wiki-201",
         count: 5,
+      },
+      {
+        title: "Join NEAR Campus",
+        href: "/devhub.near/widget/app?page=community&handle=near-campus",
+        count: 6,
       },
     ],
   },
   {
     links: [
       {
-        title: "Join NEAR Campus",
-        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=near-campus",
-        count: 3,
-      },
-      {
         title: "Dive into Hackbox",
-        href: "https://near.social/hackbox.near/widget/home",
-        count: 6,
+        href: "/hackbox.near/widget/home",
+        count: 7,
       },
     ],
   },
@@ -102,7 +102,7 @@ const CTA = styled.a`
   margin-top: 1.5rem;
 
   &:hover {
-    background: #04a46e;
+    background: #555555;
     text-decoration: none !important;
   }
 
@@ -119,10 +119,10 @@ const CTA = styled.a`
     gap: 8px;
 
     border-radius: 16px;
-    background: #04a46e;
+    background: #555555;
 
     &:hover {
-      //background: #04A46E;
+      //background: #555555;
       text-decoration: none;
     }
   }
@@ -160,8 +160,8 @@ const Content = (
               <div className="d-flex flex-row">
                 <span
                   style={{
-                    color: "#04A46E",
-                    border: "2px #04A46E solid",
+                    color: "#555555",
+                    border: "2px #555555 solid",
                     fontSize: 12,
                     padding: 4,
                     width: 22,
@@ -183,7 +183,7 @@ const Content = (
 
     <Link
       to={href({
-        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+        widgetSrc: "${REPL_DEVHUB}/widget/app",
         params: { page: "contribute" },
       })}
       style={{ textDecoration: "none" }}
@@ -195,10 +195,10 @@ const Content = (
 
 return (
   <Widget
-    src="devgovgigs.petersalomonsen.near/widget/devhub.components.island.home-section"
+    src="${REPL_DEVHUB}/widget/devhub.components.island.home-section"
     props={{
       title: "/participate",
-      titleColor: "#04A46E",
+      titleColor: "#555555",
       description:
         "There are many ways to start your contribution journey. You can:",
       children: Content,
