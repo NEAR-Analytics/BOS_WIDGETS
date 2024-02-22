@@ -105,7 +105,13 @@ if (state.edit)
   return (
     <Widget
       src={`${Owner}/widget/register`}
-      props={{ API_URL, TOKEN, type: "edit", project: state.project }}
+      props={{
+        API_URL,
+        TOKEN,
+        type: "edit",
+        changePage,
+        project: state.project,
+      }}
     />
   );
 
@@ -126,7 +132,6 @@ return (
             project,
             editMyProject,
             type: "manager",
-            changePage,
           }}
           key={project._id}
           src={`${Owner}/widget/project`}
