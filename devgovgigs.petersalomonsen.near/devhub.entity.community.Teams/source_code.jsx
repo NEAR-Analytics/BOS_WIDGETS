@@ -1,11 +1,15 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { getCommunity } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
@@ -29,7 +33,7 @@ const UserList = ({ name, users }) => (
             style={{ fontWeight: 500 }}
           >
             <Widget
-              src="neardevgov.near/widget/ProfileLine"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileLine"
               props={{ accountId: user, hideAccountId: true, tooltip: true }}
             />
           </span>
@@ -48,7 +52,7 @@ return (
           style={{ minHeight: 30 }}
         >
           <h5 className="h5 d-inline-flex gap-2 m-0">
-            <span>Admins</span>
+            <span>Community Admins</span>
           </h5>
         </div>
         <UserList name="Admin" users={communityData.admins} />
