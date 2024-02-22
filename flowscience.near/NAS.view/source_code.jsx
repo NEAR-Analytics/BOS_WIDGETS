@@ -121,7 +121,7 @@ function Thing() {
       // Fetch the attestation data directly using the provided path and blockHeight
       console.log(`Path:`, path); // Ensure to log the actual object
 
-      const attestationData = Social.getr(path, blockHeight) || "{}";
+      const attestationData = Social.getr(path) || "{}";
       console.log(`Attestation data:`, attestationData); // Ensure to log the actual object
 
       // Assuming attestationData directly contains the data structure you're interested in
