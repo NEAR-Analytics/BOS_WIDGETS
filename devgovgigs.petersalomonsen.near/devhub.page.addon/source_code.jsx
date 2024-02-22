@@ -60,7 +60,7 @@ const CenteredMessage = styled.div`
 const { addon, permissions, handle } = props;
 
 const { getAllAddons, setCommunityAddon } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAddons || !setCommunityAddon) {
