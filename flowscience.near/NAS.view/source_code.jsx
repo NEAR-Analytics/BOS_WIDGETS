@@ -132,6 +132,7 @@ function Thing() {
       const thing = JSON.stringify(
         Social.getr(`${path}`, blockHeight) || "null"
       );
+      console.log(`New attestation: ${thing}`);
       schema = thing.type || null;
       // get the type data
       const typeObj = JSON.parse(Social.get(schema, blockHeight) || "null");
