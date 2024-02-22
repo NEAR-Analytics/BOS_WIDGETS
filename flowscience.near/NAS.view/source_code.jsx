@@ -119,7 +119,7 @@ function Thing() {
     // Adjusted case for "attestation" to handle and render attestation data correctly
     case "attestation": {
       // Fetch the attestation data directly using the provided path and blockHeight
-      const attestationData = JSON.parse(Social.get(path, blockHeight) || "{}");
+      const attestationData = Social.getr(path, blockHeight) || "{}";
       console.log(`Attestation data:`, attestationData); // Ensure to log the actual object
 
       // Assuming attestationData directly contains the data structure you're interested in
