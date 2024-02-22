@@ -218,7 +218,7 @@ const handleCreate = () =>
 
           if (!page) page = Object.keys(routes)[0] || "main";
 
-          const Root = styled.div``;
+          const Root = styled.div\`\`;
 
           function Router({ active, routes }) {
             const routeParts = active.split(".");
@@ -308,7 +308,7 @@ const handleCreate = () =>
 
           if (!page) page = Object.keys(routes)[0] || "main";
 
-          const Root = styled.div``;
+          const Root = styled.div\`\`;
 
           function Router({ active, routes }) {
             const routeParts = active.split(".");
