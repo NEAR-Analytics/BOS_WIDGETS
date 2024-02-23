@@ -165,17 +165,7 @@ function AppLayout({ page, props, children }) {
     <Theme>
       <Container>
         <Widget src={`ndcdev.near/widget/daos.Components.NavBar`} />
-        {page === "home" ? (
-          children
-        ) : (
-          <Wrapper>
-            <Widget
-              src={`ndcdev.near/widget/daos.Components.TopNavBar`}
-              props={props}
-            />
-            {children}
-          </Wrapper>
-        )}
+        {page === "home" ? children : <Wrapper>{children}</Wrapper>}
         <Widget
           src={`ndcdev.near/widget/daos.Components.Footer`}
           props={{ page }}
