@@ -38,7 +38,6 @@ const Badge = styled.a`
     background: #3d3947;
   }
 
-  span,
   small {
     color: white;
   }
@@ -47,10 +46,11 @@ const Badge = styled.a`
 const Amount = styled.span`
   font-weight: bold;
   margin-right: 5px;
-  color: #fdefb1;
+  color: #fdefb1 !important;
 `;
 
 const Label = styled.span`
+  color: white;
   font-size: 1em;
   font-weight: 600;
 `;
@@ -118,7 +118,7 @@ return (
             </Logo>
             <div className="d-flex flex-column gap-1">
               <div className="d-flex gap-2 align-items-center">
-                <Amount>{proposal.amount ?? 10593}</Amount>
+                <Amount>${proposal.amount ?? 10593}</Amount>
                 <Label>{dao.title}</Label>
               </div>
               <div className="d-flex gap-2 align-items-center">
