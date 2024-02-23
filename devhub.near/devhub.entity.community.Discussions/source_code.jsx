@@ -1,3 +1,5 @@
+const NEW_DISCUSSION_POSTED_CONTENT_STORAGE_KEY =
+  "new_discussion_posted_content";
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
   "devhub.near/widget/core.adapter.devhub-contract"
@@ -118,6 +120,11 @@ async function checkHashes() {
 }
 
 function getBlockHeightAndRepost() {
+  const newDiscussionPostedContent = Storage.get(
+    NEW_DISCUSSION_POSTED_CONTENT_STORAGE_KEY
+  );
+  console.log("new discussion content", newDiscussionPostedContent);
+
   Near.asyncView("social.near", "get", {
     keys: [`${context.accountId}/post/**`],
     options: {
@@ -125,8 +132,16 @@ function getBlockHeightAndRepost() {
     },
   })
     .then((response) => {
-      let blockHeight = response[context.accountId][":block"];
-      repostOnDiscussions(blockHeight);
+      const post_main = response[context.accountId].post.main;
+      const content = post_main[""];
+      if (content === newDiscussionPostedContent) {
+        const blockHeight = post_main[":block"];
+        console.log("content matches", blockHeight, post_main);
+        repostOnDiscussions(blockHeight);
+      } else {
+        console.log("content does not match (yet)", post_main);
+        setTimeout(() => getBlockHeightAndRepost(), 500);
+      }
     })
     .catch((error) => {
       console.log(
@@ -149,6 +164,10 @@ return (
                 src={"devhub.near/widget/devhub.entity.community.Compose"}
                 props={{
                   onSubmit: (v) => {
+                    Storage.set(
+                      NEW_DISCUSSION_POSTED_CONTENT_STORAGE_KEY,
+                      v.post.main
+                    );
                     Social.set(v, {
                       force: true,
                       onCommit: () => {
