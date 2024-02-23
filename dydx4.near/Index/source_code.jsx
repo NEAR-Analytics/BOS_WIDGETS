@@ -13,6 +13,7 @@ if (state === undefined) {
     orderMarketId: "ETH-USD",
     orderType: "MARKET",
     nonce: 0,
+    assetMenuOpen: false,
     orderFilter: orderOpen,
   });
 
@@ -98,6 +99,35 @@ ${css}
 
 .order-tabs .nav-link.active {
     color: #101019
+}
+
+.assets-menu {
+  z-index: 10;
+  display: flex;
+  padding: 12px 14px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  position: absolute;
+  right: 23.5px;
+  top: 97px;
+  border-radius: 4px;
+  border: 1px solid #4A4A63;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  cursor: pointer
+}
+
+.assets-menu-item {
+  color: #FFF;
+  font-family: Inter, Helvetica;
+  font-weight: 400;    
+  font-size: 15px;
+  letter-spacing: 0px;
+  font-size: 15px;
+  font-style: normal;
+  line-height: normal;
 }
 `,
   });
@@ -476,6 +506,25 @@ const isOrderFilled = () => [orderFilled].includes(state.orderFilter);
 const isOrderCancelled = () => [orderCancelled].includes(state.orderFilter);
 const isOrderPending = () => [orderPending].includes(state.orderFilter);
 
+let activeAssetIcon = (
+  <span class="me-2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="9"
+      height="7"
+      viewBox="0 0 9 7"
+      fill="none"
+    >
+      <path
+        d="M1 3.5L3.5 6L8.5 1"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </span>
+);
+
 const SignInWithMetamask = () => {
   const toSign = {
     domain: {
@@ -581,7 +630,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     class="img"
                     src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmbEJL2wNjLQ948Sa6fwvoidRWVWULeaXJsFYpNZ9qG9Kh"
                   />
-                  <div class="title">Place Order {state.orderMarketId}</div>
+                  <div class="title">Place Order</div>
                   <div class="tab">
                     <div
                       class={
@@ -605,6 +654,106 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     </div>
                   </div>
                 </div>
+
+                <div class="heading">
+                  <div style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="13"
+                      height="13"
+                      viewBox="0 0 13 13"
+                      fill="none"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M6.5 0C2.91015 0 0 2.91015 0 6.5C0 10.0899 2.91015 13 6.5 13C10.0899 13 13 10.0899 13 6.5C13 2.91015 10.0899 0 6.5 0ZM7.13854 2.36358C7.13854 2.01213 6.85363 1.72722 6.50218 1.72722C6.15072 1.72722 5.86581 2.01213 5.86581 2.36358V2.90904H5.51733C4.96815 2.90904 4.45115 3.14318 4.07716 3.54388C3.70456 3.9431 3.50218 4.47572 3.50218 5.02267C3.50218 5.56962 3.70456 6.10225 4.07716 6.50146C4.45115 6.90217 4.96815 7.13631 5.51733 7.13631H5.86581V8.81813H4.13854C3.78708 8.81813 3.50218 9.10304 3.50218 9.45449C3.50218 9.80594 3.78708 10.0909 4.13854 10.0909H5.86581V10.6363C5.86581 10.9878 6.15072 11.2727 6.50218 11.2727C6.85363 11.2727 7.13854 10.9878 7.13854 10.6363V10.0909H7.48702C8.0362 10.0909 8.5532 9.85671 8.92719 9.45601C9.2998 9.05679 9.50218 8.52416 9.50218 7.97722C9.50218 7.43027 9.2998 6.89764 8.92719 6.49843C8.5532 6.09772 8.0362 5.86358 7.48702 5.86358H7.13854V4.18176H8.47187C8.82333 4.18176 9.10824 3.89685 9.10824 3.5454C9.10824 3.19394 8.82333 2.90904 8.47187 2.90904H7.13854V2.36358ZM5.51733 4.18176H5.86581V5.86358H5.51733C5.33515 5.86358 5.15075 5.78644 5.00759 5.63306C4.86305 5.47819 4.7749 5.25932 4.7749 5.02267C4.7749 4.78603 4.86305 4.56715 5.00759 4.41228C5.15075 4.2589 5.33515 4.18176 5.51733 4.18176ZM7.13854 8.81813V7.13631H7.48702C7.66921 7.13631 7.8536 7.21345 7.99676 7.36683C8.1413 7.5217 8.22945 7.74057 8.22945 7.97722C8.22945 8.21386 8.1413 8.43274 7.99676 8.5876C7.8536 8.74099 7.66921 8.81813 7.48702 8.81813H7.13854Z"
+                        fill="white"
+                        fill-opacity="0.6"
+                      />
+                    </svg>
+                  </div>
+
+                  <div class="title" style={{ fontWeight: "normal" }}>
+                    Order Pair
+                  </div>
+                  <div class="tab-pair">
+                    <div
+                      style={{
+                        display: "flex",
+                        padding: "6px 0px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "4px",
+                        cursor: "pointer",
+                      }}
+                      onClick={(e) =>
+                        State.update({ assetMenuOpen: !state.assetMenuOpen })
+                      }
+                    >
+                      <div class="title" style={{ fontWeight: "normal" }}>
+                        {state.orderMarketId}
+                      </div>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="7"
+                        height="4"
+                        viewBox="0 0 7 4"
+                        fill="none"
+                      >
+                        <path
+                          d="M6 0.75L3.5 3.25L1 0.75"
+                          stroke="white"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {state.assetMenuOpen && (
+                  <div class="assets-menu">
+                    <div
+                      class="assets-menu-item"
+                      onClick={(e) => {
+                        State.update({
+                          userOrderPrice: undefined,
+                          orderMarketId: "ETH-USD",
+                          assetMenuOpen: false,
+                        });
+                        updateOrders();
+                      }}
+                    >
+                      {state.orderMarketId == "ETH-USD" ? (
+                        activeAssetIcon
+                      ) : (
+                        <></>
+                      )}
+                      ETH-USD
+                    </div>
+                    <div
+                      class="assets-menu-item"
+                      onClick={(e) => {
+                        State.update({
+                          userOrderPrice: undefined,
+                          orderMarketId: "BTC-USD",
+                          assetMenuOpen: false,
+                        });
+                        updateOrders();
+                      }}
+                    >
+                      {state.orderMarketId == "BTC-USD" ? (
+                        activeAssetIcon
+                      ) : (
+                        <></>
+                      )}
+                      BTC-USD
+                    </div>
+                  </div>
+                )}
+
                 <div class="inputs">
                   <div class="div-2">
                     <div class="token-label">
@@ -754,24 +903,7 @@ if (state.dydx_account == undefined && state.chainId == defaultChainId) {
                     class="img"
                     src="https://plum-dear-manatee-739.mypinata.cloud/ipfs/QmbEJL2wNjLQ948Sa6fwvoidRWVWULeaXJsFYpNZ9qG9Kh"
                   />
-                  <div class="title">
-                    Orders log{" "}
-                    <select
-                      aria-label="Select a pair"
-                      onChange={(e) => {
-                        State.update({
-                          userOrderPrice: undefined,
-                          orderMarketId: e.target.value,
-                        });
-                        updateOrders();
-                      }}
-                    >
-                      <option value="BTC-USD">BTC-USD</option>
-                      <option value="ETH-USD" selected>
-                        ETH-USD
-                      </option>
-                    </select>
-                  </div>
+                  <div class="title">Orders log </div>
                   <div class="refresh">
                     <div
                       class="text-wrapper-3 btn-refresh"
