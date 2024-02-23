@@ -1,8 +1,7 @@
-const creatorId = props.creatorId;
+const creatorId = props.creatorId ?? "hack.near";
 const appId = props.appId ?? "app";
 
-const metadata =
-  props.metadata ?? Social.getr(`${creatorId}/project/${appId}/metadata`);
+const metadata = Social.getr(`${creatorId}/widget/${appId}/metadata`);
 
 const Container = styled.div`
   display: flex;
@@ -126,47 +125,41 @@ const LinksContainer = styled.div`
 return (
   <Container>
     <LinksContainer>
-      {props.twitter && (
+      {metadata.linktree.twitter && (
         <a
           href={`${
-            props.twitter ??
-            metadata.linktree.twitter ??
-            "https://twitter.com/nearbuilders"
+            metadata.linktree.twitter ?? "https://twitter.com/nearbuilders"
           }`}
           target="_blank"
         >
           {XIcon}
         </a>
       )}
-
-      {props.telegram && (
+      {metadata.linktree.telegram && (
         <a
           href={`${
-            props.telegram ??
-            metadata.linktree.telegram ??
-            "https://nearbuilders.com/tg-builders"
+            metadata.linktree.telegram ?? "https://nearbuilders.org/tg-builders"
           }`}
           target="_blank"
         >
           {TelegramIcon}
         </a>
       )}
-
-      {props.github && (
+      {metadata.linktree.github && (
         <a
           href={`${
-            props.github ??
-            metadata.linktree.github ??
-            "https://github.com/nearbuilders"
+            metadata.linktree.github ?? "https://github.com/nearbuilders"
           }`}
           target="_blank"
         >
           {GitHubIcon}
         </a>
       )}
-
-      {props.creatorId && (
-        <a href={`https://${creatorId}.social`} target="_blank">
+      {metadata.linktree.website && (
+        <a
+          href={`${metadata.linktree.website ?? "https://nearbuilders.org"}`}
+          target="_blank"
+        >
           {NearSocialIcon}
         </a>
       )}
