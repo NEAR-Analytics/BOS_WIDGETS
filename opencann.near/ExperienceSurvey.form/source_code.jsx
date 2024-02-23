@@ -1,4 +1,4 @@
-function ExperienceSurveyForm = () => {
+function ExperienceSurveyForm() {
   return (
     <div className="container">
       <div>
