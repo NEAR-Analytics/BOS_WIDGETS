@@ -1,4 +1,5 @@
-function ExperienceSurveyForm() {
+function ExperienceSurveyForm(props) {
+    const { title, consumptionMethod, dose, description } = props.data;
   return (
     <div className="container">
       <div>
@@ -46,7 +47,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="title"
-            value={state.title}
+            value={props.data.title}
             onChange={onTitleChange}
             placeholder="e.g. My First Cannnabis Experience"
           />
@@ -55,7 +56,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.consumptionMethod,
+              data: props.data.consumptionMethod,
               onChange: onConsumptionMethodChange,
               height: "250px",
               options: substance.consumptionMethod,
@@ -71,7 +72,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="dose"
-            value={state.dose}
+            value={props.data.dose}
             onChange={onDoseChange}
             placeholder="Describe as best as possible"
           />
@@ -83,7 +84,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="otherSubstances"
-            value={state.otherSubstances}
+            value={props.data.otherSubstances}
             onChange={onOtherSubstancesChange}
             placeholder="Other Substances Taken"
           />
@@ -95,7 +96,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="efiz.near/widget/every.markdown.create"
             props={{
-              data: state.description,
+              data: props.data.description,
               onChange: onDescriptionChange,
               height: "250px",
             }}
@@ -108,7 +109,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="efiz.near/widget/every.markdown.create"
             props={{
-              data: state.setSetting,
+              data: props.data.setSetting,
               onChange: onSetSettingChange,
               height: "250px",
             }}
@@ -121,7 +122,7 @@ function ExperienceSurveyForm() {
               class="form-control"
               id="start"
               type="date"
-              value={state.start}
+              value={props.data.start}
               onChange={onStartChange}
             />
           </div>
@@ -131,7 +132,7 @@ function ExperienceSurveyForm() {
               class="form-control"
               id="startTime"
               type="time"
-              value={state.startTime}
+              value={props.data.startTime}
               onChange={onStartTimeChange}
             />
           </div>
@@ -143,7 +144,7 @@ function ExperienceSurveyForm() {
               class="form-control"
               id="end"
               type="date"
-              value={state.end}
+              value={props.data.end}
               onChange={onEndChange}
             />
           </div>
@@ -153,7 +154,7 @@ function ExperienceSurveyForm() {
               class="form-control"
               id="endTime"
               type="time"
-              value={state.endTime}
+              value={props.data.endTime}
               onChange={onEndTimeChange}
             />
           </div>
@@ -165,7 +166,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="location"
-            value={state.location}
+            value={props.data.location}
             onChange={onLocationChange}
             placeholder="Where did your experience take place?"
           />
@@ -177,7 +178,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.physicalEffects,
+              data: props.data.physicalEffects,
               onChange: onPhysicalEffectsChange,
               height: "250px",
               options: props.cannabis.physicalEffects,
@@ -190,7 +191,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.visualEffects,
+              data: props.data.visualEffects,
               onChange: onVisuallEffectsChange,
               height: "250px",
               options: props.cannabis.visualEffects,
@@ -203,7 +204,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.auditoryEffects,
+              data: props.data.auditoryEffects,
               onChange: onAuditoryEffectsChange,
               height: "250px",
               options: props.substance.auditoryEffects,
@@ -216,7 +217,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.cognitiveEffects,
+              data: props.data.cognitiveEffects,
               onChange: onCognitiveEffectsChange,
               height: "250px",
               options: props.substance.cognitiveEffects,
@@ -229,7 +230,7 @@ function ExperienceSurveyForm() {
           <Widget
             src="nearhorizon.near/widget/Inputs.MultiSelect"
             props={{
-              data: state.multisensoryEffects,
+              data: props.data.multisensoryEffects,
               onChange: onMultiSensoryEffectsChange,
               height: "250px",
               options: props.substance.multisensoryEffects,
@@ -248,7 +249,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="productName"
-            value={state.productName}
+            value={props.data.productName}
             onChange={onProductNameChange}
             placeholder="Product Name/Description"
           />
@@ -260,7 +261,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="brandName"
-            value={state.brandName}
+            value={props.data.brandName}
             onChange={onBrandNameChange}
             placeholder="Brand Name (if available)"
           />
@@ -273,7 +274,7 @@ function ExperienceSurveyForm() {
           <input
             class="form-control"
             id="batchNumber"
-            value={state.batchNumber}
+            value={props.data.batchNumber}
             onChange={onBatchNumberChange}
             placeholder="Batch Number"
           />
@@ -286,7 +287,7 @@ function ExperienceSurveyForm() {
             class="form-control"
             id="link"
             type="url"
-            value={state.link}
+            value={props.data.link}
             onChange={onLinkChange}
             placeholder="Link to Product/Strain"
           />
@@ -297,14 +298,14 @@ function ExperienceSurveyForm() {
             <label>Photo of Product(s) Consumed</label>
             <Widget
               src="near/widget/ImageEditorTabs"
-              props={{ image: state.logo, onChange: onLogoChange }}
+              props={{ image: props.data.logo, onChange: onLogoChange }}
             />
           </div>
           <div className="col">
             <label>Product Manufacturer Logo</label>
             <Widget
               src="near/widget/ImageEditorTabs"
-              props={{ image: state.background, onChange: onBackgroundChange }}
+              props={{ image: props.data.background, onChange: onBackgroundChange }}
             />
           </div>
         </div>
@@ -313,8 +314,8 @@ function ExperienceSurveyForm() {
           <label for="hashtags">
             <p>
               Hashtags:{" "}
-              {state.hashTags.length !== 0 &&
-                state.hashTags.map((item) => (
+              {props.data.hashTags.length !== 0 &&
+                props.data.hashTags.map((item) => (
                   <>
                     <span className="badge text-bg-primary">
                       {item}{" "}
@@ -330,7 +331,7 @@ function ExperienceSurveyForm() {
           <div className="mb-3 d-flex gap-3">
             <input
               id="hashtags"
-              value={state.tempHash}
+              value={props.data.tempHash}
               onChange={onTempHashChange}
               placeholder="New Response Tags"
             />
@@ -365,7 +366,7 @@ function ExperienceSurveyForm() {
       </div>
     </div>
   );
-};
+}
 
 //return <ExperienceSurveyForm />;
 return { ExperienceSurveyForm };
