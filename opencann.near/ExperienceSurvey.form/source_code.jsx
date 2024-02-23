@@ -1,4 +1,4 @@
-const ExperienceSurveyForm = () => {
+function ExperienceSurveyForm = () => {
   return (
     <div className="container">
       <div>
@@ -29,13 +29,15 @@ const ExperienceSurveyForm = () => {
         <p>
           Instructions: describe one (1) experience you had with cannabis.{" "}
           <b>OpenCann is designed to support anonymity</b>. Only include as much
-          detail as you feel comfortable having associated with your <a
-              href="https://www.opencann.net/#/opencann.near/widget/profile.edit"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              profile
-            </a>{" "}.
+          detail as you feel comfortable having associated with your{" "}
+          <a
+            href="https://www.opencann.net/#/opencann.near/widget/profile.edit"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            profile
+          </a>{" "}
+          .
         </p>
         <div className="mb-3">
           <label class="form-label" for="title">
@@ -365,5 +367,5 @@ const ExperienceSurveyForm = () => {
   );
 };
 
-//return <ResponseForm />;
-return {ExperienceSurveyForm};
+//return <ExperienceSurveyForm />;
+return { ExperienceSurveyForm };
