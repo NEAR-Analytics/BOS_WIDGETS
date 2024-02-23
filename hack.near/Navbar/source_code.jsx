@@ -1,29 +1,5 @@
-const creatorId = props.creatorId || "hack.near";
-const appId = props.appId || "app";
-const pageId = props.pageId || "home";
-
-const routes = props.routes ?? {
-  home: {
-    path: "hack.near/widget/page.index",
-    blockHeight: "final",
-    init: {
-      name: "Home",
-    },
-  },
-  social: {
-    path: "hack.near/widget/page.feed",
-    blockHeight: "final",
-    init: {
-      name: "Social",
-    },
-  },
-  docs: {
-    path: "hack.near/widget/page.docs",
-    blockHeight: "final",
-    init: {
-      name: "Docs",
-    },
-  },
+const { Button } = VM.require("buildhub.near/widget/components") || {
+  Button: () => <></>,
 };
 
 const StyledNavbar = styled.div`
@@ -93,7 +69,7 @@ const NavLink = ({ to, children }) => (
   <Link
     key={to}
     to={href({
-      widgetSrc: `${creatorId}/widget/${appId}`,
+      widgetSrc: "/*__@appAccount__*//widget/app",
       params: {
         page: to,
       },
@@ -109,38 +85,109 @@ const toggleDropdown = () => setShowMenu(!showMenu);
 const SignInOrConnect = () => (
   <>
     {context.accountId ? (
-      <Widget
-        src="hack.near/widget/ConnectButton"
-        props={{ accountId: "every.near" }}
-      />
+      <Button>Signed in</Button>
     ) : (
-      <button disabled={!context.accountId}>Signed Out</button>
+      <Button>Signed out</Button>
     )}
   </>
 );
 
-const Navbar = ({ page, ...props }) => (
+const StyledDropdown = styled.div`
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--slate-dark-5);
+    border-radius: 50px;
+    outline: none;
+    border: 0;
+    width: 40px;
+    height: 40px;
+
+    &:after {
+      display: none;
+    }
+
+    .menu {
+      width: 18px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+
+      div {
+        background-color: var(--slate-dark-11);
+        height: 2px;
+        width: 100%;
+        border-radius: 30px;
+      }
+    }
+
+    :hover {
+      .menu {
+        div {
+          background-color: white;
+        }
+      }
+    }
+  }
+
+  ul {
+    background-color: var(--slate-dark-5);
+    width: 100%;
+
+    li {
+      padding: 0 6px;
+    }
+
+    button,
+    a {
+      color: var(--slate-dark-11);
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      padding: 12px;
+
+      :hover,
+      :focus {
+        text-decoration: none;
+        background-color: var(--slate-dark-1);
+        color: white;
+
+        svg {
+          path {
+            stroke: white;
+          }
+        }
+      }
+
+      svg {
+        margin-right: 7px;
+        path {
+          stroke: var(--slate-dark-9);
+        }
+      }
+    }
+  }
+`;
+
+const Navbar = ({ page, routes, ...props }) => (
   <StyledNavbar>
     <div className="d-flex align-items-center justify-content-between w-100">
       <DesktopNavigation className="container-xl">
         <Link
           style={{ flex: 1 }}
           to={href({
-            widgetSrc: `${creatorId}/widget/${appId}`,
+            widgetSrc: "/*__@appAccount__*//widget/app",
             params: {
-              page: pageId,
+              page: "home",
             },
           })}
         >
-          <Widget
-            src="mob.near/widget/Image"
-            props={{
-              image: props.image,
-              style: { width: "39px" },
-              className: "me-3",
-              fallbackUrl:
-                "https://builders.mypinata.cloud/ipfs/QmTyDir9Myoid84HVgUDLwirMdb7CkD7GxvGhrBPo6ruLE",
-            }}
+          <img
+            style={{ width: 85, objectFit: "cover" }}
+            src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
+            alt="Build DAO Logo"
           />
         </Link>
         <ButtonGroup style={{ flex: 1 }}>
@@ -152,10 +199,10 @@ const Navbar = ({ page, ...props }) => (
               }
               return (
                 <NavLink to={k}>
-                  <button key={k} className="btn btn-sm btn-secondary">
+                  <Button key={k} variant={page === k && "primary"}>
                     {route.init.icon && <i className={route.init.icon}></i>}
                     {route.init.name}
-                  </button>
+                  </Button>
                 </NavLink>
               );
             })}
@@ -176,7 +223,7 @@ const Navbar = ({ page, ...props }) => (
       <MobileNavigation>
         <Link
           to={href({
-            widgetSrc: `${creatorId}/widget/${appId}`,
+            widgetSrc: "/*__@appAccount__*//widget/app",
             params: {
               page: "home",
             },
@@ -185,17 +232,17 @@ const Navbar = ({ page, ...props }) => (
           <img
             style={{ width: 85, objectFit: "cover" }}
             src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO"
+            alt="Build DAO Logo"
           />
         </Link>
-        <button
+        <Button
           type="icon"
           variant="outline"
           className="rounded-2"
           onClick={toggleDropdown}
         >
           <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-        </button>
+        </Button>
       </MobileNavigation>
     </div>
     <MobileNavigation>
@@ -210,19 +257,20 @@ const Navbar = ({ page, ...props }) => (
                 }
                 return (
                   <NavLink to={k} style={{ textDecoration: "none" }}>
-                    <button
+                    <Button
                       key={k}
-                      className="btn btn-sm btn-secondary w-100"
+                      variant={page === k && "primary"}
+                      className="w-100"
                       onClick={() => setShowMenu(false)}
                     >
                       {route.init.icon && <i className={route.init.icon}></i>}
                       {route.init.name}
-                    </button>
+                    </Button>
                   </NavLink>
                 );
               })}
           </ButtonGroup>
-          <div className="w-100">
+          <div className="d-flex w-100 align-items-center gap-3 justify-content-center">
             <SignInOrConnect />
           </div>
         </div>
