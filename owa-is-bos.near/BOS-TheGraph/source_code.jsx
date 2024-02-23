@@ -1,5 +1,10 @@
+// This line uses the useState hook to create a state variable nftData initialized as an empty array,
+// and a function setNFTData to update this state.
 const [nftData, setNFTData] = useState([]);
 
+// Here, useEffect hook is used.
+// It executes a block of code after the component is mounted.
+// We make the API call to obtain the information of the corresponding subgraph.
 useEffect(() => {
   var query = `query {
                         tokens{
@@ -26,10 +31,13 @@ useEffect(() => {
     .catch((err) => console.log(err));
 }, []);
 
+// This line defines a constant loadingUrl which holds a URL to an image used as a loading indicator if the image for a token is not available.
+// It uses a default value if props.loadingUrl is not provided.
 const loadingUrl =
   props.loadingUrl ??
   "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
 
+// Finally we render the component where we iterate the nftData array to show the information of each of the tokens.
 return (
   <div>
     <h1>BOS + TheGraph</h1>
