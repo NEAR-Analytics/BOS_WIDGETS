@@ -30,7 +30,7 @@ const Anchor = styled.a`
 `;
 
 return (
-  <Anchor href={props.href ?? "https://hackmd.io/@XVII/NFT_CS"} target="_balnk">
+  <Anchor href={props.href ?? "https://shard.dog/ncr"} target="_balnk">
     Register
   </Anchor>
 );
