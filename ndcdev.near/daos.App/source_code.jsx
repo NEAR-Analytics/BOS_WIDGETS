@@ -9,7 +9,7 @@ function Page() {
     case "comments": {
       return (
         <Widget
-          src={`ndcdev.near/widget/daos.Pages.Comment`}
+          src={`ndcdev.near/widget/daos.Pages.Comments.Index`}
           props={passProps}
         />
       );
@@ -75,6 +75,14 @@ function Page() {
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.List`}
           props={{ type: "Proposal", ...passProps }}
+        />
+      );
+    }
+    case "proposal": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Proposals.Index`}
+          props={{ ...passProps }}
         />
       );
     }
