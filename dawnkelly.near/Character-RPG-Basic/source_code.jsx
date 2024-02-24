@@ -3,9 +3,7 @@ const character = props.character;
 return (
   <div class="card">
     <div key={character.id}>
-      <div class="card-header">
-        <h2>Character</h2>
-      </div>
+      <div class="card-header"></div>
       <div class="card-body">
         <h2 class="card-title">{character.name}</h2>
         <img
@@ -18,6 +16,7 @@ return (
           <span>Species: {character.species} | </span>
           <span>Class: {character.class}</span>
         </div>
+        <div>Ability: {character.ability}</div>
         <div>
           <span>Default Weapon: {character.defaultWeapon}</span>
         </div>
