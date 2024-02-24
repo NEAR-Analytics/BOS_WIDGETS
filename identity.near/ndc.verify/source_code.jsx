@@ -199,7 +199,7 @@ const Container = styled.div`
 
 const Pattern = styled.div`
   width: 100%;
-  min-height: 585px;
+  min-height: 620px;
   display: flex;
   align-items: center;
   margin: 8px;
