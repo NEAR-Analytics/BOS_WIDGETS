@@ -481,7 +481,7 @@ useEffect(() => {
   if (code && state) {
     setLoading(true);
     const [statePlatform] = state.split(".");
-    setSelectedHandle(stateHandle);
+    setPlatform(statePlatform);
     setProof(code);
   }
 }, []);
