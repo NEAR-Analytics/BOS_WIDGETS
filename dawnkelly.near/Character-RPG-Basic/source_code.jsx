@@ -4,7 +4,7 @@ return (
   <div class="card">
     <div key={character.id}>
       <div class="card-header">
-        <h2>{character.name}</h2>
+        <h2>Character</h2>
       </div>
       <div class="card-body">
         <h2 class="card-title">{character.name}</h2>
