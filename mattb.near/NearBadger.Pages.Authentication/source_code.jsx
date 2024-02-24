@@ -671,7 +671,7 @@ const AuthProcess = ({ platform }) => {
               
               timeout = setTimeout(() => {
                 setSelectedHandle(text)
-              }, 700);
+              }, 300);
             }}
           />
         </StepDescription>
