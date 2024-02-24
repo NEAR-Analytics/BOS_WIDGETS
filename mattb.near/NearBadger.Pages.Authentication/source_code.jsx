@@ -41,6 +41,7 @@ const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
 const [challenge, setChallenge] = useState("");
+const [loading, setLoading] = useState(false);
 
 if (showPlatform) {
   setPlatform(showPlatform);
@@ -100,6 +101,7 @@ const Main = styled.div`
 const Modal = styled.div`
     display:flex;
     max-width:350px;
+    min-width:250px;
     align-items:center;
     justify-content:center;
     flex-direction:column;
@@ -307,6 +309,28 @@ const ErrorPill = styled.div`
   font-size:.8rem;
 `;
 
+const Spinner = styled.div`
+  @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid rgba(0,0,0,.1);
+    border-bottom-color: rgba(0,0,0,.4);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation .5s linear infinite;
+  }
+`;
+
 const ErrorModal = () => {
   return (
     <>
@@ -369,6 +393,7 @@ const verifyProof = (platform, registryContract) => {
     } else {
       setDisplayError(true);
     }
+    setLoading(false);
   });
 };
 
@@ -437,6 +462,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (code && state) {
+    setLoading(true);
     const [statePlatform, stateHandle, stateChallenge] = state.split(".");
     setSelectedHandle(stateHandle);
     setPlatform(statePlatform);
@@ -670,9 +696,17 @@ return (
   <Main>
     <Modal>
       <Logo src={LOGO_URL}></Logo>
-      <RequireNearAccount />
-      <Auth />
-      <Success />
+      {!loading && <>
+        <RequireNearAccount />
+        <Auth />
+        <Success />
+      </>}
+      {loading && <>
+        <Spinner>
+          <span className="spinner"></span>
+        </Spinner>
+        <p>Verifying proof...</p>
+      </>}
     </Modal>
   </Main>
 );
