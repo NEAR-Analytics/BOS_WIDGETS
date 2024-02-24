@@ -480,10 +480,8 @@ useEffect(() => {
 useEffect(() => {
   if (code && state) {
     setLoading(true);
-    const [statePlatform, stateHandle, stateChallenge] = state.split(".");
+    const [statePlatform] = state.split(".");
     setSelectedHandle(stateHandle);
-    setPlatform(statePlatform);
-    setChallenge(stateChallenge);
     setProof(code);
   }
 }, []);
@@ -526,10 +524,9 @@ const AuthMethods = () => {
         Authenticate on Farcaster
       </AuthButton>
       <AuthButton
+        as="a"
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        onClick={() => {
-          setPlatform("twitter");
-        }}
+        href={`https://twitter.com/i/oauth2/authorize?state=twitter.${context.accountId + "." + Math.floor(Math.random() * 10000000)}&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`}
         background="#000"
         color="#FFF"
         border="rgba(255,255,255,.15)"
@@ -676,40 +673,7 @@ const AuthProcess = ({ platform }) => {
           Verify profile
         </FinishButton>
       </AuthProcessWrapper>
-    ),
-    twitter: (
-      <AuthProcessWrapper>
-        <Header>
-          <img src={X_BLACK_LOGO_URL} width="100%" />
-        </Header>
-        <Step>1. Write down your X handle</Step>
-        <StepDescription>
-          <ProfileInput
-            placeholder="@handle"
-            onChange={({ target: { value: text } }) => {
-              if (timeout) {
-                clearTimeout(timeout);
-              }
-              
-              timeout = setTimeout(() => {
-                setSelectedHandle(text)
-              }, 300);
-            }}
-          />
-        </StepDescription>
-        <ErrorModal>
-          There was an error fetching the X authorization link. Please, try again in a few seconds.
-        </ErrorModal>
-        <FinishButton className={`${!twitterUrl ? "disabled" : ""}`} as="a" href={twitterUrl}>
-          {!loadingTwitterChallenge && <>
-            Verify profile
-          </>}
-          {loadingTwitterChallenge && <>
-            <Spinner><span className="spinner"></span></Spinner>
-          </>}
-        </FinishButton>
-      </AuthProcessWrapper>
-    ),
+    )
   };
 
   return process[platform] || <>Auth method not found</>;
