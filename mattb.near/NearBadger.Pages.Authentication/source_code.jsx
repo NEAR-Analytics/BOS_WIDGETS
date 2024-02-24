@@ -142,11 +142,17 @@ const AuthButton = styled.button`
     cursor:pointer;
     box-shadow: 0 0 0 0px rgba(0,0,0,.05);
     transition: all .2s;
+    display:block;
+    margin:0;
 
     margin-bottom:10px;
 
     :last-of-type {
-        margin-bottom:20px;
+        margin-bottom:10px;
+    }
+
+    &[href]:last-of-type {
+      margin-bottom:20px;
     }
 
     :hover, :focus {
@@ -381,6 +387,7 @@ const signProof = (platform) => {
 
 const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
+  
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
     method: "POST",
     headers: {
@@ -389,9 +396,9 @@ const verifyProof = (platform, registryContract) => {
     },
     body: JSON.stringify({
       accountId: context.accountId,
-      handle: cleanSelectedHandle,
+      handle: cleanSelectedHandle || "",
       proof,
-      challenge,
+      challenge: challenge || "",
     }),
   }).then(({ ok, body: { expirationBlockHeight, signature, handle: customHandle } }) => {
     if (ok) {
@@ -473,12 +480,6 @@ useEffect(() => {
 }, [storedPlatform]);
 
 useEffect(() => {
-  if (platform === "twitter") {
-    getTwitterChallenge(selectedHandle);
-  }
-}, [selectedHandle]);
-
-useEffect(() => {
   if (code && state) {
     setLoading(true);
     const [statePlatform] = state.split(".");
@@ -488,7 +489,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (platform === "twitter" && challenge && proof) {
+  if (platform === "twitter" && proof) {
     verifyProof("twitter", "staging.integrations.near"); 
   }
 }, [platform, challenge, proof])
