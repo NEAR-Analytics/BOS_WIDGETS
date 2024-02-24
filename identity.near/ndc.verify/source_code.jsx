@@ -219,7 +219,7 @@ const PatternContent = styled.div`
   display: flex;
   align-items: center;
   min-height: 260px;
-  padding: 23px 0 0 0;
+  padding: 21px 0 0 0;
 
   @media (max-width: 900px) {
     min-height: 0px;
