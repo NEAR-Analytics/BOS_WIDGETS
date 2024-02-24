@@ -338,7 +338,7 @@ return (
     </Section>
     <div
       style={{
-        padding: "8px 55px 55px 55px",
+        padding: "8px 50px 50px 50px",
         color: "#fff",
         backgroundColor: "#5526AB",
       }}
