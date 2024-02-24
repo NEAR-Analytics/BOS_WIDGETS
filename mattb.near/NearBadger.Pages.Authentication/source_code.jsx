@@ -1,4 +1,4 @@
-const { accountId, showPlatform } = props;
+const { accountId, showPlatform, code, state } = props;
 
 const $ = VM.require("sdks.near/widget/Loader");
 const { LensSDK } = $("@sdks/lens-sdk");
@@ -15,6 +15,8 @@ const FARCASTER_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreia2gbtoqi6ysk2grk3v3n2qkwgfjogml5icntyp5ykdij6q457lay";
 const FARCASTER_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
+const X_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreighn2xduhiqyf3kqn5nmlmdkekspde7lgk3rpf7xfhigntrgsobsi";
+const X_BLACK_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreie3fgyixcxtqccylopewsodmfmci2ub7xwpx6aurimhuzxqytbyka";
 
 const REGISTRY_CONTRACT = "checks.integrations.near";
 
@@ -37,6 +39,7 @@ const cleanSelectedHandle = useMemo(() => {
 }, [selectedHandle]);
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
+const [twitterUrl, setTwitterUrl] = useState("");
 
 if (showPlatform) {
   setPlatform(showPlatform);
@@ -338,7 +341,7 @@ const signProof = (platform) => {
   });
 };
 
-const verifyProof = (platform) => {
+const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
     method: "POST",
@@ -354,7 +357,7 @@ const verifyProof = (platform) => {
   }).then(({ ok, body: { expirationBlockHeight, signature } }) => {
     if (ok) {
       setSuccess(true);
-      Near.call(REGISTRY_CONTRACT, "register_social", {
+      Near.call(registryContract || REGISTRY_CONTRACT, "register_social", {
         platform,
         signature,
         handle: cleanSelectedHandle,
@@ -392,6 +395,26 @@ const checkStoredPlatform = () => {
   }
 };
 
+const getTwitterChallenge = () => {
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      accountId: context.accountId,
+      handle: cleanSelectedHandle,
+    }),
+  }).then(({ ok, body: { challenge } }) => {
+    if (ok) {
+      setTwitterUrl(challenge);
+    } else {
+      setDisplayError(true);
+    }
+  });
+};
+
 const storedPlatform = null;
 
 if (onInit) {
@@ -403,6 +426,21 @@ if (onInit) {
 useEffect(() => {
   checkStoredPlatform();
 }, [storedPlatform]);
+
+useEffect(() => {
+  if (platform === "twitter") {
+    getTwitterChallenge(selectedHandle);
+  }
+}, [selectedHandle]);
+
+useEffect(() => {
+  if (code && state) {
+    const [platform, proof] = code.split(".");
+    setPlatform(platform);
+    setProof(proof);
+    verifyProof("twitter", "staging.integrations.near");
+  }
+}, [])
 
 const AuthMethods = () => {
   return (
@@ -434,6 +472,21 @@ const AuthMethods = () => {
           <img src={FARCASTER_LOGO_URL} width="100%" />
         </span>
         Authenticate on Farcaster
+      </AuthButton>
+      <AuthButton
+        style={context.accountId ? {} : disabledAuthButtonStyles}
+        onClick={() => {
+          setPlatform("twitter");
+        }}
+        background="#000"
+        color="#FFF"
+        border="rgba(255,255,255,.15)"
+        badgeSize="14px"
+      >
+        <span className="badge">
+          <img src={X_LOGO_URL} width="100%" />
+        </span>
+        Authenticate on X
       </AuthButton>
     </>
   );
@@ -557,6 +610,25 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <ErrorModal />
         <FinishButton onClick={() => verifyProof("farcaster")}>
+          Claim profile
+        </FinishButton>
+      </AuthProcessWrapper>
+    ),
+    twitter: (
+      <AuthProcessWrapper>
+        <Header>
+          <img src={X_BLACK_LOGO_URL} width="100%" />
+        </Header>
+        <Step>1. Write down your X handle</Step>
+        <StepDescription>
+          <ProfileInput
+            value={selectedHandle}
+            placeholder="@handle"
+            onChange={({ target: { value: text } }) => setSelectedHandle(text)}
+          />
+        </StepDescription>
+        <ErrorModal />
+        <FinishButton as="a" href={twitterUrl}>
           Claim profile
         </FinishButton>
       </AuthProcessWrapper>
