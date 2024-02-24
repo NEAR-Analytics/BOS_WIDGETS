@@ -393,13 +393,14 @@ const verifyProof = (platform, registryContract) => {
       proof,
       challenge,
     }),
-  }).then(({ ok, body: { expirationBlockHeight, signature } }) => {
+  }).then(({ ok, body: { expirationBlockHeight, signature, handle: customHandle } }) => {
     if (ok) {
       setSuccess(true);
+      
       Near.call(registryContract || REGISTRY_CONTRACT, "register_social", {
         platform,
         signature,
-        handle: cleanSelectedHandle,
+        handle: customHandle || cleanSelectedHandle,
         proof,
         max_block_height: expirationBlockHeight,
       });
