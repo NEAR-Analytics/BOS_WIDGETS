@@ -18,6 +18,8 @@ return (
           image,
           style: { width: "2.5em" },
           className: "me-3",
+          fallbackUrl:
+            "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
         }}
       />
       <div className="text-truncate lh-sm">
