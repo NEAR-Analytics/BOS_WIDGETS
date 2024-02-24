@@ -709,7 +709,7 @@ const AuthProcess = ({ platform }) => {
         <StepDescription>
           Ouch! It looks like we weren't able to verify your information this time. But don't
           worry, you can try it again.<br/><br/><br/>
-          <FinishButton as="a" href={twitterUrl}>
+          <FinishButton as="a" href={TWITTER_AUTH_URL}>
             Try again
           </FinishButton>
         </StepDescription>
