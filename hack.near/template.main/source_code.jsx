@@ -20,14 +20,11 @@ const ContentContainer = styled.div`
 `;
 
 const Header = ({ page, routes, ...props }) => (
-  <Widget
-    src="hack.near/widget/src.navbar"
-    props={{ page, routes, ...props }}
-  />
+  <Widget src="hack.near/widget/Navbar" props={{ page, routes, ...props }} />
 );
 
 const Footer = (props) => {
-  return <></>;
+  <Widget src="hack.near/widget/Footer" props={{ page, routes, ...props }} />;
 };
 
 function AppLayout({ routes, page, children, ...props }) {
