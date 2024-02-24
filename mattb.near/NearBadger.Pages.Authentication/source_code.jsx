@@ -433,7 +433,7 @@ useEffect(() => {
   }
 }, [selectedHandle]);
 
-if (code && state) {
+if (code && state && !platform) {
   const [platform, proof] = code.split(".");
   setPlatform(platform);
   setProof(proof);
