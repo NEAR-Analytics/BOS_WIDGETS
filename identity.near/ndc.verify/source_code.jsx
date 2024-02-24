@@ -294,13 +294,13 @@ return (
                         className="btn btn-lg btn-outline-light m-2"
                         href={individualUrl}
                       >
-                        KYC (for Individuals)
+                        <b>KYC (for Individuals)</b>
                       </a>
                       <a
                         className="btn btn-lg btn-outline-light m-2"
                         href={businessUrl}
                       >
-                        KYB (for Businesses)
+                        <b>KYB (for Businesses)</b>
                       </a>
                     </div>
                   </Flex>
