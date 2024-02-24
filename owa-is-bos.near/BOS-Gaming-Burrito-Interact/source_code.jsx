@@ -1,5 +1,5 @@
 // Smart contract address
-const virtualPetContract = "0xc533FCB43DEf76ac1A175Ee6beB0Ad7d39469220";
+const virtualPetContract = "0xE3B4cf554EA9113fbbF0715309ce87165024901E";
 
 // Obtaining the ABI with the list of methods available in the contract
 const virtualPetAbi = fetch(
@@ -72,6 +72,7 @@ const getNft = () => {
 
   // We call the getTokenInfoById method to query the NFT information by its Id
   contract.getTokenInfoById(state.inputTokenId).then((res) => {
+    console.log(res);
     if (res[1] == 0) {
       State.update({
         error: "Burrito's ID doesn't exist",
