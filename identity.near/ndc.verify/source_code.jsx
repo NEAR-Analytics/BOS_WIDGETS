@@ -214,12 +214,12 @@ const Pattern = styled.div`
 
 const PatternContent = styled.div`
   max-width: 808px;
-  margin: 0 auto;
+  margin: 8px auto;
   background-color: var(--background-color);
   display: flex;
   align-items: center;
   min-height: 260px;
-  padding: 19px 0 0 0;
+  padding: 23px 0 0 0;
 
   @media (max-width: 900px) {
     min-height: 0px;
