@@ -1,4 +1,4 @@
-// Smart contract address
+// Smart contract address (Aurora testnet)
 const virtualPetContract = "0x363a236ABea6c7d89F3E3E1A1E02C100E6FFAAF7";
 
 // Obtaining the ABI with the list of methods available in the contract
