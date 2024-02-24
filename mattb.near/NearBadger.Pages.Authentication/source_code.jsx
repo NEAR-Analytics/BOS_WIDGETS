@@ -40,6 +40,7 @@ const cleanSelectedHandle = useMemo(() => {
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
+const [challenge, setChallenge] = useState("");
 
 if (showPlatform) {
   setPlatform(showPlatform);
@@ -353,6 +354,7 @@ const verifyProof = (platform, registryContract) => {
       accountId: context.accountId,
       handle: cleanSelectedHandle,
       proof,
+      challenge,
     }),
   }).then(({ ok, body: { expirationBlockHeight, signature } }) => {
     if (ok) {
@@ -433,13 +435,16 @@ useEffect(() => {
   }
 }, [selectedHandle]);
 
-if (code && state && !platform) {
-  const [codePlatform, codeProof] = code.split(".");
-  console.log(code, codePlatform, codeProof);
-  setPlatform(codePlatform);
-  setProof(codeProof);
-  verifyProof("twitter", "staging.integrations.near"); 
-}
+useEffect(() => {
+  if (code && state) {
+    const [statePlatform, stateChallenge] = state.split(".");
+    setPlatform(statePlatform);
+    setChallenge(stateChallenge);
+    setProof(code);
+    
+    verifyProof("twitter", "staging.integrations.near"); 
+  }
+}, []);
 
 const AuthMethods = () => {
   return (
