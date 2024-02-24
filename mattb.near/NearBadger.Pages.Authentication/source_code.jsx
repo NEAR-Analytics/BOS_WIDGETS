@@ -437,7 +437,8 @@ useEffect(() => {
 
 useEffect(() => {
   if (code && state) {
-    const [statePlatform, stateChallenge] = state.split(".");
+    const [statePlatform, stateHandle, stateChallenge] = state.split(".");
+    setSelectedHandle(stateHandle);
     setPlatform(statePlatform);
     setChallenge(stateChallenge);
     setProof(code);
