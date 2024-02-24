@@ -413,7 +413,7 @@ const verifyProof = (platform, registryContract) => {
         handle: customHandle || cleanSelectedHandle,
         proof,
         max_block_height: expirationBlockHeight,
-      });
+      }, null, 0.01 * Math.pow(10, 24));
     } else {
       setDisplayError(true);
     }
