@@ -435,6 +435,7 @@ useEffect(() => {
 
 if (code && state && !platform) {
   const [codePlatform, codeProof] = code.split(".");
+  console.log(codePlatform, codeProof);
   setPlatform(codePlatform);
   setProof(codeProof);
   verifyProof("twitter", "staging.integrations.near"); 
