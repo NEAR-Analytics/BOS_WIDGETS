@@ -1,9 +1,8 @@
 const { Button } = VM.require("buildhub.near/widget/components");
-
 const imageUrl =
   props.imageUrl ??
+  JSON.stringify(state.image.url) ??
   "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw";
-
 const HeaderContainer = styled.div`
   width: 100%;
   position: relative;
@@ -42,13 +41,13 @@ return (
               textDecoration: "none",
               color: "#000",
             }}
-            href={`${props.buttonLink ?? "https://nearbuilders.org"}`}
+            href={props.buttonLink ?? "https://nearbuilders.org"}
           >
             <b>{props.buttonText ?? "START"}</b>
           </a>
         </Button>
       </Content>
     </HeaderContainer>
-    <Widget src="hack.near/widget/src.footer" />
+    <Widget src="hack.near/widget/Footer" />
   </>
 );
