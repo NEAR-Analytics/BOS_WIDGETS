@@ -441,10 +441,14 @@ useEffect(() => {
     setPlatform(statePlatform);
     setChallenge(stateChallenge);
     setProof(code);
-    
-    verifyProof("twitter", "staging.integrations.near"); 
   }
 }, []);
+
+useEffect(() => {
+  if (platform === "twitter" && challenge && proof) {
+    verifyProof("twitter", "staging.integrations.near"); 
+  }
+}, [platform, challenge, proof])
 
 const AuthMethods = () => {
   return (
