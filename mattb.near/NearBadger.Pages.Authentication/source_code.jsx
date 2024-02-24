@@ -43,6 +43,7 @@ const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
 const [challenge, setChallenge] = useState("");
 const [loading, setLoading] = useState(false);
+const timeout = null;
 
 if (showPlatform) {
   setPlatform(showPlatform);
@@ -664,9 +665,13 @@ const AuthProcess = ({ platform }) => {
           <ProfileInput
             placeholder="@handle"
             onChange={({ target: { value: text } }) => {
-              setTimeOut(() => {
+              if (timeout) {
+                clearTimeout(timeout);
+              }
+              
+              timeout = setTimeout(() => {
                 setSelectedHandle(text)
-              }, 1);
+              }, 700);
             }}
           />
         </StepDescription>
