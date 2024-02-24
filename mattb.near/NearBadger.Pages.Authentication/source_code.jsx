@@ -640,9 +640,16 @@ const AuthProcess = ({ platform }) => {
         <Step>3. Write down your Farcaster handle</Step>
         <StepDescription>
           <ProfileInput
-            value={selectedHandle}
             placeholder="@handle"
-            onKeyUp={({ target: { value: handle } }) => setSelectedHandle(handle)}
+            onChange={({ target: { value: text } }) => {
+              if (timeout) {
+                clearTimeout(timeout);
+              }
+              
+              timeout = setTimeout(() => {
+                setSelectedHandle(text)
+              }, 300);
+            }}
           />
         </StepDescription>
         <Step>4. Sign a proof</Step>
