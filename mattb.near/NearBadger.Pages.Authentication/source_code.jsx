@@ -433,14 +433,12 @@ useEffect(() => {
   }
 }, [selectedHandle]);
 
-useEffect(() => {
-  if (code && state) {
-    const [platform, proof] = code.split(".");
-    setPlatform(platform);
-    setProof(proof);
-    verifyProof("twitter", "staging.integrations.near");
-  }
-}, [])
+if (code && state) {
+  const [platform, proof] = code.split(".");
+  setPlatform(platform);
+  setProof(proof);
+  verifyProof("twitter", "staging.integrations.near");
+}
 
 const AuthMethods = () => {
   return (
