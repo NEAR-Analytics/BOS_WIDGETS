@@ -275,7 +275,7 @@ return (
                     rewards.
                   </MainText>
                   <MainText
-                    fontWeight="555"
+                    fontWeight="523"
                     size="text-l"
                     mobileSize="text-base"
                     color="white"
