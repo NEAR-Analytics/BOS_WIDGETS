@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? context.accountId ?? "james.near";
 
 const player = props.player ?? Social.getr(`${accountId}/game/player`);
 
