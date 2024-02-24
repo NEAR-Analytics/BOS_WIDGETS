@@ -15,10 +15,15 @@ const FARCASTER_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreia2gbtoqi6ysk2grk3v3n2qkwgfjogml5icntyp5ykdij6q457lay";
 const FARCASTER_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a";
-const X_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreighn2xduhiqyf3kqn5nmlmdkekspde7lgk3rpf7xfhigntrgsobsi";
-const X_BLACK_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreie3fgyixcxtqccylopewsodmfmci2ub7xwpx6aurimhuzxqytbyka";
+const X_LOGO_URL =
+  "https://ipfs.near.social/ipfs/bafkreighn2xduhiqyf3kqn5nmlmdkekspde7lgk3rpf7xfhigntrgsobsi";
+const X_BLACK_LOGO_URL =
+  "https://ipfs.near.social/ipfs/bafkreie3fgyixcxtqccylopewsodmfmci2ub7xwpx6aurimhuzxqytbyka";
 
 const REGISTRY_CONTRACT = "checks.integrations.near";
+const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.${
+  context.accountId + "." + Math.floor(Math.random() * 10000000)
+}&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
 
 const [platform, setPlatform] = useState("");
 const [evmAddress, setEvmAddress] = useState("");
@@ -357,9 +362,14 @@ const ErrorModal = ({ children }) => {
     <>
       {displayError && (
         <ErrorPill>
-          {children.length ? children : <>
-            Looks like there was an error verifying your profile ownership. Please, review each step and try again.
-          </>}
+          {children.length ? (
+            children
+          ) : (
+            <>
+              Looks like there was an error verifying your profile ownership.
+              Please, review each step and try again.
+            </>
+          )}
         </ErrorPill>
       )}
     </>
@@ -390,7 +400,7 @@ const signProof = (platform) => {
 
 const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
-  
+
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
     method: "POST",
     headers: {
@@ -403,22 +413,33 @@ const verifyProof = (platform, registryContract) => {
       proof,
       challenge: challenge || "",
     }),
-  }).then(({ ok, body: { expirationBlockHeight, signature, handle: customHandle } }) => {
-    if (ok) {
-      setSuccess(true);
-      
-      Near.call(registryContract || REGISTRY_CONTRACT, "register_social", {
-        platform,
-        signature,
-        handle: customHandle || cleanSelectedHandle,
-        proof,
-        max_block_height: expirationBlockHeight,
-      }, null, 0.01 * Math.pow(10, 24));
-    } else {
-      setDisplayError(true);
+  }).then(
+    ({
+      ok,
+      body: { expirationBlockHeight, signature, handle: customHandle },
+    }) => {
+      if (ok) {
+        setSuccess(true);
+
+        Near.call(
+          registryContract || REGISTRY_CONTRACT,
+          "register_social",
+          {
+            platform,
+            signature,
+            handle: customHandle || cleanSelectedHandle,
+            proof,
+            max_block_height: expirationBlockHeight,
+          },
+          null,
+          0.01 * Math.pow(10, 24)
+        );
+      } else {
+        setDisplayError(true);
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  });
+  );
 };
 
 const disabledAuthButtonStyles = {
@@ -448,7 +469,7 @@ const checkStoredPlatform = () => {
 
 const getTwitterChallenge = () => {
   setLoadingTwitterChallenge(true);
-  
+
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
     method: "POST",
     headers: {
@@ -465,7 +486,7 @@ const getTwitterChallenge = () => {
     } else {
       setDisplayError(true);
     }
-    
+
     setLoadingTwitterChallenge(false);
   });
 };
@@ -493,9 +514,9 @@ useEffect(() => {
 
 useEffect(() => {
   if (platform === "twitter" && proof) {
-    verifyProof("twitter", "staging.integrations.near"); 
+    verifyProof("twitter", "staging.integrations.near");
   }
-}, [platform, challenge, proof])
+}, [platform, challenge, proof]);
 
 const AuthMethods = () => {
   return (
@@ -531,7 +552,7 @@ const AuthMethods = () => {
       <AuthButton
         as="a"
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        href={`https://twitter.com/i/oauth2/authorize?state=twitter.${context.accountId + "." + Math.floor(Math.random() * 10000000)}&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`}
+        href={TWITTER_AUTH_URL}
         background="#000"
         color="#FFF"
         border="rgba(255,255,255,.15)"
@@ -597,7 +618,7 @@ const Success = () => (
 
 const updateSelectedHandle = (handle) => {
   setSelectedHandle(handle);
-}
+};
 
 const AuthProcess = ({ platform }) => {
   const process = {
@@ -662,7 +683,7 @@ const AuthProcess = ({ platform }) => {
               if (timeout) {
                 clearTimeout(timeout);
               }
-              
+
               timeout = setTimeout(() => {
                 setSelectedHandle(text);
               }, 300);
@@ -678,7 +699,22 @@ const AuthProcess = ({ platform }) => {
           Verify profile
         </FinishButton>
       </AuthProcessWrapper>
-    )
+    ),
+    twitter: (
+      <AuthProcessWrapper>
+        <Header>
+          <img src={X_BLACK_LOGO_URL} width="100%" />
+        </Header>
+        <Step>Something went wrong...</Step>
+        <StepDescription>
+          Ouch! It looks like we weren't able to verify your information this time. But don't
+          worry, you can try it again.<br/><br/><br/>
+          <FinishButton as="a" href={twitterUrl}>
+            Try again
+          </FinishButton>
+        </StepDescription>
+      </AuthProcessWrapper>
+    ),
   };
 
   return process[platform] || <>Auth method not found</>;
@@ -707,17 +743,21 @@ return (
   <Main>
     <Modal>
       <Logo src={LOGO_URL}></Logo>
-      {!loading && <>
-        <RequireNearAccount />
-        <Auth />
-        <Success />
-      </>}
-      {loading && <>
-        <Spinner>
-          <span className="spinner"></span>
-        </Spinner>
-        <p>Verifying proof...</p>
-      </>}
+      {!loading && (
+        <>
+          <RequireNearAccount />
+          <Auth />
+          <Success />
+        </>
+      )}
+      {loading && (
+        <>
+          <Spinner>
+            <span className="spinner"></span>
+          </Spinner>
+          <p>Verifying proof...</p>
+        </>
+      )}
     </Modal>
   </Main>
 );
