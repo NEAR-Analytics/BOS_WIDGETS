@@ -151,8 +151,11 @@ const AuthButton = styled.button`
         margin-bottom:10px;
     }
 
-    &[href]:last-of-type {
-      margin-bottom:20px;
+    &[href] {
+      text-decoration:none!important;
+      :last-of-type {
+        margin-bottom:20px;
+      }
     }
 
     :hover, :focus {
