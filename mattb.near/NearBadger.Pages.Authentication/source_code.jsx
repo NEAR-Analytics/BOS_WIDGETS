@@ -37,6 +37,7 @@ const cleanSelectedHandle = useMemo(() => {
 
   return cleanAddress.split(".eth").shift();
 }, [selectedHandle]);
+const [displayHandle, setDisplayHandle] = useState("");
 const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
@@ -576,6 +577,10 @@ const Success = () => (
   </>
 );
 
+const updateSelectedHandle = (handle) => {
+  setSelectedHandle(handle);
+}
+
 const AuthProcess = ({ platform }) => {
   const process = {
     lens: (
@@ -636,7 +641,7 @@ const AuthProcess = ({ platform }) => {
           <ProfileInput
             value={selectedHandle}
             placeholder="@handle"
-            onChange={({ target: { value: text } }) => setSelectedHandle(text)}
+            onKeyUp={({ target: { value: handle } }) => setSelectedHandle(handle)}
           />
         </StepDescription>
         <Step>4. Sign a proof</Step>
@@ -657,9 +662,12 @@ const AuthProcess = ({ platform }) => {
         <Step>1. Write down your X handle</Step>
         <StepDescription>
           <ProfileInput
-            value={selectedHandle}
             placeholder="@handle"
-            onChange={({ target: { value: text } }) => setSelectedHandle(text)}
+            onChange={({ target: { value: text } }) => {
+              setTimeOut(() => {
+                setSelectedHandle(text)
+              }, 1);
+            }}
           />
         </StepDescription>
         <ErrorModal />
