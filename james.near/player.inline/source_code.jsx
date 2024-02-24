@@ -2,10 +2,11 @@ const accountId = props.accountId ?? context.accountId;
 
 const player = props.player ?? Social.getr(`${accountId}/game/player`);
 
-const name = player.metadata.name;
-const image = player.metadata.image ?? {
-  url: "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
-};
+const name = props.name ?? player.metadata.name;
+const image = props.image ??
+  player.metadata.image ?? {
+    url: "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
+  };
 
 return (
   <>
