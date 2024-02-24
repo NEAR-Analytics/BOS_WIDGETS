@@ -43,6 +43,7 @@ const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
 const [challenge, setChallenge] = useState("");
 const [loading, setLoading] = useState(false);
+const [loadingTwitterChallenge, setLoadingTwitterChallenge] = useState(false);
 const timeout = null;
 
 if (showPlatform) {
@@ -252,6 +253,15 @@ const FinishButton = styled.a`
     transition: all .2s;
     text-decoration:none!important;
     margin-bottom:15px;
+    min-width:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    &.disabled {
+      pointer-events:none;
+      opacity:.5;
+    }
     
     :hover {
         box-shadow: 0 0 0 3px rgba(0,0,0,.05);
@@ -333,13 +343,14 @@ const Spinner = styled.div`
   }
 `;
 
-const ErrorModal = () => {
+const ErrorModal = ({ children }) => {
   return (
     <>
       {displayError && (
         <ErrorPill>
-          Looks like there was an error verifying your profile ownership.
-          Please, review each step and try again.
+          {children.length ? children : <>
+            Looks like there was an error verifying your profile ownership. Please, review each step and try again.
+          </>}
         </ErrorPill>
       )}
     </>
@@ -425,6 +436,8 @@ const checkStoredPlatform = () => {
 };
 
 const getTwitterChallenge = () => {
+  setLoadingTwitterChallenge(true);
+  
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/challenge/${platform}`, {
     method: "POST",
     headers: {
@@ -441,6 +454,8 @@ const getTwitterChallenge = () => {
     } else {
       setDisplayError(true);
     }
+    
+    setLoadingTwitterChallenge(false);
   });
 };
 
@@ -610,7 +625,7 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <ErrorModal />
         <FinishButton onClick={() => verifyProof("lens")}>
-          Claim profile
+          Verify profile
         </FinishButton>
       </AuthProcessWrapper>
     ),
@@ -647,7 +662,7 @@ const AuthProcess = ({ platform }) => {
               }
               
               timeout = setTimeout(() => {
-                setSelectedHandle(text)
+                setSelectedHandle(text);
               }, 300);
             }}
           />
@@ -658,7 +673,7 @@ const AuthProcess = ({ platform }) => {
         </StepDescription>
         <ErrorModal />
         <FinishButton onClick={() => verifyProof("farcaster")}>
-          Claim profile
+          Verify profile
         </FinishButton>
       </AuthProcessWrapper>
     ),
@@ -682,9 +697,16 @@ const AuthProcess = ({ platform }) => {
             }}
           />
         </StepDescription>
-        <ErrorModal />
-        <FinishButton as="a" href={twitterUrl}>
-          Claim profile
+        <ErrorModal>
+          There was an error fetching the X authorization link. Please, try again in a few seconds.
+        </ErrorModal>
+        <FinishButton className={`${!twitterUrl ? "disabled" : ""}`} as="a" href={twitterUrl}>
+          {!loadingTwitterChallenge && <>
+            Verify profile
+          </>}
+          {loadingTwitterChallenge && <>
+            <Spinner><span className="spinner"></span></Spinner>
+          </>}
         </FinishButton>
       </AuthProcessWrapper>
     ),
