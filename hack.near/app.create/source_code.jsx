@@ -27,6 +27,7 @@ const defaultRoutes = {
 const [appId, setAppId] = useState("app");
 const [routes, setRoutes] = useState(props.routes ?? defaultRoutes);
 const [routePath, setRoutePath] = useState("");
+const [activeRouteKey, setActiveRouteKey] = useState("main");
 const [pageId, setPageId] = useState("");
 const [buttonText, setButtonText] = useState(pageId);
 const [name, setName] = useState("");
@@ -218,7 +219,13 @@ return (
     <div className="m-2">
       <h5>Preview</h5>
       <hr />
-      <Widget src="hack.near/widget/app" props={{ routes }} />
+      <div className="m-2">
+        <Widget src="hack.near/widget/Navbar" props={{ routes }} />
+      </div>
+      <Widget
+        src={routes[activeRouteKey]?.path || "hack.near/widget/page.index"}
+        props={{ routes }}
+      />
     </div>
   </>
 );
