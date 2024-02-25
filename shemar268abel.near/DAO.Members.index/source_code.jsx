@@ -138,15 +138,6 @@ const renderUserRow = (user, roles, i) => {
               className: "w-100",
             }}
           />
-          <Widget
-            src="nui.sking.near/widget/Input.Button"
-            props={{
-              children: "Propose to Mint SBT",
-              size: "sm",
-              variant: ["secondary", "outline"],
-              className: "w-100",
-            }}
-          />
           {isUserAllowedTo(
             context.accountId,
             "remove_member_from_role",
