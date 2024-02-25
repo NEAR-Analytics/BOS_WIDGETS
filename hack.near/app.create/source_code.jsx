@@ -112,9 +112,13 @@ const routeData = {
   },
 };
 
+const handleRouteChange = (selectedRouteKey) => {
+  setActiveRouteKey(selectedRouteKey);
+};
+
 return (
   <>
-    <h3 className="m-1 p-1">Build App</h3>
+    <h3 className="m-1 p-1">App Creator</h3>
 
     <div className="row m-1 p-1">
       <div className="col-5">
@@ -220,7 +224,10 @@ return (
       <h5>Preview</h5>
       <hr />
       <div className="m-2">
-        <Widget src="hack.near/widget/Navbar" props={{ routes }} />
+        <Widget
+          src="hack.near/widget/Navbar.preview"
+          props={{ routes, onRouteChange: handleRouteChange }}
+        />{" "}
       </div>
       <Widget
         src={routes[activeRouteKey]?.path || "hack.near/widget/page.index"}
