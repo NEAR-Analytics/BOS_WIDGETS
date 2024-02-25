@@ -1,11 +1,15 @@
+const YouTickContainer = styled.div`
+  /* Container stilinizi burada tanımlayın */
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+`;
 return (
-  <>
-    <iframe
-      src="https://youtick.net"
-      title="YouTick"
-      width="100%"
-      height="100%"
-      frameBorder="0"
-    />
-  </>
+  <YouTickContainer>
+    <a href="https://youtick.net">youtick</a>
+  </YouTickContainer>
 );
