@@ -1,5 +1,31 @@
+const creatorId = props.creatorId || "hack.near";
+
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
+};
+
+const routes = props.routes ?? {
+  main: {
+    path: "hack.near/widget/page.index",
+    blockHeight: "final",
+    init: {
+      name: "App",
+    },
+  },
+  social: {
+    path: "hack.near/widget/page.feed",
+    blockHeight: "final",
+    init: {
+      name: "Discussion",
+    },
+  },
+  docs: {
+    path: "hack.near/widget/page.docs",
+    blockHeight: "final",
+    init: {
+      name: "Guide",
+    },
+  },
 };
 
 const StyledNavbar = styled.div`
@@ -26,6 +52,7 @@ const ButtonGroup = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 3px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -69,7 +96,7 @@ const NavLink = ({ to, children }) => (
   <Link
     key={to}
     to={href({
-      widgetSrc: "/*__@appAccount__*//widget/app",
+      widgetSrc: `${creatorId}/widget/${appId}`,
       params: {
         page: to,
       },
@@ -85,9 +112,12 @@ const toggleDropdown = () => setShowMenu(!showMenu);
 const SignInOrConnect = () => (
   <>
     {context.accountId ? (
-      <Button>Signed in</Button>
+      <Widget
+        src="hack.near/widget/ConnectButton"
+        props={{ accountId: "every.near" }}
+      />
     ) : (
-      <Button>Signed out</Button>
+      <Button>Signed Out</Button>
     )}
   </>
 );
@@ -171,14 +201,14 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const Navbar = ({ page, routes, ...props }) => (
+const Navbar = ({ page, ...props }) => (
   <StyledNavbar>
     <div className="d-flex align-items-center justify-content-between w-100">
       <DesktopNavigation className="container-xl">
         <Link
           style={{ flex: 1 }}
           to={href({
-            widgetSrc: "/*__@appAccount__*//widget/app",
+            widgetSrc: "hack.near/widget/app",
             params: {
               page: "home",
             },
@@ -187,7 +217,7 @@ const Navbar = ({ page, routes, ...props }) => (
           <img
             style={{ width: 85, objectFit: "cover" }}
             src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO Logo"
+            alt="Build DAO"
           />
         </Link>
         <ButtonGroup style={{ flex: 1 }}>
@@ -223,7 +253,7 @@ const Navbar = ({ page, routes, ...props }) => (
       <MobileNavigation>
         <Link
           to={href({
-            widgetSrc: "/*__@appAccount__*//widget/app",
+            widgetSrc: "hack.near/widget/app",
             params: {
               page: "home",
             },
@@ -232,7 +262,7 @@ const Navbar = ({ page, routes, ...props }) => (
           <img
             style={{ width: 85, objectFit: "cover" }}
             src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO Logo"
+            alt="Build DAO"
           />
         </Link>
         <Button
