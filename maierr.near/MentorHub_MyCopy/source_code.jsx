@@ -1,40 +1,5 @@
-const accountId = context.accountId;
-if (!accountId) {
-  return "No account ID";
-}
-const profile = Social.getr(`${accountId}/profile`);
-const name = profile.name;
-const discription = profile.discription;
-
-const student = Social.getr(`${accountId}/mystudents`);
-let numb = "";
-let studentArray = [];
-let arreyWhitKeysForStufent = [];
-let heash = {};
-if (student) {
-  studentArray = Object.values(student);
-  arreyWhitKeysForStufent = Object.keys(student);
-  for (const i = 0; i < arreyWhitKeysForStufent.length; i++) {
-    heash[studentArray[i]] = [arreyWhitKeysForStufent[i]];
-  }
-}
-if (arreyWhitKeysForStufent) {
-  numb =
-    parseInt(arreyWhitKeysForStufent[arreyWhitKeysForStufent.length - 1]) + 1;
-} else {
-  numb = 0;
-}
-
-function descriptionForStudent(account_id) {
-  const discriprionalIN = Social.getr(`${account_id}/profile`);
-  return discriprionalIN.discription;
-}
-let index = 0;
-function deleteNumb(student) {
-  index = heash[student];
-}
-
 State.init({
+  accountId: "",
   mentorPhoto: "",
   mentorName: "Mentor Name",
   mentorPoints: 0,
@@ -43,11 +8,167 @@ State.init({
   studentRequests: [],
   currentAppThemeMode: "lightMode",
   currentRoute: "studentsPage",
-  profileName: name || "",
-  profileDiscription: discription || "",
+  profileName: "",
+  profileDiscription: "",
+  creatProfileName: "",
+  creatProfileDiscription: "",
   addNewStudent: "",
   editDescription: "",
+  ifAddStudent: true,
+  studentArray: [],
+  arreyWhitIndexForStudent: [],
+  heashForDeletnumb: {},
+  paginatedStudentsArray: [],
+  flagForFindStdudentByID: false,
+  idFindStudent: "",
 });
+
+const TecherPossibilities = {
+  init: () => {
+    const accountId = context.accountId;
+    if (!accountId) {
+      return "No account ID";
+    }
+    const profile = Social.getr(`${state.accountId}/profile`);
+    State.update({
+      accountId: accountId,
+      profileName: profile.name,
+      profileDiscription: profile.discription,
+    });
+  },
+  initProfile: () => {
+    Social.set({
+      profile: {
+        name: state.creatProfileName,
+        discription: state.creatProfileDiscription,
+      },
+    });
+  },
+  initNameProfile: () => {
+    Social.set({
+      profile: {
+        name: state.creatProfileName,
+      },
+    });
+  },
+  initDiscriptionProfile: () => {
+    Social.set({
+      profile: {
+        discription: state.creatProfileDiscription,
+      },
+    });
+  },
+  getStudent: (pageNumber, pageSize) => {
+    const student = Social.getr(`${state.accountId}/mystudents`);
+    let studentArray = [];
+    let arreyWhitIndexForStudent = [];
+    let heashForDeletnumb = {};
+
+    if (student) {
+      studentArray = Object.values(student);
+      arreyWhitIndexForStudent = Object.keys(student);
+      // Рассчитываем начальный и конечный индексы для пагинации
+      const startIndex = (pageNumber - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, studentArray.length);
+      // Фильтруем массив студентов в соответствии с пагинацией
+      const paginatedStudents = studentArray.slice(startIndex, endIndex);
+      // Формируем новый массив для хранения пагинированных студентов
+      const paginatedStudentsKeys = arreyWhitIndexForStudent.slice(
+        startIndex,
+        endIndex
+      );
+
+      for (let i = 0; i < paginatedStudentsKeys.length; i++) {
+        heashForDeletnumb[paginatedStudents[i]] = [paginatedStudentsKeys[i]];
+      }
+      State.update({
+        studentArray: studentArray,
+        paginatedStudentsArray: paginatedStudents,
+        arreyWhitIndexForStudent: paginatedStudentsKeys,
+        heashForDeletnumb: heashForDeletnumb,
+      });
+    }
+  },
+  updateDiscription: (student) => {
+    Near.call([
+      {
+        contractName: "social.near",
+        methodName: "set",
+        args: {
+          data: {
+            [student]: {
+              profile: {
+                discription: state.editDescription,
+              },
+            },
+          },
+        },
+        deposit: 1,
+        gas: Big(10).pow(12).mul(50),
+      },
+    ]);
+  },
+  deleteStudent: (student) => {
+    const indexForDeleteNumb = state.heashForDeletnumb[student];
+    Social.set({
+      mystudents: {
+        [indexForDeleteNumb]: null,
+      },
+    });
+  },
+  addStudent: () => {
+    let indexForAddStudent = "";
+    if (state.arreyWhitIndexForStudent) {
+      indexForAddStudent =
+        parseInt(
+          state.arreyWhitIndexForStudent[
+            state.arreyWhitIndexForStudent.length - 1
+          ]
+        ) + 1;
+    } else {
+      indexForAddStudent = 0;
+    }
+    const newStudent = state.addNewStudent;
+    const sliceForVerification = newStudent.slice(
+      newStudent.length - 5,
+      newStudent.length
+    );
+    if (sliceForVerification == ".near") {
+      Social.set({
+        mystudents: {
+          [indexForAddStudent]: state.addNewStudent,
+        },
+      });
+      State.update({
+        ifAddStudent: true,
+      });
+    } else {
+      State.update({
+        ifAddStudent: false,
+      });
+    }
+  },
+  findStudentByID: () => {
+    if (state.studentArray.includes(state.idFindStudent)) {
+      State.update({
+        flagForFindStdudentByID: true,
+      });
+      console.log(state.flagForFindStdudentByID);
+    } else {
+      State.update({
+        flagForFindStdudentByID: false,
+      });
+    }
+  },
+};
+
+TecherPossibilities.init();
+TecherPossibilities.getStudent(1, 2);
+
+function descriptionForStudent(account_id) {
+  const discriprionalIN = Social.getr(`${account_id}/profile`);
+  return discriprionalIN.discription;
+}
 
 //UI Kit Theme
 const appTheme = {
@@ -212,19 +333,94 @@ const pages = {
             backgroundColor: "black",
             color: "white",
           }}
-          placeholder="Input for edit description"
-          onBlur={(e) => State.update({ description: e.target.value })}
+          onBlur={(e) => State.update({ addNewStudent: e.target.value })}
         />
-        <CommitButton
-          data={{
-            mystudents: {
-              [numb]: state.addNewStudent,
-            },
-          }}
+        <Button
+          onClick={TecherPossibilities.addStudent}
+          style={{ backgroundColor: "green" }}
         >
           Add
-        </CommitButton>
+        </Button>
       </div>
+      {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
+      <h3>Find student by account_ID:</h3>
+      <div
+        style={{
+          display: "flex",
+          marginRight: "30em",
+          height: "3em",
+          width: "29em",
+        }}
+      >
+        <input
+          type="text"
+          className="form-control"
+          style={{
+            backgroundColor: "black",
+            color: "white",
+          }}
+          onBlur={(e) => State.update({ idFindStudent: e.target.value })}
+        />
+        <Button
+          style={{ backgroundColor: "blue" }}
+          onClick={TecherPossibilities.findStudentByID}
+        >
+          Find
+        </Button>
+      </div>
+      {state.flagForFindStdudentByID && (
+        <div
+          style={{
+            display: "flex",
+            margin: "15px",
+            justifyContent: "space-around",
+          }}
+        >
+          <div>
+            <Widget
+              src="near/widget/AccountProfile"
+              props={{ accountId: state.idFindStudent }}
+            />
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              height: "3em",
+              width: "11em",
+            }}
+            placeholder="Input for edit description"
+            onBlur={(e) => State.update({ editDescription: e.target.value })}
+          />
+          <div>
+            <h4>{descriptionForStudent(idFindStudent)}</h4>
+          </div>
+          <div>
+            <Button
+              onClick={() => {
+                TecherPossibilities.deleteStudent(state.idFindStudent);
+              }}
+              style={{
+                backgroundColor: "red",
+              }}
+            >
+              Delete
+            </Button>
+            <Button
+              style={{
+                backgroundColor: "blue",
+              }}
+              onClick={() => {
+                TecherPossibilities.updateDiscription(state.idFindStudent);
+              }}
+            >
+              Edit
+            </Button>
+          </div>
+        </div>
+      )}
       <div
         style={{
           margin: "15px",
@@ -247,7 +443,7 @@ const pages = {
             <h4>Column for delete & edit</h4>
           </div>
         </div>
-        {studentArray.map((student) => (
+        {state.paginatedStudentsArray.map((student) => (
           <div
             key={student}
             style={{
@@ -278,31 +474,26 @@ const pages = {
               <h4>{descriptionForStudent(student)}</h4>
             </div>
             <div>
-              <CommitButton
-                onClick={deleteNumb(student)}
-                data={{
-                  mystudents: {
-                    [index]: null,
-                  },
+              <Button
+                onClick={() => {
+                  TecherPossibilities.deleteStudent(student);
                 }}
                 style={{
                   backgroundColor: "red",
                 }}
               >
                 Delete
-              </CommitButton>
-              <CommitButton
-                data={{
-                  profile: {
-                    discription: state.editDescription,
-                  },
-                }}
+              </Button>
+              <Button
                 style={{
                   backgroundColor: "blue",
                 }}
+                onClick={() => {
+                  TecherPossibilities.updateDiscription(student);
+                }}
               >
                 Edit
-              </CommitButton>
+              </Button>
             </div>
           </div>
         ))}
@@ -327,7 +518,7 @@ const pages = {
 };
 //
 
-if (!profile) {
+if (!state.profileName && !state.profileDiscription) {
   return (
     <>
       <uiKitComponents.body>
@@ -349,10 +540,10 @@ if (!profile) {
               backgroundColor: "black",
               color: "white",
             }}
-            onBlur={(e) => State.update({ profileName: e.target.value })}
+            onBlur={(e) => State.update({ creatProfileName: e.target.value })}
           />
         </div>
-        <h2>Hello, {state.profileName}</h2>
+        <h2>Hello, {state.creatProfileName}</h2>
         <h3>Input your discription</h3>
         <input
           type="text"
@@ -363,9 +554,11 @@ if (!profile) {
             marginRight: "100em",
             paddingsRight: "100px",
           }}
-          onBlur={(e) => State.update({ profileDiscription: e.target.value })}
+          onBlur={(e) =>
+            State.update({ creatProfileDiscription: e.target.value })
+          }
         />
-        <h2>Your discriprional: {state.profileDiscription}</h2>
+        <h2>Your discriprional: {state.creatProfileDiscription}</h2>
         <div
           style={{
             display: flex,
@@ -373,69 +566,68 @@ if (!profile) {
             alignItems: center,
           }}
         >
-          <CommitButton
-            data={{
-              profile: {
-                name: state.profileName,
-                discription: state.profileDiscription,
-              },
+          <Button
+            style={{
+              backgroundColor: "green",
             }}
+            onClick={TecherPossibilities.initProfile}
           >
             Save change
-          </CommitButton>
+          </Button>
         </div>
       </uiKitComponents.body>
     </>
   );
 }
 
-if (!name) {
-  <>
-    <uiKitComponents.body>
-      <h1>Mentor HUB</h1>
-      <h2>
-        You don't have a name of profile, if you want to continue, you have to
-        create a name.
-      </h2>
-      <h3>Input your name:</h3>
-      <div
-        style={{
-          marginRight: "30em",
-        }}
-      >
-        <input
-          type="text"
-          className="form-control"
+if (!state.profileName) {
+  return (
+    <>
+      <uiKitComponents.body>
+        <h1>Mentor HUB</h1>
+        <h2>
+          You don't have a name of profile, if you want to continue, you have to
+          create a name.
+        </h2>
+        <h3>Input your name:</h3>
+        <div
           style={{
-            backgroundColor: "black",
-            color: "white",
-          }}
-          onBlur={(e) => State.update({ profileName: e.target.value })}
-        />
-      </div>
-      <h2>Hello, {state.profileName}</h2>
-      <div
-        style={{
-          display: flex,
-          margin: "0px 10px",
-          alignItems: center,
-        }}
-      >
-        <CommitButton
-          data={{
-            profile: {
-              name: state.profileName,
-            },
+            marginRight: "30em",
           }}
         >
-          Save change
-        </CommitButton>
-      </div>
-    </uiKitComponents.body>
-  </>;
+          <input
+            type="text"
+            className="form-control"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+            }}
+            onBlur={(e) => State.update({ creatProfileName: e.target.value })}
+          />
+        </div>
+        <h2>Hello, {state.creatProfileName}</h2>
+        <div
+          style={{
+            display: flex,
+            margin: "0px 10px",
+            alignItems: center,
+          }}
+        >
+          <Button
+            style={{
+              backgroundColor: "green",
+            }}
+            onClick={TecherPossibilities.initNameProfile}
+          >
+            Save change
+          </Button>
+        </div>
+      </uiKitComponents.body>
+    </>
+  );
 }
 
-if (!discription) {
+if (!state.profileDiscription) {
   return (
     <>
       <uiKitComponents.body>
@@ -454,9 +646,11 @@ if (!discription) {
             marginRight: "100em",
             paddingsRight: "100px",
           }}
-          onBlur={(e) => State.update({ profileDiscription: e.target.value })}
+          onBlur={(e) =>
+            State.update({ creatProfileDiscription: e.target.value })
+          }
         />
-        <h2>Your discriprional: {state.profileDiscription}</h2>
+        <h2>Your discriprional: {state.creatProfileDiscription}</h2>
         <div
           style={{
             display: flex,
@@ -464,15 +658,14 @@ if (!discription) {
             alignItems: center,
           }}
         >
-          <CommitButton
-            data={{
-              profile: {
-                discription: state.profileDiscription,
-              },
+          <Button
+            style={{
+              backgroundColor: "green",
             }}
+            onClick={TecherPossibilities.initDiscriptionProfile}
           >
             Save change
-          </CommitButton>
+          </Button>
         </div>
       </uiKitComponents.body>
     </>
@@ -483,7 +676,7 @@ return (
   <>
     <uiKitComponents.profileTab>
       <h3>Mentor HUB</h3>
-      <h4>Hey, {name}</h4>
+      <h4>Hey, {state.profileName}</h4>
       <h4>Make the world around you the better place</h4>
       <Widget
         src="mob.near/widget/ProfileImage"
