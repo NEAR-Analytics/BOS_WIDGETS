@@ -5,21 +5,21 @@ const routes = props.routes ?? {
     path: "hack.near/widget/page.index",
     blockHeight: "final",
     init: {
-      name: "Home",
-    },
-  },
-  docs: {
-    path: "hack.near/widget/page.docs",
-    blockHeight: "final",
-    init: {
-      name: "Docs",
+      name: "App",
     },
   },
   social: {
     path: "hack.near/widget/page.feed",
     blockHeight: "final",
     init: {
-      name: "Activity",
+      name: "Discussion",
+    },
+  },
+  docs: {
+    path: "hack.near/widget/page.docs",
+    blockHeight: "final",
+    init: {
+      name: "Guide",
     },
   },
 };
