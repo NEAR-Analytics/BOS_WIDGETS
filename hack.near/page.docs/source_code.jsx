@@ -1,17 +1,34 @@
 const { currentPath, page, ...passProps } = props;
 
-const { routes } = Social.getr("hack.near/widget/page.docs/config/routes") ?? {
-  type: "app",
-  routes: {
-    guide: {
-      path: "buildhub.near/widget/Resources",
-      blockHeight: "final",
-      init: {
-        name: "Guide",
-        icon: "bi-map",
-        mdPath:
-          "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
-      },
+const routes = {
+  guide: {
+    path: "buildhub.near/widget/Resources",
+    blockHeight: "final",
+    init: {
+      name: "Guide",
+      icon: "bi-map",
+      mdPath:
+        "https://raw.githubusercontent.com/NEARBuilders/quickstart/main/guide.md",
+    },
+  },
+  tools: {
+    path: "buildhub.near/widget/Resources",
+    blockHeight: "final",
+    init: {
+      name: "Tools",
+      icon: "bi-tools",
+      mdPath:
+        "https://raw.githubusercontent.com/NEARBuilders/gateway/main/resources.md",
+    },
+  },
+  about: {
+    path: "buildhub.near/widget/Resources",
+    blockHeight: "final",
+    init: {
+      name: "About",
+      icon: "bi-info-circle",
+      mdPath:
+        "https://raw.githubusercontent.com/NEARBuilders/docs/main/about.md",
     },
   },
 };
