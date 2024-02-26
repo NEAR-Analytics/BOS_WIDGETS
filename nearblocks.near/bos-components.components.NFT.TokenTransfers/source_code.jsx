@@ -991,17 +991,6 @@ const Clock = (props) => (
     <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
   </svg>
 );/* END_INCLUDE COMPONENT: "includes/icons/Clock.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
-const FaLongArrowAltRight = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-      <path
-        d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216"
-        fill="#ffffff"
-      />
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
 function getConfig(network) {
   switch (network) {
@@ -1250,6 +1239,17 @@ function formatWithCommas(number) {
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
+/* INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
+const FaLongArrowAltRight = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+      <path
+        d="M313.941 216H12c-6.627 0-12 5.373-12 12v56c0 6.627 5.373 12 12 12h301.941v46.059c0 21.382 25.851 32.09 40.971 16.971l86.059-86.059c9.373-9.373 9.373-24.569 0-33.941l-86.059-86.059c-15.119-15.119-40.971-4.411-40.971 16.971V216"
+        fill="#ffffff"
+      />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 
 
 
@@ -1285,7 +1285,7 @@ function MainComponent({ network, t, id, tid }) {
 ) => {
             const resp = data?.body?.txns?.[0];
             if (data.status === 200) {
-              setTotalCount(resp?.count | 0);
+              setTotalCount(resp?.count ?? 0);
             }
           },
         )
@@ -1335,7 +1335,7 @@ function MainComponent({ network, t, id, tid }) {
       key: 'status',
       cell: (row) => (
         <span>
-          <TxnStatus status={row.outcomes.status} showLabel={false} />
+          <TxnStatus status={row?.outcomes?.status} showLabel={false} />
         </span>
       ),
       tdClassName:
@@ -1351,11 +1351,11 @@ function MainComponent({ network, t, id, tid }) {
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
                   <a
-                    href={`/txns/${row.transaction_hash}`}
+                    href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
-                      {row.transaction_hash}
+                      {row?.transaction_hash}
                     </a>
                   </a>
                 </span>
@@ -1365,7 +1365,7 @@ function MainComponent({ network, t, id, tid }) {
                 align="center"
                 side="bottom"
               >
-                {row.transaction_hash}
+                {row?.transaction_hash}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
@@ -1376,7 +1376,7 @@ function MainComponent({ network, t, id, tid }) {
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
-      header: <span>METHOD</span>,
+      header: <span>{t ? t('method') : 'METHOD'}</span>,
       key: 'type',
       cell: (row) => (
         <span>
@@ -1384,7 +1384,7 @@ function MainComponent({ network, t, id, tid }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
-                  <span className="block truncate">{row.event_kind}</span>
+                  <span className="block truncate">{row?.cause}</span>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -1392,7 +1392,7 @@ function MainComponent({ network, t, id, tid }) {
                 align="center"
                 side="bottom"
               >
-                {row.event_kind}
+                {row?.cause}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
@@ -1403,21 +1403,21 @@ function MainComponent({ network, t, id, tid }) {
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
-      header: <span>{t ? t('from') : 'FROM'}</span>,
-      key: 'from',
+      header: <span>Affected</span>,
+      key: 'affected_account_id',
       cell: (row) => (
         <span>
-          {row.token_old_owner_account_id ? (
+          {row?.affected_account_id ? (
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
                     <a
-                      href={`/address/${row.token_old_owner_account_id}`}
+                      href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
-                        {row.token_old_owner_account_id}
+                        {row?.affected_account_id}
                       </a>
                     </a>
                   </span>
@@ -1427,7 +1427,7 @@ function MainComponent({ network, t, id, tid }) {
                   align="center"
                   side="bottom"
                 >
-                  {row.token_old_owner_account_id}
+                  {row?.affected_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
@@ -1440,44 +1440,42 @@ function MainComponent({ network, t, id, tid }) {
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
-
     {
-      header: '',
+      header: <span></span>,
       key: '',
-      cell: (row) => (
-        <span>
-          {row.token_old_owner_account_id === row.token_new_owner_account_id ? (
-            <span className="uppercase rounded w-10 py-2 h-6 inline-flex items-center justify-center bg-green-200 text-white text-sm font-semibold">
-              Self
-            </span>
-          ) : (
-            <span className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white">
-              <FaLongArrowAltRight />
-            </span>
-          )}
-        </span>
-      ),
+      cell: (row) => {
+        return row.affected_account_id === row.involved_account_id ? (
+          <span className="uppercase rounded w-10 py-2 h-6 inline-flex items-center justify-center bg-green-200 text-white text-sm font-semibold">
+            {t('txnSelf')}
+          </span>
+        ) : Number(row?.delta_amount) > 0 ? (
+          <div className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white rotate-180">
+            <FaLongArrowAltRight />
+          </div>
+        ) : (
+          <div className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white">
+            <FaLongArrowAltRight />
+          </div>
+        );
+      },
       tdClassName: 'text-center',
-      thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
-
     {
-      header: <span>{t ? t('to') : 'TO'}</span>,
-      key: 'change_24',
+      header: <span>Involved</span>,
+      key: 'involved_account_id',
       cell: (row) => (
         <span>
-          {row.token_new_owner_account_id ? (
+          {row?.involved_account_id ? (
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
                     <a
-                      href={`/address/${row.token_new_owner_account_id}`}
+                      href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
-                        {row.token_new_owner_account_id}
+                        {row?.involved_account_id}
                       </a>
                     </a>
                   </span>
@@ -1487,7 +1485,7 @@ function MainComponent({ network, t, id, tid }) {
                   align="center"
                   side="bottom"
                 >
-                  {row.token_new_owner_account_id}
+                  {row?.involved_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
@@ -1507,13 +1505,13 @@ function MainComponent({ network, t, id, tid }) {
       cell: (row) => (
         <span>
           <a
-            href={`/blocks/${row.included_in_block_hash}`}
+            href={`/blocks/${row?.included_in_block_hash}`}
             className="hover:no-underline"
           >
             <a className="text-green-500 hover:no-underline">
-              {row.block.block_height
-                ? localFormat(row.block.block_height)
-                : ''}
+              {row?.block?.block_height
+                ? localFormat(row?.block?.block_height)
+                : row?.block?.block_height ?? ''}
             </a>
           </a>
         </span>
@@ -1565,13 +1563,13 @@ function MainComponent({ network, t, id, tid }) {
               <Tooltip.Trigger asChild>
                 <span>
                   {!showAge
-                    ? row.block_timestamp
+                    ? row?.block_timestamp
                       ? formatTimestampToString(
-                          nanoToMilli(row.block_timestamp),
+                          nanoToMilli(row?.block_timestamp),
                         )
                       : ''
-                    : row.block_timestamp
-                    ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                    : row?.block_timestamp
+                    ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                     : ''}
                 </span>
               </Tooltip.Trigger>
@@ -1581,11 +1579,11 @@ function MainComponent({ network, t, id, tid }) {
                 side="bottom"
               >
                 {showAge
-                  ? row.block_timestamp
-                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                  ? row?.block_timestamp
+                    ? formatTimestampToString(nanoToMilli(row?.block_timestamp))
                     : ''
-                  : row.block_timestamp
-                  ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                  : row?.block_timestamp
+                  ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                   : ''}
               </Tooltip.Content>
             </Tooltip.Root>
@@ -1620,7 +1618,7 @@ function MainComponent({ network, t, id, tid }) {
         </div>
       )}
       <Widget
-        src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
+        src={`${config?.ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
           data: txns[currentPage],
