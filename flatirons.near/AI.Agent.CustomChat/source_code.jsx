@@ -45,6 +45,9 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
   storedJsonOutputSetting ?? false
 );
 
+const [panelOfExperts, setPanelOfExperts] = useState(false);
+const [treeOfThought, setTreeOfThought] = useState(false);
+
 useEffect(() => {
   Storage.set("agent-model", model);
 }, [model]);
@@ -111,6 +114,16 @@ const openAICompatible = async (question) => {
     if (!finalQuestion.includes("json")) {
       finalQuestion = `${finalQuestion} respond in json`;
     }
+  }
+  if (panelOfExperts || treeOfThought) {
+    let prefix = "";
+    if (panelOfExperts) {
+      prefix = `Create a panel of experts to answer the following question.`;
+    }
+    if (treeOfThought) {
+      prefix = `${prefix} Create a panel of experts to answer the following question.`;
+    }
+    finalQuestion = `${prefix} ${finalQuestion} `;
   }
   // frequency_penalty: 0.0,
   // logit_bias: {},
@@ -179,87 +192,87 @@ const requiresCredentials = (model) => {
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding: 48px;
     background-color: #01ec97;
 `;
 
 const Overview = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 1em;
 `;
 
 const Header = styled.h1`
-  font-size: 24px;
-  line-height: 39px;
-  color: #11181c;
-  margin-bottom: 20px;
-  font-weight: 600;
+    font-size: 24px;
+    line-height: 39px;
+    color: #11181c;
+    margin-bottom: 20px;
+    font-weight: 600;
 `;
 const Text = styled.p`
-  margin: 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(p) => (p.bold ? "#11181C" : "#687076")};
-  font-weight: ${(p) => (p.bold ? "600" : "400")};
-  font-size: ${(p) => (p.small ? "12px" : "14px")};
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: ${(p) => (p.bold ? "#11181C" : "#687076")};
+    font-weight: ${(p) => (p.bold ? "600" : "400")};
+    font-size: ${(p) => (p.small ? "12px" : "14px")};
 
-  i {
-    margin-right: 4px;
-  }
+    i {
+        margin-right: 4px;
+    }
 `;
 const Prompt = styled.p`
-  font-family: monospace;
-  font-size: 14px;
-  overflow-y: auto;
-  height: 100px;
+    font-family: monospace;
+    font-size: 14px;
+    overflow-y: auto;
+    height: 100px;
 `;
 const Label = styled.span`
-  font-weight: 600;
+    font-weight: 600;
 `;
 const Settings = styled.div`
-  margin-bottom: 1em;
-  z-index: 1000;
+    margin-bottom: 1em;
+    z-index: 1000;
 `;
 const Controls = styled.div`
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 `;
 const CardControl = styled.div`
-  cursor: pointer;
-  color: var(--violet8);
-  margin-bottom: 1em;
+    cursor: pointer;
+    color: var(--violet8);
+    margin-bottom: 1em;
 `;
 const AllSettings = styled.div``;
 const InputWrapper = styled.div`
-  padding-bottom: 1em;
+    padding-bottom: 1em;
 `;
 const Inputs = styled.div`
     display: flex;
 `;
 
 const Question = styled.input`
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
 `;
 const UserData = styled.textarea`
-  border-radius: 2rem;
-  height: 100px;  
+    border-radius: 2rem;
+    height: 100px;
     width: 800px;
 `;
 
 const UserMessage = styled.div``;
 const AgentMessage = styled.div`
-  background-color: #f9f9f9;
+    background-color: #f9f9f9;
 `;
 const Footer = styled.div`
-  position: fixed;
-  bottom: -10px;
-  right: 0;
-  height: 275px;
+    position: fixed;
+    bottom: -10px;
+    right: 0;
+    height: 275px;
 `;
 
 const renderSettings = () => {
@@ -453,6 +466,10 @@ return (
                 props={{
                   id: "json-output",
                   label: "Use Panel of Experts",
+                  checked: panelOfExperts,
+                  onCheckedChange: (checked) => {
+                    setPanelOfExperts(checked);
+                  },
                 }}
               />{" "}
             </InputWrapper>
@@ -462,6 +479,10 @@ return (
                 props={{
                   id: "json-output",
                   label: "Use Tree of Thought",
+                  checked: treeOfThought,
+                  onCheckedChange: (checked) => {
+                    setTreeOfThought(checked);
+                  },
                 }}
               />{" "}
             </InputWrapper>
