@@ -1,5 +1,10 @@
+const { Button } = VM.require("buildhub.near/widget/components");
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 const [appId, setAppId] = useState("app");
+const imageUrl =
+  props.imageUrl ??
+  JSON.stringify(state.image.url) ??
+  "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw";
 
 const defaultRoutes = Social.get(`${accountId}/project/${appId}/config`) ?? {
   main: {
@@ -33,6 +38,9 @@ const [pageId, setPageId] = useState("");
 const [buttonText, setButtonText] = useState(pageId);
 const [projectId, setProjectId] = useState("");
 const [projectName, setProjectName] = useState("");
+const [twitter, setTwitter] = useState("");
+const [github, setGitHub] = useState("");
+const [telegram, setTelegram] = useState("");
 
 State.init({
   image,
@@ -112,18 +120,45 @@ const handleRouteChange = (selectedRouteKey) => {
   setActiveRouteKey(selectedRouteKey);
 };
 
+const Container = styled.div`
+  width: 100%;
+  position: relative;
+
+  padding: 9.375rem 3rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 9.375rem 1.5rem;
+  }
+`;
+
+const Logo = styled.img`
+height: 55px;
+  object-fit: cover;
+  margin: 8px;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  margin: 0 auto;
+`;
+
 return (
   <>
     <div className="row justify-content-between m-1 p-1">
-      <div className="col m-2 p-2">
+      <div className="col m-2 p-1">
         <h3>App Creator</h3>
         <Widget
           src="mob.near/widget/N.ProfileLine"
           props={{ accountId: "every.near", hideAccountId: true }}
         />
       </div>
-      <div className="col m-2 p-2">
-        <h5>Name</h5>
+      <div className="col m-2 p-1">
+        <h4>Name</h4>
         <input
           type="text"
           placeholder="project"
@@ -136,7 +171,7 @@ return (
       <div className="col-5">
         <div className="m-2">
           <h5 className="mb-2">ID</h5>
-          <div className="mb-3 p-1">
+          <div className="mb-2 p-1">
             <input
               type="text"
               placeholder="example"
@@ -160,7 +195,7 @@ return (
             className="m-1"
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
-            rows="4"
+            rows="5"
           />
         </div>
       </div>
@@ -225,6 +260,35 @@ return (
             );
           })}
         </div>
+
+        <div className="m-2 mt-3">
+          <h5 className="m-1">Links</h5>
+
+          <div className="gap-3 p-1">
+            <input
+              type="text"
+              placeholder="https://twitter.com/nearbuilders"
+              value={twitter}
+              onChange={(e) => setTwitter(e.target.value)}
+            />
+          </div>
+          <div className="gap-3 p-1">
+            <input
+              type="text"
+              placeholder="https://github.com/nearbuilders"
+              value={github}
+              onChange={(e) => setGitHub(e.target.value)}
+            />
+          </div>
+          <div className="gap-3 p-1">
+            <input
+              type="text"
+              placeholder="https://t.me/+0yT1bqsQHxkzMDkx"
+              value={telegram}
+              onChange={(e) => setTelegram(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
       <button
         className="btn btn-success m-2 mb-3"
@@ -240,12 +304,41 @@ return (
       <div className="m-2">
         <Widget
           src="hack.near/widget/Navbar.preview"
-          props={{ routes, onRouteChange: handleRouteChange }}
+          props={{
+            routes,
+            onRouteChange: handleRouteChange,
+            image: state.image,
+          }}
         />{" "}
       </div>
+      <Container>
+        <Content>
+          <Logo src={imageUrl} />
+          <h3 style={{ fontFamily: "Courier" }}>
+            <b>Construction Site</b>
+          </h3>
+          <Button variant="primary">
+            <a
+              style={{
+                textDecoration: "none",
+                color: "#000",
+              }}
+              href={props.buttonLink ?? "/hack.near/widget/app.create"}
+            >
+              <b>{props.buttonText ?? "BUILD"}</b>
+            </a>
+          </Button>
+        </Content>
+      </Container>
       <Widget
-        src={routes[activeRouteKey]?.path || "hack.near/widget/page.index"}
-        props={{ routes }}
+        src="hack.near/widget/Footer.preview"
+        props={{
+          creatorId: accountId,
+          appId: projectId,
+          twitter,
+          telegram,
+          github,
+        }}
       />
     </div>
   </>
