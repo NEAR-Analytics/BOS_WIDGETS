@@ -95,7 +95,7 @@ return (
     <a
       href="#"
       className="my-2 text-decoration-underline"
-      style={{ fontSize: 18 }}
+      style={{ fontSize: 18, color: "rgb(229 229 229)" }}
       onClick={onClose}
     >
       back
