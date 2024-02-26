@@ -168,7 +168,7 @@ const handleClick = () => {
 };
 
 return (
-  <Wrapper onClick={handleClick}>
+  <Wrapper>
     <img
       style={{ height: 192 }}
       className="w-100 object-fit-cover rounded-3"
@@ -216,6 +216,9 @@ return (
         </div>
       </>
     )}
+    <hr />
+
+    <Button className="btn w-100" onClick={handleClick}>{`Check roles`}</Button>
 
     <hr />
     {type === "manager" ? (
