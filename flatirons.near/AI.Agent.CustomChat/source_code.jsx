@@ -46,6 +46,7 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
 );
 
 const [panelOfExperts, setPanelOfExperts] = useState(false);
+const [userData, setUserData] = useState("");
 const [treeOfThought, setTreeOfThought] = useState(false);
 
 useEffect(() => {
@@ -115,6 +116,10 @@ const openAICompatible = async (question) => {
       finalQuestion = `${finalQuestion} respond in json`;
     }
   }
+  if (userData) {
+    finalQuestion = `${userData} ${finalQuestion} `;
+  }
+
   if (panelOfExperts || treeOfThought) {
     let prefix = "";
     if (panelOfExperts) {
@@ -269,8 +274,6 @@ const AgentMessage = styled.div`
     background-color: #f9f9f9;
 `;
 const Footer = styled.div`
-    position: absolute;
-    bottom: -10px;
     right: 0;
     height: 275px;
 `;
@@ -492,6 +495,8 @@ return (
               type="text"
               className="form-control"
               placeholder="Enter your custom user data here."
+              value={userData}
+              onChange={(e) => setUserData(e.target.value)}
             />
           </div>
         </div>
