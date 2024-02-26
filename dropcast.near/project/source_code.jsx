@@ -11,9 +11,6 @@ const Wrapper = styled.div`
     border-radius: 8px;
     background-color: rgb(38, 38, 38);
     box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px;
-    &:hover {
-      ${type === "my" && "cursor: pointer; opacity: 0.8"}
-    }
 `;
 
 const BadgeActiveIcon = styled.div`
