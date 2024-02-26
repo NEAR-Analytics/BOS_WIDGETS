@@ -1,6 +1,7 @@
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
+const [appId, setAppId] = useState("app");
 
-const defaultRoutes = {
+const defaultRoutes = Social.get(`${accountId}/project/${appId}/config`) ?? {
   main: {
     path: "hack.near/widget/page.index",
     blockHeight: "final",
@@ -24,13 +25,14 @@ const defaultRoutes = {
   },
 };
 
-const [appId, setAppId] = useState("app");
 const [routes, setRoutes] = useState(props.routes ?? defaultRoutes);
 const [routePath, setRoutePath] = useState("");
 const [activeRouteKey, setActiveRouteKey] = useState("main");
+const [theme, setTheme] = useState("");
 const [pageId, setPageId] = useState("");
 const [buttonText, setButtonText] = useState(pageId);
-const [name, setName] = useState("");
+const [projectId, setProjectId] = useState("");
+const [projectName, setProjectName] = useState("");
 
 State.init({
   image,
@@ -41,38 +43,24 @@ const isValid = Social.get(`${routePath}/**`);
 const handleCreate = () => {
   const routesConfigObject = Object.keys(routes).reduce((obj, routeKey) => {
     const route = routes[routeKey];
-    const pathSegments = route.path.split("/");
-    const keyName = pathSegments[pathSegments.length - 1] || routeKey;
     obj[routeKey] = {
-      path: `${accountId}/widget/${keyName}`,
+      path: route.path,
       blockHeight: route.blockHeight,
       init: route.init,
     };
     return obj;
   }, {});
 
-  const routesObject = Object.keys(routes).reduce((obj, routeKey) => {
-    const route = routes[routeKey];
-    const pathSegments = route.path.split("/");
-    const keyName = pathSegments[pathSegments.length - 1] || routeKey;
-
-    obj[keyName] = {
-      "": Social.get(`${route.path}`),
-    };
-    return obj;
-  }, {});
-
   Social.set({
     widget: {
-      [appId]: {
-        "": Social.get("hack.near/widget/app"),
+      [projectId]: {
+        "": Social.get("every.near/widget/app"),
       },
-      ...routesObject,
     },
     project: {
-      [appId]: {
+      [projectId]: {
         metadata: {
-          name,
+          name: projectName,
           image: state.image,
           tags: {
             build: "",
@@ -80,11 +68,19 @@ const handleCreate = () => {
         },
         config: {
           type: "app",
+          theme,
           routes: routesConfigObject,
         },
       },
     },
   });
+  <textarea
+    placeholder=" CSS"
+    className="textarea m-2"
+    value={theme}
+    onChange={(e) => setTheme(e.target.value)}
+    rows="4"
+  />;
 };
 
 const addRoute = (newRouteKey, newRouteData) => {
@@ -118,23 +114,38 @@ const handleRouteChange = (selectedRouteKey) => {
 
 return (
   <>
-    <h3 className="m-1 p-1">App Creator</h3>
-
+    <div className="row justify-content-between m-1 p-1">
+      <div className="col m-2 p-2">
+        <h3>App Creator</h3>
+        <Widget
+          src="mob.near/widget/N.ProfileLine"
+          props={{ accountId: "every.near", hideAccountId: true }}
+        />
+      </div>
+      <div className="col m-2 p-2">
+        <h5>Name</h5>
+        <input
+          type="text"
+          placeholder="project"
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+        />
+      </div>
+    </div>
     <div className="row m-1 p-1">
       <div className="col-5">
         <div className="m-2">
-          <h5 className="mb-2">Name</h5>
+          <h5 className="mb-2">ID</h5>
           <div className="mb-3 p-1">
             <input
               type="text"
-              placeholder="new project id"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              placeholder="example"
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value.replace(/\s+/g, ""))}
             />
           </div>
           <h5 className="mb-2">Logo</h5>
-
-          <div className="p-1">
+          <div className="p-1 mb-3">
             <Widget
               src="mob.near/widget/ImageEditorTabs"
               props={{
@@ -143,12 +154,19 @@ return (
               }}
             />
           </div>
+          <h5 className="mb-2">Theme</h5>
+          <textarea
+            placeholder=" CSS"
+            className="m-1"
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            rows="4"
+          />
         </div>
       </div>
       <div className="col-7">
         <div className="m-2">
-          <h5 className="mb-2">Routes</h5>
-
+          <h5 className="m-1">Routes</h5>
           <div className="d-flex flex-row gap-3 p-1">
             <input
               type="text"
@@ -188,7 +206,6 @@ return (
             </button>
           </div>
         </div>
-
         <div>
           {Object.keys(routes).map((key) => {
             const route = routes[key];
@@ -196,7 +213,7 @@ return (
               <div className="d-flex m-2 p-1 justify-content-between align-items-center">
                 <Widget
                   src="hack.near/widget/template.inline"
-                  props={{ src: route.path }}
+                  props={{ src: route.path, hideDescription: true }}
                 />
                 <button
                   className="btn btn-outline-danger"
@@ -209,12 +226,9 @@ return (
           })}
         </div>
       </div>
-    </div>
-    <div className="m-2">
       <button
-        style={{ width: "100%" }}
-        className="btn btn-success m-1 mb-3"
-        disabled={!context.accountId}
+        className="btn btn-success m-2 mb-3"
+        disabled={!projectId ?? !context.accountId}
         onClick={handleCreate}
       >
         Launch
