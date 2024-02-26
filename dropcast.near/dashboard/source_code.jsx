@@ -198,6 +198,14 @@ const showDetail = (project) => {
   });
 };
 
+const onCloseDetail = () => {
+  State.update({
+    ...state,
+    detail: false,
+    selected: null,
+  });
+};
+
 if (!state.loaded) getList();
 
 return (
@@ -220,6 +228,7 @@ return (
         props={{
           TOKEN,
           API_URL,
+          onClose: onCloseDetail,
           project: state.selected,
         }}
         src={`${Owner}/widget/detail`}
