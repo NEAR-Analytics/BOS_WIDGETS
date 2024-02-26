@@ -113,7 +113,7 @@ return (
             <h5>Discord role</h5>
             <p
               style={{ color: "grey" }}
-            >{`If you have this role in the discord server, you are automatically eligible for whitelist`}</p>
+            >{`If you have this role in the discord server, you are automatically eligible for Allowlist`}</p>
             <Status
               style={{
                 backgroundImage: state.data[role.id]
