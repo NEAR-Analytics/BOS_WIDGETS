@@ -185,11 +185,10 @@ return (
                 });
               }}
             >
-              <IconWrapper>
-                <Icon
-                  src={dex.logo}
-                  className={state.selectedDex === dex.name ? "active" : ""}
-                />
+              <IconWrapper
+                className={state.selectedDex === dex.name ? "active" : ""}
+              >
+                <Icon src={dex.logo} />
               </IconWrapper>
 
               <div>
