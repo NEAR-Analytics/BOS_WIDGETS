@@ -25,7 +25,7 @@ const agent = { accountId, name: agentName, ...data };
 if (!data) return "Loading...";
 
 const listLink = href({
-  widgetSrc: `${REPL_ACCOUNT}/widget/AI.Nexus`,
+  widgetSrc: `near/widget/AI.Nexus`,
 });
 
 const [settingsOpen, setSettingsOpen] = useState(false);
@@ -420,7 +420,7 @@ return (
             <div className="row">
               <div className="col-5">
                 <Widget
-                  src="${REPL_ACCOUNT}/widget/AI.Agent.AgentSummary"
+                  src="near/widget/AI.Agent.AgentSummary"
                   props={{
                     size: "small",
                     showTags: true,
@@ -553,7 +553,7 @@ return (
         }
       >
         <Widget
-          src="${REPL_MOB}/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: {
               url: "https://ipfs.near.social/ipfs/bafkreig6nnob77lom5xjmpkcqmkkx3b642aa76hkhujtnot4eyei5a74oq",
