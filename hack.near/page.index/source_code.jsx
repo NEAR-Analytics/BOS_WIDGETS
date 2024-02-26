@@ -15,7 +15,7 @@ const HeaderContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 55px;
+height: 55px;
   object-fit: cover;
   margin: 8px;
 `;
@@ -25,7 +25,7 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1rem;
 
   margin: 0 auto;
 `;
@@ -35,6 +35,9 @@ return (
     <HeaderContainer>
       <Content>
         <Logo src={imageUrl} />
+        <h3 style={{ fontFamily: "Courier" }}>
+          <b>Construction Site</b>
+        </h3>
         <Button variant="primary">
           <a
             style={{
@@ -43,7 +46,7 @@ return (
             }}
             href={props.buttonLink ?? "/hack.near/widget/app.create"}
           >
-            <b>{props.buttonText ?? "CREATE"}</b>
+            <b>{props.buttonText ?? "BUILD"}</b>
           </a>
         </Button>
       </Content>
