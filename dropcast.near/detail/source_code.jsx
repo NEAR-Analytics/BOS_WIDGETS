@@ -106,9 +106,6 @@ return (
 
     <div>
       <h5 style={{ fontSize: 18 }}>{project.name}</h5>
-      <p style={{ color: "grey" }}>
-        {`Please take a look at the whitelist requirements below and see if you are eligible to get whitelist.`}
-      </p>
       <GridWrapper>
         {roles.map((role) => (
           <Card key={role.id}>
