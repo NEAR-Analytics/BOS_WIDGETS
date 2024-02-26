@@ -2,28 +2,25 @@ if (!props?.platform?.coingecko) {
   return "";
 }
 console.log("PriceWidget props: ", props);
-const data = fetch(
-  `https://api.coingecko.com/api/v3/coins/${props.platform.coingecko}`,
-  {
-    subscribe: true,
-    method: "GET",
-    headers: {
-      Accept: "*/*",
-    },
-  }
-);
-console.log("price data: ", data);
+const data = fetch(`https://api.coingecko.com/api/v3/coins/${props.platform.coingecko}`, {
+  subscribe: true,
+  method: "GET",
+  headers: {
+    Accept: "*/*",
+  },
+});
+console.log("price data: " , data ); 
 
-if (!data) return <></>;
+if(!data) return <></>
 
 return (
   <div className="rounded-4 p-3 mb-3">
-    {data !== null && data.ok ? (
+    { ( data !== null && data.ok) ? (
       <p>
         <div class="d-flex clearfix flex-wrap flex-column flex-sm-row">
           <div class="p-2">
             <div>
-              <img src={props.icon.small} style={{ width: "25px" }} />
+              <img src={props.icon.small} style={{width:"25px"}}/>
               <b>{props.symbol}</b>/usd
             </div>
             <h1>
@@ -53,6 +50,7 @@ return (
           <div class="p-2">
             24h high
             <p>
+
               <b>${data.body?.market_data?.high_24h.usd.toFixed(8)} </b>
             </p>
           </div>
@@ -71,6 +69,7 @@ return (
           <div class="p-2">
             24h low
             <p>
+
               <b>${data.body.market_data.low_24h.usd.toFixed(8)} </b>
             </p>
           </div>
@@ -78,13 +77,11 @@ return (
             Market Cap
             <p>
               <b>
-                {data.body.market_data.market_cap?.usd
-                  ? "$" +
-                    data.body.market_data.market_cap.usd
-                      .toFixed(0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  : "-"}
+                {
+                  data.body.market_data.market_cap?.usd ? "$" + data.body.market_data.market_cap.usd
+                    .toFixed(0)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "-"}
               </b>
             </p>
           </div>
@@ -93,32 +90,29 @@ return (
             Circulating Supply
             <p>
               <b>
-                {data.body.market_data?.circulating_supply
-                  ? data.body.market_data.circulating_supply
-                      .toFixed(0)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  : "-"}
+                {
+                 data.body.market_data?.circulating_supply ?  data.body.market_data.circulating_supply
+                    .toFixed(0)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "-"}
               </b>
             </p>
           </div>
         </div>
         <div>
-          <a
-            target="_blank"
-            style={{ color: "inherit" }}
-            variant="caption"
-            rel="nofollow"
-            href={
-              `https://www.coingecko.com/en/coins/` + props.platform.coingecko
-            }
-          >
-            View on CoinGecko
-          </a>
+            <a
+              target="_blank"
+              style={{ color: "inherit" }}
+              variant="caption"
+              rel="nofollow"
+              href={`https://www.coingecko.com/en/coins/` + props.platform.coingecko }
+            >
+             View on CoinGecko
+            </a>
         </div>
       </p>
-    ) : (
-      <div> {data.error ? data.error : "Loading ..."} </div>
+    ) : ( 
+      <div> {data.error ? data.error : "Loading ..." } </div>
     )}
   </div>
 );
