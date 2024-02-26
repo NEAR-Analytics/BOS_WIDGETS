@@ -3292,7 +3292,7 @@ function MainComponent({ network, id, token }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[200px] inline-block align-bottom text-green-500">
+                <span className="truncate max-w-[200px] inline-block align-bottom text-green-500 whitespace-nowrap">
                   <a
                     href={`/address/${row.account}`}
                     className="hover:no-undeline"
@@ -3314,7 +3314,7 @@ function MainComponent({ network, id, token }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName: 'px-5 py-4 text-sm text-nearblue-600',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
@@ -3365,9 +3365,8 @@ function MainComponent({ network, id, token }) {
       cell: (row) => {
         return (
           <span>
-            $
             {row.amount && tokens?.decimals && tokens?.price
-              ? price(row.amount, tokens?.decimals, tokens?.price)
+              ? '$' + price(row.amount, tokens?.decimals, tokens?.price)
               : ''}
           </span>
         );
