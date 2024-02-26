@@ -866,12 +866,12 @@ function MainComponent({ t, network }) {
                 {t ? t('home:error') : ' Error!'}
               </div>
             )}
-            {!error && !isLoading && txns.length === 0 && (
+            {!error && !isLoading && txns?.length === 0 && (
               <div className="flex items-center h-16 mx-3 py-2 text-nearblue-700 text-xs">
                 {t ? t('home:noTxns') : ' No transactions found!'}
               </div>
             )}
-            {isLoading && txns.length === 0 && (
+            {isLoading && txns?.length === 0 && (
               <div className="px-3 divide-y h-80">
                 {[...Array(5)].map((_, i) => (
                   <div
@@ -914,13 +914,13 @@ function MainComponent({ t, network }) {
                 ))}
               </div>
             )}
-            {txns.length > 0 && (
+            {txns?.length > 0 && (
               <div className="px-3 divide-y h-80">
-                {txns.map((txn) => {
+                {txns?.map((txn) => {
                   return (
                     <div
                       className="grid grid-cols-2 md:grid-cols-3 gap-3 lg:gap-3 items-center py-3"
-                      key={txn.transaction_hash}
+                      key={txn?.transaction_hash}
                     >
                       <div className=" flex items-center">
                         <div className="flex-shrink-0 rounded-full h-10 w-10 bg-blue-900/10 flex items-center justify-center text-sm">
@@ -929,18 +929,18 @@ function MainComponent({ t, network }) {
                         <div className="overflow-hidden pl-2">
                           <div className="text-green-500 text-sm  ">
                             <a
-                              href={`/txns/${txn.transaction_hash}`}
+                              href={`/txns/${txn?.transaction_hash}`}
                               className="hover:no-underline"
                             >
                               <a className="text-green-500 font-medium hover:no-underline">
-                                {shortenHex(txn.transaction_hash ?? '')}
+                                {shortenHex(txn?.transaction_hash ?? '')}
                               </a>
                             </a>
                           </div>
                           <div className="text-gray-400 text-xs truncate">
-                            {txn.block_timestamp
+                            {txn?.block_timestamp
                               ? getTimeAgoString(
-                                  nanoToMilli(txn.block_timestamp),
+                                  nanoToMilli(txn?.block_timestamp),
                                 )
                               : ''}
                           </div>
@@ -950,22 +950,22 @@ function MainComponent({ t, network }) {
                         <div className="whitespace-nowrap truncate">
                           {t ? t('home:txnFrom') : 'From'}{' '}
                           <a
-                            href={`/address/${txn.signer_account_id}`}
+                            href={`/address/${txn?.signer_account_id}`}
                             className="hover:no-underline"
                           >
                             <a className="text-green-500  font-medium hover:no-underline">
-                              {shortenAddress(txn.signer_account_id ?? '')}
+                              {shortenAddress(txn?.signer_account_id ?? '')}
                             </a>
                           </a>
                         </div>
                         <div className="whitespace-nowrap truncate">
                           {t ? t('home:txnTo') : 'To'}{' '}
                           <a
-                            href={`/address/${txn.receiver_account_id}`}
+                            href={`/address/${txn?.receiver_account_id}`}
                             className="hover:no-underline"
                           >
                             <a className="text-green-500 font-medium hover:no-underline">
-                              {shortenAddress(txn.receiver_account_id ?? '')}
+                              {shortenAddress(txn?.receiver_account_id ?? '')}
                             </a>
                           </a>
                         </div>
@@ -975,9 +975,9 @@ function MainComponent({ t, network }) {
                           <Tooltip.Root>
                             <Tooltip.Trigger asChild>
                               <span className="u-label--badge-in  text-nearblue-700 truncate">
-                                {txn.actions_agg?.deposit
-                                  ? yoctoToNear(txn.actions_agg?.deposit, true)
-                                  : ''}{' '}
+                                {txn?.actions_agg?.deposit
+                                  ? yoctoToNear(txn?.actions_agg?.deposit, true)
+                                  : txn?.actions_agg?.deposit ?? ''}{' '}
                                 Ⓝ
                               </span>
                             </Tooltip.Trigger>
@@ -1016,7 +1016,7 @@ function MainComponent({ t, network }) {
           <Skeleton className="h-10" />
         </div>
       )}
-      {txns && txns.length > 0 && (
+      {txns && txns?.length > 0 && (
         <div className="border-t px-2 py-3 text-nearblue-600">
           <a href="/txns">
             <a className="block text-center border border-green-900/10 font-thin bg-green-500 hover:bg-green-400 text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
