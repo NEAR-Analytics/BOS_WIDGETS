@@ -280,7 +280,7 @@ return (
 
     {!state.detail && state.tab === "other_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
-        <p className="m-0">{`These are the projects on Dropcast which you're a member of.`}</p>
+        <p className="m-0">{`These are the projects on Dropcast that you’re not a member of.`}</p>
         <GridWrapper>
           {state.other_projects.map((project) => (
             <Widget
