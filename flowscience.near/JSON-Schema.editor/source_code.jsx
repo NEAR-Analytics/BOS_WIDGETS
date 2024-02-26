@@ -20,7 +20,7 @@ const [jsonSchema, setJsonSchema] = useState({
   title: "",
   description: "",
   schemaType: "object", // Default to 'object'
-  properties: { properties },
+  properties: [],
   required: [],
 });
 
@@ -194,7 +194,6 @@ const handlePropertyNameChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].name = e.target.value;
   State.update({ properties: updatedProperties });
-  setJsonSchema((prev) => ({ ...prev, properties: properties }));
 };
 
 const handleTypeChange = (e, index) => {
