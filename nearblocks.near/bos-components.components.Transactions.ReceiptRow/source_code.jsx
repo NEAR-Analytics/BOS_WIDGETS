@@ -1185,9 +1185,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -1551,14 +1549,15 @@ const ReceiptStatus = (props) => {
 
 ,
   ) {
-    const { width = 16, format = 'default' } = options;
+    const { width, format } = options;
 
     let result = '';
     let line = '';
+    const w = width ? width : 16;
 
     for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % width === 0) {
-        result += formatLine(line, i - width, format) + '\n';
+      if (i > 0 && i % w === 0) {
+        result += formatLine(line, i - w, format) + '\n';
         line = '';
       }
 
@@ -1568,7 +1567,7 @@ const ReceiptStatus = (props) => {
 
     if (line.length > 0) {
       result +=
-        formatLine(line, data.length - (data.length % width), format) + '\n';
+        formatLine(line, data.length - (data.length % w), format) + '\n';
     }
 
     return result;
@@ -1582,7 +1581,11 @@ const ReceiptStatus = (props) => {
 
     try {
       const parsed = JSON.parse(decoded.toString());
-      pretty = JSON.stringify(parsed, null, 2);
+      if (parsed) {
+        pretty = JSON.stringify(parsed, null, 2);
+      } else {
+        pretty = hexDump(decoded, { format: 'twos' });
+      }
     } catch {
       pretty = hexDump(decoded, { format: 'twos' });
     }
@@ -2481,9 +2484,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -2847,14 +2848,14 @@ const FunctionCall = (props) => {
 
 ,
   ) {
-    const { width = 16, format = 'default' } = options;
+    const { width, format } = options;
 
     let result = '';
     let line = '';
-
+    const w = width ? width : 16;
     for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % width === 0) {
-        result += formatLine(line, i - width, format) + '\n';
+      if (i > 0 && i % w === 0) {
+        result += formatLine(line, i - w, format) + '\n';
         line = '';
       }
 
@@ -2864,7 +2865,7 @@ const FunctionCall = (props) => {
 
     if (line.length > 0) {
       result +=
-        formatLine(line, data.length - (data.length % width), format) + '\n';
+        formatLine(line, data.length - (data.length % w), format) + '\n';
     }
 
     return result;
@@ -2875,10 +2876,13 @@ const FunctionCall = (props) => {
 
     let pretty = '';
     const decoded = Buffer.from(args, 'base64');
-
     try {
       const parsed = JSON.parse(decoded.toString());
-      pretty = JSON.stringify(parsed, null, 2);
+      if (parsed) {
+        pretty = JSON.stringify(parsed, null, 2);
+      } else {
+        pretty = hexDump(decoded, { format: 'twos' });
+      }
     } catch {
       pretty = hexDump(decoded, { format: 'twos' });
     }
@@ -2890,7 +2894,7 @@ const FunctionCall = (props) => {
     <div className="py-1">
       <FaCode className="inline-flex text-yellow-500 mr-1" />
       {t ? t('txns:txn.actions.functionCall.0') : 'Called method'}
-      <span className="font-bold">{args.method_name}</span>{' '}
+      <span className="font-bold">{args?.method_name}</span>{' '}
       {t ? t('txns:txn.actions.functionCall.1') : 'in contract'}
       <a href={`/address/${receiver}`} className="hover:no-underline">
         <a className="text-green-500 font-bold hover:no-underline">
@@ -2900,7 +2904,7 @@ const FunctionCall = (props) => {
       <textarea
         readOnly
         rows={4}
-        defaultValue={displayArgs(args.args_base64 || args.args)}
+        defaultValue={displayArgs(args?.args_base64 || args?.args)}
         className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
       ></textarea>
     </div>
@@ -3551,7 +3555,7 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="w-full md:w-3/4 font-semibold word-break">
-              {receipt.receipt_id ? receipt.receipt_id : ''}
+              {receipt?.receipt_id ? receipt?.receipt_id : ''}
             </div>
           )}
         </div>
@@ -3621,14 +3625,14 @@ function MainComponent(props) {
               <div className="w-full md:w-3/4">
                 <Loader wrapperClassName="flex w-full max-w-sm" />
               </div>
-            ) : receipt.predecessor_id ? (
+            ) : receipt?.predecessor_id ? (
               <div className="w-full md:w-3/4 word-break">
                 <a
-                  href={`/address/${receipt.predecessor_id}`}
+                  href={`/address/${receipt?.predecessor_id}`}
                   className="hover:no-underline"
                 >
                   <a className="text-green-500 hover:no-underline">
-                    {receipt.predecessor_id}
+                    {receipt?.predecessor_id}
                   </a>
                 </a>
               </div>
@@ -3662,14 +3666,14 @@ function MainComponent(props) {
               <div className="w-full md:w-3/4">
                 <Loader wrapperClassName="flex w-full max-w-xs" />
               </div>
-            ) : receipt.receiver_id ? (
+            ) : receipt?.receiver_id ? (
               <div className="w-full md:w-3/4 word-break">
                 <a
-                  href={`/address/${receipt.receiver_id}`}
+                  href={`/address/${receipt?.receiver_id}`}
                   className="hover:no-underline"
                 >
                   <a className="text-green-500 hover:no-underline">
-                    {receipt.receiver_id}
+                    {receipt?.receiver_id}
                   </a>
                 </a>
               </div>
@@ -3706,16 +3710,16 @@ function MainComponent(props) {
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-36" />
             </div>
-          ) : receipt.outcome.gas_burnt ? (
+          ) : receipt?.outcome?.gas_burnt ? (
             <div className="w-full items-center text-xs flex md:w-3/4 break-words">
               <div className="bg-orange-50 rounded-md px-2 py-1">
                 <span className="text-xs mr-2">🔥 </span>
-                {receipt.outcome.gas_burnt
-                  ? convertToMetricPrefix(receipt.outcome.gas_burnt) + 'gas'
+                {receipt?.outcome?.gas_burnt
+                  ? convertToMetricPrefix(receipt?.outcome?.gas_burnt) + 'gas'
                   : ''}
                 <span className="text-gray-300 px-1">|</span>{' '}
-                {receipt.outcome.tokens_burnt
-                  ? yoctoToNear(receipt.outcome.tokens_burnt, true)
+                {receipt?.outcome?.tokens_burnt
+                  ? yoctoToNear(receipt?.outcome?.tokens_burnt, true)
                   : ''}{' '}
                 Ⓝ
               </div>
@@ -3759,7 +3763,7 @@ function MainComponent(props) {
                 <TransactionActions
                   key={i}
                   action={action}
-                  receiver={receipt.receiver_id}
+                  receiver={receipt?.receiver_id}
                   t={t}
                 />
               ))}
@@ -3836,7 +3840,7 @@ function MainComponent(props) {
                 <textarea
                   readOnly
                   rows={4}
-                  defaultValue={receipt.outcome.logs.join('\n')}
+                  defaultValue={receipt?.outcome?.logs?.join('\n')}
                   className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
                 ></textarea>
               ) : (
@@ -3848,12 +3852,12 @@ function MainComponent(props) {
       </div>
       {receipt?.outcome?.outgoing_receipts?.length > 0 && (
         <div className="pb-4">
-          {receipt.outcome.outgoing_receipts.map((rcpt) => (
-            <div className="pl-4 pt-6" key={rcpt.receipt_id}>
+          {receipt?.outcome?.outgoing_receipts?.map((rcpt) => (
+            <div className="pl-4 pt-6" key={rcpt?.receipt_id}>
               <div className="mx-4 border-l-4 border-l-gray-200">
                 {
                   <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Transactions.ReceiptRow`}
+                    src={`${config?.ownerId}/widget/bos-components.components.Transactions.ReceiptRow`}
                     props={{
                       receipt: rcpt,
                       borderFlag: true,
