@@ -6,6 +6,11 @@ const Css=styled.div`
         margin:0;
     }
 `;
+const navItems = [
+    {t: "🏠Home" , l: `` , r: "home"},
+    {t: "🔥Trending" , l: `?cat=trending` , r: "trending" },
+    {t:"⭐Bookmark" , l:`?bookmark=lfg` , r : "bookmark" },
+];
 return (
     <Css>
     <div id="nearcatalog-navbar" className="navbar navbar-expand-lg navbar-light" style={{
@@ -17,7 +22,7 @@ return (
         "marginBottom": "20px"
       }}>
         <div className="container-fluid">
-            <a className="navbar-brand" href={`/${props.indexPath}`}>📒NEARCatalog </a>
+            <Link className="navbar-brand" href={`/${props.indexPath}`}>📒NEARCatalog </Link>
 
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -25,29 +30,13 @@ return (
 
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href={`/${props.indexPath}`}>🏠Home</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={`/${props.indexPath}?cat=trending`}>🔥Trending</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={`/${props.indexPath}?bookmark=lfg`}>⭐Bookmark</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" target="_blank" href="https://forms.gle/ASi6xpVAyoPcxghr8">🧪Self-Listing</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" target="_blank" href="https://forms.gle/ASi6xpVAyoPcxghr8">📥 Submit project</a>
-                    </li>
-
+                    { navItems.map(e => {
+                            return <li className="nav-item">
+                            <Link className="nav-link" href={`/${props.indexPath}` + e.l}>{e.t}</Link>
+                        </li>
+                        } ) }
+                        <li className="nav-item"> <Link className="nav-link" href="https://forms.gle/ASi6xpVAyoPcxghr8">📥 Submit project</Link></li>
                 </ul>
-
-                {/* <div class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                </div> */}
-
             </div>
         </div>
     </div>
