@@ -10,12 +10,12 @@ return (
                 listItems.map( e => {
                     console.log("the path is:" , path , "cat: " , cat);
                     let subMenu = e.menuItems ? e.menuItems.map(s => { return(
-                        <div className="menu-item"><Link key={s.t} preventScrollReset={true} className={`${ ( cat == ( s.l.length > 0 ? s.l.substring(5) : "" ) ? " active " : "" )+ "btn" }`}
-                         to={`/${path + (s.l ? s.l : "") }`}>{s.t}<span className="menu-badge d-none">6</span></Link></div>
+                        <div className="menu-item"><a key={s.t} preventScrollReset={true} className={`${ ( cat == ( s.l.length > 0 ? s.l.substring(5) : "" ) ? " active " : "" )+ "btn" }`}
+                         to={`/${path + (s.l ? s.l : "") }`}>{s.t}<span className="menu-badge d-none">6</span></a></div>
                     ) }) : false;
                     return(
-                        <div className="menu-parent"><Link key={e.t}  preventScrollReset={true} className={`${ ( cat == ( e.l.length > 0 ? e.l.substring(5) : "" ) ? " active " : "" )+ "btn btn-lg" }`} 
-                            to={`/${path + (e.l ? e.l : "") }`}>{e.t}<span className="menu-badge d-none">9</span></Link>
+                        <div className="menu-parent"><a key={e.t}  preventScrollReset={true} className={`${ ( cat == ( e.l.length > 0 ? e.l.substring(5) : "" ) ? " active " : "" )+ "btn btn-lg" }`} 
+                            to={`/${path + (e.l ? e.l : "") }`}>{e.t}<span className="menu-badge d-none">9</span></a>
                             { subMenu ?  <div className="menu menu-nav">{subMenu}</div> : <></> }
                         </div>
                     )
