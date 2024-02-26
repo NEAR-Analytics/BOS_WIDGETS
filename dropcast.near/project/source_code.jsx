@@ -216,9 +216,17 @@ return (
         </div>
       </>
     )}
-    <hr />
 
-    <Button className="btn w-100" onClick={handleClick}>{`Check roles`}</Button>
+    {type === "my" && (
+      <>
+        <hr />
+
+        <Button
+          className="btn w-100"
+          onClick={handleClick}
+        >{`Check roles`}</Button>
+      </>
+    )}
 
     <hr />
     {type === "manager" ? (
