@@ -28,7 +28,6 @@ return (
         <small>
           <span className="font-monospace">{widgetPath}</span>
         </small>
-        {description}
       </div>
     </div>
   </div>
