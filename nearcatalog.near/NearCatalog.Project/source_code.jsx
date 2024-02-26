@@ -219,7 +219,7 @@ a.text-gray:visited{color:#959595;}
 `;
 
 if (!props.id) {
-    return "404 :<";
+    return " 🐲 🐉 Loading~ ";
 }
 
 const componentPath = props.componentPath;
