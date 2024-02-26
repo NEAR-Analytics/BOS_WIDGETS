@@ -122,6 +122,7 @@ if (prop.typeSrc !== "" && state.typeName === "") {
   loadType();
 }
 
+// fix loadSchema
 const loadSchema = () => {
   State.update({ selectedSchema: newSchema });
   const parts = state.newSchema.split("/");
@@ -140,6 +141,7 @@ if (prop.schemaSrc !== "" && state.schemaName === "") {
   loadSchema();
 }
 
+// fix handleJsonSchemaChange
 const handleJsonSchemaChange = (e) => {
   const { name, value } = e.target; // Destructure name and value from the event target
   setJsonSchema((prevJsonSchema) => ({
