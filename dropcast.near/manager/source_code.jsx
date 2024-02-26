@@ -117,7 +117,7 @@ if (state.edit)
 
 return (
   <Wrapper>
-    <p>Start by creating a new Vulcan Project</p>
+    <p>Start by creating a new Dropcast Project</p>
     <div className="mb-2">
       <ProjectButton className="btn" onClick={handleNewProject}>
         + New Project
