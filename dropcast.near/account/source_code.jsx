@@ -50,7 +50,7 @@ return (
           onClick={unlinkDiscord}
           href={`https://near.org/${Owner}/widget/login`}
         >
-          Unlink
+          {`De-Link Discord`}
         </a>
       </div>
     </div>
