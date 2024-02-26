@@ -3246,7 +3246,7 @@ function MainComponent({ network, id, tokenFilter }) {
                   <Skeleton className="w-40" />
                 ) : (
                   <p className="text-sm my-1 flex">
-                    {ft?.amount ? '$' + dollarFormat(ft?.amount) : ''}
+                    ${ft?.amount ? dollarFormat(ft?.amount) : ft?.amount ?? ''}
                     <span>
                       {filterToken?.ft_metas?.price && (
                         <div className="text-gray-400 ml-2">
