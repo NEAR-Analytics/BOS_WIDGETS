@@ -19,48 +19,58 @@
 
                           
 const StyleContainer = styled.div`
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 2%;
-  padding-left: 2%;
-  width: 96%; /* Use 100% - (2% + 2%) to account for padding on both sides */
-  text-wrap: wrap;
+  margin-right: ${(props) => props.marginRight || "auto"};
+  margin-left:  ${(props) => props.marginLeft || "auto"};
+  padding-right: ${(props) => props.paddingRight || "2%"};
+  padding-left: ${(props) => props.paddingLeft || "2%"};
+  width: ${(props) => props.width || "96%"};   /* Use 100% - (2% + 2%) to account for padding on both sides */
+  text-wrap: ${(props) => props.textWrap || "wrap"};
+
   /* Responsive container */
   @media (min-width: 576px) {
-    width: 94%;
+    width: ${(props) => props.mobileWidth || "94%"};
   }
   @media (min-width: 768px) {
-    width: 92%;
+    width: ${(props) => props.tabletWidth || "92%"};
   }
   @media (min-width: 992px) {
-    width: 90%;
+    width: ${(props) => props.laptopWidth || "90%"};
   }
   @media (min-width: 1200px) {
-    width: 88%;
+    width: ${(props) => props.desktopWidth || "88%"};
   }
 `;
 
-const StyleRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-  background-color:black;
-`;
+const marginRight = props.style.marginRight;
+const marginLeft = props.style.marginLeft;
+const paddingRight = props.style.paddingRight;
+const paddingLeft = props.style.paddingLeft;
+const width = props.style.width;
+const textWrap = props.style.textWrap;
 
-const Col = styled.div`
-  padding: 15px;
-  flex-basis: 0;
-  flex-grow: 1;
-  max-width: 100%;
-  background-color:gray;
-`;
-
-
+const mobileWidth = props.style.mobileWidth;
+const tabletWidth = props.style.tabletWidth;
+const laptopWidth = props.style.laptopWidth;
+const desktopWidth = props.style.desktopWidth;
 
 const children = props.children ?? (<h1>Please Enter Children</h1>);
 return (
-    <StyleContainer>
+    <StyleContainer
+      width={width}
+      textWrap={textWrap}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
+      paddingLeft={paddingLeft}
+      paddingRight={paddingRight}
+
+      mobileWidth={mobileWidth}
+      tabletWidth={tabletWidth}
+      laptopWidth={laptopWidth}
+      desktopWidth={desktopWidth}
+    >
     { children }
     </StyleContainer>
 );
+
+
+
