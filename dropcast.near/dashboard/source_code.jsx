@@ -229,7 +229,7 @@ return (
     {!state.detail && state.tab === "my_projects" && (
       <>
         <MyProjectCard>
-          <div className="d-flex flex-column w-50">
+          <div className="d-flex flex-column w-100">
             <p>{`These are the projects on Dropcast which you're a member of.`}</p>
             <div style={{ width: 240 }}>
               <Widget
@@ -242,18 +242,6 @@ return (
                 src={`${Owner}/widget/Select`}
               />
             </div>
-          </div>
-          <div
-            className="d-flex flex-column w-50 p-4 rounded-3"
-            style={{ backgroundColor: "rgb(38, 38, 38)" }}
-          >
-            <h6>{`Note`}</h6>
-            <p
-              className="m-0"
-              style={{ fontSize: 14, color: "rgb(163, 163, 163)" }}
-            >
-              {`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}
-            </p>
           </div>
         </MyProjectCard>
         <GridWrapper>
