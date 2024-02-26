@@ -2317,7 +2317,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
       key: '',
       cell: (row) => (
         <>
-          <TxnStatus status={row.outcomes.status} showLabel={false} />
+          <TxnStatus status={row?.outcomes?.status} showLabel={false} />
         </>
       ),
       tdClassName:
@@ -2331,13 +2331,13 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                   <a
-                    href={`/txns/${row.transaction_hash}`}
+                    href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
-                      {row.transaction_hash}
+                      {row?.transaction_hash}
                     </a>
                   </a>
                 </span>
@@ -2347,13 +2347,13 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                 align="start"
                 side="bottom"
               >
-                {row.transaction_hash}
+                {row?.transaction_hash}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
         </>
       ),
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName: 'px-5 py-4 text-sm text-nearblue-600',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
@@ -2364,12 +2364,12 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
         <>
           <a
             className="hover:no-underline"
-            href={`/blocks/${row.included_in_block_hash}`}
+            href={`/blocks/${row?.included_in_block_hash}`}
           >
             <a className="text-green-500 font-medium hover:no-underline">
-              {row.block.block_height
-                ? localFormat(row.block.block_height)
-                : ''}
+              {row?.block?.block_height
+                ? localFormat(row?.block?.block_height)
+                : row?.block?.block_height ?? ''}
             </a>
           </a>
         </>
@@ -2381,14 +2381,14 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
     },
     {
       header: <span>{t ? t('type') : 'TYPE'}</span>,
-      key: 'event_kind',
+      key: 'cause',
       cell: (row) => (
         <>
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
-                  <span className="block truncate">{row.event_kind}</span>
+                  <span className="block truncate">{row?.cause}</span>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2396,7 +2396,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                 align="center"
                 side="bottom"
               >
-                {row.event_kind}
+                {row?.cause}
               </Tooltip.Content>
             </Tooltip.Root>
           </Tooltip.Provider>
@@ -2407,21 +2407,21 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: <span>{t ? t('token:fts.from') : 'FROM'}</span>,
-      key: 'token_old_owner_account_id',
+      header: <span>Affected</span>,
+      key: 'affected_account_id',
       cell: (row) => (
         <>
-          {row.token_old_owner_account_id ? (
+          {row?.affected_account_id ? (
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
+                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                     <a
-                      href={`/address/${row.token_old_owner_account_id}`}
+                      href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
-                        {row.token_old_owner_account_id}
+                        {row?.affected_account_id}
                       </a>
                     </a>
                   </span>
@@ -2431,7 +2431,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                   align="center"
                   side="bottom"
                 >
-                  {row.token_old_owner_account_id}
+                  {row?.affected_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
@@ -2440,8 +2440,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
           )}
         </>
       ),
-      tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+      tdClassName: 'px-5 py-4 text-sm text-nearblue-600 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
@@ -2449,33 +2448,37 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
       header: '',
       key: '',
       cell: (row) =>
-        row.token_old_owner_account_id === row.token_new_owner_account_id ? (
+        row?.involved_account_id === row?.affected_account_id ? (
           <span className="uppercase rounded w-10 py-2 h-6 inline-flex items-center justify-center bg-green-200 text-white text-sm font-semibold">
             {t ? t('txnSelf') : 'Self'}
           </span>
-        ) : (
-          <span className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white">
+        ) : Number(row?.delta_amount) > 0 ? (
+          <div className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white rotate-180">
             <FaLongArrowAltRight />
-          </span>
+          </div>
+        ) : (
+          <div className="w-5 h-5 p-1 bg-green-100 rounded-full text-center flex justify-center items-center mx-auto text-white">
+            <FaLongArrowAltRight />
+          </div>
         ),
       tdClassName: 'text-center',
     },
     {
-      header: <span>{t ? t('to') : 'TO'}</span>,
-      key: 'receiver_account_id',
+      header: <span>Involved</span>,
+      key: 'involved_account_id',
       cell: (row) => (
         <span>
-          {row.token_new_owner_account_id ? (
+          {row?.involved_account_id ? (
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
+                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                     <a
-                      href={`/address/${row.token_new_owner_account_id}`}
+                      href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
-                        {row.token_new_owner_account_id}
+                        {row?.involved_account_id}
                       </a>
                     </a>
                   </span>
@@ -2485,7 +2488,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                   align="center"
                   side="bottom"
                 >
-                  {row.token_new_owner_account_id}
+                  {row?.involved_account_id}
                 </Tooltip.Content>
               </Tooltip.Root>
             </Tooltip.Provider>
@@ -2494,8 +2497,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
           )}
         </span>
       ),
-      tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+      tdClassName: 'px-5 py-4 text-sm text-nearblue-600 font-medium',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
@@ -2504,8 +2506,14 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
       key: 'amount',
       cell: (row) => (
         <>
-          {row.amount && row.ft?.decimals
-            ? localFormat(tokenAmount(row.amount, row.ft?.decimals, true))
+          {row?.delta_amount
+            ? localFormat(
+                tokenAmount(
+                  Big(row.delta_amount).abs().toString(),
+                  row?.ft?.decimals,
+                  true,
+                ),
+              )
             : ''}
         </>
       ),
@@ -2555,13 +2563,13 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
               <Tooltip.Trigger asChild>
                 <span>
                   {!showAge
-                    ? row.block_timestamp
+                    ? row?.block_timestamp
                       ? formatTimestampToString(
-                          nanoToMilli(row.block_timestamp),
+                          nanoToMilli(row?.block_timestamp),
                         )
                       : ''
-                    : row.block_timestamp
-                    ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                    : row?.block_timestamp
+                    ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                     : ''}
                 </span>
               </Tooltip.Trigger>
@@ -2571,11 +2579,11 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                 side="bottom"
               >
                 {showAge
-                  ? row.block_timestamp
-                    ? formatTimestampToString(nanoToMilli(row.block_timestamp))
+                  ? row?.block_timestamp
+                    ? formatTimestampToString(nanoToMilli(row?.block_timestamp))
                     : ''
-                  : row.block_timestamp
-                  ? getTimeAgoString(nanoToMilli(row.block_timestamp))
+                  : row?.block_timestamp
+                  ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                   : ''}
               </Tooltip.Content>
             </Tooltip.Root>
@@ -2600,12 +2608,12 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
             </p>
           </div>
           <div className=" flex items-center px-2 text-sm mb-4 text-nearblue-600 lg:ml-auto">
-            {filters && Object.keys(filters).length > 0 && (
+            {filters && Object?.keys(filters)?.length > 0 && (
               <div className="flex items-center px-2 text-sm text-gray-500 lg:ml-auto">
                 Filtered By:
                 <span className="flex items-center bg-gray-100 rounded-full px-3 py-1 ml-1 space-x-2">
                   {filters &&
-                    Object.keys(filters).map((key) => (
+                    Object?.keys(filters)?.map((key) => (
                       <span className="flex" key={key}>
                         {capitalizeFirstLetter(key)}:{' '}
                         <span className="inline-block truncate max-w-[120px]">
@@ -2624,7 +2632,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
         </div>
       )}
       <Widget
-        src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
+        src={`${config?.ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
           data: txns[currentPage],
