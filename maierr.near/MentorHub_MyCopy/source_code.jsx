@@ -16,11 +16,11 @@ State.init({
   editDescription: "",
   ifAddStudent: true,
   studentArray: [],
-  arreyWhitIndexForStudent: [],
+  arreyWhitIndexForAddStudent: [],
   heashForDeletnumb: {},
-  paginatedStudentsArray: [],
   flagForFindStdudentByID: false,
   idFindStudent: "",
+  vrifyOurStudent: "",
 });
 
 const TecherPossibilities = {
@@ -59,35 +59,28 @@ const TecherPossibilities = {
     });
   },
   getStudent: (pageNumber, pageSize) => {
-    const student = Social.getr(`${state.accountId}/mystudents`);
+    // Рассчитываем начальный и конечный индексы для пагинации
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
     let studentArray = [];
-    let arreyWhitIndexForStudent = [];
+    let arreyWhitIndexForAddStudent = [];
     let heashForDeletnumb = {};
 
-    if (student) {
-      studentArray = Object.values(student);
-      arreyWhitIndexForStudent = Object.keys(student);
-      // Рассчитываем начальный и конечный индексы для пагинации
-      const startIndex = (pageNumber - 1) * pageSize;
-      const endIndex = Math.min(startIndex + pageSize, studentArray.length);
-      // Фильтруем массив студентов в соответствии с пагинацией
-      const paginatedStudents = studentArray.slice(startIndex, endIndex);
-      // Формируем новый массив для хранения пагинированных студентов
-      const paginatedStudentsKeys = arreyWhitIndexForStudent.slice(
-        startIndex,
-        endIndex
-      );
-
-      for (let i = 0; i < paginatedStudentsKeys.length; i++) {
-        heashForDeletnumb[paginatedStudents[i]] = [paginatedStudentsKeys[i]];
+    for (let i = startIndex; i < endIndex; i++) {
+      const student = Social.get(`maierr.near/mystudents/${i}`);
+      if (student) {
+        studentArray.push(student);
+        heashForDeletnumb[student] = i;
+      } else {
+        arreyWhitIndexForAddStudent.push(i);
       }
-      State.update({
-        studentArray: studentArray,
-        paginatedStudentsArray: paginatedStudents,
-        arreyWhitIndexForStudent: paginatedStudentsKeys,
-        heashForDeletnumb: heashForDeletnumb,
-      });
     }
+
+    State.update({
+      studentArray: studentArray,
+      arreyWhitIndexForAddStudent: arreyWhitIndexForAddStudent,
+      heashForDeletnumb: heashForDeletnumb,
+    });
   },
   updateDiscription: (student) => {
     Near.call([
@@ -114,29 +107,51 @@ const TecherPossibilities = {
       mystudents: {
         [indexForDeleteNumb]: null,
       },
+      myStudentsForFind: {
+        [student]: false,
+      },
     });
   },
   addStudent: () => {
-    let indexForAddStudent = "";
-    if (state.arreyWhitIndexForStudent) {
-      indexForAddStudent =
-        parseInt(
-          state.arreyWhitIndexForStudent[
-            state.arreyWhitIndexForStudent.length - 1
-          ]
-        ) + 1;
-    } else {
-      indexForAddStudent = 0;
-    }
     const newStudent = state.addNewStudent;
+    const ifAlreadyHaveStudent = Social.get(
+      `maierr.near/myStudentsForFind/${newStudent}`
+    );
     const sliceForVerification = newStudent.slice(
       newStudent.length - 5,
       newStudent.length
     );
-    if (sliceForVerification == ".near") {
+    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
+      let indexForAddStudent = 0;
+      if (state.arreyWhitIndexForAddStudent.length > 0) {
+        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
+      } else if (
+        state.studentArray &&
+        state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        while (state.arreyWhitIndexForAddStudent.length == 0) {
+          const student = Social.get(
+            `maierr.near/mystudents/${indexForAddStudent}`
+          );
+          if (student) {
+            State.update({
+              arreyWhitIndexForAddStudent: student,
+            });
+          }
+          indexForAddStudent++;
+        }
+      } else if (
+        state.studentArray.length == 0 &&
+        !state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        indexForAddStudent = 0;
+      }
       Social.set({
         mystudents: {
           [indexForAddStudent]: state.addNewStudent,
+        },
+        myStudentsForFind: {
+          [newStudent]: true,
         },
       });
       State.update({
@@ -148,22 +163,24 @@ const TecherPossibilities = {
       });
     }
   },
-  findStudentByID: () => {
-    if (state.studentArray.includes(state.idFindStudent)) {
+  findStudentByID: (idaccound) => {
+    const isOurStudent = Social.get(
+      `maierr.near/myStudentsForFind/${idaccound}`
+    );
+    if (isOurStudent == `true`) {
       State.update({
-        flagForFindStdudentByID: true,
+        vrifyOurStudent: idaccound,
       });
-      console.log(state.flagForFindStdudentByID);
     } else {
       State.update({
-        flagForFindStdudentByID: false,
+        vrifyOurStudent: "",
       });
     }
   },
 };
 
 TecherPossibilities.init();
-TecherPossibilities.getStudent(1, 2);
+TecherPossibilities.getStudent(1, 10);
 
 function descriptionForStudent(account_id) {
   const discriprionalIN = Social.getr(`${account_id}/profile`);
@@ -363,12 +380,14 @@ const pages = {
         />
         <Button
           style={{ backgroundColor: "blue" }}
-          onClick={TecherPossibilities.findStudentByID}
+          onClick={() => {
+            TecherPossibilities.findStudentByID(state.idFindStudent);
+          }}
         >
           Find
         </Button>
       </div>
-      {state.flagForFindStdudentByID && (
+      {state.vrifyOurStudent && (
         <div
           style={{
             display: "flex",
@@ -379,7 +398,7 @@ const pages = {
           <div>
             <Widget
               src="near/widget/AccountProfile"
-              props={{ accountId: state.idFindStudent }}
+              props={{ accountId: state.vrifyOurStudent }}
             />
           </div>
           <input
@@ -395,12 +414,12 @@ const pages = {
             onBlur={(e) => State.update({ editDescription: e.target.value })}
           />
           <div>
-            <h4>{descriptionForStudent(idFindStudent)}</h4>
+            <h4>{descriptionForStudent(state.vrifyOurStudent)}</h4>
           </div>
           <div>
             <Button
               onClick={() => {
-                TecherPossibilities.deleteStudent(state.idFindStudent);
+                TecherPossibilities.deleteStudent(state.vrifyOurStudent);
               }}
               style={{
                 backgroundColor: "red",
@@ -413,7 +432,7 @@ const pages = {
                 backgroundColor: "blue",
               }}
               onClick={() => {
-                TecherPossibilities.updateDiscription(state.idFindStudent);
+                TecherPossibilities.updateDiscription(state.vrifyOurStudent);
               }}
             >
               Edit
@@ -443,7 +462,7 @@ const pages = {
             <h4>Column for delete & edit</h4>
           </div>
         </div>
-        {state.paginatedStudentsArray.map((student) => (
+        {state.studentArray.map((student) => (
           <div
             key={student}
             style={{
