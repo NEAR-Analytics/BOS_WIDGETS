@@ -1,5 +1,6 @@
 const offcanvas = props.offcanvas;
 const indexPath = props.indexPath;
+const cat = props.cat;
 return (
     <>
         <div id="offcanvas-menu" className="sidebar-container container-fluid">
@@ -13,7 +14,8 @@ return (
                 <div class="offcanvas-body aside-container">
                     <Widget src={`${props.componentPath}.Layout.LeftMenu`}
                         props={{
-                            indexPath
+                            indexPath,
+                            cat
                         }}
                     />
                 </div>
@@ -27,7 +29,8 @@ return (
                     <div id="sidebar-menu-lg">
                         <Widget src={`${props.componentPath}.Layout.LeftMenu`}
                             props={{
-                                indexPath
+                                indexPath,
+                                cat
                             }} />
                     </div>
                 </div>
