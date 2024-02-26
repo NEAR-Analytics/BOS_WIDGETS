@@ -230,7 +230,7 @@ return (
       <>
         <MyProjectCard>
           <div className="d-flex flex-column w-50">
-            <p>{`These are the projects on Vulcan which you're a member of.`}</p>
+            <p>{`These are the projects on Dropcast which you're a member of.`}</p>
             <div style={{ width: 240 }}>
               <Widget
                 props={{
@@ -280,7 +280,7 @@ return (
 
     {!state.detail && state.tab === "other_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
-        <p className="m-0">{`These are the projects on Vulcan which you're a member of.`}</p>
+        <p className="m-0">{`These are the projects on Dropcast which you're a member of.`}</p>
         <GridWrapper>
           {state.other_projects.map((project) => (
             <Widget
@@ -295,7 +295,7 @@ return (
 
     {!state.detail && state.tab === "past_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
-        <p className="m-0">{`These are past projects on Vulcan which have already minted.`}</p>
+        <p className="m-0">{`These are past projects on Dropcast which have already minted.`}</p>
         <GridWrapper>
           {state.past_projects.map((project) => (
             <Widget
