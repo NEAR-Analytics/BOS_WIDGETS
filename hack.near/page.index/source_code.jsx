@@ -41,13 +41,16 @@ return (
               textDecoration: "none",
               color: "#000",
             }}
-            href={props.buttonLink ?? "https://nearbuilders.org"}
+            href={props.buttonLink ?? "/hack.near/widget/app.create"}
           >
-            <b>{props.buttonText ?? "START"}</b>
+            <b>{props.buttonText ?? "CREATE"}</b>
           </a>
         </Button>
       </Content>
     </HeaderContainer>
-    <Widget src="hack.near/widget/Footer" />
+    <Widget
+      src="hack.near/widget/Footer"
+      props={{ creatorId: props.accountId, appId: props.projectId }}
+    />
   </>
 );
