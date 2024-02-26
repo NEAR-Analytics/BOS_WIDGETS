@@ -269,7 +269,7 @@ const AgentMessage = styled.div`
     background-color: #f9f9f9;
 `;
 const Footer = styled.div`
-    position: fixed;
+    position: absolute;
     bottom: -10px;
     right: 0;
     height: 275px;
