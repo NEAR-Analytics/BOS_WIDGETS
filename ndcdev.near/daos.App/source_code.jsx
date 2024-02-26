@@ -78,6 +78,14 @@ function Page() {
         />
       );
     }
+    case "dao": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Dao`}
+          props={{ ...passProps }}
+        />
+      );
+    }
     case "proposal": {
       return (
         <Widget
