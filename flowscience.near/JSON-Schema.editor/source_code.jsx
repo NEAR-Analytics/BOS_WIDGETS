@@ -20,7 +20,7 @@ const [jsonSchema, setJsonSchema] = useState({
   title: "",
   description: "",
   schemaType: "object", // Default to 'object'
-  properties: {},
+  properties: { properties },
   required: [],
 });
 
@@ -190,6 +190,7 @@ const handlePropertyChange = (e, index) => {
   updatedProperties[index].name = e.target.value;
   State.update({ properties: updatedProperties });
 };
+//setJsonSchema((prev) => ({ ...prev, properties: updatedProperties }));
 
 const handleTypeChange = (e, index) => {
   const updatedProperties = [...state.properties];
@@ -200,6 +201,12 @@ const handleTypeChange = (e, index) => {
 const handleMultiChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isMulti = e.target.value;
+  State.update({ properties: updatedProperties });
+};
+
+const handleRequiredChange = (e, index) => {
+  const updatedProperties = [...state.properties];
+  updatedProperties[index].isRequired = e.target.value;
   State.update({ properties: updatedProperties });
 };
 
@@ -216,11 +223,6 @@ const handleSchemaDescriptionChange = (e) => {
 const handleSchemaTypeChange = (e) => {
   const value = e.target.value;
   setJsonSchema((prev) => ({ ...prev, type: value }));
-};
-
-const handleRequiredChange = (e) => {
-  const value = e.target.value;
-  setJsonSchema((prev) => ({ ...prev, properties: value }));
 };
 
 function TypeSelect({ value, onChange }) {
