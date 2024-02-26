@@ -81,5 +81,7 @@ let p = {
 };
 console.log("final props", p);
 return (
-        <Widget src={widgetSrc} props={p} />
+    <div key={router} >
+        <Widget src={widgetSrc} props={p} />    
+    </div>
 );
