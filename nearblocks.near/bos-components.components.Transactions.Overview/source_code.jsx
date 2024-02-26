@@ -1561,9 +1561,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -2282,7 +2280,7 @@ function MainComponent({ network, t }) {
                 <div className="flex flex-row py-5 lg:pb-5 lg:px-0">
                   <div className="items-center flex justify-left mr-3 ">
                     <img
-                      src={`${config.appUrl}images/near price.svg`}
+                      src={`${config?.appUrl}images/near price.svg`}
                       alt={t ? t('home:nearPrice') : 'nearPrice'}
                       width="24"
                       height="24"
@@ -2309,7 +2307,7 @@ function MainComponent({ network, t }) {
                               (
                               {stats?.change_24
                                 ? dollarFormat(stats?.change_24)
-                                : ''}
+                                : stats?.change_24 ?? ''}
                               %)
                             </span>
                           ) : (
@@ -2317,7 +2315,7 @@ function MainComponent({ network, t }) {
                               (
                               {stats?.change_24
                                 ? dollarFormat(stats?.change_24)
-                                : ''}
+                                : stats?.change_24 ?? ''}
                               %)
                             </span>
                           )}
@@ -2347,7 +2345,10 @@ function MainComponent({ network, t }) {
                         className="hover:no-underline"
                       >
                         <a className="leading-6 text-nearblue-700 hover:no-underline">
-                          ${dollarFormat(stats?.market_cap ?? 0)}
+                          $
+                          {stats?.market_cap
+                            ? dollarFormat(stats?.market_cap)
+                            : stats?.market_cap ?? ''}
                         </a>
                       </a>
                     )}
@@ -2361,7 +2362,7 @@ function MainComponent({ network, t }) {
               <div className="flex flex-row ">
                 <div className="items-center flex justify-left mr-3 ">
                   <img
-                    src={`${config.appUrl}images/transactions.svg`}
+                    src={`${config?.appUrl}images/transactions.svg`}
                     alt={t ? t('home:transactions') : 'transactions'}
                     width="24"
                     height="24"
@@ -2375,7 +2376,9 @@ function MainComponent({ network, t }) {
                     <Skeleton className="my-1 h-4" />
                   ) : (
                     <p className="leading-6 text-nearblue-700">
-                      {stats?.total_txns ? currency(stats?.total_txns) : ''}
+                      {stats?.total_txns
+                        ? currency(stats?.total_txns)
+                        : stats?.total_txns ?? ''}
                     </p>
                   )}
                 </div>
@@ -2389,7 +2392,9 @@ function MainComponent({ network, t }) {
                   <Skeleton className="my-1 h-4" />
                 ) : (
                   <p className="leading-6 text-nearblue-700">
-                    {stats?.gas_price ? gasPrice(stats?.gas_price) : ''}
+                    {stats?.gas_price
+                      ? gasPrice(stats?.gas_price)
+                      : stats?.gas_price ?? ''}
                   </p>
                 )}
               </div>
@@ -2415,7 +2420,7 @@ function MainComponent({ network, t }) {
                       <a className="leading-6 text-nearblue-700 hover:no-underline">
                         {stats?.nodes_online
                           ? localFormat(stats?.nodes_online)
-                          : ''}
+                          : stats?.nodes_online ?? ''}
                       </a>
                     </a>
                   )}
