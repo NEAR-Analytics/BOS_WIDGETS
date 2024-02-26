@@ -1,7 +1,7 @@
 const creatorId = props.creatorId ?? "hack.near";
 const appId = props.appId ?? "app";
 
-const metadata = Social.getr(`${creatorId}/widget/${appId}/metadata`);
+const metadata = Social.getr(`${creatorId}/project/${appId}/metadata`);
 
 const Container = styled.div`
   display: flex;
