@@ -123,20 +123,24 @@ const TecherPossibilities = {
     );
     if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
       let indexForAddStudent = 0;
-      if (state.arreyWhitIndexForAddStudent.length > 0) {
+      if (
+        state.studentArray.length > 0 &&
+        state.arreyWhitIndexForAddStudent.length > 0
+      ) {
         indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
       } else if (
-        state.studentArray &&
+        state.studentArray.length > 0 &&
         state.arreyWhitIndexForAddStudent.length == 0
       ) {
         while (state.arreyWhitIndexForAddStudent.length == 0) {
           const student = Social.get(
             `maierr.near/mystudents/${indexForAddStudent}`
           );
-          if (student) {
+          if (!student) {
             State.update({
               arreyWhitIndexForAddStudent: student,
             });
+            break;
           }
           indexForAddStudent++;
         }
