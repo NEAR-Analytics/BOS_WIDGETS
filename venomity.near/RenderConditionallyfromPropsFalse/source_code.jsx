@@ -12,7 +12,7 @@ function Welcome(props) {
 
 function App() {
   // Assuming isLoggedIn is a boolean variable
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   return (
     <div className="App">
