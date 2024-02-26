@@ -212,7 +212,10 @@ const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isRequired = e.target.value;
   State.update({ properties: updatedProperties });
-  setJsonSchema((prev) => ({ ...prev, required: updatedProperties }));
+  setJsonSchema((prev) => ({
+    ...prev,
+    required: updatedProperties,
+  }));
 };
 
 function TypeSelect({ value, onChange }) {
