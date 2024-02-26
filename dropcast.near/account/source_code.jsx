@@ -21,6 +21,21 @@ const Wrapper = styled.div`
   }
 `;
 
+const unlinkDiscord = () => {
+  Logout();
+  let promise = asyncFetch(`${API_URL}/api/auth/unlink`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "POST",
+  });
+
+  promise.then((data) => {
+    console.log(data);
+  });
+};
+
 return (
   <Wrapper>
     <div className="d-flex gap-3 align-items-center">
@@ -29,7 +44,15 @@ return (
         src={`https://cdn.discordapp.com/avatars/${USER.id}/${USER.avatar}.png`}
         alt=""
       />
-      <h4 className="m-0">{USER.username}</h4>
+      <div>
+        <h4 className="m-0">{USER.username}</h4>
+        <a
+          onClick={unlinkDiscord}
+          href={`https://near.org/${Owner}/widget/login`}
+        >
+          Unlink
+        </a>
+      </div>
     </div>
     <div
       className="mt-5 rounded-3"
@@ -40,18 +63,6 @@ return (
       </h6>
       <hr className="m-0" />
       <p className="px-3 py-4 m-0">{accountId}</p>
-    </div>
-    <div
-      className="d-flex flex-column gap-1 mt-5 rounded-3 p-4"
-      style={{ backgroundColor: "rgb(38, 38, 38)", maxWidth: 550 }}
-    >
-      <h6 className="m-0" style={{ fontSize: 18 }}>
-        Note
-      </h6>
-      <p
-        className="m-0"
-        style={{ fontSize: 14 }}
-      >{`The wallet address put forward to projects for whitelisting is the address that is configured as "Default" on your Account. This can be changed as many times up until the project finishes whitelisting and has fully exported their whitelist addresses.`}</p>
     </div>
   </Wrapper>
 );
