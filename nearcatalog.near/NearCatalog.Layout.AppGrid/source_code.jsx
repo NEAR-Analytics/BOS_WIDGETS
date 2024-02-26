@@ -199,135 +199,103 @@ html{font-size:20px;}
 `;
 const componentPath = props.componentPath;
 const indexPath = props.indexPath;
-const storageBookmark = Storage.get(
-  "nearcatalogBookmark",
-  props.componentPath + ".Project"
-);
+const router = props.router;
+const storageBookmark = Storage.get("nearcatalogBookmark", props.componentPath + ".Project", {});
+const cat = props.cat;
 State.init({
-  projects: props.projects ? props.projects : {},
-  bookmarkLoaded: null,
+    projects: props.projects ? props.projects : {},
+    bookmarkLoaded: null,
 });
 
-if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
-  State.update({
-    projects: storageBookmark,
-    bookmarkLoaded: true,
-  });
-  console.log("loaded storage bookmark to state: ", storageBookmark);
+if (!state.bookmarkLoaded && props.bookmark && storageBookmark.length > 0 ) {
+    State.update({
+        projects: storageBookmark,
+        bookmarkLoaded: true
+    });
+    console.log("loaded storage bookmark to state: ", storageBookmark)
 } else {
-  console.log("loading bookmark~~~~");
+    console.log("loading bookmark~~~~");
 }
 return (
-  <>
-    <Css>
-      <div className="container near-bg" id="awesomebos-wrap">
-        <Widget
-          src={`${componentPath}.Layout.Navbar`}
-          props={{
-            componentPath,
-            indexPath,
-          }}
-        />
-        <div className="row">
-          <Widget
-            src={`${componentPath}.Layout.LeftSidebar`}
-            props={{
-              componentPath,
-              indexPath,
-            }}
-          />
-          <div
-            id="near-content-container"
-            className="col col-md-9 py-3 near-right container "
-          >
-            <div className="awesome-hero">
-              <h1 className="awesome-title">
-                {props.cat.length > 0 ? props.cat : ""}
-              </h1>
-              <p className="awesome-desc">{props.desc}</p>
-            </div>
-            <Widget
-              src={`${componentPath}.Layout.SearchBar`}
-              props={{
-                indexPath,
-                indexer: props.indexer,
-                defaultImg: props.defaultImg,
-              }}
-            />
+    <>
+        <Css>
+            <div className="container near-bg" id="awesomebos-wrap">
+                <Widget src={`${componentPath}.Layout.Navbar`} props={{
+                    componentPath,
+                    indexPath,
+                    router
+                }} />
+                <div className="row">
+                    <Widget src={`${componentPath}.Layout.LeftSidebar`} props={{
+                        componentPath,
+                        indexPath,
+                        cat
+                    }} />
 
-            <button
-              className="awesome-aside-select btn btn-lg mt-3"
-              id="btn-mobile-show-category"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#staticBackdrop"
-              aria-controls="staticBackdrop"
-            >
-              <i class="bi bi-search"></i>
-              <span className="mx-2">Explore by categories</span>
-            </button>
-
-            <Widget
-              src={`${componentPath}.Layout.Trending`}
-              props={{
-                indexPath,
-                indexer: props.indexer,
-                cat: props.cat,
-              }}
-            />
-            <div className="col py-3">
-              <div className="near-content">
-                <div className="near-list-container row">
-                  {Object.keys(state.projects).length == 0 &&
-                    props.bookmark && (
-                      <div className="">
-                        Nothing here, yet 🙅, press ⭐ in project you want to
-                        add!{" "}
-                      </div>
-                    )}
-                  {Object.keys(state.projects).map((e) => {
-                    let p = state.projects[e];
-                    return (
-                      <div className="near-item-wrap col-md-4 col-sm-12 p-3">
-                        <a
-                          className="near-item"
-                          title={p.name}
-                          href={`/${indexPath}?id=${e}`}
-                        >
-                          <div className="near-item-header">
-                            <div className="tile">
-                              <div className="tile-icon">
-                                <img
-                                  src={p.profile.image?.url || props.defaultImg}
-                                  alt={p.profile.name}
-                                  loading="lazy"
-                                />
-                              </div>
-                              <div className="tile-content">
-                                <h2 className="tile-title">{p.profile.name}</h2>
-                                <div className="tile-tags">
-                                  {Object.keys(p.profile.tags).length > 0 &&
-                                    Object.keys(p.profile.tags).map((e) => {
-                                      return (
-                                        <span
-                                          className="badge rounded-pill bg-secondary text-light"
-                                          title={e}
-                                        >
-                                          {e}
-                                        </span>
-                                      );
-                                    })}
-                                </div>
-                              </div>
+                    <div id="near-content-container" className="col col-md-9 py-3 near-right container ">
+                    <div className="awesome-hero">
+                                <h1 className="awesome-title">{props.cat.length > 0 ? props.cat : ""}</h1>
+                                <p className="awesome-desc">{props.desc}</p>
                             </div>
+                        <Widget src={`${componentPath}.Layout.SearchBar`} props={{
+                            indexPath,
+                            indexer: props.indexer,
+                            defaultImg: props.defaultImg
+                        }} />
 
-                            <div className="tile my-2">
-                              <h3 className="tile-subtitle">
-                                {p.profile.tagline}
-                              </h3>
-                            </div>
-                          </div>
+                        <button className="awesome-aside-select btn btn-lg mt-3" id="btn-mobile-show-category"
+                            data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                            <i class="bi bi-search"></i>
+                            <span className="mx-2">Explore by categories</span>
+                        </button>
 
-                          {/* <div className="near-item-footer">
+                        <Widget src={`${componentPath}.Layout.Trending`} props={{
+                            indexPath,
+                            indexer: props.indexer,
+                            cat: props.cat,
+                        }} />
+                        <div className="col py-3">
+      
+                            <div className="near-content">
+                                <div className="near-list-container row">
+                                    {
+                                        Object.keys(state.projects).length == 0 && props.bookmark && (
+                                            <div className="">Nothing here, yet 🙅, press ⭐ in project you want to add! </div>
+                                        )
+                                    }
+                                    {
+                                        Object.keys(state.projects).map((e) => {
+                                            let p = state.projects[e];
+                                            return (
+                                                <div className="near-item-wrap col-md-4 col-sm-12 p-3">
+                                                    <Link className="near-item" title={p.name}
+                                                        href={`/${indexPath}?id=${e}`}>
+                                                        <div className="near-item-header">
+                                                            <div className="tile">
+                                                                <div className="tile-icon">
+                                                                    <img src={p.profile.image?.url || props.defaultImg}
+                                                                        alt={p.profile.name} loading="lazy" /></div>
+                                                                <div className="tile-content">
+                                                                    <h2 className="tile-title">{p.profile.name}</h2>
+                                                                    <div className="tile-tags">
+                                                                        {
+                                                                            Object.keys(p.profile.tags).length > 0 && Object.keys(p.profile.tags).map(e => {
+                                                                                return (
+                                                                                    <span className="badge rounded-pill bg-secondary text-light" title={e}>{e}</span>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="tile my-2">
+                                                                <h3 className="tile-subtitle">{p.profile.tagline}</h3>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* <div className="near-item-footer">
                                                     <div className="tile-social">
                                                         <svg className="icon" height="20" width="20"></svg>
                                                     </div>
@@ -337,18 +305,23 @@ return (
                                                         </div>
                                                     </div>
                                                 </div> */}
-                        </a>
-                      </div>
-                    );
-                  })}
-                </div>{" "}
-                {/*app list container */}
-              </div>
+                                                    </Link>
+                                                </div>
+                                            )
+                                        })
+                                    }
+
+                                </div> {/*app list container */}
+
+                            </div>
+                        </div>
+
+                    </div> {/*END near content container */}
+
+                </div>
+
             </div>
-          </div>{" "}
-          {/*END near content container */}
-        </div>
-      </div>
-    </Css>
-  </>
-);
+        </Css>
+    </>
+
+)
