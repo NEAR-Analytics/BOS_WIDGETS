@@ -189,8 +189,8 @@ const handlePropertyChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].name = e.target.value;
   State.update({ properties: updatedProperties });
+  setJsonSchema((prev) => ({ ...prev, properties: updatedProperties }));
 };
-//setJsonSchema((prev) => ({ ...prev, properties: updatedProperties }));
 
 const handleTypeChange = (e, index) => {
   const updatedProperties = [...state.properties];
@@ -237,6 +237,7 @@ function TypeSelect({ value, onChange }) {
   );
 }
 
+// convert Multi and Required selects to checkboxes
 function MultiSelect({ value, onChange }) {
   return (
     <Select value={value} onChange={onChange}>
