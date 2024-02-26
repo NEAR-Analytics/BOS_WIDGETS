@@ -55,10 +55,15 @@ return (
     <Title>Dropcast</Title>
     <p style={{ fontSize: 12 }}>Powered by Nearverse Labs</p>
     <LoginButton
-      className="btn btn-primary mt-4"
-      href={`https://discordapp.com/oauth2/authorize?${OAuthData}`}
+      className={`btn btn-primary mt-4 ${accountId && "grey-1"}`}
+      href={accountId && `https://discordapp.com/oauth2/authorize?${OAuthData}`}
     >
       Login with Discord
     </LoginButton>
+    {!accountId && (
+      <p
+        style={{ color: "red" }}
+      >{`Please sign into BOS with your wallet before connecting your discord.`}</p>
+    )}
   </Wrapper>
 );
