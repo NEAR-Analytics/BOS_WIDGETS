@@ -62,6 +62,7 @@ return (
     </LoginButton>
     {!accountId && (
       <p
+        className="mt-2"
         style={{ color: "red" }}
       >{`Please sign into BOS with your wallet before connecting your discord.`}</p>
     )}
