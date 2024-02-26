@@ -92,7 +92,12 @@ if (!state.loaded) getData();
 
 return (
   <Wrapper>
-    <a href="#" className="my-2" onClick={onClose}>
+    <a
+      href="#"
+      className="my-2 text-decoration-underline"
+      style={{ fontSize: 18 }}
+      onClick={onClose}
+    >
       back
     </a>
     <img
