@@ -212,10 +212,15 @@ const Navbar = ({ page, ...props }) => (
             },
           })}
         >
-          <img
-            style={{ width: 85, objectFit: "cover" }}
-            src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO"
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: props.image,
+              style: { width: "85px" },
+              className: "me-3",
+              fallbackUrl:
+                "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
+            }}
           />
         </Link>
         <ButtonGroup style={{ flex: 1 }}>
