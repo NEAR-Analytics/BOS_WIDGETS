@@ -148,6 +148,21 @@ const handleJsonSchemaChange = (e) => {
   }));
 };
 
+const handleSchemaTitleChange = (e) => {
+  const value = e.target.value;
+  setJsonSchema((prev) => ({ ...prev, title: value }));
+};
+
+const handleSchemaDescriptionChange = (e) => {
+  const value = e.target.value;
+  setJsonSchema((prev) => ({ ...prev, description: value }));
+};
+
+const handleSchemaTypeChange = (e) => {
+  const value = e.target.value;
+  setJsonSchema((prev) => ({ ...prev, schemaType: value }));
+};
+
 const handleAddProperty = () => {
   if (state.newPropertyName.trim() === "") return;
 
@@ -170,26 +185,14 @@ const handleAddProperty = () => {
 const handleRemoveProperty = (index) => {
   const updatedProperties = [...state.properties];
   updatedProperties.splice(index, 1);
-
   State.update({ properties: updatedProperties });
-
-  // Also update the jsonSchema properties
-  setJsonSchema((prevJsonSchema) => ({
-    ...prevJsonSchema,
-    properties: updatedProperties.map((prop) => ({
-      name: prop.name,
-      type: prop.type,
-      isRequired: prop.isRequired,
-      isMulti: prop.isMulti,
-    })),
-  }));
 };
 
-const handlePropertyChange = (e, index) => {
+const handlePropertyNameChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].name = e.target.value;
   State.update({ properties: updatedProperties });
-  setJsonSchema((prev) => ({ ...prev, properties: updatedProperties }));
+  setJsonSchema((prev) => ({ ...prev, properties: properties }));
 };
 
 const handleTypeChange = (e, index) => {
@@ -208,21 +211,7 @@ const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isRequired = e.target.value;
   State.update({ properties: updatedProperties });
-};
-
-const handleSchemaNameChange = (e) => {
-  const value = e.target.value;
-  setJsonSchema((prev) => ({ ...prev, title: value }));
-};
-
-const handleSchemaDescriptionChange = (e) => {
-  const value = e.target.value;
-  setJsonSchema((prev) => ({ ...prev, description: value }));
-};
-
-const handleSchemaTypeChange = (e) => {
-  const value = e.target.value;
-  setJsonSchema((prev) => ({ ...prev, type: value }));
+  setJsonSchema((prev) => ({ ...prev, required: updatedProperties }));
 };
 
 function TypeSelect({ value, onChange }) {
@@ -293,7 +282,7 @@ return (
           type="text"
           name="title"
           value={jsonSchema.title}
-          onChange={handleSchemaNameChange}
+          onChange={handleSchemaTitleChange}
           placeholder="Schema_Title"
         />
         <i>*overwrites existing path when saved</i>
@@ -342,7 +331,7 @@ return (
             <Input
               type="text"
               value={property.name}
-              onChange={(e) => handlePropertyChange(e, index)}
+              onChange={(e) => handlePropertyNameChange(e, index)}
             />
           </div>
           <div>
