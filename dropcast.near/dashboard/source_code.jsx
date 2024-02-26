@@ -295,7 +295,7 @@ return (
 
     {!state.detail && state.tab === "past_projects" && (
       <div className="d-flex flex-column gap-4 py-4">
-        <p className="m-0">{`These are past projects on Dropcast which have already minted.`}</p>
+        <p className="m-0">{`These are past projects on Dropcast that have already been minted.`}</p>
         <GridWrapper>
           {state.past_projects.map((project) => (
             <Widget
