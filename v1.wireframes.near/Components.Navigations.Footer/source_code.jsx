@@ -17,7 +17,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-                          
 const SocialLinks = styled.ul`
   display: flex;
   justify-content: center;
@@ -65,52 +64,71 @@ const social = (
         href="https://github.com/wireframes-design"
       >
         <Widget
-            src="v1.wireframes.near/widget/Components.Icon.BoostrapIcons"
-            props={{
-                iconName:"github"
-            }
-            }
-          />
+          src="v1.wireframes.near/widget/Components.Icon.BootstrapIcons"
+          props={{
+            iconName: "github",
+          }}
+        />
       </a>
     </li>
-</SocialLinks>
+  </SocialLinks>
 );
+
 
 const Legal = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   color: white;
-  gap: 1rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
 
+const Separator = styled.span`
+  margin: 0 5px;
   & > span.separator {
     display: inline-block;
-    height: 1.5rem;
+    height: 1rem;
     width: 1px;
-    background-color: #d1d1d1;
-    margin: 0;
-    padding: 0;
+    background-color: #fff;
+    margin: 0px;
+    padding: 0px;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 
-  & > a {
-    color: inherit;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-    transition: color 0.5s ease-in-out;
+const SeparatorBreak = styled.br`
+  @media (max-width: 768px) {
+    display: none;
+    color: white;
+  }
+`;
 
-    &:hover {
-      color: #676767;
-      text-decoration: none;
-    }
+const SmallText = styled.small`
+  color: white;
+
+  @media (max-width: 768px) {
+    display: block;
+    color: white;
   }
 `;
 
 const links = (
   <Legal>
-    <a href="mailto:info@wireframes.design"><small>info@wireframes.design</small></a>
-    <span className="separator"></span>
-    <span><small>Copyright © 2024 Wireframes All Rights Reserved.</small></span>
+    <a href="mailto:info@wireframes.design">
+      <SmallText>info@wireframes.design</SmallText>
+    </a>
+    <Separator>
+      <span className="separator"></span>
+    </Separator>
+    <SeparatorBreak />
+    <span>
+      <SmallText>Copyright © 2024 Wireframes All Rights Reserved.</SmallText>
+    </span>
   </Legal>
 );
 
@@ -126,7 +144,16 @@ const Container = styled.div`
 
 return (
   <Container>
-    {social}
-    {links}
+    <Widget
+      src={`v1.wireframes.near/widget/Components.Layout.Container`}
+      props={{
+        children: (
+          <>
+            {social}
+            {links}
+          </>
+        ),
+      }}
+    />
   </Container>
 );
