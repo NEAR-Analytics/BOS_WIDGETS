@@ -1,6 +1,6 @@
 // Initialize variables with default values or from props
 const limit = 20;
-const series = props.series ?? "214";
+const series = props.series ?? "496";
 const title = props.title ?? "Total";
 const showHeader = props.showHeader ?? true;
 const showImage = props.showImage ?? false;
@@ -34,7 +34,7 @@ function fetchTokens() {
                 offset: ${state.offset},
                 where: { 
                   nft_contract_id: { _eq: "mint.sharddog.near" }, 
-                  token_id: {_regex: "^${series}:", _neq: "214:1"} 
+                  token_id: {_regex: "^${series}:", _neq: "496:1"} 
                 },
                 order_by: {minted_timestamp: desc}
             ) {
