@@ -208,7 +208,7 @@ const Navbar = ({ page, ...props }) => (
           to={href({
             widgetSrc: "hack.near/widget/app",
             params: {
-              page: "home",
+              page: "main",
             },
           })}
         >
