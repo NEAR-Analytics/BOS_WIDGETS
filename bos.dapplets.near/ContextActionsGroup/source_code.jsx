@@ -4,16 +4,16 @@ State.init({
 });
 
 const handleOnMouseEnter = () => {
-  //   State.update({ show: true });
-  console.log("");
+  State.update({ show: true });
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu
-    ? null
-    : props.isEditMode
-    ? null
-    : State.update({ show: false });
+  //   state.showMenu
+  //     ? null
+  //     : props.isEditMode
+  //     ? null
+  //     : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
