@@ -82,7 +82,7 @@ const TriggerShowPanel = styled.div`
 `;
 
 const TriggerShowLabel = styled.div`
-  background: #db504a;
+  background: #384BFF;
   display: flex;
   border-radius: 0px 4px 4px 0px;
   z-index: 1100;
@@ -229,7 +229,7 @@ const WrapperButtonPlusDefault = styled.div`
   border-radius: 0px 4px 4px 0px;
   position: absolute;
   top: 30px;
-  background: #db504a;
+  background: #384BFF;
   z-index: 1081;
   display: flex;
   align-items: center;
@@ -241,7 +241,7 @@ const ButtonPlusDefault = styled.div`
   height: 22px;
   border-radius: 50%;
   bottom: 7px;
-  background: #db504a;
+  background: #384BFF;
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
@@ -472,7 +472,7 @@ const iconApply = (
     viewBox="0 0 22 22"
     fill="none"
   >
-    <circle cx="11" cy="11" r="11" fill="#3D7FFF" />
+    <circle cx="11" cy="11" r="11" fill="#384BFF" />
     <path
       d="M17 7L8.75 15L5 11.3636"
       stroke="white"
