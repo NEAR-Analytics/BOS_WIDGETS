@@ -58,6 +58,18 @@ return (
         />
       </div>
       <div className="mb-3 p-1">
+        <label for="description">Description:</label>
+        <input
+          id="description"
+          type="textarea"
+          rows="4"
+          max-length="1200"
+          placeholder="What is your character's description?"
+          value={player.metadata.name}
+          onChange={handleNameChange}
+        />
+      </div>
+      <div className="mb-3 p-1">
         <label for="species">Species:</label>
         <input
           id="species"
