@@ -13,7 +13,7 @@ const handleOnMouseLeave = () => {
   //     : props.isEditMode
   //     ? null
   //     : State.update({ show: false });
-  console.log(context.accountId);
+  console.log(typeof context.accountId);
 };
 
 const handleOpenMenu = () => {
