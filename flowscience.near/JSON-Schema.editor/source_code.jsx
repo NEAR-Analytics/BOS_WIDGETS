@@ -24,12 +24,6 @@ const [jsonSchema, setJsonSchema] = useState({
   required: [],
 });
 
-const output = {
-  jsonSchema: {
-    [jsonSchema.title]: jsonSchema,
-  },
-};
-
 State.init({
   newType: typeSrc,
   typeName: type.name || "",
@@ -65,6 +59,23 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   "tags",
   ...importedTypes,
 ];
+
+const create = () => {
+  const output = {
+    jsonSchema: {
+      [jsonSchema.title]: {
+        ...jsonSchema,
+        properties: state.properties,
+        required:
+          state.properties &&
+          state.properties
+            .filter((it) => it.isRequired)
+            .map((it) => (it = it.name)),
+      },
+    },
+  };
+  Social.set(output, { force });
+};
 
 const Container = styled.div`
   margin: 20px 0;
@@ -211,14 +222,11 @@ const handleMultiChange = (e, index) => {
 const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isRequired = e.target.value;
-  //State.update({ properties: updatedProperties });
-  setJsonSchema((prevJsonSchema) => {
-    const newRequired = updatedProperties
-      .filter((property) => property.isRequired) // Filter properties that are marked as required
-      .map((property) => property.name); // Map to their names
-
-    return { ...prevJsonSchema, required: newRequired };
-  });
+  State.update({ properties: updatedProperties });
+  setJsonSchema((prev) => ({
+    ...prev,
+    required: updatedProperties,
+  }));
 };
 
 function TypeSelect({ value, onChange }) {
@@ -417,15 +425,15 @@ return (
 
       <hr></hr>
       <Row>
-        <CommitButton
-          force
-          data={output}
+        <Button
+          onClick={create}
           disabled={state.properties.length === 0}
           className="styless"
         >
           Publish/Update Schema
-        </CommitButton>
+        </Button>
       </Row>
     </FormContainer>
   </Container>
 );
+``;
