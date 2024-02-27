@@ -560,13 +560,17 @@ return (
                   props.widgets && props.widgets.length ? "unset" : "absolute",
                 zIndex: "1081",
               }}
-              onClick={handleOpenMenu}
+              title={!context.accountId ? "Connect wallet" : null}
+              onClick={!context.accountId ? null : handleOpenMenu}
             />
           </>
         ) : (
           <WrapperButtonPlusDefault>
             {" "}
-            <ButtonPlusDefault onClick={handleOpenMenu} />
+            <ButtonPlusDefault
+              title={!context.accountId ? "Connect wallet" : null}
+              onClick={!context.accountId ? null : handleOpenMenu}
+            />
           </WrapperButtonPlusDefault>
         )}
       </TriggerShowPanel>
