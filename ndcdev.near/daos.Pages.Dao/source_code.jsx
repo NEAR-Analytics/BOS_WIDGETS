@@ -1,4 +1,4 @@
-let { assets, content, contractName } = VM.require(
+let { content, contractName } = VM.require(
   `ndcdev.near/widget/daos.Config`
 );
 
@@ -18,6 +18,14 @@ const Section = styled.div`
   gap: 3rem;
   padding: 4rem;
   background: ${(p) => (p.bgColor ? p.bgColor : "inherit")};
+  
+  @media screen and (max-width: 786px) {
+    padding: 2rem;
+  }
+
+  &.with-circles {
+    padding: 0;
+  }
 
   h2 {
     font-size: 3rem;
@@ -40,14 +48,6 @@ const Section = styled.div`
     text-transform: uppercase;
   }
 
-  h2,
-  h3,
-  h4 {
-    @media screen and (max-width: 786px) {
-      width: 100%;
-    }
-  }
-
   .item {
     color: inherit;
     width: 400px;
@@ -63,11 +63,12 @@ const Section = styled.div`
 
       h4 {
         margin: 10px 0 0 0;
+        width: max-content;
       }
     }
 
     .icon {
-      width: 50px;
+      width: 40px;
     }
 
     p {
@@ -78,6 +79,10 @@ const Section = styled.div`
 
     a {
       color: #151718 !important;
+
+      :hover {
+        text-decoration: none;
+      }
     }
 
     @media screen and (max-width: 786px) {
@@ -110,46 +115,6 @@ const Section = styled.div`
   }
 `;
 
-const ProjectsContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ProjectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-
-  .wrapper {
-    background: white;
-    border-radius: 20px;
-    background: #fff;
-    box-shadow: 0px 20px 40px 0px rgba(61, 72, 102, 0.4);
-    padding: 5px;
-
-    .image {
-      border-radius: 20px;
-      width: 230px;
-      height: 230px;
-      background:
-        ${(p) => (p.src ? `url(${p.src})` : none)},
-        lightgray 50% / cover no-repeat;
-    }
-  }
-
-  .title {
-    color: #222325;
-    font-size: 20px;
-    font-weight: 400;
-  }
-`;
-
 const [loading, setLoading] = useState(false);
 
 const dao = Near.view(contractName, "get_dao_by_id", { id: parseInt(id) });
@@ -157,32 +122,8 @@ const projects = Near.view(contractName, "get_dao_communities", {
   dao_id: parseInt(id),
 });
 
-if (!dao || !contractName || !content || !assets)
+if (!dao || !contractName || !content)
   return <Widget src="flashui.near/widget/Loading" />;
-
-const ReadMore = ({ title, href }) => (
-  <a href="" className="text-center btn-primary d-flex justify-content-end">
-    <div className="d-flex justify-content-between">
-      <a href={href}>{title}</a>
-      <i className="bi bi-chevron-right" />
-    </div>
-  </a>
-);
-
-const Info = ({ card }) => (
-  <div className="item d-flex flex-column gap-2 justify-content-between">
-    <div className="header gap-3 p-4 text-center">
-      <img className="icon" src={card.icon} />
-      <h4>{card.title}</h4>
-    </div>
-    <div className="p-4 text-center">
-      <p>{card.description}</p>
-    </div>
-    <div className="px-5 pb-4">
-      <ReadMore href={card.button.link} title={card.button.title} />
-    </div>
-  </div>
-);
 
 const ProjectCard = ({ project }) => (
   <ProjectContainer src={project.logo_url}>
@@ -199,35 +140,36 @@ return (
   <Container>
     <img className="hero-img" src={dao.banner_url} />
 
-    <Section>
-      <h2>{dao.title}</h2>
-      <h4>{dao.description}</h4>
-      <div className="d-flex flex-wrap gap-5 justify-content-center">
-        {section.info.cards.map((card) => (
-          <Info card={card} />
-        ))}
-      </div>
+    <Section className="with-circles">
+      <Widget
+        src={`ndcdev.near/widget/daos.Components.Dao.Info`}
+        props={{ section, dao }}
+      />
     </Section>
 
-    {projects?.length && (
+    {projects?.length > 0 ? (
       <Section>
-        <h3>{section.projects.title}</h3>
-        <ProjectsContainer>
-          {projects.map((project) => (
-            <ProjectCard project={project} />
-          ))}
-        </ProjectsContainer>
+        <Widget
+          src={`ndcdev.near/widget/daos.Components.Dao.FeaturedProjects`}
+          props={{ section, projects }}
+        />
       </Section>
+    ) : (
+      ""
     )}
 
-    <Section>
-      <h2>{section.guidance.title}</h2>
-      <p>{section.guidance.description}</p>
+    <Section style={{background: 'black'}}>
+    <Widget
+        src={`ndcdev.near/widget/daos.Components.Dao.Guidance`}
+        props={{ section: section }}
+      />
     </Section>
 
-    <Section>
-      <h2>{section.office.title}</h2>
-      <p>{section.office.description}</p>
+    <Section className="d-flex flex-column gap-5">
+      <Widget
+        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHourse`}
+        props={{ section }}
+      />
     </Section>
   </Container>
 );
