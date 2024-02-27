@@ -392,7 +392,8 @@ const ButtonApply = styled.button`
   justify-content: center;
   border-radius: 50%;
   padding: 0;
-
+background: #384BFF;
+padding-right: 2px;
   cursor: pointer;
   box-sizing: border-box;
   transition: all 0.3s;
