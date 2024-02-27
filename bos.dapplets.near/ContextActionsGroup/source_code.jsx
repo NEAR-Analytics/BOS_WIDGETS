@@ -46,8 +46,8 @@ const OverlayTriggerWrapper = styled.div`
 
   .OverlayTrigger {
     position: absolute;
-    background: #db504a;
-    border: 1px solid #db504a;
+    background: #384BFF;
+    border: 1px solid #384BFF;
     width: 6px;
     height: 49px;
     right: -6px;
@@ -132,7 +132,7 @@ const ActionsWrapper = styled.div`
     }
     100% {
       padding-top: 6px;
-      border: 1px solid #db504a;
+      border: 1px solid #384BFF;
       opacity: 1;
       right: 60px;
       height: auto;
