@@ -1,7 +1,7 @@
 let FEE = props.fee > 0 ? props.fee : 0.1;
 let WIDTH = props.width > 0 ? props.width : 0.5;
-let POOLNAME1 = props.poolName1.replace("WETH", "ETH");
-let POOLNAME2 = props.poolName2.replace("WETH", "ETH");
+let POOLNAME1 = props.poolName1;
+let POOLNAME2 = props.poolName2;
 const setFeeWidth = props.setFeeWidth;
 const closeModal = props.closeModal;
 console.log(POOLNAME1, POOLNAME2);
