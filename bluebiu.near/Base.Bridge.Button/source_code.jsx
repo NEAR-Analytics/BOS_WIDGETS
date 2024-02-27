@@ -17,6 +17,7 @@ const Button = styled.button`
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   disabled,
+  loading,
   amount,
   maxInputBalance,
   currency,
@@ -30,7 +31,14 @@ const {
   onSuccess,
 } = props;
 
+if (loading)
+  return (
+    <Button disabled={disabled}>
+      <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />
+    </Button>
+  );
 if (disabled) return <Button disabled={disabled}>Confrim</Button>;
+
 if (Big(amount || 0).eq(0))
   return <Button disabled={true}>Enter An Amount</Button>;
 if (Big(amount || 0).gt(maxInputBalance || 0) || !currency) {
