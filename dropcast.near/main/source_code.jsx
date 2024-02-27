@@ -194,6 +194,12 @@ return (
           props={{ API_URL, USER, TOKEN, Logout, changePage }}
         />
       )}
+      {state.page === "custom_allowlist" && (
+        <Widget
+          src={`${Owner}/widget/allowlist`}
+          props={{ API_URL, USER, TOKEN, Logout }}
+        />
+      )}
     </PageWrapper>
   </Wrapper>
 );
