@@ -97,6 +97,49 @@ const AGE_ACCOUNT = [
   },
 ];
 
+const TRANSACTION = [
+  {
+    text: "10 Transactions",
+    value: "transaction1",
+  },
+  {
+    text: "50 Transactions",
+    value: "transaction2",
+  },
+  {
+    text: "1000 Transactions",
+    value: "transaction3",
+  },
+  {
+    text: "10000 Transactions",
+    value: "transaction4",
+  },
+  {
+    text: "Default",
+    value: "transaction0",
+  },
+];
+
+const BOOL = [
+  {
+    text: "Yes",
+    value: "yes",
+  },
+  {
+    text: "No",
+    value: "no",
+  },
+];
+
+State.init({
+  near: "near0",
+  age: "age0",
+  transaction: "transaction0",
+  nft: "no",
+  meme: "no",
+  activity: "no",
+});
+
 const changeOption = (key, value) => {
   State.update({
     ...state,
@@ -119,7 +162,7 @@ return (
             noLabel: true,
             width: "40vw",
             options: NEAR_TOKEN,
-            value: "near0",
+            value: state.near,
             onChange: (val) => changeOption("near", val),
           }}
           src={`${Owner}/widget/Select`}
@@ -132,8 +175,60 @@ return (
             noLabel: true,
             width: "40vw",
             options: AGE_ACCOUNT,
-            value: "age0",
+            value: state.age,
             onChange: (val) => changeOption("age", val),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        <Label>{`Transaction Count`}</Label>
+        <Widget
+          props={{
+            noLabel: true,
+            width: "40vw",
+            options: TRANSACTION,
+            value: state.transaction,
+            onChange: (val) => changeOption("transaction", val),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        <Label>{`Holds NFTs`}</Label>
+        <Widget
+          props={{
+            noLabel: true,
+            width: "40vw",
+            options: BOOL,
+            value: state.nft,
+            onChange: (val) => changeOption("nft", val),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        <Label>{`Holds Meme Coins`}</Label>
+        <Widget
+          props={{
+            noLabel: true,
+            width: "40vw",
+            options: BOOL,
+            value: state.meme,
+            onChange: (val) => changeOption("meme", val),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        <Label>{`Has Near Social Activity`}</Label>
+        <Widget
+          props={{
+            noLabel: true,
+            width: "40vw",
+            options: BOOL,
+            value: state.activity,
+            onChange: (val) => changeOption("activity", val),
           }}
           src={`${Owner}/widget/Select`}
         />
