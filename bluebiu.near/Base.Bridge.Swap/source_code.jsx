@@ -143,19 +143,6 @@ function debounce(fn, wait) {
   };
 }
 
-const checkGasIsEnough = () => {
-  if (!account) return;
-  const provider = Ethers.provider();
-  provider.getBalance(account).then((rawBalance) => {
-    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
-    const _balance = state.currency.isNative
-      ? Big(balance || 0).minus(state.amount || 0)
-      : Big(balance || 0);
-
-    State.update({ isGasEnough: !_balance.lt(state.gasCost || 0) });
-  });
-};
-
 const debouncedGetTrade = debounce(getTrade, 500);
 
 useEffect(() => {
@@ -169,6 +156,19 @@ useEffect(() => {
     errorTips: "",
   });
 }, [state.maxInputBalance, state.amount]);
+
+useEffect(() => {
+  if (!account) return;
+  const provider = Ethers.provider();
+  provider.getBalance(account).then((rawBalance) => {
+    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
+    const _balance = state.currency.isNative
+      ? Big(balance || 0).minus(state.amount || 0)
+      : Big(balance || 0);
+
+    State.update({ isGasEnough: !_balance.lt(state.gasCost || 0) });
+  });
+}, [state.gasCost]);
 
 return (
   <>
@@ -236,7 +236,6 @@ return (
             };
             if (val && Number(val)) debouncedGetTrade();
             State.update(params);
-            checkGasIsEnough();
           },
         }}
       />
@@ -310,6 +309,7 @@ return (
         handlerSwap,
         addAction: props.addAction,
         toast: props.toast,
+        loading: state.loading,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
@@ -340,7 +340,6 @@ return (
             loading: false,
             ...data,
           });
-          checkGasIsEnough();
         },
       }}
     />
