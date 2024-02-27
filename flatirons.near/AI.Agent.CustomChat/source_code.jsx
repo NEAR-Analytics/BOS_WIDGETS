@@ -46,8 +46,8 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
 );
 
 const [panelOfExperts, setPanelOfExperts] = useState(false);
-const [userData, setUserData] = useState("");
 const [treeOfThought, setTreeOfThought] = useState(false);
+const [userData, setUserData] = useState("");
 
 useEffect(() => {
   Storage.set("agent-model", model);
@@ -201,6 +201,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     gap: 48px;
     padding: 48px;
+    //background-color: #01ec97;
 `;
 
 const Overview = styled.div`
@@ -581,9 +582,8 @@ return (
           src="mob.near/widget/Image"
           props={{
             image: {
-              url: "https://ipfs.near.social/ipfs/bafkreig6nnob77lom5xjmpkcqmkkx3b642aa76hkhujtnot4eyei5a74oq",
+              url: "https://morguefile.nyc3.cdn.digitaloceanspaces.com/imageData/public/files/l/lauramusikanski/03/l/1457691863q6d3i.jpg",
             },
-            alt: "a black dragon tail",
             style: { width: "100%", height: "100%" },
           }}
         />
