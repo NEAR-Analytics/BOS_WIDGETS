@@ -63,6 +63,7 @@ return (
           id="description"
           type="textarea"
           rows="4"
+          cols="80"
           max-length="1200"
           placeholder="What is your character's description?"
           value={player.metadata.name}
