@@ -201,7 +201,6 @@ const Wrapper = styled.div`
     flex-direction: column;
     gap: 48px;
     padding: 48px;
-    background-color: #01ec97;
 `;
 
 const Overview = styled.div`
