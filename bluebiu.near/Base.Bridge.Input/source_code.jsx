@@ -108,6 +108,10 @@ const Amount = styled.div`
   line-height: 16px;
   text-align: right;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
 `;
 // styled area end
 
@@ -124,8 +128,6 @@ const getTokenPrice = () => {
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (state.loading)
-      return <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />;
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4, 0);
@@ -236,13 +238,19 @@ return (
         }}
       >
         Balance:{" "}
-        <span
-          style={{
-            textDecoration: props.disabled ? "none" : "underline",
-          }}
-        >
-          {utils.balanceFormated()}
-        </span>
+        {state.loading ? (
+          <div style={{ width: "18px" }}>
+            <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />
+          </div>
+        ) : (
+          <span
+            style={{
+              textDecoration: props.disabled ? "none" : "underline",
+            }}
+          >
+            {utils.balanceFormated()}
+          </span>
+        )}
       </Amount>
     </CurrencyField>
   </Wrapper>
