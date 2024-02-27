@@ -226,7 +226,7 @@ const componentPath = props.componentPath;
 const indexPath = props.indexPath;
 const storageBookmark = Storage.get(
   "nearcatalogBookmark",
-  props.componentPath + ".Project"
+  componentPath + ".Project"
 );
 
 if (state.bookmark == null && storageBookmark) {
