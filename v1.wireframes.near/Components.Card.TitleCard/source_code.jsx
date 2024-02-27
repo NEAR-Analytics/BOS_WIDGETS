@@ -30,7 +30,7 @@ return(
             {cardHeader}
         </div>
         }
-        <div class="card-body" style={cardBodyStyle}>
+        <div className="card-body" style={cardBodyStyle}>
             {cardBody}
         </div>
         </div>
