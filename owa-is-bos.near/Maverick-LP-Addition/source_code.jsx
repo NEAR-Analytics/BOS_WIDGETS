@@ -109,14 +109,8 @@ const getUserBalances = () => {
 
 // Method to set user balances
 const setUserBalances = () => {
-  const tokA =
-    state.selectedPoolOptions.tokenA.symbol == "ETH"
-      ? "WETH"
-      : state.selectedPoolOptions.tokenA.symbol;
-  const tokB =
-    state.selectedPoolOptions.tokenB.symbol == "ETH"
-      ? "WETH"
-      : state.selectedPoolOptions.tokenB.symbol;
+  const tokA = state.selectedPoolOptions.tokenA.symbol;
+  const tokB = state.selectedPoolOptions.tokenB.symbol;
   const tokABalance = state.userBalances.find((token) => token.symbol == tokA);
   const tokBBalance = state.userBalances.find((token) => token.symbol == tokB);
   tokABalance
@@ -158,7 +152,7 @@ const getNFTUser = () => {
 // Method to get pools
 const getPools = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/pools/324
-      `)
+          `)
     .catch((err) => {
       console.log(err);
     })
@@ -238,28 +232,33 @@ const setPoolOption = (allPoolOptions, poolOptionSelected) => {
 // Method to get account allowance
 const getAccountAllowance = (data) => {
   let token = data.token;
-  asyncFetch(
-    "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
-  ).then((res) => {
-    const contract = token.address;
-    if (token.symbol == "ETH") {
-      contract = "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91";
-    }
-    const approveContract = new ethers.Contract(
-      contract,
-      res.body,
-      Ethers.provider().getSigner()
-    );
-    approveContract
-      .allowance(state.sender, state.routerContract)
-      .then((res) => {
-        if (data.mode == "TA") {
-          State.update({ tokenAAllowance: parseInt(res.toString()) });
-        } else {
-          State.update({ tokenBAllowance: parseInt(res.toString()) });
-        }
-      });
-  });
+  if (token.symbol == "ETH") {
+    data.mode == "TA"
+      ? State.update({ tokenAAllowance: undefined })
+      : State.update({ tokenBAllowance: undefined });
+  } else {
+    asyncFetch(
+      "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+    ).then((res) => {
+      const contract = token.address;
+      const approveContract = new ethers.Contract(
+        contract,
+        res.body,
+        Ethers.provider().getSigner()
+      );
+      console.log(approveContract);
+      approveContract
+        .allowance(state.sender, state.routerContract)
+        .then((res) => {
+          console.log(res);
+          if (data.mode == "TA") {
+            State.update({ tokenAAllowance: parseInt(res.toString()) });
+          } else {
+            State.update({ tokenBAllowance: parseInt(res.toString()) });
+          }
+        });
+    });
+  }
 };
 
 // Method to add liquidity
@@ -281,6 +280,11 @@ const addLiquidity = () => {
   let amountInA, amountInB;
   let inputA = state.amountInputTokenA;
   let inputB = state.amountInputTokenB;
+  let usingETH =
+    state.selectedPoolOptions.tokenA.symbol == "ETH" ||
+    state.selectedPoolOptions.tokenB.symbol == "ETH";
+  let tokUsedETH =
+    state.selectedPoolOptions.tokenA.symbol == "ETH" ? "tokA" : "tokB";
 
   if (state.poolModeSelected.id == 0) {
     if (state.poolDistributionSelected.name == "Single Bin") {
@@ -332,7 +336,11 @@ const addLiquidity = () => {
   }
 
   const overrides = {
-    value: ethers.utils.parseUnits("0", 18),
+    value: usingETH
+      ? tokUsedETH == "tokA"
+        ? amountInA
+        : amountInB
+      : ethers.utils.parseUnits("0", 18),
     gasLimit: 3000000,
   };
 
@@ -1194,18 +1202,10 @@ const validateButtonDisabled = (
         : state.poolModeSelected.id == 1
         ? state.tokenABalance
           ? "Validate"
-          : `You don't have enough balance on ${
-              state.selectedPoolOptions.tokenA.symbol == "ETH"
-                ? "WETH"
-                : state.selectedPoolOptions.tokenA.symbol
-            }`
+          : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
         : state.tokenBBalance
         ? "Validate"
-        : `You don't have enough balance on ${
-            state.selectedPoolOptions.tokenB.symbol == "ETH"
-              ? "WETH"
-              : state.selectedPoolOptions.tokenB.symbol
-          }`}
+        : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
     </div>
   </div>
 );
@@ -1221,12 +1221,8 @@ const allowanceButton = (mode) => {
     <div class="allowanceButton" onClick={() => approveErc20Token(mode)}>
       <div class={"ConfirmText"}>
         {mode == "TA"
-          ? "Add more allowance on " + state.poolSelected.tokenA.symbol == "ETH"
-            ? "WETH"
-            : state.poolSelected.tokenA.symbol
-          : "Add more allowance on " + state.poolSelected.tokenB.symbol == "ETH"
-          ? "WETH"
-          : state.poolSelected.tokenB.symbol}
+          ? "Add more allowance on " + state.poolSelected.tokenA.symbol
+          : "Add more allowance on " + state.poolSelected.tokenB.symbol}
       </div>
     </div>
   );
@@ -1237,14 +1233,8 @@ const insufficientBalanceButton = (mode) => {
     <div class="allowanceButtonDisabled" disabled>
       <div class={"ConfirmText"}>
         {mode == "TA"
-          ? "Insufficient balance on " + state.poolSelected.tokenA.symbol ==
-            "ETH"
-            ? "WETH"
-            : state.poolSelected.tokenA.symbol
-          : "Insufficient balance on " + state.poolSelected.tokenB.symbol ==
-            "ETH"
-          ? "WETH"
-          : state.poolSelected.tokenB.symbol}
+          ? "Insufficient balance on " + state.poolSelected.tokenA.symbol
+          : "Insufficient balance on " + state.poolSelected.tokenB.symbol}
       </div>
     </div>
   );
@@ -1255,12 +1245,8 @@ const allowanceButtonDisabled = () => {
     <div class="allowanceButtonDisabled" disabled>
       <div class={"ConfirmText"}>
         {state.moreTokenAAllowance
-          ? "Approving " + state.poolSelected.tokenA.symbol == "ETH"
-            ? "WETH"
-            : state.poolSelected.tokenA.symbol
-          : "Approving " + state.poolSelected.tokenB.symbol == "ETH"
-          ? "WETH"
-          : state.poolSelected.tokenB.symbol}
+          ? "Approving " + state.poolSelected.tokenA.symbol
+          : "Approving " + state.poolSelected.tokenB.symbol}
       </div>
     </div>
   );
@@ -1276,8 +1262,8 @@ if (!css) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-          ${css}
-      `,
+              ${css}
+          `,
   });
 }
 
@@ -1428,21 +1414,13 @@ return (
                     {state.poolSelected ? (
                       <img
                         class="TokenImg"
-                        src={
-                          state.poolSelected.tokenA.symbol == "ETH"
-                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
-                            : state.poolSelected.tokenA.logoURI
-                        }
+                        src={state.poolSelected.tokenA.logoURI}
                       />
                     ) : null}
                     {state.poolSelected ? (
                       <img
                         class="TokenImg"
-                        src={
-                          state.poolSelected.tokenB.symbol == "ETH"
-                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
-                            : state.poolSelected.tokenB.logoURI
-                        }
+                        src={state.poolSelected.tokenB.logoURI}
                       />
                     ) : null}
                     <div class="TokenNameSection">
@@ -1460,17 +1438,7 @@ return (
                           Select Pool
                         </option>
                         {state.poolList.map((p) => {
-                          return (
-                            <option value={p.name}>
-                              {(p.tokenA.symbol == "ETH"
-                                ? "WETH"
-                                : p.tokenA.symbol) +
-                                "-" +
-                                (p.tokenB.symbol == "ETH"
-                                  ? "WETH"
-                                  : p.tokenB.symbol)}
-                            </option>
-                          );
+                          return <option value={p.name}>{p.name}</option>;
                         })}
                       </select>
                     </div>
@@ -1546,17 +1514,13 @@ return (
                       <div class="row" style={{ color: "white" }}>
                         <div class="col-6 PoolOptionDetails">
                           {state.selectedPoolOptions
-                            ? (state.selectedPoolOptions.tokenA.symbol == "ETH"
-                                ? "WETH"
-                                : state.selectedPoolOptions.tokenA.symbol) +
+                            ? state.selectedPoolOptions.tokenA.symbol +
                               " Balance"
                             : ""}
                         </div>
                         <div class="col-6 PoolOptionDetails">
                           {state.selectedPoolOptions
-                            ? (state.selectedPoolOptions.tokenB.symbol == "ETH"
-                                ? "WETH"
-                                : state.selectedPoolOptions.tokenB.symbol) +
+                            ? state.selectedPoolOptions.tokenB.symbol +
                               " Balance"
                             : ""}
                         </div>
@@ -1823,18 +1787,12 @@ return (
                     {state.poolSelected ? (
                       <img
                         class="TokenImg"
-                        src={
-                          state.poolSelected.tokenA.symbol == "ETH"
-                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
-                            : state.poolSelected.tokenA.logoURI
-                        }
+                        src={state.poolSelected.tokenA.logoURI}
                       />
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token A {"->"}</div>
-                      {state.poolSelected.tokenA.symbol == "ETH"
-                        ? "WETH"
-                        : state.poolSelected.tokenA.symbol}
+                      {state.poolSelected.tokenA.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name == "Mode Left" ? null : (
@@ -1893,18 +1851,12 @@ return (
                     {state.poolSelected ? (
                       <img
                         class="TokenImg"
-                        src={
-                          state.poolSelected.tokenB.symbol == "ETH"
-                            ? "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/weth.png"
-                            : state.poolSelected.tokenB.logoURI
-                        }
+                        src={state.poolSelected.tokenB.logoURI}
                       />
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token B {"->"}</div>
-                      {state.poolSelected.tokenB.symbol == "ETH"
-                        ? "WETH"
-                        : state.poolSelected.tokenB.symbol}
+                      {state.poolSelected.tokenB.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name != "Mode Right" && (
