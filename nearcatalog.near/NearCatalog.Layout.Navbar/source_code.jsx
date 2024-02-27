@@ -9,6 +9,7 @@ const Css = styled.div`
 const navItems = [
   { t: "🏠Home", l: ``, r: "home" },
   { t: "🔥Trending", l: `?cat=trending`, r: "trending" },
+  { t: "⭐Bookmark", l: `?bookmark=lfg`, r: "trending" },
 ];
 return (
   <Css>
@@ -53,15 +54,6 @@ return (
                 </li>
               );
             })}
-            <li className="nav-item">
-              {" "}
-              <a
-                className="nav-link"
-                href={`/${props.indexPath}` + "?bookmark=lfg"}
-              >
-                ⭐Bookmark
-              </a>
-            </li>
             <li className="nav-item">
               {" "}
               <a
