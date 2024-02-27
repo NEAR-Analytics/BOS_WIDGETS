@@ -1,4 +1,6 @@
-const hiddenAccounts = Social.get(`${context.accountId}/graph/hide/*`, "final");
+const accountId = context.accountId || props.accountId;
+
+const hiddenAccounts = Social.get(`${accountId}/graph/hide/*`, "final");
 
 hiddenAccounts = hiddenAccounts && Object.keys(hiddenAccounts);
 
