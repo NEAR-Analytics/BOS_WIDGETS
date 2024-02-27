@@ -31,9 +31,9 @@ const navStyle = props.navStyle ?? {
   boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
 };
 const menuInlineStyle = props.menuInlineStyle;
-const navbarclassNamees = `navbar fixed-top navbar-expand-lg ${navMode === 'light' ? 'navbar-light' : 'navbar-dark bg-dark'}`;
+const navbarClassNames = `navbar fixed-top navbar-expand-lg ${navMode === 'light' ? 'navbar-light' : 'navbar-dark bg-dark'}`;
 const menuSide = props.menuSide ?? "right";
-const ulclassName = `navbar-nav mb-2 mb-lg-0 ${menuSide === 'left' ? 'me-auto' : 'ms-auto'}`;
+const ulClassName = `navbar-nav mb-2 mb-lg-0 ${menuSide === 'left' ? 'me-auto' : 'ms-auto'}`;
 const isToggle = props.isToggle ?? false;
 
 return (
@@ -41,7 +41,7 @@ return (
      
 
   <div>
-    <div className={navbarclassNamees} style={navStyle}>
+    <div className={navbarClassNames} style={navStyle}>
       <div className="container-fluid">
         <a className="navbar-brand" href={logoHref} style={{ textDecoration:"none" }}>
         {logoSrc && (<img classNameName="mb-3" style={{ width:logoWidth,
@@ -77,7 +77,7 @@ return (
         </button>
         )}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className={ulclassName}>
+          <ul className={ulClassName}>
             {linksData.map((data) => (
               <li className="nav-item">
               <a className="nav-link" href={data.menuHref} style={ menuInlineStyle }>
