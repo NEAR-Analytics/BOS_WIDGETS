@@ -147,6 +147,8 @@ const changeOption = (key, value) => {
   });
 };
 
+const onSubmit = () => {};
+
 return (
   <Wrapper>
     <Card>
@@ -233,14 +235,8 @@ return (
           src={`${Owner}/widget/Select`}
         />
       </div>
-      <Button
-        className="btn"
-        disabled={
-          (type !== "edit" && state.selected === "0") || !state.description
-        }
-        onClick={handleNextStep}
-      >
-        Next Step
+      <Button className="btn" onClick={onSubmit}>
+        Download CSV
       </Button>
     </Card>
   </Wrapper>
