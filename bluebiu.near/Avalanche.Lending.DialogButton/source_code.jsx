@@ -238,9 +238,9 @@ if (data.underlyingToken.address === "native") {
     State.update({ isApproved: true });
     onLoad?.(true);
   }
-  if (["Withdraw", "Borrow"].includes(actionText)) {
-    getAllowance();
-  }
+  // if (["Withdraw", "Borrow"].includes(actionText)) {
+  //   getAllowance();
+  // }
 } else {
   if (["Deposit", "Repay"].includes(actionText)) {
     getAllowance();
