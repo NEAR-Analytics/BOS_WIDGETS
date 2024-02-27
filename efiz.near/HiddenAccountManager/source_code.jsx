@@ -2,6 +2,10 @@ const accountId = props.accountId ?? context.accountId;
 
 const hiddenAccounts = Social.get(`${accountId}/graph/hide/*`, "final");
 
+if (!hiddenAccounts) {
+  return <></>;
+}
+
 hiddenAccounts = hiddenAccounts && Object.keys(hiddenAccounts);
 
 const [accounts, setAccounts] = useState(hiddenAccounts);
