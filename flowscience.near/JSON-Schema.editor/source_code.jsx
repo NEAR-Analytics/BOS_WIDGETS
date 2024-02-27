@@ -211,11 +211,14 @@ const handleMultiChange = (e, index) => {
 const handleRequiredChange = (e, index) => {
   const updatedProperties = [...state.properties];
   updatedProperties[index].isRequired = e.target.value;
-  State.update({ properties: updatedProperties });
-  setJsonSchema((prev) => ({
-    ...prev,
-    required: updatedProperties,
-  }));
+  //State.update({ properties: updatedProperties });
+  setJsonSchema((prevJsonSchema) => {
+    const newRequired = updatedProperties
+      .filter((property) => property.isRequired) // Filter properties that are marked as required
+      .map((property) => property.name); // Map to their names
+
+    return { ...prevJsonSchema, required: newRequired };
+  });
 };
 
 function TypeSelect({ value, onChange }) {
