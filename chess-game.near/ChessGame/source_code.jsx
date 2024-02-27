@@ -66,16 +66,29 @@ const GameInfo = styled.div`
 `;
 
 const renderPlayer = (color, player) => {
-  if (player.Human) {
+  const usesOldSerialization = gameInfo.black.type == null;
+  if (usesOldSerialization && player.Human) {
     return (
       <div>
         Player {color}: {player.Human}
       </div>
     );
-  } else if (player.Ai) {
+  } else if (player.type === "Human") {
+    return (
+      <div>
+        Player {color}: {player.value}
+      </div>
+    );
+  } else if (usesOldSerialization && player.Ai) {
     return (
       <div>
         Player {color}: AI ({player.Ai})
+      </div>
+    );
+  } else if (player.type === "Ai") {
+    return (
+      <div>
+        Player {color}: AI ({player.value})
       </div>
     );
   } else {
