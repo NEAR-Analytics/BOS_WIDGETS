@@ -60,7 +60,7 @@ const Avatar = styled.img`
 
 const SelectedIcon = styled.div`
     left: -5px;
-    width: 20%;
+    width: 10%;
     height: 8px;
     position: absolute;
     border-radius: 0.375rem;
