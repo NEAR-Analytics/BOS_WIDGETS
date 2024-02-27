@@ -192,7 +192,7 @@ const ButtonPlus = styled.div`
     width: 1.5px;
     height: 11px;
     border-radius: 2px;
-    background: #747376;
+    background: #fff;
     position: absolute;
     top: 6px;
     left: 11px;
@@ -203,7 +203,7 @@ const ButtonPlus = styled.div`
     height: 1px;
     width: 11px;
     border-radius: 2px;
-    background: #747376;
+    background: #fff;
     position: absolute;
     top: 11px;
     left: 6px;
@@ -459,7 +459,7 @@ const iconEdit = (
   >
     <path
       d="M12 7L2 7"
-      stroke="#384BFF"
+      stroke="#fff"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
