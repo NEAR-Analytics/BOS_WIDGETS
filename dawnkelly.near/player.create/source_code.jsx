@@ -165,23 +165,44 @@ return (
       </div>
       <div className="mb-3 p-1">
         <label for="species">Species:</label>
-        <input
+        <select
+          name="species"
           id="species"
-          type="text"
-          placeholder="What is your character's species?"
           value={player.metadata.species}
           onChange={handleSpeciesChange}
-        />
+        >
+          <option value="dwarf">Dwarf</option>
+          <option value="orc">Orc</option>
+          <option value="human">Human</option>
+          <option value="elf">Elf</option>
+          <option value="halfling">Halfling</option>
+          <option value="human">Human</option>
+          <option value="dragonborn">Dragonborn</option>
+          <option value="gnome">Gnome</option>
+          <option value="tiefling">Tiefling</option>
+        </select>
       </div>
       <div className="mb-3 p-1">
         <label for="class">Class:</label>
-        <input
+        <select
+          name="class"
           id="class"
-          type="text"
-          placeholder="What is your character's class?"
           value={player.metadata.class}
           onChange={handleClassChange}
-        />
+        >
+          <option value="barbarian">Barbarian</option>
+          <option value="bard">Bard</option>
+          <option value="cleric">Cleric</option>
+          <option value="druid">Druid</option>
+          <option value="fighter">Fighter</option>
+          <option value="archer">Archer</option>
+          <option vlaue="knight">Knight</option>
+          <option value="monk">Monk</option>
+          <option value="paladin">Paladin</option>
+          <option value="ranger">Ranger</option>
+          <option value="sorcerer">Sorceror</option>
+          <option value="wizard">Wizard</option>
+        </select>
       </div>
       <div className="mb-3 p-1">
         <label for="skill">Skill:</label>
@@ -216,13 +237,21 @@ return (
     </div>
     <div className="mb-3 p-1">
       <label for="defaultweapon">Default Weapon:</label>
-      <input
+      <select
+        name="defaultweapon"
         id="defaultweapon"
-        type="text"
-        placeholder="What is your character's default weapon?"
         value={player.metadata.defaultweapon}
         onChange={handleDefaultWeaponChange}
-      />
+      >
+        <option value="bladeRadiance">Blade of Radiance</option>
+        <option value="moonShadowBow">Moon Shadow Bow</option>
+        <option value="thunderForgeHammer">Thunderforge War Hammer</option>
+        <option value="celestialStaff">Celestial Staff</option>
+        <option value="shadowScepter">Shadow Scepter</option>
+        <option value="obsidianCleaver">Obsidian Cleaver</option>
+        <option vlaue="graspingGauntlets">Grasping Gauntlents</option>
+        <option value="voidDagger">Void Dagger</option>
+      </select>
     </div>
     <div className="m-2">
       <h4>Create Character Stats</h4>
