@@ -1,4 +1,4 @@
-const Css=styled.div`
+const Css = styled.div`
     .nav-item{
         list-style:none;
     }
@@ -7,38 +7,73 @@ const Css=styled.div`
     }
 `;
 const navItems = [
-    {t: "🏠Home" , l: `` , r: "home"},
-    {t: "🔥Trending" , l: `?cat=trending` , r: "trending" },
-    {t:"⭐Bookmark" , l:`?bookmark=lfg` , r : "bookmark" },
+  { t: "🏠Home", l: ``, r: "home" },
+  { t: "🔥Trending", l: `?cat=trending`, r: "trending" },
 ];
 return (
-    <Css>
-    <div id="nearcatalog-navbar" className="navbar navbar-expand-lg navbar-light" style={{
-        "background": "white",
-        "border": "0.05rem solid rgb(238, 238, 238)",
-        "boxShadow": "rgba(34, 34, 34, 0.05) 0px 0.05rem 0.05rem, rgba(34, 34, 34, 0.075) 0px 0.2rem 0.8rem",
-        "borderRadius": "0.8rem",
-        "color": "rgb(34, 34, 34)",
-        "marginBottom": "20px"
-      }}>
-        <div className="container-fluid">
-            <Link className="navbar-brand" href={`/${props.indexPath}`}>📒NEARCatalog </Link>
+  <Css>
+    <div
+      id="nearcatalog-navbar"
+      className="navbar navbar-expand-lg navbar-light"
+      style={{
+        background: "white",
+        border: "0.05rem solid rgb(238, 238, 238)",
+        boxShadow:
+          "rgba(34, 34, 34, 0.05) 0px 0.05rem 0.05rem, rgba(34, 34, 34, 0.075) 0px 0.2rem 0.8rem",
+        borderRadius: "0.8rem",
+        color: "rgb(34, 34, 34)",
+        marginBottom: "20px",
+      }}
+    >
+      <div className="container-fluid">
+        <Link className="navbar-brand" href={`/${props.indexPath}`}>
+          📒NEARCatalog{" "}
+        </Link>
 
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-            <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul className="navbar-nav">
-                    { navItems.map(e => {
-                            return <li className="nav-item">
-                            <Link className="nav-link" href={`/${props.indexPath}` + e.l}>{e.t}</Link>
-                        </li>
-                        } ) }
-                        <li className="nav-item"> <Link className="nav-link" href="https://forms.gle/ASi6xpVAyoPcxghr8">📥 Submit project</Link></li>
-                </ul>
-            </div>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            {navItems.map((e) => {
+              return (
+                <li className="nav-item">
+                  <Link className="nav-link" href={`/${props.indexPath}` + e.l}>
+                    {e.t}
+                  </Link>
+                </li>
+              );
+            })}
+            <li className="nav-item">
+              {" "}
+              <a
+                className="nav-link"
+                href={`/${props.indexPath}` + "?bookmark=lfg"}
+              >
+                ⭐Bookmark
+              </a>
+            </li>
+            <li className="nav-item">
+              {" "}
+              <a
+                className="nav-link"
+                href="https://forms.gle/ASi6xpVAyoPcxghr8"
+              >
+                📥 Submit project
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-    </Css>
-)
+  </Css>
+);
