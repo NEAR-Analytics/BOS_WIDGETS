@@ -146,6 +146,7 @@ const renderGameIds = (gameIds) =>
     const gameInfo = Near.view(contractId, "game_info", {
       game_id: gameId,
     });
+    const usesOldSerialization = gameInfo.black.type == null;
     return (
       <Widget
         src={buttonWidget}
@@ -158,15 +159,28 @@ const renderGameIds = (gameIds) =>
               {gameInfo && (
                 <div>
                   VS:{" "}
-                  {gameInfo.black.Ai ? (
-                    <>AI ({gameInfo.black.Ai})</>
+                  {usesOldSerialization ? (
+                    gameInfo.black.Ai ? (
+                      <>AI ({gameInfo.black.Ai})</>
+                    ) : (
+                      <>
+                        Player
+                        {gameInfo.black.Human === accountId ? (
+                          <> ({gameInfo.white.Human})</>
+                        ) : (
+                          <> ({gameInfo.black.Human})</>
+                        )}
+                      </>
+                    )
+                  ) : gameInfo.black.type === "Ai" ? (
+                    <>AI ({gameInfo.black.value})</>
                   ) : (
                     <>
                       Player
-                      {gameInfo.black.Human === accountId ? (
-                        <> ({gameInfo.white.Human})</>
+                      {gameInfo.black.value === accountId ? (
+                        <> ({gameInfo.white.value})</>
                       ) : (
-                        <> ({gameInfo.black.Human})</>
+                        <> ({gameInfo.black.value})</>
                       )}
                     </>
                   )}
