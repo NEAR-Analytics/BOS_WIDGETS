@@ -4,7 +4,8 @@ State.init({
 });
 
 const handleOnMouseEnter = () => {
-  State.update({ show: true });
+  //   State.update({ show: true });
+  console.log("");
 };
 
 const handleOnMouseLeave = () => {
@@ -458,7 +459,7 @@ const iconEdit = (
   >
     <path
       d="M12 7L2 7"
-      stroke="#747376"
+      stroke="#384BFF"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
