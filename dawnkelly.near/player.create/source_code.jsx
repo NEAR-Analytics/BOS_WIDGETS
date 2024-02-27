@@ -20,6 +20,102 @@ const handleNameChange = (e) => {
   }));
 };
 
+const handleDescriptionChange = (e) => {
+  const newDescription = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, description: newDescription },
+  }));
+};
+
+const handleSpeciesChange = (e) => {
+  const newSpecies = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, species: newSpecies },
+  }));
+};
+
+const handleClassChange = (e) => {
+  const newClass = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, class: newClass },
+  }));
+};
+
+const handleSkillChange = (e) => {
+  const newSkill = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, skill: newSkill },
+  }));
+};
+
+const handleAbilityChange = (e) => {
+  const newAbility = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, ability: newAbility },
+  }));
+};
+
+const handleWeaknessChange = (e) => {
+  const newWeakness = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, weakness: newWeakness },
+  }));
+};
+
+const handleDefaultWeaponChange = (e) => {
+  const newDefaultWeapon = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, defaultWeapon: newDefaultWeapon },
+  }));
+};
+
+const handleAttackChange = (e) => {
+  const newAttack = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, attack: newAttack },
+  }));
+};
+
+const handleDefenseChange = (e) => {
+  const newDefense = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, defense: newDefense },
+  }));
+};
+
+const handleStrengthChange = (e) => {
+  const newStrength = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, strength: newStrength },
+  }));
+};
+
+const handleCourageChange = (e) => {
+  const newCourage = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, courage: newCourage },
+  }));
+};
+
+const handleMagicChange = (e) => {
+  const newMagic = e.target.value;
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, magic: newMagic },
+  }));
+};
+
 const handleImageChange = (newImage) => {
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
@@ -61,13 +157,10 @@ return (
         <label for="description">Description:</label>
         <input
           id="description"
-          type="textarea"
-          rows="4"
-          cols="80"
-          max-length="1200"
+          type="text"
           placeholder="What is your character's description?"
-          value={player.metadata.name}
-          onChange={handleNameChange}
+          value={player.metadata.description}
+          onChange={handleDescriptionChange}
         />
       </div>
       <div className="mb-3 p-1">
@@ -93,7 +186,7 @@ return (
       <div className="mb-3 p-1">
         <label for="skill">Skill:</label>
         <input
-          id="skills"
+          id="skill"
           type="text"
           placeholder="What is your character's skill?"
           value={player.metadata.skill}
