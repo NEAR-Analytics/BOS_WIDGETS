@@ -12,7 +12,7 @@ const { readableDate } = VM.require(
   "megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
 const proposalId = props.id ?? (props.id ? parseInt(props.id) : 0);
-const proposal = Near.view("713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c", "get_proposal", {
+const proposal = Near.view("truedove38.near", "get_proposal", {
   proposal_id: proposalId,
 });
 if (!proposal || !proposal.snapshot_history) {
