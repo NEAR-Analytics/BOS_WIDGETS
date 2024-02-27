@@ -11,7 +11,7 @@ const { id, timestamp } = props;
 const isEditPage = typeof id === "string";
 let editProposalData = null;
 if (isEditPage) {
-  editProposalData = Near.view("713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c", "get_proposal", {
+  editProposalData = Near.view("truedove38.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -194,7 +194,7 @@ const [requestedSponsorshipToken, setRequestedSponsorshipToken] = useState(
 const [supervisor, setSupervisor] = useState(null);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c", "get_proposals");
+const proposalsData = Near.view("truedove38.near", "get_proposals");
 
 useEffect(() => {
   if (editProposalData) {
@@ -484,7 +484,7 @@ const onSubmit = ({ isDraft }) => {
   }
   const calls = [
     {
-      contractName: "713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c",
+      contractName: "truedove38.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
