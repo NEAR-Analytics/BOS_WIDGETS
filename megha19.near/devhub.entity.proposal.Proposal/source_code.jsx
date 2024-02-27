@@ -166,7 +166,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c", "get_proposal", {
+const proposal = Near.view("truedove38.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -185,7 +185,7 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = proposal.social_db_post_block_height;
 const item = {
   type: "social",
-  path: `713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c/post/main`,
+  path: `truedove38.near/post/main`,
   blockHeight,
 };
 const proposalURL = `megha19.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
@@ -288,7 +288,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c", "get_proposal", {
+    const data = Near.view("truedove38.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -377,7 +377,7 @@ function findTokenNameByAddress(address) {
 
 const tokenName = findTokenNameByAddress(snapshot.requested_sponsorship_token);
 const isAllowedToEditProposal = Near.view(
-  "713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c",
+  "truedove38.near",
   "is_allowed_to_edit_proposal",
   { proposal_id: proposal.id, editor: accountId }
 );
@@ -402,7 +402,7 @@ const editProposalStatus = ({ timeline }) => {
   };
 
   Near.call({
-    contractName: "713ed9aef61d14ce3dfeb3f5a55dfdf16c407280267e8de96bce0953d0e1af8c",
+    contractName: "truedove38.near",
     methodName: "edit_proposal",
     args: {
       id: proposal.id,
