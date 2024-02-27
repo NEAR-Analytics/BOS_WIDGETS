@@ -227,6 +227,7 @@ return (
               </Select>
             </Row>
           </FormContainer>
+          <p>{state.selectedType}</p>
           <FormContainer>
             <Widget
               src="efiz.near/widget/create"
