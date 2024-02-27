@@ -116,6 +116,15 @@ const handleMagicChange = (e) => {
   }));
 };
 
+let startingStatPoints = 50;
+const usedStatPoints =
+  JSON.parse(player.metadata.attack) +
+  JSON.parse(player.metadata.defense) +
+  JSON.parse(player.metadata.strength) +
+  JSON.parse(player.metadata.courage) +
+  JSON.parse(player.metadata.magic);
+console.log(usedStatPoints);
+
 const handleImageChange = (newImage) => {
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
@@ -235,6 +244,7 @@ return (
         />
       </div>
     </div>
+
     <div className="mb-3 p-1">
       <label for="defaultweapon">Default Weapon:</label>
       <select
@@ -253,16 +263,26 @@ return (
         <option value="voidDagger">Void Dagger</option>
       </select>
     </div>
+
     <div className="m-2">
       <h4>Create Character Stats</h4>
+      <h6>
+        You have up to 50 points to assign to your character stats. No more than
+        20 points may be assigned to a single category.
+      </h6>
+
       <div className="mb-3 p-1">
         <label for="attack">Attack:</label>
+
         <input
           id="attack"
           type="number"
           name="attack"
           min="0"
-          max="20"
+          max={`${
+            usedStatPoints === startingStatPoints &&
+            (player.metadata.attack ?? 20)
+          }`}
           placeholder="What is your character's attack level? (0-20)"
           value={player.metadata.attack}
           onChange={handleAttackChange}
