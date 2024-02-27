@@ -201,20 +201,7 @@ const Icons = {
   ),
 };
 
-const { defaultTab, menuConfig, activeTab, onReset, ...restProps } = props;
-const activeMenu =
-  Storage.privateGet(`${props.chainId}_CachedActiveMenu`) || defaultTab;
-
-function changeTab(_menu) {
-  Storage.privateSet(`${props.chainId}_CachedActiveMenu`, _menu);
-}
-
-useEffect(() => {
-  if (activeTab) {
-    changeTab(activeTab);
-    onReset();
-  }
-}, [activeTab]);
+const { tab, menuConfig, onChangeTab, ...restProps } = props;
 
 return (
   <Layout>
@@ -224,9 +211,9 @@ return (
           <div
             key={menu.tab}
             onClick={() => {
-              changeTab(menu.tab);
+              onChangeTab(menu.tab);
             }}
-            className={`item ${activeMenu == menu.tab ? "active" : ""}`}
+            className={`item ${tab == menu.tab ? "active" : ""}`}
             data-bp="10014-001"
           >
             <span className="icon">{Icons[menu.tab]}</span>
@@ -235,7 +222,7 @@ return (
         ))}
       </MenuContainer>
       <div className="flex-grow contentOut">
-        <Widget src={menuConfig[activeMenu].path} props={restProps} />
+        {tab && <Widget src={menuConfig[tab].path} props={restProps} />}
       </div>
     </Container>
   </Layout>
