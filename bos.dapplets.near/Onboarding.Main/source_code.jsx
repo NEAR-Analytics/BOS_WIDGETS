@@ -48,11 +48,11 @@ const Onboarding = styled.div`
 // }
 
 const handleClose = (doNotShowAgain) => {
-  // if (dontShowAgain) {
-  //   Storage.privateSet('lastShowTime', 30000000000000)
-  // } else {
-  //   Storage.privateSet('lastShowTime', Date.now())
-  // }
+  if (doNotShowAgain) {
+    Storage.privateSet('lastShowTime', 30000000000000)
+  } else {
+    Storage.privateSet('lastShowTime', Date.now())
+  }
   setShow(false)
 }
 
