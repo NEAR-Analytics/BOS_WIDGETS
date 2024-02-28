@@ -248,7 +248,7 @@ return (
           src={`${Owner}/widget/Select`}
         />
         <p
-          style={{ fontSize: 14, color: "grey" }}
+          style={{ fontSize: 14, color: "grey", margin: 0 }}
         >{`Any meme coin ($Neko/$Lonk/$Blackdragon/$Shitzu)`}</p>
       </div>
       <div>
