@@ -74,8 +74,8 @@ function draw() {
 }
 
 return (
-  <div>
-    <div className="d-flex ">
+  <div style={{ maxWidth: "600px", margin: "auto" }}>
+    <div className="d-flex">
       <button
         disabled={avocadoCount < 25}
         className="btn btn-outline-danger mb-1 flex-grow-1"
