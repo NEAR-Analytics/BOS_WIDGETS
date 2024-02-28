@@ -1,4 +1,6 @@
-const img = `
+const accountId = context.accountId;
+
+const largeHeart = `
 ..XX.XX..
 .X##X##X.
 X#######X
@@ -7,12 +9,36 @@ X#######X
 ..X###X..
 ...X#X...
 ....X....
-`.trim();
+`
+  .trim()
+  .split("\n");
+
+const smallHeart = `
+.X#X#X.
+X#####X
+X#####X
+.X###X.
+...#...
+`
+  .trim()
+  .split("\n");
+
+const DefaultBalance = "25000000000000000000";
+
+const avocadoCount = accountId
+  ? parseFloat(
+      Near.view("berryclub.ek.near", "get_account", { account_id: accountId })
+        ?.avocado_balance ?? DefaultBalance
+    ) / 1e18
+  : 0;
+
+const pixelCount = (img) => img.join("").replaceAll(".", "").length;
 
 const rgb = (r, g, b) => r * 65536 + g * 256 + b;
 
 function draw() {
-  const lines = img.split("\n");
+  const lines =
+    avocadoCount >= pixelCount(largeHeart) ? largeHeart : smallHeart;
   const w = lines[0].length;
   const h = lines.length;
 
@@ -51,6 +77,7 @@ return (
   <div>
     <div className="d-flex ">
       <button
+        disabled={avocadoCount < 25}
         className="btn btn-outline-danger mb-1 flex-grow-1"
         onClick={() => draw()}
       >
