@@ -25,7 +25,7 @@ const send = () => {
       amount: state.amount,
     },
     {
-      deposit: deposit, // 1 yoctoNEAR for the deposit, as a string
+      deposit: 1,
     }
   );
 };
