@@ -17,26 +17,26 @@ const getBalance = () => {
 getBalance();
 
 const send = () => {
-  const yoctoNEARAmount = BigInt(state.amount).toString(); // Convert to string representation
   Near.call(
     state.token,
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: yoctoNEARAmount,
+      amount: state.amount, // Assuming this is already a string in yoctoNEAR
     },
     {
-      deposit: "1", // 1 yoctoNEAR for the deposit
-      gas: "3000000000000", // Gas amount
+      deposit: "1", // 1 yoctoNEAR for the deposit, as a string
+      gas: "3000000000000", // Gas amount, as a string
     }
   );
 };
 
 const onChangeAmount = (amount) => {
   State.update({
-    amount,
+    amount: amount.toString(), // Convert the numerical amount to a string
   });
 };
+
 const onChangeReciever = (reciever) => {
   State.update({
     reciever,
