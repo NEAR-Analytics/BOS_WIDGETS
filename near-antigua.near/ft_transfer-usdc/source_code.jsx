@@ -32,7 +32,7 @@ const send = () => {
 
 const onChangeAmount = (amount) => {
   State.update({
-    amount: amount,
+    amount: state.amount,
   });
 };
 
