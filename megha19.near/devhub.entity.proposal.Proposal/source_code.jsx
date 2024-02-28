@@ -171,7 +171,16 @@ const proposal = Near.view("truedove38.near", "get_proposal", {
 });
 
 if (!proposal) {
-  return "Loading...";
+  return (
+    <div
+      style={{ height: "45vh" }}
+      className="d-flex justify-content-center align-items-center w-100"
+    >
+      <Widget
+        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
+      />
+    </div>
+  );
 }
 if (timestamp && proposal) {
   proposal.snapshot =
