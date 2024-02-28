@@ -23,10 +23,11 @@ const send = () => {
     {
       receiver_id: state.receiver,
       amount: state.amount,
+      // Additional arguments structured here if needed
     },
     {
-      // Specify the attached deposit for the token transfer
-      //  attachedDeposit: "1", // 1 yoctoNEAR
+      attachedDeposit: "1", // Correctly specifying 1 yoctoNEAR for the deposit
+      gas: "3000000000000", // An appropriate gas amount for the transaction
     }
   );
 };
