@@ -17,16 +17,17 @@ const getBalance = () => {
 getBalance();
 
 const send = () => {
+  const yoctoNEARAmount = BigInt(state.amount).toString(); // Convert to string representation
   Near.call(
     state.token,
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: state.amount,
+      amount: yoctoNEARAmount,
     },
     {
-      deposit: "1", // Correctly specifying 1 yoctoNEAR for the deposit
-      gas: "3000000000000", // An appropriate gas amount for the transaction
+      deposit: "1", // 1 yoctoNEAR for the deposit
+      gas: "3000000000000", // Gas amount
     }
   );
 };
