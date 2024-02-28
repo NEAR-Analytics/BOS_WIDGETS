@@ -35,8 +35,7 @@ return (
         </p>
 
         <div className="d-flex gap-2 align-items-center justify-content-end mt-2">
-          {console.log(props.requestSignIn)}
-          <Link to={props.requestSignIn ? props.requestSignIn() : "https://near.org/signin"}>
+          <Link to="https://near.org/signin">
             <Widget
               src={"megha19.near/widget/devhub.components.molecule.Button"}
               props={{
@@ -45,7 +44,7 @@ return (
               }}
             />
           </Link>
-          <Link to={props.requestSignIn ? props.requestSignIn() : "https://near.org/signup"}>
+          <Link to="https://near.org/signup">
             <Widget
               src={"megha19.near/widget/devhub.components.molecule.Button"}
               props={{
