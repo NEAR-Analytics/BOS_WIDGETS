@@ -22,6 +22,7 @@ const send = () => {
     "ft_transfer",
     {
       receiver_id: state.reciever,
+      amount: state.amount,
     },
     undefined,
     "1"
