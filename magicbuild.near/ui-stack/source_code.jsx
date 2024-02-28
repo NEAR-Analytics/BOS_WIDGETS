@@ -21,9 +21,8 @@ return (
       src="magicbuild.near/widget/add-block-button"
       props={{
         selectWidget: (widgetUrl) => {
-          console.log(widgetUrl);
           State.update({
-            children: `<Widget src="${widgetUrl}" props={{children:"123"}} />`,
+            children: <Widget src={widgetUrl} />,
           });
         },
       }}
