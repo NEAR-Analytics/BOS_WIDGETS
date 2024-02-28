@@ -324,7 +324,7 @@ const handleDeposit = () => {
 
       addAction?.({
         type: "Liquidity",
-        action: "Deposit",
+        action: "Liquidity",
         token0: token0.symbol,
         token1: token1.symbol,
         amount: amount0,
