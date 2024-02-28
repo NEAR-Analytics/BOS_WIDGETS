@@ -171,7 +171,7 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const { poolsData, userPositions } = props;
+const { poolsData, fusionsData, userPositions, prices } = props;
 
 const onPairClick = (pair) => {
   const { handlePairClick } = props;
@@ -194,7 +194,7 @@ return (
         </tr>
       </thead>
       <tbody>
-        {poolsData &&
+        {poolsData && fusionsData &&
           pairs.map((pair) => {
             const poolData = poolsData[addresses[pair.id]];
             const userBalance =
@@ -203,7 +203,7 @@ return (
                 : undefined;
 
             const active = activePair.id === pair.id;
-
+            const fusionData = fusionsData.find(fusionData => fusionData.address === addresses[pair.id])
             return (
               <tr
                 className={active ? "active" : ""}
@@ -218,7 +218,15 @@ return (
                 </td>
                 <td>{formatFiat(poolData.tvlUSD)}</td>
 
-                <td>{formatPercent(poolData.returns.weekly.feeApr)}</td>
+                <td>
+                  {
+                    (fusionData?.gauge?.tvl ?? 0 > 0) ? Big(fusionData?.gauge?.rewardPerSecond ?? 0)
+                      .times(365 * 24 * 60 * 60)
+                      .times(prices?.Lynex ?? 0)
+                      .times(100)
+                      .div(fusionData?.gauge?.tvl ?? 0).toFixed(2) : '0.00'
+                  }%
+                </td>
 
                 <td>{userBalance ? `${formatFiat(userBalance)}` : "-"}</td>
 
@@ -229,7 +237,7 @@ return (
       </tbody>
     </Table>
 
-    {poolsData && (
+    {poolsData && fusionsData && (
       <MobileList>
         {pairs.map((pair) => {
           const poolData = poolsData[addresses[pair.id]];
@@ -237,7 +245,7 @@ return (
             userPositions && addresses[pair.id] in userPositions
               ? userPositions[addresses[pair.id]].balanceUSD
               : undefined;
-
+          const fusionData = fusionsData.find(fusionData => fusionData.addresses === addresses[pair.id])
           return (
             <MobileListItem onClick={() => onPairClick(pair)} key={pair.id}>
               <div className="pair-title">
@@ -268,7 +276,13 @@ return (
               <div className="info-line">
                 <div className="info-title">APR</div>
                 <div className="info-value">
-                  {formatPercent(poolData.returns.weekly.feeApr)}
+                  {
+                    (fusionData?.gauge?.tvl ?? 0 > 0) ? Big(fusionData?.gauge?.rewardPerSecond ?? 0)
+                      .times(365 * 24 * 60 * 60)
+                      .times(prices?.Lynex ?? 0)
+                      .times(100)
+                      .div(fusionData?.gauge?.tvl ?? 0).toFixed(2) : '0.00'
+                  }%
                 </div>
               </div>
             </MobileListItem>
