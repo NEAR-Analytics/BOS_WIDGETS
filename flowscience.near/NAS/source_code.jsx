@@ -190,7 +190,7 @@ return (
           />
           <FormContainer>
             <Widget
-              src="flowscience.near/widget/attest"
+              src="flowscience.near/widget/attestWithTypes"
               props={{
                 item: state.data,
                 onChange: handleOnChange,
@@ -233,16 +233,16 @@ return (
               </Button>
             </Row>
           </Header>
-          {state.preview === "RAW" ? (
-            <></>
-          ) : (
-            <Widget
-              src="hack.near/widget/graph.view"
-              props={{
-                accounts: [context.accountId, state.recipientId, state.refUID],
-              }}
-            />
-          )}
+          <h3>View Data</h3>
+          <Widget src="flowscience.near/widget/view" />
+          <hr />
+          <Widget
+            src="hack.near/widget/graph.view"
+            props={{
+              accounts: [context.accountId, state.recipientId, state.refUID],
+            }}
+          />
+          )
         </>
       ) : (
         <></>
