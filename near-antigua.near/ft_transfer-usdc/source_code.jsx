@@ -1,6 +1,7 @@
 const accountId = context.accountId;
-let token = props.token || "token.sweat";
-let reciever = props.reciever || "mimyo.near"; // Keeping the original spelling as 'reciever'
+let token = props.token || "
+a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near";
+let reciever = props.reciever || "chloe.near";
 let balance = -1;
 
 initState({ amount: -1, token, reciever, balance });
@@ -20,13 +21,11 @@ const send = () => {
     state.token,
     "ft_transfer",
     {
-      receiver_id: state.reciever, // Keeping the original spelling as 'reciever'
+      receiver_id: state.reciever,
       amount: state.amount,
+      deposit: "1", 
+      gas: "3000000000000", 
     },
-    {
-      attachedDeposit: "1", // Ensuring the deposit is specified correctly
-      gas: "30000000000000", // Assuming a placeholder gas amount, adjust as needed
-    }
   );
 };
 
@@ -35,9 +34,7 @@ const onChangeAmount = (amount) => {
     amount,
   });
 };
-
 const onChangeReciever = (reciever) => {
-  // Keeping the function name consistent with the spelling
   State.update({
     reciever,
   });
@@ -59,6 +56,7 @@ return (
         Balance of {state.token}: {state.balance}
       </li>
     </ul>
+
     <h2>Token Address</h2>
     <p>
       <input
@@ -66,14 +64,15 @@ return (
         onChange={(e) => onChangeToken(e.target.value)}
       />
     </p>
-    <h2>Receiver Address</h2>{" "}
-    {/* Adjusted the label here for readability; adjust as needed */}
+
+    <h2>Reciever Address</h2>
     <p>
       <input
-        placeholder={state.reciever} // Keeping the original spelling as 'reciever'
+        placeholder={state.reciever}
         onChange={(e) => onChangeReciever(e.target.value)}
       />
     </p>
+
     <h2>Token Amount</h2>
     <p>
       <input
@@ -82,6 +81,7 @@ return (
         onChange={(e) => onChangeAmount(e.target.value)}
       />
     </p>
+
     <p>
       <button
         disabled={context.loading}
@@ -90,8 +90,7 @@ return (
           context.loading ? "btn-outline-dark" : "btn-primary"
         }`}
       >
-        Send {state.amount} {state.token} to {state.reciever} // Keeping the
-        original spelling as 'reciever'
+        Send {state.amount} {state.token} to {state.reciever}
       </button>
     </p>
   </div>
