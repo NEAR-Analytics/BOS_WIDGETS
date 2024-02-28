@@ -76,9 +76,9 @@ useEffect(() => {
   if (!evmAddress) {
     return;
   }
-
+  console.log(platform, state);
+  
   if (platform == "lens" && state) {
-    console.log(state);
     lens.authentication
       .profiles({
         for: evmAddress,
