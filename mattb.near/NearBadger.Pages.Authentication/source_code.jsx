@@ -78,6 +78,7 @@ useEffect(() => {
   }
 }, [platform]);
 
+State.update({ test: "Test" });
 console.log(state);
 
 
