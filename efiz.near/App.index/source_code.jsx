@@ -1,7 +1,6 @@
 return (
   <Widget
-    src="devs.near/widget/Router"
-    blockHeight={"final"}
+    src="devs.near/widget/Router@110566164"
     props={{
       Navigator: {
         // template for your navbar
