@@ -4,8 +4,14 @@ const styleClass = props.styleClass || "";
 
 State.init({
   stack: null,
-  children: props.children || "",
+  children: props.children || [],
+  isEditor: props.isEditor || true,
 });
+const updateStateEditor =
+  props.selectWidget ??
+  (() => {
+    State.update({ isEditor: !state.isEditor });
+  });
 
 if (!state.stack) {
   State.update({
@@ -15,19 +21,35 @@ if (!state.stack) {
 }
 
 const Stack = state.stack;
-
+// when user render how to get element without add button ?
 return (
   <Stack class={"col " + styleClass}>
-    <Widget
-      src="magicbuild.near/widget/add-block-button"
-      props={{
-        selectWidget: (widgetUrl) => {
-          State.update({
-            children: <Widget src={widgetUrl} />,
-          });
-        },
-      }}
-    />
-    {state.children}
+    <button type="button" onClick={updateStateEditor}>
+      {"off"}
+    </button>
+    {state.isEditor == true ? (
+      <>
+        <Widget
+          src="magicbuild.near/widget/add-block-button"
+          props={{
+            selectWidget: (widgetUrl) => {
+              const childrenColection = state.children;
+              childrenColection.push(
+                <Widget
+                  src={widgetUrl}
+                  props={{ children: ["123123"], isEditor: state.isEditor }}
+                />
+              );
+              State.update({
+                children: childrenColection,
+              });
+            },
+          }}
+        />
+        {state.children && state.children.map((widget) => widget)}
+      </>
+    ) : (
+      state.children && state.children.map((widget) => widget)
+    )}
   </Stack>
 );
