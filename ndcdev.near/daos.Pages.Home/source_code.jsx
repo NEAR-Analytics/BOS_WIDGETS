@@ -318,6 +318,7 @@ return (
         src={`ndcdev.near/widget/daos.Components.MetricsDisplay.index`}
         props={{
           daos,
+          totalTreasury: 15500000,
           deliverTreasury: 272482,
           typeOfProject,
           loading,
