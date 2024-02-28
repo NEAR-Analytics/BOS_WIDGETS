@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 const { id } = props;
@@ -158,11 +158,13 @@ return (
       />
     </Section>
 
-    {false && <Section className="d-flex flex-column gap-5">
-      <Widget
-        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHourse`}
-        props={{ section }}
-      />
-    </Section>}
+    {false && (
+      <Section className="d-flex flex-column gap-5">
+        <Widget
+          src={`ndcdev.near/widget/daos.Components.Dao.OfficeHourse`}
+          props={{ section }}
+        />
+      </Section>
+    )}
   </Container>
 );
