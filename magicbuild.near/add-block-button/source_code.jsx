@@ -503,7 +503,7 @@ return (
         <div class="modal-backdrop fade show"></div>
       </>
     )}
-    <div class="d-grid gap-2 p-3">
+    <div class="d-grid gap-2 p-1">
       <button
         type="button"
         onClick={(e) => {
