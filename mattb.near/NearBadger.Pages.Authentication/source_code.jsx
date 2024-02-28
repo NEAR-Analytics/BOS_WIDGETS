@@ -76,25 +76,10 @@ useEffect(() => {
   if (!evmAddress) {
     return;
   }
-  console.log(platform, state);
-  
-  if (platform == "lens" && state) {
-    lens.authentication
-      .profiles({
-        for: evmAddress,
-      })
-      .then((profiles) => {
-        if (profiles.length > 0) {
-          const handles = profiles.map(
-            (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
-          );
+}, [platform]);
 
-          setSelectedHandle(handles[0]);
-          setLensProfiles(handles);
-        }
-      });
-  }
-}, [platform, state]);
+console.log(state);
+
 
 const Main = styled.div`
     width:100%;
