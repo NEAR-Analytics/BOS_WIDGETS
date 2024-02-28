@@ -311,7 +311,7 @@ return (
         </>
       ) : (
         <Widget
-          src="every.near/widget/every.type.create"
+          src="flowscience.near/widget/schema.editor"
           props={{ typeSrc: state.selectedType }}
         />
       )}
