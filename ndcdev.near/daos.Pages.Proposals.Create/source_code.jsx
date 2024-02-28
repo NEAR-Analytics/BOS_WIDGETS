@@ -143,6 +143,8 @@ const daos = Near.view(contractName, "get_dao_list").map((dao) => {
   return { name: dao.title, id: dao.id };
 });
 
+if (!daos) return <Widget src="flashui.near/widget/Loading" />;
+
 const handleSelectDao = (e) => {
   setSelectedDaoId(e.target.value);
 };
