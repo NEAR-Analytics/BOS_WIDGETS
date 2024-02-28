@@ -19,6 +19,20 @@ const Container = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   align-items: center;
   justify-content: center;
+
+  > a {
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 149%;
+    text-decoration-line: underline !important;
+    color: #384BFF;
+    cursor: 'poiner';
+  }
 `
 
 const Header = styled.div`
@@ -223,19 +237,6 @@ const Card = styled.div`
   }
 `
 
-const Link = styled.a`
-  width: 465px;
-  height: 21px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 149%;
-  text-decoration-line: underline;
-  color: #384BFF;
-  cursor: 'poiner';
-`
-
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -338,11 +339,11 @@ return (
         </Card>
       </Cards>
     </CardsContainer>
-    <Link
+    <a
       href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
     >
       You can see how our applications work here
-    </Link>
+    </a>
     <Footer>
       <Checkbox>
         <label>
