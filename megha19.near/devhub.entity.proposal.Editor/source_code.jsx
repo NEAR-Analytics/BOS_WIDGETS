@@ -17,25 +17,12 @@ if (!author) {
   );
 }
 let editProposalData = null;
-let draftProposalData = Storage.privateGet(draftKey);
+let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("truedove38.near", "get_proposal", {
+  editProposalData = Near.view("proudflour16.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
-}
-
-if (isEditPage && !editProposalData) {
-  return (
-    <div
-      style={{ height: "45vh" }}
-      className="d-flex justify-content-center align-items-center w-100"
-    >
-      <Widget
-        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
-      />
-    </div>
-  );
 }
 
 const Container = styled.div`
@@ -216,7 +203,12 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("truedove38.near", "get_proposals");
+const proposalsData = Near.view("proudflour16.near", "get_proposals");
+const [loading, setLoading] = useState(true);
+
+if (allowDraft) {
+  draftProposalData = Storage.privateGet(draftKey);
+}
 
 const memoizedDraftData = useMemo(
   () => ({
@@ -247,20 +239,20 @@ const memoizedDraftData = useMemo(
 );
 
 useEffect(() => {
-  const data = editProposalData || JSON.parse(draftProposalData);
+  let data = editProposalData || JSON.parse(draftProposalData);
+  let snapshot = data.snapshot;
   if (allowDraft && data) {
     if (timestamp) {
-      data.snapshot =
+      snapshot =
         data.snapshot_history.find((item) => item.timestamp === timestamp) ??
         data.snapshot;
     }
-    const { snapshot } = data;
     if (
       draftProposalData &&
       editProposalData &&
       editProposalData.id === JSON.parse(draftProposalData).id
     ) {
-      data.snapshot = {
+      snapshot = {
         ...editProposalData.snapshot,
         ...JSON.parse(draftProposalData).snapshot,
       };
@@ -283,20 +275,24 @@ useEffect(() => {
     );
     setRequestedSponsorshipToken(token);
   }
+  setLoading(false);
 }, [editProposalData, draftProposalData]);
 
 useEffect(() => {
+  if (draftProposalData) {
+    setAllowDraft(false);
+  }
+}, [draftProposalData]);
+
+useEffect(() => {
   const handler = setTimeout(() => {
-    if (allowDraft) {
-      setAllowDraft(false);
-      Storage.privateSet(draftKey, JSON.stringify(memoizedDraftData));
-    }
+    Storage.privateSet(draftKey, JSON.stringify(memoizedDraftData));
   }, 3000);
 
   return () => {
     clearTimeout(handler);
   };
-}, [memoizedDraftData, draftKey]);
+}, [memoizedDraftData, draftKey, draftProposalData]);
 
 useEffect(() => {
   if (
@@ -426,6 +422,7 @@ const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
 const [selectedStatus, setSelectedStatus] = useState("draft");
 const [isReviewModalOpen, setReviewModal] = useState(false);
 const [amountError, setAmountError] = useState(null);
+
 const DraftBtn = () => {
   const btnOptions = [
     { iconColor: "grey", label: "Submit Draft", value: "draft" },
@@ -559,7 +556,7 @@ const onSubmit = ({ isDraft }) => {
   }
   const calls = [
     {
-      contractName: "truedove38.near",
+      contractName: "proudflour16.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -601,6 +598,19 @@ Provide a list of who will be working on the project along with their relevant s
 **BUDGET BREAKDOWN**
 Include a detailed breakdown on how you will use the funds and include rate justification. Our community values transparency, so be as specific as possible.
 `;
+
+if (loading) {
+  return (
+    <div
+      style={{ height: "45vh" }}
+      className="d-flex justify-content-center align-items-center w-100"
+    >
+      <Widget
+        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
+      />
+    </div>
+  );
+}
 
 return (
   <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
