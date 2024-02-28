@@ -17,15 +17,17 @@ const getBalance = () => {
 getBalance();
 
 const send = () => {
-  Near.call({
-    contractName: state.token,
-    methodName: "ft_transfer",
-    args: {
+  Near.call(
+    state.token,
+    "ft_transfer",
+    {
       receiver_id: state.reciever,
       amount: 1,
     },
-    deposit: 1,
-  });
+    {
+      deposit: 1,
+    }
+  );
 };
 
 const onChangeAmount = (amount) => {
