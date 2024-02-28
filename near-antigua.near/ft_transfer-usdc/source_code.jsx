@@ -4,7 +4,7 @@ let token =
 let reciever = props.reciever || "chloe.near";
 let balance = 0;
 
-initState({ amount: 0, token, reciever, balance });
+initState({ amount: "1", token, reciever, balance });
 
 const getBalance = () => {
   balance = Near.view(state.token, "ft_balance_of", {
