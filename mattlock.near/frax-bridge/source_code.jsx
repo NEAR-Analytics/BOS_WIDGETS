@@ -219,6 +219,9 @@ if (network === "mainnet") {
     l1ProviderFilter: new ethers.providers.JsonRpcProvider(
       `https://mainnet.gateway.tenderly.co`
     ),
+    l1ProviderRange: new ethers.providers.JsonRpcProvider(
+      `https://ethereum-holesky-rpc.publicnode.com`
+    ),
     l2Provider: new ethers.providers.JsonRpcProvider(
       `https://mainnet.optimism.io`
     ),
@@ -275,8 +278,6 @@ if (sender && chainId && !state.initLogs) {
   State.update({ initLogs: true });
 
   function getEthWithdrawals() {
-    const ethWithdrawals = [];
-
     L2StandardBridgeContract.queryFilter(
       L2StandardBridgeContract.filters.WithdrawalInitiated(
         undefined,
@@ -286,108 +287,13 @@ if (sender && chainId && !state.initLogs) {
     ).then((events) => {
       console.log("withdrawal events", events);
 
-      let withdrawalMessages = 0;
-      const withdrawalMessagesTarget = events.length;
-
-      events
-        .sort((a, b) => b.blockNumber - a.blockNumber)
-        .forEach((event) => {
-          const { args, blockNumber, transactionHash } = event;
-
-          const messagePasserAbi = [
-            "event MessagePassed (uint256 indexed nonce, address indexed sender, address indexed target, uint256 value, uint256 gasLimit, bytes data, bytes32 withdrawalHash)",
-          ];
-
-          const messagePasserContract = new ethers.Contract(
-            L2_L1_MESSAGE_PASSER_CONTRACT,
-            messagePasserAbi,
-            contracts[network].l2ProviderRange
-          );
-
-          messagePasserContract
-            .queryFilter(
-              messagePasserContract.filters.MessagePassed(
-                undefined,
-                undefined,
-                L2_L1_MESSAGE_PASSER_ADDR
-              ),
-              blockNumber - 150,
-              blockNumber
-            )
-            .then((events) => {
-              console.log("messagePasserContract events".events);
-
-              const event = events.filter(
-                ({ data }) => data.indexOf(sender.substring(2)) > -1
-              )[0];
-
-              withdrawalMessages++;
-              console.log(
-                withdrawalMessages,
-                "withdrawal message event",
-                event
-              );
-
-              const [
-                messageNonce,
-                sender,
-                target,
-                value,
-                minGasLimit,
-                message,
-                withdrawalHash,
-              ] = event.args;
-
-              let withdrawal = {
-                blockNumber,
-                transactionHash,
-                messageNonce,
-                sender,
-                target,
-                value,
-                minGasLimit,
-                message,
-                withdrawalHash,
-                proven: !!event ? false : undefined,
-                claimed: false,
-                isEth: true,
-              };
-
-              ethWithdrawals.push(withdrawal);
-
-              if (withdrawalMessages === withdrawalMessagesTarget) {
-                State.update({
-                  ethWithdrawals,
-                });
-              }
-
-              // Testing if Withdrawal is Proven
-
-              // const opPortalAbi = [
-              //   "event WithdrawalProven (bytes32 indexed, withdrawalHash, address indexed from, address indexed to)",
-              // ];
-
-              // const l1Contract = new ethers.Contract(
-              //   contracts[network].L1OptimismPortalProxy,
-              //   opPortalAbi,
-              //   contracts[network].L2Provider
-              // );
-
-              // l1Contract
-              //   .queryFilter(
-              //     l1Contract.filters.WithdrawalProven(
-              //       undefined,
-              //       undefined,
-              //       sender
-              //     ),
-              //     blockNumber - 150,
-              //     blockNumber
-              //   )
-              //   .then((events) => {
-              //     console.log("proving withdrawal", events);
-              //   });
-            });
-        });
+      return State.update({
+        ethWithdrawals: events.map((e) => ({
+          ...e,
+          isEth: true,
+          gotStatus: false,
+        })),
+      });
     });
   }
 
@@ -413,6 +319,105 @@ if (sender && chainId && !state.initLogs) {
 }
 
 // user actions
+
+function getWithdrawalStatus(event) {
+  const { blockNumber, transactionHash } = event;
+
+  const messagePasserAbi = [
+    "event MessagePassed (uint256 indexed nonce, address indexed sender, address indexed target, uint256 value, uint256 gasLimit, bytes data, bytes32 withdrawalHash)",
+  ];
+
+  const messagePasserContract = new ethers.Contract(
+    L2_L1_MESSAGE_PASSER_CONTRACT,
+    messagePasserAbi,
+    contracts[network].l2ProviderRange
+  );
+
+  messagePasserContract
+    .queryFilter(
+      messagePasserContract.filters.MessagePassed(
+        undefined,
+        undefined,
+        L2_L1_MESSAGE_PASSER_ADDR
+      ),
+      blockNumber - 150,
+      blockNumber
+    )
+    .then((events) => {
+      console.log("messagePasserContract events".events);
+
+      const event = events.filter(
+        ({ data }) => data.indexOf(sender.substring(2)) > -1
+      )[0];
+
+      const [
+        messageNonce,
+        sender,
+        target,
+        value,
+        minGasLimit,
+        message,
+        withdrawalHash,
+      ] = event.args;
+
+      let withdrawal = {
+        blockNumber,
+        transactionHash,
+        messageNonce,
+        sender,
+        target,
+        value,
+        minGasLimit,
+        message,
+        withdrawalHash,
+        proven: !!event ? false : undefined,
+        claimed: false,
+        isEth: true,
+        gotStatus: true,
+      };
+
+      const portalContract = new ethers.Contract(
+        contracts[network].L1OptimismPortalProxy,
+        L1OptimismPortalAbi.body,
+        contracts[network].l1ProviderFilter
+      );
+
+      const update = () => {
+        const ethWithdrawals = [...state.ethWithdrawals];
+        ethWithdrawals[
+          ethWithdrawals.findIndex(
+            (w) => w.transactionHash === withdrawal.transactionHash
+          )
+        ] = withdrawal;
+        State.update({
+          ethWithdrawals,
+        });
+      };
+
+      portalContract
+        .queryFilter(
+          portalContract.filters.WithdrawalProven(withdrawal.withdrawalHash)
+        )
+        .then((res) => {
+          if (res) {
+            withdrawal.proven = true;
+          }
+          update();
+          portalContract
+            .queryFilter(
+              portalContract.filters.WithdrawalProven(withdrawal.withdrawalHash)
+            )
+            .then((res2) => {
+              if (res2) {
+                withdrawal.claimed = true;
+              }
+              update();
+            })
+            .catch(update);
+        })
+        .catch(update);
+    });
+}
 
 function handleDepositEth(data) {
   const encodedData = L1StandardBridgeProxyIface.encodeFunctionData(
@@ -537,7 +542,7 @@ const hashLowLevelMessage = (withdrawal) => {
 };
 
 const hashMessageHash = (messageHash) => {
-  const data = ethers.utils.defaultAbiCoder.encode(
+  const data = abiCoder.encode(
     ["bytes32", "uint256"],
     [ethers.utils.hexlify(messageHash), HASH_ZERO]
   );
@@ -623,6 +628,12 @@ const handleWithdrawalProve = (withdrawal) => {
         .proveWithdrawalTransaction(...args)
         .then((tx) => {
           console.log("tx output:", tx);
+          State.update({
+            log:
+              "Withdrawal Proving Transaction " +
+              state.L1ExplorerLink +
+              tx.hash,
+          });
         })
         .catch((e) => {
           console.log("error", e);
@@ -695,6 +706,12 @@ const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
 };
 
 const withdrawalActions = [
+  {
+    labelComplete: "",
+    completeKey: "gotStatus",
+    actionLabel: "Get Status",
+    action: getWithdrawalStatus,
+  },
   {
     labelComplete: "(proven)",
     completeKey: "proven",
