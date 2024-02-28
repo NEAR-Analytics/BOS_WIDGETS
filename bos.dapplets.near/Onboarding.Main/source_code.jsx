@@ -47,7 +47,7 @@ const Onboarding = styled.div`
 //   setShow(true)
 // }
 
-const handleClose = () => {
+const handleClose = (doNotShowAgain) => {
   // if (dontShowAgain) {
   //   Storage.privateSet('lastShowTime', 30000000000000)
   // } else {
