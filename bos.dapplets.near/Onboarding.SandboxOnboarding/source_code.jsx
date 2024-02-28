@@ -61,6 +61,7 @@ const CloseButton = styled.button`
   right: 0;
   border: none;
   background: none;
+  cursor: pointer;
 `
 
 const CloseIcon = () => (
@@ -255,6 +256,7 @@ const Checkbox = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 0px;
+  cursor: pointer;
 
   label {
     display: flex;
@@ -279,6 +281,7 @@ const Checkbox = styled.div`
       height: 16px;
       border-radius: 4px;
       border: 1px solid #384BFF
+      cursor: pointer;
     }
   }
 `
@@ -294,6 +297,7 @@ const SuccessButton = styled.button`
   background: #384BFF;
   border-radius: 10px;
   border: none;
+  cursor: pointer;
 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-style: normal;
@@ -314,7 +318,7 @@ return (
   <Container>
     <Header>
       <h1>You{'\u2019'}re entering Mutable Web</h1>
-      <CloseButton onClick={(e) => handleClose(e, false)}>
+      <CloseButton onClick={(e) => props.handleClose(e, false)}>
         <CloseIcon/>
       </CloseButton>
     </Header>
@@ -351,7 +355,7 @@ return (
           Don't show it again
         </label>
       </Checkbox>
-      <SuccessButton onClick={(e) => handleClose(e, doNotShowAgain)}>Got it</SuccessButton>
+      <SuccessButton onClick={(e) => props.handleClose(e, doNotShowAgain)}>Got it</SuccessButton>
     </Footer>
   </Container>
 )
