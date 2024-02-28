@@ -73,9 +73,19 @@ function draw() {
   Near.call("berryclub.ek.near", "draw", { pixels }, "100000000000000");
 }
 
+function buy() {
+  Near.call(
+    "berryclub.ek.near",
+    "buy_tokens",
+    {},
+    "30000000000000",
+    Big("0.2").mul(Big(10).pow(24)).toFixed(0)
+  );
+}
+
 return (
   <div style={{ maxWidth: "600px", margin: "auto" }}>
-    <div className="d-flex">
+    <div className="d-flex gap-1">
       <button
         disabled={avocadoCount < 25}
         className="btn btn-outline-danger mb-1 flex-grow-1"
@@ -83,7 +93,17 @@ return (
       >
         DRAW ❤️
       </button>
+      <button
+        disabled={!accountId}
+        className={`btn ${
+          avocadoCount < 25 ? "btn-success" : "btn-outline-success"
+        } mb-1`}
+        onClick={() => buy()}
+      >
+        Buy 50 🥑
+      </button>
     </div>
     <Widget src="mob.near/widget/BerryclubBoard" props={{}} />
+    <div>{`You have ${avocadoCount.toFixed(1)} 🥑`}</div>
   </div>
 );
