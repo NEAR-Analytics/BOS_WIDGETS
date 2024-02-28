@@ -149,7 +149,7 @@ return (
           props={{ text: section.guidance.description }}
         />
       </div>
-      <div className="d-flex c w-100 gap-5">
+      <div className="d-flex flex-wrap w-100 gap-5">
         {section.guidance.cards.map((card) => (
           <Item className="dark">
             <div className="inner d-flex flex-column justify-content-center gap-3 align-items-lefy">
