@@ -14,6 +14,7 @@ const {
   pairs,
   proxyAddress,
   defaultPair,
+  prices
 } = props;
 
 const chainIdToSwitch = `0x${MAINNET_CHAIN_ID.toString(16)}`;
@@ -95,6 +96,7 @@ const switchChain = () => {
   Ethers.send("wallet_addEthereumChain", [CHAIN_CONFIG]);
 };
 
+
 const SwitchWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -167,8 +169,22 @@ const fetchUserData = () => {
   });
 };
 
+const fetchFusionsData = () => {
+  asyncFetch("https://api.lynex.fi/api/v1/fusions").then((res) => {
+    if (!res.ok) return;
+    console.log('===res1111', res)
+    State.update({
+      fusionsData: res?.body?.data,
+      // isUserPositionsFetching: false,
+    });
+  });
+}
+
 if (state.poolsData === undefined) {
   fetchPoolsData();
+}
+if (state.fusionsData === undefined) {
+  fetchFusionsData()
 }
 
 if (sender && state.userPositions === undefined) {
@@ -178,6 +194,7 @@ if (sender && state.userPositions === undefined) {
 const refetch = () => {
   fetchPoolsData();
   fetchUserData();
+  fetchFusionsData()
   console.log("refetching");
 };
 
@@ -240,7 +257,9 @@ const handlePairClick = (pair) => {
 const {
   activePair,
   poolsData,
+  fusionsData,
   userPositions,
+  
   isPoolFetching,
   isUserPositionsFetching,
 } = state;
@@ -253,7 +272,9 @@ return (
         src={"bluebiu.near/widget/Linea.Liquidity.GAMMA.gamma-table"}
         props={{
           handlePairClick,
+          prices,
           poolsData,
+          fusionsData,
           userPositions,
           addresses,
           pairs,
