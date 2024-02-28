@@ -76,24 +76,24 @@ useEffect(() => {
   if (!evmAddress) {
     return;
   }
-
-  if (platform == "lens") {
-    lens.authentication
-      .profiles({
-        for: evmAddress,
-      })
-      .then((profiles) => {
-        if (profiles.length > 0) {
-          const handles = profiles.map(
-            (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
-          );
-
-          setSelectedHandle(handles[0]);
-          setLensProfiles(handles);
-        }
-      });
-  }
 }, [platform]);
+
+if (evmAddress && platform === "lens" && !selectedHandle) {
+  lens.authentication
+    .profiles({
+      for: evmAddress,
+    })
+    .then((profiles) => {
+      if (profiles.length > 0) {
+        const handles = profiles.map(
+          (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
+        );
+
+        setSelectedHandle(handles[0]);
+        setLensProfiles(handles);
+      }
+    });
+}
 
 const Main = styled.div`
     width:100%;
