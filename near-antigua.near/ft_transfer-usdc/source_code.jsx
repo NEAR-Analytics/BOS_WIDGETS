@@ -85,6 +85,10 @@ return (
       />
     </p>
 
+    {/* Display the current deposit */}
+    <h2>Current Deposit</h2>
+    <p>1 yoctoNEAR</p>
+
     <p>
       <button
         disabled={context.loading}
