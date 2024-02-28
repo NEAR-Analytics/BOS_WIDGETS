@@ -7,7 +7,7 @@ getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 href || (href = () => {});
 
 const { id, timestamp } = props;
-
+console.log("props",props)
 const isEditPage = typeof id === "string";
 const author = context.accountId;
 
