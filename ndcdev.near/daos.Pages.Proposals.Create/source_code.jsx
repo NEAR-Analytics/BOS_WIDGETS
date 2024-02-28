@@ -127,7 +127,7 @@ const [formEls, setFormEls] = useState({
 });
 
 const [errors, setErrors] = useState({});
-const [selectedDaoId, setSelectedDaoId] = useState(dao_id)
+const [selectedDaoId, setSelectedDaoId] = useState(dao_id);
 
 const handleChange = (el, value) => {
   const newFormEl = formEls;
@@ -139,14 +139,13 @@ const handleChange = (el, value) => {
   setFormEls(newFormEl);
 };
 
-
 const daos = Near.view(contractName, "get_dao_list").map((dao) => {
-  return { name: dao.title, id: dao.id }
+  return { name: dao.title, id: dao.id };
 });
 
 const handleSelectDao = (e) => {
-  setSelectedDaoId(e.target.value)
-}
+  setSelectedDaoId(e.target.value);
+};
 
 const handleSave = () => {
   let body = {
@@ -188,7 +187,17 @@ return (
 
         <Widget
           src="ndcdev.near/widget/daos.Components.Form"
-          props={{ form, formEls, setFormEls, handleChange, handleSave, handleSelectDao, daos, selectedDaoId, dao_id }}
+          props={{
+            form,
+            formEls,
+            setFormEls,
+            handleChange,
+            handleSave,
+            handleSelectDao,
+            daos,
+            selectedDaoId,
+            dao_id,
+          }}
         />
       </FormWrapper>
     </div>
