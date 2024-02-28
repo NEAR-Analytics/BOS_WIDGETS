@@ -226,8 +226,9 @@ const ButtonPlus = styled.div`
 `;
 const WrapperButtonPlusDefault = styled.div`
   width: 43px;
-  height: 49px;
+  height: 62px;
   border-radius: 0px 4px 4px 0px;
+  border: 1px solid rgb(56, 75, 255);
   position: absolute;
   top: 30px;
   background: #f8f9ff;
@@ -244,7 +245,7 @@ const ButtonPlusDefault = styled.div`
   bottom: 7px;
   background: #f8f9ff;
   position: relative;
-  transform: translateY(6px);
+  transform: translateY(20px);
   cursor: pointer;
   border: 1px solid #384bff;
   &:before {
@@ -373,10 +374,15 @@ const ButtonEdit = styled.button`
 
   border: 1px solid #384bff;
   box-sizing: border-box;
-  background: #f8f9ff;
+  background: ${(p) => (p.default ? "#f8f9ff !important" : "#fff !important")};
   transition: all 0.3s;
   &:hover {
     transform: scale(1.2);
+  }
+  svg {
+    path {
+      stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
+    }
   }
 `;
 
@@ -567,20 +573,31 @@ return (
             />
           </>
         ) : (
-          <>
+          <WrapperButtonPlusDefault>
             {props.isEditMode ? (
-              <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
+              <ButtonApply
+                style={{
+                  top: "5px",
+                }}
+                onClick={handleApplyClick}
+              >
+                {iconApply}
+              </ButtonApply>
             ) : (
-              <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
+              <ButtonEdit
+                style={{
+                  top: "5px",
+                }}
+                onClick={handleEditClick}
+              >
+                {iconEdit}
+              </ButtonEdit>
             )}
-            <WrapperButtonPlusDefault>
-              {" "}
-              <ButtonPlusDefault
-                title={!context.accountId ? "Connect wallet" : null}
-                onClick={!context.accountId ? null : handleOpenMenu}
-              />
-            </WrapperButtonPlusDefault>
-          </>
+            <ButtonPlusDefault
+              title={!context.accountId ? "Connect wallet" : null}
+              onClick={!context.accountId ? null : handleOpenMenu}
+            />
+          </WrapperButtonPlusDefault>
         )}
       </TriggerShowPanel>
     ) : null}
