@@ -8,12 +8,11 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  // state.showMenu
-  //   ? null
-  //   : props.isEditMode
-  //   ? null
-  //   : State.update({ show: false });
-  console.log("");
+  state.showMenu
+    ? null
+    : props.isEditMode
+    ? null
+    : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -407,7 +406,7 @@ const ButtonApply = styled.button`
   box-sizing: border-box;
   transition: all 0.3s;
   border: 1px solid #384bff;
-  background: ${(p) => (p.default ? "#f8f9ff !important" : "#fff !important")};
+  background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
   &:hover {
     transform: scale(1.1);
   }
