@@ -402,11 +402,11 @@ const ButtonApply = styled.button`
   justify-content: center;
   border-radius: 50%;
   padding: 0;
-  background: #f8f9ff;
   padding-right: 2px;
   cursor: pointer;
   box-sizing: border-box;
   transition: all 0.3s;
+  border: 1px solid #384bff;
   background: ${(p) => (p.default ? "#f8f9ff !important" : "#fff !important")};
   &:hover {
     transform: scale(1.1);
@@ -584,13 +584,13 @@ return (
                   top: "5px",
                 }}
                 onClick={handleApplyClick}
-                $default
+                default
               >
                 {iconApply}
               </ButtonApply>
             ) : (
               <ButtonEdit
-                $default
+                default
                 style={{
                   top: "5px",
                 }}
@@ -600,7 +600,7 @@ return (
               </ButtonEdit>
             )}
             <ButtonPlusDefault
-              $default
+              default
               title={!context.accountId ? "Connect wallet" : null}
               onClick={!context.accountId ? null : handleOpenMenu}
             />
