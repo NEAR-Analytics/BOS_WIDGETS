@@ -240,7 +240,7 @@ const Card = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   padding: 0px;
@@ -349,13 +349,13 @@ return (
       You can see how our applications work here
     </a>
     <Footer>
-      <Checkbox>
+      <SuccessButton onClick={(e) => props.handleClose(e, doNotShowAgain)}>Got it</SuccessButton>
+      {/* <Checkbox>
         <label>
           <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
           Don't show it again
         </label>
-      </Checkbox>
-      <SuccessButton onClick={(e) => props.handleClose(e, doNotShowAgain)}>Got it</SuccessButton>
+      </Checkbox> */}
     </Footer>
   </Container>
 )
