@@ -2,7 +2,7 @@ const accountId = context.accountId;
 let token =
   props.token || "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near";
 let reciever = props.reciever || "chloe.near";
-let balance = 0;
+let balance = 1;
 
 initState({ amount: 1, token, reciever, balance });
 
@@ -17,12 +17,15 @@ const getBalance = () => {
 getBalance();
 
 const send = () => {
+  State.update({
+    amount: amount,
+  });
   Near.call(
     state.token,
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: String(state.amount),
+      amount: amount,
     },
     {
       deposit: 1,
