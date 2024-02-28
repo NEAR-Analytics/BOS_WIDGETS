@@ -30,12 +30,27 @@ const LessonLinks = () => {
     "Zero-Knowledge Proofs",
   ];
 
-  // Temporary link for all lessons
-  const temporaryLink = "https://hackmd.io/@XVII/LPCS";
+  // Array of lesson URLs
+  const lessonURLs = [
+    "https://hackmd.io/@doulos819/ncr-01",
+    "https://hackmd.io/@doulos819/ncr-02",
+    "https://hackmd.io/@doulos819/ncr-03",
+    "https://hackmd.io/@doulos819/ncr-04",
+    "https://hackmd.io/@doulos819/ncr-05",
+    "https://hackmd.io/@doulos819/ncr-06",
+    "https://hackmd.io/@doulos819/ncr-07",
+    "https://hackmd.io/@doulos819/ncr-08",
+    "https://hackmd.io/@doulos819/ncr-09",
+    "https://hackmd.io/@doulos819/ncr-10",
+    "https://hackmd.io/@doulos819/ncr-11",
+  ];
 
   return (
     <div>
+      {/* Widget component */}
       <Widget src={`${ownerId}/widget/Resources.Header`} />
+
+      {/* Syllabus link */}
       <div style={linkContainerStyle}>
         <a
           style={linkStyle}
@@ -45,15 +60,16 @@ const LessonLinks = () => {
           Syllabus
         </a>
       </div>
-      {[...Array(11).keys()].map((num) => (
-        <div style={linkContainerStyle} key={num}>
+
+      {/* Lesson links */}
+      {lessonNames.map((lesson, index) => (
+        <div style={linkContainerStyle} key={index}>
           <a
             style={linkStyle}
-            href={temporaryLink} // Use temporaryLink for all lessons
+            href={lessonURLs[index]} // Use lesson URL for each lesson
             target="_blank"
           >
-            {`Lesson ${num + 1}: ${lessonNames[num]}`}{" "}
-            {/* Modify to include lesson names */}
+            {`Lesson ${index + 1}: ${lesson}`} {/* Display lesson name */}
           </a>
         </div>
       ))}
@@ -61,6 +77,7 @@ const LessonLinks = () => {
   );
 };
 
+// Render the LessonLinks component
 return (
   <div>
     <LessonLinks />
