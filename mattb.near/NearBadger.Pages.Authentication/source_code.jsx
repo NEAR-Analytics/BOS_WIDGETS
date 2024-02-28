@@ -3,6 +3,7 @@ const { accountId, showPlatform, code, state } = props;
 const $ = VM.require("sdks.near/widget/Loader");
 const { LensSDK } = $("@sdks/lens-sdk");
 const { EthereumSigner } = $("@sdks/eth-signer");
+LensSDK = new LensSDK(State, state);
 
 const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app";
 const VERIFY_PLATFORM_ENDPOINT = "verify";
@@ -77,7 +78,6 @@ useEffect(() => {
   }
 
   if (platform == "lens") {
-    LensSDK = new LensSDK(State, state);
     LensSDK.authentication
       .profiles({
         for: evmAddress,
@@ -707,8 +707,11 @@ const AuthProcess = ({ platform }) => {
         </Header>
         <Step>Something went wrong...</Step>
         <StepDescription>
-          Ouch! It looks like we weren't able to verify your information this time. But don't
-          worry, you can try it again.<br/><br/><br/>
+          Ouch! It looks like we weren't able to verify your information this
+          time. But don't worry, you can try it again.
+          <br />
+          <br />
+          <br />
           <FinishButton as="a" href={TWITTER_AUTH_URL}>
             Try again
           </FinishButton>
