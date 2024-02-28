@@ -79,7 +79,7 @@ useEffect(() => {
 }, [platform]);
 
 State.update({ test: "Test" });
-console.log(state);
+console.log(State.get());
 
 
 const Main = styled.div`
