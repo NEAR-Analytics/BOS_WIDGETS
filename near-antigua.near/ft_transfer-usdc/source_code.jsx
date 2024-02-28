@@ -24,8 +24,10 @@ const send = () => {
       receiver_id: state.reciever,
       amount: state.amount,
     },
-          deposit: "1", 
-      gas: "3000000000000", 
+    {
+      deposit: "1", // Correctly specifying 1 yoctoNEAR for the deposit
+      gas: "3000000000000", // An appropriate gas amount for the transaction
+    }
   );
 };
 
