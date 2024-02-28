@@ -188,16 +188,14 @@ return (
               onSchemaSrcChange: handleSchemaSrcChange,
             }}
           /> */}
-          <FormContainer>
-            <Widget
-              src="flowscience.near/widget/attestWithTypes"
-              props={{
-                item: state.data,
-                onChange: handleOnChange,
-                selectedSchema: selectedSchema,
-              }}
-            />
-          </FormContainer>
+          <Widget
+            src="flowscience.near/widget/attestWithTypes"
+            props={{
+              item: state.data,
+              onChange: handleOnChange,
+              selectedSchema: selectedSchema,
+            }}
+          />
           <Footer></Footer>
         </>
       ) : (
