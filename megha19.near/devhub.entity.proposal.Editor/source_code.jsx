@@ -652,7 +652,7 @@ return (
                     className: "flex-grow-1",
                     value: title,
                     onChange: (e) => {
-                      etTitle(e.target.value);
+                      setTitle(e.target.value);
                     },
                     skipPaddingGap: true,
                     placeholder: "Enter title here.",
