@@ -1,4 +1,5 @@
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
+const { handleClose } = props
 
 const Container = styled.div`
   display: flex;
@@ -313,7 +314,7 @@ return (
   <Container>
     <Header>
       <h1>You{'\u2019'}re entering Mutable Web</h1>
-      <CloseButton onClick={props.handleClose}>
+      <CloseButton onClick={handleClose}>
         <CloseIcon/>
       </CloseButton>
     </Header>
@@ -344,7 +345,7 @@ return (
       You can see how our applications work here
     </a>
     <Footer>
-      <SuccessButton onClick={props.handleClose}>Got it</SuccessButton>
+      <SuccessButton onClick={handleClose}>Got it</SuccessButton>
       {/* <Checkbox>
         <label>
           <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
