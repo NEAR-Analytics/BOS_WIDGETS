@@ -124,7 +124,6 @@ const Container = styled.div`
 `;
 
 const SubmitProposal = styled.a`
-  width: 100%;
   border: 2px solid #efdcd1;
   border-radius: 10px;
   padding: 10px 25px;
@@ -135,8 +134,13 @@ const SubmitProposal = styled.a`
     #adc3fb 99.83%
   );
   background-clip: text;
+  text-align: center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+
+  @media screen and (max-width: 786px) {
+    width: 100%;
+  }
 `;
 
 const { section, dao_id } = props;
@@ -173,15 +177,18 @@ return (
         </div>
       </div>
 
-      <div className="d-flex px-3 w-100 justify-content-center">
-        <div>
-          <SubmitProposal
-            href={`/ndcdev.near/widget/daos.App?page=create_proposal&dao_id=${dao_id}`}
-          >
-            Submit Proposal
-            <i className="bi bi-chevron-right" />
-          </SubmitProposal>
-        </div>
+      <div className="d-flex gap-3 w-100 flex-wrap justify-content-center">
+        <SubmitProposal
+          href={`/ndcdev.near/widget/daos.App?page=create_proposal&dao_id=${dao_id}`}
+        >
+          Submit Proposal
+          <i className="bi bi-chevron-right" />
+        </SubmitProposal>
+        <SubmitProposal
+          href={`/ndcdev.near/widget/daos.App?page=proposals&dao_id=${dao_id}`}
+        >
+          Show Proposals
+        </SubmitProposal>
       </div>
     </div>
   </Container>
