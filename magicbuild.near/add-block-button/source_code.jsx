@@ -503,20 +503,22 @@ return (
         <div class="modal-backdrop fade show"></div>
       </>
     )}
-    <button
-      type="button"
-      onClick={(e) => {
-        openModalBlock(e, "show");
-        State.update({
-          selectBlock: blockId,
-        });
-        State.update({
-          selectPositionBlock: 1,
-        });
-      }}
-      class="btn btn-outline-primary btn-lg btn-block"
-    >
-      Add Block +
-    </button>
+    <div class="d-grid gap-2">
+      <button
+        type="button"
+        onClick={(e) => {
+          openModalBlock(e, "show");
+          State.update({
+            selectBlock: blockId,
+          });
+          State.update({
+            selectPositionBlock: 1,
+          });
+        }}
+        class="btn btn-outline-primary btn-lg btn-block"
+      >
+        Add Block +
+      </button>
+    </div>
   </>
 );
