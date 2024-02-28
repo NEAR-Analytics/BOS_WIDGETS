@@ -344,11 +344,11 @@ return (
                             <div
                               class="card p-2 align-items-center"
                               style={{ width: "130px", height: "180px" }}
-                              onClick={(e) =>
+                              onClick={(e) => {
                                 selectWidget(
                                   `${context.accountId}/widget/${widget.widgetName}`
-                                )
-                              }
+                                );
+                              }}
                             >
                               <img
                                 src={
@@ -395,18 +395,13 @@ return (
                               <div
                                 class="card p-2 align-items-center"
                                 style={{ width: "150px", height: "150px" }}
-                                onClick={(e) =>
+                                onClick={(e) => {
+                                  openModalBlock(e, "close");
                                   selectWidget(
                                     `${state.blockWidgetPattern[widget].widgetUrl}`
-                                  )
-                                }
+                                  );
+                                }}
                               >
-                                <Widget
-                                  src={
-                                    state.blockWidgetPattern[widget].widgetUrl
-                                  }
-                                  props={state.blockWidgetPattern[widget].props}
-                                />
                                 <div class="card-body p-0">
                                   <span
                                     class="card-text  d-inline-block text-truncate "
