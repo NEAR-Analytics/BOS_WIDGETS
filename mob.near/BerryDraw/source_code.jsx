@@ -1,9 +1,15 @@
 const img = `
-.##.##.
-#######
-.#####.
-..###..
+..XX.XX..
+.X##X##X.
+X#######X
+X#######X
+.X#####X.
+..X###X..
+...X#X...
+....X....
 `.trim();
+
+const rgb = (r, g, b) => r * 65536 + g * 256 + b;
 
 function draw() {
   const lines = img.split("\n");
@@ -12,10 +18,25 @@ function draw() {
 
   const x = Math.floor(Math.random() * (50 - w));
   const y = Math.floor(Math.random() * (50 - h));
-  const color = Math.floor(Math.random() * 192 + 64) << 16;
   const pixels = [];
   for (let i = 0; i < h; ++i) {
     for (let j = 0; j < w; ++j) {
+      const c = lines[i].charAt(j);
+      if (c == ".") {
+        continue;
+      }
+      const color =
+        c == "#"
+          ? rgb(
+              Math.floor(Math.random() * 64 + 192),
+              Math.floor(Math.random() * 32),
+              Math.floor(Math.random() * 32)
+            )
+          : rgb(
+              Math.floor(Math.random() * 32),
+              Math.floor(Math.random() * 32),
+              Math.floor(Math.random() * 32)
+            );
       pixels.push({
         x: x + j,
         y: y + i,
@@ -30,10 +51,10 @@ return (
   <div>
     <div className="d-flex ">
       <button
-        className="btn btn-danger mb-1 flex-grow-1"
+        className="btn btn-outline-danger mb-1 flex-grow-1"
         onClick={() => draw()}
       >
-        DRAW
+        DRAW ❤️
       </button>
     </div>
     <Widget src="mob.near/widget/BerryclubBoard" props={{}} />
