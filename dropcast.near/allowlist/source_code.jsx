@@ -147,7 +147,33 @@ const changeOption = (key, value) => {
   });
 };
 
-const onSubmit = () => {};
+const convertObject = (params) => {
+  return Object.keys(params)
+    .map((param) => `${param}=${params[param]}`)
+    .join("&");
+};
+
+const onSubmit = () => {
+  let promise = asyncFetch(`${API_URL}/api/auth/download`, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "x-auth-token": TOKEN,
+    },
+    method: "POST",
+    body: convertObject(state),
+  });
+
+  promise.then((data) => {
+    if (data.status === 200) {
+      console.log(data, "==>data");
+    } else {
+      State.update({
+        ...state,
+        error: data.body,
+      });
+    }
+  });
+};
 
 return (
   <Wrapper>
