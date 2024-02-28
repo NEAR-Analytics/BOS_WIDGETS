@@ -22,7 +22,7 @@ const send = () => {
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: 1,
+      amount: state.amount,
     },
     {
       deposit: 1,
@@ -32,7 +32,7 @@ const send = () => {
 
 const onChangeAmount = (amount) => {
   State.update({
-    amount: state.amount,
+    amount: amount,
   });
 };
 
