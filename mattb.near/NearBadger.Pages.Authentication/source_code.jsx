@@ -77,7 +77,7 @@ useEffect(() => {
     return;
   }
 
-  if (platform == "lens") {
+  if (platform == "lens" && state) {
     console.log(state);
     lens.authentication
       .profiles({
@@ -94,7 +94,7 @@ useEffect(() => {
         }
       });
   }
-}, [platform]);
+}, [platform, state]);
 
 const Main = styled.div`
     width:100%;
