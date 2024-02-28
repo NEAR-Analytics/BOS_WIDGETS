@@ -5,13 +5,15 @@ const styleClass = props.styleClass || "";
 State.init({
   stack: null,
   children: props.children || [],
-  isEditor: props.isEditor || true,
+  isEditor: props.isEditor,
 });
-const updateStateEditor =
-  props.selectWidget ??
-  (() => {
-    State.update({ isEditor: !state.isEditor });
+
+const updateStateEditor = () => {
+  console.log("children", state.children);
+  State.update({
+    isEditor: !state.isEditor,
   });
+};
 
 if (!state.stack) {
   State.update({
@@ -25,7 +27,7 @@ const Stack = state.stack;
 return (
   <Stack class={"col " + styleClass}>
     <button type="button" onClick={updateStateEditor}>
-      {"off"}
+      {"Collapse"}
     </button>
     {state.isEditor == true ? (
       <>
@@ -37,7 +39,10 @@ return (
               childrenColection.push(
                 <Widget
                   src={widgetUrl}
-                  props={{ children: ["123123"], isEditor: state.isEditor }}
+                  props={{
+                    children: ["123123"],
+                    isEditor: state.isEditor,
+                  }}
                 />
               );
               State.update({
