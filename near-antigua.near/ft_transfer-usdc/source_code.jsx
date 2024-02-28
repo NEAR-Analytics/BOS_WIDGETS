@@ -16,19 +16,16 @@ const getBalance = () => {
 };
 getBalance();
 
-const deposit = "1";
-
 const send = () => {
   Near.call(
     state.token,
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: state.amount, // Assuming this is already a string in yoctoNEAR
+      amount: state.amount,
     },
     {
       deposit: deposit, // 1 yoctoNEAR for the deposit, as a string
-      gas: "30000000000000", // Gas amount, as a string
     }
   );
 };
