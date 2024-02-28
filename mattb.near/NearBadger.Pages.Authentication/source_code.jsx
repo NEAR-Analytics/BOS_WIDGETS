@@ -3,7 +3,7 @@ const { accountId, showPlatform, code, state } = props;
 const $ = VM.require("sdks.near/widget/Loader");
 const { LensSDK } = $("@sdks/lens-sdk");
 const { EthereumSigner } = $("@sdks/eth-signer");
-const lens = new LensSDK(State, state);
+LensSDK = new LensSDK(State, state);
 
 const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app";
 const VERIFY_PLATFORM_ENDPOINT = "verify";
@@ -76,11 +76,24 @@ useEffect(() => {
   if (!evmAddress) {
     return;
   }
+
+  if (platform == "lens") {
+    LensSDK.authentication
+      .profiles({
+        for: evmAddress,
+      })
+      .then((profiles) => {
+        if (profiles.length > 0) {
+          const handles = profiles.map(
+            (profile) => `${profile.handle.fullHandle.split("/").pop()}.lens`
+          );
+
+          setSelectedHandle(handles[0]);
+          setLensProfiles(handles);
+        }
+      });
+  }
 }, [platform]);
-
-State.update({ test: "Test" });
-console.log(State.get());
-
 
 const Main = styled.div`
     width:100%;
