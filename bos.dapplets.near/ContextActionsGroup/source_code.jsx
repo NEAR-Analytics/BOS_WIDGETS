@@ -13,7 +13,7 @@ const handleOnMouseLeave = () => {
   //   : props.isEditMode
   //   ? null
   //   : State.update({ show: false });
-  console.log('')
+  console.log("");
 };
 
 const handleOpenMenu = () => {
@@ -47,8 +47,8 @@ const OverlayTriggerWrapper = styled.div`
 
   .OverlayTrigger {
     position: absolute;
-    background: #384BFF;
-    border: 1px solid #384BFF;
+    background: #384bff;
+    border: 1px solid #384bff;
     width: 6px;
     height: 49px;
     right: -6px;
@@ -83,7 +83,7 @@ const TriggerShowPanel = styled.div`
 `;
 
 const TriggerShowLabel = styled.div`
-  background: #384BFF;
+  background: #384bff;
   display: flex;
   border-radius: 0px 4px 4px 0px;
   z-index: 1100;
@@ -133,7 +133,7 @@ const ActionsWrapper = styled.div`
     }
     100% {
       padding-top: 6px;
-      border: 1px solid #384BFF;
+      border: 1px solid #384bff;
       opacity: 1;
       right: 60px;
       height: auto;
@@ -181,19 +181,18 @@ const ButtonPlus = styled.div`
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #F8F9FF;
+  background: #f8f9ff;
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
-  border: 1px solid #384BFF;
-  box-sizing: border-box;
+  border: 1px solid #384bff;
   &:before {
     content: "";
     display: block;
     width: 1.5px;
     height: 11px;
     border-radius: 2px;
-    background: #384BFF;
+    background: #384bff;
     position: absolute;
     top: 6px;
     left: 11px;
@@ -204,7 +203,7 @@ const ButtonPlus = styled.div`
     height: 1px;
     width: 11px;
     border-radius: 2px;
-    background: #384BFF;
+    background: #384bff;
     position: absolute;
     top: 11px;
     left: 6px;
@@ -231,7 +230,7 @@ const WrapperButtonPlusDefault = styled.div`
   border-radius: 0px 4px 4px 0px;
   position: absolute;
   top: 30px;
-  background: #F8F9FF;
+  background: #f8f9ff;
   z-index: 1081;
   display: flex;
   align-items: center;
@@ -243,19 +242,18 @@ const ButtonPlusDefault = styled.div`
   height: 22px;
   border-radius: 50%;
   bottom: 7px;
-  background: #F8F9FF;
+  background: #f8f9ff;
   position: relative;
   transform: translateY(6px);
   cursor: pointer;
-  border: 1px solid #384BFF;
-  box-sizing: border-box;
+  border: 1px solid #384bff;
   &:before {
     content: "";
     display: block;
     width: 1.5px;
     height: 11px;
     border-radius: 2px;
-    background: #384BFF;
+    background: #384bff;
     position: absolute;
     top: 6px;
     left: 10.5px;
@@ -266,7 +264,7 @@ const ButtonPlusDefault = styled.div`
     height: 1.5px;
     width: 11px;
     border-radius: 2px;
-    background: #384BFF;
+    background: #384bff;
     position: absolute;
     top: 11px;
     left: 6px;
@@ -373,9 +371,9 @@ const ButtonEdit = styled.button`
   border-radius: 50%;
   padding: 0;
 
-  border: 1px solid #384BFF;
+  border: 1px solid #384bff;
   box-sizing: border-box;
-  background: #F8F9FF;
+  background: #f8f9ff;
   transition: all 0.3s;
   &:hover {
     transform: scale(1.2);
@@ -394,8 +392,8 @@ const ButtonApply = styled.button`
   justify-content: center;
   border-radius: 50%;
   padding: 0;
-background: #F8F9FF;
-padding-right: 2px;
+  background: #f8f9ff;
+  padding-right: 2px;
   cursor: pointer;
   box-sizing: border-box;
   transition: all 0.3s;
