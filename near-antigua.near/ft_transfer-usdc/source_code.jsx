@@ -17,10 +17,19 @@ const getBalance = () => {
 getBalance();
 
 const send = () => {
-  Near.call(state.token, "ft_transfer", {
-    receiver_id: state.receiver,
-    amount: state.amount,
-  });
+  const attachedDeposit = "1"; // 1 yoctoNEAR, adjust as needed
+
+  Near.call(
+    state.token,
+    "ft_transfer",
+    {
+      receiver_id: state.receiver,
+      amount: state.amount,
+    },
+    {
+      attachedDeposit: attachedDeposit,
+    }
+  );
 };
 
 const onChangeAmount = (amount) => {
@@ -28,7 +37,6 @@ const onChangeAmount = (amount) => {
     amount,
   });
 };
-
 const onChangeReceiver = (receiver) => {
   State.update({
     receiver,
