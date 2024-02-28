@@ -169,7 +169,7 @@ return (
   <Container>
     <SidePanel>
       <h1>Near Attestation Service (NAS)</h1>
-      <Row style={{ gap: "8px", marginBottom: "16px" }}>
+      {/* <Row style={{ gap: "8px", marginBottom: "16px" }}>
         <h2>Make a new</h2>{" "}
         <Select
           value={state.view}
@@ -178,16 +178,16 @@ return (
           <option value="CREATE_THING">attestation</option>
           <option value="CREATE_TYPE">schema</option>
         </Select>
-      </Row>
+      </Row> */}
       {state.view === "CREATE_THING" ? (
         <>
-          <Widget
+          {/* <Widget
             src="flowscience.near/widget/SchemaSelector"
             props={{
               onSelectedSchemaChange: handleSelectedSchemaChange,
               onSchemaSrcChange: handleSchemaSrcChange,
             }}
-          />
+          /> */}
           <FormContainer>
             <Widget
               src="flowscience.near/widget/attestWithTypes"
