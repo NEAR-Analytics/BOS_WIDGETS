@@ -540,11 +540,13 @@ return (
             </ActionBlock>
           ))}
 
-          {props.isEditMode ? (
-            <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
-          ) : (
-            <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
-          )}
+          {props.widgets && props.widgets.length ? (
+            props.isEditMode ? (
+              <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
+            ) : (
+              <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
+            )
+          ) : null}
         </ActionsWrapper>
         {props.widgets && props.widgets.length ? (
           <>
@@ -565,13 +567,20 @@ return (
             />
           </>
         ) : (
-          <WrapperButtonPlusDefault>
-            {" "}
-            <ButtonPlusDefault
-              title={!context.accountId ? "Connect wallet" : null}
-              onClick={!context.accountId ? null : handleOpenMenu}
-            />
-          </WrapperButtonPlusDefault>
+          <>
+            {props.isEditMode ? (
+              <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
+            ) : (
+              <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
+            )}
+            <WrapperButtonPlusDefault>
+              {" "}
+              <ButtonPlusDefault
+                title={!context.accountId ? "Connect wallet" : null}
+                onClick={!context.accountId ? null : handleOpenMenu}
+              />
+            </WrapperButtonPlusDefault>
+          </>
         )}
       </TriggerShowPanel>
     ) : null}
