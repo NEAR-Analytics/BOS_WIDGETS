@@ -7,7 +7,7 @@ const Item = styled.div`
   box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
   
   @media screen and (max-width: 786px) {
-    height: 300px;
+    height: 350px;
   }
 
   h4 {
