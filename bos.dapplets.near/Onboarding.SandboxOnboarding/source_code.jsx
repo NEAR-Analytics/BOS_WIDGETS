@@ -314,7 +314,7 @@ return (
   <Container>
     <Header>
       <h1>You{'\u2019'}re entering Mutable Web</h1>
-      <CloseButton onClick={handleClose}>
+      <CloseButton onClick={() => handleClose(false)}>
         <CloseIcon/>
       </CloseButton>
     </Header>
@@ -345,7 +345,7 @@ return (
       You can see how our applications work here
     </a>
     <Footer>
-      <SuccessButton onClick={handleClose}>Got it</SuccessButton>
+      <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
       {/* <Checkbox>
         <label>
           <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
