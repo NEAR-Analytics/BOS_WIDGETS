@@ -77,8 +77,7 @@ useEffect(() => {
     return;
   }
 
-  if (platform == "lens") {
-    console.log(LensSDK.getRepository());
+  if (platform == "lens" && LensSDK) {
     LensSDK.authentication
       .profiles({
         for: evmAddress,
