@@ -1,0 +1,1 @@
+return <button onClick={() => Social.set({ index: { thomagotchi: { key: "efiz.near-game1", value: { type: "grow" } } } }) }>click</button>;
