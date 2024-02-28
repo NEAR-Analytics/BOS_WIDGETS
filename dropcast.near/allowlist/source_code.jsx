@@ -1,6 +1,6 @@
 const accountId = context.accountId;
 const Owner = "dropcast.near";
-const API_URL = props.API_URL || "http://localhost:3000";
+const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
 const Logout = props.Logout;
@@ -99,19 +99,19 @@ const AGE_ACCOUNT = [
 
 const TRANSACTION = [
   {
-    text: "10 Transactions",
+    text: "> 10 Transactions",
     value: "transaction1",
   },
   {
-    text: "50 Transactions",
+    text: "> 50 Transactions",
     value: "transaction2",
   },
   {
-    text: "1000 Transactions",
+    text: "> 1000 Transactions",
     value: "transaction3",
   },
   {
-    text: "10000 Transactions",
+    text: "> 10000 Transactions",
     value: "transaction4",
   },
   {
@@ -138,6 +138,9 @@ State.init({
   nft: "no",
   meme: "no",
   activity: "no",
+  error: "",
+  download: false,
+  file: "",
 });
 
 const changeOption = (key, value) => {
@@ -154,18 +157,41 @@ const convertObject = (params) => {
 };
 
 const onSubmit = () => {
+  State.update({
+    ...state,
+    download: false,
+    file: "",
+  });
   let promise = asyncFetch(`${API_URL}/api/auth/download`, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       "x-auth-token": TOKEN,
     },
     method: "POST",
-    body: convertObject(state),
+    body: convertObject({
+      near: state.near,
+      age: state.age,
+      transaction: state.transaction,
+      nft: state.nft,
+      meme: state.meme,
+      activity: state.activity,
+    }),
   });
 
   promise.then((data) => {
     if (data.status === 200) {
-      console.log(data, "==>data");
+      if (data.body?.error) {
+        State.update({
+          ...state,
+          error: data.body,
+        });
+      } else {
+        State.update({
+          ...state,
+          download: true,
+          file: data.body,
+        });
+      }
     } else {
       State.update({
         ...state,
@@ -267,6 +293,11 @@ return (
       <Button className="btn" onClick={onSubmit}>
         Download CSV
       </Button>
+      {state.download && state.file && (
+        <div className="d-flex mt-1 justify-content-center align-items-center">
+          <a href={`${API_URL}/${state.file}`}>Download CSV</a>
+        </div>
+      )}
     </Card>
   </Wrapper>
 );
