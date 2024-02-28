@@ -1,5 +1,4 @@
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
-const { handleClose } = props
 
 const Container = styled.div`
   display: flex;
@@ -11,11 +10,7 @@ const Container = styled.div`
   padding: 20px;
   gap: 20px;
   z-index: 1000;
-  box-shadow: 0px 3px 6px 0px #4741FC0D;
-  box-shadow: 0px 11px 11px 0px #4741FC0A;
-  box-shadow: 0px 25px 15px 0px #4741FC08;
-  box-shadow: 0px 44px 17px 0px #4741FC03;
-  box-shadow: 0px 68px 19px 0px #4741FC00;
+  box-shadow: 0px 3px 6px 0px #4741FC0D, 0px 11px 11px 0px #4741FC0A, 0px 25px 15px 0px #4741FC08, 0px 44px 17px 0px #4741FC03, 0px 68px 19px 0px #4741FC00;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   align-items: center;
   justify-content: center;
