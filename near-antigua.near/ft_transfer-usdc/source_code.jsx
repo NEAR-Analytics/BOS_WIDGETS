@@ -26,7 +26,7 @@ const send = () => {
     },
     {
       // Specify the attached deposit for the token transfer
-      attachedDeposit: "1", // 1 yoctoNEAR
+      //  attachedDeposit: "1", // 1 yoctoNEAR
     }
   );
 };
