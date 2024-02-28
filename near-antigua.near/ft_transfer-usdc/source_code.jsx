@@ -16,6 +16,8 @@ const getBalance = () => {
 };
 getBalance();
 
+const deposit = "1";
+
 const send = () => {
   Near.call(
     state.token,
@@ -25,7 +27,7 @@ const send = () => {
       amount: state.amount, // Assuming this is already a string in yoctoNEAR
     },
     {
-      deposit: "1", // 1 yoctoNEAR for the deposit, as a string
+      deposit: deposit, // 1 yoctoNEAR for the deposit, as a string
       gas: "3000000000000", // Gas amount, as a string
     }
   );
@@ -33,7 +35,7 @@ const send = () => {
 
 const onChangeAmount = (amount) => {
   State.update({
-    amount: amount.toString(), // Convert the numerical amount to a string
+    amount: amount,
   });
 };
 
