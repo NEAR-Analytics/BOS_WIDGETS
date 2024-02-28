@@ -78,6 +78,7 @@ useEffect(() => {
   }
 
   if (platform == "lens") {
+    console.log(LensSDK);
     LensSDK.authentication
       .profiles({
         for: evmAddress,
