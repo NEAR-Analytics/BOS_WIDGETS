@@ -23,9 +23,9 @@ const send = () => {
     {
       receiver_id: state.reciever,
       amount: state.amount,
-      deposit: "1", 
-      gas: "3000000000000", 
     },
+          deposit: "1", 
+      gas: "3000000000000", 
   );
 };
 
