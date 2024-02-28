@@ -43,11 +43,11 @@ const Onboarding = styled.div`
   }
 `;
 
-const handleOpen = () => {
-  setShow(true)
-}
+// const handleOpen = () => {
+//   setShow(true)
+// }
 
-const handleClose = (dontShowAgain) => {
+const handleClose = () => {
   // if (dontShowAgain) {
   //   Storage.privateSet('lastShowTime', 30000000000000)
   // } else {
@@ -57,7 +57,7 @@ const handleClose = (dontShowAgain) => {
 }
 
 return (
-  <OverlayTriggerWrapper onClick={handleOpen}>
+  <OverlayTriggerWrapper>
     {show ? (
       <DappletOverlay>
         <Onboarding>
