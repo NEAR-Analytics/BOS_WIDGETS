@@ -7,7 +7,7 @@ if (!Items || !daos) return <Widget src="flashui.near/widget/Loading" />;
 
 const baseUrl = "https://api.pikespeak.ai";
 // const [totalTreasury, setTotalTreasury] = useState(null);
-const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(false);
 
 // const getTotalTreasury = async (accountId) => {
 //   try {
