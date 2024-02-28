@@ -24,11 +24,12 @@ const send = () => {
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: state.amount, // Assuming this is already a string in yoctoNEAR
+      // Ensure amount is a string right here before the call
+      amount: String(state.amount),
     },
     {
-      deposit: deposit, // 1 yoctoNEAR for the deposit, as a string
-      gas: "3000000000000", // Gas amount, as a string
+      deposit: "1", // Ensure this matches the expected format and value
+      gas: "3000000000000", // Gas amount as a string
     }
   );
 };
