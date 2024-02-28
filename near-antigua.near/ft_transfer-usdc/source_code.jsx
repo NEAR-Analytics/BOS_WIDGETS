@@ -22,7 +22,7 @@ const send = () => {
     "ft_transfer",
     {
       receiver_id: state.reciever,
-      amount: state.amount,
+      amount: state.amount.toString(), // Ensure amount is converted to string
     },
     undefined,
     "1"
