@@ -48,11 +48,11 @@ const handleOpen = () => {
 }
 
 const handleClose = (dontShowAgain) => {
-  if (dontShowAgain) {
-    Storage.privateSet('lastShowTime', 30000000000000)
-  } else {
-    Storage.privateSet('lastShowTime', Date.now())
-  }
+  // if (dontShowAgain) {
+  //   Storage.privateSet('lastShowTime', 30000000000000)
+  // } else {
+  //   Storage.privateSet('lastShowTime', Date.now())
+  // }
   setShow(false)
 }
 
