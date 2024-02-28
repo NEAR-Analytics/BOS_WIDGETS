@@ -313,7 +313,7 @@ return (
   <Container>
     <Header>
       <h1>You{'\u2019'}re entering Mutable Web</h1>
-      <CloseButton onClick={(e) => props.handleClose(e, false)}>
+      <CloseButton onClick={() => props.handleClose(false)}>
         <CloseIcon/>
       </CloseButton>
     </Header>
@@ -344,7 +344,7 @@ return (
       You can see how our applications work here
     </a>
     <Footer>
-      <SuccessButton onClick={(e) => props.handleClose(e, doNotShowAgain)}>Got it</SuccessButton>
+      <SuccessButton onClick={() => props.handleClose(doNotShowAgain)}>Got it</SuccessButton>
       {/* <Checkbox>
         <label>
           <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
