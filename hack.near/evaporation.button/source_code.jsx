@@ -1,16 +1,29 @@
-const initialSunsetTimestamp = 1709149888 * 1000;
+const initialSunsetTimestamp = 1709159888 * 1000;
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 const gameId = props.gameId ?? "evaporation";
+const appId = props.appId ?? "test";
+const clicks = Social.index(appId, `${accountId}-${gameId}`, {
+  limit: 100,
+  order: "desc",
+});
 
 const [sunset, setSunset] = useState(new Date(initialSunsetTimestamp));
 
 const addMoreTime = () => {
-  const newSunsetTime = new Date(sunset.getTime() + 5 * 60000);
-  Social.index(`thomagotchi`, `${accountId}-${gameId}`);
-  setSunset(newSunsetTime);
+  Social.set(
+    {
+      index: {
+        [appId]: JSON.stringify({
+          key: `${accountId}-${gameId}`,
+          value: { type: "click" },
+        }),
+      },
+    },
+    {
+      force: true,
+    }
+  );
 };
-
-Social.index();
 
 const now = new Date();
 const evaporated = now > sunset;
@@ -21,13 +34,16 @@ return (
   <div>
     {!evaporated ? (
       <>
-        <p>Time until sunset: {remainingMinutes} minutes</p>
+        <p>{remainingMinutes} minutes left...</p>
         <button onClick={addMoreTime} className="btn btn-primary">
-          Add 5 Minutes
+          add time
         </button>
       </>
     ) : (
       <p>The sun has set... 🌇</p>
     )}
+    <div className="mt-3">
+      <p>{clicks && Object.keys(clicks).length} clicks</p>
+    </div>
   </div>
 );
