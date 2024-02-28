@@ -347,7 +347,7 @@ return (
     <Footer>
       <Checkbox>
         <label>
-          <input type="checkbox" name="doNotShowAgain" checked={doNotShowAgain} onClick={showOrNotAgain} />
+          <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
           Don't show it again
         </label>
       </Checkbox>
