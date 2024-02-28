@@ -4,7 +4,6 @@ const $ = VM.require("sdks.near/widget/Loader");
 const { LensSDK } = $("@sdks/lens-sdk");
 const { EthereumSigner } = $("@sdks/eth-signer");
 const lens = new LensSDK(State, state);
-console.log(State);
 
 const NEARBADGER_VERIFIERS_API = "https://api.nearbadger.vercel.app";
 const VERIFY_PLATFORM_ENDPOINT = "verify";
@@ -79,6 +78,7 @@ useEffect(() => {
   }
 
   if (platform == "lens") {
+    console.log(state);
     lens.authentication
       .profiles({
         for: evmAddress,
