@@ -243,7 +243,8 @@ const ButtonPlusDefault = styled.div`
   height: 22px;
   border-radius: 50%;
   bottom: 7px;
-  background: #f8f9ff;
+  background: ${(p) =>
+    p.default ? "#384bff !important" : "#f8f9ff !important"};
   position: relative;
   transform: translateY(20px);
   cursor: pointer;
@@ -254,7 +255,9 @@ const ButtonPlusDefault = styled.div`
     width: 1.5px;
     height: 11px;
     border-radius: 2px;
-    background: #384bff;
+    background: ${(p) =>
+      p.default ? "#fff !important" : "#384bff !important"};
+
     position: absolute;
     top: 6px;
     left: 10.5px;
@@ -265,7 +268,8 @@ const ButtonPlusDefault = styled.div`
     height: 1.5px;
     width: 11px;
     border-radius: 2px;
-    background: #384bff;
+    background: ${(p) =>
+      p.default ? "#fff !important" : "#384bff !important"};
     position: absolute;
     top: 11px;
     left: 6px;
@@ -282,7 +286,7 @@ const ButtonPlusDefault = styled.div`
   animation: translateAnimationBtn 0.5s linear forwards;
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.2) translateY(6px);
+    transform: scale(1.1) translateY(20px);
   }
 `;
 
@@ -374,10 +378,10 @@ const ButtonEdit = styled.button`
 
   border: 1px solid #384bff;
   box-sizing: border-box;
-  background: ${(p) => (p.default ? "#f8f9ff !important" : "#fff !important")};
+  background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   svg {
     path {
@@ -403,8 +407,14 @@ const ButtonApply = styled.button`
   cursor: pointer;
   box-sizing: border-box;
   transition: all 0.3s;
+  background: ${(p) => (p.default ? "#f8f9ff !important" : "#fff !important")};
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
+  }
+  svg {
+    path {
+      stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
+    }
   }
 `;
 
@@ -464,12 +474,7 @@ const iconEdit = (
     viewBox="0 0 14 14"
     fill="none"
   >
-    <path
-      d="M12 7L2 7"
-      stroke="#384BFF"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M12 7L2 7" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 const iconApply = (
@@ -482,7 +487,6 @@ const iconApply = (
   >
     <path
       d="M2 7H9.125M3.5 9.25L1.25 7L3.5 4.75M7.25 3.25V2.5C7.25 2.10218 7.40804 1.72064 7.68934 1.43934C7.97064 1.15804 8.35218 1 8.75 1H12.5C12.8978 1 13.2794 1.15804 13.5607 1.43934C13.842 1.72064 14 2.10218 14 2.5V11.5C14 11.8978 13.842 12.2794 13.5607 12.5607C13.2794 12.842 12.8978 13 12.5 13H8.75C8.35218 13 7.97064 12.842 7.68934 12.5607C7.40804 12.2794 7.25 11.8978 7.25 11.5V10.75"
-      stroke="#384BFF"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -580,11 +584,13 @@ return (
                   top: "5px",
                 }}
                 onClick={handleApplyClick}
+                $default
               >
                 {iconApply}
               </ButtonApply>
             ) : (
               <ButtonEdit
+                $default
                 style={{
                   top: "5px",
                 }}
@@ -594,6 +600,7 @@ return (
               </ButtonEdit>
             )}
             <ButtonPlusDefault
+              $default
               title={!context.accountId ? "Connect wallet" : null}
               onClick={!context.accountId ? null : handleOpenMenu}
             />
