@@ -216,12 +216,8 @@ const CurrentView = () => {
   );
 };
 
-const Container = styled.div`
-  background: var(--bg-1, #0b0c14);
-`;
-
 return (
-  <Container>
+  <>
     <Widget
       src="buildhub.near/widget/components.modals.CreateEvent"
       loading=""
@@ -242,5 +238,5 @@ return (
     />
     <Toolbar />
     <CurrentView />
-  </Container>
+  </>
 );
