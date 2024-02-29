@@ -81,35 +81,6 @@ const TriggerShowPanel = styled.div`
   z-index: 79;
 `;
 
-const TriggerShowLabel = styled.div`
-  background: #384bff;
-  display: flex;
-  border-radius: 0px 4px 4px 0px;
-  z-index: 1100;
-  cursor: pointer;
-  position: absolute;
-  height: calc(100% - 22px);
-  top: -1px;
-  width: 40px;
-  // @keyframes scaleAnimation {
-  //   0% {
-  //     opacity: 0;
-  //     transform-origin: top left;
-  //     transform: scaleX(0) scaleY(0);
-  //   }
-
-  //   100% {
-  //     opacity: 0;
-
-  //     transform-origin: top left;
-  //     transform: scaleX(1) scaleY(1.2);
-  //     display: none;
-  //   }
-  // }
-  // animation: scaleAnimation 0.5s ease forwards;
-  transition: all 0.3s;
-`;
-
 const ActionsWrapper = styled.div`
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
@@ -507,8 +478,6 @@ return (
               props.widgets && props.widgets.length ? "" : "#DB504A!important",
           }}
         >
-          <TriggerShowLabel />
-
           {props.widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
