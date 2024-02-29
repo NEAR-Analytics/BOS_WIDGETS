@@ -9,7 +9,7 @@ State.init({
   isEditor: props.isEditor || true,
   isRemove: props.isRemove || false,
 });
-const runAction = props.runAction ?? ((eventName) => {});
+const runAction = props.runAction ?? (() => {});
 const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
