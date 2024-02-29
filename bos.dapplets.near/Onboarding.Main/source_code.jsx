@@ -1,13 +1,17 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
 console.log('lastShowTime', lastShowTime)
 const [show, setShow] = useState(false)
-const [startTime] = useState(Date.now())
+const [start, setStart] = useState(false)
 
 useEffect(() => {
-  if (Date.now() - startTime < 3000) return
-  const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 1 * 1
-  setShow(showOnStart)
-}, [lastShowTime])
+  console.log('start', start)
+  if (!start) return
+  const elapsed = Date.now() - (lastShowTime ?? 0)
+  console.log('elapsed', elapsed)
+  setShow(elapsed > 1000 * 60 * 1 * 1)
+}, [start])
+
+setTimeout(() => setStart(true), 3000)
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
