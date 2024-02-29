@@ -183,7 +183,7 @@ const ButtonPlus = styled.div`
   border-radius: 50%;
   background: #f8f9ff;
   position: relative;
-  transform: translateY(6px);
+  ${(p) => (p.default ? "translateY(-25px)" : "translateY(39px)")};
   cursor: pointer;
   border: 1px solid #384bff;
   &:before {
@@ -566,12 +566,8 @@ return (
           <>
             <SupportingSpan />
             <ButtonPlus
+              default={props.widgets && props.widgets.length ? true : false}
               style={{
-                transform:
-                  props.widgets && props.widgets.length
-                    ? "translateY(-25px)"
-                    : "translateY(39px)",
-
                 position:
                   props.widgets && props.widgets.length ? "unset" : "absolute",
                 zIndex: "1081",
