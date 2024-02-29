@@ -541,7 +541,6 @@ const cardObjects = [
     brand: "Hashtags",
     afterbrand: "",
     offChart: true,
-    offGrid: true,
   },
   {
     name: "forkof",
@@ -562,6 +561,7 @@ const cardObjects = [
     brand: "Total trx",
     afterbrand: "",
     offChart: true,
+    offGrid: true,
   },
 ];
 //---------------------------------------------------------------------------------------------------
@@ -642,7 +642,7 @@ const TableSection = (
                 src="lord1.near/widget/header-dynamic"
                 props={{
                   ...baseHeaderDynamic,
-                  ...cardObjects.find((o) => o.name === "hashtags"),
+                  ...cardObjects.find((o) => o.name === "total-tx"),
                 }}
               />
             </div>
