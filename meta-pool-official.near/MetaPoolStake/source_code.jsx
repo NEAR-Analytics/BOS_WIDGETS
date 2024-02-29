@@ -219,7 +219,7 @@ return (
   <PageContainer>
     <Header>
       <StakeFormTopContainer>
-        <a href="https://metapool.app" target="_blank">
+        <a href="https://www.metapool.app" target="_blank">
           <Widget src={`${authorId}/widget/MetaPoolStake.Logo`} />
         </a>
       </StakeFormTopContainer>
@@ -234,7 +234,7 @@ return (
     {render}
     <p style={{ textAlign: "center", alignSelf: "center" }}>
       {`Try `}
-      <a href="https://metapool.app" target="_blank">
+      <a href="https://www.metapool.app/stake?token=near" target="_blank">
         metapool.app
       </a>
     </p>
