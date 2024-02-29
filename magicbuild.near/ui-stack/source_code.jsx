@@ -39,7 +39,7 @@ return (
           src="magicbuild.near/widget/add-block-button"
           props={{
             selectWidget: (widgetUrl) => {
-              const childrenColection = state.children;
+              const blockList = state.children;
               const id = Date.now();
               const block = {
                 [id]: (
