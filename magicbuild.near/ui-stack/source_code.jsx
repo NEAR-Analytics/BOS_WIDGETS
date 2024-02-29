@@ -3,8 +3,10 @@ State.init({
   styleClass: props.styleClass || "",
   element: props.element || "div",
   children: props.children || [],
-  action: [{ label: "Change", eventName: "onChangeCSS" }],
+  action: [{ label: "Change", eventName: "A" }],
 });
+
+const updateState = (e) => {};
 
 return (
   <>
@@ -17,9 +19,6 @@ return (
         action: state.action,
         runAction: (eventName) => {
           console.log("eventName", eventName);
-          if (eventName == "onChangeCSS") {
-            State.update({ styleClass: "text-light" });
-          }
         },
       }}
     />
