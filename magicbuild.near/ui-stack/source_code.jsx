@@ -6,8 +6,6 @@ State.init({
   action: [{ label: "Change", eventName: "onChangeCSS" }],
 });
 
-const updateState = (e) => {};
-
 return (
   <>
     <Widget
