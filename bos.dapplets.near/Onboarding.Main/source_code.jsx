@@ -8,11 +8,9 @@ useEffect(() => {
   setShow(showOnStart)
 }, [lastShowTime])
 
-useEffect(() => {
-  setTimeout(() => {
-    if (lastShowTime === null) setShow(true)
-  }, 5000)
-}, [])
+setTimeout(() => {
+  if (lastShowTime === null) setShow(true)
+}, 5000)
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
