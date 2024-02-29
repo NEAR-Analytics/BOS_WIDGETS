@@ -39,7 +39,7 @@ return (
           <div>
             {state.action &&
               state.action.map((actionBtn) => (
-                <button onClick={runAction(actionBtn.eventName)}>
+                <button onClick={() => runAction(actionBtn.eventName)}>
                   {actionBtn.label}
                 </button>
               ))}
