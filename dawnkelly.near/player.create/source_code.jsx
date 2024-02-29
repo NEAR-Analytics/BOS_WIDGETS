@@ -7,11 +7,6 @@ const [player, setPlayer] = useState(() => {
       species: "",
       class: "",
       image: {},
-      attack: 0,
-      defense: 0,
-      strength: 0,
-      courage: 0,
-      magic: 0,
     },
   };
   return initialData;
@@ -22,6 +17,22 @@ const handleNameChange = (e) => {
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
     metadata: { ...prevPlayer.metadata, name: newName },
+  }));
+};
+
+let startingStatPoints = 50;
+const usedStatPoints =
+  JSON.parse(player.metadata.attack) +
+  JSON.parse(player.metadata.defense) +
+  JSON.parse(player.metadata.strength) +
+  JSON.parse(player.metadata.courage) +
+  JSON.parse(player.metadata.magic);
+console.log(usedStatPoints);
+
+const handleImageChange = (newImage) => {
+  setPlayer((prevPlayer) => ({
+    ...prevPlayer,
+    metadata: { ...prevPlayer.metadata, image: newImage },
   }));
 };
 
@@ -82,84 +93,42 @@ const handleDefaultWeaponChange = (e) => {
 };
 
 const handleAttackChange = (e) => {
-  const newValue = e.target.value;
+  const newAttack = e.target.value;
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, attack: newValue },
+    metadata: { ...prevPlayer.metadata, attack: newAttack },
   }));
+};
 
 const handleDefenseChange = (e) => {
-  const newValue = e.target.value;
+  const newDefense = e.target.value;
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, defense: newValue },
+    metadata: { ...prevPlayer.metadata, defense: newDefense },
   }));
 };
 
 const handleStrengthChange = (e) => {
-  const newValue = e.target.value;
+  const newStrength = e.target.value;
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, strength: newValue },
+    metadata: { ...prevPlayer.metadata, strength: newStrength },
   }));
 };
 
 const handleCourageChange = (e) => {
-  const newValue = e.target.value;
+  const newCourage = e.target.value;
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, courage: newValue },
+    metadata: { ...prevPlayer.metadata, courage: newCourage },
   }));
 };
 
 const handleMagicChange = (e) => {
-  const newValue = e.target.value;
+  const newMagic = e.target.value;
   setPlayer((prevPlayer) => ({
     ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, magic: newValue },
-  }));
-};
-
-const startingStatPoints = 50;
-
-const handlePointsChange = (category, newValue) => {
-  const totalPoints = Object.values(player.metadata).reduce(
-    (acc, curr) => acc + curr,
-    0
-  );
-  const totalPointsExceptCategory = totalPoints - player.metadata[category];
-
-  if (newValue >= 0 && newValue <= 20 && totalPointsExceptCategory + newValue <= startingStatPoints) {
-      setPlayer((prevPlayer) => ({
-        ...prevPlayer,
-        metadata: {
-          ...prevPlayer.metadata,
-          [category]: newValue,
-        },
-      }));
-}
-
-const isButtonDisabled = !context.accountId || totalPoints > startingStatPoints;
-
-const totalPoints = Object.values(player.metadata).reduce(
-    (acc, curr) => acc + curr,
-    0
-  ); 
-{
-  /*let startingStatPoints = 50;
-const usedStatPoints =
-  JSON.parse(player.metadata.attack) +
-  JSON.parse(player.metadata.defense) +
-  JSON.parse(player.metadata.strength) +
-  JSON.parse(player.metadata.courage) +
-  JSON.parse(player.metadata.magic);
-console.log(usedStatPoints);*/
-}
-
-const handleImageChange = (newImage) => {
-  setPlayer((prevPlayer) => ({
-    ...prevPlayer,
-    metadata: { ...prevPlayer.metadata, image: newImage },
+    metadata: { ...prevPlayer.metadata, magic: newMagic },
   }));
 };
 
@@ -197,10 +166,13 @@ return (
         <label for="description">Description:</label>
         <input
           id="description"
-          type="text"
+          type="textarea"
+          rows="4"
+          cols="80"
+          max-length="1200"
           placeholder="What is your character's description?"
-          value={player.metadata.description}
-          onChange={handleDescriptionChange}
+          value={player.metadata.name}
+          onChange={handleNameChange}
         />
       </div>
       <div className="mb-3 p-1">
@@ -247,7 +219,7 @@ return (
       <div className="mb-3 p-1">
         <label for="skill">Skill:</label>
         <input
-          id="skill"
+          id="skills"
           type="text"
           placeholder="What is your character's skill?"
           value={player.metadata.skill}
@@ -275,7 +247,6 @@ return (
         />
       </div>
     </div>
-
     <div className="mb-3 p-1">
       <label for="defaultweapon">Default Weapon:</label>
       <select
@@ -294,17 +265,14 @@ return (
         <option value="voidDagger">Void Dagger</option>
       </select>
     </div>
-
     <div className="m-2">
       <h4>Create Character Stats</h4>
       <h6>
         You have up to 50 points to assign to your character stats. No more than
         20 points may be assigned to a single category.
       </h6>
-
       <div className="mb-3 p-1">
         <label for="attack">Attack:</label>
-
         <input
           id="attack"
           type="number"
@@ -313,7 +281,7 @@ return (
           max="20"
           placeholder="What is your character's attack level? (0-20)"
           value={player.metadata.attack}
-          onChange={(e) => handlePointsChange('attack', parseInt(e.target.value))}
+          onChange={handleAttackChange}
         />
         <div className="mb-3 p-1">
           <label for="defense">Defense:</label>
@@ -325,7 +293,7 @@ return (
             max="20"
             placeholder="What is your character's defense level? (0-20)"
             value={player.metadata.defense}
-            onChange={(e) => handlePointsChange('defense', parseInt(e.target.value))}
+            onChange={handleDefenseChange}
           />
         </div>
         <div className="mb-3 p-1">
@@ -338,7 +306,7 @@ return (
             max="20"
             placeholder="What is your character's strength level? (0-20)"
             value={player.metadata.strength}
-            onChange={(e) => handlePointsChange('strength', parseInt(e.target.value))}
+            onChange={handleStrengthChange}
           />
         </div>
         <div className="mb-3 p-1">
@@ -351,7 +319,7 @@ return (
             max="20"
             placeholder="What is your character's courage level? (0-20)"
             value={player.metadata.courage}
-            onChange={(e) => handlePointsChange('courage', parseInt(e.target.value))}
+            onChange={handleCourageChange}
           />
         </div>
         <div className="mb-3 p-1">
@@ -362,14 +330,14 @@ return (
             name="magic"
             placeholder="What is your character's magic level? (0-20)"
             value={player.metadata.magic}
-            onChange={(e) => handlePointsChange('magic', parseInt(e.target.value))}
+            onChange={handleMagicChange}
           />
         </div>
       </div>
       <div className="m-3">
         <button
           className="btn btn-outline-success"
-          disabled={isButtonDisabled}
+          disabled={!context.accountId}
           onClick={handleSave}
         >
           Save
@@ -388,4 +356,4 @@ return (
       </div>
     </div>
   </div>
-)};
+);
