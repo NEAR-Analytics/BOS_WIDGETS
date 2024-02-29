@@ -37,8 +37,8 @@ return (
         <div class="d-flex justify-content-between">
           <div>
             {state.action &&
-              state.action.map((widget) => (
-                <button onClick={runAction}></button>
+              state.action.map((actionBtn) => (
+                <button onClick={runAction}>{actionBtn.label}</button>
               ))}
           </div>
           <div>
