@@ -181,7 +181,7 @@ const ButtonPlus = styled.div`
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #f8f9ff;
+  background: #fff;
   position: relative;
   transform: ${(p) => (p.default ? "translateY(-25px)" : "translateY(39px)")};
   cursor: pointer;
@@ -260,8 +260,8 @@ const ButtonPlusDefault = styled.div`
       p.default ? "#fff !important" : "#384bff !important"};
 
     position: absolute;
-    top: 6px;
-    left: 10.5px;
+    top: 5.8px;
+    left: 10.7px;
   }
   &:after {
     content: "";
@@ -272,8 +272,8 @@ const ButtonPlusDefault = styled.div`
     background: ${(p) =>
       p.default ? "#fff !important" : "#384bff !important"};
     position: absolute;
-    top: 11px;
-    left: 6px;
+    top: 10.7px;
+    left: 5.8px;
   }
   // @keyframes translateAnimationBtn {
   //   0% {
@@ -287,7 +287,7 @@ const ButtonPlusDefault = styled.div`
   // animation: translateAnimationBtn 0.5s linear forwards;
 
   &:hover {
-    transform: scale(1.1) translateY(20px);
+    transform: translateY(18px) scale(1.1);
   }
   transition: all 0.3s;
 `;
