@@ -54,7 +54,8 @@ const Onboarding = styled.div`
 
 const handleClose = (doNotShowAgain) => {
   if (doNotShowAgain) {
-    Storage.privateSet('lastShowTime', 30000000000000)
+    // Storage.privateSet('lastShowTime', 30000000000000)
+    Storage.privateSet('lastShowTime', Date.now() + 1000 * 60) // ToDo: change it!
   } else {
     Storage.privateSet('lastShowTime', Date.now())
   }
