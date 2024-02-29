@@ -1,9 +1,10 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
 console.log('lastShowTime', lastShowTime)
 const [show, setShow] = useState(false)
+const [startTime] = useState(Date.now())
 
 useEffect(() => {
-  if (!lastShowTime) return
+  if (Date.now() - startTime < 3000) return
   const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 60 * 3
   setShow(showOnStart)
 }, [lastShowTime])
