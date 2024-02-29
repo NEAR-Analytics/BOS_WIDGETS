@@ -1,15 +1,15 @@
 const element = props.element || "div";
 const styleSheet = props.styleSheet || "";
 const styleClass = props.styleClass || "";
-
+console.log(props.isEditor);
 State.init({
   stack: null,
   children: props.children || [],
-  isEditor: props.isEditor,
+  isEditor: props.isEditor || true,
+  childListSave: [],
 });
 
-const updateStateEditor = () => {
-  console.log("children", state.children);
+const collapseWidget = () => {
   State.update({
     isEditor: !state.isEditor,
   });
@@ -26,8 +26,11 @@ const Stack = state.stack;
 // when user render how to get element without add button ?
 return (
   <Stack class={"col " + styleClass}>
-    <button type="button" onClick={updateStateEditor}>
+    <button type="button" onClick={collapseWidget}>
       {"Collapse"}
+    </button>
+    <button type="button" class="btn btn-danger" onClick={updateStateEditor}>
+      {"Remove"}
     </button>
     {state.isEditor == true ? (
       <>
@@ -36,25 +39,28 @@ return (
           props={{
             selectWidget: (widgetUrl) => {
               const childrenColection = state.children;
-              childrenColection.push(
-                <Widget
-                  src={widgetUrl}
-                  props={{
-                    children: ["123123"],
-                    isEditor: state.isEditor,
-                  }}
-                />
-              );
+              childrenColection.push({
+                isEditor: true,
+                element: (
+                  <Widget
+                    src={widgetUrl}
+                    props={{
+                      children: [],
+                      isEditor: state.isEditor,
+                    }}
+                  />
+                ),
+              });
               State.update({
                 children: childrenColection,
               });
             },
           }}
         />
-        {state.children && state.children.map((widget) => widget)}
+        {state.children && state.children.map((widget) => widget.element)}
       </>
     ) : (
-      state.children && state.children.map((widget) => widget)
+      state.children && state.children.map((widget) => widget.element)
     )}
   </Stack>
 );
