@@ -101,7 +101,7 @@ return (
       </Accordion>
       <br />
       <br />
-      <p>Inline Customized Accordion Cube (and media query at 800px) :</p>
+      <p>Inline Customized Accordion Cube (and inline media query at 800px) :</p>
       <Accordion
         mediaMaxWidth800="background-color:red"
         onClick={() => console.log("Accordion clicked!")}
