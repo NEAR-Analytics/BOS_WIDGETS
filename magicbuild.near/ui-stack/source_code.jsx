@@ -1,16 +1,14 @@
 const element = props.element || "div";
 const styleSheet = props.styleSheet || "";
 const styleClass = props.styleClass || "";
-console.log(props.isEditor);
+
 State.init({
   stack: null,
   children: props.children || [],
-  isEditor: props.isEditor || true,
-  childListSave: [],
+  isEditor: props.isEditor,
 });
 
-const collapseWidget = () => {
-  props.isEditor = false;
+const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
   });
@@ -27,11 +25,8 @@ const Stack = state.stack;
 // when user render how to get element without add button ?
 return (
   <Stack class={"col " + styleClass}>
-    <button type="button" onClick={collapseWidget}>
+    <button type="button" onClick={updateStateEditor}>
       {"Collapse"}
-    </button>
-    <button type="button" class="btn btn-danger" onClick={updateStateEditor}>
-      {"Remove"}
     </button>
     {state.isEditor == true ? (
       <>
@@ -39,36 +34,26 @@ return (
           src="magicbuild.near/widget/add-block-button"
           props={{
             selectWidget: (widgetUrl) => {
-              const blockList = state.children;
-              const id = Date.now();
-              const block = {
-                [id]: (
-                  <Widget
-                    src={widgetUrl}
-                    props={{
-                      children: [],
-                      isEditor: state.isEditor,
-                    }}
-                  />
-                ),
-              };
-              Object.assign(blockList, block);
+              const childrenColection = state.children;
+              childrenColection.push(
+                <Widget
+                  src={widgetUrl}
+                  props={{
+                    children: ["123123"],
+                    isEditor: state.isEditor,
+                  }}
+                />
+              );
               State.update({
-                children: blockList,
+                children: childrenColection,
               });
             },
           }}
         />
-        {Object.keys(state.children).map(
-          (blockId, index) => state.children[blockId]
-        )}
+        {state.children && state.children.map((widget) => widget)}
       </>
     ) : (
-      <>
-        {Object.keys(state.children).map(
-          (blockId, index) => state.children[blockId]
-        )}
-      </>
+      state.children && state.children.map((widget) => widget)
     )}
   </Stack>
 );
