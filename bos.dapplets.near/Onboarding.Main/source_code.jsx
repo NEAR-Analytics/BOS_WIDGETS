@@ -11,7 +11,7 @@ useEffect(() => {
   setShow(elapsed > 1000 * 60 * 1 * 1)
 }, [start])
 
-setTimeout(() => setStart(true), 5000)
+setTimeout(() => setStart(true), 8000)
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
