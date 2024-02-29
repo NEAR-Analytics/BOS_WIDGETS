@@ -1,4 +1,5 @@
-const { page, tab, layout, loading, metadata, ...passProps } = props;
+const { page, tab, layout, loading, twitter, github, telegram, ...passProps } =
+  props;
 
 const routes = props.routes ?? {
   main: {
@@ -82,7 +83,10 @@ return (
       <Content>
         <Router active={activeRoute} routes={routes} />
       </Content>
-      <Widget src="hack.near/widget/Footer" props={{ metadata }} />
+      <Widget
+        src="hack.near/widget/Footer"
+        props={{ twitter, github, telegram }}
+      />
     </AppLayout>
   </Container>
 );
