@@ -81,11 +81,10 @@ return (
     <ContentArea>
       <Widget
         src={`ndcdev.near/widget/daos.Components.Title`}
-        props={{ text: section.office.title, style: { padding: 0 } }}
-      />
-      <Widget
-        src={`ndcdev.near/widget/daos.Components.Description`}
-        props={{ text: section.office.description }}
+        props={{
+          title: section.office.title,
+          description: section.office.description,
+        }}
       />
       <PrimaryButton
         className="btn-primary d-flex"
