@@ -1,6 +1,7 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
+console.log('context.accountId', context.accountId)
 
 useEffect(() => {
   if (!start && !lastShowTime) return
