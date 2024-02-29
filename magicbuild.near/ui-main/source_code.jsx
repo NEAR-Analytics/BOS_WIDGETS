@@ -1,12 +1,12 @@
 const element = props.element || "div";
 const styleSheet = props.styleSheet || "";
 const styleClass = props.styleClass || "";
+const isEditor = props.isEditor || true;
 
 State.init({
   main: null,
   children: props.children || [],
   action: props.action || "",
-  isEditor: props.isEditor || true,
   isRemove: props.isRemove || false,
 });
 const runAction = props.runAction ?? (() => {});
@@ -71,7 +71,7 @@ return (
           </div>
         </div>
         <Main class={styleClass}>
-          {state.isEditor == true ? (
+          {isEditor == true ? (
             <>
               <Widget
                 src="magicbuild.near/widget/add-block-button"
