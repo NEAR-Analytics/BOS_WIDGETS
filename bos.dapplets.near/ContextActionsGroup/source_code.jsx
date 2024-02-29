@@ -8,12 +8,11 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  // state.showMenu
-  //   ? null
-  //   : props.isEditMode
-  //   ? null
-  //   : State.update({ show: false });
-  console.log("");
+  state.showMenu
+    ? null
+    : props.isEditMode
+    ? null
+    : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -247,7 +246,7 @@ const ButtonPlusDefault = styled.div`
   background: ${(p) =>
     p.default ? "#384bff !important" : "#f8f9ff !important"};
   position: relative;
-  transform: translateY(20px);
+  margin-top: 40px;
   cursor: pointer;
   border: 1px solid #384bff;
   &:before {
@@ -287,7 +286,7 @@ const ButtonPlusDefault = styled.div`
   // animation: translateAnimationBtn 0.5s linear forwards;
 
   &:hover {
-    transform: translateY(18px) scale(1.1);
+    transform: scale(1.1);
   }
   transition: all 0.3s;
 `;
