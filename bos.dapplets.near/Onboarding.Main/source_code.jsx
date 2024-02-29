@@ -1,4 +1,5 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
+console.log('lastShowTime', lastShowTime)
 const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 60 * 3
 const [show, setShow] = useState(showOnStart)
 
@@ -48,6 +49,7 @@ const Onboarding = styled.div`
 // }
 
 const handleClose = (doNotShowAgain) => {
+  console.log('doNotShowAgain', doNotShowAgain)
   if (doNotShowAgain) {
     Storage.privateSet('lastShowTime', 30000000000000)
   } else {
