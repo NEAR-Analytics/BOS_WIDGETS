@@ -41,11 +41,7 @@ return (
       <div>
         <Widget
           src={`ndcdev.near/widget/daos.Components.Title`}
-          props={{ text: dao.title }}
-        />
-        <Widget
-          src={`ndcdev.near/widget/daos.Components.Description`}
-          props={{ text: dao.description }}
+          props={{ title: dao.title, description: dao.description }}
         />
       </div>
       <div className="d-flex flex-column">
