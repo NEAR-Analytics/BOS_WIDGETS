@@ -35,30 +35,25 @@ return (
           props={{
             selectWidget: (widgetUrl) => {
               const childrenColection = state.children;
-              childrenColection.push({
-                id: Date.now(),
-                widgetUrl: widgetUrl,
-                isEditor: true,
-              });
+              childrenColection.push(
+                <Widget
+                  src={widgetUrl}
+                  props={{
+                    children: ["123123"],
+                    isEditor: state.isEditor,
+                  }}
+                />
+              );
               State.update({
                 children: childrenColection,
               });
             },
           }}
         />
-        {state.children &&
-          state.children.map((widget) => (
-            <Widget
-              src={widget.widgetUrl}
-              props={{ isEditor: widget.isEditor }}
-            />
-          ))}
+        {state.children && state.children.map((widget) => widget)}
       </>
     ) : (
-      state.children &&
-      state.children.map((widget) => (
-        <Widget src={widget.widgetUrl} props={{ isEditor: widget.isEditor }} />
-      ))
+      state.children && state.children.map((widget) => widget)
     )}
   </Stack>
 );
