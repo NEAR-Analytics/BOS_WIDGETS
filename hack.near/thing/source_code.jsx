@@ -24,6 +24,7 @@ State.init({
 });
 
 const Container = styled.div`
+  border: 1px solid #ccc;
   height: fit-content;
 `;
 
@@ -31,7 +32,6 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  border-bottom: 1px solid #ccc;
 `;
 
 const IconBox = styled.div`
