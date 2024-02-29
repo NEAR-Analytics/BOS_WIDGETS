@@ -122,85 +122,6 @@ const SignInOrConnect = () => (
   </>
 );
 
-const StyledDropdown = styled.div`
-  .dropdown-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--slate-dark-5);
-    border-radius: 50px;
-    outline: none;
-    border: 0;
-    width: 40px;
-    height: 40px;
-
-    &:after {
-      display: none;
-    }
-
-    .menu {
-      width: 18px;
-      height: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-
-      div {
-        background-color: var(--slate-dark-11);
-        height: 2px;
-        width: 100%;
-        border-radius: 30px;
-      }
-    }
-
-    :hover {
-      .menu {
-        div {
-          background-color: white;
-        }
-      }
-    }
-  }
-
-  ul {
-    background-color: var(--slate-dark-5);
-    width: 100%;
-
-    li {
-      padding: 0 6px;
-    }
-
-    button,
-    a {
-      color: var(--slate-dark-11);
-      display: flex;
-      align-items: center;
-      border-radius: 8px;
-      padding: 12px;
-
-      :hover,
-      :focus {
-        text-decoration: none;
-        background-color: var(--slate-dark-1);
-        color: white;
-
-        svg {
-          path {
-            stroke: white;
-          }
-        }
-      }
-
-      svg {
-        margin-right: 7px;
-        path {
-          stroke: var(--slate-dark-9);
-        }
-      }
-    }
-  }
-`;
-
 const Navbar = ({ page, ...props }) => (
   <StyledNavbar>
     <div className="d-flex align-items-center justify-content-between w-100">
@@ -210,14 +131,19 @@ const Navbar = ({ page, ...props }) => (
           to={href({
             widgetSrc: "hack.near/widget/app",
             params: {
-              page: "home",
+              page: "main",
             },
           })}
         >
-          <img
-            style={{ width: 85, objectFit: "cover" }}
-            src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO"
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: props.image,
+              style: { width: "39px" },
+              className: "me-3",
+              fallbackUrl:
+                "https://builders.mypinata.cloud/ipfs/QmTyDir9Myoid84HVgUDLwirMdb7CkD7GxvGhrBPo6ruLE",
+            }}
           />
         </Link>
         <ButtonGroup style={{ flex: 1 }}>
@@ -255,7 +181,7 @@ const Navbar = ({ page, ...props }) => (
           to={href({
             widgetSrc: "hack.near/widget/app",
             params: {
-              page: "home",
+              page: "main",
             },
           })}
         >
