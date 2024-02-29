@@ -122,7 +122,7 @@ return (
         ))}
       </Accordion>
 
-      <Widget src="rubik-ui.near/widget/RubikUI.Styled.Elements" />
+      <Widget src="rubik-ui.near/widget/RubikUI.App.Pages.Elements" />
     </Wrapper>
   </Theme>
 );
