@@ -76,15 +76,11 @@ const WarningMessage = styled.div`
   padding: 4px 10px;
   gap: 6px;
   align-items: center;
-
   width: 100%;
-
   background: rgba(56, 75, 255, 0.05);
   border-radius: 5px;
-
   flex: none;
   flex-grow: 0;
-
   position: relative;
 
   p {
@@ -96,7 +92,6 @@ const WarningMessage = styled.div`
     font-size: 14px;
     line-height: 150%;
     color: #384BFF;
-
     flex: none;
     flex-grow: 0;
   }
@@ -140,13 +135,10 @@ const CardsContainer = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   background: white;
   border-radius: 20px;
-
   align-items: flex-start;
   padding: 20px;
   gap: 20px;
-
   width: 100%;
-
   flex: none;
   flex-grow: 0;
 `
@@ -179,17 +171,13 @@ const Cards = styled.div`
 const Card = styled.div`
   box-sizing: border-box;
   position: relative;
-
-  /* Auto layout */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 10px;
   gap: 10px;
-
   border: 1px solid #02193A;
   border-radius: 20px;
-
   flex 1;
 
   h3 {
@@ -307,12 +295,6 @@ const SuccessButton = styled.button`
   color: #FFFFFF;
 `
 
-const showOrNotAgain = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-  setDoNotShowAgain(!doNotShowAgain)
-}
-
 return (
   <Container>
     <Header>
@@ -349,12 +331,12 @@ return (
     </a>
     <Footer>
       <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
-      {/* <Checkbox>
+      <Checkbox>
         <label>
-          <input type="checkbox" name="doNotShowAgain" defaultChecked={doNotShowAgain} checked={doNotShowAgain} onClick={showOrNotAgain} />
+          <input type="checkbox" checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />
           Don't show it again
         </label>
-      </Checkbox> */}
+      </Checkbox>
     </Footer>
   </Container>
 )
