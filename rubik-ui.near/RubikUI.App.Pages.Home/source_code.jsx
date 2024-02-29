@@ -1,48 +1,59 @@
-const [loading, setLoading] = useState(true);
+const { Rubik: Theme } = VM.require("rubik-ui.near/widget/RubikUI.Themes.RubikTheme") || {
+  Rubik: (() => <></>)
+};
 
-const Dependencies = useMemo(
-  () => ({
-    ...(VM.require("rubik-ui.near/widget/RubikUI.Components.Core") || {}),
-    ...(VM.require("rubik-ui.near/widget/RubikUI.Themes.RubikTheme") || {}),
-  }),
-  []
+const { RubikLogo: Logo } = VM.require("rubik-ui.near/widget/RubikUI.Components.Core") || {
+  RubikLogo: (() => <></>)
+};
+
+const { Accordion, AccordionItem } = VM.require("rubik-ui.near/widget/RubikUI.Cubes.AccordionCubes") || {
+  Accordion: (() => <></>),
+  AccordionItem: (() => <></>)
+};
+
+const { AccordionFacet } = VM.require("rubik-ui.near/widget/RubikUI.Facets.AccordionFacets") || {
+  AccordionFacet: (() => <></>)
+};
+
+const MyAccordionFacet = styled(AccordionFacet || styled.div)`
+  background-color:lightgreen;
+  font-weight:bold;
+  border-radius:5px;
+  margin-top:20px;
+`;
+
+return (
+  <Theme>
+    <Logo></Logo>
+
+    <p>Standard Accordion Cube:</p>
+    <Accordion>
+      {Array.from([1, 2, 3]).map((data, idx) => (
+        <AccordionItem>{idx}</AccordionItem>
+      ))}
+    </Accordion>
+    
+    <p>Inline Customized Accordion Cube:</p>
+    <Accordion
+      mediaMaxWidth800="background-color:red"
+      onClick={() => console.log("Accordion clicked!")}
+      width="800px"
+      fontWeight="bold"
+    >
+      {Array.from([1, 2, 3]).map((data, idx) => (
+        <AccordionItem>{idx}</AccordionItem>
+      ))}
+    </Accordion>
+
+    <p>Accordion Cube with extended Facet:</p>
+    <Accordion
+      apply={MyAccordionFacet}
+    >
+      {Array.from([1, 2, 3]).map((data, idx) => (
+        <AccordionItem>{idx}</AccordionItem>
+      ))}
+    </Accordion>
+
+    <p></p>
+  </Theme>
 );
-
-useEffect(() => {
-  if (
-    Object.keys(Dependencies).length > 0 &&
-    Object.values(Dependencies).every((dependency) => dependency)
-  ) {
-    setLoading(false);
-  }
-}, [Dependencies]);
-
-if (loading) {
-  return <>Loading</>;
-} else {
-  const {
-    Rubik: Theme,
-    RubikLogo: Logo
-  } = Dependencies;
-
-  const { Accordion, AccordionItem } = VM.require("rubik-ui.near/widget/RubikUI.Cubes.AccordionCubes") || {
-    Accordion: (() => <></>),
-    AccordionItem: (() => <></>)
-  };
-
-  return (
-    <Theme>
-      <Logo></Logo>
-      <Accordion
-        mediaMaxWidth800="background-color:red"
-        onClick={() => console.log("Accordion clicked!")}
-        width="800px"
-        borderTop="4px solid #000"
-      >
-        {Array.from([1, 2, 3]).map((data, idx) => (
-          <AccordionItem>{idx}</AccordionItem>
-        ))}
-      </Accordion>
-    </Theme>
-  );
-}
