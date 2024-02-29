@@ -283,7 +283,8 @@ const formatBalance = () => {
   if (Big(state.balance).lt(0.0001)) return "<0.0001";
   return Big(state.balance).toFixed(4, 0);
 };
-const handleAmountChange = (amount) => {
+const handleAmountChange = (_amount) => {
+  const amount = _amount.replace(/\s+/g, "");
   if (isNaN(Number(amount))) return;
   const isZero = Big(amount || 0).eq(0);
   if (isZero) {
@@ -556,9 +557,16 @@ return (
                 <Input
                   value={state.amount}
                   onChange={(ev) => {
+                    console.log(
+                      ev.target.value,
+                      ev.target.value.replace(/\s+/g, ""),
+                      state.balance
+                    );
                     handleAmountChange(ev.target.value);
                     State.update({
-                      isMax: Big(ev.target.value || 0).eq(state.balance),
+                      isMax: Big(ev.target.value.replace(/\s+/g, "") || 0).eq(
+                        state.balance
+                      ),
                     });
                   }}
                   placeholder="0.0"
