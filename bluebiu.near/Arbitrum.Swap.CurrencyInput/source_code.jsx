@@ -130,7 +130,7 @@ const handlers = {
   },
   handleInputChange: (ev) => {
     if (isNaN(Number(ev.target.value))) return;
-    props.onAmountChange?.(ev.target.value);
+    props.onAmountChange?.(ev.target.value.replace(/\s+/g, ""));
   },
 };
 
