@@ -37,10 +37,9 @@ return (
       <Main class={state.styleClass}>
         <div class="d-flex justify-content-between">
           <div>
-            {state.action &&
-              state.action.map((div) => {
-                <button onClick={div.event}>123213</button>;
-              })}
+            {state.action.map((div) => {
+              <button onClick={div.event}>123213</button>;
+            })}
           </div>
           <div>
             <button
