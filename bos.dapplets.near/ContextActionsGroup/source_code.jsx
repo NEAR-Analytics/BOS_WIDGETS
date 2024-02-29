@@ -182,7 +182,7 @@ const ButtonPlus = styled.div`
     0% {
       opacity: 0;
     }
-    50% {
+    30% {
       opacity: 0;
     }
     100% {
