@@ -93,6 +93,7 @@ return (
           <Search placeholder="Search a cube" />
         </NavbarContent>
       </Navbar>
+      <br/><br/>
       <p>Standard Accordion Cube:</p>
       <Accordion>
         {Array.from([1, 2, 3]).map((data, idx) => (
