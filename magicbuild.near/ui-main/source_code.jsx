@@ -36,7 +36,7 @@ return (
     ) : (
       <Main class={styleClass}>
         <div class="d-flex justify-content-between">
-          <div>
+          <div class="p-1">
             {state.action &&
               state.action.map((actionBtn) => (
                 <button
