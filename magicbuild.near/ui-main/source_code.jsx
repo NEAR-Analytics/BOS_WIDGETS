@@ -40,7 +40,7 @@ return (
             {state.action &&
               state.action.map((actionBtn) => (
                 <button
-                  class="btn btn-sm btn-info"
+                  class="btn btn-sm btn-info m-1"
                   onClick={() => runAction(actionBtn.eventName)}
                 >
                   {actionBtn.label}
