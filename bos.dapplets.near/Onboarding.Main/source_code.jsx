@@ -1,15 +1,12 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
-console.log('lastShowTime', lastShowTime)
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
 useEffect(() => {
-  console.log('start', start)
   if (!start && !lastShowTime) return
   setStart(true)
   const elapsed = Date.now() - (lastShowTime ?? 0)
-  console.log('elapsed', elapsed)
-  setShow(elapsed > 1000 * 60 * 1 * 1)
+  setShow(elapsed > 1000 * 60 * 1 * 1) // ToDo: change it!
 }, [start, lastShowTime])
 
 setTimeout(() => setStart(true), 8000)
@@ -55,12 +52,7 @@ const Onboarding = styled.div`
   }
 `;
 
-// const handleOpen = () => {
-//   setShow(true)
-// }
-
 const handleClose = (doNotShowAgain) => {
-  console.log('doNotShowAgain', doNotShowAgain)
   if (doNotShowAgain) {
     Storage.privateSet('lastShowTime', 30000000000000)
   } else {
