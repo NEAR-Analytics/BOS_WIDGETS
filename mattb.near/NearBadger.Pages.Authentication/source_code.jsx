@@ -514,7 +514,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (platform === "twitter" && proof) {
-    verifyProof("twitter", "staging.integrations.near");
+    verifyProof("twitter");
   }
 }, [platform, challenge, proof]);
 
