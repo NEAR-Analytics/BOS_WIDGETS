@@ -31,6 +31,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  border-bottom: 1px solid #ccc;
 `;
 
 const IconBox = styled.div`
