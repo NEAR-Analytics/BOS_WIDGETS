@@ -18,7 +18,6 @@ TODO bridge-ui
 const L2StandardBridge = "0x4200000000000000000000000000000000000010";
 const L2_L1_MESSAGE_PASSER_CONTRACT = `0x4200000000000000000000000000000000000016`;
 const ETH_WITHDRAWAL_TARGET = `0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000`;
-const L2_L1_MESSAGE_PASSER_ADDR = `0x45A98115D5722C6cfC48D711e0053758E7C0b8ad`;
 const HASH_ZERO =
   "0x0000000000000000000000000000000000000000000000000000000000000000";
 const WITHDRAW_INIT_GAS_LIMIT = 150000;
@@ -66,7 +65,7 @@ const defaultDeposit = {
 const defaultWithdraw = {
   network: {
     id: "l2",
-    name: "Optimism",
+    name: "Fraxtal",
   },
   assets: [
     {
@@ -154,7 +153,7 @@ if (!network) {
 if (!VALID_CHAIN_ID.includes(chainId)) {
   return (
     <p>
-      Please switch to Ethereum or Optimism mainnet; or Holesky or Fraxtal
+      Please switch to Ethereum or Fraxtal mainnet; or Holesky or Fraxtal
       Holesky
     </p>
   );
@@ -204,6 +203,7 @@ const contracts = {
     L1StandardBridgeProxy: `0x0BaafC217162f64930909aD9f2B27125121d6332`,
     L2OutputOracleProxy: `0x715EA64DA13F4d0831ece4Ad3E8c1aa013167F32`,
     L1OptimismPortalProxy: `0xB9c64BfA498d5b9a8398Ed6f46eb76d90dE5505d`,
+    L2toL1MessagePasser: `0x45A98115D5722C6cfC48D711e0053758E7C0b8ad`,
     eth: {
       deposit: "0x0BaafC217162f64930909aD9f2B27125121d6332",
       withdraw: "0x000000000000000000000000000000000000800A",
@@ -338,7 +338,7 @@ function getWithdrawalStatus(event) {
       messagePasserContract.filters.MessagePassed(
         undefined,
         undefined,
-        L2_L1_MESSAGE_PASSER_ADDR
+        contracts[network].L2toL1MessagePasser
       ),
       blockNumber - 150,
       blockNumber
