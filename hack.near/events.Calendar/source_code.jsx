@@ -90,11 +90,11 @@ const Toolbar = () => {
       </div>
       <div className="section justify-content-end" style={{ gap: 10 }}>
         <Button variant="outline" onClick={() => setShowFilterModal(true)}>
-          Filter By
+          Filter
         </Button>
         {context.accountId && (
           <Button variant="primary" onClick={() => setShowCreateModal(true)}>
-            Add Event
+            Create
           </Button>
         )}
       </div>
