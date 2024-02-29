@@ -5,6 +5,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
+  box-sizing: border-box;
   width: 510px;
   background: #FFFFFE;
   border: 1px solid #02193A;
@@ -134,6 +135,7 @@ const CardsContainer = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
+  box-sizing: border-box;
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   background: white;
