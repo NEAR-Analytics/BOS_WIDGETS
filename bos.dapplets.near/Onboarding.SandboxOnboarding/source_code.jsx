@@ -303,10 +303,10 @@ return (
         <CloseIcon/>
       </CloseButton>
     </Header>
-    <WarningMessage>
+    {context.accountId ? (<WarningMessage>
       <AlertIcon/>
       <p>You must be Logged In to start using this</p>
-    </WarningMessage>
+    </WarningMessage>) : null}
     <Description>
       <p>Dapplets presents you with the Mutatable Web. It's a new web concept based on Mutations — these are community member-supported sets of applications that extend the functionality of familiar sites by making them web3-friendly.</p>
     </Description>
