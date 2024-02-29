@@ -13,8 +13,6 @@ const Accordion = ({ children, ...props }) => {
   const events = {
     onClick: (e, State) => {
       console.log("Parent event");
-      State.init({ clicked: true });
-      console.log(State.get("clicked"));
     },
   };
 
@@ -35,5 +33,5 @@ const AccordionItem = ({ children, ...props }) => {
 
 return {
   Accordion,
-  AccordionItem
+  AccordionItem,
 };
