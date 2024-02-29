@@ -6,12 +6,13 @@ const Container = styled.div`
   position: relative;
   flex-direction: column;
   width: 510px;
-  background: #F8F9FF;
+  background: #FFFFFE;
+  border: 1px solid #02193A;
   border-radius: 20px;
   padding: 20px;
   gap: 20px;
   z-index: 1000;
-  box-shadow: 0px 3px 6px 0px #4741FC0D, 0px 11px 11px 0px #4741FC0A, 0px 25px 15px 0px #4741FC08, 0px 44px 17px 0px #4741FC03, 0px 68px 19px 0px #4741FC00;
+  box-shadow: none;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   align-items: center;
   justify-content: center;
@@ -184,7 +185,7 @@ const Card = styled.div`
   padding: 10px;
   gap: 10px;
 
-  border: 1px solid #E2E2E5;
+  border: 1px solid #02193A;
   border-radius: 20px;
 
   flex 1;
@@ -290,8 +291,8 @@ const SuccessButton = styled.button`
   padding: 0px 20px;
   width: 180px;
   height: 42px;
-  background: #384BFF;
-  border-radius: 10px;
+  background: #02193A;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
 
