@@ -1,19 +1,26 @@
-const children = props.children;
-const element = props.element || "div";
-const styleSheet = props.styleSheet || "";
-const styleClass = props.styleClass || "";
+State.init({
+  styleSheet: props.styleSheet || "",
+  styleClass: props.styleClass || "",
+  element: props.element || "div",
+  children: props.children || [],
+  action: [{ label: "Change" }],
+});
+
+const updateState = (e) => {};
 
 return (
-  <Widget
-    src="magicbuild.near/widget/ui-main"
-    props={{
-      styleClass: "col " + styleClass,
-      styleSheet: styleSheet,
-      action: [
-        <button class="btn btn-sm btn-primary" onclick="">
-          Change
-        </button>,
-      ],
-    }}
-  />
+  <>
+    <Widget
+      src="magicbuild.near/widget/ui-main"
+      props={{
+        styleClass: "col " + state.styleClass,
+        styleSheet: state.styleSheet,
+        children: state.children,
+        action: state.action,
+        runAction: () => {
+          State.update({ styleClass: "text-light" });
+        },
+      }}
+    />
+  </>
 );
