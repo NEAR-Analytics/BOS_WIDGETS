@@ -3,8 +3,7 @@ const [loading, setLoading] = useState(true);
 const Dependencies = useMemo(
   () => ({
     ...(VM.require("rubik-ui.near/widget/RubikUI.Components.Core") || {}),
-    ...(VM.require("rubik-ui.near/widget/RubikUI.Cubes.AccordionCubes") || {}),
-    ...(VM.require("rubik-ui.near/widget/RubikUI.Themes.RubikTheme") || {})
+    ...(VM.require("rubik-ui.near/widget/RubikUI.Themes.RubikTheme") || {}),
   }),
   []
 );
@@ -21,7 +20,15 @@ useEffect(() => {
 if (loading) {
   return <>Loading</>;
 } else {
-  const { Rubik: Theme, RubikLogo: Logo, Accordion, AccordionItem } = Dependencies;
+  const {
+    Rubik: Theme,
+    RubikLogo: Logo
+  } = Dependencies;
+
+  const { Accordion, AccordionItem } = VM.require("rubik-ui.near/widget/RubikUI.Cubes.AccordionCubes") || {
+    Accordion: (() => <></>),
+    AccordionItem: (() => <></>)
+  };
 
   return (
     <Theme>
