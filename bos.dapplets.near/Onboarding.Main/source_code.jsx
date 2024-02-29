@@ -3,6 +3,11 @@ console.log('lastShowTime', lastShowTime)
 const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 60 * 3
 const [show, setShow] = useState(showOnStart)
 
+useEffect(() => {
+  const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 60 * 3
+  setShow(showOnStart)
+}, [lastShowTime])
+
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   z-index: 500;
