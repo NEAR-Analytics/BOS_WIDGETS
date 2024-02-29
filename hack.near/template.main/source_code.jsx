@@ -7,7 +7,6 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: var(--bg-1, #0b0c14);
 `;
 
 const ContentContainer = styled.div`
