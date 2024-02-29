@@ -39,7 +39,7 @@ const ProjectContainer = styled.div`
 
 const ProjectsTitle = styled.h3`
   margin-bottom: 1rem;
-`
+`;
 
 const ProjectCard = ({ project }) => (
   <ProjectContainer>
