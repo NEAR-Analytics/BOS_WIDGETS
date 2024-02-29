@@ -37,7 +37,11 @@ return (
         <div class="d-flex justify-content-between">
           <div></div>
           <div>
-            <button type="button" onClick={updateStateEditor}>
+            <button
+              type="button"
+              class="btn btn-sm  btn-light"
+              onClick={updateStateEditor}
+            >
               {state.isEditor ? (
                 <i class="bi bi-caret-down-fill"></i>
               ) : (
@@ -46,7 +50,7 @@ return (
             </button>
             <button
               type="button"
-              class="btn btn-danger"
+              class="btn btn-sm btn-danger"
               onClick={removeChildren}
             >
               <i class="bi bi-trash"></i>
