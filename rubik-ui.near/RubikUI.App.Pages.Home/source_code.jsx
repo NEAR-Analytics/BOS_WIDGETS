@@ -32,8 +32,8 @@ return (
         <AccordionItem>{idx}</AccordionItem>
       ))}
     </Accordion>
-    
-    <p>Inline Customized Accordion Cube:</p>
+    <br/><br/>
+    <p>Inline Customized Accordion Cube (and media query at 800px) :</p>
     <Accordion
       mediaMaxWidth800="background-color:red"
       onClick={() => console.log("Accordion clicked!")}
@@ -44,6 +44,7 @@ return (
         <AccordionItem>{idx}</AccordionItem>
       ))}
     </Accordion>
+    <br/><br/>
 
     <p>Accordion Cube with extended Facet:</p>
     <Accordion
