@@ -195,7 +195,7 @@ const ButtonPlus = styled.div`
     background: #384bff;
     position: absolute;
     top: 6px;
-    left: 11px;
+    left: 10.5px;
   }
   &:after {
     content: "";
@@ -205,7 +205,7 @@ const ButtonPlus = styled.div`
     border-radius: 2px;
     background: #384bff;
     position: absolute;
-    top: 11px;
+    top: 10.8px;
     left: 6px;
   }
   @keyframes translateAnimationBtn {
@@ -218,11 +218,11 @@ const ButtonPlus = styled.div`
     }
   }
   animation: translateAnimationBtn 0.5s linear forwards;
-  transition: all 0.3s;
+
   &:hover {
-    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
-      0px 4px 5px 0px rgba(45, 52, 60, 0.1);
+    transform: translateY(-25px) scale(1.1);
   }
+  transition: all 0.3s;
 `;
 const WrapperButtonPlusDefault = styled.div`
   width: 43px;
@@ -236,6 +236,7 @@ const WrapperButtonPlusDefault = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 `;
 const ButtonPlusDefault = styled.div`
   display: flex;
