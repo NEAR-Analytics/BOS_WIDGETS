@@ -36,11 +36,12 @@ return (
     ) : (
       <Main class={styleClass}>
         <div class="d-flex justify-content-between">
-          <div class="p-1">
+          <div>
             {state.action &&
               state.action.map((actionBtn) => (
                 <button
-                  class="btn btn-sm btn-info m-1"
+                  type="button"
+                  class="btn btn-sm btn-info"
                   onClick={() => runAction(actionBtn.eventName)}
                 >
                   {actionBtn.label}
