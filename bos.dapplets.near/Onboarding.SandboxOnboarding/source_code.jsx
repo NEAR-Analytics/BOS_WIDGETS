@@ -303,7 +303,7 @@ return (
         <CloseIcon/>
       </CloseButton>
     </Header>
-    {context.accountId ? (<WarningMessage>
+    {context.accountId === null ? (<WarningMessage>
       <AlertIcon/>
       <p>You must be Logged In to start using this</p>
     </WarningMessage>) : null}
