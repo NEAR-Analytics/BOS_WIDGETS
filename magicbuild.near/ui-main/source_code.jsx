@@ -8,7 +8,7 @@ State.init({
   isEditor: props.isEditor || true,
   isRemove: props.isRemove || false,
 });
-
+const runAction = props.runAction ?? (() => {});
 const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
@@ -35,7 +35,12 @@ return (
     ) : (
       <Main class={state.styleClass}>
         <div class="d-flex justify-content-between">
-          <div>{state.action}</div>
+          <div>
+            {state.action &&
+              state.action.map((widget) => (
+                <button onClick={runAction}></button>
+              ))}
+          </div>
           <div>
             <button
               type="button"
