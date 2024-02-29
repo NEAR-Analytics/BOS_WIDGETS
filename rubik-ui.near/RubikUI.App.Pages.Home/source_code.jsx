@@ -107,7 +107,7 @@ return (
         mediaMaxWidth800="background-color:red"
         onClick={() => console.log("Accordion clicked!")}
         width="800px"
-        fontWeight="bold"
+        fontStyle="italic"
       >
         {Array.from([1, 2, 3]).map((data, idx) => (
           <AccordionItem>{idx}</AccordionItem>
