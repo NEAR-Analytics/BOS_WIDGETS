@@ -193,7 +193,7 @@ const CurrentView = () => {
   if (selectedView === "month") {
     return (
       <Widget
-        src="buildhub.near/widget/events.MonthView"
+        src="hack.near/widget/events.MonthView"
         loading=""
         props={{
           currentDate,
