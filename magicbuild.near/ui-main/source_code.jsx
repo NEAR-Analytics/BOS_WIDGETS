@@ -1,9 +1,8 @@
-const element = props.element || "div";
-const styleSheet = props.styleSheet || "";
-const styleClass = props.styleClass || "";
-
 State.init({
   main: null,
+  styleClass: props.styleClass || "",
+  styleSheet: props.styleSheet || "",
+  element: props.element || "div",
   children: props.children || [],
   action: props.action || "",
   isEditor: props.isEditor || true,
@@ -22,8 +21,8 @@ const removeChildren = () => {
 };
 if (!state.main) {
   State.update({
-    main: styled[element]`
-    ${styleSheet}`,
+    main: styled[state.element]`
+    ${state.styleSheet}`,
   });
 }
 
@@ -34,7 +33,7 @@ return (
     {state.isRemove ? (
       ""
     ) : (
-      <Main class={styleClass}>
+      <Main class={state.styleClass}>
         <div class="d-flex justify-content-between">
           <div>{state.action}</div>
           <div>
