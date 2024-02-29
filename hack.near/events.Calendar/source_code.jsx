@@ -3,7 +3,7 @@ const { Button } = VM.require("buildhub.near/widget/components") || {
 };
 
 const { fetchThings } = VM.require(
-  "buildhub.near/widget/lib.everything-sdk",
+  "buildhub.near/widget/lib.everything-sdk"
 ) || {
   fetchThings: () => {},
 };
@@ -12,7 +12,6 @@ const StyledToolbar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   padding: 16px 24px;
   margin-bottom: 24px;
 
