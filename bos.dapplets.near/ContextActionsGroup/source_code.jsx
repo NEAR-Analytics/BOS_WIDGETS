@@ -8,11 +8,12 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu
-    ? null
-    : props.isEditMode
-    ? null
-    : State.update({ show: false });
+  // state.showMenu
+  //   ? null
+  //   : props.isEditMode
+  //   ? null
+  //   : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
@@ -93,13 +94,13 @@ const TriggerShowLabel = styled.div`
   width: 40px;
   @keyframes scaleAnimation {
     0% {
-      opacity: 1;
+      opacity: 0;
       transform-origin: top left;
       transform: scaleX(0) scaleY(0);
     }
 
     100% {
-      opacity: 0.5;
+      opacity: 0;
 
       transform-origin: top left;
       transform: scaleX(1) scaleY(1.2);
@@ -274,16 +275,16 @@ const ButtonPlusDefault = styled.div`
     top: 11px;
     left: 6px;
   }
-  @keyframes translateAnimationBtn {
-    0% {
-      opacity: 0;
-    }
+  // @keyframes translateAnimationBtn {
+  //   0% {
+  //     opacity: 0;
+  //   }
 
-    100% {
-      opacity: 1;
-    }
-  }
-  animation: translateAnimationBtn 0.5s linear forwards;
+  //   100% {
+  //     opacity: 1;
+  //   }
+  // }
+  // animation: translateAnimationBtn 0.5s linear forwards;
 
   &:hover {
     transform: scale(1.1) translateY(20px);
