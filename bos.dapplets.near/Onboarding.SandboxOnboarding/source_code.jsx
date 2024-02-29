@@ -313,7 +313,7 @@ return (
     <CardsContainer>
       <Cards>
         <Card>
-          <h3>Mutation changer</h3>
+          <h3>Mutation switch</h3>
           <div className='first' title='Mutation changer picture'/>
           <p>You can see the mutations (application sets) selector at the top of the page</p>
         </Card>
