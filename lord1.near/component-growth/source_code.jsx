@@ -575,7 +575,7 @@ let first = (
               },
               {
                 key: "old",
-                seriesName: "Returend Dev",
+                seriesName: "Returned Dev",
                 type: "column",
                 id: 1,
               },
