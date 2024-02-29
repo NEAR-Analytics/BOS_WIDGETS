@@ -491,7 +491,7 @@ return (
       <StakeFormTopContainer>
         <StakeFormTopContainerLeft>
           <StakeFormTopContainerLeftContent1>
-            <a href="https://metapool.app" target="_blank">
+            <a href="https://www.metapool.app" target="_blank">
               <div style={{ marginTop: "10px" }}>
                 <svg
                   marginTop="10px"
@@ -675,7 +675,10 @@ return (
         )}
         <p style={{ textAlign: "end", alignSelf: "end" }}>
           {`Try `}
-          <a href="https://metapool.app" target="_blank">
+          <a
+            href="https://www.metapool.app/stake?token=ethereum"
+            target="_blank"
+          >
             metapool.app
           </a>
         </p>
