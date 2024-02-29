@@ -1,3 +1,7 @@
+const proposalId = props.id;
+const draftKey = "COMMENT_DRAFT" + proposalId;
+const draftComment = Storage.privateGet(draftKey);
+
 const ComposeEmbeddCSS = `
   .CodeMirror {
     border: none !important;
@@ -15,7 +19,53 @@ const ComposeEmbeddCSS = `
 const notifyAccountId = props.notifyAccountId;
 const accountId = context.accountId;
 const item = props.item;
+const [allowGetDraft, setAllowGetDraft] = useState(true);
 const [comment, setComment] = useState(null);
+
+useEffect(() => {
+  if (draftComment && allowGetDraft) {
+    setComment(draftComment);
+    setAllowGetDraft(false);
+  }
+}, [draftComment]);
+
+useEffect(() => {
+  const handler = setTimeout(() => {
+    if (comment !== draftComment) Storage.privateSet(draftKey, comment);
+  }, 2000);
+
+  return () => {
+    clearTimeout(handler);
+  };
+}, [comment, draftKey]);
+
+if (!accountId) {
+  return (
+    <div
+      style={{
+        marginLeft: 10,
+        backgroundColor: "#FFF8C4",
+        border: "1px solid #EBE3C3",
+      }}
+      className="d-flex align-items-center gap-1 p-3 rounded-2"
+    >
+      <Link to="https://near.org/signup">
+        <Widget
+          src={"megha19.near/widget/devhub.components.molecule.Button"}
+          props={{
+            classNames: { root: "green-btn btn-sm" },
+            label: "Sign up",
+          }}
+        />
+      </Link>
+      <div className="fw-bold">to join this conversation.</div>
+      <div>Already have an account?</div>
+      <a className="text-decoration-underline" href="https://near.org/signin">
+        Sign in to comment
+      </a>
+    </div>
+  );
+}
 
 function extractMentions(text) {
   const mentionRegex =
