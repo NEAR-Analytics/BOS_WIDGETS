@@ -5,6 +5,7 @@ const styleClass = props.styleClass || "";
 State.init({
   main: null,
   children: props.children || [],
+  action: props.action || [],
   isEditor: props.isEditor || true,
   isRemove: props.isRemove || false,
 });
@@ -35,7 +36,7 @@ return (
     ) : (
       <Main class={styleClass}>
         <div class="d-flex justify-content-between">
-          <div></div>
+          <div>{action}</div>
           <div>
             <button
               type="button"
