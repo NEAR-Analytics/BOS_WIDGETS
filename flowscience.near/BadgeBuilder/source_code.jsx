@@ -108,7 +108,7 @@ useEffect(() => {
 }, [state.data]);
 
 const [targets, setTargets] = useState({
-  recipientId: props.recipientId || "",
+  accounts: props.recipientId || "",
   expireDate: props.expireDate || "",
   expireTime: props.expireTime || "",
 });
