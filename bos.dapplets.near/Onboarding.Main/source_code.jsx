@@ -5,7 +5,7 @@ const [startTime] = useState(Date.now())
 
 useEffect(() => {
   if (Date.now() - startTime < 3000) return
-  const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 60 * 3
+  const showOnStart = Date.now() - (lastShowTime ?? 0) > 1000 * 60 * 1 * 1
   setShow(showOnStart)
 }, [lastShowTime])
 
