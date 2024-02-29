@@ -3,7 +3,7 @@ State.init({
   styleClass: props.styleClass || "",
   element: props.element || "div",
   children: props.children || [],
-  action: [{ label: "Change" }],
+  action: [{ label: "Change", eventName: "onChangeCSS" }],
 });
 
 const updateState = (e) => {};
@@ -17,8 +17,11 @@ return (
         styleSheet: state.styleSheet,
         children: state.children,
         action: state.action,
-        runAction: () => {
-          State.update({ styleClass: "text-light" });
+        runAction: (eventName) => {
+          console.log("eventName", eventName);
+          if (eventName == "onChangeCSS") {
+            State.update({ styleClass: "text-light" });
+          }
         },
       }}
     />
