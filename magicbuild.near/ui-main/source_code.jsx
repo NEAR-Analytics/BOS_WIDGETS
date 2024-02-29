@@ -9,6 +9,7 @@ State.init({
   isRemove: props.isRemove || false,
 });
 
+console.log(state.action);
 const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
