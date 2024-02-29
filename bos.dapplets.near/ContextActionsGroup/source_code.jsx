@@ -183,7 +183,7 @@ const ButtonPlus = styled.div`
   border-radius: 50%;
   background: #f8f9ff;
   position: relative;
-  ${(p) => (p.default ? "translateY(-25px)" : "translateY(39px)")};
+  transform: ${(p) => (p.default ? "translateY(-25px)" : "translateY(39px)")};
   cursor: pointer;
   border: 1px solid #384bff;
   &:before {
