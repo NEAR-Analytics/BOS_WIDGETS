@@ -6,6 +6,14 @@ const styleClass = props.styleClass || "";
 return (
   <Widget
     src="magicbuild.near/widget/ui-main"
-    props={{ styleClass: "col " + styleClass, styleSheet: styleSheet }}
+    props={{
+      styleClass: "col " + styleClass,
+      styleSheet: styleSheet,
+      action: [
+        <button class="btn btn-sm btn-primary" onclick="">
+          Change
+        </button>,
+      ],
+    }}
   />
 );
