@@ -19,15 +19,14 @@ const handleNameChange = (e) => {
     metadata: { ...prevPlayer.metadata, name: newName },
   }));
 };
+const maxPoints = 50;
+const attack = parseInt(player.metadata.attack) || 0;
+const defense = parseInt(player.metadata.defense) || 0;
+const strength = parseInt(player.metadata.strength) || 0;
+const courage = parseInt(player.metadata.courage) || 0;
+const magic = parseInt(player.metadata.magic) || 0;
 
-let startingStatPoints = 50;
-const usedStatPoints =
-  JSON.parse(player.metadata.attack) +
-  JSON.parse(player.metadata.defense) +
-  JSON.parse(player.metadata.strength) +
-  JSON.parse(player.metadata.courage) +
-  JSON.parse(player.metadata.magic);
-console.log(usedStatPoints);
+const totalPoints = attack + defense + strength + courage + magic;
 
 const handleImageChange = (newImage) => {
   setPlayer((prevPlayer) => ({
@@ -131,6 +130,8 @@ const handleMagicChange = (e) => {
     metadata: { ...prevPlayer.metadata, magic: newMagic },
   }));
 };
+
+const isValidPoints = totalPoints <= maxPoints;
 
 const handleSave = () => {
   Social.set({
@@ -268,8 +269,9 @@ return (
     <div className="m-2">
       <h4>Create Character Stats</h4>
       <h6>
-        You have up to 50 points to assign to your character stats. No more than
-        20 points may be assigned to a single category.
+        You have up to 50 points to assign to your character stats. For optimal
+        playing experience, we suggest no more than 20 points be assigned to a
+        single category.
       </h6>
       <div className="mb-3 p-1">
         <label for="attack">Attack:</label>
@@ -328,6 +330,8 @@ return (
             id="magic"
             type="number"
             name="magic"
+            min="0"
+            max="20"
             placeholder="What is your character's magic level? (0-20)"
             value={player.metadata.magic}
             onChange={handleMagicChange}
@@ -337,7 +341,7 @@ return (
       <div className="m-3">
         <button
           className="btn btn-outline-success"
-          disabled={!context.accountId}
+          disabled={!context.accountId || !isValidPoints}
           onClick={handleSave}
         >
           Save
