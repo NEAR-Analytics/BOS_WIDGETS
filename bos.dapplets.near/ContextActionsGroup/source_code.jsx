@@ -8,11 +8,12 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  state.showMenu
-    ? null
-    : props.isEditMode
-    ? null
-    : State.update({ show: false });
+  // state.showMenu
+  //   ? null
+  //   : props.isEditMode
+  //   ? null
+  //   : State.update({ show: false });
+  console.log("");
 };
 
 const handleOpenMenu = () => {
@@ -283,10 +284,11 @@ const ButtonPlusDefault = styled.div`
     }
   }
   animation: translateAnimationBtn 0.5s linear forwards;
-  transition: all 0.3s;
+
   &:hover {
     transform: scale(1.1) translateY(20px);
   }
+  transition: all 0.3s;
 `;
 
 const WidgetBadgeWrapper = styled.div`
@@ -294,7 +296,6 @@ const WidgetBadgeWrapper = styled.div`
   right: 0;
 
   z-index: 1200;
-  // styles for edit mode
   background: rgba(255, 255, 255, 0.35);
   width: 100%;
   height: 100%;
@@ -333,7 +334,7 @@ const iconClose = (
 
 const CloseMenu = styled.span`
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 `;
 
@@ -378,7 +379,7 @@ const ButtonEdit = styled.button`
   border: 1px solid #384bff;
   box-sizing: border-box;
   background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
-  transition: all 0.3s;
+
   &:hover {
     transform: scale(1.1);
   }
@@ -387,6 +388,7 @@ const ButtonEdit = styled.button`
       stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
     }
   }
+  transition: all 0.3s;
 `;
 
 const ButtonApply = styled.button`
@@ -404,8 +406,9 @@ const ButtonApply = styled.button`
   padding-right: 2px;
   cursor: pointer;
   box-sizing: border-box;
-  transition: all 0.3s;
+
   border: 1px solid #384bff;
+
   background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
   &:hover {
     transform: scale(1.1);
@@ -415,6 +418,7 @@ const ButtonApply = styled.button`
       stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
     }
   }
+  transition: all 0.3s;
 `;
 
 const ButtonCancel = styled.button`
