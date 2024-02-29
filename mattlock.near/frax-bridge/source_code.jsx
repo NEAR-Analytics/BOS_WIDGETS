@@ -150,6 +150,15 @@ if (!network) {
   return "";
 }
 
+if (network === "mainnet") {
+  return (
+    <p>
+      Mainnet currently in development. Please switch to Holesky or Fraxtal
+      Holesky testnet.
+    </p>
+  );
+}
+
 if (!VALID_CHAIN_ID.includes(chainId)) {
   return (
     <p>
