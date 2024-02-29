@@ -38,7 +38,7 @@ return (
           <div>
             {state.action &&
               state.action.map((div) => {
-                <button onClick={div.event}></button>;
+                <button onClick={div.event}>123213</button>;
               })}
           </div>
           <div>
