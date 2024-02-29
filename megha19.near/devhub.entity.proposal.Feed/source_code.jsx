@@ -102,9 +102,10 @@ const FeedItem = ({ proposal }) => {
                 }}
               />
               <Widget
-                src="near/widget/CommentButton"
+                src={"megha19.near/widget/devhub.entity.proposal.CommentIcon"}
                 props={{
                   item,
+                  showOverlay: false,
                   onClick: () => {},
                 }}
               />
