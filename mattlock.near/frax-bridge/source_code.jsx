@@ -799,7 +799,7 @@ return (
         ...state,
         onTabChange,
         onAction,
-        title: "opBridge",
+        title: "Fraxtal Bridge",
         tokens,
         allDeposits,
         allWithdrawals,
