@@ -39,7 +39,7 @@ return (
                 <Widget
                   src={widgetUrl}
                   props={{
-                    children: ["123123"],
+                    children: [],
                     isEditor: state.isEditor,
                   }}
                 />
