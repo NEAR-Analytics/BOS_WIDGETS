@@ -5,13 +5,18 @@ const styleClass = props.styleClass || "";
 State.init({
   stack: null,
   children: props.children || [],
-  isEditor: props.isEditor,
+  isEditor: props.isEditor || true,
+  isRemove: props.isRemove || false,
 });
 
 const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
   });
+};
+
+const removeChildren = () => {
+  console.log("remove");
 };
 
 if (!state.stack) {
@@ -28,6 +33,9 @@ return (
     <button type="button" onClick={updateStateEditor}>
       {"Collapse"}
     </button>
+    <button type="button" class="btn btn-danger" onClick={removeChildren}>
+      {"Remove"}
+    </button>
     {state.isEditor == true ? (
       <>
         <Widget
@@ -41,6 +49,7 @@ return (
                   props={{
                     children: [],
                     isEditor: state.isEditor,
+                    removeChildren: () => {},
                   }}
                 />
               );
