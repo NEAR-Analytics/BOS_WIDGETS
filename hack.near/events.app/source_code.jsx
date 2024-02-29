@@ -59,7 +59,7 @@ function Router({ active, routes }) {
   return (
     <div key={active}>
       <Widget
-        src="every.near/widget/thing"
+        src="hack.near/widget/thing"
         props={{ ...passProps, ...defaultProps, path: src, page: tab }}
       />
     </div>
