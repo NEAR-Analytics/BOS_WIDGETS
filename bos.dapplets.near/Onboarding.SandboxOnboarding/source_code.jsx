@@ -17,6 +17,20 @@ const Container = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   align-items: center;
   justify-content: center;
+
+  > a {
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 149%;
+    text-decoration-line: underline !important;
+    color: #384BFF;
+    cursor: 'poiner';
+  }
 `
 
 const Header = styled.div`
@@ -211,26 +225,6 @@ const Card = styled.div`
   }
 `
 
-const LinkButton = styled.button`
-  padding: 0;
-  margin: 0;
-  align-self: flex-start;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 149%;
-  text-decoration-line: underline !important;
-  color: #384BFF;
-  background: none;
-  border: none;
-  cursor: 'poiner';
-`
-
-const handleClick = () => {
-  location='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
-}
-
 const Footer = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -330,11 +324,11 @@ return (
         </Card>
       </Cards>
     </CardsContainer>
-    <LinkButton
-      onClick={handleClick}
+    <a
+      href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
     >
       You can see how our applications work here
-    </LinkButton>
+    </a>
     <Footer>
       <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
       <Checkbox>
