@@ -36,7 +36,7 @@ return (
     ) : (
       <Main class={styleClass}>
         <div class="d-flex justify-content-between">
-          <div>{action}</div>
+          <div>{state.action}</div>
           <div>
             <button
               type="button"
