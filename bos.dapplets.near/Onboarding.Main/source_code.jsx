@@ -5,11 +5,12 @@ const [start, setStart] = useState(false)
 
 useEffect(() => {
   console.log('start', start)
-  if (!start) return
+  if (!start && !lastShowTime) return
+  setStart(true)
   const elapsed = Date.now() - (lastShowTime ?? 0)
   console.log('elapsed', elapsed)
   setShow(elapsed > 1000 * 60 * 1 * 1)
-}, [start])
+}, [start, lastShowTime])
 
 setTimeout(() => setStart(true), 8000)
 
