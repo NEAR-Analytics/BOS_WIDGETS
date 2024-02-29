@@ -777,7 +777,7 @@ return (
           </div>
         </div>
         <div className="flex-1">
-          <div className="h5 text-muted">Author Details</div>
+          <div className="h5 text-muted mb-4">Author Details</div>
           <div className="d-flex flex-column gap-4">
             <InputContainer heading="Author">
               <Widget
@@ -786,57 +786,6 @@ return (
                   accountId: author,
                 }}
               />
-            </InputContainer>
-            <InputContainer
-              heading={
-                <div className="d-flex gap-2 align-items-center">
-                  Verification Status
-                  <div className="custom-tooltip">
-                    <i class="bi bi-info-circle-fill"></i>
-                    <span class="tooltiptext">
-                      To get approved and receive payments on our platform, you
-                      must complete KYC/KYB verification using Fractal, a
-                      trusted identity verification solution. This helps others
-                      trust transactions with your account. Click "Get Verified"
-                      to start. <br />
-                      <br />
-                      Once verified, your profile will display a badge, which is
-                      valid for 365 days from the date of your verification. You
-                      must renew your verification upon expiration OR if any of
-                      your personal information changes.
-                    </span>
-                  </div>
-                </div>
-              }
-              description=""
-            >
-              <div className="border-1 p-3 rounded-2">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="d-flex gap-4 ">
-                    <img
-                      className="align-self-center"
-                      src={WarningImg}
-                      height={30}
-                    />
-                    <div className="d-flex flex-column justify-content-center">
-                      <div className="h6 mb-0">Fractal</div>
-                      <div className="text-muted text-sm">Not Verified</div>
-                    </div>
-                  </div>
-                  <Widget
-                    src={`megha19.near/widget/devhub.components.molecule.Button`}
-                    props={{
-                      classNames: { root: "black-btn" },
-                      label: (
-                        <div className="d-flex align-items-center gap-1">
-                          Get Verified
-                          <i class="bi bi-box-arrow-up-right"></i>
-                        </div>
-                      ),
-                    }}
-                  />
-                </div>
-              </div>
             </InputContainer>
             <InputContainer
               heading={
@@ -894,10 +843,10 @@ return (
                 }}
               />
             </InputContainer>
-            <div className="h5 text-muted">Funding Details</div>
+            <div className="h5 mb-0 text-muted">Funding Details</div>
             <InputContainer
               heading="Total Amount"
-              description="Enter the exact amount you are seeking. See Funding Documentation for guidelines."
+              description="Enter the exact amount you are seeking. See Funding Documentation for guidelines.."
             >
               <Widget
                 src="megha19.near/widget/devhub.components.molecule.Input"
@@ -918,6 +867,7 @@ return (
                   placeholder: "Enter amount",
                   inputProps: {
                     type: "number",
+                    prefix: "$",
                   },
                 }}
               />
@@ -927,7 +877,10 @@ return (
                 </div>
               )}
             </InputContainer>
-            <InputContainer heading="Currency" description="">
+            <InputContainer
+              heading="Currency"
+              description="Select your preferred currency for receiving funds. Note: NEAR token conversion will be based on the exchange rate at the time of payment."
+            >
               <Widget
                 src="megha19.near/widget/devhub.components.molecule.DropDown"
                 props={{
