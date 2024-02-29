@@ -6,17 +6,17 @@ State.init({
   action: [
     {
       label: <i class="bi bi-align-start"></i>,
-      eventName: "algin-start",
+      eventName: "justify-content-start",
       type: "button",
     },
     {
       label: <i class="bi bi-align-center"></i>,
-      eventName: "align-center",
+      eventName: "justify-content-center",
       type: "button",
     },
     {
       label: <i class="bi bi-align-end"></i>,
-      eventName: "algin-end",
+      eventName: "justify-content-end",
       type: "button",
     },
   ],
@@ -34,6 +34,15 @@ return (
         children: state.children,
         action: state.action,
         runAction: (eventName) => {
+          if (eventName == "justify-content-start") {
+            State.update({ styleClass: "d-flex justify-content-start" });
+          }
+          if (eventName == "justify-content-center") {
+            State.update({ styleClass: "d-flex justify-content-center" });
+          }
+          if (eventName == "justify-content-end") {
+            State.update({ styleClass: "d-flex justify-content-end" });
+          }
           console.log("eventName", eventName);
         },
       }}
