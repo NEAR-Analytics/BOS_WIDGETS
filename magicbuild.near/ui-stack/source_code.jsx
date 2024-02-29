@@ -54,7 +54,7 @@ return (
               };
               Object.assign(blockList, block);
               State.update({
-                children: childrenColection,
+                children: blockList,
               });
             },
           }}
