@@ -1,8 +1,8 @@
 const { page, tab, layout, loading, metadata, ...passProps } = props;
 
 const routes = props.routes ?? {
-  events: {
-    path: "hack.near/widget/events.Calendar",
+  main: {
+    path: "hack.near/widget/events.view",
     blockHeight: "final",
     init: {
       name: "Events",
@@ -28,7 +28,7 @@ const { AppLayout } = VM.require("hack.near/widget/template.main") || {
   AppLayout: () => <>Layout loading...</>,
 };
 
-if (!page) page = "events";
+if (!page) page = "main";
 
 const [activeRoute, setActiveRoute] = useState(page);
 
