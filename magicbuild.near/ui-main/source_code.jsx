@@ -34,7 +34,7 @@ return (
     {state.isRemove ? (
       ""
     ) : (
-      <Main class={styleClass}>
+      <>
         <div class="d-flex justify-content-between">
           <div>
             {state.action &&
@@ -70,35 +70,36 @@ return (
             </button>
           </div>
         </div>
-
-        {state.isEditor == true ? (
-          <>
-            <Widget
-              src="magicbuild.near/widget/add-block-button"
-              props={{
-                selectWidget: (widgetUrl) => {
-                  const childrenColection = state.children;
-                  childrenColection.push(
-                    <Widget
-                      src={widgetUrl}
-                      props={{
-                        children: [],
-                        isEditor: state.isEditor,
-                      }}
-                    />
-                  );
-                  State.update({
-                    children: childrenColection,
-                  });
-                },
-              }}
-            />
-            {state.children && state.children.map((widget) => widget)}
-          </>
-        ) : (
-          state.children && state.children.map((widget) => widget)
-        )}
-      </Main>
+        <Main class={styleClass}>
+          {state.isEditor == true ? (
+            <>
+              <Widget
+                src="magicbuild.near/widget/add-block-button"
+                props={{
+                  selectWidget: (widgetUrl) => {
+                    const childrenColection = state.children;
+                    childrenColection.push(
+                      <Widget
+                        src={widgetUrl}
+                        props={{
+                          children: [],
+                          isEditor: state.isEditor,
+                        }}
+                      />
+                    );
+                    State.update({
+                      children: childrenColection,
+                    });
+                  },
+                }}
+              />
+              {state.children && state.children.map((widget) => widget)}
+            </>
+          ) : (
+            state.children && state.children.map((widget) => widget)
+          )}
+        </Main>
+      </>
     )}
   </>
 );
