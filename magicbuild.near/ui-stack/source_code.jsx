@@ -3,7 +3,23 @@ State.init({
   styleClass: props.styleClass || "",
   element: props.element || "div",
   children: props.children || [],
-  action: [{ label: "Change", eventName: "A", type: "button" }],
+  action: [
+    {
+      label: <i class="bi bi-align-start"></i>,
+      eventName: "algin-start",
+      type: "button",
+    },
+    {
+      label: <i class="bi bi-align-center"></i>,
+      eventName: "align-center",
+      type: "button",
+    },
+    {
+      label: <i class="bi bi-align-end"></i>,
+      eventName: "algin-end",
+      type: "button",
+    },
+  ],
 });
 
 const updateState = (e) => {};
