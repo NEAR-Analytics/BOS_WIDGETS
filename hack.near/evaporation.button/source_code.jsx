@@ -1,4 +1,4 @@
-const initialSunsetTimestamp = 1709159888 * 1000;
+const initialSunsetTimestamp = 1709199888 * 1000;
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 const gameId = props.gameId ?? "evaporation";
 const appId = props.appId ?? "test";
@@ -8,6 +8,8 @@ const clicks = Social.index(appId, `${accountId}-${gameId}`, {
 });
 
 const [sunset, setSunset] = useState(new Date(initialSunsetTimestamp));
+
+const totalAddedTime = (clicks ? Object.keys(clicks).length : 0) * 5 * 60000;
 
 const addMoreTime = () => {
   Social.set(
@@ -26,8 +28,9 @@ const addMoreTime = () => {
 };
 
 const now = new Date();
-const evaporated = now > sunset;
-const remainingTime = sunset.getTime() - now.getTime();
+const evaporated = now > sunset + totalAddedTime;
+
+const remainingTime = sunset.getTime() + totalAddedTime - now.getTime();
 const remainingMinutes = Math.max(Math.floor(remainingTime / (1000 * 60)), 0);
 
 return (
