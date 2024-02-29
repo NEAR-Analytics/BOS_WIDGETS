@@ -9,7 +9,6 @@ State.init({
   isRemove: props.isRemove || false,
 });
 
-console.log(state.action);
 const updateStateEditor = () => {
   State.update({
     isEditor: !state.isEditor,
@@ -36,11 +35,7 @@ return (
     ) : (
       <Main class={state.styleClass}>
         <div class="d-flex justify-content-between">
-          <div>
-            {state.action.map((div) => {
-              <button onClick={div.event}>123213</button>;
-            })}
-          </div>
+          <div>{state.action}</div>
           <div>
             <button
               type="button"
