@@ -5,7 +5,7 @@ const styleClass = props.styleClass || "";
 State.init({
   main: null,
   children: props.children || [],
-  action: props.action || [],
+  action: props.action || "",
   isEditor: props.isEditor || true,
   isRemove: props.isRemove || false,
 });
