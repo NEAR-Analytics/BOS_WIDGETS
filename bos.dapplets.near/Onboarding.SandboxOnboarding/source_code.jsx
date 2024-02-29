@@ -211,11 +211,11 @@ const Card = styled.div`
     flex-grow: 0;
 
     &.first {
-      background: -50px top / 300px no-repeat url("https://s3-alpha-sig.figma.com/img/b972/33a0/40d4c1f6736dddfd286eb37d29d509df?Expires=1710115200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bzrcJAFCxa7BnLffNfUXiaKfzCawdJZJ~fRh-8UwhGD7N6UckXqDEmILNUhIixZuTcI45B~09Sy42c-qX2PNbuAqw~aEqkQ4jBhPuvz0oBFDDvexWIelHxEFLcSgnCvZV1ajAjBrrgScqq0~536oNlVhqU8Sat0iEv1tmWYY3cW~KTFGZlKW5u~jwrJHNlbTZxeko6uPJmJUYs6RTvHcZLmSBJw76cbl5wQXxw43K86uuEV96IjsHQrhdftr6AL8AAEnvCn9hKJ6SFDjFS3fK7CbuWa555l7j6lRu-ttwKlavj~frCQMyZsROYDBM~L~XH3uzIQ6iH6z2OEEnh3sig__");
+      background: -106px top / 400px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-001.png");
     }
 
     &.second {
-      background: -30px top / 380px no-repeat url("https://s3-alpha-sig.figma.com/img/76c1/5e8d/6955a66d70d2b65b9c74bbb35327ae3b?Expires=1710115200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=h8Ai1yAegsGrBlPG8tNtx6cVq6ggZmOOy2G-JKwPpsbgSpMZHGsdG6WOl~NmkacCodO7uAJKNK9Jdjk4~KNHbwzcj763H9Hd-jJd5Wd8kOa1rx3gtvMD1dU3AOBIRQNhbkKEXZ6oo0k3l9Bein61HmSm2N96O~wMbQQi5-vVYAxwIGfdgy6uXUGhcz0c9kqyllnsonblD8AKGNqePiBX~12DupdtajrJhmNOLc6bycjzIBkz9a8uMeaJ3o6bhrm0CBrJ7~0tzcT47HWSXZnjpu8EZCypIDn62wT1CzbFmV7H~4PtFRABob-HkLYqq~g5ANLyurTsUNZ1J8iUcYXetg__");
+      background: -10px -70px / 330px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-002.png");
     }
   }
 
