@@ -91,22 +91,22 @@ const TriggerShowLabel = styled.div`
   height: calc(100% - 22px);
   top: -1px;
   width: 40px;
-  @keyframes scaleAnimation {
-    0% {
-      opacity: 0;
-      transform-origin: top left;
-      transform: scaleX(0) scaleY(0);
-    }
+  // @keyframes scaleAnimation {
+  //   0% {
+  //     opacity: 0;
+  //     transform-origin: top left;
+  //     transform: scaleX(0) scaleY(0);
+  //   }
 
-    100% {
-      opacity: 0;
+  //   100% {
+  //     opacity: 0;
 
-      transform-origin: top left;
-      transform: scaleX(1) scaleY(1.2);
-      display: none;
-    }
-  }
-  animation: scaleAnimation 0.5s ease forwards;
+  //     transform-origin: top left;
+  //     transform: scaleX(1) scaleY(1.2);
+  //     display: none;
+  //   }
+  // }
+  // animation: scaleAnimation 0.5s ease forwards;
   transition: all 0.3s;
 `;
 
@@ -274,16 +274,6 @@ const ButtonPlusDefault = styled.div`
     top: 10.7px;
     left: 5.8px;
   }
-  // @keyframes translateAnimationBtn {
-  //   0% {
-  //     opacity: 0;
-  //   }
-
-  //   100% {
-  //     opacity: 1;
-  //   }
-  // }
-  // animation: translateAnimationBtn 0.5s linear forwards;
 
   &:hover {
     transform: scale(1.1);
