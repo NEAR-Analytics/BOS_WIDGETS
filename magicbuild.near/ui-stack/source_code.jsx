@@ -3,7 +3,7 @@ State.init({
   styleClass: props.styleClass || "",
   element: props.element || "div",
   children: props.children || [],
-  action: [{ label: "Change", eventName: "A" }],
+  action: [{ label: "Change", eventName: "A", type: "button" }],
 });
 
 const updateState = (e) => {};
