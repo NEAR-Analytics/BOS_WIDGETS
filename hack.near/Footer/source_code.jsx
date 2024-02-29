@@ -1,7 +1,8 @@
-const creatorId = props.creatorId ?? "hack.near";
+const creatorId = props.creatorId;
 const appId = props.appId ?? "app";
 
-const metadata = Social.getr(`${creatorId}/project/${appId}/metadata`);
+const metadata =
+  props.metadata ?? Social.getr(`${creatorId}/project/${appId}/metadata`);
 
 const Container = styled.div`
   display: flex;
@@ -125,7 +126,7 @@ const LinksContainer = styled.div`
 return (
   <Container>
     <LinksContainer>
-      {metadata.linktree.twitter && (
+      {props.twitter && (
         <a
           href={`${
             props.twitter ??
@@ -137,19 +138,21 @@ return (
           {XIcon}
         </a>
       )}
-      {metadata.linktree.telegram && (
+
+      {props.telegram && (
         <a
           href={`${
             props.telegram ??
             metadata.linktree.telegram ??
-            "https://nearbuilders.org/tg-builders"
+            "https://nearbuilders.com/tg-builders"
           }`}
           target="_blank"
         >
           {TelegramIcon}
         </a>
       )}
-      {metadata.linktree.github && (
+
+      {props.github && (
         <a
           href={`${
             props.github ??
@@ -161,8 +164,9 @@ return (
           {GitHubIcon}
         </a>
       )}
-      {metadata.linktree.website && (
-        <a href={`https://${creatorId}.near.social`} target="_blank">
+
+      {props.creatorId && (
+        <a href={`https://${creatorId}.social`} target="_blank">
           {NearSocialIcon}
         </a>
       )}
