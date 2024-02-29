@@ -10,6 +10,7 @@ State.init({
 });
 
 const collapseWidget = () => {
+  props.isEditor = false;
   State.update({
     isEditor: !state.isEditor,
   });
@@ -39,9 +40,9 @@ return (
           props={{
             selectWidget: (widgetUrl) => {
               const childrenColection = state.children;
-              childrenColection.push({
-                isEditor: true,
-                element: (
+              const id = Date.now();
+              const block = {
+                [id]: (
                   <Widget
                     src={widgetUrl}
                     props={{
@@ -50,17 +51,24 @@ return (
                     }}
                   />
                 ),
-              });
+              };
+              Object.assign(blockList, block);
               State.update({
                 children: childrenColection,
               });
             },
           }}
         />
-        {state.children && state.children.map((widget) => widget.element)}
+        {Object.keys(state.children).map(
+          (blockId, index) => state.children[blockId]
+        )}
       </>
     ) : (
-      state.children && state.children.map((widget) => widget.element)
+      <>
+        {Object.keys(state.children).map(
+          (blockId, index) => state.children[blockId]
+        )}
+      </>
     )}
   </Stack>
 );
