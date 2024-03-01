@@ -1,12 +1,11 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-if (!Button) {
-  return "";
-}
+
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
+
 const NavContainer = styled.div`
   display: flex;
   padding: 24px 48px;
@@ -16,57 +15,67 @@ const NavContainer = styled.div`
   gap: 10px;
   align-self: stretch;
   font-family: "Poppins", sans-serif;
+
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
 `;
+
 const MainContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   gap: 50px;
+
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
 `;
+
 const Left = styled.div`
   display: flex;
   align-items: center;
   gap: 50px;
+
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
+
 const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
+
 const MobileView = styled.div`
   display: none;
+
   @media screen and (max-width: 768px) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    position: fixed;
+    display: block;
+    position: absolute;
     background: var(--bg, #000);
-    z-index: 1001;
+    z-index: 100;
+    min-height: 100vh;
     padding: 24px 48px;
     top: 0;
-    left: 0;
     height: 100%;
+    left: 0;
     width: 100%;
   }
 `;
+
 const MobileNavigation = styled.div`
   display: none;
+
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: row;
@@ -75,20 +84,25 @@ const MobileNavigation = styled.div`
     width: 100%;
   }
 `;
+
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 36px;
+
   span {
     color: var(--text-white, #fff);
   }
+
   .active {
     color: var(--eca-227, #eca227);
     font-weight: 700;
   }
+
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
+
   @media screen and (max-width: 768px) {
     flex-direction: column;
     margin-top: 38px;
@@ -97,6 +111,7 @@ const NavLinks = styled.div`
     }
   }
 `;
+
 const StyledDropdown = styled.div`
   .dropdown-toggle {
     display: flex;
@@ -109,15 +124,18 @@ const StyledDropdown = styled.div`
     border: 0;
     width: 40px;
     height: 40px;
+
     &:after {
       display: none;
     }
+
     .menu {
       width: 18px;
       height: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
+
       div {
         background-color: var(--slate-dark-11);
         height: 2px;
@@ -125,6 +143,7 @@ const StyledDropdown = styled.div`
         border-radius: 30px;
       }
     }
+
     :hover {
       .menu {
         div {
@@ -133,12 +152,15 @@ const StyledDropdown = styled.div`
       }
     }
   }
+
   ul {
     background-color: #23242b;
     width: 100%;
+
     li {
       padding: 0 6px;
     }
+
     button,
     a {
       color: var(--slate-dark-11);
@@ -146,17 +168,20 @@ const StyledDropdown = styled.div`
       align-items: center;
       border-radius: 8px;
       padding: 12px;
+
       :hover,
       :focus {
         text-decoration: none;
         background-color: var(--slate-dark-1);
         color: white;
+
         svg {
           path {
             stroke: white;
           }
         }
       }
+
       svg {
         margin-right: 7px;
         path {
@@ -166,20 +191,25 @@ const StyledDropdown = styled.div`
     }
   }
 `;
+
 const MobileContent = styled.div`
   width: 100%;
   height: 100%;
+
   display: flex;
   align-items: center;
+  gap: 256px;
   flex-direction: column;
-  justify-content: space-between;
 `;
+
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
+
   const toggleDropdown = () => {
     setDropdown((prev) => !prev);
   };
+
   return (
     <NavContainer>
       <MainContent className="container-xl">
@@ -191,12 +221,10 @@ function Navbar(props) {
                 page: "home",
               },
             })}
-            className="d-flex align-items-center"
           >
             <img
               className="object-fit-cover"
-              style={{ height: 46 }}
-              src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
+              src="https://ipfs.near.social/ipfs/bafkreihtv6fim7hrgtklbdg5zgq2nyscqgidh2g5zvhamkhqaywaux4hqe"
             />
           </Link>
           <NavLinks>
@@ -287,15 +315,18 @@ function Navbar(props) {
               props={props}
             />
           ) : (
-            <Button
-              variant="primary"
-              linkClassName="d-flex"
-              href="https://nearbuilders.org/join"
-              noLink={true}
-              className="w-100"
+            <a
+              href={"https://nearbuilders.org/join"}
+              style={{ textDecoration: "none" }}
             >
-              Sign In
-            </Button>
+              <Button
+                variant="primary"
+                linkClassName="d-flex"
+                className="align-self-stretch w-100"
+              >
+                Sign In
+              </Button>
+            </a>
           )}
         </Right>
         <MobileNavigation>
@@ -310,8 +341,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               onClick={() => setDropdown(false)}
-              src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
-              style={{ height: 40 }}
+              src="https://ipfs.near.social/ipfs/bafkreicevo7aeyy6nivzqyfygpsoxkz6apd4pbqwrhc6yccqtyp6qzdoqq"
               alt="BuildDAO"
             />
           </Link>
@@ -325,6 +355,7 @@ function Navbar(props) {
           </Button>
         </MobileNavigation>
       </MainContent>
+
       {dropdown && (
         <MobileView>
           <MobileNavigation>
@@ -338,8 +369,7 @@ function Navbar(props) {
             >
               <img
                 onClick={() => setDropdown(false)}
-                src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
-                style={{ height: 40 }}
+                src="https://ipfs.near.social/ipfs/bafkreicevo7aeyy6nivzqyfygpsoxkz6apd4pbqwrhc6yccqtyp6qzdoqq"
                 alt="BuildDAO"
               />
             </Link>
@@ -383,11 +413,9 @@ function Navbar(props) {
                   );
                 })}
             </NavLinks>
-            <div className="d-flex flex-column gap-2 w-100">
-              <div className="d-flex gap-2">
+            <div className="d-flex flex-column gap-2">
+              <div className="d-flex w-100 gap-2 justify-content-center">
                 <Button
-                  linkClassName="d-flex w-100"
-                  className="w-100"
                   href={href({
                     widgetSrc: "buildhub.near/widget/app",
                     params: {
@@ -398,13 +426,7 @@ function Navbar(props) {
                 >
                   <span>View source</span>
                 </Button>
-                <Button
-                  linkClassName="d-flex w-100"
-                  className="w-100"
-                  href={`/edit/${routes[page].path}`}
-                >
-                  Edit Code
-                </Button>
+                <Button href={`/edit/${routes[page].path}`}>Edit Code</Button>
               </div>
               {context.accountId ? (
                 <div className="mx-auto d-flex align-items-stretch ">
@@ -416,16 +438,19 @@ function Navbar(props) {
                 </div>
               ) : (
                 <>
-                  <Button
-                    variant="primary"
-                    linkClassName="d-flex"
-                    href="https://nearbuilders.org/join"
-                    noLink={true}
-                    className="w-100"
-                    onClick={() => setDropdown(false)}
+                  <a
+                    href={"https://nearbuilders.org/join"}
+                    style={{ textDecoration: "none" }}
                   >
-                    Sign In
-                  </Button>
+                    <Button
+                      variant="primary"
+                      linkClassName="d-flex"
+                      className="align-self-stretch w-100"
+                      onClick={() => setDropdown(false)}
+                    >
+                      Sign In
+                    </Button>
+                  </a>
                 </>
               )}
             </div>
@@ -435,4 +460,5 @@ function Navbar(props) {
     </NavContainer>
   );
 }
+
 return <Navbar {...props} />;
