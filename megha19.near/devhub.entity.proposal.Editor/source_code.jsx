@@ -10,6 +10,8 @@ const { id, timestamp } = props;
 
 const isEditPage = typeof id === "string";
 const author = context.accountId;
+const FundingDocs =
+  "https://docs.google.com/document/d/1kR1YbaQE4mmHcf-BHo7NwO7vmGx4EciHK-QjelCufI8/edit?usp=sharing";
 
 if (!author) {
   return (
@@ -164,27 +166,16 @@ const Heading = styled.div`
   font-weight: 700;
 `;
 
-const tokenMapping = {
-  NEAR: "NEAR",
-  USDT: {
-    NEP141: {
-      address: "usdt.tether-token.near",
-    },
-  },
-  USDC: {
-    NEP141: {
-      address:
-        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
-    },
-  },
-};
-
 const tokensOptions = [
-  { label: "NEAR", value: tokenMapping.NEAR },
-  { label: "USDT", value: tokenMapping.USDT },
+  { label: "NEAR", value: "NEAR" },
+  { label: "USDT", value: "USDT" },
   {
     label: "USDC",
-    value: tokenMapping.USDC,
+    value: "USDC",
+  },
+  {
+    label: "Other",
+    value: "OTHER",
   },
 ];
 
@@ -222,8 +213,8 @@ const memoizedDraftData = useMemo(
       description: description,
       category: category,
       summary: summary,
-      requested_sponsorship_amount: requestedSponsorshipAmount,
-      requested_sponsorship_token: requestedSponsorshipToken.value,
+      requested_sponsorship_usd_amount: requestedSponsorshipAmount,
+      requested_sponsorship_paid_in_currency: requestedSponsorshipToken.value,
       receiver_account: receiverAccount,
       supervisor: supervisor,
       requested_sponsor: requestedSponsor,
@@ -267,13 +258,13 @@ useEffect(() => {
     setDescription(snapshot.description);
     setReceiverAccount(snapshot.receiver_account);
     setRequestedSponsor(snapshot.requested_sponsor);
-    setRequestedSponsorshipAmount(snapshot.requested_sponsorship_amount);
+    setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
     setSupervisor(snapshot.supervisor);
 
     const token = tokensOptions.find(
       (item) =>
         JSON.stringify(item.value) ===
-        JSON.stringify(snapshot.requested_sponsorship_token)
+        JSON.stringify(snapshot.requested_sponsorship_paid_in_currency)
     );
     setRequestedSponsorshipToken(token);
   }
@@ -533,7 +524,7 @@ let grantNotify = Near.view(
   "social.near",
   "is_write_permission_granted",
   {
-    predecessor_id: "devgovgigs.near",
+    predecessor_id: "truedove38.near",
     key: context.accountId + "/index/notify",
   }
 );
@@ -555,8 +546,8 @@ const onSubmit = ({ isDraft, isCancel }) => {
     category: category,
     summary: summary,
     linked_proposals: linkedProposalsIds,
-    requested_sponsorship_amount: requestedSponsorshipAmount,
-    requested_sponsorship_token: requestedSponsorshipToken.value,
+    requested_sponsorship_usd_amount: requestedSponsorshipAmount,
+    requested_sponsorship_paid_in_currency: requestedSponsorshipToken.value,
     receiver_account: receiverAccount,
     supervisor: supervisor || null,
     requested_sponsor: requestedSponsor,
@@ -566,7 +557,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
       ? { status: "DRAFT" }
       : {
           status: "REVIEW",
-          sponsor_requested_review: true,
+          sponsor_requested_review: false,
           reviewer_completed_attestation: false,
         },
   };
@@ -587,11 +578,11 @@ const onSubmit = ({ isDraft, isCancel }) => {
   //     contractName: "social.near",
   //     methodName: "grant_write_permission",
   //     args: {
-  //       predecessor_id: "devgovgigs.near",
-  //       keys: [context.accountId + "/index/notify"]
+  //       predecessor_id: "truedove38.near",
+  //       keys: [context.accountId + "/index/notify"],
   //     },
   //     gas: Big(10).pow(14),
-  //     deposit: getDepositAmountForWriteAccess(userStorageDeposit)
+  //     deposit: getDepositAmountForWriteAccess(userStorageDeposit),
   //   });
   // }
   Near.call(calls);
@@ -622,7 +613,7 @@ Include a detailed breakdown on how you will use the funds and include rate just
 if (loading) {
   return (
     <div
-      style={{ height: "45vh" }}
+      style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
@@ -671,7 +662,20 @@ return (
             <div className="d-flex flex-column gap-4">
               <InputContainer
                 heading="Category"
-                description="Select the category that best aligns with your contribution to the NEAR developer community. Need guidance? See Funding Docs."
+                description={
+                  <>
+                    Select the category that best aligns with your contribution
+                    to the NEAR developer community. Need guidance? See{" "}
+                    <a
+                      href={FundingDocs}
+                      className="text-decoration-underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Funding Docs.
+                    </a>
+                  </>
+                }
               >
                 <Widget
                   src={
@@ -927,7 +931,20 @@ return (
             <div className="h5 mb-0 text-muted">Funding Details</div>
             <InputContainer
               heading="Total Amount (USD)"
-              description="Enter the exact amount you are seeking. See Funding Documentation for guidelines.."
+              description={
+                <>
+                  Enter the exact amount you are seeking. See
+                  <a
+                    href={FundingDocs}
+                    className="text-decoration-underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Funding Documentation
+                  </a>
+                  for guidelines.
+                </>
+              }
             >
               <Widget
                 src="megha19.near/widget/devhub.components.molecule.Input"
