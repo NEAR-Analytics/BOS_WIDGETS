@@ -113,6 +113,7 @@ const AlertIcon = () => (
 
 const Description = styled.div`
   display: flex;
+  flex-direction: column;
   position: relative;
   width: 100%;
   
@@ -343,19 +344,20 @@ return (
       <p>You must be Logged In to start using this</p>
     </WarningMessage>) : null}
     <Description>
-      <p>Dapplets presents you with the Mutatable Web. It's a new web concept based on Mutations — these are community member-supported sets of applications that extend the functionality of familiar sites by making them web3-friendly.</p>
+      <p>Mutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share them within your community— no matter who owns the website.</p>
+      <p>Become the co-owner of any website you are using!</p>
     </Description>
     <CardsContainer>
       <Cards>
         <Card>
           <h3>Mutation switch</h3>
           <div className='first' title='Mutation changer picture'/>
-          <p>There is a mutation switch at the top of the page.</p>
+          <p>Here, you can switch between website mutations created by different communities.</p>
         </Card>
         <Card>
           <h3>Widgets control element</h3>
           <div className='second' title='Multifunctional control picture'/>
-          <p>Each post has a control element for adding (and removing) widgets  from the current mutation's applications.</p>
+          <p>EXAMPLE: every post becomes a tray where you can add new application widgets. They become visible to anyone inside your community. This is how the Mutable Web works.</p>
         </Card>
       </Cards>
     </CardsContainer>
@@ -363,7 +365,7 @@ return (
       <a
         href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
       >
-        You can see how our applications work here
+        See more examples on our playground
       </a>
       <Form>
         <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
