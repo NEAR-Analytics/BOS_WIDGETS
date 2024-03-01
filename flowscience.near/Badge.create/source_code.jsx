@@ -1,6 +1,11 @@
+const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 const [badgeSrc, setBadgeSrc] = useState("every.near");
 const [badgeId, setBadgeId] = useState("builder");
-
+const data = props.data || {};
+const type = props.type || "";
+const typeSrc = props.typeSrc || "every.near";
+const buildEdges = props.buildEdges;
+const thingId = props.thingId;
 const blockHeight = props.blockHeight || "final";
 const [accountIds, setAccountIds] = useState([
   `${context.accountId || "every.near"}`,
@@ -42,6 +47,14 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   "tags",
   ...importedTypes,
 ];
+
+State.init({
+  data,
+  config: data,
+  typeSrc,
+  selectedType: type,
+  thingId: generateUID(),
+});
 
 const Label = styled.label`
 `;
@@ -113,6 +126,10 @@ const handleAccountIdsChange = (e) => {
 };
 const handleImageUrlChange = (e) => {
   setImageUrl(e.target.value);
+};
+
+const handleTypeChange = (e) => {
+  State.update({ selectedType: e.target.value, data: {} });
 };
 
 const composeData = () => {
@@ -225,7 +242,10 @@ return (
               badges
             </a>{" "}
             (attestations) of a specific
-            <a href="">type</a>:{" "}
+            <a href="https://everything.dev/efiz.near/widget/every.type.create">
+              type
+            </a>
+            :{" "}
           </i>
         </p>
       </Text>
@@ -303,7 +323,7 @@ return (
         <h5>
           <b>Recipients:</b>
         </h5>
-        <p>Give initial attestations to anyone with a NEAR account.</p>
+        <p>Issue badges to anyone with a NEAR account.</p>
         <p>
           <i>OPTIONAL — Badges can be claimed or distributed later.</i>
         </p>
@@ -373,6 +393,21 @@ return (
                 </option>
               ))}
             </Select>
+          </Row>
+          <Widget
+            src="efiz.near/widget/create"
+            props={{
+              item: {
+                type: state.selectedType,
+                value: state.data,
+              },
+              onChange: handleOnChange,
+            }}
+          />
+          <Row>
+            <Label>
+              <b>UID:</b> {state.thingId}
+            </Label>
           </Row>
         </FormContainer>
       </div>
