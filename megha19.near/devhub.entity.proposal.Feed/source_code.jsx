@@ -50,7 +50,7 @@ const FeedItem = ({ proposal }) => {
   const blockHeight = parseInt(proposal.social_db_post_block_height);
   const item = {
     type: "social",
-    path: `proudflour16.near/post/main`,
+    path: `truedove38.near/post/main`,
     blockHeight,
   };
 
@@ -127,7 +127,7 @@ const FeedItem = ({ proposal }) => {
 
 const FeedPage = () => {
   const proposals = Near.view(
-    "proudflour16.near",
+    "truedove38.near",
     "get_proposals",
     {}
   );
