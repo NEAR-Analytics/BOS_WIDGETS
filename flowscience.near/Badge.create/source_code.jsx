@@ -1,7 +1,7 @@
 const { generateUID } = VM.require("flowscience.near/widget/generateUID");
 const [badgeSrc, setBadgeSrc] = useState("every.near");
 const [badgeId, setBadgeId] = useState("builder");
-const data = props.data || {};
+const typeData = props.typeData || {};
 const type = props.type || "";
 const typeSrc = props.typeSrc || "every.near";
 const buildEdges = props.buildEdges;
@@ -18,7 +18,8 @@ if (type !== "") {
 }
 
 State.init({
-  data,
+  typeData,
+  config: typeData,
   typeSrc,
   selectedType: type,
   thingId: generateUID(),
@@ -44,14 +45,14 @@ const handleInputChange = (e) => {
 };
 
 const handleOnChange = (value) => {
-  State.update({ data: { ...state.data, ...value } });
+  State.update({ typeData: { ...state.typeData, ...value } });
 };
 
 useEffect(() => {
   State.update({
-    config: state.data,
+    config: state.typeData,
   });
-}, [state.data]);
+}, [state.typeData]);
 
 const [badgeName, setBadgeName] = useState("Proof of Build");
 const [description, setDescription] = useState("~ good builder vibes ~");
@@ -151,7 +152,7 @@ const handleImageUrlChange = (e) => {
 };
 
 const handleTypeChange = (e) => {
-  State.update({ selectedType: e.target.value, data: {} });
+  State.update({ selectedType: e.target.value, typeData: {} });
 };
 
 const composeData = () => {
@@ -166,7 +167,9 @@ const composeData = () => {
           },
         },
         accounts: accountsObject,
-        data: state.data,
+        content: {
+          [state.selectedType]: state.typeData,
+        },
       },
     },
   };
@@ -235,7 +238,10 @@ const markdownText = `
           "url": "${imageUrl}"
         }
       },
-      "accounts": ${serializedAccountsObject}
+      "accounts": ${serializedAccountsObject},
+      "data": {
+         ${state.selectedType}: ${state.typeData}
+         }
     }
   }
 }`;
@@ -422,7 +428,7 @@ return (
             props={{
               item: {
                 type: state.selectedType,
-                value: state.data,
+                value: state.typeData,
               },
               onChange: handleOnChange,
             }}
