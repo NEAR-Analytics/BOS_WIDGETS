@@ -116,9 +116,12 @@ useEffect(() => {
         {nextClaimDate < new Date() ? (
           <div class="alert alert-warning" role="alert">
             <div>Time to claim!</div>
-            <button onClick={() => Near.call(contactId, "claim")}>
+            <a
+              href="https://t.me/herewalletbot/app?startapp=152591"
+              role="button"
+            >
               Claim $HOT
-            </button>
+            </a>
           </div>
         ) : (
           <div class="alert alert-success" role="alert">
