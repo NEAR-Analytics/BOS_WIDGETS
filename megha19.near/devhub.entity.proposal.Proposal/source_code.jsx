@@ -193,7 +193,7 @@ const proposal = Near.view("truedove38.near", "get_proposal", {
 if (!proposal) {
   return (
     <div
-      style={{ height: "45vh" }}
+      style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
@@ -388,34 +388,6 @@ const RadioButton = ({ value, isChecked, label }) => {
   );
 };
 
-const tokenMapping = {
-  NEAR: "NEAR",
-  USDT: {
-    NEP141: {
-      address: "usdt.tether-token.near",
-    },
-  },
-  USDC: {
-    NEP141: {
-      address:
-        "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
-    },
-  },
-};
-
-function findTokenNameByAddress(address) {
-  const foundToken = Object.entries(tokenMapping).find(
-    ([tokenName, tokenData]) => {
-      return (
-        JSON.stringify(tokenMapping[tokenName]) === JSON.stringify(address)
-      );
-    }
-  );
-
-  return foundToken ? foundToken[0] : null;
-}
-
-const tokenName = findTokenNameByAddress(snapshot.requested_sponsorship_token);
 const isAllowedToEditProposal = Near.view(
   "truedove38.near",
   "is_allowed_to_edit_proposal",
@@ -460,6 +432,8 @@ const selectedStatusIndex = useMemo(
   [updatedProposalStatus]
 );
 
+console.log(selectedStatusIndex, updatedProposalStatus);
+
 const TimelineItems = ({ title, children, value, values }) => {
   const indexOfCurrentItem = proposalStatusOptions.findIndex((i) =>
     Array.isArray(values)
@@ -470,11 +444,7 @@ const TimelineItems = ({ title, children, value, values }) => {
   let statusIndex = selectedStatusIndex;
 
   // index 2,3,4,5  is of decision
-  if (
-    selectedStatusIndex === 3 ||
-    selectedStatusIndex === 2 ||
-    selectedStatusIndex === 5
-  ) {
+  if (selectedStatusIndex === 3 || selectedStatusIndex === 2) {
     statusIndex = 2;
   }
   if (statusIndex === indexOfCurrentItem) {
@@ -490,6 +460,10 @@ const TimelineItems = ({ title, children, value, values }) => {
   if (statusIndex === 4 && indexOfCurrentItem === 2) {
     color = "#FF7F7F";
   }
+  // cancelled
+  if (statusIndex === 5 && indexOfCurrentItem === 2) {
+    color = "#F4F4F4";
+  }
 
   return (
     <div
@@ -503,14 +477,6 @@ const TimelineItems = ({ title, children, value, values }) => {
     </div>
   );
 };
-
-const optimisticallyHideItem = (message) => {
-  console.log(message);
-};
-const resolveHideItem = (message) => {
-  console.log(message);
-};
-const cancelHideItem = () => {};
 
 const extractNotifyAccountId = (item) => {
   if (!item || item.type !== "social" || !item.path) {
@@ -690,11 +656,6 @@ return (
                         props={{
                           accountId: editorAccountId,
                           blockHeight: blockHeight,
-                          parentFunctions: {
-                            optimisticallyHideItem,
-                            resolveHideItem,
-                            cancelHideItem,
-                          },
                         }}
                       />
                     </div>
@@ -735,12 +696,16 @@ return (
                       }}
                     />
                     <Widget
-                      src="near/widget/CommentButton"
+                      src={
+                        "megha19.near/widget/devhub.entity.proposal.CommentIcon"
+                      }
                       props={{
                         item,
+                        showOverlay: false,
                         onClick: () => {},
                       }}
                     />
+
                     <Widget
                       src="near/widget/CopyUrlButton"
                       props={{
@@ -798,11 +763,12 @@ return (
             </SidePanelItem>
             <SidePanelItem title="Funding Ask">
               <div className="h4 text-black">
-                {snapshot.requested_sponsorship_amount && (
+                {snapshot.requested_sponsorship_usd_amount && (
                   <div className="d-flex flex-column gap-1">
-                    <div>{snapshot.requested_sponsorship_amount} USD</div>
+                    <div>{snapshot.requested_sponsorship_usd_amount} USD</div>
                     <div className="text-sm text-muted">
-                      Requested in {tokenName ?? "NEAR"}
+                      Requested in{" "}
+                      {snapshot.requested_sponsorship_paid_in_currency}
                     </div>
                   </div>
                 )}
@@ -1073,6 +1039,7 @@ return (
                             updatedProposalStatus.value.test_transaction_sent
                           }
                         />
+                        {/* Not needed for Alpha testing */}
                         {/* <CheckBox
                           value=""
                           disabled={selectedStatusIndex !== 6}
