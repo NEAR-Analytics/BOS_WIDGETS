@@ -139,7 +139,7 @@ const handleSave = () => {
       [thingId]: {
         ...targets,
         type: selectedType,
-        schema: state.data,
+        data: state.data,
       },
     },
     index: {
