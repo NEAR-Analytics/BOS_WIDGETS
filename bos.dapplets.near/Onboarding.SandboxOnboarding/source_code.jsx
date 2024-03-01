@@ -46,12 +46,27 @@ const CloseButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
+
+  svg {
+    path {
+      stroke: #838891;
+      transition-duration: .2s;
+    }
+  }
+  
+  :hover {
+    svg {
+      path {
+        stroke: #555555;
+      }
+    }
+  }
 `
 
 const CloseIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 6L6 18" stroke="#838891" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M6 6.5L18 18.5" stroke="#838891" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 6L6 18"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M6 6.5L18 18.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
 
@@ -167,7 +182,7 @@ const Card = styled.div`
   flex 1;
 
   h3 {
-    padding: 0;
+    padding: 8px 0 0;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-style: normal;
@@ -308,6 +323,11 @@ const SuccessButton = styled.button`
   line-height: 149%;
   text-align: center;
   color: #FFFFFF;
+  transition-duration: 0.2s;
+
+  :hover {
+    background-color: rgb(18 35 59);
+  }
 `
 
 return (
@@ -330,12 +350,12 @@ return (
         <Card>
           <h3>Mutation switch</h3>
           <div className='first' title='Mutation changer picture'/>
-          <p>You can see the mutations (application sets) selector at the top of the page.</p>
+          <p>There is a mutation switch at the top of the page.</p>
         </Card>
         <Card>
-          <h3>Multifunctional control</h3>
+          <h3>Widgets control element</h3>
           <div className='second' title='Multifunctional control picture'/>
-          <p>Each post has an "ear" with controls (adding and removing) widgets from the current mutation's applications.</p>
+          <p>Each post has a control element for adding (and removing) widgets  from the current mutation's applications.</p>
         </Card>
       </Cards>
     </CardsContainer>
