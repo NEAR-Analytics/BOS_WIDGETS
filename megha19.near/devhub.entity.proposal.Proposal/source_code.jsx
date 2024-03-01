@@ -17,7 +17,7 @@ const TIMELINE_STATUS = {
   REVIEW: "REVIEW",
   APPROVED: "APPROVED",
   REJECTED: "REJECTED",
-  CANCELED: "CANCELED",
+  CANCELED: "CANCELLED",
   APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
   PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
   FUNDED: "FUNDED",
@@ -186,7 +186,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("proudflour16.near", "get_proposal", {
+const proposal = Near.view("truedove38.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -214,7 +214,7 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `proudflour16.near/post/main`,
+  path: `truedove38.near/post/main`,
   blockHeight,
 };
 const proposalURL = `megha19.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
@@ -293,6 +293,8 @@ const proposalStatusOptions = [
     label: "Canceled",
     value: {
       status: TIMELINE_STATUS.CANCELED,
+      sponsor_requested_review: false,
+      reviewer_completed_attestation: false,
     },
   },
   {
@@ -323,7 +325,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("proudflour16.near", "get_proposal", {
+    const data = Near.view("truedove38.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -415,7 +417,7 @@ function findTokenNameByAddress(address) {
 
 const tokenName = findTokenNameByAddress(snapshot.requested_sponsorship_token);
 const isAllowedToEditProposal = Near.view(
-  "proudflour16.near",
+  "truedove38.near",
   "is_allowed_to_edit_proposal",
   { proposal_id: proposal.id, editor: accountId }
 );
@@ -424,7 +426,7 @@ const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
 
 const editProposalStatus = ({ timeline }) => {
   Near.call({
-    contractName: "proudflour16.near",
+    contractName: "truedove38.near",
     methodName: "edit_proposal_timeline",
     args: {
       id: proposal.id,
@@ -562,7 +564,9 @@ return (
             url: proposalURL,
           }}
         />
-        {isAllowedToEditProposal && (
+        {((isAllowedToEditProposal &&
+          snapshot.timeline.status === TIMELINE_STATUS.DRAFT) ||
+          isModerator) && (
           <Link
             to={href({
               widgetSrc: "megha19.near/widget/app",
@@ -795,10 +799,12 @@ return (
             <SidePanelItem title="Funding Ask">
               <div className="h4 text-black">
                 {snapshot.requested_sponsorship_amount && (
-                  <>
-                    {snapshot.requested_sponsorship_amount}{" "}
-                    {tokenName ?? "NEAR"}
-                  </>
+                  <div className="d-flex flex-column gap-1">
+                    <div>{snapshot.requested_sponsorship_amount} USD</div>
+                    <div className="text-sm text-muted">
+                      Requested in {tokenName ?? "NEAR"}
+                    </div>
+                  </div>
                 )}
               </div>
             </SidePanelItem>
