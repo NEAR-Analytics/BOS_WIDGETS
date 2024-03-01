@@ -53,10 +53,18 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-beetween;
   gap: 2rem;
+  padding-top: 2rem;
 
   @media screen and (max-width: 786px) {
     flex-direction: column;
     gap: 1rem;
+    padding-top: 1rem;
+  }
+`;
+
+const MobileForm = styled.div`
+  @media screen and (max-width: 786px) {
+    padding-bottom: 2rem;
   }
 `;
 
@@ -88,7 +96,7 @@ const ProposalButton = () => (
 return (
   <>
     {preview ? (
-      <>
+      <MobileForm>
         <Widget
           src="ndcdev.near/widget/daos.Components.Item"
           props={{
@@ -103,7 +111,7 @@ return (
           <PreviewButton />
           <ProposalButton />
         </ButtonContainer>
-      </>
+      </MobileForm>
     ) : (
       <Form className="d-flex flex-column gap-3">
         <div
