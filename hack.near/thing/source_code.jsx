@@ -1,4 +1,4 @@
-const path = props.path; // every piece of data on social contract has a path
+const path = props.path ?? "hack.near/widget/community"; // every piece of data on social contract has a path
 const blockHeight = props.blockHeight || "final"; // and a blockHeight (~version)
 const options = props.options;
 if (!path) {
