@@ -20,6 +20,7 @@ const preview = useMemo(() => {
   return <Button onClick={${onClick}} variant="primary">
     ${label}
   </Button>`);
+  setShowWidget(false);
 }, [label, onClick]);
 
 const handleOnClick = () => {
