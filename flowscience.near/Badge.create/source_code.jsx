@@ -22,42 +22,13 @@ const handleRemoveAccountId = (accountId) => {
   onResolverChange(newAccountIds);
 };
 
-{
-  /*const handleInputChange = (e) => {
+const handleInputChange = (e) => {
   setInputValue(e.target.value);
-};*/
-}
-
-const handleInputChange = (name, value) => {
-  // Update local form state
-  setMetadata((prev) => ({ ...prev, [name]: value }));
-
-  // Propagate changes if an external onChange handler is provided
-  if (onChange) {
-    onChange({ ...metadata, [name]: value });
-  }
 };
 
-const handleOnChange = (value) => {
-  State.update({ data: { ...state.data, ...value } });
-};
-
-useEffect(() => {
-  State.update({
-    config: state.data,
-  });
-}, [state.data]);
-
-const [metadata, setMetadata] = useState({
-  name: props.badgeName || "Proof of Build",
-  image: props.imageUrl || "",
-  description: props.description || "~ good builder vibes ~",
-  tags: props.tags || "",
-  expireDate: props.expireDate || "",
-  expireTime: props.expireTime || "",
-  refUID: props.refUID || "",
-  payload: props.payload || "",
-});
+const [badgeName, setBadgeName] = useState("Proof of Build");
+const [description, setDescription] = useState("~ good builder vibes ~");
+const [imageUrl, setImageUrl] = useState("");
 
 const badge = Social.get(`${badgeSrc}/badge/${badgeId}`, "final");
 
@@ -71,6 +42,9 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   "tags",
   ...importedTypes,
 ];
+
+const Label = styled.label`
+`;
 
 const Container = styled.div`
   margin: 20px 0;
@@ -246,11 +220,12 @@ return (
         </h5>
         <p className="m-1 mt-2">
           <i>
-            Below, you may customize fields to build attestations of a specific
-            type:{" "}
+            Below, you may customize fields to build{" "}
             <a href="https://github.com/NearSocial/standards/blob/main/types/badge">
-              <b>badges</b>
-            </a>
+              badges
+            </a>{" "}
+            (attestations) of a specific
+            <a href="">type</a>:{" "}
           </i>
         </p>
       </Text>
@@ -277,6 +252,9 @@ return (
           </div>
         </div>
       </BadgeImage>
+      <h4 className="m-2">
+        <b>Metadata</b>
+      </h4>
       <div className="m-3 mt-4">
         <h5 className="m-2">
           <b>Badge ID:</b>
@@ -370,6 +348,35 @@ return (
           ))}
         </div>
       </div>
+      <div>
+        <FormContainer>
+          <h4 className="m-2">
+            <b>Badge Data</b>
+          </h4>
+          <Label>Import Types:</Label>
+          <Row>
+            <Input
+              type="text"
+              value={state.newTypeSrc}
+              onChange={(e) => State.update({ newTypeSrc: e.target.value })}
+              placeholder={"accountId e.g. every.near"}
+            />
+            <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
+              apply
+            </Button>
+            <Label>Schema</Label>
+            <Select value={state.selectedType} onChange={handleTypeChange}>
+              <option value="">Select a schema</option>
+              {availableTypes?.map((it) => (
+                <option value={it} key={it}>
+                  {it}
+                </option>
+              ))}
+            </Select>
+          </Row>
+        </FormContainer>
+      </div>
+      <div></div>
       <div className="m-3">
         <h4 className="m-2">Data Structure</h4>
         <p className="m-2">
