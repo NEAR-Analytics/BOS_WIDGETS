@@ -1,56 +1,31 @@
 const { Modal, Hashtag, Button } = VM.require(
-  "buildhub.near/widget/components"
+  "buildhub.near/widget/components",
 ) || {
   Modal: () => <></>,
   Hashtag: () => <></>,
   Button: () => <></>,
 };
+
 const currentDate = props.currentDate || new Date();
 const events = props.events || [];
-const theme = props.theme;
-const [parsedEvents, setParsedEvents] = useState(events);
-// update events recurring data according to calender library requirements (ref: https://fullcalendar.io/docs/recurring-events)
-useEffect(() => {
-  if (Array.isArray(events)) {
-    const updatedEvent = events.map((event, index) => {
-      if (event.recurrence) {
-        const frequency = event.recurrence.frequency;
-        switch (frequency) {
-          case "daily":
-            return {
-              ...event,
-              groupId: event.title + "_" + index,
-            };
-          case "weekly":
-            return {
-              ...event,
-              groupId: event.title + "_" + index,
-              daysOfWeek: event.recurrence.daysOfWeek ?? [
-                new Date(event.start).getDay(),
-              ],
-            };
-          default:
-            return event;
-        }
-      } else return event;
-    });
-    setParsedEvents(updatedEvent);
-  }
-}, [events]);
-const customCSSDark = `
+
+const customCSS = `
   :root {
     --fc-page-bg-color: var(--bg-color, #000000);
     --fc-border-color: var(--stroke-color, rgba(255, 255, 255, 0.20));
     --fc-today-bg-color: #424451;
   }
+
   body {
     margin: 0;
   }
+
   html {
     background-color: var(--fc-page-bg-color);
     color: var(--text-color, #fff);
     font-family: sans-serif;
   }
+
   /* FC Header */
   .fc-col-header-cell {
     background: var(--bg-2, #23242B);
@@ -64,22 +39,26 @@ const customCSSDark = `
       padding: 10px;
     }
   }
+
   /* FC Day */
   .fc-day-today {
     .fc-daygrid-day-frame {
       background: var(--fc-today-bg-color, #424451);
     }
   }
+
   .fc .fc-daygrid-event-harness {
     a {
       color: var(--text-color, #fff);
     }
   }
+
   .fc-day-other {
     .fc-daygrid-day-frame {
       background: var(--bg-1, #000000);
     }
   }
+
   .fc-daygrid-day-frame {
     padding: 10px;
     background: var(--bg-2, #23242B);
@@ -94,87 +73,27 @@ const customCSSDark = `
     }
   }
 `;
-const customCSSLight = `
-  :root {
-    --fc-page-bg-color: var(--bg-color, #fff);
-    --fc-border-color: var(--stroke-color, #fff);
-    --fc-today-bg-color: #ededed;
-  }
-  body {
-    margin: 0;
-  }
-  html {
-    background-color: var(--fc-page-bg-color);
-    color: var(--text-color, #000);
-    font-family: sans-serif;
-  }
-  /* FC Header */
-  .fc-col-header-cell {
-    background: var(--bg-2, #ededed);
-    .fc-col-header-cell-cushion {
-      display: block;
-      text-align: left;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 170%; /* 27.2px */
-      padding: 10px;
-    }
-  }
-  /* FC Day */
-  .fc-day-today {
-    .fc-daygrid-day-frame {
-      background: var(--fc-today-bg-color, #fff);
-    }
-  }
-  .fc .fc-daygrid-event-harness {
-    a {
-      color: var(--text-color, #000);
-    }
-  }
-  .fc-day-other {
-    .fc-daygrid-day-frame {
-      background: var(--bg-1, #cdcdcd);
-    }
-  }
-  .fc-daygrid-day-frame {
-    padding: 10px;
-    background: var(--bg-2, #fff);
-  }
-  .fc .fc-daygrid-day-top {
-    flex-direction: row;
-    .fc-daygrid-day-number {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 170%; /* 27.2px */
-    }
-  }
-`;
-const EventModal = styled.div`
-  ${props.theme === "light" &&
-  `
-  background: white !important;
-  color: black;
-`}
-`;
-const embedCss =
-  props.embedCss ?? theme === "light" ? customCSSLight : customCSSDark;
+
+const embedCss = props.embedCss || customCSS;
+
 const code = `
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>
 <!-- iframe-resizer -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.js"></script> -->
+
 <style>
   ${embedCss}
 </style>
+
 <div id="calendar"></div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'dayGridMonth',
       headerToolbar: false,
-      events: ${JSON.stringify(parsedEvents)},
+      events: ${JSON.stringify(events)},
       eventClick: function(info) {
         info.jsEvent.preventDefault(); // don't let the browser navigate
         // Post the event details to the parent window
@@ -186,11 +105,14 @@ const code = `
   });
 </script>
 `;
+
 const [data, setData] = useState(null);
 const [showModal, setShowModal] = useState(false);
+
 const toggleModal = () => {
   setShowModal((prev) => !prev);
 };
+
 const organizers =
   (data?.extendedProps?.organizers || []).map((it) => {
     if (it.customOption) {
@@ -198,6 +120,7 @@ const organizers =
     }
     return it;
   }) ?? [];
+
 const hashtags =
   (data?.extendedProps?.hashtags || []).map((it) => {
     if (it.customOption) {
@@ -205,27 +128,7 @@ const hashtags =
     }
     return it;
   }) ?? [];
-let eventAuthor;
-let eventApp;
-let eventType;
-let eventKey;
-if (data) {
-  eventAuthor = data?.extendedProps?.key?.split("/")[0] ?? "";
-  eventApp = data?.extendedProps?.key?.split("/")[1] ?? "";
-  eventType = data?.extendedProps?.key?.split("/")[2] ?? "";
-  eventKey = data?.extendedProps?.key?.split("/")[3] ?? "";
-}
-const handleDelete = () => {
-  Social.set({
-    [eventApp]: {
-      [eventType]: {
-        [eventKey]: {
-          "": null,
-        },
-      },
-    },
-  });
-};
+
 return (
   <>
     <iframe
@@ -241,30 +144,18 @@ return (
       }}
     />
     {data && (
-      <Modal
-        className="modal-view"
-        open={showModal}
-        onOpenChange={toggleModal}
-        title={data.title}
-        theme={props.theme}
-      >
+      <Modal open={showModal} onOpenChange={toggleModal} title={data.title}>
         <div style={{ maxWidth: 600 }}>
-          <div className="mb-3 d-flex align-items-center gap-5 flex-wrap">
+          <div className="mb-3 d-flex align-items-center justify-content-between flex-wrap">
             <span>
-              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-                START
-              </h5>
-              <i className="bi bi-calendar"></i>
+              <i className="bi bi-calendar"></i> Start Date Time:{" "}
               {new Date(data.start).toLocaleDateString("en-us", {
                 hour: "2-digit",
                 minute: "numeric",
               })}
             </span>
             <span>
-              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-                END
-              </h5>
-              <i className="bi bi-calendar"></i>
+              <i className="bi bi-calendar"></i> End Date Time:{" "}
               {new Date(data.end).toLocaleDateString("en-us", {
                 hour: "2-digit",
                 minute: "numeric",
@@ -273,51 +164,43 @@ return (
           </div>
           {data.extendedProps.description && (
             <div className="mb-3">
-              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-                DESCRIPTION
-              </h5>
+              <h5>DESCRIPTION</h5>
               <p>{data.extendedProps.description}</p>
             </div>
           )}
           {organizers.length > 0 && (
             <div className="mb-3">
-              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-                ORGANIZERS
-              </h5>
-              <div className="d-flex align-items-center gap-3 flex-wrap">
-                {organizers.map((organizer) => {
-                  const organizerProfile = Social.getr(`${organizer}/profile`);
-                  return (
-                    <span className="d-flex align-items-center gap-1">
-                      <Widget
-                        src="mob.near/widget/Image"
-                        loading=""
-                        props={{
-                          image: organizerProfile.image,
-                          fallbackUrl:
-                            "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
-                          style: {
-                            width: 24,
-                            height: 24,
-                            borderRadius: 12,
-                            objectFit: "cover",
-                          },
-                        }}
-                      />
-                      {organizerProfile.name ??
-                        organizers[0] ??
-                        "No name profile"}
-                    </span>
-                  );
-                })}
-              </div>
+              <h5>ORGANIZERS</h5>
+              {organizers.map((organizer) => {
+                const organizerProfile = Social.getr(`${organizer}/profile`);
+                return (
+                  <span className="d-flex align-items-center gap-1">
+                    <Widget
+                      src="mob.near/widget/Image"
+                      loading=""
+                      props={{
+                        image: organizerProfile.image,
+                        fallbackUrl:
+                          "https://ipfs.near.social/ipfs/bafkreibas66y6ewop5ix2n6mgybpjz6epg7opqvcplmm5jw4jlhdik5nhe",
+                        style: {
+                          width: 24,
+                          height: 24,
+                          borderRadius: 12,
+                          objectFit: "cover",
+                        },
+                      }}
+                    />
+                    {organizerProfile.name ??
+                      organizers[0] ??
+                      "No name profile"}
+                  </span>
+                );
+              })}
             </div>
           )}
           {hashtags.length > 0 && (
             <div className="mb-3">
-              <h5 style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>
-                HASHTAGS
-              </h5>
+              <h5>HASHTAGS</h5>
               <div className="d-flex align-items-center gap-2 flex-wrap">
                 {hashtags.map((tag) => (
                   <Hashtag key={tag}>{tag}</Hashtag>
@@ -332,7 +215,7 @@ return (
             </span>
           )}
         </div>
-        <div className="d-flex align-items-center gap-3">
+        <div>
           <Button
             noLink={true}
             href={`${data?.url}`}
@@ -341,15 +224,6 @@ return (
           >
             Join Now
           </Button>
-          {eventAuthor === context.accountId && (
-            <Button
-              onClick={handleDelete}
-              style={{ background: "#ff2b2b" }}
-              variant="primary"
-            >
-              Delete Event
-            </Button>
-          )}
         </div>
       </Modal>
     )}
