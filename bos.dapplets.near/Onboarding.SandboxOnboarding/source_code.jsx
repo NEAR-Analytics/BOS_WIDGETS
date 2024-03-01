@@ -326,7 +326,7 @@ const SuccessButton = styled.button`
   transition-duration: 0.2s;
 
   :hover {
-    background-color: rgb(18 35 59);
+    background-color: rgb(32 45 63);
   }
 `
 
