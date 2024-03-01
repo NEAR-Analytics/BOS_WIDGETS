@@ -240,8 +240,9 @@ const markdownText = `
         }
       },
       "accounts": ${serializedAccountsObject},
-      "data": {
-         ${state.selectedType}: ${state.typeData}
+      "content": {
+         "schema": "${state.selectedType}",
+         "schemaData": "${state.typeData}",
          }
     }
   }
