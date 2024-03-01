@@ -1,1 +1,1 @@
-return <Widget src="buildhub.near/widget/events.Calendar" props={{app: "every", thing: "event", }} />
+return <Widget src="buildhub.near/widget/events.Calendar" props={{app: "test", thing: "event", }} />
