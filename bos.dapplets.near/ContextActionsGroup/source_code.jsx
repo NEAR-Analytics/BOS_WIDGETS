@@ -95,8 +95,8 @@ const ActionsWrapper = styled.div`
       opacity: 0.3;
       min-height: 0px;
       height: 0px;
-      // transform-origin: top left;
-      transform: scale(0);
+      transform-origin: top left;
+      transform: scale(0) translateX(-30px);
     }
     80% {
       opacity: 1;
@@ -110,8 +110,8 @@ const ActionsWrapper = styled.div`
       width: 40px;
       min-height: 34px;
       background: #fff;
-      // transform-origin: top left;
-      transform: scale(1);
+      transform-origin: top left;
+      transform: scale(1) translateX(0px);
     }
   }
   animation: translateAnimation 0.5s ease forwards;
