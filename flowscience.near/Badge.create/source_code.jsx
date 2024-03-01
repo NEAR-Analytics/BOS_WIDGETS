@@ -168,7 +168,8 @@ const composeData = () => {
         },
         accounts: accountsObject,
         content: {
-          [state.selectedType]: state.typeData,
+          schema: state.selectedType,
+          schemaData: state.typeData,
         },
       },
     },
