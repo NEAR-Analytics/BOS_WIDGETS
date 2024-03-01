@@ -1,10 +1,13 @@
 const { Button } = VM.require("buildhub.near/widget/components.Button");
 const { ProgressState } = VM.require(
-  "buildhub.near/widget/components.ProgressState"
+  "buildhub.near/widget/components.ProgressState",
 );
 const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
 const { Step } = VM.require("buildhub.near/widget/components.Step");
 const { InputField } = VM.require("buildhub.near/widget/components.InputField");
+const { UploadField } = VM.require(
+  "buildhub.near/widget/components.UploadField",
+);
 const { TextBox } = VM.require("buildhub.near/widget/components.TextBox");
 const { TextEditor } = VM.require("buildhub.near/widget/components.TextEditor");
 const { Checkbox } = VM.require("buildhub.near/widget/components.Checkbox");
@@ -12,6 +15,7 @@ const { Avatar } = VM.require("buildhub.near/widget/components.Avatar");
 const { Modal } = VM.require("buildhub.near/widget/components.Modal");
 const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
 const { Tag } = VM.require("buildhub.near/widget/components.Tag");
+
 function Pagination({
   totalPages,
   maxVisiblePages,
@@ -32,6 +36,7 @@ function Pagination({
     />
   );
 }
+
 function Post(props) {
   return (
     <Widget
@@ -41,6 +46,7 @@ function Post(props) {
     />
   );
 }
+
 function User(props) {
   return (
     <Widget
@@ -50,6 +56,7 @@ function User(props) {
     />
   );
 }
+
 return {
   Button,
   Pagination,
@@ -60,6 +67,7 @@ return {
   Step,
   Hashtag,
   InputField,
+  UploadField,
   TextBox,
   TextEditor,
   Checkbox,
