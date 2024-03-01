@@ -6,7 +6,7 @@ const Container = styled.div`
   position: relative;
   flex-direction: column;
   box-sizing: border-box;
-  width: 800px;
+  width: 760px;
   background: #FFFFFE;
   border: 1px solid #02193A;
   border-radius: 20px;
@@ -122,7 +122,7 @@ const CardsContainer = styled.div`
   background: white;
   border-radius: 20px;
   align-items: flex-start;
-  padding: 0 20px 20px;
+  padding: 0 0 10px;
   gap: 20px;
   width: 100%;
   flex: none;
@@ -229,7 +229,7 @@ const Footer = styled.div`
   a {
     padding: 0;
     margin: 0;
-    align-self: flex-start;
+    /* align-self: flex-start; */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: 400;
