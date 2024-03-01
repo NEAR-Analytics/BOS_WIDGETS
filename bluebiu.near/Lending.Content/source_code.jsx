@@ -98,6 +98,7 @@ return (
         }}
       />
     )}
+    {state.loading && <Widget src="bluebiu.near/widget/Lending.Spinner" />}
     <Widget
       src={dexConfig.data}
       props={{
