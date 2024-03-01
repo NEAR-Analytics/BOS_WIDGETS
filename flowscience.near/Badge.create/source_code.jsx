@@ -12,6 +12,18 @@ const [accountIds, setAccountIds] = useState([
 ]);
 const [inputValue, setInputValue] = useState("");
 
+if (type !== "") {
+  const parts = type.split("/");
+  typeSrc = parts[0];
+}
+
+State.init({
+  data,
+  typeSrc,
+  selectedType: type,
+  thingId: generateUID(),
+});
+
 const handleAddAccountId = () => {
   if (inputValue.trim() !== "" && !accountIds.includes(inputValue)) {
     const newAccountIds = [...accountIds, inputValue];
@@ -31,6 +43,16 @@ const handleInputChange = (e) => {
   setInputValue(e.target.value);
 };
 
+const handleOnChange = (value) => {
+  State.update({ data: { ...state.data, ...value } });
+};
+
+useEffect(() => {
+  State.update({
+    config: state.data,
+  });
+}, [state.data]);
+
 const [badgeName, setBadgeName] = useState("Proof of Build");
 const [description, setDescription] = useState("~ good builder vibes ~");
 const [imageUrl, setImageUrl] = useState("");
@@ -48,13 +70,13 @@ const availableTypes = JSON.parse(props.availableTypes) || [
   ...importedTypes,
 ];
 
-State.init({
-  data,
-  config: data,
-  typeSrc,
-  selectedType: type,
-  thingId: generateUID(),
-});
+// enable multiple options for default typeSrc - every.near, hyperfiles.near, ...others?
+
+const types = Social.get(`${state.typeSrc}/type/**`, "final");
+if (types !== null) {
+  availableTypes =
+    Object.keys(types)?.map((it) => `${state.typeSrc}/type/${it}`) || [];
+}
 
 const Label = styled.label`
 `;
@@ -144,6 +166,7 @@ const composeData = () => {
           },
         },
         accounts: accountsObject,
+        data: state.data,
       },
     },
   };
