@@ -9,7 +9,6 @@ const Logout = props.Logout;
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
   padding: 64px;
   position: relative;
   align-items: stretch;
@@ -294,7 +293,7 @@ return (
         Download CSV
       </Button>
       {state.download && state.file && (
-        <div className="d-flex mt-1 justify-content-center align-items-center">
+        <div className="d-flex mt-1 justify-content-center align-items-center mb-2">
           <a href={`${API_URL}/${state.file}`}>Download CSV</a>
         </div>
       )}
