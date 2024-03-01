@@ -6,7 +6,7 @@ const Container = styled.div`
   position: relative;
   flex-direction: column;
   box-sizing: border-box;
-  width: 510px;
+  width: 800px;
   background: #FFFFFE;
   border: 1px solid #02193A;
   border-radius: 20px;
@@ -17,20 +17,6 @@ const Container = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   align-items: center;
   justify-content: center;
-
-  > a {
-    padding: 0;
-    margin: 0;
-    align-self: flex-start;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 149%;
-    text-decoration-line: underline !important;
-    color: #384BFF;
-    cursor: 'poiner';
-  }
 `
 
 const Header = styled.div`
@@ -136,30 +122,30 @@ const CardsContainer = styled.div`
   background: white;
   border-radius: 20px;
   align-items: flex-start;
-  padding: 20px;
+  padding: 0 20px 20px;
   gap: 20px;
   width: 100%;
   flex: none;
   flex-grow: 0;
 `
 
-const CardsHeader = styled.div`
-  display: flex;
-  position: relative;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  color: #02193A;
+// const CardsHeader = styled.div`
+//   display: flex;
+//   position: relative;
+//   width: 100%;
+//   justify-content: space-between;
+//   align-items: center;
+//   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+//   color: #02193A;
 
-  h2 {
-    padding: 0;
-    margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 36px;
-  }
-`
+//   h2 {
+//     padding: 0;
+//     margin: 0;
+//     font-size: 24px;
+//     font-weight: 600;
+//     line-height: 36px;
+//   }
+// `
 
 const Cards = styled.div`
   display: flex;
@@ -192,21 +178,24 @@ const Card = styled.div`
     flex: none;
     align-self: stretch;
     flex-grow: 0;
+    text-indent: 16px;
   }
 
   div {
-    height: 100px;
+    box-sizing: border-box;
+    height: 260px;
     border-radius: 10px;
     flex: none;
     align-self: stretch;
     flex-grow: 0;
+    border: 1px solid rgb(207, 217, 222);
 
     &.first {
-      background: -106px top / 400px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-001.png");
+      background: -460px top  no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-001.png");
     }
 
     &.second {
-      background: -10px -70px / 330px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-002.png");
+      background: -160px -134px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-002.png");
     }
   }
 
@@ -227,12 +216,38 @@ const Card = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0px;
   gap: 20px;
   width: 100%;
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+
+  a {
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 149%;
+    text-decoration-line: underline !important;
+    color: #384BFF;
+    cursor: 'poiner';
+  }
+`
+
+const Form = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
   flex: none;
   align-self: stretch;
   flex-grow: 0;
@@ -315,28 +330,30 @@ return (
         <Card>
           <h3>Mutation switch</h3>
           <div className='first' title='Mutation changer picture'/>
-          <p>You can see the mutations (application sets) selector at the top of the page</p>
+          <p>You can see the mutations (application sets) selector at the top of the page.</p>
         </Card>
         <Card>
           <h3>Multifunctional control</h3>
           <div className='second' title='Multifunctional control picture'/>
-          <p>Each post has an "ear" with controls (adding and removing) widgets from the current mutation's applications</p>
+          <p>Each post has an "ear" with controls (adding and removing) widgets from the current mutation's applications.</p>
         </Card>
       </Cards>
     </CardsContainer>
-    <a
-      href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
-    >
-      You can see how our applications work here
-    </a>
     <Footer>
-      <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
-      <Checkbox>
-        <label>
-          <input type="checkbox" checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />
-          Don't show it again
-        </label>
-      </Checkbox>
+      <a
+        href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
+      >
+        You can see how our applications work here
+      </a>
+      <Form>
+        <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
+        <Checkbox>
+          <label>
+            <input type="checkbox" checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />
+            Don't show it again
+          </label>
+        </Checkbox>
+      </Form>
     </Footer>
   </Container>
 )
