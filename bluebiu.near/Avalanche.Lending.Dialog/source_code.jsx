@@ -557,15 +557,11 @@ return (
                 <Input
                   value={state.amount}
                   onChange={(ev) => {
-                    console.log(
-                      ev.target.value,
-                      ev.target.value.replace(/\s+/g, ""),
-                      state.balance
-                    );
-                    handleAmountChange(ev.target.value);
+                    if (isNaN(Number(ev.target.value))) return;
+                    handleAmountChange(ev.target.value.replace(/\s+/g, ""));
                     State.update({
                       isMax: Big(ev.target.value.replace(/\s+/g, "") || 0).eq(
-                        state.balance
+                        state.balance || 0
                       ),
                     });
                   }}
