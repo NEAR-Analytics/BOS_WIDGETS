@@ -95,7 +95,7 @@ const ActionsWrapper = styled.div`
       opacity: 0.3;
       min-height: 0px;
       height: 0px;
-      transform-origin: top left;
+      // transform-origin: top left;
       transform: scale(0);
     }
     80% {
@@ -110,7 +110,7 @@ const ActionsWrapper = styled.div`
       width: 40px;
       min-height: 34px;
       background: #fff;
-      transform-origin: top left;
+      // transform-origin: top left;
       transform: scale(1);
     }
   }
@@ -222,32 +222,10 @@ const ButtonPlusDefault = styled.div`
   margin-top: 40px;
   cursor: pointer;
   border: 1px solid #384bff;
-  &:before {
-    content: "";
-    display: block;
-    width: 1.5px;
-    height: 11px;
-    border-radius: 2px;
-    background: ${(p) =>
-      p.default ? "#fff !important" : "#384bff !important"};
 
-    position: absolute;
-    top: 5.8px;
-    left: 10.7px;
-  }
-  &:after {
-    content: "";
-    display: block;
-    height: 1.5px;
-    width: 11px;
-    border-radius: 2px;
-    background: ${(p) =>
-      p.default ? "#fff !important" : "#384bff !important"};
-    position: absolute;
-    top: 10.7px;
-    left: 5.8px;
-  }
-
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   &:hover {
     transform: scale(1.1);
   }
@@ -459,6 +437,31 @@ const iconApply = (
     />
   </svg>
 );
+
+const plusDefault = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="13"
+    viewBox="0 0 12 13"
+    fill="none"
+  >
+    <path
+      d="M6 1.5V11.5"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M1 6.5H11"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 return (
   <OverlayTriggerWrapper onMouseOver={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -563,7 +566,9 @@ return (
               default
               title={!context.accountId ? "Connect wallet" : null}
               onClick={!context.accountId ? null : handleOpenMenu}
-            />
+            >
+              {plusDefault}
+            </ButtonPlusDefault>
           </WrapperButtonPlusDefault>
         )}
       </TriggerShowPanel>
