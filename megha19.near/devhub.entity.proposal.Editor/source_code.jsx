@@ -20,7 +20,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("proudflour16.near", "get_proposal", {
+  editProposalData = Near.view("truedove38.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -207,7 +207,7 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("proudflour16.near", "get_proposals");
+const proposalsData = Near.view("truedove38.near", "get_proposals");
 const [loading, setLoading] = useState(true);
 
 if (allowDraft) {
@@ -558,10 +558,10 @@ const onSubmit = ({ isDraft, isCancel }) => {
     requested_sponsorship_amount: requestedSponsorshipAmount,
     requested_sponsorship_token: requestedSponsorshipToken.value,
     receiver_account: receiverAccount,
-    supervisor: supervisor,
+    supervisor: supervisor || null,
     requested_sponsor: requestedSponsor,
     timeline: isCancel
-      ? { status: "CANCELED" }
+      ? { status: "CANCELLED" }
       : isDraft
       ? { status: "DRAFT" }
       : {
@@ -576,7 +576,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
   }
   const calls = [
     {
-      contractName: "proudflour16.near",
+      contractName: "truedove38.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -926,7 +926,7 @@ return (
             </InputContainer>
             <div className="h5 mb-0 text-muted">Funding Details</div>
             <InputContainer
-              heading="Total Amount"
+              heading="Total Amount (USD)"
               description="Enter the exact amount you are seeking. See Funding Documentation for guidelines.."
             >
               <Widget
