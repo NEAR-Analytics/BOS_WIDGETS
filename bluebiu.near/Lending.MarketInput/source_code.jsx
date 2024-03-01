@@ -59,7 +59,8 @@ return (
         placeholder="0.0"
         value={amount || ""}
         onChange={(ev) => {
-          onChange(ev.target.value);
+          if (isNaN(Number(ev.target.value))) return;
+          onChange(ev.target.value.replace(/\s+/g, ""));
         }}
       />
       <StyledValue>
