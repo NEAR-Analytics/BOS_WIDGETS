@@ -750,7 +750,22 @@ return (
                 <div className="d-flex flex-column gap-2">
                   <CheckBox
                     value={consent.toc}
-                    label="I’ve agree to DevHub’s Terms and Conditions and commit to honoring it"
+                    label={
+                      <>
+                        I’ve agree to{" "}
+                        <a
+                          href={
+                            "https://docs.google.com/document/d/1nRGy7LhpLj56SjN9MseV1x-ubH8O_c6B9DOAZ9qTwMU/edit?usp=sharing"
+                          }
+                          className="text-decoration-underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          DevHub’s Terms and Conditions
+                        </a>
+                        and commit to honoring it
+                      </>
+                    }
                     isChecked={consent.toc}
                     onClick={(value) =>
                       setConsent((prevConsent) => ({
@@ -761,10 +776,25 @@ return (
                   />
                   <CheckBox
                     value={consent.coc}
-                    label="I’ve read DevHub’s Code of Conduct and commit to honoring it"
+                    label={
+                      <>
+                        I’ve read{" "}
+                        <a
+                          href={
+                            "https://docs.google.com/document/d/1c6XV8Sj_BRKw8jnTIsjdLPPN6Al5eEStt1ZLYSuqw9U/edit"
+                          }
+                          className="text-decoration-underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          DevHub’s Code of Conduct
+                        </a>
+                        and commit to honoring it
+                      </>
+                    }
                     isChecked={consent.coc}
-                    onClick={() =>
-                      setConsent((value) => ({
+                    onClick={(value) =>
+                      setConsent((prevConsent) => ({
                         ...prevConsent,
                         coc: value,
                       }))
@@ -952,7 +982,7 @@ return (
                 src="megha19.near/widget/devhub.entity.proposal.AccountInput"
                 props={{
                   value: receiverAccount,
-                  placeholder: "DevDAO",
+                  placeholder: devdaoAccount,
                   onUpdate: setReceiverAccount,
                 }}
               />
