@@ -48,15 +48,6 @@ return (
     </a>
     <div className="d-flex gap-5 align-items-center">
       <LinksContainer>
-        <div className="position-relative">
-          <a href="/ndcdev.near/widget/daos.App?page=notifications">
-            <i className="bi bi-bell-fill text-secondary fs-3" />
-          </a>
-          {hasNotifications && <div class="circle" />}
-        </div>
-        <a href="/ndcdev.near/widget/daos.App?page=setttings">
-          <i className="bi bi-gear-fill text-secondary fs-3" />
-        </a>
         <a
           href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
         >
