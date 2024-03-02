@@ -128,7 +128,7 @@ const DATAPrice = (props) => {
     setPrices(newPrices);
 
     // Schedule the next fetch after 10 seconds
-    setTimeout(fetchPrices, 10000);
+    setTimeout(fetchPrices, 3000);
   };
 
   useEffect(() => {
