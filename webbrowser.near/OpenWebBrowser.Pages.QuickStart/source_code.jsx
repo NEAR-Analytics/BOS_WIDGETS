@@ -148,8 +148,15 @@ const dapps = [
 return (
   <Main>
     <Container>
-      <SectionTitle color="rgba(0,0,0,.1)">Welcome to the Open Web. Only Web3.</SectionTitle>
-      <p>Explore different dApps accross different chains, manage all your Web3 identities at once and more by using <b>Open Web Broswer</b>.</p>
+      <SectionTitle color="rgba(0,0,0,.1)">
+        Welcome to the Open Web. Only Web3.
+      </SectionTitle>
+    </Container>
+    <Container>
+      <p>
+        Explore different dApps accross different chains, manage all your Web3
+        identities at once and more by using <b>Open Web Broswer</b>.
+      </p>
     </Container>
     <Container>
       <SectionTitle color="#00EC97">Dapps</SectionTitle>
