@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "hack.near";
+const accountId = props.accountId ?? "hack.near";
 const gameId = props.gameId ?? "evisceration";
 const appId = props.appId ?? "lumina";
 
