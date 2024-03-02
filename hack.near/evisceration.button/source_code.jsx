@@ -7,6 +7,10 @@ const clicks = Social.index(appId, `${accountId}-${gameId}`, {
   order: "desc",
 });
 
+if (!clicks) {
+  return "";
+}
+
 const totalHits = clicks ? Object.keys(clicks).length : 0;
 
 const attack = () => {
