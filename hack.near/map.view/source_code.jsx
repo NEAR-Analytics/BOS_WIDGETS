@@ -9,9 +9,18 @@ return (
   <>
     <div className="d-flex flex-row m-2 justify-content-between">
       <h3 className="m-1">Create Your Own World</h3>
-      <button onClick={() => State.update({ showModal: true })} className="m-2">
-        Explore
-      </button>
+      <div>
+        <button
+          onClick={() => State.update({ showModal: true })}
+          className="m-2"
+        >
+          Explore
+        </button>
+        <Widget
+          src="hack.near/widget/ShareButton"
+          props={{ url: "https://near.social/hack.near/widget/map.view" }}
+        />
+      </div>
     </div>
     {state.showModal && (
       <Widget
