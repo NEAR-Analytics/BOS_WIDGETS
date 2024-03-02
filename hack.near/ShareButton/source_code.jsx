@@ -1,6 +1,8 @@
 const externalLink = props.url;
 
-const clickbaitPrompt = props.clickbaitPrompt ?? `AHHHHHHHH`;
+const clickbaitPrompt =
+  props.clickbaitPrompt ??
+  `Help!!! We are under attack! Save us: ${externalLink}`;
 
 const twitterUrl = new URL("https://twitter.com/intent/tweet");
 twitterUrl.searchParams.set("text", clickbaitPrompt);
