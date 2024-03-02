@@ -497,7 +497,20 @@ const sendData = () => {
           console.log("Email already exists...");
           console.log(response.body.message + "test");
           console.log(errorMessage);
-        } else {
+        } 
+        
+        else if (
+          response.body.status === "error" &&
+          response.body.message ===
+            "Reached maximum number of participants, try another raffle."
+        ) {
+          setErrorMessage(
+            "Reached maximum number of participants, try another raffle."
+          );
+          setSuccessMessage("");
+        }
+        
+        else {
           setErrorMessage("Failed to submit data, try again");
           console.log("Failed to submit data, try again");
         }
@@ -635,3 +648,12 @@ return (
     </Container>
   </>
 );
+else if (
+          response.body.status === "error" &&
+          response.body.message ===
+            "Reached maximum number of participants, try another raffle."
+        ) {
+          setErrorMessage(
+            "Reached maximum number of participants, try another raffle."
+          );
+          setSuccessMessage("");
