@@ -70,10 +70,9 @@ const ActionIcons = styled.div`
   gap: 3px;
 `;
 
-const IconContainer = styled.div`
+const Icon = styled.div`
   position: absolute;
-    margin-left: 10px;
-
+  margin-left: 10px;
   margin-right: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -101,13 +100,13 @@ return (
         <img src="https://builders.mypinata.cloud/ipfs/QmYfcQG2phnosfTa4WT7BP2Dc6dd9ZumatiGnEwfX7rWzf" />
       </Logo>
       <SearchContainer>
-        <IconContainer>
-          {exists ? (
+        <Icon>
+          {valid ? (
             <i className="bi bi-check-lg"></i>
           ) : (
             <i className="bi bi-search"></i>
           )}
-        </IconContainer>
+        </Icon>
         <SearchBar
           type="text"
           onKeyDown={(e) => {
@@ -127,6 +126,12 @@ return (
         </ActionButton>
       </ActionIcons>
     </Toolbar>
-    <Widget src={path || "hack.near/widget/thing"} />
+    {path !== "" ? (
+      valid ? (
+        <Widget src="hack.near/widget/thing" props={{ path }} />
+      ) : (
+        <p>ERROR: NOTHING FOUND</p>
+      )
+    ) : null}
   </BrowserUI>
 );
