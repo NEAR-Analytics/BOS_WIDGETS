@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
-const gameId = props.gameId ?? "lumina";
-const appId = props.appId ?? "test";
+const gameId = props.gameId ?? "evisceration";
+const appId = props.appId ?? "lumina";
 
 const { handleClose } = props;
 
