@@ -10,6 +10,7 @@ const [selectedOption, setSelectedOption] = useState("");
 const widgets = Social.getr(`${context.accountId}/widget`);
 const getSelectedOptionEncoded = () => {
   const code = widgets[selectedOption][""];
+  console.log(code);
   const encoded = ethers.utils.sha256(Buffer.from(code));
 
   return encoded?.substring(2, encoded.length);
