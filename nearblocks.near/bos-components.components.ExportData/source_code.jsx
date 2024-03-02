@@ -234,7 +234,7 @@ function MainComponent({ network, id }) {
                         name="startdate"
                         id="startdate"
                         className="border flex items-center  border-gray-300 rounded-md px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
-                        defaultValue={initial.start}
+                        defaultValue={initial?.start}
                         onChange={handleStartDateChange}
                       />
                     </div>
@@ -258,7 +258,7 @@ function MainComponent({ network, id }) {
                         name="enddate"
                         id="enddate"
                         className="border flex items-center  border-gray-300 rounded-md px-2 py-2 w-11/12 mx-2 focus:outline-none text-center"
-                        defaultValue={initial.end}
+                        defaultValue={initial?.end}
                         onChange={handleEndDateChange}
                       />
                     </div>
