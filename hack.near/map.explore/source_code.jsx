@@ -7,17 +7,20 @@ const { handleClose } = props;
 const CardStyled = styled.div`
   width: 100%;
   height: 100%;
-  background: #f8f8f9;
+  background: #fff;
   gap: 10px;
   padding: 25px;
   margin: 0 auto;
   border-radius: 10px;
   overflow-y: scroll;
+  height: 100%;
 `;
 
 const CardForm = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: auto;
 `;
@@ -64,10 +67,24 @@ const Section = styled.div`
 return (
   <Modal>
     <ComponentWrapper>
-      <CardStyled name="create">
+      <CardStyled>
         <div className="d-flex flex-column align-items-center">
+          <img
+            src="https://builders.mypinata.cloud/ipfs/QmPkdyvWhpTdEmjRbCf6tmR3NH67W2DX4bqbqy3Mz5PThY"
+            style={{ width: "50%" }}
+          />
           <CardForm>
-            <Widget src="hack.near/widget/evisceration.button" props={{}} />
+            <Widget
+              src="hack.near/widget/evisceration.button"
+              props={{ accountId, gameId, appId }}
+            />
+            <button
+              style={{ width: "222px" }}
+              onClick={handleClose}
+              className="btn btn-secondary m-2"
+            >
+              escape
+            </button>
           </CardForm>
         </div>
       </CardStyled>
