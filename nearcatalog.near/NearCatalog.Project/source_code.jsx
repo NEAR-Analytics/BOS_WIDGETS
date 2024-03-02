@@ -258,7 +258,6 @@ const toggleBookmark = (p) => {
     bookmarkStatus: isFound ? "removed" : "added",
     bookmark: bookmark,
   });
-  console.log("new bookmark list: ", bookmark);
   Storage.set("nearcatalogBookmark", bookmark);
 }; //toggleBookmark
 
@@ -375,7 +374,7 @@ return (
                     <ul className="menu">
                       <li className="menu-item">
                         <a
-                          href={`https://nearcatalogsubmitform.sctuts.com/?p=1&pid=${props.id}&pname=${project.profile.name}&title=${project.profile.name}`}
+                          href={`https://submit.nearcatalog.xyz/?pid=${props.id}&pname=${project.profile.name}&title=${project.profile.name}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
