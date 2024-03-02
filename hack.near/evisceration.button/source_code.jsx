@@ -1,7 +1,7 @@
 const initialHealth = 10000;
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 const gameId = props.gameId ?? "evisceration";
-const appId = props.appId ?? "test";
+const appId = props.appId ?? "lumina";
 const clicks = Social.index(appId, `${accountId}-${gameId}`, {
   limit: 10000,
   order: "desc",
