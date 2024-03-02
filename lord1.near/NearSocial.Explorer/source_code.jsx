@@ -204,6 +204,7 @@ const lightColors = {
   ],
 };
 
+//const themeColor = props.themeColor || darkColors;
 const themeColor = props.themeColor || lightColors;
 
 // #####################################
@@ -739,7 +740,6 @@ let blockHeightData = fetch(
   `https://api.flipsidecrypto.com/api/v2/queries/6b01d203-0d80-4e70-84ee-c6aa37578ce8/data/latest`
 );
 blockHeightData = blockHeightData.body || [];
-
 const getMixData = (accountId) => {
   const myData = {};
   const initDataValue = {
@@ -754,6 +754,7 @@ const getMixData = (accountId) => {
     receivedLike: 0,
     receivedPoke: 0,
     receivedRepost: 0,
+    widgets: 0,
   };
   followers &&
     Object.values(followers).forEach((i) => {
@@ -857,6 +858,15 @@ const getMixData = (accountId) => {
     };
   });
 
+  widgets &&
+    Object.values(widgets[accountId]?.widget || {}).forEach(([i]) => {
+      const count = myData[i];
+      myData[i] = {
+        ...initDataValue,
+        ...count,
+        widgets: (count.widgets ?? 0) + 1,
+      };
+    });
   return myData;
 };
 
@@ -890,6 +900,7 @@ const splitTime = () => {
           receivedLike: 0,
           receivedPoke: 0,
           receivedRepost: 0,
+          widgets: 0,
         };
         const newCount = {
           follower: prevCount.follower + counts.follower,
@@ -903,6 +914,7 @@ const splitTime = () => {
           receivedLike: prevCount.receivedLike + counts.receivedLike,
           receivedPoke: prevCount.receivedPoke + counts.receivedPoke,
           receivedRepost: prevCount.receivedRepost + counts.receivedRepost,
+          widgets: prevCount.widgets + counts.widgets,
         };
         splitedData[blockHeightData[timeIndex].date] = newCount;
         break;
@@ -1048,6 +1060,13 @@ const MixChart = (
 
               id: 1,
             },
+            {
+              key: "widgets",
+              seriesName: "widgets",
+              type: "column",
+
+              id: 1,
+            },
           ],
           themeColor.chartColor,
           {
@@ -1072,7 +1091,7 @@ const SocialGraph = (
       className="shadow-sm rounded-4"
     >
       <Widget
-        key={Math.random()}
+        key={state.data}
         src="lord1.near/widget/SocialGraph"
         props={{
           accountIds: [state.data, ""],
@@ -1097,7 +1116,7 @@ return (
     >
       {PieChart}
       {SocialGraph}
-    </div>{" "}
+    </div>
     <div style={{ width: "100%", height: "20px" }}></div>
     <div
       style={{
