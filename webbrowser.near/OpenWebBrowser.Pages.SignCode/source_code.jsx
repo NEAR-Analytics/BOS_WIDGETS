@@ -29,12 +29,15 @@ return (
     </select>
     <button
       onClick={() => {
-        signMessage(getSelectedOptionEncoded()).then((signature) => {
+        signMessage(getSelectedOptionEncoded()).then(({signature, nonce}) => {
           Social.set({
             routes: {
               index: {
                 component: selectedOption,
-                signature,
+                signature: {
+                  value: signature,
+                  nonce
+                },
               },
             },
           });
