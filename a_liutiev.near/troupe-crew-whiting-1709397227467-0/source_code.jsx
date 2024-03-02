@@ -46,7 +46,7 @@ const srcDoc = `<!DOCTYPE html>
             top: 10px;
             right: 10px;
             padding: 10px;
-            background-color: #4a5568;
+            background-color: #374151;
             border-radius: 5px;
         }
     </style>
@@ -54,9 +54,9 @@ const srcDoc = `<!DOCTYPE html>
 
 <body class="bg-gray-100">
     <div class="tabs">
-        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2">Tab 1</a>
-        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2 ml-2">Tab 2</a>
-        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2 ml-2">Tab 3</a>
+        <a href="#" class="text-white inline-block">Home</a>
+        <a href="#" class="text-white inline-block">Shop</a>
+        <a href="#" class="text-white inline-block">Contact</a>
     </div>
 
     <div class="navbar p-4">
