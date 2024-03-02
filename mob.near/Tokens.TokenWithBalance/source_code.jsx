@@ -104,7 +104,9 @@ return (
       </div>
     </div>
     <span className="font-monospace fw-bold">
-      <MutedDecimals value={bigToString(adjustedBalance.toString())} />
+      <MutedDecimals
+        value={bigToString(adjustedBalance ? adjustedBalance.toString() : null)}
+      />
     </span>
   </Wrapper>
 );
