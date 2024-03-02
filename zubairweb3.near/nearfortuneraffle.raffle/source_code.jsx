@@ -515,20 +515,13 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const nftTitle = "Black Dragon Token - 652";
-const nftTitle2 = "Black Dragon Token - 531";
-
-console.log(nfts[0].metadata.title);
-console.log(nfts);
+const nftTitle = "ShardDog - 1555";
 
 const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (
-    nfts[i].metadata.title === nftTitle ||
-    nfts[i].metadata.title === nftTitle2
-  ) {
+  if (nfts[i].metadata.title === nftTitle) {
     State.update({ nftCheck: true });
     break;
   }
