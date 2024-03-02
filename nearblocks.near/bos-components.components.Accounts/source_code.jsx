@@ -3089,21 +3089,24 @@ const TokenHoldings = (props) => {
   }
   return (
     <Select.Root>
-      <Select.Trigger className="w-96 h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
+      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
         <span>
-          $
           {props.ft?.amount
-            ? dollarFormat(props.ft?.amount)
-            : props.ft?.amount ?? ''}
+            ? '$' + dollarFormat(props.ft?.amount)
+            : '$' + (props.ft?.amount ?? '')}
           <span className="bg-green-500 text-xs text-white rounded ml-2 px-1 p-1">
             {(props.ft?.tokens?.length || 0) + (nfts?.length || 0)}
           </span>
         </span>
         <ArrowDown className="w-4 h-4 fill-current text-gray-500 pointer-events-none" />
       </Select.Trigger>
-      <Select.Content>
-        <ScrollArea.Root className="w-96 h-72  overflow-hidden rounded-b-xl soft-shadow bg-white">
-          <ScrollArea.Viewport className="w-full h-full border z-50 pb-2">
+      <Select.Content
+        position="popper"
+        sideOffset={5}
+        className="SelectContent"
+      >
+        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white">
+          <ScrollArea.Viewport className="border z-50 pb-2">
             <div className="max-h-60">
               {props.ft?.tokens?.length > 0 && (
                 <>
@@ -3153,16 +3156,15 @@ const TokenHoldings = (props) => {
                             {token?.ft_metas?.price && (
                               <div className="text-right">
                                 <div>
-                                  $
                                   {token?.amountUsd
-                                    ? dollarFormat(token?.amountUsd)
-                                    : token.amountUsd ?? ''}
+                                    ? '$' + dollarFormat(token?.amountUsd)
+                                    : '$' + (token.amountUsd ?? '')}
                                 </div>
                                 <div className="text-gray-400">
-                                  @
                                   {token?.ft_metas?.price
-                                    ? Big(token?.ft_metas?.price).toString()
-                                    : token?.ft_metas?.price ?? ''}
+                                    ? '@' +
+                                      Big(token?.ft_metas?.price).toString()
+                                    : '@' + (token?.ft_metas?.price ?? '')}
                                 </div>
                               </div>
                             )}
@@ -3688,9 +3690,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -4752,9 +4752,7 @@ function mapRpcFunctionCallError(error) {
   }
   return UNKNOWN_ERROR;
 }
-function mapRpcNewReceiptValidationError(
-  error,
-) {
+function mapRpcNewReceiptValidationError(error) {
   const UNKNOWN_ERROR = { type: 'unknown' };
   if ('InvalidPredecessorId' in error) {
     return {
@@ -5598,7 +5596,7 @@ function MainComponent({ network, t, id }) {
     }
 
     function loadBalances() {
-      const fts = inventoryData.fts;
+      const fts = inventoryData?.fts;
       if (!fts?.length) {
         if (fts?.length === 0) setLoading(false);
         return;
@@ -5612,27 +5610,27 @@ function MainComponent({ network, t, id }) {
 
       Promise.all(
         fts.map((ft) => {
-          return ftBalanceOf(ft.contract, id).then((rslt) => {
+          return ftBalanceOf(ft?.contract, id).then((rslt) => {
             return { ...ft, amount: rslt };
           });
         }),
       ).then((results) => {
         results.forEach((rslt) => {
           const ftrslt = rslt;
-          const amount = rslt?.amount ? rslt?.amount : '';
+          const amount = rslt?.amount ?? 0;
 
           let sum = Big(0);
 
           let rpcAmount = Big(0);
 
-          if (amount) {
-            rpcAmount = ftrslt.ft_metas?.decimals
-              ? Big(amount).div(Big(10).pow(ftrslt.ft_metas?.decimals))
+          if (Number(amount)) {
+            rpcAmount = ftrslt?.ft_metas?.decimals
+              ? Big(amount).div(Big(10).pow(ftrslt?.ft_metas?.decimals))
               : 0;
           }
 
-          if (ftrslt.ft_metas?.price) {
-            sum = rpcAmount.mul(Big(ftrslt.ft_metas?.price));
+          if (ftrslt?.ft_metas?.price) {
+            sum = rpcAmount.mul(Big(ftrslt?.ft_metas?.price));
             total = total.add(sum);
 
             return pricedTokens.push({
@@ -5747,8 +5745,8 @@ function MainComponent({ network, t, id }) {
             setKey({
               block_hash: resp.block_hash,
               block_height: resp.block_height,
-              keys: resp.keys,
-              hash: resp.hash,
+              keys: resp?.keys,
+              hash: resp?.hash,
             });
           },
         )
@@ -5808,7 +5806,7 @@ function MainComponent({ network, t, id }) {
             )}
             {
               <Widget
-                src={`${config.ownerId}/widget/bos-components.components.Shared.Buttons`}
+                src={`${config?.ownerId}/widget/bos-components.components.Shared.Buttons`}
                 props={{
                   id: id,
                   config: config,
@@ -5827,10 +5825,12 @@ function MainComponent({ network, t, id }) {
               </h2>
               {tokenData?.name && (
                 <div className="flex items-center text-xs bg-gray-100 rounded-md px-2 py-1">
-                  <div className="truncate max-w-[110px]">{tokenData.name}</div>
-                  {tokenData.website && (
+                  <div className="truncate max-w-[110px]">
+                    {tokenData?.name}
+                  </div>
+                  {tokenData?.website && (
                     <a
-                      href={tokenData.website}
+                      href={tokenData?.website}
                       className="ml-1"
                       target="_blank"
                       rel="noopener noreferrer nofollow"
@@ -5852,7 +5852,7 @@ function MainComponent({ network, t, id }) {
                   <div className="w-full md:w-3/4 break-words">
                     {accountData?.amount
                       ? yoctoToNear(accountData?.amount, true)
-                      : ''}{' '}
+                      : accountData?.amount ?? ''}{' '}
                     Ⓝ
                   </div>
                 )}
@@ -5866,18 +5866,18 @@ function MainComponent({ network, t, id }) {
                     <Skeleton className="h-4 w-32" />
                   ) : (
                     <div className="w-full md:w-3/4 break-words">
-                      {accountData.amount
+                      {accountData?.amount && statsData?.near_price
                         ? '$' +
                           fiatValue(
-                            yoctoToNear(accountData.amount, false),
-                            statsData.near_price,
+                            yoctoToNear(accountData?.amount, false),
+                            statsData?.near_price,
                           )
                         : ''}{' '}
                       <span className="text-xs">
                         (@ $
-                        {statsData.near_price
-                          ? dollarFormat(statsData.near_price)
-                          : ''}{' '}
+                        {statsData?.near_price
+                          ? dollarFormat(statsData?.near_price)
+                          : statsData?.near_price ?? ''}{' '}
                         / Ⓝ)
                       </span>
                     </div>
@@ -5894,7 +5894,7 @@ function MainComponent({ network, t, id }) {
                     loading={loading}
                     ft={ft}
                     id={id}
-                    appUrl={config.appUrl}
+                    appUrl={config?.appUrl}
                   />
                 </div>
               </div>
@@ -5920,7 +5920,7 @@ function MainComponent({ network, t, id }) {
                     <div className="w-full break-words xl:mt-0 mt-2">
                       {accountData?.locked
                         ? yoctoToNear(accountData?.locked, true) + ' Ⓝ'
-                        : ''}
+                        : accountData?.locked ?? ''}
                     </div>
                   )}
                 </div>
@@ -5934,7 +5934,7 @@ function MainComponent({ network, t, id }) {
                     <div className="w-full break-words xl:mt-0 mt-2">
                       {accountData?.storage_usage
                         ? weight(accountData?.storage_usage)
-                        : ''}
+                        : accountData?.storage_usage ?? ''}
                     </div>
                   )}
                 </div>
@@ -5997,7 +5997,7 @@ function MainComponent({ network, t, id }) {
                     >
                       <a className="text-green-500 hover:no-underline">
                         {shortenAddress(
-                          deploymentData.receipt_predecessor_account_id,
+                          deploymentData.receipt_predecessor_account_id ?? '',
                         )}
                       </a>
                     </a>
@@ -6007,7 +6007,7 @@ function MainComponent({ network, t, id }) {
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
-                        {shortenAddress(deploymentData.transaction_hash)}
+                        {shortenAddress(deploymentData.transaction_hash ?? '')}
                       </a>
                     </a>
                   </div>
@@ -6093,7 +6093,7 @@ function MainComponent({ network, t, id }) {
               <Tabs.Content value={tabs[0]}>
                 {
                   <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Address.Transactions`}
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.Transactions`}
                     props={{
                       network: network,
                       t: t,
@@ -6108,7 +6108,7 @@ function MainComponent({ network, t, id }) {
               <Tabs.Content value={tabs[1]}>
                 {
                   <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Address.TokenTransactions`}
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.TokenTransactions`}
                     props={{
                       network: network,
                       id: id,
@@ -6123,7 +6123,7 @@ function MainComponent({ network, t, id }) {
               <Tabs.Content value={tabs[2]}>
                 {
                   <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Address.NFTTransactions`}
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.NFTTransactions`}
                     props={{
                       network: network,
                       id: id,
@@ -6138,7 +6138,7 @@ function MainComponent({ network, t, id }) {
               <Tabs.Content value={tabs[3]}>
                 {
                   <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Address.AccessKeys`}
+                    src={`${config?.ownerId}/widget/bos-components.components.Address.AccessKeys`}
                     props={{
                       network: network,
                       id: id,
