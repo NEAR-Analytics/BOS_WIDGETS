@@ -87,9 +87,7 @@ const handleProposal = () => {
     }
   ];
   if (state.storage === null && state.tokenAddress) {
-    const depositInYocto = Big(0.0125)
-      .mul(Big(10).pow(ftMetadata.decimals))
-      .toFixed();
+    const depositInYocto = Big(0.125).mul(Big(10).pow(24)).toFixed();
     calls.push({
       contractName: state.tokenAddress,
       methodName: "storage_deposit",
@@ -225,7 +223,7 @@ const res = useCache(
 );
 
 if (!res) {
-  return <></>;
+  return <Widget src="nearui.near/widget/Feedback.Spinner" />;
 }
 
 return (
