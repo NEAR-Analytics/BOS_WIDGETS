@@ -54,9 +54,9 @@ const srcDoc = `<!DOCTYPE html>
 
 <body class="bg-gray-100">
     <div class="tabs">
-        <button class="text-white">Tab 1</button>
-        <button class="text-white ml-2">Tab 2</button>
-        <button class="text-white ml-2">Tab 3</button>
+        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2">Tab 1</a>
+        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2 ml-2">Tab 2</a>
+        <a href="#" class="text-white inline-block bg-blue-500 px-4 py-2 ml-2">Tab 3</a>
     </div>
 
     <div class="navbar p-4">
@@ -64,47 +64,59 @@ const srcDoc = `<!DOCTYPE html>
     </div>
 
     <div class="hero">
-        <h1>AI Model Traded</h1>
+        <h1>AI Trading Model Marketplace</h1>
     </div>
 
     <div class="container mx-auto p-8">
         <div class="flex flex-wrap -m-4">
             <div class="p-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?spy" alt="Product">
-                    <div class="card-content">
-                        <h3 class="text-lg font-bold mb-2">Trading Bot V1</h3>
-                        <p class="text-gray-600 mb-4">Description of the product goes here.</p>
-                        <p class="text-gray-600 ">Description of the product goes here.</p>
-                        <span class="text-xl font-bold text-blue-500">$19.99</span>
-                        <a href="#" class="btn ml-4">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
+    <div class="card">
+        <img src="https://source.unsplash.com/500x300/?trading,ai" alt="AlphaTrade Architect">
+        <div class="card-content">
+            <h3 class="text-lg font-bold mb-2">AlphaTrade Architect</h3>
+            <p class="text-gray-600 mb-4">Unleash the power of market insights with AlphaTrade Architect, your AI-powered trading companion designed to adapt and evolve with the market.</p>
+            <p class="text-gray-600 mb-1">30-day APY: 2.5%</p>
+            <span class="text-xl font-bold text-blue-500">$19.99</span>
+            <a href="#" class="btn ml-4">Add to Cart</a>
+            <!-- 30 day APY Yield -->
+            
+            
+        </div>
+    </div>
+</div>
 
-            <div class="p-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?robot" alt="Product">
-                    <div class="card-content">
-                        <h3 class="text-lg font-bold mb-2">Another Product</h3>
-                        <p class="text-gray-600 mb-4">Description of another product goes here.</p>
-                        <span class="text-xl font-bold text-blue-500">$29.99</span>
-                        <a href="#" class="btn ml-4">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
+<div class="p-4">
+    <div class="card">
+        <img src="https://source.unsplash.com/500x300/?quantum,ai" alt="Quantum Quotient Quotator">
+        <div class="card-content">
+            <h3 class="text-lg font-bold mb-2">Quantum Quotient Quotator</h3>
+            <p class="text-gray-600 mb-4">Dive into the future of trading with Quantum Quotient Quotator, where cutting-edge AI meets community-driven innovation.</p>
+            <p class="text-gray-600 mb-1">30-day APY: 3.0%</p>
+            <span class="text-xl font-bold text-blue-500">$29.99</span>
+            <a href="#" class="btn ml-4">Add to Cart</a>
+            <!-- 30 day APY Yield -->
+            
+            
+        </div>
+    </div>
+</div>
 
-            <div class="p-4">
-                <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?secretservice" alt="Product">
-                    <div class="card-content">
-                        <h3 class="text-lg font-bold mb-2">Best Product Ever</h3>
-                        <p class="text-gray-600 mb-4">Description of the best product goes here.</p>
-                        <span class="text-xl font-bold text-blue-500">$39.99</span>
-                        <a href="#" class="btn ml-4">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
+<div class="p-4">
+    <div class="card">
+        <img src="https://source.unsplash.com/500x300/?market,ai" alt="Market Maven Matrix">
+        <div class="card-content">
+            <h3 class="text-lg font-bold mb-2">Market Maven Matrix</h3>
+            <p class="text-gray-600 mb-4">Elevate your trading game with Market Maven Matrix, the pinnacle of AI-driven trading solutions.</p>
+            <p class="text-gray-600 mb-1">30-day APY: 3.5%</p>
+            <span class="text-xl font-bold text-blue-500">$39.99</span>
+            <a href="#" class="btn ml-4">Add to Cart</a>
+            <!-- 30 day APY Yield -->
+            
+            
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
 
