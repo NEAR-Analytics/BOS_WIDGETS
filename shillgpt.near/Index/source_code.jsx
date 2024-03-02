@@ -1340,12 +1340,22 @@ return (
                       </div>
                       <div class="col-auto">
                         {state.depositToken && (
-                          <span class="form-text">
+                          <span
+                            class="form-text"
+                            role="button"
+                            onClick={() =>
+                              State.update({
+                                depositAmount: Big(
+                                  state.userBalances[state.depositToken] ?? 0
+                                ).toFixed(2),
+                              })
+                            }
+                          >
                             Your balance:{" "}
                             {Big(
                               state.userBalances[state.depositToken] ?? 0
                             ).toFixed(2)}
-                            {`$${allTokens[state.depositToken].name}`}
+                            {`${allTokens[state.depositToken].name}`}
                           </span>
                         )}
                       </div>
