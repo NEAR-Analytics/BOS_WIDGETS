@@ -474,7 +474,7 @@ const sendData = () => {
     },
     body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
       fullname
-    )}`,
+    )}&category=cartel`,
   })
     .then((response) => {
       console.log(response.body.status);
