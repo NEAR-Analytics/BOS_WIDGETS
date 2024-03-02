@@ -49,11 +49,13 @@ return (
     </div>
     <div className="actions">
       {tokens
-        ? Object.entries(tokens).map(([tokenId, balance]) => (
-            <div key={tokenId} className="token">
-              {renderToken(tokenId, balance)}
-            </div>
-          ))
+        ? Object.entries(tokens)
+            .filter(([tokenId, balance]) => balance !== null)
+            .map(([tokenId, balance]) => (
+              <div key={tokenId} className="token">
+                {renderToken(tokenId, balance)}
+              </div>
+            ))
         : "Loading"}
     </div>
   </Wrapper>
