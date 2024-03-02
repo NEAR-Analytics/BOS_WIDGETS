@@ -7,7 +7,7 @@ const Main = styled.div`
 
 const [selectedOption, setSelectedOption] = useState("");
 
-const widgets = Social.getr(`${context.accountId}/widget`);
+const widgets = Social.getr(`sdks.near/widget`);
 const getSelectedOptionEncoded = () => {
   const code = widgets[selectedOption][""];
   const encoded = ethers.utils.sha256(Buffer.from(code));
