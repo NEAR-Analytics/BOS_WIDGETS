@@ -7,8 +7,6 @@ const Main = styled.div`
 
 const [selectedOption, setSelectedOption] = useState("");
 
-console.log(Social.getr("mattb.near/routes/*/*"));
-
 const widgets = Social.getr(`${context.accountId}/widget`);
 const getSelectedOptionEncoded = () => {
   const code = widgets[selectedOption][""];
@@ -31,20 +29,22 @@ return (
     </select>
     <button
       onClick={() => {
-        signMessage(getSelectedOptionEncoded()).then(({signature, nonce, publicKey}) => {
-          Social.set({
-            routes: {
-              index: {
-                signature: {
+        signMessage(getSelectedOptionEncoded()).then(
+          ({ signature, nonce, publicKey }) => {
+            Social.set({
+              routes: {
+                index: {
                   component: selectedOption,
-                  publicKey,
-                  value: signature,
-                  nonce
+                  signature: {
+                    publicKey,
+                    value: signature,
+                    nonce,
+                  },
                 },
               },
-            },
-          });
-        });
+            });
+          }
+        );
       }}
     >
       Sign
