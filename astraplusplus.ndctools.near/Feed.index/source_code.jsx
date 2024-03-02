@@ -1,27 +1,55 @@
-const [followingAccounts, setFollowingAccounts] = useState([]);
+const getFollowedDAOs = (accountId) => {
+  let following = Social.keys(`${accountId}/graph/follow/*`, "final", {
+    return_type: "BlockHeight",
+  });
 
-const graph = context.accountId
-  ? Social.keys(`${context.accountId}/graph/follow/*`, "final")
-  : {};
+  if (following === null) return null;
 
-useEffect(() => {
-  if (graph !== null) {
-    const accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    setFollowingAccounts(accounts);
-  }
-}, [graph, context.accountId]);
+  following = Object.keys(following[accountId].graph.follow || {}).filter(
+    (account) => account.endsWith(".sputnik-dao.near"),
+  );
+  return following;
+};
+
+
+const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
+
+if (following === null) {
+  return "";
+}
+
+const feeds = [
+  {
+    name: "daos followed",
+    data: {
+      sources: [
+        {
+          domain: "post",
+          key: "main",
+        },
+      ],
+      typeWhitelist: ["md"],
+      accountWhitelist: following,
+    },
+  },
+];
 
 const renderHeader = () => (
   <div>
-    <h2 className="h2 mb-2">Social Feed</h2>
+    <h2 className="h2">Social Feed</h2>
+    <p className="text-muted">Social posts from the DAOs you follow</p>
+
     <div>
-      <Widget
-        key="reg-feed"
-        src="near/widget/v1.Posts.Feed"
-        props={{
-          accounts: followingAccounts.length > 0 ? followingAccounts : undefined
-        }}
-      />
+      {following.length < 1 ? (
+        <div className="text-muted mt-4">You are not following any DAOs</div>
+      ) : (
+        <Widget
+          src="efiz.near/widget/every.post"
+          props={{
+            ...feeds[0].data,
+          }}
+        />
+      )}
     </div>
   </div>
 );
