@@ -21,10 +21,13 @@ const X_LOGO_URL =
 const X_BLACK_LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreie3fgyixcxtqccylopewsodmfmci2ub7xwpx6aurimhuzxqytbyka";
 
+const GOOGLE_LOGO_URL = "https://ipfs.near.social/ipfs/bafkreidnwejlnl4b4kdlqwoivcro4n46fmnq43imzoy3c4ttlrfc2qs4vu";
+
 const REGISTRY_CONTRACT = "checks.integrations.near";
 const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
 }&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
+const GOOGLE_AUTH_URL = "";
 
 const [platform, setPlatform] = useState("");
 const [evmAddress, setEvmAddress] = useState("");
@@ -562,6 +565,20 @@ const AuthMethods = () => {
           <img src={X_LOGO_URL} width="100%" />
         </span>
         Authenticate on X
+      </AuthButton>
+      <AuthButton
+        as="a"
+        style={disabledAuthButtonStyles}
+        href={GOOGLE_AUTH_URL}
+        background="#FFF"
+        color="#000"
+        border="rgba(0,0,0,.15)"
+        badgeSize="17px"
+      >
+        <span className="badge">
+          <img src={GOOGLE_LOGO_URL} width="100%" />
+        </span>
+        Authenticate on Google
       </AuthButton>
     </>
   );
