@@ -71,7 +71,7 @@ const srcDoc = `<!DOCTYPE html>
         <div class="flex flex-wrap -m-4">
             <div class="p-4">
                 <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?product" alt="Product">
+                    <img src="https://source.unsplash.com/500x300/?spy" alt="Product">
                     <div class="card-content">
                         <h3 class="text-lg font-bold mb-2">Trading Bot V1</h3>
                         <p class="text-gray-600 mb-4">Description of the product goes here.</p>
@@ -84,7 +84,7 @@ const srcDoc = `<!DOCTYPE html>
 
             <div class="p-4">
                 <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?product" alt="Product">
+                    <img src="https://source.unsplash.com/500x300/?robot" alt="Product">
                     <div class="card-content">
                         <h3 class="text-lg font-bold mb-2">Another Product</h3>
                         <p class="text-gray-600 mb-4">Description of another product goes here.</p>
@@ -96,7 +96,7 @@ const srcDoc = `<!DOCTYPE html>
 
             <div class="p-4">
                 <div class="card">
-                    <img src="https://source.unsplash.com/500x300/?product" alt="Product">
+                    <img src="https://source.unsplash.com/500x300/?secretservice" alt="Product">
                     <div class="card-content">
                         <h3 class="text-lg font-bold mb-2">Best Product Ever</h3>
                         <p class="text-gray-600 mb-4">Description of the best product goes here.</p>
