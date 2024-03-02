@@ -83,11 +83,20 @@ const Container = styled.div`
     border: none;
   }
 `;
-const tabs = {
+const retentionTabs = {
   left: "User Retention (monthly)",
   middle: "User Retention (annually)",
 };
-const setTab = (tab) => State.update({ tab });
+const developmentTabs = {
+  weekly: "weekly development",
+  monthly: "monthly development",
+};
+
+const devTabs = {
+  weekly: "weekly dev",
+  monthly: "monthly dev",
+};
+const setTab = (tabsGroup, tabName) => State.update({ [tabsGroup]: tabName });
 
 const queryHashes = [
   { id: 0, hash: "b5367144-cab7-4958-8aee-47413aee5f48" }, // year
@@ -100,6 +109,8 @@ const queryHashes = [
   { id: 11, hash: "c19a9392-ba34-4531-8e25-06d9b8d8715f" }, // new and active dev(weekly)
   { id: 12, hash: "9c80469d-a30e-442e-98a4-52def7a48a8f" }, // retention monthly
   { id: 13, hash: "0cc4fe9b-8e71-4ea9-91da-ea56846295c8" }, // retention yearly
+  { id: 14, hash: "f75d75a0-66ad-4031-acf4-c58c7f52d3db" }, // new and active dev(monthly)
+  { id: 15, hash: "60c238f4-1e95-4780-b7fd-257dd8309c46" }, // trxs monthly
 ];
 
 State.init({
@@ -107,7 +118,9 @@ State.init({
   data: [],
   isLoading: true,
   error: [],
-  tab: tabs.left,
+  retentionTabs: retentionTabs.left,
+  developmentTabs: developmentTabs.weekly,
+  devTabs: devTabs.weekly,
 });
 
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
@@ -379,29 +392,24 @@ let header = (
             overlay={<Tooltip> Number of developers </Tooltip>}
           >
             <div>
-              {" "}
               <Widget src="lord1.near/widget/header-dynamic" props={singers} />
             </div>
-          </OverlayTrigger>{" "}
+          </OverlayTrigger>
         </div>
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
             overlay={
-              <Tooltip>
-                {" "}
-                Number of transactions (build + update + both){" "}
-              </Tooltip>
+              <Tooltip>Number of transactions (build + update + both)</Tooltip>
             }
           >
             <div>
-              {" "}
               <Widget
                 src="lord1.near/widget/header-dynamic"
                 props={total_trxs}
               />
             </div>
-          </OverlayTrigger>{" "}
+          </OverlayTrigger>
         </div>
         <div className="col-md-2">
           <OverlayTrigger
@@ -409,42 +417,38 @@ let header = (
             overlay={<Tooltip> Number of components created </Tooltip>}
           >
             <div>
-              {" "}
               <Widget src="lord1.near/widget/header-dynamic" props={widget} />
             </div>
-          </OverlayTrigger>{" "}
+          </OverlayTrigger>
         </div>
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
             overlay={
               <Tooltip>
-                {" "}
                 Deposited volume in Near token for BOS development to
                 (social.near) contract
               </Tooltip>
             }
           >
             <div>
-              {" "}
               <Widget
                 src="lord1.near/widget/header-dynamic"
                 props={update_trxs}
               />
             </div>
-          </OverlayTrigger>{" "}
-        </div>{" "}
+          </OverlayTrigger>
+        </div>
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
             overlay={<Tooltip>How many fork done by users so far</Tooltip>}
           >
             <div>
-              {" "}
               <Widget src="lord1.near/widget/header-dynamic" props={credits} />
             </div>
-          </OverlayTrigger>{" "}
-        </div>{" "}
+          </OverlayTrigger>
+        </div>
         <div className="col-md-2">
           <OverlayTrigger
             placement="top"
@@ -458,14 +462,13 @@ let header = (
             }
           >
             <div>
-              {" "}
               <Widget
                 src="lord1.near/widget/header-dynamic"
                 props={build_trxs}
               />
             </div>
-          </OverlayTrigger>{" "}
-        </div>{" "}
+          </OverlayTrigger>
+        </div>
       </div>
     </div>
   </div>
@@ -475,8 +478,27 @@ let zero = (
     className="my-4 shadow-sm pb-2 rounded-4"
     style={{ background: themeColor?.sbt_area?.section_bg }}
   >
-    {" "}
-    <div className="row w-100 pb-2 px-2 mx-0">
+    <Container>
+      <ul className="tabContent">
+        {Object.values(developmentTabs).map((tab) => (
+          <li key={tab} className="tab-item">
+            <button
+              className={`${state.developmentTabs === tab ? "active" : ""}`}
+              aria-current="page"
+              onClick={() => setTab("developmentTabs", tab)}
+            >
+              {tab}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </Container>
+    <div
+      style={{
+        display: state.developmentTabs === developmentTabs.weekly ? "" : "none",
+      }}
+      className="row w-100 pb-2 px-2 mx-0"
+    >
       <div className="col-md-6">
         <Widget
           src="lord1.near/widget/mix-chart"
@@ -511,8 +533,8 @@ let zero = (
               stacking: "normal",
             }
           )}
-        />{" "}
-      </div>{" "}
+        />
+      </div>
       <div className="  col-md-6">
         <Widget
           src="lord1.near/widget/mix-chart"
@@ -547,8 +569,89 @@ let zero = (
               stacking: "normal",
             }
           )}
-        />{" "}
-      </div>{" "}
+        />
+      </div>
+    </div>
+
+    <div
+      style={{
+        display:
+          state.developmentTabs === developmentTabs.monthly ? "" : "none",
+      }}
+      className="row w-100 pb-2 px-2 mx-0"
+    >
+      <div className="col-md-6">
+        <Widget
+          src="lord1.near/widget/mix-chart"
+          props={getMixProps(
+            state.data?.hash15?.data,
+            "date",
+            [
+              {
+                key: "total_trxs",
+                seriesName: "Total Trxs",
+                type: "spline",
+                id: 1,
+              },
+              {
+                key: "forks",
+                seriesName: "Forks",
+                type: "column",
+                id: 1,
+              },
+
+              {
+                key: "widget",
+                seriesName: "Widget",
+                type: "column",
+                id: 1,
+              },
+            ],
+            themeColor.chartColor,
+            {
+              title: "Development Trend on monthly basis",
+              subtitle: "",
+              stacking: "normal",
+            }
+          )}
+        />
+      </div>
+      <div className="  col-md-6">
+        <Widget
+          src="lord1.near/widget/mix-chart"
+          props={getMixProps(
+            state.data?.hash15?.data,
+            "date",
+            [
+              {
+                key: "cum_widget",
+                seriesName: "Total Widgets",
+                type: "areaspline",
+                id: 2,
+              },
+
+              {
+                key: "cum_total_trxs",
+                seriesName: "Total Trxs",
+                type: "areaspline",
+                id: 2,
+              },
+              {
+                key: "cum_forks",
+                seriesName: "Total Forks",
+                type: "areaspline",
+                id: 2,
+              },
+            ],
+            themeColor.chartColor,
+            {
+              title: "Development Growth on monthly basis",
+              subtitle: "",
+              stacking: "normal",
+            }
+          )}
+        />
+      </div>
     </div>
   </div>
 );
@@ -561,41 +664,97 @@ let first = (
     <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
     <div className="row w-100 pb-2 px-2 mx-0">
       <div className=" col-12 col-md-8">
-        <Widget
-          src="lord1.near/widget/mix-chart"
-          props={getMixProps(
-            state.data?.hash11?.data,
-            "date",
-            [
+        <Container>
+          <ul className="tabContent">
+            {Object.values(devTabs).map((tab) => (
+              <li key={tab} className="tab-item">
+                <button
+                  className={`${state.devTabs === tab ? "active" : ""}`}
+                  aria-current="page"
+                  onClick={() => setTab("devTabs", tab)}
+                >
+                  {tab}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Container>
+        <div
+          style={{ display: state.devTabs === devTabs.weekly ? "" : "none" }}
+        >
+          <Widget
+            src="lord1.near/widget/mix-chart"
+            props={getMixProps(
+              state.data?.hash11?.data,
+              "date",
+              [
+                {
+                  key: "new",
+                  seriesName: "New Dev",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "old",
+                  seriesName: "Returned Dev",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "cum",
+                  seriesName: "Total Dev",
+                  type: "spline",
+                  id: 2,
+                },
+              ],
+              themeColor.chartColor,
               {
-                key: "new",
-                seriesName: "New Dev",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "old",
-                seriesName: "Returned Dev",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "cum",
-                seriesName: "Total Dev",
-                type: "spline",
-                id: 2,
-              },
-            ],
-            themeColor.chartColor,
-            {
-              title: "Number of weekly devs",
-              subtitle: "",
-              stacking: "normal",
-            }
-          )}
-        />{" "}
-      </div>
+                title: "Number of weekly devs",
+                subtitle: "",
+                stacking: "normal",
+              }
+            )}
+          />
+        </div>
 
+        <div
+          style={{ display: state.devTabs === devTabs.monthly ? "" : "none" }}
+        >
+          <Widget
+            src="lord1.near/widget/mix-chart"
+            props={getMixProps(
+              state.data?.hash14?.data,
+              "date",
+              [
+                {
+                  key: "new",
+                  seriesName: "New Dev",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "old",
+                  seriesName: "Returned Dev",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "cum",
+                  seriesName: "Total Dev",
+                  type: "spline",
+                  id: 2,
+                },
+              ],
+              themeColor.chartColor,
+              {
+                title: "Number of monthly devs",
+                subtitle: "",
+                stacking: "normal",
+              }
+            )}
+          />
+        </div>
+      </div>
       <div className=" col-12 col-md-4">
         <div
           style={{ background: themeColor?.sbt_area?.card_bg }}
@@ -621,7 +780,7 @@ let first = (
               }
             )}
           />
-        </div>{" "}
+        </div>
       </div>
     </div>
   </div>
@@ -832,11 +991,10 @@ let fourth = (
   <div
     style={{
       background: themeColor?.sbt_area?.section_bg,
-      display: state.tab === tabs.left ? "" : "none",
+      display: state.retentionTabs === retentionTabs.left ? "" : "none",
     }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    {" "}
     <div className="row w-100 pb-2 px-2 mx-0">
       <div
         style={{ background: themeColor?.sbt_area?.card_bg }}
@@ -980,8 +1138,8 @@ let fourth = (
               },
             ],
           }}
-        />{" "}
-      </div>{" "}
+        />
+      </div>
     </div>
   </div>
 );
@@ -989,7 +1147,7 @@ let fifth = (
   <div
     style={{
       background: themeColor?.sbt_area?.section_bg,
-      display: state.tab === tabs.middle ? "" : "none",
+      display: state.retentionTabs === retentionTabs.middle ? "" : "none",
     }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
@@ -998,7 +1156,6 @@ let fifth = (
         style={{ background: themeColor?.sbt_area?.card_bg }}
         className="shadow-sm rounded-2 overflow-auto"
       >
-        {" "}
         <Widget
           src="lord1.near/widget/table-pagination"
           props={{
@@ -1055,7 +1212,7 @@ let fifth = (
               },
             ],
           }}
-        />{" "}
+        />
       </div>
     </div>
   </div>
@@ -1072,12 +1229,12 @@ return (
       <div>
         <Container>
           <ul className="tabContent">
-            {Object.values(tabs).map((tab) => (
+            {Object.values(retentionTabs).map((tab) => (
               <li key={tab} className="tab-item">
                 <button
-                  className={`${state.tab === tab ? "active" : ""}`}
+                  className={`${state.retentionTabs === tab ? "active" : ""}`}
                   aria-current="page"
-                  onClick={() => setTab(tab)}
+                  onClick={() => setTab("retentionTabs", tab)}
                 >
                   {tab}
                 </button>
