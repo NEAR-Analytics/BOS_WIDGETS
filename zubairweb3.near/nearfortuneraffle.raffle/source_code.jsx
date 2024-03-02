@@ -179,9 +179,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
           <br />
           <b>
             Sharddog - 155 <br />
-            Black Dragon Token - 531
-          </b>{" "}
-          <br />
+          </b>
         </div>
       </div>
     </div>
@@ -574,11 +572,8 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            <b>If you have one of the following:</b> <br />
-            <b style={{ color: "purple" }}>
-              - Sharddog 155
-              <br /> - Sharddog 155
-            </b>
+            <b>If you have one of the following NFT:</b> <br />
+            <b style={{ color: "purple" }}>- Sharddog 155</b>
             <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
