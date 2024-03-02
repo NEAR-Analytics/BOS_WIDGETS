@@ -68,7 +68,7 @@ const adjustedBalance =
 
 const name = metadata?.name || "";
 const icon = metadata?.icon;
-const symbol = metadata?.symbol || tokenAccountId;
+const symbol = metadata?.symbol || tokenId;
 
 const Wrapper = styled.div`
 .token-badge {
@@ -96,7 +96,10 @@ return (
       <div className="token-name text-truncate" title={name}>
         {name}
       </div>
-      <div title={tokenAccountId}>
+      <div
+        title={tokenId}
+        className="text-nowrap overflow-hidden d-flex align-items-center"
+      >
         {icon && <img src={icon} alt="Token Icon" />}
         <span className="font-monospace align-middle text-truncate">
           {symbol}
