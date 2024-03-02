@@ -470,7 +470,7 @@ const sendData = () => {
     },
     body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
       fullname
-    )}`,
+    )}&category=nearweek`,
   })
     .then((response) => {
       console.log(response.body.status);
