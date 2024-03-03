@@ -1,8 +1,11 @@
-const creatorId = props.creatorId ?? "hack.near";
-const appId = props.appId ?? "city.app";
-
 const config = {
-  theme: {},
+  theme: {
+    // add key values to define colors
+    // "--main-color": "blue",
+    // "--secondary-color": "red",
+    // background: "var(--main-color)",
+    // color: "var(--secondary-color)",
+  },
   layout: {
     src: "devs.near/widget/Layout",
     props: {
@@ -11,31 +14,23 @@ const config = {
   },
   blocks: {
     Header: () => (
-      <>
-        <Widget
-          src="hack.near/widget/Navbar"
-          props={{ routes: config.router.routes, creatorId, appId }}
-        />
-      </>
+      <Widget
+        src="hack.near/widget/Navbar"
+        props={{ routes: config.router.routes, ...passProps }}
+      />
     ),
     Footer: () => (
-      <>
-        <Widget
-          src="hack.near/widget/Footer"
-          props={{
-            creatorId,
-            github: "https://github.com/nearbuilders/city",
-            twitter: "https://x.com/nearbuilders",
-          }}
-        />
-      </>
+      <Widget
+        src="hack.near/widget/Footer"
+        props={{ metadata, ...passProps }}
+      />
     ),
   },
   router: {
     param: "page",
     routes: {
       home: {
-        path: "hack.near/widget/page.home",
+        path: "hack.near/widget/page.index",
         blockHeight: "final",
         init: {
           name: "Home",
@@ -43,7 +38,7 @@ const config = {
         default: true,
       },
       events: {
-        path: "buildhub.near/widget/events.Calendar",
+        path: "hack.near/widget/events.Calendar",
         blockHeight: "final",
         init: {
           name: "Events",
@@ -56,12 +51,19 @@ const config = {
           name: "Map",
         },
       },
+      feed: {
+        path: "hack.near/widget/page.feed",
+        blockHeight: "final",
+        init: {
+          name: "Social",
+        },
+      },
     },
   },
 };
 
 const Root = styled.div`
-font-family: Courier;
+  // you can override classnames here
 `;
 
 return (
