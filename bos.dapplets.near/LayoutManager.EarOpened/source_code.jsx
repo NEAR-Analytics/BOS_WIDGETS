@@ -20,7 +20,7 @@ return widgets && widgets.length ? (
     <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/>
     <Widget
       src="bos.dapplets.near/widget/LayoutManager.Buttons.Plus"
-      props={{ widgets, handleOpenMenu }}
+      props={{ widgets, onClick: handleOpenMenu }}
     />
   </>
 ) : (
@@ -38,7 +38,7 @@ return widgets && widgets.length ? (
     )}
     <WrapperButtonPlusDefault>
       <Widget
-        src='bos.dapplets.near/widget/LayoutManager.Buttons.PlusDefault'
+        src='bos.dapplets.near/widget/LayoutManager.Buttons.Plus'
         props={{ onClick: handleOpenMenu }}
       />
     </WrapperButtonPlusDefault>
