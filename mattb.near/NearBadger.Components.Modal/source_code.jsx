@@ -1,4 +1,5 @@
 const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
+const FarcasterLib = VM.require("mattb.near/widget/NearBadger.Libs.Farcaster");
 
 const { onClose } = props;
 const POLYGON_CHAIN_ID = 137;
@@ -9,6 +10,8 @@ State.init({
   chainId: 0,
   handle: null,
   checkedHandle: false,
+  platform: "",
+  addresses: []
 });
 
 if (!Ethers.provider()) {
@@ -34,6 +37,7 @@ if (!Ethers.provider()) {
 }
 
 if (
+  state.platform === "lens" &&
   state.address &&
   state.chainId == POLYGON_CHAIN_ID &&
   !state.checkedHandle
@@ -206,6 +210,12 @@ const Requirement = styled.li`
             left:-15px;
         }
 
+        &.show-description {
+          + .description {
+              display:block;
+          }
+        }
+
         &.failed {
             + .description {
                 display:block;
@@ -295,6 +305,11 @@ const Description = styled.li`
             border:1px solid rgba(0,0,0,.05);
         }
     }
+
+    input {
+      max-width:150px;
+      margin-top:10px;
+    }
 `;
 
 const Warning = styled.div`
@@ -316,37 +331,147 @@ const Warning = styled.div`
     }
 `;
 
+const Grid = styled.div`
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+`;
+
+const Cell = styled.div`
+  padding:10px;
+  flex-grow:1;
+  max-width:150px;
+
+  :first-of-type {
+    padding-left:0;
+  }
+
+  :last-of-type {
+    padding-right:0;
+  }
+`;
+
+const Option = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  cursor:pointer;
+  width:100%;
+  height:calc(150px - 20px);
+  border:3px solid rgba(0,0,0,.1);
+  border-radius:15px;
+  box-shadow: 0 0 0 0 rgba(0,0,0,.02);
+  transition: all .2s;
+
+  :hover {
+    box-shadow: 0 0 0 4px rgba(0,0,0,.02);
+    border:3px solid rgba(0,0,0,.2);
+    transition: all .2s;
+
+    * {
+      opacity:1;
+      transition: all .2s;
+    }
+  }
+
+  * {
+    opacity:.6;
+    transition: all .2s;
+  }
+
+  &.selected {
+    border:3px solid rgba(0,0,0,.2);
+    
+    * {
+      opacity:1;
+      transition: all .2s;
+    }
+  }
+
+  img {
+    margin-bottom:10px;
+  }
+
+  p {
+    margin:0;
+    padding:0;
+    font-weight:bold;
+    font-size:.8rem;
+  }
+`;
+
 let steps = [
   <>
-    <Title>Verify handle</Title>
+    <Title>Choose platform</Title>
     <Text>
-      Before starting the process, we need to check everything is ready to verify your handle
+      Select one of the supported social platforms you want to get your profile
+      verified on and click <strong>Next</strong>
     </Text>
-    <Requirements>
-      <Requirement
-        className={`${
-          context.accountId != null ? "verified" : "selected failed"
-        }`}
-      >
-        <h2>NEAR account connected</h2>
-      </Requirement>
-      <Description className="description">
-        Your NEAR account is not connected
-        <button>Check again</button>
-      </Description>
-      <Requirement
-        className={`
+    <Grid>
+      <Cell>
+        <Option
+          className={`${state.platform === "lens" ? "selected" : ""}`}
+          onClick={() => State.update({ platform: "lens" })}
+        >
+          <img
+            style={{
+              maxWidth: "80px",
+            }}
+            src="https://ipfs.near.social/ipfs/bafkreiggkmczb7v43nicdia4n7xqkgynopby5k3nxs3zj6fij5eeurh23i"
+          />
+          <p>Lens Protocol</p>
+        </Option>
+      </Cell>
+      <Cell>
+        <Option
+          className={`${state.platform === "farcaster" ? "selected" : ""}`}
+          onClick={() => State.update({ platform: "farcaster" })}
+        >
+          <img
+            style={{
+              maxWidth: "60px",
+            }}
+            src="https://ipfs.near.social/ipfs/bafkreif2ff55fa77acvcclxlccsidhyz5sos3abs5yln7daotbp35nwa7a"
+          />
+          <p>Farcaster</p>
+        </Option>
+      </Cell>
+    </Grid>
+  </>,
+  {
+    lens: (
+      <>
+        <Title>Verify handle</Title>
+        <Text>
+          Before starting the process, we need to check everything is ready to
+          verify your handle
+        </Text>
+        <Requirements>
+          <Requirement
+            className={`${
+              context.accountId != null ? "verified" : "selected failed"
+            }`}
+          >
+            <h2>NEAR account connected</h2>
+          </Requirement>
+          <Description className="description">
+            Your NEAR account is not connected
+            <button>Check again</button>
+          </Description>
+          <Requirement
+            className={`
           ${state.address ? "verified" : "selected failed"}
       `}
-      >
-        <h2>Ethereum wallet connected</h2>
-      </Requirement>
-      <Description className="description">
-        Your wallet is not connected
-        <Web3Connect connectLabel="Connect wallet" />
-      </Description>
-      <Requirement
-        className={`
+          >
+            <h2>Ethereum wallet connected</h2>
+          </Requirement>
+          <Description className="description">
+            Your wallet is not connected
+            <Web3Connect connectLabel="Connect wallet" />
+          </Description>
+          <Requirement
+            className={`
           ${
             state.address && state.chainId == POLYGON_CHAIN_ID ? "verified" : ""
           }
@@ -356,31 +481,33 @@ let steps = [
               : ""
           }
       `}
-      >
-        <h2>Polygon network connected</h2>
-      </Requirement>
-      <Description className="description">
-        Your wallet is not connected to Polygon network. Some wallets might experience issues when trying to switch automatically. Please, in that case, switch it manually.
-        <button
-          onClick={() => {
-            try {
-              Ethers.setChain({
-                chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
-              });
-            } catch {
-              Ethers.send("wallet_switchEthereumChain", [
-                {
-                  chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
-                },
-              ]);
-            }
-          }}
-        >
-          Switch network
-        </button>
-      </Description>
-      <Requirement
-        className={`
+          >
+            <h2>Polygon network connected</h2>
+          </Requirement>
+          <Description className="description">
+            Your wallet is not connected to Polygon network. Some wallets might
+            experience issues when trying to switch automatically. Please, in
+            that case, switch it manually.
+            <button
+              onClick={() => {
+                try {
+                  Ethers.setChain({
+                    chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
+                  });
+                } catch {
+                  Ethers.send("wallet_switchEthereumChain", [
+                    {
+                      chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
+                    },
+                  ]);
+                }
+              }}
+            >
+              Switch network
+            </button>
+          </Description>
+          <Requirement
+            className={`
           ${state.handle && state.address ? "verified" : ""}
           ${
             !state.checkedHandle &&
@@ -395,22 +522,110 @@ let steps = [
               : ""
           }
       `}
-      >
-        <h2>Lens handle available</h2>
-      </Requirement>
-      <Description className="description">
-        Your address doesn't own any Lens handle
-      </Description>
-    </Requirements>
-    {state.handle && (
-      <Warning>
-        <h2>Warning</h2>
+          >
+            <h2>Lens handle available</h2>
+          </Requirement>
+          <Description className="description">
+            Your address doesn't own any Lens handle
+          </Description>
+        </Requirements>
+        {state.handle && (
+          <Warning>
+            <h2>Warning</h2>
+            <Text>
+              You will need NEAR in your account to save your verified identity
+            </Text>
+          </Warning>
+        )}
+      </>
+    ),
+    farcaster: (
+      <>
+        <Title>Verify handle</Title>
         <Text>
-          You will need NEAR in your account to save your verified identity
+          Before starting the process, we need to check everything is ready to
+          verify your handle
         </Text>
-      </Warning>
-    )}
-  </>,
+        <Requirements>
+          <Requirement
+            className={`${
+              context.accountId != null ? "verified" : "selected failed"
+            }`}
+          >
+            <h2>NEAR account connected</h2>
+          </Requirement>
+          <Description className="description">
+            Your NEAR account is not connected
+            <button>Check again</button>
+          </Description>
+          <Requirement
+            className={`
+            ${context.accountId != null ? "selected pending show-description" : ""}
+          ${
+            state.handle && state.checkedHandle ? "verified" : ""
+          }
+      `}
+          >
+            <h2>Farcaster profile linked to wallet</h2>
+          </Requirement>
+          <Description className="description">
+            Link your Ethereum address to your Farcaster profile.
+            <br />
+            To do so, go to the Warpcast app and click<br/><strong>Settings {">"} Connected
+            addresses {">"} Connect address</strong>
+            <br />
+
+            After that, please type your Farcaster username below<br />
+            <input type="text" value={state.handle} onChange={(e) => State.update({handle: e.target.value})} />
+            <button onClick={() => {
+              FarcasterLib.getAddressesByHandle(state.handle).then((evmAddresses) => {
+                if (handle) {
+                  State.update({
+                    addresses: evmAddresses,
+                  });
+                }
+            
+                State.update({
+                  checkedHandle: true,
+                });
+              });
+            }}>Next</button>
+          </Description>
+          <Requirement
+            className={`
+              ${state.handle && state.checkedHandle ? state.address ? "verified" : "selected failed" : "pending"}
+          `}
+          >
+            <h2>Ethereum wallet connected</h2>
+          </Requirement>
+          <Description className="description">
+            Your wallet is not connected
+            <Web3Connect connectLabel="Connect wallet" />
+          </Description>
+          <Requirement
+            className={`
+              ${state.addresses.includes(state.address) ? "verified" : ""}
+              ${state.addresses.length > 0 ? "selected pending" : ""}
+              ${state.addresses.length > 0 && state.address && !state.addresses.includes(state.address) ? "selected failed" : ""}
+          `}
+          >
+            <h2>Ethereum wallet owns the profile</h2>
+          </Requirement>
+          <Description className="description">
+            Looks like your wallet doesn't own this profile. Please, restart the process and try again.
+          </Description>
+        </Requirements>
+        {state.handle && state.checkedHandle && (
+          <Warning>
+            <h2>Warning</h2>
+            <Text>
+              You will need NEAR in your account to save your verified identity
+            </Text>
+          </Warning>
+        )}
+      </>
+    ),
+  }[state.platform] || <></>,
 ];
 
 return (
@@ -433,7 +648,7 @@ return (
         {steps[state.step + 1] && (
           <StepButton
             onClick={() => State.update({ step: state.step + 1 })}
-            disabled={!state.verificationComplete}
+            disabled={!state.platform}
           >
             Next
           </StepButton>
@@ -449,10 +664,15 @@ return (
               LensLib.createProof(state.address, context.accountId)
             }
             disabled={
+              state.platform === "lens" ?
               !context.accountId ||
               !state.address ||
               state.chainId != POLYGON_CHAIN_ID ||
               !state.handle
+              :
+              !context.accountId ||
+              !state.addresses ||
+              (state.address && state.addresses.length > 0 && !state.addresses.includes(state.address))
             }
           >
             Sign & Save
