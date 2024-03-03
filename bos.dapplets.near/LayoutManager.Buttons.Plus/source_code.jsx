@@ -11,6 +11,7 @@ const ButtonPlus = styled.button`
   background: #fff;
   cursor: pointer;
   border: 1px solid #384bff;
+  z-index: 1081;
 `
 
 const plusIcon = (
@@ -24,7 +25,7 @@ return (
   <ButtonPlus
     style={{
       bottom: widgets && widgets.length ? '0' : '9px',
-      zIndex: '1081',
+      border: widgets && widgets.length ? '1px solid #384bff' : 'none',
     }}
     title={!context.accountId ? 'Connect wallet' : null}
     onClick={!context.accountId ? null : onClick}
