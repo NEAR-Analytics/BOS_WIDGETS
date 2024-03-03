@@ -2,62 +2,33 @@ const { widgets, onClick } = props
 
 const ButtonPlus = styled.div`
   display: flex;
+  position: absolute;
+  box-sizing: border-box;
   width: 22px;
   height: 22px;
   border-radius: 50%;
   background: #fff;
   position: relative;
-  transform: ${(p) => (p.default ? 'translateY(-25px)' : 'translateY(39px)')};
   cursor: pointer;
   border: 1px solid #384bff;
-
-  &:before {
-    content: '';
-    display: block;
-    width: 1.5px;
-    height: 11px;
-    border-radius: 2px;
-    background: #384bff;
-    position: absolute;
-    top: 6px;
-    left: 10.5px;
-  }
-
-  &:after {
-    content: '';
-    display: block;
-    height: 1px;
-    width: 11px;
-    border-radius: 2px;
-    background: #384bff;
-    position: absolute;
-    top: 10.8px;
-    left: 6px;
-  }
-
-  @keyframes translateAnimationBtn {
-    0% {
-      opacity: 0;
-    }
-    30% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  animation: translateAnimationBtn 0.5s linear forwards;
-  transition: all 0.3s;
 `
+
+const plusIcon = (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11 6V16" stroke="#384BFF" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M6 11H16" stroke="#384BFF" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
 
 return (
   <ButtonPlus
-    default={widgets && widgets.length ? true : false}
     style={{
-      position: widgets && widgets.length ? 'unset' : 'absolute',
+      bottom: widgets && widgets.length ? '-32px' : '9px',
       zIndex: '1081',
     }}
     title={!context.accountId ? 'Connect wallet' : null}
     onClick={!context.accountId ? null : onClick}
-  />
+  >
+    {plusIcon}
+  </ButtonPlus>
 )
