@@ -67,39 +67,29 @@ const TriggerShowPanel = styled.div`
 `;
 
 const ActionsWrapper = styled.div`
-  z-index: 1080;
-  border-radius: 0px 4px 4px 0px;
-
-  display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 6px;
   border: 1px solid #384bff;
+  border-radius: 0px 4px 4px 0px;
+  right: 60px;
+  width: 40px;
+  min-height: 34px;
+  height: auto;
+  background: #fff;
+  z-index: 1080;
 
   @keyframes translateAnimation {
     0% {
       display: none;
-      width: 0px;
-      opacity: 0.3;
-      min-height: 0px;
-      height: 0px;
-      transform-origin: top left;
-      transform: scale(0) translateX(-30px);
+      opacity: 0;
     }
-    80% {
-      opacity: 1;
+    90% {
+      display: flex;
+      opacity: .9;
     }
     100% {
-      padding-top: 6px;
-      border: 1px solid #384bff;
       opacity: 1;
-      right: 60px;
-      height: auto;
-      width: 40px;
-      min-height: 34px;
-      background: #fff;
-      transform-origin: top left;
-      transform: scale(1) translateX(0px);
     }
   }
   animation: translateAnimation 0.5s ease forwards;
