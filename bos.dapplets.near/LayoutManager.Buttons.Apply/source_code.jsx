@@ -16,13 +16,13 @@ const ButtonApply = styled.button`
   cursor: pointer;
   box-sizing: border-box;
   border: 1px solid #384bff;
-  background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
+  background: #fff !important;
   &:hover {
     transform: scale(1.1);
   }
   svg {
     path {
-      stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
+      stroke: #384bff !important;
     }
   }
   transition: all 0.3s;
@@ -45,12 +45,4 @@ const iconApply = (
   </svg>
 );
 
-return <ButtonApply
-  style={{
-    top: '5px',
-  }}
-  onClick={onClick}
-  default
-  >
-  {iconApply}
-</ButtonApply>
+return <ButtonApply onClick={onClick}>{iconApply}</ButtonApply>
