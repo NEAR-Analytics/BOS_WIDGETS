@@ -1,4 +1,4 @@
-const { onClick } = props
+const { onClick, top } = props
 
 const ButtonEdit = styled.button`
   position: absolute;
@@ -41,11 +41,4 @@ const iconEdit = (
   </svg>
 );
 
-return <ButtonEdit
-  style={{
-    top: '5px',
-  }}
-  onClick={onClick}
->
-  {iconEdit}
-</ButtonEdit>
+return <ButtonEdit onClick={onClick}>{iconEdit}</ButtonEdit>
