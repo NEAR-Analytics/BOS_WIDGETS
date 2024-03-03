@@ -13,17 +13,17 @@ const ButtonEdit = styled.button`
   border: 1px solid #384bff;
   border-radius: 50%;
   box-sizing: border-box;
-  background: #fff !important;
+  background-color: white;
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background: rgba(208, 211, 255, 1);
+    background-color: rgba(208, 211, 255, 1);
   }
 
   svg {
     path {
-      stroke: #384bff !important;
+      stroke: #384bff;
     }
   }
 `;
