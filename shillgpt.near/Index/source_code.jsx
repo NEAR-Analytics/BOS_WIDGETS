@@ -186,8 +186,8 @@ const request = () => {
         request: {
           token_in: state.tokenIn,
           token_out: state.tokenOut,
-          token_in_message: state.tokenInMessage,
-          token_out_message: state.tokenOutMessage,
+          token_in_message: state.tokenInMessage ?? "",
+          token_out_message: state.tokenOutMessage ?? "",
         },
       },
       "200000000000000",
