@@ -6,7 +6,7 @@ const FARCASTER_FNAMES_ENDPOINT = "transfers/current";
 
 const FarcasterAPI = {
   getHandleOwner: (handle) => {
-    return FarcasterAPI.getFidByHandle(handle).then(async (fid) => {
+    return FarcasterAPI.getFidByHandle(handle).then((fid) => {
       if (!fid) {
         return [];
       }
@@ -19,12 +19,8 @@ const FarcasterAPI = {
             Accept: "application/json",
           },
         }
-      )
-        .then((payload) => {
-          return payload.json();
-        })
-        .then((result) => {
-          const verifications = result?.result?.verifications || [];
+      ).then((result) => {
+          const verifications = result?.body?.result?.verifications || [];
           return verifications.map((verification) => verification.address);
         });
     });
@@ -40,13 +36,9 @@ const FarcasterAPI = {
           Accept: "application/json",
         },
       }
-    )
-      .then((payload) => {
-        return payload.json();
-      })
-      .then((result) => {
-        return result?.transfer?.to || "";
-      });
+    ).then((result) => {
+      return result?.body?.transfer?.to || "";
+    });
   },
   getQueryURL: (endpoint, params) => {
     return `${endpoint}?${new URLSearchParams(params).toString()}`;
