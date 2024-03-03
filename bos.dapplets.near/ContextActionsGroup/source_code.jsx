@@ -246,17 +246,11 @@ return (
               />
             )
           }
+          <Widget
+            src="bos.dapplets.near/widget/LayoutManager.Buttons.Plus"
+            props={{ widgets, onClick: handleOpenMenu }}
+          />
         </ActionsWrapper>
-        <Widget
-          src="bos.dapplets.near/widget/LayoutManager.EarOpened"
-          props={{
-            widgets,
-            isEditMode,
-            handleOpenMenu,
-            enableEditMode,
-            disableEditMode
-          }}
-        />
       </TriggerShowPanel>
     ) : null}
 
