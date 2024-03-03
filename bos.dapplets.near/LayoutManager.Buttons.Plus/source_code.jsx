@@ -47,10 +47,6 @@ const ButtonPlus = styled.div`
     }
   }
   animation: translateAnimationBtn 0.5s linear forwards;
-
-  &:hover {
-    transform: translateY(-25px) scale(1.1);
-  }
   transition: all 0.3s;
 `
 
