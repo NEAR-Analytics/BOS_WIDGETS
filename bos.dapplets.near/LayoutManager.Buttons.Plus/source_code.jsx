@@ -31,6 +31,7 @@ return (
     style={{
       bottom: widgets && widgets.length ? '0' : '9px',
       border: widgets && widgets.length ? '1px solid #384bff' : 'none',
+      backgroundColor: widgets && widgets.length ? 'white': 'white !important',
     }}
     title={!context.accountId ? 'Connect wallet' : null}
     onClick={!context.accountId ? null : onClick}
