@@ -64,6 +64,28 @@ return (
               </a>
             </li>
           </ul>
+          <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-2 col-md-auto">
+              <a
+                class="nav-link p-2"
+                href="https://twitter.com/nearcatalog"
+                target="_blank"
+                title="NEARCatalog on Twitter"
+              >
+                <i class="bi bi-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item col-2 col-md-auto">
+              <a
+                class="nav-link p-2"
+                href="https://t.me/nearcatalog"
+                target="_blank"
+                title="NEARCatalog on Telegram"
+              >
+                <i class="bi bi-telegram"></i>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
