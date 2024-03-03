@@ -28,18 +28,12 @@ return widgets && widgets.length ? (
     {isEditMode ? (
       <Widget
         src='bos.dapplets.near/widget/LayoutManager.Buttons.Apply'
-        props={{ onClick: disableEditMode }}
-        style={{
-          top: '5px',
-        }}
+        props={{ onClick: disableEditMode, top: true }}
       />
     ) : (
       <Widget
         src='bos.dapplets.near/widget/LayoutManager.Buttons.Edit'
-        props={{ onClick: enableEditMode }}
-        style={{
-          top: '5px',
-        }}
+        props={{ onClick: enableEditMode, top: true }}
       />
     )}
     <WrapperButtonPlusDefault>
