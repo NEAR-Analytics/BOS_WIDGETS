@@ -1,4 +1,4 @@
-const { onClick } = props
+const { onClick, top } = props
 
 const ButtonApply = styled.button`
   position: absolute;
@@ -45,4 +45,4 @@ const iconApply = (
   </svg>
 );
 
-return <ButtonApply onClick={onClick}>{iconApply}</ButtonApply>
+return <ButtonApply style={{ top: top ? '5px' : 'auto' }} onClick={onClick}>{iconApply}</ButtonApply>
