@@ -1,10 +1,10 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { EthereumSigner } = $("@sdks/eth-signer");
-const FarcasterSDK = VM.require(`sdks.near/widget/SDKs.Farcaster.FarcasterAPI`);
+const FarcasterAPI = VM.require(`sdks.near/widget/SDKs.Farcaster.FarcasterAPI`);
 
 const FarcasterVerifier = {
   createProof: (handle, evmAddress, nearAccount) => {
-    return FarcasterSDK.getHandleOwner(handle).then((expectedAddresses) => {
+    return FarcasterAPI.getHandleOwner(handle).then((expectedAddresses) => {
       if (!expectedAddresses.includes(evmAddress)) {
         return new Promise((_, reject) =>
           reject("This Ethereum address is not linked to this handle")
@@ -27,7 +27,7 @@ const FarcasterVerifier = {
     );
   },
   verify: (handle, nearAccount, signature) => {
-    return FarcasterSDK.getHandleOwner(handle).then((expectedAddresses) => {
+    return FarcasterAPI.getHandleOwner(handle).then((expectedAddresses) => {
       return (
         expectedAddresses
           .map((expectedAddress) => {
