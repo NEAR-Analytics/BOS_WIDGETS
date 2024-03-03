@@ -23,7 +23,7 @@ const plusIcon = (
 return (
   <ButtonPlus
     style={{
-      bottom: widgets && widgets.length ? '-32px' : '9px',
+      bottom: widgets && widgets.length ? '0' : '9px',
       zIndex: '1081',
     }}
     title={!context.accountId ? 'Connect wallet' : null}
