@@ -5,6 +5,7 @@ const FarcasterAPI = VM.require(`sdks.near/widget/SDKs.Farcaster.FarcasterAPI`);
 const FarcasterVerifier = {
   createProof: (handle, evmAddress, nearAccount) => {
     return FarcasterAPI.getHandleOwner(handle).then((expectedAddresses) => {
+      console.log(expectedAddresses);
       if (!expectedAddresses.includes(evmAddress)) {
         return new Promise((_, reject) =>
           reject("This Ethereum address is not linked to this handle")
