@@ -7,7 +7,7 @@ const ButtonPlus = styled.button`
   box-sizing: border-box;
   width: 22px;
   height: 22px;
-  background: #fff;
+  background-color: white;
   border: 1px solid #384bff;
   border-radius: 50%;
   cursor: pointer;
@@ -15,7 +15,7 @@ const ButtonPlus = styled.button`
   transition: all 0.2s;
 
   &:hover {
-    background: rgba(208, 211, 255, 1);
+    background-color: rgba(208, 211, 255, 1);
   }
 `
 
