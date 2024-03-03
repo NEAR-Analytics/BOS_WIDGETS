@@ -4,23 +4,26 @@ const ButtonApply = styled.button`
   position: absolute;
   top: 0;
   margin-bottom: 0;
-  border: none;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
   padding: 0;
   padding-right: 2px;
-  cursor: pointer;
+  display: flex;
   box-sizing: border-box;
-  border: 1px solid #384bff;
-  background: #fff !important;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rgba(56, 75, 255, 1);
+
+  & :hover {
+    background-color: rgba(6, 25, 205, 1);
+  }
 
   svg {
     path {
-      stroke: #384bff !important;
+      stroke: #fff;
     }
   }
   transition: all 0.3s;
