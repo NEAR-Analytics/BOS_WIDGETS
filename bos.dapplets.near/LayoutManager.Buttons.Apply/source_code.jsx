@@ -16,17 +16,11 @@ const ButtonApply = styled.button`
   border-radius: 50%;
   cursor: pointer;
   background-color: rgba(56, 75, 255, 1);
+  transition: all 0.2s;
 
   &:hover {
     background-color: rgba(6, 25, 205, 1);
   }
-
-  svg {
-    path {
-      stroke: white;
-    }
-  }
-  transition: all 0.3s;
 `;
 
 const iconApply = (
@@ -39,9 +33,10 @@ const iconApply = (
   >
     <path
       d="M2 7H9.125M3.5 9.25L1.25 7L3.5 4.75M7.25 3.25V2.5C7.25 2.10218 7.40804 1.72064 7.68934 1.43934C7.97064 1.15804 8.35218 1 8.75 1H12.5C12.8978 1 13.2794 1.15804 13.5607 1.43934C13.842 1.72064 14 2.10218 14 2.5V11.5C14 11.8978 13.842 12.2794 13.5607 12.5607C13.2794 12.842 12.8978 13 12.5 13H8.75C8.35218 13 7.97064 12.842 7.68934 12.5607C7.40804 12.2794 7.25 11.8978 7.25 11.5V10.75"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      stroke="white"
     />
   </svg>
 );
