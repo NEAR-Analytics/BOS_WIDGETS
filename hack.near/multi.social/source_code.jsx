@@ -1,5 +1,9 @@
 const identity = Social.getr("*/identity/*", "final");
 
+if (!identity) {
+  return "";
+}
+
 const accounts = Object.keys(identity);
 
 return (
