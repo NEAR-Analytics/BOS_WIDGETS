@@ -45,4 +45,4 @@ const iconApply = (
   </svg>
 );
 
-return <ButtonApply style={{ top: top ? '5px' : 'auto' }} onClick={onClick}>{iconApply}</ButtonApply>
+return <ButtonApply style={{ top: top ? '5px' : '' }} onClick={onClick}>{iconApply}</ButtonApply>
