@@ -2,7 +2,7 @@ const { onClick, top } = props
 
 const ButtonApply = styled.button`
   position: absolute;
-  top: -30px;
+  top: 0;
   margin-bottom: 0;
   border: none;
   width: 22px;
