@@ -23,7 +23,7 @@ const ButtonApply = styled.button`
 
   svg {
     path {
-      stroke: #fff;
+      stroke: white;
     }
   }
   transition: all 0.3s;
