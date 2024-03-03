@@ -8,7 +8,9 @@ const FARCASTER_FNAMES_ENDPOINT = "transfers/current";
 const FarcasterAPI = {
   getProfileInfo: (handle) => {
     return asyncFetch(
-      FarcasterAPI.getWarpcastQueryURL(PROFILE_INFO_ENDPOINT, { username: handle }),
+      FarcasterAPI.getWarpcastQueryURL(PROFILE_INFO_ENDPOINT, {
+        username: handle,
+      }),
       {
         method: "GET",
         headers: {
@@ -55,7 +57,11 @@ const FarcasterAPI = {
     });
   },
   getQueryURL: (endpoint, params) => {
-    return `${endpoint}?${new URLSearchParams(params).toString()}`;
+    const urlSearchParams = Object.keys(params)
+      .map((param) => `${param}=${params[param]}`)
+      .join("&");
+
+    return `${endpoint}?${urlSearchParams}`;
   },
   getFarcasterQueryURL: (endpoint, params) => {
     return FarcasterAPI.getFarcasterURL(
