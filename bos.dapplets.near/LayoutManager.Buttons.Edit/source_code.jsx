@@ -41,4 +41,4 @@ const iconEdit = (
   </svg>
 );
 
-return <ButtonEdit onClick={onClick}>{iconEdit}</ButtonEdit>
+return <ButtonEdit style={{ top: top ? '5px' : 'auto' }} onClick={onClick}>{iconEdit}</ButtonEdit>
