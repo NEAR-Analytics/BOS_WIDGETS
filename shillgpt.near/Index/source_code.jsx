@@ -1347,14 +1347,16 @@ return (
                               State.update({
                                 depositAmount: Big(
                                   state.userBalances[state.depositToken] ?? 0
-                                ).toFixed(2),
+                                )
+                                  .round(2, Big.roundDown)
+                                  .toString(),
                               })
                             }
                           >
                             Your balance:{" "}
-                            {Big(
-                              state.userBalances[state.depositToken] ?? 0
-                            ).toFixed(2)}
+                            {Big(state.userBalances[state.depositToken] ?? 0)
+                              .round(2, Big.roundDown)
+                              .toString()}
                             {`${allTokens[state.depositToken].name}`}
                           </span>
                         )}
