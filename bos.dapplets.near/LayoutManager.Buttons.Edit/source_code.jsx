@@ -4,19 +4,22 @@ const ButtonEdit = styled.button`
   position: absolute;
   top: 0;
   margin-bottom: 0;
-  border: none;
-  cursor: pointer;
+  padding: 0;
+  display: flex;
   width: 22px;
   height: 22px;
-  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  padding: 0;
   border: 1px solid #384bff;
+  border-radius: 50%;
   box-sizing: border-box;
   background: #fff !important;
-  transition: all 0.3s;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  & :hover {
+    background: rgba(208, 211, 255, 1);
+  }
 
   svg {
     path {
