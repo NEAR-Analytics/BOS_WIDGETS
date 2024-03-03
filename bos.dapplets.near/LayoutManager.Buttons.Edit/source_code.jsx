@@ -18,10 +18,6 @@ const ButtonEdit = styled.button`
   background: #fff !important;
   transition: all 0.3s;
 
-  &:hover {
-    transform: scale(1.1);
-  }
-
   svg {
     path {
       stroke: #384bff !important;
