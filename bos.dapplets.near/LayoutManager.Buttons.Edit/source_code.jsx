@@ -15,7 +15,7 @@ const ButtonEdit = styled.button`
   padding: 0;
   border: 1px solid #384bff;
   box-sizing: border-box;
-  background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
+  background: #fff !important;
   transition: all 0.3s;
 
   &:hover {
@@ -24,7 +24,7 @@ const ButtonEdit = styled.button`
 
   svg {
     path {
-      stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
+      stroke: #384bff !important;
     }
   }
 `;
@@ -42,11 +42,10 @@ const iconEdit = (
 );
 
 return <ButtonEdit
-  default
   style={{
     top: '5px',
   }}
   onClick={onClick}
-  >
+>
   {iconEdit}
 </ButtonEdit>
