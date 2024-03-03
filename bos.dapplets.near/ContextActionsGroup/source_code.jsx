@@ -67,6 +67,7 @@ const TriggerShowPanel = styled.div`
 `;
 
 const ActionsWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 6px;
