@@ -11,7 +11,7 @@ State.init({
   handle: null,
   checkedHandle: false,
   platform: "",
-  addresses: []
+  addresses: [],
 });
 
 if (!Ethers.provider()) {
@@ -232,6 +232,10 @@ const Requirement = styled.li`
     &.verified {
         ::before {
             background-color:#00C753;
+        }
+
+        &+ .description {
+          display:none!important;
         }
     }
 
@@ -560,10 +564,12 @@ let steps = [
           </Description>
           <Requirement
             className={`
-            ${context.accountId != null ? "selected pending show-description" : ""}
-          ${
-            state.handle && state.checkedHandle ? "verified" : ""
-          }
+            ${
+              context.accountId != null
+                ? "selected pending show-description"
+                : ""
+            }
+          ${state.handle && state.checkedHandle ? "verified" : ""}
       `}
           >
             <h2>Farcaster profile linked to wallet</h2>
@@ -571,29 +577,46 @@ let steps = [
           <Description className="description">
             Link your Ethereum address to your Farcaster profile.
             <br />
-            To do so, go to the Warpcast app and click<br/><strong>Settings {">"} Connected
-            addresses {">"} Connect address</strong>
+            To do so, go to the Warpcast app and click
             <br />
+            <strong>
+              Settings {">"} Connected addresses {">"} Connect address
+            </strong>
+            <br />
+            After that, please type your Farcaster username below
+            <br />
+            <input
+              type="text"
+              value={state.handle}
+              onChange={(e) => State.update({ handle: e.target.value })}
+            />
+            <button
+              onClick={() => {
+                FarcasterLib.getAddressesByHandle(state.handle).then(
+                  (evmAddresses) => {
+                    State.update({
+                      addresses: evmAddresses,
+                    });
 
-            After that, please type your Farcaster username below<br />
-            <input type="text" value={state.handle} onChange={(e) => State.update({handle: e.target.value})} />
-            <button onClick={() => {
-              FarcasterLib.getAddressesByHandle(state.handle).then((evmAddresses) => {
-                if (handle) {
-                  State.update({
-                    addresses: evmAddresses,
-                  });
-                }
-            
-                State.update({
-                  checkedHandle: true,
-                });
-              });
-            }}>Next</button>
+                    State.update({
+                      checkedHandle: true,
+                    });
+                  }
+                );
+              }}
+            >
+              Next
+            </button>
           </Description>
           <Requirement
             className={`
-              ${state.handle && state.checkedHandle ? state.address ? "verified" : "selected failed" : "pending"}
+              ${
+                state.handle && state.checkedHandle
+                  ? state.address
+                    ? "verified"
+                    : "selected failed"
+                  : "pending"
+              }
           `}
           >
             <h2>Ethereum wallet connected</h2>
@@ -605,24 +628,37 @@ let steps = [
           <Requirement
             className={`
               ${state.addresses.includes(state.address) ? "verified" : ""}
-              ${state.addresses.length > 0 ? "selected pending" : ""}
-              ${state.addresses.length > 0 && state.address && !state.addresses.includes(state.address) ? "selected failed" : ""}
+              ${state.addresses.length === 0 ? "selected pending" : ""}
+              ${
+                state.addresses.length > 0 &&
+                state.address &&
+                !state.addresses.includes(state.address)
+                  ? "selected failed"
+                  : ""
+              }
           `}
           >
             <h2>Ethereum wallet owns the profile</h2>
+            <button onClick={() => console.log(state.addresses, state.address)}>
+              Check
+            </button>
           </Requirement>
           <Description className="description">
-            Looks like your wallet doesn't own this profile. Please, restart the process and try again.
+            Looks like your wallet doesn't own this profile. Please, restart the
+            process and try again.
           </Description>
         </Requirements>
-        {state.handle && state.checkedHandle && (
-          <Warning>
-            <h2>Warning</h2>
-            <Text>
-              You will need NEAR in your account to save your verified identity
-            </Text>
-          </Warning>
-        )}
+        {state.handle &&
+          state.addresses.length > 0 &&
+          state.addresses.includes(state.address) && (
+            <Warning>
+              <h2>Warning</h2>
+              <Text>
+                You will need NEAR in your account to save your verified
+                identity
+              </Text>
+            </Warning>
+          )}
       </>
     ),
   }[state.platform] || <></>,
@@ -660,19 +696,28 @@ return (
         )}
         {!steps[state.step + 1] && (
           <StepButton
-            onClick={() =>
-              LensLib.createProof(state.address, context.accountId)
-            }
+            onClick={() => {
+              if (state.platform === "lens") {
+                LensLib.createProof(state.address, context.accountId);
+              } else {
+                FarcasterLib.createProof(
+                  state.handle,
+                  state.address,
+                  context.accountId
+                );
+              }
+            }}
             disabled={
-              state.platform === "lens" ?
-              !context.accountId ||
-              !state.address ||
-              state.chainId != POLYGON_CHAIN_ID ||
-              !state.handle
-              :
-              !context.accountId ||
-              !state.addresses ||
-              (state.address && state.addresses.length > 0 && !state.addresses.includes(state.address))
+              state.platform === "lens"
+                ? !context.accountId ||
+                  !state.address ||
+                  state.chainId != POLYGON_CHAIN_ID ||
+                  !state.handle
+                : !context.accountId ||
+                  !state.addresses ||
+                  (state.address &&
+                    state.addresses.length > 0 &&
+                    !state.addresses.includes(state.address))
             }
           >
             Sign & Save
