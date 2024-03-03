@@ -628,7 +628,7 @@ let steps = [
           <Requirement
             className={`
               ${state.addresses.includes(state.address) ? "verified" : ""}
-              ${state.addresses.length === 0 ? "selected pending" : ""}
+              ${state.addresses.length === 0 ? "pending" : ""}
               ${
                 state.addresses.length > 0 &&
                 state.address &&
@@ -639,9 +639,6 @@ let steps = [
           `}
           >
             <h2>Ethereum wallet owns the profile</h2>
-            <button onClick={() => console.log(state.addresses, state.address)}>
-              Check
-            </button>
           </Requirement>
           <Description className="description">
             Looks like your wallet doesn't own this profile. Please, restart the
