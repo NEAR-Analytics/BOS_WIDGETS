@@ -14,7 +14,7 @@ const ButtonPlus = styled.button`
   z-index: 1081;
   transition: all 0.2s;
 
-  & :hover {
+  &:hover {
     background: rgba(208, 211, 255, 1);
   }
 `
