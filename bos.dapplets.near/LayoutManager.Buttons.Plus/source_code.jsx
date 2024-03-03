@@ -1,4 +1,4 @@
-const { widgets, handleOpenMenu } = props
+const { widgets, onClick } = props
 
 const ButtonPlus = styled.div`
   display: flex;
@@ -62,6 +62,6 @@ return (
       zIndex: '1081',
     }}
     title={!context.accountId ? 'Connect wallet' : null}
-    onClick={!context.accountId ? null : handleOpenMenu}
+    onClick={!context.accountId ? null : onClick}
   />
 )
