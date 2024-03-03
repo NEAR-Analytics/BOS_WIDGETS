@@ -17,7 +17,7 @@ const ButtonEdit = styled.button`
   cursor: pointer;
   transition: all 0.2s;
 
-  & :hover {
+  &:hover {
     background: rgba(208, 211, 255, 1);
   }
 
