@@ -251,7 +251,7 @@ return (
             props={{ widgets, onClick: handleOpenMenu }}
           />
         </ActionsWrapper>
-        <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/>
+        {widgets && widgets.length ? <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/> : null}
       </TriggerShowPanel>
     ) : null}
 
