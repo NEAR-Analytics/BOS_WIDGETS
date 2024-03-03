@@ -1,17 +1,22 @@
 const { widgets, onClick } = props
 
 const ButtonPlus = styled.button`
-  display: flex;
   position: absolute;
+  padding: 0;
+  display: flex;
   box-sizing: border-box;
   width: 22px;
   height: 22px;
-  padding: 0;
-  border-radius: 50%;
   background: #fff;
-  cursor: pointer;
   border: 1px solid #384bff;
+  border-radius: 50%;
+  cursor: pointer;
   z-index: 1081;
+  transition: all 0.2s;
+
+  & :hover {
+    background: rgba(208, 211, 255, 1);
+  }
 `
 
 const plusIcon = (
