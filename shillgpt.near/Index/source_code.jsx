@@ -2,6 +2,11 @@ let contractId = "v1.shillgpt.near";
 let accountId = context.accountId;
 let debugMode = !!props.debug ?? false;
 
+if (props.referral_id) {
+  Storage.set("referral_id", props.referral_id);
+}
+console.log("referral_id", Storage.get("referral_id"));
+
 let allTokens = {
   "token.lonkingnearbackto2024.near": {
     name: "LONK",
@@ -31,18 +36,22 @@ let allTokens = {
 
 if (state === undefined) {
   State.init({
-    selectedTab: "Main",
+    selectedTab: !!accountId ? "Main" : "About",
     showUnstakeForm: false,
     buyCreditAmount: 0.1,
     withdrawCreditAmount: 0,
     nonce: 0,
+    pauseNonce: false,
+    refLink: accountId
+      ? `https://near.social/shillgpt.near/widget/Index?referral_id=${accountId}`
+      : null,
   });
 
   // Auto refresh orders and account
   setInterval(() => {
     State.update((state) => ({
       ...state,
-      nonce: accountId ? state.nonce + 1 : state.nonce,
+      nonce: accountId && !state.pauseNonce ? state.nonce + 1 : state.nonce,
     }));
   }, 1000);
 }
@@ -179,17 +188,23 @@ const userCreditsAvailable =
 
 const request = () => {
   if (state.tokenIn && state.tokenOut) {
+    let args = {
+      request: {
+        token_in: state.tokenIn,
+        token_out: state.tokenOut,
+        token_in_message: state.tokenInMessage ?? "",
+        token_out_message: state.tokenOutMessage ?? "",
+      },
+    };
+
+    if (Storage.get("referral_id")) {
+      args.referral_id = Storage.get("referral_id");
+    }
+
     Near.call(
       contractId,
       "request",
-      {
-        request: {
-          token_in: state.tokenIn,
-          token_out: state.tokenOut,
-          token_in_message: state.tokenInMessage ?? "",
-          token_out_message: state.tokenOutMessage ?? "",
-        },
-      },
+      args,
       "200000000000000",
       state.attachNearToEveryRequest || !userCreditsAvailable ? requestCost : 0
     );
@@ -541,8 +556,8 @@ if (!state.theme) {
 const Theme = state.theme;
 
 const navTabs = !!accountId
-  ? ["Main", "Credits", "Pools", "Tokens", "About"]
-  : ["Main", "Pools", "Tokens", "About"];
+  ? ["Main", "Credits", "Pools", "Earn", "About"]
+  : ["Main", "Pools", "Earn", "About"];
 
 let now = Date.now();
 let showLatestResponse =
@@ -581,6 +596,22 @@ const timestampToHumanDate = (timestamp) => {
 
   return day + "/" + month + "/" + year + " " + hours + ":" + minutes;
 };
+
+const copySvg = (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    style={{ width: "1em", marginTop: "-0.2em" }}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
+    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+  </svg>
+);
 
 console.log("pools", pools, user_pools);
 
@@ -692,8 +723,8 @@ return (
                 <div class="content">
                   <div class="icon">🚀</div>
                   <div class="text">
-                    Shill a promising memecoin that you own, and the AI bot will
-                    buy it
+                    Shill a promising memecoin, and the AI bot will immidately
+                    buy it on Ref Finance
                   </div>
                 </div>
               </MyListItem>
@@ -701,8 +732,15 @@ return (
                 <div class="content">
                   <div class="icon">🤑</div>
                   <div class="text">
-                    Earn meme coins as the value of the pools you provided
-                    liquidity to increases
+                    <a
+                      class="text-white text-decoration-underline"
+                      href="#"
+                      onClick={() => State.update({ selectedTab: "Earn" })}
+                    >
+                      Earn meme coins
+                    </a>{" "}
+                    if you have previously provided liquidity to the pool for
+                    the token purchased by the Shill GPT.
                   </div>
                 </div>
               </MyListItem>
@@ -710,7 +748,14 @@ return (
                 <div class="content">
                   <div class="icon">🤩</div>
                   <div class="text">
-                    Participate in potential $SHILL token airdrop
+                    <a
+                      class="text-white text-decoration-underline"
+                      href="#"
+                      onClick={() => State.update({ selectedTab: "Earn" })}
+                    >
+                      Earn Shill points
+                    </a>{" "}
+                    and participate in potential $SHILL token airdrop
                   </div>
                 </div>
               </MyListItem>
@@ -734,13 +779,18 @@ return (
             <h4>How to get started</h4>
           </div>
           <div class="card-body">
-            <ol class="olcards">
+            <ol class="olcards mb-4">
               <MyListItem cardColor="#f15f0e" backColor="#eee">
                 <div class="content">
                   <div class="icon">💸</div>
                   <div class="text">
-                    Deposit some NEAR to the smart virtual balance (you can
-                    withdraw it at any time)
+                    <a
+                      class="text-white text-decoration-underline"
+                      href="#"
+                      onClick={() => State.update({ selectedTab: "Credits" })}
+                    >{`Deposit`}</a>{" "}
+                    some NEAR to the smart virtual balance (you can withdraw it
+                    at any time)
                   </div>
                 </div>
               </MyListItem>
@@ -748,8 +798,14 @@ return (
                 <div class="content">
                   <div class="icon">😎</div>
                   <div class="text">
-                    Go to Shillbox and Make a request to the AI bot and convince
-                    why one memecoin should be exchanged for another meme coin.
+                    Go to{" "}
+                    <a
+                      class="text-white text-decoration-underline"
+                      href="#"
+                      onClick={() => State.update({ selectedTab: "Main" })}
+                    >{`Shillbox`}</a>
+                    and make a request to the AI bot and convince why one
+                    memecoin should be exchanged for another meme coin.
                   </div>
                 </div>
               </MyListItem>
@@ -769,66 +825,48 @@ return (
                   <div class="text">
                     If your request was convincing, the ShillGPT will exchange
                     tokens according to your command on the AMM, rebalancing the
-                    treasury.
+                    treasury. Depending on how convincing your arguments were,
+                    the ShillGPT may exchange tokens from 1/16 to 1/2 of the
+                    pool.
                   </div>
                 </div>
               </MyListItem>
             </ol>
+            <Notice isSmall={1}>
+              Product in Beta! Attacks on the Shill GPT's functionality may
+              result in resetting your points to zero.
+            </Notice>
           </div>
         </div>
 
         <div class="card mb-3">
           <div class="card-header">
-            <h4>How to earn tokens with ShillGPT</h4>
+            <h4>Whitelisted tokens</h4>
           </div>
+
           <div class="card-body">
             <ol class="olcards">
-              <MyListItem cardColor="#162d59" backColor="#eee">
-                <div class="content">
-                  <div class="icon">💰</div>
-                  <div class="text">
-                    Provide liquidity to one of the memecoin pools and receive a
-                    share in that pool. Then, whenever the ShillGPT buys more of
-                    that token, your balance in the pool will increase.
+              {whitelist.map((t) => (
+                <MyListItem cardColor="#36aeb3" backColor="#eee">
+                  <div class="content">
+                    <div class="icon">
+                      <img src={allTokens[t].image} />
+                    </div>
+                    <div class="text">${allTokens[t].name}</div>
                   </div>
-                </div>
-              </MyListItem>
-              <MyListItem cardColor="#162d59" backColor="#eee">
-                <div class="content">
-                  <div class="icon">🤔</div>
-                  <div class="text">
-                    For instance, if there were 100 tokens in the memecoin pool
-                    and you added another 100, you would own 50% of that pool.
-                    Subsequently, if you persuaded the bot to sell some other
-                    token and buy the memecoin from your pool, let's say the bot
-                    bought an additional 300 tokens. The total pool balance
-                    would then be 500 tokens (200 existing tokens plus 300
-                    purchased). You would still own 50% of the pool, enabling
-                    you to withdraw 250 tokens instead of just the initial 100
-                    you deposited.
-                  </div>
-                </div>
-              </MyListItem>
+                </MyListItem>
+              ))}
 
-              <MyListItem cardColor="#162d59" backColor="#eee">
+              <MyListItem cardColor="#36aeb3" backColor="#eee">
                 <div class="content">
-                  <div class="icon">⚠️</div>
-                  <div class="text">
-                    Note that if the bot is convinced to sell tokens from your
-                    pool, the balance of your tokens in the pool will decrease
-                    as well. Assess the risks before depositing tokens into the
-                    pool.
+                  <div class="icon">
+                    <img
+                      src={
+                        "https://ipfs.near.social/ipfs/bafkreid5anr4kscz5pftbiczayzfsvz5dr6vcdl23uqluggmnvqlfedg24"
+                      }
+                    />
                   </div>
-                </div>
-              </MyListItem>
-
-              <MyListItem cardColor="#162d59" backColor="#eee">
-                <div class="content">
-                  <div class="icon">👆</div>
-                  <div class="text">
-                    Users can withdraw funds from the pool no earlier than 7
-                    days after the their last deposit in this pool.
-                  </div>
+                  <div class="text">$SHILL (Coming soon)</div>
                 </div>
               </MyListItem>
             </ol>
@@ -1398,7 +1436,7 @@ return (
                     pool, the balance of your tokens in the pool will decrease
                     as well.
                     <a
-                      class="text-decoration-underline"
+                      class="text-decoration-underline text-black"
                       href="#"
                       onClick={() => State.update({ selectedTab: "About" })}
                     >
@@ -1721,40 +1759,162 @@ return (
       </div>
     )}
 
-    {state.selectedTab == "Tokens" && (
-      <div id="whitelist" class="card  mb-3">
-        <div class="card-header">
-          <h4>Whitelisted tokens</h4>
-        </div>
+    {state.selectedTab == "Earn" && (
+      <>
+        <div id="earn" class="card mb-3">
+          <div class="card-header">
+            <h4>Earn $SHILL</h4>
+          </div>
 
-        <div class="card-body">
-          <ol class="olcards">
-            {whitelist.map((t) => (
-              <MyListItem cardColor="#36aeb3" backColor="#eee">
+          <div class="card-body">
+            <ol class="olcards">
+              <MyListItem cardColor="#162d59" backColor="#eee">
                 <div class="content">
-                  <div class="icon">
-                    <img src={allTokens[t].image} />
+                  <div class="icon">💰</div>
+                  <div class="text">
+                    <div>
+                      <strong>$SHILL POINTS</strong>
+                    </div>
+                    All users talking with the ShillGPT will be eligible for
+                    token airdrops proportionally based on the number of
+                    requests, pool deposits, and the number of invited users.
                   </div>
-                  <div class="text">${allTokens[t].name}</div>
                 </div>
               </MyListItem>
-            ))}
+              {!!accountId && state.refLink && (
+                <MyListItem cardColor="#162d59" backColor="#eee">
+                  <div class="content">
+                    <div class="icon">🤝</div>
+                    <div class="text">
+                      <div>
+                        <strong>Shill ShillGPT and earn $SHILL</strong>
+                      </div>
+                      <div>Your invitation link:</div>
+                      <div class="d-flex form-group">
+                        <input
+                          class="form-control p-1"
+                          style={{ width: "400px" }}
+                          type="text"
+                          disabled
+                          value={state.refLink}
+                        />
+                        <OverlayTrigger
+                          placement="auto"
+                          overlay={
+                            <Tooltip>
+                              {state.copied ? "Copied!" : "Copy to clipboard"}
+                            </Tooltip>
+                          }
+                        >
+                          <button
+                            class="btn btn-outline-primary border-0 p-2 ms-2"
+                            onMouseEnter={() =>
+                              State.update({ pauseNonce: true })
+                            }
+                            onMouseLeave={() =>
+                              State.update({ pauseNonce: false })
+                            }
+                            onClick={() => {
+                              clipboard.writeText(state.refLink).then(() => {
+                                State.update({ copied: true });
+                              });
+                            }}
+                          >
+                            {state.copied ? (
+                              <>
+                                <i className="bi bi-check-lg" />
+                              </>
+                            ) : (
+                              <>{copySvg}</>
+                            )}
+                          </button>
+                        </OverlayTrigger>
+                      </div>
+                    </div>
+                  </div>
+                </MyListItem>
+              )}
 
-            <MyListItem cardColor="#36aeb3" backColor="#eee">
-              <div class="content">
-                <div class="icon">
-                  <img
-                    src={
-                      "https://ipfs.near.social/ipfs/bafkreid5anr4kscz5pftbiczayzfsvz5dr6vcdl23uqluggmnvqlfedg24"
-                    }
-                  />
+              <MyListItem cardColor="#162d59" backColor="#eee">
+                <div class="content">
+                  <div class="icon">🤗</div>
+                  <div class="text">
+                    $SHILL holders will vote on listing new tokens in the
+                    ShillGPT and participate in the distribution of system
+                    revenue: referral commissions on AMM and service fees.
+                  </div>
                 </div>
-                <div class="text">$SHILL (Coming soon)</div>
-              </div>
-            </MyListItem>
-          </ol>
+              </MyListItem>
+            </ol>
+          </div>
         </div>
-      </div>
+
+        <div id="earn" class="card mb-3">
+          <div class="card-header">
+            <h4>Earn Memcoins</h4>
+          </div>
+
+          <div class="card-body">
+            <ol class="olcards">
+              <MyListItem cardColor="#36aeb3" backColor="#eee">
+                <div class="content">
+                  <div class="icon">💰</div>
+                  <div class="text">
+                    <a
+                      class="text-white text-decoration-underline"
+                      href="#"
+                      onClick={() => State.update({ selectedTab: "Pools" })}
+                    >
+                      Provide liquidity
+                    </a>{" "}
+                    to one of the memecoin pools and receive a share in that
+                    pool. Then, whenever the ShillGPT buys more of that token,
+                    your balance in the pool will increase.
+                  </div>
+                </div>
+              </MyListItem>
+              <MyListItem cardColor="#36aeb3" backColor="#eee">
+                <div class="content">
+                  <div class="icon">🤔</div>
+                  <div class="text">
+                    For instance, if there were 100 tokens in the memecoin pool
+                    and you added another 100, you would own 50% of that pool.
+                    Subsequently, if you persuaded the bot to sell some other
+                    token and buy the memecoin from your pool, let's say the bot
+                    bought an additional 300 tokens. The total pool balance
+                    would then be 500 tokens (200 existing tokens plus 300
+                    purchased). You would still own 50% of the pool, enabling
+                    you to withdraw 250 tokens instead of just the initial 100
+                    you deposited.
+                  </div>
+                </div>
+              </MyListItem>
+
+              <MyListItem cardColor="#36aeb3" backColor="#eee">
+                <div class="content">
+                  <div class="icon">⚠️</div>
+                  <div class="text">
+                    Note that if the bot is convinced to sell tokens from your
+                    pool, the balance of your tokens in the pool will decrease
+                    as well. Assess the risks before depositing tokens into the
+                    pool.
+                  </div>
+                </div>
+              </MyListItem>
+
+              <MyListItem cardColor="#36aeb3" backColor="#eee">
+                <div class="content">
+                  <div class="icon">👆</div>
+                  <div class="text">
+                    Users can withdraw funds from the pool no earlier than 7
+                    days after the their last deposit in this pool.
+                  </div>
+                </div>
+              </MyListItem>
+            </ol>
+          </div>
+        </div>
+      </>
     )}
 
     <div class="text-center mb-3">
