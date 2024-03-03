@@ -1,4 +1,5 @@
 const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
+const FarcasterLib = VM.require("mattb.near/widget/NearBadger.Libs.Farcaster");
 
 const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiayxdc7zwztpcvtlo4x7axev5racawcl5xh4x7k6mfamidebbqqc4";
@@ -280,6 +281,8 @@ return (
             <h1>
               Lens x
               <br />
+              Farcaster x
+              <br />
               Near Protocol
             </h1>
             <p>
@@ -314,7 +317,12 @@ return (
             >
               Verify my handle
             </ButtonPrimary>
-            <ButtonSecondary href="/mattb.near/widget/Frensly.Pages.Index" target="_blank">Discover people on Frensly</ButtonSecondary>
+            <ButtonSecondary
+              href="/mattb.near/widget/Frensly.Pages.Index"
+              target="_blank"
+            >
+              Discover people on Frensly
+            </ButtonSecondary>
           </div>
           <div class="image">
             <img
@@ -324,7 +332,7 @@ return (
             />
             <Circle>
               <img
-                src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
+                src="https://ipfs.near.social/ipfs/bafkreig2r5sjho6zeytjb2relykrhmcoix7vvhbnee4iqjgm3xxe6udgx4"
                 width="100%"
               />
             </Circle>
@@ -336,6 +344,17 @@ return (
             >
               <img
                 src="https://cryptologos.cc/logos/near-protocol-near-logo.png"
+                width="60%"
+              />
+            </Circle>
+            <Circle
+              style={{
+                top: "-100px",
+                left: "-90px",
+              }}
+            >
+              <img
+                src="https://ipfs.near.social/ipfs/bafkreihuvletzievm24mfqjhqrupfcdewbf2crvon7l6myhnr6raiipbqq"
                 width="60%"
               />
             </Circle>
