@@ -1,10 +1,24 @@
 const WARPCAST_API_URL = "https://client.warpcast.com/v2";
 const FARCASTER_FNAMES_API_URL = "https://fnames.farcaster.xyz";
 
+const PROFILE_INFO_ENDPOINT = "user-by-username";
 const PROFILE_ENDPOINT = "verifications";
 const FARCASTER_FNAMES_ENDPOINT = "transfers/current";
 
 const FarcasterAPI = {
+  getProfileInfo: (handle) => {
+    return asyncFetch(
+      FarcasterAPI.getWarpcastQueryURL(PROFILE_INFO_ENDPOINT, { username: handle }),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    ).then((result) => {
+      return result?.body?.result?.user;
+    });
+  },
   getHandleOwner: (handle) => {
     return FarcasterAPI.getFidByHandle(handle).then((fid) => {
       if (!fid) {
@@ -20,9 +34,9 @@ const FarcasterAPI = {
           },
         }
       ).then((result) => {
-          const verifications = result?.body?.result?.verifications || [];
-          return verifications.map((verification) => verification.address);
-        });
+        const verifications = result?.body?.result?.verifications || [];
+        return verifications.map((verification) => verification.address);
+      });
     });
   },
   getFidByHandle: (handle) => {
