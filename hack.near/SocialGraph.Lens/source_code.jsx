@@ -14,7 +14,14 @@ const getFollowers = () => {
     return LensSDK.profile.followers({ of: accountId });
   });
   Promise.all(followers).then((data) => {
-    console.log(data);
+    setFollowers(
+      data.map((followerInfo, index) => {
+        return {
+          handle: accountIds[index],
+          followers: followerInfo.followers,
+        };
+      })
+    );
   });
 };
 
@@ -33,10 +40,6 @@ const debug = false;
 useEffect(() => {
   setNodesState(data);
 }, [data]);
-
-if (!nodesState) {
-  return "Loading...";
-}
 
 const [message, setMessage] = useState(null);
 
@@ -286,8 +289,8 @@ const [onMessage] = useState(() => {
 
 return (
   <div>
-    <button onClick={getFollowers}></button>
-    <p>{JSON.stringify(data)}</p>
+    <button onClick={getFollowers}>Get Followers</button>
+    <p>{JSON.stringify(followers)}</p>
     <div>
       <iframe
         className="w-100 h-100"
