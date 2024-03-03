@@ -17,9 +17,7 @@ const ButtonApply = styled.button`
   box-sizing: border-box;
   border: 1px solid #384bff;
   background: #fff !important;
-  &:hover {
-    transform: scale(1.1);
-  }
+
   svg {
     path {
       stroke: #384bff !important;
