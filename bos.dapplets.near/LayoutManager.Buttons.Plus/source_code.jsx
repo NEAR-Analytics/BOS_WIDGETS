@@ -1,14 +1,14 @@
 const { widgets, onClick } = props
 
-const ButtonPlus = styled.div`
+const ButtonPlus = styled.button`
   display: flex;
   position: absolute;
   box-sizing: border-box;
   width: 22px;
   height: 22px;
+  padding: 0;
   border-radius: 50%;
   background: #fff;
-  position: relative;
   cursor: pointer;
   border: 1px solid #384bff;
 `
