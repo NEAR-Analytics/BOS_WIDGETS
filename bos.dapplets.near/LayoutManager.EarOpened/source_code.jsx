@@ -1,4 +1,10 @@
-const { widgets, isEditMode, handleOpenMenu, enableEditMode, disableEditMode } = props
+const {
+  widgets,
+  isEditMode,
+  handleOpenMenu,
+  enableEditMode,
+  disableEditMode,
+} = props
 
 const WrapperButtonPlusDefault = styled.div`
   width: 43px;
@@ -15,32 +21,12 @@ const WrapperButtonPlusDefault = styled.div`
   box-sizing: border-box;
 `
 
-return widgets && widgets.length ? (
+return (
   <>
     <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/>
     <Widget
       src="bos.dapplets.near/widget/LayoutManager.Buttons.Plus"
       props={{ widgets, onClick: handleOpenMenu }}
     />
-  </>
-) : (
-  <>
-    {isEditMode ? (
-      <Widget
-        src='bos.dapplets.near/widget/LayoutManager.Buttons.Apply'
-        props={{ onClick: disableEditMode, top: true }}
-      />
-    ) : (
-      <Widget
-        src='bos.dapplets.near/widget/LayoutManager.Buttons.Edit'
-        props={{ onClick: enableEditMode, top: true }}
-      />
-    )}
-    <WrapperButtonPlusDefault>
-      <Widget
-        src='bos.dapplets.near/widget/LayoutManager.Buttons.Plus'
-        props={{ onClick: handleOpenMenu }}
-      />
-    </WrapperButtonPlusDefault>
   </>
 )
