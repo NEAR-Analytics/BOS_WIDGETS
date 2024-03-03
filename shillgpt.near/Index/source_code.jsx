@@ -36,7 +36,7 @@ let allTokens = {
 
 if (state === undefined) {
   State.init({
-    selectedTab: "Main",
+    selectedTab: !!accountId ? "Main" : "About",
     showUnstakeForm: false,
     buyCreditAmount: 0.1,
     withdrawCreditAmount: 0,
@@ -723,8 +723,8 @@ return (
                 <div class="content">
                   <div class="icon">🚀</div>
                   <div class="text">
-                    Shill a promising memecoin, and the AI bot will buy it on
-                    Ref Finance
+                    Shill a promising memecoin, and the AI bot will immidately
+                    buy it on Ref Finance
                   </div>
                 </div>
               </MyListItem>
