@@ -11,14 +11,25 @@ const [followers, setFollowers] = useState(null);
 
 const getFollowers = () => {
   const followers = accountIds.map((accountId) => {
-    return LensSDK.profile.followers({ of: accountId });
+    return LensSDK.profile
+      .fetch({
+        forHandle: accountId,
+      })
+      .then((profile) => {
+        return LensSDK.profile.followers({
+          of: profile.id,
+        });
+      });
   });
   Promise.all(followers).then((data) => {
+    console.log(data);
     setFollowers(
       data.map((followerInfo, index) => {
+        console.log(followerInfo);
+
         return {
-          handle: accountIds[index],
-          followers: followerInfo.followers,
+          accountId: accountIds[index],
+          followers: followerInfo.profiles,
         };
       })
     );
@@ -288,9 +299,16 @@ const [onMessage] = useState(() => {
 });
 
 return (
-  <div>
-    <button onClick={getFollowers}>Get Followers</button>
-    <p>{JSON.stringify(followers)}</p>
+  <>
+    <h3 className="m-2">{JSON.stringify(accountIds)}</h3>
+    <button className="m-2" onClick={getFollowers}>
+      Get Followers
+    </button>
+    <hr />
+    <div className="m-2">
+      <h5>Data</h5>
+      <p>{JSON.stringify(followers)}</p>
+    </div>
     <div>
       <iframe
         className="w-100 h-100"
@@ -300,5 +318,5 @@ return (
         onMessage={onMessage}
       />
     </div>
-  </div>
+  </>
 );
