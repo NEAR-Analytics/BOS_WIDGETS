@@ -1,43 +1,34 @@
+const {
+  isEditMode,
+  createUserLink,
+  deleteUserLink,
+  enableEditMode,
+  disableEditMode,
+  widgets,
+  apps,
+} = props
+
 State.init({
   show: false,
   showMenu: false,
 });
 
-const handleOnMouseEnter = () => {
-  State.update({ show: true });
-};
+const handleOnMouseEnter = () => State.update({ show: true });
 
-const handleOnMouseLeave = () => {
+const handleOnMouseLeave = () =>
   state.showMenu
     ? null
-    : props.isEditMode
+    : isEditMode
     ? null
     : State.update({ show: false });
-};
 
-const handleOpenMenu = () => {
-  State.update({ showMenu: true, show: false });
-};
+const handleOpenMenu = () => State.update({ showMenu: true, show: false });
 
-const handleCloseMenu = () => {
-  State.update({ showMenu: false, show: false });
-};
+const handleCloseMenu = () => State.update({ showMenu: false, show: false });
 
 const handleSelectComponent = (app) => {
   State.update({ showMenu: false });
-  props.createUserLink(app.id);
-};
-
-const handleRemoveWidget = (linkId) => {
-  props.deleteUserLink(linkId);
-};
-
-const handleEditClick = () => {
-  props.enableEditMode();
-};
-
-const handleApplyClick = () => {
-  props.disableEditMode();
+  createUserLink(app.id);
 };
 
 const OverlayTriggerWrapper = styled.div`
@@ -61,6 +52,7 @@ const OverlayTriggerWrapper = styled.div`
     z-index: 79;
   }
 `;
+
 const SupportingSpan = styled.span`
   display: inline-block;
   width: 100%;
@@ -128,6 +120,7 @@ const TriggerEar = styled.div`
   border-radius: 2px;
   background: #fff;
   position: relative;
+
   &:before {
     content: "";
     display: block;
@@ -138,6 +131,7 @@ const TriggerEar = styled.div`
     position: absolute;
     top: 4px;
   }
+
   &:after {
     content: "";
     position: absolute;
@@ -160,6 +154,7 @@ const ButtonPlus = styled.div`
   transform: ${(p) => (p.default ? "translateY(-25px)" : "translateY(39px)")};
   cursor: pointer;
   border: 1px solid #384bff;
+
   &:before {
     content: "";
     display: block;
@@ -171,6 +166,7 @@ const ButtonPlus = styled.div`
     top: 6px;
     left: 10.5px;
   }
+
   &:after {
     content: "";
     display: block;
@@ -182,6 +178,7 @@ const ButtonPlus = styled.div`
     top: 10.8px;
     left: 6px;
   }
+
   @keyframes translateAnimationBtn {
     0% {
       opacity: 0;
@@ -200,6 +197,7 @@ const ButtonPlus = styled.div`
   }
   transition: all 0.3s;
 `;
+
 const WrapperButtonPlusDefault = styled.div`
   width: 43px;
   height: 62px;
@@ -214,6 +212,7 @@ const WrapperButtonPlusDefault = styled.div`
   justify-content: center;
   box-sizing: border-box;
 `;
+
 const ButtonPlusDefault = styled.div`
   display: flex;
   width: 22px;
@@ -226,20 +225,19 @@ const ButtonPlusDefault = styled.div`
   margin-top: 40px;
   cursor: pointer;
   border: 1px solid #384bff;
-
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  transition: all 0.3s;
+
   &:hover {
     transform: scale(1.1);
   }
-  transition: all 0.3s;
 `;
 
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
-
   z-index: 1200;
   background: rgba(255, 255, 255, 0.35);
   width: 100%;
@@ -320,20 +318,20 @@ const ButtonEdit = styled.button`
   justify-content: center;
   border-radius: 50%;
   padding: 0;
-
   border: 1px solid #384bff;
   box-sizing: border-box;
   background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
+  transition: all 0.3s;
 
   &:hover {
     transform: scale(1.1);
   }
+
   svg {
     path {
       stroke: ${(p) => (p.default ? "#fff !important" : "#384bff !important")};
     }
   }
-  transition: all 0.3s;
 `;
 
 const ButtonApply = styled.button`
@@ -351,9 +349,7 @@ const ButtonApply = styled.button`
   padding-right: 2px;
   cursor: pointer;
   box-sizing: border-box;
-
   border: 1px solid #384bff;
-
   background: ${(p) => (p.default ? "#384bff !important" : "#fff !important")};
   &:hover {
     transform: scale(1.1);
@@ -390,6 +386,7 @@ const iconSwitch = (
 
 const ActionBlock = styled.span`
   position: relative;
+
   div {
     z-index: 1000;
   }
@@ -400,7 +397,6 @@ const FloatingModal = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-
   animation: falling-animation 0.3s linear forwards;
 
   @keyframes falling-animation {
@@ -425,6 +421,7 @@ const iconEdit = (
     <path d="M12 7L2 7" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
 const iconApply = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -466,6 +463,7 @@ const plusDefault = (
     />
   </svg>
 );
+
 return (
   <OverlayTriggerWrapper onMouseOver={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -476,20 +474,19 @@ return (
         onMouseOut={handleOnMouseLeave}
         style={{
           margin: "0px -7px",
-          top: props.widgets && props.widgets.length ? "" : "-20px",
+          top: widgets && widgets.length ? "" : "-20px",
         }}
       >
         <SupportingSpan />
-
         <ActionsWrapper
           style={{
             backgroundColor:
-              props.widgets && props.widgets.length ? "" : "#DB504A!important",
+              widgets && widgets.length ? "" : "#DB504A!important",
           }}
         >
-          {props.widgets.map((widget) => (
+          {widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
-              {props.isEditMode ? (
+              {isEditMode ? (
                 <WidgetBadgeWrapper
                   className={
                     widget.linkAuthorId === context.accountId
@@ -510,7 +507,7 @@ return (
                     <Widget
                       src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
                       props={{
-                        onClick: () => handleRemoveWidget(widget.linkId),
+                        onClick: () => deleteUserLink(widget.linkId),
                       }}
                     />
                   ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
@@ -520,23 +517,22 @@ return (
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
           ))}
-
-          {props.widgets && props.widgets.length ? (
-            props.isEditMode ? (
-              <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
+          {widgets && widgets.length ? (
+            isEditMode ? (
+              <ButtonApply onClick={disableEditMode}>{iconApply}</ButtonApply>
             ) : (
-              <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
+              <ButtonEdit onClick={enableEditMode}>{iconEdit}</ButtonEdit>
             )
           ) : null}
         </ActionsWrapper>
-        {props.widgets && props.widgets.length ? (
+        {widgets && widgets.length ? (
           <>
             <SupportingSpan />
             <ButtonPlus
-              default={props.widgets && props.widgets.length ? true : false}
+              default={widgets && widgets.length ? true : false}
               style={{
                 position:
-                  props.widgets && props.widgets.length ? "unset" : "absolute",
+                  widgets && widgets.length ? "unset" : "absolute",
                 zIndex: "1081",
               }}
               title={!context.accountId ? "Connect wallet" : null}
@@ -545,12 +541,12 @@ return (
           </>
         ) : (
           <WrapperButtonPlusDefault>
-            {props.isEditMode ? (
+            {isEditMode ? (
               <ButtonApply
                 style={{
                   top: "5px",
                 }}
-                onClick={handleApplyClick}
+                onClick={disableEditMode}
                 default
               >
                 {iconApply}
@@ -561,7 +557,7 @@ return (
                 style={{
                   top: "5px",
                 }}
-                onClick={handleEditClick}
+                onClick={enableEditMode}
               >
                 {iconEdit}
               </ButtonEdit>
@@ -583,9 +579,9 @@ return (
         <FloatingModal>
           <Widget
             props={{
-              handleCloseMenu: handleCloseMenu,
+              handleCloseMenu,
               onSelect: handleSelectComponent,
-              apps: props.apps,
+              apps,
             }}
             src="bos.dapplets.near/widget/ComponentsSearch"
           />
