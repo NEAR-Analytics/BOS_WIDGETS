@@ -243,8 +243,7 @@ return (
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
           ))}
-          {widgets && widgets.length ? (
-            isEditMode ? (
+          {isEditMode ? (
               <Widget
                 src='bos.dapplets.near/widget/LayoutManager.Buttons.Apply'
                 props={{ onClick: disableEditMode }}
@@ -255,7 +254,7 @@ return (
                 props={{ onClick: enableEditMode }}
               />
             )
-          ) : null}
+          }
         </ActionsWrapper>
         <Widget
           src="bos.dapplets.near/widget/LayoutManager.EarOpened"
