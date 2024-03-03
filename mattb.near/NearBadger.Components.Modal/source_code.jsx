@@ -627,15 +627,8 @@ let steps = [
           </Description>
           <Requirement
             className={`
-              ${state.addresses.includes(state.address) ? "verified" : ""}
+              ${state.addresses.includes(state.address) && true ? "verified" : ""}
               ${state.addresses.length === 0 ? "pending" : ""}
-              ${
-                state.addresses.length > 0 &&
-                state.address &&
-                !state.addresses.includes(state.address)
-                  ? "selected failed"
-                  : ""
-              }
           `}
           >
             <h2>Ethereum wallet owns the profile</h2>
@@ -646,8 +639,7 @@ let steps = [
           </Description>
         </Requirements>
         {state.handle &&
-          state.addresses.length > 0 &&
-          state.addresses.includes(state.address) && (
+          state.addresses.length > 0 && (
             <Warning>
               <h2>Warning</h2>
               <Text>
@@ -712,9 +704,7 @@ return (
                   !state.handle
                 : !context.accountId ||
                   !state.addresses ||
-                  (state.address &&
-                    state.addresses.length > 0 &&
-                    !state.addresses.includes(state.address))
+                  !state.address
             }
           >
             Sign & Save
