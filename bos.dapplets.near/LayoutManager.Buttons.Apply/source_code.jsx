@@ -17,7 +17,7 @@ const ButtonApply = styled.button`
   cursor: pointer;
   background-color: rgba(56, 75, 255, 1);
 
-  & :hover {
+  &:hover {
     background-color: rgba(6, 25, 205, 1);
   }
 
