@@ -1020,7 +1020,7 @@ return {
               {
                 title: "Vision",
                 icon: "https://ipfs.near.social/ipfs/bafkreierklwtww7ug22mcfswvcen7mht55o5puysmdgskn5blbeuq7mktq",
-                description: `The vision of  FDAO  revolves around the creation and amplification of on-chain value within the near ecosystem. Our focus is to establish Near as a robust and thriving blockchain platform where the execution of valuable contracts is a cornerstone of its utility`,
+                description: `The vision of  FDAO  revolves around the creation and amplification of on-chain value within the NEAR ecosystem. Our focus is to establish Near as a robust and thriving blockchain platform where the execution of valuable contracts is a cornerstone of its utility`,
                 button: { title: "Read more", link: "" },
               },
               {
@@ -1126,10 +1126,8 @@ return {
           "https://ipfs.near.social/ipfs/bafkreiax4vgaur7pxljajkbmdedx5ynb6en7clh2vcrkciju5atd6xumiq",
         text: (
           <>
-            <a href="https://app.neardc.org/">
-              <b>Near Digital Collective</b>
-            </a>{" "}
-            (aka <a href="https://www.neardc.org/">NDC</a>) is the governance
+            <b>Near Digital Collective</b>
+            (aka <b>NDC</b>) is the governance
             node of the Near blockchain ecosystem. NDC is the organisation that
             manages funding requests and learn more about the processes, ongoing
             initiatives and key members who participate in governance. The NDC's
@@ -1146,9 +1144,7 @@ return {
           "https://ipfs.near.social/ipfs/bafkreiept3chqmiys74vvok62dmsp4i32wa4t754h5z6njx2hdw2zcx6wq",
         text: (
           <>
-            <a href="">
-              <b>NDC Grassroot DAO</b>
-            </a>{" "}
+            <b>NDC Grassroot DAO</b>
             is a team of experts dedicated to contributing to the NEAR ecosystem
             Grassroot DAOs focus on specific areas\verticals like Engineering,
             Marketing, Gaming, Regional growth and employ their own grant
