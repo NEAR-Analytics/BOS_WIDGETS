@@ -19,6 +19,22 @@ const Container = styled.div`
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: left;
+  img {
+    margin-right: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    flex-direction: column;
+    img {
+      margin-bottom: 1rem;
+    }
+  }
+`;
+
 let items = null;
 let dao = null;
 
@@ -42,10 +58,10 @@ return (
     <>
       {dao_id ? (
         <>
-          <h1>
+          <Header>
             <img className="dao-img" src={dao.logo_url} />
-            {dao.title}
-          </h1>
+            <h1>{dao.title}</h1>
+          </Header>
 
           <div className="mt-4">
             <a
@@ -63,8 +79,9 @@ return (
           props={props}
         />
       ) : (
-        <h1>All Proposals</h1>
+        <h1>All {type}s</h1>
       )}
+
       <div className="d-flex flex-column gap-4 mt-4">
         {items?.length ? (
           items
