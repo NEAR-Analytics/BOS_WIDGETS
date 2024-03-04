@@ -234,42 +234,42 @@ const memoizedDraftData = useMemo(
 );
 
 useEffect(() => {
-  let data = editProposalData || JSON.parse(draftProposalData);
-  let snapshot = data.snapshot;
-  if (allowDraft && data) {
-    if (timestamp) {
-      snapshot =
-        data.snapshot_history.find((item) => item.timestamp === timestamp) ??
-        data.snapshot;
-    }
-    if (
-      draftProposalData &&
-      editProposalData &&
-      editProposalData.id === JSON.parse(draftProposalData).id
-    ) {
-      snapshot = {
-        ...editProposalData.snapshot,
-        ...JSON.parse(draftProposalData).snapshot,
-      };
-    }
-    setCategory(snapshot.category);
-    setTitle(snapshot.name);
-    setSummary(snapshot.summary);
-    setDescription(snapshot.description);
-    setReceiverAccount(snapshot.receiver_account);
-    setRequestedSponsor(snapshot.requested_sponsor);
-    setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
-    setSupervisor(snapshot.supervisor);
+  if (allowDraft) {
+    let data = editProposalData || JSON.parse(draftProposalData);
+    let snapshot = data.snapshot;
+    if (data) {
+      if (timestamp) {
+        snapshot =
+          data.snapshot_history.find((item) => item.timestamp === timestamp) ??
+          data.snapshot;
+      }
+      if (
+        draftProposalData &&
+        editProposalData &&
+        editProposalData.id === JSON.parse(draftProposalData).id
+      ) {
+        snapshot = {
+          ...editProposalData.snapshot,
+          ...JSON.parse(draftProposalData).snapshot,
+        };
+      }
+      setCategory(snapshot.category);
+      setTitle(snapshot.name);
+      setSummary(snapshot.summary);
+      setDescription(snapshot.description);
+      setReceiverAccount(snapshot.receiver_account);
+      setRequestedSponsor(snapshot.requested_sponsor);
+      setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
+      setSupervisor(snapshot.supervisor);
 
-    const token = tokensOptions.find(
-      (item) =>
-        JSON.stringify(item.value) ===
-        JSON.stringify(snapshot.requested_sponsorship_paid_in_currency)
-    );
-    setRequestedSponsorshipToken(token);
+      const token = tokensOptions.find(
+        (item) => item.value === snapshot.requested_sponsorship_paid_in_currency
+      );
+      setRequestedSponsorshipToken(token ?? tokensOptions[2]);
+    }
+    setLoading(false);
   }
-  setLoading(false);
-}, [editProposalData, draftProposalData]);
+}, [editProposalData, draftProposalData, allowDraft]);
 
 useEffect(() => {
   if (draftProposalData) {
@@ -418,7 +418,7 @@ const [isReviewModalOpen, setReviewModal] = useState(false);
 const [amountError, setAmountError] = useState(null);
 const [isCancelModalOpen, setCancelModal] = useState(false);
 
-const DraftBtn = () => {
+const SubmitBtn = () => {
   const btnOptions = [
     {
       iconColor: "grey",
@@ -552,7 +552,11 @@ const onSubmit = ({ isDraft, isCancel }) => {
     supervisor: supervisor || null,
     requested_sponsor: requestedSponsor,
     timeline: isCancel
-      ? { status: "CANCELLED" }
+      ? {
+          status: "CANCELLED",
+          sponsor_requested_review: false,
+          reviewer_completed_attestation: false,
+        }
       : isDraft
       ? { status: "DRAFT" }
       : {
@@ -855,7 +859,7 @@ return (
                       }}
                     />
                   </Link>
-                  <DraftBtn />
+                  <SubmitBtn />
                 </div>
               </div>
             </div>
@@ -953,11 +957,11 @@ return (
                   value: requestedSponsorshipAmount,
                   onChange: (e) => {
                     const inputValue = e.target.value;
-                    // Check if the input value is a whole number
-                    if (!Number.isInteger(Number(inputValue))) {
-                      setAmountError("Please enter a whole number.");
+                    const isValidInput = /^\d+$/.test(inputValue);
+                    if (!isValidInput || Number(inputValue) < 0) {
+                      setAmountError("Please enter a positive whole number.");
                     } else {
-                      setRequestedSponsorshipAmount(e.target.value);
+                      setRequestedSponsorshipAmount(inputValue);
                       setAmountError("");
                     }
                   },
