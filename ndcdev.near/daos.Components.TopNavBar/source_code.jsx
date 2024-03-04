@@ -1,17 +1,17 @@
 const { assets } = VM.require(`ndcdev.near/widget/daos.Config`);
-const { hasNotifications, daoId } = props;
+const { hasNotifications, daoId, accountId } = props;
 
 if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 
 const links = [
   {
     text: "Reports",
-    href: `/ndcdev.near/widget/daos.App?page=reports`,
+    href: `/ndcdev.near/widget/daos.App?page=reports&accountId=${accountId}`,
     icon: <i className="bi bi-clipboard-data-fill fs-5" />,
   },
   {
     text: "Proposals",
-    href: `/ndcdev.near/widget/daos.App?page=proposals`,
+    href: `/ndcdev.near/widget/daos.App?page=proposals&accountId=${accountId}`,
     icon: <i className="bi bi-file-earmark-text-fill fs-5" />,
   },
   {
