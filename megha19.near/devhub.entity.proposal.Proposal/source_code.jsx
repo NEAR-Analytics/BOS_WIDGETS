@@ -4,6 +4,10 @@ const { href } = VM.require("megha19.near/widget/core.lib.url") || {
 const { readableDate } = VM.require(
   "megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
+const { getDepositAmountForWriteAccess } = VM.require(
+  "megha19.near/widget/core.lib.common"
+);
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -217,7 +221,16 @@ const item = {
   path: `truedove38.near/post/main`,
   blockHeight,
 };
-const proposalURL = `megha19.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = `https://near.org/megha19.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+
+let grantNotify = Near.view(
+  "social.near",
+  "is_write_permission_granted",
+  {
+    predecessor_id: "devhub.near",
+    key: context.accountId + "/index/notify",
+  }
+);
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -363,7 +376,7 @@ const CheckBox = ({ value, isChecked, label, disabled, onClick }) => {
         type="checkbox"
         value={value}
         checked={isChecked}
-        disabled={disabled}
+        disabled={!isModerator || disabled}
         onChange={(e) => onClick(e.target.checked)}
       />
       <label style={{ width: "90%" }} class="form-check-label text-black">
@@ -391,21 +404,41 @@ const RadioButton = ({ value, isChecked, label }) => {
 const isAllowedToEditProposal = Near.view(
   "truedove38.near",
   "is_allowed_to_edit_proposal",
-  { proposal_id: proposal.id, editor: accountId }
+  {
+    proposal_id: proposal.id,
+    editor: accountId,
+  }
 );
 
-const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
+const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+  account_id: accountId,
+});
 
 const editProposalStatus = ({ timeline }) => {
-  Near.call({
-    contractName: "truedove38.near",
-    methodName: "edit_proposal_timeline",
-    args: {
-      id: proposal.id,
-      timeline: timeline,
+  const calls = [
+    {
+      contractName: "truedove38.near",
+      methodName: "edit_proposal_timeline",
+      args: {
+        id: proposal.id,
+        timeline: timeline,
+      },
+      gas: 270000000000000,
     },
-    gas: 270000000000000,
-  });
+  ];
+  // if (grantNotify === false) {
+  //   calls.unshift({
+  //     contractName: "social.near",
+  //     methodName: "grant_write_permission",
+  //     args: {
+  //       predecessor_id: "devhub.near",
+  //       keys: [context.accountId + "/index/notify"],
+  //     },
+  //     gas: Big(10).pow(14),
+  //     deposit: getDepositAmountForWriteAccess(userStorageDeposit),
+  //   });
+  // }
+  Near.call(calls);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
@@ -431,8 +464,6 @@ const selectedStatusIndex = useMemo(
     }),
   [updatedProposalStatus]
 );
-
-console.log(selectedStatusIndex, updatedProposalStatus);
 
 const TimelineItems = ({ title, children, value, values }) => {
   const indexOfCurrentItem = proposalStatusOptions.findIndex((i) =>
