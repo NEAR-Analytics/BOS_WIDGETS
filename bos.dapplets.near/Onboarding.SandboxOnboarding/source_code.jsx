@@ -211,7 +211,7 @@ const Card = styled.div`
     }
 
     &.second {
-      background: -160px -134px no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-002.png");
+      background: -260px top no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-003.png");
     }
   }
 
