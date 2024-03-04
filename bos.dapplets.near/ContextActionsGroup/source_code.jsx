@@ -81,20 +81,17 @@ const ActionsWrapper = styled.div`
   z-index: 1080;
 
   @keyframes translateAnimation {
-    0% {
+    from {
       display: none;
       opacity: 0;
     }
-    90% {
+    to {
       display: flex;
-      opacity: .9;
-    }
-    100% {
       opacity: 1;
     }
   }
-  animation: translateAnimation 0.5s ease forwards;
-  transition: all 0.3s;
+  animation: translateAnimation 0.3s ease forwards;
+  transition: all 0.2s;
 `;
 
 const iconClose = (
