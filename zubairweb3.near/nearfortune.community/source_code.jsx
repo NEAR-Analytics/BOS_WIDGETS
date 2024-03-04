@@ -178,10 +178,9 @@ const NotificationModal = ({ isOpen, onClose }) => {
           Ops! You must have one of the following nfts to enter the raffle{" "}
           <br />
           <b>
-            Kano is bos jollof - 1<br />
+            Kano is bos jollof - 1 <br />
             Kano is bos jollof - 2
           </b>
-          <br />
         </div>
       </div>
     </div>
@@ -463,7 +462,7 @@ console.log(email);
 console.log(fullname);
 const sendData = () => {
   if (!email.trim() || !fullname.trim()) {
-    setErrorMessage("Please enter both email and name");
+    setErrorMessage("Please enter both email and fullname");
     return;
   }
   setIsLoading(true);
@@ -497,9 +496,7 @@ const sendData = () => {
           console.log("Email already exists...");
           console.log(response.body.message + "test");
           console.log(errorMessage);
-        } 
-        
-        else if (
+        } else if (
           response.body.status === "error" &&
           response.body.message ===
             "Reached maximum number of participants, try another raffle."
@@ -508,9 +505,7 @@ const sendData = () => {
             "Reached maximum number of participants, try another raffle."
           );
           setSuccessMessage("");
-        }
-        
-        else {
+        } else {
           setErrorMessage("Failed to submit data, try again");
           console.log("Failed to submit data, try again");
         }
@@ -533,16 +528,13 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
 const nftTitle = "Kano is bos jollof - 1";
 const nftTitle2 = "Kano is bos jollof - 2";
 
-console.log(nfts[0].metadata.title);
-console.log(nfts);
-
 const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
   if (
     nfts[i].metadata.title === nftTitle ||
-    nfts[i].metadata.title === nftTitle2
+    nfts[i].matadata.title === nftTitle2
   ) {
     State.update({ nftCheck: true });
     break;
@@ -587,11 +579,9 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            <b>If you have one of the following:</b> <br />
-            <b style={{ color: "purple" }}>
-              Kano is bos jollof - 1<br />
-              Kano is bos jollof - 2
-            </b>
+            <b>If you have one of the following NFT:</b> <br />
+            <b style={{ color: "purple" }}>- Kano is bos jollof - 1</b>
+            <b style={{ color: "purple" }}>- Kano is bos jollof - 2</b>
             <br />
             <br /> <b>you can enter the raffle to win!</b>
           </InstructionContent>
@@ -602,14 +592,14 @@ return (
             <PrizeIcon>
               <PrizeBtn>
                 <img src={sharDogIcon} />
-                <span>COMMUNITY RAFFLE V1. 2024</span>
+                <span>Community Raffle</span>
               </PrizeBtn>
             </PrizeIcon>
             <PrizeDetail>
               <span>
                 <b>Prize to win:</b>
               </span>
-              <li> $200 $NEAR</li>
+              <li>$200 $NEAR</li>
             </PrizeDetail>
           </PrizeContent>
         </PrizeWrapper>
@@ -648,12 +638,3 @@ return (
     </Container>
   </>
 );
-else if (
-          response.body.status === "error" &&
-          response.body.message ===
-            "Reached maximum number of participants, try another raffle."
-        ) {
-          setErrorMessage(
-            "Reached maximum number of participants, try another raffle."
-          );
-          setSuccessMessage("");
