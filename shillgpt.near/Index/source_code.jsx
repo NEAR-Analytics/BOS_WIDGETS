@@ -42,6 +42,7 @@ if (state === undefined) {
     withdrawCreditAmount: 0,
     nonce: 0,
     pauseNonce: false,
+    requestFromAccountId: props.requestFrom,
     refLink: accountId
       ? `https://near.social/shillgpt.near/widget/Index?referral_id=${accountId}`
       : null,
@@ -70,10 +71,10 @@ const getUserBalance = (tokenId) => {
   });
 };
 
-const getUserRequestResponse = () => {
-  if (accountId) {
+const getUserRequestResponse = (requestAccountId) => {
+  if (requestAccountId) {
     Near.asyncView(contractId, "get_user_request_response", {
-      account_id: accountId,
+      account_id: requestAccountId,
     }).then((userRequestResponse) => {
       if (userRequestResponse) {
         if (userRequestResponse?.request?.token_in) {
@@ -172,14 +173,14 @@ useEffect(() => {
   if (accountId && state.nonce % 10 === 0) {
     (whitelist ?? []).map((t) => getUserBalance(t));
   }
-  getUserRequestResponse();
+  getUserRequestResponse(state.requestFromAccountId ?? accountId);
 }, [state.nonce]);
 
 if (!whitelist || !pools || !requestCost) {
   return "Loading";
 }
 
-getUserRequestResponse();
+getUserRequestResponse(state.requestFromAccountId ?? accountId);
 
 const userCredits = user_credits_data[0];
 const userFreeEntryAvailable = user_credits_data[1];
@@ -560,10 +561,14 @@ const navTabs = !!accountId
   : ["Main", "Pools", "Earn", "About"];
 
 let now = Date.now();
-let showLatestResponse =
+let isLatestResponseExpired =
   (state.userRequestResponse?.request_timestamp ?? 0) / 1000000 +
     10 * 60 * 1000 >
   now;
+
+let showLatestResponse = !state.requestFromAccountId
+  ? isLatestResponseExpired
+  : true;
 
 console.log("showLatestResponse", showLatestResponse);
 
@@ -631,8 +636,182 @@ if (state.tokenOut && user_pools) {
   }
 }
 
-return (
-  <Theme>
+const timeSince = (date) => {
+  var seconds = Math.floor((new Date() - date) / 1000);
+
+  var interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + " years";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
+};
+
+const latestResponseBlock = (
+  <div
+    id="latestResponse"
+    class="card"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    style={{ width: "100%" }}
+  >
+    {state.userRequestResponse?.response?.verdict && (
+      <div class="card-header">
+        <h4 class="me-auto">{state.userRequestResponse?.response?.verdict}</h4>
+      </div>
+    )}
+    <div class="card-body">
+      <Notice
+        isSmall={1}
+        paddingLeft="10px"
+        marginBottom="1rem"
+        cardColor={state.userRequestResponse?.response?.color}
+      >
+        {`👀 ${!!state.requestFromAccountId ? "" : "Your"} Last Request at
+                ${new Date(
+                  (state.userRequestResponse?.["request_timestamp"] ?? 0) /
+                    1000000
+                ).toLocaleTimeString()}`}
+      </Notice>
+      <ol class="olcards">
+        <MyListItem
+          cardColor={state.userRequestResponse?.response?.color}
+          displayNumber="none"
+          style={{ marginTop: 0 }}
+        >
+          <div class="content" style={{ paddingLeft: "1rem" }}>
+            <div class="icon">
+              <img
+                src={
+                  allTokens[state.userRequestResponse?.request?.token_in].image
+                }
+              />
+            </div>
+            <div class="text">
+              <div>
+                <strong>{`Sell:
+                    ${state.userRequestResponse?.request?.tokenInName}`}</strong>
+              </div>
+
+              <div>
+                {state.userRequestResponse.request["token_in_message"] ??
+                  "No Message"}
+              </div>
+            </div>
+          </div>
+        </MyListItem>
+        <MyListItem
+          cardColor={state.userRequestResponse?.response?.color}
+          displayNumber="none"
+          style={{ marginTop: 0 }}
+        >
+          <div class="content" style={{ paddingLeft: "1rem" }}>
+            <div class="icon">
+              <img
+                src={
+                  allTokens[state.userRequestResponse?.request?.token_out].image
+                }
+              />
+            </div>
+            <div class="text">
+              <div>
+                <strong>{`Buy:
+                   ${state.userRequestResponse?.request?.tokenOutName}`}</strong>
+              </div>
+              <div>
+                {state.userRequestResponse.request["token_out_message"] ??
+                  "No Message"}
+              </div>
+            </div>
+          </div>{" "}
+        </MyListItem>
+        {state.userRequestResponse?.response &&
+          (state.userRequestResponse?.response?.ok == false ||
+            state.userRequestResponse?.response?.shillAccepted ||
+            state.userRequestResponse?.response?.shillDeclined) && (
+            <MyListItem
+              cardColor={state.userRequestResponse?.response?.color}
+              displayNumber="none"
+              style={{ marginTop: 0 }}
+            >
+              <div class="content" style={{ paddingLeft: "1rem" }}>
+                <div class="icon">{`${
+                  state.userRequestResponse?.response?.shillAccepted
+                    ? `🤑`
+                    : state.userRequestResponse?.response?.shillDeclined
+                    ? `🤯`
+                    : `🤨`
+                }`}</div>
+                <div class="text">
+                  <div>
+                    <strong>ShillGPT respond:</strong>
+                  </div>
+                  <div>{state.userRequestResponse?.response?.textCleaned}</div>
+                </div>
+              </div>
+            </MyListItem>
+          )}
+        {state.userRequestResponse?.response?.verdict !== "Pending" &&
+          state.userRequestResponse?.amount_in &&
+          state.userRequestResponse?.amount_out && (
+            <Notice
+              isSmall={1}
+              paddingLeft="10px"
+              cardColor={state.userRequestResponse?.response?.color}
+            >
+              🚀
+              {`${getFtBalance(
+                state.userRequestResponse?.request?.token_in,
+                state.userRequestResponse?.amount_in,
+                2
+              )} ${
+                state.userRequestResponse?.request?.tokenInName
+              } was sold to buy ${getFtBalance(
+                state.userRequestResponse?.request?.token_out,
+                state.userRequestResponse?.amount_out,
+                2
+              )} ${state.userRequestResponse?.request?.tokenOutName}`}
+            </Notice>
+          )}
+
+        {state.userRequestResponse?.response?.verdict &&
+          state.userRequestResponse?.response?.shillDeclined === false &&
+          state.userRequestResponse?.response?.verdict !== "Pending" &&
+          !state.userRequestResponse?.amount_in &&
+          !state.userRequestResponse?.amount_out && (
+            <Notice
+              isSmall={1}
+              paddingLeft="10px"
+              cardColor={state.userRequestResponse?.response?.color}
+            >
+              {" "}
+              🚀Swapping on AMM...
+            </Notice>
+          )}
+      </ol>
+    </div>
+  </div>
+);
+
+const headerBlock = (
+  <div id="container-header">
     <div class="main-header align-items-start">
       <img
         src="https://ipfs.near.social/ipfs/bafkreicptaq3otho65azjvuacrj6pwp6cccrhsmsd5y5c33m7zmlvbdnze"
@@ -692,6 +871,65 @@ return (
       <strong>memecoin treasuries</strong> and rebalances them upon{" "}
       <strong>your influence</strong>.
     </div>
+  </div>
+);
+
+if (!!state.requestFromAccountId) {
+  return (
+    <Theme>
+      {headerBlock}
+      <div>
+        <div
+          class="toast show mt-2"
+          style={{ width: "100%" }}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header">
+            <strong class="me-auto">
+              Latest response from{" "}
+              <Widget
+                src="mob.near/widget/N.ProfileLine"
+                props={{ accountId: state.requestFromAccountId }}
+              />
+            </strong>
+            {state.userRequestResponse && (
+              <small>
+                {timeSince(
+                  (state.userRequestResponse?.["request_timestamp"] ?? 0) /
+                    1000000
+                )}{" "}
+                ago
+              </small>
+            )}
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+              onClick={() => {
+                State.update({ requestFromAccountId: null });
+              }}
+            ></button>
+          </div>
+
+          <div class="toast-body">
+            {state.userRequestResponse ? (
+              latestResponseBlock
+            ) : (
+              <div>Not found</div>
+            )}
+          </div>
+        </div>
+      </div>
+    </Theme>
+  );
+}
+
+return (
+  <Theme>
+    {headerBlock}
 
     <div class="tabs-container mt-2 mb-3">
       {navTabs.map((tab) => (
@@ -1123,184 +1361,7 @@ return (
 
             {showLatestResponse &&
               state.userRequestResponse?.["request_timestamp"] && (
-                <div class="col">
-                  <div
-                    id="latestResponse"
-                    class="card"
-                    role="alert"
-                    aria-live="assertive"
-                    aria-atomic="true"
-                    style={{ width: "100%" }}
-                  >
-                    {state.userRequestResponse?.response?.verdict && (
-                      <div class="card-header">
-                        <h4 class="me-auto">
-                          {state.userRequestResponse?.response?.verdict}
-                        </h4>
-                      </div>
-                    )}
-                    <div class="card-body">
-                      <Notice
-                        isSmall={1}
-                        paddingLeft="10px"
-                        marginBottom="1rem"
-                        cardColor={state.userRequestResponse?.response?.color}
-                      >
-                        {`👀 Your Last Request at
-                ${new Date(
-                  (state.userRequestResponse?.["request_timestamp"] ?? 0) /
-                    1000000
-                ).toLocaleTimeString()}`}
-                      </Notice>
-                      <ol class="olcards">
-                        <MyListItem
-                          cardColor={state.userRequestResponse?.response?.color}
-                          displayNumber="none"
-                          style={{ marginTop: 0 }}
-                        >
-                          <div class="content" style={{ paddingLeft: "1rem" }}>
-                            <div class="icon">
-                              <img
-                                src={
-                                  allTokens[
-                                    state.userRequestResponse?.request?.token_in
-                                  ].image
-                                }
-                              />
-                            </div>
-                            <div class="text">
-                              <div>
-                                <strong>{`Sell:
-                    ${state.userRequestResponse?.request?.tokenInName}`}</strong>
-                              </div>
-
-                              <div>
-                                {state.userRequestResponse.request[
-                                  "token_in_message"
-                                ] ?? "No Message"}
-                              </div>
-                            </div>
-                          </div>
-                        </MyListItem>
-                        <MyListItem
-                          cardColor={state.userRequestResponse?.response?.color}
-                          displayNumber="none"
-                          style={{ marginTop: 0 }}
-                        >
-                          <div class="content" style={{ paddingLeft: "1rem" }}>
-                            <div class="icon">
-                              <img
-                                src={
-                                  allTokens[
-                                    state.userRequestResponse?.request
-                                      ?.token_out
-                                  ].image
-                                }
-                              />
-                            </div>
-                            <div class="text">
-                              <div>
-                                <strong>{`Buy:
-                   ${state.userRequestResponse?.request?.tokenOutName}`}</strong>
-                              </div>
-                              <div>
-                                {state.userRequestResponse.request[
-                                  "token_out_message"
-                                ] ?? "No Message"}
-                              </div>
-                            </div>
-                          </div>{" "}
-                        </MyListItem>
-                        {state.userRequestResponse?.response &&
-                          (state.userRequestResponse?.response?.ok == false ||
-                            state.userRequestResponse?.response
-                              ?.shillAccepted ||
-                            state.userRequestResponse?.response
-                              ?.shillDeclined) && (
-                            <MyListItem
-                              cardColor={
-                                state.userRequestResponse?.response?.color
-                              }
-                              displayNumber="none"
-                              style={{ marginTop: 0 }}
-                            >
-                              <div
-                                class="content"
-                                style={{ paddingLeft: "1rem" }}
-                              >
-                                <div class="icon">{`${
-                                  state.userRequestResponse?.response
-                                    ?.shillAccepted
-                                    ? `🤑`
-                                    : state.userRequestResponse?.response
-                                        ?.shillDeclined
-                                    ? `🤯`
-                                    : `🤨`
-                                }`}</div>
-                                <div class="text">
-                                  <div>
-                                    <strong>ShillGPT respond:</strong>
-                                  </div>
-                                  <div>
-                                    {
-                                      state.userRequestResponse?.response
-                                        ?.textCleaned
-                                    }
-                                  </div>
-                                </div>
-                              </div>
-                            </MyListItem>
-                          )}
-                        {state.userRequestResponse?.response?.verdict !==
-                          "Pending" &&
-                          state.userRequestResponse?.amount_in &&
-                          state.userRequestResponse?.amount_out && (
-                            <Notice
-                              isSmall={1}
-                              paddingLeft="10px"
-                              cardColor={
-                                state.userRequestResponse?.response?.color
-                              }
-                            >
-                              🚀
-                              {`${getFtBalance(
-                                state.userRequestResponse?.request?.token_in,
-                                state.userRequestResponse?.amount_in,
-                                2
-                              )} ${
-                                state.userRequestResponse?.request?.tokenInName
-                              } was sold to buy ${getFtBalance(
-                                state.userRequestResponse?.request?.token_out,
-                                state.userRequestResponse?.amount_out,
-                                2
-                              )} ${
-                                state.userRequestResponse?.request?.tokenOutName
-                              }`}
-                            </Notice>
-                          )}
-
-                        {state.userRequestResponse?.response?.verdict &&
-                          state.userRequestResponse?.response?.shillDeclined ===
-                            false &&
-                          state.userRequestResponse?.response?.verdict !==
-                            "Pending" &&
-                          !state.userRequestResponse?.amount_in &&
-                          !state.userRequestResponse?.amount_out && (
-                            <Notice
-                              isSmall={1}
-                              paddingLeft="10px"
-                              cardColor={
-                                state.userRequestResponse?.response?.color
-                              }
-                            >
-                              {" "}
-                              🚀Swapping on AMM...
-                            </Notice>
-                          )}
-                      </ol>
-                    </div>
-                  </div>
-                </div>
+                <div class="col">{latestResponseBlock}</div>
               )}
           </div>
         </div>
