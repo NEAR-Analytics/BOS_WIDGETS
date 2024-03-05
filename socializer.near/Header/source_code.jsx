@@ -61,11 +61,11 @@ const Content = styled.div`
     gap: 25px; 
     display: flex;  
     margin-left: 5%;
-    & > p {
+    p {
         margin: 0;
         font-size: 14px;
     }
-    & > h4 {
+    h4 {
         margin: 0;
     }
 
