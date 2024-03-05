@@ -195,10 +195,13 @@ const TableComponent = styled.div`
 `;
 
 const HeadComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 32px;
+    width: 100%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 620px) {
+        padding: 46px 1px 25px;
+    }
 `;
 
 const TitleComponent = styled.div`
@@ -209,10 +212,24 @@ const TitleComponent = styled.div`
 `;
 
 const FilterContent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 620px) {
+        flex-direction: column;
+    }
+`;
+
+const SelectContent = styled.div`
+    gap: 21px;
+    display: flex;
+    align-items: center;
+    
+    @media (max-width: 620px) {
+        gap: 10px;
+        justify-content: flex-end;
+    }
 `;
 
 const TitleContent = styled.div`
@@ -223,13 +240,14 @@ const TitleContent = styled.div`
 `;
 
 const SearchInput = styled.input`
-  border-radius: 10px;
-  padding: 14px 48px 14px 28px;
+  width: 100%;
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
+  font-style: normal;
+  border-radius: 10px;
   line-height: normal;
   letter-spacing: -0.12px;
+  padding: 14px 48px 14px 28px;
 `;
 
 const Button = styled.button`
@@ -315,13 +333,7 @@ return (
             />
             <SearchIcon />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 21,
-            }}
-          >
+          <SelectContent>
             <Widget
               props={{
                 API_URL,
@@ -341,7 +353,7 @@ return (
             >
               {"+ Create New Campaigns"}
             </Button>
-          </div>
+          </SelectContent>
         </FilterContent>
         <TitleContent>
           <h4 style={{ margin: 0 }}>{state.title[state.menu.value].tl}</h4>
