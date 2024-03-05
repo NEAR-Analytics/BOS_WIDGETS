@@ -73,6 +73,7 @@ const Content = styled.div`
     @media (max-width: 620px) {
         gap: 1px;
         top: 72px;
+        margin-left: 0;
         position: absolute;
         
         button {
