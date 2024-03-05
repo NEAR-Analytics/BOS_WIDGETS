@@ -10,7 +10,6 @@ const error = props.error || "";
 const Container = styled.div`
   gap: 0.45em;
   width: 100%;
-  height: 100%;
   display: flex;
   background: unset;
   flex-direction: column;
@@ -45,7 +44,6 @@ const Error = styled.span`
 const Input = styled.div`
   gap: 0.5em;
   width: 100%;
-  height: 100%;
   display: flex;
   color: white;
   font-size: 12px;
