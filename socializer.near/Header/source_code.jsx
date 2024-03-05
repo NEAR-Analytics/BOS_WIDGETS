@@ -60,6 +60,7 @@ const Logo = styled.div`
 
 const Content = styled.div`
     gap: 25px; 
+    z-index: 2;
     display: flex;  
     margin-left: 5%;
     p {
@@ -77,7 +78,7 @@ const Content = styled.div`
         position: absolute;
         
         button {
-            width: 70px;
+            width: 20%;
         }
 
         p {
