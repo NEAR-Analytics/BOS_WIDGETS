@@ -10,9 +10,10 @@ State.init({
 });
 
 const Sidebar = styled.div`
-    display: flex;
     width: 325px;
     height: 100%;
+    display: flex;
+    padding: 20px 0;
     background: white;
     align-items: center;
     flex-direction: column;
