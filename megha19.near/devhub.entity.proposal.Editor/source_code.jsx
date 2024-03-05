@@ -22,7 +22,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("truedove38.near", "get_proposal", {
+  editProposalData = Near.view("devhub.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -198,7 +198,7 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("truedove38.near", "get_proposals");
+const proposalsData = Near.view("devhub.near", "get_proposals");
 const [loading, setLoading] = useState(true);
 
 if (allowDraft) {
@@ -234,42 +234,42 @@ const memoizedDraftData = useMemo(
 );
 
 useEffect(() => {
-  if (allowDraft) {
-    let data = editProposalData || JSON.parse(draftProposalData);
-    let snapshot = data.snapshot;
-    if (data) {
-      if (timestamp) {
-        snapshot =
-          data.snapshot_history.find((item) => item.timestamp === timestamp) ??
-          data.snapshot;
-      }
-      if (
-        draftProposalData &&
-        editProposalData &&
-        editProposalData.id === JSON.parse(draftProposalData).id
-      ) {
-        snapshot = {
-          ...editProposalData.snapshot,
-          ...JSON.parse(draftProposalData).snapshot,
-        };
-      }
-      setCategory(snapshot.category);
-      setTitle(snapshot.name);
-      setSummary(snapshot.summary);
-      setDescription(snapshot.description);
-      setReceiverAccount(snapshot.receiver_account);
-      setRequestedSponsor(snapshot.requested_sponsor);
-      setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
-      setSupervisor(snapshot.supervisor);
-
-      const token = tokensOptions.find(
-        (item) => item.value === snapshot.requested_sponsorship_paid_in_currency
-      );
-      setRequestedSponsorshipToken(token ?? tokensOptions[2]);
+  let data = editProposalData || JSON.parse(draftProposalData);
+  let snapshot = data.snapshot;
+  if (allowDraft && data) {
+    if (timestamp) {
+      snapshot =
+        data.snapshot_history.find((item) => item.timestamp === timestamp) ??
+        data.snapshot;
     }
-    setLoading(false);
+    if (
+      draftProposalData &&
+      editProposalData &&
+      editProposalData.id === JSON.parse(draftProposalData).id
+    ) {
+      snapshot = {
+        ...editProposalData.snapshot,
+        ...JSON.parse(draftProposalData).snapshot,
+      };
+    }
+    setCategory(snapshot.category);
+    setTitle(snapshot.name);
+    setSummary(snapshot.summary);
+    setDescription(snapshot.description);
+    setReceiverAccount(snapshot.receiver_account);
+    setRequestedSponsor(snapshot.requested_sponsor);
+    setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
+    setSupervisor(snapshot.supervisor);
+
+    const token = tokensOptions.find(
+      (item) =>
+        JSON.stringify(item.value) ===
+        JSON.stringify(snapshot.requested_sponsorship_paid_in_currency)
+    );
+    setRequestedSponsorshipToken(token);
   }
-}, [editProposalData, draftProposalData, allowDraft]);
+  setLoading(false);
+}, [editProposalData, draftProposalData]);
 
 useEffect(() => {
   if (draftProposalData) {
@@ -418,7 +418,7 @@ const [isReviewModalOpen, setReviewModal] = useState(false);
 const [amountError, setAmountError] = useState(null);
 const [isCancelModalOpen, setCancelModal] = useState(false);
 
-const SubmitBtn = () => {
+const DraftBtn = () => {
   const btnOptions = [
     {
       iconColor: "grey",
@@ -524,7 +524,7 @@ let grantNotify = Near.view(
   "social.near",
   "is_write_permission_granted",
   {
-    predecessor_id: "truedove38.near",
+    predecessor_id: "devhub.near",
     key: context.accountId + "/index/notify",
   }
 );
@@ -552,11 +552,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
     supervisor: supervisor || null,
     requested_sponsor: requestedSponsor,
     timeline: isCancel
-      ? {
-          status: "CANCELLED",
-          sponsor_requested_review: false,
-          reviewer_completed_attestation: false,
-        }
+      ? { status: "CANCELLED" }
       : isDraft
       ? { status: "DRAFT" }
       : {
@@ -571,24 +567,24 @@ const onSubmit = ({ isDraft, isCancel }) => {
   }
   const calls = [
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
     },
   ];
-  // if (grantNotify === false) {
-  //   calls.unshift({
-  //     contractName: "social.near",
-  //     methodName: "grant_write_permission",
-  //     args: {
-  //       predecessor_id: "truedove38.near",
-  //       keys: [context.accountId + "/index/notify"],
-  //     },
-  //     gas: Big(10).pow(14),
-  //     deposit: getDepositAmountForWriteAccess(userStorageDeposit),
-  //   });
-  // }
+  if (grantNotify === false) {
+    calls.unshift({
+      contractName: "social.near",
+      methodName: "grant_write_permission",
+      args: {
+        predecessor_id: "devhub.near",
+        keys: [context.accountId + "/index/notify"],
+      },
+      gas: Big(10).pow(14),
+      deposit: getDepositAmountForWriteAccess(userStorageDeposit),
+    });
+  }
   Near.call(calls);
 };
 
@@ -859,7 +855,7 @@ return (
                       }}
                     />
                   </Link>
-                  <SubmitBtn />
+                  <DraftBtn />
                 </div>
               </div>
             </div>
@@ -957,11 +953,11 @@ return (
                   value: requestedSponsorshipAmount,
                   onChange: (e) => {
                     const inputValue = e.target.value;
-                    const isValidInput = /^\d+$/.test(inputValue);
-                    if (!isValidInput || Number(inputValue) < 0) {
-                      setAmountError("Please enter a positive whole number.");
+                    // Check if the input value is a whole number
+                    if (!Number.isInteger(Number(inputValue))) {
+                      setAmountError("Please enter a whole number.");
                     } else {
-                      setRequestedSponsorshipAmount(inputValue);
+                      setRequestedSponsorshipAmount(e.target.value);
                       setAmountError("");
                     }
                   },
