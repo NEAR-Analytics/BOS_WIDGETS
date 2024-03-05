@@ -42,7 +42,7 @@ const { dapps, currentDapp, onChange } = props;
 
 return (
   <Wrapper>
-    <Label>Dapp</Label>
+    <Label>dApp</Label>
     <Dapps>
       <Dapp
         className={currentDapp === "All" && "active"}
