@@ -30,6 +30,7 @@ const Header = styled.div`
     align-items: center;
     
     @media (max-width: 620px) {
+        height: 155px;
         flex-direction: column;        
     }
 `;
