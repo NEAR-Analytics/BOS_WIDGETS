@@ -22,12 +22,16 @@ const setAvatar = () => {
 };
 
 const Header = styled.div`
-  width: 100%;
-  display: flex;
-  height: 120px;
-  padding: 0 2.5%;
-  flex-direction: row;
-  align-items: center;
+    width: 100%;
+    display: flex;
+    height: 120px;
+    padding: 0 2.5%;
+    flex-direction: row;
+    align-items: center;
+    
+    @media (max-width: 620px) {
+        flex-direction: column;        
+    }
 `;
 
 const Logo = styled.div`
@@ -46,7 +50,7 @@ const Logo = styled.div`
     }
 
     @media (max-width: 620px) {
-        flex-direction: column;        
+
         img {
             width: 99px;
         }
