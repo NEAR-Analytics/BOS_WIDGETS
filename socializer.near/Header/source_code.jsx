@@ -50,6 +50,8 @@ const Logo = styled.div`
     }
 
     @media (max-width: 620px) {
+        top: -32px;
+        
         svg {
             top: 75px;
         }
@@ -70,6 +72,8 @@ const Content = styled.div`
 
     @media (max-width: 620px) {
         gap: 1px;
+        top: 72px;
+        position: absolute;
         
         button {
             width: 70px;
