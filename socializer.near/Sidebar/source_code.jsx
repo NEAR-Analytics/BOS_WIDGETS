@@ -112,8 +112,8 @@ return (
     </Button>
     <div className="flex-column align-items-center content w-100 h-100 ">
       <Button
-        className="btn-close"
-        style={{ width: "auto" }}
+        className="top-0 end-0 p-0 btn-close"
+        style={{ width: "auto", fontSIze: 25 }}
         onClick={openSidebar}
       >
         <svg
