@@ -17,7 +17,7 @@ const Sidebar = styled.div`
     justify-content: space-between;
     align-items: center;
     @media (max-width: 620px) {
-        width : 0;
+        width : 40px;
         z-index: 2;
         position: absolute;
 
@@ -67,6 +67,7 @@ const Button = styled.button`
   cursor: pointer;
   border-radius: 50px;
   align-items: center;
+  justify-content: center;
   background-color: black;
   &:hover {
     background-color: #f3f3f3;
