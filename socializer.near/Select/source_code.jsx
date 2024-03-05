@@ -1,39 +1,39 @@
-const label = props.label || "Label";
-const noLabel = props.noLabel || false;
-const placeholder = props.placeholder || "Select an option";
-const value = props.value || "";
-const width = props.width || "270px";
-const options = props.options || [];
-const onChange = props.onChange || (() => {});
-const error = props.error || "";
+const label = props.label ?? "Label";
+const noLabel = props.noLabel ?? false;
+const placeholder = props.placeholder ?? "Select an option";
+const value = props.value ?? "";
+const options = props.options ?? [];
+const width = props.width ?? 171;
+const onChange = props.onChange ?? (() => {});
+const error = props.error ?? "";
 
 const Container = styled.div`
   gap: 0.45em;
-  width: 100%;
+  height: 100%;
   display: flex;
-  background: unset;
+  width: ${width}px;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 `;
 
 const Label = styled.label`
-  color: #344054;
+  font-style: normal;
   font-weight: 400;
   font-size: 0.95em;
-  font-style: normal;
   line-height: 1.25em;
+  color: #344054;
 `;
 
 const Error = styled.span`
-  height: 0;
-  color: #ff4d4f;
-  overflow: hidden;
+  display: inline-block;
+  font-style: normal;
   font-weight: 400;
   font-size: 0.75em;
-  font-style: normal;
   line-height: 1.25em;
-  display: inline-block;
+  color: #ff4d4f;
+  height: 0;
+  overflow: hidden;
   transition: height 0.3s ease-in-out;
 
   &.show {
@@ -44,20 +44,21 @@ const Error = styled.span`
 const Input = styled.div`
   gap: 0.5em;
   width: 100%;
+  height: 100%;
   display: flex;
-  color: white;
+  color: #121212;
   font-size: 12px;
   font-weight: 600;
-  background: unset;
   border-radius: 6px;
   line-height: normal;
-  flex-direction: row;
   align-items: center;
-  border: 1px solid #FFF;
+  flex-direction: row;
+  background: #ffffff;
   box-sizing: border-box;
   text-transform: capitalize;
   padding: 12px 18px 12px 24px;
   justify-content: space-between;
+  border: 1px solid var(--Dark, #121212);
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 `;
 
@@ -75,20 +76,20 @@ const scaleOut = styled.keyframes`
 `;
 
 const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: 0;
   gap: 0.5em;
-  width: ${width};
-  display: flex;
-  font-size: 14px;
-  overflow-y: auto;
-  max-height: 400px;
+  width: 100%;
+  border: 1px solid #d0d5dd;
   border-radius: 4px;
   background: #ffffff;
   z-index: 3 !important;
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1px solid #d0d5dd;
-  justify-content: flex-start;
+  font-size: 14px;
+  overflow-y: auto;
+  max-height: 400px;
 
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
@@ -100,34 +101,33 @@ const Content = styled.div`
 `;
 
 const Viewport = styled.div`
-  padding: 0;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  padding: 0;
+  width: 100%;
   background: var(--light_95, #F3F3F3);
   box-shadow: 0px 4px 12px 0px rgba(140, 140, 140, 0.27);
 `;
 
 const Item = styled.button`
-  gap: 0.5em;
-  color: #FFF;
-  width: 100%;
-  border: none;
   display: flex;
-  cursor: pointer;
-  font-size: 14px;
-  background: #22272b;
-  align-items: center;
   flex-direction: row;
-  padding: 0.5em 0.75em;
+  font-size: 14px;
+  align-items: center;
   justify-content: space-between;
+  padding: 0.5em 0.75em;
+  gap: 0.5em;
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  border: none;
   transition: background 0.2s ease-in-out;
-  
-  // &:nth-child(n + 1) {
-  //   border-top: 1px solid #d0d5dd;
-  // }
+  width : ${width}px;
+  &:nth-child(n + 1) {
+    border-top: 1px solid #d0d5dd;
+  }
 
   &:hover {
     background: #d0d5dd;
@@ -142,11 +142,16 @@ const Item = styled.button`
 return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
-    <Select.Root value={value} onValueChange={(value) => onChange(value)}>
+    <Select.Root
+      value={value?.value}
+      onValueChange={(value) =>
+        onChange(options.find((option) => option.value === value))
+      }
+    >
       <Select.Trigger asChild={true}>
         <Input>
           <Select.Value
-            aria-label={value}
+            aria-label={value.value}
             placeholder={<Placeholder>{placeholder}</Placeholder>}
           />
           <Select.Icon>
@@ -170,7 +175,7 @@ return (
       </Select.Trigger>
 
       <Select.Content asChild={true} position="popper">
-        <Content className="menu">
+        <Content>
           <Select.Viewport asChild={true}>
             <Viewport>
               {options.map(({ text, value }) => (
@@ -188,8 +193,8 @@ return (
                         <path
                           d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z"
                           fill="currentColor"
-                          fillRule="evenodd"
-                          clipRule="evenodd"
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
                         />
                       </svg>
                     </Select.ItemIndicator>
