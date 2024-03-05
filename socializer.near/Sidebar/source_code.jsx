@@ -18,8 +18,9 @@ const Sidebar = styled.div`
     align-items: center;
     @media (max-width: 620px) {
         width : 0;
-         z-index: 2;
+        z-index: 2;
         position: absolute;
+        display: ${state.sidebar ? "flex" : "none"};
         .btn-leftbar{
             display: ${state.sidebar ? "none" : "flex"};
         }
