@@ -61,7 +61,14 @@ const Content = styled.div`
     gap: 25px; 
     display: flex;  
     margin-left: 5%;
-    
+    & > p {
+        margin: 0;
+        font-size: 14px;
+    }
+    & > h4 {
+        margin: 0;
+    }
+
     @media (max-width: 620px) {
         gap: 1px;
         
@@ -84,15 +91,7 @@ const Button = styled.button`
   color: white;
   padding 1px 15px;
   border-radius: 8px;
-  background: #121212;
-  & > p {
-    margin: 0;
-    font-size: 14px;
-  }
-  & > h4 {
-    margin: 0;
-  }
-  
+  background: #121212; 
 `;
 
 const getData = () => {
