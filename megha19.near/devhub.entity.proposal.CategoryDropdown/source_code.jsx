@@ -70,15 +70,7 @@ const toggleDropdown = () => {
 };
 
 useEffect(() => {
-  if (selectedValue && selectedValue !== selectedOptionValue) {
-    setSelectedValue(selectedValue);
-  }
-}, [selectedValue]);
-
-useEffect(() => {
-  if (selectedValue !== selectedOptionValue) {
-    onChange(selectedOptionValue);
-  }
+  onChange(selectedOptionValue);
 }, [selectedOptionValue]);
 
 const handleOptionClick = (option) => {
