@@ -70,9 +70,9 @@ const history = (
               <a
                 class="dropdown-item"
                 href={href({
-                  widgetSrc: "megha19.near/widget",
+                  widgetSrc:
+                    "megha19.near/widget/devhub.entity.proposal.Proposal",
                   params: {
-                    page: "proposal",
                     id: proposalId,
                     timestamp: item.timestamp,
                     compareTimestamp: null,
@@ -102,9 +102,9 @@ const history = (
             <a
               class="dropdown-item"
               href={href({
-                widgetSrc: "megha19.near/widget/app",
+                widgetSrc:
+                  "megha19.near/widget/devhub.entity.proposal.Proposal",
                 params: {
-                  page: "proposal",
                   id: proposalId,
                   timestamp: currentTimestamp,
                   compareTimestamp: item.timestamp,
