@@ -20,7 +20,11 @@ const Sidebar = styled.div`
         width : 0;
         z-index: 2;
         position: absolute;
-        display: ${state.sidebar ? "flex" : "none"};
+
+        .content {
+            display: ${state.sidebar ? "flex" : "none"};
+        }
+        
         .btn-leftbar{
             display: ${state.sidebar ? "none" : "flex"};
         }
