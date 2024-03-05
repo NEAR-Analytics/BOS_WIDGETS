@@ -46,6 +46,8 @@ const Logo = styled.div`
     }
 
     @media (max-width: 620px) {
+        width: 75px;
+        
         img {
             width: 99px;
         }
