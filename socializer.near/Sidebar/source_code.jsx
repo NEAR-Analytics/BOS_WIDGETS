@@ -17,7 +17,7 @@ const Sidebar = styled.div`
     justify-content: space-between;
     align-items: center;
     @media (max-width: 620px) {
-        width : 40px;
+        width : ${state.sidebar ? "325" : "40"}px;
         z-index: 2;
         position: absolute;
 
@@ -77,9 +77,16 @@ const Button = styled.button`
   }
 `;
 
+const openSidebar = () => {
+  State.update({
+    ...state,
+    sidebar: !state.sidebar,
+  });
+};
+
 return (
   <Sidebar>
-    <Button className="btn-leftbar">
+    <Button className="btn-leftbar" onClick={openSidebar}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24px"
