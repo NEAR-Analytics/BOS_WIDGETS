@@ -57,6 +57,28 @@ const Logo = styled.div`
     }
 `;
 
+const Content = styled.div`
+    gap: 25px; 
+    display: flex;  
+    margin-left: 5%;
+    
+    @media (max-width: 620px) {
+        gap: 1px;
+        
+        button {
+            width: 70px;
+        }
+
+        p {
+            font-size: 11px;    
+        }
+
+        h4 {
+            font-size: 15px;    
+        }
+    }
+`;
+
 const Button = styled.button`
   width: 145px;
   color: white;
@@ -70,6 +92,7 @@ const Button = styled.button`
   & > h4 {
     margin: 0;
   }
+  
 `;
 
 const getData = () => {
@@ -104,7 +127,7 @@ return (
         />
       </svg>
     </Logo>
-    <div className="d-flex" style={{ gap: 25, marginLeft: "5%" }}>
+    <Content>
       <Button>
         <p>Wallets Active</p>
         <h4>{state.active_wallets}</h4>
@@ -125,6 +148,6 @@ return (
         <p>Total Transactions</p>
         <h4>{state.total_transactions}</h4>
       </Button>
-    </div>
+    </Content>
   </Header>
 );
