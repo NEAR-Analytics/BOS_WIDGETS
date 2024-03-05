@@ -49,6 +49,11 @@ const Logo = styled.div`
         img {
             width: 99px;
         }
+
+        svg {
+            top: 45px;
+            width: 90px;    
+        }
     }
 `;
 
