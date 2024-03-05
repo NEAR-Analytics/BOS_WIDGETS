@@ -80,6 +80,7 @@ const Content = styled.div`
         
         button {
             width: 20%;
+            padding 1px 2px;
         }
 
         p {
