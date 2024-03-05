@@ -171,7 +171,7 @@ const WidgetWrapper = styled.div`
 return (
   <Dex>
     <Sider>
-      <Title>Chain & Dapp</Title>
+      <Title>Chain & dApp</Title>
       <ListWrapper>
         <List>
           {DEXS.map((dex) => (
