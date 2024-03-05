@@ -13,11 +13,12 @@ const Sidebar = styled.div`
     display: flex;
     width: 325px;
     height: 100%;
+    background: white;
+    align-items: center;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
     @media (max-width: 620px) {
-        width : ${state.sidebar ? "325" : "40"}px;
+        width : ${state.sidebar ? "235" : "40"}px;
         z-index: 2;
         position: absolute;
 
