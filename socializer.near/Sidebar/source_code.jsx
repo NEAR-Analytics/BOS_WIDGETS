@@ -22,7 +22,7 @@ const Sidebar = styled.div`
         display: flex;
     }
     @media (max-width: 620px) {
-        width : ${state.sidebar ? "235" : "40"}px;
+        width : ${state.sidebar ? "235px" : "auto"};
         z-index: 2;
         position: absolute;
 
@@ -65,15 +65,18 @@ const ListItem = styled.button`
 `;
 
 const Button = styled.button`
+  top: 4px;
   border: 0;
   gap: 12px;
-  width: 100%;
+  width: 67px;
+  color: white;
   display: none;
   cursor: pointer;
+  position: absolute;
   border-radius: 50px;
   align-items: center;
-  justify-content: center;
   background-color: black;
+  justify-content: flex-end;
   &:hover {
     background-color: #f3f3f3;
   };
