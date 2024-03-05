@@ -415,18 +415,14 @@ return (
         </Link>
       </p>
     ) : state.items.length > 0 ? (
-      <div style={{ overflow: "auto", height: "60vh" }}>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={makeMoreItems}
-          hasMore={state.displayCount < state.items.length}
-          loader={loader}
-          useWindow={false}
-          useCapture={ture}
-        >
-          {renderedItems}
-        </InfiniteScroll>
-      </div>
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={makeMoreItems}
+        hasMore={state.displayCount < state.items.length}
+        loader={loader}
+      >
+        {renderedItems}
+      </InfiniteScroll>
     ) : (
       <p class="text-secondary">
         No posts{" "}
