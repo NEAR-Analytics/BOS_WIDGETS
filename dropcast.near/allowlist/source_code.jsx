@@ -53,46 +53,46 @@ const Button = styled.button`
 
 const NEAR_TOKEN = [
   {
-    text: "1 $NEAR",
+    text: "> 1 $NEAR",
     value: "near1",
   },
   {
-    text: "10 $NEAR",
+    text: "> 10 $NEAR",
     value: "near2",
   },
   {
-    text: "100 $NEAR",
+    text: "> 100 $NEAR",
     value: "near3",
   },
   {
-    text: "1000 $NEAR",
+    text: "> 1000 $NEAR",
     value: "near4",
   },
   {
-    text: "Default",
+    text: "Minimum Near Token",
     value: "near0",
   },
 ];
 
 const AGE_ACCOUNT = [
   {
-    text: "1 Month",
+    text: "> 1 Month",
     value: "age1",
   },
   {
-    text: "6 Month",
+    text: "> 6 Month",
     value: "age2",
   },
   {
-    text: "1 Year",
+    text: "> 1 Year",
     value: "age3",
   },
   {
-    text: "2 Year",
+    text: "> 2 Year",
     value: "age4",
   },
   {
-    text: "Default",
+    text: "Not Applicable",
     value: "age0",
   },
 ];
@@ -115,7 +115,7 @@ const TRANSACTION = [
     value: "transaction4",
   },
   {
-    text: "Default",
+    text: "Not Applicable",
     value: "transaction0",
   },
 ];
@@ -126,7 +126,7 @@ const BOOL = [
     value: "yes",
   },
   {
-    text: "No",
+    text: "Not Applicable",
     value: "no",
   },
 ];
@@ -141,6 +141,7 @@ State.init({
   error: "",
   download: false,
   file: "",
+  loading: false,
 });
 
 const changeOption = (key, value) => {
@@ -159,6 +160,7 @@ const convertObject = (params) => {
 const onSubmit = () => {
   State.update({
     ...state,
+    loading: true,
     download: false,
     file: "",
   });
@@ -178,27 +180,38 @@ const onSubmit = () => {
     }),
   });
 
-  promise.then((data) => {
-    if (data.status === 200) {
-      if (data.body?.error) {
-        State.update({
-          ...state,
-          error: data.body,
-        });
+  promise
+    .then((data) => {
+      if (data.status === 200) {
+        if (data.body?.error) {
+          State.update({
+            ...state,
+            loading: false,
+            error: data.body,
+          });
+        } else {
+          State.update({
+            ...state,
+            loading: false,
+            download: true,
+            file: data.body,
+          });
+        }
       } else {
         State.update({
           ...state,
-          download: true,
-          file: data.body,
+          loading: false,
+          error: data.body,
         });
       }
-    } else {
+    })
+    .catch(() => {
       State.update({
         ...state,
-        error: data.body,
+        loading: false,
+        error: "Api error",
       });
-    }
-  });
+    });
 };
 
 return (
@@ -290,8 +303,8 @@ return (
           src={`${Owner}/widget/Select`}
         />
       </div>
-      <Button className="btn" onClick={onSubmit}>
-        Download CSV
+      <Button className="btn" onClick={onSubmit} disabled={state.loading}>
+        {state.loading ? `Processing...` : `Submit`}
       </Button>
       {state.download && state.file && (
         <div className="d-flex mt-1 justify-content-center align-items-center mb-2">
