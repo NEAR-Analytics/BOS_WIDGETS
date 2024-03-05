@@ -212,6 +212,7 @@ const TitleComponent = styled.div`
 `;
 
 const FilterContent = styled.div`
+    gap: 7px;
     width: 100%;
     display: flex;
     flex-direction: row;
