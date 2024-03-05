@@ -17,6 +17,9 @@ const Sidebar = styled.div`
     align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    .content {
+        display: flex;
+    }
     @media (max-width: 620px) {
         width : ${state.sidebar ? "235" : "40"}px;
         z-index: 2;
@@ -100,7 +103,7 @@ return (
         />
       </svg>
     </Button>
-    <div className="d-flex flex-column align-items-center content w-100 h-100 ">
+    <div className="flex-column align-items-center content w-100 h-100 ">
       <List>
         {list.map((item) => (
           <ListItem
