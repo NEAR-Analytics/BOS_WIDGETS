@@ -2,7 +2,7 @@ const POSITION_STORAGE_KEY = "POSITION_STATE";
 const COLLATERAL_STORAGE_KEY = "COLLATERAL_STATE";
 
 const abi = fetch(
-  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json"
+  "https://docs.compound.finance/public/files/comet-interface-abi-98f438b.json",
 );
 
 if (!abi) return "Loading...";
@@ -20,20 +20,22 @@ function getApr({ cometAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl)
+    new ethers.providers.JsonRpcProvider(rpcUrl),
   );
 
   return new Promise((resolve, reject) => {
     asyncFetch(
-      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data"
+      "https://v3-api.compound.finance/market/all-networks/all-contracts/rewards/dapp-data",
     ).then((res) => {
       const rewards = JSON.parse(res.body);
 
       const rewardsByCometAddress = rewards.reduce((acc, item) => {
-        if (!acc[item.comet.address]) {
-          acc[item.comet.address] = [item];
+        const address = item.comet.address.toLowerCase();
+
+        if (!acc[address]) {
+          acc[address] = [item];
         } else {
-          acc[item.comet.address].push(item);
+          acc[address].push(item);
         }
         return acc;
       }, {});
@@ -77,7 +79,10 @@ function getApr({ cometAddress, rpcUrl }) {
                           supplyApr,
                           borrowApr,
                           borrowRate,
-                          rewards: rewardsByCometAddress[cometAddress][0] || [],
+                          rewards:
+                            rewardsByCometAddress[
+                              cometAddress.toLowerCase()
+                            ][0] || [],
                         });
                       });
                   });
@@ -103,7 +108,7 @@ function getMinimumBorrowAmount({ cometAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl)
+    new ethers.providers.JsonRpcProvider(rpcUrl),
   );
 
   return new Promise((resolve, reject) => {
@@ -116,7 +121,7 @@ function getMinimumBorrowAmount({ cometAddress, rpcUrl }) {
           .catch(reject)
           .then((res) => {
             const minimumBorrowAmount = Number(
-              ethers.utils.formatUnits(res.toString(), decimals)
+              ethers.utils.formatUnits(res.toString(), decimals),
             );
 
             resolve(minimumBorrowAmount);
@@ -145,7 +150,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
   const contract = new ethers.Contract(
     cometAddress,
     abi.body,
-    new ethers.providers.JsonRpcProvider(rpcUrl)
+    new ethers.providers.JsonRpcProvider(rpcUrl),
   );
 
   function getAssetsPromises(numAssets) {
@@ -170,7 +175,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
           const assetContract = new ethers.Contract(
             asset[1],
             ["function decimals() view returns (uint8)"],
-            new ethers.providers.JsonRpcProvider(rpcUrl)
+            new ethers.providers.JsonRpcProvider(rpcUrl),
           );
 
           return assetContract.decimals().then((decimals) => {
@@ -180,7 +185,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               decimals: decimals.toString(),
             };
           });
-        })
+        }),
       );
     }
 
@@ -210,15 +215,15 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               asset,
               balance: ethers.utils.formatUnits(
                 balance[0],
-                data.prices[asset].decimals
+                data.prices[asset].decimals,
               ),
               borrowBalance: ethers.utils.formatUnits(
                 borrowBalance,
-                data.prices[asset].decimals
+                data.prices[asset].decimals,
               ),
             };
           });
-        })
+        }),
       );
     }
 
@@ -247,7 +252,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
         liquidationFactor: asset[6] / 1e18,
         supplyCap: ethers.utils.formatUnits(
           asset[7],
-          data.prices[asset[1]].decimals
+          data.prices[asset[1]].decimals,
         ),
         decimals: data.prices[asset[1]].decimals,
         price: data.prices[asset[1]].price,
@@ -296,7 +301,7 @@ function getCollateralAssets({ cometAddress, userAddress, rpcUrl }) {
               borrowedInBase,
               borrowBalance: ethers.utils.formatUnits(
                 borrowBalance,
-                baseDecimals
+                baseDecimals,
               ),
             };
           });
@@ -355,11 +360,11 @@ function getCollateralsWithLiquidationData({
       {
         liquidationCapacity: 0,
         borrowCapacity: 0,
-      }
+      },
     );
 
     const liquidationRisk = Math.round(
-      (data.borrowBalance / liquidation.liquidationCapacity) * 100
+      (data.borrowBalance / liquidation.liquidationCapacity) * 100,
     );
 
     return {
