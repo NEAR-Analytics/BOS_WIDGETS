@@ -42,9 +42,7 @@ const Button = styled.button`
   border-radius: 8px;
   cursor: pointer;
   margin-top: ${(props) => props.marginTop || 0}px;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease,
+  transition: background-color 0.3s ease, transform 0.2s ease,
     box-shadow 0.2s ease;
 
   &:hover,
@@ -108,11 +106,8 @@ const GhostButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   margin-right: 10px;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease, opacity 0.2s ease;
   font-size: 16px;
   font-weight: 600;
 
@@ -152,6 +147,18 @@ const {
 } = props;
 
 const [inputValue, setInputValue] = useState("");
+
+function validateMinimumAmount(value) {
+  if (!props.min) return;
+
+  if (value < min) {
+    return State.update({ error: `Minimum amount is ${props.min}` });
+  } else if (value > balance) {
+    return State.update({ error: `Insufficient balance` });
+  } else {
+    return State.update({ error: "" });
+  }
+}
 
 const handleInputChange = (e) => {
   setInputValue(e.target.value);
