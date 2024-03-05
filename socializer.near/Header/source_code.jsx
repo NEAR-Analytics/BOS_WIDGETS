@@ -31,19 +31,25 @@ const Header = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 172px;
-  cursor: pointer;
-  position: relative;
-  & > img {
-    top: -16px;
-    width: 170px;
+    width: 172px;
+    cursor: pointer;
     position: relative;
-  }
-  & > svg {
-    left: 0;
-    top: 90px;
-    position: absolute;
-  }
+    & > img {
+        top: -16px;
+        width: 170px;
+        position: relative;
+    }
+    & > svg {
+        left: 0;
+        top: 90px;
+        position: absolute;
+    }
+
+    @media (max-width: 620px) {
+        img {
+            width: 99px;
+        }
+    }
 `;
 
 const Button = styled.button`
