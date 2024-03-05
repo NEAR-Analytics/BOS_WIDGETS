@@ -50,14 +50,8 @@ const Logo = styled.div`
     }
 
     @media (max-width: 620px) {
-
-        img {
-            width: 99px;
-        }
-
         svg {
-            top: 45px;
-            width: 90px;    
+            top: 75px;
         }
     }
 `;
