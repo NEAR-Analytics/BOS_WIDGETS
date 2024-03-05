@@ -142,7 +142,7 @@ const ManageButton = (
 
 const Items = [
   {
-    name: `${state.status ? "Disable" : "Enable"} Whitelisting`,
+    name: `${state.status ? "Disable" : "Enable"} Allowlisting`,
     id: "whitelist",
     onSelect,
   },
