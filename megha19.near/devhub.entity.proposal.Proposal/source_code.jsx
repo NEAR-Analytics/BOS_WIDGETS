@@ -1,9 +1,13 @@
 const { href } = VM.require("megha19.near/widget/core.lib.url") || {
-  href: () => {},
+  href: () => {}
 };
 const { readableDate } = VM.require(
   "megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
+const { getDepositAmountForWriteAccess } = VM.require(
+  "megha19.near/widget/core.lib.common"
+);
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -20,7 +24,7 @@ const TIMELINE_STATUS = {
   CANCELED: "CANCELLED",
   APPROVED_CONDITIONALLY: "APPROVED_CONDITIONALLY",
   PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
-  FUNDED: "FUNDED",
+  FUNDED: "FUNDED"
 };
 
 const Container = styled.div`
@@ -186,8 +190,8 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("devhub.near", "get_proposal", {
-  proposal_id: parseInt(id),
+const proposal = Near.view("truedove38.near", "get_proposal", {
+  proposal_id: parseInt(id)
 });
 
 if (!proposal) {
@@ -214,10 +218,10 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `devhub.near/post/main`,
-  blockHeight,
+  path: `truedove38.near/post/main`,
+  blockHeight
 };
-const proposalURL = `megha19.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = `https://near.org/megha19.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -255,47 +259,47 @@ const SidePanelItem = ({ title, children, hideBorder }) => {
 const proposalStatusOptions = [
   {
     label: "Draft",
-    value: { status: TIMELINE_STATUS.DRAFT },
+    value: { status: TIMELINE_STATUS.DRAFT }
   },
   {
     label: "Review",
     value: {
       status: TIMELINE_STATUS.REVIEW,
       sponsor_requested_review: false,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Approved",
     value: {
       status: TIMELINE_STATUS.APPROVED,
       sponsor_requested_review: true,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Approved-Conditionally",
     value: {
       status: TIMELINE_STATUS.APPROVED_CONDITIONALLY,
       sponsor_requested_review: true,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Rejected",
     value: {
       status: TIMELINE_STATUS.REJECTED,
       sponsor_requested_review: true,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Canceled",
     value: {
       status: TIMELINE_STATUS.CANCELED,
       sponsor_requested_review: false,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Payment-processing",
@@ -305,8 +309,8 @@ const proposalStatusOptions = [
       test_transaction_sent: false,
       request_for_trustees_created: false,
       sponsor_requested_review: true,
-      reviewer_completed_attestation: false,
-    },
+      reviewer_completed_attestation: false
+    }
   },
   {
     label: "Funded",
@@ -317,16 +321,16 @@ const proposalStatusOptions = [
       test_transaction_sent: true,
       request_for_trustees_created: true,
       sponsor_requested_review: true,
-      reviewer_completed_attestation: false,
-    },
-  },
+      reviewer_completed_attestation: false
+    }
+  }
 ];
 
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("devhub.near", "get_proposal", {
-      proposal_id: item,
+    const data = Near.view("truedove38.near", "get_proposal", {
+      proposal_id: item
     });
     if (data !== null) {
       linkedProposalsData.push(data);
@@ -340,7 +344,7 @@ const LinkedProposals = () => {
           <Widget
             src={"megha19.near/widget/devhub.entity.proposal.Profile"}
             props={{
-              accountId: item.snapshot.editor_id,
+              accountId: item.snapshot.editor_id
             }}
           />
           <div className="d-flex flex-column" style={{ maxWidth: 250 }}>
@@ -363,7 +367,7 @@ const CheckBox = ({ value, isChecked, label, disabled, onClick }) => {
         type="checkbox"
         value={value}
         checked={isChecked}
-        disabled={disabled}
+        disabled={!isModerator || disabled}
         onChange={(e) => onClick(e.target.checked)}
       />
       <label style={{ width: "90%" }} class="form-check-label text-black">
@@ -389,23 +393,60 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "devhub.near",
+  "truedove38.near",
   "is_allowed_to_edit_proposal",
-  { proposal_id: proposal.id, editor: accountId }
+  {
+    proposal_id: proposal.id,
+    editor: accountId
+  }
 );
 
-const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
+const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+  account_id: accountId
+});
+
+let grantNotify = Near.view(
+  "social.near",
+  "is_write_permission_granted",
+  {
+    predecessor_id: "devhub.near",
+    key: accountId + "/index/notify"
+  }
+);
+
+const userStorageDeposit = Near.view(
+  "social.near",
+  "storage_balance_of",
+  {
+    account_id: accountId
+  }
+);
 
 const editProposalStatus = ({ timeline }) => {
-  Near.call({
-    contractName: "devhub.near",
-    methodName: "edit_proposal_timeline",
-    args: {
-      id: proposal.id,
-      timeline: timeline,
-    },
-    gas: 270000000000000,
-  });
+  const calls = [
+    {
+      contractName: "truedove38.near",
+      methodName: "edit_proposal_timeline",
+      args: {
+        id: proposal.id,
+        timeline: timeline
+      },
+      gas: 270000000000000
+    }
+  ];
+  // if (grantNotify === false) {
+  //   calls.unshift({
+  //     contractName: "social.near",
+  //     methodName: "grant_write_permission",
+  //     args: {
+  //       predecessor_id: "devhub.near",
+  //       keys: [context.accountId + "/index/notify"],
+  //     },
+  //     gas: Big(10).pow(14),
+  //     deposit: getDepositAmountForWriteAccess(userStorageDeposit),
+  //   });
+  // }
+  Near.call(calls);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
@@ -420,7 +461,7 @@ const proposalStatus = useCallback(
 );
 const [updatedProposalStatus, setUpdatedProposalStatus] = useState({
   ...proposalStatus(),
-  value: { ...proposalStatus().value, ...snapshot.timeline },
+  value: { ...proposalStatus().value, ...snapshot.timeline }
 });
 const [paymentHashes, setPaymentHashes] = useState([""]);
 
@@ -467,7 +508,7 @@ const TimelineItems = ({ title, children, value, values }) => {
     <div
       className="p-2 rounded-3"
       style={{
-        backgroundColor: color,
+        backgroundColor: color
       }}
     >
       <div className="h6 text-black"> {title}</div>
@@ -494,7 +535,7 @@ return (
         onReviewClick: () => {
           setReviewModal(false);
           editProposalStatus({ timeline: proposalStatusOptions[1].value });
-        },
+        }
       }}
     />
     <Widget
@@ -505,7 +546,7 @@ return (
         onConfirmClick: () => {
           setCancelModal(false);
           editProposalStatus({ timeline: proposalStatusOptions[5].value });
-        },
+        }
       }}
     />
     <div className="d-flex justify-content-between">
@@ -518,14 +559,14 @@ return (
           src={"megha19.near/widget/devhub.entity.proposal.History"}
           props={{
             id: proposal.id,
-            timestamp: snapshot.timestamp,
+            timestamp: snapshot.timestamp
           }}
         />
         <Widget
           src="near/widget/ShareButton"
           props={{
             postType: "post",
-            url: proposalURL,
+            url: proposalURL
           }}
         />
         {((isAllowedToEditProposal &&
@@ -537,8 +578,8 @@ return (
               params: {
                 page: "create-proposal",
                 id: proposal.id,
-                timestamp: timestamp,
-              },
+                timestamp: timestamp
+              }
             })}
             style={{ textDecoration: "none" }}
           >
@@ -546,7 +587,7 @@ return (
               src={"megha19.near/widget/devhub.components.molecule.Button"}
               props={{
                 label: "Edit",
-                classNames: { root: "grey-btn btn-sm" },
+                classNames: { root: "grey-btn btn-sm" }
               }}
             />
           </Link>
@@ -558,7 +599,7 @@ return (
         src={"megha19.near/widget/devhub.entity.proposal.StatusTag"}
         props={{
           timelineStatus: snapshot.timeline.status,
-          size: "sm",
+          size: "sm"
         }}
       />
       <div>
@@ -587,7 +628,7 @@ return (
                 props={{
                   label: "Ready for review",
                   classNames: { root: "grey-btn btn-sm" },
-                  onClick: () => setReviewModal(true),
+                  onClick: () => setReviewModal(true)
                 }}
               />
             </div>
@@ -618,7 +659,7 @@ return (
                     </div>
                   ),
                   classNames: { root: "btn-outline-danger btn-sm" },
-                  onClick: () => setCancelModal(true),
+                  onClick: () => setCancelModal(true)
                 }}
               />
             </div>
@@ -634,7 +675,7 @@ return (
               <Widget
                 src={"megha19.near/widget/devhub.entity.proposal.Profile"}
                 props={{
-                  accountId: editorAccountId,
+                  accountId: editorAccountId
                 }}
               />
               <ProposalContainer className="rounded-2 flex-1">
@@ -644,7 +685,7 @@ return (
                     src="near/widget/TimeAgo"
                     props={{
                       blockHeight,
-                      blockTimestamp: snapshot.timestamp,
+                      blockTimestamp: snapshot.timestamp
                     }}
                   />
                   {context.accountId && (
@@ -653,7 +694,7 @@ return (
                         src="near/widget/Posts.Menu"
                         props={{
                           accountId: editorAccountId,
-                          blockHeight: blockHeight,
+                          blockHeight: blockHeight
                         }}
                       />
                     </div>
@@ -670,7 +711,7 @@ return (
                       }
                       props={{
                         selectedValue: snapshot.category,
-                        disabled: true,
+                        disabled: true
                       }}
                     />
                   </div>
@@ -690,7 +731,7 @@ return (
                     <Widget
                       src="near/widget/v1.LikeButton"
                       props={{
-                        item,
+                        item
                       }}
                     />
                     <Widget
@@ -700,20 +741,21 @@ return (
                       props={{
                         item,
                         showOverlay: false,
-                        onClick: () => {},
+                        onClick: () => {}
                       }}
                     />
+
                     <Widget
                       src="near/widget/CopyUrlButton"
                       props={{
-                        url: proposalURL,
+                        url: proposalURL
                       }}
                     />
                     <Widget
                       src="near/widget/ShareButton"
                       props={{
                         postType: "post",
-                        url: proposalURL,
+                        url: proposalURL
                       }}
                     />
                   </div>
@@ -725,7 +767,7 @@ return (
                 src={"megha19.near/widget/devhub.entity.proposal.Comments"}
                 props={{
                   item: item,
-                  snapshotHistory: [...proposal.snapshot_history, snapshot],
+                  snapshotHistory: [...proposal.snapshot_history, snapshot]
                 }}
               />
             </div>
@@ -737,7 +779,7 @@ return (
                 props={{
                   item: item,
                   notifyAccountId: extractNotifyAccountId(item),
-                  id: proposal.id,
+                  id: proposal.id
                 }}
               />
             </div>
@@ -747,7 +789,7 @@ return (
               <Widget
                 src="near/widget/AccountProfile"
                 props={{
-                  accountId: editorAccountId,
+                  accountId: editorAccountId
                 }}
               />
             </SidePanelItem>
@@ -776,7 +818,7 @@ return (
                 <Widget
                   src="near/widget/AccountProfile"
                   props={{
-                    accountId: snapshot.requested_sponsor,
+                    accountId: snapshot.requested_sponsor
                   }}
                 />
               )}
@@ -786,7 +828,7 @@ return (
                 <Widget
                   src="near/widget/AccountProfile"
                   props={{
-                    accountId: snapshot.supervisor,
+                    accountId: snapshot.supervisor
                   }}
                 />
               ) : (
@@ -817,11 +859,12 @@ return (
                             setUpdatedProposalStatus({
                               ...v,
                               value: {
+                                ...v.value,
                                 ...updatedProposalStatus.value,
-                                status: v.value.status,
-                              },
+                                status: v.value.status
+                              }
                             });
-                          },
+                          }
                         }}
                       />
                     </div>
@@ -915,8 +958,8 @@ return (
                               ...prevState,
                               value: {
                                 ...prevState.value,
-                                sponsor_requested_review: value,
-                              },
+                                sponsor_requested_review: value
+                              }
                             }))
                           }
                           label="Sponsor provides feedback or requests reviews"
@@ -933,8 +976,8 @@ return (
                               ...prevState,
                               value: {
                                 ...prevState.value,
-                                reviewer_completed_attestation: value,
-                              },
+                                reviewer_completed_attestation: value
+                              }
                             }))
                           }
                           isChecked={
@@ -949,7 +992,7 @@ return (
                       values={[
                         TIMELINE_STATUS.APPROVED,
                         TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-                        TIMELINE_STATUS.REJECTED,
+                        TIMELINE_STATUS.REJECTED
                       ]}
                     >
                       <div className="d-flex flex-column gap-2">
@@ -1011,8 +1054,8 @@ return (
                               ...prevState,
                               value: {
                                 ...prevState.value,
-                                kyc_verified: value,
-                              },
+                                kyc_verified: value
+                              }
                             }))
                           }
                           isChecked={updatedProposalStatus.value.kyc_verified}
@@ -1028,8 +1071,8 @@ return (
                               ...prevState,
                               value: {
                                 ...prevState.value,
-                                test_transaction_sent: value,
-                              },
+                                test_transaction_sent: value
+                              }
                             }))
                           }
                           isChecked={
@@ -1134,7 +1177,7 @@ return (
                                     setPaymentHashes(updatedHashes);
                                   },
                                   skipPaddingGap: true,
-                                  placeholder: "Enter URL",
+                                  placeholder: "Enter URL"
                                 }}
                               />
                               <div style={{ minWidth: 20 }}>
@@ -1145,16 +1188,16 @@ return (
                                     }
                                     props={{
                                       classNames: {
-                                        root: "btn-outline-danger shadow-none w-100",
+                                        root: "btn-outline-danger shadow-none w-100"
                                       },
                                       label: <i class="bi bi-trash3 h6"></i>,
                                       onClick: () => {
                                         const updatedHashes = [
-                                          ...paymentHashes,
+                                          ...paymentHashes
                                         ];
                                         updatedHashes.splice(index, 1);
                                         setPaymentHashes(updatedHashes);
-                                      },
+                                      }
                                     }}
                                   />
                                 ) : (
@@ -1164,14 +1207,11 @@ return (
                                     }
                                     props={{
                                       classNames: {
-                                        root: "green-btn shadow-none border-0 w-100",
+                                        root: "green-btn shadow-none border-0 w-100"
                                       },
                                       label: <i class="bi bi-plus-lg"></i>,
                                       onClick: () =>
-                                        setPaymentHashes([
-                                          ...paymentHashes,
-                                          "",
-                                        ]),
+                                        setPaymentHashes([...paymentHashes, ""])
                                     }}
                                   />
                                 )}
@@ -1189,12 +1229,12 @@ return (
                         props={{
                           label: "Cancel",
                           classNames: {
-                            root: "btn-outline-danger border-0 shadow-none btn-sm",
+                            root: "btn-outline-danger border-0 shadow-none btn-sm"
                           },
                           onClick: () => {
                             setShowTimelineSetting(false);
                             setUpdatedProposalStatus(proposalStatus);
-                          },
+                          }
                         }}
                       />
                       <Widget
@@ -1214,15 +1254,15 @@ return (
                                   ...updatedProposalStatus.value,
                                   payouts: !paymentHashes[0]
                                     ? []
-                                    : paymentHashes,
-                                },
+                                    : paymentHashes
+                                }
                               });
                             } else {
                               editProposalStatus({
-                                timeline: updatedProposalStatus.value,
+                                timeline: updatedProposalStatus.value
                               });
                             }
-                          },
+                          }
                         }}
                       />
                     </div>
