@@ -36,7 +36,7 @@ const { getApr } = VM.require("thalesb.near/widget/compound-requests");
 
 const { aprData } = props;
 
-const borrowRewardsApr = (aprData.rewards.earn_rewards_apr || 0) * 100;
+const borrowRewardsApr = (aprData.rewards.borrow_rewards_apr || 0) * 100;
 
 return (
   <>
