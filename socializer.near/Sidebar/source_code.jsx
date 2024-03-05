@@ -99,7 +99,7 @@ return (
         />
       </svg>
     </Button>
-    <div className="content">
+    <div className="d-flex flex-direction-column content w-100 h-100 ">
       <List>
         {list.map((item) => (
           <ListItem
