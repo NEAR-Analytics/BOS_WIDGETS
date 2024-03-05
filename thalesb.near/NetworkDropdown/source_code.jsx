@@ -53,7 +53,7 @@ const AssetName = styled.span`
   line-height: 22px;
 `;
 
-const { updateSelectedItem, selectedItem } = props;
+const { updateSelectedItem, selectedItem, networkTabs } = props;
 
 const NetworkItem = ({ name, icon, onMouseEnter, isActive }) => {
   return (
@@ -73,74 +73,32 @@ const AssetItem = ({ name, icon, onClick, isActive }) => {
   );
 };
 
-const ethImage =
-  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png";
+const assetEntries = Object.keys(networkTabs);
 
-const usdcImage =
-  "https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png?1547042389";
-
-const maticImage =
-  "https://raw.githubusercontent.com/sushiswap/list/master/logos/native-currency-logos/matic.svg";
-
-const baseImage =
-  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png";
-
-const arbitrumImage =
-  "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/arbitrum/info/logo.png";
+if (!assetEntries || !networkTabs) return <></>;
 
 const [activeBlockchain, setActiveBlockchain] = useState(
-  selectedItem.network ? selectedItem.network : "Ethereum"
+  selectedItem.network || assetEntries[0]
 );
 
-const assets = {
-  Ethereum: [
-    { name: "USDC", icon: usdcImage },
-    { name: "ETH", icon: ethImage },
-  ],
-  Polygon: [{ name: "USDC.e", icon: usdcImage }],
-  // Base: [
-  //   { name: "ETH", icon: ethImage },
-  //   { name: "USDbC", icon: usdcImage },
-  // ],
-  // Arbitrum: [
-  //   { name: "USDC.e", icon: usdcImage },
-  //   { name: "USDC", icon: usdcImage },
-  // ],
-};
-
 return (
-  <DropdownContainer key={"teste" + Math.random()}>
+  <DropdownContainer key={"Dropdown" + Math.random()}>
     {/* Networks Column */}
     <NetworksColumn>
-      <NetworkItem
-        name="Ethereum"
-        icon={ethImage}
-        onMouseEnter={() => setActiveBlockchain("Ethereum")}
-        isActive={activeBlockchain === "Ethereum"}
-      />
-      <NetworkItem
-        name="Polygon"
-        icon={maticImage}
-        onMouseEnter={() => setActiveBlockchain("Polygon")}
-        isActive={activeBlockchain === "Polygon"}
-      />
-      {/* <NetworkItem
-        name="Base"
-        icon={baseImage}
-        onMouseEnter={() => setActiveBlockchain("Base")}
-        isActive={activeBlockchain === "Base"}
-      />
-      <NetworkItem
-        name="Arbitrum"
-        icon={arbitrumImage}
-        onMouseEnter={() => setActiveBlockchain("Arbitrum")}
-        isActive={activeBlockchain === "Arbitrum"}
-      /> */}
+      {assetEntries.map((blockchain) => (
+        <NetworkItem
+          key={blockchain}
+          name={blockchain}
+          icon={networkTabs[blockchain].icon}
+          onMouseEnter={() => setActiveBlockchain(blockchain)}
+          isActive={activeBlockchain === blockchain}
+        />
+      ))}
     </NetworksColumn>
     {/* Assets Column */}
 
     <AssetsColumn>
-      {assets[activeBlockchain].map((asset, index) => (
+      {networkTabs[activeBlockchain].tokens.map((asset, index) => (
         <AssetItem
           key={index}
           name={asset.name}
