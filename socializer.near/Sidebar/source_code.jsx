@@ -33,6 +33,10 @@ const Sidebar = styled.div`
         .btn-leftbar{
             display: ${state.sidebar ? "none" : "flex"};
         }
+
+        .btn-close{
+            display:  flex;
+        }
     }
 `;
 
@@ -67,7 +71,6 @@ const ListItem = styled.button`
 const Button = styled.button`
   top: 4px;
   border: 0;
-  gap: 12px;
   width: 67px;
   color: white;
   display: none;
@@ -108,6 +111,31 @@ return (
       </svg>
     </Button>
     <div className="flex-column align-items-center content w-100 h-100 ">
+      <Button
+        className="btn-close"
+        style={{ width: "auto" }}
+        onClick={openSidebar}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 48 48"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeWidth="4"
+          >
+            <path d="M24 44c11.046 0 20-8.954 20-20S35.046 4 24 4S4 12.954 4 24s8.954 20 20 20Z" />
+            <path
+              strokeLinecap="round"
+              d="M29.657 18.343L18.343 29.657m0-11.314l11.314 11.314"
+            />
+          </g>
+        </svg>
+      </Button>
       <List>
         {list.map((item) => (
           <ListItem
