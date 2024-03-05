@@ -251,18 +251,19 @@ const SearchInput = styled.input`
 `;
 
 const Button = styled.button`
-  display: inline-flex;
-  padding: 12px 24px;
-  align-items: flex-start;
   gap: 10px;
-  border-radius: 6px;
-  background: var(--Dark, #121212); 
-  color: var(--light_95, #F3F3F3);
-  text-align: center;
+  height: 100%;
+  display: flex;
   font-size: 12px;
   font-weight: 600;
-  text-transform: capitalize;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-align: center;
+  align-items: center;
   line-height: normal;
+  text-transform: capitalize;
+  color: var(--light_95, #F3F3F3);
+  background: var(--Dark, #121212); 
 `;
 
 const SearchIcon = () => (
