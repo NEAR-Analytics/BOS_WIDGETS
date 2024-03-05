@@ -1035,7 +1035,18 @@ function MainComponent({ network, id }) {
                   }
                 </Tabs.Content>
                 <Tabs.Content value={tabs[3]}>
-                  <div className="px-4 sm:px-6 py-3"></div>
+                  <div className="py-3">
+                    {
+                      <Widget
+                        src={`${config.ownerId}/widget/bos-components.components.Comments.Feed`}
+                        props={{
+                          network: network,
+                          path: `nearblocks.io/nft/${id}`,
+                          limit: 10,
+                        }}
+                      />
+                    }
+                  </div>
                 </Tabs.Content>
               </div>
             </Tabs.Root>
