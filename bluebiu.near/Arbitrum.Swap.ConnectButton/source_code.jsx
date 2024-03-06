@@ -40,7 +40,7 @@ const ConnectWrapper = styled.div`
     }
   }
   .empty-img {
-    height: 30vh;
+    height: 10vh;
   }
   @media (max-width: 768px) {
     .bridge-text {
