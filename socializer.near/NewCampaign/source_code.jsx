@@ -75,10 +75,11 @@ const MainComponent = styled.div`
         .form-group {
             flex-direction: column;
             
-            .form-label, .form-value, .form-input {
+            .form-label, .form-value, .form-input, .form-duration div {
                 width: 100% !important;
             }
         }
+
     }
   
 `;
@@ -410,14 +411,7 @@ return (
             {"Campaign duration in HH:MM"}
           </p>
         </div>
-        <div
-          className="d-flex align-items-center col-lg-6 gap-4  form-value"
-          style={{
-            "& div": {
-              width: "100%",
-            },
-          }}
-        >
+        <div className="d-flex align-items-center col-lg-6 gap-4  form-value form-duration">
           <Widget
             props={{
               noLabel: true,
