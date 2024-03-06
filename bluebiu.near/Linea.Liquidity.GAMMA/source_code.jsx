@@ -95,7 +95,7 @@ const pairs = [
     decimals0: 18,
     decimals1: 6,
   },
-  
+
   {
     id: "BUSD-WETH-0",
     strategy: "Dynamic",
@@ -119,19 +119,26 @@ const defaultPair = {
   decimals1: 18,
 };
 
+const ThemeContainer = styled.div`
+  --button-text-color: #000;
+  --button-color: #56daff;
+`;
+
 return (
-  <Widget
-    src="bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMAConnector"
-    props={{
-      addresses,
-      pairs,
-      proxyAddress,
-      defaultPair,
-      CHAIN_CONFIG,
-      ALL_DATA_URL,
-      USER_DATA_BASE,
-      MAINNET_CHAIN_ID,
-      ...props,
-    }}
-  ></Widget>
+  <ThemeContainer>
+    <Widget
+      src="bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMAConnector"
+      props={{
+        addresses,
+        pairs,
+        proxyAddress,
+        defaultPair,
+        CHAIN_CONFIG,
+        ALL_DATA_URL,
+        USER_DATA_BASE,
+        MAINNET_CHAIN_ID,
+        ...props,
+      }}
+    />
+  </ThemeContainer>
 );
