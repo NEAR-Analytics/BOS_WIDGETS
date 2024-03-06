@@ -13,17 +13,6 @@ const forkClick = () => {
   });
 
   const data = {
-    index: {
-      fork: JSON.stringify({
-        key: {
-          type: "social",
-          path: src,
-        },
-        value: {
-          update: `${context.accountId}/${type}/${name}`,
-        },
-      }),
-    },
     [`${type}`]: {
       [`${name}`]: {
         "": `${source}`,
@@ -33,15 +22,6 @@ const forkClick = () => {
       },
     },
   };
-
-  data.index.notify = JSON.stringify({
-    key: creatorId,
-    value: {
-      type: "fork",
-      src,
-      update: `${context.accountId}/${type}/${name}`,
-    },
-  });
 
   Social.set(data, {
     onCommit: () => State.update({ loading: false }),
@@ -54,9 +34,12 @@ const forkClick = () => {
 
 return (
   <>
-    <button className="btn btn-sm btn-outline-secondary" onClick={forkClick}>
+    <a
+      className="btn btn-sm btn-outline-secondary"
+      href={`https://near.social/edit/${src}`}
+    >
       <i className="bi bi-feather"></i>
       Fork
-    </button>
+    </a>
   </>
 );
