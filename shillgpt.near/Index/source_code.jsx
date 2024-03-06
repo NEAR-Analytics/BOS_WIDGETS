@@ -1,11 +1,12 @@
 let contractId = "v1.shillgpt.near";
 let accountId = context.accountId;
 let debugMode = !!props.debug ?? false;
+const MAX_MESSAGE_LENGTH = 400;
 
-if (props.referral_id) {
+if (props.referral_id && props.referral_id !== Storage.get("referral_id")) {
   Storage.set("referral_id", props.referral_id);
+  console.log("referral_id", Storage.get("referral_id"));
 }
-console.log("referral_id", Storage.get("referral_id"));
 
 let allTokens = {
   "token.lonkingnearbackto2024.near": {
@@ -43,6 +44,8 @@ if (state === undefined) {
     nonce: 0,
     pauseNonce: false,
     requestFromAccountId: props.requestFrom,
+    tokenInMessage: "",
+    tokenOutMessage: "",
     refLink: accountId
       ? `https://near.social/shillgpt.near/widget/Index?referral_id=${accountId}`
       : null,
@@ -52,18 +55,30 @@ if (state === undefined) {
   setInterval(() => {
     State.update((state) => ({
       ...state,
-      nonce: accountId && !state.pauseNonce ? state.nonce + 1 : state.nonce,
+      nonce:
+        accountId && !state.pauseNonce && !state.requestFrom
+          ? state.nonce + 1
+          : state.nonce,
     }));
   }, 1000);
 }
 
+const getTokenPrices = () => {
+  if (!state.pricesNonce || state.pricesNonce + 10 <= state.nonce) {
+    asyncFetch("https://indexer.ref.finance/list-token-price").then((r) => {
+      State.update({
+        pricesNonce: state.nonce ?? 0,
+        prices: JSON.parse(r?.body ?? "{}"),
+      });
+    });
+  }
+};
+
 const getUserBalance = (tokenId) => {
-  console.log("getUserBalance", tokenId);
   Near.asyncView(tokenId, "ft_balance_of", {
     account_id: accountId,
   }).then((balance) => {
     if (balance !== null) {
-      console.log("balance", balance, tokenId, accountId);
       let userBalances = state.userBalances ?? {};
       userBalances[tokenId] = getFtBalance(tokenId, balance ?? 0);
       State.update({ userBalances });
@@ -173,6 +188,8 @@ useEffect(() => {
   if (accountId && state.nonce % 10 === 0) {
     (whitelist ?? []).map((t) => getUserBalance(t));
   }
+
+  getTokenPrices();
   getUserRequestResponse(state.requestFromAccountId ?? accountId);
 }, [state.nonce]);
 
@@ -1242,15 +1259,21 @@ return (
                         </label>
                       </div>
                       <div class="col-8">
-                        <textarea
-                          class="form-control"
-                          id="tokenInMessage"
-                          rows="3"
-                          onChange={(e) =>
-                            State.update({ tokenInMessage: e.target.value })
-                          }
-                          value={state.tokenInMessage}
-                        ></textarea>
+                        <div>
+                          <textarea
+                            class="form-control"
+                            id="tokenInMessage"
+                            rows="3"
+                            onChange={(e) =>
+                              State.update({ tokenInMessage: e.target.value })
+                            }
+                            value={state.tokenInMessage}
+                          ></textarea>
+                        </div>{" "}
+                        {(state.tokenInMessage ?? "").length >
+                          MAX_MESSAGE_LENGTH && (
+                          <div class="text-secondary">Message is too long</div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -1265,15 +1288,21 @@ return (
                         </label>
                       </div>
                       <div class="col-8">
-                        <textarea
-                          class="form-control"
-                          id="tokenOutMessage"
-                          rows="3"
-                          onChange={(e) =>
-                            State.update({ tokenOutMessage: e.target.value })
-                          }
-                          value={state.tokenOutMessage}
-                        ></textarea>
+                        <div>
+                          <textarea
+                            class="form-control"
+                            id="tokenOutMessage"
+                            rows="3"
+                            onChange={(e) =>
+                              State.update({ tokenOutMessage: e.target.value })
+                            }
+                            value={state.tokenOutMessage}
+                          ></textarea>
+                        </div>
+                        {(state.tokenOutMessage ?? "").length >
+                          MAX_MESSAGE_LENGTH && (
+                          <div class="text-secondary">Message is too long</div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -1339,15 +1368,57 @@ return (
                       <button
                         type="submit"
                         class={`btn btn-primary ${
-                          state.tokenIn && state.tokenOut ? "" : "disabled"
+                          state.tokenIn &&
+                          state.tokenOut &&
+                          state.tokenInMessage.length +
+                            state.tokenOutMessage.length >
+                            0 &&
+                          (state.tokenInMessage ?? "").length <=
+                            MAX_MESSAGE_LENGTH &&
+                          (state.tokenOutMessage ?? "").length <=
+                            MAX_MESSAGE_LENGTH
+                            ? ""
+                            : "disabled"
                         }`}
                         onClick={() => request()}
                       >
                         Submit
                       </button>
 
+                      {!(state.tokenIn && state.tokenOut) && (
+                        <div class="mt-2">
+                          <Notice
+                            isSmall={1}
+                            paddingLeft="12px"
+                            cardColor="#FEAF20"
+                          >
+                            Select tokens to shill: what to sale and what to buy
+                          </Notice>
+                        </div>
+                      )}
+
+                      {state.tokenIn &&
+                        state.tokenOut &&
+                        state.tokenInMessage.length +
+                          state.tokenOutMessage.length ==
+                          0 && (
+                          <div class="mt-2">
+                            <Notice
+                              isSmall={1}
+                              paddingLeft="12px"
+                              cardColor="#FEAF20"
+                            >
+                              At least one message about tokens required
+                            </Notice>
+                          </div>
+                        )}
+
                       <div class="mt-2">
-                        <Notice isSmall={1} cardColor="#FEAF20">
+                        <Notice
+                          isSmall={1}
+                          paddingLeft="12px"
+                          cardColor="#FEAF20"
+                        >
                           When confirming the first request transaction, make
                           sure you to toggle on the option to "Don't ask again
                           for sending similar ..." at the bottom
@@ -1521,41 +1592,48 @@ return (
                 </div>
                 <div class="card-body">
                   <ol class="olcards">
-                    {pools.map((p) => (
-                      <MyListItem
-                        cardColor="#36aeb3"
-                        backColor="#eee"
-                        id={`pool-${p[0]}`}
-                      >
-                        <div class="content">
-                          <div class="icon">
-                            <img src={allTokens[p[0]].image} />
-                          </div>
-                          <div class="text">
-                            <div>
-                              <strong>{allTokens[p[0]].name}</strong>
+                    {pools.map((p) => {
+                      let tokenBalance = getFtBalance(
+                        p[0],
+                        p[1].total_balance,
+                        2
+                      );
+                      let tokenValue = (
+                        parseFloat(state.prices[p[0]]?.price ?? 0) *
+                        parseFloat(tokenBalance ?? 0)
+                      ).toFixed(2);
+                      return (
+                        <MyListItem
+                          cardColor="#36aeb3"
+                          backColor="#eee"
+                          id={`pool-${p[0]}`}
+                        >
+                          <div class="content">
+                            <div class="icon">
+                              <img src={allTokens[p[0]].image} />
                             </div>
-                            <span>
-                              {`Total Balance: ${getFtBalance(
-                                p[0],
-                                p[1].total_balance,
-                                2
-                              )}`}
-                            </span>
-
-                            {debugMode && (
+                            <div class="text">
                               <div>
-                                <span>Total shares: {p[1].total_shares}</span>
-                                <span>
-                                  Locked balance:{" "}
-                                  {getFtBalance(p[0], p[1].locked_balance, 2)}
-                                </span>
+                                <strong>{allTokens[p[0]].name}</strong>
                               </div>
-                            )}
+                              <span>
+                                {`Total Balance: ${tokenBalance} ($${tokenValue})`}
+                              </span>
+
+                              {debugMode && (
+                                <div>
+                                  <span>Total shares: {p[1].total_shares}</span>
+                                  <span>
+                                    Locked balance:{" "}
+                                    {getFtBalance(p[0], p[1].locked_balance, 2)}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </MyListItem>
-                    ))}
+                        </MyListItem>
+                      );
+                    })}
                   </ol>
                 </div>{" "}
               </div>
