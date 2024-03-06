@@ -73,7 +73,7 @@ const MainComponent = styled.div`
 
     @media (max-width: 620px) {
         .form-group {
-            gap: 0px;
+            gap: 0px !important;
             flex-direction: column;
             
             .form-label, .form-value, .form-input {
@@ -81,7 +81,7 @@ const MainComponent = styled.div`
             }
 
             .form-reward {
-                gap: 5px;
+                gap: 5px !important;
                 flex-direction: column;
             }
         }
@@ -314,6 +314,7 @@ return (
               min="0.01"
               step="0.1"
               value={state.amount}
+              className="form-input"
               onChange={(e) => {
                 const amount = Number(e.target.value);
                 if (amount < 0.01) return;
