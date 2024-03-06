@@ -62,14 +62,25 @@ const HeadComponent = styled.div`
 `;
 
 const MainComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 32px 14px;
-  gap: 24px;
-  & p {
-    margin : 0
-  }
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 32px 14px;
+    gap: 24px;
+    & p {
+        margin : 0
+    }
+
+    @media (max-width: 620px) {
+        .form-group {
+            flex-direction: column;
+            
+            div {
+                width: 100%;
+            }
+        }
+    }
+  
 `;
 
 const Input = styled.input`
@@ -180,6 +191,7 @@ return (
   <Wrapper>
     <div className="d-flex">
       <p
+        className="m-0 position-relative top-4"
         style={{ color: "#B3B3B3", cursor: "pointer" }}
         onClick={() => {
           changePage("dashboard");
@@ -209,7 +221,7 @@ return (
     </HeadComponent>
 
     <MainComponent>
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -229,7 +241,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -253,7 +265,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -277,7 +289,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -336,7 +348,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -369,7 +381,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20, marginTop: 10 }}>
+      <div className="d-flex form-group" style={{ gap: 20, marginTop: 10 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -384,7 +396,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
