@@ -2,6 +2,15 @@ const Owner = "socializer.near";
 const accountId = context.accountId;
 const API_URL = props?.API_URL || "http://localhost:3000";
 
+const HeadContent = styled.div`
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 620px) {
+        flex-direction: column;    
+    }
+`;
+
 const UserOptions = [
   {
     text: "Users",
@@ -119,34 +128,31 @@ console.log(state.list, "==>state.list");
 return (
   <div style={{ width: "100%" }}>
     <div style={{ width: 400 }}>
-      <div className="d-flex justify-content-between" style={{ gap: 20 }}>
+      <HeadContent>
         <h3>Leader Board : </h3>
-        <Widget
-          props={{
-            API_URL,
-            noLabel: true,
-            options: UserOptions,
-            value: state.menu,
-            onChange: (data) => selectMenu(data, "menu"),
-          }}
-          src={`${Owner}/widget/Select`}
-        />
-      </div>
-      <div
-        className="d-flex justify-content-end"
-        style={{ marginTop: 10, marginBottom: 5 }}
-      >
-        <Widget
-          props={{
-            API_URL,
-            noLabel: true,
-            options: TimeOptions,
-            value: state.time,
-            onChange: (data) => selectMenu(data, "time"),
-          }}
-          src={`${Owner}/widget/Select`}
-        />
-      </div>
+        <div className="d-flex flex-column gap-2">
+          <Widget
+            props={{
+              API_URL,
+              noLabel: true,
+              options: UserOptions,
+              value: state.menu,
+              onChange: (data) => selectMenu(data, "menu"),
+            }}
+            src={`${Owner}/widget/Select`}
+          />
+          <Widget
+            props={{
+              API_URL,
+              noLabel: true,
+              options: TimeOptions,
+              value: state.time,
+              onChange: (data) => selectMenu(data, "time"),
+            }}
+            src={`${Owner}/widget/Select`}
+          />
+        </div>
+      </HeadContent>
       <div>
         {state.list.length !== 0 && state.menu.value && state.load === true ? (
           <Widget
