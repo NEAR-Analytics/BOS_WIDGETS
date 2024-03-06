@@ -75,7 +75,7 @@ const MainComponent = styled.div`
         .form-group {
             flex-direction: column;
             
-            .form-label, .form-value, .form-input, {
+            .form-label, .form-value, .form-input {
                 width: 100% !important;
             }
         }
