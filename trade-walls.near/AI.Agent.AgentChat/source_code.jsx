@@ -3,7 +3,7 @@ const [error, setError] = useState(true);
 
 const connectBackend = () => {
   console.log("Connecting...");
-  asyncFetch("http://localhost:5000/api/greet").then((res) => {
+  asyncFetch("https://localhost:5000/api/greet").then((res) => {
     setResponse(res.body);
     if (res.status == 200) {
       setError(false);
@@ -440,21 +440,21 @@ return (
                     >
                       Download trade-walls
                     </a>
-                              <Widget
-            src="near/widget/DIG.Button"
-            props={{
-              onClick: connectBackend,
-              iconLeft: editIcon,
-              variant: "affirmative",
-              fill: "solid",
-              size: "large",
-              label: "Reconnect",
-              style: {
-                borderTopLeftRadius: "0rem",
-                borderBottomLeftRadius: "0rem",
-              },
-            }}></Widget>
-
+                    <Widget
+                      src="near/widget/DIG.Button"
+                      props={{
+                        onClick: connectBackend,
+                        iconLeft: editIcon,
+                        variant: "affirmative",
+                        fill: "solid",
+                        size: "large",
+                        label: "Reconnect",
+                        style: {
+                          borderTopLeftRadius: "0rem",
+                          borderBottomLeftRadius: "0rem",
+                        },
+                      }}
+                    ></Widget>
                   </div>
                 )}
                 {!error && (
