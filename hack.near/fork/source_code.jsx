@@ -1,10 +1,6 @@
 const src = props.src ?? "devs.near/widget/community";
 const [creatorId, type, name] = src.split("/");
 
-State.init({
-  name,
-});
-
 const source = Social.get(`${src}`);
 
 const forkClick = () => {
@@ -24,19 +20,15 @@ const forkClick = () => {
           path: src,
         },
         value: {
-          update: `${context.accountId}/${type}/${state.name}`,
+          update: `${context.accountId}/${type}/${name}`,
         },
       }),
     },
     [`${type}`]: {
-      [`${state.name}`]: {
+      [`${name}`]: {
         "": `${source}`,
         metadata: {
-          upstream: src,
-          downstream:
-            name !== state.name
-              ? `${context.accountId}/${type}/${state.name}`
-              : undefined,
+          fork_of: src,
         },
       },
     },
@@ -47,7 +39,7 @@ const forkClick = () => {
     value: {
       type: "fork",
       src,
-      update: `${context.accountId}/${type}/${state.name}`,
+      update: `${context.accountId}/${type}/${name}`,
     },
   });
 
