@@ -1,29 +1,38 @@
+const Wrapper = styled.div`
+    gap: 12px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #808080;,
+    @media (max-width: 620px) {
+        flex-direction: column;
+        align-items: flex-end;
+        
+        .title {
+            gap: 0 !important;
+        }
+    }
+`;
+
 const Button = styled.button`
-  width: 100%;
-  padding: 8px 9px 8px 28px;
-  display: flex;
-  gap: 7px;
-  border-radius: 6px;
-  border: 1px solid var(--light_90, #E6E6E6);
-  background: var(--Dark, #121212);
-  text-align: center;
-  color: var(--light_95, #F3F3F3);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: capitalize;
-  margin: auto;
+    gap: 7px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 9px 8px 28px;
+    text-transform: capitalize;
+    color: var(--light_95, #F3F3F3);
+    background: var(--Dark, #121212);
+    border: 1px solid var(--light_90, #E6E6E6);  
 `;
 
 return (
-  <div
-    className="d-flex justify-content-between"
-    style={{
-      borderBottom: "1px solid #808080",
-      gap: 12,
-    }}
-  >
+  <Wrapper>
     <div
-      className="d-flex"
+      className="d-flex title"
       style={{
         gap: 12,
         flexDirection: "column",
@@ -86,5 +95,5 @@ return (
         </span>
       </Button>
     </div>
-  </div>
+  </Wrapper>
 );
