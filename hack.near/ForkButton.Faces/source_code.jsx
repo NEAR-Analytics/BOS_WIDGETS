@@ -1,28 +1,9 @@
 const accountId = context.accountId;
 
-const forksByUsers = props.forksByUsers || {};
-const limit = props.limit ?? 3;
+const forkers = props.forkers ?? [];
+const limit = props.limit ?? 5;
 
-let forks = Object.keys(forksByUsers).reverse();
-
-const graphForks = [];
-const nonGraph = [];
-
-const graph =
-  (accountId &&
-    Social.keys(`${accountId}/graph/follow/*`, "final")[accountId].graph
-      .follow) ||
-  {};
-
-forks.forEach((accountId) => {
-  if (accountId in graph) {
-    graphForks.push(accountId);
-  } else {
-    nonGraph.push(accountId);
-  }
-});
-
-let faces = [...graphForks, ...nonGraph];
+let faces = [...forkers];
 
 const renderFaces = faces.slice(0, limit);
 
