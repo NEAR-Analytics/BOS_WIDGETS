@@ -28,6 +28,10 @@ const Button = styled.button`
     color: var(--light_95, #F3F3F3);
     background: var(--Dark, #121212);
     border: 1px solid var(--light_90, #E6E6E6);  
+
+    @media (max-width: 620px) {
+        margin-bottom: 10px;
+    }
 `;
 
 return (
