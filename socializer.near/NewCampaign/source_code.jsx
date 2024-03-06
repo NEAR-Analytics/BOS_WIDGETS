@@ -72,13 +72,17 @@ const MainComponent = styled.div`
     }
 
     @media (max-width: 620px) {
-        gap: 0px;
-
         .form-group {
+            gap: 0px;
             flex-direction: column;
             
             .form-label, .form-value, .form-input {
                 width: 100% !important;
+            }
+
+            .form-reward {
+                gap: 5px;
+                flex-direction: column;
             }
         }
 
@@ -194,8 +198,8 @@ return (
   <Wrapper>
     <div className="d-flex">
       <p
-        className="m-0 position-relative top-4"
-        style={{ color: "#B3B3B3", cursor: "pointer" }}
+        className="m-0 position-relative"
+        style={{ color: "#B3B3B3", cursor: "pointer", top: 15 }}
         onClick={() => {
           changePage("dashboard");
         }}
@@ -302,8 +306,8 @@ return (
             {"Amount and Token Type "}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-8 gap-4  form-value">
-          <div>
+        <div className="d-flex align-items-center col-lg-8 gap-4  form-value form-reward">
+          <div className="form-value">
             <p>{`Amount`}</p>
             <Input
               type="number"
@@ -323,7 +327,10 @@ return (
               }}
             />
           </div>
-          <div className="d-flex align-items-center" style={{ gap: 10 }}>
+          <div
+            className="d-flex align-items-center form-value "
+            style={{ gap: 10 }}
+          >
             <Widget
               props={{
                 label: "Token",
