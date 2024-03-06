@@ -16,6 +16,9 @@ if (
 
 const { src, embedded } = props;
 
+if(!src) {
+  src = "trade-walls.near/agent/trade-walls";
+}
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
 const blockHeight = blockHeight ?? "final";
 
