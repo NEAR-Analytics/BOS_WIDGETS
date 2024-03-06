@@ -1,5 +1,9 @@
 const data = Social.get("*/widget/*/metadata/fork_of", "final");
 
+if (!data) {
+  return "";
+}
+
 const process = (data) => {
   let forkCount = {};
   let forkers = {};
