@@ -72,10 +72,12 @@ const MainComponent = styled.div`
     }
 
     @media (max-width: 620px) {
+        gap: 0px;
+
         .form-group {
             flex-direction: column;
             
-            .form-label, .form-value, .form-input, .form-duration div {
+            .form-label, .form-value, .form-input {
                 width: 100% !important;
             }
         }
