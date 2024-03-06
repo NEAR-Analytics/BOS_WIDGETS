@@ -75,8 +75,8 @@ const MainComponent = styled.div`
         .form-group {
             flex-direction: column;
             
-            div {
-                width: 100%;
+            .form-label, .form-value, .form-input, {
+                width: 100% !important;
             }
         }
     }
@@ -223,7 +223,7 @@ return (
     <MainComponent>
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Project /Username*"}</p>
@@ -231,9 +231,9 @@ return (
             {"Your Social  Username"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6 form-value">
           <Input
-            className="col-lg-12"
+            className="col-lg-12 form-input"
             placeholder="Near Degens || neardegens.near"
             value={state.username}
             readOnly
@@ -243,7 +243,7 @@ return (
 
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Post  Link*"}</p>
@@ -251,9 +251,9 @@ return (
             {"Paste the  link of your Near Social Post"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Input
-            className="col-lg-12"
+            className="col-lg-12 form-input"
             value={state.post_link}
             placeholder="https://near.social/"
             onChange={(e) => {
@@ -267,7 +267,7 @@ return (
 
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Requirements *"}</p>
@@ -275,11 +275,11 @@ return (
             {"Participation requirements for this campaign"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Typeahead
             multiple
             labelKey="name"
-            className="col-lg-12"
+            className="col-lg-12  form-input"
             onChange={changeRequirement}
             options={requirementsOptions}
             placeholder=""
@@ -291,7 +291,7 @@ return (
 
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Reward  Per Winner*"}</p>
@@ -299,7 +299,7 @@ return (
             {"Amount and Token Type "}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-8 gap-4">
+        <div className="d-flex align-items-center col-lg-8 gap-4  form-value">
           <div>
             <p>{`Amount`}</p>
             <Input
@@ -350,7 +350,7 @@ return (
 
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Winners*"}</p>
@@ -358,7 +358,7 @@ return (
             {"No of Winners  <=20"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
+        <div className="d-flex align-items-center col-lg-6  form-value">
           <Input
             type="number"
             min="1"
@@ -376,14 +376,14 @@ return (
                 total_reward,
               });
             }}
-            className="col-lg-12"
+            className="col-lg-12  form-input"
           />
         </div>
       </div>
 
       <div className="d-flex form-group" style={{ gap: 20, marginTop: 10 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Total Rewards*"}</p>
@@ -391,14 +391,18 @@ return (
             {"Total = Reward x  No of Winners"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input className="col-lg-12" value={state.total_reward} readOnly />
+        <div className="d-flex align-items-center col-lg-6  form-value">
+          <Input
+            className="col-lg-12  form-input"
+            value={state.total_reward}
+            readOnly
+          />
         </div>
       </div>
 
       <div className="d-flex form-group" style={{ gap: 20 }}>
         <div
-          className="d-flex"
+          className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
           <p style={{ fontWeight: 600 }}>{"Duration*"}</p>
@@ -406,7 +410,7 @@ return (
             {"Campaign duration in HH:MM"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4">
+        <div className="d-flex align-items-center col-lg-6 gap-4  form-value">
           <Widget
             props={{
               noLabel: true,
