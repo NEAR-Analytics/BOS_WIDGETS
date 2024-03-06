@@ -1,234 +1,3 @@
-const [response, setResponse] = useState({});
-const [error, setError] = useState(true);
-const [walls, setWalls] = useState([]);
-const [answer, setAnswer] = useState("");
-const WallsList = () => {
-  if (error) {
-    return;
-  }
-  if (walls.length == 0) {
-    return <>Add a wall to begin</>;
-  }
-
-  return (
-    <>
-      <h5>My walls</h5>
-      <table>
-        <thead>
-          <tr>
-            <TC as="th">Pair</TC>
-            <TC as="th">Buy Price</TC>
-            <TC as="th">Sell Price</TC>
-            <TC as="th">Quantity</TC>
-            <TC as="th">Keep</TC>
-            <TC as="th">Status</TC>
-            <TC as="th">Actions</TC>
-          </tr>
-        </thead>
-        <tbody>
-          {walls.map(
-            ({ id, pair, bid_price, ask_price, quantity, keep, status }) => {
-              const [base, quote] = pair.split("/");
-              return (
-                <tr key={id}>
-                  <TC>{pair}</TC>
-                  <TC>
-                    {bid_price} {quote}
-                  </TC>
-                  <TC>
-                    {ask_price} {quote}
-                  </TC>
-                  <TC>
-                    {quantity} {base}
-                  </TC>
-                  <TC>
-                    {keep} {base}
-                  </TC>
-                  <TC>{status}</TC>
-                  <TC>
-                    <button onClick={deleteWall(id)}>Delete</button>
-                  </TC>
-                </tr>
-              );
-            }
-          )}
-        </tbody>
-      </table>
-    </>
-  );
-};
-
-const deleteWall = (wallId) => {
-  return () => {
-    asyncFetch(`${wallsApiEndpoint}/${wallId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      responseType: "json",
-    }).then((res) => {
-      setResponse(res.body);
-      listWalls();
-    });
-    return false;
-  };
-};
-const [suggestedWalls, setSuggestedWalls] = useState([]);
-
-const extractWalls = (content) => {
-  const wallRegex = /```wall\s*([\s\S]*?)\s*```/;
-  const match = content.match(wallRegex);
-  if (match) {
-    const wallsJson = match[1].trim();
-    try {
-      return JSON.parse(wallsJson);
-    } catch (error) {
-      console.error("Error parsing suggested walls:", error);
-      return null;
-    }
-  }
-  return null;
-};
-
-const ActionParser = () => {
-  return (
-    <div>
-      {suggestedWalls.length > 0 && (
-        <LLMWallSuggestion walls={suggestedWalls} onAddWall={addWall} />
-      )}
-    </div>
-  );
-};
-
-useEffect(() => {
-  //console.log(answer);
-  setSuggestedWalls(extractWalls(answer) || []);
-}, [answer]);
-
-const LLMWallSuggestion = ({ walls, onAddWall }) => {
-  const [addingWall, setAddingWall] = useState(null);
-
-  const handleAddWall = (wall, index) => {
-    onAddWall(wall, index);
-    setAddingWall(wall);
-  };
-
-  return (
-    <div>
-      <h4>Suggested Walls from LLM</h4>
-      {walls.length === 0 ? (
-        <p>No walls suggested by the LLM.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <TC as="th">Pair</TC>
-              <TC as="th">Buy Price</TC>
-              <TC as="th">Sell Price</TC>
-              <TC as="th">Quantity</TC>
-              <TC as="th">Keep</TC>
-              <TC as="th">Action</TC>
-            </tr>
-          </thead>
-          <tbody>
-            {walls.map((wall, index) => {
-              const [lhs, rhs] = wall.pair.split("/");
-              return (
-                <tr key={index}>
-                  <TC>{wall.pair}</TC>
-                  <TC>
-                    {wall.bid_price} {rhs}
-                  </TC>
-                  <TC>
-                    {wall.ask_price} {rhs}
-                  </TC>
-                  <TC>
-                    {wall.quantity} {lhs}
-                  </TC>
-                  <TC>
-                    {wall.keep} {lhs}
-                  </TC>
-                  <TC>
-                    <button
-                      onClick={() => handleAddWall(wall, index)}
-                      disabled={addingWall === wall}
-                    >
-                      {addingWall === wall ? "Adding..." : "Add Wall"}
-                    </button>
-                  </TC>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-};
-
-const addWall = (wall, index) => {
-  asyncFetch(wallsApiEndpoint, {
-    method: "POST",
-    body: JSON.stringify(wall),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    responseType: "json",
-  }).then((res) => {
-    setResponse(res.body);
-    setSuggestedWalls((prevSuggestedWalls) => {
-      const updatedWalls = [...prevSuggestedWalls];
-      updatedWalls.splice(index, 1);
-      return updatedWalls;
-    });
-    listWalls();
-  });
-  return false;
-};
-const [wallsApiEndpoint, setWallsApiEndpoint] = useState(
-  "http://localhost:5000/api/walls"
-);
-const [connecting, setConnecting] = useState(false);
-
-const listWalls = async () => {
-  asyncFetch(wallsApiEndpoint, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    responseType: "json",
-  }).then((res) => {
-    setWalls(res.body);
-    if (res.status == 200) {
-      setError(false);
-    }
-  });
-};
-
-const connectBackend = async () => {
-  setConnecting(true);
-  const url = `${wallsApiEndpoint.replace("/walls", "")}/greet`;
-  asyncFetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    responseType: "json",
-  }).then((res) => {
-    setResponse(res.body);
-    listWalls();
-    if (res.status == 200) {
-      setError(false);
-    }
-    setConnecting(false);
-  });
-};
-
-useEffect(() => {
-  connectBackend();
-}, []);
-
-// original code
 const { href } = VM.require("devhub.near/widget/core.lib.url");
 const storedModel = Storage.get("agent-model");
 const storedLocalModel = Storage.get("agent-local-model");
@@ -247,9 +16,6 @@ if (
 
 const { src, embedded } = props;
 
-if (!src) {
-  src = "trade-walls.near/agent/trade-walls";
-}
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
 const blockHeight = blockHeight ?? "final";
 
@@ -258,40 +24,6 @@ const agent = { accountId, name: agentName, ...data };
 
 if (!data) return "Loading...";
 
-data.prompt =
-  data.prompt +
-  `
-You want to suggest buy and sell walls to the user. To suggest a wall return json:
-\`\`\`wall
-[
-  {
-    "pair": "nano/near",
-    "bid_price": 1,
-    "ask_price": 2,
-    "quantity": 20,
-    "keep": 10
-  },
-  {
-    "pair": "nano/near",
-    "bid_price": 0.5,
-    "ask_price": 4.0,
-    "quantity": 40,
-    "keep": 20
-  }
-]
-\`\`\`
-bid_price and ask_price are in the pair denominator (near) and quantity is in the numerator (nano). quantity includes keep.
-Do:
-1. Suggest log-scale walls that lets the user benefit from price fluctuations.
-2. Stick within the user's requested parameters.
-3. Suggest walls when responding even if the parameters aren't clear - the user can ignore your options.
-4. Use the trade pair the user requests. Remind them to look at a graph of the pair on tradingview.
-
-Don't:
-1. Deviate from the wall json format - it's strict.
-2. Hesitate to suggest walls.
-3. Suggest only one wall. We want the user to benefit from volatility.
-`;
 const listLink = href({
   widgetSrc: `near/widget/AI.Nexus`,
 });
@@ -380,6 +112,21 @@ const openAICompatible = async (question) => {
       finalQuestion = `${finalQuestion} respond in json`;
     }
   }
+  // frequency_penalty: 0.0,
+  // logit_bias: {},
+  // log_props: true,
+  // top_logprobs: 5,
+  // max_tokens: 2048,
+  // n: 1,
+  // presence_penalty: 0.0,
+  // seed: 0,
+  // stop: ["\n"],
+  // stream: false,
+  // temperature: 0.7,
+  // top_p: 1,
+  // tools: agent.tools,
+  // tool_choice: 'auto',
+  // user: anonymize(context.accountId),
 
   return asyncFetch(urlForModel(model), {
     method: "POST",
@@ -411,11 +158,7 @@ useEffect(() => {
   setLoading(true);
   routeApi(...messages.slice(-1))
     .then((answer) => {
-      const wallRegex = /```wall\s*([\s\S]*?)\s*```/;
-      const answerNoWalls = answer.replace(wallRegex, "");
-
-      setMessages([...messages, { role: "system", content: answerNoWalls }]);
-      setAnswer(answer);
+      setMessages([...messages, { role: "system", content: answer }]);
     })
     .finally(() => {
       setLoading(false);
@@ -424,7 +167,6 @@ useEffect(() => {
 
 const submitQuestion = () => {
   setMessages([...messages, { role: "user", content: question }]);
-  setAnswer("");
   setQuestion("");
 };
 const requiresCredentials = (model) => {
@@ -502,9 +244,6 @@ const UserMessage = styled.div``;
 const AgentMessage = styled.div`
   background-color: #f9f9f9;
 `;
-const TC = styled.td`
-  padding: 12px;
-`;
 
 const renderSettings = () => {
   return (
@@ -517,46 +256,6 @@ const renderSettings = () => {
         <AllSettings>
           <InputWrapper>
             <Widget
-              src="near/widget/DIG.Input"
-              props={{
-                label: "Walls API Endpoint",
-                assistiveText: "Enter the API endpoint for managing walls",
-                iconLeft: "ph-bold ph-link",
-                onInput: (e) => setWallsApiEndpoint(e.target.value),
-                value: wallsApiEndpoint,
-                onKeyPress: (e) => {
-                  if (e.key === "Enter") {
-                    connectBackend();
-                  }
-                },
-                inputProps: {
-                  endAdornment: (
-                    <Widget
-                      src="near/widget/DIG.Button"
-                      props={{
-                        onClick: connectBackend,
-                        variant: "affirmative",
-                        size: "small",
-                        disabled: connecting,
-                        icon: connecting ? (
-                          <span
-                            className="spinner-grow spinner-grow-sm"
-                            role="status"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <i className="ph-bold ph-check" />
-                        ),
-                      }}
-                    />
-                  ),
-                },
-              }}
-            />
-          </InputWrapper>
-
-          <InputWrapper>
-            <Widget
               src="near/widget/DIG.InputSelect"
               props={{
                 groups: [
@@ -566,7 +265,8 @@ const renderSettings = () => {
                       {
                         label: "NEAR Llama 7b",
                         value: "near-llama-7b",
-                      }
+                      },
+                      // Hi hackathon teams, implementing calls to gpt4.near? Add it here. - the black dragon
                     ],
                   },
                   {
@@ -621,7 +321,7 @@ const renderSettings = () => {
                 props={{
                   label: "Local Model URL",
                   assistiveText:
-                    "OpenAI format",
+                    "Any url that accepts messages in OpenAI format",
                   iconLeft: "ph-bold ph-horse",
                   onInput: (e) => setLocalModel(e.target.value),
                   value: localModel,
@@ -660,7 +360,7 @@ const renderSettings = () => {
                   props={{
                     label: "Credentials",
                     assistiveText:
-                      "credentials stored in browser",
+                      "Your OpenAI API Key or other credentials, will be stored in your browser.",
                     iconLeft: "ph-bold ph-identification-card",
                     onInput: (e) => setCredential(e.target.value),
                     value: credential,
@@ -669,6 +369,18 @@ const renderSettings = () => {
                 />
               </div>
             </div>
+          </InputWrapper>
+          <InputWrapper>
+            <Widget
+              src="near/widget/DIG.Checkbox"
+              props={{
+                id: "json-output",
+                label: "JSON Output mode",
+                checked: jsonOutputSetting,
+                onCheckedChange: setJsonOutputSetting,
+              }}
+            />{" "}
+            not supported by all providers.
           </InputWrapper>
         </AllSettings>
       )}
@@ -680,7 +392,13 @@ return (
   <Wrapper>
     <div>
       {!embedded && (
-        <div>          
+        <div>
+          <Link to={listLink}>
+            <Header>
+              <i className="ph ph-arrow-left" />
+              Agent List
+            </Header>
+          </Link>
           <Overview>
             <div className="row">
               <div className="col-5">
@@ -694,49 +412,20 @@ return (
                 />
               </div>
               <div className="col-7">
-                {error && (
-                  <div key="error">
-                    Please make sure your server is running and adblock is
-                    disabled.
-                    <a
-                      href="https://github.com/255BITS/trade-walls"
-                      target="_blank"
-                    >
-                      Download trade-walls
-                    </a>
-                    <Widget
-                      src="near/widget/DIG.Button"
-                      props={{
-                        onClick: connectBackend,
-                        iconLeft: editIcon,
-                        variant: "affirmative",
-                        fill: "solid",
-                        size: "large",
-                        label: "Reconnect",
-                        style: {
-                          borderTopLeftRadius: "0rem",
-                          borderBottomLeftRadius: "0rem",
-                        },
-                      }}
-                    ></Widget>
-                  </div>
-                )}
-                {!error && (
-                  <div>You are connected to the trade-walls server.</div>
-                )}
-
-                <div key="response">{JSON.stringify(response)}</div>
+                <Prompt>
+                  <Label>Prompt:</Label> {data.prompt}
+                </Prompt>
               </div>
             </div>
           </Overview>
         </div>
       )}
-      <WallsList></WallsList>
       <Controls>
         {renderSettings()}
         {requiresCredentials(model) && credential === "" && (
           <div className="alert alert-danger mx-3" role="alert">
-            <i className="ph ph-alert-circle" /> Requires key
+            <i className="ph ph-alert-circle" /> To use an OpenAI or Groq model
+            enter your API Key in Settings or change to another provider.
           </div>
         )}
         <div className="input-group">
@@ -750,7 +439,8 @@ return (
                 submitQuestion();
               }
             }}
-            placeholder="Name your bid, ask, quantity and tradepair. Example: 4 nano for 1 near with 100 nano"
+            placeholder="What's your question?"
+            autoFocus
           />
           <Widget
             src="near/widget/DIG.Button"
@@ -772,7 +462,6 @@ return (
           />
         </div>
       </Controls>
-
       <div className="d-flex flex-column-reverse">
         {messages.map(({ role, content }, i) => {
           return (
@@ -788,7 +477,6 @@ return (
               )}
               {role !== "user" && (
                 <AgentMessage>
-                  <ActionParser></ActionParser>
                   <Markdown text={content} />
                 </AgentMessage>
               )}
