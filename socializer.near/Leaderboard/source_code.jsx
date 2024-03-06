@@ -22,7 +22,7 @@ const HeadContent = styled.div`
             flex-direction: row !important;
         }
 
-        .form-select {
+        .form-select-wrapper {
             width: 100% !important;
         }    
     }
