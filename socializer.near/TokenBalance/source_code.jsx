@@ -2,7 +2,8 @@ const Wrapper = styled.div`
     gap: 12px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #808080;,
+    border-bottom: 1px solid #808080;
+    
     @media (max-width: 620px) {
         flex-direction: column;
         align-items: flex-end;
