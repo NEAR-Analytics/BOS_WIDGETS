@@ -6,9 +6,8 @@ State.init({
 });
 
 const CONNECT_PROPS = {
-  ...props.connectProps,
-  chainId: props.chainId,
-  chainName: props.chainName,
+  chainId: 1101,
+  chainName: "Polygon zkEVM",
   noAccountTips: "Polygon zkEVM Liquidity",
   wrongNetworkTips: "To proceed, kindly switch to Polygon zkEVM Chain.",
 };
