@@ -89,12 +89,14 @@ const queryHashes = [
   { id: 1, hash: "bc526c4e-575a-4602-a1ed-7546cda6e8d2" }, // daily
   { id: 3, hash: "d3eb2e3e-8407-46d1-8a63-10ce3a91fb95" }, //  30 days *
   { id: 4, hash: "de28fde6-9c64-4f60-a86d-5c345024da93" }, //  7 days *
+  { id: 5, hash: "2b311776-c929-42b0-b4e0-cb9d7b8e9ae7" }, //  1 days *
   { id: 6, hash: "79e3e384-896b-46d1-88ea-451d7752d90a" }, //  total *
   { id: 8, hash: "26e7f1bb-e069-40ca-9d6a-2050c13bba22" }, //  bar-race
   { id: 9, hash: "79e3e384-896b-46d1-88ea-451d7752d90a" }, //  treemap
 ];
 //----------------------------------------------------------
 const tabs = {
+  left_day: "Top Networks (today)",
   left: "Top Networks (last 7 days)",
   middle: "Top Networks (last 30 days)",
   right: "Top Networks (Total)",
@@ -123,7 +125,7 @@ State.init({
   data: [],
   isLoading: true,
   error: [],
-  tab: tabs.left,
+  tab: tabs.left_day,
   barrace_tab: barrace_tabs.left,
   treemap_tab: treemap_tabs.left,
 });
@@ -821,6 +823,81 @@ let sixth = (
     </div>
   </div>
 );
+
+let fourth_day = (
+  <div
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.left_day ? "" : "none",
+    }}
+    className="shadow-sm rounded-2 overflow-auto p-2"
+  >
+    <div className="row w-100 pb-2 px-2 mx-0">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="shadow-sm rounded-2 overflow-auto"
+      >
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.data?.hash5?.data,
+            rowsCount: 15,
+            columns: [
+              {
+                title: "Blockchain",
+                key: "BLOCKCHAIN",
+                colors: "#8b76f3",
+              },
+
+              {
+                title: "Block Count",
+                key: "BLOCK_COUNT",
+                colors: "#8b76f3",
+                round: "yes",
+              },
+              {
+                title: "Transactions",
+                key: "TOTAL_TX",
+                description: "Number of transactions today",
+                round: "yes",
+              },
+              {
+                title: "Successful Transactions",
+                key: "TRANSACTION_COUNT_SUCCESS",
+                description: "Number of Successful transactions today",
+                round: "yes",
+              },
+              {
+                title: "Failed Transactions",
+                key: "TRANSACTION_COUNT_FAILED",
+                description: "Number of Failed transactions today",
+                round: "yes",
+              },
+              {
+                title: "Success Rate",
+                key: "SUCCESS_RATE",
+                description:
+                  "refers to the percentage of transactions that are successfully completed or confirmed on the blockchain out of the total number of attempted transactions over a given period.",
+                round: "yes",
+              },
+              {
+                title: "TPS",
+                key: "TPS",
+                round: "yes",
+              },
+              {
+                title: "Total Fee (USD)",
+                key: "TOTAL_FEES_USD",
+                round: "yes",
+              },
+            ],
+          }}
+        />
+      </div>
+    </div>
+  </div>
+);
 return (
   <div className="container-fluid py-2">
     <div className="pl-2">
@@ -845,6 +922,7 @@ return (
           </ul>
         </Container>
       </div>
+      {fourth_day}
       {fourth}
       {fifth} {sixth}
       <div className="row w-100 py-4 g-4">
