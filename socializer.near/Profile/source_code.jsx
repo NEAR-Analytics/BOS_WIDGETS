@@ -84,9 +84,9 @@ const Avatar = styled.img`
 `;
 
 const Table = styled.table`
+  margin: 0;
   border-radius: 8px;
   background: #F5F1F1;
-  margin: 0;
 `;
 
 const Input = styled.input`
@@ -236,7 +236,7 @@ return (
     </div>
     <TokenComponent>
       <Widget src={`${Owner}/widget/TokenBalance`} />
-      <div className="d-flex ">
+      <div className="d-flex overflow-auto">
         <Table
           className={`table table-hover table-striped table-borderless ${props.className}`}
         >
