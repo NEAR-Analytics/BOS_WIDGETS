@@ -69,7 +69,7 @@ const NEAR_TOKEN = [
     value: "near4",
   },
   {
-    text: "Minimum Near Token",
+    text: "Not Applicable",
     value: "near0",
   },
 ];
@@ -223,7 +223,7 @@ return (
         </h5>
       </div>
       <div>
-        <Label>{`$NEAR token`}</Label>
+        <Label>{`Minimum $NEAR balance`}</Label>
         <Widget
           props={{
             noLabel: true,
