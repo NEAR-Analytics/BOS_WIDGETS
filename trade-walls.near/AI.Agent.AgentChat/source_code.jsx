@@ -9,8 +9,8 @@ const connectBackend = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    responseType: "json"
-   }).then((res) => {
+    responseType: "json",
+  }).then((res) => {
     setResponse(res.body);
     if (res.status == 200) {
       setError(false);
