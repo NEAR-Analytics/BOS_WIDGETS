@@ -1,11 +1,16 @@
-const { curChain, bridgeCb, theme, dexConfig, isChainSupported, chainId } =
-  props;
+const {
+  account,
+  curChain,
+  bridgeCb,
+  theme,
+  dexConfig,
+  isChainSupported,
+  chainId,
+} = props;
 
 State.init({
   chainId: -1,
 });
-
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const Dex = styled.div`
   display: flex;
