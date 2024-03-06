@@ -38,7 +38,6 @@ return (
       className="btn btn-sm btn-outline-secondary"
       href={`https://near.social/edit/${src}`}
     >
-      <i className="bi bi-feather"></i>
       Fork
     </a>
   </>
