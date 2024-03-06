@@ -2,7 +2,7 @@ const [response, setResponse] = useState({});
 const [error, setError] = useState(true);
 
 const connectBackend = () => {
-  const url = "https://google.com/api/greet";
+  const url = "http://127.0.0.1:5000/api/greet";
   console.log("Connecting..." + url);
   asyncFetch(url).then((res) => {
     setResponse(res.body);
