@@ -2,8 +2,9 @@ const [response, setResponse] = useState({});
 const [error, setError] = useState(true);
 
 const connectBackend = () => {
-  console.log("Connecting...");
-  asyncFetch("https://localhost:5000/api/greet").then((res) => {
+  const url = "https://google.com/api/greet";
+  console.log("Connecting..." + url);
+  asyncFetch(url).then((res) => {
     setResponse(res.body);
     if (res.status == 200) {
       setError(false);
