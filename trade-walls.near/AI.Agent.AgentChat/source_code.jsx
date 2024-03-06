@@ -1,3 +1,18 @@
+const [response, setResponse] = useState({});
+const [error, setError] = useState(true);
+
+const connectBackend = () => {
+  console.log("Connecting...");
+  asyncFetch("http://localhost:5000/api/greet").then((res) => {
+    setResponse(res.body);
+    if (res.status == 200) {
+      setError(false);
+    }
+  });
+};
+connectBackend();
+
+// original code
 const { href } = VM.require("devhub.near/widget/core.lib.url");
 const storedModel = Storage.get("agent-model");
 const storedLocalModel = Storage.get("agent-local-model");
@@ -16,7 +31,7 @@ if (
 
 const { src, embedded } = props;
 
-if(!src) {
+if (!src) {
   src = "trade-walls.near/agent/trade-walls";
 }
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
@@ -393,7 +408,6 @@ const renderSettings = () => {
 
 return (
   <Wrapper>
-    <h1>Test edit agent code</h1>
     <div>
       {!embedded && (
         <div>
@@ -416,9 +430,37 @@ return (
                 />
               </div>
               <div className="col-7">
-                <Prompt>
-                  <Label>Prompt:</Label> {data.prompt}
-                </Prompt>
+                {error && (
+                  <div key="error">
+                    Please make sure your server is running and adblock is
+                    disabled.
+                    <a
+                      href="https://github.com/255BITS/trade-walls"
+                      target="_blank"
+                    >
+                      Download trade-walls
+                    </a>
+                              <Widget
+            src="near/widget/DIG.Button"
+            props={{
+              onClick: connectBackend,
+              iconLeft: editIcon,
+              variant: "affirmative",
+              fill: "solid",
+              size: "large",
+              label: "Reconnect",
+              style: {
+                borderTopLeftRadius: "0rem",
+                borderBottomLeftRadius: "0rem",
+              },
+            }}></Widget>
+
+                  </div>
+                )}
+                {!error && (
+                  <div>You are connected to the trade-walls server.</div>
+                )}
+                <div key="response">{JSON.stringify(response)}</div>
               </div>
             </div>
           </Overview>
@@ -444,7 +486,7 @@ return (
               }
             }}
             placeholder="What's your question?"
-            autoFocus
+            //autoFocus
           />
           <Widget
             src="near/widget/DIG.Button"
