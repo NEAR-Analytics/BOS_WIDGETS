@@ -1,10 +1,16 @@
 const [response, setResponse] = useState({});
 const [error, setError] = useState(true);
 
-const connectBackend = () => {
-  const url = "http://127.0.0.1:5000/api/greet";
+const connectBackend = async () => {
+  const url = "http://localhost:5000/api/greet";
   console.log("Connecting..." + url);
-  asyncFetch(url).then((res) => {
+  asyncFetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    responseType: "json"
+   }).then((res) => {
     setResponse(res.body);
     if (res.status == 200) {
       setError(false);
