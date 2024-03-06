@@ -66,14 +66,14 @@ const WalletComponent = styled.div`
 `;
 
 const TokenComponent = styled.div`
-  display: flex;
+  gap: 20px;
   width: 100%;
-  background: #F3F3F3;
-  flex-direction: column;
+  display: flex;
   padding: 6px 24px;
   border-radius: 8px;
+  background: #F3F3F3;
+  flex-direction: column;
   border: 1px solid var(--light_90, #E6E6E6);
-  gap: 20px;
 `;
 
 const Avatar = styled.img`
