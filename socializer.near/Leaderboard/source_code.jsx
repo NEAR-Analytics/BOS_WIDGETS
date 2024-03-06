@@ -2,12 +2,29 @@ const Owner = "socializer.near";
 const accountId = context.accountId;
 const API_URL = props?.API_URL || "http://localhost:3000";
 
+const Wrapper = styled.div`
+    width: 400px;
+    @media (max-width: 620px) {
+        width: 100%;
+    }
+`;
+
 const HeadContent = styled.div`
     gap: 20px;
     display: flex;
     justify-content: space-between;
     @media (max-width: 620px) {
-        flex-direction: column;    
+        margin-top: 43px;
+        flex-direction: column;
+        
+        .form-group {
+            width: 100% !important;
+            flex-direction: row !important;
+        }
+
+        .form-select {
+            width: 100% !important;
+        }    
     }
 `;
 
@@ -127,10 +144,10 @@ if (state.error) return <p style={{ color: "red" }}>{state.error}</p>;
 console.log(state.list, "==>state.list");
 return (
   <div style={{ width: "100%" }}>
-    <div style={{ width: 400 }}>
+    <Wrapper>
       <HeadContent>
         <h3>Leader Board : </h3>
-        <div className="d-flex flex-column gap-2">
+        <div className="d-flex flex-column gap-2 form-group">
           <Widget
             props={{
               API_URL,
@@ -169,6 +186,6 @@ return (
           "Data is not exists"
         )}
       </div>
-    </div>
+    </Wrapper>
   </div>
 );
