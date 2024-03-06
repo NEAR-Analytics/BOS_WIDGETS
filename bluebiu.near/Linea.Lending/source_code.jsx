@@ -1,5 +1,5 @@
 const Theme = styled.div`
-  --button-text-color: #fff;
+  --button-text-color: #000;
   --button-color: #56daff;
   --primary-color: #56daff;
   --border-color: #292c42;
