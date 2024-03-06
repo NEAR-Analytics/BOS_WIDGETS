@@ -410,7 +410,14 @@ return (
             {"Campaign duration in HH:MM"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4  form-value">
+        <div
+          className="d-flex align-items-center col-lg-6 gap-4  form-value"
+          style={{
+            "& div": {
+              width: "100%",
+            },
+          }}
+        >
           <Widget
             props={{
               noLabel: true,
