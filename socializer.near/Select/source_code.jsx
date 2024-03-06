@@ -140,7 +140,7 @@ const Item = styled.button`
 `;
 
 return (
-  <Container>
+  <Container className="form-select">
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}
