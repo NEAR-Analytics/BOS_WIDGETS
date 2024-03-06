@@ -1,5 +1,9 @@
 const widgets = Social.get(`*/widget/*/metadata/platform`, "final");
 
+if (!widgets) {
+  return "";
+}
+
 const builders = Object.keys(widgets);
 
 return (
