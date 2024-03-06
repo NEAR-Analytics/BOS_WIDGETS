@@ -10,6 +10,28 @@ const Container = styled.div`
   z-index: 0;
   width: 100%;
 `;
+const ThemeContainer = styled.div`
+  --button-color: rgb(121, 79, 221);
+  --button-text-color: #fff;
+`;
+
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+if (!sender) {
+  return (
+    <ThemeContainer>
+      {" "}
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          chainId: 1101,
+          chainName: "Polygon zkEVM",
+          noAccountTips: "Polygon zkEVM-Ethereum Bridge",
+          isWrongNetwork: false,
+        }}
+      />
+    </ThemeContainer>
+  );
+}
 
 const tokens = [
   // eth testnet assets
@@ -169,7 +191,6 @@ const BRIDGE_CONTRACT_ADDRESS = isMainnet
   : "0xF6BEEeBB578e214CA9E23B0e9683454Ff88Ed2A7";
 
 const provider = Ethers.provider();
-const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const bridgeAbi = [
   {
@@ -197,6 +218,23 @@ useEffect(() => {
     })
     .catch((e) => {});
 }, [sender]);
+
+if (state.chainId !== 1 || state.chainId !== 1101) {
+  return (
+    <ThemeContainer>
+      {" "}
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+        props={{
+          chainId: 1,
+          chainName: "Ethereum",
+          wrongNetworkTips: "To proceed, kindly switch to Ethereum Chain.",
+          isWrongNetwork: true,
+        }}
+      />
+    </ThemeContainer>
+  );
+}
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
@@ -540,21 +578,6 @@ const onUpdateToken = (params) => {
   setNonce(params);
 };
 
-if (!sender) {
-  return (
-    <Widget
-      src="guessme.near/widget/ZKEVMSwap.zkevm-connect"
-      props={{
-        title: "Polygon zkEVM-Ethereum Bridge",
-        src: "https://assets.ref.finance/images/zkevm-bridge.png",
-        imgStyle: {
-          width: "403px",
-          // height: "93px",
-        },
-      }}
-    />
-  );
-}
 if (chainId === undefined) return <div />;
 
 return (
