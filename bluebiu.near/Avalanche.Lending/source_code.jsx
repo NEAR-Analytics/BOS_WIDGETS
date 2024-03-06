@@ -1,6 +1,6 @@
 const Theme = styled.div`
   --button-text-color: #fff;
-  --button-color: #f44d4e;
+  --button-color: #ea3431;
   --primary-color: #e84142;
   --border-color: #292c42;
   --supply-bg-color: rgba(39, 197, 187, 0.2);
