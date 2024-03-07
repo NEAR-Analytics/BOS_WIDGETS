@@ -80,8 +80,9 @@ const code = `
 <meta charset="utf-8">
 
 <script src="https://d3js.org/d3.v4.js"></script>
+<div class="svg-container" style="text-align:center">
 <div id="my_dataviz" key="piechart"></div>
-
+</div>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 <script>
