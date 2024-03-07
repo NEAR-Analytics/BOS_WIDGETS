@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 
 const { id } = props;
@@ -144,7 +144,7 @@ return (
       <Section>
         <Widget
           src={`ndcdev.near/widget/daos.Components.Dao.FeaturedProjects`}
-          props={{ section, projects }}
+          props={{ title: section.projects.title, projects }}
         />
       </Section>
     ) : (
