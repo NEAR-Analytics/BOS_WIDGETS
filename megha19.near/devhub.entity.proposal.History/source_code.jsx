@@ -12,7 +12,7 @@ const { readableDate } = VM.require(
   "megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
 const proposalId = props.id ?? (props.id ? parseInt(props.id) : 0);
-const proposal = Near.view("devhub.near", "get_proposal", {
+const proposal = Near.view("truedove38.near", "get_proposal", {
   proposal_id: proposalId,
 });
 if (!proposal || !proposal.snapshot_history) {
@@ -70,9 +70,9 @@ const history = (
               <a
                 class="dropdown-item"
                 href={href({
-                  widgetSrc:
-                    "megha19.near/widget/devhub.entity.proposal.Proposal",
+                  widgetSrc: "megha19.near/widget",
                   params: {
+                    page: "proposal",
                     id: proposalId,
                     timestamp: item.timestamp,
                     compareTimestamp: null,
@@ -102,9 +102,9 @@ const history = (
             <a
               class="dropdown-item"
               href={href({
-                widgetSrc:
-                  "megha19.near/widget/devhub.entity.proposal.Proposal",
+                widgetSrc: "megha19.near/widget/app",
                 params: {
+                  page: "proposal",
                   id: proposalId,
                   timestamp: currentTimestamp,
                   compareTimestamp: item.timestamp,
