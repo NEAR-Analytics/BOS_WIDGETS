@@ -209,7 +209,7 @@ const CardItem = ({ item, index }) => (
               <span>
                 {new Date(
                   item.snapshot_history[item.snapshot_history.length - 1]
-                    .timestamp / 1000000
+                    .timestamp / 1000000,
                 ).toLocaleDateString()}
               </span>
             </div>
@@ -247,15 +247,15 @@ const CardItem = ({ item, index }) => (
               </span>
             </div>
           )}
-          { item.attachments.length > 0  && (
+          {item.attachments.length > 0 && (
             <div>
-            <span style={{ width: "12rem" }}>Attachment:</span>
-             <Widget
-             src={"ndcdev.near/widget/daos.Components.Attachment"}
-             props={{ attachments: item.attachments }}
-           />
-           </div>
-          ) }
+              <span style={{ width: "12rem" }}>Attachment:</span>
+              <Widget
+                src={"ndcdev.near/widget/daos.Components.Attachment"}
+                props={{ attachments: item.attachments }}
+              />
+            </div>
+          )}
         </div>
       </div>
       <a
