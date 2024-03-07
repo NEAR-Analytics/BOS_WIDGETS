@@ -1,9 +1,124 @@
 const [response, setResponse] = useState({});
 const [error, setError] = useState(true);
+const [walls, setWalls] = useState([]);
+let [suggestedWall, setSuggestedWall] = useState({
+  pair: "ETH/NEAR",
+  bid_price: 500,
+  ask_price: 1000,
+  quantity: 10,
+  keep: 10,
+});
+const WallsList = () => {
+  if (error) {
+    return;
+  }
+  if (walls.length == 0) {
+    return <>Add a wall to begin</>;
+  }
+  return (
+    <>
+      <h5>My walls</h5>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Pair</th>
+          <th>buy price</th>
+          <th>sell price</th>
+          <th>quantity</th>
+          <th>keep</th>
+          <th>total</th>
+        </tr>
+        {walls.map(
+          ({ id, pair, bid_price, ask_price, quantity, keep, total }) => {
+            return (
+              <tr>
+                <td>{id}</td>
+                <td>{pair}</td>
+                <td>{bid_price}</td>
+                <td>{ask_price}</td>
+                <td>{quantity}</td>
+                <td>{keep}</td>
+                <td>{total}</td>
+              </tr>
+            );
+          }
+        )}
+      </table>
+    </>
+  );
+};
 
+const WallAction = (props) => {
+  let pair = props.suggested.pair.split("/");
+  let wall = props.suggested;
+  let label = (
+    <>
+      Add wall for {wall.bid_price * (wall.quantity + wall.keep)} {pair[1]}: buy{" "}
+      {wall.quantity + wall.keep}
+      {pair[0]} under {wall.bid_price}, sell {wall.quantity} over{" "}
+      {wall.ask_price}
+    </>
+  );
+
+  return (
+    <div>
+      <Widget
+        src="near/widget/DIG.Button"
+        props={{
+          onClick: addWall(wall),
+          variant: "affirmative",
+          fill: "solid",
+          size: "large",
+          label: label,
+          style: {
+            borderTopLeftRadius: "0rem",
+            borderBottomLeftRadius: "0rem",
+          },
+        }}
+      />
+    </div>
+  );
+};
+const ActionParser = () => {
+  return (
+    <div>
+      <WallAction suggested={suggestedWall}></WallAction>
+    </div>
+  );
+};
+const listWalls = async () => {
+  const url = "http://localhost:5000/api/walls";
+  asyncFetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    responseType: "json",
+  }).then((res) => {
+    setWalls(res.body);
+    if (res.status == 200) {
+      setError(false);
+    }
+  });
+};
+const addWall = (wall) => {
+  return () => {
+    asyncFetch("http://localhost:5000/api/walls", {
+      method: "POST",
+      body: JSON.stringify(wall),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      responseType: "json",
+    }).then((res) => {
+      setResponse(res.body);
+      listWalls();
+    });
+    return false;
+  };
+};
 const connectBackend = async () => {
   const url = "http://localhost:5000/api/greet";
-  console.log("Connecting..." + url);
   asyncFetch(url, {
     method: "GET",
     headers: {
@@ -12,6 +127,7 @@ const connectBackend = async () => {
     responseType: "json",
   }).then((res) => {
     setResponse(res.body);
+    listWalls();
     if (res.status == 200) {
       setError(false);
     }
@@ -49,6 +165,25 @@ const agent = { accountId, name: agentName, ...data };
 
 if (!data) return "Loading...";
 
+data.prompt =
+  data.prompt +
+  `
+You want to suggest buy and sell walls to the user. To suggest a wall return a json like this:
+\`\`\`wall
+  [` +
+  JSON.stringify(suggestedWall) +
+  `]
+\`\`\`
+Do:
+1. Suggest log-scale walls that lets the user benefit from price fluctuations.
+2. Stick within the user's requested parameters.
+3. Suggest walls when responding even if the parameters aren't clear - the user can ignore your options.
+Don't:
+1. Deviate from the wall json format - it's strict.
+2. Hesitate to suggest walls.
+3. Suggest only one wall. We want the user to benefit from volatility.
+`;
+console.log("prompt", data.prompt);
 const listLink = href({
   widgetSrc: `near/widget/AI.Nexus`,
 });
@@ -418,6 +553,13 @@ return (
     <div>
       {!embedded && (
         <div>
+          <div className="row">
+            <div className="col-12">
+              <strong>Trade Walls is currently in development</strong>, check
+              the <a href="https://github.com/255BITS/trade-walls">github</a>{" "}
+              for updates.
+            </div>
+          </div>
           <Link to={listLink}>
             <Header>
               <i className="ph ph-arrow-left" />
@@ -467,12 +609,14 @@ return (
                 {!error && (
                   <div>You are connected to the trade-walls server.</div>
                 )}
+
                 <div key="response">{JSON.stringify(response)}</div>
               </div>
             </div>
           </Overview>
         </div>
       )}
+      <WallsList></WallsList>
       <Controls>
         {renderSettings()}
         {requiresCredentials(model) && credential === "" && (
@@ -492,7 +636,7 @@ return (
                 submitQuestion();
               }
             }}
-            placeholder="What's your question?"
+            placeholder="What's your command?"
             //autoFocus
           />
           <Widget
@@ -515,6 +659,7 @@ return (
           />
         </div>
       </Controls>
+
       <div className="d-flex flex-column-reverse">
         {messages.map(({ role, content }, i) => {
           return (
@@ -531,6 +676,7 @@ return (
               {role !== "user" && (
                 <AgentMessage>
                   <Markdown text={content} />
+                  <ActionParser content={content}></ActionParser>
                 </AgentMessage>
               )}
             </div>
