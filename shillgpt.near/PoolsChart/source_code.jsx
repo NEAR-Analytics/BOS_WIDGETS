@@ -211,6 +211,8 @@ return (
         srcDoc={code}
         message={message}
         onMessage={onMessage}
+        id="poolchart-iframe"
+        key="poolchart-iframe"
       />
     </div>
   </div>
