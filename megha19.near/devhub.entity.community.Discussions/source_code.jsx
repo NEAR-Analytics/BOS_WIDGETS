@@ -76,7 +76,7 @@ const [sort, setSort] = useState("timedesc");
 function repostOnDiscussions(blockHeight) {
   Near.call([
     {
-      contractName: "devhub.near",
+      contractName: "truedove38.near",
       methodName: "create_discussion",
       args: {
         handle,
@@ -212,7 +212,7 @@ return (
               src="mob.near/widget/MainPage.N.Feed"
               props={{
                 accounts: [
-                  `discussions.${handle}.community.devhub.near`,
+                  `discussions.${handle}.community.truedove38.near`,
                 ],
               }}
             />
