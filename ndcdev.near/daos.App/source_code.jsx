@@ -1,5 +1,5 @@
 const { AppLayout } = VM.require(`ndcdev.near/widget/daos.Layouts.App`);
-const { page, ...passProps } = props;
+const { page } = props;
 
 if (!AppLayout) return <Widget src="flashui.near/widget/Loading" />;
 if (!page) page = "home";
@@ -10,7 +10,7 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Comments.Index`}
-          props={passProps}
+          props={props}
         />
       );
     }
@@ -18,31 +18,25 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Activity`}
-          props={passProps}
+          props={props}
         />
       );
     }
     case "home": {
       return (
-        <Widget
-          src={`ndcdev.near/widget/daos.Pages.Home`}
-          props={passProps}
-        />
+        <Widget src={`ndcdev.near/widget/daos.Pages.Home`} props={props} />
       );
     }
     case "info": {
       return (
-        <Widget
-          src={`ndcdev.near/widget/daos.Pages.Info`}
-          props={passProps}
-        />
+        <Widget src={`ndcdev.near/widget/daos.Pages.Info`} props={props} />
       );
     }
     case "councils": {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Councils`}
-          props={passProps}
+          props={props}
         />
       );
     }
@@ -50,7 +44,7 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Achievements`}
-          props={passProps}
+          props={props}
         />
       );
     }
@@ -58,7 +52,7 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Guidance`}
-          props={passProps}
+          props={props}
         />
       );
     }
@@ -66,7 +60,7 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.List`}
-          props={{ type: "Report", ...passProps }}
+          props={{ type: "Report", ...props }}
         />
       );
     }
@@ -74,23 +68,31 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.List`}
-          props={{ type: "Proposal", ...passProps }}
+          props={{ type: "Proposal", ...props }}
         />
       );
     }
     case "dao": {
-      return (
-        <Widget
-          src={`ndcdev.near/widget/daos.Pages.Dao`}
-          props={{ ...passProps }}
-        />
-      );
+      if (props.id === "1")
+        return (
+          <Widget
+            src={`ndcdev.near/widget/daos.Pages.Home`}
+            props={props}
+          />
+        );
+      else
+        return (
+          <Widget
+            src={`ndcdev.near/widget/daos.Pages.Dao`}
+            props={{ ...props }}
+          />
+        );
     }
     case "proposal": {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.Index`}
-          props={{ ...passProps }}
+          props={{ ...props }}
         />
       );
     }
@@ -101,7 +103,7 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.Create`}
-          props={passProps}
+          props={props}
         />
       );
     }
