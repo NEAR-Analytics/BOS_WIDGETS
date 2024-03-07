@@ -1779,6 +1779,7 @@ return (
                     src="shillgpt.near/widget/PoolsChart"
                     props={{
                       pools,
+                      allTokens,
                       pricesData: {
                         ok: true,
                         body: JSON.stringify(state.prices),
