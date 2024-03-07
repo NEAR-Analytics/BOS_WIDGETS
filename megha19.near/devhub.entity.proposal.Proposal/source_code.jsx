@@ -4,6 +4,10 @@ const { href } = VM.require("megha19.near/widget/core.lib.url") || {
 const { readableDate } = VM.require(
   "megha19.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
+const { getDepositAmountForWriteAccess } = VM.require(
+  "megha19.near/widget/core.lib.common"
+);
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -186,7 +190,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("devhub.near", "get_proposal", {
+const proposal = Near.view("truedove38.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -214,10 +218,10 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `devhub.near/post/main`,
+  path: `truedove38.near/post/main`,
   blockHeight,
 };
-const proposalURL = `megha19.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = `https://near.org/megha19.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -325,7 +329,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("devhub.near", "get_proposal", {
+    const data = Near.view("truedove38.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -363,7 +367,7 @@ const CheckBox = ({ value, isChecked, label, disabled, onClick }) => {
         type="checkbox"
         value={value}
         checked={isChecked}
-        disabled={disabled}
+        disabled={!isModerator || disabled}
         onChange={(e) => onClick(e.target.checked)}
       />
       <label style={{ width: "90%" }} class="form-check-label text-black">
@@ -389,7 +393,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "devhub.near",
+  "truedove38.near",
   "is_allowed_to_edit_proposal",
   {
     proposal_id: proposal.id,
@@ -397,18 +401,52 @@ const isAllowedToEditProposal = Near.view(
   }
 );
 
-const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
+const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+  account_id: accountId,
+});
+
+let grantNotify = Near.view(
+  "social.near",
+  "is_write_permission_granted",
+  {
+    predecessor_id: "truedove38.near",
+    key: accountId + "/index/notify",
+  }
+);
+
+const userStorageDeposit = Near.view(
+  "social.near",
+  "storage_balance_of",
+  {
+    account_id: accountId,
+  }
+);
 
 const editProposalStatus = ({ timeline }) => {
-  Near.call({
-    contractName: "devhub.near",
-    methodName: "edit_proposal_timeline",
-    args: {
-      id: proposal.id,
-      timeline: timeline,
+  const calls = [
+    {
+      contractName: "truedove38.near",
+      methodName: "edit_proposal_timeline",
+      args: {
+        id: proposal.id,
+        timeline: timeline,
+      },
+      gas: 270000000000000,
     },
-    gas: 270000000000000,
-  });
+  ];
+  if (grantNotify === false) {
+    calls.unshift({
+      contractName: "social.near",
+      methodName: "grant_write_permission",
+      args: {
+        predecessor_id: "truedove38.near",
+        keys: [accountId + "/index/notify"],
+      },
+      gas: Big(10).pow(14),
+      deposit: getDepositAmountForWriteAccess(userStorageDeposit),
+    });
+  }
+  Near.call(calls);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
@@ -820,6 +858,7 @@ return (
                             setUpdatedProposalStatus({
                               ...v,
                               value: {
+                                ...v.value,
                                 ...updatedProposalStatus.value,
                                 status: v.value.status,
                               },
