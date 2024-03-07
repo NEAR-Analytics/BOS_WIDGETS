@@ -107,6 +107,14 @@ function Page() {
         />
       );
     }
+    case "edit_proposal": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Proposals.Create`}
+          props={props}
+        />
+      );
+    }
 
     default: {
       const NotFound = styled.div`
