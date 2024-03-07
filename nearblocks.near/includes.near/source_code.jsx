@@ -33,8 +33,7 @@ export function encodeArgs(args) {
 export function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 export function txnMethod(
