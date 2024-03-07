@@ -124,6 +124,21 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
