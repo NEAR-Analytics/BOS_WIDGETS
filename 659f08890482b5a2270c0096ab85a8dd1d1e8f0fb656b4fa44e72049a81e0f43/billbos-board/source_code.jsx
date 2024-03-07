@@ -1,4 +1,3 @@
-const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "10px";
 const textColor = props.textColor ?? "white";
 const backgroundColor = props.backgroundColor ?? "black";
@@ -11,6 +10,12 @@ State.init({
   count: 0,
   footerContent: [],
 });
+
+const ensureHttpOrHttps = (url) => {
+  return !url.startsWith("http://") && !url.startsWith("https://")
+    ? "https://" + url
+    : url;
+};
 
 const fetchApi = (queryURI, method, data) => {
   const options = {
@@ -252,7 +257,8 @@ useEffect(() => {
       setCount((prev) => (prev + 1) % (len > 5 ? 5 : len));
     }, 5000);
 
-    console.log(state.show.length);
+    console.log(state.show);
+    console.log(state.show[0][1][2]);
   }
 }, [state.show]);
 
@@ -264,7 +270,10 @@ return (
   >
     <div style={{ width: 728, height: 90 }}>
       {state.show.length > 0 ? (
-        <a href={state.show[count][1][2] || ""} target="_blank">
+        <a
+          href={ensureHttpOrHttps(state.show[count][1][2]) || ""}
+          target="_blank"
+        >
           <img
             src={`https://ipfs.near.social/ipfs/${state.show[count][1][1]}`}
             width={728}
