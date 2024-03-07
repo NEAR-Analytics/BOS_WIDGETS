@@ -12,8 +12,7 @@ const Body = styled.div`
   padding: 0rem 1rem;
 `;
 
-const Content = styled.div`
-`;
+const Content = styled.div``;
 
 const Actions = styled.div`
   display: flex;
@@ -92,7 +91,7 @@ return (
             src={"ndcdev.near/widget/daos.Components.MarkdownViewer"}
             props={{ text: comment.snapshot.description }}
           />
-           <Widget
+          <Widget
             src={"ndcdev.near/widget/daos.Components.Attachment"}
             props={{ attachments: comment.snapshot.attachments }}
           />
