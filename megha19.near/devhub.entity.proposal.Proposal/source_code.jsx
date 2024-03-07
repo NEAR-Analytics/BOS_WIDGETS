@@ -214,7 +214,7 @@ if (timestamp && proposal) {
 
 const { snapshot } = proposal;
 
-const editorAccountId = snapshot.editor_id;
+const authorId = proposal.author_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
@@ -603,7 +603,7 @@ return (
         }}
       />
       <div>
-        <b>{proposal.author_id} </b> created on{" "}
+        <b>{authorId} </b> created on{" "}
         {readableDate(snapshot.timestamp / 1000000)}
       </div>
     </div>
@@ -675,12 +675,12 @@ return (
               <Widget
                 src={"megha19.near/widget/devhub.entity.proposal.Profile"}
                 props={{
-                  accountId: editorAccountId,
+                  accountId: authorId,
                 }}
               />
               <ProposalContainer className="rounded-2 flex-1">
                 <Header className="d-flex gap-3 align-items-center p-2 px-3">
-                  {snapshot.editor_id} ･{" "}
+                  {authorId} ･{" "}
                   <Widget
                     src="near/widget/TimeAgo"
                     props={{
@@ -693,7 +693,7 @@ return (
                       <Widget
                         src="near/widget/Posts.Menu"
                         props={{
-                          accountId: editorAccountId,
+                          accountId: authorId,
                           blockHeight: blockHeight,
                         }}
                       />
@@ -763,7 +763,9 @@ return (
             </div>
             <div className="border-bottom pb-4 mt-4">
               <Widget
-                src={"megha19.near/widget/devhub.entity.proposal.Comments"}
+                src={
+                  "megha19.near/widget/devhub.entity.proposal.Comments"
+                }
                 props={{
                   item: item,
                   snapshotHistory: [...proposal.snapshot_history, snapshot],
@@ -788,7 +790,7 @@ return (
               <Widget
                 src="near/widget/AccountProfile"
                 props={{
-                  accountId: editorAccountId,
+                  accountId: authorId,
                 }}
               />
             </SidePanelItem>
