@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
 );
 
 if (!fontCss) {
@@ -82,6 +82,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    overflow-x: hidden;
+  }
 
   .btn {
     &:disabled {
