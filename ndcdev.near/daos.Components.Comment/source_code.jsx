@@ -13,25 +13,6 @@ const Body = styled.div`
 `;
 
 const Content = styled.div`
-  .attachments {
-    margin: 10px 0 20px 0;
-    padding: 10px;
-    border: 1px solid rgb(222 235 255);
-    background: #f5f9ff;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 300px;
-
-    a {
-      color: rgb(118 150 198);
-      font-size: 13px;
-      text-overflow: ellipsis;
-      text-wrap: nowrap;
-      overflow: hidden;
-    }
-  }
 `;
 
 const Actions = styled.div`
@@ -58,6 +39,10 @@ const Header = styled.div`
   margin-bottom: 0;
   display: inline-flex;
   width: 100%;
+
+  a:hover {
+    text-decoration: none;
+  }
 `;
 
 const formatDate = (timestamp) => {
@@ -69,7 +54,7 @@ const formatDate = (timestamp) => {
 return (
   <>
     <Header>
-      <div className="my-3 d-flex gap-3 align-items-center justify-content-between">
+      <div className="my-3 d-flex w-100 gap-3 align-items-center">
         <Widget
           src="near/widget/AccountProfile"
           props={{
@@ -77,9 +62,13 @@ return (
             hideAccountId: true,
           }}
         />
-        <div className="d-flex gap-2 align-items-center justify-content-between">
-          <i className="bi bi-clock" />
-          <small>{formatDate(comment.snapshot.timestamp)}</small>
+        <div className="d-flex gap-2 align-items-center justify-content-between text-secondary">
+          <small>
+            {comment.snapshot_history.length > 0
+              ? "Edited at: "
+              : "Created at: "}
+            {formatDate(comment.snapshot.timestamp)}
+          </small>
         </div>
         <Widget
           src={"ndcdev.near/widget/daos.Components.Clipboard"}
@@ -87,6 +76,13 @@ return (
             text: `https://near.org/ndcdev.near/widget/daos.App?page=comments&post_id=${postId}&comment_id=${comment.id}`,
           }}
         />
+        {comment.author_id === context.accountId && (
+          <a
+            href={`https://near.org/ndcdev.near/widget/daos.App?page=comments&post_id=${postId}&comment_id=${comment.id}&edit=true`}
+          >
+            <i className="bi blue bi-pencil" />
+          </a>
+        )}
       </div>
     </Header>
     <Post>
@@ -96,15 +92,10 @@ return (
             src={"ndcdev.near/widget/daos.Components.MarkdownViewer"}
             props={{ text: comment.snapshot.description }}
           />
-          {comment.snapshot.attachments.length > 0 && (
-            <div className="attachments">
-              {comment.snapshot.attachments.map((src) => (
-                <a href={src}>
-                  <i className="bi bi-paperclip" /> {src}
-                </a>
-              ))}
-            </div>
-          )}
+           <Widget
+            src={"ndcdev.near/widget/daos.Components.Attachment"}
+            props={{ attachments: comment.snapshot.attachments }}
+          />
         </Content>
 
         {!isPreview && (
