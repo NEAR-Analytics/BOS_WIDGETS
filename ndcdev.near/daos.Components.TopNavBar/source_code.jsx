@@ -14,18 +14,18 @@ const links = [
     href: `/ndcdev.near/widget/daos.App?page=proposals&accountId=${accountId}`,
     icon: <i className="bi bi-file-earmark-text-fill fs-5" />,
   },
-  {
-    text: "Comments",
-    href: `/ndcdev.near/widget/daos.App?page=comments`,
-    disabled: true,
-    icon: <i className="bi bi-chat-square-text-fill fs-5" />,
-  },
-  {
-    text: "Favourites",
-    href: `/ndcdev.near/widget/daos.App?page=favourites`,
-    disabled: true,
-    icon: <i className="bi bi-star-fill fs-5" />,
-  },
+  // {
+  //   text: "Comments",
+  //   href: `/ndcdev.near/widget/daos.App?page=comments`,
+  //   disabled: true,
+  //   icon: <i className="bi bi-chat-square-text-fill fs-5" />,
+  // },
+  // {
+  //   text: "Favourites",
+  //   href: `/ndcdev.near/widget/daos.App?page=favourites`,
+  //   disabled: true,
+  //   icon: <i className="bi bi-star-fill fs-5" />,
+  // },
 ];
 
 const Navbar = styled.div`
