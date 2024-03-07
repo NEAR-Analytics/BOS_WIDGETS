@@ -1,5 +1,5 @@
 let { assets, content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 assets = assets.home;
@@ -395,7 +395,7 @@ return (
           props={{
             title: content.featuredProducts.title,
             projects: content.featuredProducts.projects.map((title) =>
-              projects.find((p) => p.title === title)
+              projects.find((p) => p.title === title),
             ),
           }}
         />
