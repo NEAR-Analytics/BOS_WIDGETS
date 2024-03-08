@@ -116,7 +116,7 @@ const renderData = (a) => {
   }
   return (
     <div key={a.block_date}>
-      <strong>{a.block_date}</strong>:{" "}
+      <strong>{`${a.block_date} (${a.receiver_id})`}</strong>:{" "}
       {indexArrayFromCompressedBase64(a.bitmap)
         .map((idx) => a.first_block_height + idx)
         .join(", ")}
