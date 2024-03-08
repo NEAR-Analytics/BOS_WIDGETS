@@ -24,7 +24,7 @@ const getPassport = () => {
     Ethers.provider().getSigner()
   );
 
-  const passport = contract.getPassport(state.address);
+  let passport = contract.getPassport(state.address);
   return passport;
 };
 
@@ -72,7 +72,7 @@ return (
       </button>
     </div>
     <div className="m-2">
-      <p className="m-2">{JSON.stringify(score)}</p>
+      <p className="m-2">{JSON.stringify(passport)}</p>
       <p className="m-2">{JSON.stringify(score)}</p>
       <p className="m-2">{JSON.stringify(isHuman)}</p>
     </div>
