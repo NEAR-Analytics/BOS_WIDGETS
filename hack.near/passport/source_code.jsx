@@ -13,8 +13,6 @@ const iface = new ethers.utils.Interface(passportDecoderAbi.body);
 
 State.init({
   address: "0xc979F9D3Db24Ef602FD365caA9D86532c73b6D7E",
-  isHuman: false,
-  error: "",
 });
 
 const decoderContractAddress = "0x5558D441779Eca04A329BcD6b47830D2C6607769";
@@ -37,7 +35,7 @@ const getScore = () => {
     Ethers.provider().getSigner()
   );
 
-  let score = contract.getScore(state.user);
+  let score = contract.getScore(state.address);
   return score;
 };
 
@@ -48,7 +46,7 @@ const checkPassport = () => {
     Ethers.provider().getSigner()
   );
 
-  let isHuman = contract.isHuman(state.user);
+  let isHuman = contract.isHuman(state.address);
   return isHuman;
 };
 
