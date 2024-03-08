@@ -61,14 +61,20 @@ return (
       />
     </div>
     <div className="m-2">
-      <button onClick={getPassport}>Get Passport</button>
-      <button onClick={getScore}>Get Score</button>
-      <button onClick={checkPassport}>Check Passport</button>
+      <button className="btn btn-primary m-2" onClick={getPassport}>
+        Get Passport
+      </button>
+      <button className="btn btn-primary m-2" onClick={getScore}>
+        Get Score
+      </button>
+      <button className="btn btn-primary m-2" onClick={checkPassport}>
+        Check Passport
+      </button>
     </div>
     <div className="m-2">
-      <p>{JSON.stringify(score)}</p>
-      <p>{JSON.stringify(score)}</p>
-      <p>{JSON.stringify(isHuman)}</p>
+      <p className="m-2">{JSON.stringify(score)}</p>
+      <p className="m-2">{JSON.stringify(score)}</p>
+      <p className="m-2">{JSON.stringify(isHuman)}</p>
     </div>
   </>
 );
