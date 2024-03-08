@@ -229,14 +229,14 @@ const submit = (show) => {
           chainId: item.chain,
         })),
       };
-      fetchApi("https://api-billbos.0xnutx.space/ads", "POST", data);
+      fetchApi("https://billbos-api.finstable.co.th/ads", "POST", data);
     });
 };
 
 useEffect(() => {
   _fetch();
 
-  fetchApi("https://api-billbos.0xnutx.space/bond", "GET").then((res) => {
+  fetchApi("https://billbos-api.finstable.co.th/bond", "GET").then((res) => {
     const content = res.body.map((item) => ({
       topic: item.name_th,
       value: item.coupon_rate,
