@@ -20,8 +20,8 @@ const decoderContractAddress = "0x5558D441779Eca04A329BcD6b47830D2C6607769";
 const getPassport = () => {
   const contract = new ethers.Contract(
     decoderContractAddress,
-    passportDecoderAbi.body,
-    Ethers.provider().getSigner()
+    new ethers.Interface(abi.DecoderAbi["0x1a4"]),
+    provider
   );
 
   let passport = contract.getPassport(state.address);
@@ -31,8 +31,8 @@ const getPassport = () => {
 const getScore = () => {
   const contract = new ethers.Contract(
     decoderContractAddress,
-    passportDecoderAbi.body,
-    Ethers.provider().getSigner()
+    new ethers.Interface(abi.DecoderAbi["0x1a4"]),
+    provider
   );
 
   let score = contract.getScore(state.address);
@@ -42,8 +42,8 @@ const getScore = () => {
 const checkPassport = () => {
   const contract = new ethers.Contract(
     decoderContractAddress,
-    passportDecoderAbi.body,
-    Ethers.provider().getSigner()
+    new ethers.Interface(abi.DecoderAbi["0x1a4"]),
+    provider
   );
 
   let isHuman = contract.isHuman(state.address);
