@@ -11,9 +11,9 @@ if (!passportDecoderAbi.ok) {
 
 const iface = new ethers.utils.Interface(passportDecoderAbi.body);
 
-State.init({
-  address: "0xc979F9D3Db24Ef602FD365caA9D86532c73b6D7E",
-});
+const [address, setAddress] = useState(
+  "0xc979F9D3Db24Ef602FD365caA9D86532c73b6D7E"
+);
 
 const decoderContractAddress = "0x5558D441779Eca04A329BcD6b47830D2C6607769";
 
@@ -51,12 +51,24 @@ const checkPassport = () => {
 };
 
 return (
-  <div>
-    <button onClick={getPassport}>Get Passport</button>
-    <button onClick={getScore}>Get Score</button>
-    <button onClick={checkPassport}>Check Passport</button>
-    <p>{JSON.stringify(score)}</p>
-    <p>{JSON.stringify(score)}</p>
-    <p>{JSON.stringify(isHuman)}</p>
-  </div>
+  <>
+    <div className="m-2">
+      <input
+        type="text"
+        placeholder="input Ethereum address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+      />
+    </div>
+    <div className="m-2">
+      <button onClick={getPassport}>Get Passport</button>
+      <button onClick={getScore}>Get Score</button>
+      <button onClick={checkPassport}>Check Passport</button>
+    </div>
+    <div className="m-2">
+      <p>{JSON.stringify(score)}</p>
+      <p>{JSON.stringify(score)}</p>
+      <p>{JSON.stringify(isHuman)}</p>
+    </div>
+  </>
 );
