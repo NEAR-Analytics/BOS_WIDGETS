@@ -44,7 +44,7 @@ const fE = ethers.utils.formatEther;
 const mainWidget =
   "659f08890482b5a2270c0096ab85a8dd1d1e8f0fb656b4fa44e72049a81e0f43";
 
-const BACKEND_API = "https://api-billbos.0xnutx.space";
+const BACKEND_API = "https://billbos-api.finstable.co.th";
 const DEFAULT_CHAIN_ID = 25925;
 const CHAIN_LIST = [25925, 35011];
 const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
