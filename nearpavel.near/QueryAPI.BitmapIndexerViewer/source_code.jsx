@@ -1,5 +1,5 @@
 State.init({
-  accountId: "v2.ref-finance.near",
+  accountId: "*.ref-finance.near",
   data: [],
 });
 
@@ -7,7 +7,7 @@ const QUERYAPI_ENDPOINT = `https://near-queryapi.dev.api.pagoda.co/v1/graphql`;
 
 const query = `query MyQuery {
     nearpavel_near_bitmap_v1_actions_index(
-      where: {receiver_id: {_eq: "${state.accountId}"}}
+      where: {receiver_id: {_ilike: "${state.accountId.replace("*", "%")}"}}
     ) {
       block_date
       receiver_id
@@ -27,15 +27,19 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
   });
 }
 
-fetchGraphQL(query, "MyQuery", {}).then((result) => {
-  if (result.status === 200) {
-    if (result.body.data) {
-      const data = result.body.data.nearpavel_near_bitmap_v1_actions_index;
-      State.update({ data });
-      console.log(data);
+if (state.loadedAccountId !== state.accountId) {
+  State.update({ loading: true });
+  fetchGraphQL(query, "MyQuery", {}).then((result) => {
+    State.update({ loading: false, loadedAccountId: state.accountId });
+    if (result.status === 200) {
+      if (result.body.data) {
+        const data = result.body.data.nearpavel_near_bitmap_v1_actions_index;
+        State.update({ data });
+        console.log(data);
+      }
     }
-  }
-});
+  });
+}
 
 function bitmapToString(buffer) {
   return buffer.reduce((r, b) => r + b.toString(2).padStart(8, "0"), "");
@@ -65,16 +69,6 @@ function bitmapStringToIndexArray(strBits) {
     }
   }
   return result;
-}
-
-function strBitmapToBitmap(strBits) {
-  const bytes = new Uint8Array(Math.ceil(strBits.length / 8));
-  for (let bit = 0; bit < strBits.length; bit++) {
-    if (strBits[bit] === "1") {
-      bytes[Math.floor(bit / 8)] |= 1 << (7 - (bit % 8));
-    }
-  }
-  return bytes;
 }
 
 // returns first number x and corresponding coded string length of the first occurrence of
@@ -146,7 +140,8 @@ return (
         value: state.accountId,
       }}
     />
-    {state.accountId && state.data.length === 0 && (
+    {state.loading && <div>Fetching QueryAPI Bitmap Index</div>}
+    {!state.loading && state.data.length === 0 && (
       <div>No blocks found in QueryAPI Bitmap Index</div>
     )}
     {state.data.length > 0 && <div>{renderedData}</div>}
