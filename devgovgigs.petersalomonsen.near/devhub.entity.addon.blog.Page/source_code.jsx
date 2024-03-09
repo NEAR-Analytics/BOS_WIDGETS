@@ -1,6 +1,8 @@
 const { getAccountCommunityPermissions } = VM.require(
   "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
-) || { getAccountCommunityPermissions: () => {} };
+) || {
+  getAccountCommunityPermissions: () => {},
+};
 const imagelink =
   "https://ipfs.near.social/ipfs/bafkreiajzvmy7574k7mp3if6u53mdukfr3hoc2kjkhjadt6x56vqhd5swy";
 
