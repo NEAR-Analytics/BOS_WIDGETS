@@ -168,9 +168,7 @@ const HeaderMain = () => {
         </LogoLink>
         <MenuContainer>
           <Label>
-            <MenuItem href="https://trans-organization-12.gitbook.io/fastui/">
-              Docs
-            </MenuItem>
+            <MenuItem href="#">Docs</MenuItem>
           </Label>
           <Label>
             <MenuItem href="https://github.com/pichtranst123/FastUI/issues">
