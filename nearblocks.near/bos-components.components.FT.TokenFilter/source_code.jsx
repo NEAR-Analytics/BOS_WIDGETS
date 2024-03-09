@@ -365,6 +365,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -750,6 +760,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -918,6 +938,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -928,13 +980,29 @@ function localFormat(number) {
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/near.jsx" */
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 function txnMethod(
@@ -1718,27 +1786,6 @@ function parseOutcomeOld(outcome) {
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
   };
-}
-function dollarFormat(number) {
-  const bigNumber = new Big(number);
-
-  // Format to two decimal places without thousands separator
-  const formattedNumber = bigNumber.toFixed(2);
-
-  // Add comma as a thousands separator
-  const parts = formattedNumber.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const dollarFormattedNumber = `${parts.join('.')}`;
-
-  return dollarFormattedNumber;
-}
-function localFormat(number) {
-  const bigNumber = Big(number);
-  const formattedNumber = bigNumber
-    .toFixed(5)
-    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
-  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
   const bigNumber = new Big(number);
@@ -1980,8 +2027,7 @@ function encodeArgs(args) {
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 function txnMethod(
@@ -2765,27 +2811,6 @@ function parseOutcomeOld(outcome) {
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
   };
-}
-function dollarFormat(number) {
-  const bigNumber = new Big(number);
-
-  // Format to two decimal places without thousands separator
-  const formattedNumber = bigNumber.toFixed(2);
-
-  // Add comma as a thousands separator
-  const parts = formattedNumber.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const dollarFormattedNumber = `${parts.join('.')}`;
-
-  return dollarFormattedNumber;
-}
-function localFormat(number) {
-  const bigNumber = Big(number);
-  const formattedNumber = bigNumber
-    .toFixed(5)
-    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
-  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
   const bigNumber = new Big(number);
@@ -3081,8 +3106,12 @@ function MainComponent({ network, id, tokenFilter }) {
             const response = data?.body?.inventory;
             if (data.status === 200) {
               setInventoryData(response);
+              setInventoryLoading(false);
+            } else {
+              handleRateLimit(data, fetchInventoryData, () =>
+                setInventoryLoading(false),
+              );
             }
-            setInventoryLoading(false);
           },
         )
         .catch(() => {});
@@ -3165,13 +3194,13 @@ function MainComponent({ network, id, tokenFilter }) {
           let rpcAmount = Big(0);
 
           if (amount) {
-            rpcAmount = ftrslt.ft_metas?.decimals
-              ? Big(amount).div(Big(10).pow(ftrslt.ft_metas?.decimals))
+            rpcAmount = ftrslt.ft_meta?.decimals
+              ? Big(amount).div(Big(10).pow(ftrslt.ft_meta?.decimals))
               : 0;
           }
 
-          if (ftrslt.ft_metas?.price) {
-            sum = rpcAmount.mul(Big(ftrslt.ft_metas?.price));
+          if (ftrslt.ft_meta?.price) {
+            sum = rpcAmount.mul(Big(ftrslt.ft_meta?.price));
             total = total.add(sum);
 
             return pricedTokens.push({
@@ -3248,9 +3277,9 @@ function MainComponent({ network, id, tokenFilter }) {
                   <p className="text-sm my-1 flex">
                     ${ft?.amount ? dollarFormat(ft?.amount) : ft?.amount ?? ''}
                     <span>
-                      {filterToken?.ft_metas?.price && (
+                      {filterToken?.ft_meta?.price && (
                         <div className="text-gray-400 ml-2">
-                          @{filterToken?.ft_metas?.price}
+                          @{filterToken?.ft_meta?.price}
                         </div>
                       )}
                     </span>
