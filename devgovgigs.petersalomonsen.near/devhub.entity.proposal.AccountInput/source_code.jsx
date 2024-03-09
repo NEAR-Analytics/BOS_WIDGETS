@@ -11,7 +11,7 @@ const AutoComplete = styled.div`
 return (
   <div>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+      src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
       props={{
         className: "flex-grow-1",
         value: value,
@@ -29,7 +29,7 @@ return (
     {showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
+          src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: value,
             onSelect: (id) => {
