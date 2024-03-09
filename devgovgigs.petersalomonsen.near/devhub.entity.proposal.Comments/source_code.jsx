@@ -47,7 +47,7 @@ const Comment = ({ commentItem }) => {
     <div style={{ zIndex: 99, background: "white" }}>
       <div className="d-flex gap-2 flex-1">
         <Widget
-          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Profile"}
+          src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
           props={{
             accountId: accountId,
           }}
@@ -57,7 +57,7 @@ const Comment = ({ commentItem }) => {
             <div>
               {accountId} commented
               <Widget
-                src="near/widget/TimeAgo"
+                src="${REPL_NEAR}/widget/TimeAgo"
                 props={{
                   blockHeight: blockHeight,
                 }}
@@ -66,7 +66,7 @@ const Comment = ({ commentItem }) => {
             {context.accountId && (
               <div className="menu">
                 <Widget
-                  src="near/widget/Posts.Menu"
+                  src="${REPL_NEAR}/widget/Posts.Menu"
                   props={{
                     accountId: accountId,
                     blockHeight: blockHeight,
@@ -80,7 +80,7 @@ const Comment = ({ commentItem }) => {
           <div className="p-2 px-3">
             <Widget
               src={
-                "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownViewer"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
               }
               props={{
                 text: content.text,
@@ -89,19 +89,19 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="near/widget/v1.LikeButton"
+                src="${REPL_NEAR}/widget/v1.LikeButton"
                 props={{
                   item: item,
                 }}
               />
               <Widget
-                src="near/widget/CopyUrlButton"
+                src="${REPL_NEAR}/widget/CopyUrlButton"
                 props={{
                   url: link,
                 }}
               />
               <Widget
-                src="near/widget/ShareButton"
+                src="${REPL_NEAR}/widget/ShareButton"
                 props={{
                   postType: "post",
                   url: link,
