@@ -1,8 +1,8 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || {
+const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url") || {
   href: () => {},
 };
 const { readableDate } = VM.require(
-  "${REPL_DEVHUB}/widget/core.lib.common"
+  "devgovgigs.petersalomonsen.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
 
 const accountId = context.accountId;
@@ -186,7 +186,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+const proposal = Near.view("devgovgigs.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -197,7 +197,7 @@ if (!proposal) {
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner"}
+        src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Spinner"}
       />
     </div>
   );
@@ -214,10 +214,10 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `${REPL_DEVHUB_CONTRACT}/post/main`,
+  path: `devgovgigs.near/post/main`,
   blockHeight,
 };
-const proposalURL = `${REPL_DEVHUB}/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = `devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -325,7 +325,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+    const data = Near.view("devgovgigs.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -338,7 +338,7 @@ const LinkedProposals = () => {
       {linkedProposalsData.map((item) => (
         <div className="d-flex gap-2">
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+            src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId: item.snapshot.editor_id,
             }}
@@ -389,7 +389,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "${REPL_DEVHUB_CONTRACT}",
+  "devgovgigs.near",
   "is_allowed_to_edit_proposal",
   { proposal_id: proposal.id, editor: accountId }
 );
@@ -398,7 +398,7 @@ const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
 
 const editProposalStatus = ({ timeline }) => {
   Near.call({
-    contractName: "${REPL_DEVHUB_CONTRACT}",
+    contractName: "devgovgigs.near",
     methodName: "edit_proposal_timeline",
     args: {
       id: proposal.id,
@@ -487,7 +487,7 @@ const extractNotifyAccountId = (item) => {
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmReviewModal"}
+      src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
       props={{
         isOpen: isReviewModalOpen,
         onCancelClick: () => setReviewModal(false),
@@ -498,7 +498,7 @@ return (
       }}
     />
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmCancelModal"}
+      src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.ConfirmCancelModal"}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => setCancelModal(false),
@@ -515,14 +515,14 @@ return (
       </div>
       <div className="d-flex gap-2 align-items-center">
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.History"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.History"}
           props={{
             id: proposal.id,
             timestamp: snapshot.timestamp,
           }}
         />
         <Widget
-          src="${REPL_NEAR}/widget/ShareButton"
+          src="near/widget/ShareButton"
           props={{
             postType: "post",
             url: proposalURL,
@@ -533,7 +533,7 @@ return (
           isModerator) && (
           <Link
             to={href({
-              widgetSrc: "${REPL_DEVHUB}/widget/app",
+              widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
               params: {
                 page: "create-proposal",
                 id: proposal.id,
@@ -543,7 +543,7 @@ return (
             style={{ textDecoration: "none" }}
           >
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+              src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
               props={{
                 label: "Edit",
                 classNames: { root: "grey-btn btn-sm" },
@@ -555,7 +555,7 @@ return (
     </div>
     <div className="d-flex gap-2 align-items-center text-sm pb-3">
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag"}
+        src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.StatusTag"}
         props={{
           timelineStatus: snapshot.timeline.status,
           size: "sm",
@@ -583,7 +583,7 @@ return (
             </div>
             <div style={{ minWidth: "fit-content" }}>
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+                src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
                 props={{
                   label: "Ready for review",
                   classNames: { root: "grey-btn btn-sm" },
@@ -610,7 +610,7 @@ return (
             </div>
             <div style={{ minWidth: "fit-content" }}>
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+                src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
                 props={{
                   label: (
                     <div className="d-flex align-items-center gap-1">
@@ -632,7 +632,7 @@ return (
               style={{ zIndex: 99, background: "white", position: "relative" }}
             >
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+                src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Profile"}
                 props={{
                   accountId: editorAccountId,
                 }}
@@ -641,7 +641,7 @@ return (
                 <Header className="d-flex gap-3 align-items-center p-2 px-3">
                   {snapshot.editor_id} ･{" "}
                   <Widget
-                    src="${REPL_NEAR}/widget/TimeAgo"
+                    src="near/widget/TimeAgo"
                     props={{
                       blockHeight,
                       blockTimestamp: snapshot.timestamp,
@@ -650,7 +650,7 @@ return (
                   {context.accountId && (
                     <div className="menu">
                       <Widget
-                        src="${REPL_NEAR}/widget/Posts.Menu"
+                        src="near/widget/Posts.Menu"
                         props={{
                           accountId: editorAccountId,
                           blockHeight: blockHeight,
@@ -666,7 +666,7 @@ return (
                   <div>
                     <Widget
                       src={
-                        "${REPL_DEVHUB}/widget/devhub.entity.proposal.CategoryDropdown"
+                        "devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.CategoryDropdown"
                       }
                       props={{
                         selectedValue: snapshot.category,
@@ -682,20 +682,20 @@ return (
                     DESCRIPTION
                   </div>
                   <Widget
-                    src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+                    src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownViewer"
                     props={{ text: snapshot.description }}
                   />
 
                   <div className="d-flex gap-2 align-items-center mt-4">
                     <Widget
-                      src="${REPL_NEAR}/widget/v1.LikeButton"
+                      src="near/widget/v1.LikeButton"
                       props={{
                         item,
                       }}
                     />
                     <Widget
                       src={
-                        "${REPL_DEVHUB}/widget/devhub.entity.proposal.CommentIcon"
+                        "devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.CommentIcon"
                       }
                       props={{
                         item,
@@ -704,13 +704,13 @@ return (
                       }}
                     />
                     <Widget
-                      src="${REPL_NEAR}/widget/CopyUrlButton"
+                      src="near/widget/CopyUrlButton"
                       props={{
                         url: proposalURL,
                       }}
                     />
                     <Widget
-                      src="${REPL_NEAR}/widget/ShareButton"
+                      src="near/widget/ShareButton"
                       props={{
                         postType: "post",
                         url: proposalURL,
@@ -722,7 +722,7 @@ return (
             </div>
             <div className="border-bottom pb-4 mt-4">
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Comments"}
+                src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Comments"}
                 props={{
                   item: item,
                   snapshotHistory: [...proposal.snapshot_history, snapshot],
@@ -732,7 +732,7 @@ return (
             <div className="mt-4">
               <Widget
                 src={
-                  "${REPL_DEVHUB}/widget/devhub.entity.proposal.ComposeComment"
+                  "devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.ComposeComment"
                 }
                 props={{
                   item: item,
@@ -745,7 +745,7 @@ return (
           <div className="d-flex flex-column gap-4 flex-1">
             <SidePanelItem title="Author">
               <Widget
-                src="${REPL_NEAR}/widget/AccountProfile"
+                src="near/widget/AccountProfile"
                 props={{
                   accountId: editorAccountId,
                 }}
@@ -774,7 +774,7 @@ return (
             <SidePanelItem title="Requested Sponsor">
               {snapshot.requested_sponsor && (
                 <Widget
-                  src="${REPL_NEAR}/widget/AccountProfile"
+                  src="near/widget/AccountProfile"
                   props={{
                     accountId: snapshot.requested_sponsor,
                   }}
@@ -784,7 +784,7 @@ return (
             <SidePanelItem title="Supervisor">
               {snapshot.supervisor ? (
                 <Widget
-                  src="${REPL_NEAR}/widget/AccountProfile"
+                  src="near/widget/AccountProfile"
                   props={{
                     accountId: snapshot.supervisor,
                   }}
@@ -809,7 +809,7 @@ return (
                     <div className="mt-2 d-flex flex-column gap-2">
                       <h6 className="mb-0">Proposal Status</h6>
                       <Widget
-                        src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+                        src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.DropDown"
                         props={{
                           options: proposalStatusOptions,
                           selectedValue: updatedProposalStatus,
@@ -1124,7 +1124,7 @@ return (
                           {paymentHashes.map((item, index) => (
                             <div className="d-flex gap-2 justify-content-between align-items-center">
                               <Widget
-                                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+                                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
                                 props={{
                                   className: "flex-grow-1",
                                   value: item,
@@ -1141,7 +1141,7 @@ return (
                                 {index !== paymentHashes.length - 1 ? (
                                   <Widget
                                     src={
-                                      "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
+                                      "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"
                                     }
                                     props={{
                                       classNames: {
@@ -1160,7 +1160,7 @@ return (
                                 ) : (
                                   <Widget
                                     src={
-                                      "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
+                                      "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"
                                     }
                                     props={{
                                       classNames: {
@@ -1184,7 +1184,7 @@ return (
                     <div className="d-flex gap-2 align-items-center justify-content-end text-sm">
                       <Widget
                         src={
-                          "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
+                          "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"
                         }
                         props={{
                           label: "Cancel",
@@ -1199,7 +1199,7 @@ return (
                       />
                       <Widget
                         src={
-                          "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
+                          "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"
                         }
                         props={{
                           label: "Save",
