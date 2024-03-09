@@ -342,6 +342,7 @@ const buttonsIcons = (
     </li>
   </ul>
 );
+
 return (
   <div className="pb-2">
     <div
@@ -355,7 +356,7 @@ return (
       >
         <thead>
           <tr>
-            {columns.map((th) => (
+            {columns.map((th, i) => (
               <th
                 onClick={() => handleSort(th.key)}
                 key={th.title}
@@ -461,26 +462,57 @@ return (
                               )}
                             </a>
                           ) : td.explain ? (
-                            <OverlayTrigger
-                              placement={"top"}
-                              overlay={<Tooltip>{key}</Tooltip>}
-                            >
-                              <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 31 32"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M18.0833 13.4167L27.125 4.375M27.125 4.375H19.375M27.125 4.375V12.125M12.9167 18.5833L3.875 27.625M3.875 27.625H11.625M3.875 27.625L3.875 19.875"
-                                  stroke="#806ce1"
-                                  stroke-width="2.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
-                            </OverlayTrigger>
+                            key.length > 30 ? (
+                              <div className="accordion-item">
+                                <span
+                                  id={`head${i}`}
+                                  className="accordion-button"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#collaps${i}`}
+                                  aria-expanded="true"
+                                  aria-controls={`collaps${i}`}
+                                >
+                                  <span className="p-2">
+                                    <svg
+                                      width="15"
+                                      height="15"
+                                      viewBox="0 0 31 32"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M18.0833 13.4167L27.125 4.375M27.125 4.375H19.375M27.125 4.375V12.125M12.9167 18.5833L3.875 27.625M3.875 27.625H11.625M3.875 27.625L3.875 19.875"
+                                        stroke="#806ce1"
+                                        stroke-width="2.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                  </span>
+                                </span>
+                                <div
+                                  id={`collaps${i}`}
+                                  className="accordion-collapse collapse"
+                                  aria-labelledby={`head${i}`}
+                                  data-bs-parent={`#accordion${i}`}
+                                >
+                                  <div className="accordion-body">{key}</div>
+                                </div>
+                                <div
+                                  id={`collaps${i}`}
+                                  className="accordion-collapse collapse show"
+                                  aria-labelledby={`head${i}`}
+                                  data-bs-parent={`#accordion${i}`}
+                                >
+                                  <div className="accordion-body">
+                                    {key.substring(0, 15) + " ..."}
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <span>{key}</span>
+                            )
                           ) : td.round ? (
                             formatNumber(key)
                           ) : td.short ? (
