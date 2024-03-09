@@ -7,7 +7,15 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The account identifier passed as a string.
+ * @param {Function} [requestSignInWithWallet] - Function to initiate sign-in with a wallet.
+ * @param {boolean} [signedIn] - Boolean indicating whether the user is currently signed in or not.
+ * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
+ * @param {Function} [logOut] - Function to log out.
  */
+
+
+
+
 
 
 
@@ -170,6 +178,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -328,6 +368,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -456,6 +528,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -498,6 +602,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -616,6 +752,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -625,6 +793,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
@@ -966,6 +1151,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1351,6 +1546,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1703,6 +1908,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -2035,6 +2250,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -2133,9 +2358,10 @@ const TokenImage = ({
  * @interface Props
  * @param {string} [id] - Optional identifier for the account, passed as a string.
  * @param {boolean} [loading] - Flag indicating whether data is currently loading.
+ * @param {boolean} [inventoryLoading] - Flag indicating whether inventory data is currently loading.
  * @param {InventoryInfo} [data] - Information related to the inventory.
  * @param {Object} [ft] - Object containing details about the tokens.
- * @param {number} [ft.amount] -  amount in USD of tokens.
+ * @param {string} [ft.amount] -  amount in USD of tokens.
  * @param {Object[]} [ft.tokens] - Array containing 'TokenListInfo' objects, providing information about individual token details.
  * @param {string} [appUrl] - The URL of the application.
  */
@@ -2254,6 +2480,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2627,6 +2885,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -3012,6 +3280,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -3065,6 +3343,7 @@ function yoctoToNear(yocto, format) {
 
 
 
+
 const TokenHoldings = (props) => {
   const Loading = (props) => {
     return (
@@ -3076,7 +3355,7 @@ const TokenHoldings = (props) => {
 
   const nfts = props.data?.nfts || [];
 
-  if (props.loading) {
+  if (props.loading || props.inventoryLoading) {
     return <Loading className="h-full" wrapperClassName="flex w-full h-7" />;
   }
 
@@ -3129,22 +3408,22 @@ const TokenHoldings = (props) => {
                                 <div className="flex mr-1">
                                   <img
                                     src={
-                                      token?.ft_metas?.icon ||
+                                      token?.ft_meta?.icon ||
                                       `${props.appUrl}images/tokenplaceholder.svg`
                                     }
-                                    alt={token.ft_metas?.name}
+                                    alt={token.ft_meta?.name}
                                     className="w-4 h-4"
                                   />
                                 </div>
                                 <span>
-                                  {token?.ft_metas?.name
+                                  {token?.ft_meta?.name
                                     ? truncateString(
-                                        token?.ft_metas?.name,
+                                        token?.ft_meta?.name,
                                         15,
                                         '...',
                                       )
                                     : ''}
-                                  ({token?.ft_metas?.symbol})
+                                  ({token?.ft_meta?.symbol})
                                 </span>
                               </div>
                               <div className="text-gray-400 flex items-center mt-1">
@@ -3153,7 +3432,7 @@ const TokenHoldings = (props) => {
                                   : token?.rpcAmount ?? ''}
                               </div>
                             </div>
-                            {token?.ft_metas?.price && (
+                            {token?.ft_meta?.price && (
                               <div className="text-right">
                                 <div>
                                   {token?.amountUsd
@@ -3161,10 +3440,10 @@ const TokenHoldings = (props) => {
                                     : '$' + (token.amountUsd ?? '')}
                                 </div>
                                 <div className="text-gray-400">
-                                  {token?.ft_metas?.price
+                                  {token?.ft_meta?.price
                                     ? '@' +
-                                      Big(token?.ft_metas?.price).toString()
-                                    : '@' + (token?.ft_metas?.price ?? '')}
+                                      Big(token?.ft_meta?.price).toString()
+                                    : '@' + (token?.ft_meta?.price ?? '')}
                                 </div>
                               </div>
                             )}
@@ -3255,8 +3534,7 @@ function encodeArgs(args) {
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 function txnMethod(
@@ -4040,27 +4318,6 @@ function parseOutcomeOld(outcome) {
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
   };
-}
-function dollarFormat(number) {
-  const bigNumber = new Big(number);
-
-  // Format to two decimal places without thousands separator
-  const formattedNumber = bigNumber.toFixed(2);
-
-  // Add comma as a thousands separator
-  const parts = formattedNumber.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const dollarFormattedNumber = `${parts.join('.')}`;
-
-  return dollarFormattedNumber;
-}
-function localFormat(number) {
-  const bigNumber = Big(number);
-  const formattedNumber = bigNumber
-    .toFixed(5)
-    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
-  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
   const bigNumber = new Big(number);
@@ -4317,8 +4574,7 @@ function localFormat(number) {
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 function txnMethod(
@@ -5102,27 +5358,6 @@ function parseOutcomeOld(outcome) {
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
   };
-}
-function dollarFormat(number) {
-  const bigNumber = new Big(number);
-
-  // Format to two decimal places without thousands separator
-  const formattedNumber = bigNumber.toFixed(2);
-
-  // Add comma as a thousands separator
-  const parts = formattedNumber.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const dollarFormattedNumber = `${parts.join('.')}`;
-
-  return dollarFormattedNumber;
-}
-function localFormat(number) {
-  const bigNumber = Big(number);
-  const formattedNumber = bigNumber
-    .toFixed(5)
-    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
-  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
   const bigNumber = new Big(number);
@@ -5369,6 +5604,8 @@ function localFormat(number) {
 
 
 
+
+
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -5396,8 +5633,19 @@ const tabs = [
   'Comments',
 ];
 
-function MainComponent({ network, t, id }) {
+function MainComponent(props) {
+  const {
+    network,
+    t,
+    id,
+    requestSignInWithWallet,
+    signedIn,
+    accountId,
+    logOut,
+  } = props;
   const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(true);
+  const [inventoryLoading, setInventoryLoading] = useState(false);
   const [statsData, setStatsData] = useState({} );
   const [pageTab, setPageTab] = useState('Transactions');
   const [filters, setFilters] = useState({});
@@ -5415,6 +5663,10 @@ function MainComponent({ network, t, id }) {
   const [ft, setFT] = useState({} );
   const [code, setCode] = useState({} );
   const [key, setKey] = useState({} );
+  const [schema, setSchema] = useState({} );
+  const [contractInfo, setContractInfo] = useState(
+    {} ,
+  );
 
   const config = getConfig(network);
 
@@ -5436,15 +5688,22 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const statsResp = data?.body?.stats?.[0];
-            setStatsData({ near_price: statsResp.near_price });
+            if (data.status === 200) {
+              setStatsData({ near_price: statsResp.near_price });
+            } else {
+              handleRateLimit(data, fetchStatsData);
+            }
           },
         )
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {});
     }
 
     function fetchAccountData() {
+      setLoading(true);
       asyncFetch(`${config?.backendUrl}account/${id}`, {
         method: 'GET',
         headers: {
@@ -5456,17 +5715,23 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const accountResp = data?.body?.account?.[0];
-            setAccountData({
-              account_id: accountResp.account_id,
-              amount: accountResp.amount,
-              code_hash: accountResp.code_hash,
-              created: accountResp.created,
-              deleted: accountResp.deleted,
-              locked: accountResp.locked,
-              storage_usage: accountResp.storage_usage,
-            });
+            if (data.status === 200) {
+              setAccountData({
+                account_id: accountResp.account_id,
+                amount: accountResp.amount,
+                code_hash: accountResp.code_hash,
+                created: accountResp.created,
+                deleted: accountResp.deleted,
+                locked: accountResp.locked,
+                storage_usage: accountResp.storage_usage,
+              });
+              setLoading(false);
+            } else {
+              handleRateLimit(data, fetchAccountData, () => setLoading(false));
+            }
           },
         )
         .catch(() => {});
@@ -5484,14 +5749,14 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const depResp = data?.body?.deployments?.[0];
-            setDeploymentData({
-              block_timestamp: depResp.block_timestamp,
-              receipt_predecessor_account_id:
-                depResp.receipt_predecessor_account_id,
-              transaction_hash: depResp.transaction_hash,
-            });
+            if (data.status === 200) {
+              setDeploymentData(depResp);
+            } else {
+              handleRateLimit(data, fetchContractData);
+            }
           },
         )
         .catch(() => {});
@@ -5509,21 +5774,27 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const tokenResp = data?.body?.contracts?.[0];
-            setTokenData({
-              name: tokenResp.name,
-              icon: tokenResp.icon,
-              symbol: tokenResp.symbol,
-              price: tokenResp.price,
-              website: tokenResp.website,
-            });
+            if (data.status === 200) {
+              setTokenData({
+                name: tokenResp.name,
+                icon: tokenResp.icon,
+                symbol: tokenResp.symbol,
+                price: tokenResp.price,
+                website: tokenResp.website,
+              });
+            } else {
+              handleRateLimit(data, fetchTokenData);
+            }
           },
         )
         .catch(() => {});
     }
 
     function fetchInventoryData() {
+      setInventoryLoading(true);
       asyncFetch(`${config?.backendUrl}account/${id}/inventory`, {
         method: 'GET',
         headers: {
@@ -5535,12 +5806,20 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const response = data?.body?.inventory;
-            setInventoryData({
-              fts: response.fts,
-              nfts: response.nfts,
-            });
+            if (data.status === 200) {
+              setInventoryData({
+                fts: response.fts,
+                nfts: response.nfts,
+              });
+              setInventoryLoading(false);
+            } else {
+              handleRateLimit(data, fetchInventoryData, () =>
+                setInventoryLoading(false),
+              );
+            }
           },
         )
         .catch(() => {});
@@ -5594,11 +5873,10 @@ function MainComponent({ network, t, id }) {
         )
         .catch(() => {});
     }
-
     function loadBalances() {
       const fts = inventoryData?.fts;
       if (!fts?.length) {
-        if (fts?.length === 0) setLoading(false);
+        if (fts?.length === 0) setIsLoading(false);
         return;
       }
 
@@ -5623,14 +5901,13 @@ function MainComponent({ network, t, id }) {
 
           let rpcAmount = Big(0);
 
-          if (Number(amount)) {
-            rpcAmount = ftrslt?.ft_metas?.decimals
-              ? Big(amount).div(Big(10).pow(ftrslt?.ft_metas?.decimals))
+          if (amount) {
+            rpcAmount = ftrslt?.ft_meta?.decimals
+              ? Big(amount).div(Big(10).pow(ftrslt.ft_meta.decimals))
               : 0;
           }
-
-          if (ftrslt?.ft_metas?.price) {
-            sum = rpcAmount.mul(Big(ftrslt?.ft_metas?.price));
+          if (ftrslt?.ft_meta?.price) {
+            sum = rpcAmount.mul(Big(ftrslt?.ft_meta?.price));
             total = total.add(sum);
 
             return pricedTokens.push({
@@ -5674,7 +5951,7 @@ function MainComponent({ network, t, id }) {
           tokens: [...pricedTokens, ...tokens],
         });
 
-        setLoading(false);
+        setIsLoading(false);
       });
     }
 
@@ -5761,19 +6038,48 @@ function MainComponent({ network, t, id }) {
     loadSchema();
   }, [id, config?.rpcUrl]);
 
-  if (code?.code_base64) {
-    const locked = (key.keys || []).every(
-      (key
+  useEffect(() => {
+    if (code?.code_base64) {
+      const locked = (key.keys || []).every(
+        (key
 
 
 
 
 
 ) => key.access_key.permission !== 'FullAccess',
-    );
+      );
 
-    setContract({ ...code, locked });
-  }
+      function fetchContractInfo() {
+        asyncFetch(`${config?.backendUrl}account/${id}/contract/parse`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(
+            (res
+
+
+
+
+) => {
+              const resp = res.body.contract;
+              if (res.status === 200 && resp && resp.length > 0) {
+                const [{ contract, schema }] = resp;
+                setContractInfo(contract);
+                setSchema(schema);
+              }
+            },
+          )
+          .catch(() => {});
+      }
+
+      fetchContractInfo();
+
+      setContract({ ...code, locked });
+    }
+  }, [code, key, config?.backendUrl, id]);
 
   const handleFilter = (name, value) => {
     const updatedFilters = { ...filters, [name]: value };
@@ -5891,7 +6197,8 @@ function MainComponent({ network, t, id }) {
                 <div className="w-full md:w-3/4 break-words -my-1 z-10">
                   <TokenHoldings
                     data={inventoryData}
-                    loading={loading}
+                    loading={isloading}
+                    inventoryLoading={inventoryLoading}
                     ft={ft}
                     id={id}
                     appUrl={config?.appUrl}
@@ -6057,37 +6364,45 @@ function MainComponent({ network, t, id }) {
           <Tabs.Root defaultValue={pageTab}>
             <Tabs.List>
               {tabs &&
-                tabs.map((tab, index) => (
-                  <Tabs.Trigger
-                    key={index}
-                    onClick={() => {
-                      onTab(index);
-                    }}
-                    className={`text-nearblue-600 text-sm font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
-                      pageTab === tab
-                        ? 'rounded-lg bg-green-600 text-white'
-                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
-                    }`}
-                    value={tab}
-                  >
-                    {tab === 'Transactions' ? (
-                      <h2>{t ? t('address:txns') : tab}</h2>
-                    ) : tab === 'Token Txns' ? (
-                      <h2>{t ? t('address:tokenTxns') : tab}</h2>
-                    ) : tab === 'Contract' ? (
-                      <div className="flex h-full">
-                        <h2>{tab}</h2>
-                        <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
-                          NEW
+                tabs.map((tab, index) => {
+                  if (
+                    tab === 'Contract' &&
+                    !(contractInfo?.methodNames?.length > 0)
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <Tabs.Trigger
+                      key={index}
+                      onClick={() => {
+                        onTab(index);
+                      }}
+                      className={`text-nearblue-600 text-sm font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
+                        pageTab === tab
+                          ? 'rounded-lg bg-green-600 text-white'
+                          : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
+                      }`}
+                      value={tab}
+                    >
+                      {tab === 'Transactions' ? (
+                        <h2>{t ? t('address:txns') : tab}</h2>
+                      ) : tab === 'Token Txns' ? (
+                        <h2>{t ? t('address:tokenTxns') : tab}</h2>
+                      ) : tab === 'Contract' ? (
+                        <div className="flex h-full">
+                          <h2>{tab}</h2>
+                          <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
+                            NEW
+                          </div>
                         </div>
-                      </div>
-                    ) : tab === 'Comments' ? (
-                      <h2>{t ? t('address:comments') : tab}</h2>
-                    ) : (
-                      <h2>{tab}</h2>
-                    )}
-                  </Tabs.Trigger>
-                ))}
+                      ) : tab === 'Comments' ? (
+                        <h2>{t ? t('address:comments') : tab}</h2>
+                      ) : (
+                        <h2>{tab}</h2>
+                      )}
+                    </Tabs.Trigger>
+                  );
+                })}
             </Tabs.List>
             <div>
               <Tabs.Content value={tabs[0]}>
@@ -6147,9 +6462,27 @@ function MainComponent({ network, t, id }) {
                   />
                 }
               </Tabs.Content>
-              <Tabs.Content value={tabs[4]}>
-                <div className="px-4 sm:px-6 py-3"></div>
-              </Tabs.Content>
+              {contractInfo && contractInfo?.methodNames?.length > 0 && (
+                <Tabs.Content value={tabs[4]}>
+                  {
+                    <Widget
+                      src={`${config.ownerId}/widget/bos-components.components.Contract.Overview`}
+                      props={{
+                        network: network,
+                        t: t,
+                        id: id,
+                        contract: contract,
+                        schema: schema,
+                        contractInfo: contractInfo,
+                        requestSignInWithWallet: requestSignInWithWallet,
+                        connected: signedIn,
+                        accountId: accountId,
+                        logOut: logOut,
+                      }}
+                    />
+                  }
+                </Tabs.Content>
+              )}
               <Tabs.Content value={tabs[5]}>
                 <div className="bg-white soft-shadow rounded-xl pb-1">
                   <div className="py-3">
