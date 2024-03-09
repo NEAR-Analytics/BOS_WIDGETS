@@ -4,14 +4,14 @@
  */
 
 const { onDraftStateChange } = VM.require(
-  "${REPL_DEVHUB}/widget/devhub.entity.post.draft"
+  "devgovgigs.petersalomonsen.near/widget/devhub.entity.post.draft"
 );
 
 const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "${REPL_DEVHUB}/widget/devhub.components.templates.AppLayout"
+  "devgovgigs.petersalomonsen.near/widget/devhub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -47,7 +47,7 @@ function Page() {
     case "home": {
       return (
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.page.home"
+          src="devgovgigs.petersalomonsen.near/widget/devhub.page.home"
           props={passProps}
         />
       );
@@ -56,7 +56,7 @@ function Page() {
     case "communities": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.communities"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.communities"}
           props={passProps}
         />
       );
@@ -69,7 +69,7 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.community.Provider"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Provider"}
           props={{
             ...passProps,
             Children: (p) => {
@@ -80,7 +80,7 @@ function Page() {
                   return (
                     <Widget
                       src={
-                        "${REPL_DEVHUB}/widget/devhub.page.community.configuration"
+                        "devgovgigs.petersalomonsen.near/widget/devhub.page.community.configuration"
                       }
                       props={{
                         ...passProps,
@@ -93,7 +93,7 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"${REPL_DEVHUB}/widget/devhub.page.community.index"}
+                      src={"devgovgigs.petersalomonsen.near/widget/devhub.page.community.index"}
                       props={{
                         ...passProps,
                         ...p,
@@ -111,7 +111,7 @@ function Page() {
     case "feed": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.feed"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.feed"}
           props={passProps}
         />
       );
@@ -120,7 +120,7 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.post.PostEditor"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.post.PostEditor"}
           props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
         />
       );
@@ -129,7 +129,7 @@ function Page() {
     case "create-proposal": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Editor"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Editor"}
           props={{ ...passProps }}
         />
       );
@@ -138,7 +138,7 @@ function Page() {
     case "proposals": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.proposals"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.proposals"}
           props={passProps}
         />
       );
@@ -146,7 +146,7 @@ function Page() {
     case "proposal": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Proposal"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Proposal"}
           props={passProps}
         />
       );
@@ -155,7 +155,7 @@ function Page() {
     case "about": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.about"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.about"}
           props={passProps}
         />
       );
@@ -163,7 +163,7 @@ function Page() {
     case "contribute": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.contribute"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.contribute"}
           props={passProps}
         />
       );
@@ -171,7 +171,7 @@ function Page() {
     case "profile": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.profile"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.profile"}
           props={passProps}
         />
       );
@@ -180,7 +180,7 @@ function Page() {
     case "blog": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.blog"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.blog"}
           props={passProps}
         />
       );
@@ -188,7 +188,7 @@ function Page() {
     case "post": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.post"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.post"}
           props={passProps}
         />
       );
@@ -196,7 +196,7 @@ function Page() {
     case "admin": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.admin.index"}
+          src={"devgovgigs.petersalomonsen.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
