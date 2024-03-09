@@ -14,7 +14,7 @@ const [selected, setSelected] = useState(null);
 return (
   <div>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+      src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.DropDown"
       props={{
         options: options,
         label: "Category",
