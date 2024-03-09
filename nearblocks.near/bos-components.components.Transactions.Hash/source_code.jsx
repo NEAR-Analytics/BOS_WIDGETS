@@ -163,6 +163,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -172,6 +204,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -193,7 +242,6 @@ function MainComponent(props) {
   const onTab = (index) => {
     setHash(hashes[index]);
   };
-
   useEffect(() => {
     function fetchTxn() {
       setIsLoading(true);
@@ -208,8 +256,10 @@ function MainComponent(props) {
             const resp = data?.body?.txns?.[0];
             if (data.status === 200) {
               setTxn(resp);
+              setIsLoading(false);
+            } else {
+              handleRateLimit(data, fetchTxn, () => setIsLoading(false));
             }
-            setIsLoading(false);
           },
         )
         .catch((error) => {
@@ -246,6 +296,8 @@ function MainComponent(props) {
               const resp = res?.body?.result;
               if (res.status === 200) {
                 setRpcTxn(resp);
+              } else {
+                handleRateLimit(res, fetchTransactionStatus);
               }
             },
           )
