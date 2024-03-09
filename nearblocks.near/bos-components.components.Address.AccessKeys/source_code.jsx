@@ -139,6 +139,23 @@ function isJson(string) {
 function uniqueId() {
   return Math.floor(Math.random() * 1000);
 }
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -148,6 +165,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/SortIcon.jsx" */
@@ -369,34 +403,42 @@ function MainComponent({ network, t, id }) {
 
 
 
+
 ) => {
             const resp = data?.body?.keys;
-            Setkeys(resp);
+            if (data.status === 200) {
+              Setkeys(resp);
+              setIsLoading(false);
+            } else {
+              handleRateLimit(
+                data,
+                () => fetchAccountData(),
+                () => setIsLoading(false),
+              );
+            }
           },
         )
-        .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .catch(() => {});
     }
 
     function fetchCountData() {
-      setIsLoading(true);
       asyncFetch(`${config?.backendUrl}account/${id}/keys/count`)
         .then(
           (data
 
 
 
+
 ) => {
             const resp = data?.body?.keys?.[0]?.count || 0;
-            setCount(resp);
+            if (data.status === 200) {
+              setCount(resp);
+            } else {
+              handleRateLimit(data, fetchCountData);
+            }
           },
         )
-        .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .catch(() => {});
     }
     fetchAccountData();
     fetchCountData();
