@@ -1,7 +1,7 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -9,7 +9,7 @@ if (!Tile) {
 }
 
 const { getCommunity } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
@@ -33,7 +33,7 @@ const UserList = ({ name, users }) => (
             style={{ fontWeight: 500 }}
           >
             <Widget
-              src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.ProfileLine"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileLine"
               props={{ accountId: user, hideAccountId: true, tooltip: true }}
             />
           </span>
@@ -44,7 +44,7 @@ const UserList = ({ name, users }) => (
 );
 
 return (
-  <div className="d-flex flex-column align-items-center gap-4 w-100">
+  <div className="d-flex flex-column align-items-center gap-4 w-100 px-2">
     <Tile className="p-3 w-100 bg-white mb-3" style={{ maxWidth: 960 }}>
       <div>
         <div
