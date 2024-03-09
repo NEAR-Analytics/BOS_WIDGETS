@@ -141,6 +141,23 @@ function isJson(string) {
 function uniqueId() {
   return Math.floor(Math.random() * 1000);
 }
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -150,6 +167,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
@@ -285,6 +319,23 @@ function isJson(string) {
 
 function uniqueId() {
   return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -456,6 +507,23 @@ function isJson(string) {
 
 function uniqueId() {
   return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1092,8 +1160,11 @@ function MainComponent({ network, t, accessKey, showWhen }) {
       })
         .then((data) => {
           const resp = data?.body?.result;
-
-          setKeyInfo(resp);
+          if (data.status === 200) {
+            setKeyInfo(resp);
+          } else {
+            handleRateLimit(data, () => tokenInfo(view_access_key, account_id));
+          }
         })
         .catch(() => {});
     }
