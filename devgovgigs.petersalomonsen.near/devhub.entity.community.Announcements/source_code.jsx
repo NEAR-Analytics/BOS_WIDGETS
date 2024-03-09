@@ -1,6 +1,6 @@
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 getCommunity = getCommunity || (() => <></>);
@@ -81,10 +81,10 @@ return (
             (communityData?.admins ?? []).includes(context.accountId) && (
               <div className="card p-4">
                 <Widget
-                  src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Compose"}
+                  src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    profileAccountId: `${handle}.community.devhub.near`,
+                    profileAccountId: `${handle}.community.${REPL_DEVHUB_CONTRACT}`,
                   }}
                 />
               </div>
@@ -121,11 +121,11 @@ return (
           )}
           <div className={postsExists && "card p-4"}>
             <Widget
-              src="devgovgigs.petersalomonsen.near/widget/devhub.components.organism.Feed"
+              src="${REPL_DEVHUB}/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
                 filteredAccountIds: [
-                  `${handle}.community.devhub.near`,
+                  `${handle}.community.${REPL_DEVHUB_CONTRACT}`,
                 ],
                 sort: sort,
                 setPostExists: setPostExists,
@@ -152,7 +152,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.ProfileCard"
+                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
