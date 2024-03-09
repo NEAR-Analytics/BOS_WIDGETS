@@ -6,7 +6,7 @@ props.newTab: boolean;
 props.timestamp: number;
 props.referral: any;
 */
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || (() => {});
+const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url") || (() => {});
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
@@ -78,7 +78,7 @@ const history = (
               <a
                 class="dropdown-item"
                 href={href({
-                  widgetSrc: "${REPL_DEVHUB}/widget/devhub.entity.post.Post",
+                  widgetSrc: "devgovgigs.petersalomonsen.near/widget/devhub.entity.post.Post",
                   params: {
                     id: postId,
                     timestamp: item.timestamp,
@@ -91,7 +91,7 @@ const history = (
                 {readableDate(item.timestamp / 1000000)}
 
                 <Widget
-                  src="${REPL_MOB}/widget/ProfileImage"
+                  src="mob.near/widget/ProfileImage"
                   props={{
                     accountId: item.editor_id,
                     style: {
@@ -109,7 +109,7 @@ const history = (
             <a
               class="dropdown-item"
               href={href({
-                widgetSrc: "${REPL_DEVHUB}/widget/devhub.entity.post.Post",
+                widgetSrc: "devgovgigs.petersalomonsen.near/widget/devhub.entity.post.Post",
                 params: {
                   id: postId,
                   timestamp: currentTimestamp,
