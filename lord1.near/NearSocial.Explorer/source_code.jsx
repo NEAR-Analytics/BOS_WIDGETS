@@ -88,6 +88,21 @@ const darkColors = {
       btn_active_color: "rgb(255,255,255)",
     },
   },
+  tree: {
+    subject: {
+      color: "#fff",
+      fontweight: 400,
+      fontSize: "2em",
+    },
+    nodes: {
+      color: "#fff",
+      // borderColor: "#fff",
+      backgroundColor: "rgb(49,62,89)",
+    },
+    overrideNodeStyles: {
+      // backgroundColor: "red",
+    },
+  },
   spinnerColors: ["#6F61C0", "#241468"],
   chartColor: [
     "#F79BD3",
@@ -191,6 +206,21 @@ const lightColors = {
       btn_active_color: "rgba(0,0,0,1)",
     },
   },
+  tree: {
+    subject: {
+      color: "#000",
+      fontweight: 400,
+      fontSize: "2em",
+    },
+    nodes: {
+      color: "#000",
+      // borderColor: "#000",
+      backgroundColor: "#fff",
+    },
+    overrideNodeStyles: {
+      // backgroundColor: "red",
+    },
+  },
   spinnerColors: ["#6F61C0", "#241468"],
   chartColor: [
     "#F79BD3",
@@ -204,8 +234,8 @@ const lightColors = {
   ],
 };
 
-//const themeColor = props.themeColor || darkColors;
-const themeColor = props.themeColor || lightColors;
+const themeColor = props.themeColor || darkColors;
+// const themeColor = props.themeColor || lightColors;
 
 // #####################################
 
@@ -1102,6 +1132,30 @@ const SocialGraph = (
   </div>
 );
 
+// --------------- nodes -------------------
+const Nodes = (
+  <div
+    className="col-lg-12 pb-4"
+    style={{
+      boxShadow: "2px 10px 20px rgba(128, 117, 226, 0.2)",
+    }}
+  >
+    <div
+      style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
+      className="shadow-sm rounded-4"
+    >
+      <Widget
+        key={state.data}
+        src="forefront_tak.near/widget/Forefront.Widget.NearSocial.Explorer.Tree"
+        props={{
+          rootPath: state.data,
+          themeColor: themeColor.tree,
+        }}
+      />
+    </div>
+  </div>
+);
+
 // -------------------------------------------
 return (
   <div style={{ backgroundColor: themeColor.page_bg }}>
@@ -1126,6 +1180,7 @@ return (
       className="p-2 rounded-3"
     >
       <div className="row">{MixChart}</div>
+      <div className="row">{Nodes}</div>
     </div>
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
