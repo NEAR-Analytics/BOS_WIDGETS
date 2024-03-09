@@ -2,10 +2,10 @@ const page = props.page;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href: linkHref } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
 
 const { hasModerator } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
 );
 
 linkHref || (linkHref = () => {});
@@ -26,7 +26,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "${REPL_DEVHUB}/widget/app",
+          widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
           params: { page: "home" },
         })}
       >
@@ -68,12 +68,12 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "${REPL_DEVHUB}/widget/app",
+        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
         params: { page: "profile", accountId: context.accountId },
       })}
     >
       <Widget
-        src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
+        src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.ProfileCard"
         props={{ iconOnly: true, accountId: context.accountId || null }}
       />
     </Link>
@@ -235,7 +235,7 @@ return (
       <LinksContainer>
         {links.map((link) => (
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.components.molecule.NavbarDropdown"
+            src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.NavbarDropdown"
             props={{
               title: link.title,
               href: link.href,
@@ -264,7 +264,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/${REPL_DEVHUB}/widget/app?page=${link.href}`}
+                href={`/devgovgigs.petersalomonsen.near/widget/app?page=${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -284,7 +284,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/${REPL_DEVHUB}/widget/app?page=${it.href}`}
+                    href={`/devgovgigs.petersalomonsen.near/widget/app?page=${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
