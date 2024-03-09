@@ -2,10 +2,10 @@ const page = props.page;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href: linkHref } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 const { hasModerator } = VM.require(
-  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 linkHref || (linkHref = () => {});
@@ -26,7 +26,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+          widgetSrc: "${REPL_DEVHUB}/widget/app",
           params: { page: "home" },
         })}
       >
@@ -68,12 +68,12 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+        widgetSrc: "${REPL_DEVHUB}/widget/app",
         params: { page: "profile", accountId: context.accountId },
       })}
     >
       <Widget
-        src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.ProfileCard"
+        src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
         props={{ iconOnly: true, accountId: context.accountId || null }}
       />
     </Link>
@@ -99,7 +99,7 @@ const MenuIcon = () => (
 );
 
 const Navbar = styled.div`
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 0rem;
 
   display: flex;
   flex-direction: row;
@@ -144,6 +144,11 @@ let links = [
     href: "feed",
     links: [],
   },
+  // {
+  //   title: "/proposals",
+  //   href: "proposals",
+  //   links: [],
+  // },
   {
     title: "/about",
     links: [
@@ -230,7 +235,7 @@ return (
       <LinksContainer>
         {links.map((link) => (
           <Widget
-            src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.NavbarDropdown"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.NavbarDropdown"
             props={{
               title: link.title,
               href: link.href,
@@ -259,7 +264,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/devgovgigs.petersalomonsen.near/widget/app?page=${link.href}`}
+                href={`/${REPL_DEVHUB}/widget/app?page=${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -279,7 +284,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/devgovgigs.petersalomonsen.near/widget/app?page=${it.href}`}
+                    href={`/${REPL_DEVHUB}/widget/app?page=${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
