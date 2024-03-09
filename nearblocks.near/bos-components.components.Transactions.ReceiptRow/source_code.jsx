@@ -199,6 +199,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -584,6 +594,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -732,6 +752,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -741,6 +793,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -887,6 +956,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1671,6 +1772,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1755,6 +1866,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1897,6 +2040,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1957,6 +2132,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2034,6 +2241,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -2135,6 +2352,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -2197,6 +2446,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2946,6 +3227,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -3145,6 +3436,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -3240,6 +3563,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -3397,6 +3752,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -3428,7 +3815,7 @@ const Transfer = (props) => {
       <FaArrowAltCircleRight className="inline-flex text-green-400 mr-1" />{' '}
       {t ? t('txns:txn.actions.transfer.0') : 'Transferred'}
       <span className="font-bold">
-        {args.deposit ? yoctoToNear(args.deposit, true) : args.deposit ?? ''}Ⓝ
+        {args.deposit ? yoctoToNear(args.deposit, true) : args.deposit ?? ''} Ⓝ
       </span>{' '}
       {t ? t('txns:txn.actions.transfer.1') : 'to'}
       <a href={`/address/${receiver}`} className="hover:no-underline">
@@ -3504,12 +3891,14 @@ function MainComponent(props) {
                   receipts_agg: resp.receipts_agg,
                   transactions_agg: resp.transactions_agg,
                 });
+                setLoading(false);
+              } else {
+                handleRateLimit(res, fetchBlocks, () => setLoading(false));
               }
             },
           )
           .catch(() => {});
       }
-      setLoading(false);
     }
 
     fetchBlocks();
