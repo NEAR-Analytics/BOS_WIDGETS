@@ -18,6 +18,7 @@
 
 
 
+
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -195,6 +196,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -526,6 +537,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -904,6 +925,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1066,6 +1097,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1331,6 +1372,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1716,6 +1767,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -1865,6 +1926,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1874,6 +1967,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function nanoToMilli(nano) {
   return Big(nano).div(Big(10).pow(6)).round().toNumber();
@@ -1992,6 +2102,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2924,10 +3066,11 @@ function localFormat(number) {
   return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 /* END_INCLUDE: "includes/near.jsx" */
-
+/* INCLUDE: "includes/types.jsx" */
+/* END_INCLUDE: "includes/types.jsx" */
 
 function MainComponent(props) {
-  const { network, hash, t } = props;
+  const { network, hash, t, Link } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [block, setBlock] = useState({} );
   const [price, setPrice] = useState('');
@@ -2948,11 +3091,11 @@ function MainComponent(props) {
 
 
   const LinkWrapper = (props) => (
-    <a href={props.href} className="hover:no-underline">
+    <Link href={props.href} className="hover:no-underline">
       <a className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 text-green-500 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
         {props.children}
       </a>
-    </a>
+    </Link>
   );
 
   useEffect(() => {
@@ -2979,8 +3122,10 @@ function MainComponent(props) {
                 receipts_agg: resp.receipts_agg,
                 transactions_agg: resp.transactions_agg,
               });
+              setIsLoading(false);
+            } else {
+              handleRateLimit(data, fetchBlock, () => setIsLoading(false));
             }
-            setIsLoading(false);
           },
         )
         .catch((error) => {
@@ -3009,6 +3154,8 @@ function MainComponent(props) {
             const resp = data?.body?.market_data?.current_price?.usd;
             if (data.status === 200) {
               setPrice(resp);
+            } else {
+              handleRateLimit(data, () => fetchPriceAtDate(date));
             }
           },
         );
