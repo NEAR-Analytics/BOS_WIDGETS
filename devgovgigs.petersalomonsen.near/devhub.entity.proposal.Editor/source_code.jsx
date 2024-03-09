@@ -1,6 +1,6 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
 const { getDepositAmountForWriteAccess } = VM.require(
-  "${REPL_DEVHUB}/widget/core.lib.common"
+  "devgovgigs.petersalomonsen.near/widget/core.lib.common"
 );
 const draftKey = "PROPOSAL_EDIT";
 getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
@@ -15,14 +15,14 @@ const FundingDocs =
 
 if (!author) {
   return (
-    <Widget src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.LoginScreen"} />
+    <Widget src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.LoginScreen"} />
   );
 }
 let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
+  editProposalData = Near.view("devgovgigs.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -198,7 +198,7 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposals");
+const proposalsData = Near.view("devgovgigs.near", "get_proposals");
 const [loading, setLoading] = useState(true);
 
 if (allowDraft) {
@@ -521,16 +521,16 @@ const DraftBtn = () => {
 };
 
 let grantNotify = Near.view(
-  "${REPL_SOCIAL_CONTRACT}",
+  "social.near",
   "is_write_permission_granted",
   {
-    predecessor_id: "${REPL_DEVHUB_CONTRACT}",
+    predecessor_id: "devgovgigs.near",
     key: context.accountId + "/index/notify",
   }
 );
 
 const userStorageDeposit = Near.view(
-  "${REPL_SOCIAL_CONTRACT}",
+  "social.near",
   "storage_balance_of",
   {
     account_id: context.accountId,
@@ -567,7 +567,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
   }
   const calls = [
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "devgovgigs.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -575,10 +575,10 @@ const onSubmit = ({ isDraft, isCancel }) => {
   ];
   if (grantNotify === false) {
     calls.unshift({
-      contractName: "${REPL_SOCIAL_CONTRACT}",
+      contractName: "social.near",
       methodName: "grant_write_permission",
       args: {
-        predecessor_id: "${REPL_DEVHUB_CONTRACT}",
+        predecessor_id: "devgovgigs.near",
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
@@ -617,7 +617,7 @@ if (loading) {
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner"}
+        src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Spinner"}
       />
     </div>
   );
@@ -627,7 +627,7 @@ return (
   <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
     <Heading>{isEditPage ? "Edit" : "Create"} Proposal</Heading>
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmReviewModal"}
+      src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
       props={{
         isOpen: isReviewModalOpen,
         onCancelClick: () => setReviewModal(false),
@@ -639,7 +639,7 @@ return (
       }}
     />
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmCancelModal"}
+      src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.ConfirmCancelModal"}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => setCancelModal(false),
@@ -654,7 +654,7 @@ return (
         <div className="flex-2">
           <div className="d-flex gap-2">
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+              src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Profile"}
               props={{
                 accountId: author,
               }}
@@ -679,7 +679,7 @@ return (
               >
                 <Widget
                   src={
-                    "${REPL_DEVHUB}/widget/devhub.entity.proposal.CategoryDropdown"
+                    "devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.CategoryDropdown"
                   }
                   props={{
                     selectedValue: category,
@@ -692,7 +692,7 @@ return (
                 description="Highlight the essence of your proposal in a few words. This will appear on your proposal’s detail page and the main proposal feed. Keep it short, please :)"
               >
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+                  src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
                   props={{
                     className: "flex-grow-1",
                     value: title,
@@ -713,7 +713,7 @@ return (
                 description="Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community."
               >
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+                  src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
                   props={{
                     className: "flex-grow-1",
                     value: summary,
@@ -736,7 +736,7 @@ return (
               >
                 <Widget
                   src={
-                    "${REPL_DEVHUB}/widget/devhub.components.molecule.Compose"
+                    "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Compose"
                   }
                   props={{
                     data: description,
@@ -810,7 +810,7 @@ return (
                 <div>
                   {isEditPage && (
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button`}
                       props={{
                         classNames: {
                           root: "btn-outline-danger shadow-none border-0",
@@ -830,14 +830,14 @@ return (
                     to={
                       isEditPage
                         ? href({
-                            widgetSrc: "${REPL_DEVHUB}/widget/app",
+                            widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
                             params: {
                               page: "proposal",
                               id: parseInt(id),
                             },
                           })
                         : href({
-                            widgetSrc: "${REPL_DEVHUB}/widget/app",
+                            widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
                             params: {
                               page: "proposals",
                             },
@@ -845,7 +845,7 @@ return (
                     }
                   >
                     <Widget
-                      src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+                      src={`devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button`}
                       props={{
                         classNames: {
                           root: "d-flex text-muted fw-bold btn-outline shadow-none border-0",
@@ -884,7 +884,7 @@ return (
                     <a
                       className="text-decoration-underline"
                       href={href({
-                        widgetSrc: "${REPL_DEVHUB}/widget/app",
+                        widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
                         params: {
                           page: "proposal",
                           id: proposal.value,
@@ -910,7 +910,7 @@ return (
                 );
               })}
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDownWithSearch"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.DropDownWithSearch"
                 props={{
                   selectedValue: "",
                   onChange: (v) => {
@@ -947,7 +947,7 @@ return (
               }
             >
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   value: requestedSponsorshipAmount,
@@ -980,7 +980,7 @@ return (
               description="Select your preferred currency for receiving funds. Note: The exchange rate for NEAR tokens will be the closing rate at the day of the invoice."
             >
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.DropDown"
                 props={{
                   options: tokensOptions,
                   selectedValue: requestedSponsorshipToken,
@@ -996,7 +996,7 @@ return (
               description="Enter the address that will receive the funds. We’ll need this to send a test transaction once your proposal is approved."
             >
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.AccountInput"
                 props={{
                   value: receiverAccount,
                   placeholder: devdaoAccount,
@@ -1006,7 +1006,7 @@ return (
             </InputContainer>
             <InputContainer heading="Requested Sponsor" description="">
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.AccountInput"
                 props={{
                   value: requestedSponsor,
                   placeholder: "DevDAO",
@@ -1016,7 +1016,7 @@ return (
             </InputContainer>
             <InputContainer heading="Supervisor (Optional)" description="">
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
+                src="devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.AccountInput"
                 props={{
                   value: supervisor,
                   placeholder: "Enter Supervisor",
