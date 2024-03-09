@@ -234,7 +234,7 @@ const lightColors = {
   ],
 };
 
-const themeColor = props.themeColor || darkColors;
+const themeColor = props.themeColor || lightColors;
 // const themeColor = props.themeColor || lightColors;
 
 // #####################################
@@ -459,6 +459,24 @@ const numTotalTx = totalTx ? totalTx.txns[0]?.count ?? "-" : "-";
 
 //-----------------------------------------------part1----------------------------------------------------
 //-----------------------------------------------part2----------------------------------------------------
+const generaltheme = {
+  height: "90px",
+  align: "center",
+  description: "",
+  brand: "BOS Activity",
+  fontsize: "35px",
+  fontweight: "25px",
+  afterbrand: "Profile",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
 
 const baseHeaderDynamic = {
   height: "80px",
@@ -1180,6 +1198,8 @@ return (
       className="p-2 rounded-3"
     >
       <div className="row">{MixChart}</div>
+      <Widget src="lord1.near/widget/header-dynamic" props={generaltheme} />
+
       <div className="row">{Nodes}</div>
     </div>
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
