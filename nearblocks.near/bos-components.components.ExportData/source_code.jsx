@@ -6,6 +6,8 @@
  * @interface Props
  * @param {string}  [network] - The network data to show, either mainnet or testnet.
  * @param {string} [id] - The account identifier passed as a string.
+ * @param {function} [onHandleDowload] - function to handle the download.
+ * @param {string} [exportType] - Type of data to be exported, available options are (transactions, ft and nft token transaction)
  */
 
 /* INCLUDE: "includes/libs.jsx" */
@@ -116,6 +118,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -126,7 +160,26 @@ function localFormat(number) {
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 /* END_INCLUDE: "includes/libs.jsx" */
+
+
 
 
 
@@ -149,47 +202,84 @@ const initial = {
   end: formattedEnd,
 };
 
-function MainComponent({ network, id }) {
+function MainComponent({ network, id, onHandleDowload, exportType }) {
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(initial.start);
   const [endDate, setEndDate] = useState(initial.end);
   const [exportData, setExportData] = useState('');
+  const [exportInfo, setExportInfo] = useState
+
+
+
+({} );
 
   const config = getConfig(network);
 
-  const onDownload = () => {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    let url = '';
+    let text = '';
+    let file = '';
+    switch (exportType) {
+      case 'Transactions':
+        url = `account/${id}/txns/export?start=${startDate}&end=${endDate}`;
+        text = 'Transactions';
+        file = `${id}_transactions_${startDate}_${endDate}.csv`;
+        break;
+      case 'Token Transactions':
+        url = `account/${id}/ft-txns/export?start=${startDate}&end=${endDate}`;
+        text = 'Token Transactions';
+        file = `${id}_ft_transactions_${startDate}_${endDate}.csv`;
+        break;
+      case 'NFT Token Transactions':
+        url = `account/${id}/nft-txns/export?start=${startDate}&end=${endDate}`;
+        text = 'NFT Token Transactions';
+        file = `${id}_nft_transactions_${startDate}_${endDate}.csv`;
+        break;
+      default:
+    }
 
-      asyncFetch(
-        `${config?.backendUrl}account/${id}/txns/export?start=${startDate}&end=${endDate}`,
-        {
+    setExportInfo({ apiUrl: url, tittle: text, file: file });
+  }, [exportType, id, startDate, endDate]);
+
+  useEffect(() => {
+    function fetchData() {
+      try {
+        setLoading(true);
+
+        asyncFetch(`${config?.backendUrl + exportInfo.apiUrl}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-        },
-      )
-        .then((resp) => {
-          if (resp.status === 200) {
-            const blob = new Blob([resp.body], { type: 'text/csv' });
-            const href = URL.createObjectURL(blob);
-            setExportData(href);
-          }
         })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } catch (error) {
-    } finally {
-      setLoading(false);
+          .then((resp) => {
+            if (resp.status === 200) {
+              const blob = new Blob([resp.body], { type: 'text/csv' });
+              const href = URL.createObjectURL(blob);
+              setExportData(href);
+              setLoading(false);
+            } else {
+              handleRateLimit(resp, fetchData, () => setLoading(false));
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {});
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [config?.backendUrl, exportInfo.apiUrl]);
+
+  const onDownload = () => {
+    if (exportData) {
+      onHandleDowload(exportData, exportInfo.file);
     }
   };
-
-  const file = `${id}_transactions_${startDate}_${endDate}.csv`;
 
   const handleStartDateChange = (
     event,
@@ -211,13 +301,11 @@ function MainComponent({ network, id }) {
     <>
       <div className="bg-neargray-25 py-16 flex flex-col items-center">
         <h2 className="text-black text-2xl font-medium">
-          Download Data (Transactions)
+          Download Data ({exportInfo.tittle})
         </h2>
         <div className="text-sm text-neargray-600 py-2 max-w-lg md:mx-12 mx-4">
           <p className="text-center">
             The information you requested can be downloaded from this page.
-            Before continuing please verify that you are not a robot by
-            completing the captcha below.
           </p>
           <div className="bg-white border rounded-md shadow-md w-full px-4 py-4 my-10">
             <p className="text-nearblue-600 my-3 mx-2">
@@ -283,21 +371,6 @@ function MainComponent({ network, id }) {
               >
                 Generate
               </div>
-              {exportData && (
-                <div
-                  className={`items-center cursor-pointer ${
-                    loading && 'animate-pulse cursor-not-allowed'
-                  }  text-center bg-green-500 hover:shadow-lg  text-white text-xs py-2 ml-2 rounded w-20 focus:outline-none hover:no-underline`}
-                >
-                  <a
-                    href={`${exportData}`}
-                    download={file}
-                    className="hover:no-underline"
-                  >
-                    Download
-                  </a>
-                </div>
-              )}
             </div>
           </div>
         </div>
