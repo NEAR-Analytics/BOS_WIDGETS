@@ -50,7 +50,12 @@ const ChildNode = styled.div`
 
 function renderView() {
   // Root vs Leaf?
-  return <Widget src="lord1.near/widget/View" props={{ path, type }} />;
+  return (
+    <Widget
+      src="forefront_tak.near/widget/Forefront.Widget.NearSocial.Explorer.View"
+      props={{ path, type }}
+    />
+  );
 }
 
 function getType() {
@@ -89,7 +94,7 @@ return (
           Object.entries(node).map(([key, val]) => (
             <ChildNode>
               <Widget
-                src="lord1.near/widget/Node"
+                src="forefront_tak.near/widget/Forefront.Widget.NearSocial.Explorer.Node"
                 props={{
                   key,
                   label: key,
