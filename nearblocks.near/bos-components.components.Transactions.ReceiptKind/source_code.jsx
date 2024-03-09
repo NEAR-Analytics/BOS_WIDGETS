@@ -113,6 +113,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -268,6 +300,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
