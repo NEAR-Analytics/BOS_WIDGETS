@@ -26,6 +26,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -74,6 +84,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -250,6 +270,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -265,8 +317,7 @@ function formatWithCommas(number) {
 function decodeArgs(args) {
   if (!args || typeof args === 'undefined') return {};
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+  return JSON.parse(Buffer.from(args, 'base64').toString());
 }
 
 function txnMethod(
@@ -1050,27 +1101,6 @@ function parseOutcomeOld(outcome) {
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
   };
-}
-function dollarFormat(number) {
-  const bigNumber = new Big(number);
-
-  // Format to two decimal places without thousands separator
-  const formattedNumber = bigNumber.toFixed(2);
-
-  // Add comma as a thousands separator
-  const parts = formattedNumber.split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const dollarFormattedNumber = `${parts.join('.')}`;
-
-  return dollarFormattedNumber;
-}
-function localFormat(number) {
-  const bigNumber = Big(number);
-  const formattedNumber = bigNumber
-    .toFixed(5)
-    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
-  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
 }
 function dollarFormat(number) {
   const bigNumber = new Big(number);
@@ -2197,7 +2227,7 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
+        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props?.wrapperClassName}`}
       ></div>
     );
   };
@@ -2240,7 +2270,7 @@ function MainComponent(props) {
     fetchMetadata(contract);
   }, [contract, config?.rpcUrl]);
 
-  return !meta ? (
+  return !meta?.name ? (
     <Loader wrapperClassName="flex w-full max-w-xl" />
   ) : (
     <>
