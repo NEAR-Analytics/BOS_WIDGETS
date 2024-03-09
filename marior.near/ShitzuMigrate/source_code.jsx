@@ -233,6 +233,10 @@ return (
     <Progress progress={progress}>{progress}% complete</Progress>
 
     <h5>Market Cap: {marketCap}$</h5>
+    <span>
+      (mcap calculation includes all SHITZUv1 & v2, so it assumes that all
+      SHITZU will be migrated at some point.)
+    </span>
 
     <a
       style={{ alignSelf: "center" }}
@@ -246,11 +250,14 @@ return (
       This BOS component lets you migrate SHITZU from Aurora to the new contract
       on Near. This migration will run indefinitely and you can migrate SHITZU
       1:1 for the new token. The old SHITZU has address
-      0x68e401B61eA53889505cc1366710f733A60C2d41 and can be bought at Trisolar.
-      The new SHITZU has address {shitzuNearAddress}
+      0x68e401B61eA53889505cc1366710f733A60C2d41 and can be bought at{" "}
+      <a href="https://www.trisolaris.io/" target="_blank">
+        Trisolaris
+      </a>
+      . The new SHITZU has address {shitzuNearAddress}
     </Text>
 
-    <div>{getSender()}</div>
+    <div>Logged in as: {getSender()}</div>
 
     <label for="receiver">
       Receiver (Near address)
