@@ -53,7 +53,7 @@ function renderView() {
   return (
     <Widget
       src="forefront_tak.near/widget/Forefront.Widget.NearSocial.Explorer.View"
-      props={{ path, type }}
+      props={{ path, type, themeColor }}
     />
   );
 }
@@ -83,9 +83,10 @@ return (
       {isRoot ? (
         <div style={themeColor?.subject}>{label}</div>
       ) : (
-        <Button onClick={handleExpand}>{state.expanded ? "-" : "+"}</Button>
+        <Button onClick={handleInto}>{label}</Button>
       )}
-      <Button onClick={handleInto}>{label}</Button>
+
+      <Button onClick={handleExpand}>{state.expanded ? "-" : "+"}</Button>
     </div>
     {state.expanded && (
       <div>
