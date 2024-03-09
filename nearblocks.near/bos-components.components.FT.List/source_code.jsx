@@ -365,6 +365,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -742,6 +752,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1104,6 +1124,16 @@ function capitalizeWords(str) {
   const result = capitalizedWords.join(' ');
   return result;
 }
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -1154,6 +1184,16 @@ function capitalizeWords(str) {
   );
   const result = capitalizedWords.join(' ');
   return result;
+}
+
+function toSnakeCase(str) {
+  return str
+    .replace(/[A-Z]/g, (match) => '_' + match.toLowerCase())
+    .replace(/^_/, '');
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 /* END_INCLUDE: "includes/formats.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
@@ -1240,6 +1280,38 @@ function isAction(type) {
   ];
 
   return actions.includes(type.toUpperCase());
+}
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1358,6 +1430,38 @@ function isAction(type) {
 
   return actions.includes(type.toUpperCase());
 }
+
+function isJson(string) {
+  const str = string.replace(/\\/g, '');
+
+  try {
+    JSON.parse(str);
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
+function uniqueId() {
+  return Math.floor(Math.random() * 1000);
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1367,6 +1471,23 @@ function localFormat(number) {
 }
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function handleRateLimit(
+  data,
+  reFetch,
+  Loading,
+) {
+  if (data.status === 429 || data.status === undefined) {
+    const retryCount = 4;
+    const delay = Math.pow(2, retryCount) * 1000;
+    setTimeout(() => {
+      reFetch();
+    }, delay);
+  } else {
+    if (Loading) {
+      Loading();
+    }
+  }
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
@@ -1563,6 +1684,8 @@ function MainComponent({ t, network, currentPage, setPage }) {
             const resp = data?.body?.tokens?.[0];
             if (data.status === 200) {
               setTotalCount(resp?.count ?? 0);
+            } else {
+              handleRateLimit(data, () => fetchTotalTokens(qs));
             }
           },
         )
@@ -1592,13 +1715,17 @@ function MainComponent({ t, network, currentPage, setPage }) {
             const resp = data?.body?.tokens;
             if (data.status === 200) {
               setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+              setIsLoading(false);
+            } else {
+              handleRateLimit(
+                data,
+                () => fetchTokens(qs, sorting, page),
+                () => setIsLoading(false),
+              );
             }
           },
         )
-        .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .catch(() => {});
     }
 
     fetchTotalTokens();
