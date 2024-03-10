@@ -12,7 +12,7 @@ const { readableDate } = VM.require(
   "devgovgigs.petersalomonsen.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
 const proposalId = props.id ?? (props.id ? parseInt(props.id) : 0);
-const proposal = Near.view("devgovgigs.near", "get_proposal", {
+const proposal = Near.view("devhub.near", "get_proposal", {
   proposal_id: proposalId,
 });
 if (!proposal || !proposal.snapshot_history) {
