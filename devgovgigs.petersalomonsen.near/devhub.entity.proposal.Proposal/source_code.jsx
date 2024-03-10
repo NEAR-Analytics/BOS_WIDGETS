@@ -186,7 +186,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("devgovgigs.near", "get_proposal", {
+const proposal = Near.view("devhub.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -214,7 +214,7 @@ const editorAccountId = snapshot.editor_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `devgovgigs.near/post/main`,
+  path: `devhub.near/post/main`,
   blockHeight,
 };
 const proposalURL = `devgovgigs.petersalomonsen.near/widget/devhub.entity.proposal.Proposal?id=${proposal.id}&timestamp=${snapshot.timestamp}`;
@@ -325,7 +325,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("devgovgigs.near", "get_proposal", {
+    const data = Near.view("devhub.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -389,7 +389,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "devgovgigs.near",
+  "devhub.near",
   "is_allowed_to_edit_proposal",
   {
     proposal_id: proposal.id,
@@ -401,7 +401,7 @@ const isModerator = isAllowedToEditProposal && proposal.author_id !== accountId;
 
 const editProposalStatus = ({ timeline }) => {
   Near.call({
-    contractName: "devgovgigs.near",
+    contractName: "devhub.near",
     methodName: "edit_proposal_timeline",
     args: {
       id: proposal.id,
