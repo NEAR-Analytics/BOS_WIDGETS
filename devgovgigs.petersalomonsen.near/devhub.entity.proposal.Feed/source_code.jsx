@@ -50,7 +50,7 @@ const FeedItem = ({ proposal }) => {
   const blockHeight = parseInt(proposal.social_db_post_block_height);
   const item = {
     type: "social",
-    path: `devgovgigs.near/post/main`,
+    path: `devhub.near/post/main`,
     blockHeight,
   };
 
@@ -126,7 +126,7 @@ const FeedItem = ({ proposal }) => {
 };
 
 const FeedPage = () => {
-  const proposals = Near.view("devgovgigs.near", "get_proposals", {});
+  const proposals = Near.view("devhub.near", "get_proposals", {});
 
   return (
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
