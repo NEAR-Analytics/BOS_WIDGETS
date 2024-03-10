@@ -22,7 +22,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("devgovgigs.near", "get_proposal", {
+  editProposalData = Near.view("devhub.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -198,7 +198,7 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("devgovgigs.near", "get_proposals");
+const proposalsData = Near.view("devhub.near", "get_proposals");
 const [loading, setLoading] = useState(true);
 
 if (allowDraft) {
@@ -524,7 +524,7 @@ let grantNotify = Near.view(
   "social.near",
   "is_write_permission_granted",
   {
-    predecessor_id: "devgovgigs.near",
+    predecessor_id: "devhub.near",
     key: context.accountId + "/index/notify",
   }
 );
@@ -567,7 +567,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
   }
   const calls = [
     {
-      contractName: "devgovgigs.near",
+      contractName: "devhub.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -578,7 +578,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
       contractName: "social.near",
       methodName: "grant_write_permission",
       args: {
-        predecessor_id: "devgovgigs.near",
+        predecessor_id: "devhub.near",
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
