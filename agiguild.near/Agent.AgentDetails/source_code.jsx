@@ -1,5 +1,5 @@
 const { href } = VM.require("devhub.near/widget/core.lib.url");
-const { schema } = VM.require(`${REPL_AGIGUILD}/widget/Schema.Agent`);
+const { schema } = VM.require(`agiguild.near/widget/Schema.Agent`);
 if (!href || !schema ) {
     return <></>;
 }
@@ -22,12 +22,12 @@ if (!exists) {
 
 agent = { accountId, name: agentName, ...agent };
 const { prompt } = agent;
-const agentComponent = agent.component ? agent.component : `${REPL_AGIGUILD}/widget/Agent.AgentChat`;
+const agentComponent = agent.component ? agent.component : `agiguild.near/widget/Agent.AgentChat`;
 const editType = accountId === context.accountId ? "edit" : "fork";
 const editLabel = editType === "edit" ? "Edit" : "Fork";
 const editIcon = editType === "edit" ? "ph-bold ph-pencil-simple" : "ph-bold ph-git-fork";
 const listLink = href({
-  widgetSrc: `${REPL_AGIGUILD}/widget/Nexus`,
+  widgetSrc: `agiguild.near/widget/Nexus`,
 });
 
 const Wrapper = styled.div`
@@ -91,7 +91,7 @@ const agentProperties = (obj) => {
 };
 
 const customComponentLabel = (component) => {
-    if (component === `${REPL_AGIGUILD}/widget/Agent.AgentChat`) {
+    if (component === `agiguild.near/widget/Agent.AgentChat`) {
         return "Chat";
     }
     return <Widget src="near/widget/DIG.Tooltip" props={{ content: <p>{component}</p>, trigger: "Chat (Custom component)"}} />;
@@ -106,7 +106,7 @@ return (
       </Header>
     </Link>
     <Widget
-      src="${REPL_AGIGUILD}/widget/Agent.AgentSummary"
+      src="agiguild.near/widget/Agent.AgentSummary"
       props={{
         size: "small",
         showTags: true,
