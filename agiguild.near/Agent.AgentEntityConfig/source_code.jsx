@@ -5,7 +5,7 @@ const entityTable = "agents";
 const user = "dataplatform_near";
 const collection = `${user}_${entityIndexer}_${entityTable}`;
 
-const { schema } = VM.require(`${REPL_AGIGUILD}/widget/Schema.Agent`);
+const { schema } = VM.require(`agiguild.near/widget/Schema.Agent`);
 if (!schema ) {
   return <></>;
 }
@@ -62,7 +62,7 @@ const convertPascalToSnake = (item) => {
 const renderItem = (item, editFunction) => {
   return (
     <Widget
-      src="${REPL_AGIGUILD}/widget/Agent.AgentCard"
+      src="agiguild.near/widget/Agent.AgentCard"
       props={{
         item: convertSnakeToPascal(item),
         editFunction,
