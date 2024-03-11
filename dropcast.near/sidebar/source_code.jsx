@@ -112,18 +112,37 @@ return (
       </div>
 
       <div className="d-flex flex-column mt-5 gap-4">
-        {PAGES.map((page, index) => (
-          <div
-            key={index}
-            style={{ color: currentPage === page.value ? "white" : "grey" }}
-            className="d-flex align-items-center gap-2 rbt-token-removeable"
-            onClick={() => changePage(page.value)}
-          >
-            {page.icon}
-            {currentPage === page.value && <SelectedIcon />}
-            <p className="m-0">{page.title}</p>
-          </div>
-        ))}
+        {PAGES.map((page, index) => {
+          if (page.link) {
+            return (
+              <a
+                key={index}
+                target="_blank"
+                href={page.link}
+                style={{ color: currentPage === page.value ? "white" : "grey" }}
+                className="d-flex align-items-center gap-2 rbt-token-removeable"
+                onClick={() => changePage(page.value)}
+              >
+                {page.icon}
+                {currentPage === page.value && <SelectedIcon />}
+                <p className="m-0">{page.title}</p>
+              </a>
+            );
+          } else {
+            return (
+              <div
+                key={index}
+                style={{ color: currentPage === page.value ? "white" : "grey" }}
+                className="d-flex align-items-center gap-2 rbt-token-removeable"
+                onClick={() => changePage(page.value)}
+              >
+                {page.icon}
+                {currentPage === page.value && <SelectedIcon />}
+                <p className="m-0">{page.title}</p>
+              </div>
+            );
+          }
+        })}
       </div>
       <div className="d-flex w-100 px-3 position-absolute bottom-0 mb-3 justify-content-between align-items-center">
         <div className="d-flex align-items-center gap-3">
