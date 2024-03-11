@@ -127,7 +127,7 @@ const Button = styled.a`
 const CardContainer = styled.div`
   width: 100%;
   padding: 3px;
-  margin-bottom: ${(p) => (p.marginBottom ? '30px': '')};
+  margin-bottom: ${(p) => (p.marginBottom ? "30px" : "")};
 
   &:hover {
     position: relative;
