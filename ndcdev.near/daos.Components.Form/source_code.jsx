@@ -10,6 +10,7 @@ const {
   daos,
   selectedDaoId,
   dao_id,
+  id,
 } = props;
 
 const TypeSection = styled.div`
@@ -96,11 +97,11 @@ const ProposalButton = () => (
     style={{ width: "max-content" }}
     className="btn btn-primary"
     disabled={form[formEls.post_type].some(
-      (el) => el.required && !formEls[el.name]
+      (el) => el.required && !formEls[el.name],
     )}
     onClick={handleSave}
   >
-    Create proposal
+    {id ? "Edit" : "Create"} proposal
     <i className="bi bi-plus-lg" />
   </button>
 );
