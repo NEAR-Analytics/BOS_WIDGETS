@@ -290,6 +290,7 @@ return (
           style={{ fontSize: 14, color: "grey", margin: 0 }}
         >{`Any meme coin ($Neko/$Lonk/$Blackdragon/$Shitzu)`}</p>
       </div>
+      {/*
       <div>
         <Label>{`Has Near Social Activity`}</Label>
         <Widget
@@ -302,7 +303,7 @@ return (
           }}
           src={`${Owner}/widget/Select`}
         />
-      </div>
+      </div> */}
       <Button className="btn" onClick={onSubmit} disabled={state.loading}>
         {state.loading ? `Processing...` : `Submit`}
       </Button>
