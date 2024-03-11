@@ -151,7 +151,7 @@ const ListResult = styled.div`
     .item{
         display:flex;
         flex-direction:row;
-        justify-content:space-between;
+        text-align:left;
         align-items:center;
         gap:10px;
         width:100%;
@@ -159,7 +159,8 @@ const ListResult = styled.div`
         min-height:20px;
         border-radius:15px;
         padding:10px 20px;
-
+        text-decoration:none;
+        max-height:90px;
     }
     .image{
         border-radius:50px;
@@ -216,11 +217,11 @@ res.body &&
     if (projectId != undefined) {
       const datas = Social.getr(`${projectId}/profile`);
       if (datas) {
-        profileData.push(datas);
+        profileData.push({ accountId: projectId, data: datas });
       }
     }
   });
-//console.log(profileData);
+console.log(profileData);
 return (
   <Container>
     <Row>
@@ -252,21 +253,32 @@ return (
             <div class="header">ALL PROJECT</div>
             <div class="listItem">
               {profileData.map((dt) => (
-                <div class="item">
-                  {dt.image.url ? (
-                    <img class="image" src={dt.image.url} alt="profile" />
+                <a
+                  href={`https://app.potlock.org/?tab=project&projectId=${dt.accountId}`}
+                  class="item"
+                  target="_blank"
+                >
+                  {dt.data.image.url ? (
+                    <img class="image" src={dt.data.image.url} alt="profile" />
                   ) : (
                     <img
                       class="image"
-                      src={`https://ipfs.near.social/ipfs/` + dt.image.ipfs_cid}
+                      src={
+                        `https://ipfs.near.social/ipfs/` +
+                        dt.data.image.ipfs_cid
+                      }
                       alt="profile"
                     />
                   )}
                   <div class="project">
-                    <div class="title">{dt.name}</div>
-                    <div class="decs">{dt.description.split(/"/)}</div>
+                    <div class="title">{dt.data.name}</div>
+                    <div class="decs">
+                      {dt.data.description.length > 50
+                        ? dt.data.description.split(/"/).slice(0, 50) + "..."
+                        : dt.data.description.split(/"/)}
+                    </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </ListResult>
