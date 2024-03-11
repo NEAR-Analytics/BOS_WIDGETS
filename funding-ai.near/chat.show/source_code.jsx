@@ -273,9 +273,9 @@ return (
                   <div class="project">
                     <div class="title">{dt.data.name}</div>
                     <div class="decs">
-                      {dt.data.description.length > 50
-                        ? dt.data.description.split(/"/).slice(0, 50) + "..."
-                        : dt.data.description.split(/"/)}
+                      {dt.data.description.length > 80
+                        ? dt.data.description.slice(0, 80) + "..."
+                        : dt.data.description}
                     </div>
                   </div>
                 </a>
