@@ -62,7 +62,7 @@ const Actions = styled.div`
 `;
 const AgentCard = ({ item, editFunction }) => {
   const { accountId, name, displayName, prompt, logoUrl } = item;
-  const agentComponent = item.component ? item.component : `${REPL_AGIGUILD}/widget/Agent.AgentChat`;
+  const agentComponent = item.component ? item.component : `agiguild.near/widget/Agent.AgentChat`;
   const imageUrl =
     logoUrl ?? "https://ipfs.near.social/ipfs/bafkreibysr2mkwhb4j36h2t7mqwhynqdy4vzjfygfkfg65kuspd2bawauu";
   const actionLink = href({
@@ -70,11 +70,11 @@ const AgentCard = ({ item, editFunction }) => {
     params: { src: `${accountId}/agent/${name}` },
   });
   const detailsLink = href({
-    widgetSrc: `${REPL_AGIGUILD}/widget/Agent.AgentDetails`,
+    widgetSrc: `agiguild.near/widget/Agent.AgentDetails`,
     params: { src: `${accountId}/agent/${name}` },
   });
 
-  const actionUrl = `https://${REPL_NEAR_URL}/${agentComponent}?src=${accountId}/agent/${item.name}`;
+  const actionUrl = `https://near.org/${agentComponent}?src=${accountId}/agent/${item.name}`;
   const editType = accountId === context.accountId ? "edit" : "fork";
   const editLabel = editType === "edit" ? "Edit" : "Fork";
   const editIcon = editType === "edit" ? "ph-bold ph-pencil-simple" : "ph-bold ph-git-fork";
