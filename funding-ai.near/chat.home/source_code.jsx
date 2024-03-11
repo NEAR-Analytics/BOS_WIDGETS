@@ -245,7 +245,7 @@ return (
       </Header>
       {isShow ? (
         <Widget
-          src="funddingai.testnet/widget/chat.show"
+          src="funding-ai.near/widget/chat.show"
           props={{ search: value }}
         />
       ) : (
