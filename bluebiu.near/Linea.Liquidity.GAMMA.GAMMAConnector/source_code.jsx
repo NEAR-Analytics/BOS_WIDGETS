@@ -60,7 +60,7 @@ if (state.chainId !== MAINNET_CHAIN_ID) {
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...CONNECT_PROPS,
-        isWrongNetwork: false,
+        isWrongNetwork: true,
       }}
     />
   );
