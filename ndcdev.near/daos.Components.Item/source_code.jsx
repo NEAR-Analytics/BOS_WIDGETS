@@ -231,7 +231,6 @@ const CardItem = ({ item, index }) => (
       <div className="d-flex flex-column gap-3">
         <div className="d-flex gap-3 align-items-center">
           <h3>{item.title}</h3>
-          {console.log(dao)}
           {dao.owners.includes(accountId) && (
             <a
               href={`https://near.org/ndcdev.near/widget/daos.App?page=edit_proposal&id=${item.id}&dao_id=${dao.id}`}
@@ -247,7 +246,7 @@ const CardItem = ({ item, index }) => (
               <span>
                 {new Date(
                   item.snapshot_history[item.snapshot_history.length - 1]
-                    .timestamp / 1000000
+                    .timestamp / 1000000,
                 ).toLocaleDateString()}
               </span>
             </div>
