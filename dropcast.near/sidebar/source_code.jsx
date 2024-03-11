@@ -121,7 +121,6 @@ return (
                 href={page.link}
                 style={{ color: currentPage === page.value ? "white" : "grey" }}
                 className="d-flex align-items-center gap-2 rbt-token-removeable"
-                onClick={() => changePage(page.value)}
               >
                 {page.icon}
                 {currentPage === page.value && <SelectedIcon />}
