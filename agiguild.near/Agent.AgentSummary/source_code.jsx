@@ -7,12 +7,12 @@ if (!href) {
 const { agent, showActions } = props;
 const { accountId, name, displayName, prompt, logoUrl, tags, component } = agent;
 
-const agentComponent = item.component ? item.component : `${REPL_AGIGUILD}/widget/Agent.AgentChat`;
+const agentComponent = item.component ? item.component : `agiguild.near/widget/Agent.AgentChat`;
 const chatLink = href({
   widgetSrc: agentComponent,
   params: { src: `${accountId}/agent/${name}` },
 });
-const agentChatUrl = `https://${REPL_NEAR_URL}/${agentComponent}?src=${accountId}/agent/${name}`;
+const agentChatUrl = `https://near.org/${agentComponent}?src=${accountId}/agent/${name}`;
 
 const size = props.size || "small";
 
@@ -154,7 +154,7 @@ return (
     <Header size={size}>
       <Thumbnail size={size}>
         <Widget
-          src="${REPL_MOB}/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: { url: logoUrl },
             fallbackUrl: "https://ipfs.near.social/ipfs/bafkreibysr2mkwhb4j36h2t7mqwhynqdy4vzjfygfkfg65kuspd2bawauu",
