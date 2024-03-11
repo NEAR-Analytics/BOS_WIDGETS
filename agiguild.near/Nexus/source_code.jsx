@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   align-items: start;
   height: 100%;
 `;
-const { schema } = VM.require(`${REPL_AGIGUILD}/widget/Schema.Nexus`);
+const { schema } = VM.require(`agiguild.near/widget/Schema.Nexus`);
 if (!schema ) {
     return <></>;
 }
@@ -25,7 +25,7 @@ const content = {
     overview: (group) => {
         return (
             <div>
-                <Widget src="${REPL_AGIGUILD}/widget/Agent.AgentHeader" props={{text: "AGI Guild", color: "#11181c"}}/>
+                <Widget src="agiguild.near/widget/Agent.AgentHeader" props={{text: "AGI Guild", color: "#11181c"}}/>
                 <Instructions>
                     <p>Welcome to the AGI Guild</p>
 
