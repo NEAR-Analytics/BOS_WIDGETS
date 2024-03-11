@@ -2,7 +2,6 @@ const {
   chainId,
   chainName,
   connectProps,
-  dapps,
   defaultDapp,
   addAction,
   toast,
@@ -11,6 +10,8 @@ const {
   wethAddress,
   prices,
 } = props;
+
+const dapps = props.dapps || {};
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!account) {
@@ -77,7 +78,6 @@ const handleTableButtonClick = (address, actionText) => {
     showDialog: true,
   });
 };
-
 return (
   <Container>
     {state.updateData && (
