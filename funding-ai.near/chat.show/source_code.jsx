@@ -146,6 +146,7 @@ const ListResult = styled.div`
         padding-bottom:20px;
         @media screen and (max-width:768px){
             padding:0 5px;
+            padding-bottom:20px;
         }
     }
     .item{
