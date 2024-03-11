@@ -2,7 +2,7 @@ let { contractName } = VM.require(`ndcdev.near/widget/daos.Config`);
 
 if (!contractName) return <Widget src="flashui.near/widget/Loading" />;
 
-const { dao_id, id, edit } = props;
+const { dao_id, id } = props;
 
 const Container = styled.div`
   position: relative;
@@ -246,6 +246,7 @@ return (
             daos,
             selectedDaoId,
             dao_id,
+            id,
           }}
         />
       </FormWrapper>
