@@ -170,7 +170,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (loading || !state.getBestTrade) return;
+  if (state.loading || !state.getBestTrade) return;
   const cachedTimer = Storage.privateGet("_swap_timer");
   clearTimeout(cachedTimer);
   const _timer = setTimeout(() => {
