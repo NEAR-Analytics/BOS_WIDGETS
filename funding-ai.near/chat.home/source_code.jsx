@@ -185,7 +185,7 @@ return (
   <Container>
     <Row>
       <Header>
-        <a class="logo" href="/funddingai.testnet/widget/chat.home">
+        <a class="logo" href="/funding-ai.near/widget/chat.home">
           funding<span class="text-white">.ai</span>
         </a>
         <div class="info">
