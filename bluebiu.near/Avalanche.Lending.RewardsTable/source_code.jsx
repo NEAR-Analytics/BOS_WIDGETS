@@ -98,7 +98,7 @@ return (
           loading: state.loading,
           market: state.market,
           dapp: state.dapp,
-          record: state.record,
+          record: state.market,
           onSuccess: (res) => {
             toast?.dismiss(state.toastId);
             State.update({ loading: false });
