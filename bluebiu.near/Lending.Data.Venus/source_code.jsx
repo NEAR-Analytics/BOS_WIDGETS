@@ -103,6 +103,24 @@ const UNITROLLER_ABI = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    constant: true,
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "venusBorrowSpeeds",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "venusSupplySpeeds",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
 ];
 const ORACLE_ABI = [
   {
@@ -140,17 +158,131 @@ const ERC20_ABI = [
     type: "function",
   },
 ];
+const REWARD_PRIME_ABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "market", type: "address" },
+      { internalType: "address", name: "user", type: "address" },
+      { internalType: "uint256", name: "borrow", type: "uint256" },
+      { internalType: "uint256", name: "supply", type: "uint256" },
+      { internalType: "uint256", name: "xvsStaked", type: "uint256" },
+    ],
+    name: "estimateAPR",
+    outputs: [
+      {
+        components: [
+          { internalType: "uint256", name: "supplyAPR", type: "uint256" },
+          { internalType: "uint256", name: "borrowAPR", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "totalScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "userScore", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "xvsBalanceForScore",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "capital", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "cappedSupply",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "cappedBorrow",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "supplyCapUSD",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "borrowCapUSD",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IPrime.APRInfo",
+        name: "aprInfo",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      { internalType: "address", name: "holder", type: "address" },
+      {
+        internalType: "contract ComptrollerInterface",
+        name: "comptroller",
+        type: "address",
+      },
+    ],
+    name: "pendingRewards",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "distributorAddress",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "rewardTokenAddress",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "totalRewards",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "vTokenAddress",
+                type: "address",
+              },
+              { internalType: "uint256", name: "amount", type: "uint256" },
+            ],
+            internalType: "struct VenusLens.PendingReward[]",
+            name: "pendingRewards",
+            type: "tuple[]",
+          },
+        ],
+        internalType: "struct VenusLens.RewardSummary",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 const {
   multicallAddress,
   unitrollerAddress,
+  rewardPrimeAddress,
   oracleAddress,
+  rewardAddress,
   account,
   update,
   name,
   onLoad,
   multicall,
   markets,
+  rewardsPrimeData,
+  rewardToken,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -163,11 +295,16 @@ useEffect(() => {
   let _underlyingBalance = null;
   let _userMerberShip = null;
   let count = 0;
+  let _accountRewards = Big(0);
+  const _rewardsPrimeApy = {};
+  const _rewardsSupplyRate = {};
+  const _rewardsBorrowRate = {};
+
   let oTokensLength = Object.values(markets).length;
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 5) return;
+    if (count < 6) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
     let totalSupplyUsd = Big(0);
@@ -175,6 +312,8 @@ useEffect(() => {
     let userTotalSupplyUsd = Big(0);
     let userTotalBorrowUsd = Big(0);
     let totalCollateralUsd = Big(0);
+    let totalAccountDistributionApy = Big(0);
+    const rewardPrice = prices[rewardToken.symbol] || 12.28;
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
       const underlyingPrice = _underlyPrice[market.address] || 1;
@@ -212,6 +351,46 @@ useEffect(() => {
         .minus(1)
         .mul(100);
 
+      let distributionApy = [];
+
+      if (_rewardsPrimeApy[market.address]) {
+        const distributionSupplyApy = marketSupplyUsd.eq(0)
+          ? 0
+          : Big(_rewardsSupplyRate[market.address])
+              .mul(20 * 60 * 24)
+              .mul(12.28)
+              .div(marketSupplyUsd)
+              .plus(1)
+              .pow(365)
+              .minus(1)
+              .mul(100)
+              .plus(_rewardsPrimeApy[market.address].supplyApy)
+              .toFixed(2);
+
+        const distributionBorrowApy = marketBorrowUsd.eq(0)
+          ? 0
+          : Big(_rewardsBorrowRate[market.address])
+              .mul(20 * 60 * 24)
+              .mul(rewardPrice)
+              .div(marketBorrowUsd)
+              .plus(1)
+              .pow(365)
+              .minus(1)
+              .mul(100)
+              .plus(_rewardsPrimeApy[market.address].borrowApy)
+              .toFixed(2);
+
+        totalAccountDistributionApy = totalAccountDistributionApy
+          .plus(distributionSupplyApy)
+          .plus(distributionBorrowApy);
+
+        distributionApy.push({
+          ...rewardToken,
+          supply: distributionSupplyApy + "%",
+          borrow: distributionBorrowApy + "%",
+        });
+      }
+
       markets[market.address] = {
         ...market,
         loanToValue: _loanToValue[market.address],
@@ -222,11 +401,27 @@ useEffect(() => {
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
         dapp: name,
+        distributionApy,
       };
     });
 
+    let rewards = [];
+    if (_accountRewards.gt(0)) {
+      const dailyRewards = totalAccountDistributionApy
+        .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+        .div(365 * 100)
+        .div(rewardPrice);
+      rewards.push({
+        ...rewardToken,
+        dailyRewards: dailyRewards.toString(),
+        price: rewardPrice,
+        unclaimed: _accountRewards.toFixed(rewardToken.decimals),
+      });
+    }
+
     onLoad({
       markets,
+      rewards,
       totalSupplyUsd: totalSupplyUsd.toString(),
       totalBorrowUsd: totalBorrowUsd.toString(),
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -243,14 +438,23 @@ useEffect(() => {
         name: "markets",
         params: [token.address],
       });
-      if (account) {
-        calls.push({
-          address: unitrollerAddress,
-          name: "checkMembership",
-          params: [account, token.address],
-        });
-      }
+      calls.push({
+        address: unitrollerAddress,
+        name: "checkMembership",
+        params: [account, token.address],
+      });
+      calls.push({
+        address: unitrollerAddress,
+        name: "venusSupplySpeeds",
+        params: [token.address],
+      });
+      calls.push({
+        address: unitrollerAddress,
+        name: "venusBorrowSpeeds",
+        params: [token.address],
+      });
     });
+
     multicall({
       abi: UNITROLLER_ABI,
       calls,
@@ -262,8 +466,8 @@ useEffect(() => {
         _loanToValue = {};
         _userMerberShip = {};
         for (let i = 0, len = res.length; i < len; i++) {
-          const index = Math.floor(i / (account ? 2 : 1));
-          const mod = i % (account ? 2 : 1);
+          const index = Math.floor(i / 4);
+          const mod = i % 4;
           switch (mod) {
             case 0:
               _loanToValue[oTokens[index].address] = ethers.utils.formatUnits(
@@ -274,6 +478,12 @@ useEffect(() => {
             case 1:
               _userMerberShip[oTokens[index].address] = res[i][0];
               break;
+            case 2:
+              _rewardsSupplyRate[oTokens[index].address] =
+                ethers.utils.formatUnits(res[i][0]?._hex || 0, 18);
+            case 3:
+              _rewardsBorrowRate[oTokens[index].address] =
+                ethers.utils.formatUnits(res[i][0]?._hex || 0, 18);
             default:
           }
         }
@@ -366,9 +576,9 @@ useEffect(() => {
         }
       })
       .catch(() => {
-        setTimeout(() => {
-          getOTokenLiquidity();
-        }, 500);
+        // setTimeout(() => {
+        //   getOTokenLiquidity();
+        // }, 500);
       });
   };
   const getWalletBalance = () => {
@@ -424,9 +634,9 @@ useEffect(() => {
         }
       })
       .catch(() => {
-        setTimeout(() => {
-          getWalletBalance();
-        }, 500);
+        // setTimeout(() => {
+        //   getWalletBalance();
+        // }, 500);
       });
   };
   const getCTokenData = (oToken) => {
@@ -501,9 +711,9 @@ useEffect(() => {
         }
       })
       .catch(() => {
-        setTimeout(() => {
-          getCTokenData(oToken);
-        }, 500);
+        // setTimeout(() => {
+        //   getCTokenData(oToken);
+        // }, 500);
       });
   };
 
@@ -512,9 +722,82 @@ useEffect(() => {
       getCTokenData(market);
     });
   };
+
+  const getRewarsApy = () => {
+    const rewardMarkets = Object.keys(rewardsPrimeData);
+    const calls = rewardMarkets.map((market) => ({
+      address: rewardPrimeAddress,
+      name: "estimateAPR",
+      params: [
+        market,
+        account,
+        Big(rewardsPrimeData[market].borrow || 0)
+          .mul(Big(10).pow(18))
+          .toFixed(0),
+        Big(rewardsPrimeData[market].supply || 0)
+          .mul(Big(10).pow(18))
+          .toFixed(0),
+        Big(rewardsPrimeData[market].stake || 0)
+          .mul(Big(10).pow(18))
+          .toFixed(0),
+      ],
+    }));
+    calls.push({
+      address: rewardAddress,
+      name: "pendingRewards",
+      params: [account, unitrollerAddress],
+    });
+    multicall({
+      abi: REWARD_PRIME_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        res.forEach((item, i) => {
+          if (i === res.length - 1) {
+            count++;
+            formatedData("getRewarsApy data");
+            _accountRewards = Big(
+              ethers.utils.formatUnits(item[2]?._hex || 0, rewardToken.decimals)
+            );
+            return;
+          }
+          const data = item[0];
+          const supplyApr = data[0];
+          const borrowApr = data[1];
+          const supplyApy = Big(supplyApr?.toString() || 0)
+            .div(10000)
+            .div(365)
+            .plus(1)
+            .pow(365)
+            .minus(1)
+            .mul(100)
+            .toFixed(2);
+          const borrowApy = Big(borrowApr?.toString() || 0)
+            .div(10000)
+            .div(365)
+            .plus(1)
+            .pow(365)
+            .minus(1)
+            .mul(100)
+            .toFixed(2);
+          _rewardsPrimeApy[rewardMarkets[i]] = {
+            supplyApy,
+            borrowApy,
+          };
+        });
+      })
+      .catch((err) => {
+        console.log("err - 599", err);
+      });
+  };
+
   getUnitrollerData();
   getUnderlyPrice();
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
+  getRewarsApy();
 }, [update, account]);
