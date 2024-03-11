@@ -226,9 +226,9 @@ if (state.chainId !== 1 || state.chainId !== 1101) {
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
         props={{
-          chainId: 1,
-          chainName: "Ethereum",
-          wrongNetworkTips: "To proceed, kindly switch to Ethereum Chain.",
+          chainId: 1101,
+          chainName: "Polygon zkEVM",
+          wrongNetworkTips: "To proceed, kindly switch to Polygon zkEVM Chain.",
           isWrongNetwork: true,
         }}
       />
