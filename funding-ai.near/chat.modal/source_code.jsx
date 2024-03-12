@@ -40,9 +40,12 @@ const Description = styled.div`
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
     border-radius:15px;
+    display:flex;
+    flex-direction:row;
+    gap:20px;
   }
   .tag{
-    color:white;
+    font-weight:600;
     border:1px solid white;
     padding:5px 10px;
     box-shadow: 2px 5px white;
