@@ -132,10 +132,10 @@ const SearchBar = styled.div`
     border:none;
     background:none;
     font-size:22px;
-    @media screen and (max-width:768px){
-      width:30px;
-      height:30px;
-    }
+    // @media screen and (max-width:768px){
+    //   width:30px;
+    //   height:30px;
+    // }
   }
   .icon-arrow{
     position:absolute;
