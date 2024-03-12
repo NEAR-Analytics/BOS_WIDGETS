@@ -325,7 +325,7 @@ return (
             <div class="title">Team Member</div>
             <div class="teams">
               {teams.map((team) => (
-                <div class="d-flex justify-content-center flex-column">
+                <div class="d-flex justify-content-center flex-column gap-3">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
