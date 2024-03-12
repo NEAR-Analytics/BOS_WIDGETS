@@ -112,6 +112,14 @@ const Description = styled.div`
     box-shadow: 0px 2px white;
     max-height:50px;
   }
+  .itemTeam{
+    @media screen and (max-width:768px){
+      display:flex;
+      flex-direction:row;
+      gap:10px
+      align-items:center;
+    }
+  }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 10px;
@@ -121,8 +129,9 @@ const Description = styled.div`
     justify-content:center;
     gap:20px;
     @media screen and (max-width:768px){
-      ${setHeight("100px")}
-      ${setWidth("100px")}
+      ${setHeight("50px")}
+      ${setWidth("50px")}
+      flex-direction:column;
     }
   }
   .team{
@@ -362,7 +371,7 @@ return (
             <div class="title">Team Member</div>
             <div class="teams">
               {teams.map((team) => (
-                <div class="d-flex justify-content-center flex-column gap-3">
+                <div class="itemTeam d-flex justify-content-center flex-column gap-3">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
