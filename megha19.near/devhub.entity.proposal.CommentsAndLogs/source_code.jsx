@@ -13,6 +13,11 @@ const Wrapper = styled.div`
     background-color: var(--bs-border-color);
     z-index: 1;
   }
+
+  .text-wrap {
+    overflow: hidden;
+    white-space: normal;
+  }
 `;
 
 const CommentContainer = styled.div`
@@ -33,44 +38,28 @@ const Header = styled.div`
 `;
 
 // check snapshot history all keys and values for differences
-function getChangedKeysWithValues(original, modified) {
-  function compareObjects(originalObj, modifiedObj) {
-    const changedKeys = Object.keys(originalObj).reduce((keys, key) => {
-      if (originalObj.hasOwnProperty(key)) {
-        if (
-          typeof originalObj[key] === "object" &&
-          !Array.isArray(originalObj[key])
-        ) {
-          return keys.concat(
-            compareObjects(originalObj[key], modifiedObj[key])
-          );
-        } else if (Array.isArray(originalObj[key])) {
-          if (
-            JSON.stringify(originalObj[key]) !==
-            JSON.stringify(modifiedObj[key])
-          ) {
-            keys.push({
-              key,
-              originalValue: originalObj[key],
-              modifiedValue: modifiedObj[key],
-            });
-          }
+function getDifferentKeysWithValues(obj1, obj2) {
+  return Object.keys(obj1)
+    .filter((key) => {
+      if (key !== "editor_id" && obj2.hasOwnProperty(key)) {
+        const value1 = obj1[key];
+        const value2 = obj2[key];
+
+        if (typeof value1 === "object" && typeof value2 === "object") {
+          return JSON.stringify(value1) !== JSON.stringify(value2);
+        } else if (Array.isArray(value1) && Array.isArray(value2)) {
+          return JSON.stringify(value1) !== JSON.stringify(value2);
         } else {
-          if (originalObj[key] !== modifiedObj[key]) {
-            keys.push({
-              key,
-              originalValue: originalObj[key],
-              modifiedValue: modifiedObj[key],
-            });
-          }
+          return value1 !== value2;
         }
       }
-      return keys;
-    }, []);
-    return changedKeys;
-  }
-
-  return compareObjects(original, modified);
+      return false;
+    })
+    .map((key) => ({
+      key,
+      originalValue: obj1[key],
+      modifiedValue: obj2[key],
+    }));
 }
 
 State.init({
@@ -89,7 +78,7 @@ function sortTimelineAndComments() {
         const startingPoint = snapshotHistory[index]; // Set comparison to the previous item
         return {
           editorId: item.editor_id,
-          ...getChangedKeysWithValues(startingPoint, item),
+          ...getDifferentKeysWithValues(startingPoint, item),
         };
       });
     State.update({ changedKeysListWithValues });
@@ -139,12 +128,14 @@ const Comment = ({ commentItem }) => {
   return (
     <div style={{ zIndex: 99, background: "white" }}>
       <div className="d-flex gap-2 flex-1">
-        <Widget
-          src={"megha19.near/widget/devhub.entity.proposal.Profile"}
-          props={{
-            accountId: accountId,
-          }}
-        />
+        <div className="d-none d-sm-flex">
+          <Widget
+            src={"megha19.near/widget/devhub.entity.proposal.Profile"}
+            props={{
+              accountId: accountId,
+            }}
+          />
+        </div>
         <CommentContainer className="rounded-2 flex-1">
           <Header className="d-flex gap-3 align-items-center p-2 px-3">
             <div>
@@ -208,28 +199,162 @@ const Comment = ({ commentItem }) => {
   );
 };
 
-const Log = ({ timestamp }) => {
-  const updatedData = state.changedKeysListWithValues.find((obj) => {
-    return Object.values(obj).some((value) => {
-      return value && parseFloat(value.modifiedValue / 1e6) === timestamp;
-    });
-  });
-  if (updatedData) {
-    return (
-      <div
-        style={{ zIndex: 99, background: "white", marginLeft: 50 }}
-        className="d-flex gap-3 align-items-center"
-      >
-        <img
-          src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
-          height={30}
-        />
-        <div className="d-flex gap-2 flex-1">
-          {updatedData.editorId} changed{" "}
-        </div>
-      </div>
-    );
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
+  const oldValue = originalValue[timeline];
+  const newValue = modifiedValue[timeline];
+  switch (timeline) {
+    case "status":
+      return (
+        <span>
+          moved proposal from {capitalizeFirstLetter(oldValue)} to{" "}
+          {capitalizeFirstLetter(newValue)} stage
+        </span>
+      );
+    case "sponsor_requested_review":
+      return !oldValue && newValue && <span>completed review </span>;
+    case "reviewer_completed_attestation":
+      return !oldValue && newValue && <span>completed attestation </span>;
+    case "reviewer_completed_attestation":
+      return !oldValue && newValue && <span>completed attestation </span>;
+    case "test_transaction_sent":
+      return (
+        !oldValue &&
+        newValue && <span>successfully sent test transaction </span>
+      );
+    case "request_for_trustees_created":
+      return (
+        !oldValue &&
+        newValue && <span>successfully created request for trustees </span>
+      );
+    default:
+      return null;
   }
+}
+
+const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
+  switch (key) {
+    case "name":
+    case "summary":
+    case "description":
+      return <span>changed {key}</span>;
+    case "category":
+      return (
+        <span>
+          changed category from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "linked_proposals":
+      return <span>updated linked proposals</span>;
+    case "requested_sponsorship_usd_amount":
+      return (
+        <span>
+          changed sponsorship amount from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "requested_sponsorship_paid_in_currency":
+      return (
+        <span>
+          changed sponsorship currency from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "receiver_account":
+      return (
+        <span>
+          changed receiver account from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "supervisor":
+      return !originalValue && modifiedValue ? (
+        <span>added {modifiedValue} as supervisor</span>
+      ) : (
+        <span>
+          changed receiver account from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "requested_sponsor":
+      return (
+        <span>
+          changed sponsor from {originalValue} to {modifiedValue}
+        </span>
+      );
+    case "timeline": {
+      const modifiedKeys = Object.keys(modifiedValue);
+      const originalKeys = Object.keys(originalValue);
+      return modifiedKeys.map((i, index) => {
+        const text = parseTimelineKeyAndValue(i, originalValue, modifiedValue);
+        return (
+          <span>
+            {text}
+            {text &&
+              originalKeys.length > 1 &&
+              index < modifiedKeys.length - 1 &&
+              ", "}
+          </span>
+        );
+      });
+    }
+    default:
+      return null;
+  }
+};
+
+const LogIconContainer = styled.div`
+  margin-left: 50px;
+  z-index: 99;
+
+  @media screen and (max-width: 768px) {
+    margin-left: 10px;
+  }
+`;
+
+const Log = ({ timestamp }) => {
+  const updatedData = useMemo(
+    () =>
+      state.changedKeysListWithValues.find((obj) =>
+        Object.values(obj).some(
+          (value) =>
+            value && parseFloat(value.modifiedValue / 1e6) === timestamp
+        )
+      ),
+    [state.changedKeysListWithValues, timestamp]
+  );
+
+  const editorId = updatedData.editorId;
+  const valuesArray = Object.values(updatedData ?? {});
+  // if valuesArray length is 2 that means it only has timestamp and editorId
+  if (!updatedData || valuesArray.length === 2) {
+    return <></>;
+  }
+
+  return (
+    <LogIconContainer className="d-flex gap-3 align-items-center">
+      <img
+        src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
+        height={30}
+      />
+      <div className="flex-1 w-100 text-wrap">
+        {editorId}
+        {valuesArray.map((i, index) => {
+          if (i.key && i.key !== "timestamp") {
+            return (
+              <span>
+                {parseProposalKeyAndValue(
+                  i.key,
+                  i.modifiedValue,
+                  i.originalValue
+                )}
+                {index < valuesArray.length - 2 ? ", " : "."}
+              </span>
+            );
+          }
+        })}
+      </div>
+    </LogIconContainer>
+  );
 };
 
 if (Array.isArray(state.data)) {
@@ -237,14 +362,14 @@ if (Array.isArray(state.data)) {
     <Wrapper>
       <div className="log-line"> </div>
       <div className="d-flex flex-column gap-4">
-        {state.data.map((i) => {
+        {state.data.map((i, index) => {
           if (i.blockHeight) {
             const item = state.socialComments.find(
               (t) => t.blockHeight === i.blockHeight
             );
             return <Comment commentItem={item} />;
           } else {
-            // return <Log timestamp={i.timestamp} />;
+            return <Log timestamp={i.timestamp} key={index} />;
           }
         })}
       </div>
