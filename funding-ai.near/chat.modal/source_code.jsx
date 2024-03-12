@@ -274,7 +274,7 @@ return (
   <>
     {profileData.length > 0 &&
       profileData.map((dt) => (
-        <>
+        <div class="item">
           <Checkbox
             class="form-check-input"
             key={dt.accountId}
@@ -284,7 +284,7 @@ return (
             isChecked={isCheck.includes(dt.accountId)}
           />
           <div
-            class="item"
+            class="itemRight"
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
             onClick={() => hanleClick(dt, dt.accountId)}
@@ -307,7 +307,7 @@ return (
               </div>
             </div>
           </div>
-        </>
+        </div>
       ))}
     <div
       class="modal fade"
