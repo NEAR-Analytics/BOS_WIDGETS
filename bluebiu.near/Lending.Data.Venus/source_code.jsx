@@ -353,43 +353,41 @@ useEffect(() => {
 
       let distributionApy = [];
 
-      if (_rewardsPrimeApy[market.address]) {
-        const distributionSupplyApy = marketSupplyUsd.eq(0)
-          ? 0
-          : Big(_rewardsSupplyRate[market.address])
-              .mul(20 * 60 * 24)
-              .mul(12.28)
-              .div(marketSupplyUsd)
-              .plus(1)
-              .pow(365)
-              .minus(1)
-              .mul(100)
-              .plus(_rewardsPrimeApy[market.address].supplyApy)
-              .toFixed(2);
+      const distributionSupplyApy = marketSupplyUsd.eq(0)
+        ? 0
+        : Big(_rewardsSupplyRate[market.address])
+            .mul(20 * 60 * 24)
+            .mul(12.28)
+            .div(marketSupplyUsd)
+            .plus(1)
+            .pow(365)
+            .minus(1)
+            .mul(100)
+            .plus(_rewardsPrimeApy[market.address]?.supplyApy || 0)
+            .toFixed(2);
 
-        const distributionBorrowApy = marketBorrowUsd.eq(0)
-          ? 0
-          : Big(_rewardsBorrowRate[market.address])
-              .mul(20 * 60 * 24)
-              .mul(rewardPrice)
-              .div(marketBorrowUsd)
-              .plus(1)
-              .pow(365)
-              .minus(1)
-              .mul(100)
-              .plus(_rewardsPrimeApy[market.address].borrowApy)
-              .toFixed(2);
+      const distributionBorrowApy = marketBorrowUsd.eq(0)
+        ? 0
+        : Big(_rewardsBorrowRate[market.address])
+            .mul(20 * 60 * 24)
+            .mul(rewardPrice)
+            .div(marketBorrowUsd)
+            .plus(1)
+            .pow(365)
+            .minus(1)
+            .mul(100)
+            .plus(_rewardsPrimeApy[market.address]?.borrowApy || 0)
+            .toFixed(2);
 
-        totalAccountDistributionApy = totalAccountDistributionApy
-          .plus(distributionSupplyApy)
-          .plus(distributionBorrowApy);
+      totalAccountDistributionApy = totalAccountDistributionApy
+        .plus(distributionSupplyApy)
+        .plus(distributionBorrowApy);
 
-        distributionApy.push({
-          ...rewardToken,
-          supply: distributionSupplyApy + "%",
-          borrow: distributionBorrowApy + "%",
-        });
-      }
+      distributionApy.push({
+        ...rewardToken,
+        supply: distributionSupplyApy + "%",
+        borrow: distributionBorrowApy + "%",
+      });
 
       markets[market.address] = {
         ...market,
@@ -760,7 +758,10 @@ useEffect(() => {
             count++;
             formatedData("getRewarsApy data");
             _accountRewards = Big(
-              ethers.utils.formatUnits(item[2]?._hex || 0, rewardToken.decimals)
+              ethers.utils.formatUnits(
+                item ? item[0][2] || 0 : 0,
+                rewardToken.decimals
+              )
             );
             return;
           }
