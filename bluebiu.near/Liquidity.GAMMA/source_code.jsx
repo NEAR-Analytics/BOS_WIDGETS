@@ -28,6 +28,10 @@ const SvgIcon = styled.div`
     }
   }
 `
+const StyledDashedUndeline = styled.div`
+  padding: 2px 0;
+  border-bottom: 1px dashed #979ABE;
+`
 const TdTxt = styled.div`
   color: #FFF;
   font-family: Gantari;
@@ -307,6 +311,14 @@ const columnList = [{
   width: '10%',
   key: 'totalApr',
   label: 'Total APR',
+  type: 'slot',
+  render: (data) => {
+    return (
+      <StyledDashedUndeline>
+        <TdTxt>{data.totalApr}</TdTxt>
+      </StyledDashedUndeline>
+    )
+  }
 }, {
   width: '10%',
   direction: 'column',
@@ -370,6 +382,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         toast,
         prices,
         columnList,
+        userPositions: state.userPositions,
         dataIndex: state.dataIndex,
         onChangeDataIndex: handleChangeDataIndex,
         dataList: state.filterList,
