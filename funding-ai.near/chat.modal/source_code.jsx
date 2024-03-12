@@ -11,6 +11,8 @@ const [width, setWidth] = useState("160px");
 
 const isCheck = props.isCheck || "";
 const setIsCheck = props.setIsCheck;
+const setTwitter = props.setTwitter;
+const twitters = props.twitters || "";
 
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
@@ -54,6 +56,18 @@ const handleClick = (e) => {
   setIsCheck([...isCheck, id]);
   if (!checked) {
     setIsCheck(isCheck.filter((item) => item !== id));
+    profileData.forEach(
+      ({
+        accountId,
+        data: {
+          linktree: { twitter },
+        },
+      }) => {
+        if (id == accountId) {
+          setTwitter([...twitters, twitter]);
+        }
+      }
+    );
   }
 };
 
