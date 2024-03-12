@@ -231,8 +231,8 @@ const ListResult = styled.div`
 const Ideas = styled.div`
 
   // width:50%;
-  // display:flex;
-  // justify-content:center;
+  display:flex;
+  justify-content:center;
   // flex-direction:column;
   @media screen and (max-width:768px){
     width:75%;
