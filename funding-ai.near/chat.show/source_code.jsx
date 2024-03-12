@@ -266,6 +266,46 @@ const Ideas = styled.div`
   }
 `;
 
+const Footer = styled.div`
+  border-top:1px solid #e0e7ff;
+  padding:10px 20px;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+  @media screen and (max-width:768px){
+    flex-direction:column;
+    gap:10px;
+  }
+  .amount{
+    padding:5px 20px;
+    outline:none;
+    border:1px solid #c7d2fe;
+    border-radius:15px;
+    :focus{
+      border: 1px solid #4f46e5;
+    }
+  }
+  .footerRight{
+    @media screen and (max-width:768px){
+      display:flex;
+      justify-content:flex-end;
+    }
+  }
+  .btn-donate{
+    background:#4f46e5;
+    color:white;
+    border-radius:15px;
+    font-weight:600;
+    border:none;
+    box-shadow:2px 2px #3730a3;
+    padding:10px 20px;
+    @media screen and (max-width:768px){
+      font-size: 13px;
+    }
+  }
+`;
+
 const [value, setValue] = useState(props.search || "public good");
 const requestOptions = {
   method: "POST",
@@ -438,6 +478,26 @@ return (
                 }}
               />
             </div>
+            <Footer>
+              <input type="text" class="amount" />
+              <div
+                class="
+              "
+              >
+                <button class="btn-donate">
+                  Fund all project
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
+                  </svg>
+                </button>
+              </div>
+            </Footer>
           </ListResult>
         </View>
       </Content>
