@@ -1,5 +1,11 @@
 const profileData = props.profileData || [];
-
+const [name, setName] = useState("");
+const [image, setImage] = useState("");
+const [description, setDescription] = useState("");
+const [tags, setTags] = useState([]);
+const hanleClick = (data, accountId) => {
+  console.log(data + accountId);
+};
 return (
   <>
     {profileData.length > 0 &&
@@ -8,6 +14,7 @@ return (
           class="item"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
+          onClick={() => hanleClick(dt, dt.accountId)}
         >
           {dt.data.image.url ? (
             <img class="image" src={dt.data.image.url} alt="profile" />
