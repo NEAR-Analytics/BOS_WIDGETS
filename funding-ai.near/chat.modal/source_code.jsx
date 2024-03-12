@@ -173,6 +173,9 @@ const Description = styled.div`
     box-shadow: 0px 2px white;
     max-height:50px;
     margin-left:20px;
+    &:hover {
+      text-decoration: none;
+    }
     @media screen and (max-width:768px){
       font-size:13px;
     }
@@ -402,7 +405,13 @@ return (
               {teams &&
                 teams.map((team) => (
                   <div class="itemTeam">
-                    <div class="team">@{team}</div>
+                    <a
+                      href={`https://near.social/mob.near/widget/ProfilePage?accountId=${team}`}
+                      target="_blank"
+                      class="team"
+                    >
+                      @{team}
+                    </a>
                   </div>
                 ))}
             </div>
