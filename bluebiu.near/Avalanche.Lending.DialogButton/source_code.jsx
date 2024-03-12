@@ -233,14 +233,9 @@ const getAllowance = () => {
   });
 };
 
-if (data.underlyingToken.address === "native") {
-  if (["Deposit", "Repay"].includes(actionText)) {
-    State.update({ isApproved: true });
-    onLoad?.(true);
-  }
-  // if (["Withdraw", "Borrow"].includes(actionText)) {
-  //   getAllowance();
-  // }
+if (data.underlyingToken.isNative) {
+  State.update({ isApproved: true });
+  onLoad?.(true);
 } else {
   if (["Deposit", "Repay"].includes(actionText)) {
     getAllowance();
@@ -259,7 +254,6 @@ if (!state.isApproved) {
     State.update({
       approving: true,
     });
-
     const TokenContract = new ethers.Contract(
       tokenAddr,
       ERC20_ABI,
