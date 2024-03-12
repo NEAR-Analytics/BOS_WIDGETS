@@ -54,6 +54,18 @@ const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
 const handleClick = (e) => {
   const { id, checked } = e.target;
   setIsCheck([...isCheck, id]);
+  profileData.forEach(
+    ({
+      accountId,
+      data: {
+        linktree: { twitter },
+      },
+    }) => {
+      if (id == accountId) {
+        setTwitter([...twitters, twitter]);
+      }
+    }
+  );
   if (!checked) {
     setIsCheck(isCheck.filter((item) => item !== id));
     profileData.forEach(
@@ -64,7 +76,7 @@ const handleClick = (e) => {
         },
       }) => {
         if (id == accountId) {
-          setTwitter([...twitters, twitter]);
+          setTwitter(twitters.filter((item) => item !== twitter));
         }
       }
     );
