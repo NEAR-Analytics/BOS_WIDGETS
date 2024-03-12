@@ -205,6 +205,15 @@ const run = () => {
 
             if (tool) {
               /** TODO: Implement tool execution */
+              // The execution of tools can only be synchronous for now
+
+              const toolResult = tool.callback(action?.input);
+
+              if (toolResult) {
+                _scratchPad += `${OBSERVATION_PREFIX} tool used "${action.tool}"\n${OBSERVATION_PREFIX} ${toolResult}\n`;
+              } else {
+                /** DO NOTHING FOR NOW */
+              }
             } else {
               _scratchPad += `${OBSERVATION_PREFIX} ${action.tool} does not exist\n`;
             }
