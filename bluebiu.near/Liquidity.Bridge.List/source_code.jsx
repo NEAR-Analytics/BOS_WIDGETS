@@ -152,6 +152,7 @@ const {
   addresses,
   addAction,
   proxyAddress,
+  userPositions,
   ICON_VAULT_MAP
 } = props
 
@@ -208,6 +209,7 @@ return (
                     addresses,
                     addAction,
                     proxyAddress,
+                    userPositions,
                     ICON_VAULT_MAP
                   }}
                 />}
