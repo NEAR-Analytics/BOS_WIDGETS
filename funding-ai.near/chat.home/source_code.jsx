@@ -125,7 +125,7 @@ const SearchBar = styled.div`
     cursor:default;
     @media screen and (max-width:768px){
       top:13px;
-      right:15px;
+      
     }
   }
   .button-arrow{
