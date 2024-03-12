@@ -1,7 +1,7 @@
 let contractId = "v1.shillgpt.near";
 let accountId = context.accountId;
 let debugMode = !!props.debug ?? false;
-const MAX_MESSAGE_LENGTH = 400;
+const MAX_MESSAGE_LENGTH = 600;
 
 if (props.referral_id && props.referral_id !== Storage.get("referral_id")) {
   Storage.set("referral_id", props.referral_id);
@@ -639,7 +639,7 @@ console.log("pools", pools, user_pools);
 
 let tokenOutBalance = null;
 if (state.tokenOut && user_pools) {
-  let tokenOutPool = user_pools.filter((p) => p[0] == state.tokenOut);
+  let tokenOutPool = (user_pools ?? []).filter((p) => p[0] == state.tokenOut);
   if (tokenOutPool.length) {
     tokenOutBalance = getFtBalance(
       tokenOutPool[0]?.[0],
@@ -1639,8 +1639,8 @@ return (
               </div>
             </div>
 
-            {(user_pools.filter((p) => p[1].user_balance > 0) ?? []).length >
-              0 && (
+            {((user_pools ?? []).filter((p) => p[1].user_balance > 0) ?? [])
+              .length > 0 && (
               <div class="col">
                 <div id="user-pools" class="card  mb-3">
                   <div class="card-header">
