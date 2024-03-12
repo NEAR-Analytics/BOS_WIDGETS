@@ -150,7 +150,7 @@ const ListResult = styled.div`
       margin-left:38px;
       gap:10px;
       @media screen and (max-width:768px){
-        margin-left:35px;
+        margin-left:32px;
       }
     }
     .header{
