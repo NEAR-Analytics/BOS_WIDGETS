@@ -275,14 +275,16 @@ return (
     {profileData.length > 0 &&
       profileData.map((dt) => (
         <div class="item">
-          <Checkbox
-            class="form-check-input itemLeft"
-            key={dt.accountId}
-            type="checkbox"
-            id={dt.accountId}
-            handleClick={handleClick}
-            isChecked={isCheck.includes(dt.accountId)}
-          />
+          <div class="itemLeft">
+            <Checkbox
+              class="form-check-input"
+              key={dt.accountId}
+              type="checkbox"
+              id={dt.accountId}
+              handleClick={handleClick}
+              isChecked={isCheck.includes(dt.accountId)}
+            />
+          </div>
           <div
             class="itemRight"
             data-bs-toggle="modal"
