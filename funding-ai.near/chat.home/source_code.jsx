@@ -134,7 +134,8 @@ const SearchBar = styled.div`
     background:#5d76cb;
     display:flex;
     justify-content:center;
-    margin:auto;
+    margin:1rem auto;
+    align-items:center;
     @media screen and (max-width:768px){
       border-radius: 50px;
       width:30px;
