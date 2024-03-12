@@ -77,6 +77,8 @@ const SearchBar = styled.div`
     border: 2px solid #c7d2fe;
     padding: 10px 20px;
     outline:none;
+    color:#3730a3;
+    font-weight:500;
     :focus{
       border: 2px solid #3730a3;
     }
@@ -116,7 +118,7 @@ const SearchBar = styled.div`
     }
   }
   .icon-arrow{
-    position:absolute;
+    //position:absolute;
     right:5px;
     top:6px;
   }
@@ -285,11 +287,13 @@ return (
             <input
               value={value}
               onChange={hanleInput}
+              placeholder="What would you like to fund?"
               class="search"
               type="text"
             />
             <button class="arrow" type="submit">
               <svg
+                class="icon-arrow"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
