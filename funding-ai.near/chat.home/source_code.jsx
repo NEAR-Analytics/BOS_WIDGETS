@@ -326,6 +326,50 @@ return (
                   <div>
                     <button
                       onClick={() => {
+                        setValue("nft");
+                        setIsShow(true);
+                      }}
+                      class="btn-idea"
+                    >
+                      ART
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        setValue("nft");
+                        setIsShow(true);
+                      }}
+                      class="btn-idea"
+                    >
+                      Education
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        setValue("nft");
+                        setIsShow(true);
+                      }}
+                      class="btn-idea"
+                    >
+                      Nation
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        setValue("nft");
+                        setIsShow(true);
+                      }}
+                      class="btn-idea"
+                    >
+                      MEME
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
                         setValue("social impact");
                         setIsShow(true);
                       }}
