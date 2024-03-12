@@ -13,16 +13,21 @@ const hanleClick = (data, accountId) => {
   }
 };
 const Header = styled.div`
-  .header{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    gap:10px;
+    border-bottom:1px solid gray;
+  .navLeft{
     display:flex;
     gap:10px;
     flex-direction:row;
   }
 `;
 const Description = styled.div`
-display:flex;
-flex-direction:column;
-gap:20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
   .desc{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
   }
@@ -76,19 +81,21 @@ return (
     >
       <div class="modal-dialog">
         <div class="modal-content">
-          <Header class="modal-header header">
-            {image.startsWith("https") ? (
-              <img class="image" src={image} alt="profile" />
-            ) : (
-              <img
-                class="image"
-                src={`https://ipfs.near.social/ipfs/` + image}
-                alt="profile"
-              />
-            )}
-            <h5 class="modal-title" id="staticBackdropLabel">
-              {name}
-            </h5>
+          <Header>
+            <div class="navLeft">
+              {image.startsWith("https") ? (
+                <img class="image" src={image} alt="profile" />
+              ) : (
+                <img
+                  class="image"
+                  src={`https://ipfs.near.social/ipfs/` + image}
+                  alt="profile"
+                />
+              )}
+              <h5 class="modal-title" id="staticBackdropLabel">
+                {name}
+              </h5>
+            </div>
             <button
               type="button"
               class="btn-close"
