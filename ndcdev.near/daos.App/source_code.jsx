@@ -83,7 +83,7 @@ function Page() {
       else
         return (
           <Widget
-            src={`ndcdev.near/widget/daos.Pages.Dao`}
+            src={`ndcdev.near/widget/daos.Pages.Daos.Index`}
             props={{ ...props }}
           />
         );
@@ -97,7 +97,12 @@ function Page() {
       );
     }
     case "communities": {
-      return <Widget src={`ndcdev.near/widget/daos.Pages.Communities`} />;
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Daos.Communities`}
+          props={{ ...props }}
+        />
+      );
     }
     case "create_proposal": {
       return (
