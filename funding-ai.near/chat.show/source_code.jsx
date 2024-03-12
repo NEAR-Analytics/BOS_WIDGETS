@@ -285,6 +285,9 @@ const Footer = styled.div`
     :focus{
       border: 1px solid #4f46e5;
     }
+    @media screen and (max-width:768px){
+      width:100%;
+    }
   }
   .footerRight{
     @media screen and (max-width:768px){
@@ -480,10 +483,7 @@ return (
             </div>
             <Footer>
               <input type="text" class="amount" />
-              <div
-                class="
-              "
-              >
+              <div class="footerRight">
                 <button class="btn-donate">
                   Fund all project
                   <svg
