@@ -147,7 +147,7 @@ const ListResult = styled.div`
       flex-direction:row;
       align-items:center;
       margin-top:10px;
-      margin-left:35px;
+      margin-left:38px;
       gap:10px;
     }
     .header{
@@ -429,7 +429,13 @@ return (
             <div class="listItem">
               <Widget
                 src="funding-ai.near/widget/chat.modal"
-                props={{ profileData }}
+                props={{
+                  profileData,
+                  isCheck,
+                  setIsCheck: (value) => {
+                    setIsCheck(value);
+                  },
+                }}
               />
             </div>
           </ListResult>
