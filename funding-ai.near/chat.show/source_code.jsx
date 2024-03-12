@@ -109,6 +109,16 @@ const SearchBar = styled.div`
     outline:none;
     border:none;
     background:#5d76cb;
+    @media screen and (max-width:768px){
+      border-radius: 50px;
+      width:30px;
+      height:30px;
+    }
+  }
+  .icon-arrow{
+    position:absolute;
+    right:5px;
+    top:6px;
   }
 `;
 
