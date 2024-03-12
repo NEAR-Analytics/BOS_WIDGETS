@@ -5,8 +5,8 @@ const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [tags, setTags] = useState([]);
 const [teams, setTeams] = useState([]);
-const [height, setHeight] = useState("100px");
-const [width, setWidth] = useState("100px");
+const [height, setHeight] = useState("200px");
+const [width, setWidth] = useState("200px");
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
     setAccountId(accountId);
@@ -73,7 +73,7 @@ const Description = styled.div`
   }
   .tag{
     font-weight:600;
-    border:1px solid white;
+    border:2px solid white;
     padding:5px 10px;
     box-shadow: 2px 2px white;
     max-height:50px;
@@ -87,8 +87,8 @@ const Description = styled.div`
     justify-content:center;
     gap:20px;
     @media screen and (max-width:768px){
-      ${setHeight("50px")}
-      ${setWidth("50px")}
+      ${setHeight("100px")}
+      ${setWidth("100px")}
     }
   }
   .team{
@@ -198,7 +198,7 @@ return (
             <div class="title">Team Member</div>
             <div class="teams">
               {teams.map((team) => (
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center flex-col">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
