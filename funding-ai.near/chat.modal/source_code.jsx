@@ -11,8 +11,9 @@ const hanleClick = (data, accountId) => {
     setName(data.data.name);
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
-    console.log(data.data.tags);
+    console.log(data.data.team);
     if (data.data.tags) setTags(Object.keys(data.data.tags).flat());
+    if (data.data.team) setTeams(Object.keys(data.data.team).flat());
   }
 };
 const Header = styled.div`
@@ -30,7 +31,7 @@ const Header = styled.div`
   .title{
     display:flex;
     flex-direction:column;
-    gap:5px;
+    gap:2px;
   }
   .id{
     font-size:14px;
@@ -149,16 +150,19 @@ return (
             </div>
           </Header>
           <Description class="modal-body">
-            <div>Overview</div>
+            <div class="title">Overview</div>
             <div class="desc">{description}</div>
-            <div>Tags</div>
+            <div class="title">Tags</div>
             <div class="tags">
               {tags.map((tag) => (
                 <div class="tag">{tag}</div>
               ))}
             </div>
-            <div>Team Member</div>
-            <div>Social</div>
+            <div class="title">Team Member</div>
+            {teams.map((team) => (
+              <div>{team}</div>
+            ))}
+            <div class="title">Social</div>
           </Description>
           <div class="modal-footer">
             <button
