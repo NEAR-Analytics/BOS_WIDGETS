@@ -9,7 +9,8 @@ const hanleClick = (data, accountId) => {
     setName(data.data.name);
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
-    setTeams(Object.keys(data.data.tags).flat());
+    console.log(data.data.tags);
+    setTags(Object.keys(data.data.tags).flat());
   }
 };
 const Header = styled.div`
@@ -39,6 +40,12 @@ const Description = styled.div`
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
     border-radius:15px;
+  }
+  .tag{
+    color:white;
+    border:1px solid white;
+    padding:5px 10px;
+    box-shadow: 2px 5px white;
   }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
@@ -118,9 +125,11 @@ return (
           </Header>
           <Description class="modal-body">
             <div class="desc">{description}</div>
-            {teams.map((team) => (
-              <div class="teams">{team}</div>
-            ))}
+            <div class="tags">
+              {tags.map((tag) => (
+                <div class="tag">{tag}</div>
+              ))}
+            </div>
           </Description>
           <div class="modal-footer">
             <button
