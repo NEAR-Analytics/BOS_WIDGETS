@@ -8,8 +8,7 @@ const [teams, setTeams] = useState([]);
 const [linktree, setLinkTree] = useState({});
 const [height, setHeight] = useState("160px");
 const [width, setWidth] = useState("160px");
-// const [isCheckAll, setIsCheckAll] = useState(false);
-// const [isCheck, setIsCheck] = useState([]);
+
 const isCheck = props.isCheck || "";
 const setIsCheck = props.setIsCheck;
 
@@ -338,7 +337,7 @@ return (
         <div class="modal-content">
           <Header>
             <div class="navLeft">
-              {image.startsWith("https") ? (
+              {image && image.startsWith("https") ? (
                 <img class="image" src={image} alt="profile" />
               ) : (
                 <img
@@ -368,53 +367,53 @@ return (
             <div class="desc">{description}</div>
             <div class="title">Tags</div>
             <div class="tags">
-              {tags.map((tag) => (
-                <div class="tag">{tag}</div>
-              ))}
+              {tags && tags.map((tag) => <div class="tag">{tag}</div>)}
             </div>
             <div class="title">Team Member</div>
             <div class="teams">
-              {teams.map((team) => (
-                <div class="itemTeam">
-                  <Widget
-                    src="mob.near/widget/ProfileImage"
-                    props={{
-                      accountId: team,
-                      style: {
-                        width: width,
-                        height: height,
-                        border: `4px #dd3345 solid`,
-                        borderRadius: "50%",
-                      },
-                      className: "mb-2",
-                      imageClassName: "rounded-circle w-100 h-100 d-block",
-                      thumbnail: false,
-                      tooltip: true,
-                    }}
-                  />
-                  <div class="team">@{team}</div>
-                </div>
-              ))}
+              {teams &&
+                teams.map((team) => (
+                  <div class="itemTeam">
+                    <Widget
+                      src="mob.near/widget/ProfileImage"
+                      props={{
+                        accountId: team,
+                        style: {
+                          width: width,
+                          height: height,
+                          border: `4px #dd3345 solid`,
+                          borderRadius: "50%",
+                        },
+                        className: "mb-2",
+                        imageClassName: "rounded-circle w-100 h-100 d-block",
+                        thumbnail: false,
+                        tooltip: true,
+                      }}
+                    />
+                    <div class="team">@{team}</div>
+                  </div>
+                ))}
             </div>
             <div class="title">Social</div>
             <div class="social">
               <LinktreeContainer>
-                {Object.entries(linktree).map(([k, v], idx) => {
-                  return k in itemIconUrls && v ? (
-                    <LinktreeItemContainer
-                      href={fullUrls[k](v)}
-                      disabled={!v}
-                      onClick={(e) => {
-                        if (!v) {
-                          e.preventDefault();
-                        }
-                      }}
-                      target="_blank"
-                    >
-                      {itemIconUrls[k]}
-                    </LinktreeItemContainer>
-                  ) : null;
-                })}
+                {linktree &&
+                  Object.entries(linktree).map(([k, v], idx) => {
+                    return k in itemIconUrls && v ? (
+                      <LinktreeItemContainer
+                        href={fullUrls[k](v)}
+                        disabled={!v}
+                        onClick={(e) => {
+                          if (!v) {
+                            e.preventDefault();
+                          }
+                        }}
+                        target="_blank"
+                      >
+                        {itemIconUrls[k]}
+                      </LinktreeItemContainer>
+                    ) : null;
+                  })}
                 <LinktreeItemContainer
                   target="_blank"
                   href={`https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`}
