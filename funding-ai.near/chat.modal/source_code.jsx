@@ -126,6 +126,7 @@ const Description = styled.div`
     display:flex;
     flex-direction:row;
     gap:20px;
+    flex-wrap:wrap;
     @media screen and (max-width:768px){
       flex-wrap:wrap;
     }
@@ -153,14 +154,14 @@ const Description = styled.div`
     padding: 10px 10px;
     border-radius:15px;
     display:flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-content:center;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     gap:20px;
     @media screen and (max-width:768px){
       ${setHeight("50px")}
       ${setWidth("50px")}
-      flex-direction:column;
+      flex-direction: column;
     }
   }
   .team{
@@ -170,7 +171,7 @@ const Description = styled.div`
     border-radius:5px;
     box-shadow: 0px 2px white;
     max-height:50px;
-    margin-left:-20px;
+    margin-left:20px;
     @media screen and (max-width:768px){
       font-size:13px;
     }
