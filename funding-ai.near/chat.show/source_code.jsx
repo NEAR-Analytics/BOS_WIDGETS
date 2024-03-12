@@ -381,7 +381,7 @@ const handleDonate = () => {
   console.log("Donate is pending!!!");
   const transactions = [];
   isCheck &&
-    Object.entries(isCheck).forEach((projectId) => {
+    Object.values(isCheck).forEach((projectId) => {
       const amountFloat = parseFloat(amount || 0);
       const amountIndivisible = new Big(amountFloat).mul(new Big(10).pow(24));
       const donateContractArgs = {};
