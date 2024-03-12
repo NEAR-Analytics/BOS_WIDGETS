@@ -174,7 +174,14 @@ const ListResult = styled.div`
         padding:10px 20px;
         text-decoration:none;
         max-height:90px;
-        cursor:pointer;
+    }
+    .itemRight{
+      display:flex;
+      flex-direction:row;
+      text-align:left;
+      align-items:center;
+      width:100%;
+      cursor:pointer;
     }
     .image{
         border-radius:50px;
