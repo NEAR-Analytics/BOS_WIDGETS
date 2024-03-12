@@ -28,6 +28,32 @@ const Wrapper = styled.div`
   padding: 48px;
 `;
 
+const ModalOverlay = styled.div`
+  display: ${({ isCollapsed }) => (isCollapsed ? "none" : "block")};
+  position: fixed;
+  z-index: 1050;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalBody = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 1055;
+  background: white;
+  border-radius: 5px;
+  width: 90%;
+  height: 90%;
+  overflow-y: auto;
+`;
+
 const buildPrompt = (tools, role, goal, backstory) => `
   You are ${role}.
   ${backstory}
@@ -165,7 +191,6 @@ const run = () => {
       const parsedResponse = parseMessageToStructuredFormatWithRegex(response);
 
       for (const activity of parsedResponse) {
-        console.log(activity);
         if (activity.type === "observation") {
           _scratchPad += `${OBSERVATION_PREFIX} ${activity.content}\n`;
         }
@@ -176,7 +201,6 @@ const run = () => {
 
         if (activity.type === "actions") {
           for (const action of activity.actions) {
-            console.log(action);
             const tool = toolToUse(action.tool);
 
             if (tool) {
@@ -210,115 +234,145 @@ useEffect(() => {
 }, [task]);
 
 return (
-  <Wrapper>
+  <>
     <button
       className="btn btn-dark w-100"
       onClick={() => setIsCollapsed(!isCollapsed)}
     >
-      {isCollapsed ? "Show" : "Hide"}
+      {isCollapsed ? role : ""}
     </button>
-    <div className={isCollapsed ? "collapse" : ""}>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              run();
-            }
-          }}
-          placeholder="What's your goal?"
-          autoFocus
-        />
+    <ModalOverlay
+      isCollapsed={isCollapsed}
+      onClick={() => setIsCollapsed(true)}
+    >
+      <ModalBody onClick={(e) => e.stopPropagation()}>
         <Widget
           src="near/widget/DIG.Button"
-          className="btn btn-dark w-100"
+          className="btn btn-dark"
           props={{
-            onClick: () => run(),
-            variant: "affirmative",
+            onClick: () => setIsCollapsed(true),
             fill: "solid",
-            size: "large",
-            label: "Submit",
+            size: "small",
+            label: "Close",
             style: {
-              borderTopLeftRadius: "0rem",
-              borderBottomLeftRadius: "0rem",
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              borderRadius: "100000px",
             },
           }}
         />
-      </div>
-
-      <div className="flex-fill overflow-auto px-4 py-2 space-y-2">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className="p-2 bg-light rounded shadow-sm d-flex flex-column mb-2"
-          >
-            <div className="fw-bold text-large">
-              {message.role === "assistant" ? "AutoAgent" : ""}
-            </div>
-            <div>
-              {message.role === "assistant" &&
-                message.activity.map((result, index) => {
-                  if (result.type === "actions") {
-                    return result.actions.map((action, index) => (
-                      <div
-                        key={index}
-                        className="text-sm d-flex flex-column mb-4"
-                      >
-                        <div key={index} className="text-sm">
-                          {action.tool} - {action.input}
-                        </div>
-                        {toolToUse(action.tool) && <button>Execute</button>}
-                      </div>
-                    ));
+        <Wrapper>
+          <div className={isCollapsed ? "collapse" : ""}>
+            <h1>{role}</h1>
+            <div className="input-group mb-3">
+              <input
+                type="text"
+                className="form-control"
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    run();
                   }
-                  if (result.type === "observation") {
-                    return (
-                      <div
-                        key={index}
-                        className="text-sm mb-4 d-flex flex-column"
-                      >
-                        <div className="fw-bold">Observation </div>
-                        {result.content}
-                      </div>
-                    );
-                  }
-                  if (result.type === "finalAnswer") {
-                    return (
-                      <div
-                        key={index}
-                        className="text-sm mb-4 d-flex flex-column"
-                      >
-                        <div className="fw-bold">Final Answer </div>
-                        {result.content}
-                      </div>
-                    );
-                  }
-                })}
-            </div>
-          </div>
-        ))}
-
-        {loading && (
-          <div key="loading" className={`d-flex align-items-center`}>
-            <div>
-              <span
-                className="spinner-grow spinner-grow-sm me-1"
-                role="status"
-                aria-hidden="true"
+                }}
+                placeholder="What's your goal?"
+                autoFocus
+              />
+              <Widget
+                src="near/widget/DIG.Button"
+                className="btn btn-dark w-100"
+                props={{
+                  onClick: () => run(),
+                  variant: "affirmative",
+                  fill: "solid",
+                  size: "large",
+                  label: "Submit",
+                  style: {
+                    borderTopLeftRadius: "0rem",
+                    borderBottomLeftRadius: "0rem",
+                  },
+                }}
               />
             </div>
-          </div>
-        )}
 
-        {messages.length > 0 && !loading && (
-          <button onClick={() => run()} className="btn btn-dark w-100 mt-2">
-            Continue
-          </button>
-        )}
-      </div>
-    </div>
-  </Wrapper>
+            <div className="flex-fill overflow-auto px-4 py-2 space-y-2">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className="p-2 bg-light rounded shadow-sm d-flex flex-column mb-2"
+                >
+                  <div>
+                    {message.role === "assistant" &&
+                      message.activity.map((result, index) => {
+                        if (result.type === "actions") {
+                          return result.actions.map((action, index) => (
+                            <div
+                              key={index}
+                              className="text-sm d-flex flex-column mb-4"
+                            >
+                              <div className="fw-bold">Action</div>
+                              <div className="text-sm">Tool: {action.tool}</div>
+                              <div className="text-sm">
+                                Input: {action.input}
+                              </div>
+                              {toolToUse(action.tool) && (
+                                <button>Execute</button>
+                              )}
+                            </div>
+                          ));
+                        }
+                        if (result.type === "observation") {
+                          return (
+                            <div
+                              key={index}
+                              className="text-sm mb-4 d-flex flex-column"
+                            >
+                              <div className="fw-bold">Observation </div>
+                              {result.content}
+                            </div>
+                          );
+                        }
+                        if (result.type === "finalAnswer") {
+                          return (
+                            <div
+                              key={index}
+                              className="text-sm mb-4 d-flex flex-column"
+                            >
+                              <div className="fw-bold">Final Answer </div>
+                              {result.content}
+                            </div>
+                          );
+                        }
+                      })}
+                  </div>
+                </div>
+              ))}
+
+              {loading && (
+                <div key="loading" className={`d-flex align-items-center`}>
+                  <div>
+                    <span
+                      className="spinner-grow spinner-grow-sm me-1"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {messages.length > 0 && !loading && (
+                <button
+                  onClick={() => run()}
+                  className="btn btn-dark w-100 mt-2"
+                >
+                  Continue
+                </button>
+              )}
+            </div>
+          </div>
+        </Wrapper>
+      </ModalBody>
+    </ModalOverlay>
+  </>
 );
