@@ -128,6 +128,7 @@ if (actionText.includes("Collateral")) {
           State.update({
             loading: true,
           });
+
           Ethers.provider()
             .getSigner()
             .sendTransaction(unsignedTx)
@@ -331,6 +332,7 @@ return (
         State.update({
           pending: true,
         });
+
         Ethers.provider()
           .getSigner()
           .sendTransaction(unsignedTx)
