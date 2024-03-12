@@ -282,6 +282,7 @@ const Footer = styled.div`
     outline:none;
     border:1px solid #c7d2fe;
     border-radius:15px;
+    color:#3e37a6;
     :focus{
       border: 1px solid #4f46e5;
     }
@@ -303,8 +304,12 @@ const Footer = styled.div`
     border:none;
     box-shadow:2px 2px #3730a3;
     padding:10px 20px;
+    display:flex;
+    align-items:center;
     @media screen and (max-width:768px){
+      display:flex;
       font-size: 13px;
+      justify-content:flex-end;
     }
   }
 `;
@@ -485,7 +490,7 @@ return (
               <input type="text" class="amount" />
               <div class="footerRight">
                 <button class="btn-donate">
-                  Fund all project
+                  Fund ${isCheck.length} project
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
