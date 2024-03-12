@@ -274,12 +274,7 @@ return (
   <>
     {profileData.length > 0 &&
       profileData.map((dt) => (
-        <div
-          class="item"
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
-          onClick={() => hanleClick(dt, dt.accountId)}
-        >
+        <>
           <Checkbox
             class="form-check-input"
             key={dt.accountId}
@@ -288,24 +283,31 @@ return (
             handleClick={handleClick}
             isChecked={isCheck.includes(dt.accountId)}
           />
-          {dt.data.image.url ? (
-            <img class="image" src={dt.data.image.url} alt="profile" />
-          ) : (
-            <img
-              class="image"
-              src={`https://ipfs.near.social/ipfs/` + dt.data.image.ipfs_cid}
-              alt="profile"
-            />
-          )}
-          <div class="project">
-            <div class="title">{dt.data.name}</div>
-            <div class="decs">
-              {dt.data.description.length > 80
-                ? dt.data.description.slice(0, 80) + "..."
-                : dt.data.description}
+          <div
+            class="item"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            onClick={() => hanleClick(dt, dt.accountId)}
+          >
+            {dt.data.image.url ? (
+              <img class="image" src={dt.data.image.url} alt="profile" />
+            ) : (
+              <img
+                class="image"
+                src={`https://ipfs.near.social/ipfs/` + dt.data.image.ipfs_cid}
+                alt="profile"
+              />
+            )}
+            <div class="project">
+              <div class="title">{dt.data.name}</div>
+              <div class="decs">
+                {dt.data.description.length > 80
+                  ? dt.data.description.slice(0, 80) + "..."
+                  : dt.data.description}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       ))}
     <div
       class="modal fade"
