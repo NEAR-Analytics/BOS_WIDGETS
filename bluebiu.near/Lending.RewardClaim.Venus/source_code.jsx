@@ -1,14 +1,7 @@
 const CLAIM_ABI = [
   {
     constant: false,
-    inputs: [
-      { internalType: "address", name: "holder", type: "address" },
-      {
-        internalType: "contract VToken[]",
-        name: "vTokens",
-        type: "address[]",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "holder", type: "address" }],
     name: "claimVenus",
     outputs: [],
     payable: false,
@@ -27,11 +20,18 @@ const CollateralContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 
-CollateralContract.claimVenus(account, [record.address])
-  .then((tx) => {
-    tx.wait().then((res) => {
-      onSuccess(res);
-    });
+CollateralContract.estimateGas
+  .claimVenus(account)
+  .then((gas) => {
+    CollateralContract.claimVenus(account, { gasLimit: gas })
+      .then((tx) => {
+        tx.wait().then((res) => {
+          onSuccess(res);
+        });
+      })
+      .catch((err) => {
+        onError(err);
+      });
   })
   .catch((err) => {
     onError(err);
