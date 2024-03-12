@@ -132,16 +132,17 @@ const SearchBar = styled.div`
     outline:none;
     border:none;
     background:#5d76cb;
-    display:flex;
-    justify-content:center;
-    margin:1rem auto;
-    align-items:center;
     @media screen and (max-width:768px){
       border-radius: 50px;
       width:30px;
       height:30px;
     }
   }
+  .icon-arrow{
+    position:absolute;
+    right:5px;
+    top:5px;
+  }:
 `;
 
 const Ideas = styled.div`
@@ -278,6 +279,7 @@ return (
                       onClick={hanleClick}
                     >
                       <svg
+                        class="icon-arrow"
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
                         height="20"
