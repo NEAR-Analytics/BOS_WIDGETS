@@ -36,9 +36,15 @@ const hanleClick = (data, accountId) => {
   }
 };
 
-const Checkbox = ({ id, type, handleClick, isChecked }) => {
+const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
   return (
-    <input id={id} type={type} onChange={handleClick} checked={isChecked} />
+    <input
+      class={className}
+      id={id}
+      type={type}
+      onChange={handleClick}
+      checked={isChecked}
+    />
   );
 };
 
@@ -277,7 +283,7 @@ return (
         <div class="item">
           <div class="itemLeft">
             <Checkbox
-              class="form-check-input"
+              className="form-check-input"
               key={dt.accountId}
               type="checkbox"
               id={dt.accountId}
