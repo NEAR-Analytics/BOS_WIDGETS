@@ -270,6 +270,11 @@ return (
                     placeholder="What would you like to fund?"
                     value={value}
                     onChange={hanleInput}
+                    onKeyPress={(event) => {
+                      if (event.key === "Enter") {
+                        hanleClick();
+                      }
+                    }}
                   />
                   <div class="arrow">
                     <button
