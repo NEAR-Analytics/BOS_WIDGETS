@@ -146,12 +146,14 @@ const ListResult = styled.div`
       display:flex;
       flex-direction:row;
       align-items:center;
+      margin-left:10px;
+      gap:20px;
     }
     .header{
-        margin-top:10px;
-        margin-left:15px;
-        font-size:16px;
-        font-weight:600;
+      margin-top:10px;
+      margin-left:15px;
+      font-size:16px;
+      font-weight:600;
     }
     .listItem{
         display:flex;
@@ -415,6 +417,7 @@ return (
           <ListResult>
             <div class="allProject">
               <Checkbox
+                className="form-check-input"
                 type="checkbox"
                 name="selectAll"
                 id="selectAll"
