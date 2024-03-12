@@ -175,6 +175,10 @@ const ListResult = styled.div`
         text-decoration:none;
         max-height:90px;
     }
+    .itemLeft{
+      width:30px;
+      height:30px;
+    }
     .itemRight{
       display:flex;
       flex-direction:row;
@@ -182,6 +186,7 @@ const ListResult = styled.div`
       align-items:center;
       width:100%;
       cursor:pointer;
+      gap:10px;
     }
     .image{
         border-radius:50px;
