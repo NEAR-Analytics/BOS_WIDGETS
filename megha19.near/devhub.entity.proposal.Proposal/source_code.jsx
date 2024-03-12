@@ -67,12 +67,23 @@ const Container = styled.div`
 
   .vertical-line {
     width: 2px;
-    height: 205px;
+    height: 200px;
     background-color: lightgrey;
   }
+
+  @media screen and (max-width: 768px) {
+    .vertical-line {
+      height: 170px;
+    }
+
+    .gap-6 {
+      gap: 0.5rem !important;
+    }
+  }
+
   .vertical-line-sm {
     width: 2px;
-    height: 80px;
+    height: 70px;
     background-color: lightgrey;
   }
 
@@ -405,25 +416,8 @@ const isModerator = Near.view("devgovgigs.near", "has_moderator", {
   account_id: accountId,
 });
 
-let grantNotify = Near.view(
-  "social.near",
-  "is_write_permission_granted",
-  {
-    predecessor_id: "truedove38.near",
-    key: accountId + "/index/notify",
-  }
-);
-
-const userStorageDeposit = Near.view(
-  "social.near",
-  "storage_balance_of",
-  {
-    account_id: accountId,
-  }
-);
-
 const editProposalStatus = ({ timeline }) => {
-  const calls = [
+  Near.call([
     {
       contractName: "truedove38.near",
       methodName: "edit_proposal_timeline",
@@ -433,20 +427,7 @@ const editProposalStatus = ({ timeline }) => {
       },
       gas: 270000000000000,
     },
-  ];
-  if (grantNotify === false) {
-    calls.unshift({
-      contractName: "social.near",
-      methodName: "grant_write_permission",
-      args: {
-        predecessor_id: "truedove38.near",
-        keys: [accountId + "/index/notify"],
-      },
-      gas: Big(10).pow(14),
-      deposit: getDepositAmountForWriteAccess(userStorageDeposit),
-    });
-  }
-  Near.call(calls);
+  ]);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
@@ -517,14 +498,6 @@ const TimelineItems = ({ title, children, value, values }) => {
   );
 };
 
-const extractNotifyAccountId = (item) => {
-  if (!item || item.type !== "social" || !item.path) {
-    return undefined;
-  }
-  const accountId = item.path.split("/")[0];
-  return `${accountId}/post/main` === item.path ? accountId : undefined;
-};
-
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
@@ -549,7 +522,7 @@ return (
         },
       }}
     />
-    <div className="d-flex justify-content-between">
+    <div className="d-flex px-2 px-sm-0 justify-content-between">
       <div className="d-flex gap-2 align-items-center h3">
         <div>{snapshot.name}</div>
         <div className="text-muted">#{proposal.id}</div>
@@ -594,7 +567,7 @@ return (
         )}
       </div>
     </div>
-    <div className="d-flex gap-2 align-items-center text-sm pb-3">
+    <div className="d-flex px-2 px-sm-0 gap-2 align-items-center text-sm pb-3">
       <Widget
         src={"megha19.near/widget/devhub.entity.proposal.StatusTag"}
         props={{
@@ -607,11 +580,11 @@ return (
         {readableDate(snapshot.timestamp / 1000000)}
       </div>
     </div>
-    <div className="card card-body rounded-0 p-4">
+    <div className="card card-body p-2 rounded-0 p-sm-4">
       {snapshot.timeline.status === TIMELINE_STATUS.DRAFT &&
         isAllowedToEditProposal && (
-          <div className="draft-info-container p-4 d-flex justify-content-between align-items-center gap-2 rounded-2">
-            <div>
+          <div className="draft-info-container p-3 p-sm-4 d-flex flex-wrap flex-sm-nowrap justify-content-between align-items-center gap-2 rounded-2">
+            <div style={{ minWidth: "300px" }}>
               <b>
                 This proposal is in draft mode and open for community comments.
               </b>
@@ -636,8 +609,8 @@ return (
         )}
       {snapshot.timeline.status === TIMELINE_STATUS.REVIEW &&
         isAllowedToEditProposal && (
-          <div className="review-info-container p-4 d-flex justify-content-between align-items-center gap-2 rounded-2">
-            <div>
+          <div className="review-info-container p-3 p-sm-4 d-flex flex-wrap flex-sm-nowrap justify-content-between align-items-center gap-2 rounded-2">
+            <div style={{ minWidth: "300px" }}>
               <b>
                 This proposal is in review mode and still open for community
                 comments.
@@ -666,18 +639,20 @@ return (
           </div>
         )}
       <div className="my-4">
-        <div className="d-flex gap-6">
-          <div className="flex-3">
+        <div className="d-flex flex-wrap gap-6">
+          <div className="flex-3 order-2 order-sm-1">
             <div
               className="d-flex gap-2 flex-1"
               style={{ zIndex: 99, background: "white", position: "relative" }}
             >
-              <Widget
-                src={"megha19.near/widget/devhub.entity.proposal.Profile"}
-                props={{
-                  accountId: authorId,
-                }}
-              />
+              <div className="d-none d-sm-flex">
+                <Widget
+                  src={"megha19.near/widget/devhub.entity.proposal.Profile"}
+                  props={{
+                    accountId: authorId,
+                  }}
+                />
+              </div>
               <ProposalContainer className="rounded-2 flex-1">
                 <Header className="d-flex gap-3 align-items-center p-2 px-3">
                   {authorId} ･{" "}
@@ -729,9 +704,11 @@ return (
 
                   <div className="d-flex gap-2 align-items-center mt-4">
                     <Widget
-                      src="near/widget/v1.LikeButton"
+                      src="megha19.near/widget/devhub.entity.proposal.LikeButton"
                       props={{
                         item,
+                        proposalId: proposal.id,
+                        notifyAccountId: authorId,
                       }}
                     />
                     <Widget
@@ -764,7 +741,7 @@ return (
             <div className="border-bottom pb-4 mt-4">
               <Widget
                 src={
-                  "megha19.near/widget/devhub.entity.proposal.Comments"
+                  "megha19.near/widget/devhub.entity.proposal.CommentsAndLogs"
                 }
                 props={{
                   item: item,
@@ -779,13 +756,13 @@ return (
                 }
                 props={{
                   item: item,
-                  notifyAccountId: extractNotifyAccountId(item),
+                  notifyAccountId: authorId,
                   id: proposal.id,
                 }}
               />
             </div>
           </div>
-          <div className="d-flex flex-column gap-4 flex-1">
+          <div className="d-flex flex-column gap-4 flex-1 order-1 order-sm-2">
             <SidePanelItem title="Author">
               <Widget
                 src="near/widget/AccountProfile"
