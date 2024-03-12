@@ -400,10 +400,13 @@ const handleDonate = () => {
     });
   Near.call(transactions);
 };
-
+const UrlShare = () => {
+  return twitters.map((item) => item).join("0A%40");
+};
 // console.log(profileData);
 console.log("ischecked", isCheck);
-console.log("amount", twitters);
+console.log("twitters", twitters);
+console.log("link", UrlShare());
 return (
   <Container>
     <Row>
