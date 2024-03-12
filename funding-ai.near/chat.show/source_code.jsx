@@ -146,8 +146,9 @@ const ListResult = styled.div`
       display:flex;
       flex-direction:row;
       align-items:center;
-      margin-left:10px;
-      gap:20px;
+      margin-top:10px;
+      margin-left:30px;
+      gap:10px;
     }
     .header{
       margin-top:10px;
