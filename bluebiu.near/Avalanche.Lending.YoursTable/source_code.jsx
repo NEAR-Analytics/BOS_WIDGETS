@@ -188,13 +188,19 @@ const renderCollateral = (record) => {
       src="bluebiu.near/widget/Avalanche.Lending.Switch"
       props={{
         onChange: () => {
+          console.log("--------", record);
           if (record.isCollateral === undefined) return;
+
+          // if (dappName === "Valas Finance") {
+          //   onButtonClick?.(record.address, record.isCollateral ? false : true);
+          // } else {
           onButtonClick?.(
             record.address,
             record.isCollateral
               ? "Disable as Collateral"
               : "Enable as Collateral"
           );
+          // }
         },
         active: record.isCollateral === undefined ? true : record.isCollateral,
       }}
@@ -213,14 +219,16 @@ const renderApy = (record) => {
             ).slice(0, -1);
             return !!Number(apy);
           })
-          .map((reward) => (
-            <RewardApyItem key={reward.symbol}>
-              <RewardIcon src={reward.icon} />
-              <RewardApy>
-                {type === "deposit" ? reward.supply : reward.borrow} APR
-              </RewardApy>
-            </RewardApyItem>
-          ))}
+          .map((reward, index) => {
+            return (
+              <RewardApyItem key={index}>
+                <RewardIcon src={reward.icon} />
+                <RewardApy>
+                  {type === "deposit" ? reward.supply : reward.borrow} APR
+                </RewardApy>
+              </RewardApyItem>
+            );
+          })}
     </>
   );
 };
