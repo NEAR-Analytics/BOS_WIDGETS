@@ -6,12 +6,12 @@ const profile = {
   title: "Kayleigh Svensson",
   subtitle: "Head of Operations",
   links: [
-    { title: "telegram", url: "t.me/kaysve" },
-    { title: "twitter", url: "https://twitter.com/kaysve" },
+    { title: "Telegram", url: "t.me/kaysve" },
+    { title: "Twitter", url: "https://twitter.com/kaysve" },
   ],
   socials: [
-    { title: "telegram", url: "t.me/kaysve" },
-    { title: "twitter", url: "https://twitter.com/kaysve" },
+    { title: "Telegram", url: "t.me/kaysve" },
+    { title: "Twitter", url: "https://twitter.com/kaysve" },
   ],
 };
 
