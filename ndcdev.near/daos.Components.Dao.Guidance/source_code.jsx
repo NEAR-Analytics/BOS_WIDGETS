@@ -133,7 +133,7 @@ const SubmitProposal = styled.a`
   }
 `;
 
-const { section, dao_id } = props;
+const { section, dao } = props;
 
 return (
   <Container>
@@ -172,13 +172,13 @@ return (
 
       <div className="d-flex gap-3 w-100 flex-wrap justify-content-center">
         <SubmitProposal
-          href={`/ndcdev.near/widget/daos.App?page=create_proposal&dao_id=${dao_id}`}
+          href={`/ndcdev.near/widget/daos.App?page=create_proposal&dao_id=${dao.handle}`}
         >
           Submit Proposal
           <i className="bi bi-chevron-right" />
         </SubmitProposal>
         <SubmitProposal
-          href={`/ndcdev.near/widget/daos.App?page=proposals&dao_id=${dao_id}`}
+          href={`/ndcdev.near/widget/daos.App?page=proposals&dao_id=${dao.handle}`}
         >
           Show Proposals
         </SubmitProposal>
