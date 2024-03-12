@@ -5,6 +5,8 @@ const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [tags, setTags] = useState([]);
 const [teams, setTeams] = useState([]);
+const [height, setHeight] = useState("100px");
+const [width, setWidth] = useState("100px");
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
     setAccountId(accountId);
@@ -82,8 +84,12 @@ const Description = styled.div`
     border-radius:15px;
     display:flex;
     flex-direction:row;
+    justify-content:center;
     gap:20px;
-    
+    @media screen and (max-width:768px){
+      ${setHeight("50px")}
+      ${setWidth("50px")}
+    }
   }
   .team{
     font-weight:600;
@@ -92,6 +98,9 @@ const Description = styled.div`
     border-radius:5px;
     box-shadow: 0px 2px white;
     max-height:50px;
+    @media screen and (max-width:768px){
+      font-size:13px;
+    }
   }
   .social{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
@@ -189,14 +198,14 @@ return (
             <div class="title">Team Member</div>
             <div class="teams">
               {teams.map((team) => (
-                <div>
+                <div class="d-flex justify-content-center">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
                       accountId: team,
                       style: {
-                        width: `100px`,
-                        height: `100px`,
+                        width: width,
+                        height: height,
                         border: `4px #dd3345 solid`,
                         borderRadius: "50%",
                       },
