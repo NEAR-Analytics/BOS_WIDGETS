@@ -378,7 +378,7 @@ return (
                 <DaoLink
                   href={
                     priorityLink[dao.id] ??
-                    `/ndcdev.near/widget/daos.App?page=dao&id=${dao.id}`
+                    `/ndcdev.near/widget/daos.App?page=dao&id=${dao.handle}`
                   }
                   className="btn btn-secondary d-flex justify-content-between"
                 >
