@@ -124,7 +124,7 @@ const SearchBar = styled.div`
     top:8px;
     cursor:default;
     @media screen and (max-width:768px){
-      top:15px;
+      top:16px;
     }
   }
   .button-arrow{
@@ -134,6 +134,8 @@ const SearchBar = styled.div`
     background:#5d76cb;
     @media screen and (max-width:768px){
       border-radius: 50px;
+      width:40px;
+      height:40px;
     }
   }
 `;
