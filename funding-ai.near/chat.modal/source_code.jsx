@@ -8,8 +8,10 @@ const [teams, setTeams] = useState([]);
 const [linktree, setLinkTree] = useState({});
 const [height, setHeight] = useState("160px");
 const [width, setWidth] = useState("160px");
-const [isCheckAll, setIsCheckAll] = useState(false);
-const [isCheck, setIsCheck] = useState([]);
+// const [isCheckAll, setIsCheckAll] = useState(false);
+// const [isCheck, setIsCheck] = useState([]);
+const isCheck = props.isCheck || "";
+const setIsCheck = props.setIsCheck;
 
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
@@ -46,14 +48,6 @@ const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
       checked={isChecked}
     />
   );
-};
-
-const handleSelectAll = (e) => {
-  setIsCheckAll(!isCheckAll);
-  setIsCheck(list.map((li) => li.id));
-  if (isCheckAll) {
-    setIsCheck([]);
-  }
 };
 
 const handleClick = (e) => {
