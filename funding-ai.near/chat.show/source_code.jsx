@@ -97,10 +97,10 @@ const SearchBar = styled.div`
     right:10px;
     top: 50%;
     cursor:default;
+    background:none;
     outline:none;
-    border:2px solid #a5b4fc;
-    background: none;
-    border-radius:50px;
+    border:none;
+    font-size:20px;
     @media screen and (max-width:768px){
       top:52%;
       right:20px;
@@ -422,16 +422,7 @@ return (
               type="text"
             />
             <button class="arrow" type="submit">
-              <svg
-                class="icon-arrow"
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="#5950e6"
-                viewBox="0 0 256 256"
-              >
-                <path d="M244,56v48a12,12,0,0,1-12,12H184a12,12,0,1,1,0-24H201.1l-19-17.38c-.13-.12-.26-.24-.38-.37A76,76,0,1,0,127,204h1a75.53,75.53,0,0,0,52.15-20.72,12,12,0,0,1,16.49,17.45A99.45,99.45,0,0,1,128,228h-1.37A100,100,0,1,1,198.51,57.06L220,76.72V56a12,12,0,0,1,24,0Z"></path>
-              </svg>
+              <i class="bi bi-arrow-clockwise"></i>
             </button>
           </div>
         </SearchBar>
