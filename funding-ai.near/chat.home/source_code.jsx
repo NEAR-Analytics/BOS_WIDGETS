@@ -141,7 +141,7 @@ const SearchBar = styled.div`
   .icon-arrow{
     position:absolute;
     right:5px;
-    top:6px;
+    top:8px;
   }:
 `;
 
