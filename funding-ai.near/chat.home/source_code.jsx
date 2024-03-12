@@ -121,19 +121,18 @@ const SearchBar = styled.div`
   .arrow{
     position:absolute;
     right:10px;
-    top:8px;
+    top:6px;
     cursor:default;
     @media screen and (max-width:768px){
-      top:11px;
+      top: 9px;
     }
   }
   .button-arrow{
-    border-radius: 100%;
     outline:none;
     border:none;
-    background:#5d76cb;
+    background:none;
+    font-size:22px;
     @media screen and (max-width:768px){
-      border-radius: 50px;
       width:30px;
       height:30px;
     }
@@ -283,16 +282,7 @@ return (
                       type="submit"
                       onClick={hanleClick}
                     >
-                      <svg
-                        class="icon-arrow"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="white"
-                        viewBox="0 0 256 256"
-                      >
-                        <path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
-                      </svg>
+                      <i class="bi bi-arrow-right-circle"></i>
                     </button>
                   </div>
                 </SearchBar>
