@@ -586,7 +586,7 @@ return (
         </View>
         <ShareButton>
           <a
-            href={`https://twitter.com/intent/tweet?text=Join me in supporting Mutual credit and community currencies by donating to these projects on https://near.social/funding-ai.near/widget/chat.home!%0A%0A%40vohuunhan%0A%40vohuuluan`}
+            href={`https://twitter.com/intent/tweet?text=Join me in supporting Mutual credit and community currencies by donating to these projects on https://near.social/funding-ai.near/widget/chat.home!%0A%0A%40${UrlShare()}`}
             target="_blank"
             class="btn-donate"
           >
