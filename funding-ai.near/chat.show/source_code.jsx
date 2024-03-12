@@ -401,7 +401,7 @@ const handleDonate = () => {
   Near.call(transactions);
 };
 const UrlShare = () => {
-  return twitters.map((item) => item).join("0A%40");
+  return twitters.map((item) => item).join("%0A%40");
 };
 // console.log(profileData);
 console.log("ischecked", isCheck);
