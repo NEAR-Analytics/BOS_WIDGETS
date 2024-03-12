@@ -105,6 +105,7 @@ const SearchBar = styled.div`
       font-size:25px;
       color:black;
       right:0;
+      top: 48%;
     }
   }
 
