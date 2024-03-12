@@ -9,13 +9,13 @@ const hanleClick = (data, accountId) => {
     setName(data.data.name);
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
-    setTeams(Object.keys(data.data.team).flat());
+    setTeams(Object.keys(data.data.tags).flat());
   }
 };
 const Header = styled.div`
   display:flex;
   flex-direction:row;
-  align-items:center;
+  align-items:top;
   justify-content:space-between;
   gap:10px;
   padding:10px 15px;
@@ -26,20 +26,29 @@ const Header = styled.div`
   }
 `;
 const Description = styled.div`
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:10px 15px;
   .desc{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+    padding: 10px 15px;
+    border-radius:15px;
   }
   .tags{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+    padding: 10px 15px;
+    border-radius:15px;
   }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+    padding: 10px 15px;
+    border-radius:15px;
   }
   .social{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+    padding: 10px 15px;
+    border-radius:15px;
   }
 `;
 return (
