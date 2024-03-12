@@ -4,9 +4,11 @@ const {
   // pair,
   data,
   toast,
+  prices,
   addresses,
   proxyAddress,
   addAction,
+  userPositions,
   ICON_VAULT_MAP
 } = props;
 
@@ -220,6 +222,8 @@ const iconCircle = (
 
 )
 const defaultDeposit = props.tab === "deposit" || !props.tab;
+
+const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
 
 State.init({
   isDeposit: defaultDeposit,
@@ -444,7 +448,6 @@ const handleToken0Change = (amount) => {
       checkApproval(amount, amount1);
     })
     .catch((e) => {
-      console.log('====e', e)
       State.update({
         isLoading: true,
         isError: true,
@@ -769,7 +772,7 @@ const onChangeSlider = (percent) => {
   const newLpValue = Big(percent)
     .div(100)
     .times(lpBalance || 0)
-    .toFixed();
+    .toFixed(6);
 
   handleLPChange(newLpValue);
 };
@@ -799,7 +802,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance0}</TotalPrice>
-              <BalancePrice>Balance:<span>{balances[token0]}</span> {token0}</BalancePrice>
+              <BalancePrice>Balance:<span>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
             </PriceWrap>
           </Column>
           <Column>
@@ -812,7 +815,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance1}</TotalPrice>
-              <BalancePrice>Balance:<span>{balances[token1]}</span> {token1}</BalancePrice>
+              <BalancePrice>Balance:<span>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
             </PriceWrap>
           </Column>
         </Row>
