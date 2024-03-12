@@ -375,23 +375,26 @@ const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
 
 const handleDonate = () => {
   const transactions = [];
-  Object.entries(isCheck).forEach((projectId) => {
-    const amountFloat = parseFloat(amount || 0);
-    const amountIndivisible = new Big(amountFloat).mul(new Big(10).pow(24));
-    const donateContractArgs = {};
-    donateContractArgs.recipient_id = projectId;
+  isCheck &&
+    Object.entries(isCheck).forEach((projectId) => {
+      const amountFloat = parseFloat(amount || 0);
+      const amountIndivisible = new Big(amountFloat).mul(new Big(10).pow(24));
+      const donateContractArgs = {};
+      donateContractArgs.recipient_id = projectId;
 
-    transactions.push({
-      contractName: "donate.potlock.near",
-      methodName: "donate",
-      args: donateContractArgs,
-      deposit: amountIndivisible.toString(),
-      gas: "300000000000000",
+      transactions.push({
+        contractName: "donate.potlock.near",
+        methodName: "donate",
+        args: donateContractArgs,
+        deposit: amountIndivisible.toString(),
+        gas: "300000000000000",
+      });
     });
-  });
 };
 
 console.log(profileData);
+console.log("ischecked", isCheck);
+console.log("amount", amount);
 return (
   <Container>
     <Row>
