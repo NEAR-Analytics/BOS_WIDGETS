@@ -336,7 +336,7 @@ const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [isCheckAll, setIsCheckAll] = useState(false);
 const [isCheck, setIsCheck] = useState([]);
-
+const [amount, setAmount] = useState(0);
 const hanleInput = (e) => {
   const value = e.target.value;
   setValue(value);
@@ -371,6 +371,24 @@ const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
       checked={isChecked}
     />
   );
+};
+
+const handleDonate = () => {
+  const transactions = [];
+  Object.entries(isCheck).forEach((projectId) => {
+    const amountFloat = parseFloat(amount || 0);
+    const amountIndivisible = new Big(amountFloat).mul(new Big(10).pow(24));
+    const donateContractArgs = {};
+    donateContractArgs.recipient_id = projectId;
+
+    transactions.push({
+      contractName: "donate.potlock.near",
+      methodName: "donate",
+      args: donateContractArgs,
+      deposit: amountIndivisible.toString(),
+      gas: "300000000000000",
+    });
+  });
 };
 
 console.log(profileData);
@@ -490,7 +508,11 @@ return (
               />
             </div>
             <Footer>
-              <input type="text" class="amount" />
+              <input
+                type="text"
+                class="amount"
+                onChange={(e) => setAmount(e.target.value)}
+              />
               <div class="footerRight">
                 <button class="btn-donate">
                   Fund {isCheck.length} project
