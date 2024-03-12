@@ -8,6 +8,9 @@ const [teams, setTeams] = useState([]);
 const [linktree, setLinkTree] = useState({});
 const [height, setHeight] = useState("160px");
 const [width, setWidth] = useState("160px");
+const [isCheckAll, setIsCheckAll] = useState(false);
+const [isCheck, setIsCheck] = useState([]);
+
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
     setAccountId(accountId);
@@ -32,6 +35,40 @@ const hanleClick = (data, accountId) => {
     }
   }
 };
+
+const Checkbox = ({ id, type, handleClick, isChecked }) => {
+  return (
+    <input id={id} type={type} onChange={handleClick} checked={isChecked} />
+  );
+};
+
+const handleSelectAll = (e) => {
+  setIsCheckAll(!isCheckAll);
+  setIsCheck(list.map((li) => li.id));
+  if (isCheckAll) {
+    setIsCheck([]);
+  }
+};
+
+const handleClick = (e) => {
+  const { id, checked } = e.target;
+  setIsCheck([...isCheck, id]);
+  if (!checked) {
+    setIsCheck(isCheck.filter((item) => item !== id));
+  }
+};
+
+const ProjectBox = profileData.map(({ accountId }) => {
+  return (
+    <Checkbox
+      key={accountId}
+      type="checkbox"
+      id={accountId}
+      handleClick={handleClick}
+      isChecked={isCheck.includes(id)}
+    />
+  );
+});
 
 const Header = styled.div`
   display:flex;
@@ -255,6 +292,7 @@ return (
           data-bs-target="#staticBackdrop"
           onClick={() => hanleClick(dt, dt.accountId)}
         >
+          <ProjectBox />
           {dt.data.image.url ? (
             <img class="image" src={dt.data.image.url} alt="profile" />
           ) : (
