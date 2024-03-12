@@ -58,18 +58,6 @@ const handleClick = (e) => {
   }
 };
 
-const ProjectBox = profileData.map(({ accountId }) => {
-  return (
-    <Checkbox
-      key={accountId}
-      type="checkbox"
-      id={accountId}
-      handleClick={handleClick}
-      isChecked={isCheck.includes(id)}
-    />
-  );
-});
-
 const Header = styled.div`
   display:flex;
   flex-direction:row;
@@ -292,7 +280,13 @@ return (
           data-bs-target="#staticBackdrop"
           onClick={() => hanleClick(dt, dt.accountId)}
         >
-          <ProjectBox />
+          <Checkbox
+            key={dt.accountId}
+            type="checkbox"
+            id={dt.accountId}
+            handleClick={handleClick}
+            isChecked={isCheck.includes(dt.accountId)}
+          />
           {dt.data.image.url ? (
             <img class="image" src={dt.data.image.url} alt="profile" />
           ) : (
