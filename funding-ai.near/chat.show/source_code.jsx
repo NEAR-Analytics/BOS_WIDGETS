@@ -104,7 +104,7 @@ const SearchBar = styled.div`
     @media screen and (max-width:768px){
       font-size:25px;
       color:black;
-      top:45%;
+      right:0;
     }
   }
 
