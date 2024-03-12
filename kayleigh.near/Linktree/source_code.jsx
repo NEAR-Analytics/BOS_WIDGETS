@@ -2,7 +2,7 @@
 
 const profile = {
   avatar:
- "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
+    "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
   title: "Kayleigh Svensson",
   subtitle: "Operations at Jutsu",
   links: [
@@ -36,7 +36,7 @@ const titleToIcon = [
     title: "linkedin",
     icon: <i class="bi bi-linkedin"></i>,
   },
-   {
+  {
     title: "telegram",
     icon: <i class="bi bi-telegram"></i>,
   },
