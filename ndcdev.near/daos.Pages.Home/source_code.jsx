@@ -394,7 +394,7 @@ return (
     {projects?.length > 0 ? (
       <Wrapper>
         <Widget
-          src={`ndcdev.near/widget/daos.Components.Dao.FeaturedProjects`}
+          src={`ndcdev.near/widget/daos.Components.Dao.Communities`}
           props={{
             title: content.featuredProducts.title,
             projects: content.featuredProducts.projects.map((title) =>
