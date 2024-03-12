@@ -178,6 +178,8 @@ const ListResult = styled.div`
     .itemLeft{
       width:30px;
       height:30px;
+      display:flex;
+      align-items:center;
     }
     .itemRight{
       display:flex;
