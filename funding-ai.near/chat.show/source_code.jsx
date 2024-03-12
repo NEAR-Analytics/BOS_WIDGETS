@@ -102,26 +102,11 @@ const SearchBar = styled.div`
     border:none;
     font-size:20px;
     @media screen and (max-width:768px){
-      top:52%;
-      right:20px;
+      font-size:28px;
+      color:black;
     }
   }
-  .button-arrow{
-    border-radius: 100%;
-    outline:none;
-    border:none;
-    background:#5d76cb;
-    @media screen and (max-width:768px){
-      border-radius: 50px;
-      width:30px;
-      height:30px;
-    }
-  }
-  .icon-arrow{
-    //position:absolute;
-    right:5px;
-    top:6px;
-  }
+
 `;
 
 const View = styled.div`
