@@ -113,8 +113,11 @@ const Description = styled.div`
     max-height:50px;
   }
   .itemTeam{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    gap:10px
     @media screen and (max-width:768px){
-      display:flex;
       flex-direction:row;
       gap:10px
       align-items:center;
@@ -371,7 +374,7 @@ return (
             <div class="title">Team Member</div>
             <div class="teams">
               {teams.map((team) => (
-                <div class="itemTeam d-flex justify-content-center flex-column gap-3">
+                <div class="itemTeam">
                   <Widget
                     src="mob.near/widget/ProfileImage"
                     props={{
