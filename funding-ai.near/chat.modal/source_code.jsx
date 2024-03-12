@@ -3,13 +3,39 @@ const [name, setName] = useState("");
 const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [tags, setTags] = useState([]);
+const [teams, setTeams] = useState([]);
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
     setName(data.data.name);
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
+    setTeams(Object.keys(data.data.team).flat());
   }
 };
+const Header = styled.div`
+  .header{
+    display:flex;
+    gap:10px;
+    flex-direction:row;
+  }
+`;
+const Description = styled.div`
+display:flex;
+flex-direction:column;
+gap:20px;
+  .desc{
+    background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+  }
+  .tags{
+    background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+  }
+  .teams{
+    background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+  }
+  .social{
+    background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
+  }
+`;
 return (
   <>
     {profileData.length > 0 &&
@@ -50,7 +76,7 @@ return (
     >
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <Header class="modal-header header">
             {image.startsWith("https") ? (
               <img class="image" src={image} alt="profile" />
             ) : (
@@ -69,8 +95,13 @@ return (
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
-          </div>
-          <div class="modal-body">{description}</div>
+          </Header>
+          <Description class="modal-body">
+            <div class="desc">{description}</div>
+            {teams.map((team) => (
+              <div class="teams">{team}</div>
+            ))}
+          </Description>
           <div class="modal-footer">
             <button
               type="button"
