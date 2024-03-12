@@ -55,7 +55,7 @@ const SearchBar = styled.div`
   position:relative;
   width:80%;
   display:flex;
-  margin: 3rem auto;
+  margin: 1rem auto;
   flex-direction:column;
   @media screen and (max-width:768px){
     width:100%;
@@ -189,6 +189,48 @@ const ListResult = styled.div`
         }
     }
 `;
+
+const Ideas = styled.div`
+
+  // width:50%;
+  // display:flex;
+  // justify-content:center;
+  // flex-direction:column;
+  @media screen and (max-width:768px){
+    width:75%;
+  }
+  .text{
+    display:flex;
+    justify-content:center;
+    font-size:16px;
+    font-weight:400;
+    color:#3730a3;
+    @media screen and (max-width:768px){
+      font-size:13px;
+    }
+  }
+  .des{
+    display:flex;
+    flex-wrap:wrap;
+    width:100%;
+    padding: 20px;
+    padding-top: 5px;
+    justify-content:center;
+    flex direction:row;
+    gap:10px;
+    @media screen and (max-width:768px){
+      padding: 5px;
+    }
+  }
+  .btn-idea{
+    background:#6366f1;
+    border:1px solid #574fe6;
+    padding: 5px 10px;
+    border-radius:25px;
+    color:white;
+  }
+`;
+
 const [value, setValue] = useState(props.search || "public good");
 const requestOptions = {
   method: "POST",
@@ -202,7 +244,6 @@ const res = fetch(
   requestOptions
 );
 console.log("Res", res);
-const [projectsId, setProjectsId] = useState(res.body || []);
 const [data, setData] = useState([]);
 const [name, setName] = useState("");
 const [image, setImage] = useState("");
@@ -249,6 +290,68 @@ return (
             </button>
           </div>
         </SearchBar>
+        {value == "" && (
+          <Ideas>
+            <div class="text">Some ideas: </div>
+            <div class="des">
+              <div>
+                <button
+                  onClick={() => {
+                    setValue("open source");
+                    setIsShow(true);
+                  }}
+                  class="btn-idea"
+                >
+                  Open Source
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    setValue("desci");
+                    setIsShow(true);
+                  }}
+                  class="btn-idea"
+                >
+                  Desci
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    setValue("nft");
+                    setIsShow(true);
+                  }}
+                  class="btn-idea"
+                >
+                  NFT
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    setValue("social impact");
+                    setIsShow(true);
+                  }}
+                  class="btn-idea"
+                >
+                  Social Impact
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => {
+                    setValue("ai");
+                    setIsShow(true);
+                  }}
+                  class="btn-idea"
+                >
+                  AI
+                </button>
+              </div>
+            </div>
+          </Ideas>
+        )}
         <View>
           <ListResult>
             <div class="header">ALL PROJECT</div>
