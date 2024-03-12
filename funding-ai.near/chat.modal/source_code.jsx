@@ -4,7 +4,11 @@ const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [tags, setTags] = useState([]);
 const hanleClick = (data, accountId) => {
-  console.log(data + accountId);
+  if (data.accountId == accountId) {
+    setName(data.data.name);
+    setImage(data.data.image.ipfs_cid || data.data.image.url);
+    setDescription(data.data.description);
+  }
 };
 return (
   <>
@@ -47,8 +51,17 @@ return (
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            {image.startWith("https") ? (
+              <img class="image" src={image} alt="profile" />
+            ) : (
+              <img
+                class="image"
+                src={`https://ipfs.near.social/ipfs/` + image}
+                alt="profile"
+              />
+            )}
             <h5 class="modal-title" id="staticBackdropLabel">
-              Modal title
+              {name}
             </h5>
             <button
               type="button"
@@ -57,7 +70,7 @@ return (
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">{description}</div>
           <div class="modal-footer">
             <button
               type="button"
