@@ -2,7 +2,7 @@
 
 const profile = {
   avatar:
-  "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
+    "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
   title: "Kayleigh Svensson",
   subtitle: "Head of Operations",
   links: [
