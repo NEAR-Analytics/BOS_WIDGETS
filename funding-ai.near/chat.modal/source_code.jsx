@@ -162,7 +162,6 @@ const Description = styled.div`
       ${setHeight("50px")}
       ${setWidth("50px")}
       flex-direction: column;
-      justify-content:center;
     }
   }
   .team{
