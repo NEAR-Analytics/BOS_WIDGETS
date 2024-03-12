@@ -51,7 +51,7 @@ return (
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            {image.startWith("https") ? (
+            {image.startsWith("https") ? (
               <img class="image" src={image} alt="profile" />
             ) : (
               <img
