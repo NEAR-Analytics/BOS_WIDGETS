@@ -1,3 +1,4 @@
+const props_IsCollapsted = props.isCollapsed || true;
 const tools = props.tools || [];
 const role = props.role || "Helpful Assistant";
 const backstory =
@@ -18,11 +19,12 @@ const [task, setTask] = useState("");
 const [scratchPad, setScratchPad] = useState("");
 const [messages, setMessages] = useState([]);
 const [loading, setLoading] = useState(false);
+const [isCollapsed, setIsCollapsed] = useState(props_IsCollapsted);
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 6px;
   padding: 48px;
 `;
 
@@ -209,106 +211,114 @@ useEffect(() => {
 
 return (
   <Wrapper>
-    <div className="input-group mb-3">
-      <input
-        type="text"
-        className="form-control"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            run();
-          }
-        }}
-        placeholder="What's your goal?"
-        autoFocus
-      />
-      <Widget
-        src="near/widget/DIG.Button"
-        className="btn btn-dark w-100"
-        props={{
-          onClick: () => run(),
-          variant: "affirmative",
-          fill: "solid",
-          size: "large",
-          label: "Submit",
-          style: {
-            borderTopLeftRadius: "0rem",
-            borderBottomLeftRadius: "0rem",
-          },
-        }}
-      />
-    </div>
+    <button
+      className="btn btn-dark w-100"
+      onClick={() => setIsCollapsed(!isCollapsed)}
+    >
+      {isCollapsed ? "Show" : "Hide"}
+    </button>
+    <div className={isCollapsed ? "collapse" : ""}>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              run();
+            }
+          }}
+          placeholder="What's your goal?"
+          autoFocus
+        />
+        <Widget
+          src="near/widget/DIG.Button"
+          className="btn btn-dark w-100"
+          props={{
+            onClick: () => run(),
+            variant: "affirmative",
+            fill: "solid",
+            size: "large",
+            label: "Submit",
+            style: {
+              borderTopLeftRadius: "0rem",
+              borderBottomLeftRadius: "0rem",
+            },
+          }}
+        />
+      </div>
 
-    <div className="flex-fill overflow-auto px-4 py-2 space-y-2">
-      {messages.map((message, index) => (
-        <div
-          key={index}
-          className="p-2 bg-light rounded shadow-sm d-flex flex-column mb-2"
-        >
-          <div className="fw-bold text-large">
-            {message.role === "assistant" ? "AutoAgent" : ""}
-          </div>
-          <div>
-            {message.role === "assistant" &&
-              message.activity.map((result, index) => {
-                if (result.type === "actions") {
-                  return result.actions.map((action, index) => (
-                    <div
-                      key={index}
-                      className="text-sm d-flex flex-column mb-4"
-                    >
-                      <div key={index} className="text-sm">
-                        {action.tool} - {action.input}
+      <div className="flex-fill overflow-auto px-4 py-2 space-y-2">
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className="p-2 bg-light rounded shadow-sm d-flex flex-column mb-2"
+          >
+            <div className="fw-bold text-large">
+              {message.role === "assistant" ? "AutoAgent" : ""}
+            </div>
+            <div>
+              {message.role === "assistant" &&
+                message.activity.map((result, index) => {
+                  if (result.type === "actions") {
+                    return result.actions.map((action, index) => (
+                      <div
+                        key={index}
+                        className="text-sm d-flex flex-column mb-4"
+                      >
+                        <div key={index} className="text-sm">
+                          {action.tool} - {action.input}
+                        </div>
+                        {toolToUse(action.tool) && <button>Execute</button>}
                       </div>
-                      {toolToUse(action.tool) && <button>Execute</button>}
-                    </div>
-                  ));
-                }
-                if (result.type === "observation") {
-                  return (
-                    <div
-                      key={index}
-                      className="text-sm mb-4 d-flex flex-column"
-                    >
-                      <div className="fw-bold">Observation </div>
-                      {result.content}
-                    </div>
-                  );
-                }
-                if (result.type === "finalAnswer") {
-                  return (
-                    <div
-                      key={index}
-                      className="text-sm mb-4 d-flex flex-column"
-                    >
-                      <div className="fw-bold">Final Answer </div>
-                      {result.content}
-                    </div>
-                  );
-                }
-              })}
+                    ));
+                  }
+                  if (result.type === "observation") {
+                    return (
+                      <div
+                        key={index}
+                        className="text-sm mb-4 d-flex flex-column"
+                      >
+                        <div className="fw-bold">Observation </div>
+                        {result.content}
+                      </div>
+                    );
+                  }
+                  if (result.type === "finalAnswer") {
+                    return (
+                      <div
+                        key={index}
+                        className="text-sm mb-4 d-flex flex-column"
+                      >
+                        <div className="fw-bold">Final Answer </div>
+                        {result.content}
+                      </div>
+                    );
+                  }
+                })}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      {loading && (
-        <div key="loading" className={`d-flex align-items-center`}>
-          <div>
-            <span
-              className="spinner-grow spinner-grow-sm me-1"
-              role="status"
-              aria-hidden="true"
-            />
+        {loading && (
+          <div key="loading" className={`d-flex align-items-center`}>
+            <div>
+              <span
+                className="spinner-grow spinner-grow-sm me-1"
+                role="status"
+                aria-hidden="true"
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {messages.length > 0 && !loading && (
-        <button onClick={() => run()} className="btn btn-dark w-100 mt-2">
-          Continue
-        </button>
-      )}
+        {messages.length > 0 && !loading && (
+          <button onClick={() => run()} className="btn btn-dark w-100 mt-2">
+            Continue
+          </button>
+        )}
+      </div>
     </div>
   </Wrapper>
 );
