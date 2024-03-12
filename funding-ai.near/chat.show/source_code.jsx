@@ -314,6 +314,9 @@ const Footer = styled.div`
       font-size: 13px;
       justify-content:flex-end;
     }
+    :hover{
+      background:#908bef;
+    }
   }
 `;
 
@@ -337,6 +340,7 @@ const [description, setDescription] = useState("");
 const [isCheckAll, setIsCheckAll] = useState(false);
 const [isCheck, setIsCheck] = useState([]);
 const [amount, setAmount] = useState(0);
+
 const hanleInput = (e) => {
   const value = e.target.value;
   setValue(value);
@@ -374,6 +378,7 @@ const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
 };
 
 const handleDonate = () => {
+  console.log("Donate is pending!!!");
   const transactions = [];
   isCheck &&
     Object.entries(isCheck).forEach((projectId) => {
@@ -390,8 +395,15 @@ const handleDonate = () => {
         gas: "300000000000000",
       });
     });
+  Near.call(transactions);
 };
-
+const isDisable = () => {
+  if (Number(amount) > 0) {
+    return false;
+  } else {
+    return true;
+  }
+};
 console.log(profileData);
 console.log("ischecked", isCheck);
 console.log("amount", amount);
@@ -517,7 +529,11 @@ return (
                 onChange={(e) => setAmount(e.target.value)}
               />
               <div class="footerRight">
-                <button class="btn-donate" onClick={handleDonate}>
+                <button
+                  disable={isDisable()}
+                  class="btn-donate"
+                  onClick={handleDonate}
+                >
                   Fund {isCheck.length} project
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
