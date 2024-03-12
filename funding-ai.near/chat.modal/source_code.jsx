@@ -130,6 +130,7 @@ const Description = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:center;
+    flex-wrap:wrap;
     gap:20px;
     @media screen and (max-width:768px){
       ${setHeight("50px")}
