@@ -1,11 +1,13 @@
 const profileData = props.profileData || [];
 const [name, setName] = useState("");
+const [accountId, setAccountId] = useState("");
 const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
 const [tags, setTags] = useState([]);
 const [teams, setTeams] = useState([]);
 const hanleClick = (data, accountId) => {
   if (data.accountId == accountId) {
+    setAccountId(accountId);
     setName(data.data.name);
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
@@ -25,6 +27,14 @@ const Header = styled.div`
     gap:10px;
     flex-direction:row;
   }
+  .title{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .id{
+    font-size:16px;
+  }
 `;
 const Description = styled.div`
   display:flex;
@@ -34,12 +44,12 @@ const Description = styled.div`
   .desc{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
-    border-radius:15px;
+    border-radius:10px;
   }
   .tags{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
-    border-radius:15px;
+    border-radius:10px;
     display:flex;
     flex-direction:row;
     gap:20px;
@@ -48,17 +58,17 @@ const Description = styled.div`
     font-weight:600;
     border:1px solid white;
     padding:5px 10px;
-    box-shadow: 2px 5px white;
+    box-shadow: 2px 2px white;
   }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
-    padding: 10px 15px;
+    padding: 10px 10px;
     border-radius:15px;
   }
   .social{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
-    border-radius:15px;
+    border-radius:10px;
   }
 `;
 return (
@@ -113,9 +123,12 @@ return (
                   alt="profile"
                 />
               )}
-              <h5 class="modal-title" id="staticBackdropLabel">
-                {name}
-              </h5>
+              <div class="title">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                  {name}
+                </h5>
+                <div class="id">@{accountId}</div>
+              </div>
             </div>
             <div class="navRight">
               <button
@@ -127,12 +140,16 @@ return (
             </div>
           </Header>
           <Description class="modal-body">
+            <div>Overview</div>
             <div class="desc">{description}</div>
+            <div>Tags</div>
             <div class="tags">
               {tags.map((tag) => (
                 <div class="tag">{tag}</div>
               ))}
             </div>
+            <div>Team Member</div>
+            <div>Social</div>
           </Description>
           <div class="modal-footer">
             <button
@@ -141,9 +158,6 @@ return (
               data-bs-dismiss="modal"
             >
               Close
-            </button>
-            <button type="button" class="btn btn-primary">
-              Understood
             </button>
           </div>
         </div>
