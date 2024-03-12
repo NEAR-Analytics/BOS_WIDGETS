@@ -1,20 +1,27 @@
+// Definición del nombre del contrato inteligente.
 const contract = "guest-book.near";
 
+// Declaración de los hooks de React para almacenar la información necesaria en el state del componente.
 const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessages] = useState("");
 const [newDeposit, setNewDeposit] = useState(0);
 
+// Indicamos al componente que consulte la información del contrato después de renderizarse.
 useEffect(() => {
+  // Llamamos al método getMessages del contrato inteligente.
   const data = Near.view(contract, "getMessages", {}).reverse();
-  console.log(data);
+  // Asignamos la información obtenida del contrato a la propiedad messages del state.
   setMessages(data);
 }, []);
 
+// Función para agregar un nuevo mensaje al libro de visitas.
 const addNewMessage = () => {
+  // Se asegura de que el nuevo mensaje no esté vacío antes de agregarlo.
   if (newMessage.trim() == "") {
     return;
   }
 
+  // Se llama al contrato para agregar un nuevo mensaje, junto con el texto y el depósito.
   Near.call(
     contract,
     "addMessage",
