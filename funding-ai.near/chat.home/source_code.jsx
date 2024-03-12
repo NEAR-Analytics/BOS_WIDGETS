@@ -132,6 +132,9 @@ const SearchBar = styled.div`
     outline:none;
     border:none;
     background:#5d76cb;
+    display:flex;
+    justify-content:center;
+    margin:auto;
     @media screen and (max-width:768px){
       border-radius: 50px;
       width:30px;
@@ -279,7 +282,6 @@ return (
                         height="20"
                         fill="white"
                         viewBox="0 0 256 256"
-                        style={{ marginRight: "5px" }}
                       >
                         <path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"></path>
                       </svg>
