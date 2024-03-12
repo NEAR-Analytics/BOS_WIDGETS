@@ -565,11 +565,7 @@ return (
                 onChange={(e) => setAmount(e.target.value)}
               />
               <div class="footerRight">
-                <button
-                  disable={isDisable()}
-                  class="btn-donate"
-                  onClick={handleDonate}
-                >
+                <button class="btn-donate" onClick={handleDonate}>
                   Fund {isCheck.length} project
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
