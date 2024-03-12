@@ -26,15 +26,17 @@ const links = ["Home", "Near", "Earn", "Learn"];
 
 return (
   <Theme>
-    <h3>
-      Educ<span class="logo-gradient">Near</span>
-    </h3>
-    <div>
-      {links.map((link) => (
-        <span key={`Nav-link-${link}`}>{link}</span>
-      ))}
-    </div>
-    <button class="btn-1">Login</button>
+    <nav>
+      <h3>
+        Educ<span class="logo-gradient">Near</span>
+      </h3>
+      <div>
+        {links.map((link) => (
+          <span key={`Nav-link-${link}`}>{link}</span>
+        ))}
+      </div>
+      <button class="btn-1">Login</button>
+    </nav>
 
     <div className="hero">
       <h2>Join EducNear</h2>
