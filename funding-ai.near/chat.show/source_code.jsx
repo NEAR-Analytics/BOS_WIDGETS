@@ -147,11 +147,10 @@ const ListResult = styled.div`
       flex-direction:row;
       align-items:center;
       margin-top:10px;
-      margin-left:30px;
+      margin-left:35px;
       gap:10px;
     }
     .header{
-      margin-top:10px;
       margin-left:15px;
       font-size:16px;
       font-weight:600;
