@@ -12,7 +12,7 @@ const hanleClick = (data, accountId) => {
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
     console.log(data.data.tags);
-    setTags(Object.keys(data.data.tags).flat());
+    if (data.data.tags) setTags(Object.keys(data.data.tags).flat());
   }
 };
 const Header = styled.div`
@@ -30,17 +30,22 @@ const Header = styled.div`
   .title{
     display:flex;
     flex-direction:column;
-    gap:10px;
+    gap:5px;
   }
   .id{
-    font-size:16px;
+    font-size:14px;
   }
 `;
 const Description = styled.div`
   display:flex;
   flex-direction:column;
-  gap:20px;
+  gap:15px;
   padding:10px 15px;
+  font-size:16px;
+  .title{
+    font-size:18px;
+    font-weight:700;
+  }
   .desc{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
