@@ -1,27 +1,20 @@
-// Definition of the smart contract address.
 const contract = "guest-book.near";
 
-// Hooks declaration to store the necessary information in the state of the component.
 const [messages, setMessages] = useState([]);
 const [newMessage, setNewMessages] = useState("");
 const [newDeposit, setNewDeposit] = useState(0);
 
-// Get the contract information after rendering.
 useEffect(() => {
-  // Call the getMessages method of the smart contract
   const data = Near.view(contract, "getMessages", {}).reverse();
-  // Assignment the information obtained from the contract to the messages property of the state.
+  console.log(data);
   setMessages(data);
 }, []);
 
-// Function to add a new message to the guestbook.
 const addNewMessage = () => {
-  // It validates that the new message is not empty before adding it.
   if (newMessage.trim() == "") {
     return;
   }
 
-  // The smart contract is called to add a new message, along with the text and the deposit.
   Near.call(
     contract,
     "addMessage",
@@ -33,9 +26,6 @@ const addNewMessage = () => {
   );
 };
 
-// Rendering of the component making use of the messages retrieved from the smart contract to display them,
-// as well as the assignment of the methods to change the values to the corresponding state property
-// and the call to the method to save a new message to the corresponding button.
 return (
   <div class="p-3">
     <h3 class="text-center">Guest Book (BOS + NEAR)</h3>
