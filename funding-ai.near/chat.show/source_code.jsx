@@ -490,7 +490,7 @@ return (
               <input type="text" class="amount" />
               <div class="footerRight">
                 <button class="btn-donate">
-                  Fund ${isCheck.length} project
+                  Fund {isCheck.length} project
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
