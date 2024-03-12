@@ -2,16 +2,16 @@
 
 const profile = {
   avatar:
-    "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
+ "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
   title: "Kayleigh Svensson",
-  subtitle: "Head of Operations",
+  subtitle: "Operations at Jutsu",
   links: [
-    { title: "Telegram", url: "t.me/kaysve" },
-    { title: "Twitter", url: "https://twitter.com/kaysve" },
+    { title: "telegram", url: "t.me/kaysve" },
+    { title: "twitter", url: "https://twitter.com/kaysve" },
   ],
   socials: [
-    { title: "Telegram", url: "t.me/kaysve" },
-    { title: "Twitter", url: "https://twitter.com/kaysve" },
+    { title: "telegram", url: "t.me/kaysve" },
+    { title: "twitter", url: "https://twitter.com/kaysve" },
   ],
 };
 
@@ -36,8 +36,7 @@ const titleToIcon = [
     title: "linkedin",
     icon: <i class="bi bi-linkedin"></i>,
   },
-
-  {
+   {
     title: "telegram",
     icon: <i class="bi bi-telegram"></i>,
   },
