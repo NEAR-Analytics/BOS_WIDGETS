@@ -83,9 +83,7 @@ const Description = styled.div`
     display:flex;
     flex-direction:row;
     gap:20px;
-    @media screen and (max-width:768px){
-      flex-wrap:wrap;
-    }
+    
   }
   .team{
     font-weight:600;
@@ -189,9 +187,29 @@ return (
               ))}
             </div>
             <div class="title">Team Member</div>
-            {teams.map((team) => (
-              <div class="team">@{team}</div>
-            ))}
+            <div class="teams">
+              {teams.map((team) => (
+                <div>
+                  <Widget
+                    src="mob.near/widget/ProfileImage"
+                    props={{
+                      accountId: team,
+                      style: {
+                        width: `100px`,
+                        height: `100px`,
+                        border: `4px #dd3345 solid`,
+                        borderRadius: "50%",
+                      },
+                      className: "mb-2",
+                      imageClassName: "rounded-circle w-100 h-100 d-block",
+                      thumbnail: false,
+                      tooltip: true,
+                    }}
+                  />
+                  <div class="team">@{team}</div>
+                </div>
+              ))}
+            </div>
             <div class="title">Social</div>
           </Description>
           <div class="modal-footer">
