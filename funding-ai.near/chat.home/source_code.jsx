@@ -124,7 +124,7 @@ const SearchBar = styled.div`
     top:6px;
     cursor:default;
     @media screen and (max-width:768px){
-      top: 9px;
+      top: 10px;
     }
   }
   .button-arrow{
@@ -134,7 +134,7 @@ const SearchBar = styled.div`
     font-size:22px;
     @media screen and (max-width:768px){
       color:black;
-      font-size:18px;
+      font-size:25px;
     }
   }
 `;
