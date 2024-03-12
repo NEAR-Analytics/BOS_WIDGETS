@@ -1,33 +1,51 @@
 const contract = "guest-book.near";
-const messages = Near.view(contract, "getMessages", {}).reverse();
-console.log(messages);
 
-State.init({
-  newMessage: "",
-});
+const [messages, setMessages] = useState([]);
+const [newMessage, setNewMessages] = useState("");
+const [newDeposit, setNewDeposit] = useState(0);
+
+useEffect(() => {
+  const data = Near.view(contract, "getMessages", {}).reverse();
+  console.log(data);
+  setMessages(data);
+}, []);
 
 const addNewMessage = () => {
-  if (state.newMessage.trim() == "") {
+  if (newMessage.trim() == "") {
     return;
   }
 
-  Near.call(contract, "addMessage", {
-    text: state.newMessage,
-  });
+  Near.call(
+    contract,
+    "addMessage",
+    {
+      text: newMessage,
+    },
+    "30000000000000",
+    newDeposit * 1e24
+  );
 };
 
 return (
   <div class="p-3">
-    <h3 class="text-center">Libro de Visitas (BOS + NEAR)</h3>
+    <h3 class="text-center">Guest Book (BOS + NEAR)</h3>
     <br />
     {context.accountId ? (
       <div class="border border-black p-3">
-        <h3>Nuevo Mensaje</h3>
+        <h3>New Message</h3>
         <div class="row">
-          <div>
+          <div class="col-sm">
             <input
               placeholder="Message"
-              onChange={(e) => State.update({ newMessage: e.target.value })}
+              onChange={(e) => setNewMessages(e.target.value)}
+            />
+          </div>
+          <div class="col-sm">
+            <input
+              type="number"
+              min="0"
+              placeholder="Deposit"
+              onChange={(e) => setNewDeposit(e.target.value)}
             />
           </div>
         </div>
@@ -37,7 +55,7 @@ return (
             addNewMessage();
           }}
         >
-          Guardar
+          Send Message
         </button>
       </div>
     ) : (
@@ -47,12 +65,13 @@ return (
     )}
     <br />
     <div class="border border-black p-3">
-      <h3>Listado de Mensajes</h3>
+      <h3>List of Messages</h3>
       <table className="table table-sm">
         <thead>
           <tr class="p-3 mb-2 bg-primary text-white text-center">
-            <th>Cuenta</th>
-            <th>Mensaje</th>
+            <th>Account</th>
+            <th>Message</th>
+            <th>Premium</th>
           </tr>
         </thead>
         <tbody>
@@ -61,6 +80,7 @@ return (
               <tr class="text-center">
                 <td>{data.sender}</td>
                 <td>{data.text}</td>
+                <td>{data.premium ? "Yes" : "No"}</td>
               </tr>
             );
           })}
