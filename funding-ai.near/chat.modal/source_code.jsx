@@ -281,6 +281,7 @@ return (
           onClick={() => hanleClick(dt, dt.accountId)}
         >
           <Checkbox
+            class="form-check-input"
             key={dt.accountId}
             type="checkbox"
             id={dt.accountId}
