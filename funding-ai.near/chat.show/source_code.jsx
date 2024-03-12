@@ -162,6 +162,7 @@ const ListResult = styled.div`
         padding:10px 20px;
         text-decoration:none;
         max-height:90px;
+        cursor:pointer;
     }
     .image{
         border-radius:50px;
@@ -356,34 +357,10 @@ return (
           <ListResult>
             <div class="header">ALL PROJECT</div>
             <div class="listItem">
-              {profileData.map((dt) => (
-                <a
-                  href={`https://app.potlock.org/?tab=project&projectId=${dt.accountId}`}
-                  class="item"
-                  target="_blank"
-                >
-                  {dt.data.image.url ? (
-                    <img class="image" src={dt.data.image.url} alt="profile" />
-                  ) : (
-                    <img
-                      class="image"
-                      src={
-                        `https://ipfs.near.social/ipfs/` +
-                        dt.data.image.ipfs_cid
-                      }
-                      alt="profile"
-                    />
-                  )}
-                  <div class="project">
-                    <div class="title">{dt.data.name}</div>
-                    <div class="decs">
-                      {dt.data.description.length > 80
-                        ? dt.data.description.slice(0, 80) + "..."
-                        : dt.data.description}
-                    </div>
-                  </div>
-                </a>
-              ))}
+              <Widget
+                src="funding-ai.near/widget/chat.modal"
+                props={{ profileData }}
+              />
             </div>
           </ListResult>
         </View>
