@@ -13,11 +13,12 @@ const hanleClick = (data, accountId) => {
   }
 };
 const Header = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    gap:10px;
-    border-bottom:1px solid gray;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 15px;
   .navLeft{
     display:flex;
     gap:10px;
@@ -78,6 +79,7 @@ return (
       tabindex="-1"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
+      style={{ padding: "10px 15px" }}
     >
       <div class="modal-dialog">
         <div class="modal-content">
@@ -96,12 +98,14 @@ return (
                 {name}
               </h5>
             </div>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <div class="navRight">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
           </Header>
           <Description class="modal-body">
             <div class="desc">{description}</div>
