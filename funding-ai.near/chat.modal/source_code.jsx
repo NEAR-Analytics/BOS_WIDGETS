@@ -67,7 +67,7 @@ const Description = styled.div`
     border:1px solid white;
     padding:5px 10px;
     box-shadow: 2px 2px white;
-    max-height:30px;
+    max-height:50px;
   }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
