@@ -128,7 +128,7 @@ const SearchBar = styled.div`
     }
   }
   svg{
-    right: 15px;
+    margin-right: 5px;
   }
   .button-arrow{
     border-radius: 100%;
