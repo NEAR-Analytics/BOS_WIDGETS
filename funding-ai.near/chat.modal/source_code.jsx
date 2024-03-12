@@ -276,7 +276,7 @@ return (
       profileData.map((dt) => (
         <div class="item">
           <Checkbox
-            class="form-check-input"
+            class="form-check-input itemLeft"
             key={dt.accountId}
             type="checkbox"
             id={dt.accountId}
