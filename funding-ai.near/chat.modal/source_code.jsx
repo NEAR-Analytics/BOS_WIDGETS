@@ -12,8 +12,14 @@ const hanleClick = (data, accountId) => {
     setImage(data.data.image.ipfs_cid || data.data.image.url);
     setDescription(data.data.description);
     console.log(data.data.team);
-    if (data.data.tags) setTags(Object.keys(data.data.tags).flat());
-    if (data.data.team) setTeams(Object.keys(data.data.team).flat());
+    if (data.data.tags) {
+      setTags(Object.keys(data.data.tags).flat());
+    }
+    if (data.data.team) {
+      setTeams(Object.keys(data.data.team).flat());
+    } else {
+      setTeams([]);
+    }
   }
 };
 const Header = styled.div`
@@ -74,11 +80,35 @@ const Description = styled.div`
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 10px;
     border-radius:15px;
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    @media screen and (max-width:768px){
+      flex-wrap:wrap;
+    }
+  }
+  .team{
+    font-weight:600;
+    border: 2px solid white;
+    padding:5px 10px;
+    border-radius:5px;
+    box-shadow: 0px 2px white;
+    max-height:50px;
   }
   .social{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
     padding: 10px 15px;
     border-radius:10px;
+    display:flex;
+    flex-direction:row;
+    gap:20px;
+    @media screen and (max-width:768px){
+      flex-wrap:wrap;
+    }
+  }
+  .sc{
+    background: #9aa8fb;
+    padding:3px;
   }
 `;
 return (
@@ -160,7 +190,7 @@ return (
             </div>
             <div class="title">Team Member</div>
             {teams.map((team) => (
-              <div>{team}</div>
+              <div class="team">@{team}</div>
             ))}
             <div class="title">Social</div>
           </Description>
