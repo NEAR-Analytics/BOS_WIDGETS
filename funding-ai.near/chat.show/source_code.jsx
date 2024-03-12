@@ -142,6 +142,11 @@ const ListResult = styled.div`
     @media screen and (max-width:768px){
         max-width:100%;
     }
+    .allProject{
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+    }
     .header{
         margin-top:10px;
         margin-left:15px;
@@ -179,6 +184,7 @@ const ListResult = styled.div`
       width:30px;
       height:30px;
       display:flex;
+      justify-content:center;
       align-items:center;
     }
     .itemRight{
@@ -275,6 +281,9 @@ const [data, setData] = useState([]);
 const [name, setName] = useState("");
 const [image, setImage] = useState("");
 const [description, setDescription] = useState("");
+const [isCheckAll, setIsCheckAll] = useState(false);
+const [isCheck, setIsCheck] = useState([]);
+
 const hanleInput = (e) => {
   const value = e.target.value;
   setValue(value);
@@ -290,6 +299,27 @@ res.body &&
       }
     }
   });
+
+const handleSelectAll = (e) => {
+  setIsCheckAll(!isCheckAll);
+  setIsCheck(profileData.map(({ accountId }) => accountId));
+  if (isCheckAll) {
+    setIsCheck([]);
+  }
+};
+
+const Checkbox = ({ className, id, type, handleClick, isChecked }) => {
+  return (
+    <input
+      class={className}
+      id={id}
+      type={type}
+      onChange={handleClick}
+      checked={isChecked}
+    />
+  );
+};
+
 console.log(profileData);
 return (
   <Container>
@@ -383,7 +413,16 @@ return (
         )}
         <View>
           <ListResult>
-            <div class="header">ALL PROJECT</div>
+            <div class="allProject">
+              <Checkbox
+                type="checkbox"
+                name="selectAll"
+                id="selectAll"
+                handleClick={handleSelectAll}
+                isChecked={isCheckAll}
+              />
+              <div class="header">ALL PROJECT</div>
+            </div>
             <div class="listItem">
               <Widget
                 src="funding-ai.near/widget/chat.modal"
