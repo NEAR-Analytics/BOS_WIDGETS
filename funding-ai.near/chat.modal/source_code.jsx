@@ -162,6 +162,7 @@ const Description = styled.div`
       ${setHeight("50px")}
       ${setWidth("50px")}
       flex-direction: column;
+      justify-content:center;
     }
   }
   .team{
@@ -401,22 +402,6 @@ return (
               {teams &&
                 teams.map((team) => (
                   <div class="itemTeam">
-                    <Widget
-                      src="mob.near/widget/ProfileImage"
-                      props={{
-                        accountId: team,
-                        style: {
-                          width: width,
-                          height: height,
-                          border: `4px #dd3345 solid`,
-                          borderRadius: "50%",
-                        },
-                        className: "mb-2",
-                        imageClassName: "rounded-circle w-100 h-100 d-block",
-                        thumbnail: false,
-                        tooltip: true,
-                      }}
-                    />
                     <div class="team">@{team}</div>
                   </div>
                 ))}
