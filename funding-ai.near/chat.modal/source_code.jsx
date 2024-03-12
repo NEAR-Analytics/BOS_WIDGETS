@@ -58,12 +58,16 @@ const Description = styled.div`
     display:flex;
     flex-direction:row;
     gap:20px;
+    @media screen and (max-width:768px){
+      flex-wrap:wrap;
+    }
   }
   .tag{
     font-weight:600;
     border:1px solid white;
     padding:5px 10px;
     box-shadow: 2px 2px white;
+    max-height:30px;
   }
   .teams{
     background-image: linear-gradient(to right top, #cad5fe, #ced9fe, #d3ddff, #d7e0ff, #dce4ff);
