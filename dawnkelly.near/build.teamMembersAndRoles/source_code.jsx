@@ -30,7 +30,7 @@ return (
   <div>
     <h3>Team Members and Roles</h3>
     {builders.map((builder, index) => (
-      <div key={index} className="row align-items-center mb-3">
+      <div className="row align-items-center mb-3" key={index}>
         <div className="col-md-4">
           <label htmlFor={`builderName-${index}`}>Name:</label>
           <input
@@ -38,7 +38,7 @@ return (
             type="text"
             className="form-control"
             placeholder="Builder name"
-            value={builder.name}
+            value={builders[index].name}
             onChange={(e) => handleNameChange(e, index)}
           />
         </div>
@@ -49,7 +49,7 @@ return (
             type="text"
             className="form-control"
             placeholder="Builder role"
-            value={builder.role}
+            value={builders[index].role}
             onChange={(e) => handleRoleChange(e, index)}
           />
         </div>
