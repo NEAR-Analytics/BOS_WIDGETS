@@ -6,9 +6,7 @@ if (!Struct) {
 const { useQuery } = VM.require(
   "megha19.near/widget/core.adapter.devhub-contract"
 );
-const { uuid, withUUIDIndex } = VM.require(
-  "megha19.near/widget/core.lib.uuid"
-);
+const { uuid, withUUIDIndex } = VM.require("megha19.near/widget/core.lib.uuid");
 
 uuid || (uuid = () => {});
 withUUIDIndex || (withUUIDIndex = () => {});
