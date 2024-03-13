@@ -7,17 +7,7 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The account identifier passed as a string.
- * @param {React.FC<{
- *   href: string;
- *   children: React.ReactNode;
- *   className?: string;
- * }>} Link - A React component for rendering links.
  */
-
-
-
-
-
 
 
 
@@ -376,7 +366,7 @@ const Paginator = (props) => {
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
 
-function MainComponent({ network, t, id, Link }) {
+function MainComponent({ network, t, id }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showWhen, setShowWhen] = useState(true);
   const [sorting, setSorting] = useState('desc');
@@ -567,7 +557,6 @@ function MainComponent({ network, t, id, Link }) {
                     t: t,
                     accessKey: key,
                     showWhen: showWhen,
-                    Link,
                   }}
                 />
               ))}
