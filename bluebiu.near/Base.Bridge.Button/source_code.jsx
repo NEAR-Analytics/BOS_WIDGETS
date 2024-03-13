@@ -14,7 +14,6 @@ const Button = styled.button`
     opacity: 0.5;
   }
 `;
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   disabled,
   loading,
@@ -29,6 +28,7 @@ const {
   gasCost,
   isGasEnough,
   onSuccess,
+  account,
 } = props;
 
 if (loading)
@@ -274,7 +274,6 @@ return (
     />
     <Button
       onClick={() => {
-        console.log(from, target);
         const toastId = toast?.loading({
           title: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
         });
