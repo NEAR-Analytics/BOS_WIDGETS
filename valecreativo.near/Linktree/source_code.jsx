@@ -12,10 +12,7 @@ const profile = {
       title: "ValenteCreativo IG",
       url: "https://www.instagram.com/valentecreativo/",
     },
-    {
-      title: "TA'AK Studio",
-      url: "https://taak-studio.bubbleapps.io/version-test",
-    }, // Nuevo link
+    { title: "TA'AK Studio", url: "https://taak.bio" }, // Nuevo link
   ],
   socials: [
     { title: "Instagram", url: "https://www.instagram.com/ValentePantera4" },
