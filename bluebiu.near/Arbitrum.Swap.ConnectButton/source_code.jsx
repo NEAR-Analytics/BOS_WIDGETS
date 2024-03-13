@@ -7,7 +7,7 @@ const {
   chainName,
 } = props;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
+const account = props.account || Ethers.send("eth_requestAccounts", [])[0];
 
 const ConnectWrapper = styled.div`
   display: flex;
