@@ -11,7 +11,17 @@
  * @param {boolean} [signedIn] - Boolean indicating whether the user is currently signed in or not.
  * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
  * @param {Function} [logOut] - Function to log out.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -78,7 +88,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -268,7 +278,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -428,7 +438,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -652,7 +662,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -2364,6 +2374,11 @@ const TokenImage = ({
  * @param {string} [ft.amount] -  amount in USD of tokens.
  * @param {Object[]} [ft.tokens] - Array containing 'TokenListInfo' objects, providing information about individual token details.
  * @param {string} [appUrl] - The URL of the application.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE: "includes/libs.jsx" */
@@ -2381,7 +2396,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -3344,7 +3359,13 @@ function yoctoToNear(yocto, format) {
 
 
 
+
+
+
+
+
 const TokenHoldings = (props) => {
+  const { Link } = props;
   const Loading = (props) => {
     return (
       <div
@@ -3398,7 +3419,7 @@ const TokenHoldings = (props) => {
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {props.ft?.tokens?.map((token, index) => (
                       <div key={token?.contract}>
-                        <a
+                        <Link
                           href={`/token/${token?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
@@ -3448,7 +3469,7 @@ const TokenHoldings = (props) => {
                               </div>
                             )}
                           </a>
-                        </a>
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -3463,7 +3484,7 @@ const TokenHoldings = (props) => {
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {nfts.map((nft) => (
                       <div key={nft?.contract}>
-                        <a
+                        <Link
                           href={`/nft-token/${nft?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
@@ -3498,7 +3519,7 @@ const TokenHoldings = (props) => {
                               </div>
                             </div>
                           </a>
-                        </a>
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -5642,6 +5663,7 @@ function MainComponent(props) {
     signedIn,
     accountId,
     logOut,
+    Link,
   } = props;
   const [loading, setLoading] = useState(false);
   const [isloading, setIsLoading] = useState(true);
@@ -6202,6 +6224,7 @@ function MainComponent(props) {
                     ft={ft}
                     id={id}
                     appUrl={config?.appUrl}
+                    Link={Link}
                   />
                 </div>
               </div>
@@ -6298,7 +6321,7 @@ function MainComponent(props) {
                     Contract Creator:
                   </div>
                   <div className="w-full md:w-3/4 break-words">
-                    <a
+                    <Link
                       href={`/address/${deploymentData.receipt_predecessor_account_id}`}
                       className="hover:no-underline"
                     >
@@ -6307,16 +6330,16 @@ function MainComponent(props) {
                           deploymentData.receipt_predecessor_account_id ?? '',
                         )}
                       </a>
-                    </a>
+                    </Link>
                     {' at txn  '}
-                    <a
+                    <Link
                       href={`/txns/${deploymentData.transaction_hash}`}
                       className="hover:no-underline"
                     >
                       <a className="text-green-500 hover:no-underline">
                         {shortenAddress(deploymentData.transaction_hash ?? '')}
                       </a>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -6333,7 +6356,10 @@ function MainComponent(props) {
                         appUrl={config.appUrl}
                         className="w-4 h-4 mr-2"
                       />
-                      <a href={`/token/${id}`} className="hover:no-underline">
+                      <Link
+                        href={`/token/${id}`}
+                        className="hover:no-underline"
+                      >
                         <a className="flex text-green-500 hover:no-underline">
                           <span className="inline-block truncate max-w-[110px] mr-1">
                             {tokenData.name}
@@ -6344,7 +6370,7 @@ function MainComponent(props) {
                           </span>
                           )
                         </a>
-                      </a>
+                      </Link>
                       {tokenData.price && (
                         <div className="text-nearblue-600 ml-1">
                           (@ ${localFormat(tokenData.price)})
@@ -6416,6 +6442,7 @@ function MainComponent(props) {
                       filters: filters,
                       handleFilter: handleFilter,
                       onFilterClear: onFilterClear,
+                      Link,
                     }}
                   />
                 }
@@ -6431,6 +6458,7 @@ function MainComponent(props) {
                       filters: filters,
                       handleFilter: handleFilter,
                       onFilterClear: onFilterClear,
+                      Link,
                     }}
                   />
                 }
@@ -6446,6 +6474,7 @@ function MainComponent(props) {
                       filters: filters,
                       handleFilter: handleFilter,
                       onFilterClear: onFilterClear,
+                      Link,
                     }}
                   />
                 }
@@ -6458,6 +6487,7 @@ function MainComponent(props) {
                       network: network,
                       id: id,
                       t: t,
+                      Link,
                     }}
                   />
                 }
@@ -6478,6 +6508,7 @@ function MainComponent(props) {
                         connected: signedIn,
                         accountId: accountId,
                         logOut: logOut,
+                        Link,
                       }}
                     />
                   }
