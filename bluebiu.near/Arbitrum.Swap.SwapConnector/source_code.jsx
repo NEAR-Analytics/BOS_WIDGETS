@@ -1,11 +1,12 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
+  currentChainId,
   chainId,
   chainName,
   displayChainName,
   dexs,
   defalutDex,
   connectProps,
+  account,
   ...restProps
 } = props;
 
@@ -20,6 +21,7 @@ if (!account) {
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...CONNECT_PROPS,
+        account,
         isWrongNetwork: false,
       }}
     />
@@ -28,23 +30,16 @@ if (!account) {
 const DEXS = Object.values(dexs || {});
 
 State.init({
-  chainId: -1,
   selectedDex: defalutDex,
 });
 
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({ chainId });
-  })
-  .catch(() => {});
-
-if (state.chainId !== chainId) {
+if (currentChainId !== chainId) {
   return (
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...CONNECT_PROPS,
+        account,
         isWrongNetwork: true,
       }}
     />
