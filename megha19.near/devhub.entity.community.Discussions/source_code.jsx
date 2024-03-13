@@ -211,9 +211,7 @@ return (
               key="feed"
               src="mob.near/widget/MainPage.N.Feed"
               props={{
-                accounts: [
-                  `discussions.${handle}.community.truedove38.near`,
-                ],
+                accounts: [`discussions.${handle}.community.truedove38.near`],
               }}
             />
           </div>
