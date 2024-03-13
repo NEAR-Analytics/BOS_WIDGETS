@@ -7,7 +7,17 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {Token} [token] - The Token type passed as object
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -679,7 +689,7 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent({ network, id, token }) {
+function MainComponent({ network, id, token, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -813,14 +823,14 @@ function MainComponent({ network, id, token }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[200px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/address/${row?.account}`}
                     className="hover:no-undeline"
                   >
                     <a className="text-green-500 font-medium hover:no-undeline">
                       {row?.account}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
