@@ -7,9 +7,7 @@ function removeMember(member) {
 }
 
 function hasModerator({ account_id }) {
-  return (
-    Near.view("devgovgigs.near", "has_moderator", { account_id }) ?? null
-  );
+  return Near.view("devgovgigs.near", "has_moderator", { account_id }) ?? null;
 }
 
 function createCommunity({ inputs }) {
@@ -23,9 +21,7 @@ function createCommunity({ inputs }) {
 }
 
 function getCommunity({ handle }) {
-  return (
-    Near.view("truedove38.near", "get_community", { handle }) ?? null
-  );
+  return Near.view("truedove38.near", "get_community", { handle }) ?? null;
 }
 
 function getFeaturedCommunities() {
@@ -94,9 +90,7 @@ function getAllAuthors() {
 }
 
 function getAllCommunitiesMetadata() {
-  return (
-    Near.view("truedove38.near", "get_all_communities_metadata") ?? null
-  );
+  return Near.view("truedove38.near", "get_all_communities_metadata") ?? null;
 }
 
 function getSocialWithBlockHeight(data) {
@@ -113,8 +107,7 @@ function getPost({ post_id }) {
 
 function getPostsByAuthor({ author }) {
   return (
-    Near.view("devgovgigs.near", "get_posts_by_author", { author }) ??
-    null
+    Near.view("devgovgigs.near", "get_posts_by_author", { author }) ?? null
   );
 }
 
@@ -149,11 +142,7 @@ function useQuery(name, params) {
 
   const cacheState = useCache(
     () =>
-      Near.asyncView(
-        "devgovgigs.near",
-        ["get", name].join("_"),
-        params ?? {}
-      )
+      Near.asyncView("devgovgigs.near", ["get", name].join("_"), params ?? {})
         .then((response) => ({
           ...initialState,
           data: response ?? null,
