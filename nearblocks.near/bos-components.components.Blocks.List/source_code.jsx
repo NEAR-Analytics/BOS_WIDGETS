@@ -10,6 +10,11 @@
  *                                 Example: If provided, currentPage=3 will display the third page of blocks.
  * @param {function} [setPage] - A function used to set the current page. (Optional)
  *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -1739,7 +1744,12 @@ function formatWithCommas(number) {
 
 
 
-function MainComponent({ currentPage, setPage, t, network }) {
+
+
+
+
+
+function MainComponent({ currentPage, setPage, t, network, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
@@ -1826,13 +1836,16 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'block_hash',
       cell: (row) => (
         <span>
-          <a href={`/blocks/${row?.block_hash}`} className="hover:no-underline">
+          <Link
+            href={`/blocks/${row?.block_hash}`}
+            className="hover:no-underline"
+          >
             <a className="text-green-500 hover:no-underline">
               {row?.block_height
                 ? localFormat(row?.block_height)
                 : row?.block_height ?? ''}
             </a>
-          </a>
+          </Link>
         </span>
       ),
       tdClassName:
@@ -1944,7 +1957,7 @@ function MainComponent({ currentPage, setPage, t, network }) {
       key: 'author_account_id',
       cell: (row) => (
         <span>
-          <a
+          <Link
             href={`/address/${row?.author_account_id}`}
             className={`hover:no-underline`}
           >
@@ -1958,7 +1971,7 @@ function MainComponent({ currentPage, setPage, t, network }) {
             >
               {shortenAddress(row?.author_account_id ?? '')}
             </a>
-          </a>
+          </Link>
         </span>
       ),
       tdClassName:
