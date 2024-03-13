@@ -6,7 +6,17 @@
  * @interface Props
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1240,7 +1250,7 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent({ network, t }) {
+function MainComponent({ network, t, Link }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [blocks, setBlocks] = useState([]);
@@ -1348,7 +1358,7 @@ function MainComponent({ network, t }) {
                         </div>
                         <div className="overflow-hidden pl-2">
                           <div className="text-green-500 text-sm font-medium ">
-                            <a
+                            <Link
                               href={`/blocks/${block?.block_hash}`}
                               className="hover:no-underline"
                             >
@@ -1357,7 +1367,7 @@ function MainComponent({ network, t }) {
                                   ? localFormat(block?.block_height)
                                   : block?.block_height ?? ''}
                               </a>
-                            </a>
+                            </Link>
                           </div>
                           <div className="text-nearblue-700 text-xs truncate">
                             {block?.block_timestamp
@@ -1370,14 +1380,14 @@ function MainComponent({ network, t }) {
                       </div>
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm whitespace-nowrap truncate">
                         {t ? t('home:blockMiner') : 'Author'}{' '}
-                        <a
+                        <Link
                           href={`/address/${block?.author_account_id}`}
                           className="hover:no-underline"
                         >
                           <a className="text-green-500 font-medium hover:no-underline">
                             {block?.author_account_id}
                           </a>
-                        </a>
+                        </Link>
                         <div className="text-nearblue-700 text-sm ">
                           {block?.transactions_agg?.count
                             ? localFormat(block?.transactions_agg?.count)
@@ -1434,11 +1444,11 @@ function MainComponent({ network, t }) {
       )}
       {blocks && blocks?.length > 0 && (
         <div className="border-t px-2 py-3 text-nearblue-600">
-          <a href="/blocks">
+          <Link href="/blocks">
             <a className="block text-center border border-green-900/10 bg-green-500 hover:bg-green-400 font-thin text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
               View all blocks
             </a>
-          </a>
+          </Link>
         </div>
       )}
     </>
