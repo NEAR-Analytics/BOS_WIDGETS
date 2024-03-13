@@ -13,17 +13,7 @@
  *                                    Example: handleFilter={handlePageFilter} where handlePageFilter is a function to filter the page.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
- * @param {React.FC<{
- *   href: string;
- *   children: React.ReactNode;
- *   className?: string;
- * }>} Link - A React component for rendering links.
  */
-
-
-
-
-
 
 
 
@@ -1572,14 +1562,13 @@ const Download = () => {
 };/* END_INCLUDE COMPONENT: "includes/icons/Download.jsx" */
 
 function MainComponent(props) {
-  const { network, t, id, filters, handleFilter, onFilterClear, Link } = props;
+  const { network, t, id, filters, handleFilter, onFilterClear } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [txns, setTxns] = useState({});
   const [showAge, setShowAge] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [address, setAddress] = useState('');
-  const [filterValue, setFilterValue] = useState({});
 
   const [sorting, setSorting] = useState('desc');
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
@@ -1671,14 +1660,9 @@ function MainComponent(props) {
     }
   }, [config?.backendUrl, id, currentPage, filters, sorting]);
 
-  const onInputChange = (
-    event,
-    name,
-  ) => {
-    setFilterValue((prevFilters) => ({
-      ...prevFilters,
-      [name]: event.target.value,
-    }));
+  let filterValue;
+  const onInputChange = (event) => {
+    filterValue = event.target.value;
   };
 
   const onFilter = (
@@ -1687,18 +1671,14 @@ function MainComponent(props) {
   ) => {
     e.preventDefault();
 
-    if (filterValue[name] !== undefined && filterValue[name] !== null) {
-      handleFilter(name, filterValue[name]);
+    if (filterValue !== null && filterValue !== undefined) {
+      handleFilter(name, filterValue);
     }
   };
 
   const onClear = (name) => {
     if (onFilterClear && filters) {
       onFilterClear(name);
-      setFilterValue((prevFilters) => ({
-        ...prevFilters,
-        [name]: '',
-      }));
     }
   };
 
@@ -1733,14 +1713,14 @@ function MainComponent(props) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <Link
+                  <a
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
-                  </Link>
+                  </a>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -1777,8 +1757,8 @@ function MainComponent(props) {
             <div className="flex flex-col">
               <input
                 name="event"
-                value={filterValue['event']}
-                onChange={(e) => onInputChange(e, 'event')}
+                value={filters ? filters?.event : ''}
+                onChange={onInputChange}
                 placeholder="Search by method"
                 className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
               />
@@ -1794,7 +1774,7 @@ function MainComponent(props) {
                 <button
                   name="type"
                   type="button"
-                  onClick={() => onClear('event')}
+                  onClick={() => onClear('method')}
                   className="flex-1 rounded bg-gray-300 text-xs h-7"
                 >
                   {t ? t('txns:filter.clear') : 'Clear'}
@@ -1843,7 +1823,7 @@ function MainComponent(props) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <Link
+                    <a
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1855,7 +1835,7 @@ function MainComponent(props) {
                       >
                         {row?.affected_account_id}
                       </a>
-                    </Link>
+                    </a>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1916,8 +1896,8 @@ function MainComponent(props) {
           >
             <input
               name="involved"
-              value={filterValue['involved']}
-              onChange={(e) => onInputChange(e, 'involved')}
+              value={filters ? filters?.involved : ''}
+              onChange={onInputChange}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -1952,7 +1932,7 @@ function MainComponent(props) {
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span>
-                    <Link
+                    <a
                       href={`/address/${row.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1968,7 +1948,7 @@ function MainComponent(props) {
                       >
                         {row.involved_account_id}
                       </a>
-                    </Link>
+                    </a>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1996,14 +1976,14 @@ function MainComponent(props) {
           <Tooltip.Root>
             <Tooltip.Trigger asChild>
               <span>
-                <Link
+                <a
                   href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
                   className="hover:no-underline"
                 >
                   <a className="text-green-500 font-medium hover:no-underline">
                     {row?.token_id}
                   </a>
-                </Link>
+                </a>
               </span>
             </Tooltip.Trigger>
             <Tooltip.Content
@@ -2040,14 +2020,14 @@ function MainComponent(props) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <div className="text-sm text-nearblue-600  max-w-[110px] inline-block truncate whitespace-nowrap">
-                      <Link
+                      <a
                         href={`/nft-token/${row?.nft?.contract}`}
                         className="hover:no-underline"
                       >
                         <a className="text-green-500 font-medium hover:no-underline">
                           {row?.nft?.name}
                         </a>
-                      </Link>
+                      </a>
                     </div>
                   </Tooltip.Trigger>
                   <Tooltip.Content
