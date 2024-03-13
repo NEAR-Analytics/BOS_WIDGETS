@@ -29,10 +29,9 @@ const {
   chainId,
   nativeCurrency,
   isChainSupported,
+  account,
 } = props;
 const { type } = dexConfig;
-
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 return (
   <StyledContainer style={dexConfig.theme}>
