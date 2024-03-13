@@ -142,6 +142,7 @@ return (
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
       props={{
+        account: props.account,
         address: props.currency?.address,
         updateTokenBalance: props.updateTokenBalance,
         onLoad: (balance) => {
