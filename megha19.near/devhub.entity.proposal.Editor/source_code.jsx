@@ -631,9 +631,7 @@ if (loading) {
       style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
-      <Widget
-        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
-      />
+      <Widget src={"megha19.near/widget/devhub.components.molecule.Spinner"} />
     </div>
   );
 }
@@ -787,9 +785,7 @@ return (
                 description="Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal."
               >
                 <Widget
-                  src={
-                    "megha19.near/widget/devhub.components.molecule.Compose"
-                  }
+                  src={"megha19.near/widget/devhub.components.molecule.Compose"}
                   props={{
                     data: description,
                     onChange: setDescription,
