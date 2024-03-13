@@ -131,6 +131,9 @@ function handleApprove(tokenAddress, spender) {
         });
     })
     .catch((err) => {
+      State.update({
+        isApproving: false,
+      });
       console.info("approve_error: ", err);
     });
 }
@@ -147,6 +150,7 @@ useEffect(() => {
   if (Big(state.allowance).lt(Big(state.inputValue || 0))) {
     State.update({
       canStake: false,
+      isApproved: false,
       needApprove: true,
     });
   } else {
