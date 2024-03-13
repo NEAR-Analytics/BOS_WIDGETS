@@ -1,9 +1,9 @@
 const { href } = VM.require("megha19.near/widget/core.lib.url") || {
   href: () => {},
 };
-const { readableDate } = VM.require(
-  "megha19.near/widget/core.lib.common"
-) || { readableDate: () => {} };
+const { readableDate } = VM.require("megha19.near/widget/core.lib.common") || {
+  readableDate: () => {},
+};
 const { getDepositAmountForWriteAccess } = VM.require(
   "megha19.near/widget/core.lib.common"
 );
@@ -211,9 +211,7 @@ if (!proposal) {
       style={{ height: "50vh" }}
       className="d-flex justify-content-center align-items-center w-100"
     >
-      <Widget
-        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
-      />
+      <Widget src={"megha19.near/widget/devhub.components.molecule.Spinner"} />
     </div>
   );
 }
