@@ -12,7 +12,17 @@
  *                                              Example: If provided, method=batch will filter the blocks with method=batch.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1658,6 +1668,7 @@ function MainComponent({
   tokenFilter,
   filters,
   onFilterClear,
+  Link,
 }) {
   const tabs = [
     t ? t('token:fts.ft.transfers') : 'Transfers',
@@ -1999,9 +2010,9 @@ function MainComponent({
                     </div>
                   ) : (
                     <div className="w-full text-green-500 md:w-3/4 break-words">
-                      <a href={`/address/${token?.contract}`}>
+                      <Link href={`/address/${token?.contract}`}>
                         <a className="text-green-500">{token?.contract}</a>
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -2063,6 +2074,7 @@ function MainComponent({
               network: network,
               id: id,
               tokenFilter: tokenFilter,
+              Link,
             }}
           />
         )}
@@ -2097,6 +2109,7 @@ function MainComponent({
                         t: t,
                         filters: filters,
                         onFilterClear: onFilterClear,
+                        Link,
                       }}
                     />
                   }
@@ -2109,6 +2122,7 @@ function MainComponent({
                         network: network,
                         id: id,
                         token: token,
+                        Link,
                       }}
                     />
                   }
@@ -2121,6 +2135,7 @@ function MainComponent({
                         network: network,
                         id: id,
                         token: token,
+                        Link,
                       }}
                     />
                   }
@@ -2133,6 +2148,7 @@ function MainComponent({
                         network: network,
                         id: id,
                         token: token,
+                        Link,
                       }}
                     />
                   }
