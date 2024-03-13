@@ -7,6 +7,11 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} [tokenFilter] - The token filter identifier passed as a string
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -3078,7 +3083,12 @@ function localFormat(number) {
 
 
 
-function MainComponent({ network, id, tokenFilter }) {
+
+
+
+
+
+function MainComponent({ network, id, tokenFilter, Link }) {
   const [ft, setFT] = useState({} );
   const [inventoryLoading, setInventoryLoading] = useState(false);
   const [inventoryData, setInventoryData] = useState(
@@ -3247,12 +3257,12 @@ function MainComponent({ network, id, tokenFilter }) {
                   </h5>
                 </div>
                 <h5 className="text-sm my-1 font-bold text-green-500 truncate md:max-w-[200px] lg:max-w-[310px] xl:max-w-full max-w-full inline-block">
-                  <a
+                  <Link
                     href={`/address/${tokenFilter}`}
                     className="hover:no-underline"
                   >
                     <a className="hover:no-underline">{tokenFilter}</a>
-                  </a>
+                  </Link>
                 </h5>
               </div>
               <div className="px-4 md:py-0 py-2">
