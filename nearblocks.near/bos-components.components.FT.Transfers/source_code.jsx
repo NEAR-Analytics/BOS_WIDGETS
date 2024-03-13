@@ -11,8 +11,18 @@
  *                                              Example: If provided, method=batch will filter the blocks with method=batch.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
 
  */
+
+
+
+
+
 
 
 
@@ -2345,7 +2355,14 @@ function localFormat(number) {
 /* END_INCLUDE: "includes/near.jsx" */
 
 
-function MainComponent({ network, t, id, filters, onFilterClear }) {
+function MainComponent({
+  network,
+  t,
+  id,
+  filters,
+  onFilterClear,
+  Link,
+}) {
   const [showAge, setShowAge] = useState(true);
   const [txnLoading, setTxnLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -2462,14 +2479,14 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2492,7 +2509,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
       key: 'block.block_height',
       cell: (row) => (
         <>
-          <a
+          <Link
             className="hover:no-underline"
             href={`/blocks/${row?.included_in_block_hash}`}
           >
@@ -2501,7 +2518,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                 ? localFormat(row?.block?.block_height)
                 : row?.block?.block_height ?? ''}
             </a>
-          </a>
+          </Link>
         </>
       ),
       tdClassName:
@@ -2552,7 +2569,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2564,7 +2581,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                       >
                         {row?.affected_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -2620,7 +2637,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2632,7 +2649,7 @@ function MainComponent({ network, t, id, filters, onFilterClear }) {
                       >
                         {row?.involved_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
