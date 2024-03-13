@@ -8,7 +8,17 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {TransactionInfo} [txn] - Information related to a transaction.
  * @param {RPCTransactionInfo} [rpcTxn] - RPC data of the transaction.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1010,7 +1020,7 @@ function localFormat(number) {
 
 
 function MainComponent(props) {
-  const { network, rpcTxn, txn, t } = props;
+  const { network, rpcTxn, txn, t, Link } = props;
   const [receipt, setReceipt] = useState(null);
   const config = getConfig(network);
   function transactionReceipts(txn) {
@@ -1086,6 +1096,7 @@ function MainComponent(props) {
             receipt: receipt,
             network: network,
             t: t,
+            Link,
           }}
         />
       }
