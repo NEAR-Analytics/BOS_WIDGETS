@@ -2,7 +2,7 @@ const { address, updateTokenBalance } = props;
 
 useEffect(() => {
   if (!address || !updateTokenBalance) return;
-  const account = Ethers.send("eth_requestAccounts", [])[0];
+  const account = props.account || Ethers.send("eth_requestAccounts", [])[0];
   if (!account) return;
 
   if (address === "native") {
