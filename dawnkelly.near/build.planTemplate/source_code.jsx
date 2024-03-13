@@ -78,6 +78,36 @@ const handleEndDateChange = (e) => {
   }));
 };
 
+const handleBuilderNameChange = (index, e) => {
+  const newBuilderName = e.target.value;
+  setPlan((prevPlan) => {
+    const updatedTeamMembers = [...prevPlan.metadata.teamMembers];
+    updatedTeamMembers[index].name = newBuilderName;
+    return {
+      ...prevPlan,
+      metadata: {
+        ...prevPlan.metadata,
+        teamMembers: updatedTeamMembers,
+      },
+    };
+  });
+};
+
+const handleBuilderRoleChange = (index, e) => {
+  const newBuilderRole = e.target.value;
+  setPlan((prevPlan) => {
+    const updatedTeamMembers = [...prevPlan.metadata.teamMembers];
+    updatedTeamMembers[index].role = newBuilderRole;
+    return {
+      ...prevPlan,
+      metadata: {
+        ...prevPlan.metadata,
+        teamMembers: updatedTeamMembers,
+      },
+    };
+  });
+};
+
 const handleSave = () => {
   Social.set({
     build: { plan },
@@ -103,8 +133,9 @@ return (
         <textarea
           id="goals"
           name="goals"
+          className="form-control rounded"
           resize="none"
-          rows="4"
+          rows="6"
           cols="80"
           placeholder="Define project goals here. Remember to include outcomes, timelines, and criteria for measuring success."
           value={plan.metadata.goals}
