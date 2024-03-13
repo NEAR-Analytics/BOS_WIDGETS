@@ -1986,7 +1986,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -2163,7 +2163,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -2319,7 +2319,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -2507,7 +2507,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -2867,6 +2867,7 @@ function MainComponent(props) {
   const [txns, setTxns] = useState({});
   const [showAge, setShowAge] = useState(true);
   const [sorting, setSorting] = useState('desc');
+  const [address, setAddress] = useState('');
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
 
   const config = getConfig(network);
@@ -2975,6 +2976,12 @@ function MainComponent(props) {
 
   const onOrder = () => {
     setSorting((state) => (state === 'asc' ? 'desc' : 'asc'));
+  };
+
+  const onHandleMouseOver = (e, id) => {
+    e.preventDefault();
+
+    setAddress(id);
   };
 
   const columns = [
@@ -3176,12 +3183,23 @@ function MainComponent(props) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
+                <span
+                  className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                    row?.signer_account_id === address
+                      ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                      : 'text-green-500 p-0.5 px-1'
+                  }`}
+                >
                   <a
                     href={`/address/${row?.signer_account_id}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 hover:no-underline">
+                    <a
+                      className={` hover:no-underline `}
+                      onMouseOver={(e) =>
+                        onHandleMouseOver(e, row?.signer_account_id)
+                      }
+                    >
                       {row?.signer_account_id}
                     </a>
                   </a>
@@ -3266,7 +3284,16 @@ function MainComponent(props) {
                     href={`/address/${row?.receiver_account_id}`}
                     className="hover:no-underline whitespace-nowrap"
                   >
-                    <a className="text-green-500 hover:no-underline">
+                    <a
+                      className={`text-green-500 hover:no-underline ${
+                        row?.receiver_account_id === address
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          : 'text-green-500 p-1'
+                      }`}
+                      onMouseOver={(e) =>
+                        onHandleMouseOver(e, row?.receiver_account_id)
+                      }
+                    >
                       {truncateString(row?.receiver_account_id, 17, '...')}
                     </a>
                   </a>
