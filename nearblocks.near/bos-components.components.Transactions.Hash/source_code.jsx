@@ -7,7 +7,17 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [hash] -  The Transaction identifier passed as a string.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -228,7 +238,7 @@ function handleRateLimit(
 const hashes = [' ', 'execution', 'comments'];
 
 function MainComponent(props) {
-  const { t, network, hash } = props;
+  const { t, network, hash, Link } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [txn, setTxn] = useState({} );
   const [error, setError] = useState(false);
@@ -412,6 +422,7 @@ function MainComponent(props) {
                     loading: isLoading,
                     network: network,
                     t: t,
+                    Link,
                   }}
                 />
               }
@@ -426,6 +437,7 @@ function MainComponent(props) {
                     txn: txn,
                     rpcTxn: rpcTxn,
                     loading: isLoading,
+                    Link,
                   }}
                 />
               ) : (
@@ -437,6 +449,7 @@ function MainComponent(props) {
                     txn: txn,
                     rpcTxn: rpcTxn,
                     loading: isLoading,
+                    Link,
                   }}
                 />
               )}
