@@ -26,6 +26,43 @@ State.init({
 });
 
 const { dapps, toast, onSuccess } = props;
+
+const columns =
+  Object.keys(dapps)[0] === "Valas Finance"
+    ? [
+        {
+          type: "name",
+          width: "30%",
+          name: "Reward Asset",
+        },
+        {
+          type: "total",
+          key: "rewards",
+          width: "25%",
+          name: "Rewards",
+        },
+        { type: "button", width: "20%" },
+      ]
+    : [
+        {
+          type: "name",
+          width: "30%",
+          name: "Reward Asset",
+        },
+        {
+          type: "total",
+          key: "dailyReward",
+          width: "25%",
+          name: "Daily Rewards",
+        },
+        {
+          type: "total",
+          key: "unclaimed",
+          width: "25%",
+          name: "Unclaimed",
+        },
+        { type: "button", width: "20%" },
+      ];
 return (
   <>
     <RewardsTable>
@@ -34,26 +71,7 @@ return (
         src="bluebiu.near/widget/Avalanche.Lending.YoursTable"
         props={{
           totalReverse: true,
-          columns: [
-            {
-              type: "name",
-              width: "30%",
-              name: "Reward Asset",
-            },
-            {
-              type: "total",
-              key: "dailyReward",
-              width: "25%",
-              name: "Daily Rewards",
-            },
-            {
-              type: "total",
-              key: "unclaimed",
-              width: "25%",
-              name: "Unclaimed",
-            },
-            { type: "button", width: "20%" },
-          ],
+          columns,
           emptyTips: (
             <NoReward>
               <div>You don't have unclaimed rewards</div>
