@@ -89,6 +89,7 @@ return (
             [dexConfig.name]: dexConfig,
           },
           toast,
+          account,
           onButtonClick: handleTableButtonClick,
           onSuccess: () => {
             State.update({
@@ -128,6 +129,7 @@ return (
         addAction,
         toast,
         source: "dapp",
+        account,
         onClose: () => {
           State.update({
             showDialog: false,
