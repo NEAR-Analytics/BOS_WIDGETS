@@ -345,7 +345,7 @@ const changeValue = (value) => {
 //   Number(state.amount) === 0;
 const disabled =
   !state.amount || !isValid(state.amount) || Number(state.amount) === 0;
-console.log(3333, state, disabled);
+
 return (
   <Widget
     src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
