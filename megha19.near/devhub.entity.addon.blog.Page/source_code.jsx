@@ -114,9 +114,7 @@ function Page({ data, onEdit, labels, accountId }) {
         <span className="date">{formattedDate}</span>
         <p>{description}</p>
         <Widget
-          src={
-            "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
-          }
+          src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
           props={{ text: content }}
         />
       </Container>
