@@ -1,4 +1,4 @@
-const { currency, selectedTokenAddress, display, onClick } = props;
+const { currency, selectedTokenAddress, display, account, onClick } = props;
 const CurrencyRow = styled.div`
   padding: 10px;
   display: flex;
@@ -65,6 +65,7 @@ return (
       props={{
         address: currency.address,
         updateTokenBalance: display,
+        account,
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, currency.decimals),
