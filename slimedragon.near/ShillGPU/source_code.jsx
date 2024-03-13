@@ -859,27 +859,12 @@ const headerBlock = (
             </span>
           </div>
         )}
-        <div>
-          <span>
-            <a href="https://twitter.com/shill_gpt" target="_blank">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="#6c757d"
-              >
-                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.066 9.645c.183 4.04-2.83 8.544-8.164 8.544-1.622 0-3.131-.476-4.402-1.291 1.524.18 3.045-.244 4.252-1.189-1.256-.023-2.317-.854-2.684-1.995.451.086.895.061 1.298-.049-1.381-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.301.359-1.279-.855-1.641-2.544-.889-3.835 1.416 1.738 3.533 2.881 5.92 3.001-.419-1.796.944-3.527 2.799-3.527.825 0 1.572.349 2.096.907.654-.128 1.27-.368 1.824-.697-.215.671-.67 1.233-1.263 1.589.581-.07 1.135-.224 1.649-.453-.384.578-.87 1.084-1.433 1.489z" />
-              </svg>
-            </a>
-          </span>
-        </div>
       </div>
     </div>
     <div class="main-title">Shill tokens to the AI bot and earn rewards!</div>
     <div class="main-subtitle">
       The first <strong>AI</strong> that manages{" "}
-      <strong>memecoin treasuries</strong> and rebalances them upon{" "}
+      <strong>GPU coin treasuries</strong> and rebalances them upon{" "}
       <strong>your influence</strong>.
     </div>
   </div>
@@ -972,7 +957,7 @@ return (
                 <div class="content">
                   <div class="icon">🚀</div>
                   <div class="text">
-                    Shill a promising memecoin, and the AI bot will immidately
+                    Shill a promising GPU vendor, and the AI bot will immidately
                     buy it on Ref Finance
                   </div>
                 </div>
@@ -986,25 +971,10 @@ return (
                       href="#"
                       onClick={() => State.update({ selectedTab: "Earn" })}
                     >
-                      Earn meme coins
+                      Earn GPU coins
                     </a>{" "}
                     if you have previously provided liquidity to the pool for
                     the token purchased by the ShillGPU.
-                  </div>
-                </div>
-              </MyListItem>
-              <MyListItem cardColor="#e02e49" backColor="#eee">
-                <div class="content">
-                  <div class="icon">🤩</div>
-                  <div class="text">
-                    <a
-                      class="text-white text-decoration-underline"
-                      href="#"
-                      onClick={() => State.update({ selectedTab: "Earn" })}
-                    >
-                      Earn Shill points
-                    </a>{" "}
-                    and participate in potential $SHILL token airdrop
                   </div>
                 </div>
               </MyListItem>
@@ -1053,8 +1023,8 @@ return (
                       href="#"
                       onClick={() => State.update({ selectedTab: "Main" })}
                     >{`Shillbox`}</a>
-                    and make a request to the AI bot and convince why one
-                    memecoin should be exchanged for another meme coin.
+                    and make a request to the AI bot and convince why one GPU
+                    coin should be exchanged for another GPU coin.
                   </div>
                 </div>
               </MyListItem>
@@ -1081,10 +1051,6 @@ return (
                 </div>
               </MyListItem>
             </ol>
-            <Notice isSmall={1}>
-              Product in Beta! Attacks on the ShillGPU's functionality may
-              result in resetting your points to zero.
-            </Notice>
           </div>
         </div>
 
@@ -1105,19 +1071,6 @@ return (
                   </div>
                 </MyListItem>
               ))}
-
-              <MyListItem cardColor="#36aeb3" backColor="#eee">
-                <div class="content">
-                  <div class="icon">
-                    <img
-                      src={
-                        "https://ipfs.near.social/ipfs/bafkreid5anr4kscz5pftbiczayzfsvz5dr6vcdl23uqluggmnvqlfedg24"
-                      }
-                    />
-                  </div>
-                  <div class="text">$SHILL (Coming soon)</div>
-                </div>
-              </MyListItem>
             </ol>
           </div>
         </div>
@@ -1553,7 +1506,7 @@ return (
               <div class="card mb-3">
                 <div class="card-body">
                   <Notice cardColor="#80D651" isSmall={1}>
-                    Provide liquidity to one of the memecoin pools and receive a
+                    Provide liquidity to one of the GPU coin pools and receive a
                     share in that pool. Then, whenever the ShillGPU buys more of
                     that token, your balance in the pool will increase.
                   </Notice>
@@ -1919,95 +1872,7 @@ return (
       <>
         <div id="earn" class="card mb-3">
           <div class="card-header">
-            <h4>Earn $SHILL</h4>
-          </div>
-
-          <div class="card-body">
-            <ol class="olcards">
-              <MyListItem cardColor="#162d59" backColor="#eee">
-                <div class="content">
-                  <div class="icon">💰</div>
-                  <div class="text">
-                    <div>
-                      <strong>$SHILL POINTS</strong>
-                    </div>
-                    All users talking with the ShillGPU will be eligible for
-                    token airdrops proportionally based on the number of
-                    requests, pool deposits, and the number of invited users.
-                  </div>
-                </div>
-              </MyListItem>
-              {!!accountId && state.refLink && (
-                <MyListItem cardColor="#162d59" backColor="#eee">
-                  <div class="content">
-                    <div class="icon">🤝</div>
-                    <div class="text">
-                      <div>
-                        <strong>Shill ShillGPU and earn $SHILL</strong>
-                      </div>
-                      <div>Your invitation link:</div>
-                      <div class="d-flex form-group">
-                        <input
-                          class="form-control p-1"
-                          style={{ width: "400px" }}
-                          type="text"
-                          disabled
-                          value={state.refLink}
-                        />
-                        <OverlayTrigger
-                          placement="auto"
-                          overlay={
-                            <Tooltip>
-                              {state.copied ? "Copied!" : "Copy to clipboard"}
-                            </Tooltip>
-                          }
-                        >
-                          <button
-                            class="btn btn-outline-primary border-0 p-2 ms-2"
-                            onMouseEnter={() =>
-                              State.update({ pauseNonce: true })
-                            }
-                            onMouseLeave={() =>
-                              State.update({ pauseNonce: false })
-                            }
-                            onClick={() => {
-                              clipboard.writeText(state.refLink).then(() => {
-                                State.update({ copied: true });
-                              });
-                            }}
-                          >
-                            {state.copied ? (
-                              <>
-                                <i className="bi bi-check-lg" />
-                              </>
-                            ) : (
-                              <>{copySvg}</>
-                            )}
-                          </button>
-                        </OverlayTrigger>
-                      </div>
-                    </div>
-                  </div>
-                </MyListItem>
-              )}
-
-              <MyListItem cardColor="#162d59" backColor="#eee">
-                <div class="content">
-                  <div class="icon">🤗</div>
-                  <div class="text">
-                    $SHILL holders will vote on listing new tokens in the
-                    ShillGPU and participate in the distribution of system
-                    revenue: referral commissions on AMM and service fees.
-                  </div>
-                </div>
-              </MyListItem>
-            </ol>
-          </div>
-        </div>
-
-        <div id="earn" class="card mb-3">
-          <div class="card-header">
-            <h4>Earn Memcoins</h4>
+            <h4>Earn GPU coins</h4>
           </div>
 
           <div class="card-body">
@@ -2023,7 +1888,7 @@ return (
                     >
                       Provide liquidity
                     </a>{" "}
-                    to one of the memecoin pools and receive a share in that
+                    to one of the GPU coin pools and receive a share in that
                     pool. Then, whenever the ShillGPU buys more of that token,
                     your balance in the pool will increase.
                   </div>
@@ -2033,10 +1898,10 @@ return (
                 <div class="content">
                   <div class="icon">🤔</div>
                   <div class="text">
-                    For instance, if there were 100 tokens in the memecoin pool
+                    For instance, if there were 100 tokens in the GPU coin pool
                     and you added another 100, you would own 50% of that pool.
                     Subsequently, if you persuaded the bot to sell some other
-                    token and buy the memecoin from your pool, let's say the bot
+                    token and buy the GPU coin from your pool, let's say the bot
                     bought an additional 300 tokens. The total pool balance
                     would then be 500 tokens (200 existing tokens plus 300
                     purchased). You would still own 50% of the pool, enabling
