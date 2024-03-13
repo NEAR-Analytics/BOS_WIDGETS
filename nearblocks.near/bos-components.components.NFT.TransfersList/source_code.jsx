@@ -1228,6 +1228,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1254,6 +1288,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function nanoToMilli(nano) {
   return Big(nano).div(Big(10).pow(6)).round().toNumber();
@@ -1404,6 +1472,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1708,32 +1810,33 @@ function MainComponent({ network, t, currentPage, setPage, Link }) {
       header: <span>Token ID</span>,
       key: 'block_height',
       cell: (row) => (
-        <Tooltip.Provider>
-          <Tooltip.Root>
-            <Tooltip.Trigger asChild>
-              <span>
-                <Link
-                  href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
-                  className="hover:no-underline"
-                >
-                  <a className="text-green-500 font-medium hover:no-underline">
-                    {row?.token_id}
-                  </a>
-                </Link>
-              </span>
-            </Tooltip.Trigger>
-            <Tooltip.Content
-              className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-              align="start"
-              side="bottom"
-            >
-              {row?.token_id}
-            </Tooltip.Content>
-          </Tooltip.Root>
-        </Tooltip.Provider>
+        <div className="whitespace-nowrap text-sm text-nearblue-600 max-w-[110px] inline-block truncate">
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <span>
+                  <Link
+                    href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
+                    className="hover:no-underline"
+                  >
+                    <a className="text-green-500 font-medium hover:no-underline">
+                      {row?.token_id}
+                    </a>
+                  </Link>
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="start"
+                side="bottom"
+              >
+                {row?.token_id}
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
+        </div>
       ),
-      tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 max-w-[110px] inline-block truncate',
+      tdClassName: 'px-5 py-4 ',
       thClassName:
         'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
