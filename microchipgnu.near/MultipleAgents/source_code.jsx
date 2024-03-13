@@ -1,22 +1,18 @@
+const tools = VM.require("microchipgnu.near/widget/Tools");
+
 return (
-  <>
+  <div className="d-flex gap-4">
     <Widget
       src="microchipgnu.near/widget/Agent"
       props={{
-        role: "WeatherMan",
-        backstory: "Helpful weather man",
-        goal: "Checks weather in locations",
-        tools: [
-          {
-            name: "getWeather",
-            description: "Checks the current state of weather",
-            inputDescription: "takes city as input",
-            callback: (city) => {
-              return "It's sunny in" + city;
-            },
-          },
-        ],
+        tools: tools,
       }}
     />
-  </>
+    <Widget
+      src="microchipgnu.near/widget/Agent"
+      props={{
+        tools: tools,
+      }}
+    />
+  </div>
 );
