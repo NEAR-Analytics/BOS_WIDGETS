@@ -3280,9 +3280,13 @@ function MainComponent(props) {
         }${month}-${year}`;
 
         fetchPriceAtDate(dt);
+
+        return dt;
       }
     }
+    return;
   }, [block?.block_timestamp]);
+
   return (
     <>
       {error || (!isLoading && Object.keys(block).length === 0) ? (
