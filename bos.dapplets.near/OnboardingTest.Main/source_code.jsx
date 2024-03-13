@@ -3,6 +3,8 @@ const data = props.data || props.link?.id && Social.get('bos.dapplets.near/Onboa
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
+console.log('data', data)
+
 useEffect(() => {
   if (!start && !lastShowTime) return
   setStart(true)
