@@ -1332,7 +1332,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1509,7 +1509,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1745,7 +1745,7 @@ function MainComponent({ currentPage, setPage, t, network }) {
   const [showAge, setShowAge] = useState(true);
   const [blocks, setBlocks] = useState({});
   const errorMessage = t ? t('blocks:noBlocks') : 'No blocks!';
-
+  const [address, setAddress] = useState('');
   const config = getConfig(network);
 
   useEffect(() => {
@@ -1809,6 +1809,12 @@ function MainComponent({ currentPage, setPage, t, network }) {
     fetchTotalBlocks();
     fetchBlocks(currentPage);
   }, [config?.backendUrl, currentPage]);
+
+  const onHandleMouseOver = (e, id) => {
+    e.preventDefault();
+
+    setAddress(id);
+  };
 
   const start = blocks[currentPage]?.[0];
   const end = blocks[currentPage]?.[blocks[currentPage]?.length - 1];
@@ -1940,9 +1946,16 @@ function MainComponent({ currentPage, setPage, t, network }) {
         <span>
           <a
             href={`/address/${row?.author_account_id}`}
-            className="hover:no-underline"
+            className={`hover:no-underline`}
           >
-            <a className="text-green-500 hover:no-underline">
+            <a
+              className={`text-green-500 hover:no-underline ${
+                row?.author_account_id === address
+                  ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
+                  : 'text-green-500 p-1'
+              }`}
+              onMouseOver={(e) => onHandleMouseOver(e, row?.author_account_id)}
+            >
               {shortenAddress(row?.author_account_id ?? '')}
             </a>
           </a>
