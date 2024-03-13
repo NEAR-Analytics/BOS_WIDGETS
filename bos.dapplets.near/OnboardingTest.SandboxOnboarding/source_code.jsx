@@ -287,7 +287,7 @@ const arrowRight = (
 
 const Card = styled.div`
   position: relative;
-  overflow-x: scroll;
+  overflow: auto;
   display: flex;
   flex 1;
   height: 100%;
