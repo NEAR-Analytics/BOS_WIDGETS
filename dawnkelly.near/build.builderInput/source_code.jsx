@@ -10,6 +10,7 @@ return (
         type="text"
         className="form-control"
         placeholder="Builder name"
+        value={builders[index].name}
         onChange={(e) => handleNameChange(e, index)}
       />
     </div>
@@ -20,6 +21,7 @@ return (
         type="text"
         className="form-control"
         placeholder="Builder role"
+        value={builders[index].role}
         onChange={(e) => handleRoleChange(e, index)}
       />
     </div>
