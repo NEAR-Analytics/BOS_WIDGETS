@@ -1,6 +1,3 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
-if (!account) return;
 const {
   dapps,
   update,
@@ -10,7 +7,10 @@ const {
   onLoad,
   chainId,
   prices,
+  account,
 } = props;
+
+if (!account) return;
 
 const dappsToList = Object.values(dapps);
 if (!dappsToList.length || !update) return;
