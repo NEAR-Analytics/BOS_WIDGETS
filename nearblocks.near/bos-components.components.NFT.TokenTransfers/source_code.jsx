@@ -12,6 +12,11 @@
  *                                 Example: If provided, currentPage=3 will display the third page of blocks.
  * @param {function} [setPage] - A function used to set the current page. (Optional)
  *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -1369,7 +1374,12 @@ const FaLongArrowAltRight = () => {
 
 
 
-function MainComponent({ network, t, id, tid }) {
+
+
+
+
+
+function MainComponent({ network, t, id, tid, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -1475,14 +1485,14 @@ function MainComponent({ network, t, id, tid }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
-                  <a
+                  <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -1543,7 +1553,7 @@ function MainComponent({ network, t, id, tid }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1555,7 +1565,7 @@ function MainComponent({ network, t, id, tid }) {
                       >
                         {row?.affected_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1612,7 +1622,7 @@ function MainComponent({ network, t, id, tid }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1624,7 +1634,7 @@ function MainComponent({ network, t, id, tid }) {
                       >
                         {row?.involved_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1651,7 +1661,7 @@ function MainComponent({ network, t, id, tid }) {
       key: 'block_hash',
       cell: (row) => (
         <span>
-          <a
+          <Link
             href={`/blocks/${row?.included_in_block_hash}`}
             className="hover:no-underline"
           >
@@ -1660,7 +1670,7 @@ function MainComponent({ network, t, id, tid }) {
                 ? localFormat(row?.block?.block_height)
                 : row?.block?.block_height ?? ''}
             </a>
-          </a>
+          </Link>
         </span>
       ),
       tdClassName:
