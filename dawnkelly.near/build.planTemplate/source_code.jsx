@@ -1,5 +1,12 @@
 const accountId = context.accountId;
 
+const [teamMembers, setTeamMembers] = useState(() => {
+  const initialData = Social.getr(`${accountId}/build/plan`);
+  return initialData && initialData.metadata && initialData.metadata.teamMembers
+    ? initialData.metadata.teamMembers
+    : [];
+});
+
 const [plan, setPlan] = useState(() => {
   const initialData = Social.getr(`${accountId}/build/plan`) ?? {
     metadata: {
@@ -43,6 +50,17 @@ const [plan, setPlan] = useState(() => {
       },
     },
   };
+
+  // Parse teamMembers from JSON string to array
+  if (
+    initialData.metadata.teamMembers &&
+    typeof initialData.metadata.teamMembers === "string"
+  ) {
+    initialData.metadata.teamMembers = JSON.parse(
+      initialData.metadata.teamMembers
+    );
+  }
+
   return initialData;
 });
 
@@ -78,39 +96,12 @@ const handleEndDateChange = (e) => {
   }));
 };
 
-const handleBuilderNameChange = (index, e) => {
-  const newBuilderName = e.target.value;
-  setPlan((prevPlan) => {
-    const updatedTeamMembers = [...prevPlan.metadata.teamMembers];
-    updatedTeamMembers[index].name = newBuilderName;
-    return {
-      ...prevPlan,
-      metadata: {
-        ...prevPlan.metadata,
-        teamMembers: updatedTeamMembers,
-      },
-    };
-  });
-};
-
-const handleBuilderRoleChange = (index, e) => {
-  const newBuilderRole = e.target.value;
-  setPlan((prevPlan) => {
-    const updatedTeamMembers = [...prevPlan.metadata.teamMembers];
-    updatedTeamMembers[index].role = newBuilderRole;
-    return {
-      ...prevPlan,
-      metadata: {
-        ...prevPlan.metadata,
-        teamMembers: updatedTeamMembers,
-      },
-    };
-  });
-};
-
 const handleSave = () => {
+  const updatedPlan = { ...plan };
+  updatedPlan.metadata.teamMembers = teamMembers;
+
   Social.set({
-    build: { plan },
+    build: { plan: updatedPlan },
   });
 };
 
