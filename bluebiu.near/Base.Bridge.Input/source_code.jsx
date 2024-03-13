@@ -120,11 +120,6 @@ State.init({
   loading: false,
 });
 
-const getTokenPrice = () => {
-  const prices = Storage.privateGet("tokensPrice");
-  return prices[props.currency?.symbol];
-};
-
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
@@ -144,38 +139,6 @@ const handlers = {
   },
 };
 
-const DELAY = 1000 * 60 * 5;
-const timer = Storage.privateGet("priceTimer");
-
-function getPrice() {
-  const AccessKey = Storage.get(
-    "AccessKey",
-    "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-  );
-  asyncFetch("/dapdap/get-token-price-by-dapdap", {
-    Authorization: AccessKey,
-  })
-    .then((res) => {
-      const data = res.body.data;
-      data.native = data.aurora;
-      delete data.aurora;
-      Storage.privateSet("tokensPrice", data);
-      props?.onGetPrice(data[props.currency?.symbol]);
-      setTimeout(getPrice, DELAY);
-    })
-    .catch((err) => {
-      setTimeout(getPrice, DELAY);
-    });
-}
-
-useEffect(() => {
-  getPrice();
-}, []);
-
-useEffect(() => {
-  props?.onGetPrice(getTokenPrice());
-}, [props.currency]);
-
 useEffect(() => {
   if (props.updateTokenBalance === undefined) return;
   State.update({
@@ -190,6 +153,7 @@ return (
       props={{
         address: props.currency?.isNative ? "native" : props.currency?.address,
         updateTokenBalance: props.updateTokenBalance,
+        account: props.account,
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
@@ -212,7 +176,7 @@ return (
         <Widget
           src="bluebiu.near/widget/Base.Bridge.Value"
           props={{
-            price: getTokenPrice(),
+            price: props.price,
             amount: props.amount,
           }}
         />
