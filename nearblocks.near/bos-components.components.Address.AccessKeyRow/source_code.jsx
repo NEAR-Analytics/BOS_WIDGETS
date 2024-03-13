@@ -8,7 +8,17 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {AccountContractInfo} [accessKey] - Key-value pairs for Accesskey info
  * @param {boolean} [showWhen] - Controls whether to show the date and time in UTC format or as a time ago string.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1059,7 +1069,7 @@ function capitalize(str) {
 }
 /* END_INCLUDE: "includes/formats.jsx" */
 
-function MainComponent({ network, t, accessKey, showWhen }) {
+function MainComponent({ network, t, accessKey, showWhen, Link }) {
   const [keyInfo, setKeyInfo] = useState({} );
 
   const config = getConfig(network);
@@ -1183,11 +1193,11 @@ function MainComponent({ network, t, accessKey, showWhen }) {
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 font-medium whitespace-nowrap">
-                    <a href={`/txns/${txn?.transaction_hash}`}>
+                    <Link href={`/txns/${txn?.transaction_hash}`}>
                       <a className="text-green-500">
                         {txn?.transaction_hash && txn?.transaction_hash}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
