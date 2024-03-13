@@ -98,7 +98,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, account, TOKENS, switchChain, toast } = props;
+const { data, account, TOKENS, switchChain, toast, addAction } = props;
 const {
   poolName,
   tokenAssets,
@@ -193,6 +193,16 @@ const handleUnStake = () => {
             toast.success?.({
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
+            });
+            addAction?.({
+              type: "Staking",
+              action: "Unstake",
+              token: { symbol: "BPT" },
+              amount: state.inputValue,
+              template: "Aura",
+              add: false,
+              status,
+              transactionHash,
             });
           } else {
             toast.fail?.({
