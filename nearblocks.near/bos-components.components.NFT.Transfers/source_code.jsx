@@ -1028,7 +1028,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1205,7 +1205,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1370,6 +1370,7 @@ function MainComponent({ network, id }) {
   const config = getConfig(network);
   const [showAge, setShowAge] = useState(true);
   const errorMessage = 'No transactions found!';
+  const [address, setAddress] = useState('');
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -1439,6 +1440,12 @@ function MainComponent({ network, id }) {
     fetchTotalTxns();
     fetchTxnsData(currentPage);
   }, [config?.backendUrl, currentPage, id]);
+
+  const onHandleMouseOver = (e, id) => {
+    e.preventDefault();
+
+    setAddress(id);
+  };
 
   const columns = [
     {
@@ -1523,12 +1530,23 @@ function MainComponent({ network, id }) {
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
+                  <span
+                    className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      row?.affected_account_id === address
+                        ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                        : 'text-green-500 p-0.5 px-1'
+                    }`}
+                  >
                     <a
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 hover:no-underline">
+                      <a
+                        className="text-green-500 hover:no-underline"
+                        onMouseOver={(e) =>
+                          onHandleMouseOver(e, row?.affected_account_id)
+                        }
+                      >
                         {row?.affected_account_id}
                       </a>
                     </a>
@@ -1582,12 +1600,23 @@ function MainComponent({ network, id }) {
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                  <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
+                  <span
+                    className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      row?.involved_account_id === address
+                        ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                        : 'text-green-500 p-0.5 px-1'
+                    }`}
+                  >
                     <a
                       href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 hover:no-underline">
+                      <a
+                        className="text-green-500 hover:no-underline"
+                        onMouseOver={(e) =>
+                          onHandleMouseOver(e, row?.involved_account_id)
+                        }
+                      >
                         {row?.involved_account_id}
                       </a>
                     </a>
