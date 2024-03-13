@@ -123,6 +123,7 @@ return (
           amount: state.inputCurrencyAmount,
           updateTokenBalance: state.updateInputTokenBalance,
           prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -178,6 +179,7 @@ return (
           updateTokenBalance: state.updateOutputTokenBalance,
           disabled: true,
           prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -226,6 +228,7 @@ return (
           chainId,
           gas: state.gas,
           theme: props.theme?.button,
+          account,
         }}
       />
     </Panel>
@@ -238,6 +241,7 @@ return (
           title: props.title,
           chainId: props.chainId,
           tokens: dexConfig.tokens,
+          account,
           onClose: () => {
             State.update({
               displayCurrencySelect: false,
