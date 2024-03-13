@@ -36,7 +36,7 @@ const schema = {
             {
                 name: "Alignment",
                 value: "alignment",
-                content: <Widget src="agiguild.near/widget/Placeholder" props={{entityType: 'alignmentDataset', title: 'Alignment Datasets: RLHF, DPO'}}/>,
+                content: <Widget src="agiguild.near/widget/Placeholder" props={{entityType: 'alignmentDataset', title: 'Alignment Datasets: RHLF, DPO'}}/>,
                 icon: "ph ph-chart-bar-horizontal",
             },
         ],
