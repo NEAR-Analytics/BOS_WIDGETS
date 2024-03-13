@@ -7,7 +7,17 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {ReceiptsPropsInfo | any} [receipt] -  receipt of the transaction.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -594,7 +604,7 @@ function formatWithCommas(number) {
 
 
 function MainComponent(props) {
-  const { receipt, network } = props;
+  const { receipt, network, Link } = props;
   const hashes = ['output', 'inspect'];
   const [pageHash, setHash] = useState('output');
   const onTab = (index) => {
@@ -758,10 +768,10 @@ function MainComponent(props) {
               <tr>
                 <td>Executed in Block</td>
                 <td>
-                  <a
+                  <Link
                     href={`/blocks/${receipt?.outcome?.blockHash}`}
                     className="whitespace-nowrap"
-                  >{`#${block?.block_height}`}</a>
+                  >{`#${block?.block_height}`}</Link>
                 </td>
               </tr>
               <tr>
