@@ -3,7 +3,19 @@
  * @param {string}  [network] - The network data to show, either mainnet or testnet.
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {boolean} [isHeader] - If the component is part of a header, apply alternate styles.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
+ * @param {{ push: (path: string) => void }} router - An object with a `push` function for routing purposes.
  */
+
+
+
+
+
+
 
 
 
@@ -737,7 +749,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -957,7 +969,13 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent({ isHeader, t, network }) {
+function MainComponent({
+  isHeader,
+  t,
+  network,
+  Link,
+  router,
+}) {
   const [keyword, setKeyword] = useState('');
   const [result, setResult] = useState({} );
   const [filter, setFilter] = useState('all');
@@ -975,15 +993,34 @@ function MainComponent({ isHeader, t, network }) {
     () => debounce(500, (value) => setKeyword(value)),
     [],
   );
-
+  const redirect = (route) => {
+    switch (route?.type) {
+      case 'block':
+        return router.push(`/blocks/${route?.path}`);
+      case 'txn':
+        return router.push(`/txns/${route?.path}`);
+      case 'receipt':
+        return router.push(`/txns/${route?.path}`);
+      case 'address':
+        return router.push(`/address/${route?.path}`);
+      default:
+        return;
+    }
+  };
   // Handle input change
   const handleChange = (event) => {
     const newNextValue = event.target.value.replace(/[\s,]/g, '') ;
     debouncedSetKeyword(newNextValue);
   };
 
+  const onSubmit = () => {
+    if (filter && keyword) {
+      search(keyword, filter, true, config.backendUrl).then((data) => {
+        redirect(data);
+      });
+    }
+  };
   useEffect(() => {
-    // Fetch data when keyword or filter changes
     const fetchData = (keyword, filter) => {
       if (filter && keyword) {
         search(keyword, filter, false, config.backendUrl).then((data) => {
@@ -1033,6 +1070,11 @@ function MainComponent({ isHeader, t, network }) {
               }
               className="search bg-white w-full h-full text-sm px-4 py-3 outline-none border-l border-t border-b md:border-l-0 rounded-l-lg rounded-r-none md:rounded-l-none"
               onChange={handleChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onSubmit();
+                }
+              }}
             />
             {showResults && (
               <div className="z-50 relative">
@@ -1043,7 +1085,7 @@ function MainComponent({ isHeader, t, network }) {
                         {t ? t('common:search.list.address') : 'Account'}
                       </h3>
                       {result.accounts.map((address) => (
-                        <a
+                        <Link
                           href={`/address/${address.account_id}`}
                           className="hover:no-underline"
                           key={address.account_id}
@@ -1051,7 +1093,7 @@ function MainComponent({ isHeader, t, network }) {
                           <div className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate">
                             {shortenAddress(address.account_id)}
                           </div>
-                        </a>
+                        </Link>
                       ))}
                     </>
                   )}
@@ -1061,7 +1103,7 @@ function MainComponent({ isHeader, t, network }) {
                         {t ? t('common:search.list.txns') : 'Txns'}
                       </h3>
                       {result.txns.map((txn) => (
-                        <a
+                        <Link
                           className="hover:no-underline"
                           href={`/txns/${txn.transaction_hash}`}
                           key={txn.transaction_hash}
@@ -1069,7 +1111,7 @@ function MainComponent({ isHeader, t, network }) {
                           <div className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate">
                             {shortenHex(txn.transaction_hash)}
                           </div>
-                        </a>
+                        </Link>
                       ))}
                     </>
                   )}
@@ -1079,7 +1121,7 @@ function MainComponent({ isHeader, t, network }) {
                         Receipts
                       </h3>
                       {result.receipts.map((receipt) => (
-                        <a
+                        <Link
                           href={`/txns/${receipt.originated_from_transaction_hash}`}
                           className="hover:no-underline"
                           key={receipt.receipt_id}
@@ -1087,7 +1129,7 @@ function MainComponent({ isHeader, t, network }) {
                           <div className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate">
                             {shortenHex(receipt.receipt_id)}
                           </div>
-                        </a>
+                        </Link>
                       ))}
                     </>
                   )}
@@ -1097,7 +1139,7 @@ function MainComponent({ isHeader, t, network }) {
                         {t ? t('common:search.list.blocks') : 'Blocks'}
                       </h3>
                       {result.blocks.map((block) => (
-                        <a
+                        <Link
                           href={`/blocks/${block.block_hash}`}
                           className="hover:no-underline"
                           key={block.block_hash}
@@ -1110,7 +1152,7 @@ function MainComponent({ isHeader, t, network }) {
                             (0x
                             {shortenHex(block.block_hash)})
                           </div>
-                        </a>
+                        </Link>
                       ))}
                     </>
                   )}
@@ -1120,6 +1162,7 @@ function MainComponent({ isHeader, t, network }) {
           </div>
           <button
             type="button"
+            onClick={() => onSubmit()}
             className={`${
               isHeader ? 'bg-blue-900/[0.05]' : 'bg-gray-100'
             } rounded-r-lg px-5 outline-none focus:outline-none border`}
