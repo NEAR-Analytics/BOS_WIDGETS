@@ -75,7 +75,7 @@ State.init({
   inputValue: "",
   canUnstake: false,
   unstaking: false,
-  stakedAmountShow: stakedAmount,
+  stakedAmountShow: Number(stakedAmount).toFixed(2),
 });
 
 const handleInputChange = (e) => {
@@ -86,15 +86,16 @@ const handleInputChange = (e) => {
 
 useEffect(() => {
   if (
-    !isNaN(Number(state.inputValue)) &&
-    Big(state.inputValue || 0).lt(stakedAmount || 0)
+    !state.inputValue ||
+    !Big(Number(state.inputValue)).gt(0) ||
+    Big(Number(state.inputValue)).gt(Big(stakedAmount || 0))
   ) {
     State.update({
-      canUnstake: true,
+      canUnstake: false,
     });
   } else {
     State.update({
-      canUnstake: false,
+      canUnstake: true,
     });
   }
 }, [state.inputValue]);
@@ -271,6 +272,11 @@ function updateStakedAmount() {
   });
 }
 
+function fillBalance() {
+  State.update({
+    inputValue: stakedAmount,
+  });
+}
 return (
   <StakePanel>
     <div className="input-group">
@@ -290,7 +296,7 @@ return (
     </div>
     <AmountList>
       <span></span>
-      <span>
+      <span onClick={fillBalance}>
         Balance: <span className="amount-white">{state.stakedAmountShow}</span>
         {/* {TOKENS[curToken].symbol} */}
       </span>
