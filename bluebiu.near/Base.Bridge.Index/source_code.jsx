@@ -13,9 +13,7 @@ const Panel = styled.div`
   padding: 20px;
 `;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
-const { connectProps, chain, mainnet } = props;
+const { connectProps, chain, mainnet, account, prices, currentChainId } = props;
 
 if (!account) {
   return (
@@ -26,6 +24,22 @@ if (!account) {
         chainId: chain.id,
         chainName: chain.name,
         isWrongNetwork: false,
+        account,
+      }}
+    />
+  );
+}
+
+if (currentChainId !== chain.id && currentChainId !== mainnet.id) {
+  return (
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      props={{
+        ...connectProps,
+        chainId: chain.id,
+        chainName: chain.name,
+        isWrongNetwork: true,
+        account,
       }}
     />
   );
@@ -33,22 +47,8 @@ if (!account) {
 
 useEffect(() => {
   State.init({
-    chainId: -1,
-    displayNetwork: true,
-    loaded: false,
+    displayNetwork: false,
   });
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({
-        displayNetwork: props.defaultChainId
-          ? props.defaultChainId !== chainId
-          : ![chain.id, mainnet.id].includes(chainId),
-        chainId,
-        loaded: true,
-      });
-    })
-    .catch(() => {});
 }, []);
 
 const { tokens, amountOutFn, handlerSwap } = props;
@@ -71,8 +71,6 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   Storage.privateSet("stargate_txs", txs);
 };
 
-if (!state.loaded) return <div />;
-
 return (
   <Wrapper>
     <Panel>
@@ -83,10 +81,12 @@ return (
           mainnet,
           tokens,
           amountOutFn,
-          chainId: state.chainId,
+          chainId: currentChainId,
           handlerSwap,
           addAction: props.addAction,
           toast: props.toast,
+          account,
+          prices,
           handleStargateTx,
           showNetwrokDialog: (_chainId) => {
             State.update({
@@ -102,7 +102,7 @@ return (
         src="bluebiu.near/widget/Base.Bridge.Transactions"
         props={{
           txs: Storage.privateGet("stargate_txs"),
-          chainId: state.chainId,
+          chainId: currentChainId,
           onDelete: (hash) => {
             setTimeout(() => {
               const txs = Storage.privateGet("stargate_txs") || {};
