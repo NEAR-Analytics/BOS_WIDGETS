@@ -10,7 +10,17 @@
  *                                 Example: If provided, currentPage=3 will display the third page of blocks.
  * @param {function} [setPage] - A function used to set the current page. (Optional)
  *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -2305,7 +2315,7 @@ function localFormat(number) {
 /* END_INCLUDE: "includes/near.jsx" */
 
 
-function MainComponent({ network, t, currentPage, setPage }) {
+function MainComponent({ network, t, currentPage, setPage, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
@@ -2409,14 +2419,14 @@ function MainComponent({ network, t, currentPage, setPage }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2477,7 +2487,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2489,7 +2499,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                       >
                         {row?.affected_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -2546,7 +2556,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2558,7 +2568,7 @@ function MainComponent({ network, t, currentPage, setPage }) {
                       >
                         {row?.involved_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -2619,14 +2629,14 @@ function MainComponent({ network, t, currentPage, setPage }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <div className="text-sm text-nearblue-600 max-w-[110px] inline-block truncate whitespace-nowrap">
-                      <a
+                      <Link
                         href={`/token/${row?.ft?.contract}`}
                         className="hover:no-underline"
                       >
                         <a className="text-green-500 font-medium hover:no-underline">
                           {row?.ft?.name}
                         </a>
-                      </a>
+                      </Link>
                     </div>
                   </Tooltip.Trigger>
                   <Tooltip.Content
