@@ -53,7 +53,6 @@ const SwapButton = styled.button`
     font-size: 16px;
   }
 `;
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const {
   inputCurrency,
@@ -74,6 +73,7 @@ const {
   chainIdNotSupport,
   onSwitchChain,
   switchingChain,
+  account,
 } = props;
 
 if (!account) {
