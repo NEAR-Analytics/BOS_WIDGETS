@@ -280,6 +280,7 @@ return (
           amount: state.inputCurrencyAmount,
           updateTokenBalance: state.updateInputTokenBalance,
           prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -339,6 +340,7 @@ return (
           updateTokenBalance: state.updateOutputTokenBalance,
           disabled: true,
           prices,
+          account,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -386,6 +388,7 @@ return (
           chainId: props.chainId,
           gas: state.gas,
           chainIdNotSupport: props.chainIdNotSupport,
+          account,
           onSuccess: () => {
             State.update({
               updateInputTokenBalance: true,
@@ -407,6 +410,7 @@ return (
           selectedTokenAddress: state.selectedTokenAddress,
           chainId: props.chainId,
           tokens: dexConfig.tokens,
+          account,
           onClose: () => {
             State.update({
               displayCurrencySelect: false,
