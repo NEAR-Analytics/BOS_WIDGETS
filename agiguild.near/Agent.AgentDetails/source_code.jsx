@@ -90,6 +90,13 @@ const agentProperties = (obj) => {
   );
 };
 
+const customComponentLabel = (component) => {
+    if (component === `agiguild.near/widget/Agent.AgentChat`) {
+        return "Chat";
+    }
+    return <Widget src="near/widget/DIG.Tooltip" props={{ content: <p>{component}</p>, trigger: "Chat (Custom component)"}} />;
+}
+
 return (
   <Wrapper>
     <Link to={listLink}>
@@ -128,7 +135,7 @@ return (
               icon: editIcon,
             },
             {
-              name: "Chat " + agentComponent,
+              name: customComponentLabel(agentComponent),
               value: "chat",
               content: <Widget src={agentComponent} props={{ src, embedded: true }} />,
               icon: "ph ph-code",
