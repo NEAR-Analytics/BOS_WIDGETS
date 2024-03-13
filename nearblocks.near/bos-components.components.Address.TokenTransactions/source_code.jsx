@@ -13,7 +13,17 @@
  *                                    Example: handleFilter={handlePageFilter} where handlePageFilter is a function to filter the page.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                     Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1370,6 +1380,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1396,6 +1440,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function nanoToMilli(nano) {
   return Big(nano).div(Big(10).pow(6)).round().toNumber();
@@ -1546,6 +1624,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2453,6 +2565,7 @@ function MainComponent({
   filters,
   handleFilter,
   onFilterClear,
+  Link,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
@@ -2464,7 +2577,7 @@ function MainComponent({
   );
   const [sorting, setSorting] = useState('desc');
   const [address, setAddress] = useState('');
-
+  const [filterValue, setFilterValue] = useState({});
   const config = getConfig(network);
 
   const setPage = (pageNumber) => {
@@ -2558,9 +2671,15 @@ function MainComponent({
   }, [config?.backendUrl, id, currentPage, filters, sorting]);
 
   const toggleShowAge = () => setShowAge((s) => !s);
-  let filterValue;
-  const onInputChange = (event) => {
-    filterValue = event.target.value;
+
+  const onInputChange = (
+    event,
+    name,
+  ) => {
+    setFilterValue((prevFilters) => ({
+      ...prevFilters,
+      [name]: event.target.value,
+    }));
   };
 
   const onFilter = (
@@ -2569,14 +2688,18 @@ function MainComponent({
   ) => {
     e.preventDefault();
 
-    if (filterValue !== null && filterValue !== undefined) {
-      handleFilter(name, filterValue);
+    if (filterValue[name] !== null && filterValue[name] !== undefined) {
+      handleFilter(name, filterValue[name]);
     }
   };
 
   const onClear = (name) => {
     if (onFilterClear && filters) {
       onFilterClear(name);
+      setFilterValue((prevFilters) => ({
+        ...prevFilters,
+        [name]: '',
+      }));
     }
   };
 
@@ -2611,14 +2734,14 @@ function MainComponent({
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/txns/${row.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2657,8 +2780,8 @@ function MainComponent({
               <div className="flex flex-col">
                 <input
                   name="event"
-                  value={filters ? filters?.event : ''}
-                  onChange={onInputChange}
+                  value={filterValue['event']}
+                  onChange={(e) => onInputChange(e, 'event')}
                   placeholder="Search by method"
                   className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
                 />
@@ -2674,7 +2797,7 @@ function MainComponent({
                   <button
                     name="type"
                     type="button"
-                    onClick={() => onClear('method')}
+                    onClick={() => onClear('event')}
                     className="flex-1 rounded bg-gray-300 text-xs h-7"
                   >
                     {t ? t('txns:filter.clear') : 'Clear'}
@@ -2724,7 +2847,7 @@ function MainComponent({
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2736,7 +2859,7 @@ function MainComponent({
                       >
                         {row?.affected_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -2797,8 +2920,8 @@ function MainComponent({
           >
             <input
               name="involved"
-              value={filters ? filters?.involved : ''}
-              onChange={onInputChange}
+              value={filterValue['involved']}
+              onChange={(e) => onInputChange(e, 'involved')}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -2839,7 +2962,7 @@ function MainComponent({
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -2851,7 +2974,7 @@ function MainComponent({
                       >
                         {row.involved_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -2917,14 +3040,14 @@ function MainComponent({
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <div className="text-sm text-nearblue-600  max-w-[110px] inline-block truncate whitespace-nowrap">
-                      <a
+                      <Link
                         href={`/token/${row?.ft?.contract}`}
                         className="hover:no-underline"
                       >
                         <a className="text-green-500 font-medium hover:no-underline">
                           {row?.ft?.name}
                         </a>
-                      </a>
+                      </Link>
                     </div>
                   </Tooltip.Trigger>
                   <Tooltip.Content
