@@ -33,8 +33,7 @@ const ButtonWithHover = styled.button`
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
-  props.post ??
-  Near.view("devgovgigs.near", "get_post", { post_id: postId });
+  props.post ?? Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -188,9 +187,7 @@ const header = (
         <div class="d-flex align-items-center flex-wrap">
           <ProfileCardContainer>
             <Widget
-              src={
-                "megha19.near/widget/devhub.components.molecule.ProfileCard"
-              }
+              src={"megha19.near/widget/devhub.components.molecule.ProfileCard"}
               props={{
                 accountId: post.author_id,
               }}
@@ -266,22 +263,14 @@ const containsLike = props.isPreview
 const likeBtnClass = containsLike ? fillIcons.Like : emptyIcons.Like;
 // This must be outside onLike, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onLike, it will give `null` and we cannot tell the result is true or false.
-let grantNotify = Near.view(
-  "social.near",
-  "is_write_permission_granted",
-  {
-    predecessor_id: "devgovgigs.near",
-    key: context.accountId + "/index/notify",
-  }
-);
+let grantNotify = Near.view("social.near", "is_write_permission_granted", {
+  predecessor_id: "devgovgigs.near",
+  key: context.accountId + "/index/notify",
+});
 
-const userStorageDeposit = Near.view(
-  "social.near",
-  "storage_balance_of",
-  {
-    account_id: context.accountId,
-  }
-);
+const userStorageDeposit = Near.view("social.near", "storage_balance_of", {
+  account_id: context.accountId,
+});
 
 if (grantNotify === null || userStorageDeposit === null) {
   return;
