@@ -72,7 +72,7 @@ const ApproveABI = [
   },
 ];
 
-const { data, account, TOKENS, toast } = props;
+const { data, account, TOKENS, toast, addAction } = props;
 
 // curToken: token address
 const { poolType, tokenAddress: curToken, tokenAddress, StakingAddress } = data;
@@ -233,6 +233,16 @@ function handleMasterChief() {
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
             });
+            addAction?.({
+              type: "Staking",
+              action: "Stake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Athena",
+              add: false,
+              status,
+              transactionHash,
+            });
           } else {
             toast.fail?.({
               title: "Transaction Failed!",
@@ -300,6 +310,16 @@ function handleLocking() {
             toast.success?.({
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
+            });
+            addAction?.({
+              type: "Staking",
+              action: "Stake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Athena",
+              add: false,
+              status,
+              transactionHash,
             });
           } else {
             toast.fail?.({
