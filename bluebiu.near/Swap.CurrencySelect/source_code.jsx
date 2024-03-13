@@ -103,7 +103,7 @@ const IconBox = styled.div`
   cursor: pointer;
 `;
 
-const { tokens, chainIdNotSupport } = props;
+const { tokens, chainIdNotSupport, account } = props;
 
 State.init({
   tokens: props.tokens || [],
@@ -200,6 +200,7 @@ return (
                 currency,
                 display: props.display,
                 chainIdNotSupport,
+                account,
                 onClick: () => {
                   props.onSelect?.(currency);
                   props.onClose();
