@@ -222,6 +222,7 @@ useEffect(() => {
   if (Big(state.allowance).lt(Big(state.inputValue || 0))) {
     State.update({
       canStake: false,
+      isApproved: false,
       needApprove: true,
     });
   } else {
