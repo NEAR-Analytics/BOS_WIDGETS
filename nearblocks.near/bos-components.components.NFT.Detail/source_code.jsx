@@ -8,6 +8,11 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} [tid] - The nf token identifier passed as a string
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
 
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -394,7 +399,12 @@ function formatWithCommas(number) {
 
 
 
-function MainComponent({ network, t, id, tid }) {
+
+
+
+
+
+function MainComponent({ network, t, id, tid, Link }) {
   const [indices, setIndices] = useState([1, 2]);
   const [token, setToken] = useState({} );
   const [loading, setLoading] = useState(false);
@@ -453,6 +463,7 @@ function MainComponent({ network, t, id, tid }) {
                   reference: token?.reference,
                   className: 'rounded max-h-full',
                   network: network,
+                  Link,
                 }}
               />
             }
@@ -468,7 +479,7 @@ function MainComponent({ network, t, id, tid }) {
               token?.title || token?.token
             )}
           </h1>
-          <a href={`/nft-token/${id}`} className="hover:no-underline">
+          <Link href={`/nft-token/${id}`} className="hover:no-underline">
             <a className="break-all text-green leading-6 text-sm hover:no-underline">
               {loading ? (
                 <div className="w-60 max-w-xs py-2">
@@ -488,7 +499,7 @@ function MainComponent({ network, t, id, tid }) {
                 </>
               )}
             </a>
-          </a>
+          </Link>
           <Accordion.Root
             type="multiple"
             className="bg-white border rounded-xl  soft-shadow mt-4"
@@ -533,14 +544,14 @@ function MainComponent({ network, t, id, tid }) {
                         Owner:
                       </div>
                       <div className="w-full xl:w-3/4 word-break">
-                        <a
+                        <Link
                           href={`/address/${token?.asset?.owner}`}
                           className="hover:no-underline"
                         >
                           <a className="text-green hover:no-underline">
                             {shortenAddress(token?.asset?.owner ?? '')}
                           </a>
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   )}
@@ -565,11 +576,14 @@ function MainComponent({ network, t, id, tid }) {
                       Contract Address:
                     </div>
                     <div className="w-full xl:w-3/4 word-break">
-                      <a href={`/address/${id}`} className="hover:no-underline">
+                      <Link
+                        href={`/address/${id}`}
+                        className="hover:no-underline"
+                      >
                         <a className="text-green hover:no-underline">
                           {shortenAddress(id ?? '')}
                         </a>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="flex p-4">
@@ -652,6 +666,7 @@ function MainComponent({ network, t, id, tid }) {
                   t: t,
                   id: id,
                   tid: tid,
+                  Link,
                 }}
               />
             }
