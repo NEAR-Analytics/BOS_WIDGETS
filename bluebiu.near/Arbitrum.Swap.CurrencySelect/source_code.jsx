@@ -74,7 +74,7 @@ const Empty = styled.div`
   color: #fff;
 `;
 
-const { title, tokens } = props;
+const { title, tokens, account } = props;
 
 State.init({
   tokens: props.tokens || [],
@@ -127,6 +127,7 @@ return (
                 selectedTokenAddress: props.selectedTokenAddress,
                 currency,
                 display: props.display,
+                account,
                 onClick: () => {
                   props.onSelect?.(currency);
                   props.onClose();
