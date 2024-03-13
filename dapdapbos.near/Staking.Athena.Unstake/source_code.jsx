@@ -59,7 +59,7 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, account, TOKENS, startUnlockIndex } = props;
+const { data, account, TOKENS, startUnlockIndex, addAction } = props;
 const curToken = data.tokenAddress;
 const {
   poolType,
@@ -161,6 +161,16 @@ function handleUnStakeLocking() {
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
             });
+            addAction?.({
+              type: "Staking",
+              action: "Unstake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Athena",
+              add: false,
+              status,
+              transactionHash,
+            });
             updateStakedAmount();
           } else {
             toast.fail?.({
@@ -222,6 +232,16 @@ function handleUnStakeMasterChief() {
             toast.success?.({
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
+            });
+            addAction?.({
+              type: "Staking",
+              action: "Unstake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Athena",
+              add: false,
+              status,
+              transactionHash,
             });
             updateStakedAmount();
           } else {
