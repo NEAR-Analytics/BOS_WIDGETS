@@ -1,4 +1,5 @@
 const {
+  currentChainId,
   chainId,
   chainName,
   connectProps,
@@ -9,17 +10,18 @@ const {
   multicallAddress,
   wethAddress,
   prices,
+  account,
 } = props;
 
 const dapps = props.dapps || {};
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!account) {
   return (
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...connectProps,
+        account,
         isWrongNetwork: false,
       }}
     />
@@ -28,7 +30,6 @@ if (!account) {
 
 useEffect(() => {
   State.update({
-    chainId: -1,
     updateData: defaultDapp || "All",
     showDialog: false,
     tableButtonClickData: null,
@@ -38,19 +39,13 @@ useEffect(() => {
   });
 }, []);
 
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({ chainId });
-  })
-  .catch(() => {});
-
-if (state.chainId !== chainId) {
+if (currentChainId !== chainId) {
   return (
     <Widget
       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
       props={{
         ...connectProps,
+        account,
         isWrongNetwork: true,
       }}
     />
@@ -95,6 +90,7 @@ return (
             multicallAddress,
             wethAddress,
             prices,
+            account,
             onLoad: (data) => {
               const { markets, dapp } = data;
               const dapps = state.dapps;
@@ -156,6 +152,7 @@ return (
           dapps: state.dapps,
           timestamp: state.timestamp,
           onButtonClick: handleTableButtonClick,
+          account,
         }}
       />
     )}
@@ -169,6 +166,7 @@ return (
           dapps: state.dapps,
           dappsConfig: dapps,
           toast,
+          account,
           onButtonClick: handleTableButtonClick,
           onSuccess: (dapp) => {
             State.update({
@@ -183,9 +181,10 @@ return (
       props={{
         display: state.showDialog,
         data: state.tableButtonClickData,
-        chainId: state.chainId,
+        chainId,
         addAction,
         toast,
+        account,
         onClose: () => {
           State.update({
             showDialog: false,
