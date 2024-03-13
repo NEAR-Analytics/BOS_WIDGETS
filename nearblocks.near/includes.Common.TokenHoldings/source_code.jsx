@@ -8,11 +8,6 @@
  * @param {string} [ft.amount] -  amount in USD of tokens.
  * @param {Object[]} [ft.tokens] - Array containing 'TokenListInfo' objects, providing information about individual token details.
  * @param {string} [appUrl] - The URL of the application.
- * @param {React.FC<{
- *   href: string;
- *   children: React.ReactNode;
- *   className?: string;
- * }>} Link - A React component for rendering links.
  */
 
 import { truncateString } from '@/includes/libs';
@@ -32,13 +27,7 @@ import { dollarFormat, localFormat } from '@/includes/formats';
 
 
 
-
-
-
-
-
 const TokenHoldings = (props) => {
-  const { Link } = props;
   const Loading = (props) => {
     return (
       <div
@@ -92,7 +81,7 @@ const TokenHoldings = (props) => {
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {props.ft?.tokens?.map((token, index) => (
                       <div key={token?.contract}>
-                        <Link
+                        <a
                           href={`/token/${token?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
@@ -142,7 +131,7 @@ const TokenHoldings = (props) => {
                               </div>
                             )}
                           </a>
-                        </Link>
+                        </a>
                       </div>
                     ))}
                   </div>
@@ -157,7 +146,7 @@ const TokenHoldings = (props) => {
                   <div className="text-gray-600 text-xs divide-y outline-none">
                     {nfts.map((nft) => (
                       <div key={nft?.contract}>
-                        <Link
+                        <a
                           href={`/nft-token/${nft?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
@@ -192,7 +181,7 @@ const TokenHoldings = (props) => {
                               </div>
                             </div>
                           </a>
-                        </Link>
+                        </a>
                       </div>
                     ))}
                   </div>
