@@ -9,10 +9,7 @@ const [plan, setPlan] = useState(() => {
         startDate: "",
         endDate: "",
       },
-      teamMembers: {
-        builderName: "",
-        builderRole: "",
-      },
+      teamMembers: [],
       tasks: {
         id: "",
         assignedTo: "",
@@ -100,83 +97,91 @@ return (
           value={plan.metadata.planName}
           onChange={handlePlanNameChange}
         />
-        <div className="mb-3 p-1">
-          <label for="goals">Goals:</label>
-          <textarea
-            id="goals"
-            name="goals"
-            resize="none"
-            rows="4"
-            cols="80"
-            placeholder="Define project goals here. Remember to include outcomes, timelines, and criteria for measuring success."
-            value={plan.metadata.goals}
-            onChange={handleGoalsChange}
-          />
+      </div>
+      <div className="mb-3 p-1">
+        <label for="goals">Goals:</label>
+        <textarea
+          id="goals"
+          name="goals"
+          resize="none"
+          rows="4"
+          cols="80"
+          placeholder="Define project goals here. Remember to include outcomes, timelines, and criteria for measuring success."
+          value={plan.metadata.goals}
+          onChange={handleGoalsChange}
+        />
+      </div>
+      <div className="mb-3 p-1">
+        <h3>Timeline:</h3>
+        <label>Start date:</label>
+        <input
+          id="startDate"
+          name="startDate"
+          type="date"
+          min="2024-03-12"
+          value={plan.metadata.timeline.startDate}
+          onChange={handleStartDateChange}
+        />
+        <label>End date:</label>
+        <input
+          id="endDate"
+          name="endDate"
+          type="date"
+          min="2024-03-12"
+          value={plan.metadata.timeline.endDate}
+          onChange={handleEndDateChange}
+        />
+      </div>
+      <div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <Widget
+              src="dawnkelly.near/widget/build.teamMembersAndRoles"
+              handleBuilderNameChange={handleBuilderNameChange}
+              handleBuilderRoleChange={handleBuilderRoleChange}
+            />
+          </div>
         </div>
-        <div className="mb-3 p-1">
-          <h3>Timeline:</h3>
-          <label>Start date:</label>
-          <input
-            id="startDate"
-            name="startDate"
-            type="date"
-            min="2024-03-12"
-            value={plan.metadata.timeline.startDate}
-            onChange={handleStartDateChange}
-          />
-          <label>End date:</label>
-          <input
-            id="endDate"
-            name="endDate"
-            type="date"
-            min="2024-03-12"
-            value={plan.metadata.timeline.endDate}
-            onChange={handleEndDateChange}
-          />
-        </div>
-        <div>
-          Team Members and Roles Two fields with "add another" + type button
-        </div>
-        <div>
-          <h3>Project Tasks</h3>
-          <p>task id</p>
-          <p>assigned</p>
-          <p>estimated effort</p>
-          <p>status</p>
-        </div>
-        <div>
-          <h3>Dependencies</h3>
-        </div>
-        <div>
-          <h3>Milestones</h3>
-        </div>
-        <div>
-          <h3>Open collaborations</h3>
-        </div>
-        <div>
-          <h4>Review Meeting</h4>
-          <p>date scheduled</p>
-          <p>date held</p>
-          <p>notes</p>
-          //Objectives: evaluate what was completed, what wasn't, and why.
-        </div>
-        <div>
-          <h4>Retrospective Meeting</h4>
-          <p>date scheduled</p>
-          <p>date held</p>
-          <p>notes</p>
-          //Objectives: reflect on the sprint process, what went well, what
-          didn’t, and how processes could be improved.
-        </div>
-        <div className="m-3">
-          <button
-            className="btn btn-outline-success"
-            disabled={!context.accountId}
-            onClick={handleSave}
-          >
-            Save
-          </button>
-        </div>
+      </div>
+      <div>
+        <h3>Project Tasks</h3>
+        <p>task id</p>
+        <p>assigned</p>
+        <p>estimated effort</p>
+        <p>status</p>
+      </div>
+      <div>
+        <h3>Dependencies</h3>
+      </div>
+      <div>
+        <h3>Milestones</h3>
+      </div>
+      <div>
+        <h3>Open collaborations</h3>
+      </div>
+      <div>
+        <h4>Review Meeting</h4>
+        <p>date scheduled</p>
+        <p>date held</p>
+        <p>notes</p>
+        //Objectives: evaluate what was completed, what wasn't, and why.
+      </div>
+      <div>
+        <h4>Retrospective Meeting</h4>
+        <p>date scheduled</p>
+        <p>date held</p>
+        <p>notes</p>
+        //Objectives: reflect on the sprint process, what went well, what did
+        not, and how processes could be improved.
+      </div>
+      <div className="m-3">
+        <button
+          className="btn btn-outline-success"
+          disabled={!context.accountId}
+          onClick={handleSave}
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
