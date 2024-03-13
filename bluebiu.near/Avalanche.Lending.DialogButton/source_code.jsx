@@ -48,7 +48,6 @@ const ERC20_ABI = [
 ];
 const Button = styled.button`
   background: var(--button-color);
-  line-height: 46px;
   height: 46px;
   border-radius: 10px;
   color: var(--button-text-color);
@@ -86,8 +85,8 @@ const {
   loading: estimating,
   gas,
   onApprovedSuccess,
+  account,
 } = props;
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const tokenSymbol = data.underlyingToken.symbol;
 if (!actionText || !account) return;
@@ -98,6 +97,7 @@ useEffect(() => {
     isApproved: false,
     isGasEnough: true,
     pending: false,
+    checking: true,
   });
 }, [amount]);
 
@@ -230,19 +230,20 @@ const getAllowance = () => {
           data.underlyingToken.decimals
         )
       ).lt(amount || "0"),
+      checking: false,
     });
   });
 };
 
 if (data.underlyingToken.isNative) {
-  State.update({ isApproved: true });
+  State.update({ isApproved: true, checking: false });
   onLoad?.(true);
 } else {
   if (["Deposit", "Repay"].includes(actionText)) {
     getAllowance();
   }
   if (["Withdraw", "Borrow"].includes(actionText)) {
-    State.update({ isApproved: true });
+    State.update({ isApproved: true, checking: false });
     onLoad?.(true);
   }
 }
@@ -306,7 +307,7 @@ if (!state.isApproved) {
   };
   return (
     <Button onClick={handleApprove} disabled={state.approving}>
-      {state.approving ? (
+      {state.approving || state.checking ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
