@@ -9,7 +9,17 @@
  * @param {TransactionInfo} [txn] - Information related to a transaction.
  * @param {RPCTransactionInfo} [rpcTxn] - RPC data of the transaction.
  * @param {ReceiptsPropsInfo} [receipt] -  receipt of the transaction.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -3861,7 +3871,7 @@ const TransactionActions = (props) => {
 };/* END_INCLUDE COMPONENT: "includes/Common/Receipts/TransactionActions.jsx" */
 
 function MainComponent(props) {
-  const { network, receipt, borderFlag, t } = props;
+  const { network, receipt, borderFlag, t, Link } = props;
   const [block, setBlock] = useState({} );
   const [loading, setLoading] = useState(false);
   const config = getConfig(network);
@@ -3974,14 +3984,14 @@ function MainComponent(props) {
             </div>
           ) : block?.block_height ? (
             <div className="w-full md:w-3/4 word-break">
-              <a
+              <Link
                 href={`/blocks/${receipt.block_hash}`}
                 className="hover:no-underline"
               >
                 <a className="text-green-500 hover:no-underline">
                   {localFormat(block?.block_height)}
                 </a>
-              </a>
+              </Link>
             </div>
           ) : (
             ''
@@ -4016,14 +4026,14 @@ function MainComponent(props) {
               </div>
             ) : receipt?.predecessor_id ? (
               <div className="w-full md:w-3/4 word-break">
-                <a
+                <Link
                   href={`/address/${receipt?.predecessor_id}`}
                   className="hover:no-underline"
                 >
                   <a className="text-green-500 hover:no-underline">
                     {receipt?.predecessor_id}
                   </a>
-                </a>
+                </Link>
               </div>
             ) : (
               ''
@@ -4057,14 +4067,14 @@ function MainComponent(props) {
               </div>
             ) : receipt?.receiver_id ? (
               <div className="w-full md:w-3/4 word-break">
-                <a
+                <Link
                   href={`/address/${receipt?.receiver_id}`}
                   className="hover:no-underline"
                 >
                   <a className="text-green-500 hover:no-underline">
                     {receipt?.receiver_id}
                   </a>
-                </a>
+                </Link>
               </div>
             ) : (
               ''
@@ -4251,6 +4261,7 @@ function MainComponent(props) {
                       receipt: rcpt,
                       borderFlag: true,
                       network: network,
+                      Link,
                     }}
                   />
                 }
