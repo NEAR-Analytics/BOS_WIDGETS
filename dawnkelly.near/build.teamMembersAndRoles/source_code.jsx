@@ -1,28 +1,32 @@
-const [builders, setBuilders] = useState([{ name: "", role: "" }]);
+const [teamMembers, setTeamMembers] = useState([{ name: "", role: "" }]);
 
-const handleNameChange = (e, index) => {
+const handleBuilderNameChange = (index, e) => {
   const { value } = e.target;
-  const updatedBuilders = [...builders];
-  updatedBuilders[index].name = value;
-  setBuilders(updatedBuilders);
+  setTeamMembers((prevTeamMembers) => {
+    const updatedTeamMembers = [...prevTeamMembers];
+    updatedTeamMembers[index].name = value;
+    return updatedTeamMembers;
+  });
 };
 
-const handleRoleChange = (e, index) => {
+const handleBuilderRoleChange = (index, e) => {
   const { value } = e.target;
-  const updatedBuilders = [...builders];
-  updatedBuilders[index].role = value;
-  setBuilders(updatedBuilders);
+  setTeamMembers((prevTeamMembers) => {
+    const updatedTeamMembers = [...prevTeamMembers];
+    updatedTeamMembers[index].role = value;
+    return updatedTeamMembers;
+  });
 };
 
 const addBuilder = () => {
-  setBuilders([...builders, { name: "", role: "" }]);
+  setTeamMembers([...teamMembers, { name: "", role: "" }]);
 };
 
 const handleDeleteBuilder = (index) => {
-  setBuilders((prevBuilders) => {
-    const updatedBuilders = [...prevBuilders];
-    updatedBuilders.splice(index, 1);
-    return updatedBuilders;
+  setTeamMembers((prevTeamMembers) => {
+    const updatedTeamMembers = [...prevTeamMembers];
+    updatedTeamMembers.splice(index, 1);
+    return updatedTeamMembers;
   });
 };
 
