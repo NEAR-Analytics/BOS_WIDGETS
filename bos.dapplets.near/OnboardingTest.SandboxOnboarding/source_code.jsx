@@ -1,8 +1,9 @@
-const { handleClose, saveData } = props
+const { handleClose, saveData, setShow, link } = props
 
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
 const [activeChapterNumber, setActiveChapterNumber] = useState(props.data && 0)
 const [newData, setNewData] = useState('')
+const [isEditMode, setEditMode] = useState(false)
 
 const Container = styled.div`
   position: relative;
@@ -104,6 +105,34 @@ const PageIndicator = styled.div`
   &.active {
     background: rgba(56, 75, 255, 1);
     cursor: default;
+  }
+`
+
+const EditButton = styled.button`
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 24px;
+  background: none;
+  cursor: pointer;
+  height: 24px;
+  color: #222;
+  transition-duration: .15s;
+  
+  :hover {
+    color: #111;
+    background: #eee;
+  }
+  
+  :active {
+    color: #000;
+    background: #ddd;
   }
 `
 
@@ -406,7 +435,7 @@ const SuccessButton = styled.button`
 const data = props.data && JSON.parse(props.data)
 
 
-return (!data) ? (
+return (!data || isEditMode) ? (
 //   <Container>
 //     <Header>
 //       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
@@ -446,22 +475,42 @@ return (!data) ? (
 //   </Container>
 // ) (!data || !data.length || activeChapterNumber === null) ? (
 <Container>
-  <h1>Add data</h1>
+  <Header>
+    <h1>Add data</h1>
+    <CloseButton onClick={() => handleClose(false)}>
+      {closeIcon}
+    </CloseButton>
+  </Header>
   <textarea
     autofocus
     style={{ width: '100%', height: '100%' }}
     onChange={(e) => setNewData(e.target.value)}
     value={newData}
   />
-  <button onClick={() => {
-    saveData(newData)
-    setNewData('')
-  }}>Save</button>
+  <div style={{ display: 'flex', width: '80%', justifyContent: 'space-evenly' }}>
+    {isEditMode ? (
+      <SuccessButton onClick={() => setEditMode(false)}>
+        Cancel
+      </SuccessButton>
+    ) : null}
+    <SuccessButton onClick={() => {
+      saveData(newData)
+      setNewData('')
+      setShow(false)
+    }}>
+      Save
+    </SuccessButton>
+  </div>
 </Container>
 ) : (
   <Container>
     <Header>
       <TopLine>
+        {context.accountId === link.authorId ? (
+          <EditButton onClick={() => setEditMode(true)}>
+            Edit data
+          </EditButton>
+        ) : null}
         <PagesIndicators>
           {data?.map((chapter, i) => (
             <PageIndicatorBtn
