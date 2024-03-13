@@ -1235,7 +1235,8 @@ function getMultiMasterChief(pool) {
     (res) => {
       console.log("getMultiMasterChief res:", res);
       const temp = [...state.poolsList];
-      const stakedAmount = Big(ethers.utils.formatUnits(res[1][0])).toFixed(2);
+
+      const stakedAmount = Big(ethers.utils.formatUnits(res[1][0])).toFixed();
       const reward = ethers.utils.formatUnits(res[0][1]);
       const athPrice = state.tokenPrices[state.poolsList[0].tokenAddress];
       const rewardAmount = Big(reward).times(Big(athPrice));
