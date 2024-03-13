@@ -9,7 +9,17 @@
  * @param {boolean} [loading] - Indicates whether data is currently loading.
  * @param {TransactionInfo} [txn] - Information related to a transaction.
  * @param {RPCTransactionInfo} [rpcTxn] - RPC data of the transaction.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -9343,7 +9353,7 @@ function localFormat(number) {
 
 
 function MainComponent(props) {
-  const { loading, txn, network, t, rpcTxn } = props;
+  const { loading, txn, network, t, rpcTxn, Link } = props;
   const [isContract, setIsContract] = useState(false);
   const [statsData, setStatsData] = useState({} );
   const [price, setPrice] = useState('');
@@ -9602,7 +9612,7 @@ function MainComponent(props) {
             </div>
           ) : txn?.block?.block_height ? (
             <div className="w-full md:w-3/4 font-semibold break-words">
-              <a
+              <Link
                 href={`/blocks/${txn?.included_in_block_hash}`}
                 className="hover:no-underline"
               >
@@ -9611,7 +9621,7 @@ function MainComponent(props) {
                     ? localFormat(txn?.block?.block_height)
                     : txn?.block?.block_height ?? ''}
                 </a>
-              </a>
+              </Link>
             </div>
           ) : (
             ''
@@ -9735,14 +9745,14 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="w-full md:w-3/4 break-all">
-              <a
+              <Link
                 href={`/address/${txn?.signer_account_id}`}
                 className="hover:no-underline"
               >
                 <a className="text-green-500 hover:no-underline">
                   {txn?.signer_account_id}
                 </a>
-              </a>
+              </Link>
             </div>
           )}
         </div>
@@ -9778,14 +9788,14 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="w-full md:w-3/4 break-all">
-              <a
+              <Link
                 href={`/address/${txn?.receiver_account_id}`}
                 className="hover:no-underline"
               >
                 <a className="text-green-500 hover:no-underline">
                   {txn?.receiver_account_id}
                 </a>
-              </a>
+              </Link>
             </div>
           )}
         </div>
@@ -9829,14 +9839,14 @@ function MainComponent(props) {
                         <div className="font-semibold text-gray px-1">
                           From{' '}
                           {ft?.affected_account_id ? (
-                            <a
+                            <Link
                               href={`/address/${ft?.affected_account_id}`}
                               className="hover:no-underline"
                             >
                               <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                 {shortenAddress(ft?.affected_account_id ?? '')}
                               </a>
-                            </a>
+                            </Link>
                           ) : (
                             <span className="font-normal pl-1">system</span>
                           )}
@@ -9844,14 +9854,14 @@ function MainComponent(props) {
                         <div className="font-semibold text-gray px-1">
                           To{' '}
                           {ft?.involved_account_id ? (
-                            <a
+                            <Link
                               href={`/address/${ft?.involved_account_id}`}
                               className="hover:no-underline"
                             >
                               <a className="text-green-500 font-normal pl-1">
                                 {shortenAddress(ft?.involved_account_id ?? '')}
                               </a>
-                            </a>
+                            </Link>
                           ) : (
                             <span className="font-normal pl-1">system</span>
                           )}
@@ -9868,7 +9878,7 @@ function MainComponent(props) {
                               : ''}
                           </span>
                         </div>
-                        <a
+                        <Link
                           href={`/token/${ft?.ft_meta?.contract}`}
                           className="hover:no-underline"
                         >
@@ -9884,7 +9894,7 @@ function MainComponent(props) {
                               {shortenTokenSymbol(ft?.ft_meta?.symbol ?? '')})
                             </span>
                           </a>
-                        </a>
+                        </Link>
                       </div>
                     ))}
                     {nfts?.map((nft) => (
@@ -9897,7 +9907,7 @@ function MainComponent(props) {
                                 <div className="font-semibold text-gray px-1">
                                   From{' '}
                                   {nft?.affected_account_id ? (
-                                    <a
+                                    <Link
                                       href={`/address/${nft?.affected_account_id}`}
                                       className="hover:no-underline"
                                     >
@@ -9906,7 +9916,7 @@ function MainComponent(props) {
                                           nft?.affected_account_id ?? '',
                                         )}
                                       </a>
-                                    </a>
+                                    </Link>
                                   ) : (
                                     <span className="font-normal pl-1">
                                       system
@@ -9916,7 +9926,7 @@ function MainComponent(props) {
                                 <div className="font-semibold text-gray px-1">
                                   To{' '}
                                   {nft?.involved_account_id ? (
-                                    <a
+                                    <Link
                                       href={`/address/${nft?.involved_account_id}`}
                                       className="hover:no-underline"
                                     >
@@ -9925,7 +9935,7 @@ function MainComponent(props) {
                                           nft?.involved_account_id ?? '',
                                         )}
                                       </a>
-                                    </a>
+                                    </Link>
                                   ) : (
                                     <span className="font-normal pl-1">
                                       system
@@ -9938,18 +9948,18 @@ function MainComponent(props) {
                                   <span className="text-gray-400">For </span>
                                   <span className="pl-1 font-normal">
                                     NFT Token ID [
-                                    <a
+                                    <Link
                                       href={`/nft-token/${nft?.nft_meta?.contract}/${nft?.token_id}`}
                                       className="hover:no-underline"
                                     >
                                       <a className="text-green hover:no-underline">
                                         {shortenToken(nft?.token_id ?? '')}
                                       </a>
-                                    </a>
+                                    </Link>
                                     ]
                                   </span>
                                 </div>
-                                <a
+                                <Link
                                   href={`/nft-token/${nft?.nft_meta?.contract}`}
                                   className="hover:no-underline"
                                 >
@@ -9968,11 +9978,11 @@ function MainComponent(props) {
                                       )
                                     </span>
                                   </a>
-                                </a>
+                                </Link>
                               </div>
                             </div>
                             <div className="border rounded ml-2 w-11 h-11 p-1">
-                              <a
+                              <Link
                                 href={`/nft-token/${nft?.nft_meta?.contract}/${nft?.token_id}`}
                                 className="hover:no-underline"
                               >
@@ -9993,7 +10003,7 @@ function MainComponent(props) {
                                     />
                                   }
                                 </a>
-                              </a>
+                              </Link>
                             </div>
                           </div>
                         </div>
