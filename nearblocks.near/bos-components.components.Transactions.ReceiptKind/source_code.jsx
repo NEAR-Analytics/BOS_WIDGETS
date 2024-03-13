@@ -369,7 +369,7 @@ const backgroundColorClasses = {
 };
 
 function MainComponent(props) {
-  const { network, t, action, onClick, isTxTypeActive } = props;
+  const { network, t, action, onClick, isTxTypeActive, Link } = props;
 
   const config = getConfig(network);
 
@@ -459,6 +459,7 @@ function MainComponent(props) {
                     t: t,
                     action: action,
                     isTxTypeActive: true,
+                    Link,
                   }}
                 />
               ))}
