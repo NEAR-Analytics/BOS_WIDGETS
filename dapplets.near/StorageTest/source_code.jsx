@@ -5,6 +5,8 @@ const storeValue = () => {
 
 const time = Storage.get("time_now");
 
+console.log({ time });
+
 return (
   <>
     <p> Time Stored: {time} </p>
