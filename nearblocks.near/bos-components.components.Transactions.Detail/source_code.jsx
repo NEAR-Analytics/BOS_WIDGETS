@@ -170,6 +170,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -212,7 +246,11 @@ const WrapDeposit = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: props.event.contract, amount: log[1] }}
+          props={{
+            contract: props.event.contract,
+            amount: log[1],
+            network: props.network,
+          }}
         />
       }
     </div>
@@ -358,6 +396,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -400,7 +472,11 @@ const Withdraw = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: props.event.contract, amount: log[1] }}
+          props={{
+            contract: props.event.contract,
+            amount: log[1],
+            network: props.network,
+          }}
         />
       }
     </div>
@@ -561,6 +637,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -778,6 +888,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -852,6 +996,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -894,7 +1072,11 @@ const DepositToReserve = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -1059,6 +1241,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1133,6 +1349,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1175,7 +1425,11 @@ const Deposit = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -1340,6 +1594,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1415,6 +1703,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1456,7 +1778,11 @@ const WithdrawSucceeded = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            network: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -1621,6 +1947,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1695,6 +2055,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1737,7 +2131,11 @@ const IncreaseCollateral = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -1902,6 +2300,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1976,6 +2408,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2018,7 +2484,11 @@ const DescreaseCollateral = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -2183,6 +2653,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -2257,6 +2761,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2300,7 +2838,11 @@ const Borrow = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -2465,6 +3007,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -2540,6 +3116,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -2582,7 +3192,11 @@ const Repay = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
+          props={{
+            contract: log.token_id,
+            amount: log.amount,
+            networK: props.network,
+          }}
         />
       }
       <span className="font-bold text-gray px-1">
@@ -2743,6 +3357,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -2851,6 +3499,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -2961,6 +3643,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -3185,6 +3901,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -3302,6 +4052,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -3490,6 +4274,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -5455,7 +6273,7 @@ const ArrowUp = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowUp.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaCaretRight.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FaRight.jsx" */
 /**
  * @interface Props
  * @param {string} [className] - The CSS class name(s) for styling purposes.
@@ -5464,20 +6282,22 @@ const ArrowUp = (props) => {
 
 
 
-
-const FaCaretRight = (props) => {
+const FaRight = (props) => {
   return (
     <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 192 512"
+      className={props.className}
+      height="1em"
+      width="1em"
       xmlns="http://www.w3.org/2000/svg"
-      height="16"
-      width="8"
-      viewBox="0 0 256 512"
-      {...props}
     >
-      <path d="M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z" />
+      <path d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"></path>
     </svg>
   );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaCaretRight.jsx" */
+};/* END_INCLUDE COMPONENT: "includes/icons/FaRight.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
 /**
  * @interface Props
@@ -5702,6 +6522,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -5851,6 +6705,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -5877,6 +6765,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function nanoToMilli(nano) {
   return Big(nano).div(Big(10).pow(6)).round().toNumber();
@@ -6028,6 +6950,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -6102,6 +7058,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -6290,6 +7280,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -9367,7 +10391,11 @@ function MainComponent(props) {
       receipts.forEach(
         (receipt) =>
           receipt?.fts?.forEach((ft) => {
-            if (ft.ft_meta && Number(ft.delta_amount) < 0) fts.push(ft);
+            if (ft.ft_meta && ft.cause === 'TRANSFER') {
+              if (ft.ft_meta && Number(ft.delta_amount) < 0) fts.push(ft);
+            } else {
+              if (ft.ft_meta) fts.push(ft);
+            }
           }),
       );
       receipts.forEach(
@@ -9376,9 +10404,17 @@ function MainComponent(props) {
             if (
               nft.nft_meta &&
               nft.nft_token_meta &&
-              Number(nft.delta_amount) < 0
-            )
-              nfts.push(nft);
+              nft.cause === 'TRANSFER'
+            ) {
+              if (
+                nft.nft_meta &&
+                nft.nft_token_meta &&
+                Number(nft.delta_amount) < 0
+              )
+                nfts.push(nft);
+            } else {
+              if (nft.nft_meta && nft.nft_token_meta) nfts.push(nft);
+            }
           }),
       );
 
@@ -9663,7 +10699,17 @@ function MainComponent(props) {
           )}
         </div>
       </div>
-      {(actions?.length > 0 || (logs?.length > 0 && logs.contract)) && (
+      {(actions?.length > 0 ||
+        (logs.length > 0 &&
+          logs.some((item) =>
+            [
+              'wrap.near',
+              'wrap.testnet',
+              'v2.ref-finance.near',
+              'contract.main.burrow.near',
+              'contract.1638481328.burrow.testnet',
+            ].includes(item?.contract),
+          ))) && (
         <div id="action-row" className="bg-white text-sm text-nearblue-600">
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
@@ -9691,25 +10737,33 @@ function MainComponent(props) {
               </div>
             ) : (
               <div className="w-full md:w-3/4">
-                <ScrollArea.Root>
-                  <ScrollArea.Viewport />
-                  <div
-                    id="action-column"
-                    className="max-h-[194px] break-words space-y-2"
+                <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white">
+                  <ScrollArea.Viewport className="w-full h-full rounded">
+                    <div
+                      id="action-column"
+                      className="max-h-[194px] break-words space-y-2"
+                    >
+                      {logs?.map((event, i) => (
+                        <EventLogs key={i} event={event} network={network} />
+                      ))}
+                      {actions?.map((action, i) => (
+                        <Actions key={i} action={action} />
+                      ))}
+                    </div>
+                  </ScrollArea.Viewport>
+                  <ScrollArea.Scrollbar
+                    className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                    orientation="vertical"
                   >
-                    {logs?.map((event, i) => (
-                      <EventLogs key={i} event={event} network={network} />
-                    ))}
-                    {actions?.map((action, i) => (
-                      <Actions key={i} action={action} />
-                    ))}
-                  </div>
-                  <ScrollArea.Scrollbar orientation="horizontal">
-                    <ScrollArea.Thumb />
+                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                   </ScrollArea.Scrollbar>
-                  <ScrollArea.Scrollbar orientation="vertical">
-                    <ScrollArea.Thumb />
+                  <ScrollArea.Scrollbar
+                    className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                    orientation="horizontal"
+                  >
+                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                   </ScrollArea.Scrollbar>
+                  <ScrollArea.Corner className="bg-neargray-50" />
                 </ScrollArea.Root>
               </div>
             )}
@@ -9835,37 +10889,82 @@ function MainComponent(props) {
                         className="flex items-center flex-wrap break-all leading-7"
                         key={ft?.key}
                       >
-                        <FaCaretRight className="inline-flex text-gray-400 text-xs" />
-                        <div className="font-semibold text-gray px-1">
-                          From{' '}
-                          {ft?.affected_account_id ? (
-                            <Link
-                              href={`/address/${ft?.affected_account_id}`}
-                              className="hover:no-underline"
-                            >
-                              <a className="text-green-500 font-normal pl-1 hover:no-underline">
-                                {shortenAddress(ft?.affected_account_id ?? '')}
-                              </a>
-                            </Link>
-                          ) : (
-                            <span className="font-normal pl-1">system</span>
-                          )}
-                        </div>
-                        <div className="font-semibold text-gray px-1">
-                          To{' '}
-                          {ft?.involved_account_id ? (
-                            <Link
-                              href={`/address/${ft?.involved_account_id}`}
-                              className="hover:no-underline"
-                            >
-                              <a className="text-green-500 font-normal pl-1">
-                                {shortenAddress(ft?.involved_account_id ?? '')}
-                              </a>
-                            </Link>
-                          ) : (
-                            <span className="font-normal pl-1">system</span>
-                          )}
-                        </div>
+                        <FaRight className="inline-flex text-gray-400 text-xs" />
+                        {ft?.cause === 'MINT' ? (
+                          <>
+                            <div className="font-semibold text-gray px-1">
+                              From{' '}
+                              {ft?.involved_account_id ? (
+                                <Link
+                                  href={`/address/${ft?.involved_account_id}`}
+                                  className="hover:no-underline"
+                                >
+                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                    {shortenAddress(
+                                      ft?.involved_account_id ?? '',
+                                    )}
+                                  </a>
+                                </Link>
+                              ) : (
+                                <span className="font-normal pl-1">system</span>
+                              )}
+                            </div>
+                            <div className="font-semibold text-gray px-1">
+                              To{' '}
+                              {ft?.affected_account_id ? (
+                                <Link
+                                  href={`/address/${ft?.affected_account_id}`}
+                                  className="hover:no-underline"
+                                >
+                                  <a className="text-green-500 font-normal pl-1">
+                                    {shortenAddress(
+                                      ft?.affected_account_id ?? '',
+                                    )}
+                                  </a>
+                                </Link>
+                              ) : (
+                                <span className="font-normal pl-1">system</span>
+                              )}
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="font-semibold text-gray px-1">
+                              From{' '}
+                              {ft?.affected_account_id ? (
+                                <Link
+                                  href={`/address/${ft?.affected_account_id}`}
+                                  className="hover:no-underline"
+                                >
+                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                    {shortenAddress(
+                                      ft?.affected_account_id ?? '',
+                                    )}
+                                  </a>
+                                </Link>
+                              ) : (
+                                <span className="font-normal pl-1">system</span>
+                              )}
+                            </div>
+                            <div className="font-semibold text-gray px-1">
+                              To{' '}
+                              {ft?.involved_account_id ? (
+                                <Link
+                                  href={`/address/${ft?.involved_account_id}`}
+                                  className="hover:no-underline"
+                                >
+                                  <a className="text-green-500 font-normal pl-1">
+                                    {shortenAddress(
+                                      ft?.involved_account_id ?? '',
+                                    )}
+                                  </a>
+                                </Link>
+                              ) : (
+                                <span className="font-normal pl-1">system</span>
+                              )}
+                            </div>
+                          </>
+                        )}
                         <div className="font-semibold text-gray px-1">
                           For{' '}
                           <span className="pl-1 font-normal">
@@ -9886,6 +10985,7 @@ function MainComponent(props) {
                             <TokenImage
                               src={ft?.ft_meta?.icon}
                               alt={ft?.ft_meta?.name}
+                              appUrl={config?.appUrl}
                               className="w-4 h-4 mx-1"
                             />
                             {shortenToken(ft?.ft_meta?.name ?? '')}
@@ -9900,48 +11000,93 @@ function MainComponent(props) {
                     {nfts?.map((nft) => (
                       <div className="flex" key={nft?.key}>
                         <div className="flex justify-start items-start">
-                          <FaCaretRight className="inline-flex text-gray-400 text-xs mt-1" />
+                          <FaRight className="inline-flex text-gray-400 text-xs mt-1" />
                           <div className="flex flex-wrap">
                             <div>
                               <div className="sm:flex">
-                                <div className="font-semibold text-gray px-1">
-                                  From{' '}
-                                  {nft?.affected_account_id ? (
-                                    <Link
-                                      href={`/address/${nft?.affected_account_id}`}
-                                      className="hover:no-underline"
-                                    >
-                                      <a className="text-green-500 font-normal pl-1 hover:no-underline">
-                                        {shortenAddress(
-                                          nft?.affected_account_id ?? '',
-                                        )}
-                                      </a>
-                                    </Link>
-                                  ) : (
-                                    <span className="font-normal pl-1">
-                                      system
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="font-semibold text-gray px-1">
-                                  To{' '}
-                                  {nft?.involved_account_id ? (
-                                    <Link
-                                      href={`/address/${nft?.involved_account_id}`}
-                                      className="hover:no-underline"
-                                    >
-                                      <a className="text-green-500 font-normal pl-1 hover:no-underline">
-                                        {shortenAddress(
-                                          nft?.involved_account_id ?? '',
-                                        )}
-                                      </a>
-                                    </Link>
-                                  ) : (
-                                    <span className="font-normal pl-1">
-                                      system
-                                    </span>
-                                  )}
-                                </div>
+                                {nft?.cause === 'MINT' ? (
+                                  <>
+                                    <div className="font-semibold text-gray px-1">
+                                      From{' '}
+                                      {nft?.involved_account_id ? (
+                                        <Link
+                                          href={`/address/${nft?.involved_account_id}`}
+                                          className="hover:no-underline"
+                                        >
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                            {shortenAddress(
+                                              nft?.involved_account_id ?? '',
+                                            )}
+                                          </a>
+                                        </Link>
+                                      ) : (
+                                        <span className="font-normal pl-1">
+                                          system
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="font-semibold text-gray px-1">
+                                      To{' '}
+                                      {nft?.affected_account_id ? (
+                                        <Link
+                                          href={`/address/${nft?.affected_account_id}`}
+                                          className="hover:no-underline"
+                                        >
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                            {shortenAddress(
+                                              nft?.affected_account_id ?? '',
+                                            )}
+                                          </a>
+                                        </Link>
+                                      ) : (
+                                        <span className="font-normal pl-1">
+                                          system
+                                        </span>
+                                      )}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <>
+                                    <div className="font-semibold text-gray px-1">
+                                      From{' '}
+                                      {nft?.affected_account_id ? (
+                                        <Link
+                                          href={`/address/${nft?.affected_account_id}`}
+                                          className="hover:no-underline"
+                                        >
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                            {shortenAddress(
+                                              nft?.affected_account_id ?? '',
+                                            )}
+                                          </a>
+                                        </Link>
+                                      ) : (
+                                        <span className="font-normal pl-1">
+                                          system
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="font-semibold text-gray px-1">
+                                      To{' '}
+                                      {nft?.involved_account_id ? (
+                                        <Link
+                                          href={`/address/${nft?.involved_account_id}`}
+                                          className="hover:no-underline"
+                                        >
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                            {shortenAddress(
+                                              nft?.involved_account_id ?? '',
+                                            )}
+                                          </a>
+                                        </Link>
+                                      ) : (
+                                        <span className="font-normal pl-1">
+                                          system
+                                        </span>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
                               </div>
                               <div className="sm:flex mt-1">
                                 <div className="text-gray px-1">
@@ -10172,11 +11317,11 @@ function MainComponent(props) {
             <div className="flex flex-wrap p-4">
               <Accordion.Trigger asChild onClick={toggleContent}>
                 {!more ? (
-                  <span className="text-green-500 flex items-center">
+                  <span className="text-green-500 flex items-center cursor-pointer">
                     Click to see more <ArrowDown className="fill-current" />
                   </span>
                 ) : (
-                  <span className="text-green-500 flex items-center">
+                  <span className="text-green-500 flex items-center cursor-pointer">
                     Click to see less <ArrowUp className="fill-current" />
                   </span>
                 )}
