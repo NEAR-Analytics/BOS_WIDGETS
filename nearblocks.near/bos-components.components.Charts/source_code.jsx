@@ -8,8 +8,17 @@
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [chartTypes] - Type of chart to be shown, available options are (price, blocks, txns etc)
  * @param {boolean} [poweredBy] - Powered by attribution
-
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -43,7 +52,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -248,7 +257,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -404,7 +413,7 @@ function formatWithCommas(number) {
 
 
 function MainComponent(props) {
-  const { t } = props;
+  const { t, Link } = props;
   const [data, setData] = useState([]);
   const [chartConfig, setChartConfig] = useState(null);
   const [chartInfo, setChartInfo] = useState({
@@ -833,21 +842,21 @@ function MainComponent(props) {
                 key={index}
                 className="block bg-white border soft-shadow rounded-xl overflow-hidden"
               >
-                <a
+                <Link
                   href={chart?.link}
                   className="block leading-7 p-3 text-sm text-nearblue-600 border-b truncate"
                 >
                   <h2>{chart?.text}</h2>
-                </a>
+                </Link>
                 <div className="pl-2 pr-4 py-6">
-                  <a href={chart?.link}>
+                  <Link href={chart?.link}>
                     <img
                       src={chart?.image}
                       alt={chart?.text}
                       width={600}
                       height={550}
                     />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ),
