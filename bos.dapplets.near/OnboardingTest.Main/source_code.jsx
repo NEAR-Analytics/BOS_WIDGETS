@@ -4,6 +4,7 @@ const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
 console.log('data', data)
+console.log('props', props)
 
 useEffect(() => {
   if (!start && !lastShowTime) return
@@ -74,7 +75,7 @@ return (
       <DappletOverlay>
         <Onboarding>
           <Widget
-            props={{ handleClose, data, saveData }}
+            props={{ handleClose, data, saveData, setShow, link: props.link }}
             src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
           />
         </Onboarding>
