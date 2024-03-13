@@ -6,7 +6,17 @@
  * @interface Props
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -860,7 +870,7 @@ function handleRateLimit(
 
 const tabs = ['Transfers', 'Holders', 'Inventory', 'Comments'];
 
-function MainComponent({ network, id }) {
+function MainComponent({ network, id, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const [txnLoading, setTxnLoading] = useState(false);
   const [holderLoading, setHolderLoading] = useState(false);
@@ -1033,14 +1043,14 @@ function MainComponent({ network, id }) {
                     </div>
                   ) : (
                     <div className="w-full text-green-500 md:w-3/4 break-words">
-                      <a
+                      <Link
                         href={`/address/${token?.contract}`}
                         className="hover:no-underline"
                       >
                         <a className="text-green-500 hover:no-underline">
                           {token?.contract}
                         </a>
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -1052,12 +1062,12 @@ function MainComponent({ network, id }) {
                     {isLoading ? (
                       <Skeleton className="h-4 w-32" />
                     ) : (
-                      <a
+                      <Link
                         href={`${token?.website}`}
                         className="hover:no-underline"
                       >
                         {token?.website}
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </div>
@@ -1107,6 +1117,7 @@ function MainComponent({ network, id }) {
                       props={{
                         network: network,
                         id: id,
+                        Link,
                       }}
                     />
                   }
@@ -1118,6 +1129,7 @@ function MainComponent({ network, id }) {
                       props={{
                         network: network,
                         id: id,
+                        Link,
                       }}
                     />
                   }
@@ -1129,6 +1141,7 @@ function MainComponent({ network, id }) {
                       props={{
                         network: network,
                         id: id,
+                        Link,
                       }}
                     />
                   }
