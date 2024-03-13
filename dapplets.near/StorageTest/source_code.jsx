@@ -10,7 +10,7 @@ return (
     <p> Time Stored: {time} </p>
     <button
       onClick={storeValue}
-      styles={{ backgroundColor: !time ? "#f00" : undefined }}
+      style={{ backgroundColor: !time ? "#f00" : undefined }}
     >
       Store Date.now()
     </button>
