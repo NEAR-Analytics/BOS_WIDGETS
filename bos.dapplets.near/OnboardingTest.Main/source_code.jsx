@@ -64,7 +64,7 @@ const handleClose = (doNotShowAgain) => {
   setShow(false)
 }
 
-const saveData = (data) => Social.set({ `Onboarding/data/${props.link?.id}`: data })
+const saveData = (data) => Social.set({ [`Onboarding/data/${props.link?.id}`]: data })
 
 return (
   <OverlayTriggerWrapper>
