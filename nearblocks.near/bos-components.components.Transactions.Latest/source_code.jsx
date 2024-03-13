@@ -6,7 +6,17 @@
  * @interface Props
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -981,7 +991,7 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent({ t, network }) {
+function MainComponent({ t, network, Link }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [txns, setTxns] = useState([]);
@@ -1095,14 +1105,14 @@ function MainComponent({ t, network }) {
                         </div>
                         <div className="overflow-hidden pl-2">
                           <div className="text-green-500 text-sm  ">
-                            <a
+                            <Link
                               href={`/txns/${txn?.transaction_hash}`}
                               className="hover:no-underline"
                             >
                               <a className="text-green-500 font-medium hover:no-underline">
                                 {shortenHex(txn?.transaction_hash ?? '')}
                               </a>
-                            </a>
+                            </Link>
                           </div>
                           <div className="text-gray-400 text-xs truncate">
                             {txn?.block_timestamp
@@ -1116,25 +1126,25 @@ function MainComponent({ t, network }) {
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm">
                         <div className="whitespace-nowrap truncate">
                           {t ? t('home:txnFrom') : 'From'}{' '}
-                          <a
+                          <Link
                             href={`/address/${txn?.signer_account_id}`}
                             className="hover:no-underline"
                           >
                             <a className="text-green-500  font-medium hover:no-underline">
                               {shortenAddress(txn?.signer_account_id ?? '')}
                             </a>
-                          </a>
+                          </Link>
                         </div>
                         <div className="whitespace-nowrap truncate">
                           {t ? t('home:txnTo') : 'To'}{' '}
-                          <a
+                          <Link
                             href={`/address/${txn?.receiver_account_id}`}
                             className="hover:no-underline"
                           >
                             <a className="text-green-500 font-medium hover:no-underline">
                               {shortenAddress(txn?.receiver_account_id ?? '')}
                             </a>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       <div className="text-right order-1 md:order-2 overflow-hidden">
@@ -1185,11 +1195,11 @@ function MainComponent({ t, network }) {
       )}
       {txns && txns?.length > 0 && (
         <div className="border-t px-2 py-3 text-nearblue-600">
-          <a href="/txns">
+          <Link href="/txns">
             <a className="block text-center border border-green-900/10 font-thin bg-green-500 hover:bg-green-400 text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
               View all transactions
             </a>
-          </a>
+          </Link>
         </div>
       )}
     </>
