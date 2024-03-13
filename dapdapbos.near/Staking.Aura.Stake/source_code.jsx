@@ -53,7 +53,7 @@ const {
   RewardPoolDepositWrapper,
   RewardPoolDepositABI,
   toast,
-
+  addAction,
   tokenIcons,
 } = props;
 
@@ -344,6 +344,16 @@ function handleStakeBPT() {
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
             });
+            addAction?.({
+              type: "Staking",
+              action: "Stake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Aura",
+              add: false,
+              status,
+              transactionHash,
+            });
           } else {
             toast.fail?.({
               title: "Transaction Failed!",
@@ -449,6 +459,16 @@ function handleStakeToken() {
             toast.success?.({
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
+            });
+            addAction?.({
+              type: "Staking",
+              action: "Stake",
+              token: TOKENS[curToken],
+              amount: state.inputValue,
+              template: "Aura",
+              add: false,
+              status,
+              transactionHash,
             });
           } else {
             toast.fail?.({
