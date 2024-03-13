@@ -83,8 +83,10 @@ const {
   handlerSwap,
   handleStargateTx,
   showNetwrokDialog,
+  account,
+  prices,
 } = props;
-const account = Ethers.send("eth_requestAccounts", [])[0];
+
 const reverseCurrency = (_currency) => {
   const [_address, _decimals, _poolId] = [
     _currency.address,
@@ -101,49 +103,22 @@ const reverseCurrency = (_currency) => {
   return _currency;
 };
 
-const cached_chainId = Storage.privateGet("cached_chainId");
-if (
-  (cached_chainId !== chainId || !state.from) &&
-  chainId !== -1 &&
-  [chain.id, mainnet.id].includes(chainId)
-) {
-  const chains = chainId === chain.id ? [chain, mainnet] : [mainnet, chain];
-  const cached_token = Storage.privateGet(
-    `cached_token_${chains[0].id}_${chains[1].id}`
-  );
-  const params = {
-    from: chains[0],
-    to: chains[1],
-    amount: "1",
-    currency:
-      chainId === mainnet.id
-        ? cached_token || reverseCurrency(tokens[0])
-        : cached_token || tokens[0],
-    updateInputTokenBalance: true,
-    loading: true,
-  };
-  Storage.privateSet("cached_chainId", chainId);
-  if (chainId === mainnet.id) {
-    params.tokens = tokens.map((token) => reverseCurrency(token));
-  }
-  State.update(params);
-}
+const checkGas = (gasCost) => {
+  if (!account || !gasCost) return;
+  const provider = Ethers.provider();
+  State.update({ checkingGas: true });
+  provider.getBalance(account).then((rawBalance) => {
+    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
+    const _balance = state.currency.isNative
+      ? Big(balance || 0).minus(state.amount || 0)
+      : Big(balance || 0);
 
-const getTrade = () => {
-  State.update({
-    loading: true,
+    State.update({
+      isGasEnough: !_balance.lt(gasCost || 0),
+      checkingGas: false,
+    });
   });
 };
-
-function debounce(fn, wait) {
-  let timer;
-  return () => {
-    clearTimeout(timer);
-    timer = setTimeout(fn, wait);
-  };
-}
-
-const debouncedGetTrade = debounce(getTrade, 500);
 
 useEffect(() => {
   if (Big(state.amount || 0).gt(state.maxInputBalance || 0)) {
@@ -158,17 +133,46 @@ useEffect(() => {
 }, [state.maxInputBalance, state.amount]);
 
 useEffect(() => {
-  if (!account) return;
-  const provider = Ethers.provider();
-  provider.getBalance(account).then((rawBalance) => {
-    const balance = ethers.utils.formatUnits(rawBalance._hex, 18);
-    const _balance = state.currency.isNative
-      ? Big(balance || 0).minus(state.amount || 0)
-      : Big(balance || 0);
+  const chains = chainId === chain.id ? [chain, mainnet] : [mainnet, chain];
+  const params = {
+    from: chains[0],
+    to: chains[1],
+    amount: "1",
+    currency:
+      chainId === mainnet.id
+        ? cached_token || reverseCurrency(tokens[0])
+        : cached_token || tokens[0],
+    updateInputTokenBalance: true,
+    loading: true,
+  };
+  if (chainId === mainnet.id) {
+    params.tokens = tokens.map((token) => reverseCurrency(token));
+  }
+  State.update(params);
+}, [chainId]);
 
-    State.update({ isGasEnough: !_balance.lt(state.gasCost || 0) });
+useEffect(() => {
+  function debounce(fn, wait) {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  }
+
+  const getTrade = () => {
+    State.update({
+      loading: true,
+      isGasEnough: true,
+    });
+  };
+
+  const debouncedGetTrade = debounce(getTrade, 500);
+
+  State.update({
+    debouncedGetTrade,
   });
-}, [state.gasCost]);
+}, []);
 
 return (
   <>
@@ -209,6 +213,8 @@ return (
           currency: state.currency,
           amount: state.amount,
           updateTokenBalance: state.updateInputTokenBalance,
+          account,
+          price: prices[state.currency.symbol],
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: !state.displayCurrencySelect,
@@ -224,17 +230,12 @@ return (
               updateInputTokenBalance: false,
             });
           },
-          onGetPrice: (price) => {
-            State.update({
-              price,
-            });
-          },
           onAmountChange: (val) => {
             const params = {
               amount: val,
-              loading: val && Number(val) && state.currency.address,
             };
-            if (val && Number(val)) debouncedGetTrade();
+            if (val && Number(val) && state.currency.address)
+              state.debouncedGetTrade();
             State.update(params);
           },
         }}
@@ -257,12 +258,8 @@ return (
               currency,
               updateInputTokenBalance: true,
             };
-            if (state.amount) params.loading = true;
+            if (state.amount) state.debouncedGetTrade();
             State.update(params);
-            Storage.privateSet(
-              `cached_token_${state.from.id}_${state.to.id}`,
-              currency
-            );
           },
         }}
       />
@@ -283,7 +280,7 @@ return (
           <Widget
             src="bluebiu.near/widget/Base.Bridge.Value"
             props={{
-              price: state.price,
+              price: prices[state.currency.symbol],
               amount: state.received,
             }}
           />
@@ -309,12 +306,13 @@ return (
         handlerSwap,
         addAction: props.addAction,
         toast: props.toast,
-        loading: state.loading,
+        loading: state.loading || state.checkingGas,
+        account,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
             amount: state.amount,
-            price: state.price,
+            price: prices[state.currency.symbol],
             from: state.from,
             to: state.to,
             currency: state.currency,
@@ -336,10 +334,12 @@ return (
         },
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
+          console.log(data);
           State.update({
             loading: false,
             ...data,
           });
+          checkGas(data.gasCost);
         },
       }}
     />
