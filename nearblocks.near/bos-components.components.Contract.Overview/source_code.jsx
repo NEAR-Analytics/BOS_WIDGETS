@@ -14,7 +14,17 @@
  * @param {boolean} [signedIn] - Boolean indicating whether the user is currently signed in or not.
  * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
  * @param {Function} [logOut] - Function to log out.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -37,7 +47,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://archival-rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -194,6 +204,7 @@ function MainComponent(props) {
     connected,
     accountId,
     logOut,
+    Link,
   } = props;
   const [pageTab, setPageTab] = useState('Contract Info');
   const config = getConfig(network);
@@ -240,6 +251,7 @@ function MainComponent(props) {
               t: t,
               id: id,
               contract: contract,
+              Link,
             }}
           />
         }
@@ -313,6 +325,7 @@ function MainComponent(props) {
                   connected: connected,
                   accountId: accountId,
                   schema: schema,
+                  Link,
                 }}
               />
             ))}
@@ -337,6 +350,7 @@ function MainComponent(props) {
                     method: method,
                     connected: connected,
                     accountId: accountId,
+                    Link,
                   }}
                 />
               ))}
