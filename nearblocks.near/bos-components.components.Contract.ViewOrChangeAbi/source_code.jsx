@@ -10,7 +10,17 @@
  * @param {object} [method] - Object containing information about the abi contract functions.
  * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
  * @param {object} [schema] - Object containing information about the near abi contract.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -152,7 +162,7 @@ const mapFeilds = (fields) => {
 };
 
 function MainComponent(props) {
-  const { id, index, method, connected, accountId, schema } = props;
+  const { id, index, method, connected, accountId, schema, Link } = props;
   const [txn, setTxn] = useState(null);
   const [error, setError] = useState(null);
   const [fields, setFields] = useState([]);
@@ -448,9 +458,9 @@ function MainComponent(props) {
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
-                    <a href={`/txns/${txn}`} className="hover:no-underline">
+                    <Link href={`/txns/${txn}`} className="hover:no-underline">
                       <a className="text-green-500">{txn}</a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
