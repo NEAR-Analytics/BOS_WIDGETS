@@ -253,7 +253,7 @@ const ERC20_ABI = [
   },
 ];
 
-const { display, data, chainId, onClose, onSuccess, source } = props;
+const { display, data, chainId, onClose, onSuccess, source, account } = props;
 
 if (!data) return "";
 
@@ -261,7 +261,7 @@ const actionText = data.actionText;
 const isSupply = ["Deposit", "Withdraw"].includes(actionText);
 const isBorrow = ["Repay", "Borrow"].includes(actionText);
 const isForCollateral = !isSupply && !isBorrow;
-const account = Ethers.send("eth_requestAccounts", [])[0];
+
 const tokenSymbol = data.underlyingToken.symbol;
 State.init({
   amount: "",
@@ -373,7 +373,7 @@ const getBalance = () => {
   State.update({
     balanceLoading: true,
   });
-  if (isUnderlying && data.underlyingToken.address === "native") {
+  if (isUnderlying && data.underlyingToken.isNative) {
     Ethers.provider()
       .getBalance(account)
       .then((rawBalance) => {
@@ -715,6 +715,7 @@ return (
               isError: state.isError,
               loading: state.loading,
               gas: state.gas,
+              account,
               onApprovedSuccess: () => {
                 if (!state.gas) state.getTrade();
               },
