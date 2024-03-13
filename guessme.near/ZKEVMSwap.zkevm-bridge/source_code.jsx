@@ -219,7 +219,7 @@ useEffect(() => {
     .catch((e) => {});
 }, [sender]);
 
-if (state.chainId !== 1 || state.chainId !== 1101) {
+if (state.chainId !== 1 && state.chainId !== 1101) {
   return (
     <ThemeContainer>
       {" "}
@@ -604,17 +604,6 @@ return (
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
         props={{ tokens }}
       />
-      {from !== "landing" && (
-        <Widget
-          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-          props={{
-            add: state.add,
-            onChangeAdd: state.onChangeAdd,
-            hide: state.hide,
-            source: props.source,
-          }}
-        />
-      )}
     </Container>
   </>
 );
