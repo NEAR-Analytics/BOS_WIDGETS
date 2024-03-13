@@ -25,7 +25,7 @@ State.init({
   record: null,
 });
 
-const { dapps, toast, onSuccess } = props;
+const { dapps, toast, account, onSuccess } = props;
 
 const columns =
   Object.keys(dapps)[0] === "Valas Finance"
@@ -117,6 +117,7 @@ return (
           market: state.market,
           dapp: state.dapp,
           record: state.market,
+          account,
           onSuccess: (res) => {
             toast?.dismiss(state.toastId);
             State.update({ loading: false });
