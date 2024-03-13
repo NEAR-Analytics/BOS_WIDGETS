@@ -825,7 +825,7 @@ const headerBlock = (
   <div id="container-header">
     <div class="main-header align-items-start">
       <img
-        src="https://ipfs.near.social/ipfs/bafkreicptaq3otho65azjvuacrj6pwp6cccrhsmsd5y5c33m7zmlvbdnze"
+        src="https://ipfs.near.social/ipfs/bafkreicl47xwc3ggn5fcbaqxweohl7nmdl5nzirjprmhjuskglagta3nja"
         alt="ShillGPU"
         title="ShillGPU"
         class="img-fluid"
