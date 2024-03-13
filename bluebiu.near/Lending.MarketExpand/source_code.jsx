@@ -478,6 +478,7 @@ return (
                   isError: state.isError,
                   loading: state.loading,
                   gas: state.gas,
+                  account,
                   onApprovedSuccess: () => {
                     if (!state.gas) state.getTrade();
                   },
