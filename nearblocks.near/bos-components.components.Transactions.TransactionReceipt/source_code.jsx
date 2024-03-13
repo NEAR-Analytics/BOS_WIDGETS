@@ -190,6 +190,7 @@ function MainComponent(props) {
     expandAll,
     convertionReceipt,
     className,
+    Link,
   } = props;
 
   const [isTxTypeActive, setTxTypeActive] = useState(false);
@@ -242,6 +243,7 @@ function MainComponent(props) {
               fellowOutgoingReceipts: remainingFellowOutgoingReceipts,
               convertionReceipt: false,
               className: 'pb-5 !mt-0',
+              Link,
             }}
           />
         ) : null}
@@ -257,6 +259,7 @@ function MainComponent(props) {
                   action: action,
                   onClick: switchActiveTxType,
                   isTxTypeActive: isTxTypeActive,
+                  Link,
                 }}
               />
             ))}
@@ -269,6 +272,7 @@ function MainComponent(props) {
                 network: network,
                 t,
                 receipt: receipt,
+                Link,
               }}
             />
           </div>
@@ -292,6 +296,7 @@ function MainComponent(props) {
             fellowOutgoingReceipts: nonRefundNestedReceipts,
             convertionReceipt: false,
             className: '!pl-0 border-transparent',
+            Link,
           }}
         />
       ) : null}
