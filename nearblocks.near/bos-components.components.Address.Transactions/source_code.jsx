@@ -13,17 +13,7 @@
  *                                    Example: handleFilter={handlePageFilter} where handlePageFilter is a function to filter the page.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                     Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
- * @param {React.FC<{
- *   href: string;
- *   children: React.ReactNode;
- *   className?: string;
- * }>} Link - A React component for rendering links.
  */
-
-
-
-
-
 
 
 
@@ -2771,7 +2761,6 @@ function MainComponent({
   filters,
   handleFilter,
   onFilterClear,
-  Link,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
@@ -2779,7 +2768,6 @@ function MainComponent({
   const [showAge, setShowAge] = useState(true);
   const [sorting, setSorting] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [filterValue, setFilterValue] = useState({});
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
   const [address, setAddress] = useState('');
 
@@ -2867,14 +2855,10 @@ function MainComponent({
     }
   }, [config?.backendUrl, id, currentPage, filters, sorting]);
 
-  const onInputChange = (
-    event,
-    name,
-  ) => {
-    setFilterValue((prevFilters) => ({
-      ...prevFilters,
-      [name]: event.target.value,
-    }));
+  let filterValue;
+  const onInputChange = (event) => {
+    filterValue = event.target.value;
+    // Do something with the value if needed
   };
 
   const onFilter = (
@@ -2883,15 +2867,15 @@ function MainComponent({
   ) => {
     e.preventDefault();
 
-    if (filterValue[name] !== undefined && filterValue[name] !== null) {
+    if (filterValue !== null && filterValue !== undefined) {
       if (name === 'type') {
-        if (isAction(filterValue[name])) {
-          handleFilter('action', filterValue[name]);
+        if (isAction(filterValue)) {
+          handleFilter('action', filterValue);
         } else {
-          handleFilter('method', filterValue[name]);
+          handleFilter('method', filterValue);
         }
       } else {
-        handleFilter(name, filterValue[name]);
+        handleFilter(name, filterValue);
       }
     }
   };
@@ -2899,10 +2883,6 @@ function MainComponent({
   const onClear = (name) => {
     if (onFilterClear && filters) {
       onFilterClear(name);
-      setFilterValue((prevFilters) => ({
-        ...prevFilters,
-        [name]: '',
-      }));
     }
   };
 
@@ -2941,14 +2921,14 @@ function MainComponent({
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <Link
+                  <a
                     href={`/txns/${row.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row.transaction_hash}
                     </a>
-                  </Link>
+                  </a>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2985,8 +2965,8 @@ function MainComponent({
             <div className="flex flex-col">
               <input
                 name="type"
-                value={filterValue['type']}
-                onChange={(e) => onInputChange(e, 'type')}
+                value={filters ? filters?.action || filters?.method : ''}
+                onChange={onInputChange}
                 placeholder="Search by method"
                 className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
               />
@@ -3085,8 +3065,8 @@ function MainComponent({
           >
             <input
               name="from"
-              value={filterValue['from']}
-              onChange={(e) => onInputChange(e, 'from')}
+              value={filters ? filters?.from : ''}
+              onChange={onInputChange}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -3126,7 +3106,7 @@ function MainComponent({
                       : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
-                  <Link
+                  <a
                     href={`/address/${row.predecessor_account_id}`}
                     className="hover:no-underline"
                   >
@@ -3138,7 +3118,7 @@ function MainComponent({
                     >
                       {row.predecessor_account_id}
                     </a>
-                  </Link>
+                  </a>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -3191,8 +3171,8 @@ function MainComponent({
           >
             <input
               name="to"
-              value={filterValue['to']}
-              onChange={(e) => onInputChange(e, 'to')}
+              value={filters ? filters?.to : ''}
+              onChange={onInputChange}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -3232,7 +3212,7 @@ function MainComponent({
                       : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
-                  <Link
+                  <a
                     href={`/address/${row.receiver_account_id}`}
                     className="hover:no-underline"
                   >
@@ -3244,7 +3224,7 @@ function MainComponent({
                     >
                       {row.receiver_account_id}
                     </a>
-                  </Link>
+                  </a>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -3265,7 +3245,7 @@ function MainComponent({
       key: 'block_height',
       cell: (row) => (
         <span>
-          <Link
+          <a
             href={`/blocks/${row.included_in_block_hash}`}
             className="hover:no-underline"
           >
@@ -3274,7 +3254,7 @@ function MainComponent({
                 ? localFormat(row.block?.block_height)
                 : ''}
             </a>
-          </Link>
+          </a>
         </span>
       ),
       tdClassName:
