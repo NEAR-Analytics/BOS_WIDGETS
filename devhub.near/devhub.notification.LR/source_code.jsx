@@ -1,10 +1,7 @@
 let { accountId, blockHeight, value } = props;
 
 const showAuthorProfile =
-  value.type == "proposal/mention" ||
-  value.type == "proposal/edit" ||
-  value.type == "rfp/mention" ||
-  value.type == "rfp/edit";
+  value.type == "devhub/mention" || value.type == "devhub/edit";
 
 if (showAuthorProfile) {
   accountId = value.notifier;
