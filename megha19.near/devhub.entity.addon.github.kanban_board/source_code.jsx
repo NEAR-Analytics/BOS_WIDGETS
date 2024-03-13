@@ -1,6 +1,4 @@
-const { DataRequest } = VM.require(
-  "megha19.near/widget/core.lib.data-request"
-);
+const { DataRequest } = VM.require("megha19.near/widget/core.lib.data-request");
 DataRequest || (DataRequest = { paginated: () => {} });
 
 const dataToColumns = (data, columns) =>
