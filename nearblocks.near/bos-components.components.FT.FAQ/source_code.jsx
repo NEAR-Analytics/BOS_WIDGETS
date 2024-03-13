@@ -7,7 +7,17 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {Token} [token] - The Token type passed as object
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -2809,7 +2819,7 @@ function localFormat(number) {
 
 
 
-function MainComponent({ network, id, token }) {
+function MainComponent({ network, id, token, Link }) {
   const [account, setAccount] = useState({} );
   const [contract, setContract] = useState(
     {} ,
@@ -3031,9 +3041,9 @@ function MainComponent({ network, id, token }) {
           >
             <div className="text-sm text-nearblue-600 py-2" itemProp="text">
               The{' '}
-              <a href={`/address/${id}`}>
+              <Link href={`/address/${id}`}>
                 <a className="underline">{name}</a>
-              </a>{' '}
+              </Link>{' '}
               contract was created on Near Protocol at{' '}
               {account?.created?.transaction_hash
                 ? convertToUTC(
@@ -3045,17 +3055,19 @@ function MainComponent({ network, id, token }) {
                 : 'N/A'}{' '}
               by{' '}
               {contract?.receipt_predecessor_account_id && (
-                <a href={`/address/${contract.receipt_predecessor_account_id}`}>
+                <Link
+                  href={`/address/${contract.receipt_predecessor_account_id}`}
+                >
                   <a className="underline">
                     {shortenAddress(contract.receipt_predecessor_account_id)}
                   </a>
-                </a>
+                </Link>
               )}{' '}
               through this{' '}
               {contract?.transaction_hash && (
-                <a href={`/txns/${contract.transaction_hash}`}>
+                <Link href={`/txns/${contract.transaction_hash}`}>
                   <a className="underline">transaction</a>
-                </a>
+                </Link>
               )}
               . Since the creation of {name}, there has been{' '}
               {transfers ? localFormat(transfers) : 0} on-chain transfers.
@@ -3099,11 +3111,11 @@ function MainComponent({ network, id, token }) {
                 <span>
                   The largest {tokenTicker} holder is currently{' '}
                   {largestHolder?.account && (
-                    <a href={`/address/${largestHolder.account}`}>
+                    <Link href={`/address/${largestHolder.account}`}>
                       <a className="underline">
                         {shortenAddress(largestHolder.account)}
                       </a>
-                    </a>
+                    </Link>
                   )}
                   , who currently holds{' '}
                   {tokenAmount(largestHolder?.amount, tokens?.decimals, true)}{' '}
