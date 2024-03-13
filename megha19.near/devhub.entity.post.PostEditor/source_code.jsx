@@ -37,13 +37,9 @@ if (!context.accountId) {
   );
 }
 
-const userStorageDeposit = Near.view(
-  "social.near",
-  "storage_balance_of",
-  {
-    account_id: context.accountId,
-  }
-);
+const userStorageDeposit = Near.view("social.near", "storage_balance_of", {
+  account_id: context.accountId,
+});
 
 const cleanDescription = (description) => {
   return description
@@ -270,14 +266,10 @@ const typeSwitch = (optionName) => {
 
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
-let grantNotify = Near.view(
-  "social.near",
-  "is_write_permission_granted",
-  {
-    predecessor_id: "devgovgigs.near",
-    key: context.accountId + "/index/notify",
-  }
-);
+let grantNotify = Near.view("social.near", "is_write_permission_granted", {
+  predecessor_id: "devgovgigs.near",
+  key: context.accountId + "/index/notify",
+});
 if (grantNotify === null || userStorageDeposit === null) {
   return;
 }
