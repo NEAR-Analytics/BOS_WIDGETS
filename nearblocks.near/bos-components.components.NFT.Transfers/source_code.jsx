@@ -6,7 +6,17 @@
  * @interface Props
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1361,7 +1371,7 @@ const FaLongArrowAltRight = () => {
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 
-function MainComponent({ network, id }) {
+function MainComponent({ network, id, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
@@ -1468,14 +1478,14 @@ function MainComponent({ network, id }) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -1537,7 +1547,7 @@ function MainComponent({ network, id }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.affected_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1549,7 +1559,7 @@ function MainComponent({ network, id }) {
                       >
                         {row?.affected_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1607,7 +1617,7 @@ function MainComponent({ network, id }) {
                         : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
-                    <a
+                    <Link
                       href={`/address/${row?.involved_account_id}`}
                       className="hover:no-underline"
                     >
@@ -1619,7 +1629,7 @@ function MainComponent({ network, id }) {
                       >
                         {row?.involved_account_id}
                       </a>
-                    </a>
+                    </Link>
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
@@ -1744,14 +1754,14 @@ function MainComponent({ network, id }) {
       key: 'contract',
       cell: (row) => (
         <span>
-          <a
+          <Link
             href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
             className="hover:no-underline"
           >
             <a className="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded hover:no-underline">
               View NFT &gt;
             </a>
-          </a>
+          </Link>
         </span>
       ),
       tdClassName:
