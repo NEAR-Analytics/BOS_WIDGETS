@@ -1,7 +1,5 @@
 // styled area
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
 const Wrapper = styled.div`
   padding: 16px 16px 14px;
   border-radius: 12px;
@@ -170,6 +168,7 @@ return (
       props={{
         address: props.currency?.address,
         updateTokenBalance: props.updateTokenBalance,
+        account: props.account,
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
@@ -234,7 +233,7 @@ return (
             />
           </svg>
         </CurrencySelect>
-        {account && !props.chainIdNotSupport && (
+        {props.account && !props.chainIdNotSupport && (
           <Amount
             onClick={() => {
               const formatedBalance = utils.balanceFormated();
