@@ -113,7 +113,7 @@ State.init({
   sortKey: "supplyApy",
 });
 
-const { currentDapp, markets, dapps, onButtonClick } = props;
+const { currentDapp, markets, dapps, onButtonClick, account } = props;
 
 const formateData = (sortKey) => {
   const marketsToList = Object.values(markets);
