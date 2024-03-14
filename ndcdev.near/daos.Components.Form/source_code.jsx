@@ -110,7 +110,7 @@ return (
     {preview ? (
       <MobileForm>
         <Widget
-          src="ndcdev.near/widget/daos.Components.Item"
+          src="ndcdev.near/widget/daos.Components.Post"
           props={{
             item: { ...formEls, dao_id: selectedDaoId, attachments },
             index: 0,
