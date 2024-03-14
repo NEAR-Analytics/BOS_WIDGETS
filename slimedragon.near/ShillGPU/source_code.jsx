@@ -213,7 +213,7 @@ const request = () => {
       contractId,
       "request",
       args,
-      "200000000000000",
+      "300000000000000",
       state.attachNearToEveryRequest || !userCreditsAvailable ? requestCost : 0
     );
   }
