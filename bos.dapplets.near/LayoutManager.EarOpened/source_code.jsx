@@ -1,12 +1,12 @@
+const widgets = props.widgets ?? [];
 const {
-  widgets,
   isEditMode,
   enableEditMode,
   disableEditMode,
   handleOpenMenu,
   handleOnMouseLeave,
   deleteUserLink,
-} = props
+} = props;
 
 const TriggerShowPanel = styled.div`
   width: 40px;
@@ -57,29 +57,36 @@ const ActionBlock = styled.span`
   }
 `;
 
+const suitableWidgets = widgets.filter(
+  (w) => w.isSuitable === undefined || w.isSuitable === true
+);
+
+const isMyLinksInjected = !!widgets.some(
+  (w) => w.linkAuthorId === context.accountId
+);
+
 return (
   <TriggerShowPanel
     onMouseOut={handleOnMouseLeave}
     style={{
       margin: "0px -7px",
-      top: widgets && widgets.length ? "" : "-20px",
+      top: suitableWidgets.length ? "" : "-20px",
     }}
   >
-    <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/>
+    <Widget src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
     <ActionsWrapper
       style={{
-        backgroundColor:
-          widgets && widgets.length ? "" : "#DB504A!important",
+        backgroundColor: suitableWidgets.length ? "" : "#DB504A!important",
       }}
     >
-      {widgets.map((widget) => (
+      {suitableWidgets.map((widget) => (
         <ActionBlock key={widget.linkId}>
           {isEditMode ? (
             <Widget
-              src='bos.dapplets.near/widget/LayoutManager.WidgetBadgeWrapper'
+              src="bos.dapplets.near/widget/LayoutManager.WidgetBadgeWrapper"
               props={{
                 widget,
-                deleteUserLink
+                deleteUserLink,
               }}
             />
           ) : null}
@@ -87,24 +94,23 @@ return (
         </ActionBlock>
       ))}
       {isEditMode ? (
-          <Widget
-            src='bos.dapplets.near/widget/LayoutManager.Buttons.Apply'
-            props={{ onClick: disableEditMode }}
-          />
-        ) : (
-          <Widget
-            src='bos.dapplets.near/widget/LayoutManager.Buttons.Edit'
-            props={{ onClick: enableEditMode }}
-          />
-        )
-      }
+        <Widget
+          src="bos.dapplets.near/widget/LayoutManager.Buttons.Apply"
+          props={{ onClick: disableEditMode }}
+        />
+      ) : isMyLinksInjected ? (
+        <Widget
+          src="bos.dapplets.near/widget/LayoutManager.Buttons.Edit"
+          props={{ onClick: enableEditMode }}
+        />
+      ) : null}
       <Widget
         src="bos.dapplets.near/widget/LayoutManager.Buttons.Plus"
-        props={{ widgets, onClick: handleOpenMenu }}
+        props={{ widgets: suitableWidgets, onClick: handleOpenMenu }}
       />
     </ActionsWrapper>
-    {widgets && widgets.length
-      ? <Widget src='bos.dapplets.near/widget/LayoutManager.SupportingSpan'/>
-      : null}
+    {suitableWidgets.length ? (
+      <Widget src="bos.dapplets.near/widget/LayoutManager.SupportingSpan" />
+    ) : null}
   </TriggerShowPanel>
-)
+);
