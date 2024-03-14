@@ -175,6 +175,7 @@ const {
   dexConfig,
   prices,
 } = props;
+
 const { POOLS, TOKENS } = dexConfig;
 
 const RewardsContractABI = [
