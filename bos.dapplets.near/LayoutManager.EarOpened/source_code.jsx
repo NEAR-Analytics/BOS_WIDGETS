@@ -8,6 +8,21 @@ const {
   deleteUserLink,
 } = props;
 
+const suitableWidgets = widgets.filter(
+  (w) => w.isSuitable === undefined || w.isSuitable === true
+);
+
+const isMyLinksInjected = !!widgets.some(
+  (w) => w.linkAuthorId === context.accountId
+);
+
+// Disable edit mode if last widget was removed
+useEffect(() => {
+  if (isEditMode && !isMyLinksInjected) {
+    disableEditMode();
+  }
+}, [isMyLinksInjected, isEditMode]);
+
 const TriggerShowPanel = styled.div`
   width: 40px;
   height: auto;
@@ -56,14 +71,6 @@ const ActionBlock = styled.span`
     z-index: 1000;
   }
 `;
-
-const suitableWidgets = widgets.filter(
-  (w) => w.isSuitable === undefined || w.isSuitable === true
-);
-
-const isMyLinksInjected = !!widgets.some(
-  (w) => w.linkAuthorId === context.accountId
-);
 
 return (
   <TriggerShowPanel
