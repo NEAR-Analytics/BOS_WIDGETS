@@ -4,7 +4,7 @@ if (!accountId) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/yairnava.near/widget/LinkTree?accountId=${accountId}`;
 
 if (!accountId) {
   return "";
@@ -13,7 +13,7 @@ if (!accountId) {
 // Profile Data:
 const tags = Object.keys(profile.tags || {});
 const viewingOwnAccount = accountId === context.accountId;
-const shareUrl = `https://near.org${accountUrl}`;
+const shareUrl = `https://near.social${accountUrl}`;
 
 // Follower Count:
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
