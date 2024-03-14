@@ -111,7 +111,8 @@ const getUserRequestResponse = (requestAccountId) => {
               .replace("SHILL_ACCEPTED_EIGHTH", "")
               .replace("SHILL_ACCEPTED_SIXTEENTH", "")
               .replace("SHILL_DECLINED", "")
-              .trim();
+              .trim()
+              .repalce(/\s*-\s*$/, "");
 
           if (
             userRequestResponse.response.text.endsWith("SHILL_ACCEPTED_HALF")
