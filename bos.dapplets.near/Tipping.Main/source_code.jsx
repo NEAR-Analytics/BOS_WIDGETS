@@ -364,7 +364,7 @@ const createLabel = () => {
 return (
     <TippingButton
       disabled={state.disabled}
-      tooltip={state.tooltip}
+      title={state.tooltip}
       onMouseEnter={() => State.update({ isHovered: true })}
       onMouseLeave={() => State.update({ isHovered: false })}
       onClick={onClick}
