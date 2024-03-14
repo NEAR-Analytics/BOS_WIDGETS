@@ -30,11 +30,7 @@ const Withdraw = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{
-            contract: props.event.contract,
-            amount: log[1],
-            network: props.network,
-          }}
+          props={{ contract: props.event.contract, amount: log[1] }}
         />
       }
     </div>
