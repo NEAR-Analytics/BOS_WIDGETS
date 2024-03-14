@@ -19,7 +19,6 @@ const Wrapper = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
-  gap: 12px;
   transform: translate(-50%, -50%);
 
   padding-bottom: 25px;
@@ -134,7 +133,6 @@ const WarningMessage = styled.div`
   padding: 4px 10px;
   gap: 6px;
   align-items: center;
-  width: 100%;
   background: rgba(56, 75, 255, 0.05);
   border-radius: 5px;
   flex: none;
