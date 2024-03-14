@@ -352,63 +352,6 @@ const TippingButton = styled.button`
   }
 `;
 
-const CustomTooltip = styled.div`
-  .tooltip {
-    position: absolute;
-    z-index: 1070;
-    display: block;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1.42857143;
-    text-align: left;
-    text-align: start;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    letter-spacing: normal;
-    word-break: normal;
-    word-spacing: normal;
-    word-wrap: normal;
-    white-space: normal;
-    filter: alpha(opacity=0);
-    opacity: 0;
-
-    line-break: auto;
-  }
-  .tooltip.in {
-    filter: alpha(opacity=90);
-    opacity: .9;
-  }
-  .tooltip.right {
-    padding: 0 5px;
-    margin-left: 3px;
-  }
-  .tooltip-inner {
-    max-width: 200px;
-    padding: 3px 8px;
-    color: #fff;
-    text-align: center;
-    background-color: #000;
-    border-radius: 4px;
-  }
-  .tooltip-arrow {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-  }
-  .tooltip.right .tooltip-arrow {
-    top: 50%;
-    left: 0;
-    margin-top: -5px;
-    border-width: 5px 5px 5px 0;
-    border-right-color: #000;
-  }
-`;
-
 const createLabel = () => {
   if (state.totalTipsByItemId === '0' && state.amount === '0') return state.isHovered ? '+ ' + STEP : 'Tip'
   if (state.amount === '0') {
@@ -418,19 +361,10 @@ const createLabel = () => {
   }
 }
 
-const tooltip = (
-  <CustomTooltip>
-    <div className="tooltip in right">
-      <div className="tooltip-arrow" />
-      <div className="tooltip-inner">{state.tooltip}</div>  
-    </div>
-  </CustomTooltip>
-);
-
 return (
   <OverlayTrigger 
     placement="right" 
-    overlay={tooltip}
+    overlay={<Tooltip id="tooltip">{state.tooltip}</Tooltip>}
   >
     <TippingButton
       disabled={state.disabled}
@@ -449,5 +383,5 @@ return (
         <Widget src="bos.dapplets.near/widget/Tipping.NearIcon" />
       </div>
     </TippingButton>
-  </OverlayTrigger>
+    </OverlayTrigger>
 );
