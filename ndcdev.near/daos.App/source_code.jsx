@@ -96,6 +96,14 @@ function Page() {
         />
       );
     }
+    case "daos": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Daos.List`}
+          props={{ ...props }}
+        />
+      );
+    }
     case "communities": {
       return (
         <Widget
