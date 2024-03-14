@@ -325,7 +325,7 @@ return (
       />
 
       <Widget
-        src={`ndcdev.near/widget/daos.Components.MetricsDisplay.index`}
+        src={`ndcdev.near/widget/daos.Components.Metrics.index`}
         props={{
           daos,
           totalTreasury: 3893275,
