@@ -14,6 +14,7 @@ const Card = styled.div`
   background: #fff;
   border: 1px solid #eceef0;
   overflow: hidden;
+  box-sizing: border-box;
 `;
 
 const CardBody = styled.div`
