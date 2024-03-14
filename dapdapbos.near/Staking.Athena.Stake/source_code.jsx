@@ -35,6 +35,7 @@ const AmountList = styled.div`
   .amount-white {
     text-decoration: underline;
     color: var(--white);
+    cursor: pointer;
   }
 `;
 const StakeBtnWrap = styled.div`
@@ -154,15 +155,17 @@ useEffect(() => {
       needApprove: true,
     });
   } else {
-    State.update({
-      canStake: true,
-      needApprove: false,
-    });
+    if (Big(state.inputValue || 0).gt(0)) {
+      State.update({
+        canStake: true,
+        needApprove: false,
+      });
+    }
   }
 }, [state.inputValue, state.allowance, curToken]);
 
 useEffect(() => {
-  if (state.isApproved) {
+  if (state.isApproved && Big(state.inputValue || 0).gt(0)) {
     State.update({
       canStake: true,
     });
