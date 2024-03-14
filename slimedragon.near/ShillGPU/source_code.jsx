@@ -865,7 +865,8 @@ const headerBlock = (
     <div class="main-subtitle">
       The first <strong>AI</strong> that manages{" "}
       <strong>GPU coin treasuries</strong> and rebalances them upon{" "}
-      <strong>your influence</strong>.
+      <strong>your influence</strong>. The fees will be used to buyback{" "}
+      <a href="https://nearblocks.io/address/intel.tkn.near">$INTEL</a>
     </div>
   </div>
 );
