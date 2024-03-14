@@ -4,18 +4,32 @@ const { hasNotifications } = props;
 if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 const accountId = context.accountId;
 
-const Navbar = styled.div`
+const [showNav, setShowNav] = useState(false);
+
+const Container = styled.div`
   padding: 1.5rem 3rem;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   background: #151718;
+
+  .navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: white;
+  }
 
   @media screen and (max-width: 768px) {
     padding: 1.5rem 2rem;
   }
+`;
+
+const Navbar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const LinksContainer = styled.div`
@@ -23,11 +37,16 @@ const LinksContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 3rem;
-  color: #a4c2fd;
+  color: white;
+
+  @media screen and (max-width: 768px) {
+    gap: 1rem;
+  }
 
   a {
     &:hover {
       text-decoration: none;
+      color: #a4c2fd;
     }
   }
 
@@ -40,23 +59,65 @@ const LinksContainer = styled.div`
     border-radius: 50%;
     border: 3px solid #151718;
   }
+
+  .links {
+    display: flex;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .menu-icon {
+    display: none;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+    }
+  }
 `;
 
-return (
-  <Navbar className="position-relative">
-    <a href={`/ndcdev.near/widget/daos.App`}>
-      <img src={assets.logoWhite} />
+const NavigationLinks = () => (
+  <>
+    <a href={`/ndcdev.near/widget/daos.App?page=daos`}>DAOs</a>
+    <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
+    <a href={`/ndcdev.near/widget/daos.App?page=create_proposal`}>
+      Create Proposal
     </a>
-    <div className="d-flex gap-5 align-items-center">
-      {accountId &&
-        <LinksContainer>
-          <a
-            href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
-          >
-            <i className="bi bi-person-circle fs-3" />
-          </a>
-        </LinksContainer>
-      }
-    </div>
-  </Navbar>
+  </>
+);
+
+return (
+  <Container className="position-relative">
+    <Navbar>
+      <a href={`/ndcdev.near/widget/daos.App`}>
+        <img src={assets.logoWhite} />
+      </a>
+      <div className="d-flex gap-5 align-items-center">
+        {accountId && (
+          <LinksContainer>
+            <div className="links gap-5">
+              <NavigationLinks />
+            </div>
+            <a href="#">
+              <i
+                className="menu-icon bi bi-list fs-1"
+                onClick={() => setShowNav(!showNav)}
+              />
+            </a>
+            <a
+              href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
+            >
+              <i className="bi bi-person-circle fs-3" />
+            </a>
+          </LinksContainer>
+        )}
+      </div>
+    </Navbar>
+    {showNav && (
+      <div className="navigation">
+        <NavigationLinks />
+      </div>
+    )}
+  </Container>
 );
