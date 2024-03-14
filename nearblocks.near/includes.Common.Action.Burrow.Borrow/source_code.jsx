@@ -30,11 +30,7 @@ const Borrow = (props) => {
       {
         <Widget
           src={`${config.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
-          props={{
-            contract: log.token_id,
-            amount: log.amount,
-            networK: props.network,
-          }}
+          props={{ contract: log.token_id, amount: log.amount, decimals: 18 }}
         />
       }
       <span className="font-bold text-gray px-1">
