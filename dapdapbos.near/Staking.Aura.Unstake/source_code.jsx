@@ -75,6 +75,7 @@ const AmountList = styled.div`
   .amount-white {
     color: var(--white);
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 const StakeBtnWrap = styled.div`
