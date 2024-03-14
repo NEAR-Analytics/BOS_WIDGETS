@@ -1,6 +1,7 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
-
 const [data, setData] = useState(null)
+const [show, setShow] = useState(false)
+const [start, setStart] = useState(false)
 
 useEffect(() => {
   setData(props.data
@@ -17,9 +18,6 @@ useEffect(() => {
     )?.[context?.accountId].settings.onboarding-test[props.link?.id]
   )
 }, [props, context])
-
-const [show, setShow] = useState(false)
-const [start, setStart] = useState(false)
 
 console.log('data', data)
 console.log('props', props)
