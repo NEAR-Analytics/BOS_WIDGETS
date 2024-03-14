@@ -10,7 +10,7 @@ const post = Near.view(contractName, "get_post_by_id", {
 
 return (
   <Widget
-    src="ndcdev.near/widget/daos.Components.Item"
+    src="ndcdev.near/widget/daos.Components.Post"
     props={{
       item: post,
       index: post.id,
