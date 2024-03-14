@@ -24,6 +24,7 @@ const AmountList = styled.div`
   .amount-white {
     text-decoration: underline;
     color: var(--white);
+    cursor: pointer;
   }
 `;
 const StakeBtnWrap = styled.div`
@@ -226,15 +227,17 @@ useEffect(() => {
       needApprove: true,
     });
   } else {
-    State.update({
-      canStake: true,
-      needApprove: false,
-    });
+    if (Big(state.inputValue || 0).gt(0)) {
+      State.update({
+        canStake: true,
+        needApprove: false,
+      });
+    }
   }
 }, [state.inputValue, state.allowance, state.curToken]);
 
 useEffect(() => {
-  if (state.isApproved) {
+  if (state.isApproved && Big(state.inputValue || 0).gt(0)) {
     State.update({
       canStake: true,
     });
@@ -348,7 +351,10 @@ function handleStakeBPT() {
             addAction?.({
               type: "Staking",
               action: "Stake",
-              token: TOKENS[curToken],
+              token:
+                state.curSymbol === "BPT"
+                  ? { symbol: "BPT" }
+                  : TOKENS[state.curToken],
               amount: state.inputValue,
               template: "Aura Finance",
               add: false,
@@ -465,7 +471,10 @@ function handleStakeToken() {
             addAction?.({
               type: "Staking",
               action: "Stake",
-              token: TOKENS[curToken],
+              token:
+                state.curSymbol === "BPT"
+                  ? { symbol: "BPT" }
+                  : TOKENS[state.curToken],
               amount: state.inputValue,
               template: "Aura Finance",
               add: false,
@@ -529,7 +538,11 @@ const renderExtra = () => {
             disabled: !state.needApprove || state.isApproved,
             loading: state.isApproving,
             onClick: () => {
-              handleApprove(state.curToken, RewardPoolDepositWrapper);
+              if (state.curToken === data.LP_token_address) {
+                handleApprove(data.LP_token_address, BoosterLiteWrapper);
+              } else {
+                handleApprove(state.curToken, RewardPoolDepositWrapper);
+              }
             },
           }}
         />
