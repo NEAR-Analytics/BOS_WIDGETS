@@ -189,7 +189,7 @@ return (
           onChange={handleAlignmentChange}
         >
           <option value="good">Good</option>
-          <option value="neutral">Nuetral</option>
+          <option value="neutral">Neutral</option>
           <option value="evil">Evil</option>
           <option value="lawful">Lawful</option>
           <option value="chaotic">Chaotic</option>
@@ -253,106 +253,31 @@ return (
         />
       </div>
       <div className="mb-3 p-1">
-        <label for="weakness">Weakness:</label>
+        <label for="armorClass">Armor Class:</label>
         <input
-          id="weakness"
-          type="text"
-          placeholder="What is your character's weakness?"
-          value={monster.metadata.weakness}
-          onChange={handleWeaknessChange}
+          id="armorClass"
+          type="number"
+          min="0"
+          max="25"
+          placeholder="What is the monster's armor class?"
+          value={monster.metadata.armorClass}
+          onChange={handlearmorClassChange}
         />
       </div>
     </div>
     <div className="mb-3 p-1">
-      <label for="defaultweapon">Default Weapon:</label>
-      <select
-        name="defaultweapon"
-        id="defaultweapon"
-        value={monster.metadata.defaultweapon}
-        onChange={handleDefaultWeaponChange}
-      >
-        <option value="bladeRadiance">Blade of Radiance</option>
-        <option value="moonShadowBow">Moon Shadow Bow</option>
-        <option value="thunderForgeHammer">Thunderforge War Hammer</option>
-        <option value="celestialStaff">Celestial Staff</option>
-        <option value="shadowScepter">Shadow Scepter</option>
-        <option value="obsidianCleaver">Obsidian Cleaver</option>
-        <option vlaue="graspingGauntlets">Grasping Gauntlents</option>
-        <option value="voidDagger">Void Dagger</option>
-      </select>
+      <label for="hitPoints">HP:</label>
+      <input
+        name="hitPoints"
+        id="hitPoints"
+        type="number"
+        min="0"
+        placeholder="What is the monster's HP?"
+        value={monster.metadata.hitPoints}
+        onChange={handlehitPointsChange}
+      />
     </div>
     <div className="m-2">
-      <h4>Create Character Stats</h4>
-      <h6>
-        You have up to 50 points to assign to your character stats. For optimal
-        playing experience, we suggest no more than 20 points be assigned to a
-        single category.
-      </h6>
-      <div className="mb-3 p-1">
-        <label for="attack">Attack:</label>
-        <input
-          id="attack"
-          type="number"
-          name="attack"
-          min="0"
-          max="20"
-          placeholder="What is your character's attack level? (0-20)"
-          value={monster.metadata.attack}
-          onChange={handleAttackChange}
-        />
-        <div className="mb-3 p-1">
-          <label for="defense">Defense:</label>
-          <input
-            id="defense"
-            type="number"
-            name="defense"
-            min="0"
-            max="20"
-            placeholder="What is your character's defense level? (0-20)"
-            value={monster.metadata.defense}
-            onChange={handleDefenseChange}
-          />
-        </div>
-        <div className="mb-3 p-1">
-          <label for="strength">Strength:</label>
-          <input
-            id="strength"
-            type="number"
-            name="strength"
-            min="0"
-            max="20"
-            placeholder="What is your character's strength level? (0-20)"
-            value={monster.metadata.strength}
-            onChange={handleStrengthChange}
-          />
-        </div>
-        <div className="mb-3 p-1">
-          <label for="courage">Courage:</label>
-          <input
-            id="courage"
-            type="number"
-            name="courage"
-            min="0"
-            max="20"
-            placeholder="What is your character's courage level? (0-20)"
-            value={monster.metadata.courage}
-            onChange={handleCourageChange}
-          />
-        </div>
-        <div className="mb-3 p-1">
-          <label for="magic">Magic:</label>
-          <input
-            id="magic"
-            type="number"
-            name="magic"
-            min="0"
-            max="20"
-            placeholder="What is your character's magic level? (0-20)"
-            value={monster.metadata.magic}
-            onChange={handleMagicChange}
-          />
-        </div>
-      </div>
       <div className="m-3">
         <button
           className="btn btn-outline-success"
