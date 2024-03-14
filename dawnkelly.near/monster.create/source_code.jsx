@@ -4,8 +4,13 @@ const [monster, setMonster] = useState(() => {
   const initialData = Social.getr(`${accountId}/game/monster`) ?? {
     metadata: {
       name: "",
+      description: "",
       alignment: "",
       type: "",
+      size: "",
+      challenge: "",
+      armorClass: "",
+      hitPoints: "",
       image: {},
     },
   };
@@ -19,15 +24,6 @@ const handleNameChange = (e) => {
     metadata: { ...prevMonster.metadata, name: newName },
   }));
 };
-
-const maxPoints = 50;
-const attack = parseInt(monster.metadata.attack) || 0;
-const defense = parseInt(monster.metadata.defense) || 0;
-const strength = parseInt(monster.metadata.strength) || 0;
-const courage = parseInt(monster.metadata.courage) || 0;
-const magic = parseInt(monster.metadata.magic) || 0;
-
-const totalPoints = attack + defense + strength + courage + magic;
 
 const handleImageChange = (newImage) => {
   setMonster((prevMonster) => ({
@@ -76,19 +72,19 @@ const handleChallengeChange = (e) => {
   }));
 };
 
-const handleWeaknessChange = (e) => {
-  const newWeakness = e.target.value;
+const handlearmorClassChange = (e) => {
+  const newArmorClass = e.target.value;
   setMonster((prevMonster) => ({
     ...prevMonster,
-    metadata: { ...prevMonster.metadata, weakness: newWeakness },
+    metadata: { ...prevMonster.metadata, armorClass: newArmorClass },
   }));
 };
 
-const handleDefaultWeaponChange = (e) => {
-  const newDefaultWeapon = e.target.value;
+const handlehitPointsChange = (e) => {
+  const newHitPoints = e.target.value;
   setMonster((prevMonster) => ({
     ...prevMonster,
-    metadata: { ...prevMonster.metadata, defaultWeapon: newDefaultWeapon },
+    metadata: { ...prevMonster.metadata, hitPoints: newHitPoints },
   }));
 };
 
