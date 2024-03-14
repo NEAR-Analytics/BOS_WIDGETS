@@ -33,8 +33,7 @@ return (
       border: widgets && widgets.length ? '1px solid #384bff' : 'none',
       backgroundColor: widgets && widgets.length ? '': 'white',
     }}
-    title={!context.accountId ? 'Connect wallet' : null}
-    onClick={!context.accountId ? null : onClick}
+    onClick={onClick}
   >
     {plusIcon}
   </ButtonPlus>
