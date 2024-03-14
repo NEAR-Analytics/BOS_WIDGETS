@@ -65,6 +65,8 @@ const isMyLinksInjected = !!widgets.some(
   (w) => w.linkAuthorId === context.accountId
 );
 
+console.log(widgets)
+
 return (
   <TriggerShowPanel
     onMouseOut={handleOnMouseLeave}
