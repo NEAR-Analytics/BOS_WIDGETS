@@ -158,43 +158,6 @@ const Text = styled.p`
   }
 `;
 
-const TextLink = styled("Link")`
-  display: block;
-  margin: 0;
-  font-size: 14px;
-  line-height: 20px;
-  color: #11181c !important;
-  font-weight: 400;
-  font-size: 14px;
-  white-space: nowrap;
-  outline: none;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-
-  &:focus,
-  &:hover {
-    text-decoration: underline;
-  }
-
-  i {
-    color: #7e868c;
-    margin-right: 8px;
-  }
-`;
-
-const TextBadge = styled.p`
-  display: inline-block;
-  margin: 0;
-  font-size: 10px;
-  line-height: 1.1rem;
-  background: #687076;
-  color: #fff;
-  font-weight: 600;
-  white-space: nowrap;
-  padding: 0 6px;
-  border-radius: 3px;
-`;
-
 const Actions = styled.div`
   display: flex;
   gap: 6px;
@@ -208,21 +171,6 @@ const Stats = styled.div`
 const SocialLinks = styled.div`
   display: grid;
   gap: 9px;
-`;
-
-const FollowButtonWrapper = styled.div`
-  flex: 1 0 auto;
-  div,
-  button {
-    width: 100%;
-  }
-  @media (max-width: 1024px) {
-    flex: 0 0 auto;
-    div,
-    button {
-      width: auto;
-    }
-  }
 `;
 
 const Verifications = styled.div`
