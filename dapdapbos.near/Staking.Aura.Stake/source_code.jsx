@@ -408,6 +408,8 @@ function handleStakeToken() {
 
   const { Rewards_contract_address, Balancer_Pool_ID, tokenAssets } = data;
 
+  console.log("tokenAssets:", tokenAssets);
+
   const amountsIn = tokenAssets.map((token) =>
     state.curToken === token
       ? ethers.BigNumber.from(
@@ -418,12 +420,25 @@ function handleStakeToken() {
         )
       : 0
   );
-  console.log("amountsIn:", amountsIn);
+  let userData;
+  if (amountsIn.filter((item) => item === 0).length > 2) {
+    const lpIndex = tokenAssets.findIndex((item) => {
+      return item.toUpperCase() === data.LP_token_address.toUpperCase();
+    });
+    const temp = [...amountsIn];
 
-  const userData = ethers.utils.defaultAbiCoder.encode(
-    ["uint256", "uint256[]", "uint256"],
-    [1, amountsIn, 0]
-  );
+    temp.splice(lpIndex, 1);
+    userData = ethers.utils.defaultAbiCoder.encode(
+      ["uint256", "uint256[]", "uint256"],
+      [1, temp, 0]
+    );
+  } else {
+    // console.log("amountsIn:", amountsIn);
+    userData = ethers.utils.defaultAbiCoder.encode(
+      ["uint256", "uint256[]", "uint256"],
+      [1, amountsIn, 0]
+    );
+  }
 
   const params = {
     _rewardPoolAddress: Rewards_contract_address,
