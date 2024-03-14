@@ -120,7 +120,7 @@ return (
             .filter((i) => i.post_type === type)
             .map((item, index) => (
               <Widget
-                src="ndcdev.near/widget/daos.Components.Item"
+                src="ndcdev.near/widget/daos.Components.Post"
                 props={{ item, index, type, id: item.id }}
               />
             ))
