@@ -12,12 +12,16 @@ const Container = styled.div`
   background: #151718;
 
   .navigation {
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin-top: 1rem;
     color: white;
+    display: none;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+    }
   }
 
   @media screen and (max-width: 768px) {
