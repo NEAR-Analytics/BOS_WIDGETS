@@ -239,7 +239,7 @@ return (
                   src: app.id,
                   metadata: app.metadata,
                   onComponentSelect: () => props.onSelect(app),
-                  hideButtons: !!context.accountId,
+                  hideButtons: !context.accountId,
                 }}
               />
             </Item>
