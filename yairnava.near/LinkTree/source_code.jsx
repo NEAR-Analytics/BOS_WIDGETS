@@ -1,23 +1,21 @@
-// We obtain the accountId from the props, if it is not found then it is taken from the gateway session.
 const accountId = props.accountId ?? context.accountId;
-
-// We validate that an accountId is found to continue loading the component.
 if (!accountId) {
   return "No account ID";
 }
 
-// Get profile information from SOCIAL DB.
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
 
-// Constant with widget address.
-const accountUrl = `/yairnava.near/widget/LinkTree?accountId=${accountId}`;
+if (!accountId) {
+  return "";
+}
 
-// Profile Data.
+// Profile Data:
 const tags = Object.keys(profile.tags || {});
 const viewingOwnAccount = accountId === context.accountId;
-const shareUrl = `https://near.social${accountUrl}`;
+const shareUrl = `https://near.org${accountUrl}`;
 
-// Follower Count.
+// Follower Count:
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
@@ -31,7 +29,44 @@ const followingCount = following
   : null;
 const followersCount = followers ? Object.keys(followers || {}).length : null;
 
-// We define each of the components using styled components for the design.
+// Account follows you:
+const accountFollowsYouData = Social.keys(
+  `${accountId}/graph/follow/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
+
+const contentModerationItem = {
+  type: "social",
+  path: profileUrl,
+  reportedBy: context.accountId,
+};
+
+const optimisticallyHideItem = (message) => {
+  State.update({
+    hasBeenFlaggedOptimistic: true,
+    showToast: true,
+    flaggedMessage: message,
+  });
+};
+const resolveHideItem = (message) => {
+  State.update({
+    hasBeenFlagged: true,
+    showToast: true,
+    flaggedMessage: message,
+  });
+};
+const cancelHideItem = () => {
+  State.update({
+    hasBeenFlaggedOptimistic: false,
+    showToast: false,
+    flaggedMessage: { header: "", detail: "" },
+  });
+};
+
 const BackgroundImage = styled.div`
   height: 240px;
   border-radius: 20px 20px 0 0;
@@ -158,6 +193,43 @@ const Text = styled.p`
   }
 `;
 
+const TextLink = styled("Link")`
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #11181c !important;
+  font-weight: 400;
+  font-size: 14px;
+  white-space: nowrap;
+  outline: none;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+
+  i {
+    color: #7e868c;
+    margin-right: 8px;
+  }
+`;
+
+const TextBadge = styled.p`
+  display: inline-block;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.1rem;
+  background: #687076;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 0 6px;
+  border-radius: 3px;
+`;
+
 const Actions = styled.div`
   display: flex;
   gap: 6px;
@@ -171,6 +243,21 @@ const Stats = styled.div`
 const SocialLinks = styled.div`
   display: grid;
   gap: 9px;
+`;
+
+const FollowButtonWrapper = styled.div`
+  flex: 1 0 auto;
+  div,
+  button {
+    width: 100%;
+  }
+  @media (max-width: 1024px) {
+    flex: 0 0 auto;
+    div,
+    button {
+      width: auto;
+    }
+  }
 `;
 
 const Verifications = styled.div`
@@ -192,8 +279,6 @@ const Button = styled.button`
     color: white;
 `;
 
-// Rendering of the UI putting into use the styled components in each corresponding section,
-// as well as the information obtained from SOCIAL DB.
 return (
   <Wrapper>
     <BackgroundImage>
