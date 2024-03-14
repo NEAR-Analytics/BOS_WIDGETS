@@ -72,7 +72,7 @@ const handleChallengeChange = (e) => {
   }));
 };
 
-const handlearmorClassChange = (e) => {
+const handleArmorClassChange = (e) => {
   const newArmorClass = e.target.value;
   setMonster((prevMonster) => ({
     ...prevMonster,
@@ -80,55 +80,13 @@ const handlearmorClassChange = (e) => {
   }));
 };
 
-const handlehitPointsChange = (e) => {
+const handleHitPointsChange = (e) => {
   const newHitPoints = e.target.value;
   setMonster((prevMonster) => ({
     ...prevMonster,
     metadata: { ...prevMonster.metadata, hitPoints: newHitPoints },
   }));
 };
-
-const handleAttackChange = (e) => {
-  const newAttack = e.target.value;
-  setMonster((prevMonster) => ({
-    ...prevMonster,
-    metadata: { ...prevMonster.metadata, attack: newAttack },
-  }));
-};
-
-const handleDefenseChange = (e) => {
-  const newDefense = e.target.value;
-  setMonster((prevMonster) => ({
-    ...prevMonster,
-    metadata: { ...prevMonster.metadata, defense: newDefense },
-  }));
-};
-
-const handleStrengthChange = (e) => {
-  const newStrength = e.target.value;
-  setMonster((prevMonster) => ({
-    ...prevMonster,
-    metadata: { ...prevMonster.metadata, strength: newStrength },
-  }));
-};
-
-const handleCourageChange = (e) => {
-  const newCourage = e.target.value;
-  setMonster((prevMonster) => ({
-    ...prevMonster,
-    metadata: { ...prevMonster.metadata, courage: newCourage },
-  }));
-};
-
-const handleMagicChange = (e) => {
-  const newMagic = e.target.value;
-  setMonster((prevMonster) => ({
-    ...prevMonster,
-    metadata: { ...prevMonster.metadata, magic: newMagic },
-  }));
-};
-
-const isValidPoints = totalPoints <= maxPoints;
 
 const handleSave = () => {
   Social.set({
@@ -174,52 +132,68 @@ return (
         />
       </div>
       <div className="mb-3 p-1">
-        <span>Hold Control or Command to select more than one:</span>
-        <br></br>
-        <label for="alignment">Alignment:</label>
-        <select
-          name="alignment"
-          id="alignment"
-          multiple
-          value={monster.metadata.alignment}
-          onChange={handleAlignmentChange}
-        >
-          <option value="good">Good</option>
-          <option value="neutral">Neutral</option>
-          <option value="evil">Evil</option>
-          <option value="lawful">Lawful</option>
-          <option value="chaotic">Chaotic</option>
-          <option value="any">Any</option>
-          <option value="unaligned">Unaligned</option>
-        </select>
+        <span className="mb-2 d-block">
+          Hold Control or Command to select more than one:
+        </span>
+        <div className="row align-items-center">
+          <div className="col-auto">
+            <label htmlFor="alignment">Alignment:</label>
+          </div>
+          <div className="col">
+            <select
+              name="alignment"
+              id="alignment"
+              className="form-select"
+              multiple
+              value={monster.metadata.alignment}
+              onChange={handleAlignmentChange}
+            >
+              <option value="good">Good</option>
+              <option value="neutral">Neutral</option>
+              <option value="evil">Evil</option>
+              <option value="lawful">Lawful</option>
+              <option value="chaotic">Chaotic</option>
+              <option value="any">Any</option>
+              <option value="unaligned">Unaligned</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div className="mb-3 p-1">
-        <span>Hold Control or Command to select more than one:</span>
-        <br></br>
-        <label for="type">Type:</label>
-        <select
-          name="type"
-          id="type"
-          multiple
-          value={monster.metadata.type}
-          onChange={handleTypeChange}
-        >
-          <option value="abberation">Abberation</option>
-
-          <option value="beast">Beast</option>
-          <option value="celestial">Celestial</option>
-          <option value="dragon">Dragon</option>
-          <option vlaue="elemental">Elemental</option>
-          <option value="fey">Fey</option>
-          <option value="fiend">Fiend</option>
-          <option value="giant">Giant</option>
-          <option value="humanoid">Humanoid</option>
-          <option value="monstrosity">Monstrosity</option>
-          <option value="ooze">Ooze</option>
-          <option value="plant">Plant</option>
-          <option value="undead">Undead</option>
-        </select>
+        <span className="mb-2 d-block">
+          Hold Control or Command to select more than one:
+        </span>
+        <div className="row align-items-center">
+          <div className="col-auto">
+            <label htmlFor="type">Type:</label>
+          </div>
+          <div className="col">
+            <select
+              name="type"
+              id="type"
+              className="form-select"
+              multiple
+              value={monster.metadata.type}
+              onChange={handleTypeChange}
+            >
+              <option value="abberation">Abberation</option>
+              <option value="beast">Beast</option>
+              <option value="celestial">Celestial</option>
+              <option value="dragon">Dragon</option>
+              <option value="elemental">Elemental</option>
+              <option value="fey">Fey</option>
+              <option value="fiend">Fiend</option>
+              <option value="giant">Giant</option>
+              <option value="humanoid">Humanoid</option>
+              <option value="monstrosity">Monstrosity</option>
+              <option value="ooze">Ooze</option>
+              <option value="plant">Plant</option>
+              <option value="undead">Undead</option>
+            </select>
+          </div>
+        </div>
       </div>
+
       <div className="mb-3 p-1">
         <label for="size">Size:</label>
         <select
@@ -257,7 +231,7 @@ return (
           max="25"
           placeholder="What is the monster's armor class?"
           value={monster.metadata.armorClass}
-          onChange={handlearmorClassChange}
+          onChange={handleArmorClassChange}
         />
       </div>
     </div>
@@ -270,7 +244,7 @@ return (
         min="0"
         placeholder="What is the monster's HP?"
         value={monster.metadata.hitPoints}
-        onChange={handlehitPointsChange}
+        onChange={handleHitPointsChange}
       />
     </div>
     <div className="m-2">
