@@ -350,7 +350,7 @@ function handleStakeBPT() {
               action: "Stake",
               token: TOKENS[curToken],
               amount: state.inputValue,
-              template: "Aura",
+              template: "Aura Finance",
               add: false,
               status,
               transactionHash,
@@ -412,6 +412,7 @@ function handleStakeToken() {
         )
       : 0
   );
+  console.log("amountsIn:", amountsIn);
 
   const userData = ethers.utils.defaultAbiCoder.encode(
     ["uint256", "uint256[]", "uint256"],
@@ -466,7 +467,7 @@ function handleStakeToken() {
               action: "Stake",
               token: TOKENS[curToken],
               amount: state.inputValue,
-              template: "Aura",
+              template: "Aura Finance",
               add: false,
               status,
               transactionHash,
@@ -558,9 +559,15 @@ return (
     <Widget
       src="dapdapbos.near/widget/Utils.Allowance"
       props={{
-        tokenAddress: state.curToken,
+        tokenAddress:
+          state.curToken === data.LP_token_address
+            ? data.LP_token_address
+            : state.curToken,
         owner: account,
-        spender: RewardPoolDepositWrapper,
+        spender:
+          state.curToken === data.LP_token_address
+            ? BoosterLiteWrapper
+            : RewardPoolDepositWrapper,
         updateAllowance,
       }}
     />
