@@ -1,5 +1,17 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
-const data = props.data || props.link?.id && Social.get('bos.dapplets.near/OnboardingTest-data-' + props.link?.id)
+const data = props.data
+  || props.link?.id
+  && context?.accountId
+  && Near.view(
+    'social.dapplets.near',
+    'get',
+    {
+      keys: [
+        `${context?.accountId}/settings/onboarding-test/${props.link?.id}`
+      ]
+    }
+  )?.[context?.accountId].settings.onboarding-test[props.link?.id]
+
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
@@ -67,7 +79,21 @@ const handleClose = (doNotShowAgain) => {
   setShow(false)
 }
 
-const saveData = (data) => Social.set({ [`OnboardingTest-data-${props.link?.id}`]: data })
+const saveData = (data) => context?.accountId && props?.link?.id && Near.call(
+  'social.dapplets.near',
+  'set',
+  {
+    data: {
+      [context.accountId]: {
+        settings: {
+          'onboarding-test': {
+            [props.link.id]: data
+          }
+        }
+      }
+    }
+  }
+)
 
 return (
   <OverlayTriggerWrapper>
