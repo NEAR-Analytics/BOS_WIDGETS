@@ -160,7 +160,7 @@ useEffect(() => {
       disabled: true,
       loading: false,
       amount: '0',
-      tooltip: 'Connect wallet',
+      tooltip: 'You must be Logged In to start using this',
     })
   } else if (equals(state.totalTipsByItemId, '0')) {
     State.update({
@@ -362,9 +362,12 @@ const createLabel = () => {
 }
 
 return (
+  <OverlayTrigger 
+    placement="right" 
+    overlay={<Tooltip id="tooltip">{state.tooltip}</Tooltip>}
+  >
     <TippingButton
       disabled={state.disabled}
-      title={state.tooltip}
       onMouseEnter={() => State.update({ isHovered: true })}
       onMouseLeave={() => State.update({ isHovered: false })}
       onClick={onClick}
@@ -380,4 +383,5 @@ return (
         <Widget src="bos.dapplets.near/widget/Tipping.NearIcon" />
       </div>
     </TippingButton>
+    </OverlayTrigger>
 );
