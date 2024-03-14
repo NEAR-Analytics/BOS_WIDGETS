@@ -59,9 +59,7 @@ return (
     {state.show ? (
       <Widget
         props={{
-          widgets: widgets.filter(
-            (w) => w.isSuitable === undefined || w.isSuitable === true
-          ),
+          widgets,
           isEditMode,
           enableEditMode,
           disableEditMode,
