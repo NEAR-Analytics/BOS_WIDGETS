@@ -199,7 +199,7 @@ const handleUnStake = () => {
               action: "Unstake",
               token: { symbol: "BPT" },
               amount: state.inputValue,
-              template: "Aura",
+              template: "Aura Finance",
               add: false,
               status,
               transactionHash,
