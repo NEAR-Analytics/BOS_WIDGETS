@@ -1,21 +1,23 @@
+// We obtain the accountId from the props, if it is not found then it is taken from the gateway session.
 const accountId = props.accountId ?? context.accountId;
+
+// We validate that an accountId is found to continue loading the component.
 if (!accountId) {
   return "No account ID";
 }
 
+// Get profile information from SOCIAL DB.
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
+// Constant with widget address.
 const accountUrl = `/yairnava.near/widget/LinkTree?accountId=${accountId}`;
 
-if (!accountId) {
-  return "";
-}
-
-// Profile Data:
+// Profile Data.
 const tags = Object.keys(profile.tags || {});
 const viewingOwnAccount = accountId === context.accountId;
 const shareUrl = `https://near.social${accountUrl}`;
 
-// Follower Count:
+// Follower Count.
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
@@ -29,44 +31,7 @@ const followingCount = following
   : null;
 const followersCount = followers ? Object.keys(followers || {}).length : null;
 
-// Account follows you:
-const accountFollowsYouData = Social.keys(
-  `${accountId}/graph/follow/${context.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
-
-const contentModerationItem = {
-  type: "social",
-  path: profileUrl,
-  reportedBy: context.accountId,
-};
-
-const optimisticallyHideItem = (message) => {
-  State.update({
-    hasBeenFlaggedOptimistic: true,
-    showToast: true,
-    flaggedMessage: message,
-  });
-};
-const resolveHideItem = (message) => {
-  State.update({
-    hasBeenFlagged: true,
-    showToast: true,
-    flaggedMessage: message,
-  });
-};
-const cancelHideItem = () => {
-  State.update({
-    hasBeenFlaggedOptimistic: false,
-    showToast: false,
-    flaggedMessage: { header: "", detail: "" },
-  });
-};
-
+// We define each of the components using styled components for the design.
 const BackgroundImage = styled.div`
   height: 240px;
   border-radius: 20px 20px 0 0;
@@ -279,6 +244,8 @@ const Button = styled.button`
     color: white;
 `;
 
+// Rendering of the UI putting into use the styled components in each corresponding section,
+// as well as the information obtained from SOCIAL DB.
 return (
   <Wrapper>
     <BackgroundImage>
