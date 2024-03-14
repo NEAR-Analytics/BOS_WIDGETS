@@ -1,11 +1,11 @@
+const widgets = props.widgets ?? [];
+const apps = props.apps ?? [];
 const {
   isEditMode,
   createUserLink,
   deleteUserLink,
   enableEditMode,
   disableEditMode,
-  widgets,
-  apps,
 } = props;
 
 State.init({
