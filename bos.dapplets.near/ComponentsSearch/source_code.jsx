@@ -126,6 +126,74 @@ const Button = styled.button`
     color: #687076 !important;
   }
 `;
+
+const WarningMessage = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 10px;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+  background: rgba(56, 75, 255, 0.05);
+  border-radius: 5px;
+  flex: none;
+  flex-grow: 0;
+  position: relative;
+
+  p {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #384bff;
+    flex: none;
+    flex-grow: 0;
+  }
+
+  svg {
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const AlertIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+      stroke="#384BFF"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.01 16L12.01 12"
+      stroke="#384BFF"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12.01 8L12 8"
+      stroke="#384BFF"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const iconCloseModal = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -154,6 +222,14 @@ const iconCloseModal = (
 return (
   <Wrapper>
     <CloseModal onClick={props.handleCloseMenu}>{iconCloseModal}</CloseModal>
+
+    {context.accountId === null ? (
+      <WarningMessage>
+        <AlertIcon />
+        <p>You must be Logged In to start using this</p>
+      </WarningMessage>
+    ) : null}
+
     {apps.length > 0 ? (
       <Items style={{ paddingRight: apps && apps.length >= 5 ? "20px" : "" }}>
         {apps.map((app) => {
@@ -165,6 +241,7 @@ return (
                   src: app.id,
                   metadata: app.metadata,
                   onComponentSelect: () => props.onSelect(app),
+                  hideButtons: !!context.accountId,
                 }}
               />
             </Item>
