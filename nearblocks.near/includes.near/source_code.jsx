@@ -95,7 +95,7 @@ export function mapRpcActionToAction(action) {
   }
 
   if (typeof action === 'object') {
-    const kind = action && Object.keys(action)[0];
+    const kind = Object.keys(action)[0];
 
     return {
       action_kind: kind,
@@ -107,7 +107,7 @@ export function mapRpcActionToAction(action) {
 }
 
 function valueFromObj(obj) {
-  const keys = obj && Object.keys(obj);
+  const keys = Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -191,6 +191,29 @@ export function txnErrorMessage(txn) {
   }
 
   return null;
+}
+
+export function formatLine(line, offset, format) {
+  let result = `${offset.toString(16).padStart(8, '0')}  `;
+
+  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+
+  hexValues.forEach((byte, index) => {
+    if (index > 0 && index % 4 === 0) {
+      result += ' ';
+    }
+    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
+  });
+
+  if (format === 'twos') {
+    result = result.replace(/(.{4})/g, '$1 ');
+  } else if (format === 'default') {
+    result += ` ${String.fromCharCode(
+      ...hexValues.map((b) => parseInt(b, 16)),
+    )}`;
+  }
+
+  return result.trimEnd();
 }
 
 export function collectNestedReceiptWithOutcomeOld(
