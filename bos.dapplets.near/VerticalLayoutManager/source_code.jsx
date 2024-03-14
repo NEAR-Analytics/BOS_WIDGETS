@@ -16,9 +16,9 @@ const WidgetBadgeWrapper = styled.div`
   right: 0;
   top: 0;
   z-index: 1200;
-  background:rgba(255, 255, 255, 0.35);
-  width:100%;
-  height:100%;
+  background: rgba(255, 255, 255, 0.35);
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,33 +28,35 @@ const WidgetBadgeWrapper = styled.div`
 
 return (
   <Container>
-    {props.widgets.map((widget) => (
-      <div style={{ position: "relative" }} key={widget.linkId}>
-        {props.isEditMode ? (
-          <WidgetBadgeWrapper
-            title={
-              widget.linkAuthorId === context.accountId
-                ? `Remove ${widget.src.split("widget/").pop()}`
-                : "disable in edit mode"
-            }
-            style={{
-              opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
-            }}
-          >
-            {widget.linkAuthorId === context.accountId ? (
-              <Widget
-                src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-                props={{
-                  onClick: () => handleRemoveWidget(widget.linkId),
-                }}
-              />
-            ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-            null}
-          </WidgetBadgeWrapper>
-        ) : null}
+    {props.widgets
+      .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
+      .map((widget) => (
+        <div style={{ position: "relative" }} key={widget.linkId}>
+          {props.isEditMode ? (
+            <WidgetBadgeWrapper
+              title={
+                widget.linkAuthorId === context.accountId
+                  ? `Remove ${widget.src.split("widget/").pop()}`
+                  : "disable in edit mode"
+              }
+              style={{
+                opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
+              }}
+            >
+              {widget.linkAuthorId === context.accountId ? (
+                <Widget
+                  src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                  props={{
+                    onClick: () => handleRemoveWidget(widget.linkId),
+                  }}
+                />
+              ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+              null}
+            </WidgetBadgeWrapper>
+          ) : null}
 
-        <Widget src={widget.src} props={widget.props} />
-      </div>
-    ))}
+          <Widget src={widget.src} props={widget.props} />
+        </div>
+      ))}
   </Container>
 );
