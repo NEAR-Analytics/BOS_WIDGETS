@@ -101,9 +101,9 @@ const getUserRequestResponse = (requestAccountId) => {
           userRequestResponse?.response.text
         ) {
           userRequestResponse.response.shillAccepted =
-            /SHILL_ACCEPTED_.+$/g.test(userRequestResponse.response.text);
+            userRequestResponse.response.text.startsWith("SHILL_ACCEPTED_");
           userRequestResponse.response.shillDeclined =
-            userRequestResponse.response.text.endsWith("SHILL_DECLINED");
+            userRequestResponse.response.text.startsWith("SHILL_DECLINED");
           userRequestResponse.response.textCleaned =
             userRequestResponse.response.text
               .replace("SHILL_ACCEPTED_HALF", "")
@@ -111,28 +111,31 @@ const getUserRequestResponse = (requestAccountId) => {
               .replace("SHILL_ACCEPTED_EIGHTH", "")
               .replace("SHILL_ACCEPTED_SIXTEENTH", "")
               .replace("SHILL_DECLINED", "")
-              .trim()
-              .repalce(/\s*-\s*$/, "");
+              .trim();
 
           if (
-            userRequestResponse.response.text.endsWith("SHILL_ACCEPTED_HALF")
+            userRequestResponse.response.text.startsWith("SHILL_ACCEPTED_HALF")
           ) {
             userRequestResponse.response.verdict = "Shill accepted!!!";
             userRequestResponse.response.color = "#00a951";
           } else if (
-            userRequestResponse.response.text.endsWith("SHILL_ACCEPTED_QUARTER")
+            userRequestResponse.response.text.startsWith(
+              "SHILL_ACCEPTED_QUARTER"
+            )
           ) {
             userRequestResponse.response.verdict =
               "Shill accepted by half amount!";
             userRequestResponse.response.color = "#00a951";
           } else if (
-            userRequestResponse.response.text.endsWith("SHILL_ACCEPTED_EIGHTH")
+            userRequestResponse.response.text.startsWith(
+              "SHILL_ACCEPTED_EIGHTH"
+            )
           ) {
             userRequestResponse.response.verdict =
               "Shill accepted by quoter amount";
             userRequestResponse.response.color = "#00a951";
           } else if (
-            userRequestResponse.response.text.endsWith(
+            userRequestResponse.response.text.startsWith(
               "SHILL_ACCEPTED_SIXTEENTH"
             )
           ) {
@@ -140,7 +143,7 @@ const getUserRequestResponse = (requestAccountId) => {
               "Shill accepted by eighth amount";
             userRequestResponse.response.color = "#00a951";
           } else if (
-            userRequestResponse.response.text.endsWith("SHILL_DECLINED")
+            userRequestResponse.response.text.startsWith("SHILL_DECLINED")
           ) {
             userRequestResponse.response.verdict = "Shill declined...";
             userRequestResponse.response.color = "#e02e49";
