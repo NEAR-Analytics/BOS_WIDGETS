@@ -22,8 +22,6 @@ if (props.accountGId && props.itemGId) {
 const { nearAccountId } = props
 const userAccountId = nearAccountId || context.accountId
 
-console.log({ props, context })
-
 const TIPPING_CONTRACT_NAME = "v2.tipping.near";
 const MAX_AMOUNT_PER_ITEM = '10000000000000000000000000'; // 10 NEAR
 const MAX_AMOUNT_PER_TIP = '1000000000000000000000000'; // 1 NEAR
@@ -189,7 +187,7 @@ useEffect(() => {
       tooltip: 'Send donation',
     })
   }
-}, [accountId, state.totalTipsByItemId]);
+}, [accountId, state.totalTipsByItemId, userAccountId]);
 
 const onDebounceDonate = () => {
   State.update({
