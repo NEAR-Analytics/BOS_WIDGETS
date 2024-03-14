@@ -1,16 +1,22 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
-const data = props.data
-  || props.link?.id
-  && context?.accountId
-  && Near.view(
-    'social.dapplets.near',
-    'get',
-    {
-      keys: [
-        `${context?.accountId}/settings/onboarding-test/${props.link?.id}`
-      ]
-    }
-  )?.[context?.accountId].settings.onboarding-test[props.link?.id]
+
+const [data, setData] = useState(null)
+
+useEffect(() => {
+  setData(props.data
+    || props.link?.id
+    && context?.accountId
+    && Near.view(
+      'social.dapplets.near',
+      'get',
+      {
+        keys: [
+          `${context?.accountId}/settings/onboarding-test/${props.link?.id}`
+        ]
+      }
+    )?.[context?.accountId].settings.onboarding-test[props.link?.id]
+  )
+}, [props, context])
 
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
