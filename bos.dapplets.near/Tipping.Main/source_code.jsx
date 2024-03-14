@@ -362,12 +362,9 @@ const createLabel = () => {
 }
 
 return (
-  <OverlayTrigger 
-    placement="right" 
-    overlay={<Tooltip id="tooltip">{state.tooltip}</Tooltip>}
-  >
     <TippingButton
       disabled={state.disabled}
+      tooltip={state.tooltip}
       onMouseEnter={() => State.update({ isHovered: true })}
       onMouseLeave={() => State.update({ isHovered: false })}
       onClick={onClick}
@@ -383,5 +380,4 @@ return (
         <Widget src="bos.dapplets.near/widget/Tipping.NearIcon" />
       </div>
     </TippingButton>
-    </OverlayTrigger>
 );
