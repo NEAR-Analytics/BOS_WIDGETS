@@ -1,16 +1,23 @@
-const lastShowTime = Storage.privateGet('lastShowTime')
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
+
+const data = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
+const lastShowTime = Storage.privateGet('lastShowTime')
+
+console.log('data', data)
+console.log('props?.link?.id', props?.link?.id)
+console.log('props', props)
+console.log('lastShowTime',lastShowTime)
 
 useEffect(() => {
   if (!start && !lastShowTime) return
   setStart(true)
   const elapsed = Date.now() - (lastShowTime ?? 0)
-  setShow(elapsed > 1000 * 60 * 60 * 3)
-  // setShow(elapsed > 1000 * 60 * 1 * 1) // TESTING
+  // setShow(elapsed > 1000 * 60 * 60 * 3)
+  setShow(elapsed > 1000 * 60 * 1 * 1) // TESTING
 }, [start, lastShowTime])
 
-setTimeout(() => setStart(true), 8000)
+setTimeout(() => setStart(true), 10000)
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
@@ -55,12 +62,25 @@ const Onboarding = styled.div`
 
 const handleClose = (doNotShowAgain) => {
   if (doNotShowAgain) {
-    Storage.privateSet('lastShowTime', 30000000000000)
-    // Storage.privateSet('lastShowTime', Date.now() + 1000 * 60) // TESTING
+    // Storage.privateSet('lastShowTime', 30000000000000)
+    Storage.privateSet('lastShowTime', Date.now() + 1000 * 60) // TESTING
   } else {
     Storage.privateSet('lastShowTime', Date.now())
   }
   setShow(false)
+}
+
+const saveData = (inputData) => {
+  if (context?.accountId) {
+    Near.call(
+      'app.webguide.near',
+      'set_guide',
+      {
+        guide_id: props.link.id,
+        data: inputData,
+      }
+    )
+  }
 }
 
 return (
@@ -69,7 +89,7 @@ return (
       <DappletOverlay>
         <Onboarding>
           <Widget
-            props={{ handleClose: handleClose }}
+            props={{ handleClose, data, saveData, setShow, link: props.link }}
             src="bos.dapplets.near/widget/Onboarding.SandboxOnboarding"
           />
         </Onboarding>
