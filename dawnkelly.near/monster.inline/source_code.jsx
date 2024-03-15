@@ -5,7 +5,7 @@ const monster = props.monster ?? Social.getr(`${accountId}/game/monster`);
 const name = props.name ?? monster.metadata.name;
 const image = props.image ??
   monster.metadata.image ?? {
-    url: "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
+    url: "https://cyan-interesting-takin-110.mypinata.cloud/ipfs/QmZActrEMz17F7gQQj7dSHGBXq4VNRHWR5B7rMt2CPAUfy",
   };
 
 return (
@@ -19,7 +19,7 @@ return (
           style: { width: "2.5em" },
           className: "me-3",
           fallbackUrl:
-            "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
+            "https://cyan-interesting-takin-110.mypinata.cloud/ipfs/QmZActrEMz17F7gQQj7dSHGBXq4VNRHWR5B7rMt2CPAUfy",
         }}
       />
       <div className="text-truncate lh-sm">
