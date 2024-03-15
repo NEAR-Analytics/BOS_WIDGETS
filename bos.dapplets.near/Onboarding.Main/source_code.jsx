@@ -4,7 +4,7 @@ const [showFrom, setShowFrom] = useState(0)
 
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
-const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(props.link.id + '/' + chapter.id + '/lastShowTime'))
+const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(chapter.id + '/lastShowTime'))
 
 console.log('data', data)
 console.log('props?.link?.id', props?.link?.id)
@@ -77,7 +77,7 @@ const Onboarding = styled.div`
 const handleClose = (doNotShowAgain) => {
   // const time = doNotShowAgain ? 30000000000000 : Date.now()
   const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-  data.forEach((chapter) => Storage.privateSet(props.link.id + '/' + chapter.id + '/lastShowTime', time))
+  data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShowTime', time))
   setShow(false)
 }
 
