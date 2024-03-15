@@ -95,23 +95,33 @@ function handleSubmit() {
   console.log("Is new profile valid?", newValidity);
   setIsValidProfile(newValidity.isValid);
   if (newValidity.isValid) {
-    Near.call([
-      {
-        contractName: "social.near",
-        methodName: "set",
-        args: {
-          data: { [accountId]: { profile } },
+    Near.asyncView("social.near", "get_account", {
+      account_id: accountId,
+    }).then((account) => {
+      const args = {
+        data: { [accountId]: { profile } },
+      };
+      let depositFloat = JSON.stringify(args).length * 0.0001;
+      if (!account) {
+        depositFloat += 0.1;
+      }
+      const socialDeposit = Big(depositFloat).mul(Big(10).pow(24));
+      Near.call([
+        {
+          contractName: "social.near",
+          methodName: "set",
+          args,
+          deposit: socialDeposit,
+          gas: 4e13,
         },
-        deposit: 4e22,
-        gas: 4e13,
-      },
-      {
-        contractName: contract,
-        methodName: "verify_social_profile_completeness",
-        gas: 7e13,
-        deposit: 5e21,
-      },
-    ]);
+        {
+          contractName: contract,
+          methodName: "verify_social_profile_completeness",
+          gas: 7e13,
+          deposit: 5e21,
+        },
+      ]);
+    });
   } else {
     // Update field errors
     const newFieldErrors = {};
