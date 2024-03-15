@@ -1,11 +1,13 @@
-const lastShowTime = Storage.privateGet('lastShowTime')
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
 const data = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
+const lastShowTime = Storage.privateGet('lastShowTime')
 
 console.log('data', data)
+console.log('props?.link?.id', props?.link?.id)
 console.log('props', props)
+console.log('lastShowTime',lastShowTime)
 
 useEffect(() => {
   if (!start && !lastShowTime) return
@@ -81,7 +83,7 @@ const saveData = (inputData) => {
   }
 }
 
-return data === null ? null : (
+return (
   <OverlayTriggerWrapper>
     {show ? (
       <DappletOverlay>
