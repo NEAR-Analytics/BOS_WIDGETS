@@ -13,7 +13,17 @@
  *                                    Example: handleFilter={handlePageFilter} where handlePageFilter is a function to filter the page.
  * @param {function} [onFilterClear] - Function to clear a specific or all filters. (Optional)
  *                                     Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -1186,7 +1196,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1194,7 +1204,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -1247,9 +1257,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -1318,6 +1334,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -1344,6 +1394,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function isAction(type) {
   const actions = [
@@ -1388,6 +1472,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1417,7 +1535,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1425,7 +1543,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -1478,9 +1596,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -1548,6 +1672,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1605,7 +1763,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1613,7 +1771,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -1666,9 +1824,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -1736,6 +1900,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 function localFormat(number) {
   const bigNumber = Big(number);
@@ -1818,7 +2016,7 @@ function mapRpcActionToAction(action) {
   }
 
   if (typeof action === 'object') {
-    const kind = Object.keys(action)[0];
+    const kind = action && Object.keys(action)[0];
 
     return {
       action_kind: kind,
@@ -1830,7 +2028,7 @@ function mapRpcActionToAction(action) {
 }
 
 function valueFromObj(obj) {
-  const keys = Object.keys(obj);
+  const keys = obj && Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -1914,29 +2112,6 @@ function txnErrorMessage(txn) {
   }
 
   return null;
-}
-
-function formatLine(line, offset, format) {
-  let result = `${offset.toString(16).padStart(8, '0')}  `;
-
-  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
-
-  hexValues.forEach((byte, index) => {
-    if (index > 0 && index % 4 === 0) {
-      result += ' ';
-    }
-    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
-  });
-
-  if (format === 'twos') {
-    result = result.replace(/(.{4})/g, '$1 ');
-  } else if (format === 'default') {
-    result += ` ${String.fromCharCode(
-      ...hexValues.map((b) => parseInt(b, 16)),
-    )}`;
-  }
-
-  return result.trimEnd();
 }
 
 function collectNestedReceiptWithOutcomeOld(
@@ -2761,6 +2936,7 @@ function MainComponent({
   filters,
   handleFilter,
   onFilterClear,
+  Link,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
@@ -2768,6 +2944,7 @@ function MainComponent({
   const [showAge, setShowAge] = useState(true);
   const [sorting, setSorting] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterValue, setFilterValue] = useState({});
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
   const [address, setAddress] = useState('');
 
@@ -2855,10 +3032,14 @@ function MainComponent({
     }
   }, [config?.backendUrl, id, currentPage, filters, sorting]);
 
-  let filterValue;
-  const onInputChange = (event) => {
-    filterValue = event.target.value;
-    // Do something with the value if needed
+  const onInputChange = (
+    event,
+    name,
+  ) => {
+    setFilterValue((prevFilters) => ({
+      ...prevFilters,
+      [name]: event.target.value,
+    }));
   };
 
   const onFilter = (
@@ -2867,15 +3048,15 @@ function MainComponent({
   ) => {
     e.preventDefault();
 
-    if (filterValue !== null && filterValue !== undefined) {
+    if (filterValue[name] !== undefined && filterValue[name] !== null) {
       if (name === 'type') {
-        if (isAction(filterValue)) {
-          handleFilter('action', filterValue);
+        if (isAction(filterValue[name])) {
+          handleFilter('action', filterValue[name]);
         } else {
-          handleFilter('method', filterValue);
+          handleFilter('method', filterValue[name]);
         }
       } else {
-        handleFilter(name, filterValue);
+        handleFilter(name, filterValue[name]);
       }
     }
   };
@@ -2883,6 +3064,10 @@ function MainComponent({
   const onClear = (name) => {
     if (onFilterClear && filters) {
       onFilterClear(name);
+      setFilterValue((prevFilters) => ({
+        ...prevFilters,
+        [name]: '',
+      }));
     }
   };
 
@@ -2921,14 +3106,14 @@ function MainComponent({
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
-                  <a
+                  <Link
                     href={`/txns/${row.transaction_hash}`}
                     className="hover:no-underline"
                   >
                     <a className="text-green-500 font-medium hover:no-underline">
                       {row.transaction_hash}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -2965,8 +3150,8 @@ function MainComponent({
             <div className="flex flex-col">
               <input
                 name="type"
-                value={filters ? filters?.action || filters?.method : ''}
-                onChange={onInputChange}
+                value={filterValue['type']}
+                onChange={(e) => onInputChange(e, 'type')}
                 placeholder="Search by method"
                 className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
               />
@@ -3065,8 +3250,8 @@ function MainComponent({
           >
             <input
               name="from"
-              value={filters ? filters?.from : ''}
-              onChange={onInputChange}
+              value={filterValue['from']}
+              onChange={(e) => onInputChange(e, 'from')}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -3106,7 +3291,7 @@ function MainComponent({
                       : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
-                  <a
+                  <Link
                     href={`/address/${row.predecessor_account_id}`}
                     className="hover:no-underline"
                   >
@@ -3118,7 +3303,7 @@ function MainComponent({
                     >
                       {row.predecessor_account_id}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -3171,8 +3356,8 @@ function MainComponent({
           >
             <input
               name="to"
-              value={filters ? filters?.to : ''}
-              onChange={onInputChange}
+              value={filterValue['to']}
+              onChange={(e) => onInputChange(e, 'to')}
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
@@ -3212,7 +3397,7 @@ function MainComponent({
                       : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
-                  <a
+                  <Link
                     href={`/address/${row.receiver_account_id}`}
                     className="hover:no-underline"
                   >
@@ -3224,7 +3409,7 @@ function MainComponent({
                     >
                       {row.receiver_account_id}
                     </a>
-                  </a>
+                  </Link>
                 </span>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -3245,7 +3430,7 @@ function MainComponent({
       key: 'block_height',
       cell: (row) => (
         <span>
-          <a
+          <Link
             href={`/blocks/${row.included_in_block_hash}`}
             className="hover:no-underline"
           >
@@ -3254,7 +3439,7 @@ function MainComponent({
                 ? localFormat(row.block?.block_height)
                 : ''}
             </a>
-          </a>
+          </Link>
         </span>
       ),
       tdClassName:
