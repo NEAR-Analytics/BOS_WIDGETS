@@ -730,7 +730,7 @@ useEffect(() => {
         _accountRewards.price = price;
         for (let i = 0; i < res.length; i++) {
           if (i === res.length - 1) {
-            const accured = res[i][0]
+            const accured = res[i]
               ? ethers.utils.formatUnits(res[i][0]._hex, 18)
               : "0";
             _accountRewards.reward = accured;
@@ -739,10 +739,18 @@ useEffect(() => {
             return;
           }
           _rewardsApy[cTokens[i]] = {
-            apySupply: ethers.utils.formatUnits(res[i][0][0]._hex, 16),
-            apyBorrow: ethers.utils.formatUnits(res[i][0][1]._hex, 16),
-            apyAccountSupply: ethers.utils.formatUnits(res[i][0][2]._hex, 16),
-            apyAccountBorrow: ethers.utils.formatUnits(res[i][0][3]._hex, 16),
+            apySupply: res[i]
+              ? ethers.utils.formatUnits(res[i][0][0]._hex, 16)
+              : "0",
+            apyBorrow: res[i]
+              ? ethers.utils.formatUnits(res[i][0][1]._hex, 16)
+              : "0",
+            apyAccountSupply: res[i]
+              ? ethers.utils.formatUnits(res[i][0][2]._hex, 16)
+              : "0",
+            apyAccountBorrow: res[i]
+              ? ethers.utils.formatUnits(res[i][0][3]._hex, 16)
+              : "0",
           };
         }
       })
