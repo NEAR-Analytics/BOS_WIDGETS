@@ -5,15 +5,13 @@ if (!accountId) {
   return <></>;
 }
 
-const f = fetch(
-  `https://api.kitwallet.app/account/${accountId}/likelyNFTsFromBlock`
-);
+const f = fetch(`https://api.fastnear.com/v0/account/${accountId}/nft`);
 
 if (!f.ok) {
   return "Loading";
 }
 
-const allNfts = f.body.list;
+const allNfts = f.body.contract_ids;
 
 const Wrapper = styled.div`
   --template-column-gutters: 16px;
