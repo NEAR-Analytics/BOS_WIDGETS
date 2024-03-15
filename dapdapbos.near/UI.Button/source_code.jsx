@@ -58,10 +58,6 @@ return (
     className={className}
     block={block}
   >
-    {loading ? (
-      <Widget src="dapdapbos.near/widget/Staking.Aura.Spinner" />
-    ) : (
-      text
-    )}
+    {loading ? <Widget src="dapdapbos.near/widget/UI.Spinner" /> : text}
   </Wrapper>
 );
