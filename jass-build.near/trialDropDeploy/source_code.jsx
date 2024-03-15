@@ -7,6 +7,7 @@ const contract = "v2.keypom.near";
 // };
 
 const parseNearAmount = (nearAmount) => {
+  //
   // YoctoNEAR per NEAR (1 NEAR = 10^24 YoctoNEAR)
   console.log(nearAmount);
   const nearToYocto = new Big("1000000000000000000000000");
