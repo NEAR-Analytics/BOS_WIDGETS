@@ -12,7 +12,7 @@ console.log('props', props)
 console.log('lastShowTimes',lastShowTimes)
 
 useEffect(() => {
-  if (!start && lastShowTimes?.[0] === null) return;
+  if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
   setStart(true);
   const lastShowByIds = {}
   for (let i = 0; i < lastShowTimes.length; ++i) {
