@@ -419,6 +419,37 @@ const LPTokenABI = [
   },
 ];
 
+const globalABI = [
+  {
+    inputs: [],
+    name: "reductionPerCliff",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EMISSIONS_MAX_SUPPLY",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalCliffs",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
 console.log("AURA_PROPS:", props);
 const initList = POOLS.map((item) => ({
   ...item,
@@ -441,7 +472,13 @@ State.init({
   flag3: false,
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
-
+const auraGlobalData = {
+  auraMaxSupply: "50000000000000000000000000",
+  auraTotalCliffs: "500",
+  auraMinterMinted: "0",
+  auraReductionPerCliff: "100000000000000000000000",
+  auraTotalSupply: "70357299813420858641594656",
+};
 function initPoolList() {
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
@@ -452,6 +489,7 @@ function initPoolList() {
   }
 
   getMultiPoolTokens();
+  // getMultiGlobal();
 }
 
 function getMultiRewards(pool, index) {
@@ -486,15 +524,15 @@ function getMultiRewards(pool, index) {
       console.log("getMultiRewards_res", res);
       const temp = [...state.poolsList];
       const [[balance], [rewardRate], [totalSupply], [rewards]] = res;
-
+      // console.log(ethers.utils.formatUnits(balance || 0));
       temp[index].rewardRate = rewardRate;
       temp[index].stakedAmount = Big(
         ethers.utils.formatUnits(balance || 0)
       ).toFixed(2);
       temp[index].rewardTotalSupply = totalSupply;
-      temp[index].reward = Big(ethers.utils.formatUnits(rewards || 0)).toFixed(
-        2
-      );
+      temp[index].reward = Big(
+        ethers.utils.formatUnits(rewards || 0)
+      ).toFixed();
       State.update({
         poolsList: temp,
         flag1: true,
@@ -536,9 +574,10 @@ function getMultiLPToken(pool, index) {
 
       temp[index].bptAmount = ethers.utils.formatUnits(balance || 0);
       temp[index].bptTotalSupply = totalSupply;
-      temp[index].swapFee = Big(ethers.utils.formatUnits(swapFeePer))
+      const _swapFee = Big(ethers.utils.formatUnits(swapFeePer))
         .mul(100)
         .toFixed();
+      temp[index].swapFee = _swapFee;
 
       State.update({
         poolsList: temp,
@@ -550,65 +589,6 @@ function getMultiLPToken(pool, index) {
     });
 }
 
-// function multiCallV2({ abi, calls, options, multicallAddress }) {
-//   const MULTICALL_ABI = [
-//     {
-//       inputs: [
-//         { internalType: "bool", name: "requireSuccess", type: "bool" },
-//         {
-//           components: [
-//             { internalType: "address", name: "target", type: "address" },
-//             { internalType: "bytes", name: "callData", type: "bytes" },
-//           ],
-//           internalType: "struct Multicall2.Call[]",
-//           name: "calls",
-//           type: "tuple[]",
-//         },
-//       ],
-//       name: "tryAggregate",
-//       outputs: [
-//         {
-//           components: [
-//             { internalType: "bool", name: "success", type: "bool" },
-//             { internalType: "bytes", name: "returnData", type: "bytes" },
-//           ],
-//           internalType: "struct Multicall2.Result[]",
-//           name: "returnData",
-//           type: "tuple[]",
-//         },
-//       ],
-//       stateMutability: "nonpayable",
-//       type: "function",
-//     },
-//   ];
-//   const MulticallContract = new ethers.Contract(
-//     multicallAddress,
-//     MULTICALL_ABI,
-//     Ethers.provider().getSigner()
-//   );
-
-//   const { requireSuccess, ...overrides } = options || {};
-//   const itf = new ethers.utils.Interface(abi);
-//   const calldata = calls.map((call) => ({
-//     target: call.address?.toLowerCase(),
-//     callData: itf.encodeFunctionData(call.name, call.params),
-//   }));
-//   return MulticallContract.callStatic
-//     .tryAggregate(requireSuccess || true, calldata, overrides)
-//     .then((res) => {
-//       const temp = res.map((call, i) => {
-//         const [result, data] = call;
-//         return result && data !== "0x"
-//           ? itf.decodeFunctionResult(calls[i].name, data)
-//           : null;
-//       });
-//       return temp;
-//     })
-//     .catch((err) => {
-//       console.log(55555, err);
-//       // onError?.(err);
-//     });
-// }
 function getMultiPoolTokens() {
   const ids = state.poolsList.map((item) => item.Balancer_Pool_ID);
 
@@ -617,7 +597,7 @@ function getMultiPoolTokens() {
     name: "getPoolTokens",
     params: [id],
   }));
-  // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
+
   multicall({
     abi: PoolContractABI,
     calls,
@@ -647,6 +627,82 @@ function getMultiPoolTokens() {
     });
 }
 
+function getMultiGlobal() {
+  const globalAddress = "0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF";
+  const calls = [
+    {
+      address: globalAddress,
+      name: "reductionPerCliff",
+    },
+    {
+      address: globalAddress,
+      name: "EMISSIONS_MAX_SUPPLY",
+    },
+    {
+      address: globalAddress,
+      name: "totalSupply",
+    },
+    {
+      address: globalAddress,
+      name: "totalCliffs",
+    },
+  ];
+
+  multicall({
+    abi: globalABI,
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("getMultiGlobal res:", res);
+    })
+    .catch((err) => {
+      console.log("getMultiGlobal error", err);
+    });
+}
+
+function getAuraMintAmount(balEarned, global) {
+  const reductionPerCliff = ethers.BigNumber.from(global.auraReductionPerCliff);
+  const maxSupply = ethers.BigNumber.from(global.auraMaxSupply);
+  const totalSupply = ethers.BigNumber.from(global.auraTotalSupply);
+  const totalCliffs = ethers.BigNumber.from(global.auraTotalCliffs);
+  const minterMinted = ethers.BigNumber.from(0);
+
+  // e.g. emissionsMinted = 6e25 - 5e25 - 0 = 1e25;
+  const emissionsMinted = totalSupply.sub(maxSupply).sub(minterMinted);
+
+  // e.g. reductionPerCliff = 5e25 / 500 = 1e23
+  // e.g. cliff = 1e25 / 1e23 = 100
+  const cliff = emissionsMinted.div(reductionPerCliff);
+
+  // e.g. 100 < 500
+  if (cliff.lt(totalCliffs)) {
+    // e.g. (new) reduction = (500 - 100) * 2.5 + 700 = 1700;
+    // e.g. (new) reduction = (500 - 250) * 2.5 + 700 = 1325;
+    // e.g. (new) reduction = (500 - 400) * 2.5 + 700 = 950;
+    const reduction = totalCliffs.sub(cliff).mul(5).div(2).add(700);
+    // e.g. (new) amount = 1e19 * 1700 / 500 =  34e18;
+    // e.g. (new) amount = 1e19 * 1325 / 500 =  26.5e18;
+    // e.g. (new) amount = 1e19 * 950 / 500  =  19e17;
+    // let amount = simpleToExact(balEarned).mul(reduction).div(totalCliffs);
+    let amount = ethers.utils
+      .parseUnits(balEarned)
+      .mul(reduction)
+      .div(totalCliffs);
+
+    // e.g. amtTillMax = 5e25 - 1e25 = 4e25
+    const amtTillMax = maxSupply.sub(emissionsMinted);
+    if (amount.gt(amtTillMax)) {
+      amount = amtTillMax;
+    }
+
+    return amount;
+  }
+
+  return ethers.BigNumber.from(0);
+}
 function calcTVL() {
   const temp = [...state.poolsList];
   for (let i = 0; i < temp.length; i++) {
@@ -688,50 +744,28 @@ function calcTVL() {
         );
 
         const rewardPerYearUsd = rewardPerYear.times(Big(prices["BAL"]));
+        const BAL_APR = rewardPerYearUsd.div(TVL).times(100).toFixed(2);
+        temp[i].BAL_APR = BAL_APR;
 
-        temp[i].BAL_APR = rewardPerYearUsd.div(TVL).times(100).toFixed(2);
+        const auraPerYear = getAuraMintAmount(
+          rewardPerYear.toString(),
+          auraGlobalData
+        );
+        const auraPerYearUsd =
+          ethers.utils.formatUnits(auraPerYear) * prices["AURA"];
+        const AURA_APR = Big(auraPerYearUsd)
+          .div(Big(TVL))
+          .times(100)
+          .toFixed(2);
+        temp[i].AURA_APR = AURA_APR;
+
+        temp[i].APR =
+          Number(temp[i].swapFee) + Number(BAL_APR) + Number(AURA_APR);
       } catch (error) {
         console.log("calcTVL_error", error);
       }
     }
   }
-}
-
-function getAuraMintAmount(balEarned, global) {
-  const reductionPerCliff = BigNumber.from(global.auraReductionPerCliff);
-  const maxSupply = BigNumber.from(global.auraMaxSupply);
-  const totalSupply = BigNumber.from(global.auraTotalSupply);
-  const totalCliffs = BigNumber.from(global.auraTotalCliffs);
-  const minterMinted = BigNumber.from(0);
-
-  // e.g. emissionsMinted = 6e25 - 5e25 - 0 = 1e25;
-  const emissionsMinted = totalSupply.sub(maxSupply).sub(minterMinted);
-
-  // e.g. reductionPerCliff = 5e25 / 500 = 1e23
-  // e.g. cliff = 1e25 / 1e23 = 100
-  const cliff = emissionsMinted.div(reductionPerCliff);
-
-  // e.g. 100 < 500
-  if (cliff.lt(totalCliffs)) {
-    // e.g. (new) reduction = (500 - 100) * 2.5 + 700 = 1700;
-    // e.g. (new) reduction = (500 - 250) * 2.5 + 700 = 1325;
-    // e.g. (new) reduction = (500 - 400) * 2.5 + 700 = 950;
-    const reduction = totalCliffs.sub(cliff).mul(5).div(2).add(700);
-    // e.g. (new) amount = 1e19 * 1700 / 500 =  34e18;
-    // e.g. (new) amount = 1e19 * 1325 / 500 =  26.5e18;
-    // e.g. (new) amount = 1e19 * 950 / 500  =  19e17;
-    let amount = simpleToExact(balEarned).mul(reduction).div(totalCliffs);
-
-    // e.g. amtTillMax = 5e25 - 1e25 = 4e25
-    const amtTillMax = maxSupply.sub(emissionsMinted);
-    if (amount.gt(amtTillMax)) {
-      amount = amtTillMax;
-    }
-
-    return amount;
-  }
-
-  return BigNumber.from(0);
 }
 
 useEffect(() => {
@@ -760,12 +794,12 @@ useEffect(() => {
       const temp = state.poolsList.filter((item) =>
         Big(item.stakedAmount || 0).gt(0)
       );
-
+      const _myPools = temp.map((item) => ({ ...item, isClaiming: false }));
       calcTVL();
       State.update({
         totalDepositAmount,
         totalRewardsAmount,
-        myPoolsList: temp,
+        myPoolsList: _myPools,
       });
     } catch (error) {
       console.log(333, error);
@@ -802,9 +836,11 @@ const renderPoolIcon = (tokenAssets) => {
   }
 };
 
-const handleClaim = (address) => {
+const handleClaim = (address, index) => {
+  const temp = [...state.myPoolsList];
+  temp[index].isClaiming = true;
   State.update({
-    isClaiming: true,
+    myPoolsList: temp,
   });
   const ClaimRewardsContract = new ethers.Contract(
     address,
@@ -857,15 +893,19 @@ const handleClaim = (address) => {
           }
         })
         .finally(() => {
+          const temp = [...state.myPoolsList];
+          temp[index].isClaiming = false;
           State.update({
-            isClaiming: false,
+            myPoolsList: temp,
           });
         });
     })
     .catch((err) => {
       console.log("getPoolTokens_error:", err);
+      const temp = [...state.myPoolsList];
+      temp[index].isClaiming = false;
       State.update({
-        isClaiming: false,
+        myPoolsList: temp,
       });
     });
 };
@@ -893,6 +933,7 @@ const handleClaimAll = () => {
       });
     });
 };
+
 console.info("STATE: ", state);
 return (
   <Wrapper>
@@ -998,20 +1039,31 @@ return (
                   </GridItem>
                   <GridItem>
                     <div className="title-secondary">
-                      {Big(item.APR || 0)
-                        .mul(100)
-                        .toFixed(2)}
-                      %
+                      {Big(item.APR || 0).toFixed(2)}%
                     </div>
                     <div className="title-sub">
                       proj.{Big(item.pjAPR).mul(100).toFixed(2)} %
                     </div>
                   </GridItem>
                   <GridItem>
-                    <div className="title-secondary">${item.stakedAmount}</div>
+                    <div className="title-secondary">
+                      <Widget
+                        src="dapdapbos.near/widget/Utils.FormatRawValue"
+                        props={{
+                          value: item.stakedAmount,
+                        }}
+                      />
+                    </div>
                   </GridItem>
                   <GridItem>
-                    <div className="title-secondary">${item.reward}</div>
+                    <div className="title-secondary">
+                      <Widget
+                        src="dapdapbos.near/widget/Utils.FormatRawValue"
+                        props={{
+                          value: item.reward,
+                        }}
+                      />
+                    </div>
                     <div className="title-sub"></div>
                   </GridItem>
                   <GridItem className="action-item">
@@ -1025,18 +1077,20 @@ return (
                           onClick: () => {},
                         }}
                       /> */}
-                    <Widget
-                      src="dapdapbos.near/widget/UI.Button"
-                      props={{
-                        text: "Claim",
-                        type: "primary",
-                        style: { width: 118 },
-                        loading: state.isClaiming,
-                        onClick: () => {
-                          handleClaim(item.Rewards_contract_address);
-                        },
-                      }}
-                    />
+                    {Big(item.reward).gt(0) ? (
+                      <Widget
+                        src="dapdapbos.near/widget/UI.Button"
+                        props={{
+                          text: "Claim",
+                          type: "primary",
+                          style: { width: 118 },
+                          loading: item.isClaiming,
+                          onClick: () => {
+                            handleClaim(item.Rewards_contract_address, index);
+                          },
+                        }}
+                      />
+                    ) : null}
                   </GridItem>
                 </GridContainer>
               </PoolItem>
