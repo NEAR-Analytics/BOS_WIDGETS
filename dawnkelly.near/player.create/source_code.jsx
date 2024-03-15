@@ -4,8 +4,18 @@ const [player, setPlayer] = useState(() => {
   const initialData = Social.getr(`${accountId}/game/player`) ?? {
     metadata: {
       name: "",
+      description: "",
       species: "",
       class: "",
+      skill: "",
+      ability: "",
+      wekaness: "",
+      defaultWeapon: "",
+      attack: "",
+      defense: "",
+      strength: "",
+      courage: "",
+      magic: "",
       image: {},
     },
   };
@@ -143,6 +153,7 @@ return (
   <div>
     <div className="m-2">
       <h4>Create Your Character</h4>
+      <p>You will have a chance to preview your creation before saving</p>
       <div className="mb-3 p-1">
         <label for="name">Name:</label>
         <input
@@ -339,6 +350,18 @@ return (
         </div>
       </div>
       <div className="m-3">
+        <h5 className="mb-2">Preview</h5>
+        <p>If you are happy with your creation, be sure to click 'Save'</p>
+        <Widget
+          src="dawnkelly.near/widget/player.inline"
+          props={{
+            accountId,
+            player,
+          }}
+        />
+      </div>
+      <hr />
+      <div className="m-3">
         <button
           className="btn btn-outline-success"
           disabled={!context.accountId || !isValidPoints}
@@ -346,17 +369,6 @@ return (
         >
           Save
         </button>
-      </div>
-      <hr />
-      <div className="m-3">
-        <h5 className="mb-2">Preview</h5>
-        <Widget
-          src="james.near/widget/player.inline"
-          props={{
-            accountId,
-            player,
-          }}
-        />
       </div>
     </div>
   </div>
