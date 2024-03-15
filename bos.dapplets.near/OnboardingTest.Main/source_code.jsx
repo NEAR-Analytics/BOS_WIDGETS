@@ -2,7 +2,7 @@ const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
 const data = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
-const lastShowTime = Storage.privateGet('lastShowTime')
+const lastShowTime = Storage.privateGet(props.link.id + '/lastShowTime')
 
 console.log('data', data)
 console.log('props?.link?.id', props?.link?.id)
@@ -61,12 +61,9 @@ const Onboarding = styled.div`
 `;
 
 const handleClose = (doNotShowAgain) => {
-  if (doNotShowAgain) {
-    // Storage.privateSet('lastShowTime', 30000000000000)
-    Storage.privateSet('lastShowTime', Date.now() + 1000 * 60) // TESTING
-  } else {
-    Storage.privateSet('lastShowTime', Date.now())
-  }
+  // const time = doNotShowAgain ? 30000000000000 : Date.now()
+  const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
+  Storage.privateSet(props.link.id + '/lastShowTime', time)
   setShow(false)
 }
 
