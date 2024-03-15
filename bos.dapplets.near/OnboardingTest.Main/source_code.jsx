@@ -1,20 +1,8 @@
 const lastShowTime = Storage.privateGet('lastShowTime')
-const [data, setData] = useState(null)
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
-let responce = null
-
-if (props.link?.id && context?.accountId) {
-  const key = context.accountId + '/settings/onboarding-test/' + props.link?.id;
-  responce = Near.view('social.dapplets.near', 'get', { keys: [key] });
-}
-
-useEffect(() => {
-  if (props.link?.id && context?.accountId && responce) {
-    setData(responce[context?.accountId].settings.onboarding-test[props.link?.id])
-  }
-}, [props, context, responce])
+const data = props?.link && Near.view('app.webguide.near', 'get_guide', { guide_id: props.link.id })
 
 console.log('data', data)
 console.log('props', props)
@@ -80,27 +68,20 @@ const handleClose = (doNotShowAgain) => {
   setShow(false)
 }
 
-const saveData = (data) => {
+const saveData = (inputData) => {
   if (context?.accountId && props?.link?.id) {
     Near.call(
-      'social.dapplets.near',
-      'set',
+      'app.webguide.near',
+      'set_guide',
       {
-        data: {
-          [context.accountId]: {
-            settings: {
-              'onboarding-test': {
-                [props.link.id]: data
-              }
-            }
-          }
-        }
+        guide_id: props.link.id,
+        data: inputData,
       }
     )
   }
 }
 
-return (
+return data === null ? null : (
   <OverlayTriggerWrapper>
     {show ? (
       <DappletOverlay>
