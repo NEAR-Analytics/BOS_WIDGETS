@@ -7,7 +7,17 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [id] - The account identifier passed as a string.
+ * @param {React.FC<{
+ *   href: string;
+ *   children: React.ReactNode;
+ *   className?: string;
+ * }>} Link - A React component for rendering links.
  */
+
+
+
+
+
 
 
 
@@ -24,7 +34,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -32,7 +42,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -85,9 +95,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -156,6 +172,40 @@ function handleRateLimit(
     }
   }
 }
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 function localFormat(number) {
   const bigNumber = Big(number);
   const formattedNumber = bigNumber
@@ -182,6 +232,40 @@ function handleRateLimit(
       Loading();
     }
   }
+}
+
+function mapFeilds(fields) {
+  const args = {};
+
+  fields.forEach((fld) => {
+    let value = fld.value;
+
+    if (fld.type === 'number') {
+      value = Number(value);
+    } else if (fld.type === 'boolean') {
+      value =
+        value.trim().length > 0 &&
+        !['false', '0'].includes(value.toLowerCase());
+    } else if (fld.type === 'json') {
+      value = JSON.parse(value);
+    } else if (fld.type === 'null') {
+      value = null;
+    }
+
+    (args )[fld.name] = value + '';
+  });
+
+  return args;
+}
+function localFormat(number) {
+  const bigNumber = Big(number);
+  const formattedNumber = bigNumber
+    .toFixed(5)
+    .replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); // Add commas before the decimal point
+  return formattedNumber.replace(/\.?0*$/, ''); // Remove trailing zeros and the dot
+}
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/SortIcon.jsx" */
@@ -366,7 +450,7 @@ const Paginator = (props) => {
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
 
-function MainComponent({ network, t, id }) {
+function MainComponent({ network, t, id, Link }) {
   const [isLoading, setIsLoading] = useState(false);
   const [showWhen, setShowWhen] = useState(true);
   const [sorting, setSorting] = useState('desc');
@@ -557,6 +641,7 @@ function MainComponent({ network, t, id }) {
                     t: t,
                     accessKey: key,
                     showWhen: showWhen,
+                    Link,
                   }}
                 />
               ))}
