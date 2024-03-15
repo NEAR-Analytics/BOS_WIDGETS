@@ -157,8 +157,8 @@ useEffect(() => {
   );
 
   const path = [
-    inputCurrency.isNative ? wethAddress : inputCurrency.address,
-    outputCurrency.isNative ? wethAddress : outputCurrency.address,
+    inputCurrency.address === "native" ? wethAddress : inputCurrency.address,
+    outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
   ];
 
   const Iface = new ethers.utils.Interface(QUOTER_ABI);
