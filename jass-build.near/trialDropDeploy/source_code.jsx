@@ -16,13 +16,19 @@ const parseNearAmount = (nearAmount) => {
   return nearAmount ? new Big(nearAmount).times(nearToYocto).toFixed() : "0";
 };
 
-State.init({
-  callableContract: "",
-  maxAttachableYoctoPerContract: "1",
-  callableMethods: "*",
-  startingBalance: "",
-  trialEndFloor: "",
-});
+// State.init({
+//   callableContract: "",
+//   maxAttachableYoctoPerContract: "1",
+//   callableMethods: "*",
+//   startingBalance: "",
+//   trialEndFloor: "",
+// });
+
+const [callableContract, setCallableContract] = useState("");
+//const [maxAttachableYoctoPerContract, setMaxAttachableYoctoPerContract] = useState("1");
+//const [callableMethods, setCallableMethods] = useState("*");
+const [startingBalance, setStartingBalance] = useState("");
+const [trialEndFloor, setTrialEndFloor] = useState("");
 
 const PARAM_START = "|kP|";
 const PARAM_STOP = "|kS|";
@@ -82,12 +88,11 @@ const DROP_CONFIG = {
 };
 
 const deployTrialAccount = () => {
-  const startingBalanceYocto = parseNearAmount(state.startingBalance);
-  const trialEndFloorYocto = parseNearAmount(state.trialEndFloor);
+  const startingBalanceYocto = parseNearAmount(startingBalance);
+  const trialEndFloorYocto = parseNearAmount(trialEndFloor);
 
-  const callableContract = state.callableContract;
-  const maxAttachableYoctoPerContract = state.maxAttachableYoctoPerContract;
-  const callableMethods = state.callableMethods;
+  const maxAttachableYoctoPerContract = "1";
+  const callableMethods = "*";
 
   //Before you pass callableContract and other two varss to create_drop
   //You need to add the mapping contract there too.
@@ -130,7 +135,7 @@ const deployTrialAccount = () => {
           args: JSON.stringify({
             new_account_id: "INSERT_NEW_ACCOUNT",
             options: {
-              contract_bytes: wasm.contractBytes,
+              contract_bytes: wasm.contract_bytes,
               limited_access_keys: [
                 {
                   public_key: "INSERT_TRIAL_PUBLIC_KEY",
@@ -195,19 +200,15 @@ return (
           <div>
             <input
               placeholder="Starting Balance (NEAR)"
-              onChange={(e) =>
-                State.update({ startingBalance: e.target.value })
-              }
+              onChange={(e) => setStartingBalance(e.target.value)}
             />
             <input
               placeholder="Trial End Floor (NEAR)"
-              onChange={(e) => State.update({ trialEndFloor: e.target.value })}
+              onChange={(e) => setTrialEndFloor(e.target.value)}
             />
             <input
               placeholder="Callable Contract"
-              onChange={(e) =>
-                State.update({ callableContract: e.target.value })
-              }
+              onChange={(e) => setCallableContract(e.target.value)}
             />
           </div>
         </div>
