@@ -98,6 +98,9 @@ return (
   <div>
     <div className="m-2">
       <h4>Create A Monster</h4>
+      <p>
+        You will have a chance to preview your data before saving your creation
+      </p>
       <div className="mb-3 p-1">
         <label for="name">Name:</label>
         <input
@@ -247,26 +250,27 @@ return (
         onChange={handleHitPointsChange}
       />
     </div>
+    <div className="m-3">
+      <h5 className="mb-2">Preview</h5>
+      <p>If you are happy with your creation, be sure to click 'Save'</p>
+      <Widget
+        src="dawnkelly.near/widget/monster.inline"
+        props={{
+          accountId,
+          monster,
+        }}
+      />
+    </div>
+    <hr />
     <div className="m-2">
       <div className="m-3">
         <button
           className="btn btn-outline-success"
-          disabled={!context.accountId || !isValidPoints}
+          disabled={!context.accountId}
           onClick={handleSave}
         >
           Save
         </button>
-      </div>
-      <hr />
-      <div className="m-3">
-        <h5 className="mb-2">Preview</h5>
-        <Widget
-          src="dawnkelly.near/widget/monster.inline"
-          props={{
-            accountId,
-            monster,
-          }}
-        />
       </div>
     </div>
   </div>
