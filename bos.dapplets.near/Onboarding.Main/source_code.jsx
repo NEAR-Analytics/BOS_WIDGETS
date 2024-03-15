@@ -12,8 +12,8 @@ console.log('props', props)
 console.log('lastShowTimes',lastShowTimes)
 
 useEffect(() => {
-  if (!start && lastShowTimes?.[0] === null) return
-  setStart(true)
+  if (!start && lastShowTimes?.[0] === null) return;
+  setStart(true);
   const lastShowByIds = {}
   for (let i = 0; i < lastShowTimes.length; ++i) {
     const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
