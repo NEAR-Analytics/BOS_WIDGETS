@@ -3,21 +3,18 @@ const [data, setData] = useState(null)
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
+let responce = null
+
+if (props.link?.id && context?.accountId) {
+  const key = context.accountId + '/settings/onboarding-test/' + props.link?.id;
+  responce = Near.view('social.dapplets.near', 'get', { keys: [key] });
+}
+
 useEffect(() => {
-  setData(props.data
-    || props.link?.id
-    && context?.accountId
-    && Near.view(
-      'social.dapplets.near',
-      'get',
-      {
-        keys: [
-          `${context?.accountId}/settings/onboarding-test/${props.link?.id}`
-        ]
-      }
-    )?.[context?.accountId].settings.onboarding-test[props.link?.id]
-  )
-}, [props, context])
+  if (props.link?.id && context?.accountId && responce) {
+    setData(responce[context?.accountId].settings.onboarding-test[props.link?.id])
+  }
+}, [props, context, responce])
 
 console.log('data', data)
 console.log('props', props)
@@ -83,21 +80,25 @@ const handleClose = (doNotShowAgain) => {
   setShow(false)
 }
 
-const saveData = (data) => context?.accountId && props?.link?.id && Near.call(
-  'social.dapplets.near',
-  'set',
-  {
-    data: {
-      [context.accountId]: {
-        settings: {
-          'onboarding-test': {
-            [props.link.id]: data
+const saveData = (data) => {
+  if (context?.accountId && props?.link?.id) {
+    Near.call(
+      'social.dapplets.near',
+      'set',
+      {
+        data: {
+          [context.accountId]: {
+            settings: {
+              'onboarding-test': {
+                [props.link.id]: data
+              }
+            }
           }
         }
       }
-    }
+    )
   }
-)
+}
 
 return (
   <OverlayTriggerWrapper>
