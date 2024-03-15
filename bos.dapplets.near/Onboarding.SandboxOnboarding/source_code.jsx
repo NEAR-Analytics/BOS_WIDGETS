@@ -1,12 +1,17 @@
+const { handleClose, saveData, setShow, link } = props
+
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
-const { handleClose } = props
+const [activeChapterNumber, setActiveChapterNumber] = useState(props.data && 0)
+const [newData, setNewData] = useState('')
+const [isEditMode, setEditMode] = useState(false)
 
 const Container = styled.div`
-  display: flex;
   position: relative;
+  display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 760px;
+  width: 630px;
+  height: 690px;
   background: #FFFFFE;
   border: 1px solid #02193A;
   border-radius: 20px;
@@ -20,10 +25,11 @@ const Container = styled.div`
 `
 
 const Header = styled.div`
-  display: flex;
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   color: #02193A;
@@ -38,11 +44,107 @@ const Header = styled.div`
   }
 `
 
-const CloseButton = styled.button`
+const TopLine = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+`
+
+const PagesIndicators = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+`
+
+const PageIndicatorBtn = styled.button`
+  position: relative;
+  display: flex;
+  border: none;
+  border-radius: 9em;
+  margin: 0;
+  padding: 2px;
+  background: none;
+  cursor: pointer;
+  transition-duration: .15s;
+
+  &:not(:disabled, .active):hover {
+    background: rgba(29,155,240,0.10);
+
+    div {
+      background: rgba(0, 0, 0, .2);
+    }
+  }
+
+  &:not(:disabled, .active):active {
+    background: rgba(29,155,240,0.20);
+
+    div {
+      background: rgba(0, 0, 0, .3);
+    }
+  }
+`
+
+const PageIndicator = styled.div`
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 9em;
+  background: rgba(0, 0, 0, .1);
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition-duration: .15s;
+
+  &.active {
+    background: rgba(56, 75, 255, 1);
+    cursor: default;
+  }
+`
+
+const EditButton = styled.button`
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 24px;
+  background: none;
+  cursor: pointer;
+  height: 24px;
+  color: #222;
+  transition-duration: .15s;
+  
+  :hover {
+    color: #111;
+    background: #eee;
+  }
+  
+  :active {
+    color: #000;
+    background: #ddd;
+  }
+`
+
+const CloseButton = styled.button`
+  position: absolute;
   right: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   background: none;
   cursor: pointer;
@@ -63,7 +165,7 @@ const CloseButton = styled.button`
   }
 `
 
-const CloseIcon = () => (
+const closeIcon =  (
   <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M18 6L6 18"  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     <path d="M6 6.5L18 18.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -77,7 +179,6 @@ const WarningMessage = styled.div`
   padding: 4px 10px;
   gap: 6px;
   align-items: center;
-  width: 100%;
   background: rgba(56, 75, 255, 0.05);
   border-radius: 5px;
   flex: none;
@@ -111,76 +212,93 @@ const AlertIcon = () => (
   </svg>
 )
 
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
+const CardContainer = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
   width: 100%;
-  
-  p {
-    padding: 0;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 21px;
-    color: #7A818B;
+  gap: 10px;
+  flex: 1;
+  overflow: hidden;
+`
+
+const ArrowButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  background: #F5F6FE;
+  border: none;
+  border-radius: 40px;
+  cursor: default;
+  transform: ${(p) => (p.direction === 'left' ? 'rotate(0.5turn)' : '')};
+  transition-duration: .15s;
+
+  svg {
+    path {
+      stroke: rgba(153, 152, 154, 1);
+    }
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    svg {
+      path {
+        stroke: rgba(56, 75, 255, 1);
+      }
+    }
+  }
+
+  &:not(:disabled):hover {
+    background: rgba(56, 75, 255, 1);
+
+    svg {
+      path {
+        stroke: white;
+      }
+    }
+  }
+
+  &:not(:disabled):active {
+    background: rgba(26, 45, 225, 1);
+
+    svg {
+      path {
+        stroke: white;
+      }
+    }
   }
 `
 
-const CardsContainer = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  background: white;
-  border-radius: 20px;
-  align-items: flex-start;
-  padding: 0 0 10px;
-  gap: 20px;
-  width: 100%;
-  flex: none;
-  flex-grow: 0;
-`
-
-// const CardsHeader = styled.div`
-//   display: flex;
-//   position: relative;
-//   width: 100%;
-//   justify-content: space-between;
-//   align-items: center;
-//   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-//   color: #02193A;
-
-//   h2 {
-//     padding: 0;
-//     margin: 0;
-//     font-size: 24px;
-//     font-weight: 600;
-//     line-height: 36px;
-//   }
-// `
-
-const Cards = styled.div`
-  display: flex;
-  position: relative;
-  width: 100%;
-  gap: 20px;
-`
+const arrowRight = (
+  <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12.5H19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12 5.5L19 12.5L12 19.5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+)
 
 const Card = styled.div`
-  box-sizing: border-box;
   position: relative;
+  overflow: auto;
   display: flex;
+  flex 1;
+  height: 100%;
   flex-direction: column;
-  align-items: flex-start;
+  box-sizing: border-box;
   padding: 10px;
   gap: 10px;
-  border: 1px solid #02193A;
+  border: none;
   border-radius: 20px;
-  flex 1;
+  background: rgba(248, 249, 255, 1);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
 
   h3 {
     padding: 8px 0 0;
@@ -197,22 +315,19 @@ const Card = styled.div`
     text-indent: 16px;
   }
 
-  div {
+  img {
+    position: relative;
+    display: flex;
     box-sizing: border-box;
-    height: 260px;
+    width: 100%;
+    height: auto !important;
     border-radius: 10px;
     flex: none;
-    align-self: stretch;
+    /* align-self: stretch; */
     flex-grow: 0;
     border: 1px solid rgb(207, 217, 222);
-
-    &.first {
-      background: -460px top  no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-001.png");
-    }
-
-    &.second {
-      background: -260px top no-repeat url("https://raw.githubusercontent.com/dapplets/bos-components/main/assets/onboarding-003.png");
-    }
+    /* object-fit: none; */
+    /* object-position: top; */
   }
 
   p {
@@ -228,19 +343,6 @@ const Card = styled.div`
     align-self: stretch;
     flex-grow: 0;
   }
-`
-
-const Footer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px;
-  gap: 20px;
-  width: 100%;
-  flex: none;
-  align-self: stretch;
-  flex-grow: 0;
 
   a {
     padding: 0;
@@ -257,16 +359,15 @@ const Footer = styled.div`
   }
 `
 
-const Form = styled.div`
+const Footer = styled.div`
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding: 0;
+  padding: 0px;
   margin: 0;
-  flex: none;
-  align-self: stretch;
-  flex-grow: 0;
+  gap: 20px;
+  width: 100%;
 `
 
 const Checkbox = styled.div`
@@ -330,52 +431,135 @@ const SuccessButton = styled.button`
     background-color: rgb(32 45 63);
   }
 `
+const data = props.data && JSON.parse(props.data)
 
-return (
+
+return (!data || isEditMode) ? (
+//   <Container>
+//     <Header>
+//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
+//     </Header>
+//     <CardContainer>
+//       <ArrowButton
+//         direction='left'
+//         disabled={true}
+//       >
+//         {arrowRight}
+//       </ArrowButton>
+//       <Card>
+//         <div style={{
+//           width: '100%',
+//           height: '100%',
+//           display: 'flex',
+//           justifyContent: 'center',
+//           alignItems: 'center'
+//         }}>
+//           <img
+//             src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"
+//             style={{ border: 'none !important' }}
+//           />
+//         </div>
+//       </Card>
+//       <ArrowButton
+//         direction='right'
+//         disabled={true}
+//       >
+//         {arrowRight}
+//       </ArrowButton>
+//     </CardContainer>
+//     <Footer>
+//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
+//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
+//     </Footer>
+//   </Container>
+// ) (!data || !data.length || activeChapterNumber === null) ? (
+<Container>
+  <Header>
+    <h1>Add data</h1>
+    <CloseButton onClick={() => handleClose(false)}>
+      {closeIcon}
+    </CloseButton>
+  </Header>
+  <textarea
+    autofocus
+    style={{ width: '100%', height: '100%' }}
+    onChange={(e) => setNewData(e.target.value)}
+    value={newData}
+  />
+  <div style={{ display: 'flex', width: '80%', justifyContent: 'space-evenly' }}>
+    {isEditMode ? (
+      <SuccessButton onClick={() => setEditMode(false)}>
+        Cancel
+      </SuccessButton>
+    ) : null}
+    <SuccessButton onClick={() => {
+      saveData(newData)
+      setNewData('')
+      setShow(false)
+    }}>
+      Save
+    </SuccessButton>
+  </div>
+</Container>
+) : (
   <Container>
     <Header>
-      <h1>You{'\u2019'}re entering Mutable Web</h1>
-      <CloseButton onClick={() => handleClose(false)}>
-        <CloseIcon/>
-      </CloseButton>
+      <TopLine>
+        {context.accountId === link.authorId ? (
+          <EditButton onClick={() => setEditMode(true)}>
+            Edit data
+          </EditButton>
+        ) : null}
+        <PagesIndicators>
+          {data?.map((chapter, i) => (
+            <PageIndicatorBtn
+              key={chapter.id}
+              disabled={i === activeChapterNumber}
+              onClick={() => setActiveChapterNumber(i)}
+            >
+              <PageIndicator
+                className={i === activeChapterNumber ? 'active' : '' }
+              />
+            </PageIndicatorBtn>
+          ))}
+        </PagesIndicators>
+        <CloseButton onClick={() => handleClose(false)}>
+          {closeIcon}
+        </CloseButton>
+      </TopLine>
+      <h1>{data[activeChapterNumber].title}</h1>
     </Header>
-    {context.accountId === null ? (<WarningMessage>
-      <AlertIcon/>
-      <p>You must be Logged In to start using this</p>
-    </WarningMessage>) : null}
-    <Description>
-      <p>Mutable Web is a new web3 paradigm that allows anyone to add custom functionality to existing websites and share them within your community— no matter who owns the website.</p>
-      <p>Become the co-owner of any website you are using!</p>
-    </Description>
-    <CardsContainer>
-      <Cards>
-        <Card>
-          <h3>Mutation switch</h3>
-          <div className='first' title='Mutation changer picture'/>
-          <p>Here, you can switch between website mutations created by different communities.</p>
-        </Card>
-        <Card>
-          <h3>Widgets control element</h3>
-          <div className='second' title='Multifunctional control picture'/>
-          <p>EXAMPLE: every post becomes a tray where you can add new application widgets. They become visible to anyone inside your community. This is how the Mutable Web works.</p>
-        </Card>
-      </Cards>
-    </CardsContainer>
-    <Footer>
-      <a
-        href='https://social.dapplets.org/mob.near/widget/ProfilePage?accountId=dappletsproject.near'
+    <CardContainer>
+      <ArrowButton
+        direction='left'
+        disabled={activeChapterNumber - 1 < 0}
+        onClick={() => setActiveChapterNumber(activeChapterNumber - 1 < 0 ? activeChapterNumber : activeChapterNumber - 1)}
       >
-        See more examples on our playground
-      </a>
-      <Form>
-        <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
-        <Checkbox>
-          <label>
-            <input type="checkbox" checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />
-            Don't show it again
-          </label>
-        </Checkbox>
-      </Form>
+        {arrowRight}
+      </ArrowButton>
+      <Card>
+        {context.accountId === null ? (<WarningMessage>
+          <AlertIcon/>
+          <p>You must be Logged In to start using this</p>
+        </WarningMessage>) : null}
+        <Markdown text={data[activeChapterNumber].content} />
+      </Card>
+      <ArrowButton
+        direction='right'
+        disabled={activeChapterNumber + 1 > data.length - 1}
+        onClick={() => setActiveChapterNumber(activeChapterNumber + 1 > data.length - 1 ? activeChapterNumber : activeChapterNumber + 1)}
+      >
+        {arrowRight}
+      </ArrowButton>
+    </CardContainer>
+    <Footer>
+      <Checkbox>
+        <label>
+          <input type="checkbox" checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />
+          Don't show it again
+        </label>
+      </Checkbox>
+      <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
     </Footer>
   </Container>
 )
