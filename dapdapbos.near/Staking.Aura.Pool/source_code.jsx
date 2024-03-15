@@ -180,12 +180,7 @@ return (
             </div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">
-              {Big(APR || 0)
-                .mul(100)
-                .toFixed(2)}
-              %
-            </div>
+            <div className="title-secondary">{Big(APR || 0).toFixed(2)}%</div>
             <div className="title-sub">
               proj.{Big(pjAPR).mul(100).toFixed(2)} %
             </div>
@@ -203,17 +198,29 @@ return (
           </GridItem>
           <GridItem>
             <div className="title-secondary">
-              {!isNaN(Number(stakedAmount)) && Number(stakedAmount) > 0
+              {/* {!isNaN(Number(stakedAmount)) && Number(stakedAmount) > 0
                 ? `$${stakedAmount}`
-                : "-"}
+                : "-"} */}
+              <Widget
+                src="dapdapbos.near/widget/Utils.FormatRawValue"
+                props={{
+                  value: stakedAmount,
+                }}
+              />
             </div>
             <div className="title-sub"></div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
-              {!isNaN(Number(reward)) && Number(reward) > 0
+              {/* {!isNaN(Number(reward)) && Number(reward) > 0
                 ? `$${reward}`
-                : "-"}
+                : "-"} */}
+              <Widget
+                src="dapdapbos.near/widget/Utils.FormatRawValue"
+                props={{
+                  value: reward,
+                }}
+              />
             </div>
             <div className="title-sub"></div>
           </GridItem>
