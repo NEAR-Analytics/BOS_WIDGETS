@@ -109,11 +109,13 @@ const {
   Rewards_depositor_contract_address,
   LP_token_address,
 } = data;
+
 State.init({
   isClaimRewards: false,
   inputValue: "",
   canUnstake: false,
   unstaking: false,
+  stakedAmountShow: stakedAmount,
 });
 
 const handleSwitch = (isChecked) => {
@@ -191,6 +193,11 @@ const handleUnStake = () => {
           const { status, transactionHash } = res;
           console.info("tx_res: ", res);
           if (status === 1) {
+            State.update({
+              stakedAmountShow: Big(stakedAmount)
+                .minus(Big(state.inputValue))
+                .toFixed(2),
+            });
             toast.success?.({
               title: "Transaction Successful!",
               text: `transactionHash ${transactionHash}`,
@@ -231,12 +238,12 @@ const handleUnStake = () => {
           MetaMask Tx Signature: User denied transaction signature. `,
         });
       }
-    })
-    .finally(() => {
-      State.update({
-        unstaking: false,
-      });
     });
+  // .finally(() => {
+  //   State.update({
+  //     unstaking: false,
+  //   });
+  // });
 };
 
 const renderPoolIcon = () => {
@@ -283,7 +290,7 @@ return (
       <span>
         You Staked:{" "}
         <span className="amount-white" onClick={fillBalance}>
-          {stakedAmount}
+          {state.stakedAmountShow}
         </span>{" "}
         BPT
       </span>
