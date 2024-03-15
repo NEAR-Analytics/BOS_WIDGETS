@@ -1,7 +1,7 @@
-const { handleClose, saveData, setShow, link } = props
+const { handleClose, saveData, setShow, link, data, showFrom } = props
 
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
-const [activeChapterNumber, setActiveChapterNumber] = useState(props.data && 0)
+const [activeChapterNumber, setActiveChapterNumber] = useState(data && showFrom)
 const [newData, setNewData] = useState('')
 const [isEditMode, setEditMode] = useState(false)
 
@@ -431,8 +431,6 @@ const SuccessButton = styled.button`
     background-color: rgb(32 45 63);
   }
 `
-const data = props.data && JSON.parse(props.data)
-
 
 return (!data || isEditMode) ? (
 //   <Container>
