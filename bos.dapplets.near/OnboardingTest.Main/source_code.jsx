@@ -2,7 +2,8 @@ const lastShowTime = Storage.privateGet('lastShowTime')
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 
-const data = props?.link && Near.view('app.webguide.near', 'get_guide', { guide_id: props.link.id })
+console.log('props?.link?.id', props?.link?.id)
+const data = props?.link && Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 
 console.log('data', data)
 console.log('props', props)
