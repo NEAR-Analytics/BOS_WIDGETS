@@ -186,7 +186,7 @@ const deployTrialAccount = () => {
     "create_drop",
     createDropArgs,
     100000000000000,
-    550000000000000000000000
+    950000000000000000000000
   );
 };
 
