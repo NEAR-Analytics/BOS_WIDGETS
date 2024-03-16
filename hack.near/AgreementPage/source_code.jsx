@@ -4,29 +4,47 @@ const Container = styled.div`
 `;
 
 return (
-  <Container class="c12 c20 doc-content">
-    <p class="c13 title">
-      <h1 class="c23">Member Agreement</h1>
-      <h3 class="c23">NEAR Builders Cooperative</h3>
-      <h5>
-        🚧 <a href="https://nearbuilders.org">nearbuilders.org</a> 🚧
-      </h5>
-    </p>
+  <Container>
+    <div className="row">
+      <div className="col">
+        <h2>Member Agreement</h2>
+        <h5>
+          <b>NEAR Builders Cooperative</b>
+        </h5>
+        <b>
+          🚧 <a href="https://nearbuilders.org">nearbuilders.org</a> 🚧
+        </b>
+      </div>
+      <div className="m-2 col">
+        <Widget
+          src="hack.near/widget/profile.inline"
+          props={{ accountId: context.accountId }}
+        />
+        <div class="d-flex justify-content-end m-2 me-3">
+          <a
+            className="m-2 btn btn-sm btn-light"
+            href="/near/widget/ProfileEditor"
+          >
+            Edit Profile
+          </a>
+        </div>
+      </div>
+    </div>
     <hr />
-    <p class="c3">
-      <span class="c0"></span>
+    <p>
+      <span></span>
     </p>
-    <p class="c19">
-      <span class="c0">
+    <p>
+      <span>
         <i>
           <b>Last updated:</b> October 2023
         </i>
       </span>
     </p>
-    <p class="c3">
-      <span class="c0"></span>
+    <p>
+      <span></span>
     </p>
-    <p class="c19">
+    <p>
       <span>
         This Member Agreement (“Agreement”) is made effective (“Effective Date”)
         on the date that you (referred to as “you”, “your” or “Member”) executed
@@ -35,16 +53,16 @@ return (
         “Cooperative”).
       </span>
     </p>
-    <h5 class="c5">
-      <span class="c0">
+    <h5>
+      <span>
         <b>1. PURPOSE AND STRUCTURE OF THE COOPERATIVE</b>
       </span>
     </h5>
-    <p class="c6">
-      <span class="c0">High level explanation of:</span>
+    <p>
+      <span>High level explanation of:</span>
     </p>
-    <ul class="c6">
-      <li class="c0">
+    <ul>
+      <li>
         <b>Purpose:</b> NEAR Builders Cooperative connects developer communities
         around the world to share knowledge, coordinate programs, and learn
         together. Members organize various initiatives focused on development,
@@ -65,20 +83,20 @@ return (
       </li>
       <li>Democratic governance with decentralized decision making.</li>
     </ul>
-    <h5 class="c5">
-      <span class="c0">
+    <h5>
+      <span>
         <b>2. STATEMENT OF BACKGROUND INFORMATION</b>
       </span>
     </h5>
-    <p class="c1">
-      <span class="c0">
+    <p>
+      <span>
         This document is intended to guide the relationship between the Member
         and the Cooperative in their shared purpose of improving their
         businesses through the Cooperative services.
       </span>
     </p>
-    <p class="c1">
-      <span class="c0">
+    <p>
+      <span>
         Once this Agreement is executed by both parties, you will be accepted by
         the board of directors of the Cooperative (“Council”) to become a Member
         of the Cooperative, as defined in the Articles of Organization filed
@@ -88,32 +106,32 @@ return (
         these documents; they are incorporated in this Agreement by reference.
       </span>
     </p>
-    <p class="c1">
-      <span class="c0">
+    <p>
+      <span>
         As a Member, you will be issued one membership interest subject to the
         terms and conditions, rights and obligations contained in the Articles
         of Organization, the Bylaws of the Cooperative, the Charter, and this
         Agreement.
       </span>
     </p>
-    <p class="c1">
-      <span class="c0">
+    <p>
+      <span>
         When accessing specific services via the Platform, other terms and
         conditions may apply (&ldquo;Third Party Terms&rdquo;) and you are
         solely responsible for reviewing, understanding and adhering to those
         Third Party Terms.
       </span>
     </p>
-    <h5 class="c5">
-      <span class="c0">
+    <h5>
+      <span>
         <b>3. AGREEMENTS OF THE MEMBER</b>
       </span>
     </h5>
-    <p class="c6">
-      <span class="c0">By becoming a Member, you agree to:</span>
+    <p>
+      <span>By becoming a Member, you agree to:</span>
     </p>
-    <ul class="c6">
-      <li class="c0">
+    <ul>
+      <li>
         Help the Cooperative to fulfill its purpose, and to abide by the values
         adopted by the Cooperative and its Members.
       </li>
@@ -146,8 +164,8 @@ return (
         without permission even after termination of your membership.
       </li>
     </ul>
-    <p class="c1">
-      <span class="c0">
+    <p>
+      <span>
         The Cooperative intends to operate equitably, creating opportunities for
         the members to receive equitable distributions of benefits, and to
         participate in decentralized decision-making. As part of this process,
@@ -155,8 +173,8 @@ return (
         below:
       </span>
     </p>
-    <ul class="c6">
-      <li class="c0">
+    <ul>
+      <li>
         Understand that your membership is not transferable – so you cannot
         transfer it to another person, but the Cooperative may agree to buy it
         back from you. Your membership is also redeemable, which means that you
@@ -221,25 +239,25 @@ return (
         followed.
       </li>
     </ul>
-    <h5 class="c5">
-      <span class="c0">
+    <h5>
+      <span>
         <b>4. INAPPLICABILITY OF THE AGREEMENT TO CERTAIN SITUATIONS</b>
       </span>
     </h5>
-    <p class="c1">
+    <p>
       <span>
         This Agreement does not apply in the event of a merger, consolidation,
         sale of assets, or dissolution of the Cooperative. In these cases, the
         provisions of the Bylaws will apply.
       </span>
     </p>
-    <h5 class="c5">
-      <span class="c0">
+    <h5>
+      <span>
         <b>5. MISCELLANEOUS</b>
       </span>
     </h5>
-    <ul class="c6">
-      <li class="c0">
+    <ul>
+      <li>
         <b>Indemnification.</b> The Member agrees to indemnify, defend, and hold
         harmless the Cooperative, its directors, officers, employees, and
         agents, and their respective successors and assigns, from and against
@@ -316,16 +334,16 @@ return (
       </li>
     </ul>
     <br />
-    <h3 class="c4">
-      <span class="c7">Feedback Welcome</span>
+    <h3>
+      <span>Feedback Welcome</span>
     </h3>
     <hr />
-    <p class="c1">
+    <p>
       <span>
         All comments, questions, and other communications regarding this
         Agreement should be directed to:{" "}
       </span>
-      <span class="c22">
+      <span>
         <a href="mailto:support@nearbuilders.org">support@nearbuilders.org</a>
       </span>
     </p>
