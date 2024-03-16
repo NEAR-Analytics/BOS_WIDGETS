@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 48px;
+  padding: 24px;
 `;
 
 const ModalOverlay = styled.div`
@@ -282,7 +282,7 @@ return (
         />
         <Wrapper>
           <div className={isCollapsed ? "collapse" : ""}>
-            <h1>{role}</h1>
+            <h3>{role}</h3>
             <div className="input-group mb-3">
               <input
                 type="text"
