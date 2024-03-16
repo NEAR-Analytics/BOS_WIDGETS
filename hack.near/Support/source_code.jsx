@@ -1,4 +1,4 @@
-const Container = styled("Tooltip.Trigger")`
+const SupportContainer = styled("Tooltip.Trigger")`
   a {
     font-size: 0.9em;
     font-style: normal;
@@ -69,9 +69,9 @@ return (
   <Tooltip.Provider>
     <Tooltip.Root>
       <a href="mailto:support@nearbuilders.org">
-        <Container>
+        <SupportContainer>
           <b>Support</b>
-        </Container>
+        </SupportContainer>
         <StyledTooltip align="center">
           Need any help?
           <Tooltip.Arrow className="arrow" />
