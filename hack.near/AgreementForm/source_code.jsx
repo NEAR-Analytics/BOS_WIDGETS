@@ -52,7 +52,7 @@ return (
     </Dialog.Description>
     <Footer>
       <Dialog.Close asChild>
-        <CloseButton href="/">Close</CloseButton>
+        <CloseButton href={`${ownerId}/widget/Agreement`}>Close</CloseButton>
       </Dialog.Close>
       <Widget
         src={`${ownerId}/widget/nui.button`}
