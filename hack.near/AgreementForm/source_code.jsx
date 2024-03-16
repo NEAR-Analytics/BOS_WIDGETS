@@ -34,11 +34,14 @@ return (
         props={{
           label: (
             <>
-              By checking this box you acknowledge that you understand and agree
-              with{" "}
+              By executing this Agreement, You agree to comply with those terms,
+              which also include the terms of use of the Cooperative’s platforms
+              and other policies of the Cooperative and the Council. The parties
+              understand and agree to the terms of your
               <a href={`/${ownerId}/widget/Agreement`}>
                 NEAR Builders Cooperative Membership Agreement
               </a>
+              .
             </>
           ),
           value: state.agree,
