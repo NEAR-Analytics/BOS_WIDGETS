@@ -7,6 +7,7 @@ const backstory =
 const goal =
   props.goal ||
   "Your goal is to assist the best way possible user requests. You have the capability of making decisions";
+const executionCallback = props.executionCallback || null;
 
 const ACTION_PREFIX = "Action:";
 const ACTION_INPUT_PREFIX = "Action Input:";
@@ -229,6 +230,12 @@ const run = () => {
       ];
 
       setMessages(newMessages);
+
+      executionCallback({
+        messages: newMessages,
+        scratchPad: _scratchPad,
+        activity: parsedResponse,
+      });
 
       setLoading(false);
     })
