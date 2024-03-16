@@ -231,11 +231,13 @@ const run = () => {
 
       setMessages(newMessages);
 
-      executionCallback({
-        messages: newMessages,
-        scratchPad: _scratchPad,
-        activity: parsedResponse,
-      });
+      if (executionCallback) {
+        executionCallback({
+          messages: newMessages,
+          scratchPad: _scratchPad,
+          activity: parsedResponse,
+        });
+      }
 
       setLoading(false);
     })
