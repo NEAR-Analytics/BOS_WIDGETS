@@ -87,7 +87,7 @@ const groups = policy.roles
 const communityMember = groups.map((group) => {
   return !group
     ? false
-    : group.filter((address) => address === accountId).length > 0;
+    : group.filter((address) => address === context.accountId).length > 0;
 })?.[0];
 
 return (
