@@ -18,11 +18,16 @@ State.init({
   showAlert: false,
   toastMessage: "",
   image: null,
+  ipfs_gateway: "",
 });
 
 !state.image || state.image.uploading
   ? props.setActiveStep(0)
   : props.setActiveStep(1);
+
+if (props.gateway) {
+  State.update({ ipfs_gateway: props.gateway });
+}
 
 if (props.image) {
   State.update({ image: props.image });
@@ -89,7 +94,7 @@ const handleMint = () => {
             metadata: {
               title: state.award_title,
               description: state.award_description,
-              media: `https://ipfs.near.social/ipfs/${state.image.cid}`,
+              media: `https://${state.ipfs_gateway}/ipfs/${state.image.cid}`,
               issued_at: Date.now(),
               extra: JSON.stringify({
                 type: "award",
