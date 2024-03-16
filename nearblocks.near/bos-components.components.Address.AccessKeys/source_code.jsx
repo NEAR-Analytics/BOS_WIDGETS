@@ -530,7 +530,7 @@ function MainComponent({ network, t, id, Link }) {
 
   return (
     <>
-      <div className="overflow-x-auto ">
+      <div className="bg-white soft-shadow rounded-xl overflow-x-auto ">
         <table className="min-w-full divide-y border-t">
           <thead className="bg-gray-100">
             <tr>
@@ -647,14 +647,14 @@ function MainComponent({ network, t, id, Link }) {
               ))}
           </tbody>
         </table>
+        <Paginator
+          count={count}
+          page={currentPage}
+          limit={25}
+          pageLimit={200}
+          setPage={setPage}
+        />
       </div>
-      <Paginator
-        count={count}
-        page={currentPage}
-        limit={25}
-        pageLimit={200}
-        setPage={setPage}
-      />
     </>
   );
 }
