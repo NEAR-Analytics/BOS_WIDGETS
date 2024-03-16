@@ -49,7 +49,7 @@ return (
       </Dialog.Overlay>
       <Dialog.Content asChild>
         <Content>
-          <Dialog.Title>Membership Agreement</Dialog.Title>
+          <Dialog.Title>Member Agreement</Dialog.Title>
           <Widget
             src={`${ownerId}/widget/AgreementForm`}
             props={{ accept: props.accept }}
