@@ -25,7 +25,7 @@ return (
         </div>
         <div className="m-2">
           <a
-            className="m-1 btn btn-sm btn-light"
+            className="m-2 btn btn-sm btn-light"
             href="/near/widget/ProfileEditor"
           >
             Edit Profile
