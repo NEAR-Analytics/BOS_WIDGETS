@@ -21,6 +21,7 @@ const [scratchPad, setScratchPad] = useState("");
 const [messages, setMessages] = useState([]);
 const [loading, setLoading] = useState(false);
 const [isCollapsed, setIsCollapsed] = useState(props_IsCollapsted);
+const [isLoop, setIsLoop] = useState(true);
 
 const Wrapper = styled.div`
   display: flex;
@@ -251,6 +252,12 @@ useEffect(() => {
   setMessages([]);
 }, [task]);
 
+useEffect(() => {
+  if (messages.length > 0 && isLoop) {
+    run();
+  }
+}, [messages]);
+
 return (
   <>
     <button
@@ -385,6 +392,14 @@ return (
                   className="btn btn-dark w-100 mt-2"
                 >
                   Continue
+                </button>
+              )}
+              {messages.length > 0 && isLoop && loading && (
+                <button
+                  onClick={() => setIsLoop(false)}
+                  className="btn btn-dark w-100 mt-2"
+                >
+                  Stop
                 </button>
               )}
             </div>
