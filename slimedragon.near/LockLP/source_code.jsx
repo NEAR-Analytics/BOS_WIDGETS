@@ -2,7 +2,7 @@ const REF_CONTRACT_ID = "v2.ref-finance.near";
 const CONTRACT_ID = "lock-lp.near";
 const RPC_URL = "https://rpc.mainnet.near.org";
 
-const poolId = props.poolId;
+const poolId = parseInt(props.poolId);
 
 const [isLocking, setLocking] = useState(false);
 
