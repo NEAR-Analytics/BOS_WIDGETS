@@ -1,5 +1,6 @@
 const Container = styled.div`
   background-color: #fff;
+  padding: 2em;
 `;
 
 return (
