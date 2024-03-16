@@ -10452,7 +10452,7 @@ function MainComponent(props) {
 
 
 ) => {
-              const resp = res?.body?.stats;
+              const resp = res?.body?.stats?.[0];
               if (res.status === 200) {
                 setStatsData(resp);
               } else {
@@ -10650,7 +10650,7 @@ function MainComponent(props) {
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-14" />
             </div>
-          ) : txn?.block?.block_height ? (
+          ) : txn ? (
             <div className="w-full md:w-3/4 font-semibold break-words">
               <Link
                 href={`/blocks/${txn?.included_in_block_hash}`}
@@ -10693,7 +10693,7 @@ function MainComponent(props) {
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full max-w-sm" />
             </div>
-          ) : txn?.block_timestamp ? (
+          ) : txn ? (
             <div className="w-full md:w-3/4 break-words">
               {getTimeAgoString(nanoToMilli(txn?.block_timestamp))} (
               {convertToUTC(nanoToMilli(txn?.block_timestamp), true)} +UTC)
@@ -10703,7 +10703,16 @@ function MainComponent(props) {
           )}
         </div>
       </div>
-      {(actions?.length > 0 ||
+      {((actions?.length > 0 &&
+        actions.some((item) =>
+          [
+            'CreateAccount',
+            'DeleteAccount',
+            'DeployContract',
+            'Stake',
+            'Transfer',
+          ].includes(item?.action_kind),
+        )) ||
         (logs.length > 0 &&
           logs.some((item) =>
             [
