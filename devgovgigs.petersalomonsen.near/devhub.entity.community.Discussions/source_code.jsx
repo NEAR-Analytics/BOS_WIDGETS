@@ -238,7 +238,7 @@ return (
                 We will replace this with our custom feed as soon as it can support reposts */}
             <Widget
               key="feed"
-              src="devhub.near/widget/devhub.components.feed.SubscribedFeed"
+              src="devgovgigs.petersalomonsen.near/widget/devhub.components.feed.SubscribedFeed"
               props={{
                 accounts: [
                   `discussions.${handle}.community.devhub.near`,
