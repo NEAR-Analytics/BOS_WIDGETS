@@ -5,8 +5,8 @@ const Container = styled.div`
 
 return (
   <Container>
-    <div className="row">
-      <div className="col">
+    <div className="d-flex flex-row">
+      <div className="m-2">
         <h3 className="m-1">
           <b>NEAR Builders Cooperative</b>
         </h3>
@@ -16,7 +16,7 @@ return (
           </b>
         </p>
       </div>
-      <div className="col">
+      <div className="m-2">
         <div className="m-2">
           <Widget
             src="hack.near/widget/profile.inline"
