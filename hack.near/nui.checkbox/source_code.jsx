@@ -3,6 +3,7 @@ const Box = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  margin: 0.5em;
   gap: 0.5em;
 
   button {
