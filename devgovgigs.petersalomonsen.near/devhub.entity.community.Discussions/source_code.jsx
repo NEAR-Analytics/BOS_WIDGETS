@@ -74,9 +74,10 @@ const Tag = styled.div`
 const [sort, setSort] = useState("timedesc");
 const [isTransactionFinished, setIsTransactionFinished] = useState(false);
 
+const discussionsAccountId =
+  "discussions." + handle + ".community.devhub.near";
+
 function checkIfReposted(blockHeight) {
-  const discussionsAccountId =
-    "discussions." + handle + ".community.devhub.near";
   Near.asyncView("social.near", "get", {
     keys: [`${discussionsAccountId}/index/**`],
   })
@@ -237,7 +238,7 @@ return (
                 We will replace this with our custom feed as soon as it can support reposts */}
             <Widget
               key="feed"
-              src="mob.near/widget/MainPage.N.Feed"
+              src="devhub.near/widget/devhub.components.feed.SubscribedFeed"
               props={{
                 accounts: [
                   `discussions.${handle}.community.devhub.near`,
