@@ -16,19 +16,21 @@ return (
           </b>
         </p>
       </div>
-      <div className="m-3">
-        <Widget
-          src="hack.near/widget/profile.inline"
-          props={{ accountId: context.accountId }}
-        />
-      </div>
-      <div className="m-3">
-        <a
-          className="m-1 btn btn-sm btn-light"
-          href="/near/widget/ProfileEditor"
-        >
-          Edit Profile
-        </a>
+      <div className="d-flex flex-row m-1">
+        <div className="m-2">
+          <Widget
+            src="hack.near/widget/profile.inline"
+            props={{ accountId: context.accountId }}
+          />
+        </div>
+        <div className="m-2">
+          <a
+            className="m-1 btn btn-sm btn-light"
+            href="/near/widget/ProfileEditor"
+          >
+            Edit Profile
+          </a>
+        </div>
       </div>
     </div>
     <hr />
