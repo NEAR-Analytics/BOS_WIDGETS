@@ -1855,7 +1855,7 @@ function MainComponent({ network, currentPage, setPage, Link }) {
         .finally(() => {});
     }
     function fetchLatestBlock() {
-      asyncFetch(`${config?.backendUrl}blocks/latest?limit=1`, {
+      asyncFetch(`${config?.backendUrl}blocks/latests?limit=1`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
