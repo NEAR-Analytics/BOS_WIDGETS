@@ -94,7 +94,7 @@ const handleMint = () => {
             metadata: {
               title: state.award_title,
               description: state.award_description,
-              media: `https://${state.ipfs_gateway}/ipfs/${state.image.cid}`,
+              media: `${state.ipfs_gateway}/ipfs/${state.image.cid}`,
               issued_at: Date.now(),
               extra: JSON.stringify({
                 type: "award",
