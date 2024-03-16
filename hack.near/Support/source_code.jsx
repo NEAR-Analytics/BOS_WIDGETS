@@ -14,6 +14,7 @@ const SupportContainer = styled("Tooltip.Trigger")`
     }
   }
 
+  color: #000;
   position: fixed;
   bottom: 0;
   right: 0;
