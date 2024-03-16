@@ -662,7 +662,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -670,7 +670,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -723,9 +723,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -935,7 +941,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -943,7 +949,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -996,9 +1002,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -1123,668 +1135,223 @@ function formatWithCommas(number) {
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Receipts/ReceiptStatus.jsx" */
-/* INCLUDE: "includes/near.jsx" */
-function formatLine(line, offset, format) {
-  let result = `${offset.toString(16).padStart(8, '0')}  `;
+/* INCLUDE: "includes/hexy.jsx" */
+function hexy(buffer, config) {
+  const MAX_ADDRESS_LENGTH = 8;
+  const defaults = {
+    width: 16,
+    numbering: 'hex_bytes',
+    format: 'fours',
+    littleEndian: false,
+    radix: 16,
+    caps: 'lower',
+    annotate: 'ascii',
+    prefix: '',
+    indent: 0,
+    html: false,
+    offset: 0,
+    length: -1,
+    extendedChs: false,
+    display_offset: 0,
+  };
+  const options = { ...defaults, ...config };
 
-  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
+  let bufferData;
+  if (Buffer.isBuffer(buffer)) {
+    bufferData = buffer;
+  } else if (Array.isArray(buffer)) {
+    bufferData = Buffer.from(buffer);
+  } else {
+    throw new Error('Input must be a Buffer or an array of numbers.');
+  }
 
-  hexValues.forEach((byte, index) => {
-    if (index > 0 && index % 4 === 0) {
-      result += ' ';
+  const {
+    width,
+    numbering,
+    format,
+    littleEndian,
+    radix,
+    annotate,
+    indent,
+    html,
+    offset,
+    length,
+    extendedChs,
+    display_offset,
+  } = options;
+
+  const prefixSpaces = ' '.repeat(indent);
+  const htmlOpenTag = html ? "<div class='hexy'>\n" : '';
+  const htmlCloseTag = html ? '</div>\n' : '';
+
+  const bufferSlice = bufferData.slice(
+    offset,
+    length === -1 ? undefined : offset + length,
+  );
+  let str = htmlOpenTag;
+  let addr = offset + display_offset;
+
+  const numGroups = Math.ceil(bufferSlice.length / width);
+
+  for (let group = 0; group < numGroups; group++) {
+    const startIndex = group * width;
+    const endIndex = Math.min(startIndex + width, bufferSlice.length);
+    const slice = bufferSlice.slice(startIndex, endIndex);
+
+    if (html) {
+      str += `<div class='${num2str(addr, MAX_ADDRESS_LENGTH, 16)}'>`;
     }
-    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
-  });
 
-  if (format === 'twos') {
-    result = result.replace(/(.{4})/g, '$1 ');
-  } else if (format === 'default') {
-    result += ` ${String.fromCharCode(
-      ...hexValues.map((b) => parseInt(b, 16)),
-    )}`;
+    str += `${prefixSpaces}${
+      numbering === 'hex_bytes'
+        ? num2str(addr, MAX_ADDRESS_LENGTH, 16) + ': '
+        : ''
+    }`;
+    str += hex(slice, width, format, radix, littleEndian);
+
+    if (annotate === 'ascii') {
+      str += ` ${
+        html
+          ? html_escape(getTextRepresentation(slice, extendedChs))
+          : ascii_escape(getTextRepresentation(slice, extendedChs))
+      }`;
+    }
+
+    str += html ? '</div>\n' : '\n';
+    addr += width;
   }
 
-  return result.trimEnd();
+  str += htmlCloseTag;
+
+  return str;
 }
 
-function collectNestedReceiptWithOutcomeOld(
-  idOrHash,
-  parsedMap,
+function hex(
+  buffer,
+  width,
+  format,
+  radix,
+  littleEndian,
 ) {
-  const parsedElement = parsedMap.get(idOrHash);
-  if (!parsedElement) {
-    return { id: idOrHash };
-  }
-  const { receiptIds, ...restOutcome } = parsedElement.outcome;
-  return {
-    ...parsedElement,
-    outcome: {
-      ...restOutcome,
-      nestedReceipts: receiptIds.map((id) =>
-        collectNestedReceiptWithOutcomeOld(id, parsedMap),
-      ),
-    },
-  };
-}
+  let str = '';
+  const delimiter = format === 'none' ? '' : ' ';
+  const group_len = maxnumberlen(format === 'none' ? 1 : 2, radix);
+  const padlen =
+    (width - buffer.length) *
+    (format === 'none' ? group_len : (group_len + 1) / 2);
 
-function parseReceipt(
-  receipt,
-  outcome,
-  transaction,
-) {
-  if (!receipt) {
-    return {
-      id: outcome.id,
-      predecessorId: transaction.signer_id,
-      receiverId: transaction.receiver_id,
-      actions: transaction.actions.map(mapRpcActionToAction1),
-    };
-  }
-  return {
-    id: receipt.receipt_id,
-    predecessorId: receipt.predecessor_id,
-    receiverId: receipt.receiver_id,
-    actions:
-      'Action' in receipt.receipt
-        ? receipt.receipt.Action.actions.map(mapRpcActionToAction1)
-        : [],
-  };
-}
+  const numGroups = Math.ceil(buffer.length / 2);
 
-function mapNonDelegateRpcActionToAction(
-  rpcAction,
-) {
-  if (rpcAction === 'CreateAccount') {
-    return {
-      kind: 'createAccount',
-      args: {},
-    };
-  }
-  if ('DeployContract' in rpcAction) {
-    return {
-      kind: 'deployContract',
-      args: rpcAction.DeployContract,
-    };
-  }
-  if ('FunctionCall' in rpcAction) {
-    return {
-      kind: 'functionCall',
-      args: {
-        methodName: rpcAction.FunctionCall.method_name,
-        args: rpcAction.FunctionCall.args,
-        deposit: rpcAction.FunctionCall.deposit,
-        gas: rpcAction.FunctionCall.gas,
-      },
-    };
-  }
-  if ('Transfer' in rpcAction) {
-    return {
-      kind: 'transfer',
-      args: rpcAction.Transfer,
-    };
-  }
-  if ('Stake' in rpcAction) {
-    return {
-      kind: 'stake',
-      args: {
-        publicKey: rpcAction.Stake.public_key,
-        stake: rpcAction.Stake.stake,
-      },
-    };
-  }
-  if ('AddKey' in rpcAction) {
-    return {
-      kind: 'addKey',
-      args: {
-        publicKey: rpcAction.AddKey.public_key,
-        accessKey: {
-          nonce: rpcAction.AddKey.access_key.nonce,
-          permission:
-            rpcAction.AddKey.access_key.permission === 'FullAccess'
-              ? {
-                  type: 'fullAccess',
-                }
-              : {
-                  type: 'functionCall',
-                  contractId:
-                    rpcAction.AddKey.access_key.permission.FunctionCall
-                      .receiver_id,
-                  methodNames:
-                    rpcAction.AddKey.access_key.permission.FunctionCall
-                      .method_names,
-                },
-        },
-      },
-    };
-  }
-  if ('DeleteKey' in rpcAction) {
-    return {
-      kind: 'deleteKey',
-      args: {
-        publicKey: rpcAction.DeleteKey.public_key,
-      },
-    };
-  }
-  return {
-    kind: 'deleteAccount',
-    args: {
-      beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
-    },
-  };
-}
-function mapRpcInvalidAccessKeyError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
+  for (let group = 0; group < numGroups; ++group) {
+    const startIndex = group * 2;
+    const endIndex = Math.min(startIndex + 2, buffer.length);
+    const bytes = buffer.slice(startIndex, endIndex);
 
-  if (error === 'DepositWithFunctionCall') {
-    return {
-      type: 'depositWithFunctionCall',
-    };
-  }
-  if (error === 'RequiresFullAccess') {
-    return {
-      type: 'requiresFullAccess',
-    };
-  }
-  if ('AccessKeyNotFound' in error) {
-    const { account_id, public_key } = error.AccessKeyNotFound;
-    return {
-      type: 'accessKeyNotFound',
-      accountId: account_id,
-      publicKey: public_key,
-    };
-  }
-  if ('ReceiverMismatch' in error) {
-    const { ak_receiver, tx_receiver } = error.ReceiverMismatch;
-    return {
-      type: 'receiverMismatch',
-      akReceiver: ak_receiver,
-      transactionReceiver: tx_receiver,
-    };
-  }
-  if ('MethodNameMismatch' in error) {
-    const { method_name } = error.MethodNameMismatch;
-    return {
-      type: 'methodNameMismatch',
-      methodName: method_name,
-    };
-  }
-  if ('NotEnoughAllowance' in error) {
-    const { account_id, allowance, cost, public_key } =
-      error.NotEnoughAllowance;
-    return {
-      type: 'notEnoughAllowance',
-      accountId: account_id,
-      allowance: allowance,
-      cost: cost,
-      publicKey: public_key,
-    };
+    if (bytes.length === 0) break;
+
+    if (bytes.length === 2) {
+      let val = littleEndian ? bytes.readUInt16LE(0) : bytes.readUInt16BE(0);
+      const text = val.toString(radix);
+      str += '0'.repeat(group_len - text.length) + text;
+      str += delimiter;
+    } else {
+      str += '0'.repeat(group_len);
+      str += delimiter;
+    }
   }
 
-  return UNKNOWN_ERROR;
+  if (buffer.length < width) {
+    str += ' '.repeat(padlen);
+  }
+
+  return str;
 }
 
-function mapRpcCompilationError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('CodeDoesNotExist' in error) {
-    return {
-      type: 'codeDoesNotExist',
-      accountId: error.CodeDoesNotExist.account_id,
-    };
-  }
-  if ('PrepareError' in error) {
-    return {
-      type: 'prepareError',
-    };
-  }
-  if ('WasmerCompileError' in error) {
-    return {
-      type: 'wasmerCompileError',
-      msg: error.WasmerCompileError.msg,
-    };
-  }
-  if ('UnsupportedCompiler' in error) {
-    return {
-      type: 'unsupportedCompiler',
-      msg: error.UnsupportedCompiler.msg,
-    };
-  }
-  return UNKNOWN_ERROR;
+function num2str(b, len, radix) {
+  const s = b.toString(radix);
+  return '0'.repeat(len - s.length) + s;
 }
 
-function mapRpcFunctionCallError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('CompilationError' in error) {
-    return {
-      type: 'compilationError',
-      error: mapRpcCompilationError(error.CompilationError),
-    };
+function maxnumberlen(bytes, radix) {
+  let result = 2;
+  if (bytes === 0) {
+    bytes = 1;
   }
-  if ('LinkError' in error) {
-    return {
-      type: 'linkError',
-      msg: error.LinkError.msg,
-    };
+  switch (radix) {
+    case 2:
+      result = bytes * 8;
+      break;
+    case 8:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 11;
+          break;
+        case 8:
+          result = 22;
+          break;
+      }
+      break;
+    case 10:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 10;
+          break;
+        case 8:
+          result = 20;
+          break;
+      }
+      break;
+    case 16:
+      result = 2 * bytes;
+      break;
   }
-  if ('MethodResolveError' in error) {
-    return {
-      type: 'methodResolveError',
-    };
-  }
-  if ('WasmTrap' in error) {
-    return {
-      type: 'wasmTrap',
-    };
-  }
-  if ('WasmUnknownError' in error) {
-    return {
-      type: 'wasmUnknownError',
-    };
-  }
-  if ('HostError' in error) {
-    return {
-      type: 'hostError',
-    };
-  }
-  if ('_EVMError' in error) {
-    return {
-      type: 'evmError',
-    };
-  }
-  if ('ExecutionError' in error) {
-    return {
-      type: 'executionError',
-      error: error.ExecutionError,
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-function mapRpcNewReceiptValidationError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('InvalidPredecessorId' in error) {
-    return {
-      type: 'invalidPredecessorId',
-      accountId: error.InvalidPredecessorId.account_id,
-    };
-  }
-  if ('InvalidReceiverId' in error) {
-    return {
-      type: 'invalidReceiverId',
-      accountId: error.InvalidReceiverId.account_id,
-    };
-  }
-  if ('InvalidSignerId' in error) {
-    return {
-      type: 'invalidSignerId',
-      accountId: error.InvalidSignerId.account_id,
-    };
-  }
-  if ('InvalidDataReceiverId' in error) {
-    return {
-      type: 'invalidDataReceiverId',
-      accountId: error.InvalidDataReceiverId.account_id,
-    };
-  }
-  if ('ReturnedValueLengthExceeded' in error) {
-    return {
-      type: 'returnedValueLengthExceeded',
-      length: error.ReturnedValueLengthExceeded.length,
-      limit: error.ReturnedValueLengthExceeded.limit,
-    };
-  }
-  if ('NumberInputDataDependenciesExceeded' in error) {
-    return {
-      type: 'numberInputDataDependenciesExceeded',
-      numberOfInputDataDependencies:
-        error.NumberInputDataDependenciesExceeded
-          .number_of_input_data_dependencies,
-      limit: error.NumberInputDataDependenciesExceeded.limit,
-    };
-  }
-  if ('ActionsValidation' in error) {
-    return {
-      type: 'actionsValidation',
-    };
-  }
-  return UNKNOWN_ERROR;
+  return result;
 }
 
-function mapRpcReceiptActionError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  const { kind } = error;
-  if (kind === 'DelegateActionExpired') {
-    return {
-      type: 'delegateActionExpired',
-    };
+function getTextRepresentation(buffer, extendedChs) {
+  let text = '';
+  for (const byte of buffer) {
+    if (extendedChs) {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    } else {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    }
   }
-  if (kind === 'DelegateActionInvalidSignature') {
-    return {
-      type: 'delegateActionInvalidSignature',
-    };
-  }
-  if ('DelegateActionSenderDoesNotMatchTxReceiver' in kind) {
-    return {
-      type: 'delegateActionSenderDoesNotMatchTxReceiver',
-      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
-      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
-    };
-  }
-  if ('DelegateActionAccessKeyError' in kind) {
-    return {
-      type: 'delegateActionAccessKeyError',
-      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
-    };
-  }
-  if ('DelegateActionInvalidNonce' in kind) {
-    return {
-      type: 'delegateActionInvalidNonce',
-      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
-      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
-    };
-  }
-  if ('DelegateActionNonceTooLarge' in kind) {
-    return {
-      type: 'delegateActionNonceTooLarge',
-      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
-      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
-    };
-  }
-  if ('AccountAlreadyExists' in kind) {
-    return {
-      type: 'accountAlreadyExists',
-      accountId: kind.AccountAlreadyExists.account_id,
-    };
-  }
-  if ('AccountDoesNotExist' in kind) {
-    return {
-      type: 'accountDoesNotExist',
-      accountId: kind.AccountDoesNotExist.account_id,
-    };
-  }
-  if ('CreateAccountOnlyByRegistrar' in kind) {
-    return {
-      type: 'createAccountOnlyByRegistrar',
-      accountId: kind.CreateAccountOnlyByRegistrar.account_id,
-      registrarAccountId:
-        kind.CreateAccountOnlyByRegistrar.registrar_account_id,
-      predecessorId: kind.CreateAccountOnlyByRegistrar.predecessor_id,
-    };
-  }
-  if ('CreateAccountNotAllowed' in kind) {
-    return {
-      type: 'createAccountNotAllowed',
-      accountId: kind.CreateAccountNotAllowed.account_id,
-      predecessorId: kind.CreateAccountNotAllowed.predecessor_id,
-    };
-  }
-  if ('ActorNoPermission' in kind) {
-    return {
-      type: 'actorNoPermission',
-      accountId: kind.ActorNoPermission.account_id,
-      actorId: kind.ActorNoPermission.actor_id,
-    };
-  }
-  if ('DeleteKeyDoesNotExist' in kind) {
-    return {
-      type: 'deleteKeyDoesNotExist',
-      accountId: kind.DeleteKeyDoesNotExist.account_id,
-      publicKey: kind.DeleteKeyDoesNotExist.public_key,
-    };
-  }
-  if ('AddKeyAlreadyExists' in kind) {
-    return {
-      type: 'addKeyAlreadyExists',
-      accountId: kind.AddKeyAlreadyExists.account_id,
-      publicKey: kind.AddKeyAlreadyExists.public_key,
-    };
-  }
-  if ('DeleteAccountStaking' in kind) {
-    return {
-      type: 'deleteAccountStaking',
-      accountId: kind.DeleteAccountStaking.account_id,
-    };
-  }
-  if ('LackBalanceForState' in kind) {
-    return {
-      type: 'lackBalanceForState',
-      accountId: kind.LackBalanceForState.account_id,
-      amount: kind.LackBalanceForState.amount,
-    };
-  }
-  if ('TriesToUnstake' in kind) {
-    return {
-      type: 'triesToUnstake',
-      accountId: kind.TriesToUnstake.account_id,
-    };
-  }
-  if ('TriesToStake' in kind) {
-    return {
-      type: 'triesToStake',
-      accountId: kind.TriesToStake.account_id,
-      stake: kind.TriesToStake.stake,
-      locked: kind.TriesToStake.locked,
-      balance: kind.TriesToStake.balance,
-    };
-  }
-  if ('InsufficientStake' in kind) {
-    return {
-      type: 'insufficientStake',
-      accountId: kind.InsufficientStake.account_id,
-      stake: kind.InsufficientStake.stake,
-      minimumStake: kind.InsufficientStake.minimum_stake,
-    };
-  }
-  if ('FunctionCallError' in kind) {
-    return {
-      type: 'functionCallError',
-      error: mapRpcFunctionCallError(kind.FunctionCallError),
-    };
-  }
-  if ('NewReceiptValidationError' in kind) {
-    return {
-      type: 'newReceiptValidationError',
-      error: mapRpcNewReceiptValidationError(kind.NewReceiptValidationError),
-    };
-  }
-  if ('OnlyImplicitAccountCreationAllowed' in kind) {
-    return {
-      type: 'onlyImplicitAccountCreationAllowed',
-      accountId: kind.OnlyImplicitAccountCreationAllowed.account_id,
-    };
-  }
-  if ('DeleteAccountWithLargeState' in kind) {
-    return {
-      type: 'deleteAccountWithLargeState',
-      accountId: kind.DeleteAccountWithLargeState.account_id,
-    };
-  }
-  return UNKNOWN_ERROR;
+  return text;
 }
 
-function mapRpcReceiptInvalidTxError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('InvalidAccessKeyError' in error) {
-    return {
-      type: 'invalidAccessKeyError',
-      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
-    };
-  }
-  if ('InvalidSignerId' in error) {
-    return {
-      type: 'invalidSignerId',
-      signerId: error.InvalidSignerId.signer_id,
-    };
-  }
-  if ('SignerDoesNotExist' in error) {
-    return {
-      type: 'signerDoesNotExist',
-      signerId: error.SignerDoesNotExist.signer_id,
-    };
-  }
-  if ('InvalidNonce' in error) {
-    return {
-      type: 'invalidNonce',
-      transactionNonce: error.InvalidNonce.tx_nonce,
-      akNonce: error.InvalidNonce.ak_nonce,
-    };
-  }
-  if ('NonceTooLarge' in error) {
-    return {
-      type: 'nonceTooLarge',
-      transactionNonce: error.NonceTooLarge.tx_nonce,
-      upperBound: error.NonceTooLarge.upper_bound,
-    };
-  }
-  if ('InvalidReceiverId' in error) {
-    return {
-      type: 'invalidReceiverId',
-      receiverId: error.InvalidReceiverId.receiver_id,
-    };
-  }
-  if ('InvalidSignature' in error) {
-    return {
-      type: 'invalidSignature',
-    };
-  }
-  if ('NotEnoughBalance' in error) {
-    return {
-      type: 'notEnoughBalance',
-      signerId: error.NotEnoughBalance.signer_id,
-      balance: error.NotEnoughBalance.balance,
-      cost: error.NotEnoughBalance.cost,
-    };
-  }
-  if ('LackBalanceForState' in error) {
-    return {
-      type: 'lackBalanceForState',
-      signerId: error.LackBalanceForState.signer_id,
-      amount: error.LackBalanceForState.amount,
-    };
-  }
-  if ('CostOverflow' in error) {
-    return {
-      type: 'costOverflow',
-    };
-  }
-  if ('InvalidChain' in error) {
-    return {
-      type: 'invalidChain',
-    };
-  }
-  if ('Expired' in error) {
-    return {
-      type: 'expired',
-    };
-  }
-  if ('ActionsValidation' in error) {
-    return {
-      type: 'actionsValidation',
-    };
-  }
-  if ('TransactionSizeExceeded' in error) {
-    return {
-      type: 'transactionSizeExceeded',
-      size: error.TransactionSizeExceeded.size,
-      limit: error.TransactionSizeExceeded.limit,
-    };
-  }
-  return UNKNOWN_ERROR;
+function ascii_escape(str) {
+  return str.replace(/[^\x20-\x7E]/g, '.');
 }
 
-function mapRpcReceiptError(error) {
-  let UNKNOWN_ERROR = { type: 'unknown' };
-  if ('ActionError' in error) {
-    return {
-      type: 'action',
-      error: mapRpcReceiptActionError(error.ActionError),
-    };
-  }
-  if ('InvalidTxError' in error) {
-    return {
-      type: 'transaction',
-      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
-    };
-  }
-  return UNKNOWN_ERROR;
+function html_escape(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\'/g, '&apos;')
+    .replace(/\"/g, '&quot;')
+    .replace(/[^\x20-\x7E]/g, function (ch) {
+      return '&#x' + ch.codePointAt(0)?.toString(16) + ';';
+    });
 }
-
-function mapRpcReceiptStatus(status) {
-  if ('SuccessValue' in status) {
-    return { type: 'successValue', value: status.SuccessValue };
-  }
-  if ('SuccessReceiptId' in status) {
-    return { type: 'successReceiptId', receiptId: status.SuccessReceiptId };
-  }
-  if ('Failure' in status) {
-    return { type: 'failure', error: mapRpcReceiptError(status.Failure) };
-  }
-  return { type: 'unknown' };
-}
-
-function mapRpcActionToAction1(rpcAction) {
-  if (typeof rpcAction === 'object' && 'Delegate' in rpcAction) {
-    return {
-      kind: 'delegateAction',
-      args: {
-        actions: rpcAction.Delegate.delegate_action.actions.map(
-          (subaction, index) => ({
-            ...mapNonDelegateRpcActionToAction(subaction),
-            delegateIndex: index,
-          }),
-        ),
-        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
-        senderId: rpcAction.Delegate.delegate_action.sender_id,
-      },
-    };
-  }
-  return mapNonDelegateRpcActionToAction(rpcAction);
-}
-
-function parseOutcomeOld(outcome) {
-  return {
-    blockHash: outcome.block_hash,
-    tokensBurnt: outcome.outcome.tokens_burnt,
-    gasBurnt: outcome.outcome.gas_burnt,
-    status: mapRpcReceiptStatus(outcome.outcome.status),
-    logs: outcome.outcome.logs,
-    receiptIds: outcome.outcome.receipt_ids,
-  };
-}
-/* END_INCLUDE: "includes/near.jsx" */
+/* END_INCLUDE: "includes/hexy.jsx" */
 
 
 const ReceiptStatus = (props) => {
   const { receipt } = props;
-
-  function hexDump(
-    data,
-    options
-
-
-,
-  ) {
-    const { width, format } = options;
-
-    let result = '';
-    let line = '';
-    const w = width ? width : 16;
-
-    for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % w === 0) {
-        result += formatLine(line, i - w, format) + '\n';
-        line = '';
-      }
-
-      const byte = data[i];
-      line += byte.toString(16).padStart(2, '0') + ' ';
-    }
-
-    if (line.length > 0) {
-      result +=
-        formatLine(line, data.length - (data.length % w), format) + '\n';
-    }
-
-    return result;
-  }
 
   function displayArgs(args) {
     if (!args || typeof args === 'undefined') return 'The arguments are empty';
@@ -1797,10 +1364,10 @@ const ReceiptStatus = (props) => {
       if (parsed) {
         pretty = JSON.stringify(parsed, null, 2);
       } else {
-        pretty = hexDump(decoded, { format: 'twos' });
+        pretty = hexy(decoded, { format: 'twos' });
       }
     } catch {
-      pretty = hexDump(decoded, { format: 'twos' });
+      pretty = hexy(decoded, { format: 'twos' });
     }
 
     return pretty;
@@ -2661,6 +2228,220 @@ const DeployContract = (props) => {
     </div>
   );
 };
+/* INCLUDE: "includes/hexy.jsx" */
+function hexy(buffer, config) {
+  const MAX_ADDRESS_LENGTH = 8;
+  const defaults = {
+    width: 16,
+    numbering: 'hex_bytes',
+    format: 'fours',
+    littleEndian: false,
+    radix: 16,
+    caps: 'lower',
+    annotate: 'ascii',
+    prefix: '',
+    indent: 0,
+    html: false,
+    offset: 0,
+    length: -1,
+    extendedChs: false,
+    display_offset: 0,
+  };
+  const options = { ...defaults, ...config };
+
+  let bufferData;
+  if (Buffer.isBuffer(buffer)) {
+    bufferData = buffer;
+  } else if (Array.isArray(buffer)) {
+    bufferData = Buffer.from(buffer);
+  } else {
+    throw new Error('Input must be a Buffer or an array of numbers.');
+  }
+
+  const {
+    width,
+    numbering,
+    format,
+    littleEndian,
+    radix,
+    annotate,
+    indent,
+    html,
+    offset,
+    length,
+    extendedChs,
+    display_offset,
+  } = options;
+
+  const prefixSpaces = ' '.repeat(indent);
+  const htmlOpenTag = html ? "<div class='hexy'>\n" : '';
+  const htmlCloseTag = html ? '</div>\n' : '';
+
+  const bufferSlice = bufferData.slice(
+    offset,
+    length === -1 ? undefined : offset + length,
+  );
+  let str = htmlOpenTag;
+  let addr = offset + display_offset;
+
+  const numGroups = Math.ceil(bufferSlice.length / width);
+
+  for (let group = 0; group < numGroups; group++) {
+    const startIndex = group * width;
+    const endIndex = Math.min(startIndex + width, bufferSlice.length);
+    const slice = bufferSlice.slice(startIndex, endIndex);
+
+    if (html) {
+      str += `<div class='${num2str(addr, MAX_ADDRESS_LENGTH, 16)}'>`;
+    }
+
+    str += `${prefixSpaces}${
+      numbering === 'hex_bytes'
+        ? num2str(addr, MAX_ADDRESS_LENGTH, 16) + ': '
+        : ''
+    }`;
+    str += hex(slice, width, format, radix, littleEndian);
+
+    if (annotate === 'ascii') {
+      str += ` ${
+        html
+          ? html_escape(getTextRepresentation(slice, extendedChs))
+          : ascii_escape(getTextRepresentation(slice, extendedChs))
+      }`;
+    }
+
+    str += html ? '</div>\n' : '\n';
+    addr += width;
+  }
+
+  str += htmlCloseTag;
+
+  return str;
+}
+
+function hex(
+  buffer,
+  width,
+  format,
+  radix,
+  littleEndian,
+) {
+  let str = '';
+  const delimiter = format === 'none' ? '' : ' ';
+  const group_len = maxnumberlen(format === 'none' ? 1 : 2, radix);
+  const padlen =
+    (width - buffer.length) *
+    (format === 'none' ? group_len : (group_len + 1) / 2);
+
+  const numGroups = Math.ceil(buffer.length / 2);
+
+  for (let group = 0; group < numGroups; ++group) {
+    const startIndex = group * 2;
+    const endIndex = Math.min(startIndex + 2, buffer.length);
+    const bytes = buffer.slice(startIndex, endIndex);
+
+    if (bytes.length === 0) break;
+
+    if (bytes.length === 2) {
+      let val = littleEndian ? bytes.readUInt16LE(0) : bytes.readUInt16BE(0);
+      const text = val.toString(radix);
+      str += '0'.repeat(group_len - text.length) + text;
+      str += delimiter;
+    } else {
+      str += '0'.repeat(group_len);
+      str += delimiter;
+    }
+  }
+
+  if (buffer.length < width) {
+    str += ' '.repeat(padlen);
+  }
+
+  return str;
+}
+
+function num2str(b, len, radix) {
+  const s = b.toString(radix);
+  return '0'.repeat(len - s.length) + s;
+}
+
+function maxnumberlen(bytes, radix) {
+  let result = 2;
+  if (bytes === 0) {
+    bytes = 1;
+  }
+  switch (radix) {
+    case 2:
+      result = bytes * 8;
+      break;
+    case 8:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 11;
+          break;
+        case 8:
+          result = 22;
+          break;
+      }
+      break;
+    case 10:
+      switch (bytes) {
+        case 1:
+          result = 3;
+          break;
+        case 2:
+          result = 6;
+          break;
+        case 4:
+          result = 10;
+          break;
+        case 8:
+          result = 20;
+          break;
+      }
+      break;
+    case 16:
+      result = 2 * bytes;
+      break;
+  }
+  return result;
+}
+
+function getTextRepresentation(buffer, extendedChs) {
+  let text = '';
+  for (const byte of buffer) {
+    if (extendedChs) {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    } else {
+      text += byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : '.';
+    }
+  }
+  return text;
+}
+
+function ascii_escape(str) {
+  return str.replace(/[^\x20-\x7E]/g, '.');
+}
+
+function html_escape(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\'/g, '&apos;')
+    .replace(/\"/g, '&quot;')
+    .replace(/[^\x20-\x7E]/g, function (ch) {
+      return '&#x' + ch.codePointAt(0)?.toString(16) + ';';
+    });
+}
+/* END_INCLUDE: "includes/hexy.jsx" */
+
 /* INCLUDE: "includes/libs.jsx" */
 function shortenAddress(address) {
   const string = String(address);
@@ -2772,667 +2553,10 @@ function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 /* END_INCLUDE: "includes/libs.jsx" */
-/* INCLUDE: "includes/near.jsx" */
-function formatLine(line, offset, format) {
-  let result = `${offset.toString(16).padStart(8, '0')}  `;
-
-  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
-
-  hexValues.forEach((byte, index) => {
-    if (index > 0 && index % 4 === 0) {
-      result += ' ';
-    }
-    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
-  });
-
-  if (format === 'twos') {
-    result = result.replace(/(.{4})/g, '$1 ');
-  } else if (format === 'default') {
-    result += ` ${String.fromCharCode(
-      ...hexValues.map((b) => parseInt(b, 16)),
-    )}`;
-  }
-
-  return result.trimEnd();
-}
-
-function collectNestedReceiptWithOutcomeOld(
-  idOrHash,
-  parsedMap,
-) {
-  const parsedElement = parsedMap.get(idOrHash);
-  if (!parsedElement) {
-    return { id: idOrHash };
-  }
-  const { receiptIds, ...restOutcome } = parsedElement.outcome;
-  return {
-    ...parsedElement,
-    outcome: {
-      ...restOutcome,
-      nestedReceipts: receiptIds.map((id) =>
-        collectNestedReceiptWithOutcomeOld(id, parsedMap),
-      ),
-    },
-  };
-}
-
-function parseReceipt(
-  receipt,
-  outcome,
-  transaction,
-) {
-  if (!receipt) {
-    return {
-      id: outcome.id,
-      predecessorId: transaction.signer_id,
-      receiverId: transaction.receiver_id,
-      actions: transaction.actions.map(mapRpcActionToAction1),
-    };
-  }
-  return {
-    id: receipt.receipt_id,
-    predecessorId: receipt.predecessor_id,
-    receiverId: receipt.receiver_id,
-    actions:
-      'Action' in receipt.receipt
-        ? receipt.receipt.Action.actions.map(mapRpcActionToAction1)
-        : [],
-  };
-}
-
-function mapNonDelegateRpcActionToAction(
-  rpcAction,
-) {
-  if (rpcAction === 'CreateAccount') {
-    return {
-      kind: 'createAccount',
-      args: {},
-    };
-  }
-  if ('DeployContract' in rpcAction) {
-    return {
-      kind: 'deployContract',
-      args: rpcAction.DeployContract,
-    };
-  }
-  if ('FunctionCall' in rpcAction) {
-    return {
-      kind: 'functionCall',
-      args: {
-        methodName: rpcAction.FunctionCall.method_name,
-        args: rpcAction.FunctionCall.args,
-        deposit: rpcAction.FunctionCall.deposit,
-        gas: rpcAction.FunctionCall.gas,
-      },
-    };
-  }
-  if ('Transfer' in rpcAction) {
-    return {
-      kind: 'transfer',
-      args: rpcAction.Transfer,
-    };
-  }
-  if ('Stake' in rpcAction) {
-    return {
-      kind: 'stake',
-      args: {
-        publicKey: rpcAction.Stake.public_key,
-        stake: rpcAction.Stake.stake,
-      },
-    };
-  }
-  if ('AddKey' in rpcAction) {
-    return {
-      kind: 'addKey',
-      args: {
-        publicKey: rpcAction.AddKey.public_key,
-        accessKey: {
-          nonce: rpcAction.AddKey.access_key.nonce,
-          permission:
-            rpcAction.AddKey.access_key.permission === 'FullAccess'
-              ? {
-                  type: 'fullAccess',
-                }
-              : {
-                  type: 'functionCall',
-                  contractId:
-                    rpcAction.AddKey.access_key.permission.FunctionCall
-                      .receiver_id,
-                  methodNames:
-                    rpcAction.AddKey.access_key.permission.FunctionCall
-                      .method_names,
-                },
-        },
-      },
-    };
-  }
-  if ('DeleteKey' in rpcAction) {
-    return {
-      kind: 'deleteKey',
-      args: {
-        publicKey: rpcAction.DeleteKey.public_key,
-      },
-    };
-  }
-  return {
-    kind: 'deleteAccount',
-    args: {
-      beneficiaryId: rpcAction.DeleteAccount.beneficiary_id,
-    },
-  };
-}
-function mapRpcInvalidAccessKeyError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-
-  if (error === 'DepositWithFunctionCall') {
-    return {
-      type: 'depositWithFunctionCall',
-    };
-  }
-  if (error === 'RequiresFullAccess') {
-    return {
-      type: 'requiresFullAccess',
-    };
-  }
-  if ('AccessKeyNotFound' in error) {
-    const { account_id, public_key } = error.AccessKeyNotFound;
-    return {
-      type: 'accessKeyNotFound',
-      accountId: account_id,
-      publicKey: public_key,
-    };
-  }
-  if ('ReceiverMismatch' in error) {
-    const { ak_receiver, tx_receiver } = error.ReceiverMismatch;
-    return {
-      type: 'receiverMismatch',
-      akReceiver: ak_receiver,
-      transactionReceiver: tx_receiver,
-    };
-  }
-  if ('MethodNameMismatch' in error) {
-    const { method_name } = error.MethodNameMismatch;
-    return {
-      type: 'methodNameMismatch',
-      methodName: method_name,
-    };
-  }
-  if ('NotEnoughAllowance' in error) {
-    const { account_id, allowance, cost, public_key } =
-      error.NotEnoughAllowance;
-    return {
-      type: 'notEnoughAllowance',
-      accountId: account_id,
-      allowance: allowance,
-      cost: cost,
-      publicKey: public_key,
-    };
-  }
-
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcCompilationError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('CodeDoesNotExist' in error) {
-    return {
-      type: 'codeDoesNotExist',
-      accountId: error.CodeDoesNotExist.account_id,
-    };
-  }
-  if ('PrepareError' in error) {
-    return {
-      type: 'prepareError',
-    };
-  }
-  if ('WasmerCompileError' in error) {
-    return {
-      type: 'wasmerCompileError',
-      msg: error.WasmerCompileError.msg,
-    };
-  }
-  if ('UnsupportedCompiler' in error) {
-    return {
-      type: 'unsupportedCompiler',
-      msg: error.UnsupportedCompiler.msg,
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcFunctionCallError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('CompilationError' in error) {
-    return {
-      type: 'compilationError',
-      error: mapRpcCompilationError(error.CompilationError),
-    };
-  }
-  if ('LinkError' in error) {
-    return {
-      type: 'linkError',
-      msg: error.LinkError.msg,
-    };
-  }
-  if ('MethodResolveError' in error) {
-    return {
-      type: 'methodResolveError',
-    };
-  }
-  if ('WasmTrap' in error) {
-    return {
-      type: 'wasmTrap',
-    };
-  }
-  if ('WasmUnknownError' in error) {
-    return {
-      type: 'wasmUnknownError',
-    };
-  }
-  if ('HostError' in error) {
-    return {
-      type: 'hostError',
-    };
-  }
-  if ('_EVMError' in error) {
-    return {
-      type: 'evmError',
-    };
-  }
-  if ('ExecutionError' in error) {
-    return {
-      type: 'executionError',
-      error: error.ExecutionError,
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-function mapRpcNewReceiptValidationError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('InvalidPredecessorId' in error) {
-    return {
-      type: 'invalidPredecessorId',
-      accountId: error.InvalidPredecessorId.account_id,
-    };
-  }
-  if ('InvalidReceiverId' in error) {
-    return {
-      type: 'invalidReceiverId',
-      accountId: error.InvalidReceiverId.account_id,
-    };
-  }
-  if ('InvalidSignerId' in error) {
-    return {
-      type: 'invalidSignerId',
-      accountId: error.InvalidSignerId.account_id,
-    };
-  }
-  if ('InvalidDataReceiverId' in error) {
-    return {
-      type: 'invalidDataReceiverId',
-      accountId: error.InvalidDataReceiverId.account_id,
-    };
-  }
-  if ('ReturnedValueLengthExceeded' in error) {
-    return {
-      type: 'returnedValueLengthExceeded',
-      length: error.ReturnedValueLengthExceeded.length,
-      limit: error.ReturnedValueLengthExceeded.limit,
-    };
-  }
-  if ('NumberInputDataDependenciesExceeded' in error) {
-    return {
-      type: 'numberInputDataDependenciesExceeded',
-      numberOfInputDataDependencies:
-        error.NumberInputDataDependenciesExceeded
-          .number_of_input_data_dependencies,
-      limit: error.NumberInputDataDependenciesExceeded.limit,
-    };
-  }
-  if ('ActionsValidation' in error) {
-    return {
-      type: 'actionsValidation',
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcReceiptActionError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  const { kind } = error;
-  if (kind === 'DelegateActionExpired') {
-    return {
-      type: 'delegateActionExpired',
-    };
-  }
-  if (kind === 'DelegateActionInvalidSignature') {
-    return {
-      type: 'delegateActionInvalidSignature',
-    };
-  }
-  if ('DelegateActionSenderDoesNotMatchTxReceiver' in kind) {
-    return {
-      type: 'delegateActionSenderDoesNotMatchTxReceiver',
-      receiverId: kind.DelegateActionSenderDoesNotMatchTxReceiver.receiver_id,
-      senderId: kind.DelegateActionSenderDoesNotMatchTxReceiver.sender_id,
-    };
-  }
-  if ('DelegateActionAccessKeyError' in kind) {
-    return {
-      type: 'delegateActionAccessKeyError',
-      error: mapRpcInvalidAccessKeyError(kind.DelegateActionAccessKeyError),
-    };
-  }
-  if ('DelegateActionInvalidNonce' in kind) {
-    return {
-      type: 'delegateActionInvalidNonce',
-      akNonce: kind.DelegateActionInvalidNonce.ak_nonce,
-      delegateNonce: kind.DelegateActionInvalidNonce.delegate_nonce,
-    };
-  }
-  if ('DelegateActionNonceTooLarge' in kind) {
-    return {
-      type: 'delegateActionNonceTooLarge',
-      delegateNonce: kind.DelegateActionNonceTooLarge.delegate_nonce,
-      upperBound: kind.DelegateActionNonceTooLarge.upper_bound,
-    };
-  }
-  if ('AccountAlreadyExists' in kind) {
-    return {
-      type: 'accountAlreadyExists',
-      accountId: kind.AccountAlreadyExists.account_id,
-    };
-  }
-  if ('AccountDoesNotExist' in kind) {
-    return {
-      type: 'accountDoesNotExist',
-      accountId: kind.AccountDoesNotExist.account_id,
-    };
-  }
-  if ('CreateAccountOnlyByRegistrar' in kind) {
-    return {
-      type: 'createAccountOnlyByRegistrar',
-      accountId: kind.CreateAccountOnlyByRegistrar.account_id,
-      registrarAccountId:
-        kind.CreateAccountOnlyByRegistrar.registrar_account_id,
-      predecessorId: kind.CreateAccountOnlyByRegistrar.predecessor_id,
-    };
-  }
-  if ('CreateAccountNotAllowed' in kind) {
-    return {
-      type: 'createAccountNotAllowed',
-      accountId: kind.CreateAccountNotAllowed.account_id,
-      predecessorId: kind.CreateAccountNotAllowed.predecessor_id,
-    };
-  }
-  if ('ActorNoPermission' in kind) {
-    return {
-      type: 'actorNoPermission',
-      accountId: kind.ActorNoPermission.account_id,
-      actorId: kind.ActorNoPermission.actor_id,
-    };
-  }
-  if ('DeleteKeyDoesNotExist' in kind) {
-    return {
-      type: 'deleteKeyDoesNotExist',
-      accountId: kind.DeleteKeyDoesNotExist.account_id,
-      publicKey: kind.DeleteKeyDoesNotExist.public_key,
-    };
-  }
-  if ('AddKeyAlreadyExists' in kind) {
-    return {
-      type: 'addKeyAlreadyExists',
-      accountId: kind.AddKeyAlreadyExists.account_id,
-      publicKey: kind.AddKeyAlreadyExists.public_key,
-    };
-  }
-  if ('DeleteAccountStaking' in kind) {
-    return {
-      type: 'deleteAccountStaking',
-      accountId: kind.DeleteAccountStaking.account_id,
-    };
-  }
-  if ('LackBalanceForState' in kind) {
-    return {
-      type: 'lackBalanceForState',
-      accountId: kind.LackBalanceForState.account_id,
-      amount: kind.LackBalanceForState.amount,
-    };
-  }
-  if ('TriesToUnstake' in kind) {
-    return {
-      type: 'triesToUnstake',
-      accountId: kind.TriesToUnstake.account_id,
-    };
-  }
-  if ('TriesToStake' in kind) {
-    return {
-      type: 'triesToStake',
-      accountId: kind.TriesToStake.account_id,
-      stake: kind.TriesToStake.stake,
-      locked: kind.TriesToStake.locked,
-      balance: kind.TriesToStake.balance,
-    };
-  }
-  if ('InsufficientStake' in kind) {
-    return {
-      type: 'insufficientStake',
-      accountId: kind.InsufficientStake.account_id,
-      stake: kind.InsufficientStake.stake,
-      minimumStake: kind.InsufficientStake.minimum_stake,
-    };
-  }
-  if ('FunctionCallError' in kind) {
-    return {
-      type: 'functionCallError',
-      error: mapRpcFunctionCallError(kind.FunctionCallError),
-    };
-  }
-  if ('NewReceiptValidationError' in kind) {
-    return {
-      type: 'newReceiptValidationError',
-      error: mapRpcNewReceiptValidationError(kind.NewReceiptValidationError),
-    };
-  }
-  if ('OnlyImplicitAccountCreationAllowed' in kind) {
-    return {
-      type: 'onlyImplicitAccountCreationAllowed',
-      accountId: kind.OnlyImplicitAccountCreationAllowed.account_id,
-    };
-  }
-  if ('DeleteAccountWithLargeState' in kind) {
-    return {
-      type: 'deleteAccountWithLargeState',
-      accountId: kind.DeleteAccountWithLargeState.account_id,
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcReceiptInvalidTxError(error) {
-  const UNKNOWN_ERROR = { type: 'unknown' };
-  if ('InvalidAccessKeyError' in error) {
-    return {
-      type: 'invalidAccessKeyError',
-      error: mapRpcInvalidAccessKeyError(error.InvalidAccessKeyError),
-    };
-  }
-  if ('InvalidSignerId' in error) {
-    return {
-      type: 'invalidSignerId',
-      signerId: error.InvalidSignerId.signer_id,
-    };
-  }
-  if ('SignerDoesNotExist' in error) {
-    return {
-      type: 'signerDoesNotExist',
-      signerId: error.SignerDoesNotExist.signer_id,
-    };
-  }
-  if ('InvalidNonce' in error) {
-    return {
-      type: 'invalidNonce',
-      transactionNonce: error.InvalidNonce.tx_nonce,
-      akNonce: error.InvalidNonce.ak_nonce,
-    };
-  }
-  if ('NonceTooLarge' in error) {
-    return {
-      type: 'nonceTooLarge',
-      transactionNonce: error.NonceTooLarge.tx_nonce,
-      upperBound: error.NonceTooLarge.upper_bound,
-    };
-  }
-  if ('InvalidReceiverId' in error) {
-    return {
-      type: 'invalidReceiverId',
-      receiverId: error.InvalidReceiverId.receiver_id,
-    };
-  }
-  if ('InvalidSignature' in error) {
-    return {
-      type: 'invalidSignature',
-    };
-  }
-  if ('NotEnoughBalance' in error) {
-    return {
-      type: 'notEnoughBalance',
-      signerId: error.NotEnoughBalance.signer_id,
-      balance: error.NotEnoughBalance.balance,
-      cost: error.NotEnoughBalance.cost,
-    };
-  }
-  if ('LackBalanceForState' in error) {
-    return {
-      type: 'lackBalanceForState',
-      signerId: error.LackBalanceForState.signer_id,
-      amount: error.LackBalanceForState.amount,
-    };
-  }
-  if ('CostOverflow' in error) {
-    return {
-      type: 'costOverflow',
-    };
-  }
-  if ('InvalidChain' in error) {
-    return {
-      type: 'invalidChain',
-    };
-  }
-  if ('Expired' in error) {
-    return {
-      type: 'expired',
-    };
-  }
-  if ('ActionsValidation' in error) {
-    return {
-      type: 'actionsValidation',
-    };
-  }
-  if ('TransactionSizeExceeded' in error) {
-    return {
-      type: 'transactionSizeExceeded',
-      size: error.TransactionSizeExceeded.size,
-      limit: error.TransactionSizeExceeded.limit,
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcReceiptError(error) {
-  let UNKNOWN_ERROR = { type: 'unknown' };
-  if ('ActionError' in error) {
-    return {
-      type: 'action',
-      error: mapRpcReceiptActionError(error.ActionError),
-    };
-  }
-  if ('InvalidTxError' in error) {
-    return {
-      type: 'transaction',
-      error: mapRpcReceiptInvalidTxError(error.InvalidTxError),
-    };
-  }
-  return UNKNOWN_ERROR;
-}
-
-function mapRpcReceiptStatus(status) {
-  if ('SuccessValue' in status) {
-    return { type: 'successValue', value: status.SuccessValue };
-  }
-  if ('SuccessReceiptId' in status) {
-    return { type: 'successReceiptId', receiptId: status.SuccessReceiptId };
-  }
-  if ('Failure' in status) {
-    return { type: 'failure', error: mapRpcReceiptError(status.Failure) };
-  }
-  return { type: 'unknown' };
-}
-
-function mapRpcActionToAction1(rpcAction) {
-  if (typeof rpcAction === 'object' && 'Delegate' in rpcAction) {
-    return {
-      kind: 'delegateAction',
-      args: {
-        actions: rpcAction.Delegate.delegate_action.actions.map(
-          (subaction, index) => ({
-            ...mapNonDelegateRpcActionToAction(subaction),
-            delegateIndex: index,
-          }),
-        ),
-        receiverId: rpcAction.Delegate.delegate_action.receiver_id,
-        senderId: rpcAction.Delegate.delegate_action.sender_id,
-      },
-    };
-  }
-  return mapNonDelegateRpcActionToAction(rpcAction);
-}
-
-function parseOutcomeOld(outcome) {
-  return {
-    blockHash: outcome.block_hash,
-    tokensBurnt: outcome.outcome.tokens_burnt,
-    gasBurnt: outcome.outcome.gas_burnt,
-    status: mapRpcReceiptStatus(outcome.outcome.status),
-    logs: outcome.outcome.logs,
-    receiptIds: outcome.outcome.receipt_ids,
-  };
-}
-/* END_INCLUDE: "includes/near.jsx" */
 
 
 const FunctionCall = (props) => {
   const { t, args, receiver } = props;
-
-  function hexDump(
-    data,
-    options
-
-
-,
-  ) {
-    const { width, format } = options;
-
-    let result = '';
-    let line = '';
-    const w = width ? width : 16;
-    for (let i = 0; i < data.length; i++) {
-      if (i > 0 && i % w === 0) {
-        result += formatLine(line, i - w, format) + '\n';
-        line = '';
-      }
-
-      const byte = data[i];
-      line += byte.toString(16).padStart(2, '0') + ' ';
-    }
-
-    if (line.length > 0) {
-      result +=
-        formatLine(line, data.length - (data.length % w), format) + '\n';
-    }
-
-    return result;
-  }
 
   function displayArgs(args) {
     if (!args || typeof args === 'undefined') return 'The arguments are empty';
@@ -3444,10 +2568,10 @@ const FunctionCall = (props) => {
       if (parsed) {
         pretty = JSON.stringify(parsed, null, 2);
       } else {
-        pretty = hexDump(decoded, { format: 'twos' });
+        pretty = hexy(decoded, { format: 'twos' });
       }
     } catch {
-      pretty = hexDump(decoded, { format: 'twos' });
+      pretty = hexy(decoded, { format: 'twos' });
     }
 
     return pretty;
@@ -3618,7 +2742,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -3626,7 +2750,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -3679,9 +2803,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -4002,7 +3132,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -4010,7 +3140,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -4063,9 +3193,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -4322,7 +3458,7 @@ function MainComponent(props) {
             </Tooltip.Provider>
             {t ? t('txns:txn.receipts.receipt.text.0') : 'Receipt'}
           </div>
-          {!receipt ? (
+          {!receipt || loading ? (
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full max-w-xs" />
             </div>
@@ -4394,7 +3530,7 @@ function MainComponent(props) {
               </Tooltip.Provider>
               {t ? t('txns:txn.receipts.from.text.0') : 'From'}
             </div>
-            {!receipt ? (
+            {!receipt || loading ? (
               <div className="w-full md:w-3/4">
                 <Loader wrapperClassName="flex w-full max-w-sm" />
               </div>
@@ -4435,7 +3571,7 @@ function MainComponent(props) {
               </Tooltip.Provider>
               {t ? t('txns:txn.receipts.to.text.0') : 'To'}
             </div>
-            {!receipt ? (
+            {!receipt || loading ? (
               <div className="w-full md:w-3/4">
                 <Loader wrapperClassName="flex w-full max-w-xs" />
               </div>
@@ -4479,7 +3615,7 @@ function MainComponent(props) {
               ? t('txns:txn.receipts.burnt.text.0')
               : 'Burnt Gas & Tokens by Receipt'}
           </div>
-          {!receipt ? (
+          {!receipt || loading ? (
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-36" />
             </div>
@@ -4523,7 +3659,7 @@ function MainComponent(props) {
             </Tooltip.Provider>
             {t ? t('txns:txn.receipts.actions.text.0') : 'Actions'}
           </div>
-          {!receipt ? (
+          {!receipt || loading ? (
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full my-1 max-w-xs" />
               <Loader wrapperClassName="flex w-full" />
@@ -4567,7 +3703,7 @@ function MainComponent(props) {
             </Tooltip.Provider>
             {t ? t('txns:txn.receipts.result.text.0') : 'Result'}
           </div>
-          {!receipt ? (
+          {!receipt || loading ? (
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full" />
               <Loader wrapperClassName="flex w-full" />
@@ -4601,7 +3737,7 @@ function MainComponent(props) {
             </Tooltip.Provider>
             {t ? t('txns:txn.receipts.logs.text.0') : 'Logs'}
           </div>
-          {!receipt ? (
+          {!receipt || loading ? (
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full" />
               <Loader wrapperClassName="flex w-full" />
