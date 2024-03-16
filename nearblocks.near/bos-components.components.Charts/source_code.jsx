@@ -52,7 +52,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -60,7 +60,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -113,9 +113,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -325,7 +331,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -333,7 +339,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -386,9 +392,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
