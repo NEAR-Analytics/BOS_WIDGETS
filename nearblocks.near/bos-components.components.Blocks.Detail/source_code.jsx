@@ -3276,6 +3276,9 @@ function MainComponent(props) {
     return;
   }, [block?.block_timestamp]);
 
+  const gasUsed = block?.chunks_agg?.gas_used ?? '';
+  const gasLimit = block?.chunks_agg?.gas_limit ?? '';
+
   return (
     <>
       {error || (!isLoading && Object.keys(block).length === 0) ? (
@@ -3383,39 +3386,42 @@ function MainComponent(props) {
                   <Loader className="flex w-full max-w-xs" />
                 </div>
               ) : (
-                <div className="w-full md:w-3/4 break-words">
-                  {t ? (
-                    <>
-                      <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
-                        {t('blocks:block.transactions.1', {
-                          txns: block?.transactions_agg?.count
-                            ? localFormat(block?.transactions_agg?.count)
-                            : block?.transactions_agg?.count ?? '',
+                block?.transactions_agg?.count && (
+                  <div className="w-full md:w-3/4 break-words">
+                    {t ? (
+                      <>
+                        <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
+                          {t('blocks:block.transactions.1', {
+                            txns: block?.transactions_agg?.count
+                              ? localFormat(block?.transactions_agg?.count)
+                              : block?.transactions_agg?.count ?? '',
+                          })}
+                        </LinkWrapper>
+                        &nbsp;
+                        {t('blocks:block.transactions.2', {
+                          receipts: block?.receipts_agg?.count
+                            ? localFormat(block?.receipts_agg?.count)
+                            : block?.receipts_agg?.count ?? '',
                         })}
-                      </LinkWrapper>
-                      &nbsp;
-                      {t('blocks:block.transactions.2', {
-                        receipts: block?.receipts_agg?.count
+                      </>
+                    ) : (
+                      <>
+                        (
+                        <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
+                          {block?.transactions_agg?.count
+                            ? localFormat(block?.transactions_agg?.count)
+                            : block?.transactions_agg?.count ??
+                              '' + ' transactions'}
+                        </LinkWrapper>
+                        ) + `and $
+                        {block?.receipts_agg?.count
                           ? localFormat(block?.receipts_agg?.count)
-                          : block?.receipts_agg?.count ?? '',
-                      })}
-                    </>
-                  ) : (
-                    (
-                      <LinkWrapper href={`/txns?block=${block?.block_hash}`}>
-                        {block?.transactions_agg?.count
-                          ? localFormat(block?.transactions_agg?.count)
-                          : block?.transactions_agg?.count ??
-                            '' + ' transactions'}
-                      </LinkWrapper>
-                    ) +
-                    `and ${
-                      block?.receipts_agg?.count
-                        ? localFormat(block?.receipts_agg?.count)
-                        : block?.receipts_agg?.count ?? ''
-                    } receipts`
-                  )}
-                </div>
+                          : block?.receipts_agg?.count ?? ''}{' '}
+                        receipts`
+                      </>
+                    )}
+                  </div>
+                )
               )}
             </div>
             <div className="flex flex-wrap p-4">
@@ -3449,9 +3455,7 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block?.chunks_agg?.gas_used
-                    ? convertToMetricPrefix(block?.chunks_agg?.gas_used) + 'gas'
-                    : (block?.chunks_agg?.gas_used ?? '') + 'gas'}
+                  {gasUsed ? convertToMetricPrefix(gasUsed) + 'gas' : ''}
                 </div>
               )}
             </div>
@@ -3465,10 +3469,7 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block?.chunks_agg?.gas_limit
-                    ? convertToMetricPrefix(block?.chunks_agg?.gas_limit) +
-                      'gas'
-                    : (block?.chunks_agg?.gas_limit ?? '') + 'gas'}
+                  {gasLimit ? convertToMetricPrefix(gasLimit) + 'gas' : ''}
                 </div>
               )}
             </div>
@@ -3498,10 +3499,9 @@ function MainComponent(props) {
                 </div>
               ) : (
                 <div className="w-full md:w-3/4 break-words">
-                  {block?.chunks_agg?.gas_used && block?.gas_price
-                    ? gasFee(block?.chunks_agg?.gas_used, block?.gas_price)
+                  {gasUsed && block?.gas_price
+                    ? gasFee(gasUsed, block?.gas_price) + 'Ⓝ'
                     : ''}
-                  Ⓝ
                 </div>
               )}
             </div>
