@@ -472,6 +472,7 @@ function MainComponent(props) {
       .map((byte) => byte.toString(16).padStart(2, '0'))
       .join('');
   }
+
   return (
     <div className="py-2.5">
       <div
@@ -482,7 +483,12 @@ function MainComponent(props) {
         role="button"
         tabIndex={0}
       >
-        {action?.kind !== 'functionCall' && t(`txns:${action?.kind}`)}
+        {action?.kind !== 'functionCall' &&
+          action?.kind !== 'delegateAction' &&
+          t(`txns:${action?.kind}`)}
+        {action?.kind === 'delegateAction' ? (
+          <div className="inline-flex text-sm">{`Delegate action`}</div>
+        ) : null}
         {action?.kind === 'functionCall' ? (
           <div className="inline-flex text-sm">{`'${action?.args?.methodName}'`}</div>
         ) : null}
@@ -524,7 +530,11 @@ function MainComponent(props) {
           </div>
         ) : action?.kind === 'delegateAction' ? (
           <div className="py-2 ml-6">
-            {action?.args?.senderId}
+            <span className="font-semibold">
+              {action?.args?.senderId
+                ? `Actions delegated for ${action?.args?.senderId}:`
+                : ''}
+            </span>
             {[...action.args.actions]
               .sort(
                 (actionA, actionB) =>
@@ -537,7 +547,7 @@ function MainComponent(props) {
                   props={{
                     network: network,
                     t: t,
-                    action: action,
+                    action: subaction,
                     isTxTypeActive: true,
                     Link,
                   }}
