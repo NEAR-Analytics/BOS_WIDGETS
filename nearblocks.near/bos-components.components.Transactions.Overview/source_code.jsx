@@ -1086,7 +1086,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
         backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.mainnet.near.org',
+        rpcUrl: 'https://beta.rpc.mainnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
     case 'testnet':
@@ -1094,7 +1094,7 @@ function getConfig(network) {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        rpcUrl: 'https://beta.rpc.testnet.near.org/',
         appUrl: 'https://testnet.nearblocks.io/',
       };
     default:
@@ -1147,9 +1147,15 @@ function timeAgo(unixTimestamp) {
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
     return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
-  } else {
+  } else if (secondsAgo < 2592000) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 31536000) {
+    const monthsAgo = Math.floor(secondsAgo / 2592000);
+    return `${monthsAgo} month${monthsAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const yearsAgo = Math.floor(secondsAgo / 31536000);
+    return `${yearsAgo} year${yearsAgo > 1 ? 's' : ''} ago`;
   }
 }
 
@@ -1356,7 +1362,7 @@ function mapRpcActionToAction(action) {
   }
 
   if (typeof action === 'object') {
-    const kind = Object.keys(action)[0];
+    const kind = action && Object.keys(action)[0];
 
     return {
       action_kind: kind,
@@ -1368,7 +1374,7 @@ function mapRpcActionToAction(action) {
 }
 
 function valueFromObj(obj) {
-  const keys = Object.keys(obj);
+  const keys = obj && Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
@@ -1452,29 +1458,6 @@ function txnErrorMessage(txn) {
   }
 
   return null;
-}
-
-function formatLine(line, offset, format) {
-  let result = `${offset.toString(16).padStart(8, '0')}  `;
-
-  const hexValues = line.match(/[0-9a-fA-F]{2}/g) || [];
-
-  hexValues.forEach((byte, index) => {
-    if (index > 0 && index % 4 === 0) {
-      result += ' ';
-    }
-    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
-  });
-
-  if (format === 'twos') {
-    result = result.replace(/(.{4})/g, '$1 ');
-  } else if (format === 'default') {
-    result += ` ${String.fromCharCode(
-      ...hexValues.map((b) => parseInt(b, 16)),
-    )}`;
-  }
-
-  return result.trimEnd();
 }
 
 function collectNestedReceiptWithOutcomeOld(
