@@ -35,6 +35,7 @@ const Label = styled.label`
   font-size: 0.75em;
   line-height: 1.5em;
   color: #202024;
+  margin-left: 1em;
   font-style: normal;
 `;
 
