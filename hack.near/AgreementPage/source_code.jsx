@@ -5,7 +5,7 @@ const Container = styled.div`
 
 return (
   <Container>
-    <div className="d-flex flex-row">
+    <div className="d-flex flex-row justify-content-between">
       <div className="m-2">
         <h3 className="m-1">
           <b>NEAR Builders Cooperative</b>
@@ -16,21 +16,19 @@ return (
           </b>
         </p>
       </div>
-      <div className="m-2">
-        <div className="m-2">
-          <Widget
-            src="hack.near/widget/profile.inline"
-            props={{ accountId: context.accountId }}
-          />
-        </div>
-        <div class="d-flex justify-content-end m-3">
-          <a
-            className="m-1 btn btn-sm btn-light"
-            href="/near/widget/ProfileEditor"
-          >
-            Edit Profile
-          </a>
-        </div>
+      <div className="m-3">
+        <Widget
+          src="hack.near/widget/profile.inline"
+          props={{ accountId: context.accountId }}
+        />
+      </div>
+      <div className="m-3">
+        <a
+          className="m-1 btn btn-sm btn-light"
+          href="/near/widget/ProfileEditor"
+        >
+          Edit Profile
+        </a>
       </div>
     </div>
     <hr />
