@@ -49,7 +49,6 @@ return (
       </Dialog.Overlay>
       <Dialog.Content asChild>
         <Content>
-          <h3>Member Agreement</h3>
           <Widget src={`${ownerId}/widget/city.form`} />
         </Content>
       </Dialog.Content>
