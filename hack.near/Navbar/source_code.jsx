@@ -1,30 +1,31 @@
 const creatorId = props.creatorId || "hack.near";
 const appId = props.appId || "app";
+const pageId = props.pageId || "home";
 
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
 const routes = props.routes ?? {
-  main: {
+  home: {
     path: "hack.near/widget/page.index",
     blockHeight: "final",
     init: {
-      name: "App",
+      name: "Home",
     },
   },
   social: {
     path: "hack.near/widget/page.feed",
     blockHeight: "final",
     init: {
-      name: "Discussion",
+      name: "Social",
     },
   },
   docs: {
     path: "hack.near/widget/page.docs",
     blockHeight: "final",
     init: {
-      name: "Guide",
+      name: "Docs",
     },
   },
 };
@@ -130,9 +131,9 @@ const Navbar = ({ page, ...props }) => (
         <Link
           style={{ flex: 1 }}
           to={href({
-            widgetSrc: "hack.near/widget/app",
+            widgetSrc: `${creatorId}/widget/${appId}`,
             params: {
-              page: "main",
+              page: pageId,
             },
           })}
         >
@@ -180,9 +181,9 @@ const Navbar = ({ page, ...props }) => (
       <MobileNavigation>
         <Link
           to={href({
-            widgetSrc: "hack.near/widget/app",
+            widgetSrc: `${creatorId}/widget/${appId}`,
             params: {
-              page: "main",
+              page: "home",
             },
           })}
         >
