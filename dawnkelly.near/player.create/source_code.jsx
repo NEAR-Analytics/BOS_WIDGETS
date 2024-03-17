@@ -196,6 +196,7 @@ return (
           value={player.metadata.species}
           onChange={handleSpeciesChange}
         >
+          <option value="null">---</option>
           <option value="dwarf">Dwarf</option>
           <option value="orc">Orc</option>
           <option value="human">Human</option>
@@ -216,6 +217,7 @@ return (
           value={player.metadata.class}
           onChange={handleClassChange}
         >
+          <option value="null">---</option>
           <option value="barbarian">Barbarian</option>
           <option value="bard">Bard</option>
           <option value="cleric">Cleric</option>
@@ -270,6 +272,7 @@ return (
         value={player.metadata.defaultweapon}
         onChange={handleDefaultWeaponChange}
       >
+        <option value="null">---</option>
         <option value="bladeRadiance">Blade of Radiance</option>
         <option value="moonShadowBow">Moon Shadow Bow</option>
         <option value="thunderForgeHammer">Thunderforge War Hammer</option>
