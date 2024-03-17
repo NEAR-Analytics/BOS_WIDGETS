@@ -73,6 +73,9 @@ const HeadWrapper = styled.div`
   }
   .title-secondary {
   }
+  .green {
+    color: #1aca8a;
+  }
   .title-sub {
     font-size: var(--fz-12);
     color: var(--purple);
@@ -235,7 +238,6 @@ const LockingABI = [
     name: "ATH",
     inputs: [],
   },
-
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -631,19 +633,6 @@ const LockingABI = [
 
   {
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "unlock",
-    inputs: [
-      {
-        type: "uint256",
-        name: "slotIndex",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "function",
     stateMutability: "view",
     outputs: [
       {
@@ -971,11 +960,7 @@ State.init({
   poolsList: initList, //
   slotLength: 0,
   myPoolsList: [],
-  // totalDepositAmount: 0,
-  // totalRewardsAmount: 0,
-  // fresh: 1,
-  isClaiming: false,
-  isAllClaiming: false,
+  curIndex: undefined,
   tokenPrices: "",
   lockingTotalSupply: 0,
   athLockerApr: "",
@@ -1316,14 +1301,15 @@ function getMultiLocking(pool) {
           }
         })
       );
+      const _myPoolsList = list.filter((item) => {
+        return item[2].toString() !== "0.00";
+      });
 
       State.update({
         lockingTotalSupply: totalSupply,
         poolsList: temp,
         slotLength,
-        myPoolsList: list.filter((item) => {
-          return item[2].toString() !== "0.00";
-        }),
+        myPoolsList: _myPoolsList,
       });
       calcStakedAmount();
     },
@@ -1578,38 +1564,14 @@ const handleChangeTabs = (value) => {
   });
 };
 
-function handleReLock(addr, index) {
+function handleReLock(index) {
   // State.update({
   //   unstaking: true,
   // });
 
   const myContract = new ethers.Contract(
-    "0xD481eD22a20708839aeB7f1d07E1d01cbc526184",
-    [
-      {
-        type: "function",
-        stateMutability: "nonpayable",
-        outputs: [],
-        name: "startUnlock",
-        inputs: [
-          {
-            type: "uint256",
-            name: "strategyIndex",
-            internalType: "uint256",
-          },
-          {
-            type: "uint256",
-            name: "amount",
-            internalType: "uint256",
-          },
-          {
-            type: "uint256",
-            name: "slotIndex",
-            internalType: "uint256",
-          },
-        ],
-      },
-    ],
+    POOLS[0].StakingAddress,
+    LockingABI,
     Ethers.provider().getSigner()
   );
   myContract
@@ -1642,10 +1604,69 @@ function handleReLock(addr, index) {
       // State.update({
       //   unstaking: false,
       // });
-      console.log("getPoolTokens_error:", err);
+      console.log("handleReLock_error:", err);
     });
 }
-// console.log("STATE:", state);
+function handleUnLock(index) {
+  State.update({
+    curIndex: index,
+  });
+
+  const myContract = new ethers.Contract(
+    POOLS[0].StakingAddress,
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [],
+        name: "unlock",
+        inputs: [
+          {
+            type: "uint256",
+            name: "slotIndex",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  myContract
+    .unlock(index, {
+      gasLimit: 5000000,
+    })
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          State.update({
+            curIndex: undefined,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        curIndex: undefined,
+      });
+      console.log("handleUnLock_error:", err);
+    });
+}
+console.log("STATE:", state);
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
@@ -1699,32 +1720,6 @@ return (
         </Accordion.Root>
       </Tabs.Content>
       <Tabs.Content value="TAB_ASSETS">
-        {/* <AssetsWrapper>
-          <AssetsPanel>
-            <div className="as-title">You deposit</div>
-            <div className="as-amount">${state.totalDepositAmount}</div>
-          </AssetsPanel>
-          <AssetsPanel>
-            <div className="as-title">Claimable Rewards</div>
-            <div className="as-action">
-              <div className="as-amount">
-                ${state.totalRewardsAmount} 
-                <span className="as-sub"></span>
-              </div>
-              <Widget
-                src="dapdapbos.near/widget/UI.Button"
-                props={{
-                  text: "Claim All",
-                  type: "green",
-                  style: { width: 118 },
-                  loading: state.isAllClaiming,
-                  disabled: !state.myPoolsList.length,
-                  onClick: handleClaimAll,
-                }}
-              /> 
-            </div>
-          </AssetsPanel> 
-        </AssetsWrapper>*/}
         {state.myPoolsList.length ? (
           <GridContainer2 className="grid-pool-head">
             <GridItem>Start date</GridItem>
@@ -1767,21 +1762,43 @@ return (
                     </div>
                   </GridItem>
                   <GridItem>
-                    <div className="title-secondary">In progress</div>
+                    {Big(new Date().getTime()).gt(Big(item[1]).times(1000)) ? (
+                      <div className="title-secondary green">Ready</div>
+                    ) : (
+                      <div className="title-secondary">In progress</div>
+                    )}
                   </GridItem>
                   <GridItem className="action-item">
-                    <Widget
-                      src="dapdapbos.near/widget/UI.Button"
-                      props={{
-                        text: "RE-LOCK",
-                        type: "green",
-                        style: { width: 118 },
-                        // loading: state.isClaiming,
-                        onClick: () => {
-                          handleReLock(item, index);
-                        },
-                      }}
-                    />
+                    {Big(new Date().getTime()).gt(Big(item[1]).times(1000)) ? (
+                      <Widget
+                        src="dapdapbos.near/widget/UI.Button"
+                        props={{
+                          text: "WITHDRAW",
+                          type: "green",
+                          style: { width: 118 },
+                          loading: index === state.curIndex ? true : false,
+                          disabled:
+                            state.curIndex > -1 && index !== state.curIndex
+                              ? true
+                              : false,
+                          onClick: () => {
+                            handleUnLock(index);
+                          },
+                        }}
+                      />
+                    ) : (
+                      <Widget
+                        src="dapdapbos.near/widget/UI.Button"
+                        props={{
+                          text: "RE-LOCK",
+                          type: "green",
+                          style: { width: 118 },
+                          onClick: () => {
+                            handleReLock(item, index);
+                          },
+                        }}
+                      />
+                    )}
                   </GridItem>
                 </GridContainer2>
               </PoolItem>
