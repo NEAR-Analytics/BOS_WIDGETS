@@ -54,7 +54,6 @@ const ButtonGroup = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 3px;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -157,10 +156,10 @@ const Navbar = ({ page, ...props }) => (
               }
               return (
                 <NavLink to={k}>
-                  <Button key={k} variant={page === k && "primary"}>
+                  <button key={k} className="btn btn-sm btn-secondary">
                     {route.init.icon && <i className={route.init.icon}></i>}
                     {route.init.name}
-                  </Button>
+                  </button>
                 </NavLink>
               );
             })}
