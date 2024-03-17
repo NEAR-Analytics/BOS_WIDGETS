@@ -43,7 +43,7 @@ const config = {
         default: true,
       },
       events: {
-        path: "hack.near/widget/events.Calendar",
+        path: "buildhub.near/widget/events.Calendar",
         blockHeight: "final",
         init: {
           name: "Events",
