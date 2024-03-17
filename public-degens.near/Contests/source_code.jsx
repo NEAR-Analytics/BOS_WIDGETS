@@ -181,6 +181,7 @@ State.init({ selected: state.selected ?? "articles" });
 return (
   <Page>
     <Header>Public Degens</Header>
+    <h4>✅Stage 1 is completed. The results will be published on March 18</h4>
     <Category>
       <span>Select category</span>
     </Category>
