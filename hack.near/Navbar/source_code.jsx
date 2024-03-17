@@ -222,7 +222,7 @@ const Navbar = ({ page, ...props }) => (
                 );
               })}
           </ButtonGroup>
-          <div className="d-flex w-100 align-items-center gap-3 justify-content-center">
+          <div className="w-100">
             <SignInOrConnect />
           </div>
         </div>
