@@ -42,20 +42,6 @@ const config = {
         },
         default: true,
       },
-      events: {
-        path: "buildhub.near/widget/events.Calendar",
-        blockHeight: "final",
-        init: {
-          name: "Events",
-        },
-      },
-      map: {
-        path: "efiz.near/widget/Map.index",
-        blockHeight: "final",
-        init: {
-          name: "Map",
-        },
-      },
     },
   },
 };
