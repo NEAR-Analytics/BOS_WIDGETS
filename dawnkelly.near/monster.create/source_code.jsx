@@ -5,7 +5,8 @@ const [monster, setMonster] = useState(() => {
     metadata: {
       name: "",
       description: "",
-      alignment: "",
+      morals: "",
+      ethics: "",
       type: "",
       size: "",
       challenge: "",
@@ -40,11 +41,19 @@ const handleDescriptionChange = (e) => {
   }));
 };
 
-const handleAlignmentChange = (e) => {
-  const newAlignment = e.target.value;
+const handleMoralsChange = (e) => {
+  const newMorals = e.target.value;
   setMonster((prevMonster) => ({
     ...prevMonster,
-    metadata: { ...prevMonster.metadata, alignment: newAlignment },
+    metadata: { ...prevMonster.metadata, morals: newMorals },
+  }));
+};
+
+const handleEthicsChange = (e) => {
+  const newEthics = e.target.value;
+  setMonster((prevMonster) => ({
+    ...prevMonster,
+    metadata: { ...prevMonster.metadata, ethics: newEthics },
   }));
 };
 
@@ -135,27 +144,36 @@ return (
         />
       </div>
       <div className="mb-3 p-1">
-        <span className="mb-2 d-block">
-          Hold Control or Command to select more than one:
-        </span>
+        <h5 className="mb-2 d-block">Alignment</h5>
         <div className="row align-items-center">
-          <div className="col-auto">
-            <label htmlFor="alignment">Alignment:</label>
-          </div>
           <div className="col">
+            <label for="ethics">Ethics:</label>
             <select
-              name="alignment"
-              id="alignment"
+              name="ethics"
+              id="ethics"
               className="form-select"
-              multiple
-              value={monster.metadata.alignment}
-              onChange={handleAlignmentChange}
+              value={monster.metadata.alignment.ethics}
+              onChange={handleEthicsChange}
             >
+              <option value="null">---</option>
+              <option value="lawful">Lawful</option>
+              <option value="neutral">Neutral</option>
+              <option value="chaotic">Chaotic</option>
+              <option value="any">Any</option>
+              <option value="unaligned">Unaligned</option>
+            </select>
+            <label for="morals">Morals:</label>
+            <select
+              name="morals"
+              id="morals"
+              className="form-select"
+              value={monster.metadata.alignment.morals}
+              onChange={handleMoralsChange}
+            >
+              <option value="null">---</option>
               <option value="good">Good</option>
               <option value="neutral">Neutral</option>
               <option value="evil">Evil</option>
-              <option value="lawful">Lawful</option>
-              <option value="chaotic">Chaotic</option>
               <option value="any">Any</option>
               <option value="unaligned">Unaligned</option>
             </select>
@@ -163,22 +181,20 @@ return (
         </div>
       </div>
       <div className="mb-3 p-1">
-        <span className="mb-2 d-block">
-          Hold Control or Command to select more than one:
-        </span>
-        <div className="row align-items-center">
-          <div className="col-auto">
-            <label htmlFor="type">Type:</label>
-          </div>
+        <span className="mb-2 d-block"></span>
+
+        <div className="col-auto">
+          <label htmlFor="type">Type:</label>
+
           <div className="col">
             <select
               name="type"
               id="type"
               className="form-select"
-              multiple
               value={monster.metadata.type}
               onChange={handleTypeChange}
             >
+              <option value="null">---</option>
               <option value="abberation">Abberation</option>
               <option value="beast">Beast</option>
               <option value="celestial">Celestial</option>
@@ -202,9 +218,11 @@ return (
         <select
           name="size"
           id="size"
+          className="form-select"
           value={monster.metadata.size}
           onChange={handleSizeChange}
         >
+          <option value="null">---</option>
           <option value="tiny">Tiny</option>
           <option value="small">Small</option>
           <option value="medium">Medium</option>
