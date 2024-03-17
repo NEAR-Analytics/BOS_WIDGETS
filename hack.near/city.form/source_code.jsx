@@ -69,7 +69,7 @@ const Footer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 19px;
+  padding: 23px;
 `;
 
 return (
