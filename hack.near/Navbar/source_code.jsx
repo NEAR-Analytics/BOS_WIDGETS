@@ -1,4 +1,5 @@
 const creatorId = props.creatorId || "hack.near";
+const appId = props.appId || "app";
 
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
