@@ -1,4 +1,4 @@
-const pattern = props.pattern ?? "*/profile/city/*";
+const pattern = props.pattern ?? "*/profile/cities/*";
 const placeholder =
   props.placeholder ??
   "input the name of your city here (try not to duplicate)";
@@ -20,7 +20,7 @@ const normalizeCity = (city) =>
     .toLowerCase()
     .trim("-");
 
-const cityCount = {};
+const citiesCount = {};
 
 const processObject = (obj) => {
   Object.entries(obj).forEach((kv) => {
@@ -28,14 +28,14 @@ const processObject = (obj) => {
       processObject(kv[1]);
     } else {
       const city = normalizeCity(kv[0]);
-      cityCount[city] = (cityCount[city] || 0) + 1;
+      citiesCount[city] = (citiesCount[city] || 0) + 1;
     }
   });
 };
 
 const getCities = () => {
   processObject(citiesObject);
-  const cities = Object.entries(cityCount);
+  const cities = Object.entries(citiesCount);
   cities.sort((a, b) => b[1] - a[1]);
   return cities.map((t) => ({
     name: t[0],
@@ -56,14 +56,15 @@ if (!state.allCities) {
   });
 }
 
-const setCities = (city) => {
-  const normalizedCity = normalizeCity(city.name);
-  State.update({ cities: { name: normalizedCity } });
+const setCities = (selectedCity) => {
+  const normalizedCity = normalizeCity(selectedCity.name);
+  const updatedCities = {
+    ...state.originalCities,
+    [normalizedCity]: "",
+  };
+
   if (props.setCitiesObject) {
-    props.setCitiesObject({
-      ...state.originalCities,
-      [normalizedCity]: "",
-    });
+    props.setCitiesObject(updatedCities);
   }
 };
 
@@ -79,11 +80,5 @@ return (
       positionFixed
       allowNew
     />
-    {props.debug && (
-      <div>
-        Debugging cities:
-        <pre>{JSON.stringify(state.cities)}</pre>
-      </div>
-    )}
   </>
 );
