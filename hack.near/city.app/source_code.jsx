@@ -1,11 +1,8 @@
+const creatorId = props.creatorId ?? "hack.near";
+const appId = props.appId ?? "city.app";
+
 const config = {
-  theme: {
-    // add key values to define colors
-    // "--main-color": "blue",
-    // "--secondary-color": "red",
-    // background: "var(--main-color)",
-    // color: "var(--secondary-color)",
-  },
+  theme: {},
   layout: {
     src: "devs.near/widget/Layout",
     props: {
@@ -14,23 +11,31 @@ const config = {
   },
   blocks: {
     Header: () => (
-      <Widget
-        src="hack.near/widget/Navbar"
-        props={{ routes: config.router.routes, ...passProps }}
-      />
+      <>
+        <Widget
+          src="hack.near/widget/Navbar"
+          props={{ routes: config.router.routes, creatorId, appId }}
+        />
+      </>
     ),
     Footer: () => (
-      <Widget
-        src="hack.near/widget/Footer"
-        props={{ metadata, ...passProps }}
-      />
+      <>
+        <Widget
+          src="hack.near/widget/Footer"
+          props={{
+            creatorId,
+            github: "https://github.com/nearbuilders/city",
+            twitter: "https://x.com/nearbuilders",
+          }}
+        />
+      </>
     ),
   },
   router: {
     param: "page",
     routes: {
       home: {
-        path: "hack.near/widget/page.index",
+        path: "hack.near/widget/page.home",
         blockHeight: "final",
         init: {
           name: "Home",
@@ -51,19 +56,12 @@ const config = {
           name: "Map",
         },
       },
-      feed: {
-        path: "hack.near/widget/page.feed",
-        blockHeight: "final",
-        init: {
-          name: "Social",
-        },
-      },
     },
   },
 };
 
 const Root = styled.div`
-  // you can override classnames here
+font-family: Courier;
 `;
 
 return (
