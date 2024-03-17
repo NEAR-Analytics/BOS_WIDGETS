@@ -152,7 +152,7 @@ return (
               name="ethics"
               id="ethics"
               className="form-select"
-              value={monster.metadata.alignment.ethics}
+              value={monster.metadata.ethics}
               onChange={handleEthicsChange}
             >
               <option value="null">---</option>
@@ -167,7 +167,7 @@ return (
               name="morals"
               id="morals"
               className="form-select"
-              value={monster.metadata.alignment.morals}
+              value={monster.metadata.morals}
               onChange={handleMoralsChange}
             >
               <option value="null">---</option>
@@ -272,7 +272,7 @@ return (
       <h5 className="mb-2">Preview</h5>
       <p>If you are happy with your creation, be sure to click 'Save'</p>
       <Widget
-        src="dawnkelly.near/widget/monster.inline"
+        src="dawnkelly.near/widget/weapon.inline"
         props={{
           accountId,
           monster,
