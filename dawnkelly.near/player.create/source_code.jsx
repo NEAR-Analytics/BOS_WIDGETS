@@ -192,6 +192,7 @@ return (
         <select
           name="species"
           id="species"
+          className="form-select"
           value={player.metadata.species}
           onChange={handleSpeciesChange}
         >
@@ -211,6 +212,7 @@ return (
         <select
           name="class"
           id="class"
+          className="form-select"
           value={player.metadata.class}
           onChange={handleClassChange}
         >
@@ -264,6 +266,7 @@ return (
       <select
         name="defaultweapon"
         id="defaultweapon"
+        className="form-select"
         value={player.metadata.defaultweapon}
         onChange={handleDefaultWeaponChange}
       >
