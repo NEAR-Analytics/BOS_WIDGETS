@@ -2,10 +2,6 @@ const creatorId = props.creatorId || "hack.near";
 const appId = props.appId || "app";
 const pageId = props.pageId || "home";
 
-const { Button } = VM.require("buildhub.near/widget/components") || {
-  Button: () => <></>,
-};
-
 const routes = props.routes ?? {
   home: {
     path: "hack.near/widget/page.index",
@@ -118,7 +114,7 @@ const SignInOrConnect = () => (
         props={{ accountId: "every.near" }}
       />
     ) : (
-      <Button>Signed Out</Button>
+      <button disabled={!context.accountId}>Signed Out</button>
     )}
   </>
 );
@@ -192,14 +188,14 @@ const Navbar = ({ page, ...props }) => (
             alt="Build DAO"
           />
         </Link>
-        <Button
+        <button
           type="icon"
           variant="outline"
           className="rounded-2"
           onClick={toggleDropdown}
         >
           <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-        </Button>
+        </button>
       </MobileNavigation>
     </div>
     <MobileNavigation>
@@ -214,15 +210,14 @@ const Navbar = ({ page, ...props }) => (
                 }
                 return (
                   <NavLink to={k} style={{ textDecoration: "none" }}>
-                    <Button
+                    <button
                       key={k}
-                      variant={page === k && "primary"}
-                      className="w-100"
+                      className="btn btn-sm btn-secondary w-100"
                       onClick={() => setShowMenu(false)}
                     >
                       {route.init.icon && <i className={route.init.icon}></i>}
                       {route.init.name}
-                    </Button>
+                    </button>
                   </NavLink>
                 );
               })}
