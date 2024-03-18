@@ -624,6 +624,9 @@ return (
       <small class="text-muted">
         {isLoop ? "Continuous" : "Not continuous"}
       </small>
+      <small class="text-muted">
+        {tools.map((tool) => tool.name).join(", ")}
+      </small>
     </div>
 
     <ModalOverlay
