@@ -21,9 +21,11 @@ useEffect(() => {
     // TESTING
     lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
   }
+  console.log('lastShowByIds', lastShowByIds)
 
   if (Object.values(lastShowByIds).includes(1)) {
     data.sort((chapA, chapB) => lastShowByIds[chapA.id] - lastShowByIds[chapB.id])
+    console.log('data after sort', data)
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
     setShow(true)
   }
