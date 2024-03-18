@@ -213,6 +213,21 @@ function toHumanTimeDiff(ns) {
   }
 }
 
+console.log(poolId);
+
+if (!poolId) {
+  return (
+    <>
+      <h1>Lock LP tokens of your shitcoin</h1>
+      <ul>
+        <li>
+          <a href="?poolId=4663">INTEL-wNEAR</a>
+        </li>
+      </ul>
+    </>
+  );
+}
+
 return poolInfo ? (
   <>
     Pool:{" "}
@@ -395,6 +410,12 @@ return poolInfo ? (
         </button>
       </>
     )}
+    <br />
+    <br />
+    <h1>
+      Product not audited, use at your own risk. Withdrawals are disabled until
+      audited.
+    </h1>
   </>
 ) : (
   "Loading ..."
