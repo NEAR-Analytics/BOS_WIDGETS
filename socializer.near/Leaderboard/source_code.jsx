@@ -58,7 +58,7 @@ State.init({
   menu: { value: "users" },
   time: { value: "monthly" },
   list: [],
-  load: false,
+  loaded: false,
   error: "",
 });
 
@@ -120,7 +120,7 @@ const columns = {
 };
 
 const selectMenu = (data, key) => {
-  State.update({ [key]: data, load: false });
+  State.update({ [key]: data, loaded: false });
 };
 
 const getListData = () => {
@@ -130,18 +130,23 @@ const getListData = () => {
   ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) return State.update({ error, load: true });
+      if (error) return State.update({ error, loaded: true });
       State.update({
         list: data,
-        load: true,
+        loaded: true,
       });
+    } else {
+      State.update({ error: res.error, loaded: true });
     }
   });
 };
 
-if (!state.load) getListData();
+if (!state.loaded) getListData();
+
+if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
+
 if (state.error) return <p style={{ color: "red" }}>{state.error}</p>;
-console.log(state.list, "==>state.list");
+
 return (
   <div style={{ width: "100%" }}>
     <Wrapper>
