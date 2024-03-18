@@ -57,8 +57,8 @@ return value === undefined ? (
       <h3>Yes! INTEAR has flipped NEARVIDIA</h3>
     ) : (
       <h3>
-        Not yet! But we are {(value * 100).toFixed(2)}% close to flipping
-        nearvidia.
+        Not yet! But INTEAR is {(value * 100).toFixed(2)}% close to flipping
+        NEARVIDIA.
       </h3>
     )}
   </>
