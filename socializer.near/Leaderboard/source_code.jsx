@@ -152,7 +152,7 @@ return (
     <Wrapper>
       <HeadContent>
         <h3>Leader Board : </h3>
-        <div className="d-flex flex-column gap-2 form-group">
+        <div className="d-flex flex-column gap-2 form-group mb-2">
           <Widget
             props={{
               API_URL,
