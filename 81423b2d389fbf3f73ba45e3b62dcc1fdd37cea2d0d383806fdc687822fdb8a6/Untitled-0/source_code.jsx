@@ -46,7 +46,7 @@ return (
   <div className="d-flex flex-column align-items-center">
     <LabelArea>
       <Image
-        src="https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/e649793e-63e8-4a36-8fac-b54b418e6b1e-profile.png"
+        src="https://i.near.social/magic/large/https://near.social/magic/img/account/nearukraineguild.near"
         alt="Logo"
       />
       <Input
