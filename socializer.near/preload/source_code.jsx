@@ -1,82 +1,117 @@
 const Wrapper = styled.div`
-width: 100px;
-height: 100px;
-margin: 50px auto;
-position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 50px auto 0;
+    position: relative;
 
-& .loader-inner-1,
-& .loader-inner-2,
-& .loader-inner-3,
-& .loader-inner-4{
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    position: absolute;
-}
-& .loader-inner-1:before,
-& .loader-inner-2:before,
-& .loader-inner-3:before,
-& .loader-inner-4:before{
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    position: absolute;
-    right: 0;
-    animation-name: loading-1;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-duration: 2s;
-}
-& .loader-inner-1{
-    top: 0;
-    left: 0;
-    transform: rotate(70deg);
-}
-& .loader-inner-1:before{ background: #06aed5; }
-& .loader-inner-2{
-    top: 0;
-    right: 0;
-    transform: rotate(160deg);
-}
-& .loader-inner-2:before{ background: #ec008c; }
-& .loader-inner-3{
-    bottom: 0;
-    right: 0;
-    transform: rotate(-110deg);
-}
-& .loader-inner-3:before{ background: #ffbf00; }
-& .loader-inner-4{
-    bottom: 0;
-    left: 0;
-    transform: rotate(-20deg);
-}
-& .loader-inner-4:before{ background: #079c00; }
-@keyframes loading-1{
-    0%{
-        width: 20px;
-        right: 0;
+    & .cube-wrapper{
+        transform-style: preserve-3d;
+        animation: bouncing 2s infinite;
     }
-    30%{
-        width: 120px;
-        right: -100px;
+    & .cube{
+        transform-style: preserve-3d;
+        transform: rotateX(45deg) rotateZ(45deg);
+        animation: rotation 2s infinite;
     }
-    60%{
-        width: 20px;
-        right: -100px;
+    & .cube-faces{
+        transform-style: preserve-3d;
+        height: 80px;
+        width: 80px;
+        position: relative;
+        transform-origin: 0 0;
+        transform: translateX(0) translateY(0) translateZ(-40px);
     }
-}
+    & .cube-face{
+        position: absolute;
+        inset: 0;
+        background: #110d31ff;
+        border: solid 1px #fff;
+    }
+    & .cube-face.shadow{
+        transform: translateZ(-80px);
+        animation: bouncing-shadow 2s infinite;
+    }
+    & .cube-face.top{ transform: translateZ(80px); }
+    & .cube-face.front{
+        transform-origin: 0 50%;
+        transform: rotateY(-90deg);
+    }
+    & .cube-face.back{
+        transform-origin: 0 50%;
+        transform: rotateY(-90deg) translateZ(-80px);
+    }
+    & .cube-face.right{
+        transform-origin: 50% 0;
+        transform: rotateX(-90deg) translateY(-80px);
+    }
+    & .cube-face.left{
+        transform-origin: 50% 0;
+        transform: rotateX(-90deg) translateY(-80px) translateZ(80px);
+    }
+
+    @keyframes rotation{
+        0%{
+            transform: rotateX(45deg) rotateY(0) rotateZ(45deg);
+            animation-timing-function: cubic-bezier(0.17, 0.84, 0.44, 1);
+        }
+        50%{
+            transform: rotateX(45deg) rotateY(0) rotateZ(225deg);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+        }
+        100%{
+            transform: rotateX(45deg) rotateY(0) rotateZ(405deg);
+            animation-timing-function: cubic-bezier(0.17, 0.84, 0.44, 1);
+        }
+    }
+    @keyframes bouncing{
+        0%{
+            transform: translateY(-40px);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+        }
+        45%{
+            transform: translateY(40px);
+            animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        100%{
+            transform: translateY(-40px);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+        }
+    }
+    @keyframes bouncing-shadow{
+        0%{
+            transform: translateZ(-80px) scale(1.3);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            opacity: 0.05;
+        }
+        45%{
+            transform: translateZ(0);
+            animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0.3;
+        }
+        100%{
+            transform: translateZ(-80px) scale(1.3);
+            animation-timing-function: cubic-bezier(0.76, 0.05, 0.86, 0.06);
+            opacity: 0.05;
+        }
+    }
 `;
 
 return (
   <div className="d-flex justify-content-center align-items-center w-100">
     <Wrapper>
-      <span className="loader-inner-1"></span>
-      <span className="loader-inner-2"></span>
-      <span className="loader-inner-3"></span>
-      <span className="loader-inner-4"></span>
+      <div className="cube-wrapper">
+        <div className="cube">
+          <div className="cube-faces">
+            <div className="cube-face shadow" />
+            <div className="cube-face bottom" />
+            <div className="cube-face top" />
+            <div className="cube-face left" />
+            <div className="cube-face right" />
+            <div className="cube-face back" />
+            <div className="cube-face front" />
+          </div>
+        </div>
+      </div>
     </Wrapper>
   </div>
 );
