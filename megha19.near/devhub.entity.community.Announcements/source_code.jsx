@@ -124,7 +124,9 @@ return (
               src="megha19.near/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
-                filteredAccountIds: [`${handle}.community.truedove38.near`],
+                filteredAccountIds: [
+                  `${handle}.community.truedove38.near`,
+                ],
                 sort: sort,
                 setPostExists: setPostExists,
                 showFlagAccountFeature: true,
