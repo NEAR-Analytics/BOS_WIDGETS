@@ -380,6 +380,9 @@ const run = () => {
           messages: newMessages,
           scratchPad: _scratchPad,
           activity: parsedResponse,
+          state: {
+            messages,
+          },
         });
       }
 
