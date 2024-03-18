@@ -3,7 +3,11 @@ const [selectedAuthor, setSelectedAuthor] = useState(null);
 
 if (!authorsOptions.length) {
   const data = [];
-  const authors = Near.view("truedove38.near", "get_all_proposal_authors", {});
+  const authors = Near.view(
+    "truedove38.near",
+    "get_all_proposal_authors",
+    {}
+  );
 
   if (Array.isArray(authors)) {
     for (const author of authors) {
