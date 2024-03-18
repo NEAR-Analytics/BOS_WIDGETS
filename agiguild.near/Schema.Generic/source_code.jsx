@@ -1,4 +1,15 @@
-const schema = {
+
+const humanize = (str) => {
+    if (!str) return "";
+    return str.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase());
+};
+
+const genSchema = (namespace, entityType, entityTitle) => {
+    const title = entityTitle || humanize(entityType);
+    return {
+    namespace: namespace,
+    entityType: entityType,
+    entityTitle: title,
     id: {
         type: "integer",
         displayType: "hidden",
@@ -8,17 +19,19 @@ const schema = {
         displayType: "hidden",
     },
     name: {
+        type: "string",
         inputProps: {
             min: 2,
             max: 80,
             allowCommaAndSpace: false,
-            placeholder: "Choose a unique identifier for your agent. Example: travel-agent.",
+            placeholder: `Choose a unique identifier for your ${title}.`,
             required: true,
         },
         label: "Name",
         order: 1,
     },
     displayName: {
+        type: "string",
         inputProps: {
             min: 2,
             max: 255,
@@ -29,17 +42,18 @@ const schema = {
         order: 2,
     },
     logoUrl: {
+        type: "string",
         inputProps: {
             min: 4,
             max: 255,
-            placeholder: "The logo URL for the agent.",
+            placeholder: `The logo URL for the ${title}.`,
             required: false,
         },
 
         label: "Logo URL",
         order: 5,
     },
-
+}
 };
 
-return {schema}
+return {genSchema}
