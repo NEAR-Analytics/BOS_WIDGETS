@@ -22,6 +22,7 @@ const [messages, setMessages] = useState([]);
 const [loading, setLoading] = useState(false);
 const [isCollapsed, setIsCollapsed] = useState(props_IsCollapsted);
 const [isLoop, setIsLoop] = useState(true);
+const [settingsOpen, setSettingsOpen] = useState(false);
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,6 +55,21 @@ const ModalBody = styled.div`
   width: 90%;
   height: 90%;
   overflow-y: auto;
+`;
+
+const Settings = styled.div`
+  margin-top: 1em;
+  z-index: 1000;
+`;
+
+const CardControl = styled.div`
+  cursor: pointer;
+  color: var(--violet8);
+  margin-bottom: 1em;
+`;
+
+const InputWrapper = styled.div`
+  padding-bottom: 1em;
 `;
 
 const buildPrompt = (tools, role, goal, backstory) => `
@@ -248,6 +264,154 @@ const run = () => {
     });
 };
 
+const toggleSettings = () => {
+  setSettingsOpen(!settingsOpen);
+};
+
+const renderSettings = () => {
+  return (
+    <div>
+      <Settings>
+        <CardControl bold onClick={toggleSettings}>
+          Settings
+        </CardControl>
+      </Settings>
+      <ModalOverlay isCollapsed={!settingsOpen} onClick={toggleSettings}>
+        <ModalBody onClick={(e) => e.stopPropagation()}>
+          <InputWrapper>
+            <Widget
+              src="near/widget/DIG.InputSelect"
+              props={{
+                groups: [
+                  {
+                    label: "NEAR",
+                    items: [
+                      {
+                        label: "NEAR Llama 7b",
+                        value: "near-llama-7b",
+                      },
+                      // Hi hackathon teams, implementing calls to gpt4.near? Add it here. - the black dragon
+                    ],
+                  },
+                  {
+                    label: "Groq",
+                    items: [
+                      {
+                        label: "Mixtral 8x7b 32768",
+                        value: "mixtral-8x7b-32768",
+                      },
+                      {
+                        label: "Llama2 70b 4096",
+                        value: "llama2-70b-4096",
+                      },
+                    ],
+                  },
+                  {
+                    label: "OpenAI",
+                    items: [
+                      {
+                        label: "GPT-4",
+                        value: "gpt-4",
+                      },
+                      {
+                        label: "GPT-3.5 turbo",
+                        value: "gpt-3.5-turbo",
+                      },
+                    ],
+                  },
+                  {
+                    label: "Local",
+                    items: [
+                      {
+                        label: "Local",
+                        value: "local",
+                      },
+                    ],
+                  },
+                ],
+                label: "Choose Model",
+                placeholder: "OpenAI GPT-3",
+                rootProps: {
+                  value: model,
+                  onValueChange: setModel,
+                },
+              }}
+            />
+          </InputWrapper>
+          {model === "local" && (
+            <InputWrapper>
+              <Widget
+                src="near/widget/DIG.Input"
+                props={{
+                  label: "Local Model URL",
+                  assistiveText:
+                    "Any url that accepts messages in OpenAI format",
+                  iconLeft: "ph-bold ph-horse",
+                  onInput: (e) => setLocalModel(e.target.value),
+                  value: localModel,
+                }}
+              />
+            </InputWrapper>
+          )}
+          <InputWrapper>
+            <div className="row">
+              <div className="col-3">
+                <Widget
+                  src="near/widget/DIG.InputSelect"
+                  props={{
+                    groups: [
+                      {
+                        label: "OpenAI, Groq, or other API Key",
+                        items: [
+                          {
+                            label: "Bearer Token",
+                            value: "bearer",
+                          },
+                        ],
+                      },
+                    ],
+                    label: "Credential Type",
+                    rootProps: {
+                      value: credentialType,
+                      onValueChange: setCredentialType,
+                    },
+                  }}
+                />
+              </div>
+              <div className="col">
+                <Widget
+                  src="near/widget/DIG.Input"
+                  props={{
+                    label: "Credentials",
+                    assistiveText:
+                      "Your OpenAI API Key or other credentials, will be stored in your browser.",
+                    iconLeft: "ph-bold ph-identification-card",
+                    onInput: (e) => setCredential(e.target.value),
+                    value: credential,
+                    type: "password",
+                  }}
+                />
+              </div>
+            </div>
+          </InputWrapper>
+          <InputWrapper>
+            <Widget
+              src="near/widget/DIG.Checkbox"
+              props={{
+                id: "json-output",
+                label: "JSON Output mode",
+                checked: jsonOutputSetting,
+                onCheckedChange: setJsonOutputSetting,
+              }}
+            />{" "}
+            not supported by all providers.
+          </InputWrapper>
+        </ModalBody>
+      </ModalOverlay>
+    </div>
+  );
+};
+
 useEffect(() => {
   setMessages([]);
 }, [task]);
@@ -302,14 +466,8 @@ return (
         >
           {isCollapsed ? "Open run" : "Hide run"}
         </button>
-        <button
-          className="btn"
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          disabled={!loading}
-        >
-          {isCollapsed ? "Settings" : ""}
-        </button>
       </div>
+      {renderSettings()}
     </div>
     <div class="card-footer">
       <small class="text-muted">AutoAgent</small>
