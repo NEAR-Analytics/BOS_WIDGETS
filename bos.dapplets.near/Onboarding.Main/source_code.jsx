@@ -25,7 +25,7 @@ useEffect(() => {
   }
   console.log('lastShowByIds', lastShowByIds)
 
-  if (!lastShowTimes) {
+  if (!lastShowTimes && context.accountId === props?.link?.authorId) {
     setShow(true)
   } else if (Object.values(lastShowByIds).includes(1)) {
     data.sort((chapA, chapB) => lastShowByIds[chapA.id] - lastShowByIds[chapB.id])
