@@ -14,7 +14,15 @@ const requirementsOptions = [
   { name: "I-Am-Human Verified", value: "human" },
 ];
 
-const hrOption = [];
+const hrOption = [
+  { text: "00", value: "00" },
+  { text: "06", value: "06" },
+  { text: "12", value: "12" },
+  { text: "18", value: "18" },
+  { text: "24", value: "24" },
+  { text: "48", value: "48" },
+  { text: "72", value: "72" },
+];
 const minOption = [];
 
 for (let i = 0; i <= 50; i++) {
@@ -22,7 +30,7 @@ for (let i = 0; i <= 50; i++) {
   let min = i * 10;
   if (min == 0) min = "00";
   if (i <= 5) minOption.push({ text: min.toString(), value: min.toString() });
-  hrOption.push({ text: hr.toString(), value: hr.toString() });
+  //   hrOption.push({ text: hr.toString(), value: hr.toString() });
 }
 
 State.init({
@@ -43,13 +51,18 @@ State.init({
 });
 
 const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: #FAFAFA;
-  flex-direction: column;
-  padding: 18px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #FAFAFA;
+    flex-direction: column;
+    padding: 18px;
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 `;
 
 const HeadComponent = styled.div`
@@ -145,6 +158,32 @@ if (!state.tokens.length) getTokenData();
 const changeRequirement = (label) => {
   State.update({
     requirements: label,
+  });
+};
+
+const changePostLink = (link) => {
+  State.update({ error: "", post_link: e.target.value, loading: true });
+  asyncFetch(API_URL + `/api/campaign`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ post_link: link }),
+  }).then((res) => {
+    if (res.ok) {
+      const { error, accountId } = res.body;
+      console.log(res.body, "-==>data");
+      if (error) State.update({ ...state, error, loading: false });
+      else if (accountId) {
+        State.update({
+          ...state,
+          loading: false,
+          username: accountId,
+        });
+      }
+    } else {
+      State.update({ ...state, error: res.error, loading: false });
+    }
   });
 };
 
@@ -264,9 +303,7 @@ return (
             value={state.post_link}
             placeholder="https://near.social/"
             onChange={(e) => {
-              State.update({
-                post_link: e.target.value,
-              });
+              changePostLink(e.target.value);
             }}
           />
         </div>
