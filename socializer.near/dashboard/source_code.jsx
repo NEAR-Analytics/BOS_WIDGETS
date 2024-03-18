@@ -133,6 +133,7 @@ const options = [
 ];
 
 State.init({
+  loaded: false,
   campaigns: [],
   error: "",
 });
@@ -246,6 +247,7 @@ const getCampaignData = () => {
         const { error, data } = res.body;
         if (error) State.update({ error });
         State.update({
+          loaded: true,
           campaigns: data,
         });
       }
@@ -253,9 +255,9 @@ const getCampaignData = () => {
   );
 };
 
-if (!state.campaigns.length) getCampaignData();
+if (!state.loaded) getCampaignData();
 
-if (!state.campaigns.length)
+if (!state.loaded)
   return (
     <Widget
       props={{
