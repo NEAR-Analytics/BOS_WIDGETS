@@ -104,12 +104,16 @@ const getTokenData = () => {
           loaded: true,
           loading: false,
         });
+      } else {
+        State.update({
+          ...state,
+          loaded: true,
+          error: res.error,
+        });
       }
     }
   );
 };
-
-if (!state.loaded) getTokenData();
 
 const toFixed = (x) => {
   if (Math.abs(x) < 1.0) {
@@ -181,9 +185,10 @@ const withdraw = async (item) => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error, loading: false });
+      if (error) State.update({ ...state, error, loading: false });
       else if (data && data === "success") {
         State.update({
+          ...state,
           loaded: false,
         });
       }
@@ -206,6 +211,10 @@ const registry = async (item) => {
     oneNEARInYoctoNEAR
   );
 };
+
+if (!state.loaded) getTokenData();
+
+if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
 return (
   <Wrapper>
