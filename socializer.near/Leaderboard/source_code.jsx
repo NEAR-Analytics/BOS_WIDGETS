@@ -3,7 +3,7 @@ const accountId = context.accountId;
 const API_URL = props?.API_URL || "http://localhost:3000";
 
 const Wrapper = styled.div`
-    width: 400px;
+    width: 500px;
     @media (max-width: 620px) {
         width: 100%;
     }
