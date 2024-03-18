@@ -224,6 +224,10 @@ if (!poolId) {
           <a href="?poolId=4663">INTEL-wNEAR</a>
         </li>
       </ul>
+      <h2>
+        Product not audited, use at your own risk. Withdrawals are disabled
+        until audited.
+      </h2>
     </>
   );
 }
@@ -412,10 +416,10 @@ return poolInfo ? (
     )}
     <br />
     <br />
-    <h1>
+    <h2>
       Product not audited, use at your own risk. Withdrawals are disabled until
       audited.
-    </h1>
+    </h2>
   </>
 ) : (
   "Loading ..."
