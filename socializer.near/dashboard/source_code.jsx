@@ -36,7 +36,7 @@ const handleSearch = (event) => {
 };
 
 const selectMenu = (data) => {
-  State.update({ menu: data, campaigns: [], timer_load: false });
+  State.update({ menu: data, campaigns: [], timer_load: false, loaded: false });
 };
 
 State.init({
