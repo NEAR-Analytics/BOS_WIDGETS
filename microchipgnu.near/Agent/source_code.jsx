@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 const ModalOverlay = styled.div`
   display: ${({ isCollapsed }) => (isCollapsed ? "none" : "block")};
   position: fixed;
-  z-index: 1000;
+  z-index: 1050;
   left: 0;
   top: 0;
   width: 100%;
@@ -45,7 +45,6 @@ const ModalOverlay = styled.div`
 
 const ModalBody = styled.div`
   position: fixed;
-  z-index: 1000;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
