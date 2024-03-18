@@ -259,13 +259,62 @@ useEffect(() => {
 }, [messages]);
 
 return (
-  <>
-    <button
-      className="btn btn-dark w-100"
-      onClick={() => setIsCollapsed(!isCollapsed)}
-    >
-      {isCollapsed ? role : ""}
-    </button>
+  <div className="card">
+    <div class="card-body">
+      <h5 class="card-title">{role}</h5>
+      <p class="card-text">{goal}</p>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              run();
+              setIsCollapsed(false);
+            }
+          }}
+          placeholder="What's your goal?"
+          autoFocus
+        />
+        <Widget
+          src="near/widget/DIG.Button"
+          className="btn btn-dark w-100"
+          props={{
+            onClick: () => run(),
+            variant: "affirmative",
+            fill: "solid",
+            size: "large",
+            label: "Submit",
+            style: {
+              borderTopLeftRadius: "0rem",
+              borderBottomLeftRadius: "0rem",
+            },
+          }}
+        />
+      </div>
+      <div className="d-flex gap-2">
+        <button
+          className="flex-grow-3 btn w-100"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          disabled={!loading}
+        >
+          {isCollapsed ? "Open run" : "Hide run"}
+        </button>
+        <button
+          className="btn"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          disabled={!loading}
+        >
+          {isCollapsed ? "Settings" : ""}
+        </button>
+      </div>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">AutoAgent</small>
+    </div>
+
     <ModalOverlay
       isCollapsed={isCollapsed}
       onClick={() => setIsCollapsed(true)}
@@ -290,36 +339,6 @@ return (
         <Wrapper>
           <div className={isCollapsed ? "collapse" : ""}>
             <h3>{role}</h3>
-            <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control"
-                value={task}
-                onChange={(e) => setTask(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    run();
-                  }
-                }}
-                placeholder="What's your goal?"
-                autoFocus
-              />
-              <Widget
-                src="near/widget/DIG.Button"
-                className="btn btn-dark w-100"
-                props={{
-                  onClick: () => run(),
-                  variant: "affirmative",
-                  fill: "solid",
-                  size: "large",
-                  label: "Submit",
-                  style: {
-                    borderTopLeftRadius: "0rem",
-                    borderBottomLeftRadius: "0rem",
-                  },
-                }}
-              />
-            </div>
 
             <div className="flex-fill overflow-auto px-4 py-2 space-y-2">
               {messages.map((message, index) => (
@@ -407,5 +426,5 @@ return (
         </Wrapper>
       </ModalBody>
     </ModalOverlay>
-  </>
+  </div>
 );
