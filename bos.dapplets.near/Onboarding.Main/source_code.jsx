@@ -15,15 +15,19 @@ useEffect(() => {
   if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
   setStart(true);
   const lastShowByIds = {}
-  for (let i = 0; i < lastShowTimes.length; ++i) {
-    const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
-    // if (elapsed > 1000 * 60 * 60 * 3) {
-    // TESTING
-    lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
+  if (lastShowTimes) {
+    for (let i = 0; i < lastShowTimes.length; ++i) {
+      const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
+      // if (elapsed > 1000 * 60 * 60 * 3) {
+      // TESTING
+      lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
+    }
   }
   console.log('lastShowByIds', lastShowByIds)
 
-  if (Object.values(lastShowByIds).includes(1)) {
+  if (!lastShowTimes) {
+    setShow(true)
+  } else if (Object.values(lastShowByIds).includes(1)) {
     data.sort((chapA, chapB) => lastShowByIds[chapA.id] - lastShowByIds[chapB.id])
     console.log('data after sort', data)
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
