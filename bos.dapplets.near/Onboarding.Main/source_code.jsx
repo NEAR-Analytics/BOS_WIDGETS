@@ -81,7 +81,7 @@ const Onboarding = styled.div`
 const handleClose = (doNotShowAgain) => {
   // const time = doNotShowAgain ? 30000000000000 : Date.now()
   const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-  data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShowTime', time))
+  data && data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShowTime', time))
   setShow(false)
 }
 
