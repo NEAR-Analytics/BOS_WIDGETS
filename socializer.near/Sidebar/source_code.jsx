@@ -10,7 +10,7 @@ State.init({
 });
 
 const Sidebar = styled.div`
-    width: 325px;
+    min-width: 260px;
     height: 100%;
     display: flex;
     padding: 20px 0;
