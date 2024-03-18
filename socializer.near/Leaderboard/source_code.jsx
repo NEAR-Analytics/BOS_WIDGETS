@@ -176,7 +176,9 @@ return (
         </div>
       </HeadContent>
       <div>
-        {state.list.length !== 0 && state.menu.value && state.load === true ? (
+        {state.list.length !== 0 &&
+        state.menu.value &&
+        state.loaded === true ? (
           <Widget
             src={`${Owner}/widget/table-pagination`}
             props={{
