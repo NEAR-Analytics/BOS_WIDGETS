@@ -256,7 +256,7 @@ const SearchInput = styled.input`
   border-radius: 10px;
   line-height: normal;
   letter-spacing: -0.12px;
-  padding: 14px 48px 14px 28px;
+  padding: 12px 48px 12px 28px;
 `;
 
 const Button = styled.button`
@@ -360,6 +360,7 @@ return (
               src={`${Owner}/widget/Select`}
             />
             <Button
+              className="btn btn-secondary"
               onClick={() => {
                 if (accountId) {
                   changePage("new_campaigns");
