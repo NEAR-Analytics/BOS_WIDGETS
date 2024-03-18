@@ -187,7 +187,7 @@ const withdraw = async (item) => {
       const { error, data, code } = res.body;
       if (error) {
         State.update({ ...state, error, loading: false });
-        if(code === "404") await registry(item);
+        if(code && code == 404) await registry(item);
       } else if (data && data === "success") {
         State.update({
           ...state,
