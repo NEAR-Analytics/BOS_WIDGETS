@@ -187,7 +187,6 @@ const withdraw = async (item) => {
       const { error, data, code } = res.body;
       if (error) {
         State.update({ ...state, error, loading: false });
-        if (code && code == 404) registry(item);
       } else if (data && data === "success") {
         State.update({
           ...state,
@@ -199,7 +198,7 @@ const withdraw = async (item) => {
 };
 
 const registry = async (item) => {
-  if (item.id == "NEAR") return;
+  if (item.id == "NEAR" && row.token != "0") return;
   const oneTeraGas = 300000000000000;
   const oneNEARInYoctoNEAR = 100000000000000000000000;
   return Near.call(
@@ -335,7 +334,8 @@ return (
                                 onClick={() => registry(row)}
                                 style={{
                                   color:
-                                    (row.id == "NEAR" || row.token != "0") &&
+                                    row.id == "NEAR" &&
+                                    row.token != "0" &&
                                     "gray",
                                 }}
                                 className="text-decoration-underline"
