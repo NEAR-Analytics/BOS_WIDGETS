@@ -217,11 +217,8 @@ return (
       {state.page === "profile" && (
         <Widget props={{ API_URL }} src={`${Owner}/widget/Profile`} />
       )}
-      {state.page === "new_campaigns" && (
-        <Widget
-          src={`${Owner}/widget/NewCampaign`}
-          props={{ API_URL, changePage: changeTab, page: state.page }}
-        />
+      {state.page === "leaderboard" && (
+        <Widget props={{ API_URL }} src={`${Owner}/widget/Leaderboard`} />
       )}
     </Content>
   </Wrapper>
