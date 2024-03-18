@@ -70,7 +70,7 @@ const Content = styled.div`
     margin-left: 5%;
     p {
         margin: 0;
-        font-size: 14px;
+        font-size: 12px;
     }
     h4 {
         margin: 0;
