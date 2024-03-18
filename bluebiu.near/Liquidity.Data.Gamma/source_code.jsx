@@ -89,6 +89,49 @@ const ERC20_ABI = [
     "stateMutability": "view",
     "type": "function"
   },
+  {
+    "inputs": [],
+    "name": "globalState",
+    "outputs": [
+      {
+        "internalType": "uint160",
+        "name": "price",
+        "type": "uint160"
+      },
+      {
+        "internalType": "int24",
+        "name": "tick",
+        "type": "int24"
+      },
+      {
+        "internalType": "uint16",
+        "name": "fee",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "timepointIndex",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "communityFeeToken0",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "communityFeeToken1",
+        "type": "uint16"
+      },
+      {
+        "internalType": "bool",
+        "name": "unlocked",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
 ];
 
 const MulticallContract = new ethers.Contract(
@@ -211,14 +254,15 @@ function getTotalApr() {
   if (name === 'BSC') {
     const calls = [];
     const addressMap = {
-      'ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
-      'BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
-      'USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
-      'USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-      'BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+      'N ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
+      'N BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
+      'S USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
+      'N USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+      'P ankrBNB-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+      'P BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
     }
     dataList.forEach(data => {
-      calls.push({
+      addressMap[data.id] && calls.push({
         address: addressMap[data.id],
         name: "rewardRate",
       });
@@ -238,7 +282,6 @@ function getTotalApr() {
         formatedData('getTotalApr')
       },
       error => {
-        // console.log('=====error', error)
         setTimeout(() => {
           getTotalApr()
         }, 500)
@@ -247,21 +290,48 @@ function getTotalApr() {
   }
 }
 function getFeeTiers() {
-  asyncFetch(LAST_SNAP_SHOT_DATA_URL)
-    .then(res => {
-      if (res.ok) {
-        dataList.forEach((data, index) => {
-          const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
-          if (findIndex > -1) {
-            dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
-          }
-        })
+  const name = curChain.name
+  if (['Linea', 'BSC'].includes(name)) {
+    const calls = [];
+    dataList.forEach(data => {
+      calls.push({
+        address: data.poolAddress,
+        name: "globalState",
+      });
+    })
+    multicallv2(
+      ERC20_ABI,
+      calls,
+      {},
+      res => {
+        for (let i = 0, len = res.length; i < len; i++) {
+          dataList[i]['fee'] = Big(res[i][2]).div(10000).toFixed(4)
+        }
         formatedData('getFeeTiers')
+      },
+      error => {
+        setTimeout(() => {
+          getFeeTiers()
+        }, 500)
       }
-    })
-    .catch(error => {
-      console.log('error', error)
-    })
+    )
+  } else {
+    asyncFetch(LAST_SNAP_SHOT_DATA_URL)
+      .then(res => {
+        if (res.ok) {
+          dataList.forEach((data, index) => {
+            const findIndex = res.body.findIndex(source => data.vaultAddress === source.address)
+            if (findIndex > -1) {
+              dataList[index]['fee'] = Big(res.body[findIndex].fee).div(100).toFixed(2)
+            }
+          })
+          formatedData('getFeeTiers')
+        }
+      })
+      .catch(error => {
+        console.log('error', error)
+      })
+  }
 }
 
 useEffect(() => {
