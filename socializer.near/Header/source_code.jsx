@@ -52,9 +52,13 @@ const Logo = styled.div`
 
     @media (max-width: 620px) {
         top: -32px;
-        
+
+        .icon {
+            top: -25px;
+        }
+
         .title {
-            top: 10px;
+            top: 15px;
         }
     }
 `;
@@ -74,7 +78,7 @@ const Content = styled.div`
 
     @media (max-width: 620px) {
         gap: 1px;
-        top: 72px;
+        top: 80px;
         margin-left: 0;
         position: absolute;
         
