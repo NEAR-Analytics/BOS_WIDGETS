@@ -69,7 +69,7 @@ const HeadComponent = styled.div`
   display: flex;
   width: 100%;
   flex-direction: row;
-  padding: 32px 14px;
+  padding: 16px 14px;
   justify-content: space-between;
   border-bottom: 1px solid #B3B3B3;
 `;
@@ -78,8 +78,8 @@ const MainComponent = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding: 32px 14px;
-    gap: 24px;
+    padding: 16px 14px;
+    gap: 10px;
     & p {
         margin : 0
     }
@@ -238,7 +238,7 @@ return (
     <div className="d-flex">
       <p
         className="m-0 position-relative"
-        style={{ color: "#B3B3B3", cursor: "pointer", top: 15 }}
+        style={{ color: "#B3B3B3", cursor: "pointer", top: 5 }}
         onClick={() => {
           changePage("dashboard");
         }}
@@ -253,7 +253,7 @@ return (
           position: "relative",
           flexDirection: "column",
           display: "flex",
-          gap: 14,
+          gap: 7,
         }}
       >
         <h4 style={{ margin: 0 }}>{"Create New Campaign"}</h4>
