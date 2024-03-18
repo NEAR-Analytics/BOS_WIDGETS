@@ -6,7 +6,9 @@ if (!Struct) {
 const { useQuery } = VM.require(
   "megha19.near/widget/core.adapter.devhub-contract"
 );
-const { uuid, withUUIDIndex } = VM.require("megha19.near/widget/core.lib.uuid");
+const { uuid, withUUIDIndex } = VM.require(
+  "megha19.near/widget/core.lib.uuid"
+);
 
 uuid || (uuid = () => {});
 withUUIDIndex || (withUUIDIndex = () => {});
@@ -104,9 +106,13 @@ const sortByOptions = [
 const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
   const tags = useCache(
     () =>
-      Near.asyncView("truedove38.near", "get_all_labels").then((res) => res),
+      Near.asyncView("truedove38.near", "get_all_labels").then(
+        (res) => res
+      ),
     handle,
-    { subscribe: false }
+    {
+      subscribe: false,
+    }
   );
 
   if (!data) {
