@@ -184,9 +184,11 @@ const withdraw = async (item) => {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.ok) {
-      const { error, data } = res.body;
-      if (error) State.update({ ...state, error, loading: false });
-      else if (data && data === "success") {
+      const { error, data, code } = res.body;
+      if (error) {
+        State.update({ ...state, error, loading: false });
+        if(code === "404") await registry(item);
+      } else if (data && data === "success") {
         State.update({
           ...state,
           loaded: false,
@@ -197,7 +199,7 @@ const withdraw = async (item) => {
 };
 
 const registry = async (item) => {
-  if (item.id == "NEAR" || item.token != "0") return;
+  if (item.id == "NEAR") return;
   const oneTeraGas = 300000000000000;
   const oneNEARInYoctoNEAR = 100000000000000000000000;
   return Near.call(
@@ -245,6 +247,11 @@ return (
     </div>
     <TokenComponent>
       <Widget src={`${Owner}/widget/TokenBalance`} />
+      {state.error && (
+        <p className="m-0" style={{ color: "red" }}>
+          {state.error}
+        </p>
+      )}
       <div className="d-flex overflow-auto">
         <Table
           className={`table table-hover table-striped table-borderless ${props.className}`}
