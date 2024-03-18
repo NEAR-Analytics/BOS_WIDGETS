@@ -327,19 +327,7 @@ const getCampaignData = (type) => {
 
 if (!state.loaded) getCampaignData(state.menu.value);
 
-if (!state.loaded)
-  return (
-    <Widget
-      props={{
-        API_URL,
-        noLabel: true,
-        options,
-        value: state.menu,
-        onChange: selectMenu,
-      }}
-      src={`${Owner}/widget/Select`}
-    />
-  );
+if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
 return (
   <MainComponent>
