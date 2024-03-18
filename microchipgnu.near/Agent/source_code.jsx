@@ -1,5 +1,12 @@
+const storedModel = Storage.get("agent-model");
+const storedLocalModel = Storage.get("agent-local-model");
+const storedCredentialType = Storage.get("agent-credential-type");
+const storedCredential = Storage.get("agent-credential");
+const storedJsonOutputSetting = Storage.get("agent-json-output-setting");
+
 const props_IsCollapsted = props.isCollapsed || true;
 const tools = props.tools || [];
+const props_model = props.model || "near-llama-7b";
 const role = props.role || "Helpful Assistant";
 const backstory =
   props.backstory ||
@@ -23,6 +30,82 @@ const [loading, setLoading] = useState(false);
 const [isCollapsed, setIsCollapsed] = useState(props_IsCollapsted);
 const [isLoop, setIsLoop] = useState(true);
 const [settingsOpen, setSettingsOpen] = useState(false);
+
+const [model, setModel] = useState(props_model ?? storedModel);
+const [localModel, setLocalModel] = useState(
+  storedLocalModel ?? "http://localhost:1234/v1/chat/completions"
+);
+const [credentialType, setCredentialType] = useState(
+  storedCredentialType ?? "bearer"
+);
+const [credential, setCredential] = useState(storedCredential ?? "");
+const [jsonOutputSetting, setJsonOutputSetting] = useState(
+  storedJsonOutputSetting ?? false
+);
+
+useEffect(() => {
+  Storage.set("agent-model", model);
+}, [model]);
+useEffect(() => {
+  Storage.set("agent-local-model", localModel);
+}, [localModel]);
+useEffect(() => {
+  Storage.set("agent-credential-type", credentialType);
+}, [credentialType]);
+useEffect(() => {
+  Storage.set("agent-credential", credential);
+}, [credential]);
+useEffect(() => {
+  Storage.set("agent-json-output-setting", jsonOutputSetting);
+}, [jsonOutputSetting]);
+
+useEffect(() => {
+  if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
+    return;
+  }
+  setLoading(true);
+  routeApi(...messages.slice(-1))
+    .then((answer) => {
+      setMessages([...messages, { role: "system", content: answer }]);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, [messages]);
+
+const requiresCredentials = (model) => {
+  return (
+    model === "gpt-4" ||
+    model === "gpt-3.5-turbo" ||
+    model === "mixtral-8x7b-32768" ||
+    model === "llama2-70b-4096"
+  );
+};
+
+const routeApi = async (messages) => {
+  switch (model) {
+    case "near-llama-7b":
+      return nearLlama(messages);
+    default:
+      return openAICompatible(messages);
+  }
+};
+const urlForModel = (model) => {
+  switch (model) {
+    case "near-llama-7b":
+      return `https://ai.near.social/api`;
+    case "local":
+      return localModel;
+    case "gpt-4":
+    case "gpt-3.5-turbo":
+      return `https://api.openai.com/v1/chat/completions`;
+    case "mixtral-8x7b-32768":
+    case "llama2-70b-4096":
+      return "https://api.groq.com/openai/v1/chat/completions";
+    default:
+      return `https://api.openai.com/v1/chat/completions`;
+  }
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -156,6 +239,7 @@ const parseMessageToStructuredFormatWithRegex = (message) => {
 
   return formattedResult;
 };
+
 const nearLlama = async (messages) => {
   return asyncFetch(`https://ai.near.social/api`, {
     method: "POST",
@@ -166,6 +250,49 @@ const nearLlama = async (messages) => {
     body: JSON.stringify(messages),
   }).then((response) => {
     return response.body.response;
+  });
+};
+
+const openAICompatible = async (messages) => {
+  let options = {
+    model,
+  };
+  //  if (jsonOutputSetting) {
+  //    options.response_format = { type: "json_object" };
+  //    if (!finalQuestion.includes("json")) {
+  //      finalQuestion = `${finalQuestion} respond in json`;
+  //    }
+  //  }
+  // frequency_penalty: 0.0,
+  // logit_bias: {},
+  // log_props: true,
+  // top_logprobs: 5,
+  // max_tokens: 2048,
+  // n: 1,
+  // presence_penalty: 0.0,
+  // seed: 0,
+  // stop: ["\n"],
+  // stream: false,
+  // temperature: 0.7,
+  // top_p: 1,
+  // tools: agent.tools,
+  // tool_choice: 'auto',
+  // user: anonymize(context.accountId),
+
+  return asyncFetch(urlForModel(model), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${credential}`,
+    },
+    responseType: "json",
+    body: JSON.stringify({
+      ...options,
+      messages: messages,
+    }),
+  }).then((response) => {
+    const answer = response.body.choices[0].message.content;
+    return answer;
   });
 };
 
@@ -203,7 +330,7 @@ const run = () => {
     { role: "user", content: userPrompt },
   ];
 
-  nearLlama(_messages)
+  routeApi(_messages)
     .then((response) => {
       let _scratchPad = "";
       const parsedResponse = parseMessageToStructuredFormatWithRegex(response);
@@ -406,6 +533,17 @@ const renderSettings = () => {
             />{" "}
             not supported by all providers.
           </InputWrapper>
+          <InputWrapper>
+            <Widget
+              src="near/widget/DIG.Checkbox"
+              props={{
+                id: "loop",
+                label: "Run in a loop",
+                checked: isLoop,
+                onCheckedChange: setIsLoop,
+              }}
+            />
+          </InputWrapper>
         </ModalBody>
       </ModalOverlay>
     </div>
@@ -482,6 +620,10 @@ return (
           </div>
         </div>
       )}
+      <small class="text-muted">{model}</small>
+      <small class="text-muted">
+        {isLoop ? "Continuous" : "Not continuous"}
+      </small>
     </div>
 
     <ModalOverlay
