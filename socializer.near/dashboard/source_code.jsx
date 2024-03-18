@@ -245,10 +245,15 @@ const getCampaignData = () => {
     (res) => {
       if (res.ok) {
         const { error, data } = res.body;
-        if (error) State.update({ error });
+        if (error) State.update({ loaded: true, error });
         State.update({
           loaded: true,
           campaigns: data,
+        });
+      } else {
+        State.update({
+          loaded: true,
+          error: res.error,
         });
       }
     }
@@ -257,17 +262,7 @@ const getCampaignData = () => {
 
 if (!state.loaded) getCampaignData();
 
-if (!state.loaded)
-  return (
-    <Widget
-      props={{
-        noLabel: true,
-        placeholder: "Live-Campaigns",
-        options,
-      }}
-      src={`${Owner}/widget/preload`}
-    />
-  );
+if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
 return (
   <MainComponent>
