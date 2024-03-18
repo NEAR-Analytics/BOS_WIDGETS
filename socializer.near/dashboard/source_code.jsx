@@ -1,141 +1,182 @@
 const Owner = "socializer.near";
 const accountId = context.accountId;
-const API_URL = "http://localhost:3000/api";
 
+const API_URL = props?.API_URL || "http://localhost:3000";
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
 
-const columns = [
-  {
-    title: "Project/User",
-    key: "accountId",
-    description: "Project/User",
-    width: 20,
-    project: true,
-  },
-  {
-    title: "Near Social  Post",
-    key: "social",
-    description: "Near Social  Post",
-    width: 40,
-    align: "left",
-  },
-  {
-    title: "Ends In",
-    key: "endsin",
-    description: "Ends In",
-    width: 15,
-    align: "left",
-  },
-  {
-    title: "Reward",
-    key: "reward",
-    description: "Reward",
-    width: 8,
-    align: "left",
-  },
-  {
-    title: "Total Rewards",
-    key: "total_reward",
-    description: "Total Rewards",
-    width: 10,
-    align: "left",
-  },
-  {
-    title: "Status",
-    key: "status",
-    description: "Status",
-    width: 10,
-    align: "center",
-    button: true,
-  },
-  {
-    title: "Engage Link",
-    key: "post_link",
-    description: "Engage Link",
-    width: 10,
-    align: "center",
-    link: true,
-  },
-];
-
-const tableData = [
-  {
-    user: "Near Degens1",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-  {
-    user: "Near Degens2",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "",
-  },
-  {
-    user: "Near Degens3",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "",
-  },
-  {
-    user: "Near Degens4",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-  {
-    user: "Near Degens5",
-    avatar:
-      "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
-    social: "Have you seen our monthly stats? With over 45 clien...",
-    endsin: "Ends in 1hr 10m 50s",
-    reward: "1 Near",
-    total_rewards: "10 Near",
-    status: "live",
-    engage: "link",
-  },
-];
-
 const options = [
   {
-    text: "Ended",
-    value: 1,
+    text: "Live Campaigns",
+    value: "live",
   },
   {
-    text: "Claimed",
-    value: 2,
-  },
-  {
-    text: "Unclaimed",
-    value: 3,
+    text: "Expired",
+    value: "expired",
   },
 ];
 
+const showDetail = (data) => {
+  if (data.accountId !== accountId)
+    State.update({ show_detail: true, selected: data });
+};
+
+const viewWins = (data) => {
+  // if (data.accountId !== accountId)
+  State.update({ view_win: true, selected: data });
+};
+
+const onClose = () => {
+  State.update({ show_detail: false, view_win: false });
+};
+
+const handleSearch = (event) => {
+  const value = event.target.value;
+  State.update({ searchValue: value });
+};
+
+const selectMenu = (data) => {
+  State.update({ menu: data, campaigns: [], timer_load: false });
+};
+
 State.init({
-  loaded: false,
   campaigns: [],
   error: "",
+  show_detail: false,
+  view_win: false,
+  selected: {},
+  searchValue: "",
+  menu: { value: "live" },
+  columns: {
+    live: [
+      {
+        title: "Campaign Id",
+        key: "id",
+        description: "Campaign Id",
+        width: 16,
+      },
+      {
+        title: "Project/User",
+        key: "accountId",
+        description: "Project/User",
+        width: 16,
+        project: true,
+      },
+      {
+        title: "Near Social  Post",
+        key: "social",
+        description: "Near Social  Post",
+        width: 32,
+        align: "center",
+      },
+      {
+        title: "Ends In",
+        key: "endsin",
+        description: "Ends In",
+        width: 15,
+        align: "center",
+      },
+      {
+        title: "Reward",
+        key: "reward",
+        description: "Reward",
+        width: 8,
+        align: "center",
+      },
+      {
+        title: "Total Rewards",
+        key: "total_reward",
+        description: "Total Rewards",
+        width: 10,
+        align: "center",
+      },
+      {
+        title: "Winners",
+        key: "winners",
+        description: "Winners",
+        width: 10,
+        align: "center",
+        click: () => {},
+      },
+      {
+        title: "Engage Link",
+        key: "post_link",
+        description: "Engage Link",
+        width: 10,
+        align: "center",
+        link: true,
+        click: showDetail,
+      },
+    ],
+    expired: [
+      {
+        title: "Campaign Id",
+        key: "id",
+        description: "Campaign Id",
+        width: 16,
+      },
+      {
+        title: "Project/User",
+        key: "accountId",
+        description: "Project/User",
+        width: 20,
+        project: true,
+      },
+      {
+        title: "Reward",
+        key: "reward",
+        description: "Reward",
+        width: 8,
+        align: "center",
+      },
+      {
+        title: "Total Rewards",
+        key: "total_reward",
+        description: "Total Rewards",
+        width: 10,
+        align: "center",
+      },
+      {
+        title: "Claim Type",
+        key: "claim",
+        description: "Claim Type",
+        width: 10,
+        align: "center",
+        value: "Raffle",
+      },
+      {
+        title: "Winners",
+        key: "winner",
+        description: "Winners",
+        width: 10,
+        align: "center",
+        button: true,
+        value: "View Winners",
+        click: viewWins,
+      },
+      {
+        title: "Your Result ",
+        key: "result",
+        description: "Your Result",
+        width: 10,
+        align: "center",
+        link: true,
+        click: () => {},
+      },
+    ],
+  },
+  title: {
+    live: {
+      tl: "Live Campaigns",
+      subtl: "The list of Near Social Posts are offering rewards",
+    },
+    expired: {
+      tl: "Expired",
+      subtl: "These Engage-To-Earn campaigns have ended",
+    },
+  },
+  timer_load: false,
+  loaded: false,
 });
 
 const MainComponent = styled.div`
@@ -152,13 +193,23 @@ const TableComponent = styled.div`
   width: 100%;
   flex-direction: column;
   padding: 13px;
+    width: 100%;
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 620px) {
+        padding: 0;
+    }
 `;
 
 const HeadComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 32px;
+    width: 100%;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 620px) {
+        padding: 46px 1px 25px;
+    }
 `;
 
 const TitleComponent = styled.div`
@@ -169,10 +220,25 @@ const TitleComponent = styled.div`
 `;
 
 const FilterContent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
+    gap: 7px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    @media (max-width: 620px) {
+        flex-direction: column;
+    }
+`;
+
+const SelectContent = styled.div`
+    gap: 21px;
+    display: flex;
+    align-items: center;
+    
+    @media (max-width: 620px) {
+        gap: 10px;
+        justify-content: flex-end;
+    }
 `;
 
 const TitleContent = styled.div`
@@ -183,28 +249,30 @@ const TitleContent = styled.div`
 `;
 
 const SearchInput = styled.input`
-  border-radius: 10px;
-  padding: 14px 48px 14px 28px;
+  width: 100%;
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
+  font-style: normal;
+  border-radius: 10px;
   line-height: normal;
   letter-spacing: -0.12px;
+  padding: 14px 48px 14px 28px;
 `;
 
 const Button = styled.button`
-  display: inline-flex;
-  padding: 12px 24px;
-  align-items: flex-start;
   gap: 10px;
-  border-radius: 6px;
-  background: var(--Dark, #121212); 
-  color: var(--light_95, #F3F3F3);
-  text-align: center;
+  height: 100%;
+  display: flex;
   font-size: 12px;
   font-weight: 600;
-  text-transform: capitalize;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-align: center;
+  align-items: center;
   line-height: normal;
+  text-transform: capitalize;
+  color: var(--light_95, #F3F3F3);
+  background: var(--Dark, #121212); 
 `;
 
 const SearchIcon = () => (
@@ -240,29 +308,38 @@ const SearchIcon = () => (
   </svg>
 );
 
-const getCampaignData = () => {
-  return asyncFetch(API_URL + `/campaign?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        const { error, data } = res.body;
-        if (error) State.update({ loaded: true, error });
-        State.update({
-          loaded: true,
-          campaigns: data,
-        });
-      } else {
-        State.update({
-          loaded: true,
-          error: res.error,
-        });
-      }
+const getCampaignData = (type) => {
+  return asyncFetch(
+    API_URL + `/api/campaign?accountId=${accountId}&type=${type}`
+  ).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ loaded: true, error });
+      State.update({
+        loaded: true,
+        campaigns: data,
+      });
+    } else {
+      State.update({ loaded: true, error: res.error });
     }
-  );
+  });
 };
 
-if (!state.loaded) getCampaignData();
+if (!state.loaded) getCampaignData(state.menu.value);
 
-if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
+if (!state.loaded)
+  return (
+    <Widget
+      props={{
+        API_URL,
+        noLabel: true,
+        options,
+        value: state.menu,
+        onChange: selectMenu,
+      }}
+      src={`${Owner}/widget/Select`}
+    />
+  );
 
 return (
   <MainComponent>
@@ -276,37 +353,39 @@ return (
               alignItems: "center",
             }}
           >
-            <SearchInput placeholder="Search" />
+            <SearchInput
+              placeholder="Search"
+              value={state.searchValue}
+              onChange={handleSearch}
+            />
             <SearchIcon />
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 21,
-            }}
-          >
+          <SelectContent>
             <Widget
               props={{
+                API_URL,
                 noLabel: true,
-                placeholder: "Live-Campaigns",
                 options,
+                value: state.menu,
+                onChange: selectMenu,
               }}
               src={`${Owner}/widget/Select`}
             />
             <Button
               onClick={() => {
-                changePage("new_campaigns");
+                if (accountId) {
+                  changePage("new_campaigns");
+                }
               }}
             >
               {"+ Create New Campaigns"}
             </Button>
-          </div>
+          </SelectContent>
         </FilterContent>
         <TitleContent>
-          <h4 style={{ margin: 0 }}>Live Campaigns</h4>
+          <h4 style={{ margin: 0 }}>{state.title[state.menu.value].tl}</h4>
           <p style={{ fontSize: 14, margin: 0 }}>
-            {`The list of Near Social Posts are offering rewards`}
+            {state.title[state.menu.value].subtl}
           </p>
           {state.error && (
             <p style={{ fontSize: 14, margin: 0, color: "red" }}>
@@ -316,16 +395,54 @@ return (
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
-    <TableComponent>
+    {state.campaigns.length !== 0 && (
+      <>
+        <TableComponent>
+          <Widget
+            src={`${Owner}/widget/table-pagination`}
+            props={{
+              API_URL,
+              themeColor: { table_pagination: themeColor.table_pagination },
+              data: state.campaigns,
+              columns: state.columns[state.menu.value],
+              rowsCount: 8,
+              searchValue: state.searchValue,
+              timer: state.menu.value === "live" ? true : false,
+              timer_load: state.timer_load,
+            }}
+          />
+        </TableComponent>
+        <div>
+          <Widget
+            props={{
+              API_URL,
+              menu: state.menu,
+            }}
+            src={`${Owner}/widget/Status`}
+          />
+        </div>
+      </>
+    )}
+
+    {state.show_detail && state.selected && (
       <Widget
-        src={`${Owner}/widget/table-pagination`}
         props={{
-          themeColor: { table_pagination: themeColor.table_pagination },
-          data: state.campaigns,
-          columns,
-          rowsCount: 4,
+          API_URL,
+          onClose,
+          data: state.selected,
         }}
+        src={`${Owner}/widget/CampaignModal`}
       />
-    </TableComponent>
+    )}
+    {state.view_win && state.selected && (
+      <Widget
+        props={{
+          API_URL,
+          onClose,
+          data: state.selected,
+        }}
+        src={`${Owner}/widget/WinnersModal`}
+      />
+    )}
   </MainComponent>
 );
