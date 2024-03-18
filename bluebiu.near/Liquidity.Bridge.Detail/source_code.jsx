@@ -319,6 +319,7 @@ const updateBalance = (token) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toString();
+      console.log('=====address', address, '====symbol', symbol, '====decimals', decimals, '====adjustedBalance', adjustedBalance)
       State.update({
         balances: {
           ...state.balances,
@@ -782,7 +783,6 @@ useEffect(() => {
     handleToken0Change(amount0);
   }
 }, [data]);
-
 return (
   <Wrapper>
     <FilterButtonList>
