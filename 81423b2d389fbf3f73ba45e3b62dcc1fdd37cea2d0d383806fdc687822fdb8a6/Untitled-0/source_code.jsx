@@ -46,7 +46,7 @@ return (
   <div className="d-flex flex-column align-items-center">
     <LabelArea>
       <Image
-        src="https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/5d8a56da-0df6-4e25-ba2d-c2029e8dd760-logo.png"
+        src="https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/e649793e-63e8-4a36-8fac-b54b418e6b1e-profile.png"
         alt="Logo"
       />
       <Input
@@ -57,6 +57,8 @@ return (
         style={{ maxWidth: "200px" }}
       />
     </LabelArea>
-    {state.name && <Greeting>Hello from near Ukraine!</Greeting>}
+    {state.name && (
+      <Greeting>Greetings to {state.name} from Near Ukraine!</Greeting>
+    )}
   </div>
 );
