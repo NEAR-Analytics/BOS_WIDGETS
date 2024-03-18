@@ -469,8 +469,19 @@ return (
       </div>
       {renderSettings()}
     </div>
-    <div class="card-footer">
+    <div class="card-footer d-flex gap-2">
       <small class="text-muted">AutoAgent</small>
+      {loading && (
+        <div key="loading" className={`d-flex align-items-center`}>
+          <div>
+            <span
+              className="spinner-grow spinner-grow-sm me-1"
+              role="status"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+      )}
     </div>
 
     <ModalOverlay
