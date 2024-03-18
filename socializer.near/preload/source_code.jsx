@@ -71,7 +71,7 @@ position: relative;
 `;
 
 return (
-  <div className="d-flex justify-content-center align-items-center">
+  <div className="d-flex justify-content-center align-items-center w-100">
     <Wrapper>
       <span className="loader-inner-1"></span>
       <span className="loader-inner-2"></span>
