@@ -210,6 +210,9 @@ useEffect(() => {
   if (finalPool.length === 0) {
     onLoad({
       noPair: true,
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: "",
     });
     return;
@@ -273,7 +276,13 @@ useEffect(() => {
         getTransaction({ amountOut: res[1] });
       })
       .catch((err) => {
-        onLoad({ noPair: true, outputCurrencyAmount: "" });
+        onLoad({
+          noPair: true,
+          inputCurrency,
+          inputCurrencyAmount,
+          outputCurrency,
+          outputCurrencyAmount: "",
+        });
       });
   };
 
