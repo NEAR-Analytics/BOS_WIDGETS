@@ -32,6 +32,9 @@ useEffect(() => {
 
   if (wrapType) {
     onLoad({
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
     });
@@ -67,6 +70,9 @@ useEffect(() => {
         const data = res.body?.routes?.[0];
         if (!data) {
           onLoad({
+            inputCurrency,
+            inputCurrencyAmount,
+            outputCurrency,
             outputCurrencyAmount: "",
             noPair: true,
           });
@@ -84,6 +90,9 @@ useEffect(() => {
             );
             if (!txData.success) {
               onLoad({
+                inputCurrency,
+                inputCurrencyAmount,
+                outputCurrency,
                 outputCurrencyAmount: amountoutDesimals,
                 noPair: true,
               });
@@ -119,6 +128,9 @@ useEffect(() => {
           })
           .catch((err) => {
             onLoad({
+              inputCurrency,
+              inputCurrencyAmount,
+              outputCurrency,
               outputCurrencyAmount: "",
               noPair: true,
             });
@@ -126,6 +138,9 @@ useEffect(() => {
       })
       .catch((err) => {
         onLoad({
+          inputCurrency,
+          inputCurrencyAmount,
+          outputCurrency,
           outputCurrencyAmount: "",
           noPair: true,
         });
