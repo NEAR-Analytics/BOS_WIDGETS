@@ -122,7 +122,8 @@ const setUserBalances = () => {
           unfixed: tokABalance.tokenBalanceBN,
         },
       })
-    : State.update({ tokABalance: undefined });
+    : /* TODO var tokABalance is not used on the state --> replaced to tokenABalance */
+      State.update({ tokenABalance: undefined });
   tokBBalance
     ? State.update({
         tokenBBalance: {
@@ -132,7 +133,8 @@ const setUserBalances = () => {
           unfixed: tokBBalance.tokenBalanceBN,
         },
       })
-    : State.update({ tokBBalance: undefined });
+    : /* TODO var tokBBalance is not used on the state --> replaced to tokenBBalance */
+      State.update({ tokenBBalance: undefined });
 };
 
 // Method to get user NFT
