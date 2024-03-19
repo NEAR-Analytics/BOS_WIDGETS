@@ -106,6 +106,9 @@ useEffect(() => {
             }
 
             onLoad({
+              inputCurrency,
+              inputCurrencyAmount,
+              outputCurrency,
               outputCurrencyAmount: amountoutDesimals,
               noPair: false,
               priceImpact,
