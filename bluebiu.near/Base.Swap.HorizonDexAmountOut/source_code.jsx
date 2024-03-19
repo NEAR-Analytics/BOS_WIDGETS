@@ -260,6 +260,9 @@ useEffect(() => {
         .toString();
     }
     const returnData = {
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: Big(_amount).gt(0.01)
         ? Big(_amount).toPrecision(10)
         : Big(_amount).toFixed(10),
