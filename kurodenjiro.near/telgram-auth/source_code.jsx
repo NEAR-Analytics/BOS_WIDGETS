@@ -531,6 +531,7 @@ useEffect(() => {
     verifyProof("twitter");
   }
   if (platform === "telegram" && proof) {
+    console.log("telegram");
     verifyProof("telegram");
   }
 }, [platform, challenge, proof]);
