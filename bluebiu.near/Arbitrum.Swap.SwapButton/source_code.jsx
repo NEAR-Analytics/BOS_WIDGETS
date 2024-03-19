@@ -451,26 +451,32 @@ if (wrapType) {
 
 useEffect(() => {
   if (!account) return;
-  if (!gas) {
-    State.update({ isGasEnough: true });
-    return;
-  }
   const provider = Ethers.provider();
   let baseAmount = Big(0);
   if (inputCurrency.isNative) {
     baseAmount = baseAmount.add(inputCurrencyAmount || 0);
   }
   State.update({ swapping: true });
-  const _gas = Big(ethers.utils.formatUnits(gas, 18));
+  const _gas = Big(ethers.utils.formatUnits(gas || 0, 18));
   provider.getBalance(account).then((rawBalance) => {
     const _rawBalance = Big(ethers.utils.formatUnits(rawBalance, 18));
     State.update({
-      isGasEnough: !_rawBalance.minus(baseAmount).lt(_gas),
+      isGasEnough: _rawBalance.minus(baseAmount).gt(_gas),
       gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
       swapping: false,
     });
   });
 }, [account, gas]);
+
+if (!state.isGasEnough) {
+  return (
+    <SwapButton disabled>{`Not enough gas(${state.gas}) needed`}</SwapButton>
+  );
+}
+
+if (gas === undefined && outputCurrencyAmount) {
+  return <SwapButton disabled>Estimate Gas Error</SwapButton>;
+}
 
 return (
   <>
@@ -501,9 +507,7 @@ return (
       }}
       disabled={state.swapping || !state.isGasEnough}
     >
-      {!state.isGasEnough ? (
-        `Not enough gas(${state.gas}) needed`
-      ) : state.swapping ? (
+      {state.swapping ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
           props={{
