@@ -6,13 +6,13 @@ if (!routerAbi.ok) {
 }
 
 const TOKENS = [
-  {
-    name: "ETH",
-    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
-    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-    coinGeckoId: "ethereum",
-    decimals: 18,
-  },
+  // {
+  //   name: "ETH",
+  //   icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
+  //   address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+  //   coinGeckoId: "ethereum",
+  //   decimals: 18,
+  // },
   {
     name: "USDC",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/usdc.svg",
