@@ -58,7 +58,7 @@ return (
               {" "}
               <a
                 className="nav-link"
-                href="https://forms.gle/ASi6xpVAyoPcxghr8"
+                href="https://submit.nearcatalog.xyz/new-project/"
               >
                 📥 Submit project
               </a>
