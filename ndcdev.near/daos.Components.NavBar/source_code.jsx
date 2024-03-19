@@ -3,7 +3,7 @@ const { hasNotifications } = props;
 
 if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 const accountId = context.accountId;
-
+const [admin, _widget, _name] = `ndcdev.near/widget/daos.Config`.split("/");
 const [showNav, setShowNav] = useState(false);
 
 const Container = styled.div`
@@ -109,6 +109,11 @@ return (
                 onClick={() => setShowNav(!showNav)}
               />
             </a>
+            {context.accountId === admin && (
+              <a href={`/ndcdev.near/widget/daos.App?page=config`}>
+                <i className="bi bi-gear-fill fs-3" />
+              </a>
+            )}
             <a
               href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
             >
