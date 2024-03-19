@@ -51,11 +51,15 @@ const ActionsWrapper = styled.div`
   z-index: 1080;
 
   @keyframes translateAnimation {
-    from {
+    0% {
       display: none;
       opacity: 0;
     }
-    to {
+     80% {
+      display: flex;
+      opacity: 0;
+    }
+    100% {
       display: flex;
       opacity: 1;
     }
