@@ -6,11 +6,28 @@ const positionAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-position.txt"
 );
 
-if (!routerAbi.ok) {
-  return "Loading";
+/* TODO troubles loading initial data, modified to show loading text while fetch data */
+const tokensFetch = fetch("https://api.mav.xyz/api/v3/allTokens/324"),
+  tokensForNEtwork = tokensFetch.body.tokens;
+
+if (!routerAbi.ok || !tokensFetch.ok) {
+  const Wrapper = styled.div`
+    width: 490px;
+    height: 500px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #151718;
+    margin-inline: auto;
+    
+    font-family: BaselGrotesk, Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: white;
+  `;
+
+  return <Wrapper className="mt-1">Loading data...</Wrapper>;
 }
-const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/324").body
-  .tokens;
 
 //Podemos eliminar WETH del listado para quitar confusiones
 //   const tokensForNEtwork = fetch(
