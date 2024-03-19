@@ -2,17 +2,18 @@ const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 const [showFrom, setShowFrom] = useState(0)
 
-const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
-const data = response && JSON.parse(response)
-const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(chapter.id + '/lastShowTime'))
-
-console.log('data', data)
-console.log('props?.link?.id', props?.link?.id)
 console.log('props', props)
-console.log('lastShowTimes',lastShowTimes)
+console.log('props?.link?.id', props?.link?.id)
 
 useEffect(() => {
   if (show) return
+
+  const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
+  const data = response && JSON.parse(response)
+  console.log('data', data)
+  const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(chapter.id + '/lastShowTime'))
+  console.log('lastShowTimes',lastShowTimes)
+
   if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
   setStart(true);
   const lastShowByIds = {}
@@ -34,7 +35,7 @@ useEffect(() => {
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
     setShow(true)
   }
-}, [start, lastShowTimes])
+}, [start])
 
 setTimeout(() => setStart(true), 10000)
 
