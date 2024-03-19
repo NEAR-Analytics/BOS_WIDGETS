@@ -50,7 +50,7 @@ function composeData() {
         "add_comment",
         params,
         "200000000000000",
-        10000000000000000000000
+        10000000000000000000000,
       );
 }
 
@@ -70,6 +70,11 @@ function autoCompleteAccountId(id) {
   let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
+}
+
+const handlePreview = () => {
+  if (!accountId) return;
+  State.update({ showPreview: !state.showPreview });
 }
 
 const Wrapper = styled.div`
@@ -385,7 +390,7 @@ return (
         disabled={!state.text}
         className="preview-post-button"
         title={state.showPreview ? "Edit Post" : "Preview Post"}
-        onClick={() => State.update({ showPreview: !state.showPreview })}
+        onClick={handlePreview}
       >
         {state.showPreview ? (
           <i className="bi bi-pencil" />
