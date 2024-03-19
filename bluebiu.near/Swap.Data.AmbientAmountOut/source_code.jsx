@@ -186,6 +186,9 @@ useEffect(() => {
       0,
     ];
     const returnData = {
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: Big(_amountOutWithoutDecimal).gt(0.01)
         ? Big(_amountOutWithoutDecimal).toPrecision(10)
         : Big(_amountOutWithoutDecimal).toFixed(10),
