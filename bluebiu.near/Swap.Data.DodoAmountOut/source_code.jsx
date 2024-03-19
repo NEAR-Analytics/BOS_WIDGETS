@@ -69,6 +69,9 @@ useEffect(() => {
         if (data?.resAmount) {
           const wallet = Ethers.provider().getSigner();
           const returnData = {
+            inputCurrency,
+            inputCurrencyAmount,
+            outputCurrency,
             outputCurrencyAmount: data.resAmount,
             priceImpact: data.priceImpact,
             noPair: false,
