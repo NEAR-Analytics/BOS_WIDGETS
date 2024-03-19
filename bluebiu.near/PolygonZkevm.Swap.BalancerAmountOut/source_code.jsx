@@ -320,6 +320,9 @@ useEffect(() => {
 
   if (wrapType) {
     onLoad({
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
     });
@@ -338,6 +341,9 @@ useEffect(() => {
           getTransaction({ amountOut: _amountOut });
         } else {
           onLoad({
+            inputCurrency,
+            inputCurrencyAmount,
+            outputCurrency,
             noPair: true,
             outputCurrencyAmount: "",
           });
@@ -345,6 +351,9 @@ useEffect(() => {
       })
       .catch((err) => {
         onLoad({
+          inputCurrency,
+          inputCurrencyAmount,
+          outputCurrency,
           noPair: true,
           outputCurrencyAmount: "",
         });
