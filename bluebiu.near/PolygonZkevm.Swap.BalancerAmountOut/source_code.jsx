@@ -1,35 +1,65 @@
-const QUOTER_ABI = [
+const ROUTER_ABI = [
   {
     inputs: [
       {
-        internalType: "bytes",
-        name: "path",
-        type: "bytes",
+        internalType: "enum IVault.SwapKind",
+        name: "kind",
+        type: "uint8",
       },
       {
-        internalType: "uint256",
-        name: "amountIn",
-        type: "uint256",
+        components: [
+          { internalType: "bytes32", name: "poolId", type: "bytes32" },
+          {
+            internalType: "uint256",
+            name: "assetInIndex",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "assetOutIndex",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "amount", type: "uint256" },
+          { internalType: "bytes", name: "userData", type: "bytes" },
+        ],
+        internalType: "struct IVault.BatchSwapStep[]",
+        name: "swaps",
+        type: "tuple[]",
+      },
+      {
+        internalType: "contract IAsset[]",
+        name: "assets",
+        type: "address[]",
+      },
+      {
+        components: [
+          { internalType: "address", name: "sender", type: "address" },
+          {
+            internalType: "bool",
+            name: "fromInternalBalance",
+            type: "bool",
+          },
+          {
+            internalType: "address payable",
+            name: "recipient",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "toInternalBalance",
+            type: "bool",
+          },
+        ],
+        internalType: "struct IVault.FundManagement",
+        name: "funds",
+        type: "tuple",
       },
     ],
-    name: "quoteExactInput",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "amountOut",
-        type: "uint256",
-      },
-      {
-        internalType: "uint16[]",
-        name: "fees",
-        type: "uint16[]",
-      },
-    ],
+    name: "queryBatchSwap",
+    outputs: [{ internalType: "int256[]", name: "", type: "int256[]" }],
     stateMutability: "nonpayable",
     type: "function",
   },
-];
-const ROUTER_ABI = [
   {
     inputs: [
       {
@@ -128,8 +158,6 @@ const ROUTER_ABI = [
 const {
   updater,
   routerAddress,
-  quoterAddress,
-  multicallAddress,
   wethAddress,
   inputCurrency,
   outputCurrency,
@@ -139,6 +167,8 @@ const {
   account,
   fees,
   prices,
+  pools,
+  poolsGraph,
 } = props;
 
 useEffect(() => {
@@ -157,38 +187,11 @@ useEffect(() => {
     outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
   ];
 
-  const pools = [
-    [
-      [
-        "0xa2036f0538221a77a3937f1379699f44945018d0",
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-      ],
-      "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d1000100000000000000000017",
-    ],
-    [
-      [
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-        "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
-      ],
-      "0xa7f602cfaf75a566cb0ed110993ee81c27fa3f53000200000000000000000009",
-    ],
-    [
-      [
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-        "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
-        "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
-      ],
-      "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf78000100000000000000000019",
-    ],
-    [
-      [
-        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
-        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-      ],
-      "0x53ddc1f1ef585b426c03674f278f8107f1524ade000200000000000000000012",
-    ],
-  ];
+  const RouterContract = new ethers.Contract(
+    routerAddress,
+    ROUTER_ABI,
+    Ethers.provider().getSigner()
+  );
 
   const finalPool = pools
     .filter(
@@ -201,8 +204,47 @@ useEffect(() => {
   if (finalPool.length === 0) {
     onLoad({
       noPair: true,
+      outputCurrencyAmount: "",
     });
     return;
+  }
+
+  const amount = ethers.utils.parseUnits(
+    Big(inputCurrencyAmount || 0).toFixed(inputCurrency.decimals),
+    inputCurrency.decimals
+  );
+
+  const _inputAddress =
+    inputCurrency.address === "native" ? wethAddress : inputCurrency.address;
+  const _outputAddress =
+    outputCurrency.address === "native" ? wethAddress : outputCurrency.address;
+
+  const assets = [_inputAddress, _outputAddress];
+  const funds = [account, false, account, false];
+
+  const swap_steps = [
+    {
+      poolId: finalPool[0],
+      assetIn: _inputAddress,
+      assetOut: _outputAddress,
+      amount,
+    },
+  ];
+
+  const token_indices = {};
+  for (let i = 0; i < assets.length; i++) {
+    token_indices[assets[i]] = i;
+  }
+  const swap_steps_struct = [];
+  for (const step of swap_steps) {
+    const swap_step_struct = [
+      step["poolId"],
+      token_indices[step["assetIn"]],
+      token_indices[step["assetOut"]],
+      step["amount"],
+      "0x",
+    ];
+    swap_steps_struct.push(swap_step_struct);
   }
 
   const wrapType =
@@ -220,31 +262,27 @@ useEffect(() => {
     return;
   }
 
-  const amount = ethers.utils.parseUnits(
-    Big(inputCurrencyAmount || 0).toFixed(inputCurrency.decimals),
-    inputCurrency.decimals
-  );
-
-  const Iface = new ethers.utils.Interface(QUOTER_ABI);
-
+  const options = {
+    value: inputCurrency.isNative ? amount : "0",
+  };
   const getAmountOut = () => {
-    const pathBytes = "0x" + path.map((address) => address.substr(2)).join("");
-    const encodedData = Iface.encodeFunctionData("quoteExactInput", [
-      pathBytes,
-      amount,
-    ]);
-    Ethers.provider()
-      .call({
-        to: quoterAddress,
-        data: encodedData,
-      })
+    RouterContract.callStatic
+      .queryBatchSwap(0, swap_steps_struct, assets, funds)
       .then((res) => {
-        const data = Iface.decodeFunctionResult("quoteExactInput", res);
-        getTransaction({ amountOut: data.amountOut });
+        const _amountOut = res[1]?.abs() || Big(0);
+        if (_amountOut.gt(0)) {
+          getTransaction({ amountOut: _amountOut });
+        } else {
+          onLoad({
+            noPair: true,
+            outputCurrencyAmount: "",
+          });
+        }
       })
       .catch((err) => {
         onLoad({
           noPair: true,
+          outputCurrencyAmount: "",
         });
       });
   };
@@ -252,41 +290,6 @@ useEffect(() => {
   const getTransaction = (result) => {
     const deadline = Math.ceil(Date.now() / 1000) + 60;
 
-    const _inputAddress =
-      inputCurrency.address === "native"
-        ? "0x0000000000000000000000000000000000000000"
-        : inputCurrency.address;
-    const _outputAddress =
-      outputCurrency.address === "native"
-        ? "0x0000000000000000000000000000000000000000"
-        : outputCurrency.address;
-    const assets = [_inputAddress, _outputAddress];
-    const funds = [account, false, account, false];
-
-    const swap_steps = [
-      {
-        poolId: finalPool[0],
-        assetIn: _inputAddress,
-        assetOut: _outputAddress,
-        amount,
-      },
-    ];
-
-    const token_indices = {};
-    for (let i = 0; i < assets.length; i++) {
-      token_indices[assets[i]] = i;
-    }
-    const swap_steps_struct = [];
-    for (const step of swap_steps) {
-      const swap_step_struct = [
-        step["poolId"],
-        token_indices[step["assetIn"]],
-        token_indices[step["assetOut"]],
-        step["amount"],
-        "0x",
-      ];
-      swap_steps_struct.push(swap_step_struct);
-    }
     const _amountOut = Big(result.amountOut)
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
@@ -301,15 +304,6 @@ useEffect(() => {
       token_limits,
       deadline.toFixed(),
     ];
-    const options = {
-      value: inputCurrency.isNative ? amount : "0",
-    };
-
-    const RouterContract = new ethers.Contract(
-      routerAddress,
-      ROUTER_ABI,
-      Ethers.provider().getSigner()
-    );
 
     const _amount = Big(
       ethers.utils.formatUnits(result.amountOut, outputCurrency.decimals)
