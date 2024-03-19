@@ -274,6 +274,9 @@ useEffect(() => {
       method = "swapExactTokensForTokens";
     }
     const returnData = {
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: Big(amountOut).gt(0.01)
         ? Big(amountOut).toPrecision(10)
         : Big(amountOut).toFixed(10),
