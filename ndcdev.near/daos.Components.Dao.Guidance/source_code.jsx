@@ -172,7 +172,7 @@ return (
 
       <div className="d-flex gap-3 w-100 flex-wrap justify-content-center">
         <SubmitProposal
-          href={`/ndcdev.near/widget/daos.App?page=create_proposal&dao_id=${dao.handle}`}
+          href={`/ndcdev.near/widget/daos.App?page=create_post&dao_id=${dao.handle}`}
         >
           Submit Proposal
           <i className="bi bi-chevron-right" />
