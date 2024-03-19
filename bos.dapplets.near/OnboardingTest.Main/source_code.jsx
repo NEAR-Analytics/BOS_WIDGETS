@@ -4,7 +4,7 @@ const [showFrom, setShowFrom] = useState(0)
 
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
-const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(props.link.id + '/' + chapter.id + '/lastShowTime'))
+const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(chapter.id + '/lastShowTime'))
 
 console.log('data', data)
 console.log('props?.link?.id', props?.link?.id)
@@ -12,17 +12,22 @@ console.log('props', props)
 console.log('lastShowTimes',lastShowTimes)
 
 useEffect(() => {
-  if (!start && lastShowTimes?.[0] === null) return
-  setStart(true)
+  if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
+  setStart(true);
   const lastShowByIds = {}
-  for (let i = 0; i < lastShowTimes.length; ++i) {
-    const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
-    // if (elapsed > 1000 * 60 * 60 * 3) {
-    // TESTING
-    lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
+  if (lastShowTimes) {
+    for (let i = 0; i < lastShowTimes.length; ++i) {
+      const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
+      // if (elapsed > 1000 * 60 * 60 * 3) {
+      // TESTING
+      lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
+    }
   }
   console.log('lastShowByIds', lastShowByIds)
-  if (Object.values(lastShowByIds).includes(1)) {
+
+  if (!lastShowTimes && context.accountId === props?.link?.authorId) {
+    setShow(true)
+  } else if (Object.values(lastShowByIds).includes(1)) {
     data.sort((chapA, chapB) => lastShowByIds[chapA.id] - lastShowByIds[chapB.id])
     console.log('data after sort', data)
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
@@ -76,7 +81,7 @@ const Onboarding = styled.div`
 const handleClose = (doNotShowAgain) => {
   // const time = doNotShowAgain ? 30000000000000 : Date.now()
   const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-  data.forEach((chapter) => Storage.privateSet(props.link.id + '/' + chapter.id + '/lastShowTime', time))
+  data && data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShowTime', time))
   setShow(false)
 }
 
@@ -93,6 +98,15 @@ const saveData = (inputData) => {
   }
 }
 
+if (show) {
+  // const time = doNotShowAgain ? 30000000000000 : Date.now()
+  const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
+  console.log('time on start', time)
+  data && data.forEach((chapter) => {
+    Storage.privateSet(chapter.id + '/lastShowTime', time)
+  })
+}
+
 return (
   <OverlayTriggerWrapper>
     {show ? (
@@ -100,7 +114,7 @@ return (
         <Onboarding>
           <Widget
             props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
-            src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
+            src="bos.dapplets.near/widget/Onboarding.SandboxOnboarding"
           />
         </Onboarding>
       </DappletOverlay>
