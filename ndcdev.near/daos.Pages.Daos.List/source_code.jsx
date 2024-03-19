@@ -1,5 +1,5 @@
 let { contractName, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 if (!contractName || !content)
