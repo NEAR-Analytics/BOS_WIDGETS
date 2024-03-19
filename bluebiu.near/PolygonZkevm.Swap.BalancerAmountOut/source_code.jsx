@@ -264,10 +264,12 @@ useEffect(() => {
         poolData[0].includes(path[1].toLowerCase())
     )
     .map((poolData) => poolData[1]);
-
   if (finalPool.length === 0) {
     onLoad({
       noPair: true,
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: "",
     });
     return;
@@ -366,14 +368,23 @@ useEffect(() => {
     const _amountOut = Big(result.amountOut)
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
-
     const params = [
-      [finalPool[0], 0, _inputAddress, _outputAddress, amount, "0x"],
+      [
+        finalPool[0],
+        0,
+        inputCurrency.address === "native"
+          ? "0x0000000000000000000000000000000000000000"
+          : inputCurrency.address,
+        outputCurrency.address === "native"
+          ? "0x0000000000000000000000000000000000000000"
+          : outputCurrency.address,
+        amount,
+        "0x",
+      ],
       funds,
       _amountOut,
       deadline.toFixed(),
     ];
-
     const _amount = Big(
       ethers.utils.formatUnits(result.amountOut, outputCurrency.decimals)
     );
