@@ -30,7 +30,7 @@ const REGISTRY_CONTRACT = "checks.integrations.near";
 const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
 }&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
-const TELEGRAM_AUTH_URL = `https://nearbadger-verifiers-api.vercel.app/telegram-auth?state=telegram.${
+const TELEGRAM_AUTH_URL = `${NEARBADGER_VERIFIERS_API}/telegram-auth?state=telegram.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
 }`;
 
