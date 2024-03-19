@@ -1,6 +1,6 @@
 const { value, text, loading, type } = props;
 const { Circle } = VM.require(
-  `ndcdev.near/widget/daos.Components.Metrics.styled`
+  `ndcdev.near/widget/daos.Components.Metrics.styled`,
 );
 
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
