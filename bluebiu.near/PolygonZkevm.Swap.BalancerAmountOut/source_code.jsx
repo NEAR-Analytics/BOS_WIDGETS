@@ -153,6 +153,70 @@ const ROUTER_ABI = [
     stateMutability: "payable",
     type: "function",
   },
+  {
+    inputs: [
+      {
+        components: [
+          { internalType: "bytes32", name: "poolId", type: "bytes32" },
+          {
+            internalType: "enum IVault.SwapKind",
+            name: "kind",
+            type: "uint8",
+          },
+          {
+            internalType: "contract IAsset",
+            name: "assetIn",
+            type: "address",
+          },
+          {
+            internalType: "contract IAsset",
+            name: "assetOut",
+            type: "address",
+          },
+          { internalType: "uint256", name: "amount", type: "uint256" },
+          { internalType: "bytes", name: "userData", type: "bytes" },
+        ],
+        internalType: "struct IVault.SingleSwap",
+        name: "singleSwap",
+        type: "tuple",
+      },
+      {
+        components: [
+          { internalType: "address", name: "sender", type: "address" },
+          {
+            internalType: "bool",
+            name: "fromInternalBalance",
+            type: "bool",
+          },
+          {
+            internalType: "address payable",
+            name: "recipient",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "toInternalBalance",
+            type: "bool",
+          },
+        ],
+        internalType: "struct IVault.FundManagement",
+        name: "funds",
+        type: "tuple",
+      },
+      { internalType: "uint256", name: "limit", type: "uint256" },
+      { internalType: "uint256", name: "deadline", type: "uint256" },
+    ],
+    name: "swap",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountCalculated",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
 ];
 
 const {
@@ -194,7 +258,7 @@ useEffect(() => {
   );
 
   const finalPool = pools
-    .filter(
+    ?.filter(
       (poolData) =>
         poolData[0].includes(path[0].toLowerCase()) &&
         poolData[0].includes(path[1].toLowerCase())
@@ -294,14 +358,10 @@ useEffect(() => {
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
 
-    const token_limits = [amount, _amountOut];
-
     const params = [
-      0,
-      swap_steps_struct,
-      assets,
+      [finalPool[0], 0, _inputAddress, _outputAddress, amount, "0x"],
       funds,
-      token_limits,
+      _amountOut,
       deadline.toFixed(),
     ];
 
@@ -331,10 +391,9 @@ useEffect(() => {
       priceImpact,
       noPair: false,
     };
-
     const getTx = (gas) => {
       RouterContract.populateTransaction
-        .batchSwap(...params, { ...options, gasLimit: gas })
+        .swap(...params, { ...options, gasLimit: gas })
         .then((res) => {
           onLoad({
             ...returnData,
@@ -349,9 +408,8 @@ useEffect(() => {
           });
         });
     };
-
     RouterContract.estimateGas
-      .batchSwap(...params, options)
+      .swap(...params, options)
       .then((gas) => {
         getTx(gas);
       })
