@@ -120,7 +120,7 @@ function Page() {
         />
       );
     }
-    case "create_proposal": {
+    case "create_post": {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.Create`}
@@ -128,7 +128,7 @@ function Page() {
         />
       );
     }
-    case "edit_proposal": {
+    case "edit_post": {
       return (
         <Widget
           src={`ndcdev.near/widget/daos.Pages.Proposals.Create`}
