@@ -9,7 +9,7 @@ const {
   account,
   multicall,
   multicallAddress,
-  rpc,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -78,26 +78,35 @@ useEffect(() => {
         )
           .then((txRes) => {
             const txData = txRes.body;
+            const amountoutDesimals = ethers.utils.formatUnits(
+              data.dst_quote_token_amount,
+              outputCurrency.decimals
+            );
             if (!txData.success) {
               onLoad({
-                outputCurrencyAmount: ethers.utils.formatUnits(
-                  data.dst_quote_token_amount,
-                  outputCurrency.decimals
-                ),
+                outputCurrencyAmount: amountoutDesimals,
                 noPair: true,
               });
               return;
             }
-            const priceImpact = Big(txData.route.dst_quote_token_usd_value)
-              .minus(txData.route.src_quote_token_usd_value)
-              .div(txData.route.src_quote_token_usd_value)
-              .mul(100)
-              .toFixed(2);
+            let priceImpact = null;
+
+            if (prices) {
+              const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
+                prices[outputCurrency.symbol] || 1
+              );
+              const amountoutPrice =
+                Big(amountoutDesimals).div(inputCurrencyAmount);
+
+              priceImpact = poolPrice
+                .minus(amountoutPrice)
+                .div(poolPrice)
+                .mul(100)
+                .toString();
+            }
+
             onLoad({
-              outputCurrencyAmount: ethers.utils.formatUnits(
-                txData.route.dst_quote_token_amount,
-                outputCurrency.decimals
-              ),
+              outputCurrencyAmount: amountoutDesimals,
               noPair: false,
               priceImpact,
               routerAddress: txData.route.contract_address,
