@@ -12,6 +12,7 @@ console.log('props', props)
 console.log('lastShowTimes',lastShowTimes)
 
 useEffect(() => {
+  if (show) return
   if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
   setStart(true);
   const lastShowByIds = {}
