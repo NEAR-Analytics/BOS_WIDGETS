@@ -15,8 +15,9 @@ State.init({
 
 const handleOnMouseEnter = () => State.update({ show: true });
 
-const handleOnMouseLeave = () =>
-//   state.showMenu ? null : isEditMode ? null : State.update({ show: false });
+const handleOnMouseLeave = () => {
+  //   state.showMenu ? null : isEditMode ? null : State.update({ show: false });
+};
 
 const handleOpenMenu = () => State.update({ showMenu: true, show: false });
 
