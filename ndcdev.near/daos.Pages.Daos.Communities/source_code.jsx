@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 const { dao_id } = props;
