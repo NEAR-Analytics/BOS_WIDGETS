@@ -1,5 +1,5 @@
 let { assets, content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 
 assets = assets.home;
@@ -277,7 +277,7 @@ return (
           props={{
             title: content.featuredProducts.title,
             projects: content.featuredProducts.projects.map((title) =>
-              projects.find((p) => p.title === title),
+              projects.find((p) => p.title === title)
             ),
           }}
         />
@@ -299,9 +299,9 @@ return (
           </p>
 
           <SubmitProposal
-            href={`/ndcdev.near/widget/daos.App?page=create_proposal`}
+            href={`/ndcdev.near/widget/daos.App?page=create_post`}
           >
-            Create Proposal
+            Submit Proposal
           </SubmitProposal>
         </div>
         <div className="circle" />
