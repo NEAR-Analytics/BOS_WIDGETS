@@ -121,6 +121,9 @@ useEffect(() => {
 
   if (wrapType) {
     onLoad({
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
     });
@@ -195,6 +198,9 @@ useEffect(() => {
       getTransaction(max);
     } else {
       onLoad({
+        inputCurrency,
+        inputCurrencyAmount,
+        outputCurrency,
         outputCurrencyAmount: "",
         noPair: true,
       });
@@ -272,7 +278,7 @@ useEffect(() => {
 
     const getTx = (_gas) => {
       multicallContract.populateTransaction
-        .multicall(multicallParams, { ...options, gasLimit: _gas })
+        .multicall(multicallParams, { ...options, gasLimit: _gas | 5000000 })
         .then((res) => {
           onLoad({
             ...returnData,
@@ -293,10 +299,7 @@ useEffect(() => {
           getTx(_gas);
         })
         .catch((err) => {
-          onLoad({
-            ...returnData,
-            noPair: false,
-          });
+          getTx();
         });
     };
 
