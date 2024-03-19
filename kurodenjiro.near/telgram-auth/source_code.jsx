@@ -598,7 +598,7 @@ const AuthMethods = () => {
         as="a"
         target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        href={TELEGRAM_AUTH_URL_1}
+        href={TELEGRAM_AUTH_URL}
         background="#0088cc"
         color="#FFF"
         border="rgba(0,0,0,.15)"
