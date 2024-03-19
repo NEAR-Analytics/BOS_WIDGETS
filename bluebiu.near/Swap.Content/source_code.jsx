@@ -301,6 +301,7 @@ return (
             State.update({
               inputCurrencyAmount: val,
               tradeType: "in",
+              loading: false,
             });
             if (val && Number(val)) state.debouncedGetBestTrade();
           },
@@ -321,9 +322,10 @@ return (
               tradeType: "in",
               updateInputTokenBalance: true,
               updateOutputTokenBalance: true,
-              loading: true,
+              loading: false,
             });
-            if (Big(state.inputCurrencyAmount || 0).gt(0)) state.getBestTrade();
+            if (Big(state.inputCurrencyAmount || 0).gt(0))
+              state.debouncedGetBestTrade();
           }}
         >
           <Widget src="bluebiu.near/widget/Swap.ExchangeIcon" />
@@ -441,15 +443,14 @@ return (
                 hasToken = false;
               }
             }
+            State.update({ ...updatedParams, loading: false });
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
               hasToken
             ) {
-              updatedParams.loading = true;
+              state.debouncedGetBestTrade();
             }
-            State.update(updatedParams);
-            if (updatedParams.loading) state.getBestTrade();
           },
         }}
       />
@@ -472,6 +473,12 @@ return (
           multicall: props.multicall,
           onLoad: (data) => {
             console.log("amountOutFn", data);
+            if (
+              data.inputCurrencyAmount !== state.inputCurrencyAmount ||
+              data.inputCurrency.address !== state.inputCurrency.address ||
+              data.outputCurrency.address !== state.outputCurrency.address
+            )
+              return;
             State.update({
               loading: false,
               priceImpact: null,
