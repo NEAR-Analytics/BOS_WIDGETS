@@ -194,6 +194,9 @@ useEffect(() => {
 
   if (wrapType) {
     onLoad({
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
     });
@@ -220,6 +223,10 @@ useEffect(() => {
       .then((pool) => {
         if (pool === ZERO_ADDRESS) {
           onLoad({
+            inputCurrency,
+            inputCurrencyAmount,
+            outputCurrency,
+            outputCurrencyAmount: "",
             noPair: true,
           });
         } else {
@@ -228,6 +235,7 @@ useEffect(() => {
       })
       .catch((err) => {
         onLoad({
+          outputCurrencyAmount: "",
           noPair: true,
         });
       });
