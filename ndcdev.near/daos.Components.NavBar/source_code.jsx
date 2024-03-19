@@ -85,8 +85,8 @@ const NavigationLinks = () => (
   <>
     <a href={`/ndcdev.near/widget/daos.App?page=daos`}>DAOs</a>
     <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
-    <a href={`/ndcdev.near/widget/daos.App?page=create_proposal`}>
-      Create Proposal
+    <a href={`/ndcdev.near/widget/daos.App?page=create_post`}>
+      Create Post
     </a>
   </>
 );
