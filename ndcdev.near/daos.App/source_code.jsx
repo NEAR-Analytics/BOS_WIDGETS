@@ -6,6 +6,14 @@ if (!page) page = "home";
 
 function Page() {
   switch (page) {
+    case "config": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.Config`}
+          props={props}
+        />
+      );
+    }
     case "comments": {
       return (
         <Widget
