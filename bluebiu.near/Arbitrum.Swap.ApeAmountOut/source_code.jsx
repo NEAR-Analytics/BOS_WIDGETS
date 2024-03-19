@@ -280,6 +280,9 @@ useEffect(() => {
       params.unshift(amount);
     }
     const returnData = {
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: Big(amountoutDesimals).gt(0.01)
         ? Big(amountoutDesimals).toPrecision(10)
         : Big(amountoutDesimals).toFixed(10),
