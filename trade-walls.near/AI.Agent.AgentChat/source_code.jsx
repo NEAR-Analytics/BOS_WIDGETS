@@ -8,6 +8,7 @@ let [suggestedWall, setSuggestedWall] = useState({
   quantity: 10,
   keep: 10,
 });
+
 const WallsList = () => {
   if (error) {
     return;
@@ -86,9 +87,12 @@ const ActionParser = () => {
     </div>
   );
 };
+const [wallsApiEndpoint, setWallsApiEndpoint] = useState(
+  "http://localhost:5000/api/walls"
+);
+
 const listWalls = async () => {
-  const url = "http://localhost:5000/api/walls";
-  asyncFetch(url, {
+  asyncFetch(wallsApiEndpoint, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -103,7 +107,7 @@ const listWalls = async () => {
 };
 const addWall = (wall) => {
   return () => {
-    asyncFetch("http://localhost:5000/api/walls", {
+    asyncFetch(wallsApiEndpoint, {
       method: "POST",
       body: JSON.stringify(wall),
       headers: {
@@ -118,7 +122,7 @@ const addWall = (wall) => {
   };
 };
 const connectBackend = async () => {
-  const url = "http://localhost:5000/api/greet";
+  const url = `${wallsApiEndpoint.replace("/walls", "")}/greet`;
   asyncFetch(url, {
     method: "GET",
     headers: {
@@ -414,6 +418,19 @@ const renderSettings = () => {
       </CardControl>
       {settingsOpen && (
         <AllSettings>
+          <InputWrapper>
+            <Widget
+              src="near/widget/DIG.Input"
+              props={{
+                label: "Walls API Endpoint",
+                assistiveText: "Enter the API endpoint for managing walls",
+                iconLeft: "ph-bold ph-link",
+                onInput: (e) => setWallsApiEndpoint(e.target.value),
+                value: wallsApiEndpoint,
+              }}
+            />
+          </InputWrapper>
+
           <InputWrapper>
             <Widget
               src="near/widget/DIG.InputSelect"
