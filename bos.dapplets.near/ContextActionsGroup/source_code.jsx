@@ -39,15 +39,18 @@ const FloatingModal = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   animation: falling-animation 0.3s linear forwards;
-
+translate: all ease 0.2s;
   @keyframes falling-animation {
-    from {
+    0% {
       transform: translate(-50%, -200%);
-      opasity: 0
+      opasity: 0;
     }
-
-    to {
-      opasity: 1
+    85%{
+        transform: translate(-50%, -50%);
+      opasity: 0;
+}
+    100% {
+      opasity: 1;
       transform: translate(-50%, -50%);
     }
   }
