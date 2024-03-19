@@ -292,6 +292,9 @@ useEffect(() => {
 
   if (wrapType) {
     onLoad({
+      inputCurrency,
+      inputCurrencyAmount,
+      outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
     });
@@ -366,6 +369,9 @@ useEffect(() => {
       getTransaction(max);
     } else {
       onLoad({
+        inputCurrency,
+        inputCurrencyAmount,
+        outputCurrency,
         outputCurrencyAmount: "",
         noPair: true,
       });
