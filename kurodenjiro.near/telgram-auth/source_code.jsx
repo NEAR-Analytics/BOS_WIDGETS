@@ -30,6 +30,9 @@ const REGISTRY_CONTRACT = "checks.integrations.near";
 const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
 }&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
+const TELEGRAM_AUTH_URL = `https://oauth.telegram.org/auth?bot_id=6458699487&origin=${NEARBADGER_VERIFIERS_API}&embed=1&request_access=write&return_to="${NEARBADGER_VERIFIERS_API}?state=telegram.${
+  context.accountId + "." + Math.floor(Math.random() * 10000000)
+}"`;
 const GOOGLE_AUTH_URL = "";
 
 const [platform, setPlatform] = useState("");
@@ -591,8 +594,8 @@ const AuthMethods = () => {
       <AuthButton
         as="a"
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        href={GOOGLE_AUTH_URL}
-        background="#54a9eb"
+        href={TELEGRAM_AUTH_URL}
+        background="#0088cc"
         color="#FFF"
         border="rgba(0,0,0,.15)"
         badgeSize="17px"
