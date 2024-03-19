@@ -6,13 +6,13 @@ if (!routerAbi.ok) {
 }
 
 const TOKENS = [
-  //{
-  //name: "ETH",
-  //icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
-  //address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-  //coinGeckoId: "ethereum",
-  //decimals: 18,
-  //},
+  {
+    name: "ETH",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
+    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+    coinGeckoId: "ethereum",
+    decimals: 18,
+  },
   {
     name: "USDC",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/usdc.svg",
@@ -388,8 +388,18 @@ const cantSwap = () => {
 };
 
 const existPool = () => {
-  const poolName1 = `${state.tokenSendSelected.name}-${state.tokenRecieveSelected.name}`;
-  const poolName2 = `${state.tokenRecieveSelected.name}-${state.tokenSendSelected.name}`;
+  /* TODO updated, check if token name is ETH to replace it for WETH */
+  const tokenNameA =
+      state.tokenSendSelected.name === "ETH"
+        ? "WETH"
+        : state.tokenSendSelected.name,
+    tokenNameB =
+      state.tokenRecieveSelected.name === "ETH"
+        ? "WETH"
+        : state.tokenRecieveSelected.name;
+
+  const poolName1 = `${tokenNameA}-${tokenNameB}`;
+  const poolName2 = `${tokenNameB}-${tokenNameA}`;
 
   if (!state.tokenSendSelected.name || !state.tokenRecieveSelected.name) {
     return true;
@@ -445,8 +455,10 @@ const confirmTransaction = () => {
     "0",
     state.tokenSendSelected.decimals
   );
+
+  /* TODO updated, if receive token is ETH will set override value */
   const overrides = {
-    value: amountIn2,
+    value: state.tokenRecieveSelected.name === "ETH" ? amountIn : amountIn2,
     gasLimit: 2303039,
   };
   try {
@@ -582,6 +594,7 @@ return (
                     </select>
                   </div>
                 </div>
+
                 <div class="TokenAmountSection">
                   <input
                     class="TokenAmountInput"
