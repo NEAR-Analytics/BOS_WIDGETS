@@ -84,7 +84,6 @@ return (
                   src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                   props={{
                     onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
-                    communityAccountId: `${handle}.community.devhub.near`,
                     profileAccountId: `${handle}.community.devhub.near`,
                   }}
                 />
