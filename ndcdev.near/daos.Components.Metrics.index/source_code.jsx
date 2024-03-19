@@ -1,6 +1,6 @@
 const { daos, totalTreasury, deliverTreasury, typeOfProject } = props;
 const { Items } = VM.require(
-  `ndcdev.near/widget/daos.Components.Metrics.styled`
+  `ndcdev.near/widget/daos.Components.Metrics.styled`,
 );
 
 if (!Items || !daos) return <Widget src="flashui.near/widget/Loading" />;
