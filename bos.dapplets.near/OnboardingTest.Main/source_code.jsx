@@ -12,8 +12,6 @@ console.log('props', props)
 console.log('lastShowTimes',lastShowTimes)
 
 useEffect(() => {
-  console.log('show', show)
-  if (show) return
   if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
   setStart(true);
   const lastShowByIds = {}
@@ -98,15 +96,6 @@ const saveData = (inputData) => {
       }
     )
   }
-}
-
-if (show) {
-  // const time = doNotShowAgain ? 30000000000000 : Date.now()
-  const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-  console.log('time on start', time)
-  data && data.forEach((chapter) => {
-    Storage.privateSet(chapter.id + '/lastShowTime', time)
-  })
 }
 
 return (
