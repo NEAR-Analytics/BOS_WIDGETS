@@ -33,6 +33,9 @@ const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.$
 const TELEGRAM_AUTH_URL = `https://oauth.telegram.org/auth?bot_id=6458699487&origin=https%3A%2F%2Fnearbadger-verifiers-api.vercel.app&embed=1&request_access=write&return_to=https%3A%2F%2Fnearbadger-verifiers-api.vercel.app%2Ftelegram-auth%3Fstate%3Dtelegram.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
 }`;
+
+const TELEGRAM_AUTH_URL_1 =
+  "https://oauth.telegram.org/auth/push?bot_id=6458699487&origin=https%3A%2F%2Fnearbadger-verifiers-api.vercel.app&embed=1&request_access=write&return_to=https%3A%2F%2Fnearbadger-verifiers-api.vercel.app%2Ftelegram-auth%3Fstate%3Dtelegram.kurodenjiro.near.4941632";
 const GOOGLE_AUTH_URL = "";
 
 const [platform, setPlatform] = useState("");
@@ -593,9 +596,9 @@ const AuthMethods = () => {
       </AuthButton>
       <AuthButton
         as="a"
-        target={"_blank"}
+        target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        href={TELEGRAM_AUTH_URL}
+        href={TELEGRAM_AUTH_URL_1}
         background="#0088cc"
         color="#FFF"
         border="rgba(0,0,0,.15)"
