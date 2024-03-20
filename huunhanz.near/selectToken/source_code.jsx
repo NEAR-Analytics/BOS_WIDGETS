@@ -234,7 +234,7 @@ const Wrapper = styled.div`
 `;
 
 if (!show) return <div />;
-
+console.log("tokensMeta", tokensMeta);
 return (
   <>
     <Wrapper
