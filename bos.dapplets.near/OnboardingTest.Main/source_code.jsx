@@ -4,55 +4,55 @@ const [showFrom, setShowFrom] = useState(0)
 
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
-const lastShowTimes= data && data?.reduce((acc, chapter) => {
-  acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShowTime')
+const lastShow= data && data?.reduce((acc, chapter) => {
+  acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShow')
   return acc
 }, {})
 
 console.log('data', data)
 console.log('props?.link?.id', props?.link?.id)
 console.log('props', props)
-console.log('lastShowTimes',lastShowTimes)
+console.log('lastShow',lastShow)
 
 useEffect(() => {
   if (
     !start && (
-      lastShowTimes === null || (
-        lastShowTimes && Object.values(lastShowTimes).every(a => a === null)
+      lastShow === null || (
+        lastShow && Object.values(lastShow).every(a => a === null)
       )
     )
   ) return;
-  // here if (start || (lastShowTimes && Object.values(lastShowTimes).some(a => a !== null))) -- ToDo: replace?
+  // here if (start || (lastShow && Object.values(lastShow).some(a => a !== null))) -- ToDo: replace?
 
   setStart(true);
-  if (lastShowTimes) {
-    for (const key of Object.keys(lastShowTimes)) {
-      const elapsed = Date.now() - (lastShowTimes[key]?.time ?? 0)
+  if (lastShow) {
+    for (const key of Object.keys(lastShow)) {
+      const elapsed = Date.now() - (lastShow[key]?.time ?? 0)
       // if (elapsed > 1000 * 60 * 60 * 3) {
       // TESTING
-      lastShowTimes[key].show = elapsed > 1000 * 60 * 1 * 1
+      lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
     }
   }
-  console.log('lastShowTimes with .show', lastShowTimes)
+  console.log('lastShow with .show', lastShow)
 
-  if (!lastShowTimes && context.accountId === props?.link?.authorId) {
+  if (!lastShow && context.accountId === props?.link?.authorId) {
     setShow(true)
-  } else if (lastShowTimes && Object.values(lastShowTimes).some(a => a?.show)) {
+  } else if (lastShow && Object.values(lastShow).some(a => a?.show)) {
     data.sort(
       (a, b) =>
-        lastShowTimes[a.id] === null && lastShowTimes[b.id] === null
+        lastShow[a.id] === null && lastShow[b.id] === null
           ? 0
-          : lastShowTimes[a.id] === null
+          : lastShow[a.id] === null
             ? 1
-            : lastShowTimes[b.id] === null
+            : lastShow[b.id] === null
               ? -1
-              : lastShowTimes[a.id].show - lastShowTimes[b.id].show
+              : lastShow[a.id].show - lastShow[b.id].show
     )
     console.log('data after sort', data)
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
     setShow(true)
   }
-}, [start, lastShowTimes])
+}, [start, lastShow])
 
 setTimeout(() => setStart(true), 10000)
 
@@ -104,7 +104,7 @@ const handleClose = (doNotShowAgain, viewedPages) => {
     const mutation = data.find((ch) => ch.id.includes('mutation'))?.id
     data.forEach((chapter) => {
       Storage.privateSet(
-        chapter.id + '/lastShowTime',
+        chapter.id + '/lastShow',
         {
           time,
           mutation,
