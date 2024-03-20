@@ -32,7 +32,7 @@ const profile = Social.get(`${accountId}/profile/**`, "final");
 return (
   <Avatar className={size}>
     <Widget
-      src="${REPL_MOB}/widget/Image"
+      src="mob.near/widget/Image"
       props={{
         image: profile.image,
         alt: profile.name,
