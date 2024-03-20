@@ -1,269 +1,254 @@
-const config = {
+State.init({
   color: "#31cf34",
-  image1:
-    "https://bafkreidzrna3q6csqykuvzih6yywrijmdg4fn4tb53azjmmjuobfus4v2e.ipfs.nftstorage.link/",
-  image2:
-    "https://bafybeibuj22kfgmevy3os6akrswxosjyjv5q6tecyv5jsfpw7iccajp5qa.ipfs.nftstorage.link/",
-  image3:
-    "https://bafkreibeah7hmamkdzkrc7znm6u6jp4loiiy42shoyv2mb2hhlhiyynaia.ipfs.nftstorage.link/",
-  image27:
-    "https://bafybeicgrco3ybsfei42gyny5laphmf3edmqnsfq667pjxr6ap47q77gqq.ipfs.nftstorage.link/",
-  image28:
-    "https://bafkreigt2jhdt2qr6lshkdrf3fjeizcdofnqgvtqkjhxxhaamy3vqsyhvu.ipfs.nftstorage.link/",
-};
+  image3: "https://lonk.meme/assets/images/background.png",
+  image4: "https://lonk.meme/assets/images/green-dragon.png",
+  image5: "https://lonk.meme/assets/images/green-logo.svg",
+  image6: "https://lonk.meme/assets/images/ref.png",
+  image7: "https://lonk.meme/assets/images/veax.svg",
+  image8: "https://lonk.meme/assets/images/plane.png",
+  image9: "https://lonk.meme/assets/images/x.png",
+  image10: "https://lonk.meme/assets/images/dex.png",
+  image11: "https://lonk.meme/assets/images/coingecko.svg",
+  image12: "https://lonk.meme/assets/images/dog.png",
+  image13: "https://lonk.meme/assets/images/wallets/1.png",
+  image14: "https://lonk.meme/assets/images/wallets/2.png",
+  image15: "https://lonk.meme/assets/images/wallets/3.png",
+  image16: "https://lonk.meme/assets/images/wallets/4.png",
+  image17: "https://lonk.meme/assets/images/wallets/5.png",
+  image18: "https://lonk.meme/assets/images/wallets/6.png",
+  image19: "https://lonk.meme/assets/images/exchanges/1.png",
+  image20: "https://lonk.meme/assets/images/exchanges/2.png",
+  image21: "https://lonk.meme/assets/images/exchanges/3.png",
+  image22: "https://lonk.meme/assets/images/exchanges/4.png",
+  image23: "https://lonk.meme/assets/images/exchanges/5.png",
+  image24: "https://lonk.meme/assets/images/exchanges/6.png",
+  image25: "https://lonk.meme/assets/images/exchanges/7.png",
+  image26: "https://lonk.meme/assets/images/exchanges/8.png",
+  image27: "https://lonk.meme/assets/images/roadmap.png",
+  image28: "https://lonk.meme/assets/images/lonk-near.png",
+});
 
-const fkGroteskFamily = fetch(
-  "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
-).body;
+const Main = styled.div`
+    .main {
+        display: block;
+    }
 
-const MenuMobile = styled.ul`
-    height:250px;
-    width:100%;
-    padding:10px;   
-    background:#fff;
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-    justify-content:start;
-    list-style: none;
-    li{
-        margin-left:40px;
+    .intro {
+        background: url(${state.image3}) no-repeat 100% 0 fixed;
     }
-    li > a{
-        text-decoration:none; 
+    
+    .font-md-bigger {
+        font-size: 1.2rem;
     }
-    span{
-        font-size: 18px;
+
+    .text-uppercase {
+        text-transform: uppercase!important;
+    }
+
+    .py-4 {
+        padding-bottom: 1.5rem!important;
+        padding-top: 1.5rem!important;
+    }
+
+    .py-3 {
+        padding-bottom: 1rem!important;
+        padding-top: 1rem!important;
+    }
+
+    .container {
+         max-width: 540px;
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: calc(var(--bs-gutter-x)*.5);
+        padding-right: calc(var(--bs-gutter-x)*.5);
+        width: 100%;
+    }
+
+    .justify-content-around {
+        justify-content: space-around!important;
+    }
+
+    .row {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: calc(var(--bs-gutter-x)*-.5);
+        margin-right: calc(var(--bs-gutter-x)*-.5);
+        margin-top: calc(var(--bs-gutter-y)*-1);
+    }
+
+    .align-items-center {
+        align-items: center!important;
+    }
+
+    .justify-content-center {
+        justify-content: center!important;
+    }
+
+    .col-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem!important;
+    }
+    
+    .mt-3 {
+        margin-top: 1rem!important;
+    }
+
+    .d-flex {
+        display: flex!important;
+    }
+
+    .mx-2 {
+        margin-left: 0.5rem!important;
+        margin-right: 0.5rem!important;
+    }
+
+    .ref {
+        height: 60px;
+        width: 270px;
+    }
+
+    .button {
+        border: 2px solid #31cf34;
+    }
+
+    .rounded-5 {
+        border-radius: var(--bs-border-radius-xxl)!important;
+    }
+
+    .text-decoration-none {
+        text-decoration: none!important;
+    }
+
+    .mt-5 {
+        margin-top: 3rem!important;
+    }
+
+    .px-2 {
+        padding-left: 0.5rem!important;
+        padding-right: 0.5rem!important;
+    }
+    
+    .d-inline-block {
+        display: inline-block!important;
+    }
+
+    .green-bg {
+        background-color: #31cf34;
+    }
+
+    .flex-column-reverse {
+        flex-direction: column-reverse!important;
+    }
+
+    p {
+        margin-bottom: 1rem;
+        margin-top: 0;
+    }
+
+    .text-uppercase {
+        text-transform: uppercase!important;
+    }
+
+    .mb-0 {
+        margin-bottom: 0!important;
+    }
+
+    h2 {
+        color: #fff;
+        font-size: 4em;
         font-family: Lakki Reddy,cursive;
-
-        text-shadow: 0 4px 4px #efefef;
+        text-shadow: 0 4px 4px #00000040;
         text-transform: lowercase;
         margin-block-end: 0.33em;
     }
-`;
 
-const Main = styled.div`
-  ${fkGroteskFamily}
-  .main {
-      display: block;
-  }
-
-  .intro {
-      background: url(${config.image3}) no-repeat 100% 0 fixed;
-  }
-
-  .hero {
-    display: flex; 
-    flex-direction:row; 
-    justify-content:space-around;
-    @media screen and (max-width:768px){
-      flex-direction:column;
+    .green {
+        color: #31cf34;
     }
-  }
-  .green-bg {
-      background-color: #31cf34;
-  }
 
-  h2 {
-    color: #fff;
-    font-size: 4em;
-    font-family: Lakki Reddy,cursive;
+    .badge {
+        background-color: #31cf34;
+        font-size: 1.1em;
+        padding: 3px 8px;
+    }
 
-    text-shadow: 0 4px 4px #00000040;
-    text-transform: lowercase;
-    margin-block-end: 0.33em;
-  }
+    .green-bg, .header, .navbar {
+        background-color: #31cf34;
+    }
 
-  .green {
-      color: #31cf34;
-  }
-
-  .badge {
-      background-color: #31cf34;
-      font-size: 1.1em;
-      padding: 3px 8px;
-  }
-
-  .green-bg {
-      background-color: #31cf34;
-      padding: 48px 0px;
-  }
-
-  .roadmap {
-      background: url(${config.image27}) no-repeat 100% 100%;
-      background-color: #52bfda;
-      background-size: contain;
-      min-height: 850px;
-  }
-
-  .lonk-near {
-      bottom: 10px;
-      left: 0;
-      margin: auto;
-      position: absolute;
-      right: 0;
-  }
-  .roadmap {
-    background-color: #52bfda;
-    background-size: cover;
-    min-height: 800px;
-    @media screen and (max-width:768px){
+    .roadmap {
+        background: url(${state.image27}) no-repeat 100% 100%;
+        background-color: #52bfda;
         background-size: contain;
+        min-height: 850px;
     }
-  }
-  .button-swap{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    @media screen and (max-width:768px){
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        margin:60px;
-        gap:20px;
-        width:200px;
-        height:60px;
-    }
-  }
-  .about{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    justify-content:space-between;
-    @media screen and (max-width:768px){
-        flex-direction:column-reverse;
-        gap:10px;
-    }
-  }
-  .image{
-    @media screen and (max-width:768px){
-        width:120px;
-    }
-  }
-`;
 
-const [dropdownVisible, setDropdownVisible] = useState(false);
-const [visible, setVisible] = useState(false);
-const toggleDropdown = () => {
-  setDropdownVisible(!dropdownVisible);
-};
+    .position-relative {
+        position: relative!important;
+    }
+
+    .lonk-near {
+        bottom: 10px;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+    }
+`;
 
 return (
   <>
-    <Widget
-      src="huunhanz.near/widget/headerSwap"
-      props={{
-        visible,
-        setVisible: (value) => {
-          setVisible(value);
-        },
-      }}
-    />
-    {visible && (
-      <MenuMobile>
-        <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" aria-current="page" href="#">
-            <span>home</span>
-          </a>
-        </li>
-        <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="#about">
-            <span>about</span>
-          </a>
-        </li>
-        <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="#how">
-            <span>how to buy</span>
-          </a>
-        </li>
-        <li class="nav-item p-1 p-lg-3 position-relative">
-          <a
-            class={`nav-link dropdown-toggle ${dropdownVisible ? "show" : ""}`}
-            href="#"
-            id="toggle"
-            onClick={toggleDropdown}
-          >
-            <span>bridge to near</span>
-          </a>
-          <ul
-            class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
-            id="dropdown"
-          >
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">ethereum</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">solana</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">arbitrum</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">optimism</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">polygon</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">fantom</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">avalanche</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">BSC</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">sui</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                from <span class="text-capitalize">aptos</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="#token">
-            <span>tokenomic</span>
-          </a>
-        </li>
-        <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="#roadmap">
-            <span>roadmap</span>
-          </a>
-        </li>
-      </MenuMobile>
-    )}
+    <Widget src="huunhanz.near/widget/headerSwap" />
     <Main>
       <div class="main">
-        <Widget src="huunhanz.near/widget/Lonk.hero" />
-
-        <Widget src="huunhanz.near/widget/Lonk.buy" />
+        <Widget
+          src="huunhanz.near/widget/Lonk.hero"
+          props={{
+            image4: state.image4,
+            image5: state.image5,
+            image6: state.image6,
+            image7: state.image7,
+            image8: state.image8,
+            image9: state.image9,
+            image10: state.image10,
+            image11: state.image11,
+          }}
+        />
+        <Widget
+          src="huunhanz.near/widget/Lonk.buy"
+          props={{
+            image12: state.image12,
+            image13: state.image13,
+            image14: state.image14,
+            image15: state.image15,
+            image16: state.image16,
+            image17: state.image17,
+            image18: state.image18,
+            image19: state.image19,
+            image20: state.image20,
+            image21: state.image21,
+            image22: state.image22,
+            image23: state.image23,
+            image24: state.image24,
+            image25: state.image25,
+            image26: state.image26,
+            image6: state.image6,
+          }}
+        />
         <div
           class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
           id="token"
         >
           <div class="container">
-            <div class="about">
+            <div class="row flex-column-reverse flex-md-row align-items-center">
               <div class="col-12 col-md-6 ">
                 <p class="mb-5 text-uppercase">
                   <strong>420.69 Billions LONK</strong>
@@ -287,8 +272,8 @@ return (
                   NO BS
                 </p>
               </div>
-              <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
-                <h2>tokenomics</h2>
+              <div class="col-12 col-md-6 col-lg-6 text-md-start">
+                <h2 class="text-start">tokenomics</h2>
               </div>
             </div>
           </div>
@@ -302,7 +287,7 @@ return (
               <div class="col-12">
                 <h2>roadmap</h2>
               </div>
-              <div class="col-12 col-md-4 col-lg-3 text-md-center">
+              <div class="col-12 col-md-4 col-lg-3">
                 <p class="text-uppercase mb-5">
                   Phase 1: lonk
                   <br />
@@ -314,11 +299,6 @@ return (
                 </p>
                 <br />
               </div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="col-12"></div>
@@ -333,7 +313,7 @@ return (
               </div>
               <div class="col-12 text-center">
                 <a href="https://near.org" class="text-decoration-none">
-                  <img src={config.image28} width="280" class="lonk-near" />
+                  <img src={state.image28} width="280" class="lonk-near" />
                 </a>
               </div>
             </div>
