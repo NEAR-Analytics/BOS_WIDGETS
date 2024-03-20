@@ -11,26 +11,22 @@ const logoUrl =
 
 const fullScreenCode = `
     <style>
-      * {
+      html, body, div, iframe {
         margin: 0;
         padding: 0;
+        border: none;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
         box-sizing: border-box;
       }
 
-      html, body {
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-      }
-
-      .full-screen-container {
-        width: 100%;
-        height: 100%;
-        background-color: ${backdropColor};
+      body {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
+        background-color: ${backdropColor};
       }
 
       .banner-text {
@@ -42,7 +38,7 @@ const fullScreenCode = `
         font-family: ${typeFace};
         font-size: ${letterSize};
         text-align: center;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         z-index: 1000;
       }
 
@@ -63,21 +59,19 @@ const fullScreenCode = `
       .logo.loaded {
         opacity: 1;
       }
-
     </style>
 
-    <div class="full-screen-container">
-      <div class="banner-text">${greetingMessage}</div>
-      <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
-    </div>
+    <div class="banner-text">${greetingMessage}</div>
+    <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
   `;
 
 return (
   <iframe
     style={{
-      width: "100vw",
-      height: "100vh",
+      width: "100vw", // Set iframe width to 100% of the viewport width
+      height: "100vh", // Set iframe height to 100% of the viewport height
       border: "none",
+      display: "block", // This removes any default inline styles that might cause alignment issues
     }}
     srcDoc={fullScreenCode}
     allowFullScreen
