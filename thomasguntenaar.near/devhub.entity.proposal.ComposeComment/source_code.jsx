@@ -137,7 +137,7 @@ function composeData() {
       notifications.length > 1 ? notifications : notifications[0]
     );
   }
-
+  // TODO near call set function together with the track_comment in one transaction
   Social.set(data, {
     force: true,
     onCommit: () => {
