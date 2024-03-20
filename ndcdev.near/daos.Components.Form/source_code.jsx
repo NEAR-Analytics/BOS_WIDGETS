@@ -144,7 +144,7 @@ return (
           </div>
         </div>
         <div className="form-element">
-          <label>Select DAO</label>
+          <label>Select Dao</label>
           <select
             className="form-control"
             value={selectedDaoId}
