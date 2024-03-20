@@ -189,9 +189,9 @@ return (
     <Wrapper>
       <h1>Камінь Ножиці Бумага</h1>
       <div>
-        <Button onClick={() => handleClick("Камінь")}>Rock</Button>
-        <Button onClick={() => handleClick("Бумага")}>Paper</Button>
-        <Button onClick={() => handleClick("Ножиці")}>Scissors</Button>
+        <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
+        <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
+        <Button onClick={() => handleClick("Ножиці")}>Ножиці</Button>
       </div>
       {userChoice && computerChoice && result && (
         <ResultText>
