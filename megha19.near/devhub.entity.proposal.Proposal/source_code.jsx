@@ -1,11 +1,11 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url") || {
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url") || {
   href: () => {},
 };
 const { readableDate } = VM.require(
-  "megha19.near/widget/core.lib.common"
+  "${REPL_DEVHUB}/widget/core.lib.common"
 ) || { readableDate: () => {} };
 const { getDepositAmountForWriteAccess } = VM.require(
-  "megha19.near/widget/core.lib.common"
+  "${REPL_DEVHUB}/widget/core.lib.common"
 );
 getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
@@ -35,6 +35,12 @@ const Container = styled.div`
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
+  }
+
+  .card.no-border {
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: -3.5rem;
   }
 
   .description-box {
@@ -232,7 +238,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("truedove38.near", "get_proposal", {
+const proposal = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -243,7 +249,7 @@ if (!proposal) {
       className="d-flex justify-content-center align-items-center w-100"
     >
       <Widget
-        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
+        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner"}
       />
     </div>
   );
@@ -260,10 +266,10 @@ const authorId = proposal.author_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `truedove38.near/post/main`,
+  path: `${REPL_DEVHUB_CONTRACT}/post/main`,
   blockHeight,
 };
-const proposalURL = `https://near.org/megha19.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
+const proposalURL = `https://near.org/${REPL_DEVHUB}/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -371,7 +377,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("truedove38.near", "get_proposal", {
+    const data = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -387,7 +393,7 @@ const LinkedProposals = () => {
           <a href={link} target="_blank" rel="noopener noreferrer">
             <div className="d-flex gap-2">
               <Widget
-                src={"megha19.near/widget/devhub.entity.proposal.Profile"}
+                src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
                 props={{
                   accountId: item.snapshot.editor_id,
                 }}
@@ -440,7 +446,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "truedove38.near",
+  "${REPL_DEVHUB_CONTRACT}",
   "is_allowed_to_edit_proposal",
   {
     proposal_id: proposal.id,
@@ -448,7 +454,7 @@ const isAllowedToEditProposal = Near.view(
   }
 );
 
-const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+const isModerator = Near.view("${REPL_DEVHUB_LEGACY}", "has_moderator", {
   account_id: accountId,
 });
 
@@ -472,7 +478,7 @@ const editProposal = ({ timeline }) => {
 
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "edit_proposal",
       args: args,
       gas: 270000000000000,
@@ -483,7 +489,7 @@ const editProposal = ({ timeline }) => {
 const editProposalStatus = ({ timeline }) => {
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "edit_proposal_timeline",
       args: {
         id: proposal.id,
@@ -564,17 +570,18 @@ const TimelineItems = ({ title, children, value, values }) => {
 };
 
 const link = href({
-  widgetSrc: "megha19.near/widget/app",
+  widgetSrc: "${REPL_DEVHUB}/widget/app",
   params: {
     page: "create-proposal",
     id: proposal.id,
     timestamp: timestamp,
   },
 });
+
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
-      src={"megha19.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
+      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmReviewModal"}
       props={{
         isOpen: isReviewModalOpen,
         onCancelClick: () => setReviewModal(false),
@@ -585,7 +592,7 @@ return (
       }}
     />
     <Widget
-      src={"megha19.near/widget/devhub.entity.proposal.ConfirmCancelModal"}
+      src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.ConfirmCancelModal"}
       props={{
         isOpen: isCancelModalOpen,
         onCancelClick: () => setCancelModal(false),
@@ -602,7 +609,7 @@ return (
       </div>
       <div className="d-flex gap-2 align-items-center">
         <Widget
-          src="near/widget/ShareButton"
+          src="${REPL_NEAR}/widget/ShareButton"
           props={{
             postType: "post",
             url: proposalURL,
@@ -613,7 +620,7 @@ return (
           isModerator) && (
           <Link to={link} style={{ textDecoration: "none" }}>
             <Widget
-              src={"megha19.near/widget/devhub.components.molecule.Button"}
+              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
               props={{
                 label: "Edit",
                 classNames: { root: "grey-btn btn-sm" },
@@ -625,7 +632,7 @@ return (
     </div>
     <div className="d-flex px-3 px-lg-0 gap-2 align-items-center text-sm pb-3">
       <Widget
-        src={"megha19.near/widget/devhub.entity.proposal.StatusTag"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag"}
         props={{
           timelineStatus: snapshot.timeline.status,
           size: "sm",
@@ -636,7 +643,7 @@ return (
         {readableDate(snapshot.timestamp / 1000000)}
       </div>
     </div>
-    <div className="card rounded-0 full-width-div px-3 px-lg-0">
+    <div className="card no-border rounded-0 full-width-div px-3 px-lg-0">
       <div className="container-xl py-4">
         {snapshot.timeline.status === TIMELINE_STATUS.DRAFT &&
           isAllowedToEditProposal && (
@@ -656,7 +663,7 @@ return (
               <div style={{ minWidth: "fit-content" }}>
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.components.molecule.Button"
+                    "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                   }
                   props={{
                     label: "Ready for review",
@@ -685,7 +692,7 @@ return (
               <div style={{ minWidth: "fit-content" }}>
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.components.molecule.Button"
+                    "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                   }
                   props={{
                     label: (
@@ -716,7 +723,7 @@ return (
               >
                 <div className="d-none d-sm-flex">
                   <Widget
-                    src={"megha19.near/widget/devhub.entity.proposal.Profile"}
+                    src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
                     props={{
                       accountId: authorId,
                     }}
@@ -726,7 +733,7 @@ return (
                   <Header className="d-flex gap-3 align-items-center p-2 px-3">
                     {authorId} ･{" "}
                     <Widget
-                      src="near/widget/TimeAgo"
+                      src="${REPL_NEAR}/widget/TimeAgo"
                       props={{
                         blockHeight,
                         blockTimestamp: snapshot.timestamp,
@@ -735,7 +742,7 @@ return (
                     {context.accountId && (
                       <div className="menu">
                         <Widget
-                          src="near/widget/Posts.Menu"
+                          src="${REPL_NEAR}/widget/Posts.Menu"
                           props={{
                             accountId: authorId,
                             blockHeight: blockHeight,
@@ -751,7 +758,7 @@ return (
                     <div>
                       <Widget
                         src={
-                          "megha19.near/widget/devhub.entity.proposal.CategoryDropdown"
+                          "${REPL_DEVHUB}/widget/devhub.entity.proposal.CategoryDropdown"
                         }
                         props={{
                           selectedValue: snapshot.category,
@@ -767,13 +774,13 @@ return (
                       DESCRIPTION
                     </div>
                     <Widget
-                      src="megha19.near/widget/devhub.components.molecule.MarkdownViewer"
+                      src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
                       props={{ text: snapshot.description }}
                     />
 
                     <div className="d-flex gap-2 align-items-center mt-4">
                       <Widget
-                        src="megha19.near/widget/devhub.entity.proposal.LikeButton"
+                        src="${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton"
                         props={{
                           item,
                           proposalId: proposal.id,
@@ -782,7 +789,7 @@ return (
                       />
                       <Widget
                         src={
-                          "megha19.near/widget/devhub.entity.proposal.CommentIcon"
+                          "${REPL_DEVHUB}/widget/devhub.entity.proposal.CommentIcon"
                         }
                         props={{
                           item,
@@ -791,7 +798,7 @@ return (
                         }}
                       />
                       <Widget
-                        src="near/widget/CopyUrlButton"
+                        src="${REPL_NEAR}/widget/CopyUrlButton"
                         props={{
                           url: proposalURL,
                         }}
@@ -803,7 +810,7 @@ return (
               <div className="border-bottom pb-4 mt-4">
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.entity.proposal.CommentsAndLogs"
+                    "${REPL_DEVHUB}/widget/devhub.entity.proposal.CommentsAndLogs"
                   }
                   props={{
                     item: item,
@@ -821,9 +828,10 @@ return (
               >
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.entity.proposal.ComposeComment"
+                    "${REPL_DEVHUB}/widget/devhub.entity.proposal.ComposeComment"
                   }
                   props={{
+                    ...props,
                     item: item,
                     notifyAccountId: authorId,
                     id: proposal.id,
@@ -837,7 +845,7 @@ return (
             >
               <SidePanelItem title="Author">
                 <Widget
-                  src="near/widget/AccountProfile"
+                  src="${REPL_NEAR}/widget/AccountProfile"
                   props={{
                     accountId: authorId,
                   }}
@@ -865,7 +873,7 @@ return (
               </SidePanelItem>
               <SidePanelItem title="Recipient Wallet Address">
                 <Widget
-                  src="near/widget/AccountProfile"
+                  src="${REPL_NEAR}/widget/AccountProfile"
                   props={{
                     accountId: snapshot.receiver_account,
                   }}
@@ -873,7 +881,7 @@ return (
               </SidePanelItem>
               <SidePanelItem title="Recipient Verification Status">
                 <Widget
-                  src="megha19.near/widget/devhub.entity.proposal.VerificationStatus"
+                  src="${REPL_DEVHUB}/widget/devhub.entity.proposal.VerificationStatus"
                   props={{
                     receiverAccount: snapshot.receiver_account,
                     showGetVerifiedBtn:
@@ -885,7 +893,7 @@ return (
               <SidePanelItem title="Requested Sponsor">
                 {snapshot.requested_sponsor && (
                   <Widget
-                    src="near/widget/AccountProfile"
+                    src="${REPL_NEAR}/widget/AccountProfile"
                     props={{
                       accountId: snapshot.requested_sponsor,
                     }}
@@ -895,7 +903,7 @@ return (
               <SidePanelItem title="Supervisor">
                 {snapshot.supervisor ? (
                   <Widget
-                    src="near/widget/AccountProfile"
+                    src="${REPL_NEAR}/widget/AccountProfile"
                     props={{
                       accountId: snapshot.supervisor,
                     }}
@@ -920,7 +928,7 @@ return (
                       <div className="mt-2 d-flex flex-column gap-2">
                         <h6 className="mb-0">Proposal Status</h6>
                         <Widget
-                          src="megha19.near/widget/devhub.components.molecule.DropDown"
+                          src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
                           props={{
                             options: proposalStatusOptions,
                             selectedValue: updatedProposalStatus,
@@ -1234,7 +1242,7 @@ return (
                       <div className="border-vertical py-3 my-2">
                         <label className="text-black h6">Supervisor</label>
                         <Widget
-                          src="megha19.near/widget/devhub.entity.proposal.AccountInput"
+                          src="${REPL_DEVHUB}/widget/devhub.entity.proposal.AccountInput"
                           props={{
                             value: supervisor,
                             placeholder: "Enter Supervisor",
@@ -1250,7 +1258,7 @@ return (
                             {paymentHashes.map((item, index) => (
                               <div className="d-flex gap-2 justify-content-between align-items-center">
                                 <Widget
-                                  src="megha19.near/widget/devhub.components.molecule.Input"
+                                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
                                   props={{
                                     className: "flex-grow-1",
                                     value: item,
@@ -1267,7 +1275,7 @@ return (
                                   {index !== paymentHashes.length - 1 ? (
                                     <Widget
                                       src={
-                                        "megha19.near/widget/devhub.components.molecule.Button"
+                                        "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                                       }
                                       props={{
                                         classNames: {
@@ -1286,7 +1294,7 @@ return (
                                   ) : (
                                     <Widget
                                       src={
-                                        "megha19.near/widget/devhub.components.molecule.Button"
+                                        "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                                       }
                                       props={{
                                         classNames: {
@@ -1310,7 +1318,7 @@ return (
                       <div className="d-flex gap-2 align-items-center justify-content-end text-sm">
                         <Widget
                           src={
-                            "megha19.near/widget/devhub.components.molecule.Button"
+                            "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                           }
                           props={{
                             label: "Cancel",
@@ -1325,7 +1333,7 @@ return (
                         />
                         <Widget
                           src={
-                            "megha19.near/widget/devhub.components.molecule.Button"
+                            "${REPL_DEVHUB}/widget/devhub.components.molecule.Button"
                           }
                           props={{
                             label: "Save",
