@@ -201,7 +201,7 @@ return (
           <br />
           <span></span>
           <br />
-          Result: {result}
+          Результат: {result}
         </ResultText>
       )}
     </Wrapper>
