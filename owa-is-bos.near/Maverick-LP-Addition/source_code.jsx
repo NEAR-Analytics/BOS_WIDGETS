@@ -153,7 +153,7 @@ const getNFTUser = () => {
 
 // Method to get pools
 const getPools = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/324
+  asyncFetch(`https://api.mav.xyz/api/v4/pools/324
           `)
     .catch((err) => {
       console.log(err);
