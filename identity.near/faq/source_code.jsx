@@ -97,7 +97,7 @@ const questions = props.questions || [
   {
     question: "Will the KYC support email help me pass KYC?",
     answer:
-      "NDC’s KYC support email nearkyc@gmail.com will not offer advice on how to pass KYC, however, NDC will do its best to answer questions regarding your profile.",
+      "NDC’s KYC support email compliance@neardc.org will not offer advice on how to pass KYC, however, NDC will do its best to answer questions regarding your profile.",
   },
 ];
 
