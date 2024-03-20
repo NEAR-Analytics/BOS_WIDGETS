@@ -419,7 +419,7 @@ return (
                 <Flex gap="23px" wrap="wrap" alignItems="left">
                   <Link
                     className="btn btn-dark"
-                    to={"/${config_account}/widget/faq"}
+                    to={"/identity.near/widget/faq"}
                   >
                     KYC FAQs
                   </Link>
