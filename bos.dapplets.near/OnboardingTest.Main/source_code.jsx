@@ -36,8 +36,10 @@ useEffect(() => {
   console.log('lastShow with .show', lastShow)
 
   if (!lastShow && context.accountId === props?.link?.authorId) {
+    // show form to the author
     setShow(true)
   } else if (lastShow && Object.values(lastShow).some(a => a?.show)) {
+    // with sort - some chapters have been displayed
     data.sort(
       (a, b) =>
         !lastShow[a.id] && !lastShow[b.id]
@@ -50,6 +52,9 @@ useEffect(() => {
     )
     console.log('data after sort', data)
     setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
+    setShow(true)
+  } else if (lastShow) {
+    // without sort - for the first time
     setShow(true)
   }
 }, [start, lastShow])
