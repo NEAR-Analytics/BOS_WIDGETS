@@ -111,13 +111,16 @@ const handleClose = (doNotShowAgain, viewedPages) => {
     console.log('time', time)
     const mutation = data.find((ch) => ch.id.includes('mutation'))?.id // ToDo: bug!!!!!!!!!!!!!!!!!!!!!!!!!
     console.log('mutation', mutation)
-    const lastShow = {
-      time,
-      mutation,
-      isViewed: viewedPages.includes(chapter.id),
-    }
-    console.log('lastShow', lastShow)
-    data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShow', lastShow))
+
+    data.forEach((chapter) => {
+      const lastShow = {
+        time,
+        mutation,
+        isViewed: viewedPages.includes(chapter.id),
+      }
+      console.log('lastShow', lastShow)
+      Storage.privateSet(chapter.id + '/lastShow', lastShow)
+    })
   }
   setShow(false)
 }
