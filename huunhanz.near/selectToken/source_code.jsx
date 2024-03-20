@@ -291,7 +291,7 @@ return (
           .map((token_id) => {
             if (
               token_id == "token.lonkingnearbackto2024.near" ||
-              token_id == "wrap.near"
+              token_id == "NEAR"
             ) {
               return (
                 <TokenLine
