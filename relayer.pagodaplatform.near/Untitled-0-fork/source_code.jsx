@@ -3,8 +3,6 @@ const widget_owner_id = "nearukraineguild.near";
 const OuterWrapper = styled.div`
  height: 100vh; /* Встановлення повноекранної висоти */
  padding: 20px; /* Додано внутрішні відступи */
-  margin: 20px; /* Додано поля */
-font-size: 16px;
 `;
 
 const Text = styled.div`
@@ -130,7 +128,7 @@ return (
       <Widget
         src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
       />
+      <br />
     </Social>
-    <span>/</span>
   </OuterWrapper>
 );
