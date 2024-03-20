@@ -8,6 +8,7 @@ const {
   repayETHGas,
   repayERC20Gas,
   formatHealthFactor,
+  theme,
 } = props;
 
 if (!data) {
@@ -683,6 +684,7 @@ return (
                 src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
                 props={{
                   config,
+                  theme,
                   loading: state.loading,
                   children: `Approve ${symbol}`,
                   disabled,
@@ -722,6 +724,7 @@ return (
                 src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
                 props={{
                   config,
+                  theme,
                   children: `Repay ${symbol}`,
                   loading: state.loading,
                   disabled,
