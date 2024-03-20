@@ -1,10 +1,13 @@
+const TIME_UNTIL_RESHOW = 1000 * 60 // TEST
+// const TIME_UNTIL_RESHOW = 1000 * 60 * 60 * 3 // PROD
+
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 const [showFrom, setShowFrom] = useState(0)
 
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
-const lastShow= data && data?.reduce((acc, chapter) => {
+const lastShow = data && data?.reduce((acc, chapter) => {
   acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShow')
   return acc
 }, {})
@@ -24,16 +27,51 @@ useEffect(() => {
   ) return;
   // here if (start || (lastShow && Object.values(lastShow).some(a => a !== null))) -- ToDo: replace?
 
-  setStart(true);
+  if (!start) {
+    setStart(true)
+    return
+  }
+  
+  // *** DISPLAY LOGIC ***
+
   if (lastShow) {
+    const currentMutation = data.find((ch) => ch?.id.includes('mutation'))?.id
+    const currentTime = Date.now()
+
     for (const key of Object.keys(lastShow)) {
-      const elapsed = Date.now() - (lastShow[key]?.time ?? 0)
-      // if (elapsed > 1000 * 60 * 60 * 3) {
-      // TESTING
-      if (lastShow[key]) lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
+      if (!lastShow[key]) continue
+
+      // DO NOT refactor the following code block to stay the logic clear!!!
+      if (currentMutation === lastShow[key].mutation) {
+        if (!lastShow[key].doNotShowAgain) {
+          lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+        } else {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = false
+          } else {
+            lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+          }
+        }
+      } else {
+        if (!lastShow[key].doNotShowAgain) {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+          } else {
+            lastShow[key].show = true
+          }
+        } else {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = false
+          } else {
+            lastShow[key].show = true
+          }
+        }
+      }
     }
   }
   console.log('lastShow with .show', lastShow)
+
+  // *** SORT LOGIC ***
 
   if (!lastShow && context.accountId === props?.link?.authorId) {
     // show form to the author
@@ -103,24 +141,22 @@ const Onboarding = styled.div`
 `;
 
 const handleClose = (doNotShowAgain, viewedPages) => {
-  console.log('doNotShowAgain in handleClose', doNotShowAgain)
-  console.log('viewedPages in handleClose', viewedPages)
   if (data) {
-    // const time = doNotShowAgain ? 30000000000000 : Date.now()
-    const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-    console.log('time', time)
-    const mutation = data.find((ch) => ch.id.includes('mutation'))?.id // ToDo: bug!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log('mutation', mutation)
-
-    data.forEach((chapter) => {
-      const lastShow = {
-        time,
-        mutation,
-        isViewed: viewedPages.includes(chapter.id),
-      }
-      console.log('lastShow', lastShow)
-      Storage.privateSet(chapter.id + '/lastShow', lastShow)
-    })
+    const time = Date.now()
+    const mutation = data.find((ch) => ch?.id.includes('mutation'))?.id
+    data.forEach((chapter) =>
+      Storage.privateSet(
+        chapter.id + '/lastShow',
+        {
+          time,
+          doNotShowAgain,
+          mutation,
+          // ToDo: gateway, ???
+          // ToDo: source, ???
+          isViewed: viewedPages.includes(chapter.id),
+        }
+      )
+    )
   }
   setShow(false)
 }
