@@ -81,22 +81,22 @@ useEffect(() => {
   if (!lastShow && context.accountId === props?.link?.authorId) {
     // show form to the author
     setShow(true)
-  } else if (lastShow && Object.values(lastShow).some(a => a?.show)) {
+  } else if (lastShow && Object.values(lastShow).some((a) => a?.show)) {
     // with sort - some chapters have been displayed
     data.sort(
       (a, b) =>
         !lastShow[a.id] && !lastShow[b.id]
           ? 0
           : !lastShow[a.id]
-            ? 1
+            ? lastShow[b.id].show ? 0 : 1
             : !lastShow[b.id]
-              ? -1
+              ? lastShow[a.id].show ? 0 : -1
               : lastShow[a.id].show - lastShow[b.id].show
     )
     console.log('data after sort', data)
-    setShowFrom(Object.values(lastShow).filter(a => !a).length)
+    setShowFrom(Object.values(lastShow).filter((a) => a && !a.show).length)
     setShow(true)
-  } else if (lastShow && Object.values(lastShow).every(a => !a)) {
+  } else if (lastShow && Object.values(lastShow).every((a) => !a)) {
     // without sort - for the first time
     setShow(true)
   }
