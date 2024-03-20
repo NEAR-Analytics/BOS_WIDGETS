@@ -413,13 +413,13 @@ return (
                   </Text>
                   <Text color="black">
                     Check out our identity verication FAQs below. All other
-                    questions can be directed to <b>nearkyc@gmail.com</b>.
+                    questions can be directed to <b>compliance@neardc.org</b>.
                   </Text>
                 </Flex>
                 <Flex gap="23px" wrap="wrap" alignItems="left">
                   <a
                     className="btn btn-dark"
-                    href="/nearbuilders.testnet/widget/ndc.verify.faq"
+                    href="https://near.org/identity.near/widget/verify.faq"
                   >
                     KYC FAQs
                   </a>
