@@ -3,7 +3,7 @@ const fontFamily = props.fontFamily ?? "Arial, sans-serif";
 const fontSize = props.fontSize ?? "22px";
 const textColor = props.textColor ?? "orange";
 const backgroundColor = props.backgroundColor ?? "green";
-const height = props.height ?? "60px";
+const height = props.height ?? "100%";
 const width = props.width ?? "100%";
 const logoUrl =
   props.imageUrl ||
