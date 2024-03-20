@@ -1,4 +1,4 @@
-const TIME_UNTIL_RESHOW = 1000 * 60 // TEST
+const TIME_UNTIL_RESHOW = 1000 * 60 // TESTING
 // const TIME_UNTIL_RESHOW = 1000 * 60 * 60 * 3 // PROD
 
 const [show, setShow] = useState(false)
@@ -40,6 +40,11 @@ useEffect(() => {
 
     for (const key of Object.keys(lastShow)) {
       if (!lastShow[key]) continue
+
+      // TESTING
+      if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3)
+        lastShow[key].doNotShowAgain = false
+      //
 
       // DO NOT refactor the following code block to stay the logic clear!!!
       if (currentMutation === lastShow[key].mutation) {
@@ -149,7 +154,7 @@ const handleClose = (doNotShowAgain, viewedPages) => {
         chapter.id + '/lastShow',
         {
           time,
-          doNotShowAgain,
+          doNotShowAgain: doNotShowAgain || lastShow[chapter.id].doNotShowAgain,
           mutation,
           // ToDo: gateway, ???
           // ToDo: source, ???
