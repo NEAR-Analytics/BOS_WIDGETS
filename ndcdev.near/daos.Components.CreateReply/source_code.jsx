@@ -72,11 +72,6 @@ function autoCompleteAccountId(id) {
   State.update({ text, showAccountAutocomplete: false });
 }
 
-const handlePreview = () => {
-  if (!accountId) return;
-  State.update({ showPreview: !state.showPreview });
-}
-
 const Wrapper = styled.div`
   --padding: 24px;
   position: relative;
@@ -390,7 +385,7 @@ return (
         disabled={!state.text}
         className="preview-post-button"
         title={state.showPreview ? "Edit Post" : "Preview Post"}
-        onClick={handlePreview}
+        onClick={() => State.update({ showPreview: !state.showPreview })}
       >
         {state.showPreview ? (
           <i className="bi bi-pencil" />
