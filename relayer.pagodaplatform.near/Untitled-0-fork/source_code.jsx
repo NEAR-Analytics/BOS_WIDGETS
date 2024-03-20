@@ -1,7 +1,7 @@
 const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
- height: 90vh;
+ height: 87vh;
 `;
 
 const Tittle = styled.div`
