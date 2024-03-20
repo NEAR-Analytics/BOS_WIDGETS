@@ -1,4 +1,4 @@
-const { config, onRequestClose } = props;
+const { config, onRequestClose, theme } = props;
 
 const AlertModalContainer = styled.div`
   display: flex;
@@ -42,6 +42,7 @@ return (
             src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
             props={{
               config,
+              theme,
               children: "Ok, Close",
               onClick: onRequestClose,
             }}
