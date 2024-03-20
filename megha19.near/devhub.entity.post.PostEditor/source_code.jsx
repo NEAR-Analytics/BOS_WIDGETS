@@ -1,6 +1,6 @@
-const { normalize } = VM.require("megha19.near/widget/core.lib.stringUtils");
+const { normalize } = VM.require("${REPL_DEVHUB}/widget/core.lib.stringUtils");
 const { getDepositAmountForWriteAccess } = VM.require(
-  "megha19.near/widget/core.lib.common"
+  "${REPL_DEVHUB}/widget/core.lib.common"
 );
 
 getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
@@ -46,7 +46,7 @@ if (!context.accountId) {
 }
 
 const userStorageDeposit = Near.view(
-  "social.near",
+  "${REPL_SOCIAL_CONTRACT}",
   "storage_balance_of",
   {
     account_id: context.accountId,
@@ -107,7 +107,7 @@ const [isSubmittingTransaction, setIsSubmittingTransaction] = useState(false);
 
 useEffect(() => {
   if (mode == "Edit") {
-    const data = Near.view("devgovgigs.near", "get_post", {
+    const data = Near.view("${REPL_DEVHUB_LEGACY}", "get_post", {
       post_id: postId,
     });
     if (!postData) {
@@ -119,7 +119,7 @@ useEffect(() => {
       setPostData(data);
     }
   } else {
-    const postIds = Near.view("devgovgigs.near", "get_all_post_ids");
+    const postIds = Near.view("${REPL_DEVHUB_LEGACY}", "get_all_post_ids");
     if (!postIdList) {
       setPostIdList(postIds);
     }
@@ -186,7 +186,7 @@ const AutoComplete = styled.div`
 if (props.transactionHashes) {
   const transaction = useCache(
     () =>
-      asyncFetch("https://rpc.mainnet.near.org", {
+      asyncFetch("${REPL_RPC_URL}", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -280,10 +280,10 @@ const typeSwitch = (optionName) => {
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view(
-  "social.near",
+  "${REPL_SOCIAL_CONTRACT}",
   "is_write_permission_granted",
   {
-    predecessor_id: "devgovgigs.near",
+    predecessor_id: "${REPL_DEVHUB_LEGACY}",
     key: context.accountId + "/index/notify",
   }
 );
@@ -357,7 +357,7 @@ const onSubmit = () => {
       Object.assign({}, state, { parent_post_id: parentId })
     );
     txn.push({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_LEGACY}",
       methodName: "add_post",
       args: {
         parent_id: parentId,
@@ -371,7 +371,7 @@ const onSubmit = () => {
       Object.assign({}, state, { edit_post_id: postId })
     );
     txn.push({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_LEGACY}",
       methodName: "edit_post",
       args: {
         id: postId,
@@ -384,10 +384,10 @@ const onSubmit = () => {
   if (mode == "Create" || mode == "Edit") {
     if (grantNotify === false) {
       txn.unshift({
-        contractName: "social.near",
+        contractName: "${REPL_SOCIAL_CONTRACT}",
         methodName: "grant_write_permission",
         args: {
-          predecessor_id: "devgovgigs.near",
+          predecessor_id: "${REPL_DEVHUB_LEGACY}",
           keys: [context.accountId + "/index/notify"],
         },
         gas: Big(10).pow(14),
@@ -400,7 +400,7 @@ const onSubmit = () => {
 };
 
 const checkLabel = (label) => {
-  Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
+  Near.asyncView("${REPL_DEVHUB_LEGACY}", "is_allowed_to_use_labels", {
     editor: context.accountId,
     labels: [label],
   }).then((allowed) => {
@@ -429,7 +429,7 @@ const setLabels = (labels) => {
       oldLabels.delete(label.name);
     }
     let removed = oldLabels.values().next().value;
-    Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
+    Near.asyncView("${REPL_DEVHUB_LEGACY}", "is_allowed_to_use_labels", {
       editor: context.accountId,
       labels: [removed],
     }).then((allowed) => {
@@ -454,7 +454,7 @@ const setLabels = (labels) => {
   }
 };
 const existingLabelStrings =
-  Near.view("devgovgigs.near", "get_all_allowed_labels", {
+  Near.view("${REPL_DEVHUB_LEGACY}", "get_all_allowed_labels", {
     editor: context.accountId,
   }) ?? [];
 const existingLabelSet = new Set(existingLabelStrings);
@@ -484,7 +484,7 @@ const labelEditor = (
           props.text.toLowerCase() !== "blog" && // dont allow adding "Blog"
           props.selected.filter((selected) => selected.name === props.text)
             .length == 0 &&
-          Near.view("devgovgigs.near", "is_allowed_to_use_labels", {
+          Near.view("${REPL_DEVHUB_LEGACY}", "is_allowed_to_use_labels", {
             editor: context.accountId,
             labels: [props.text],
           })
@@ -566,7 +566,7 @@ const callDescriptionDiv = () => {
         Description
       </label>
       <Widget
-        src={"megha19.near/widget/devhub.components.molecule.MarkdownEditor"}
+        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"}
         props={{
           data: { handler: state.handler, content: state.description },
           onChange: (content) => {
@@ -578,7 +578,7 @@ const callDescriptionDiv = () => {
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
-            src="megha19.near/widget/devhub.components.molecule.AccountAutocomplete"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
             props={{
               term: state.mentionInput,
               onSelect: autoCompleteAccountId,
@@ -724,7 +724,7 @@ return (
     <div className="mx-2 mx-md-5 mb-5">
       {showPostPage ? (
         <Widget
-          src={"megha19.near/widget/devhub.entity.post.Post"}
+          src={"${REPL_DEVHUB}/widget/devhub.entity.post.Post"}
           props={{
             id: postId,
             expandable: true,
@@ -856,7 +856,7 @@ return (
             {tab === "preview" && (
               <div className="mb-2">
                 <Widget
-                  src="megha19.near/widget/devhub.entity.post.Post"
+                  src="${REPL_DEVHUB}/widget/devhub.entity.post.Post"
                   props={{
                     isPreview: true,
                     id: 0, // irrelevant
