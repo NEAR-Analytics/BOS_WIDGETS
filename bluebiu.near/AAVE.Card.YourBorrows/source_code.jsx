@@ -12,6 +12,7 @@ const {
   borrowETHGas,
   borrowERC20Gas,
   formatHealthFactor,
+  theme,
 } = props;
 
 State.init({
@@ -33,6 +34,7 @@ const BorrowButton = ({ data }) => (
     src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
     props={{
       config,
+      theme,
       children: "Borrow",
       onClick: () => {
         State.update({ data });
@@ -47,6 +49,7 @@ const RepayButton = ({ data }) => (
     src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
     props={{
       config,
+      theme,
       children: "Repay",
       onClick: () => {
         State.update({ data });
@@ -145,6 +148,7 @@ return (
         src={`${config.ownerId}/widget/AAVE.Modal.RepayModal`}
         props={{
           config,
+          theme,
           onRequestClose: () => setShowRepayModal(false),
           data: state.data,
           onActionSuccess,
@@ -161,6 +165,7 @@ return (
         src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
         props={{
           config,
+          theme,
           onRequestClose: () => setShowBorrowModal(false),
           data: state.data,
           onActionSuccess,
