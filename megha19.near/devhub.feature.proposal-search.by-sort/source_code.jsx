@@ -10,7 +10,7 @@ const [selected, setSelected] = useState(null);
 return (
   <div>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+      src="megha19.near/widget/devhub.components.molecule.DropDown"
       props={{
         options: options,
         label: "Sort",
