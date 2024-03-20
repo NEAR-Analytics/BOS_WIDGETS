@@ -30,7 +30,7 @@ useEffect(() => {
       const elapsed = Date.now() - (lastShow[key]?.time ?? 0)
       // if (elapsed > 1000 * 60 * 60 * 3) {
       // TESTING
-      lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
+      if (lastShow[key] !== null) lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
     }
   }
   console.log('lastShow with .show', lastShow)
