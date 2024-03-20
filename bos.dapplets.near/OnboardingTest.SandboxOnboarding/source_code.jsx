@@ -4,6 +4,12 @@ const [doNotShowAgain, setDoNotShowAgain] = useState(false)
 const [activeChapterNumber, setActiveChapterNumber] = useState(data && showFrom)
 const [newData, setNewData] = useState('')
 const [isEditMode, setEditMode] = useState(false)
+const [viewedPages, setViewed] = useState([])
+
+useEffect(() => {
+  if (!viewedPages.includes(data[activeChapterNumber].id))
+    setViewed([...viewedPages, data[activeChapterNumber].id])
+})
 
 const Container = styled.div`
   position: relative;
@@ -474,7 +480,7 @@ return (!data || isEditMode) ? (
 <Container>
   <Header>
     <h1>Add data</h1>
-    <CloseButton onClick={() => handleClose(false)}>
+    <CloseButton onClick={() => handleClose(false, viewedPages)}>
       {closeIcon}
     </CloseButton>
   </Header>
@@ -521,7 +527,7 @@ return (!data || isEditMode) ? (
             </PageIndicatorBtn>
           ))}
         </PagesIndicators>
-        <CloseButton onClick={() => handleClose(false)}>
+        <CloseButton onClick={() => handleClose(false, viewedPages)}>
           {closeIcon}
         </CloseButton>
       </TopLine>
@@ -557,7 +563,7 @@ return (!data || isEditMode) ? (
           Don't show it again
         </label>
       </Checkbox>
-      <SuccessButton onClick={() => handleClose(doNotShowAgain)}>Got it</SuccessButton>
+      <SuccessButton onClick={() => handleClose(doNotShowAgain, viewedPages)}>Got it</SuccessButton>
     </Footer>
   </Container>
 )
