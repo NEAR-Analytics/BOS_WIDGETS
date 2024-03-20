@@ -10,6 +10,7 @@ const {
   withdrawERC20Gas,
   formatHealthFactor,
   account,
+  theme,
 } = props;
 
 State.init({
@@ -22,6 +23,8 @@ const WithdrawButton = ({ data }) => {
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
       props={{
         config,
+        theme,
+        // width: 148,
         children: "Withdraw",
         onClick: () => {
           State.update({ data });
@@ -174,6 +177,7 @@ return (
         src={`${config.ownerId}/widget/AAVE.Modal.WithdrawModal`}
         props={{
           config,
+          theme,
           chainId,
           data: {
             ...state.data,
