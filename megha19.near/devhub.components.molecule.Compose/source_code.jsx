@@ -125,7 +125,7 @@ const Compose = ({
         {state.selectedTab === "editor" ? (
           <>
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.SimpleMDE"}
+              src={"megha19.near/widget/devhub.components.molecule.SimpleMDE"}
               props={{
                 data: { handler: state.handler, content: state.data },
                 onChange: (content) => {
@@ -155,7 +155,7 @@ const Compose = ({
             {autocompleteEnabled && state.showAccountAutocomplete && (
               <AutoComplete>
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
+                  src="megha19.near/widget/devhub.components.molecule.AccountAutocomplete"
                   props={{
                     term: state.mentionInput,
                     onSelect: autoCompleteAccountId,
@@ -170,7 +170,7 @@ const Compose = ({
           <div className="card-body">
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+                "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
               }
               props={{
                 text: data,
