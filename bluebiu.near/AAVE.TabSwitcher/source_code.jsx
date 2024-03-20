@@ -1,4 +1,4 @@
-const { config, select, setSelect } = props;
+const { config, select, setSelect, theme } = props;
 
 const TabContainer = styled.div`
   background: #212233;
@@ -23,8 +23,13 @@ const TabItem = styled.div`
   display: grid;
   place-content: center;
   border-radius: 10px;
-
-  ${(props) => props.selected && "background: #8247E5;"}
+  /* color: var(--button-text-color);
+  background: ${loading || disabled
+    ? "var(--button-disabled-color)"
+    : "var(--button-color)"}; */
+  ${(props) =>
+    props.selected &&
+    "color: var(--button-text-color);background: var(--button-color);"}
   ${(props) =>
     props.disabled &&
     `
@@ -41,7 +46,8 @@ const TabItem = styled.div`
     `
     cursor: pointer;
     &:hover {
-      background: #8247E5;
+      color: var(--button-text-color);
+      background: var(--button-color);
       opacity: 0.7;
     }
   `}
@@ -49,10 +55,18 @@ const TabItem = styled.div`
 
 return (
   <TabContainer>
-    <TabItem selected={select === "supply"} onClick={() => setSelect("supply")}>
+    <TabItem
+      selected={select === "supply"}
+      onClick={() => setSelect("supply")}
+      style={theme ? theme : {}}
+    >
       Supply
     </TabItem>
-    <TabItem selected={select === "borrow"} onClick={() => setSelect("borrow")}>
+    <TabItem
+      selected={select === "borrow"}
+      onClick={() => setSelect("borrow")}
+      style={theme ? theme : {}}
+    >
       Borrow
     </TabItem>
   </TabContainer>
