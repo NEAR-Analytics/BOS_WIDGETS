@@ -2,6 +2,8 @@ const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
  height: 100vh; /* Встановлення повноекранної висоти */
+ padding: 20px; /* Додано внутрішні відступи */
+  margin: 20px; /* Додано поля */
 font-size: 16px;
 `;
 
@@ -23,25 +25,15 @@ const Social = styled.div`
   transform: translateX(-50%); /* Трансформація для центрування по горизонталі */
 `;
 
-const Tittle = styled.div`
-  position: absolute; /* Абсолютне позиціонування */
-  top: 10%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
-  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
-  transform: translate(-50%, -50%); /* Трансформація для центрування */
-  color: #ffffff;
-  font-family: 'Kodchasan', sans-serif;
-  margin: 20px; 
-`;
-
 const Wrapper = styled.div`
   position: absolute; /* Абсолютне позиціонування */
-  top: 30%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  top: 50%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
   left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
   transform: translate(-50%, -50%); /* Трансформація для центрування */
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 300px;
+  height: 350px;
   width: 600px; /* Ширина контейнера вмісту */
   margin: 20px; /* Додано поля */
   padding: 20px; /* Додано внутрішні відступи */
@@ -112,10 +104,8 @@ return (
     <Widget
       src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
     />
-    <Tittle>
-      <h1>Rock Paper Scissors</h1>
-    </Tittle>
     <Wrapper>
+      <h1>Rock Paper Scissors</h1>
       <div>
         <Button onClick={() => handleClick("rock")}>Rock</Button>
         <Button onClick={() => handleClick("paper")}>Paper</Button>
@@ -141,5 +131,6 @@ return (
         src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
       />
     </Social>
+    <span>/</span>
   </OuterWrapper>
 );
