@@ -4,7 +4,7 @@ const [selectedAuthor, setSelectedAuthor] = useState(null);
 if (!authorsOptions.length) {
   const data = [];
   const authors = Near.view(
-    "${REPL_DEVHUB_CONTRACT}",
+    "truedove38.near",
     "get_all_proposal_authors",
     {}
   );
@@ -20,7 +20,7 @@ if (!authorsOptions.length) {
 return (
   <div>
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.molecule.DropDown"
+      src="megha19.near/widget/devhub.components.molecule.DropDown"
       props={{
         options: authorsOptions,
         label: "Author",
