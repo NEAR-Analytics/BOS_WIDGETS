@@ -42,8 +42,10 @@ useEffect(() => {
       if (!lastShow[key]) continue
 
       // TESTING
-      if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3)
+      if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3) {
         lastShow[key].doNotShowAgain = false
+        lastShow[key].isViewed = false
+      }
       //
 
       // DO NOT refactor the following code block to stay the logic clear!!!
