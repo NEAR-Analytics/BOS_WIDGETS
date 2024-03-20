@@ -5,44 +5,25 @@ if (!netWorth || !netApy || !healthFactor) {
 }
 
 const HeroDataContainer = styled.div`
-  margin-top: 40px;
-  width: 100%;
-  gap: 20px;
+  margin: 0 auto;
+  width: 500px;
   display: flex;
-  flex-direction: column;
-
-  @media (min-width: 640px) {
-    width: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr ${showHealthFactor ? "1fr" : ""};
-    gap: 90px;
-    text-align: center;
-  }
+  justify-content: space-between;
 `;
 
 const KVData = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  @media (min-width: 640px) {
-    width: auto;
-    display: block;
-  }
+  flex-direction: column;
 
   .key {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
-    @media (min-width: 640px) {
-      font-size: 14px;
-    }
   }
   .value {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
-    @media (min-width: 640px) {
-      font-size: 22px;
-    }
   }
   .text-green {
     color: #2cffa7;
