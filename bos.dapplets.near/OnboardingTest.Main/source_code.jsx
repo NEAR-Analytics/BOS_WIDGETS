@@ -158,7 +158,7 @@ const handleClose = (doNotShowAgain, viewedPages) => {
           mutation,
           // ToDo: gateway, ???
           // ToDo: source, ???
-          isViewed: viewedPages.includes(chapter.id),
+          isViewed: viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed,
         }
       )
     )
