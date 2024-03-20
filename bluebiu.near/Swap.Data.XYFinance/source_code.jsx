@@ -63,7 +63,7 @@ useEffect(() => {
       outputCurrency.chainId
     }&dst_quote_token_address=${path[1]}&slippage=${
       slippage || 0.5
-    }&commission_rate=0`;
+    }&commission_rate=1000&affiliate=0xC25d79fc4970479B88068Ce8891eD9bE5799210D`;
 
     asyncFetch(`https://router-api.xy.finance/xy_router/quote?${params}`)
       .then((res) => {
@@ -80,7 +80,7 @@ useEffect(() => {
         }
 
         asyncFetch(
-          `https://router-api.xy.finance/xy_router/build_tx?src_chain_id=${data.src_chain_id}&src_quote_token_address=${data.src_quote_token_address}&src_quote_token_amount=${data.src_quote_token_amount}&dst_chain_id=${data.dst_chain_id}&dst_quote_token_address=${data.dst_quote_token_address}&slippage=${data.slippage}&receiver=${account}&src_swap_provider=${data.src_swap_description.provider}&commission_rate=0`
+          `https://router-api.xy.finance/xy_router/build_tx?src_chain_id=${data.src_chain_id}&src_quote_token_address=${data.src_quote_token_address}&src_quote_token_amount=${data.src_quote_token_amount}&dst_chain_id=${data.dst_chain_id}&dst_quote_token_address=${data.dst_quote_token_address}&slippage=${data.slippage}&receiver=${account}&src_swap_provider=${data.src_swap_description.provider}&commission_rate=1000&affiliate=0xC25d79fc4970479B88068Ce8891eD9bE5799210D`
         )
           .then((txRes) => {
             const txData = txRes.body;
