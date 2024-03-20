@@ -103,20 +103,21 @@ const Onboarding = styled.div`
 `;
 
 const handleClose = (doNotShowAgain, viewedPages) => {
+  console.log('doNotShowAgain in handleClose', doNotShowAgain)
+  console.log('viewedPages in handleClose', viewedPages)
   if (data) {
     // const time = doNotShowAgain ? 30000000000000 : Date.now()
     const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
+    console.log('time', time)
     const mutation = data.find((ch) => ch.id.includes('mutation'))?.id
-    data.forEach((chapter) => {
-      Storage.privateSet(
-        chapter.id + '/lastShow',
-        {
-          time,
-          mutation,
-          isViewed: viewedPages.includes(chapter.id),
-        }
-      )
-    })
+    console.log('mutation', mutation)
+    const lastShow = {
+      time,
+      mutation,
+      isViewed: viewedPages.includes(chapter.id),
+    }
+    console.log('lastShow', lastShow)
+    data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShow', lastShow))
   }
   setShow(false)
 }
