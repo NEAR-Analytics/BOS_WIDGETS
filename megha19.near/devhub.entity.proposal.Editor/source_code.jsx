@@ -1188,7 +1188,7 @@ if (showProposalPage) {
                         value: requestedSponsorshipAmount,
                         onChange: (e) => {
                           const inputValue = e.target.value;
-                          const isValidInput = /^\d+$/.test(inputValue);
+                          const isValidInput = /^[0-9]+$/.test(inputValue);
                           if (inputValue.trim() === "") {
                             return;
                           }
