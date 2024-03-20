@@ -19,7 +19,7 @@ useEffect(() => {
 
 return (
   <Widget
-    src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+    src="megha19.near/widget/devhub.components.molecule.Input"
     props={{
       className: "flex-grow-1",
       value: search,
