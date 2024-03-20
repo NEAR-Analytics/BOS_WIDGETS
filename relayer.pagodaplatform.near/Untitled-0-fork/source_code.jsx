@@ -2,6 +2,7 @@ const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
  height: 88vh;
+ 
 `;
 
 const Text = styled.div`
@@ -30,8 +31,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 350px;
-  width: 35%;
+  height: 60%;
+  width: 50%;
   margin: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #0e121e, #1a1f2e);
@@ -39,10 +40,11 @@ const Wrapper = styled.div`
   font-family: 'Kodchasan', sans-serif;
   border: 2px solid white;
   border-radius: 10px;
+  font-size: 2vw;
 `;
 
 const Button = styled.button`
-  font-size: 18px;
+  font-size: 1vw;
   margin: 10px;
   padding: 15px 25px;
   border-radius: 10px;
@@ -59,7 +61,7 @@ const Button = styled.button`
 `;
 
 const ResultText = styled.p`
-  font-size: 24px;
+  font-size: 1.5vw;
   margin-top: 20px;
   text-align: center;
 `;
@@ -102,7 +104,7 @@ return (
       src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
     />
     <Wrapper>
-      <h1>Камінь Ножиці Бумага</h1>
+      Камінь Ножиці Бумага
       <div>
         <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
         <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
