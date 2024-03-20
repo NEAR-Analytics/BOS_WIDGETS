@@ -1,181 +1,141 @@
-const calculateResult = (
-  userChoice,
-  computerChoice,
-  setResult,
-  setFlashColor
-) => {
-  let result;
-  if (userChoice === computerChoice) {
-    result = "Нічия";
-  } else if (
-    (userChoice === "Камінь" && computerChoice === "Ножиці") ||
-    (userChoice === "Бумага" && computerChoice === "Камінь") ||
-    (userChoice === "Ножиці" && computerChoice === "Бумага")
-  ) {
-    result = "Ви виграли";
-  } else {
-    result = "Виграв комп'ютер";
+const widget_owner_id = "nearukraineguild.near";
+
+const OuterWrapper = styled.div`
+ height: 100vh; /* Встановлення повноекранної висоти */
+`;
+
+const Tittle = styled.div`
+  position: absolute; /* Абсолютне позиціонування */
+  top: 15%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
+  transform: translate(-50%, -50%); /* Трансформація для центрування */
+  color: #ffffff;
+  font-family: 'Kodchasan', sans-serif;
+  margin: 20px; 
+`;
+
+const Text = styled.div`
+  position: absolute; /* Абсолютне позиціонування */
+  top: 15%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
+  transform: translate(-50%, -50%); /* Трансформація для центрування */
+  color: #ffffff;
+  font-family: 'Kodchasan', sans-serif;
+  margin: 20px; 
+`;
+
+const Social = styled.div`
+  position: absolute; /* Абсолютне позиціонування */
+  bottom: 0; /* Встановлення відступу від нижнього краю на 0 */
+  left: 50%; /* Поміщаємо блок посередині */
+  transform: translateX(-50%); /* Трансформація для центрування по горизонталі */
+`;
+
+const Wrapper = styled.div`
+  position: absolute; /* Абсолютне позиціонування */
+  top: 50%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
+  transform: translate(-50%, -50%); /* Трансформація для центрування */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+  width: fit-content; /* Ширина контейнера вмісту */
+  margin: 20px; /* Додано поля */
+  padding: 20px; /* Додано внутрішні відступи */
+  background: linear-gradient(135deg, #0e121e, #1a1f2e); /* Доданий фон */
+  color: #ffffff;
+  font-family: 'Kodchasan', sans-serif;
+  border: 2px solid white;
+  border-radius: 10px; /* Заокруглені кути */
+`;
+
+const Button = styled.button`
+  font-size: 18px;
+  margin: 10px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #203343;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #5c91df;
   }
-  const flashColor =
-    result === "Виграв комп'ютер"
-      ? "#FF6347"
-      : result === "Ви виграли"
-      ? "#4CAF50"
-      : result === "Нічия"
-      ? "#FFD700"
-      : null;
-  setResult(result);
-  setFlashColor(flashColor);
+`;
+
+const ResultText = styled.p`
+  font-size: 24px;
+  margin-top: 20px;
+`;
+
+const Star = styled.span`
+  color: #ffd700;
+`;
+
+const choices = ["rock", "paper", "scissors"];
+
+const randomChoice = () => choices[Math.floor(Math.random() * choices.length)];
+
+const determineWinner = (user, computer) => {
+  if (user === computer) return "It's a tie!";
+  if (
+    (user === "rock" && computer === "scissors") ||
+    (user === "paper" && computer === "rock") ||
+    (user === "scissors" && computer === "paper")
+  ) {
+    return "You win!";
+  } else {
+    return "You lose!";
+  }
 };
 
 const [userChoice, setUserChoice] = useState(null);
 const [computerChoice, setComputerChoice] = useState(null);
 const [result, setResult] = useState(null);
-const [flashColor, setFlashColor] = useState(null);
-const choices = ["Камінь", "Бумага", "Ножиці"];
 
-useEffect(() => {
-  if (userChoice !== null && computerChoice !== null) {
-    calculateResult(userChoice, computerChoice, setResult, setFlashColor);
-  }
-}, [userChoice, computerChoice]);
-
-const computerTurn = () => {
-  const randomIndex = Math.floor(Math.random() * 3);
-  setComputerChoice(choices[randomIndex]);
-};
-
-const handleChoice = (choice) => {
+const handleClick = (choice) => {
   setUserChoice(choice);
-  computerTurn();
+  const computerChoice = randomChoice();
+  setComputerChoice(computerChoice);
+  setResult(determineWinner(choice, computerChoice));
 };
 
 return (
-  <div
-    style={{
-      backgroundColor: flashColor ? flashColor : "#CDEAC0",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-      width: "100vw",
-      minHeight: "100vh", // Замінено height на minHeight, щоб контент завжди був видимим навіть при невеликому об'ємі
-      paddingTop: "20px", // Доданий відступ зверху
-      transition: "background-color 0.3s ease",
-    }}
-  >
-    <div
-      style={{
-        border: "3px solid #4CAF50",
-        backgroundColor: "#CDEAC0",
-        padding: "20px",
-        borderRadius: "10px",
-        marginBottom: "20px",
-        textAlign: "center",
-      }}
-    >
-      <h2
-        style={{
-          fontSize: "24px",
-          marginBottom: "20px",
-          textAlign: "center",
-        }}
-      >
-        Камінь, Ножиці, Бумага
-      </h2>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {choices.map((choice) => (
-          <button
-            key={choice}
-            onClick={() => handleChoice(choice)}
-            style={{
-              margin: "5px",
-              padding: "10px 20px",
-              fontSize: "16px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            {choice}
-          </button>
-        ))}
+  <OuterWrapper>
+    <Widget
+      src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
+    />
+    <Tittle>
+      <h1>Rock Paper Scissors</h1>
+    </Tittle>
+    <Wrapper>
+      <div>
+        <Button onClick={() => handleClick("rock")}>Rock</Button>
+        <Button onClick={() => handleClick("paper")}>Paper</Button>
+        <Button onClick={() => handleClick("scissors")}>Scissors</Button>
       </div>
-      <div style={{ marginTop: "20px", textAlign: "center" }}>
-        <p>
-          Ваш вибір: <b>{userChoice}</b>
-        </p>
-        <p>
-          Вибір комп'ютера: <b>{computerChoice}</b>
-        </p>
-        <div
-          style={{
-            marginTop: "10px",
-            backgroundColor: flashColor ? flashColor : "transparent",
-            padding: "5px 10px",
-            borderRadius: "5px",
-            display: "inline-block",
-            border: "3px solid #4CAF50",
-            color: "white",
-            transition: "background-color 0.3s ease",
-          }}
-        >
-          Результат: <b>{result}</b>
-        </div>
-      </div>
-    </div>
-    {result && (
-      <span style={{ marginTop: "10px" }}>
-        {" "}
-        {/* Доданий marginTop для відступу зверху */}
-        <a
-          href="https://twitter.com/NEARProtocol"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "inline-block", marginRight: "10px" }}
-        >
-          <img
-            src="https://img.icons8.com/color/48/000000/twitter--v2.png"
-            alt="Twitter"
-            style={{
-              cursor: "pointer",
-              marginBottom: "10px",
-            }}
-          />
-        </a>
-        <a
-          href="https://t.me/NearSocial"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "inline-block", marginRight: "10px" }}
-        >
-          <img
-            src="https://img.icons8.com/color/48/000000/telegram-app--v5.png"
-            alt="Telegram"
-            style={{
-              cursor: "pointer",
-              marginBottom: "10px",
-            }}
-          />
-        </a>
-        <a
-          href="https://near.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: "inline-block" }}
-        >
-          <img
-            src="https://near.org/_next/static/media/near-logo.1416a213.svg"
-            alt="Near"
-            style={{
-              cursor: "pointer",
-              marginBottom: "10px",
-            }}
-          />
-        </a>
-      </span>
-    )}
-  </div>
+      {userChoice && computerChoice && result && (
+        <ResultText>
+          <span>Your choice: {userChoice}</span>
+          <span>/</span>
+          <span>Computer's choice: {computerChoice}</span>
+          <br />
+          Result: {result}
+        </ResultText>
+      )}
+    </Wrapper>
+    <Widget
+      src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
+    />
+    <Social>
+      <Widget
+        src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
+      />
+    </Social>
+  </OuterWrapper>
 );
