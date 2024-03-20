@@ -30,7 +30,7 @@ useEffect(() => {
       const elapsed = Date.now() - (lastShow[key]?.time ?? 0)
       // if (elapsed > 1000 * 60 * 60 * 3) {
       // TESTING
-      if (lastShow[key] !== null) lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
+      if (lastShow[key]) lastShow[key].show = elapsed > 1000 * 60 * 1 * 1
     }
   }
   console.log('lastShow with .show', lastShow)
@@ -40,11 +40,11 @@ useEffect(() => {
   } else if (lastShow && Object.values(lastShow).some(a => a?.show)) {
     data.sort(
       (a, b) =>
-        lastShow[a.id] === null && lastShow[b.id] === null
+        !lastShow[a.id] && !lastShow[b.id]
           ? 0
-          : lastShow[a.id] === null
+          : !lastShow[a.id]
             ? 1
-            : lastShow[b.id] === null
+            : !lastShow[b.id]
               ? -1
               : lastShow[a.id].show - lastShow[b.id].show
     )
