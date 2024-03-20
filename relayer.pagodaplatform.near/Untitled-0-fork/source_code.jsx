@@ -79,20 +79,20 @@ const Star = styled.span`
   color: #ffd700;
 `;
 
-const choices = ["rock", "paper", "scissors"];
+const choices = ["Камінь", "Бумага", "Ножиці"];
 
 const randomChoice = () => choices[Math.floor(Math.random() * choices.length)];
 
 const determineWinner = (user, computer) => {
-  if (user === computer) return "It's a tie!";
+  if (user === computer) return <h2>"Нічия!"</h2>;
   if (
-    (user === "rock" && computer === "scissors") ||
-    (user === "paper" && computer === "rock") ||
-    (user === "scissors" && computer === "paper")
+    (user === "Камінь" && computer === "Ножиці") ||
+    (user === "Бумага" && computer === "Камінь") ||
+    (user === "Ножиці" && computer === "Бумага")
   ) {
-    return "You win!";
+    return <h2>"Ви виграли!"</h2>;
   } else {
-    return "You lose!";
+    return <h2>"Ви програли!"</h2>;
   }
 };
 
@@ -187,17 +187,17 @@ return (
       src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
     />
     <Wrapper>
-      <h1>Rock Paper Scissors</h1>
+      <h1>Камінь Ножиці Бумага</h1>
       <div>
-        <Button onClick={() => handleClick("rock")}>Rock</Button>
-        <Button onClick={() => handleClick("paper")}>Paper</Button>
-        <Button onClick={() => handleClick("scissors")}>Scissors</Button>
+        <Button onClick={() => handleClick("Камінь")}>Rock</Button>
+        <Button onClick={() => handleClick("Бумага")}>Paper</Button>
+        <Button onClick={() => handleClick("Ножиці")}>Scissors</Button>
       </div>
       {userChoice && computerChoice && result && (
         <ResultText>
-          <span>Your choice: {userChoice}</span>
+          <span>Ви обрали: {userChoice}</span>
           <span>/</span>
-          <span>Computer's choice: {computerChoice}</span>
+          <span>Комп'ютор обрав: {computerChoice}</span>
           <br />
           <span></span>
           <br />
