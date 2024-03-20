@@ -1,8 +1,7 @@
 const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
- height: 100vh; /* Встановлення повноекранної висоти */
- padding: 20px; /* Додано внутрішні відступи */
+ height: 90vh; /* Встановлення повноекранної висоти */
 `;
 
 const Text = styled.div`
