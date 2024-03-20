@@ -240,7 +240,7 @@ const Badge = styled.div`
     height: 5em;
     margin: 0.5em;
   }
-}`;
+`;
 
 const StyledText = styled.p`
   font-family: "FK Grotesk", sans-serif;
@@ -417,12 +417,12 @@ return (
                   </Text>
                 </Flex>
                 <Flex gap="23px" wrap="wrap" alignItems="left">
-                  <a
+                  <Link
                     className="btn btn-dark"
-                    href="https://near.org/identity.near/widget/verify.faq"
+                    to={"/${config_account}/widget/faq"}
                   >
                     KYC FAQs
-                  </a>
+                  </Link>
                 </Flex>
               </Flex>
             ),
