@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("megha19.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -84,14 +84,14 @@ const FeedItem = ({ proposal }) => {
   const blockHeight = parseInt(proposal.social_db_post_block_height);
   const item = {
     type: "social",
-    path: `${REPL_DEVHUB_CONTRACT}/post/main`,
+    path: `truedove38.near/post/main`,
     blockHeight,
   };
 
   return (
     <a
       href={href({
-        widgetSrc: "${REPL_DEVHUB}/widget/app",
+        widgetSrc: "megha19.near/widget/app",
         params: {
           page: "proposal",
           id: proposal.id,
@@ -103,7 +103,7 @@ const FeedItem = ({ proposal }) => {
       <div className="proposal-card d-flex justify-content-between gap-2 text-muted cursor-pointer p-3">
         <div className="d-flex gap-4">
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+            src={"megha19.near/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId,
             }}
@@ -112,7 +112,7 @@ const FeedItem = ({ proposal }) => {
             <div className="d-flex gap-2 align-items-center flex-wrap">
               <div className="h6 mb-0 text-black">{snapshot.name}</div>
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.CategoryTag"}
+                src={"megha19.near/widget/devhub.entity.proposal.CategoryTag"}
                 props={{
                   category: snapshot.category,
                 }}
@@ -121,7 +121,7 @@ const FeedItem = ({ proposal }) => {
             <div className="d-flex gap-2 align-items-center text-sm">
               <div>By {profile.name ?? accountId} ･ </div>
               <Widget
-                src="${REPL_NEAR}/widget/TimeAgo"
+                src="near/widget/TimeAgo"
                 props={{
                   blockHeight,
                   blockTimestamp: snapshot.timestamp,
@@ -130,7 +130,7 @@ const FeedItem = ({ proposal }) => {
             </div>
             <div className="d-flex gap-2 align-items-center">
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton"
+                src="megha19.near/widget/devhub.entity.proposal.LikeButton"
                 props={{
                   item,
                   proposalId: proposal.id,
@@ -138,7 +138,7 @@ const FeedItem = ({ proposal }) => {
                 }}
               />
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.CommentIcon"}
+                src={"megha19.near/widget/devhub.entity.proposal.CommentIcon"}
                 props={{
                   item,
                   showOverlay: false,
@@ -150,7 +150,7 @@ const FeedItem = ({ proposal }) => {
         </div>
         <div className="align-self-center">
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.StatusTag"}
+            src={"megha19.near/widget/devhub.entity.proposal.StatusTag"}
             props={{
               timelineStatus: snapshot.timeline.status,
             }}
@@ -162,7 +162,7 @@ const FeedItem = ({ proposal }) => {
 };
 
 const FeedPage = () => {
-  const proposals = Near.view("${REPL_DEVHUB_CONTRACT}", "get_proposals", {});
+  const proposals = Near.view("truedove38.near", "get_proposals", {});
 
   return (
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
@@ -175,29 +175,29 @@ const FeedPage = () => {
         {/* <div className="d-flex gap-4 align-items-center">
           <Widget
             src={
-              "${REPL_DEVHUB}/widget/devhub.feature.proposal-search.by-input"
+              "megha19.near/widget/devhub.feature.proposal-search.by-input"
             }
             props={{}}
           />
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.feature.proposal-search.by-sort"}
+            src={"megha19.near/widget/devhub.feature.proposal-search.by-sort"}
             props={{}}
           />
           <Widget
             src={
-              "${REPL_DEVHUB}/widget/devhub.feature.proposal-search.by-category"
-            }
-            props={{}}
-          />
-          <Widget
-            src={
-              "${REPL_DEVHUB}/widget/devhub.feature.proposal-search.by-stage"
+              "megha19.near/widget/devhub.feature.proposal-search.by-category"
             }
             props={{}}
           />
           <Widget
             src={
-              "${REPL_DEVHUB}/widget/devhub.feature.proposal-search.by-author"
+              "megha19.near/widget/devhub.feature.proposal-search.by-stage"
+            }
+            props={{}}
+          />
+          <Widget
+            src={
+              "megha19.near/widget/devhub.feature.proposal-search.by-author"
             }
             props={{}}
           />
@@ -205,12 +205,12 @@ const FeedPage = () => {
         <div>
           <Link
             to={href({
-              widgetSrc: "${REPL_DEVHUB}/widget/app",
+              widgetSrc: "megha19.near/widget/app",
               params: { page: "create-proposal" },
             })}
           >
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+              src={"megha19.near/widget/devhub.components.molecule.Button"}
               props={{
                 label: (
                   <div className="d-flex gap-2 align-items-center">
@@ -230,7 +230,7 @@ const FeedPage = () => {
         {!Array.isArray(proposals) ? (
           <div className="d-flex justify-content-center align-items-center w-100">
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Spinner"}
+              src={"megha19.near/widget/devhub.components.molecule.Spinner"}
             />
           </div>
         ) : (
