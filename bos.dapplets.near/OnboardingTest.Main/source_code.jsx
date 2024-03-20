@@ -26,7 +26,7 @@ useEffect(() => {
 
   setStart(true);
   if (lastShowTimes) {
-    for (const key in lastShowTimes) {
+    for (const key of Object.keys(lastShowTimes)) {
       const elapsed = Date.now() - (lastShowTimes[key]?.time ?? 0)
       // if (elapsed > 1000 * 60 * 60 * 3) {
       // TESTING
