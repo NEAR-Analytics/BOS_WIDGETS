@@ -51,7 +51,7 @@ useEffect(() => {
               : lastShow[a.id].show - lastShow[b.id].show
     )
     console.log('data after sort', data)
-    setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
+    setShowFrom(Object.values(lastShow).filter(a => !a).length)
     setShow(true)
   } else if (lastShow) {
     // without sort - for the first time
@@ -109,7 +109,7 @@ const handleClose = (doNotShowAgain, viewedPages) => {
     // const time = doNotShowAgain ? 30000000000000 : Date.now()
     const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
     console.log('time', time)
-    const mutation = data.find((ch) => ch.id.includes('mutation'))?.id
+    const mutation = data.find((ch) => ch.id.includes('mutation'))?.id // ToDo: bug!!!!!!!!!!!!!!!!!!!!!!!!!
     console.log('mutation', mutation)
     const lastShow = {
       time,
