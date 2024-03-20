@@ -6,6 +6,13 @@ const Footer = styled.div`
   padding: 2rem;
   margin-top: 2rem;
 
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
   @media screen and (max-width: 768px) {
     padding: 1rem;
   }
