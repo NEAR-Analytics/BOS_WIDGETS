@@ -31,20 +31,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 360px;
-  width: 50%;
+  height: 90%x;
+  width: 90%;
   margin: 20px;
   padding: 20px;
-  background: linear-gradient(135deg, #0e121e, #1a1f2e);
+  
   color: #ffffff;
   font-family: 'Kodchasan', sans-serif;
-  border: 2px solid white;
-  border-radius: 10px;
-  font-size: 2vw;
+  font-size: 3vw;
 `;
 
 const Button = styled.button`
-  font-size: 1vw;
+  font-size: 2vw;
   margin: 10px;
   padding: 15px 25px;
   border-radius: 10px;
