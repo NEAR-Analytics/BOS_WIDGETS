@@ -28,7 +28,6 @@ const extendedCode = `
         font-size: ${fontSize};
         height: ${height};
         width: ${width};
-        display: flex;
         align-items: center;
         justify-content: start;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -55,7 +54,7 @@ const extendedCode = `
       .logo {
         max-width: 600px; /* Maximum logo width */
         width: 100%;
-        height: auto;
+        height: 100%;
         transition: transform 0.3s, opacity 0.5s;
         opacity: 0;
       }
@@ -83,6 +82,6 @@ return (
   <iframe
     className="w-100"
     srcDoc={extendedCode}
-    style={{ height: "auto", backgroundColor }}
+    style={{ height: "1000px", backgroundColor }}
   />
 );
