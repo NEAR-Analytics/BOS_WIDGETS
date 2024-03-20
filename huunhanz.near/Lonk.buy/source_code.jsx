@@ -1,4 +1,3 @@
-console.log("props", props);
 return (
   <>
     <div class="how font-md-bigger py-4 py-lg-5" id="how">
