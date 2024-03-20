@@ -156,11 +156,11 @@ const handleClose = (doNotShowAgain, viewedPages) => {
         chapter.id + '/lastShow',
         {
           time,
-          doNotShowAgain: doNotShowAgain || lastShow[chapter.id].doNotShowAgain,
+          doNotShowAgain: !!(doNotShowAgain || lastShow[chapter.id].doNotShowAgain),
           mutation,
           // ToDo: gateway, ???
           // ToDo: source, ???
-          isViewed: viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed,
+          isViewed: !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed),
         }
       )
     )
