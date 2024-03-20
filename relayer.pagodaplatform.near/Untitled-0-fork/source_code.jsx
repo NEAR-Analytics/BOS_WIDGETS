@@ -2,16 +2,7 @@ const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
  height: 100vh; /* Встановлення повноекранної висоти */
-`;
-
-const Tittle = styled.div`
-  position: absolute; /* Абсолютне позиціонування */
-  top: 90px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
-  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
-  transform: translate(-50%, -50%); /* Трансформація для центрування */
-  color: #ffffff;
-  font-family: 'Kodchasan', sans-serif;
-  margin: 20px; 
+font-size: 16px;
 `;
 
 const Text = styled.div`
@@ -22,6 +13,7 @@ const Text = styled.div`
   color: #ffffff;
   font-family: 'Kodchasan', sans-serif;
   margin: 20px; 
+  font-size: 3vw;
 `;
 
 const Social = styled.div`
@@ -31,17 +23,26 @@ const Social = styled.div`
   transform: translateX(-50%); /* Трансформація для центрування по горизонталі */
 `;
 
+const Tittle = styled.div`
+  position: absolute; /* Абсолютне позиціонування */
+  top: 15%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
+  transform: translate(-50%, -50%); /* Трансформація для центрування */
+  color: #ffffff;
+  font-family: 'Kodchasan', sans-serif;
+  margin: 20px; 
+`;
+
 const Wrapper = styled.div`
   position: absolute; /* Абсолютне позиціонування */
-  top: 300px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  top: 50%; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
   left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
   transform: translate(-50%, -50%); /* Трансформація для центрування */
   display: flex;
   flex-direction: column;
   align-items: center;
-  
-  height: 40vh;
-  width: fit-content; /* Ширина контейнера вмісту */
+  height: 50%;
+  width: 600px; /* Ширина контейнера вмісту */
   margin: 20px; /* Додано поля */
   padding: 20px; /* Додано внутрішні відступи */
   background: linear-gradient(135deg, #0e121e, #1a1f2e); /* Доданий фон */
@@ -71,6 +72,7 @@ const Button = styled.button`
 const ResultText = styled.p`
   font-size: 24px;
   margin-top: 20px;
+  text-align: center;
 `;
 
 const Star = styled.span`
@@ -124,6 +126,8 @@ return (
           <span>Your choice: {userChoice}</span>
           <span>/</span>
           <span>Computer's choice: {computerChoice}</span>
+          <br />
+          <span></span>
           <br />
           Result: {result}
         </ResultText>
