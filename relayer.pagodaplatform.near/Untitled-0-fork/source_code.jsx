@@ -6,7 +6,7 @@ const OuterWrapper = styled.div`
 
 const Tittle = styled.div`
   position: absolute; /* Абсолютне позиціонування */
-  top: 20px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  top: 90px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
   left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
   transform: translate(-50%, -50%); /* Трансформація для центрування */
   color: #ffffff;
@@ -33,13 +33,13 @@ const Social = styled.div`
 
 const Wrapper = styled.div`
   position: absolute; /* Абсолютне позиціонування */
-  top: 50px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
+  top: 300px; /* Встановлення відступу від верхнього краю на 50% від висоти екрану */
   left: 50%; /* Встановлення відступу від лівого краю на 50% від ширини екрану */
   transform: translate(-50%, -50%); /* Трансформація для центрування */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  
   height: 40vh;
   width: fit-content; /* Ширина контейнера вмісту */
   margin: 20px; /* Додано поля */
