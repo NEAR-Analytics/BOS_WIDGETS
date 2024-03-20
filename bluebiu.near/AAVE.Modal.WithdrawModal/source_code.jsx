@@ -8,6 +8,7 @@ const {
   withdrawERC20Gas,
   formatHealthFactor,
   account,
+  theme,
 } = props;
 
 if (!data) {
@@ -464,6 +465,7 @@ return (
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
               props={{
                 config,
+                theme,
                 loading: state.loading,
                 children: `Approve ${symbol}`,
                 disabled,
@@ -504,6 +506,7 @@ return (
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
               props={{
                 config,
+                theme,
                 loading: state.loading,
                 children: "Withdraw",
                 disabled,
