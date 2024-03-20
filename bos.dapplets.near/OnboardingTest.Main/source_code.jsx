@@ -136,7 +136,7 @@ const saveData = (inputData) => {
 
 return (
   <OverlayTriggerWrapper>
-    {show ? DappletOverlay ? (
+    {show ? (
       <DappletOverlay>
         <Onboarding>
           <Widget
@@ -145,13 +145,6 @@ return (
           />
         </Onboarding>
       </DappletOverlay>
-    ) : (
-        <Onboarding>
-          <Widget
-            props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
-            src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
-          />
-        </Onboarding>
     ) : null}
   </OverlayTriggerWrapper>
 )
