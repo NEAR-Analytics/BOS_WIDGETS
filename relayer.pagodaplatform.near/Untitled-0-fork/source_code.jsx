@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   height: 350px;
-  width: 600px;
+  width: 35%;
   margin: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #0e121e, #1a1f2e);
