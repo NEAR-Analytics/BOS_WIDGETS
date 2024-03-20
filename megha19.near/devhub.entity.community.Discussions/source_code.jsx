@@ -2,7 +2,7 @@ const NEW_DISCUSSION_POSTED_CONTENT_STORAGE_KEY =
   "new_discussion_posted_content";
 const { handle } = props;
 const { getCommunity, setCommunitySocialDB } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 
 getCommunity = getCommunity || (() => <></>);
@@ -76,7 +76,7 @@ const [sort, setSort] = useState("timedesc");
 function repostOnDiscussions(blockHeight) {
   Near.call([
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "truedove38.near",
       methodName: "create_discussion",
       args: {
         handle,
@@ -89,7 +89,7 @@ function repostOnDiscussions(blockHeight) {
 
 async function checkHashes() {
   if (props.transactionHashes) {
-    asyncFetch("${REPL_RPC_URL}", {
+    asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -125,7 +125,7 @@ function getBlockHeightAndRepost() {
   );
   console.log("new discussion content", newDiscussionPostedContent);
 
-  Near.asyncView("${REPL_SOCIAL_CONTRACT}", "get", {
+  Near.asyncView("social.near", "get", {
     keys: [`${context.accountId}/post/**`],
     options: {
       with_block_height: true,
@@ -165,7 +165,7 @@ return (
           {context.accountId && (
             <div className="card p-4">
               <Widget
-                src={"${REPL_DEVHUB}/widget/devhub.entity.community.Compose"}
+                src={"megha19.near/widget/devhub.entity.community.Compose"}
                 props={{
                   onSubmit: (v) => {
                     Storage.set(
@@ -212,7 +212,7 @@ return (
               src="mob.near/widget/MainPage.N.Feed"
               props={{
                 accounts: [
-                  `discussions.${handle}.community.${REPL_DEVHUB_CONTRACT}`,
+                  `discussions.${handle}.community.truedove38.near`,
                 ],
               }}
             />
@@ -236,7 +236,7 @@ return (
                 style={{ fontWeight: 500 }}
               >
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
+                  src="megha19.near/widget/devhub.components.molecule.ProfileCard"
                   props={{ accountId }}
                 />
               </div>
