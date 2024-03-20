@@ -9,6 +9,7 @@ const {
   formatHealthFactor,
   depositETHGas,
   depositERC20Gas,
+  theme,
 } = props;
 
 State.init({
@@ -21,6 +22,8 @@ const SupplyButton = ({ data, ...rest }) => {
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
       props={{
         config,
+        // width: 148,
+        theme,
         children: "Supply",
         disabled: Number(data.balanceInUSD) === 0,
         onClick: () => {
@@ -70,11 +73,7 @@ return (
                       src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
                       props={{
                         children: [
-                          <img
-                            width={64}
-                            height={64}
-                            src={`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
-                          />,
+                          <img width={64} height={64} src={row.icon} />,
                           <div>
                             <div className="token-title">{row.symbol}</div>
                             <div className="token-chain">{row.name}</div>
@@ -104,7 +103,7 @@ return (
                 }}
               />
               {/* mobile view */}
-              {assetsToSupply.map((row) => {
+              {/* {assetsToSupply.map((row) => {
                 return (
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Card.CardContainer`}
@@ -122,7 +121,8 @@ return (
                                     <img
                                       width={64}
                                       height={64}
-                                      src={`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
+                                      src={row.icon}
+                                      // {`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
                                     />,
                                     <div>
                                       <div className="token-title">
@@ -199,7 +199,7 @@ return (
                     }}
                   />
                 );
-              })}
+              })} */}
             </>
           ),
       }}
@@ -209,6 +209,7 @@ return (
         src={`${config.ownerId}/widget/AAVE.Modal.SupplyModal`}
         props={{
           config,
+          theme,
           onRequestClose: () => setShowSupplyModal(false),
           data: {
             ...state.data,
