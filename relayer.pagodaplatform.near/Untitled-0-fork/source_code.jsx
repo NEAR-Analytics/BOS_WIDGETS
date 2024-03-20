@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 50%;
+  height: 300px;
   width: 600px; /* Ширина контейнера вмісту */
   margin: 20px; /* Додано поля */
   padding: 20px; /* Додано внутрішні відступи */
