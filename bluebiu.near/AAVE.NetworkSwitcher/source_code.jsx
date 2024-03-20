@@ -1,11 +1,4 @@
-const { config, chainId, switchNetwork, disabled } = props;
-
-const ETH_MATIC = () => (
-  <img
-    height={36}
-    src={`${config.ipfsPrefix}/bafkreibcyx5qsxnzwklrar7vcksny2us5ijavtfcxwlwj2plabspzenwii`}
-  />
-);
+const { chains, curChain, onSwitchChain } = props;
 
 const SwitchContainer = styled.div`
   display: flex;
@@ -18,7 +11,7 @@ const SwitchContainer = styled.div`
     display: none;
     position: absolute;
     right: 0;
-    top: 80px;
+    top: 50px;
     min-width: 260px;
 
     background: #151718;
@@ -44,39 +37,6 @@ const SwitchContainer = styled.div`
 
     transform: rotate(${() => (state.showDropdown ? "0deg" : "180deg")});
   }
-
-  @media (min-width: 640px) {
-    justify-content: center;
-
-    img {
-      height: 60px;
-    }
-
-    .network-img {
-      width: 32px;
-      height: 32px;
-    }
-
-    .dropdown-img {
-      width: 32px;
-      height: 32px;
-    }
-
-    .dropdown-pc {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .dropdown-pc-item {
-      display: flex;
-      align-items: center;
-
-      div {
-        margin-left: 10px;
-      }
-    }
-  }
 `;
 
 const SwitchTitle = styled.div`
@@ -84,11 +44,6 @@ const SwitchTitle = styled.div`
 
   font-size: 18px;
   margin-left: 8px;
-
-  @media (min-width: 640px) {
-    font-size: 36px;
-    font-weight: bold;
-  }
 `;
 
 const DropdownMobile = styled.div`
@@ -121,10 +76,6 @@ const DropdownMobile = styled.div`
       margin-left: 10px;
     }
   }
-
-  @media (min-width: 640px) {
-    display: none;
-  }
 `;
 
 const DropdownContainer = styled.div`
@@ -132,153 +83,65 @@ const DropdownContainer = styled.div`
   align-items: center;
 `;
 
-const DropdownImage = () => (
-  <img
-    className="dropdown-img"
-    src={`${config.ipfsPrefix}/bafkreiexo22bzy2dnto7xlzee5dgz3mkb5smmpvzdgx7ed3clbw3ad3jsa`}
-  />
-);
-
-const PolygonImage = () => (
-  <img
-    className="network-img"
-    src={`${config.ipfsPrefix}/bafkreieaobutw4ibjbh7cyom4wjzjc3rx2fxs2gpfhzasgsoj5f4hjxo2m`}
-  />
-);
-
-const ArbImage = () => (
-  <img
-    className="network-img"
-    src={`${config.ipfsPrefix}/bafkreibjsp3la57lxpt2zr3eo4bz4n6hrgr6iordyopkbd4yjy2hgxdrsy`}
-  />
-);
-
-const EthImage = () => (
-  <img
-    className="network-img"
-    src={`${config.ipfsPrefix}/bafkreih7c6cip4ckunan7c3n5ckyf56mfnqmu7u5zgvxvhqvjsyf76kwxy`}
-  />
-);
+const DropdownIcon = styled.div`
+  width: 24px;
+`;
 
 const toggleDropdown = disabled
   ? () => {}
   : () => State.update({ showDropdown: !state.showDropdown });
 
-const getChainImage = (chainId) => {
-  switch (chainId) {
-    case 1:
-      return EthImage;
-    case 42161:
-      return ArbImage;
-    case 137:
-    case 1442:
-      return PolygonImage;
-    default:
-      throw new Error("unknown chain id");
-  }
-};
-
-const ChainImage = getChainImage(chainId);
-
 State.init({
   showDropdown: false,
 });
-
+const DropdownImage = () => (
+  <DropdownIcon>
+    <svg
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-1b6c8bu"
+      focusable="false"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </svg>
+  </DropdownIcon>
+);
 return (
   <SwitchContainer>
-    {state.showDropdown && (
-      <DropdownMobile>
-        <div>Select Aave Market</div>
-        <div
-          className="dropdown-mobile-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(1);
-          }}
-        >
-          <EthImage />
-          <div>Ethereum</div>
-        </div>
-        <div
-          className="dropdown-mobile-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(42161);
-          }}
-        >
-          <ArbImage />
-          <div>Arbitrum</div>
-        </div>
-        <div
-          className="dropdown-mobile-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(137);
-          }}
-        >
-          <PolygonImage />
-          <div>Polygon</div>
-        </div>
-        <div
-          className="dropdown-mobile-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(1442);
-          }}
-        >
-          <PolygonImage />
-          <div>Polygon zkEVM Testnet</div>
-        </div>
-      </DropdownMobile>
-    )}
     <DropdownContainer onClick={toggleDropdown}>
-      <ChainImage />
-      <SwitchTitle>{config.chainName}</SwitchTitle>
-      {!disabled && <DropdownImage />}
+      <img className="network-img" src={curChain.logo} />
+      <SwitchTitle>{curChain.name}</SwitchTitle>
+      <DropdownImage />
     </DropdownContainer>
     {state.showDropdown && (
       <div className="dropdown-pc">
         <div>Select Aave Market</div>
-        <div
-          className="dropdown-pc-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(1);
-          }}
-        >
-          <EthImage />
-          <div>Ethereum</div>
-        </div>
-        <div
-          className="dropdown-pc-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(42161);
-          }}
-        >
-          <ArbImage />
-          <div>Arbitrum</div>
-        </div>
-        <div
-          className="dropdown-pc-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(137);
-          }}
-        >
-          <PolygonImage />
-          <div>Polygon</div>
-        </div>
-        <div
-          className="dropdown-pc-item"
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(1442);
-          }}
-        >
-          <PolygonImage />
-          <div>Polygon zkEVM Testnet</div>
-        </div>
+        {chains.map((item) => (
+          <div
+            className="dropdown-pc-item"
+            onClick={() => {
+              State.update({ showDropdown: false });
+              onSwitchChain?.({ chainId: `0x${item.chain_id.toString(16)}` });
+            }}
+            key={item.chain_id}
+          >
+            <img className="network-img" src={item.logo} />
+            <div>{item.name}</div>
+          </div>
+        ))}
       </div>
     )}
   </SwitchContainer>
