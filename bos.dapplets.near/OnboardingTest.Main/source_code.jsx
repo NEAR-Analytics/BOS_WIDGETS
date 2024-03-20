@@ -91,7 +91,7 @@ useEffect(() => {
     console.log('data after sort', data)
     setShowFrom(Object.values(lastShow).filter(a => !a).length)
     setShow(true)
-  } else if (lastShow) {
+  } else if (lastShow && Object.values(lastShow).every(a => !a)) {
     // without sort - for the first time
     setShow(true)
   }
