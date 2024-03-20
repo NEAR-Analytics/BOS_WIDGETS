@@ -437,6 +437,7 @@ const SuccessButton = styled.button`
     background-color: rgb(32 45 63);
   }
 `
+console.log('viewedPages', viewedPages)
 
 return (!data || isEditMode) ? (
 //   <Container>
