@@ -9,6 +9,7 @@ const {
   borrowETHGas,
   borrowERC20Gas,
   formatHealthFactor,
+  theme,
 } = props;
 
 if (!assetsToBorrow) {
@@ -33,6 +34,7 @@ const BorrowButton = ({ data }) => (
     props={{
       config,
       children: "Borrow",
+      theme,
       onClick: () => {
         State.update({ data });
         setShowBorrowModal(true);
