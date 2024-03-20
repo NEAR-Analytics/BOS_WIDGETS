@@ -1,14 +1,16 @@
-const { children, loading, config, disabled, ...properties } = props;
+const { children, loading, config, disabled, width, theme, ...properties } =
+  props;
 
 const PrimaryButton = styled.button`
   border: 0;
-
-  color: white;
-  background: ${loading || disabled ? "#36295C" : "#8247e5"};
+  color: var(--button-text-color);
+  background: ${loading || disabled
+    ? "var(--button-disabled-color)"
+    : "var(--button-color)"};
   border-radius: 5px;
 
   height: 48px;
-  width: 100%;
+  width: ${width ? width + "px" : "100%"};
 
   font-size: 16px;
   font-weight: bold;
@@ -29,7 +31,11 @@ const Loading = () => (
 );
 
 return (
-  <PrimaryButton disabled={loading || disabled} {...properties}>
+  <PrimaryButton
+    disabled={loading || disabled}
+    style={theme ? theme : {}}
+    {...properties}
+  >
     {loading ? <Loading /> : children}
   </PrimaryButton>
 );
