@@ -1,17 +1,18 @@
 const accountId = context.accountId;
 
+const [ammunition, setAmmunition] = useState("");
+
 const [weapon, setWeapon] = useState(() => {
   const initialData = Social.getr(`${accountId}/game/weapon`) ?? {
     metadata: {
       name: "",
       description: "",
-      morals: "",
-      ethics: "",
-      type: "",
-      size: "",
-      challenge: "",
-      armorClass: "",
-      hitPoints: "",
+      class: "",
+      category: "",
+      weight: "",
+      cost: "",
+      damage: "",
+      ammunition: "",
       image: {},
     },
   };
@@ -41,19 +42,15 @@ const handleDescriptionChange = (e) => {
   }));
 };
 
-const handleMoralsChange = (e) => {
-  const newMorals = e.target.value;
+const handleAmmunitionChange = (event) => {
+  const newValue = event.target.value;
+  setAmmunition(newValue);
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, morals: newMorals },
-  }));
-};
-
-const handleEthicsChange = (e) => {
-  const newEthics = e.target.value;
-  setWeapon((prevWeapon) => ({
-    ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, ethics: newEthics },
+    metadata: {
+      ...prevWeapon.metadata,
+      ammunition: newValue === "yes" ? "yes" : prevWeapon.metadata.ammunition,
+    },
   }));
 };
 
@@ -120,149 +117,155 @@ return (
           onChange={handleNameChange}
         />
       </div>
-      <h5 className="mb-2">Weapon Image</h5>
-      <div className="p-1">
-        <Widget
-          src="mob.near/widget/ImageEditorTabs"
-          props={{
-            image: weapon.metadata.image,
-            onChange: handleImageChange,
-          }}
-        />
+      <div className="col-auto">
+        <label htmlFor="type">Type:</label>
+
+        <div className="col">
+          <input
+            name="type"
+            id="type"
+            type="text"
+            className="form-select"
+            placeholder="What is the weapon type (club, rapier, etc)"
+            value={weapon.metadata.type}
+            onChange={handleTypeChange}
+          ></input>
+        </div>
       </div>
+    </div>
+
+    <h5 className="mb-2">Weapon Image</h5>
+    <div className="p-1">
+      <Widget
+        src="mob.near/widget/ImageEditorTabs"
+        props={{
+          image: weapon.metadata.image,
+          onChange: handleImageChange,
+        }}
+      />
+    </div>
+    <div className="mb-3 p-1">
+      <label for="description">Description:</label>
+      <input
+        id="description"
+        type="textarea"
+        rows="4"
+        cols="80"
+        max-length="1200"
+        placeholder="What is the weapon's description?"
+        value={weapon.metadata.description}
+        onChange={handleDescriptionChange}
+      />
+    </div>
+    <div className="mb-3 p-1">
+      <h5 className="mb-2 d-block">Class & Category</h5>
+      <div className="row align-items-center">
+        <div className="col">
+          <label for="class">Class:</label>
+          <select
+            name="class"
+            id="class"
+            className="form-select"
+            value={weapon.metadata.class}
+            onChange={handleClassChange}
+          >
+            <option value="null">---</option>
+            <option value="melee">Melee</option>
+            <option value="range">Range</option>
+          </select>
+          <label for="category">Category:</label>
+          <select
+            name="category"
+            id="category"
+            className="form-select"
+            value={weapon.metadata.category}
+            onChange={handleCategoryChange}
+          >
+            <option value="null">---</option>
+            <option value="simple">Simple</option>
+            <option value="martial">Martial</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div className="mb-3 p-1">
+      <span className="mb-2 d-block"></span>
       <div className="mb-3 p-1">
-        <label for="description">Description:</label>
+        <label for="weight">Weight:</label>
         <input
-          id="description"
-          type="textarea"
-          rows="4"
-          cols="80"
-          max-length="1200"
-          placeholder="What is the weapon's description?"
-          value={weapon.metadata.description}
-          onChange={handleDescriptionChange}
+          id="weight"
+          type="text"
+          placeholder="What is the weapon's weight in pounds?"
+          value={weapon.metadata.weight}
+          onChange={handleWeightChange}
         />
       </div>
-      <div className="mb-3 p-1">
-        <h5 className="mb-2 d-block">Class & Category</h5>
-        <div className="row align-items-center">
-          <div className="col">
-            <label for="class">Class:</label>
-            <select
-              name="class"
-              id="class"
-              className="form-select"
-              value={weapon.metadata.class}
-              onChange={handleClassChange}
-            >
-              <option value="null">---</option>
-              <option value="melee">Melee</option>
-              <option value="range">Range</option>
-            </select>
-            <label for="category">Category:</label>
-            <select
-              name="category"
-              id="category"
-              className="form-select"
-              value={weapon.metadata.category}
-              onChange={handleCategoryChange}
-            >
-              <option value="null">---</option>
-              <option value="simple">Simple</option>
-              <option value="martial">Martial</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="mb-3 p-1">
-        <span className="mb-2 d-block"></span>
-
-        <div className="col-auto">
-          <label htmlFor="type">Type:</label>
-
-          <div className="col">
-            <select
-              name="type"
-              id="type"
-              className="form-select"
-              value={weapon.metadata.type}
-              onChange={handleTypeChange}
-            >
-              <option value="null">---</option>
-              <option value="abberation">Abberation</option>
-              <option value="beast">Beast</option>
-              <option value="celestial">Celestial</option>
-              <option value="dragon">Dragon</option>
-              <option value="elemental">Elemental</option>
-              <option value="fey">Fey</option>
-              <option value="fiend">Fiend</option>
-              <option value="giant">Giant</option>
-              <option value="humanoid">Humanoid</option>
-              <option value="monstrosity">Monstrosity</option>
-              <option value="ooze">Ooze</option>
-              <option value="plant">Plant</option>
-              <option value="undead">Undead</option>
-            </select>
-          </div>
-        </div>
-      </div>
 
       <div className="mb-3 p-1">
-        <label for="size">Size:</label>
-        <select
-          name="size"
-          id="size"
+        <label for="cost">Cost:</label>
+        <input
+          name="cost"
+          id="cost"
+          type="text"
           className="form-select"
-          value={weapon.metadata.size}
-          onChange={handleSizeChange}
-        >
-          <option value="null">---</option>
-          <option value="tiny">Tiny</option>
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-          <option value="huge">Huge</option>
-          <option value="gargantuan">Gargantuan</option>
-        </select>
+          placeholder="Weapon cost (in gold pieces)"
+          value={weapon.metadata.cost}
+          onChange={handleCostChange}
+        ></input>
       </div>
+
       <div className="mb-3 p-1">
-        <label for="challenge">Challenge:</label>
+        <label for="damage">Damage:</label>
         <input
-          id="challenge"
+          id="damage"
           type="number"
-          min="0"
-          max="30"
-          placeholder="What is the weapon's challenge level?"
-          value={weapon.metadata.challenge}
-          onChange={handleChallengeChange}
-        />
-      </div>
-      <div className="mb-3 p-1">
-        <label for="armorClass">Armor Class:</label>
-        <input
-          id="armorClass"
-          type="number"
-          min="0"
-          max="25"
-          placeholder="What is the weapon's armor class?"
-          value={weapon.metadata.armorClass}
-          onChange={handleArmorClassChange}
+          placeholder="How much damage does the weapon deal?"
+          value={weapon.metadata.damage}
+          onChange={handleDamageChange}
         />
       </div>
     </div>
     <div className="mb-3 p-1">
-      <label for="hitPoints">HP:</label>
-      <input
-        name="hitPoints"
-        id="hitPoints"
-        type="number"
-        min="0"
-        placeholder="What is the weapon's HP?"
-        value={weapon.metadata.hitPoints}
-        onChange={handleHitPointsChange}
-      />
+      <h5>Weapon Properties:</h5>
+      <p>Select 'yes' for properties you want to assign to this weapon.</p>
+
+      <div className="row align-items-center">
+        <div className="col">
+          <span>Ammunition:</span>
+        </div>
+        <div className="col">
+          <div className="btn-group" role="group">
+            <input
+              type="radio"
+              name="ammunition"
+              id="yesAmmunition"
+              value="yes"
+              className="btn-check"
+              checked={ammunition === "yes"}
+              onChange={handleAmmunitionChange}
+            />
+            <label htmlFor="yesAmmunition" className="btn btn-outline-primary">
+              Yes
+            </label>
+
+            <input
+              type="radio"
+              name="ammunition"
+              id="noAmmunition"
+              value="no"
+              className="btn-check"
+              checked={ammunition === "no"}
+              onChange={handleAmmunitionChange}
+            />
+            <label htmlFor="noAmmunition" className="btn btn-outline-primary">
+              No
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
     <div className="m-3">
+      <hr />
       <h5 className="mb-2">Preview</h5>
       <p>If you are happy with your creation, be sure to click 'Save'</p>
       <Widget
