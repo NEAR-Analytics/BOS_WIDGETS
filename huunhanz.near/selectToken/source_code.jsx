@@ -289,43 +289,48 @@ return (
         {["NEAR", ...globalWhiteList]
           .filter((token_id) => !!filterFunc(tokensMeta[token_id]))
           .map((token_id) => {
-            return (
-              <TokenLine
-                onClick={(e) => {
-                  // e.preventDefault();
+            if (
+              token_id == "token.lonkingnearbackto2024.near" ||
+              token_id == "token.v2.ref-finance.near"
+            ) {
+              return (
+                <TokenLine
+                  onClick={(e) => {
+                    // e.preventDefault();
 
-                  handleSelect(tokensMeta[token_id]);
-                  handleClose();
-                }}
-              >
-                <img
-                  style={{
-                    borderRadius: "100%",
-                    height: "36px",
-                    width: "36px",
-                    marginRight: "4px",
-                  }}
-                  src={tokensMeta[token_id].icon || iconsDefault[token_id]}
-                />
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
+                    handleSelect(tokensMeta[token_id]);
+                    handleClose();
                   }}
                 >
-                  <span>{tokensMeta[token_id].symbol}</span>
-                  <span
+                  <img
                     style={{
-                      color: "#7E8A93",
-                      fontSize: "10px",
+                      borderRadius: "100%",
+                      height: "36px",
+                      width: "36px",
+                      marginRight: "4px",
+                    }}
+                    src={tokensMeta[token_id].icon || iconsDefault[token_id]}
+                  />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    {tokensMeta[token_id].name}
-                  </span>
-                </div>
-              </TokenLine>
-            );
+                    <span>{tokensMeta[token_id].symbol}</span>
+                    <span
+                      style={{
+                        color: "#7E8A93",
+                        fontSize: "10px",
+                      }}
+                    >
+                      {tokensMeta[token_id].name}
+                    </span>
+                  </div>
+                </TokenLine>
+              );
+            }
           })}
       </ListContainer>
     </ModalContainer>
