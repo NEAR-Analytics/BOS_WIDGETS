@@ -131,15 +131,22 @@ const saveData = (inputData) => {
 
 return (
   <OverlayTriggerWrapper>
-    {show ? (
+    {show ? DappletOverlay ? (
       <DappletOverlay>
         <Onboarding>
           <Widget
             props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
-            src="bos.dapplets.near/widget/Onboarding.SandboxOnboarding"
+            src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
           />
         </Onboarding>
       </DappletOverlay>
+    ) : (
+        <Onboarding>
+          <Widget
+            props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
+            src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
+          />
+        </Onboarding>
     ) : null}
   </OverlayTriggerWrapper>
 )
