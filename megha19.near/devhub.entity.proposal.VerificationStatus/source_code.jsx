@@ -175,7 +175,7 @@ const VerificationBtn = () => {
       >
         <div className={"select-header no-border"}>
           <Widget
-            src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
+            src={`megha19.near/widget/devhub.components.molecule.Button`}
             props={{
               classNames: { root: "black-btn" },
               label: (
