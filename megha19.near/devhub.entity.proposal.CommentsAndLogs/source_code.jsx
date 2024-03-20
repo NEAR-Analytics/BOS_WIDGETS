@@ -129,7 +129,7 @@ const Comment = ({ commentItem }) => {
       <div className="d-flex gap-2 flex-1">
         <div className="d-none d-sm-flex">
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+            src={"megha19.near/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId: accountId,
             }}
@@ -140,7 +140,7 @@ const Comment = ({ commentItem }) => {
             <div>
               {accountId} commented
               <Widget
-                src="${REPL_NEAR}/widget/TimeAgo"
+                src="near/widget/TimeAgo"
                 props={{
                   blockHeight: blockHeight,
                 }}
@@ -149,7 +149,7 @@ const Comment = ({ commentItem }) => {
             {context.accountId && (
               <div className="menu">
                 <Widget
-                  src="${REPL_NEAR}/widget/Posts.Menu"
+                  src="near/widget/Posts.Menu"
                   props={{
                     accountId: accountId,
                     blockHeight: blockHeight,
@@ -163,7 +163,7 @@ const Comment = ({ commentItem }) => {
           <div className="p-2 px-3">
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+                "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
               }
               props={{
                 text: content.text,
@@ -172,13 +172,13 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="${REPL_NEAR}/widget/v1.LikeButton"
+                src="near/widget/v1.LikeButton"
                 props={{
                   item: item,
                 }}
               />
               <Widget
-                src="${REPL_NEAR}/widget/CopyUrlButton"
+                src="near/widget/CopyUrlButton"
                 props={{
                   url: link,
                 }}
@@ -337,7 +337,7 @@ const Log = ({ timestamp }) => {
           className="gap-1 align-items-center"
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.entity.proposal.Profile"}
+            src={"megha19.near/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId: editorId,
               size: "sm",
@@ -361,7 +361,7 @@ const Log = ({ timestamp }) => {
         })}
         <span>
           <Widget
-            src="${REPL_NEAR}/widget/TimeAgo"
+            src="near/widget/TimeAgo"
             props={{
               blockTimestamp: timestamp * 1000000,
             }}
