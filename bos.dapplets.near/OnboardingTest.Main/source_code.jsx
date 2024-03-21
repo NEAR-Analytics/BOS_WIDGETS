@@ -8,7 +8,7 @@ const [showFrom, setShowFrom] = useState(0)
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
 const lastShow = data && data?.reduce((acc, chapter) => {
-  acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShow')
+  acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShow-test')
   return acc
 }, {})
 
@@ -160,7 +160,7 @@ const handleClose = (isDoNotShowAgainChecked, viewedPages) => {
       const isViewed = !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed)
       const doNotShowAgain = !!((isDoNotShowAgainChecked && viewedPages.includes(chapter.id)) || lastShow[chapter.id].doNotShowAgain)
       Storage.privateSet(
-        chapter.id + '/lastShow',
+        chapter.id + '/lastShow-test',
         {
           time,
           doNotShowAgain,
