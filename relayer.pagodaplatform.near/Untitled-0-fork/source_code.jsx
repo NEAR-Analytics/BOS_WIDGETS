@@ -1,10 +1,17 @@
 const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
- height: 100vh;
-  width: 200%;
- margin: -20%;
- padding: 0;
+ height: 100%;
+  width: 100%;
+  margin: -20px; /* Змінено з -20% на -20px для вирівнювання */
+  padding: 0;
+`;
+
+const Block = styled.div`
+height: 100vh; /* Встановлюємо висоту на 100% висоти вікна */
+  width: 100vw; /* Встановлюємо ширину на 100% ширини вікна */
+  margin: 0;
+  padding: 0;
 `;
 
 const Text = styled.div`
@@ -120,38 +127,40 @@ const handleClick = (choice) => {
 };
 
 return (
-  <OuterWrapper>
-    <Widget
-      src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
-    />
-    <Wrapper>
-      <PrimaryText>
-        <Widget
-          src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.PrimaryText`}
-        />
-        Камінь Ножиці Бумага
-        <ButtonContainer>
-          <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
-          <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
-          <Button onClick={() => handleClick("Ножиці")}>Ножиці</Button>
-        </ButtonContainer>
-        {userChoice && computerChoice && result && (
-          <ResultText>
-            Ви обрали: {userChoice} / Комп'ютор обрав: {computerChoice}
-            <span></span>
-            Результат: {result}
-          </ResultText>
-        )}
-      </PrimaryText>
-      <Social>
-        <Widget
-          src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
-        />
-        <br />
-      </Social>
-    </Wrapper>
-    <Widget
-      src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
-    />
-  </OuterWrapper>
+  <Block>
+    <OuterWrapper>
+      <Widget
+        src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
+      />
+      <Wrapper>
+        <PrimaryText>
+          <Widget
+            src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.PrimaryText`}
+          />
+          Камінь Ножиці Бумага
+          <ButtonContainer>
+            <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
+            <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
+            <Button onClick={() => handleClick("Ножиці")}>Ножиці</Button>
+          </ButtonContainer>
+          {userChoice && computerChoice && result && (
+            <ResultText>
+              Ви обрали: {userChoice} / Комп'ютор обрав: {computerChoice}
+              <span></span>
+              Результат: {result}
+            </ResultText>
+          )}
+        </PrimaryText>
+        <Social>
+          <Widget
+            src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
+          />
+          <br />
+        </Social>
+      </Wrapper>
+      <Widget
+        src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
+      />
+    </OuterWrapper>
+  </Block>
 );
