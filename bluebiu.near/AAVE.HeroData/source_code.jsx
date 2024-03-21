@@ -1,4 +1,12 @@
-const { netWorth, netApy, healthFactor, config, rewardsAmount } = props;
+const {
+  netWorth,
+  netApy,
+  healthFactor,
+  config,
+  rewardsAmount,
+  theme,
+  claimRewards,
+} = props;
 
 if (!netWorth || !netApy || !healthFactor) {
   return <div />;
@@ -24,6 +32,8 @@ const KVData = styled.div`
   .value {
     font-size: 16px;
     font-weight: 700;
+    display: flex;
+    align-items: center;
   }
   .text-green {
     color: #2cffa7;
@@ -41,22 +51,6 @@ const heroDataTitle = heroData.map((item) => ({
   name: item,
   value: heroDataMap[item],
 }));
-// const heroDataTitle = [
-//   {
-//     name: "Net Worth",
-//     value: netWorth,
-//   },
-//   {
-//     name: "Net APY",
-//     value: netApy,
-//   },
-//   showHealthFactor
-//     ? {
-//         name: "Health Factor",
-//         value: healthFactor,
-//       }
-//     : undefined,
-// ].filter((element) => !!element);
 
 return (
   <HeroDataContainer>
@@ -72,6 +66,18 @@ return (
             .join(" ")}
         >
           {row.value}
+          {row.name === "Available rewards" ? (
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+              props={{
+                config,
+                children: "Claim",
+                theme,
+                style: { height: 30 },
+                onClick: claimRewards,
+              }}
+            />
+          ) : null}
         </div>
       </KVData>
     ))}
