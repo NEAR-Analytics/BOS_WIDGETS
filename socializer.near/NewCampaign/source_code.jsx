@@ -207,8 +207,7 @@ const createCampaign = () => {
     !token ||
     !winners ||
     !total_reward ||
-    !duration_hr ||
-    !duration_min
+    (duration_hr == "00" && duration_min == "00")
   )
     return State.update({ error: "Please fill out all form fields" });
 
