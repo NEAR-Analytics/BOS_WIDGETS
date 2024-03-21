@@ -167,7 +167,7 @@ useEffect(() => {
     let method = "";
     const deadline = Math.ceil(Date.now() / 1000) + 120;
     const _amountOut = Big(amountOut)
-      .mul(1 - (slippage || 0.05))
+      .mul(1 - (slippage || 0.005))
       .toFixed(0);
 
     let priceImpact = null;
