@@ -528,7 +528,7 @@ function getMultiRewards(pool, index) {
       temp[index].rewardRate = rewardRate;
       temp[index].stakedAmount = Big(
         ethers.utils.formatUnits(balance || 0)
-      ).toFixed(2);
+      ).toFixed();
       temp[index].rewardTotalSupply = totalSupply;
       temp[index].reward = Big(
         ethers.utils.formatUnits(rewards || 0)
