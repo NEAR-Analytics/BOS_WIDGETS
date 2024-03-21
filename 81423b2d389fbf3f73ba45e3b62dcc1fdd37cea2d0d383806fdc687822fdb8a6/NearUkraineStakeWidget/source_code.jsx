@@ -6,8 +6,12 @@ const OuterWrapper = styled.div`
 
 const SOuterWrapper = styled.div`
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   position: relative;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
 `;
 
 initState({
