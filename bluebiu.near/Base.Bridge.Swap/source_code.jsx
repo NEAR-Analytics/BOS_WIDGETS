@@ -308,6 +308,7 @@ return (
         toast: props.toast,
         loading: state.loading || state.checkingGas,
         account,
+        quote: state.quote,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
@@ -334,7 +335,7 @@ return (
         },
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
-          console.log(data);
+          console.log('data:', data);
           State.update({
             loading: false,
             ...data,
