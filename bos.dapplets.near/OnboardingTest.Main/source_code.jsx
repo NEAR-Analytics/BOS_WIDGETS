@@ -94,7 +94,9 @@ useEffect(() => {
               ? lastShow[a.id].show ? 0 : -1
               : lastShow[a.id].show - lastShow[b.id].show
     )
-    setShowFrom(Object.values(lastShow).filter((a) => a && !a.show).length)
+    const index = Object.values(lastShow).filter((a) => a && !a.show)?.length
+    console.log('index', index)
+    setShowFrom(index)
     console.log(2)
     setShow(true)
   } else if (lastShow && Object.values(lastShow).every((a) => !a)) {
