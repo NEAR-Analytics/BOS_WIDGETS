@@ -100,6 +100,7 @@ const {
   IS_GRAVITA_DAPP,
   _maxFeePercentage,
   GAS_LIMIT_RECOMMENDATIONS,
+  isCloseDisabled,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -230,7 +231,7 @@ if (actionText === "Close") {
   return (
     <Button
       onClick={handleClose}
-      disabled={state.pending}
+      disabled={state.pending || isCloseDisabled}
       className={actionText.toLowerCase()}
     >
       {state.pending ? (
