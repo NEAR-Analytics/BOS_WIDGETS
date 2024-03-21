@@ -16,6 +16,16 @@ const SOuterWrapper = styled.div`
   padding: 0;
 `;
 
+const Text = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-family: 'Kodchasan', sans-serif;  
+  font-size: 3vw;
+`;
+
 const Social = styled.div`
   position: absolute;
   bottom: 0;
@@ -129,9 +139,11 @@ return (
       </AmountButton>
       <br></br>
       <StakeButton onClick={onStakeClick}>Stake</StakeButton>
-      <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
-      <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
-      <p>Your balance is: {yourAccountBalance} Near</p>
+      <Text>
+        <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
+        <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
+        <p>Your balance is: {yourAccountBalance} Near</p>
+      </Text>
       <Social>
         <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
       </Social>
