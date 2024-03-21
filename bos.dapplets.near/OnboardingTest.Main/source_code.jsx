@@ -103,6 +103,9 @@ useEffect(() => {
     // without sort - for the first time
     console.log(3)
     setShow(true)
+  } else {
+    console.log(4)
+    setShow(false)
   }
 }, [start, lastShow])
 
