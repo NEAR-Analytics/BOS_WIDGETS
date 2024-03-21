@@ -468,7 +468,7 @@ return (
           wethAddress,
           prices,
           ...dexConfig,
-          slippage: state.slippage,
+          slippage: state.slippage ? state.slippage / 100 : 0.005,
           multicallAddress: props.multicallAddress,
           multicall: props.multicall,
           onLoad: (data) => {
