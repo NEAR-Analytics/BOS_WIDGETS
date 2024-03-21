@@ -205,6 +205,10 @@ const Container = styled.div`
   .gap-6 {
     gap: 2.5rem;
   }
+
+  a.no-space {
+    display: inline-block;
+  }
 `;
 
 const Heading = styled.div`
@@ -840,7 +844,7 @@ if (showProposalPage) {
                   }}
                 />
               </div>
-              <div className="d-flex flex-column gap-2 gap-sm-4 w-100">
+              <div className="d-flex flex-column gap-4 w-100">
                 <InputContainer
                   heading="Category"
                   description={
@@ -850,7 +854,7 @@ if (showProposalPage) {
                       guidance? See{" "}
                       <a
                         href={FundingDocs}
-                        className="text-decoration-underline"
+                        className="text-decoration-underline no-space"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -883,7 +887,6 @@ if (showProposalPage) {
                         setTitle(e.target.value);
                       },
                       skipPaddingGap: true,
-                      placeholder: "Enter title here.",
                       inputProps: {
                         max: 80,
                         required: true,
@@ -905,7 +908,6 @@ if (showProposalPage) {
                         setSummary(e.target.value);
                       },
                       skipPaddingGap: true,
-                      placeholder: "Enter summary here.",
                       inputProps: {
                         max: 500,
                         required: true,
@@ -915,7 +917,25 @@ if (showProposalPage) {
                 </InputContainer>
                 <InputContainer
                   heading="Description"
-                  description="Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal."
+                  description={
+                    <>
+                      Expand on your summary with any relevant details like your
+                      contribution timeline, key milestones, team background,
+                      and a clear breakdown of how the funds will be used.
+                      Proposals should be simple and clear (e.g. 1 month). For
+                      more complex projects, treat each milestone as a separate
+                      proposal. Need more guidance?
+                      <a
+                        href={FundingDocs}
+                        className="text-decoration-underline no-space"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        See Funding Docs
+                      </a>
+                      .
+                    </>
+                  }
                 >
                   <Widget
                     src={
@@ -926,7 +946,6 @@ if (showProposalPage) {
                       onChange: setDescription,
                       autocompleteEnabled: true,
                       autoFocus: false,
-                      placeholder: descriptionPlaceholder,
                     }}
                   />
                 </InputContainer>
@@ -1164,6 +1183,7 @@ if (showProposalPage) {
                         props={{
                           receiverAccount: receiverAccount,
                           showGetVerifiedBtn: true,
+                          imageSize: 30,
                         }}
                       />
                     </div>
@@ -1206,7 +1226,6 @@ if (showProposalPage) {
                           }
                         },
                         skipPaddingGap: true,
-                        placeholder: "Enter amount",
                         inputProps: {
                           type: "text",
                           prefix: "$",
@@ -1254,7 +1273,6 @@ if (showProposalPage) {
                       src="megha19.near/widget/devhub.entity.proposal.AccountInput"
                       props={{
                         value: supervisor,
-                        placeholder: "Enter Supervisor",
                         onUpdate: setSupervisor,
                       }}
                     />
