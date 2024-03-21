@@ -249,7 +249,7 @@ useEffect(() => {
     const deadline = Math.ceil(Date.now() / 1000) + 60;
     const _amountOut = Big(amountOut)
       .mul(Big(10).pow(outputCurrency.decimals))
-      .mul(1 - (slippage || 0.05))
+      .mul(1 - (slippage || 0.005))
       .toFixed(0);
     const options = {};
     const params = [_amountOut, path, account, deadline];
