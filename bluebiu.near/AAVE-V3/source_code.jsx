@@ -30,6 +30,7 @@ const {
   switchingChain,
   dexConfig,
   theme,
+  toast,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("AAVE.V3: ", props);
@@ -236,6 +237,7 @@ State.init({
   },
   baseAssetBalance: undefined,
   selectTab: "supply", // supply | borrow
+  fresh: 0, // fresh rewards
 });
 
 const loading =
@@ -842,8 +844,6 @@ function getUserDebts() {
 }
 
 function getAllUserRewards() {
-  const { heroData } = config;
-
   const arr = markets
     .map((item) => [
       item.aTokenAddress,
@@ -899,15 +899,94 @@ function getAllUserRewards() {
     });
 }
 
+function claimRewards() {
+  const arr = markets
+    .map((item) => [
+      item.aTokenAddress,
+      // item.stableDebtTokenAddress,
+      item.variableDebtTokenAddress,
+    ])
+    .flat();
+  const addrs = [...new Set(arr)];
+  const claimProvider = new ethers.Contract(
+    config.incentivesProxy,
+    [
+      {
+        inputs: [
+          { internalType: "address[]", name: "assets", type: "address[]" },
+          { internalType: "address", name: "to", type: "address" },
+        ],
+        name: "claimAllRewards",
+        outputs: [
+          {
+            internalType: "address[]",
+            name: "rewardsList",
+            type: "address[]",
+          },
+          {
+            internalType: "uint256[]",
+            name: "claimedAmounts",
+            type: "uint256[]",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  claimProvider
+    .claimAllRewards(addrs, account)
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          // State.update({
+          //   pending: false,
+          // });
+
+          if (status === 1) {
+            State.update({
+              ...state,
+              fresh: state.fresh + 1,
+            });
+            toast?.success({
+              title: `Claim successed!`,
+              tx: transactionHash,
+              chainId,
+            });
+          } else {
+            toast?.fail({
+              title: `Claim failed!`,
+              tx: transactionHash,
+              chainId,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log("tx_error:", err);
+        });
+    })
+    .catch((err) => {
+      console.log("claimRewards_error:", err);
+    });
+}
+
 useEffect(() => {
   if (!isChainSupported) return;
 
   fetchUserAccountData();
+}, [isChainSupported]);
+
+useEffect(() => {
   const { heroData } = config;
   if (heroData.indexOf("Available rewards") > -1) {
     getAllUserRewards();
   }
-}, [isChainSupported]);
+}, [fresh]);
+
 useEffect(() => {
   if (!isChainSupported || !state.assetsToSupply) return;
 
@@ -1027,6 +1106,8 @@ const body = isChainSupported ? (
           }%`,
           healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
           rewardsAmount: state.rewardsAmount,
+          theme: dexConfig?.theme,
+          claimRewards,
         }}
       />
     </FlexContainer>
