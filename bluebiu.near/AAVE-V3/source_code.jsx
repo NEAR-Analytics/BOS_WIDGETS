@@ -231,7 +231,7 @@ State.init({
     availableBorrowsUSD: "",
     debts: [],
     healthFactor: "",
-    netAPY: 0.013302895831857352,
+    netApy: 0.013302895831857352,
     netWorthUSD: "3.94563967927797537582010364",
   },
   baseAssetBalance: undefined,
@@ -841,10 +841,72 @@ function getUserDebts() {
     });
 }
 
+function getAllUserRewards() {
+  const { heroData } = config;
+
+  const arr = markets
+    .map((item) => [
+      item.aTokenAddress,
+      // item.stableDebtTokenAddress,
+      item.variableDebtTokenAddress,
+    ])
+    .flat();
+  const addrs = [...new Set(arr)];
+
+  const rewardsProvider = new ethers.Contract(
+    config.incentivesProxy,
+    [
+      {
+        inputs: [
+          { internalType: "address[]", name: "assets", type: "address[]" },
+          { internalType: "address", name: "user", type: "address" },
+        ],
+        name: "getAllUserRewards",
+        outputs: [
+          {
+            internalType: "address[]",
+            name: "rewardsList",
+            type: "address[]",
+          },
+          {
+            internalType: "uint256[]",
+            name: "unclaimedAmounts",
+            type: "uint256[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  rewardsProvider
+    .getAllUserRewards(addrs, account)
+    .then((res) => {
+      console.log(
+        "getAllUserRewards_res:",
+        res,
+        ethers.utils.formatUnits(res[1][1])
+      );
+      const _amount = ethers.utils.formatUnits(res[1][1]);
+      State.update({
+        rewardsAmount: _amount,
+      });
+    })
+    .catch((err) => {
+      console.log("getAllUserRewards_error:", err);
+    });
+}
+
 useEffect(() => {
   if (!isChainSupported) return;
 
   fetchUserAccountData();
+  const { heroData } = config;
+  if (heroData.indexOf("Available rewards") > -1) {
+    getAllUserRewards();
+  }
 }, [isChainSupported]);
 useEffect(() => {
   if (!isChainSupported || !state.assetsToSupply) return;
@@ -873,10 +935,10 @@ function calcNetWorth() {
   });
 }
 
-//calc net worth
 useEffect(() => {
   if (!state.yourSupplies || !state.yourBorrows) return;
 
+  //calc net worth
   const supplyBal = state.yourSupplies.reduce(
     (total, cur) => Big(total).plus(cur.underlyingBalanceUSD).toFixed(),
     0
@@ -886,7 +948,40 @@ useEffect(() => {
     0
   );
   const netWorth = Big(supplyBal).minus(debtsBal).toFixed(2, ROUND_DOWN);
+
+  //calc net apy
+
+  const weightedAverageSupplyAPY = state.yourSupplies.reduce(
+    (total, cur) =>
+      Big(total)
+        .plus(
+          Big(cur.underlyingBalanceUSD).times(Big(cur.supplyAPY)).div(supplyBal)
+        )
+        .toFixed(),
+    0
+  );
+  const weightedAverageBorrowsAPY = state.yourBorrows.debts.reduce(
+    (total, cur) =>
+      Big(total)
+        .plus(
+          Big(cur.balanceInUSD).times(Big(cur.variableBorrowAPY)).div(debtsBal)
+        )
+        .toFixed(),
+    0
+  );
+
+  const a = Big(weightedAverageSupplyAPY)
+    .times(supplyBal)
+    .div(netWorth)
+    .toFixed();
+  const b = Big(weightedAverageBorrowsAPY)
+    .times(debtsBal)
+    .div(netWorth)
+    .toFixed();
+  const totalNetApy = Big(a).minus(Big(b)).toFixed();
+
   State.update({
+    totalNetApy,
     assetsToBorrow: {
       ...state.assetsToBorrow,
       netWorthUSD: netWorth,
@@ -924,20 +1019,12 @@ const body = isChainSupported ? (
               : "-"
           }`,
           netApy: `${
-            state.assetsToBorrow?.netAPY
-              ? Number(
-                  Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
-                ) === 0
-                ? "0.00"
-                : Big(state.assetsToBorrow.netAPY).times(100).toFixed(2)
+            state.totalNetApy
+              ? Number(Big(state.totalNetApy).times(100).toFixed(2))
               : "-"
           }%`,
           healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
-          showHealthFactor: config.showHealthFactor,
-          // showHealthFactor:
-          //   state.yourBorrows &&
-          //   state.yourBorrows.debts &&
-          //   state.yourBorrows.debts.length > 0,
+          rewardsAmount: state.rewardsAmount,
         }}
       />
     </FlexContainer>
