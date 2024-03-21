@@ -21,7 +21,7 @@ const CHAIN_ID = 324;
 const CHAIN_NAME = "zkSync";
 const Tokens = [
   {
-    address: "0x0000000000000000000000000000000000000000",
+    address: "native",
     name: "ETH",
     symbol: "ETH",
     icon: "https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628",
