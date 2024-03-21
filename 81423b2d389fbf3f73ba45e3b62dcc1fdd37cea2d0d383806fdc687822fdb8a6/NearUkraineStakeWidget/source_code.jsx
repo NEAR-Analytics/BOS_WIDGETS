@@ -5,7 +5,7 @@ const OuterWrapper = styled.div`
 `;
 
 const SOuterWrapper = styled.div`
-  height: 200%;
+  height: 100vh;
 `;
 
 initState({
