@@ -82,8 +82,8 @@ useEffect(() => {
     console.log(1)
     // show form to the author
     setShow(true)
-  } else if (lastShow && Object.values(lastShow).some((a) => a?.show)) {
-    // with sort - some chapters have been displayed
+  } else if (lastShow && Object.values(lastShow).some((a) => a === undefined || a?.show)) {
+    // with sort - some chapters have been displayed or new
     data.sort(
       (a, b) =>
         !lastShow[a.id] && !lastShow[b.id]
@@ -99,13 +99,6 @@ useEffect(() => {
     setShowFrom(index)
     console.log(2)
     setShow(true)
-  } else if (lastShow && Object.values(lastShow).every((a) => !a)) {
-    // without sort - for the first time
-    console.log(3)
-    setShow(true)
-  } else {
-    console.log(4)
-    setShow(false)
   }
 }, [start, lastShow])
 
