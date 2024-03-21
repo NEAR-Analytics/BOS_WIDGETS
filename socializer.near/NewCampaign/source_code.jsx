@@ -162,7 +162,7 @@ const changeRequirement = (label) => {
 };
 
 const changePostLink = (link) => {
-  State.update({ error: "", post_link: e.target.value, loading: true });
+  State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
     method: "PUT",
     headers: {
@@ -178,6 +178,7 @@ const changePostLink = (link) => {
         State.update({
           ...state,
           loading: false,
+          post_link: link,
           username: accountId,
         });
       }
