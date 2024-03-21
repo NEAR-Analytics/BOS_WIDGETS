@@ -4,7 +4,8 @@ const Container = styled.div`
     max-height:600px;
     padding:10px 0;
     align-items:center;
-    background:#31cf34;
+    border-top:2px solid #31cf34;
+    border-bottom:2px solid #31cf34;
 `;
 
 const Content = styled.div`
@@ -22,20 +23,20 @@ const Title = styled.div`
         font-size: 5em;
         text-shadow: 0 4px 4px #00000040;
         text-transform: lowercase;
-        color:#ffffff;
+        color:#31cf34;
     }
     .sub-title{
         font-family: Lakki Reddy,cursive;
         font-size: 6em;
         text-shadow: 0 4px 4px #00000040;
         text-transform: Upcase;
-        color:#ffffff;
+        color:#31cf34;
     }
 `;
 const Stake = styled.div`
     height:320px;
     width:450px;
-    border:2px solid #ffffff;
+    border:2px solid #31cf34;
     border-radius:10px;
     padding:25px 20px;
     display:flex;
@@ -49,22 +50,22 @@ const Stake = styled.div`
         width:70%;
         word-wrap: break-word;
         font-size:19px;
-        color:#ffffff;
+        color:#000000;
         font-weight:600;
     }
     .amount{
         font-size:4rem;
         text-decoration: underline;
         font-weight:600;
-        color:#ffffff;
+        color:#000000;
     }
     .sub-amount{
         font-size:14px;
-        color:#ffffff;
+        color:gray;
     }
     .available{
         font-size:15px;
-        color:#ffffff;
+        color:gray;
     }
     .footer{
         margin-top:10px;
@@ -72,7 +73,7 @@ const Stake = styled.div`
         flex-direction:row;
         justify-content:space-around;
         gap:10px;
-        background:#ffffff;
+        background:#31cf34;
         padding:10px 20px;
         width:100%;
         border-radius:20px;   
@@ -87,8 +88,8 @@ const Stake = styled.div`
         text-align:start;
     }
     .button-stake{
-        background:#31cf34;
-        color:#ffffff;
+        background:#ffffff;
+        color:#31cf34;
         padding:10px 20px;
         outline:none;
         border:none;
@@ -96,7 +97,7 @@ const Stake = styled.div`
         font-weight:600;
     }
     .text{
-        color:#31cf34;
+        color:#ffffff;
         font-weight:600;
     }
 `;
