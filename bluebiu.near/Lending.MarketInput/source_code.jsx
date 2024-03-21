@@ -50,7 +50,8 @@ const StyledBalanceAmount = styled.span`
   cursor: pointer;
 `;
 
-const { icon, symbol, balance, price, amount, decimals, onChange } = props;
+const { icon, symbol, balance, price, amount, decimals, onChange, hideBal } =
+  props;
 
 return (
   <StyledBox>
@@ -63,19 +64,20 @@ return (
           onChange(ev.target.value.replace(/\s+/g, ""));
         }}
       />
-      <StyledValue>
-        {" "}
-        <Widget
-          src="bluebiu.near/widget/Avalanche.Lending.Total"
-          props={{
-            total: Big(amount || 0)
-              .mul(price || 0)
-              .toString(),
-            digit: 2,
-            unit: "$",
-          }}
-        />
-      </StyledValue>
+      {!hideBal ? (
+        <StyledValue>
+          <Widget
+            src="bluebiu.near/widget/Avalanche.Lending.Total"
+            props={{
+              total: Big(amount || 0)
+                .mul(price || 0)
+                .toString(),
+              digit: 2,
+              unit: "$",
+            }}
+          />
+        </StyledValue>
+      ) : null}
     </div>
     <StyledRight>
       <Widget
@@ -85,24 +87,26 @@ return (
           symbol,
         }}
       />
-      <StyledBalance>
-        Balance:
-        <StyledBalanceAmount
-          onClick={() => {
-            onChange(Big(balance).toFixed(decimals));
-          }}
-        >
-          <Widget
-            src="bluebiu.near/widget/Avalanche.Lending.Total"
-            props={{
-              total: balance,
-              digit: 2,
-              unit: "",
+      {!hideBal ? (
+        <StyledBalance>
+          Balance:
+          <StyledBalanceAmount
+            onClick={() => {
+              onChange(Big(balance).toFixed(decimals));
             }}
-          />{" "}
-        </StyledBalanceAmount>
-        {symbol}
-      </StyledBalance>
+          >
+            <Widget
+              src="bluebiu.near/widget/Avalanche.Lending.Total"
+              props={{
+                total: balance,
+                digit: 2,
+                unit: "",
+              }}
+            />{" "}
+          </StyledBalanceAmount>
+          {symbol}
+        </StyledBalance>
+      ) : null}
     </StyledRight>
   </StyledBox>
 );
