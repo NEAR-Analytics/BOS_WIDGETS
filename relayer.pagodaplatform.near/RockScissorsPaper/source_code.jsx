@@ -1,16 +1,16 @@
 const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
-radial-gradient(at center bottom, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%);
- height: 100%;
- width: 110%;
- margin: -10%; /* Змінено з -20% на -20px для вирівнювання */
- padding: 0;
- border: 2px solid green;
+position: absolute; /* Змінено на absolute */
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 `;
 
 const Block = styled.div`
-radial-gradient(at center bottom, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%);
 height: 100vh; /* Встановлюємо висоту на 100% висоти вікна */
 width: 100vw; /* Встановлюємо ширину на 100% ширини вікна */
 margin: 0;
