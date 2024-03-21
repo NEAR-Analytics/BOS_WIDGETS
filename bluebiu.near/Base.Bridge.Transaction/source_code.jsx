@@ -71,7 +71,24 @@ const getStargateStatus = () => {
   State.update({
     loading: true,
   });
-  asyncFetch(`https://api-mainnet.layerzero-scan.com/tx/${tx.hash}`)
+  if ((tx.fromChainId === 1 && tx.toChainId === 324) || (tx.fromChainId === 324 && tx.toChainId === 1)) {
+    asyncFetch(`https://api.orbiter.finance/sdk/transaction/cross-chain/${tx.hash}`)
+    .then(res => {
+      if (res.body.status === 'success') {
+        State.update({
+          status: 'success',
+          loading: false,
+        });
+        onUpdate();
+        onDelete(tx.hash);
+      }
+    }).catch(e => {
+      State.update({
+        loading: false,
+      });
+    })
+  } else {
+    asyncFetch(`https://api-mainnet.layerzero-scan.com/tx/${tx.hash}`)
     .then((res) => {
       const result = res.body || {};
       const status =
@@ -90,6 +107,8 @@ const getStargateStatus = () => {
         loading: false,
       });
     });
+  }
+  
 };
 
 useEffect(() => {
