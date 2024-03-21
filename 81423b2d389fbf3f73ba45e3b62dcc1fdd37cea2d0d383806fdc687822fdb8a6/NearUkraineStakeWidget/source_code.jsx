@@ -1,12 +1,11 @@
 const OuterWrapper = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
   color: white;
+`;
+
+const SOuterWrapper = styled.div`
+  height: 100%;
 `;
 
 initState({
@@ -81,7 +80,7 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
 );
 
 return (
-  <>
+  <SOuterWrapper>
   <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
   <OuterWrapper>
     <h1>Stake NEAR</h1>
@@ -126,7 +125,7 @@ return (
     <p>Your balance is: {yourAccountBalance} Near</p>
     <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
   </OuterWrapper>
-  </>
+  </SOuterWrapper>
 );
   
 
