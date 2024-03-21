@@ -140,21 +140,23 @@ const Onboarding = styled.div`
   }
 `;
 
-const handleClose = (doNotShowAgain, viewedPages) => {
+const handleClose = (isDoNotShowAgainChecked, viewedPages) => {
   if (data) {
     const time = Date.now()
     const mutation = data.find((ch) => ch?.id.includes('mutation'))?.id
-    data.forEach((chapter) =>
+    data.forEach((chapter) => {
+      const isViewed = !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed)
+      const doNotShowAgain = !!(isDoNotShowAgainChecked || lastShow[chapter.id].doNotShowAgain) && isViewed
       Storage.privateSet(
         chapter.id + '/lastShow',
         {
           time,
-          doNotShowAgain: !!(doNotShowAgain || lastShow[chapter.id].doNotShowAgain),
+          doNotShowAgain,
           mutation,
-          isViewed: !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed),
+          isViewed,
         }
       )
-    )
+    })
   }
   setShow(false)
 }
