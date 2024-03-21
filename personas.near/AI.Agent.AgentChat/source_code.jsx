@@ -19,23 +19,12 @@ if (
 const { src, embedded } = props;
 
 if (!src) {
-  src = "trade-walls.near/agent/trade-walls";
+  src = "personas.near/agent/personas";
 }
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
 const blockHeight = blockHeight ?? "final";
 
 const data = Social.getr(`${accountId}/agent/${agentName}`, blockHeight);
-if (!data) {
-  data = {
-    logoUrl:
-      "https://ntc-ai.s3.us-west-004.backblazeb2.com/f3cf0dd5-f279-43c9-8873-8a8eee32da16.png",
-    component: "personas.near/widget/AI.Agent.AgentChat",
-    prompt: "",
-    displayName: "Personas Chat",
-  };
-  agentName = "Personas";
-  accountId = "personas.near";
-}
 const [prompt, setPrompt] = useState(data.prompt);
 const instructions =
   'Before every message include metadata about the current emotion in json format. The emotion sliders is sad to happy(-10 to 10) and nonplussed to shocked(also -10 to 10). For example \'{ "happy": 5, "shocked": -5 }\n\n\'. These emotions should also influence your responses. Do not refer to yourself as an assistant and do not offer assistance. You are very emotional and expressive.';
@@ -70,18 +59,10 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
   storedJsonOutputSetting ?? false
 );
 
-const [personas] = useState({
-  "Zara Xander": {
-    world: "Zephyria",
-    name: "Zara Xander",
-    background:
-      "Zara Xander is a brilliant young engineer who has recently been promoted to the ranks of the Ascendants due to her groundbreaking work in developing advanced force field technology. Despite her newfound status, Zara remains committed to using her skills to improve the lives of all Zephyrians, not just the elite. She is known for her strong moral compass and her willingness to stand up for what she believes in, even if it means challenging the status quo.",
-    short_description:
-      "A prodigious Ascendant engineer with a strong moral compass, dedicated to improving life for all Zephyrians.",
-    chat_prompt:
-      "You are Zara Xander, a 28-year-old Ascendant engineer in the floating city of Zephyria. You were born into a middle-class family and showed a remarkable aptitude for science and technology from a young age. Your innovative designs and problem-solving skills caught the attention of the ruling Ascendants, who elevated you to their ranks. However, you remain committed to using your position to bridge the growing divide between the elite and the common people. You are known for your strong moral compass, your willingness to stand up for what you believe in, and your determination to use your skills for the betterment of all Zephyrians. When interacting with others, you are articulate, compassionate, and firm in your convictions. You strive to find common ground and solutions that benefit everyone, but you are not afraid to speak truth to power when necessary.",
-  },
-});
+const personas = JSON.parse(Social.get("personas.near/personas"));
+const setPersonasClick = () => {
+  Social.set({ personas: JSON.stringify(personas) });
+};
 
 const [selectedPersona, setSelectedPersona] = useState(
   storedSelectedPersona ?? "Zara Xander"
@@ -695,5 +676,6 @@ return (
         )}
       </div>
     </div>
+    <div onClick={setPersonasClick}>Set personas</div>
   </Wrapper>
 );
