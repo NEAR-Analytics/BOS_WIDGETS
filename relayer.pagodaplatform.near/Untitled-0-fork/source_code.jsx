@@ -2,7 +2,7 @@ const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
  height: 100vh;
-  width: 100%;
+  width: 200%;
  margin: -20%;
  padding: 0;
 `;
