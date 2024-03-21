@@ -79,7 +79,7 @@ return (
         </div>
       </div>
     </div>
-
+    <Widget src="huunhanz.near/widget/Lonk.stake" />
     <div class="green-bg font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="row flex-column-reverse flex-md-row align-items-center">
