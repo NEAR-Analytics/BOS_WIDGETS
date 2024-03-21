@@ -79,6 +79,7 @@ useEffect(() => {
   // *** SORT LOGIC ***
 
   if (!lastShow && context.accountId === props?.link?.authorId) {
+    console.log(1)
     // show form to the author
     setShow(true)
   } else if (lastShow && Object.values(lastShow).some((a) => a?.show)) {
@@ -94,9 +95,11 @@ useEffect(() => {
               : lastShow[a.id].show - lastShow[b.id].show
     )
     setShowFrom(Object.values(lastShow).filter((a) => a && !a.show).length)
+    console.log(2)
     setShow(true)
   } else if (lastShow && Object.values(lastShow).every((a) => !a)) {
     // without sort - for the first time
+    console.log(3)
     setShow(true)
   }
 }, [start, lastShow])
