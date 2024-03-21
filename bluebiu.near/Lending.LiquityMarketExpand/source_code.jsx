@@ -216,7 +216,7 @@ const StyledGasBox = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  display: none;
+  /* display: none; */
 `;
 
 const {
@@ -685,7 +685,7 @@ return (
                   <span className="symbol">{data.BORROW_TOKEN}</span>
                 </div>
               </StyledInfoItem>
-              <StyledInfoItem>
+              {/* <StyledInfoItem>
                 <div>You will receive</div>
                 <div className="right">
                   <img
@@ -696,7 +696,7 @@ return (
                   <span className="white">{deposits}</span>
                   <span className="symbol">{data.underlyingToken.symbol}</span>
                 </div>
-              </StyledInfoItem>
+              </StyledInfoItem> */}
               {Big(tokenBal || 0).lt(Big(data.vesselDebt || 0)) ? (
                 <StyledInfoTips>
                   More GRAI must be acquired in order to close the Vessel.
@@ -743,6 +743,7 @@ return (
                   onChange: (val) => {
                     onBorrowAmountChange(val);
                   },
+                  hideBal: true,
                 }}
               />
             </>
@@ -773,6 +774,7 @@ return (
                   onChange: (val) => {
                     onBorrowAmountChange(val);
                   },
+                  hideBal: true,
                 }}
               />
             </>
@@ -780,7 +782,7 @@ return (
 
           <StyledButtonWrapper>
             <StyledGasBox>
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -799,7 +801,7 @@ return (
                       .div(Big(10).pow(nativeCurrency.decimals || 18))
                       .toFixed(2)}`
                   : "-"}
-              </div>
+              </div> */}
             </StyledGasBox>
             {state.tab === "Borrow" || state.tab === "Close" ? (
               <div style={{ flexGrow: 1 }}>
@@ -832,6 +834,11 @@ return (
                     onSuccess: () => {
                       onSuccess?.();
                     },
+                    isCloseDisabled: Big(tokenBal || 0).lt(
+                      Big(data.vesselDebt || 0)
+                    )
+                      ? true
+                      : false,
                   }}
                 />
               </div>
