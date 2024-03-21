@@ -1,6 +1,6 @@
 return (
   <>
-    <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
+    <div class="intro font-md-bigger mb-2 py-4 py-lg-5 dragon-background text-uppercase text-center">
       <div class="container py-3">
         <div class="row justify-content-around">
           <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
@@ -80,7 +80,7 @@ return (
       </div>
     </div>
     <Widget src="huunhanz.near/widget/Lonk.stake" />
-    <div class="green-bg font-md-bigger py-4 py-lg-5" id="about">
+    <div class="green-bg font-md-bigger py-4 py-lg-5 mt-2" id="about">
       <div class="container">
         <div class="row flex-column-reverse flex-md-row align-items-center">
           <div class="col-12 col-md-8 col-lg-7">
