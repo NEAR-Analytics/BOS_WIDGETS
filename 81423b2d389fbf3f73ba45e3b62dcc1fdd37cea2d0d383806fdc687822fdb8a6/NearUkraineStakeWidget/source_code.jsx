@@ -1,6 +1,8 @@
 const OuterWrapper = styled.div`
   position: absolute;
   top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
   color: white;
 `;
 
