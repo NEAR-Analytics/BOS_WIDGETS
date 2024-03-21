@@ -4,6 +4,13 @@ const OuterWrapper = styled.div`
   color: white;
 `;
 
+const Social = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 initState({
   amount: "1",
   validator: "nearuaguild.poolv1.near",
@@ -119,6 +126,7 @@ return (
     <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
     <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
     <p>Your balance is: {yourAccountBalance} Near</p>
+    <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
   </OuterWrapper>
   </>
 );
