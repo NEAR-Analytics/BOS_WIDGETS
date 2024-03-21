@@ -158,7 +158,7 @@ const handleClose = (isDoNotShowAgainChecked, viewedPages) => {
     const mutation = data.find((ch) => ch?.id.includes('mutation'))?.id
     data.forEach((chapter) => {
       const isViewed = !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed)
-      const doNotShowAgain = !!(isDoNotShowAgainChecked || lastShow[chapter.id].doNotShowAgain) && isViewed
+      const doNotShowAgain = !!((isDoNotShowAgainChecked && viewedPages.includes(chapter.id)) || lastShow[chapter.id].doNotShowAgain)
       Storage.privateSet(
         chapter.id + '/lastShow',
         {
