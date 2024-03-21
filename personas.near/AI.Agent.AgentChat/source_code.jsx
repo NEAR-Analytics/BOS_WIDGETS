@@ -60,9 +60,6 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
 );
 
 const personas = JSON.parse(Social.get("personas.near/personas"));
-const setPersonasClick = () => {
-  Social.set({ personas: JSON.stringify(personas) });
-};
 
 const [selectedPersona, setSelectedPersona] = useState(
   storedSelectedPersona ?? "Zara Xander"
@@ -676,6 +673,5 @@ return (
         )}
       </div>
     </div>
-    <div onClick={setPersonasClick}>Set personas</div>
   </Wrapper>
 );
