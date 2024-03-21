@@ -115,7 +115,7 @@ State.init({
   inputValue: "",
   canUnstake: false,
   unstaking: false,
-  stakedAmountShow: stakedAmount,
+  stakedAmountShow: Number(stakedAmount).toFixed(2),
 });
 
 const handleSwitch = (isChecked) => {
