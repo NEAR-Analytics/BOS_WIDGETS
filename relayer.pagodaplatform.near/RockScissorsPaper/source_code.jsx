@@ -15,7 +15,7 @@ position: absolute; /* Змінено на absolute */
 `;
 
 const Block = styled.div`
-position: absolute;
+
 background-color: black;
  height: 100vh;
   width: 100%;
