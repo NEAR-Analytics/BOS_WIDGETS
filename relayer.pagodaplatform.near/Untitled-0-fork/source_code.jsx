@@ -14,7 +14,7 @@ const Text = styled.div`
   transform: translate(-50%, -50%);
   color: #ffffff;
   font-family: 'Kodchasan', sans-serif;
-  margin: 20px; 
+  
   font-size: 3vw;
 `;
 
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0 auto; /* Вирівнює по центру по горизонталі */
   width: 90%;
-  margin: 20px;
+  
   padding: 20px;
   color: #ffffff;
   font-family: 'Kodchasan', sans-serif;
