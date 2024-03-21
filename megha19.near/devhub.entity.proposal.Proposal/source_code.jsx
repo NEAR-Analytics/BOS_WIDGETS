@@ -37,6 +37,10 @@ const Container = styled.div`
     margin-right: -50vw;
   }
 
+  .fw-bold {
+    font-weight: 600 !important;
+  }
+
   .card.no-border {
     border-left: none !important;
     border-right: none !important;
@@ -156,6 +160,7 @@ const Container = styled.div`
 
   .dropdown-menu {
     width: 100%;
+    border-radius: 0.375rem !important;
   }
 
   .green-btn {
@@ -190,6 +195,7 @@ const Container = styled.div`
 
 const ProposalContainer = styled.div`
   border: 1px solid lightgrey;
+  overflow: auto;
 `;
 
 const Header = styled.div`
@@ -294,9 +300,8 @@ const KycVerificationStatus = () => {
 const SidePanelItem = ({ title, children, hideBorder }) => {
   return (
     <div
-      className={
-        "d-flex flex-column gap-2 pb-3 " + (!hideBorder && " border-bottom")
-      }
+      style={{ gap: "8px" }}
+      className={"d-flex flex-column pb-3 " + (!hideBorder && " border-bottom")}
     >
       <div className="h6 mb-0">{title} </div>
       <div className="text-muted">{children}</div>
@@ -730,15 +735,18 @@ return (
                   />
                 </div>
                 <ProposalContainer className="rounded-2 flex-1">
-                  <Header className="d-flex gap-3 align-items-center p-2 px-3">
-                    {authorId} ･{" "}
-                    <Widget
-                      src="near/widget/TimeAgo"
-                      props={{
-                        blockHeight,
-                        blockTimestamp: snapshot.timestamp,
-                      }}
-                    />
+                  <Header className="d-flex gap-1 align-items-center p-2 px-3">
+                    <div className="fw-bold">{authorId}</div>
+                    <div className="text-muted">
+                      ･{" "}
+                      <Widget
+                        src="near/widget/TimeAgo"
+                        props={{
+                          blockHeight,
+                          blockTimestamp: snapshot.timestamp,
+                        }}
+                      />
+                    </div>
                     {context.accountId && (
                       <div className="menu">
                         <Widget
@@ -848,6 +856,7 @@ return (
                   src="near/widget/AccountProfile"
                   props={{
                     accountId: authorId,
+                    noOverlay: true,
                   }}
                 />
               </SidePanelItem>
@@ -862,7 +871,12 @@ return (
                 <div className="h4 text-black">
                   {snapshot.requested_sponsorship_usd_amount && (
                     <div className="d-flex flex-column gap-1">
-                      <div>{snapshot.requested_sponsorship_usd_amount} USD</div>
+                      <div>
+                        {parseInt(
+                          snapshot.requested_sponsorship_usd_amount
+                        ).toLocaleString()}{" "}
+                        USD
+                      </div>
                       <div className="text-sm text-muted">
                         Requested in{" "}
                         {snapshot.requested_sponsorship_paid_in_currency}
@@ -876,6 +890,7 @@ return (
                   src="near/widget/AccountProfile"
                   props={{
                     accountId: snapshot.receiver_account,
+                    noOverlay: true,
                   }}
                 />
               </SidePanelItem>
@@ -896,6 +911,7 @@ return (
                     src="near/widget/AccountProfile"
                     props={{
                       accountId: snapshot.requested_sponsor,
+                      noOverlay: true,
                     }}
                   />
                 )}
@@ -906,6 +922,7 @@ return (
                     src="near/widget/AccountProfile"
                     props={{
                       accountId: snapshot.supervisor,
+                      noOverlay: true,
                     }}
                   />
                 ) : (
