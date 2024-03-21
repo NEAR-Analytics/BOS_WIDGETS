@@ -1090,7 +1090,17 @@ return (
                           },
                         }}
                       />
-                    ) : null}
+                    ) : (
+                      <Widget
+                        src="dapdapbos.near/widget/UI.Button"
+                        props={{
+                          text: "Claim",
+                          type: "primary",
+                          disabled: true,
+                          style: { width: 118 },
+                        }}
+                      />
+                    )}
                   </GridItem>
                 </GridContainer>
               </PoolItem>
