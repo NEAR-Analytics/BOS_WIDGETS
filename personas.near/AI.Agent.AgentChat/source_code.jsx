@@ -16,10 +16,13 @@ if (
   return "Loading config...";
 }
 
-const { src, embedded } = props;
+const { src, embedded, personasSrc } = props;
 
 if (!src) {
   src = "personas.near/agent/personas";
+}
+if (!personasSrc) {
+  personasSrc = "personas.near/personas";
 }
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
 const blockHeight = blockHeight ?? "final";
@@ -59,7 +62,7 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
   storedJsonOutputSetting ?? false
 );
 
-const personas = JSON.parse(Social.get("personas.near/personas"));
+const personas = JSON.parse(Social.get(personasSrc));
 
 const [selectedPersona, setSelectedPersona] = useState(
   storedSelectedPersona ?? "Zara Xander"
@@ -586,7 +589,7 @@ return (
                 Welcome to the AI multiverse.
                 <br />
                 Made with
-                <a href="sliders.ntcai.xyz" target="_blank">
+                <a href="https://sliders.ntcai.xyz" target="_blank">
                   NTC Sliders
                 </a>
               </div>
