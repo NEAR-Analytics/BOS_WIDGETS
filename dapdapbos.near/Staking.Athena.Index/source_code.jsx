@@ -1301,9 +1301,14 @@ function getMultiLocking(pool) {
           }
         })
       );
-      const _myPoolsList = list.filter((item) => {
-        return item[2].toString() !== "0.00";
-      });
+      const _myPoolsList = list
+        .map((item, index) => {
+          item.push(index);
+          return item;
+        })
+        .filter((item) => {
+          return item[2].toString() !== "0.00";
+        });
 
       State.update({
         lockingTotalSupply: totalSupply,
@@ -1782,7 +1787,7 @@ return (
                               ? true
                               : false,
                           onClick: () => {
-                            handleUnLock(index);
+                            handleUnLock(item[6]);
                           },
                         }}
                       />
