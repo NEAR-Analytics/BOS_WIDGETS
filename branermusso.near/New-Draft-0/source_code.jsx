@@ -1,6 +1,1 @@
-return (
-  <Widget
-    src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars"
-    props={{}}
-  />
-);
+return <div>Hello World</div>;
