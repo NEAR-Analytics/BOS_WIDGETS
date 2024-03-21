@@ -34,6 +34,7 @@ const Wrapper = styled.button`
 
   &:disabled {
     opacity: 0.3;
+    cursor: not-allowed;
   }
 
   &.pink {
