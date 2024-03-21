@@ -4,13 +4,6 @@ const OuterWrapper = styled.div`
   color: white;
 `;
 
-const Social = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
 initState({
   amount: "1",
   validator: "nearuaguild.poolv1.near",
