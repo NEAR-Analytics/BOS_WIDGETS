@@ -99,6 +99,9 @@ const Status = styled.div`
 const Comments = styled.div`
   border-top: 1px solid #efefef;
   padding-top: 1rem;
+  @media screen and (max-width: 786px) {
+    overflow: auto;
+   }
 `;
 
 const StatusSelect = styled.div`
@@ -157,6 +160,7 @@ const isLiked = (item) => {
 };
 
 const handleLike = () => {
+  if (isLiked(itemState)) return;
   if (!accountId) return;
   Near.call(contractName, isLiked(itemState) ? "post_unlike" : "post_like", {
     id: itemState.id,
@@ -280,7 +284,7 @@ const CardItem = ({ item, index }) => (
               >
                 {snapshot.map((history) => (
                   <option value={history.timestamp}>
-                    {new Date(history.timestamp / 1000000).toLocaleDateString()}
+                    {new Date(history.timestamp / 1000000).toLocaleString()}
                   </option>
                 ))}
               </select>
@@ -293,7 +297,7 @@ const CardItem = ({ item, index }) => (
             <span style={{ width: "12rem" }}>Updated at:</span>
             <span>
               {item.timestamp
-                ? new Date(item.timestamp / 1000000).toLocaleDateString()
+                ? new Date(item.timestamp / 1000000).toLocaleString()
                 : new Date().toLocaleDateString()}
             </span>
           </div>
