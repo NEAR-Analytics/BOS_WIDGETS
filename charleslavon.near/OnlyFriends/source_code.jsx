@@ -1,5 +1,5 @@
 const { tokenId } = props;
-if (!tokenId) return "missing required props";
+if (!tokenId ) return "missing required props";
 
 State.init({
   token: undefined,
