@@ -1,6 +1,7 @@
 const widget_owner_id = "nearukraineguild.near";
 
 const OuterWrapper = styled.div`
+radial-gradient(at center bottom, rgb(27, 39, 53) 0%, rgb(9, 10, 15) 100%);
  height: 100%;
   width: 110%;
   margin: -10%; /* Змінено з -20% на -20px для вирівнювання */
