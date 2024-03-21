@@ -279,7 +279,7 @@ useEffect(() => {
         .toString();
     }
     const _amountOut = Big(amountOut)
-      .mul(1 - (slippage || 0.05))
+      .mul(1 - (slippage || 0.005))
       .toFixed(0);
 
     const returnData = {
