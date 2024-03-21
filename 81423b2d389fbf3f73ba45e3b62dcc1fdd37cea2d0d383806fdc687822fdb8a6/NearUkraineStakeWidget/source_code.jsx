@@ -16,6 +16,13 @@ const SOuterWrapper = styled.div`
   padding: 0;
 `;
 
+const Social = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
 initState({
   amount: "1",
   validator: "nearuaguild.poolv1.near",
@@ -108,17 +115,11 @@ return (
       <AmountButton onClick={onPresetButtonClick} value="5">
         5
       </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="10">
-        10
-      </AmountButton>
       <AmountButton onClick={onPresetButtonClick} value="25">
         25
       </AmountButton>
       <AmountButton onClick={onPresetButtonClick} value="50">
         50
-      </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="100">
-        100
       </AmountButton>
       <AmountButton
         onClick={onPresetButtonClick}
@@ -131,7 +132,9 @@ return (
       <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
       <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
       <p>Your balance is: {yourAccountBalance} Near</p>
-      <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+      <Social>
+        <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+      </Social>
     </OuterWrapper>
   </SOuterWrapper>
 );
