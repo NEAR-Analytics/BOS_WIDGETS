@@ -6,8 +6,10 @@ const OuterWrapper = styled.div`
 
 const SOuterWrapper = styled.div`
   height: 100vh;
+  width: 100vw;
   margin: 0;
   padding: 0;
+  
 `;
 
 initState({
@@ -83,51 +85,49 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
 
 return (
   <SOuterWrapper>
-  <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
-  <OuterWrapper>
-    <h1>Stake NEAR</h1>
-    <p>
-      Validator:{" "}
-      <input value={state.validator} onChange={onValidatorInputChange} />
-    </p>
-    <p>
-      Amount:
-      <input
-        type="number"
-        min="1"
-        value={state.amount}
-        onChange={onAmountInputChange}
-      />
-    </p>
-    <AmountButton onClick={onPresetButtonClick} value="5">
-      5
-    </AmountButton>
-    <AmountButton onClick={onPresetButtonClick} value="10">
-      10
-    </AmountButton>
-    <AmountButton onClick={onPresetButtonClick} value="25">
-      25
-    </AmountButton>
-    <AmountButton onClick={onPresetButtonClick} value="50">
-      50
-    </AmountButton>
-    <AmountButton onClick={onPresetButtonClick} value="100">
-      100
-    </AmountButton>
-    <AmountButton
-      onClick={onPresetButtonClick}
-      value={yourAccountBalance - 0.05}
-    >
-      Max
-    </AmountButton>
-    <br></br>
-    <StakeButton onClick={onStakeClick}>Stake</StakeButton>
-    <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
-    <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
-    <p>Your balance is: {yourAccountBalance} Near</p>
-    <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
-  </OuterWrapper>
+    <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
+    <OuterWrapper>
+      <h1>Stake NEAR</h1>
+      <p>
+        Validator:{" "}
+        <input value={state.validator} onChange={onValidatorInputChange} />
+      </p>
+      <p>
+        Amount:
+        <input
+          type="number"
+          min="1"
+          value={state.amount}
+          onChange={onAmountInputChange}
+        />
+      </p>
+      <AmountButton onClick={onPresetButtonClick} value="5">
+        5
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="10">
+        10
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="25">
+        25
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="50">
+        50
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="100">
+        100
+      </AmountButton>
+      <AmountButton
+        onClick={onPresetButtonClick}
+        value={yourAccountBalance - 0.05}
+      >
+        Max
+      </AmountButton>
+      <br></br>
+      <StakeButton onClick={onStakeClick}>Stake</StakeButton>
+      <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
+      <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
+      <p>Your balance is: {yourAccountBalance} Near</p>
+      <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+    </OuterWrapper>
   </SOuterWrapper>
 );
-  
-
