@@ -123,7 +123,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={prosp.image23} alt="NEAR Wallet" width="50" />
+                <img src={props.image23} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.kraken.com/prices/near-protocol"
