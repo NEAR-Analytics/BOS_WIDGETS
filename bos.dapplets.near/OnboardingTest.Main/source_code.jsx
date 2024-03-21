@@ -12,6 +12,10 @@ const lastShow = data && data?.reduce((acc, chapter) => {
   return acc
 }, {})
 
+console.log('props', props)
+console.log('data', data)
+console.log('lastShow', lastShow)
+
 useEffect(() => {
   if (
     !start && (
