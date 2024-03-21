@@ -199,6 +199,7 @@ const createCampaign = () => {
     duration_hr,
     duration_min,
   } = state;
+  console.log(state);
   if (
     !requirements.length ||
     !username ||
