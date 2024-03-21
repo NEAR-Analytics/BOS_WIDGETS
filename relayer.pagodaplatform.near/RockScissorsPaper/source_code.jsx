@@ -14,6 +14,10 @@ position: absolute; /* Змінено на absolute */
   padding: 0;
 `;
 
+const Block = styled.div`
+background-color: black;
+`;
+
 const Text = styled.div`
   position: absolute;
   top: 15%;
@@ -127,38 +131,40 @@ const handleClick = (choice) => {
 };
 
 return (
-  <OuterWrapper>
-    <Widget
-      src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
-    />
-    <Wrapper>
-      <PrimaryText>
-        <Widget
-          src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.PrimaryText`}
-        />
-        Камінь Ножиці Бумага
-        <ButtonContainer>
-          <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
-          <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
-          <Button onClick={() => handleClick("Ножиці")}>Ножиці</Button>
-        </ButtonContainer>
-        {userChoice && computerChoice && result && (
-          <ResultText>
-            Ви обрали: {userChoice} / Комп'ютор обрав: {computerChoice}
-            <span></span>
-            Результат: {result}
-          </ResultText>
-        )}
-      </PrimaryText>
-      <Social>
-        <Widget
-          src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
-        />
-        <br />
-      </Social>
-    </Wrapper>
-    <Widget
-      src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
-    />
-  </OuterWrapper>
+  <Block>
+    <OuterWrapper>
+      <Widget
+        src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
+      />
+      <Wrapper>
+        <PrimaryText>
+          <Widget
+            src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.PrimaryText`}
+          />
+          Камінь Ножиці Бумага
+          <ButtonContainer>
+            <Button onClick={() => handleClick("Камінь")}>Камінь</Button>
+            <Button onClick={() => handleClick("Бумага")}>Бумага</Button>
+            <Button onClick={() => handleClick("Ножиці")}>Ножиці</Button>
+          </ButtonContainer>
+          {userChoice && computerChoice && result && (
+            <ResultText>
+              Ви обрали: {userChoice} / Комп'ютор обрав: {computerChoice}
+              <span></span>
+              Результат: {result}
+            </ResultText>
+          )}
+        </PrimaryText>
+        <Social>
+          <Widget
+            src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.Socials`}
+          />
+          <br />
+        </Social>
+      </Wrapper>
+      <Widget
+        src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
+      />
+    </OuterWrapper>
+  </Block>
 );
