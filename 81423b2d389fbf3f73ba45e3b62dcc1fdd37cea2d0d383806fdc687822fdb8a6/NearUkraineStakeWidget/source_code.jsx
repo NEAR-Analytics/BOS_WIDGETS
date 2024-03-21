@@ -1,3 +1,15 @@
+const OuterWrapper = styled.div`
+position: absolute; /* Змінено на absolute */
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: 'Kodchasan', sans-serif;
+`;
+
 initState({
   amount: "1",
   validator: "nearuaguild.poolv1.near",
@@ -32,7 +44,7 @@ const onPresetButtonClick = ({ target }) => {
   State.update({ amount: target.value });
 };
 
-const Button = styled.button`
+const StakeButton = styled.button`
   /* Adapt the colors based on primary prop */
   background: ${(props) => (props.$primary ? "green" : "white")};
   color: ${(props) => (props.$primary ? "white" : "green")};
@@ -70,7 +82,9 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
 );
 
 return (
-  <div>
+  <>
+  <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
+  <OuterWrapper>
     <h1>Stake NEAR</h1>
     <p>
       Validator:{" "}
@@ -107,9 +121,12 @@ return (
       Max
     </AmountButton>
     <br></br>
-    <Button onClick={onStakeClick}>Stake</Button>
+    <StakeButton onClick={onStakeClick}>Stake</StakeButton>
     <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
     <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
     <p>Your balance is: {yourAccountBalance} Near</p>
-  </div>
+  </OuterWrapper>
+  </>
 );
+  
+
