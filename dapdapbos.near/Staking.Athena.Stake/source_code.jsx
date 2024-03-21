@@ -372,6 +372,12 @@ function updateTokenBalance(bal) {
   });
 }
 
+function fillBalance() {
+  State.update({
+    inputValue: state.curTokenBal,
+  });
+}
+
 return (
   <StakePanel>
     <Widget
@@ -410,7 +416,7 @@ return (
 
     <AmountList>
       <span></span>
-      <span>
+      <span onClick={fillBalance}>
         Balance:{" "}
         <span className="amount-white">
           {Number(state.curTokenBal).toFixed(2)}
