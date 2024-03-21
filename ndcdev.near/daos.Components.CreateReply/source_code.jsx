@@ -75,7 +75,7 @@ function autoCompleteAccountId(id) {
 const handlePreview = () => {
   if (!accountId) return;
   State.update({ showPreview: !state.showPreview });
-};
+}
 
 const Wrapper = styled.div`
   --padding: 24px;
