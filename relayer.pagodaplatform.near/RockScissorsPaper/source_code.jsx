@@ -10,13 +10,6 @@ height: 100%;
   padding: 0;
 `;
 
-const Block = styled.div`
-
-background-color: black;
- height: 100vh;
-  width: 100%;
-`;
-
 const Text = styled.div`
   position: absolute;
   top: 15%;
@@ -130,7 +123,7 @@ const handleClick = (choice) => {
 };
 
 return (
-  <Block>
+ 
     <OuterWrapper>
       <Widget
         src={`${widget_owner_id}/widget/MysteryBox.Manage.Components.MenuHeader`}
@@ -165,5 +158,5 @@ return (
         src={`${widget_owner_id}/widget/MysteryBox.Components.BackgroundStars`}
       />
     </OuterWrapper>
-  </Block>
+  
 );
