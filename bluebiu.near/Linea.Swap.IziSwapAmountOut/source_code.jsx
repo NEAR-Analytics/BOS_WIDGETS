@@ -385,7 +385,7 @@ useEffect(() => {
       value: inputCurrency.isNative ? amount : "0",
     };
     const _amountOut = Big(result.amountOut)
-      .mul(1 - (slippage || 0.05))
+      .mul(1 - (slippage || 0.005))
       .toFixed(0);
 
     const method = isX2Y ? "swapX2Y" : "swapY2X";
