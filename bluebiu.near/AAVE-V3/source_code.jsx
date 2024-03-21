@@ -936,6 +936,8 @@ function calcNetWorth() {
 }
 
 useEffect(() => {
+  if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
+
   if (!state.yourSupplies || !state.yourBorrows) return;
 
   //calc net worth
