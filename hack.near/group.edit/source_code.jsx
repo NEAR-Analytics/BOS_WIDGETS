@@ -93,12 +93,6 @@ const handleSave = () => {
       },
     },
     index: {
-      thing: JSON.stringify({
-        key: groupId,
-        value: {
-          type: "group",
-        },
-      }),
       every: JSON.stringify({
         key: "group",
         value: {
@@ -115,13 +109,14 @@ const handleSave = () => {
         }))
       ),
       notify: JSON.stringify(
-        Object.keys(state.members).map((account) => ({
-          key: account,
-          value: {
-            type: "add",
-            message: "added you to group",
-          },
-        }))
+        Object.keys(state.members)
+          .filter((it) => initMembers.includes(it))
+          .map((account) => ({
+            key: account,
+            value: {
+              type: "add",
+            },
+          }))
       ),
     },
   });
@@ -135,7 +130,7 @@ return (
         <div className="col-lg-6">
           <h5 className="mb-3">Details</h5>
           <Widget
-            src="hack.near/widget/group.card"
+            src="devs.near/widget/group.card"
             props={{ groupId, canJoin: false }}
           />
           <div className="mb-2 mt-3">
