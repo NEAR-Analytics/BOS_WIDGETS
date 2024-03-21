@@ -4,6 +4,8 @@ const storedLocalModel = Storage.get("agent-local-model");
 const storedCredentialType = Storage.get("agent-credential-type");
 const storedCredential = Storage.get("agent-credential");
 const storedJsonOutputSetting = Storage.get("agent-json-output-setting");
+const storedSelectedPersona = Storage.get("selected-persona");
+
 if (
   !href ||
   storedCredential === null ||
@@ -16,10 +18,33 @@ if (
 
 const { src, embedded } = props;
 
+if (!src) {
+  src = "trade-walls.near/agent/trade-walls";
+}
 const [accountId, agentType, agentName] = src.split("/") ?? [null, null, null];
 const blockHeight = blockHeight ?? "final";
 
 const data = Social.getr(`${accountId}/agent/${agentName}`, blockHeight);
+if (!data) {
+  data = {
+    logoUrl:
+      "https://ntc-ai.s3.us-west-004.backblazeb2.com/f3cf0dd5-f279-43c9-8873-8a8eee32da16.png",
+    component: "personas.near/widget/AI.Agent.AgentChat",
+    prompt: "",
+    displayName: "Personas Chat",
+  };
+  agentName = "Personas";
+  accountId = "personas.near";
+}
+const [prompt, setPrompt] = useState(data.prompt);
+const instructions =
+  'Before every message include metadata about the current emotion in json format. The emotion sliders is sad to happy(-10 to 10) and nonplussed to shocked(also -10 to 10). For example \'{ "happy": 5, "shocked": -5 }\n\n\'. These emotions should also influence your responses. Do not refer to yourself as an assistant and do not offer assistance. You are very emotional and expressive.';
+
+const baseImageUrl = "https://personas.s3.us-west-004.backblazeb2.com";
+const [activePersonaImage, setActivePersonaImage] = useState(
+  baseImageUrl + "/Zephyria/Zara+Xander/happy_0_shocked_0.png"
+);
+
 const agent = { accountId, name: agentName, ...data };
 
 if (!data) return "Loading...";
@@ -45,6 +70,50 @@ const [jsonOutputSetting, setJsonOutputSetting] = useState(
   storedJsonOutputSetting ?? false
 );
 
+const [personas] = useState({
+  "Zara Xander": {
+    world: "Zephyria",
+    name: "Zara Xander",
+    background:
+      "Zara Xander is a brilliant young engineer who has recently been promoted to the ranks of the Ascendants due to her groundbreaking work in developing advanced force field technology. Despite her newfound status, Zara remains committed to using her skills to improve the lives of all Zephyrians, not just the elite. She is known for her strong moral compass and her willingness to stand up for what she believes in, even if it means challenging the status quo.",
+    short_description:
+      "A prodigious Ascendant engineer with a strong moral compass, dedicated to improving life for all Zephyrians.",
+    chat_prompt:
+      "You are Zara Xander, a 28-year-old Ascendant engineer in the floating city of Zephyria. You were born into a middle-class family and showed a remarkable aptitude for science and technology from a young age. Your innovative designs and problem-solving skills caught the attention of the ruling Ascendants, who elevated you to their ranks. However, you remain committed to using your position to bridge the growing divide between the elite and the common people. You are known for your strong moral compass, your willingness to stand up for what you believe in, and your determination to use your skills for the betterment of all Zephyrians. When interacting with others, you are articulate, compassionate, and firm in your convictions. You strive to find common ground and solutions that benefit everyone, but you are not afraid to speak truth to power when necessary.",
+  },
+});
+
+const [selectedPersona, setSelectedPersona] = useState(
+  storedSelectedPersona ?? "Zara Xander"
+);
+
+useEffect(() => {
+  setPrompt(personas[selectedPersona].chat_prompt + "\n" + instructions);
+}, [selectedPersona]);
+
+const [personaSelectOpen, setPersonaSelectOpen] = useState(false);
+
+const [emotionHappy, setEmotionHappy] = useState(6);
+const [emotionShocked, setEmotionShocked] = useState(-2);
+
+function getPersonaImage(
+  personas,
+  selectedPersona,
+  emotionHappy,
+  emotionShocked
+) {
+  const persona = personas[selectedPersona];
+  const personaName = persona.name.replace(" ", "+");
+  return `${baseImageUrl}/${persona.world}/${personaName}/happy_${emotionHappy}_shocked_${emotionShocked}.png`;
+}
+
+useEffect(() => {
+  setActivePersonaImage(
+    getPersonaImage(personas, selectedPersona, emotionHappy, emotionShocked)
+  );
+}, [emotionHappy, emotionShocked, selectedPersona]);
+const getPrompt = () => {};
+
 useEffect(() => {
   Storage.set("agent-model", model);
 }, [model]);
@@ -63,6 +132,10 @@ useEffect(() => {
 
 const toggleSettings = () => {
   setSettingsOpen(!settingsOpen);
+};
+
+const togglePersonaSelect = () => {
+  setPersonaSelectOpen(!personaSelectOpen);
 };
 
 const routeApi = async (question) => {
@@ -96,7 +169,7 @@ const nearLlama = async (question) => {
       "Content-Type": "application/json",
     },
     responseType: "json",
-    body: JSON.stringify([{ role: "system", content: data.prompt }, question]),
+    body: JSON.stringify([{ role: "system", content: prompt }, ...messages]),
   }).then((response) => {
     return response.body.response;
   });
@@ -137,13 +210,7 @@ const openAICompatible = async (question) => {
     responseType: "json",
     body: JSON.stringify({
       ...options,
-      messages: [
-        { role: "system", content: data.prompt },
-        {
-          role: "user",
-          content: finalQuestion,
-        },
-      ],
+      messages: [{ role: "system", content: prompt }, ...messages],
     }),
   }).then((response) => {
     const answer = response.body.choices[0].message.content;
@@ -158,7 +225,8 @@ useEffect(() => {
   setLoading(true);
   routeApi(...messages.slice(-1))
     .then((answer) => {
-      setMessages([...messages, { role: "system", content: answer }]);
+      const parsedAnswer = parseLLMResponse(answer);
+      setMessages([...messages, { role: "assistant", content: parsedAnswer }]);
     })
     .finally(() => {
       setLoading(false);
@@ -244,6 +312,137 @@ const UserMessage = styled.div``;
 const AgentMessage = styled.div`
   background-color: #f9f9f9;
 `;
+const PersonaSelectorCards = styled.div`
+  ul {
+    margin:0;
+    padding:0;
+  }
+  li {
+    cursor: pointer;
+    list-style-type: none;
+    margin-bottom: 0.5em;
+  }
+  img {
+    border-radius: 50%;
+    overflow: hidden;
+    }
+`;
+const PersonaBarArea = styled.div`
+  div {
+    margin-bottom: 1em;
+  }
+`;
+function parseLLMResponse(message) {
+  const regex = /\{.*?\}/; // Pattern to match the first JSON object in the message
+  const match = message.match(regex);
+
+  // Function to call the appropriate setEmotion function
+  const setEmotion = (emotion, value) => {
+    switch (emotion) {
+      case "happy":
+        setEmotionHappy(value);
+        break;
+      case "shocked":
+        setEmotionShocked(value);
+        break;
+      case "sad":
+        setEmotionHappy(-value);
+        break;
+      case "nonplussed":
+        setEmotionShocked(-value);
+        break;
+      default:
+        // Skip unknown emotions
+        break;
+    }
+  };
+  if (match) {
+    try {
+      const json = JSON.parse(match[0]);
+      Object.keys(json).forEach((key) => {
+        const value = json[key];
+        if (typeof value === "number" && value >= -10 && value <= 10) {
+          setEmotion(key, value);
+        }
+        // Ignoring malformations and extra values silently
+      });
+    } catch (error) {
+      // Malformed JSON or other errors are ignored silently
+    }
+
+    // Truncate and return the string without the JSON part
+    return message.substring(match[0].length).trim();
+  }
+
+  // If JSON is missing or there's no match, return the original message silently
+  return message;
+}
+
+const WorldSelector = () => (
+  <div>
+    <h2>Select a World</h2>
+    <ul>
+      {worlds.map((world) => (
+        <li key={world.id}>
+          {world.name} - {world.description}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const PersonaSelector = () => (
+  <PersonaSelectorCards>
+    <ul>
+      {Object.keys(personas).map((key) => (
+        <li
+          key={personas[key].name}
+          onClick={() => {
+            setSelectedPersona(key);
+            setMessages([]);
+            togglePersonaSelect();
+          }}
+        >
+          <div className="row">
+            <div className="col-2">
+              <img
+                width={96}
+                height={96}
+                src={getPersonaImage(personas, key, 0, 0)}
+              ></img>
+            </div>
+            <div className="col-10">
+              {personas[key].name} - {personas[key].short_description}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </PersonaSelectorCards>
+);
+
+const PersonaBar = () => (
+  <PersonaBarArea>
+    <div className="row">
+      <div className="col-5">
+        <img width="256" height="256" src={activePersonaImage}></img>
+      </div>
+      <div className="col-7">
+        <span>{personas[selectedPersona].background}</span>
+      </div>
+    </div>
+  </PersonaBarArea>
+);
+
+const renderPersonaSelect = () => (
+  <Settings>
+    <CardControl bold onClick={togglePersonaSelect}>
+      <i className={settingsOpen ? "ph ph-caret-up" : "ph ph-caret-down"} />{" "}
+      Select Persona
+    </CardControl>
+    {personaSelectOpen && <>{PersonaSelector()}</>}
+  </Settings>
+);
 
 const renderSettings = () => {
   return (
@@ -390,16 +589,9 @@ const renderSettings = () => {
 
 return (
   <Wrapper>
-    <h1>Test edit agent code</h1>
     <div>
       {!embedded && (
         <div>
-          <Link to={listLink}>
-            <Header>
-              <i className="ph ph-arrow-left" />
-              Agent List
-            </Header>
-          </Link>
           <Overview>
             <div className="row">
               <div className="col-5">
@@ -413,9 +605,12 @@ return (
                 />
               </div>
               <div className="col-7">
-                <Prompt>
-                  <Label>Prompt:</Label> {data.prompt}
-                </Prompt>
+                Welcome to the AI multiverse.
+                <br />
+                Made with
+                <a href="sliders.ntcai.xyz" target="_blank">
+                  NTC Sliders
+                </a>
               </div>
             </div>
           </Overview>
@@ -423,6 +618,9 @@ return (
       )}
       <Controls>
         {renderSettings()}
+        {renderPersonaSelect()}
+        {PersonaBar()}
+
         {requiresCredentials(model) && credential === "" && (
           <div className="alert alert-danger mx-3" role="alert">
             <i className="ph ph-alert-circle" /> To use an OpenAI or Groq model
@@ -440,7 +638,7 @@ return (
                 submitQuestion();
               }
             }}
-            placeholder="What's your question?"
+            placeholder="Speak"
             autoFocus
           />
           <Widget
@@ -451,7 +649,7 @@ return (
               variant: "affirmative",
               fill: "solid",
               size: "large",
-              label: "Submit",
+              label: "Chat",
               disabled:
                 (requiresCredentials(model) && credential === "") ||
                 question === "",
