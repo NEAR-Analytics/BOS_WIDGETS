@@ -12,11 +12,6 @@ const lastShow = data && data?.reduce((acc, chapter) => {
   return acc
 }, {})
 
-console.log('data', data)
-console.log('props?.link?.id', props?.link?.id)
-console.log('props', props)
-console.log('lastShow',lastShow)
-
 useEffect(() => {
   if (
     !start && (
@@ -76,7 +71,6 @@ useEffect(() => {
       }
     }
   }
-  console.log('lastShow with .show', lastShow)
 
   // *** SORT LOGIC ***
 
@@ -95,7 +89,6 @@ useEffect(() => {
               ? lastShow[a.id].show ? 0 : -1
               : lastShow[a.id].show - lastShow[b.id].show
     )
-    console.log('data after sort', data)
     setShowFrom(Object.values(lastShow).filter((a) => a && !a.show).length)
     setShow(true)
   } else if (lastShow && Object.values(lastShow).every((a) => !a)) {
@@ -158,8 +151,6 @@ const handleClose = (doNotShowAgain, viewedPages) => {
           time,
           doNotShowAgain: !!(doNotShowAgain || lastShow[chapter.id].doNotShowAgain),
           mutation,
-          // ToDo: gateway, ???
-          // ToDo: source, ???
           isViewed: !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed),
         }
       )
