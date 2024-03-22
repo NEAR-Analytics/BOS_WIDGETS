@@ -216,12 +216,6 @@ const Header = styled.div`
           text-shadow: 0 3px 6px #00000040;
           font-family: Lakki Reddy,cursive;
       }
-  
-      @media (min-width: 1140px) {
-        #burger {
-          display: none;
-        }
-      }
 `;
 
 return (
@@ -234,14 +228,14 @@ return (
               <img src={state.image2} alt="Icon" width="70" height="70" />
               <img src={state.image1} alt="Logo" width="141" height="60" />
             </a>
-            <span class="d-x1-none burger" id="burger">
+            <span class="d-xl-none">
               <span class="burger-line"></span>
               <span class="burger-line"></span>
               <span class="burger-line"></span>
               <span>Menu</span>
             </span>
           </div>
-          <div class="col-lg-9">
+          <div class="col-lg-9 d-md-none d-xl-block">
             <div class="navbar justify-content-center" id="navbar">
               <ul class="navbar-nav d-xl-flex flex-xl-row justify-content-md-between">
                 <li class="nav-item p-1 p-lg-3">
