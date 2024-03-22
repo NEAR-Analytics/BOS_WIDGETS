@@ -98,7 +98,7 @@ const floatToFixed = (num, decimals) => {
 // Method to get user balances
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v4/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -116,31 +116,29 @@ const setUserBalances = () => {
   tokABalance
     ? State.update({
         tokenABalance: {
-          fixed: (
-            parseFloat(tokABalance.tokenBalance).toFixed(11) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokABalance.tokenBalance) - 0.00009)
+            .toFixed(8)
+            .toString(),
           unfixed: tokABalance.tokenBalanceBN,
         },
       })
-    : /* TODO var tokABalance is not used on the state --> replaced to tokenABalance */
-      State.update({ tokenABalance: undefined });
+    : State.update({ tokenABalance: undefined });
   tokBBalance
     ? State.update({
         tokenBBalance: {
-          fixed: (
-            parseFloat(tokBBalance.tokenBalance).toFixed(11) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokBBalance.tokenBalance) - 0.00009)
+            .toFixed(8)
+            .toString(),
           unfixed: tokBBalance.tokenBalanceBN,
         },
       })
-    : /* TODO var tokBBalance is not used on the state --> replaced to tokenBBalance */
-      State.update({ tokenBBalance: undefined });
+    : State.update({ tokenBBalance: undefined });
 };
 
 // Method to get user NFT
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -643,7 +641,7 @@ const addLiquidity = () => {
 // Method to set pool
 const handlePoolSelect = (data) => {
   const pool = state.poolList.find((p) => p.name === data.target.value);
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/pools/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -740,7 +738,7 @@ const next = () => {
 // Method to back step
 const back = () => {
   if (state.validation) {
-    State.update({ validation: undefined });
+    State.update({ validation: false });
   }
   State.update({
     step: state.step - 1,
@@ -856,7 +854,7 @@ const handleInputTokenA = (input) => {
                   : state.poolSelected.tokenB.decimals
               ),
         amountInputTokenA: input,
-        validation: undefined,
+        validation: false,
         onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -877,7 +875,7 @@ const handleInputTokenA = (input) => {
               : state.poolSelected.tokenB.decimals
           ),
           amountInputTokenA: input,
-          validation: undefined,
+          validation: false,
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < parseFloat(input)
@@ -934,7 +932,7 @@ const handleInputTokenA = (input) => {
       if (state.poolDistributionSelected.name == "Single Bin") {
         State.update({
           amountInputTokenA: 0,
-          validation: undefined,
+          validation: false,
           need2Tokens: false,
         });
       }
@@ -1006,7 +1004,7 @@ const handleInputTokenB = (input) => {
                   : state.poolSelected.tokenA.decimals
               ),
         amountInputTokenB: input,
-        validation: undefined,
+        validation: false,
         onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -1027,7 +1025,7 @@ const handleInputTokenB = (input) => {
               ? 11
               : state.poolSelected.tokenA.decimals
           ),
-          validation: undefined,
+          validation: false,
           onlyRight: true,
           noBalanceA:
             parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
@@ -1080,7 +1078,7 @@ const handleInputTokenB = (input) => {
           amountInputTokenA: 0,
           need2Tokens: false,
           amountInputTokenB: input,
-          validation: undefined,
+          validation: false,
           noBalanceB:
             parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
               ? true
@@ -1165,7 +1163,7 @@ const approveErc20Token = (mode) => {
             vAllowance: false,
             mode: mode,
           });
-          State.update({ onApprovingToken: false, validation: undefined });
+          State.update({ onApprovingToken: false, validation: false });
         }, 20000);
       });
   });
@@ -1955,7 +1953,7 @@ return (
                 {state.step == 3
                   ? state.addingLiquidity
                     ? confirmButtonDisabled
-                    : state.validation == true
+                    : state.validation
                     ? !state.moreTokenAAllowance
                       ? !state.moreTokenBAllowance
                         ? confirmButton
@@ -1970,9 +1968,10 @@ return (
                     ? state.tokenABalance && state.tokenBBalance
                       ? state.need2Tokens
                         ? state.amountInputTokenA > 0 &&
-                          state.amountInputTokenA < state.tokenABalance.fixed &&
+                          state.amountInputTokenA <=
+                            state.tokenABalance.fixed &&
                           state.amountInputTokenB > 0 &&
-                          state.amountInputTokenB < state.tokenBBalance.fixed
+                          state.amountInputTokenB <= state.tokenBBalance.fixed
                           ? validateButton
                           : validateButtonDisabled
                         : state.amountInputTokenB > 0 &&
