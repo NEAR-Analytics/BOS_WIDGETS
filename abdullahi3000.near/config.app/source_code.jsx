@@ -2,7 +2,7 @@ return {
   type: "app",
   routes: {
     home: {
-      path: "abdullahi3000.near/widget/page.home",
+      path: "buildhub.near/widget/page.home",
       blockHeight: "final",
       init: {
         name: "Home",
