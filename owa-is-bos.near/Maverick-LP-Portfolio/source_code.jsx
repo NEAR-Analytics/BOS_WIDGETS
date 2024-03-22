@@ -100,7 +100,7 @@ const formatNumberToken = (n) => {
 
 // Method to get user data from maverick api
 const getUserData = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/user/${state.sender}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -263,7 +263,7 @@ const approveNFT = () => {
 
 // Method to refresh pool data
 const refreshPoolData = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/user/${state.sender}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -418,8 +418,7 @@ return (
                           ? formatNumber(state.portfolio.tvl)
                           : 0}
                       </div>
-                      <div class="col-3" style={{width: "110px"}}>
-                      </div>
+                      <div class="col-3" style={{ width: "110px" }}></div>
                     </div>
                   </div>
                   <div class="LineContainer">
