@@ -97,7 +97,7 @@ const WidgetContainer = styled.div`
 
 const PrimaryText = styled.p`
 
-  font-size: 4vh;
+  font-size: 3vh;
 
   font-family: 'Kodchasan', sans-serif;
   font-weight: 700;
