@@ -12,10 +12,6 @@ const lastShow = data && data?.reduce((acc, chapter) => {
   return acc
 }, {})
 
-console.log('props', props)
-console.log('data', data)
-console.log('lastShow', lastShow)
-
 useEffect(() => {
   if (
     !start && (
@@ -79,7 +75,6 @@ useEffect(() => {
   // *** SORT LOGIC ***
 
   if (!lastShow && context.accountId === props?.link?.authorId) {
-    console.log(1)
     // show form to the author
     setShow(true)
   } else if (lastShow && Object.values(lastShow).some((a) => a === undefined || a?.show)) {
@@ -95,9 +90,7 @@ useEffect(() => {
               : lastShow[a.id].show - lastShow[b.id].show
     )
     const index = Object.values(lastShow).filter((a) => a && !a.show)?.length
-    console.log('index', index)
     setShowFrom(index)
-    console.log(2)
     setShow(true)
   }
 }, [start, lastShow])
