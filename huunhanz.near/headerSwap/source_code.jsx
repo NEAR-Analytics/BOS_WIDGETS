@@ -3,8 +3,11 @@ State.init({
   image1: "https://lonk.meme/assets/images/logo.svg",
   image2: "https://lonk.meme/assets/images/dragon.svg",
 });
-
+const [size, setSize] = useState(false);
 const Header = styled.div`
+  @media screen and (max-width:768px){
+    ${setSize(true)}
+  }
     .header{
         background-color:${state.color};
     }
@@ -148,7 +151,7 @@ const Header = styled.div`
         font-size: 1rem;
     }
 `;
-
+console.log(size);
 return (
   <Header>
     <div class="header py-3 position-relative" id="header">
