@@ -8,7 +8,7 @@ function formatDate(date) {
 }
 
 const daoName = "Harmonic Guild";
-const feedLink = "https://nearbuilders.org/feed";
+const feedLink = "https://https://www.harmonicguild.io";
 
 return {
   type: "app", // every.near/type/app
@@ -22,7 +22,7 @@ return {
         requiredHashtags: ["build"],
       },
     },
-    updates: {
+    pitch: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
@@ -46,7 +46,7 @@ return {
 `,
       },
     },
-    question: {
+    documents: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
@@ -61,7 +61,7 @@ return {
 `,
       },
     },
-    idea: {
+    musicPlayer: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
