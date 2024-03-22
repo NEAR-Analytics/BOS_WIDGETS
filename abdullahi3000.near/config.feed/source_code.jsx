@@ -51,7 +51,7 @@ return {
       blockHeight: "final",
       init: {
         name: "Documents",
-        icon: "bi-question-lg",
+        icon: "bi-file-text",
         requiredHashtags: ["build", "question"],
         template: `## what is your question?
 (posted via [${daoName} Gateway](${feedLink}?tab=question))
