@@ -150,7 +150,10 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`devgovgigs.petersalomonsen.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`devgovgigs.petersalomonsen.near/widget/devhub.${
+                (fieldParamsByType[fieldType] ?? fieldParamsByType["string"])
+                  .name
+              }`}
               props={{
                 ...fieldProps,
                 className: [
