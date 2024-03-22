@@ -9,31 +9,31 @@ return {
       },
     },
     feed: {
-      path: "buildhub.near/widget/page.feed",
+      path: "abdullahi3000.near/widget/page.feed",
       blockHeight: "final",
       init: {
         name: "Feed",
       },
     },
-    proposal: {
+    pitch: {
       path: "buildhub.near/widget/page.projects",
       blockHeight: "final",
       init: {
-        name: "Projects",
+        name: "Pitch",
       },
     },
-    resources: {
+    documents: {
       path: "buildhub.near/widget/page.resources",
       blockHeight: "final",
       init: {
-        name: "Resources",
+        name: "Documents",
       },
     },
-    library: {
+    musicPlayer: {
       path: "buildhub.near/widget/page.library",
       blockHeight: "final",
       init: {
-        name: "Library",
+        name: "Music Player",
       },
     },
     profile: {
