@@ -95,7 +95,7 @@ return (
                 For submitting formal funding proposals from DevDAO, please
                 visit the new{" "}
                 <a
-                  href="?page=proposals"
+                  href="https://near.org/devhub.near/widget/app?page=proposals"
                   className="text-decoration-underline"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -104,7 +104,7 @@ return (
                 </a>
                 . To brainstorm and share ideas, please visit the relevant{" "}
                 <a
-                  href="?page=communities"
+                  href="https://near.org/devhub.near/widget/app?page=communities"
                   className="text-decoration-underline"
                   target="_blank"
                   rel="noopener noreferrer"
