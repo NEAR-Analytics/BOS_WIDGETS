@@ -21,6 +21,7 @@ const ContainerNav = styled.div`
   flex-wrap: wrap;
   height: 100%;
   width: 20%;
+  top: 10%;
   padding: 20px;
   overflow: auto;
   flex-direction: column; 
@@ -47,7 +48,7 @@ const ContainerBox = styled.div`
 
   @media (max-width: 768px) { /* Максимальна ширина для телефонів */
     top: 50%;
-    left: 5%;
+    left: 50%;
     width: 90%;
     transform: translateY(-50%); /* Зміщення на половину висоти елемента вгору */
   }
