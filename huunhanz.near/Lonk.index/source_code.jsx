@@ -36,7 +36,16 @@ const Main = styled.div`
     .intro {
         background: url(${state.image3}) no-repeat 100% 0 fixed;
     }
+
+    .py-lg-5 {
+        padding-bottom: 3rem!important;
+        padding-top: 3rem!important;
+    }
     
+    .text-center {
+        text-align: center!important;
+    }
+
     .font-md-bigger {
         font-size: 1.2rem;
     }
@@ -55,15 +64,13 @@ const Main = styled.div`
         padding-top: 1rem!important;
     }
 
+    .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.33333333%;
+    }
+
     .container {
-         max-width: 540px;
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: calc(var(--bs-gutter-x)*.5);
-        padding-right: calc(var(--bs-gutter-x)*.5);
-        width: 100%;
+        max-width: 1140px;
     }
 
     .justify-content-around {
@@ -90,7 +97,6 @@ const Main = styled.div`
 
     .col-12 {
         flex: 0 0 auto;
-        width: 100%;
     }
 
     .mb-4 {
@@ -180,8 +186,9 @@ const Main = styled.div`
         padding: 3px 8px;
     }
 
-    .green-bg, .header, .navbar {
+    .green-bg {
         background-color: #31cf34;
+        padding: 48px 0px;
     }
 
     .roadmap {
@@ -201,6 +208,16 @@ const Main = styled.div`
         margin: auto;
         position: absolute;
         right: 0;
+    }
+
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+
+    .roadmap {
+        background-size: cover;
+        min-height: 986px;
     }
 `;
 
@@ -222,6 +239,7 @@ return (
             image11: state.image11,
           }}
         />
+
         <Widget
           src="huunhanz.near/widget/Lonk.buy"
           props={{
