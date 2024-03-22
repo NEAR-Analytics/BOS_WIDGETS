@@ -1,10 +1,7 @@
-State.init({
-  disp: false,
-});
 // used for the mainpage
 const Mainpage = styled.div` 
   background-color: #22252a;
-  height: 1200px;
+  height: auto;
   margin: 0;
   padding: 0;
   display: flex;
@@ -15,42 +12,49 @@ const Mainpage = styled.div`
 // used for the first text
 const Text_style = styled.div`
 color: #fff;
-margin-top: 300px;
+margin-top: 100px; 
 font-weight: bold;
 display: flex;
+text-align: center;
 justify-content: center;
-
-@media screen and (min-width: 414px) {
-    font-size: 20px;
+font-size: 3rem;
+@media screen and (max-width: 500px) {
+    display: flex;
+    font-size: 2rem;
     }
-@media screen and (min-width: 768px){
-    font-size: 30px;
-  }
-@media screen and (min-width: 1400px){
-    font-size: 40px;
-  }
+
 `;
 
 //used for the second text
 const Second_p = styled.div`
   display: flex;
   justify-content: center;
-  padding-left:10px; 
   color: #fff;
+  font-size: 2rem;
   margin-top : 10px;
-  margin-left: 20px;
+  text-align: center;
   font-weight: normal;
+  @media screen and (max-width: 500px) {
+  font-size: 1.5rem;
+  display: flex;
+  margin: 10px auto;
+  justify-content: center;
+  text-align: center;
+  }
+ 
+`;
 
-  @media screen and (min-width: 414px) {
-    font-size: 17px;
-    }
-  @media screen and (min-width: 768px){
-    font-size: 25px;
-  }
-  @media screen and (min-width: 1400px){
-    font-size: 30px;
-  }
+const Third_p = styled.p`
+  color: #fff;
+  margin-top : 50px;
+  font-weight : 500;
+  display: flex;
+  justify-content: center;
+  font-size: 2.5rem;
   
+  span {
+    color: #ff0000; /* Red color for the 'X' */
+  }
 `;
 
 //to display first text
@@ -71,132 +75,13 @@ function text2() {
   );
 }
 
-// container for the main multisender
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 500px;
-  margin: 0 auto;
-  margin-top: 90px;
-  border-radius: 20px;
-  background-color: #ccc;
-
-  @media screen and (min-width: 414px) {
-    width: 60%;
-  }
-
-  @media screen and (min-width: 768px){
-    width: 60%;
-  }
-
-  @media screen and (min-width: 1400px){
-    width: 60%;
-`;
-
-// used for the label
-const CsvLabel = styled.label`
-  font-weight: bold;
-  margin-top: 15px;
-  margin: 0 auto;
-   @media screen and (min-width: 414px){
-    margin-top: 20px;
-    margin-left: 10px;
-    font-size: 1.3rem;
-  }
-
-  @media screen and (min-width: 768px){
-    margin-top: 20px;
-    margin-left: 10px;
-    font-size: 1.3rem;
-  }
-
-  @media screen and (min-width: 1400px){
-    margin-top: 20px;
-    margin-left: 10px;
-    font-size: 1.3rem;
-  }
- `;
-
-const Alert = styled.label`
-  font-weight: bold;
-  margin: 15px;
-  margin: 0 auto;
-  display : ${state.disp ? "block" : "none"}
- `;
-
-// used for container it contains the text area
-const CSVContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 25px;
-  width: 80%;
-  height: 250px;
-`;
-
-//container of sample button used to set sample
-const SampleButtonContainer = styled.div`
-   display: flex;
-   align-items: center;
-   margin-top: -5px;
-   width: 80%;
-   height: 50px;
-
-`;
-
-//sample button
-const SampleButton = styled.button`
-  height: 40px;
-  margin-top : -40px;
-  font-size: 1rem;
-  border-radius: 0px 0px 30px 30px;
-  background-color: #04041b;
-  color: #fff;
-  font-weight: bold;
-  position: relative;
-  
-
-  @media screen and (min-width: 414px){
-    
-    width: 100%;
-  }
-
-  @media screen and (min-width: 768px){
-   
-    width: 100%;
-  }
-
-  @media screen and (min-width: 1400px){
-    
-    width: 100%;
-  }
-  p{
-  margin-top: 5px;
-  }
-  
-`;
-
-//area to add the addresses
-const TextArea = styled.textarea`
-  background-color: #fff;
-  border-radius: 15px;
-  border: 1px solid black;
-  margin-bottom: 10px;
-  overflow-y: scroll;
-  @media screen and (min-width: 414px) {
-    width: 100%;
-    height: 100%;
-  }
-
-  @media screen and (min-width: 768px){
-    width: 100%;
-    height: 100%
-  }
-
-  @media screen and (min-width: 1400px){
-    width: 100%;
-    height: 100%
-`;
+function text3() {
+  return (
+    <Third_p>
+      Multi<span>X</span>ender
+    </Third_p>
+  );
+}
 
 //container of popup sample
 const PopupContainer = styled.div`
@@ -237,16 +122,110 @@ const Popup = ({ onClose }) => {
 };
 
 // next button stles
-const Next = styled.button`
-height: 40px;
-width: 100%;
-margin-top: 10px;
-border: 1px solid black;
-border-radius: 15px;
-background-color: #04041b;
-color: #fff;
-font-weight: bold;
+const NextUpper = styled.button`
+  height: 60px; /* Increase height for a bigger button */
+  width: 200px; /* Adjust width as needed */
+  margin-top: 20px; /* Increase top margin */
+  border: none; /* Remove border */
+  border-radius: 30px; /* Adjust border radius */
+  background-color: #22252a;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px; /* Increase font size */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease; /* Smooth transition for animations */
+  
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease; /* Smooth transition for animations */
+    border-radius: 50%;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+  }
 
+  &:hover:before {
+    width: 0;
+    height: 0;
+  }
+
+  &:hover {
+    color: #04041b;
+    background-color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.95); /* Add slight scale down effect on click */
+  }
+
+  &:focus {
+    outline: none; /* Remove default focus outline */
+  }
+   @media screen and (max-width: 500px) {
+    width: 150px; /* Adjust width for mobile view */
+    font-size: 16px; /* Adjust font size for mobile view */
+  }
+`;
+
+const NextLower = styled.button`
+  height: 60px; /* Increase height for a bigger button */
+  width: 200px; /* Adjust width as needed */
+  margin-top: 20px; /* Increase top margin */
+  margin-right: 10px; /* Add margin between buttons */
+  border: none; /* Remove border */
+  border-radius: 30px; /* Adjust border radius */
+  background-color: #22252a;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px; /* Increase font size */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease; /* Smooth transition for animations */
+  
+  &:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease; /* Smooth transition for animations */
+    border-radius: 50%;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover:before {
+    width: 0;
+    height: 0;
+  }
+
+  &:hover {
+    color: #04041b;
+    background-color: #fff;
+  }
+
+  &:active {
+    transform: scale(0.95); /* Add slight scale down effect on click */
+  }
+
+  &:focus {
+    outline: none; /* Remove default focus outline */
+  }
+
+   @media screen and (max-width: 500px) {
+    width: 150px; /* Adjust width for mobile view */
+    font-size: 16px; /* Adjust font size for mobile view */
+  }
 `;
 
 // styling of simple popup
@@ -261,6 +240,48 @@ const SimplePopup = styled.div`
   z-index: 1000;
 `;
 
+const InputLabel = styled.label`
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+
+const Label1 = styled.label`
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  margin: 20px;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
+    margin-left: 0%;
+    text-align: center;
+  }
+`;
+
+const Label2 = styled.label`
+  display: flex;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 40px;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 500px) {
+    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
+    margin-left: 0%;
+    text-align: center;
+  }
+`;
+
 // close button
 const CloseButton = styled.button`
   margin-top: 10px;
@@ -270,7 +291,81 @@ const CloseButton = styled.button`
   background: #f1f1f1;
   cursor: pointer;
 `;
-const user = "fdaomultixender.near";
+
+const Container = styled.div`
+margin-top: 100px;
+`;
+
+const Inputdiv = styled.div`
+  height: auto;
+  display: flex;
+  justify-content: center; /* Horizontally center items */
+  align-items: center; /* Vertically center items */
+  flex-direction: column;
+
+  @media screen and (max-width: 500px) {
+    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    margin-top: -100px; 
+  }
+`;
+
+const Plus = styled.div`
+  background-color: white;
+  color: red;
+  padding: 15px; /* Increased padding for better touch area */
+  width: 50%;
+  border-radius: 8px; /* Increased border-radius for a smoother look */
+  margin-left: 23%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid transparent; /* Added border for better contrast */
+  transition: background-color 0.3s, border-color 0.3s; /* Transition border color along with background color */
+
+  &:hover {
+    background-color: #2980b9;
+    border-color: #2980b9; 
+  }
+  .plus-icon {
+    color: red; /* Change the color of the plus icon */
+  }
+  
+`;
+
+const Submit = styled.div``;
+const Divbutton = styled.div`
+display: flex;
+width: 100%;
+margin-top: 20px;
+justify-content: center;
+`;
+const DeleteButton = styled.button``;
+const InputAddress = styled.input`
+border-radius: 10px;
+ @media screen and (max-width: 500px) {
+    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  }
+	
+`;
+const InputAmount = styled.input`
+	border-radius: 10px;
+     @media screen and (max-width: 500px) {
+    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  }
+`;
+const User = "multisend.testnet";
 const Content3 = ({ distributeInput }) => (
   <div>
     <Widget
@@ -282,29 +377,17 @@ const Content3 = ({ distributeInput }) => (
 
 // Main component working
 const Main = () => {
-  const [isSamplePopupVisible, setSamplePopupVisibility] = useState(false);
   const [isSimplePopupVisible, setSimplePopupVisibility] = useState(false);
   const [addressList, setAddressList] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [textAreaContent, setTextAreaContent] = useState("");
   const [popupContent, setPopupContent] = useState("");
   const [distributeInput, setDistributeInput] = useState("");
   const [isTransferCompleted, setTransferCompleted] = useState(false);
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
-  // used to open sample popup
-  const handleOpenSamplePopup = () => {
-    setSamplePopupVisibility(true);
-  };
-
   //used to open simple popup gas one
   const handleOpenSimplePopup = () => {
     setSimplePopupVisibility(true);
-  };
-
-  // used to close sample popup
-  const handleCloseSamplePopup = () => {
-    setSamplePopupVisibility(false);
   };
 
   //used to close simple popup
@@ -312,34 +395,27 @@ const Main = () => {
     setSimplePopupVisibility(false);
   };
 
-  //text area change handling
-  const handleTextAreaChange = (event) => {
-    setTextAreaContent(event.target.value);
-  };
-
+  // list json handling
   // list json handling
   const handleStoreList = () => {
-    const newList = getAddressList();
+    const newList = handleSubmit();
 
-    console.log(newList);
-
-    //  Check for duplicate addresses
+    // Check for duplicate addresses
     const addressSet = new Set();
     const hasDuplicate = newList.some((item) => {
       if (addressSet.has(item.address)) {
         console.log(`Duplicate address found: ${item.address}`);
-        State.update({
-          disp: true,
-        });
+        setPopupContent("Repeated accounts were found.");
+        setSimplePopupVisibility(true); // Show the popup
         return true;
       }
       addressSet.add(item.address);
       return false;
     });
 
-    // If duplicates found, return an empty array
+    // If duplicates found, return an empty object
     if (hasDuplicate || newList.length === 0) {
-      return "";
+      return {};
     }
 
     // Calculate the sum of amounts
@@ -350,7 +426,10 @@ const Main = () => {
 
     // Display different messages based on the sum of amounts
     if (sumOfAmounts < 1) {
-      setPopupContent(`Amount should be more than 1 NEAR.`);
+      // Display the popup content for amounts less than 1 NEAR
+      setPopupContent("Sum of amount must be more than 1 NEAR.");
+      setSimplePopupVisibility(true); // Show the popup
+      return {}; // Return empty object as there's no valid distribution
     } else {
       // Calculate the percentage based on the number of keys
       let platformAmount = 0;
@@ -392,10 +471,14 @@ const Main = () => {
     }
   };
 
+  const handleSubmit = () => {
+    const newList = inputs;
+    return newList;
+  };
+
   const handleMethod = () => {
     // Destructure the result of handleStoreList
     const { calculatedTotalAmount, distributeInput } = handleStoreList();
-
     if (!calculatedTotalAmount || !distributeInput || distributeInput === "") {
       // Set disp to true if any of the conditions are met
       State.update({
@@ -443,24 +526,6 @@ const Main = () => {
           };
         });
 
-      //   // Check for duplicate addresses
-      //   const addressSet = new Set();
-      //   const hasDuplicate = jsonArray.some((item) => {
-      //     if (addressSet.has(item.address)) {
-      //       console.log(`Duplicate address found: ${item.address}`);
-      //       return true;
-      //     }
-      //     addressSet.add(item.address);
-      //     return false;
-      //   });
-
-      //   // If duplicates found, return an empty array
-      //   if (hasDuplicate) {
-      //     State.update({
-      //       disp: true,
-      //     });
-      //   }
-
       return jsonArray;
     } else {
       return [];
@@ -471,30 +536,87 @@ const Main = () => {
     setAddressList(getAddressList());
   }, [textAreaContent]);
 
+  const [inputs, setInputs] = useState([{ key: 1, address: "", amount: "" }]);
+
+  const handleAdd = () => {
+    setInputs((prevInputs) => [
+      ...prevInputs,
+      { key: prevInputs.length + 1, address: "", amount: "" },
+    ]);
+  };
+
+  const handleDelete = () => {
+    if (inputs.length > 1) {
+      setInputs((prevInputs) => prevInputs.slice(0, -1));
+    }
+  };
+
+  const handleDeleteInput = (index) => {
+    setInputs((prevInputs) => prevInputs.filter((input, i) => i !== index));
+  };
+
+  const handleInputChange = (event, index, field) => {
+    const { value } = event.target;
+
+    // Check if the field is 'amount' and the value is empty
+    if (field === "amount" && value === "") {
+      // In this case, set the amount to 0 to avoid any NaN issues
+      setInputs((prevInputs) =>
+        prevInputs.map((input, i) =>
+          i === index ? { ...input, [field]: 0 } : input
+        )
+      );
+    } else {
+      // Otherwise, proceed normally
+      const parsedValue = field === "amount" ? parseFloat(value) : value;
+      setInputs((prevInputs) =>
+        prevInputs.map((input, i) =>
+          i === index ? { ...input, [field]: parsedValue } : input
+        )
+      );
+    }
+  };
+
   return (
     <Container>
-      <CsvLabel>List of Addresses in Near</CsvLabel>
-
-      <CSVContainer>
-        <TextArea
-          id="addressTextArea"
-          rows="100"
-          cols="30"
-          value={textAreaContent}
-          placeholder="Enter addresses here..."
-          onChange={handleTextAreaChange}
-        />
-      </CSVContainer>
-      <SampleButtonContainer>
-        <SampleButton onClick={handleOpenSamplePopup}>Sample CSV</SampleButton>
-      </SampleButtonContainer>
-      <Alert>
-        Alert! No Accounts or Repeated Accounts were Found or sum of amount must
-        be more than 1 NEAR.
-      </Alert>
-      <Next onClick={handleStoreList}>Show fees</Next>
-      <Next onClick={handleMethod}>Submit</Next>
-      {isSamplePopupVisible && <Popup onClose={handleCloseSamplePopup} />}
+      <InputLabel>
+        <Label1>Account Id</Label1>
+        <Label2>Token Amount</Label2>
+      </InputLabel>
+      <Inputdiv>
+        {inputs.map((input, index) => (
+          <div key={input.key} className="flex justify-between mb-2">
+            <InputAddress
+              type="text"
+              className="m-2 p-2 w-1/2 amount"
+              placeholder="ACCOUNT ID"
+              name="Address"
+              value={input.address}
+              onChange={(event) => handleInputChange(event, index, "address")}
+            />
+            <InputAmount
+              type="Number"
+              className="m-2 p-2 w-1/2 amount"
+              placeholder="NEAR"
+              name="Amount"
+              value={input.amount}
+              onChange={(event) => handleInputChange(event, index, "amount")}
+            />
+            <DeleteButton onClick={() => handleDeleteInput(index)}>
+              ❌
+            </DeleteButton>
+          </div>
+        ))}
+      </Inputdiv>
+      <Plus onClick={handleAdd}>
+        <span role="img" aria-label="Add Icon" className="plus-icon">
+          ➕
+        </span>
+      </Plus>
+      <Divbutton>
+        <NextUpper onClick={handleStoreList}>Show fees</NextUpper>
+        <NextLower onClick={handleMethod}>Multisend</NextLower>
+      </Divbutton>
       {isSimplePopupVisible && (
         <SimplePopup>
           <div>{popupContent}</div>
@@ -507,22 +629,35 @@ const Main = () => {
 };
 
 const FooterContainer = styled.div`
-height: 80px;
-margin-top: 200px;
-color: #fff;
-display: flex;
-align-items: center;
-justify-content: center;
+  height: 80px;
+  margin-top: 200px;
+  color: #fff;
+  background-color: #22252a; /* Dark background color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif; /* Example font family */
 
-p{
-font-size: 1.5rem;
-}
+  p {
+    font-size: 1.5rem;
+    margin: 0; /* Remove default margin */
+  }
+
+  @media screen and (max-width: 500px) {
+    height: 120px; /* Adjust height for smaller screens */
+    margin-top: 100px; /* Adjust margin for smaller screens */
+    padding: 20px; /* Add padding for better spacing */
+    text-align: center; /* Center text on smaller screens */
+    p{
+    font-size: 1.1rem;
+    }
+  }
 `;
 
 const Footer = () => {
   return (
     <FooterContainer>
-      <p>&copy; 2024 Multisender All rights reserved.</p>
+      <p>&copy; 2024 Multixender All rights reserved.</p>
     </FooterContainer>
   );
 };
@@ -533,6 +668,7 @@ function Multisender() {
     <Mainpage>
       {text()}
       {text2()}
+      {text3()}
       <Main />
       <Footer />
     </Mainpage>
