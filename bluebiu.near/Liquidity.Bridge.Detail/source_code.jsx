@@ -319,7 +319,6 @@ const updateBalance = (token) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toString();
-      console.log('=====address', address, '====symbol', symbol, '====decimals', decimals, '====adjustedBalance', adjustedBalance)
       State.update({
         balances: {
           ...state.balances,
@@ -750,7 +749,6 @@ const balance1 =
   !amount1 || !tokensPrice?.[token1]
     ? "-"
     : parseFloat(Big(amount1).times(tokensPrice[token1]).toFixed(4));
-
 
 const balanceLp =
   !lpAmount || !lpBalance || !curPositionUSD
