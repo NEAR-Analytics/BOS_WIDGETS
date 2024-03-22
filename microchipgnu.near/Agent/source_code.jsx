@@ -553,6 +553,12 @@ const renderSettings = () => {
   );
 };
 
+const clear = () => {
+  setMessages([]);
+  setLoading(false);
+  setScratchPad("");
+};
+
 useEffect(() => {
   setMessages([]);
 }, [task]);
@@ -566,7 +572,14 @@ useEffect(() => {
 return (
   <div className="card">
     <div class="card-body">
-      <h5 class="card-title">{role}</h5>
+      <div class="d-flex gap-2">
+        <h5 class="card-title">{role}</h5>
+        {messages.length > 0 && (
+          <h5 class="badge rounded-pill bg-secondary">
+            messages: {messages.length}
+          </h5>
+        )}
+      </div>
       <p class="card-text">{goal}</p>
       <div className="input-group mb-3">
         <input
@@ -603,33 +616,46 @@ return (
         <button
           className="flex-grow-3 btn w-100"
           onClick={() => setIsCollapsed(!isCollapsed)}
-          disabled={!loading}
         >
           {isCollapsed ? "Open run" : "Hide run"}
         </button>
+        {isLoop && loading && (
+          <button onClick={() => setIsLoop(false)} className="btn w-100">
+            Stop
+          </button>
+        )}
+        {messages.length > 0 && !loading && (
+          <button onClick={() => clear()} className="btn w-100">
+            Clear
+          </button>
+        )}
       </div>
       {renderSettings()}
     </div>
-    <div class="card-footer d-flex gap-2">
-      <small class="text-muted">AutoAgent</small>
-      {loading && (
-        <div key="loading" className={`d-flex align-items-center`}>
-          <div>
-            <span
-              className="spinner-grow spinner-grow-sm me-1"
-              role="status"
-              aria-hidden="true"
-            />
+    <div class="card-footer d-flex gap-2 justify-content-between">
+      <div class="d-flex gap-2">
+        <small class="text-muted">µnstoppable agent</small>
+        {loading && (
+          <div key="loading" className={`d-flex align-items-center`}>
+            <div>
+              <span
+                className="spinner-grow spinner-grow-sm me-1"
+                role="status"
+                aria-hidden="true"
+              />
+            </div>
           </div>
-        </div>
-      )}
-      <small class="text-muted">{model}</small>
-      <small class="text-muted">
-        {isLoop ? "Continuous" : "Not continuous"}
-      </small>
-      <small class="text-muted">
-        {tools.map((tool) => tool.name).join(", ")}
-      </small>
+        )}
+      </div>
+      <div>
+        <small class="badge rounded-pill bg-secondary">{model}</small>
+        <small class="badge rounded-pill bg-secondary">
+          {isLoop ? "continuous mode" : "non-continuous mode"}
+        </small>
+        <small class="text-muted">
+          {tools.map((tool) => tool.name).join(", ")}
+        </small>
+      </div>
     </div>
 
     <ModalOverlay
@@ -709,19 +735,6 @@ return (
                   </div>
                 </div>
               ))}
-
-              {loading && (
-                <div key="loading" className={`d-flex align-items-center`}>
-                  <div>
-                    <span
-                      className="spinner-grow spinner-grow-sm me-1"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
-              )}
-
               {messages.length > 0 && !loading && (
                 <button
                   onClick={() => run()}
