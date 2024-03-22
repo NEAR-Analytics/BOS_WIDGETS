@@ -66,7 +66,7 @@ return {
       blockHeight: "final",
       init: {
         name: "Music Player",
-        icon: "bi-lightbulb",
+        icon: "bi-music-note-list",
         requiredHashtags: ["build", "idea"],
         template: `## IDEA TITLE
 (posted via [${daoName} Gateway](${feedLink}?tab=idea))
