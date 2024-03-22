@@ -6,13 +6,13 @@ if (!routerAbi.ok) {
 }
 
 const TOKENS = [
-  // {
-  //   name: "ETH",
-  //   icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
-  //   address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-  //   coinGeckoId: "ethereum",
-  //   decimals: 18,
-  // },
+  {
+    name: "ETH",
+    icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/eth.svg",
+    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+    coinGeckoId: "ethereum",
+    decimals: 18,
+  },
   {
     name: "USDC",
     icon: "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/usdc.svg",
@@ -388,7 +388,6 @@ const cantSwap = () => {
 };
 
 const existPool = () => {
-  /* TODO updated, check if token name is ETH to replace it for WETH */
   const tokenNameA =
       state.tokenSendSelected.name === "ETH"
         ? "WETH"
@@ -456,9 +455,8 @@ const confirmTransaction = () => {
     state.tokenSendSelected.decimals
   );
 
-  /* TODO updated, if receive token is ETH will set override value */
   const overrides = {
-    value: state.tokenRecieveSelected.name === "ETH" ? amountIn : amountIn2,
+    value: state.tokenSendSelected.name === "ETH" ? amountIn : amountIn2,
     gasLimit: 2303039,
   };
   try {
@@ -505,7 +503,7 @@ const validateAllowance = (input, allowanceAmount) => {
   const tokenAllowance = allowanceAmount
     ? allowanceAmount / divider
     : state.tokenAllowance / divider;
-  if (input * 1 > tokenAllowance) {
+  if (input * 1 > tokenAllowance && state.tokenSendSelected.name !== "ETH") {
     console.log("Necesitas más allowance");
     State.update({ needMoreAllowance: true });
   } else {
