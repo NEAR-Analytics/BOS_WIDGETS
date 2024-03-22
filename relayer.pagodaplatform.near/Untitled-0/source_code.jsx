@@ -40,8 +40,8 @@ const ContainerBox = styled.div`
 `;
 
 const Square = styled.div`
-  width: 350px; /* Змінено розмір на 150px */
-  height: 350px; /* Змінено розмір на 150px */
+  width: 20vw; /* Змінено розмір на 150px */
+  height: 40vh; /* Змінено розмір на 150px */
   margin: 40px; /* Збільшено відступи */
   padding: 20px;
   position: relative; /* Додано позиціонування */
@@ -96,13 +96,8 @@ const WidgetContainer = styled.div`
 `;
 
 const PrimaryText = styled.p`
-  @media (min-width: 512px) {
-    font-size: 28px;
-    width: 100%;
-  }
 
-  width: 100%;
-  font-size: 20px;
+  font-size: 4vh;
 
   font-family: 'Kodchasan', sans-serif;
   font-weight: 700;
@@ -115,6 +110,7 @@ const PrimaryText = styled.p`
 
   white-space: pre-line;
   align-self: flex-end;
+
 `;
 
 const Navigation = styled.div`
@@ -154,8 +150,8 @@ const renderSquares = () => {
         <Square key={i}>
           <WidgetContainer>
             <svg
-              width={170}
-              height={200}
+              width="50%"
+              height="60%"
               viewBox="0 0 17 20"
               fill="none"
               {...props}
