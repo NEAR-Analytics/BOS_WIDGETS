@@ -27,9 +27,9 @@ const ContainerNav = styled.div`
   flex-direction: column; 
 
   @media (max-width: 768px) {
-    top: 5%;
+    top: -60%;
     left: 5%;
-    width: 90%;
+    width: 100%;
     flex-direction: row; /* Рядок для елементів на мобільних пристроях */
     justify-content: space-between; /* Рівномірний розподіл простору між елементами */
   }
@@ -47,9 +47,9 @@ const ContainerBox = styled.div`
   overflow: auto;
 
   @media (max-width: 768px) {
-    top: 50%;
+    top: 70%;
     left: 5%;
-    width: 90%;
+    width: 100%;
     transform: translateY(-50%);
   }
 `;
@@ -74,7 +74,7 @@ const Square = styled.div`
 
   @media (max-width: 768px) {
     width: 40vh; /* 90% ширини екрану на мобільних пристроях */
-    height: 40vw; /* Автоматична висота для адаптації контенту */
+    height: 50vw; /* Автоматична висота для адаптації контенту */
     margin: 20px auto; /* Зменшуємо марджин */
   }
 `;
