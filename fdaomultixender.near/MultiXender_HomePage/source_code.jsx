@@ -1,7 +1,7 @@
 // used for the Mainpage styling
 const Mainpage = styled.div`
 background-color: #22252a;
-height: 1600pxpx;
+height: auto;
 margin: 0; 
 padding: 0;
 `;
@@ -9,14 +9,16 @@ padding: 0;
 // used for the header container
 const HeaderContainer = styled.div`
   height: 80px;
-  background-color: #22252a; /* Change to black color */
+  background-color: #22252a;
   display: flex;
-  justify-content: space-between; 
-  position: flex;
+  justify-content: space-between;
   align-items: center;
-  width: 100%; /* Set to 100% to span the full width */
-  margin-top: 0;
-  z-index: 1001;
+  width: 100%;
+  position: flex;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow for depth */
 `;
 
 //used for the logo
@@ -24,10 +26,8 @@ const Logo = styled.img`
 width: 60px;
 height: 60px;
 object-fit: cover;
-margin: 12px 10px 12px 0;
-border: 1px solid #fff;  
+margin: 12px 0px 12px 10px; 
 cursor: pointer;
-border: 1px solid #fff;
 border-radius: 20px;
 `;
 
@@ -35,29 +35,37 @@ border-radius: 20px;
 const H1 = styled.h1`
   color: #fff;
   padding: 15px;
-  margin-left: 5px;
 
-  span {
+  & > span {
     color: #ff0000; /* Red color for the 'X' */
   }
 `;
 // used for the styling of menu items
 const MenuItem = styled.button`
-  width: 150px; 
-  padding: 10px; 
+  width: 100%;
+  padding: 10px;
   border: none;
   background-color: transparent;
-  color: #fff; 
+  color: #fff;
   cursor: pointer;
   border-bottom: 1px solid #fff;
   border-radius: 15px;
   margin-right: 20px;
   transition: background-color 0.3s ease, color 0.3s ease, font-weight 0.3s ease;
-  
+
   &:hover {
     background-color: #fff; // Change to your desired hover background color
     color: #22252a;
-    font-weight: 1.2rem;
+    font-weight: bold;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid #fff;
+    margin-right: 10px;
+    border-radius: 10px;
+    text-align: center;
   }
 `;
 
@@ -138,7 +146,7 @@ const Send_token = styled.div`
   }
 `;
 
-const user = "fdaomultixender.near";
+const user = "multisend.testnet";
 const Content3 = () => (
   <div>
     <Widget src={`${user}/widget/MultiXender_main`} />
@@ -228,69 +236,57 @@ function Adding_banner() {
   );
 }
 
-const Text_style = styled.div`
+const Text_style = styled.p`
   color: #fff;
   margin-top : 50px;
   font-weight : bold;
   display: flex;
   justify-content: center;
 
-  @media screen and (min-width: 414px) {
-    font-size: 20px;
-    }
-  @media screen and (min-width: 768px){
-    font-size: 30px;
+  @media screen and (max-width: 500px) {
+    font-size: 1rem;
   }
-  @media screen and (min-width: 1400px){
-    font-size: 40px;
+  @media screen and (max-width: 768px){
+    font-size: 2rem;
+  }
+  @media screen and (max-width: 1400px){
+    font-size: 3rem;
   }
   span {
     color: #ff0000; /* Red color for the 'X' */
   }
 `;
 
-const Second_p = styled.div`
+const Second_p = styled.p`
   display: flex;
   justify-content: center;
   padding-left:10px; 
   color: #fff;
   margin-top : 10px;
   margin-left: 20px;
-  font-weight: normal;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 300;
 
-  @media screen and (min-width: 414px) {
-    font-size: 17px;
+  @media screen and (max-width: 414px) {
+    font-size: 1rem;
     }
-  @media screen and (min-width: 768px){
-    font-size: 25px;
-  }
-  @media screen and (min-width: 1400px){
-    font-size: 30px;
-  }
 `;
 
 function text() {
   return (
     <Text_style>
-      <p>
-        Multi<span>X</span>ender
-      </p>
+      Multi<span>X</span>ender
     </Text_style>
   );
 }
 
 function text1() {
-  return (
-    <Second_p>
-      <p>Send Near to Multiple Addresses</p>
-    </Second_p>
-  );
+  return <Second_p>Send Near to Multiple Addresses</Second_p>;
 }
 function text2() {
   return (
-    <Second_p>
-      <p>An frictionless multisender powerd by Freelancer DAO</p>
-    </Second_p>
+    <Second_p>A frictionless multisender powerd by Freelancer DAO</Second_p>
   );
 }
 
@@ -317,23 +313,34 @@ const Container = styled.div`
  &:hover {
    transform: scale(1.1);
  }
+  @media screen and (max-width: 500px) {
+     height: 150px;
+     width: 130px;
+     margin: 10px;
+  }
 `;
 
 const PermanentText = styled.p`
- display: flex;
- justify-content: center;
- font-size: 19px;
+ text-align: center;
+ font-size:  20px;
  color: #fff;
  margin-top: -18px;
+
+ @media screen and (max-width: 414px) {
+ margin-top: 5px;
+  }
 
 `;
 
 const Dynamic_text = styled.p`
- display: flex;
- justify-content: center;
- font-size: 2.5rem;
+ text-align: center;
+ font-size: 2rem;
  color: #fff; 
- margin-top: -10px;
+ margin-top: 10px;
+
+ @media screen and (max-width: 414px) {
+     font-size: 2rem;
+  }
 `;
 
 const DailyTradesContainer = () => {
@@ -390,16 +397,29 @@ function token() {
 }
 
 const FooterContainer = styled.div`
-height: 80px;
-margin-top: 200px;
-color: #fff;
-display: flex;
-align-items: center;
-justify-content: center;
+  height: 80px;
+  margin-top: 200px;
+  color: #fff;
+  background-color: #22252a; 
+  display: flex;
+  align-items: center;
+  margin-bottom: -50px;
+  justify-content: center;
+  font-family: Arial, sans-serif; 
 
-p{
-font-size: 1.5rem;
-}
+  p {
+    font-size: 1.2rem;
+  }
+
+  @media screen and (max-width: 500px) {
+    height: 120px; 
+    margin-top: 100px; 
+    padding: 20px; 
+    text-align: center; 
+    p{ 
+    font-size: 1rem;
+    }
+  }
 `;
 
 const Footer = () => {
@@ -425,50 +445,6 @@ const LogoImage = styled.img`
   border: 1px solid #fff;
   border-radius: 40px;
   margin-top: 10px; // Adjust as needed
-`;
-
-// New styled component for the additional text with animation
-const AnimatedText = styled.p`
-  font-size: 1.5rem;
-  // font-weight: bold;
-  color: #fff;
-  margin-top: 10px; 
-  animation: fadeInUp 3s ease-in-out; 
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-
-const GridContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 200px;
-  background-color: #22252a;
-  margin-top: 200px;
-  overflow: hidden;
- 
-  /* Define keyframes for the animation */
-  @keyframes slideAnimation {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-
-  /* Apply the keyframes animation to the grid */
-  > div {
-    animation: slideAnimation 5s linear infinite; /* Adjust the duration and easing here */
-  }
 `;
 
 function Multisender() {
