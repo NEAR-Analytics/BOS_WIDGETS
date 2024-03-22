@@ -41,6 +41,9 @@ const Container = styled.div`
   }
 
   .proposal-card {
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
     &:hover {
       background-color: #f4f4f4;
     }
@@ -71,6 +74,7 @@ const Container = styled.div`
 const Heading = styled.div`
   font-size: 24px;
   font-weight: 700;
+  width: 100%;
 
   .text-normal {
     font-weight: normal !important;
@@ -81,15 +85,15 @@ const Heading = styled.div`
   }
 `;
 
-const FeedItem = ({ proposal }) => {
-  const { snapshot } = proposal;
+const FeedItem = ({ proposal, index }) => {
   const accountId = proposal.author_id;
   const profile = Social.get(`${accountId}/profile/**`, "final");
+  // We will have to get the proposal from the contract to get the block height.
   const blockHeight = parseInt(proposal.social_db_post_block_height);
   const item = {
     type: "social",
-    path: `truedove38.near/post/main`,
-    blockHeight,
+    path: `devhub.near/post/main`,
+    blockHeight: blockHeight,
   };
 
   return (
@@ -98,13 +102,18 @@ const FeedItem = ({ proposal }) => {
         widgetSrc: "megha19.near/widget/app",
         params: {
           page: "proposal",
-          id: proposal.id,
+          id: proposal.proposal_id,
         },
       })}
       onClick={(e) => e.stopPropagation()}
       style={{ textDecoration: "none" }}
     >
-      <div className="proposal-card d-flex justify-content-between gap-2 text-muted cursor-pointer p-3">
+      <div
+        className={
+          "proposal-card d-flex justify-content-between gap-2 text-muted cursor-pointer p-3 " +
+          (index !== 0 && " border")
+        }
+      >
         <div className="d-flex gap-4">
           <Widget
             src={"megha19.near/widget/devhub.entity.proposal.Profile"}
@@ -114,11 +123,11 @@ const FeedItem = ({ proposal }) => {
           />
           <div className="d-flex flex-column gap-2">
             <div className="d-flex gap-2 align-items-center flex-wrap">
-              <div className="h6 mb-0 text-black">{snapshot.name}</div>
+              <div className="h6 mb-0 text-black">{proposal.name}</div>
               <Widget
                 src={"megha19.near/widget/devhub.entity.proposal.CategoryTag"}
                 props={{
-                  category: snapshot.category,
+                  category: proposal.category,
                 }}
               />
             </div>
@@ -128,7 +137,7 @@ const FeedItem = ({ proposal }) => {
                 src="near/widget/TimeAgo"
                 props={{
                   blockHeight,
-                  blockTimestamp: snapshot.timestamp,
+                  blockTimestamp: proposal.timestamp,
                 }}
               />
             </div>
@@ -141,6 +150,7 @@ const FeedItem = ({ proposal }) => {
                   notifyAccountId: accountId,
                 }}
               />
+
               <Widget
                 src={"megha19.near/widget/devhub.entity.proposal.CommentIcon"}
                 props={{
@@ -156,7 +166,7 @@ const FeedItem = ({ proposal }) => {
           <Widget
             src={"megha19.near/widget/devhub.entity.proposal.StatusTag"}
             props={{
-              timelineStatus: snapshot.timeline.status,
+              timelineStatus: proposal.timeline.status,
             }}
           />
         </div>
@@ -165,48 +175,287 @@ const FeedItem = ({ proposal }) => {
   );
 };
 
+const getProposal = (proposal_id) => {
+  return Near.asyncView("devhub.near", "get_proposal", {
+    proposal_id,
+  });
+};
+
 const FeedPage = () => {
-  const proposals = Near.view("truedove38.near", "get_proposals", {});
+  const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+
+  State.init({
+    data: [],
+    cachedItems: {},
+    author: "",
+    stage: "",
+    sort: "",
+    category: "",
+    input: "",
+    loading: false,
+    loadingMore: false,
+    aggregatedCount: 0,
+    currentlyDisplaying: 0,
+  });
+
+  const queryName =
+    "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot";
+  const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
+    ${queryName}(
+      offset: $offset
+      limit: $limit
+      order_by: {proposal_id: desc}
+      where: $where
+    ) {
+      author_id
+      block_height
+      name
+      category
+      summary
+      editor_id
+      name
+      proposal_id
+      ts
+      timeline
+      views
+    }
+    ${queryName}_aggregate(
+      order_by: {proposal_id: desc}
+      where: $where
+    )  {
+      aggregate {
+        count
+      }
+    }
+  }`;
+
+  function fetchGraphQL(operationsDoc, operationName, variables) {
+    return asyncFetch(QUERYAPI_ENDPOINT, {
+      method: "POST",
+      headers: { "x-hasura-role": `thomasguntenaar_near` },
+      body: JSON.stringify({
+        query: operationsDoc,
+        variables: variables,
+        operationName: operationName,
+      }),
+    });
+  }
+
+  const buildWhereClause = () => {
+    let where = {};
+    if (state.author) {
+      where = { author_id: { _eq: state.author }, ...where };
+    }
+
+    if (state.category) {
+      where = { category: { _eq: state.category }, ...where };
+    }
+
+    if (state.stage) {
+      // timeline is stored as jsonb
+      where = {
+        timeline: { _cast: { String: { _ilike: `%${state.stage}%` } } },
+        ...where,
+      };
+    }
+
+    if (state.input) {
+      where = { description: { _ilike: `%${state.input}%` }, ...where };
+    }
+
+    return where;
+  };
+
+  const buildOrderByClause = () => {
+    /**
+     * TODO
+     * Most commented -> edit contract and indexer
+     * Unanswered -> 0 comments
+     */
+  };
+
+  const makeMoreItems = () => {
+    if (state.aggregatedCount <= state.currentlyDisplaying) return;
+    fetchProposals(state.data.length);
+  };
+
+  const fetchProposals = (offset) => {
+    if (!offset) {
+      offset = 0;
+    }
+    if (state.loading) return;
+    const FETCH_LIMIT = 10;
+    const variables = {
+      limit: FETCH_LIMIT,
+      offset,
+      where: buildWhereClause(),
+    };
+    fetchGraphQL(query, "GetLatestSnapshot", variables).then(async (result) => {
+      if (result.status === 200) {
+        if (result.body.data) {
+          const data =
+            result.body.data
+              .thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot;
+          const totalResult =
+            result.body.data
+              .thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot_aggregate;
+          State.update({ aggregatedCount: totalResult.aggregate.count });
+          // Parse timeline
+          fetchBlockHeights(data, offset);
+        }
+      }
+    });
+  };
+
+  const renderItem = (item, index) => (
+    <div
+      key={item.proposal_id}
+      className={
+        (index !== state.data.length - 1 && "border-bottom ") + index === 0 &&
+        " rounded-top-2"
+      }
+    >
+      <FeedItem proposal={item} index={index} />
+    </div>
+  );
+  const cachedRenderItem = (item, index) => {
+    if (props.term) {
+      return renderItem(item, {
+        searchKeywords: [props.term],
+      });
+    }
+
+    const key = JSON.stringify(item);
+
+    if (!(key in state.cachedItems)) {
+      state.cachedItems[key] = renderItem(item, index);
+      State.update();
+    }
+    return state.cachedItems[key];
+  };
+
+  useEffect(() => {
+    fetchProposals();
+  }, [state.author, state.sort, state.category, state.stage]);
+
+  const mergeItems = (newItems) => {
+    const items = [
+      ...new Set([...newItems, ...state.data].map((i) => JSON.stringify(i))),
+    ].map((i) => JSON.parse(i));
+    // Sorting in the front end
+    if (state.sort === "proposal_id" || state.sort === "") {
+      items.sort((a, b) => b.proposal_id - a.proposal_id);
+    } else if (state.sort === "views") {
+      items.sort((a, b) => b.views - a.views);
+    }
+
+    return items;
+  };
+
+  const fetchBlockHeights = (data, offset) => {
+    let promises = data.map((item) => getProposal(item.proposal_id));
+    Promise.all(promises).then((blockHeights) => {
+      data = data.map((item, index) => ({
+        ...item,
+        timeline: JSON.parse(item.timeline),
+        social_db_post_block_height:
+          blockHeights[index].social_db_post_block_height,
+      }));
+      if (offset) {
+        let newData = mergeItems(data);
+        State.update({
+          data: newData,
+          currentlyDisplaying: newData.length,
+          loading: false,
+        });
+      } else {
+        State.update({
+          data,
+          currentlyDisplaying: data.length,
+          loading: false,
+        });
+      }
+    });
+  };
+
+  const loader = (
+    <div className="d-flex justify-content-center align-items-center w-100">
+      <Widget
+        src={"megha19.near/widget/devhub.components.molecule.Spinner"}
+      />
+    </div>
+  );
+
+  const renderedItems = state.data ? state.data.map(cachedRenderItem) : null;
 
   return (
     <Container className="w-100 py-4 px-2 d-flex flex-column gap-3">
       <div className="d-flex justify-content-between flex-wrap gap-2 align-items-center">
         <Heading>
-          DevDAO Proposals{" "}
-          <span className="text-muted text-normal"> ({proposals.length})</span>
+          DevDAO Proposals
+          <span className="text-muted text-normal">
+            ({state.aggregatedCount ?? state.data.length}){" "}
+          </span>
         </Heading>
-        {/* Filters aren't supported yet */}
-        {/* <div className="d-flex gap-4 align-items-center">
+        <div className="d-flex flex-wrap gap-4 align-items-center">
           <Widget
             src={
               "megha19.near/widget/devhub.feature.proposal-search.by-input"
             }
-            props={{}}
+            props={{
+              search: state.input,
+              className: "w-xs-100",
+              onSearch: (input) => {
+                State.update({ input });
+                fetchProposals();
+              },
+              onEnter: () => {
+                fetchProposals();
+              },
+            }}
           />
           <Widget
             src={"megha19.near/widget/devhub.feature.proposal-search.by-sort"}
-            props={{}}
+            props={{
+              onStateChange: (select) => {
+                State.update({ sort: select.value });
+              },
+            }}
           />
-          <Widget
-            src={
-              "megha19.near/widget/devhub.feature.proposal-search.by-category"
-            }
-            props={{}}
-          />
-          <Widget
-            src={
-              "megha19.near/widget/devhub.feature.proposal-search.by-stage"
-            }
-            props={{}}
-          />
-          <Widget
-            src={
-              "megha19.near/widget/devhub.feature.proposal-search.by-author"
-            }
-            props={{}}
-          />
-        </div> */}
-        <div>
+          <div className="d-flex gap-4 align-items-center">
+            <Widget
+              src={
+                "megha19.near/widget/devhub.feature.proposal-search.by-category"
+              }
+              props={{
+                onStateChange: (select) => {
+                  State.update({ category: select.value });
+                },
+              }}
+            />
+            <Widget
+              src={
+                "megha19.near/widget/devhub.feature.proposal-search.by-stage"
+              }
+              props={{
+                onStateChange: (select) => {
+                  State.update({ stage: select.value });
+                },
+              }}
+            />
+            <Widget
+              src={
+                "megha19.near/widget/devhub.feature.proposal-search.by-author"
+              }
+              props={{
+                onAuthorChange: (select) => {
+                  State.update({ author: select.value });
+                },
+              }}
+            />
+          </div>
+        </div>
+        <div className="mt-2 mt-xs-0">
           <Link
             to={href({
               widgetSrc: "megha19.near/widget/app",
@@ -231,12 +480,8 @@ const FeedPage = () => {
         </div>
       </div>
       <div style={{ minHeight: "50vh" }}>
-        {!Array.isArray(proposals) ? (
-          <div className="d-flex justify-content-center align-items-center w-100">
-            <Widget
-              src={"megha19.near/widget/devhub.components.molecule.Spinner"}
-            />
-          </div>
+        {!Array.isArray(state.data) ? (
+          loader
         ) : (
           <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
             <div className="container-xl">
@@ -291,19 +536,20 @@ const FeedPage = () => {
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
-                {proposals.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={
-                        (index !== proposals.length - 1 && "border-bottom ") +
-                        (index === 0 && " rounded-top-2")
-                      }
-                    >
-                      <FeedItem proposal={item} />
-                    </div>
-                  );
-                })}
+                {state.data.length > 0 ? (
+                  <InfiniteScroll
+                    pageStart={0}
+                    loadMore={makeMoreItems}
+                    hasMore={state.aggregatedCount > state.data.length}
+                    loader={loader}
+                    useWindow={false}
+                    threshold={100}
+                  >
+                    {renderedItems}
+                  </InfiniteScroll>
+                ) : (
+                  loader
+                )}
               </div>
             </div>
           </div>
