@@ -1,5 +1,5 @@
-const TIME_UNTIL_RESHOW = 1000 * 60 // TESTING
-// const TIME_UNTIL_RESHOW = 1000 * 60 * 60 * 3 // PROD
+// const TIME_UNTIL_RESHOW = 1000 * 60 // TESTING
+const TIME_UNTIL_RESHOW = 1000 * 60 * 60 * 3 // PROD
 
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
@@ -37,10 +37,10 @@ useEffect(() => {
       if (!lastShow[key]) continue
 
       // TESTING
-      if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3) {
-        lastShow[key].doNotShowAgain = false
-        lastShow[key].isViewed = false
-      }
+      // if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3) {
+      //   lastShow[key].doNotShowAgain = false
+      //   lastShow[key].isViewed = false
+      // }
       //
 
       // DO NOT refactor the following code block to stay the logic clear!!!
