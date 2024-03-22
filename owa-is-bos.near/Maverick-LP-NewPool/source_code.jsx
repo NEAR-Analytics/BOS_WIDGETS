@@ -275,9 +275,9 @@ const setUserBalances = () => {
   tokABalance
     ? State.update({
         tokenABalance: {
-          fixed: (
-            parseFloat(tokABalance.tokenBalance).toFixed(11) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokABalance.tokenBalance) - 0.000001)
+            .toFixed(8)
+            .toString(),
           unfixed: tokABalance.tokenBalanceBN,
         },
       })
@@ -285,9 +285,9 @@ const setUserBalances = () => {
   tokBBalance
     ? State.update({
         tokenBBalance: {
-          fixed: (
-            parseFloat(tokBBalance.tokenBalance).toFixed(11) - 0.000001
-          ).toString(),
+          fixed: (parseFloat(tokBBalance.tokenBalance) - 0.000001)
+            .toFixed(8)
+            .toString(),
           unfixed: tokBBalance.tokenBalanceBN,
         },
       })
@@ -1893,26 +1893,27 @@ return (
                     ? state.tokenABalance && state.tokenBBalance
                       ? state.need2Tokens
                         ? state.amountInputTokenA > 0 &&
-                          state.amountInputTokenA < state.tokenABalance.fixed &&
+                          state.amountInputTokenA <=
+                            state.tokenABalance.fixed &&
                           state.amountInputTokenB > 0 &&
-                          state.amountInputTokenB < state.tokenBBalance.fixed
+                          state.amountInputTokenB <= state.tokenBBalance.fixed
                           ? validateButton
                           : validateButtonDisabled
                         : state.amountInputTokenB > 0 &&
-                          state.amountInputTokenB < state.tokenBBalance.fixed
+                          state.amountInputTokenB <= state.tokenBBalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.poolModeSelected.id == 1
                     ? state.tokenABalance
                       ? state.amountInputTokenA > 0 &&
-                        state.amountInputTokenA < state.tokenABalance.fixed
+                        state.amountInputTokenA <= state.tokenABalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.tokenBBalance
                     ? state.amountInputTokenB > 0 &&
-                      state.amountInputTokenB < state.tokenBBalance.fixed
+                      state.amountInputTokenB <= state.tokenBBalance.fixed
                       ? validateButton
                       : validateButtonDisabled
                     : validateButtonDisabled
