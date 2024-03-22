@@ -1,4 +1,4 @@
-const { Hero } = VM.require("buildhub.near/widget/home.Hero") || {
+const { Hero } = VM.require("abdullahi3000.near/widget/home.Hero") || {
   Hero: () => <></>,
 };
 const { Goals } = VM.require("buildhub.near/widget/home.Goals") || {
