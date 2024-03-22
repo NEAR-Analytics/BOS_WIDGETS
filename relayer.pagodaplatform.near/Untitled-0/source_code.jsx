@@ -15,6 +15,47 @@ const Container = styled.div`
   padding: 0;
 `;
 
+const PrimaryText = styled.p`
+  width: 100%;
+  font-size: 20px;
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+  white-space: pre-line;
+  @media (max-width: 768px) {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  }
+`;
+
+const PrimaryBox = styled.p`
+  @media (min-width: 512px) {
+    font-size: 28px;
+    width: 100%;
+  }
+
+  width: 100%;
+  font-size: 20px;
+
+  font-family: 'Kodchasan', sans-serif;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+
+  padding: 0;
+  margin: 0;
+
+  white-space: pre-line;
+  align-self: flex-end;
+
+`;
+
 const ContainerNav = styled.div`
   position: absolute;
   display: flex;
@@ -27,11 +68,11 @@ const ContainerNav = styled.div`
   flex-direction: column; 
 
   @media (max-width: 768px) {
-    top: -60%;
+    top: 10%;
     left: 5%;
     width: 100%;
     flex-direction: row; /* Рядок для елементів на мобільних пристроях */
-    justify-content: space-between; /* Рівномірний розподіл простору між елементами */
+    
   }
 `;
 
@@ -113,29 +154,6 @@ const WidgetContainer = styled.div`
   align-items: center;
 `;
 
-const PrimaryText = styled.p`
-@media (min-width: 512px) {
-    font-size: 28px;
-    width: 100%;
-  }
-
-  width: 100%;
-  font-size: 20px;
-
-  font-family: 'Kodchasan', sans-serif;
-  font-weight: 700;
-  text-align: center;
-  color: #ffffff;
-  text-transform: uppercase;
-
-  padding: 0;
-  margin: 0;
-
-  white-space: pre-line;
-  align-self: flex-end;
-
-`;
-
 const Navigation = styled.div`
   position: absolute;
   top: 10%;
@@ -185,7 +203,7 @@ const renderSquares = () => {
               />
             </svg>
           </WidgetContainer>
-          <PrimaryText>Delete Button</PrimaryText>
+          <PrimaryBox>Delete Button</PrimaryBox>
         </Square>
       );
     } else {
