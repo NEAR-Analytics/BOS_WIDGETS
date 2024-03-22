@@ -33,10 +33,17 @@ return {
       path: "buildhub.near/widget/page.library",
       blockHeight: "final",
       init: {
-        name: "Music Player",
+        name: "Music Playe",
       },
     },
-
+    profile: {
+      path: "buildhub.near/widget/page.profile",
+      blockHeight: "final",
+      init: {
+        name: "Profile",
+      },
+      hide: true,
+    },
     inspect: {
       path: "buildhub.near/widget/page.inspect",
       blockHeight: "final",
