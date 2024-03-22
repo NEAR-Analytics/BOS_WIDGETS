@@ -8,13 +8,13 @@ return {
         name: "Home",
       },
     },
-    feed: {
-      path: "abdullahi3000.near/widget/page.feed",
-      blockHeight: "final",
-      init: {
-        name: "Feed",
-      },
-    },
+    // feed: {
+    //   path: "abdullahi3000.near/widget/page.feed",
+    //   blockHeight: "final",
+    //   init: {
+    //     name: "Feed",
+    //   },
+    // },
     pitch: {
       path: "buildhub.near/widget/page.projects",
       blockHeight: "final",
