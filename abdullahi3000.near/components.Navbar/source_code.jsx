@@ -218,7 +218,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "buildhub.near/widget/app",
+              widgetSrc: "abdullahi3000.near/widget/app",
               params: {
                 page: "home",
               },
@@ -243,7 +243,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "buildhub.near/widget/app",
+                      widgetSrc: "abdullahi3000.near/widget/app",
                       params: {
                         page: k,
                       },
@@ -259,59 +259,6 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <StyledDropdown className="dropdown">
-              <button
-                className="dropdown-toggle"
-                type="button"
-                id="dropdownMenu2222"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={href({
-                      widgetSrc: "buildhub.near/widget/app",
-                      params: {
-                        page: "inspect",
-                        widgetPath: routes[page].path,
-                      },
-                    })}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-tiems-center gap-2"
-                  >
-                    <i className="bi bi-code"></i>
-                    <span>View source</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    href={`/edit/${routes[page].path}`}
-                    type="icon"
-                    variant="outline"
-                    className="d-flex align-items-center gap-2"
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span>Edit code</span>
-                  </Link>
-                </li>
-              </ul>
-            </StyledDropdown>
-          </div>
           {context.accountId ? (
             <Widget
               src="buildhub.near/widget/components.buttons.UserDropdown"
