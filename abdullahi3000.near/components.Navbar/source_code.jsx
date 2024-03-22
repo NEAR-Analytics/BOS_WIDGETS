@@ -228,7 +228,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               style={{ height: 46 }}
-              src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
+              src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
             />
           </Link>
           <NavLinks>
