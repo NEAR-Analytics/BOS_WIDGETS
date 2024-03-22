@@ -5,14 +5,14 @@ return {
       path: "buildhub.near/widget/page.home",
       blockHeight: "final",
       init: {
-        name: "Abdullahi",
+        name: "Home",
       },
     },
     feed: {
       path: "buildhub.near/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Test",
+        name: "Feed",
       },
     },
     proposal: {
