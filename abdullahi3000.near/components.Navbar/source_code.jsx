@@ -1,4 +1,4 @@
-const { Button } = VM.require("abdullahi3000.near/widget/components") || {
+const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
 
@@ -97,7 +97,7 @@ const NavLinks = styled.div`
   }
 
   .active {
-    color: #0d50c1;
+    color: var(--eca-227, #eca227);
     font-weight: 700;
   }
 
@@ -174,7 +174,7 @@ const StyledDropdown = styled.div`
       :hover,
       :focus {
         text-decoration: none;
-        background-color: #0d50c1;
+        background-color: var(--slate-dark-1);
         color: white;
 
         svg {
@@ -218,7 +218,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "abdullahi3000.near/widget/app",
+              widgetSrc: "buildhub.near/widget/app",
               params: {
                 page: "home",
               },
@@ -227,8 +227,8 @@ function Navbar(props) {
           >
             <img
               className="object-fit-cover"
-              style={{ height: 50 }}
-              src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
+              style={{ height: 46 }}
+              src="https://ipfs.near.social/ipfs/bafkreiglw3t6b3dx2axk7x4ftzk6pwwe6ziiyexlszlkhenxist6osrlbe"
             />
           </Link>
           <NavLinks>
@@ -243,7 +243,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "abdullahi3000.near/widget/app",
+                      widgetSrc: "buildhub.near/widget/app",
                       params: {
                         page: k,
                       },
@@ -259,9 +259,62 @@ function Navbar(props) {
           </NavLinks>
         </Left>
         <Right>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <StyledDropdown className="dropdown">
+              <button
+                className="dropdown-toggle"
+                type="button"
+                id="dropdownMenu2222"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i style={{ color: "white" }} className="bi bi-three-dots"></i>
+              </button>
+              <ul className="dropdown-menu" aria-labelledby="dropdownMenu2222">
+                <li>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    href={href({
+                      widgetSrc: "buildhub.near/widget/app",
+                      params: {
+                        page: "inspect",
+                        widgetPath: routes[page].path,
+                      },
+                    })}
+                    type="icon"
+                    variant="outline"
+                    className="d-flex align-tiems-center gap-2"
+                  >
+                    <i className="bi bi-code"></i>
+                    <span>View source</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    href={`/edit/${routes[page].path}`}
+                    type="icon"
+                    variant="outline"
+                    className="d-flex align-items-center gap-2"
+                  >
+                    <i className="bi bi-pencil"></i>
+                    <span>Edit code</span>
+                  </Link>
+                </li>
+              </ul>
+            </StyledDropdown>
+          </div>
           {context.accountId ? (
             <Widget
-              src="abdullahi3000.near/widget/components.buttons.UserDropdown"
+              src="buildhub.near/widget/components.buttons.UserDropdown"
               loading=""
               props={props}
             />
@@ -280,7 +333,7 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: "abdullahi3000.near/widget/app",
+              widgetSrc: "buildhub.near/widget/app",
               params: {
                 page: "home",
               },
@@ -289,7 +342,7 @@ function Navbar(props) {
             <img
               className="object-fit-cover"
               onClick={() => setDropdown(false)}
-              src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
+              src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
               style={{ height: 40 }}
               alt="BuildDAO"
             />
@@ -310,7 +363,7 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: "abdullahi3000.near/widget/app",
+                widgetSrc: "buildhub.near/widget/app",
                 params: {
                   page: "home",
                 },
@@ -318,7 +371,7 @@ function Navbar(props) {
             >
               <img
                 onClick={() => setDropdown(false)}
-                src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
+                src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
                 style={{ height: 40 }}
                 alt="BuildDAO"
               />
@@ -341,33 +394,51 @@ function Navbar(props) {
                     return null;
                   }
                   return (
-                    <>
-                      <Link
-                        key={`mobile=${k}`}
-                        style={{ textDecoration: "none" }}
-                        to={href({
-                          widgetSrc: "abdullahi3000.near/widget/app",
-                          params: {
-                            page: k,
-                          },
-                        })}
+                    <Link
+                      key={`mobile=${k}`}
+                      style={{ textDecoration: "none" }}
+                      to={href({
+                        widgetSrc: "buildhub.near/widget/app",
+                        params: {
+                          page: k,
+                        },
+                      })}
+                    >
+                      <span
+                        onClick={toggleDropdown}
+                        key={k}
+                        className={page === k ? "active" : null}
                       >
-                        <span
-                          onClick={toggleDropdown}
-                          key={k}
-                          className={page === k ? "active" : null}
-                        >
-                          {route.init.icon && (
-                            <i className={route.init.icon}></i>
-                          )}
-                          {route.init.name}
-                        </span>
-                      </Link>
-                    </>
+                        {route.init.icon && <i className={route.init.icon}></i>}
+                        {route.init.name}
+                      </span>
+                    </Link>
                   );
                 })}
             </NavLinks>
             <div className="d-flex flex-column gap-2 w-100">
+              <div className="d-flex gap-2">
+                <Button
+                  linkClassName="d-flex w-100"
+                  className="w-100"
+                  href={href({
+                    widgetSrc: "buildhub.near/widget/app",
+                    params: {
+                      page: "inspect",
+                      widgetPath: routes[page].path,
+                    },
+                  })}
+                >
+                  <span>View source</span>
+                </Button>
+                <Button
+                  linkClassName="d-flex w-100"
+                  className="w-100"
+                  href={`/edit/${routes[page].path}`}
+                >
+                  Edit Code
+                </Button>
+              </div>
               {context.accountId ? (
                 <div className="mx-auto d-flex align-items-stretch ">
                   <Widget
