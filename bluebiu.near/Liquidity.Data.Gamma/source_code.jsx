@@ -194,9 +194,7 @@ function getDataList() {
   })
   formatedData('dataList')
 }
-function getBalance() {
 
-}
 function getLiquidity() {
   const calls = [];
   const sender = Ethers.send("eth_requestAccounts", [])[0];
@@ -337,7 +335,6 @@ function getFeeTiers() {
 useEffect(() => {
   getDataList()
   getLiquidity()
-  getBalance()
   getFeeTiers()
   getTotalApr()
 }, [])
