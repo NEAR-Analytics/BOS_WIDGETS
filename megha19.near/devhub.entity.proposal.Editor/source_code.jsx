@@ -22,7 +22,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("truedove38.near", "get_proposal", {
+  editProposalData = Near.view("devhub.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -252,7 +252,8 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("truedove38.near", "get_proposals");
+const proposalsData = Near.view("devhub.near", "get_proposals");
+
 const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
 const [isDraftBtnOpen, setDraftBtnOpen] = useState(false);
@@ -260,6 +261,9 @@ const [selectedStatus, setSelectedStatus] = useState("draft");
 const [isReviewModalOpen, setReviewModal] = useState(false);
 const [amountError, setAmountError] = useState(null);
 const [isCancelModalOpen, setCancelModal] = useState(false);
+
+const [isSubmittingTransaction, setIsSubmittingTransaction] = useState(false);
+
 const [showProposalPage, setShowProposalPage] = useState(false); // when user creates/edit a proposal and confirm the txn, this is true
 const [proposalId, setProposalId] = useState(null);
 
@@ -347,7 +351,8 @@ useEffect(() => {
     return;
   }
   setDisabledSubmitBtn(
-    amountError ||
+    isSubmittingTransaction ||
+      amountError ||
       !title ||
       !description ||
       !summary ||
@@ -371,6 +376,7 @@ useEffect(() => {
   draftProposalData,
   consent,
   amountError,
+  isSubmittingTransaction,
   showProposalPage,
 ]);
 
@@ -389,6 +395,12 @@ useEffect(() => {
 }, [editProposalData, proposalsOptions]);
 
 useEffect(() => {
+  // Trigger when proposals data change, which will happen on cache invalidation
+  setIsSubmittingTransaction(false);
+  console.log("Proposals data change, assume transaction completed");
+}, [proposalsData]);
+
+useEffect(() => {
   if (
     proposalsData !== null &&
     Array.isArray(proposalsData) &&
@@ -404,6 +416,8 @@ useEffect(() => {
     setProposalsOptions(data);
   }
 }, [proposalsData]);
+
+useEffect(() => {});
 
 const InputContainer = ({ heading, description, children }) => {
   return (
@@ -451,7 +465,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  "truedove38.near",
+                  "devhub.near",
                   "get_all_proposal_ids"
                 ).then((proposalIdsArray) => {
                   setProposalId(
@@ -592,6 +606,14 @@ const DropdowntBtnContainer = styled.div`
 }
 `;
 
+const LoadingButtonSpinner = (
+  <span
+    class="submit-proposal-draft-loading-indicator spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+);
+
 const SubmitBtn = () => {
   const btnOptions = [
     {
@@ -640,7 +662,7 @@ const SubmitBtn = () => {
       >
         <div
           className={
-            "select-header d-flex gap-1 align-items-center " +
+            "select-header d-flex gap-1 align-items-center submit-draft-button " +
             (disabledSubmitBtn && "disabled")
           }
         >
@@ -648,7 +670,11 @@ const SubmitBtn = () => {
             onClick={() => !disabledSubmitBtn && handleSubmit()}
             className="p-2 d-flex gap-2 align-items-center "
           >
-            <div className={"circle " + selectedOption.iconColor}></div>
+            {isSubmittingTransaction ? (
+              LoadingButtonSpinner
+            ) : (
+              <div className={"circle " + selectedOption.iconColor}></div>
+            )}
             <div className={`selected-option`}>{selectedOption.label}</div>
           </div>
           <div
@@ -685,6 +711,8 @@ const SubmitBtn = () => {
 };
 
 const onSubmit = ({ isDraft, isCancel }) => {
+  setIsSubmittingTransaction(true);
+  console.log("submitting transaction");
   const linkedProposalsIds = linkedProposals.map((item) => item.value) ?? [];
   const body = {
     proposal_body_version: "V0",
@@ -719,7 +747,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
 
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
