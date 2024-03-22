@@ -5,7 +5,7 @@ return {
       path: "buildhub.near/widget/page.home",
       blockHeight: "final",
       init: {
-        name: "abdullahi",
+        name: "Home",
       },
     },
     feed: {
