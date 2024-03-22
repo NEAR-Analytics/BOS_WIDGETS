@@ -165,7 +165,7 @@ return (
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
-                class="ref button d-flex justify-content-center align-items-center text-decoration-none rounded-5"
+                class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
               >
                 <img src={props.image6} width="186" />
               </button>{" "}
