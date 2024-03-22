@@ -1,5 +1,5 @@
 const logoLink =
-  "https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya";
+  "https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png";
 const gridLink =
   "https://ipfs.near.social/ipfs/bafkreiay3ytllrxhtyunppqxcazpistttwdzlz3jefdbsq5tosxuryauu4";
 const leftBlur =
@@ -127,7 +127,7 @@ const Hero = () => {
       <Content>
         <Logo src={logoLink} />
         <Tagline>
-          Designed to connect and empower builders in a{" "}
+          Harmonic to connect and empower builders in a{" "}
           <span className="muted">multi-chain ecosystem</span>
         </Tagline>
         <a
