@@ -16,15 +16,22 @@ const Container = styled.div`
 `;
 
 const ContainerNav = styled.div`
-  position: absolute;
+ position: absolute;
   display: flex;
-  top: 10%;
   flex-wrap: wrap;
   height: 100%;
   width: 20%;
   padding: 20px;
   overflow: auto;
   flex-direction: column; 
+
+  @media (max-width: 768px) { /* Максимальна ширина для телефонів */
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    flex-direction: row; /* Рядок для елементів на мобільних пристроях */
+    justify-content: space-between; /* Рівномірний розподіл простору між елементами */
+  }
 `;
 
 const ContainerBox = styled.div`
@@ -35,9 +42,16 @@ const ContainerBox = styled.div`
   flex-wrap: wrap;
   height: 100%;
   width: 80%;
-  padding: 20px; /* Додано більші відступи */
+  padding: 20px;
   overflow: auto;
-`;
+
+  @media (max-width: 768px) { /* Максимальна ширина для телефонів */
+    top: 50%;
+    left: 5%;
+    width: 90%;
+    transform: translateY(-50%); /* Зміщення на половину висоти елемента вгору */
+  }
+  `;
 
 const Square = styled.div`
   width: 30vw; /* Змінено розмір на 150px */
