@@ -185,7 +185,15 @@ return (
       <DappletOverlay>
         <Onboarding>
           <Widget
-            props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
+            props={{
+              handleClose,
+              data,
+              saveData,
+              setShow,
+              link: props.link,
+              showFrom,
+              oldRawData: response
+            }}
             src="bos.dapplets.near/widget/OnboardingTest.SandboxOnboarding"
           />
         </Onboarding>
