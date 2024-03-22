@@ -183,7 +183,7 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
         State.update({
           inputBalance: (
             parseFloat(ethers.utils.formatUnits(balance, decimals)).toFixed(6) -
-            0.000001
+            0.000007
           ).toString(),
           unFixedInputBalance: balance.toHexString(),
         });
