@@ -439,72 +439,34 @@ const SuccessButton = styled.button`
 `
 
 return (!data || isEditMode) ? (
-//   <Container>
-//     <Header>
-//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
-//     </Header>
-//     <CardContainer>
-//       <ArrowButton
-//         direction='left'
-//         disabled={true}
-//       >
-//         {arrowRight}
-//       </ArrowButton>
-//       <Card>
-//         <div style={{
-//           width: '100%',
-//           height: '100%',
-//           display: 'flex',
-//           justifyContent: 'center',
-//           alignItems: 'center'
-//         }}>
-//           <img
-//             src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"
-//             style={{ border: 'none !important' }}
-//           />
-//         </div>
-//       </Card>
-//       <ArrowButton
-//         direction='right'
-//         disabled={true}
-//       >
-//         {arrowRight}
-//       </ArrowButton>
-//     </CardContainer>
-//     <Footer>
-//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
-//       <img src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"/>
-//     </Footer>
-//   </Container>
-// ) (!data || !data.length || activeChapterNumber === null) ? (
-<Container>
-  <Header>
-    <h1>Add data</h1>
-    <CloseButton onClick={() => handleClose(false, viewedPages)}>
-      {closeIcon}
-    </CloseButton>
-  </Header>
-  <textarea
-    autofocus
-    style={{ width: '100%', height: '100%' }}
-    onChange={(e) => setNewData(e.target.value)}
-    value={newData}
-  />
-  <div style={{ display: 'flex', width: '80%', justifyContent: 'space-evenly' }}>
-    {isEditMode ? (
-      <SuccessButton onClick={() => setEditMode(false)}>
-        Cancel
+  <Container>
+    <Header>
+      <h1>Add data</h1>
+      <CloseButton onClick={() => handleClose(false, viewedPages)}>
+        {closeIcon}
+      </CloseButton>
+    </Header>
+    <textarea
+      autofocus
+      style={{ width: '100%', height: '100%' }}
+      onChange={(e) => setNewData(e.target.value)}
+      value={newData}
+    />
+    <div style={{ display: 'flex', width: '80%', justifyContent: 'space-evenly' }}>
+      {isEditMode ? (
+        <SuccessButton onClick={() => setEditMode(false)}>
+          Cancel
+        </SuccessButton>
+      ) : null}
+      <SuccessButton onClick={() => {
+        saveData(newData)
+        setNewData('')
+        setShow(false)
+      }}>
+        Save
       </SuccessButton>
-    ) : null}
-    <SuccessButton onClick={() => {
-      saveData(newData)
-      setNewData('')
-      setShow(false)
-    }}>
-      Save
-    </SuccessButton>
-  </div>
-</Container>
+    </div>
+  </Container>
 ) : (
   <Container>
     <Header>
