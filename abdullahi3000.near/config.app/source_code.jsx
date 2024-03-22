@@ -16,14 +16,14 @@ return {
       },
     },
     pitch: {
-      path: "buildhub.near/widget/page.projects",
+      path: "abdullahi3000.near/widget/page.feed",
       blockHeight: "final",
       init: {
         name: "Pitch",
       },
     },
     documents: {
-      path: "buildhub.near/widget/page.resources",
+      path: "abdullahi3000.near/widget/page.feed",
       blockHeight: "final",
       init: {
         name: "Documents",
