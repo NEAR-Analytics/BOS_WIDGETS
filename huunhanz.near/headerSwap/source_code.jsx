@@ -5,12 +5,20 @@ State.init({
 });
 
 const [dropdownVisible, setDropdownVisible] = useState(false);
+const [visible, setVisible] = useState(false);
 
 const toggleDropdown = () => {
   setDropdownVisible(!dropdownVisible);
 };
 
+const handlClick = () => {
+  setVisible(!visible);
+};
+
 const Header = styled.div`
+      @media screen and (min-width:768px){
+        ${setVisible(true)}
+      }
       .header{
           background-color:${state.color};
       }
@@ -216,8 +224,14 @@ const Header = styled.div`
           text-shadow: 0 3px 6px #00000040;
           font-family: Lakki Reddy,cursive;
       }
+  
+      @media (min-width: 1140px) {
+        #burger {
+          display: none;
+        }
+      }
 `;
-
+console.log(visible);
 return (
   <Header>
     <div class="header py-3 position-relative" id="header">
@@ -228,111 +242,113 @@ return (
               <img src={state.image2} alt="Icon" width="70" height="70" />
               <img src={state.image1} alt="Logo" width="141" height="60" />
             </a>
-            <span class="d-xl-none">
+            <span onClick={handlClick} class="d-x1-none burger" id="burger">
               <span class="burger-line"></span>
               <span class="burger-line"></span>
               <span class="burger-line"></span>
               <span>Menu</span>
             </span>
           </div>
-          <div class="col-lg-9 d-md-none d-xl-block">
-            <div class="navbar justify-content-center" id="navbar">
-              <ul class="navbar-nav d-xl-flex flex-xl-row justify-content-md-between">
-                <li class="nav-item p-1 p-lg-3">
-                  <a class="nav-link close-menu" aria-current="page" href="/">
-                    <span>home</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1 p-lg-3">
-                  <a class="nav-link close-menu" href="/#about">
-                    <span>about</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1 p-lg-3">
-                  <a class="nav-link close-menu" href="/#how">
-                    <span>how to buy</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1 p-lg-3 position-relative">
-                  <a
-                    class={`nav-link dropdown-toggle ${
-                      dropdownVisible ? "show" : ""
-                    }`}
-                    href="#"
-                    id="toggle"
-                    onClick={toggleDropdown}
-                  >
-                    <span>bridge to near</span>
-                  </a>
-                  <ul
-                    class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
-                    id="dropdown"
-                  >
-                    <li>
-                      <a class="dropdown-item" href="/ethereum">
-                        from <span class="text-capitalize">ethereum</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/solana">
-                        from <span class="text-capitalize">solana</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">arbitrum</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">optimism</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">polygon</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">fantom</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">avalanche</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/evm">
-                        from <span class="text-capitalize">BSC</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/suit-aptos">
-                        from <span class="text-capitalize">sui</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="/suit-aptos">
-                        from <span class="text-capitalize">aptos</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item p-1 p-lg-3">
-                  <a class="nav-link close-menu" href="/#token">
-                    <span>tokenomic</span>
-                  </a>
-                </li>
-                <li class="nav-item p-1 p-lg-3">
-                  <a class="nav-link close-menu" href="/#roadmap">
-                    <span>roadmap</span>
-                  </a>
-                </li>
-              </ul>
+          {visible && (
+            <div class="col-lg-9">
+              <div class="navbar justify-content-center" id="navbar">
+                <ul class="navbar-nav d-xl-flex flex-xl-row justify-content-md-between">
+                  <li class="nav-item p-1 p-lg-3">
+                    <a class="nav-link close-menu" aria-current="page" href="/">
+                      <span>home</span>
+                    </a>
+                  </li>
+                  <li class="nav-item p-1 p-lg-3">
+                    <a class="nav-link close-menu" href="/#about">
+                      <span>about</span>
+                    </a>
+                  </li>
+                  <li class="nav-item p-1 p-lg-3">
+                    <a class="nav-link close-menu" href="/#how">
+                      <span>how to buy</span>
+                    </a>
+                  </li>
+                  <li class="nav-item p-1 p-lg-3 position-relative">
+                    <a
+                      class={`nav-link dropdown-toggle ${
+                        dropdownVisible ? "show" : ""
+                      }`}
+                      href="#"
+                      id="toggle"
+                      onClick={toggleDropdown}
+                    >
+                      <span>bridge to near</span>
+                    </a>
+                    <ul
+                      class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
+                      id="dropdown"
+                    >
+                      <li>
+                        <a class="dropdown-item" href="/ethereum">
+                          from <span class="text-capitalize">ethereum</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/solana">
+                          from <span class="text-capitalize">solana</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">arbitrum</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">optimism</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">polygon</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">fantom</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">avalanche</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/evm">
+                          from <span class="text-capitalize">BSC</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/suit-aptos">
+                          from <span class="text-capitalize">sui</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/suit-aptos">
+                          from <span class="text-capitalize">aptos</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item p-1 p-lg-3">
+                    <a class="nav-link close-menu" href="/#token">
+                      <span>tokenomic</span>
+                    </a>
+                  </li>
+                  <li class="nav-item p-1 p-lg-3">
+                    <a class="nav-link close-menu" href="/#roadmap">
+                      <span>roadmap</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
