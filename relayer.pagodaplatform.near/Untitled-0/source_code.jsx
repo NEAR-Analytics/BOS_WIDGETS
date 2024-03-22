@@ -16,17 +16,17 @@ const Container = styled.div`
 `;
 
 const ContainerNav = styled.div`
- position: absolute;
+  position: absolute;
   display: flex;
+  top: 10%;
   flex-wrap: wrap;
   height: 100%;
   width: 20%;
-  top: 10%;
   padding: 20px;
   overflow: auto;
   flex-direction: column; 
 
-  @media (max-width: 768px) { /* Максимальна ширина для телефонів */
+  @media (max-width: 768px) {
     top: 5%;
     left: 5%;
     width: 90%;
@@ -46,34 +46,34 @@ const ContainerBox = styled.div`
   padding: 20px;
   overflow: auto;
 
-  @media (max-width: 768px) { /* Максимальна ширина для телефонів */
+  @media (max-width: 768px) {
     top: 50%;
-    left: 50%;
+    left: 5%;
     width: 90%;
-    transform: translateY(-50%); /* Зміщення на половину висоти елемента вгору */
+    transform: translateY(-50%);
   }
-  `;
+`;
 
 const Square = styled.div`
-  width: 30vw; /* Змінено розмір на 150px */
-  height: 40vh; /* Змінено розмір на 150px */
-  margin: 40px; /* Збільшено відступи */
+  width: 80vw; /* 80% ширини екрану */
+  height: 40vh; /* 40% висоти екрану */
+  margin: 40px auto; /* автоматичні бокові марджини для центрування */
   padding: 20px;
-  position: relative; /* Додано позиціонування */
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: width 0.3s, height 0.3s; /* Анімація зміни розміру */
-  border-radius: 20px; /* Заокруглення углів */
-  box-shadow: 0 0 20px 5px rgba(255,255,255,0.7); /* Тінь */
-  overflow: hidden; /* Приховує вміст, який виходить за межі */
-  
-transition: transform 0.3s ease; /* Додано перехід для плавного збільшення */
-  
+  transition: transform 0.3s ease;
+
   &:hover {
-    transform: scale(1.2); /* Збільшення у два рази при наведенні */
+    transform: scale(1.2);
   }
 
+  @media (max-width: 768px) {
+    width: 90%; /* 90% ширини екрану на мобільних пристроях */
+    height: auto; /* Автоматична висота для адаптації контенту */
+    margin: 20px auto; /* Зменшуємо марджин */
+  }
 `;
 
 const Number = styled.span`
