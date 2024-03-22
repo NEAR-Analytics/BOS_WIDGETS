@@ -1196,7 +1196,10 @@ const validateButtonDisabled = (
   <div class="validateButtonDisabled" disabled>
     <div class={"ConfirmText"}>
       {state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
-        ? state.tokenABalance && state.tokenBBalance
+        ? state.tokenABalance &&
+          state.tokenBBalance &&
+          (state.amountInputTokenA <= state.tokenABalance.fixed ||
+            state.amountInputTokenA <= state.tokenABalance.fixed)
           ? "Validate"
           : `You don't have enough balance`
         : state.poolModeSelected.id == 1
