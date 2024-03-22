@@ -1,5 +1,5 @@
 const { Hero, Goals, Join, Purposes, AboutUs, Governance, Footer } = VM.require(
-  "abdullahi3000.near/widget/home.Home"
+  "buildhub.near/widget/home.Home"
 ) || {
   Hero: () => <></>,
   Goals: () => <></>,
