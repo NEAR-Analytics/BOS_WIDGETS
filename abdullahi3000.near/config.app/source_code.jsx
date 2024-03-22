@@ -12,7 +12,7 @@ return {
       path: "abdullahi3000.near/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Test",
+        name: "Feed",
       },
     },
     proposal: {
