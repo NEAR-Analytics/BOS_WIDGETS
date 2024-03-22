@@ -244,7 +244,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("truedove38.near", "get_proposal", {
+const proposal = Near.view("devhub.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -272,7 +272,7 @@ const authorId = proposal.author_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `truedove38.near/post/main`,
+  path: `devhub.near/post/main`,
   blockHeight,
 };
 const proposalURL = `https://near.org/megha19.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
@@ -382,7 +382,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("truedove38.near", "get_proposal", {
+    const data = Near.view("devhub.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -451,7 +451,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "truedove38.near",
+  "devhub.near",
   "is_allowed_to_edit_proposal",
   {
     proposal_id: proposal.id,
@@ -459,7 +459,7 @@ const isAllowedToEditProposal = Near.view(
   }
 );
 
-const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+const isModerator = Near.view("devhub.near", "has_moderator", {
   account_id: accountId,
 });
 
@@ -483,7 +483,7 @@ const editProposal = ({ timeline }) => {
 
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: "edit_proposal",
       args: args,
       gas: 270000000000000,
@@ -494,7 +494,7 @@ const editProposal = ({ timeline }) => {
 const editProposalStatus = ({ timeline }) => {
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: "edit_proposal_timeline",
       args: {
         id: proposal.id,
