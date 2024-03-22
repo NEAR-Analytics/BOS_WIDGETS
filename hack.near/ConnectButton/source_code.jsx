@@ -1,13 +1,8 @@
-if (
-  !props.accountId ||
-  !context.accountId ||
-  context.accountId === props.accountId
-) {
-  return "";
-}
+const accountId = props.accountId ?? "every.near";
+const graphId = props.graphId ?? "connect";
 
-const connectEdge = Social.keys(
-  `${context.accountId}/graph/connect/${props.accountId}`,
+const graphEdge = Social.keys(
+  `${context.accountId}/graph/${graphId}/${props.accountId}`,
   undefined,
   {
     values_only: true,
@@ -15,24 +10,24 @@ const connectEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.accountId}/graph/connect/${context.accountId}`,
+  `${props.accountId}/graph/${graphId}/${context.accountId}`,
   undefined,
   {
     values_only: true,
   }
 );
 
-const loading = connectEdge === null || inverseEdge === null;
-const connect = connectEdge && Object.keys(connectEdge).length;
+const loading = graphEdge === null || inverseEdge === null;
+const connected = graphEdge && Object.keys(graphEdge).length;
 const inverse = inverseEdge && Object.keys(inverseEdge).length;
 
-const type = connect ? "undo" : "connect";
+const type = connected ? "undo" : graphId;
 
 const data = {
-  graph: { connect: { [props.accountId]: connect ? null : "" } },
+  graph: { [graphId]: { [props.accountId]: connected ? null : "" } },
   index: {
     graph: JSON.stringify({
-      key: "connect",
+      key: `${graphId}`,
       value: {
         type,
         accountId: props.accountId,
@@ -51,10 +46,10 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn btn-sm ${
-      loading || connect ? "btn-secondary" : "btn-outline-light"
+      loading || connected ? "btn-secondary" : "btn-outline-dark"
     }`}
     data={data}
   >
-    {loading ? "" : connect ? "Connected" : "Connect"}
+    {loading ? "" : connected ? "Undo" : "Add"}
   </CommitButton>
 );
