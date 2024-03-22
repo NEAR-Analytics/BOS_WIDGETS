@@ -7,14 +7,14 @@ function formatDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
-const daoName = "Harmonic Guild";
-const feedLink = "https://https://www.harmonicguild.io";
+const daoName = "Build DAO";
+const feedLink = "https://nearbuilders.org/feed";
 
 return {
   type: "app", // every.near/type/app
   routes: {
     all: {
-      path: "abdullahi3000.near/widget/Feed",
+      path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "All", // maybe these should be moved to navbar specific
@@ -22,11 +22,11 @@ return {
         requiredHashtags: ["build"],
       },
     },
-    pitch: {
-      path: "abdullahi3000.near/widget/harmonic.pitch",
+    updates: {
+      path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
-        name: "Pitch",
+        name: "Updates",
         icon: "bi-bell",
         requiredHashtags: ["build", "update"],
         template: `### BUILDER UPDATE:  ${formatDate(new Date())}
@@ -46,20 +46,75 @@ return {
 `,
       },
     },
-    documents: {
-      path: "abdullahi3000.near/widget/docs",
+    question: {
+      path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
-        name: "Documents",
-        icon: "bi-file-text",
+        name: "Question",
+        icon: "bi-question-lg",
+        requiredHashtags: ["build", "question"],
+        template: `## what is your question?
+(posted via [${daoName} Gateway](${feedLink}?tab=question))
+
+[what are you thinking about?]
+[why are you asking?]
+`,
       },
     },
-    treasury: {
-      path: "abdullahi3000.near/widget/DAO.Funds.index",
+    idea: {
+      path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
-        name: "Treasury",
-        icon: "bi bi-cash-coin",
+        name: "Idea",
+        icon: "bi-lightbulb",
+        requiredHashtags: ["build", "idea"],
+        template: `## IDEA TITLE
+(posted via [${daoName} Gateway](${feedLink}?tab=idea))
+
+**What idea are you proposing?**
+- [Describe the idea]
+
+**Context or additional information:**
+- [Provide any context or details]
+`,
+      },
+    },
+    feedback: {
+      path: "buildhub.near/widget/Feed",
+      blockHeight: "final",
+      init: {
+        name: "Feedback",
+        icon: "bi-chat-left-text",
+        requiredHashtags: ["build", "feedback"],
+      },
+    },
+    events: {
+      path: "buildhub.near/widget/events.Calendar",
+      blockHeight: "final",
+      init: {
+        name: "Events",
+        icon: "bi-calendar",
+        app: "every",
+        thing: "event",
+      },
+    },
+    bookmarks: {
+      path: "buildhub.near/widget/OrderedGraphFeed",
+      blockHeight: "final",
+      init: {
+        name: "Bookmarks",
+        icon: "bi-bookmark",
+        itemType: "bookmark",
+        renderItem: (item) => {
+          return (
+            <Post
+              accountId={item.accountId}
+              blockHeight={item.blockHeight}
+              noBorder={true}
+              hideComments={true}
+            />
+          );
+        },
       },
     },
   },
