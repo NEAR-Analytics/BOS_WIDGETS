@@ -9,7 +9,7 @@ return {
       },
     },
     feed: {
-      path: "abdullahi3000.near/widget/page.feed",
+      path: "buildhub.near/widget/page.feed",
       blockHeight: "final",
       init: {
         name: "Feed",
