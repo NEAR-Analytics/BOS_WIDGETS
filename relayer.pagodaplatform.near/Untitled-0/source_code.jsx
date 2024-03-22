@@ -55,23 +55,26 @@ const ContainerBox = styled.div`
 `;
 
 const Square = styled.div`
-  width: 80vw; /* 80% ширини екрану */
-  height: 40vh; /* 40% висоти екрану */
-  margin: 40px auto; /* автоматичні бокові марджини для центрування */
+  width: 20vw; /* Змінено розмір на 150px */
+  height: 40vh; /* Змінено розмір на 150px */
+  margin: 40px; /* Збільшено відступи */
   padding: 20px;
-  position: relative;
+  position: relative; /* Додано позиціонування */
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease;
+  transition: width 0.3s, height 0.3s; /* Анімація зміни розміру */
+  border-radius: 20px; /* Заокруглення углів */
+  box-shadow: 0 0 20px 5px rgba(255,255,255,0.7); /* Тінь */
+  
 
   &:hover {
     transform: scale(1.2);
   }
 
   @media (max-width: 768px) {
-    width: 90%; /* 90% ширини екрану на мобільних пристроях */
-    height: auto; /* Автоматична висота для адаптації контенту */
+    width: 40vh; /* 90% ширини екрану на мобільних пристроях */
+    height: 40vw; /* Автоматична висота для адаптації контенту */
     margin: 20px auto; /* Зменшуємо марджин */
   }
 `;
