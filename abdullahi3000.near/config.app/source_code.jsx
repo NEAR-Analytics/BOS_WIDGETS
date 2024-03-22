@@ -33,7 +33,7 @@ return {
       path: "buildhub.near/widget/page.library",
       blockHeight: "final",
       init: {
-        name: "Music Playe",
+        name: "Music Player",
       },
     },
     profile: {
