@@ -160,13 +160,12 @@ function selectSong(index) {
     currentSongIndex: index,
   });
 }
+
+//<h1 style={styles.heading}>Decentralised Music Streaming</h1>
 return (
-  <div
-    className="container py-3"
-    style={{ height: "100%", width: "100%", backgroundColor: "#fff" }}
-  >
-    <div className="row">
-      <div className="col-lg-6">
+  <div style={styles.container}>
+    <InnerContainer>
+      <div style={styles.playerContainer}>
         <Widget
           src="mob.near/widget/NftImage"
           props={{
@@ -175,56 +174,84 @@ return (
               contractId: songs[state.currentSongIndex].nft_contract_id,
             },
             style: {
-              width: "100%",
-              height: "auto",
+              width: 300,
+              height: 300,
               objectFit: "cover",
+              minWidth: size,
+              minHeight: size,
+              maxWidth: size,
+              maxHeight: size,
+              overflowWrap: "break-word",
             },
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
           }}
         />
-        <div className="d-flex justify-content-center my-3">
-          <button className="btn btn-primary mx-2" onClick={playPreviousSong}>
+
+        <div style={styles.buttonContainer}>
+          <button
+            style={{
+              backgroundColor: "#4472c4",
+              color: "white",
+              marginRight: "10px",
+            }}
+            onClick={playPreviousSong}
+          >
             Previous
           </button>
-          <button className="btn btn-secondary mx-2" onClick={pauseCurrentSong}>
+          <button
+            style={{
+              backgroundColor: "#4472c4",
+              color: "white",
+              marginRight: "10px",
+            }}
+            onClick={pauseCurrentSong}
+          >
             Pause
           </button>
-          <button className="btn btn-success mx-2" onClick={playCurrentSong}>
+          <button
+            style={{
+              backgroundColor: "#4472c4",
+              color: "white",
+              marginRight: "10px",
+            }}
+            onClick={playCurrentSong}
+          >
             Play
           </button>
-          <button className="btn btn-primary mx-2" onClick={playNextSong}>
+          <button
+            style={{
+              backgroundColor: "#4472c4",
+              color: "white",
+              marginRight: "10px",
+            }}
+            onClick={playNextSong}
+          >
             Next
           </button>
         </div>
       </div>
-
-      <div className="col-lg-6">
-        <div
-          className="overflow-auto"
+      <div style={styles.songListContainer}>
+        <h3
+          className="font-bold"
           style={{
-            width: "24rem",
-            height: "24rem",
-            overflowY: "auto",
-            padding: "1rem",
+            paddingLeft: "1rem",
           }}
         >
-          {" "}
-          <h3 className="font-weight-bold text-center my-3">Songs</h3>
-          {songs.map((song, i) => (
-            <Widget
-              key={i}
-              src="efiz.near/widget/MusicPlayer-Harmonic.Track"
-              props={{
-                styles,
-                selected: state.currentSongIndex === i,
-                selectSong: () => selectSong(i),
-                song,
-              }}
-            />
-          ))}
-        </div>
+          Songs
+        </h3>
+        {songs.map((song, i) => (
+          <Widget
+            src="efiz.near/widget/MusicPlayer-Harmonic.Track"
+            props={{
+              styles,
+              selected: state.currentSongIndex === i,
+              selectSong: () => selectSong(i),
+              song,
+            }}
+          />
+        ))}
       </div>
-    </div>
+    </InnerContainer>
   </div>
 );
