@@ -30,7 +30,7 @@ return {
       },
     },
     musicPlayer: {
-      path: "buildhub.near/widget/page.library",
+      path: "harmonic1.near/widget/MusicPlayer-Harmonic",
       blockHeight: "final",
       init: {
         name: "Music Player",
