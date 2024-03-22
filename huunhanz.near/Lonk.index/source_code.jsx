@@ -266,7 +266,7 @@ return (
           id="token"
         >
           <div class="container">
-            <div class="row flex-column-reverse flex-md-row align-items-center">
+            <div class="row flex-md-row align-items-center">
               <div class="col-12 col-md-6 ">
                 <p class="mb-5 text-uppercase">
                   <strong>420.69 Billions LONK</strong>
@@ -290,8 +290,8 @@ return (
                   NO BS
                 </p>
               </div>
-              <div class="col-12 col-md-6 col-lg-6 text-md-start">
-                <h2 class="text-start">tokenomics</h2>
+              <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
+                <h2>tokenomics</h2>
               </div>
             </div>
           </div>
@@ -305,7 +305,7 @@ return (
               <div class="col-12">
                 <h2>roadmap</h2>
               </div>
-              <div class="col-12 col-md-4 col-lg-3">
+              <div class="col-12 col-md-4 col-lg-3 text-md-center">
                 <p class="text-uppercase mb-5">
                   Phase 1: lonk
                   <br />
@@ -317,6 +317,11 @@ return (
                 </p>
                 <br />
               </div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="col-12"></div>
