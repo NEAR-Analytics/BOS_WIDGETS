@@ -9,7 +9,7 @@ const { href } = VM.require("buildhub.near/widget/lib.url") || {
 const gridLink =
   "https://ipfs.near.social/ipfs/bafkreiay3ytllrxhtyunppqxcazpistttwdzlz3jefdbsq5tosxuryauu4";
 const logoLink =
-  "https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq";
+  "https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png";
 const leftBlur =
   "https://ipfs.near.social/ipfs/bafkreiabxzgspdolrlol2gvw7gnyrtktmfg23pd2ykow5pdddtmz3ve45y";
 const rightBlur =
@@ -218,7 +218,7 @@ const Hero = (props) => {
         <Logo src={logoLink} />
         <HeadingContainer>
           <Heading>
-            Designed hello connect and empower builders in a{" "}
+            Designed to connect and empower builders in a{" "}
             <span>multi-chain ecosystem</span>
           </Heading>
           <Subheading>
