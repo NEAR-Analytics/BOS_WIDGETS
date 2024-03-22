@@ -248,6 +248,10 @@ const StyledText = styled.p`
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
+  margin: 0 auto;
+  align-items: center;
+  justify-content: "center";
+  text-align: center;
 `;
 
 return (
@@ -259,7 +263,7 @@ return (
             <Flex gap="23px" direction="column" alignItems="center">
               <img
                 src="https://builders.mypinata.cloud/ipfs/QmRUBcvnoaUsLkAA4ohJthZ3M25UCsnw8R8hySatDojvBa"
-                style={{ width: "30%", height: "auto" }}
+                style={{ width: "39%", height: "auto" }}
               ></img>
               {!success && !pending && (
                 <>
@@ -440,10 +444,10 @@ return (
       style={{
         textTransform: "uppercase",
         letterSpacing: "0.17em",
-        textAlign: "center",
+        width: "60%",
       }}
     >
-      Sponsored by NEAR Digital Collective
+      Sponsored by NEAR Digital Collective & NDC Services Inc
     </StyledText>
     <Flex>
       <Badge>
