@@ -186,7 +186,7 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token
+              Swap Token Ref Finance
             </h5>
             <button
               type="button"
