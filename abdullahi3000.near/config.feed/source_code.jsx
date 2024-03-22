@@ -7,7 +7,7 @@ function formatDate(date) {
   return date.toLocaleDateString("en-US", options);
 }
 
-const daoName = "Build DAO";
+const daoName = "Harmonic Guild";
 const feedLink = "https://nearbuilders.org/feed";
 
 return {
@@ -25,8 +25,8 @@ return {
     updates: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
-      init: {
-        name: "Updates",
+      init: {idea
+        name: "Pitch",
         icon: "bi-bell",
         requiredHashtags: ["build", "update"],
         template: `### BUILDER UPDATE:  ${formatDate(new Date())}
@@ -50,7 +50,7 @@ return {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
-        name: "Question",
+        name: "Documents",
         icon: "bi-question-lg",
         requiredHashtags: ["build", "question"],
         template: `## what is your question?
@@ -65,7 +65,7 @@ return {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
       init: {
-        name: "Idea",
+        name: "Music Player",
         icon: "bi-lightbulb",
         requiredHashtags: ["build", "idea"],
         template: `## IDEA TITLE
@@ -77,44 +77,6 @@ return {
 **Context or additional information:**
 - [Provide any context or details]
 `,
-      },
-    },
-    feedback: {
-      path: "buildhub.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Feedback",
-        icon: "bi-chat-left-text",
-        requiredHashtags: ["build", "feedback"],
-      },
-    },
-    events: {
-      path: "buildhub.near/widget/events.Calendar",
-      blockHeight: "final",
-      init: {
-        name: "Events",
-        icon: "bi-calendar",
-        app: "every",
-        thing: "event",
-      },
-    },
-    bookmarks: {
-      path: "buildhub.near/widget/OrderedGraphFeed",
-      blockHeight: "final",
-      init: {
-        name: "Bookmarks",
-        icon: "bi-bookmark",
-        itemType: "bookmark",
-        renderItem: (item) => {
-          return (
-            <Post
-              accountId={item.accountId}
-              blockHeight={item.blockHeight}
-              noBorder={true}
-              hideComments={true}
-            />
-          );
-        },
       },
     },
   },
