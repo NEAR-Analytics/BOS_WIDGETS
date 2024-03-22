@@ -3,10 +3,13 @@ State.init({
   image1: "https://lonk.meme/assets/images/logo.svg",
   image2: "https://lonk.meme/assets/images/dragon.svg",
 });
-const [size, setSize] = useState(false);
+const [isSize, setIsSize] = useState(false);
 const Header = styled.div`
   @media screen and (max-width:768px){
-    ${setSize(true)}
+    ${setIsSize(true)}
+  }
+  @media screen and (min-width:768px) and (max-width:1080){
+    ${setIsSize(false)}
   }
     .header{
         background-color:${state.color};
@@ -151,7 +154,7 @@ const Header = styled.div`
         font-size: 1rem;
     }
 `;
-console.log(size);
+console.log("isSise", isSize);
 return (
   <Header>
     <div class="header py-3 position-relative" id="header">
@@ -162,12 +165,117 @@ return (
               <img src={state.image2} alt="Icon" width="70" height="70" />
               <img src={state.image1} alt="Logo" width="141" height="60" />
             </a>
-            <span class="d-x1-none burger" id="burger">
-              <span class="burger-line"></span>
-              <span class="burger-line"></span>
-              <span class="burger-line"></span>
-              <span>Menu</span>
-            </span>
+            {isSize ? (
+              <span class="d-x1-none burger" id="burger">
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span class="burger-line"></span>
+                <span>Menu</span>
+              </span>
+            ) : (
+              <div class="col-lg-9">
+                <div class="navbar justify-content-center" id="navbar">
+                  <ul class="navbar-nav d-xl-flex flex-xl-row justify-content-md-between">
+                    <li class="nav-item p-1 p-lg-3">
+                      <a
+                        class="nav-link close-menu"
+                        aria-current="page"
+                        href="/"
+                      >
+                        <span>home</span>
+                      </a>
+                    </li>
+                    <li class="nav-item p-1 p-lg-3">
+                      <a class="nav-link close-menu" href="/#about">
+                        <span>about</span>
+                      </a>
+                    </li>
+                    <li class="nav-item p-1 p-lg-3">
+                      <a class="nav-link close-menu" href="/#how">
+                        <span>how to buy</span>
+                      </a>
+                    </li>
+                    <li class="nav-item p-1 p-lg-3 position-relative">
+                      <a
+                        class={`nav-link dropdown-toggle ${
+                          dropdownVisible ? "show" : ""
+                        }`}
+                        href="#"
+                        id="toggle"
+                        onClick={toggleDropdown}
+                      >
+                        <span>bridge to near</span>
+                      </a>
+                      <ul
+                        class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
+                        id="dropdown"
+                      >
+                        <li>
+                          <a class="dropdown-item" href="/ethereum">
+                            from <span class="text-capitalize">ethereum</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/solana">
+                            from <span class="text-capitalize">solana</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">arbitrum</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">optimism</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">polygon</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">fantom</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">avalanche</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/evm">
+                            from <span class="text-capitalize">BSC</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/suit-aptos">
+                            from <span class="text-capitalize">sui</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item" href="/suit-aptos">
+                            from <span class="text-capitalize">aptos</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="nav-item p-1 p-lg-3">
+                      <a class="nav-link close-menu" href="/#token">
+                        <span>tokenomic</span>
+                      </a>
+                    </li>
+                    <li class="nav-item p-1 p-lg-3">
+                      <a class="nav-link close-menu" href="/#roadmap">
+                        <span>roadmap</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
           <div class="col-12 col-md-8 col-lg-9">
             <div class="navbar justify-content-center" id="navbar">
