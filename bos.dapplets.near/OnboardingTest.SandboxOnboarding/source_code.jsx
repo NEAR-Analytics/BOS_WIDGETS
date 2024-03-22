@@ -1,8 +1,8 @@
-const { handleClose, saveData, setShow, link, data, showFrom } = props
+const { handleClose, saveData, setShow, link, data, showFrom, oldRawData } = props
 
 const [doNotShowAgain, setDoNotShowAgain] = useState(false)
 const [activeChapterNumber, setActiveChapterNumber] = useState(data && showFrom)
-const [newData, setNewData] = useState('')
+const [newData, setNewData] = useState(oldRawData ?? '')
 const [isEditMode, setEditMode] = useState(false)
 const [viewedPages, setViewed] = useState([])
 
