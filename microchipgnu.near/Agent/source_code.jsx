@@ -28,7 +28,7 @@ const [scratchPad, setScratchPad] = useState("");
 const [messages, setMessages] = useState([]);
 const [loading, setLoading] = useState(false);
 const [isCollapsed, setIsCollapsed] = useState(props_IsCollapsted);
-const [isLoop, setIsLoop] = useState(true);
+const [isLoop, setIsLoop] = useState(false);
 const [settingsOpen, setSettingsOpen] = useState(false);
 
 const [model, setModel] = useState(props_model ?? storedModel);
