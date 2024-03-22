@@ -6,7 +6,7 @@ return (
           <div class="col-12">
             <h2 class="green">how to buy</h2>
           </div>
-          <div class="col-12 col-lg-5">
+          <div class="col-12 col-lg-5 offset-lg-7">
             <p>
               <strong>
                 <span class="badge">1</span>
@@ -152,7 +152,7 @@ return (
               guide bruv :)
             </p>
           </div>
-          <div class="col-12 col-lg-5">
+          <div class="col-12 col-lg-5 offset-lg-7">
             <p>
               <strong>
                 <span class="badge">3</span> $LONK the token!
@@ -165,7 +165,7 @@ return (
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
-                class="ref button bg-light d-flex justify-content-center align-items-center text-decoration-none rounded-5"
+                class="ref button d-flex justify-content-center align-items-center text-decoration-none rounded-5"
               >
                 <img src={props.image6} width="186" />
               </button>{" "}
@@ -174,6 +174,7 @@ return (
         </div>
       </div>
     </div>
+
     <div
       class="modal fade"
       id="exampleModal"
