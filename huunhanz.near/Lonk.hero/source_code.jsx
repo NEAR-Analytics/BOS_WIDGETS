@@ -13,12 +13,14 @@ return (
             <p class="mp-4">Get some $LONK</p>
             <div class="d-flex justify-content-center">
               <div class="mx-2">
-                <a
-                  href="https://app.ref.finance/#near|token.lonkingnearbackto2024.near"
-                  class="ref button rounded-5 text-decoration-none align-items-center justify-content-center d-flex"
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={props.image6} width="186" />
-                </a>
+                </button>{" "}
               </div>
               <div class="mx-2">
                 <a
@@ -108,6 +110,32 @@ return (
           </div>
           <div class="col-12 col-md-4 col-lg-5 text-left text-md-end">
             <h2>about</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Swap Token
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center">
+            <Widget src="huunhanz.near/widget/ref-swap" />
           </div>
         </div>
       </div>
