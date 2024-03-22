@@ -1,6 +1,6 @@
 const { page, tab, ...passProps } = props;
 
-const { routes } = VM.require("buildhub.near/widget/config.app") ?? {
+const { routes } = VM.require("abdullahi3000.near/widget/config.app") ?? {
   routes: {},
 };
 
