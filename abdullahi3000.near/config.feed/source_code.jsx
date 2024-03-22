@@ -25,7 +25,7 @@ return {
     updates: {
       path: "buildhub.near/widget/Feed",
       blockHeight: "final",
-      init: {idea
+      init: {
         name: "Pitch",
         icon: "bi-bell",
         requiredHashtags: ["build", "update"],
