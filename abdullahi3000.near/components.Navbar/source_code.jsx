@@ -218,7 +218,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "abdullahi3000.near/widget/app",
+              widgetSrc: "buildhub.near/widget/app",
               params: {
                 page: "home",
               },
@@ -243,7 +243,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "abdullahi3000.near/widget/app",
+                      widgetSrc: "buildhub.near/widget/app",
                       params: {
                         page: k,
                       },
@@ -277,7 +277,119 @@ function Navbar(props) {
             </Button>
           )}
         </Right>
+        <MobileNavigation>
+          <Link
+            to={href({
+              widgetSrc: "buildhub.near/widget/app",
+              params: {
+                page: "home",
+              },
+            })}
+          >
+            <img
+              className="object-fit-cover"
+              onClick={() => setDropdown(false)}
+              src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
+              style={{ height: 40 }}
+              alt="BuildDAO"
+            />
+          </Link>
+          <Button
+            type="icon"
+            variant="outline"
+            className="rounded-2 border-0"
+            onClick={toggleDropdown}
+          >
+            <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+          </Button>
+        </MobileNavigation>
       </MainContent>
+
+      {dropdown && (
+        <MobileView>
+          <MobileNavigation>
+            <Link
+              to={href({
+                widgetSrc: "buildhub.near/widget/app",
+                params: {
+                  page: "home",
+                },
+              })}
+            >
+              <img
+                onClick={() => setDropdown(false)}
+                src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
+                style={{ height: 40 }}
+                alt="BuildDAO"
+              />
+            </Link>
+            <Button
+              type="icon"
+              variant="outline"
+              className="rounded-2 border-0"
+              onClick={toggleDropdown}
+            >
+              <i style={{ fontSize: 24 }} className="bi bi-list"></i>
+            </Button>
+          </MobileNavigation>
+          <MobileContent>
+            <NavLinks>
+              {routes &&
+                (Object.keys(routes) || []).map((k) => {
+                  const route = routes[k];
+                  if (route.hide) {
+                    return null;
+                  }
+                  return (
+                    <Link
+                      key={`mobile=${k}`}
+                      style={{ textDecoration: "none" }}
+                      to={href({
+                        widgetSrc: "buildhub.near/widget/app",
+                        params: {
+                          page: k,
+                        },
+                      })}
+                    >
+                      <span
+                        onClick={toggleDropdown}
+                        key={k}
+                        className={page === k ? "active" : null}
+                      >
+                        {route.init.icon && <i className={route.init.icon}></i>}
+                        {route.init.name}
+                      </span>
+                    </Link>
+                  );
+                })}
+            </NavLinks>
+            <div className="d-flex flex-column gap-2 w-100">
+              {context.accountId ? (
+                <div className="mx-auto d-flex align-items-stretch ">
+                  <Widget
+                    src="buildhub.near/widget/components.buttons.UserDropdown"
+                    loading=""
+                    props={props}
+                  />
+                </div>
+              ) : (
+                <>
+                  <Button
+                    variant="primary"
+                    linkClassName="d-flex"
+                    href="https://nearbuilders.org/join"
+                    noLink={true}
+                    className="w-100"
+                    onClick={() => setDropdown(false)}
+                  >
+                    Sign In
+                  </Button>
+                </>
+              )}
+            </div>
+          </MobileContent>
+        </MobileView>
+      )}
     </NavContainer>
   );
 }
