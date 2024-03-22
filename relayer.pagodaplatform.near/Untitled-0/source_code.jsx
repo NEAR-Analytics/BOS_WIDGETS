@@ -33,7 +33,7 @@ const PrimaryText = styled.p`
   }
 `;
 
-const PrimaryBox = styled.p`
+const PrimaryTextBox = styled.p`
   @media (min-width: 512px) {
     font-size: 28px;
     width: 100%;
@@ -89,7 +89,7 @@ const ContainerBox = styled.div`
 
   @media (max-width: 768px) {
     top: 70%;
-    left: 5%;
+    left: 0;
     width: 100%;
     transform: translateY(-50%);
   }
@@ -203,7 +203,7 @@ const renderSquares = () => {
               />
             </svg>
           </WidgetContainer>
-          <PrimaryBox>Delete Button</PrimaryBox>
+          <PrimaryTextBox>Delete Button</PrimaryTextBox>
         </Square>
       );
     } else {
