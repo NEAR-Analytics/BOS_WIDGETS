@@ -30,10 +30,10 @@ return {
       },
     },
     musicPlayer: {
-      path: "#",
+      path: "abdullahi3000.near/widget/MusicPlayer-Harmonic",
       blockHeight: "final",
       init: {
-        name: "Music layer",
+        name: "Music Player",
       },
     },
     profile: {
