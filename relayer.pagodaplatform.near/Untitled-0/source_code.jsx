@@ -40,7 +40,7 @@ const ContainerBox = styled.div`
 `;
 
 const Square = styled.div`
-  width: 40vw; /* Змінено розмір на 150px */
+  width: 30vw; /* Змінено розмір на 150px */
   height: 40vh; /* Змінено розмір на 150px */
   margin: 40px; /* Збільшено відступи */
   padding: 20px;
@@ -97,7 +97,7 @@ const WidgetContainer = styled.div`
 
 const PrimaryText = styled.p`
 
-  font-size: 3vh;
+  font-size: 4vh;
 
   font-family: 'Kodchasan', sans-serif;
   font-weight: 700;
