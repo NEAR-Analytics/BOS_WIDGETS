@@ -5,7 +5,7 @@ return {
       path: "abdullahi3000.near/widget/page.home",
       blockHeight: "final",
       init: {
-        name: "Home key",
+        name: "Home",
       },
     },
     feed: {
