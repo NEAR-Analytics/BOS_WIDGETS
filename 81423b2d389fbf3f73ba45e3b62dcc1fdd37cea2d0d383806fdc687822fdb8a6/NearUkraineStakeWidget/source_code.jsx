@@ -19,7 +19,6 @@ const SOuterWrapper = styled.div`
 const Social = styled.div`
   position: absolute;
   bottom: 0;
-  margin: 1em;
   left: 50%;
   transform: translateX(-50%);
 `;
