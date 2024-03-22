@@ -1,3 +1,4 @@
+const [select, setSelect] = useState("");
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -14,6 +15,7 @@ return (
             <div class="d-flex justify-content-center">
               <div class="mx-2">
                 <button
+                  onClick={() => setSelect("ref-swap")}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -24,12 +26,13 @@ return (
               </div>
               <div class="mx-2">
                 <button
+                  onClick={() => setSelect("veax-swap")}
                   type="button"
-                  data-bs-toggle="modalVeax"
-                  data-bs-target="#veax"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
                   class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={props.image7} width="186" />
+                  <img src={props.image7} width="150" />
                 </button>{" "}
               </div>
             </div>
@@ -127,7 +130,9 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token
+              {select == "ref-swap"
+                ? "Swap Token Ref Finance"
+                : "Swap Token Veax"}
             </h5>
             <button
               type="button"
@@ -137,33 +142,11 @@ return (
             ></button>
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/ref-swap" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modalVeax fade"
-      id="veax"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token Veax
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+            {select == "ref-swap" ? (
+              <Widget src="huunhanz.near/widget/ref-swap" />
+            ) : (
+              <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+            )}
           </div>
         </div>
       </div>
