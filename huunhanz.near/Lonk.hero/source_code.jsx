@@ -23,12 +23,14 @@ return (
                 </button>{" "}
               </div>
               <div class="mx-2">
-                <a
-                  href="https://app.ref.finance/#near|token.lonkingnearbackto2024.near"
-                  class="ref button rounded-5 text-decoration-none align-items-center justify-content-center d-flex"
+                <button
+                  type="button"
+                  data-bs-toggle="modalVeax"
+                  data-bs-target="#veax"
+                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={props.image7} width="100" />
-                </a>
+                  <img src={props.image7} width="186" />
+                </button>{" "}
               </div>
             </div>
             <div class="mt-5">
@@ -136,6 +138,32 @@ return (
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
             <Widget src="huunhanz.near/widget/ref-swap" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modalVeax fade"
+      id="veax"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Swap Token Veax
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center">
+            <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
           </div>
         </div>
       </div>
