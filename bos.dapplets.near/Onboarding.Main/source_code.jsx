@@ -1,39 +1,99 @@
+const TIME_UNTIL_RESHOW = 1000 * 60 // TESTING
+// const TIME_UNTIL_RESHOW = 1000 * 60 * 60 * 3 // PROD
+
 const [show, setShow] = useState(false)
 const [start, setStart] = useState(false)
 const [showFrom, setShowFrom] = useState(0)
 
 const response = Near.view('app.webguide.near', 'get_guide', { guide_id: props?.link?.id })
 const data = response && JSON.parse(response)
-const lastShowTimes = data && data?.map((chapter) => Storage.privateGet(chapter.id + '/lastShowTime'))
-
-console.log('data', data)
-console.log('props?.link?.id', props?.link?.id)
-console.log('props', props)
-console.log('lastShowTimes',lastShowTimes)
+const lastShow = data && data?.reduce((acc, chapter) => {
+  acc[chapter.id] = Storage.privateGet(chapter.id + '/lastShow')
+  return acc
+}, {})
 
 useEffect(() => {
-  if (!start && (lastShowTimes === null || lastShowTimes?.[0] === null)) return;
-  setStart(true);
-  const lastShowByIds = {}
-  if (lastShowTimes) {
-    for (let i = 0; i < lastShowTimes.length; ++i) {
-      const elapsed = Date.now() - (lastShowTimes[i] ?? 0)
-      // if (elapsed > 1000 * 60 * 60 * 3) {
+  if (
+    !start && (
+      lastShow === null || (
+        lastShow && Object.values(lastShow).every(a => a === null)
+      )
+    )
+  ) return;
+  // here if (start || (lastShow && Object.values(lastShow).some(a => a !== null))) -- ToDo: replace?
+
+  if (!start) {
+    setStart(true)
+    return
+  }
+  
+  // *** DISPLAY LOGIC ***
+
+  if (lastShow) {
+    const currentMutation = data.find((ch) => ch?.id.includes('mutation'))?.id
+    const currentTime = Date.now()
+
+    for (const key of Object.keys(lastShow)) {
+      if (!lastShow[key]) continue
+
       // TESTING
-      lastShowByIds[data[i].id] = elapsed > 1000 * 60 * 1 * 1 ? 1 : 0
+      if (lastShow[key].doNotShowAgain && currentTime - lastShow[key].time > TIME_UNTIL_RESHOW * 3) {
+        lastShow[key].doNotShowAgain = false
+        lastShow[key].isViewed = false
+      }
+      //
+
+      // DO NOT refactor the following code block to stay the logic clear!!!
+      if (currentMutation === lastShow[key].mutation) {
+        if (!lastShow[key].doNotShowAgain) {
+          lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+        } else {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = false
+          } else {
+            lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+          }
+        }
+      } else {
+        if (!lastShow[key].doNotShowAgain) {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = currentTime - lastShow[key].time > TIME_UNTIL_RESHOW
+          } else {
+            lastShow[key].show = true
+          }
+        } else {
+          if (lastShow[key].isViewed) {
+            lastShow[key].show = false
+          } else {
+            lastShow[key].show = true
+          }
+        }
+      }
     }
   }
-  console.log('lastShowByIds', lastShowByIds)
 
-  if (!lastShowTimes && context.accountId === props?.link?.authorId) {
+  // *** SORT LOGIC ***
+
+  if (!lastShow && context.accountId === props?.link?.authorId) {
+    // show form to the author
     setShow(true)
-  } else if (Object.values(lastShowByIds).includes(1)) {
-    data.sort((chapA, chapB) => lastShowByIds[chapA.id] - lastShowByIds[chapB.id])
-    console.log('data after sort', data)
-    setShowFrom(Object.values(lastShowByIds).filter(a => !a).length)
+  } else if (lastShow && Object.values(lastShow).some((a) => a === undefined || a?.show)) {
+    // with sort - some chapters have been displayed or new
+    data.sort(
+      (a, b) =>
+        !lastShow[a.id] && !lastShow[b.id]
+          ? 0
+          : !lastShow[a.id]
+            ? lastShow[b.id].show ? 0 : 1
+            : !lastShow[b.id]
+              ? lastShow[a.id].show ? 0 : -1
+              : lastShow[a.id].show - lastShow[b.id].show
+    )
+    const index = Object.values(lastShow).filter((a) => a && !a.show)?.length
+    setShowFrom(index)
     setShow(true)
   }
-}, [start, lastShowTimes])
+}, [start, lastShow])
 
 setTimeout(() => setStart(true), 10000)
 
@@ -78,10 +138,24 @@ const Onboarding = styled.div`
   }
 `;
 
-const handleClose = (doNotShowAgain) => {
-  // const time = doNotShowAgain ? 30000000000000 : Date.now()
-  const time = doNotShowAgain ? Date.now() + 1000 * 60 : Date.now() // TESTING
-  data && data.forEach((chapter) => Storage.privateSet(chapter.id + '/lastShowTime', time))
+const handleClose = (isDoNotShowAgainChecked, viewedPages) => {
+  if (data) {
+    const time = Date.now()
+    const mutation = data.find((ch) => ch?.id.includes('mutation'))?.id
+    data.forEach((chapter) => {
+      const isViewed = !!(viewedPages.includes(chapter.id) || lastShow[chapter.id].isViewed)
+      const doNotShowAgain = !!((isDoNotShowAgainChecked && viewedPages.includes(chapter.id)) || lastShow[chapter.id].doNotShowAgain)
+      Storage.privateSet(
+        chapter.id + '/lastShow',
+        {
+          time,
+          doNotShowAgain,
+          mutation,
+          isViewed,
+        }
+      )
+    })
+  }
   setShow(false)
 }
 
@@ -104,7 +178,15 @@ return (
       <DappletOverlay>
         <Onboarding>
           <Widget
-            props={{ handleClose, data, saveData, setShow, link: props.link, showFrom }}
+            props={{
+              handleClose,
+              data,
+              saveData,
+              setShow,
+              link: props.link,
+              showFrom,
+              oldRawData: response
+            }}
             src="bos.dapplets.near/widget/Onboarding.SandboxOnboarding"
           />
         </Onboarding>
