@@ -32,7 +32,7 @@ return (
                   data-bs-target="#exampleModal"
                   class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={props.image7} width="150" />
+                  <img src={props.image7} width="90" />
                 </button>{" "}
               </div>
             </div>
