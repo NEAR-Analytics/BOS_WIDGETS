@@ -35,7 +35,7 @@ for (let i = 0; i <= 50; i++) {
 
 State.init({
   requirements: [],
-  username: profile.name ? profile.name : accountId,
+  username: "",
   post_link: "",
   amount: 0.1,
   token: "NEAR",
@@ -162,7 +162,7 @@ const changeRequirement = (label) => {
 };
 
 const changePostLink = (link) => {
-  State.update({ error: "", loading: true });
+  State.update({ error: "", post_link: link, loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
     method: "PUT",
     headers: {
@@ -178,7 +178,6 @@ const changePostLink = (link) => {
         State.update({
           ...state,
           loading: false,
-          post_link: link,
           username: accountId,
         });
       }
