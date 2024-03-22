@@ -37,6 +37,16 @@ const Container = styled.div`
     margin-right: -50vw;
   }
 
+  .fw-bold {
+    font-weight: 600 !important;
+  }
+
+  .card.no-border {
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: -3.5rem;
+  }
+
   .description-box {
     font-size: 14px;
   }
@@ -150,6 +160,7 @@ const Container = styled.div`
 
   .dropdown-menu {
     width: 100%;
+    border-radius: 0.375rem !important;
   }
 
   .green-btn {
@@ -184,6 +195,7 @@ const Container = styled.div`
 
 const ProposalContainer = styled.div`
   border: 1px solid lightgrey;
+  overflow: auto;
 `;
 
 const Header = styled.div`
@@ -232,7 +244,7 @@ const Avatar = styled.div`
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
-const proposal = Near.view("truedove38.near", "get_proposal", {
+const proposal = Near.view("devhub.near", "get_proposal", {
   proposal_id: parseInt(id),
 });
 
@@ -260,7 +272,7 @@ const authorId = proposal.author_id;
 const blockHeight = parseInt(proposal.social_db_post_block_height);
 const item = {
   type: "social",
-  path: `truedove38.near/post/main`,
+  path: `devhub.near/post/main`,
   blockHeight,
 };
 const proposalURL = `https://near.org/devgovgigs.petersalomonsen.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
@@ -288,9 +300,8 @@ const KycVerificationStatus = () => {
 const SidePanelItem = ({ title, children, hideBorder }) => {
   return (
     <div
-      className={
-        "d-flex flex-column gap-2 pb-3 " + (!hideBorder && " border-bottom")
-      }
+      style={{ gap: "8px" }}
+      className={"d-flex flex-column pb-3 " + (!hideBorder && " border-bottom")}
     >
       <div className="h6 mb-0">{title} </div>
       <div className="text-muted">{children}</div>
@@ -371,7 +382,7 @@ const proposalStatusOptions = [
 const LinkedProposals = () => {
   const linkedProposalsData = [];
   snapshot.linked_proposals.map((item) => {
-    const data = Near.view("truedove38.near", "get_proposal", {
+    const data = Near.view("devhub.near", "get_proposal", {
       proposal_id: item,
     });
     if (data !== null) {
@@ -440,7 +451,7 @@ const RadioButton = ({ value, isChecked, label }) => {
 };
 
 const isAllowedToEditProposal = Near.view(
-  "truedove38.near",
+  "devhub.near",
   "is_allowed_to_edit_proposal",
   {
     proposal_id: proposal.id,
@@ -448,7 +459,7 @@ const isAllowedToEditProposal = Near.view(
   }
 );
 
-const isModerator = Near.view("devgovgigs.near", "has_moderator", {
+const isModerator = Near.view("devhub.near", "has_moderator", {
   account_id: accountId,
 });
 
@@ -472,7 +483,7 @@ const editProposal = ({ timeline }) => {
 
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: "edit_proposal",
       args: args,
       gas: 270000000000000,
@@ -483,7 +494,7 @@ const editProposal = ({ timeline }) => {
 const editProposalStatus = ({ timeline }) => {
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: "edit_proposal_timeline",
       args: {
         id: proposal.id,
@@ -637,7 +648,7 @@ return (
         {readableDate(snapshot.timestamp / 1000000)}
       </div>
     </div>
-    <div className="card rounded-0 full-width-div px-3 px-lg-0">
+    <div className="card no-border rounded-0 full-width-div px-3 px-lg-0">
       <div className="container-xl py-4">
         {snapshot.timeline.status === TIMELINE_STATUS.DRAFT &&
           isAllowedToEditProposal && (
@@ -724,15 +735,18 @@ return (
                   />
                 </div>
                 <ProposalContainer className="rounded-2 flex-1">
-                  <Header className="d-flex gap-3 align-items-center p-2 px-3">
-                    {authorId} ･{" "}
-                    <Widget
-                      src="near/widget/TimeAgo"
-                      props={{
-                        blockHeight,
-                        blockTimestamp: snapshot.timestamp,
-                      }}
-                    />
+                  <Header className="d-flex gap-1 align-items-center p-2 px-3">
+                    <div className="fw-bold">{authorId}</div>
+                    <div className="text-muted">
+                      ･{" "}
+                      <Widget
+                        src="near/widget/TimeAgo"
+                        props={{
+                          blockHeight,
+                          blockTimestamp: snapshot.timestamp,
+                        }}
+                      />
+                    </div>
                     {context.accountId && (
                       <div className="menu">
                         <Widget
@@ -842,6 +856,7 @@ return (
                   src="near/widget/AccountProfile"
                   props={{
                     accountId: authorId,
+                    noOverlay: true,
                   }}
                 />
               </SidePanelItem>
@@ -856,7 +871,12 @@ return (
                 <div className="h4 text-black">
                   {snapshot.requested_sponsorship_usd_amount && (
                     <div className="d-flex flex-column gap-1">
-                      <div>{snapshot.requested_sponsorship_usd_amount} USD</div>
+                      <div>
+                        {parseInt(
+                          snapshot.requested_sponsorship_usd_amount
+                        ).toLocaleString()}{" "}
+                        USD
+                      </div>
                       <div className="text-sm text-muted">
                         Requested in{" "}
                         {snapshot.requested_sponsorship_paid_in_currency}
@@ -870,6 +890,7 @@ return (
                   src="near/widget/AccountProfile"
                   props={{
                     accountId: snapshot.receiver_account,
+                    noOverlay: true,
                   }}
                 />
               </SidePanelItem>
@@ -890,6 +911,7 @@ return (
                     src="near/widget/AccountProfile"
                     props={{
                       accountId: snapshot.requested_sponsor,
+                      noOverlay: true,
                     }}
                   />
                 )}
@@ -900,6 +922,7 @@ return (
                     src="near/widget/AccountProfile"
                     props={{
                       accountId: snapshot.supervisor,
+                      noOverlay: true,
                     }}
                   />
                 ) : (
