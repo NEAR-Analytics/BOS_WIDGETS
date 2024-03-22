@@ -5,7 +5,7 @@ State.init({
 });
 
 const [dropdownVisible, setDropdownVisible] = useState(false);
-const [visible, setVisible] = useState(false);
+const [visible, setVisible] = useState(true);
 
 const toggleDropdown = () => {
   setDropdownVisible(!dropdownVisible);
@@ -16,9 +16,6 @@ const handlClick = () => {
 };
 
 const Header = styled.div`
-      @media screen and (min-width:768px){
-        ${setVisible(true)}
-      }
       .header{
           background-color:${state.color};
       }
