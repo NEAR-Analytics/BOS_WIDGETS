@@ -16,7 +16,7 @@ const { AboutUs } = VM.require("buildhub.near/widget/home.AboutUs") || {
 const { Governance } = VM.require("buildhub.near/widget/home.Governance") || {
   Governance: () => <></>,
 };
-const { Footer } = VM.require("buildhub.near/widget/home.Footer") || {
+const { Footer } = VM.require("abdullahi3000.near/widget/home.Footer") || {
   Footer: () => <></>,
 };
 
