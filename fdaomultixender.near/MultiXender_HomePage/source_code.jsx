@@ -146,7 +146,7 @@ const Send_token = styled.div`
   }
 `;
 
-const user = "multisend.testnet";
+const user = "fdaomultixender.near";
 const Content3 = () => (
   <div>
     <Widget src={`${user}/widget/MultiXender_main`} />
