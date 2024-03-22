@@ -7,7 +7,7 @@ const positionAbi = fetch(
 );
 
 /* TODO troubles loading initial data, modified to show loading text while fetch data */
-const tokensFetch = fetch("https://api.mav.xyz/api/v3/allTokens/324"),
+const tokensFetch = fetch("https://api.mav.xyz/api/v4/allTokens/324"),
   tokensForNEtwork = tokensFetch.body.tokens;
 
 if (!routerAbi.ok || !tokensFetch.ok) {
@@ -120,7 +120,7 @@ State.init({
 
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v4/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -147,7 +147,7 @@ const getApprovedNFT = () => {
 
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
+  asyncFetch(`https://api.mav.xyz/api/v4/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
