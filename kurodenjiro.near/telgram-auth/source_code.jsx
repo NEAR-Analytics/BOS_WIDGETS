@@ -43,6 +43,7 @@ const [evmAddress, setEvmAddress] = useState("");
 const [loadedProfiles, setLoadedProfiles] = useState(false);
 const [lensProfiles, setLensProfiles] = useState([]);
 const [selectedHandle, setSelectedHandle] = useState("");
+const [telegramAuthQrCode, setTelegramAuthQrCode] = useState("");
 const [proof, setProof] = useState("");
 const [finished, setFinished] = useState(false);
 const [displayError, setDisplayError] = useState(false);
@@ -542,7 +543,6 @@ useEffect(() => {
     verifyProof("twitter");
   }
   if (platform === "telegram" && proof) {
-    console.log("telegram");
     verifyProof("telegram");
   }
 }, [platform, challenge, proof]);
@@ -581,10 +581,6 @@ const AuthMethods = () => {
       <AuthButton
         as="a"
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        onClick={() => {
-          setPlatform("twitter");
-          storePlatform("twitter");
-        }}
         href={TWITTER_AUTH_URL}
         background="#000"
         color="#FFF"
@@ -615,6 +611,7 @@ const AuthMethods = () => {
         target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => {
+          setTelegramAuthQrCode("a");
           setPlatform("telegram");
           storePlatform("telegram");
         }}
