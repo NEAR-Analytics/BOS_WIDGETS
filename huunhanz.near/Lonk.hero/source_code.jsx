@@ -84,7 +84,7 @@ return (
       </div>
     </div>
     <Widget src="huunhanz.near/widget/Lonk.stake" />
-    <div class="green-bg font-md-bigger py-4 py-lg-5" id="about">
+    <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="row flex-md-row align-items-center">
           <div class="col-12 col-md-8 col-lg-7">
