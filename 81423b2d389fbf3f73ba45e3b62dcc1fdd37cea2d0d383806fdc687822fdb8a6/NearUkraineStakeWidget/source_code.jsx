@@ -11,8 +11,9 @@ const SOuterWrapper = styled.div`
 const OuterWrapper = styled.div`
   position: absolute;
   top: 10vh;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   color: white;
   font-family: 'Kodchasan', sans-serif;
 `;
@@ -107,24 +108,22 @@ return (
           onChange={onAmountInputChange}
         />
       </p>
-      <ButtonContainer>
-        <AmountButton onClick={onPresetButtonClick} value="5">
-          5
-        </AmountButton>
-        <AmountButton onClick={onPresetButtonClick} value="25">
-          25
-        </AmountButton>
-        <AmountButton onClick={onPresetButtonClick} value="50">
-          50
-        </AmountButton>
-        <AmountButton
-          onClick={onPresetButtonClick}
-          value={yourAccountBalance - 0.05}
-        >
-          Max
-        </AmountButton>
-        <StakeButton onClick={onStakeClick}>Stake</StakeButton>
-      </ButtonContainer>
+      <AmountButton onClick={onPresetButtonClick} value="5">
+        5
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="25">
+        25
+      </AmountButton>
+      <AmountButton onClick={onPresetButtonClick} value="50">
+        50
+      </AmountButton>
+      <AmountButton
+        onClick={onPresetButtonClick}
+        value={yourAccountBalance - 0.05}
+      >
+        Max
+      </AmountButton>
+      <StakeButton onClick={onStakeClick}>Stake</StakeButton>
       <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
       <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
       <p>Your balance is: {yourAccountBalance} Near</p>
