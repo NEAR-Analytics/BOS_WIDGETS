@@ -24,8 +24,6 @@ const extendedCode = `
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 
     html, body {
-      height: ${height};
-      width: ${width};
       margin: 0;
       padding: 0;
       position: fixed;
@@ -36,15 +34,12 @@ const extendedCode = `
     .marquee {
       white-space: nowrap;
       overflow: hidden;
-      position: relative;
       background-color: ${backgroundColor};
       color: ${textColor};
       font-family: ${fontFamily};
       font-size: ${fontSize};
-      line-height: 1.5; // Adjust line height for marquee
+      line-height: 1.5;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      height: 100vh;
-      width: 100vw;
     }
 
     .marquee span {
@@ -119,6 +114,6 @@ return (
   <iframe
     className="w-100"
     srcDoc={extendedCode}
-    style={{ height: "1000px", backgroundColor }}
+    style={{ height: "100vh", width: "100vw", backgroundColor }}
   />
 );
