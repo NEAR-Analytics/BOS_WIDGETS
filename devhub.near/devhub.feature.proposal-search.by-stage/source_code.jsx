@@ -1,7 +1,6 @@
 // The timeline is stored in jsonb. The value is used to search for as part of
 // that json so it doesn't need to be an exact match.
 const options = [
-  { label: "All", value: "" },
   { label: "Draft", value: "DRAFT" },
   { label: "Review", value: "REVIEW" },
   { label: "Approved", value: "APPROVED" },
@@ -10,6 +9,7 @@ const options = [
   { label: "Cancelled", value: "CANCELLED" },
   { label: "Payment Processing", value: "PAYMENT" },
   { label: "Funded", value: "FUNDED" },
+  { label: "None", value: "" },
 ];
 
 const setSelected = props.onStateChange ?? (() => {});
