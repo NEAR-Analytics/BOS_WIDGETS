@@ -15,26 +15,34 @@ return {
         name: "Feed",
       },
     },
-    pitch: {
-      path: "abdullahi3000.near/widget/page.feed",
-      blockHeight: "final",
-      init: {
-        name: "Pitch",
-      },
-    },
-    documents: {
-      path: "abdullahi3000.near/widget/page.feed",
-      blockHeight: "final",
-      init: {
-        name: "Documents",
-      },
-    },
+    // pitch: {
+    //   path: "abdullahi3000.near/widget/page.feed",
+    //   blockHeight: "final",
+    //   init: {
+    //     name: "Pitch",
+    //   },
+    // },
+    // documents: {
+    //   path: "abdullahi3000.near/widget/page.feed",
+    //   blockHeight: "final",
+    //   init: {
+    //     name: "Documents",
+    //   },
+    // },
     musicPlayer: {
       path: "abdullahi3000.near/widget/harmonic.music.player",
       blockHeight: "final",
       init: {
         name: "Music Player",
       },
+    },
+    songUploader: {
+      path: "abdullahi3000.near/widget/harmonic.song.uploader",
+      blockHeight: "final",
+      init: {
+        name: "Song Uploader",
+      },
+      hide: true,
     },
     profile: {
       path: "buildhub.near/widget/page.profile",
