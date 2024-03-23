@@ -155,7 +155,7 @@ const Footer = ({ noBanner }) => {
             <i className="bi bi-code-slash"></i>
           </a>
         </LinksContainer>
-        <p>@{new Date().getFullYear()} BuildDAO all rights reserved</p>
+        <p>©{new Date().getFullYear()} Harmionic Guild- All rights reserved</p>
       </FooterContainer>
     </Container>
   );
