@@ -3,8 +3,8 @@ const {
   assetsToBorrow,
   chainId,
   onActionSuccess,
-  showBorrowModal,
-  setShowBorrowModal,
+  // showBorrowModal,
+  // setShowBorrowModal,
   yourSupplies,
   borrowETHGas,
   borrowERC20Gas,
@@ -26,6 +26,7 @@ function isValid(a) {
 }
 State.init({
   data: undefined,
+  showBorrowModal: false,
 });
 
 const BorrowButton = ({ data }) => (
@@ -36,8 +37,8 @@ const BorrowButton = ({ data }) => (
       children: "Borrow",
       theme,
       onClick: () => {
-        State.update({ data });
-        setShowBorrowModal(true);
+        State.update({ data, showBorrowModal: true });
+        // setShowBorrowModal(true);
       },
     }}
   />
@@ -124,11 +125,7 @@ return (
                           src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
                           props={{
                             children: [
-                              <img
-                                width={64}
-                                height={64}
-                                src={`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
-                              />,
+                              <img width={64} height={64} src={row.icon} />,
                               <div>
                                 <div className="token-title">{row.symbol}</div>
                                 <div className="token-chain">{row.name}</div>
@@ -159,12 +156,18 @@ return (
         ),
       }}
     />
-    {showBorrowModal && (
+    {state.showBorrowModal && (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
         props={{
           config,
-          onRequestClose: () => setShowBorrowModal(false),
+          theme,
+          onRequestClose: () => {
+            State.update({
+              showBorrowModal: false,
+            });
+            // setShowBorrowModal(false)
+          },
           data: state.data,
           onActionSuccess,
           chainId,
