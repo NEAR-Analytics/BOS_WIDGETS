@@ -33,7 +33,7 @@ const {
   toast,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
-console.log("AAVE.V3: ", props);
+// console.log("AAVE.V3: ", props);
 
 function isValid(a) {
   if (!a) return false;
@@ -127,7 +127,7 @@ function getConfig() {
 }
 
 const config = getConfig();
-console.log("CONFIG: ", config);
+// console.log("CONFIG: ", config);
 const markets = dexConfig?.rawMarkets?.map((item) => ({
   ...item,
   marketReferencePriceInUsd: prices[item.symbol],
@@ -650,24 +650,50 @@ function fetchUserAccountData() {
         ltv,
         healthFactor,
       ] = res;
+
       // onLoad({
       //   deposits: ethers.utils.formatUnits(res),
       // });
       State.update({
+        currentLiquidationThreshold,
         assetsToBorrow: {
           ...state.assetsToBorrow,
           availableBorrowsUSD: ethers.utils.formatUnits(
             availableBorrowsBase,
             8
           ),
-          healthFactor: ethers.utils.formatUnits(healthFactor),
+          healthFactor: formatHealthFactor(
+            ethers.utils.formatUnits(healthFactor)
+          ),
         },
       });
-      // formatHealthFactor(healthFactor)
     })
     .catch((err) => {
       console.log("getUserAccountData_error", err);
     });
+}
+function valueToBigNumber(amount) {
+  if (amount instanceof BigNumber) {
+    return amount;
+  }
+
+  return new BigNumber(amount);
+}
+const LTV_PRECISION = 4;
+// return  HealthFactorFromBalanceRequest): BigNumber
+function calculateHealthFactorFromBalances({
+  borrowBalanceMarketReferenceCurrency,
+  collateralBalanceMarketReferenceCurrency,
+  currentLiquidationThreshold,
+}) {
+  if (valueToBigNumber(borrowBalanceMarketReferenceCurrency).eq(0)) {
+    return valueToBigNumber("-1"); // Invalid number
+  }
+
+  return valueToBigNumber(collateralBalanceMarketReferenceCurrency)
+    .multipliedBy(currentLiquidationThreshold)
+    .shiftedBy(LTV_PRECISION * -1)
+    .div(borrowBalanceMarketReferenceCurrency);
 }
 
 function getUserDeposits() {
@@ -981,6 +1007,7 @@ useEffect(() => {
 }, [isChainSupported]);
 
 useEffect(() => {
+  if (!account) return;
   const { heroData } = config;
   if (heroData.indexOf("Available rewards") > -1) {
     getAllUserRewards();
