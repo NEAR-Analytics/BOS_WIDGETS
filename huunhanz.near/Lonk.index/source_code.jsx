@@ -1,33 +1,62 @@
 State.init({
   color: "#31cf34",
-  image3: "https://lonk.meme/assets/images/background.png",
-  image4: "https://lonk.meme/assets/images/green-dragon.png",
-  image5: "https://lonk.meme/assets/images/green-logo.svg",
-  image6: "https://lonk.meme/assets/images/ref.png",
-  image7: "https://lonk.meme/assets/images/veax.svg",
-  image8: "https://lonk.meme/assets/images/plane.png",
-  image9: "https://lonk.meme/assets/images/x.png",
-  image10: "https://lonk.meme/assets/images/dex.png",
-  image11: "https://lonk.meme/assets/images/coingecko.svg",
-  image12: "https://lonk.meme/assets/images/dog.png",
-  image13: "https://lonk.meme/assets/images/wallets/1.png",
-  image14: "https://lonk.meme/assets/images/wallets/2.png",
-  image15: "https://lonk.meme/assets/images/wallets/3.png",
-  image16: "https://lonk.meme/assets/images/wallets/4.png",
-  image17: "https://lonk.meme/assets/images/wallets/5.png",
-  image18: "https://lonk.meme/assets/images/wallets/6.png",
-  image19: "https://lonk.meme/assets/images/exchanges/1.png",
-  image20: "https://lonk.meme/assets/images/exchanges/2.png",
-  image21: "https://lonk.meme/assets/images/exchanges/3.png",
-  image22: "https://lonk.meme/assets/images/exchanges/4.png",
-  image23: "https://lonk.meme/assets/images/exchanges/5.png",
-  image24: "https://lonk.meme/assets/images/exchanges/6.png",
-  image25: "https://lonk.meme/assets/images/exchanges/7.png",
-  image26: "https://lonk.meme/assets/images/exchanges/8.png",
-  image27: "https://lonk.meme/assets/images/roadmap.png",
-  image28: "https://lonk.meme/assets/images/lonk-near.png",
+  image1:
+    "https://bafkreidzrna3q6csqykuvzih6yywrijmdg4fn4tb53azjmmjuobfus4v2e.ipfs.nftstorage.link/",
+  image2:
+    "https://bafybeibuj22kfgmevy3os6akrswxosjyjv5q6tecyv5jsfpw7iccajp5qa.ipfs.nftstorage.link/",
+  image3:
+    "https://bafkreibeah7hmamkdzkrc7znm6u6jp4loiiy42shoyv2mb2hhlhiyynaia.ipfs.nftstorage.link/",
+  image4:
+    "https://bafybeib6kjh37qmodapxwjq3ukckhabckasdoamjas7ehigzqbjazu4kyq.ipfs.nftstorage.link/",
+  image5:
+    "https://bafkreieghanoutojyhkfxfrfqqjgtn76bnbi25kxwi5byankqz3on2elnq.ipfs.nftstorage.link/",
+  image6:
+    "https://bafkreiejkfmncbzuni5lsrlpplmkqisasvjzgl4oxu3nnz7nmmjwwd56ii.ipfs.nftstorage.link/",
+  image7:
+    "https://bafkreiag6wx5sg3o2e7nuvbdnpoonymm6dge4woi77o3oroxsdztggr7n4.ipfs.nftstorage.link/",
+  image8:
+    "https://bafkreielhfr3ybofrjwtbxg7b7qx6suw7noot3wfkpe3s54gbgg4cao5mq.ipfs.nftstorage.link/",
+  image9:
+    "https://bafkreienvdqrium4lwlfcoz3tctc6ez27hmsiiwv5bsiwjwo2xfolkv4q4.ipfs.nftstorage.link/",
+  image10:
+    "https://bafkreifjthkkuez3glfevsmjw7orgj4fuxofrtoh3zb6k2bqinloixqml4.ipfs.nftstorage.link/",
+  image11:
+    "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
+  image12:
+    "https://bafybeibrllurzvgwyyqgy4wz52ye3nwfiy2ilnxlmel3zmo7lhokmakmlm.ipfs.nftstorage.link/",
+  image13:
+    "https://bafkreiexjgifxje7to3nhm2acpgqx6pssfnkyfupabkvz6xi4wngfsoyb4.ipfs.nftstorage.link/",
+  image14:
+    "https://bafkreih5stp52zlhjzbzns6c2yzmsimcx22olvwcdhxjdcwlke7ulwsnrq.ipfs.nftstorage.link/",
+  image15:
+    "https://bafkreiehul4maodboljbvzi4yjoz7cmp7nq5oawxecgk3gzyfx2obqnhse.ipfs.nftstorage.link/",
+  image16:
+    "https://bafkreie3zja43akg3e6g2ycjvmtxccauwhyh5u53wy3ybmkrkpejzxuazi.ipfs.nftstorage.link/",
+  image17:
+    "https://bafkreihig2ecbfwnm4jgahveewvg4yvhzpvvduxzrad6mkgercplvtutjm.ipfs.nftstorage.link/",
+  image18:
+    "https://bafkreiaox4wectrdmwuoymlwabd75icvy22slqp7sq3jbodrlklxxscfba.ipfs.nftstorage.link/",
+  image19:
+    "https://bafkreihrhaj3vchhhpyycnchh36uxvhr3e4x3fjczjciz7mh5ho73tjlxe.ipfs.nftstorage.link/",
+  image20:
+    "https://bafkreieyya7khotxum73zxozxktaejzgwbjb4larid4nsy3exzmd2z2d5q.ipfs.nftstorage.link/",
+  image21:
+    "https://bafkreic2easjnf44omosb7dyvby4c5d7xu3rnfvbxjr3lnfasomsb6vhsi.ipfs.nftstorage.link/",
+  image22:
+    "https://bafkreiheihm3itssrxi4tlermll7b6edmojztfnfvjd5wblgwqvgakaltq.ipfs.nftstorage.link/",
+  image23:
+    "https://bafkreial4qmjbm5al5m7qfznoz57fcmzxfw25soclrjm355suaixkrdhoa.ipfs.nftstorage.link/",
+  image24:
+    "https://bafkreiafkhpfp5dv2qzkrdhkm72pxuxr7hziil6yz4hpwx6u5sxztjhvve.ipfs.nftstorage.link/",
+  image25:
+    "https://bafkreibv4v5zo5z6dmjdbzxdcm35cbvxlcjewu4qmvvtsqdpolikvpkn24.ipfs.nftstorage.link/",
+  image26:
+    "https://bafkreiau36hvhq6zzkay5j7logwmp7nf2y5suumyknfmimclabrvokzdg4.ipfs.nftstorage.link/",
+  image27:
+    "https://bafybeicgrco3ybsfei42gyny5laphmf3edmqnsfq667pjxr6ap47q77gqq.ipfs.nftstorage.link/",
+  image28:
+    "https://bafkreigt2jhdt2qr6lshkdrf3fjeizcdofnqgvtqkjhxxhaamy3vqsyhvu.ipfs.nftstorage.link/",
 });
-
 const Main = styled.div`
     .main {
         display: block;
