@@ -27,6 +27,7 @@ return (
               <div class="mx-2">
                 <a
                   href="https://app.veax.com/trade?mode=pro&tokens=token.lonkingnearbackto2024.near%25wrap.near"
+                  target="_blank"
                   class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={props.image7} width="90" />
