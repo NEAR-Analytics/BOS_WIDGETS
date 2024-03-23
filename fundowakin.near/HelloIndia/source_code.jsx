@@ -11,18 +11,28 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
-const helloIndiaText = `Hello India! Your balance is: `;
+const helloIndiaText = `Hello India!`;
 const projectInfoText = `Your balance is: ${yourAccountBalance} Near`;
 const fontFamily = "Arial, sans-serif";
-const fontSize = "18px"; // Reduced font size
-const headingFontSize = "24px"; // Reduced heading font size
-const subheadingFontSize = "20px"; // Reduced subheading font size
+const fontSize = "18px";
+const headingFontSize = "24px";
+const subheadingFontSize = "20px";
 const textColor = "orange";
 const backgroundColor = "green";
-const height = "100vh"; // use vh for full viewport height
-const width = "100vw"; // use vw for full viewport width
+const height = "100vh";
+const width = "100vw";
 const logoUrl =
   "https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/5d8a56da-0df6-4e25-ba2d-c2029e8dd760-logo.png";
+
+const SOuterWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+`;
 
 const extendedCode = `
   <style>
@@ -102,19 +112,20 @@ const extendedCode = `
       opacity: 1;
     }
   </style>
-
-  <div class="marquee">
-    <span>${helloIndiaText}</span>
-  </div>
-  <div class="content">
-    <h1>Project Information</h1>
-    <h2>NEAR Protocol Projects</h2>
-    <p>${projectInfoText}</p>
-    <!-- You can add more formatted text here -->
-  </div>
-  <div class="logo-container">
-    <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
-  </div>
+  <SOuterWrapper>
+    <div class="marquee">
+      <span>${helloIndiaText}</span>
+    </div>
+    <div class="content">
+      <h1>Project Information</h1>
+      <h2>NEAR Protocol Projects</h2>
+      <p>${projectInfoText}</p>
+      <!-- You can add more formatted text here -->
+    </div>
+    <div class="logo-container">
+      <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
+    </div>
+  </SOuterWrapper>
 `;
 
 return (
