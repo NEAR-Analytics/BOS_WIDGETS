@@ -22,7 +22,7 @@ const paragraphStyles = {
 return (
   <>
     <div style={containerStyles}>
-      <div className="mb-5" style={innerContainerStyles}>
+      <div className="mt-5" style={innerContainerStyles}>
         <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
           <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
             Decentralised Music Streaming
@@ -41,7 +41,7 @@ return (
       </div>
     </div>
     <div style={containerStyles}>
-      <div style={innerContainerStyles}>
+      <div className="mb-5" style={innerContainerStyles}>
         <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
           <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
             Upload Your First Song
