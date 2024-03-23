@@ -48,37 +48,36 @@ function getMarketCap(tokenId, poolId) {
     const totalSupply = ethers.BigNumber.from(
       Near.view(tokenId, "ft_total_supply", {})
     );
-    const circulatingSupply = totalSupply;
     const burnedPromises = BURN_ADDRESSES.map((burnAddress) =>
       Near.asyncView(tokenId, "ft_balance_of", { account_id: burnAddress })
     );
     Promise.all(burnedPromises).then((burnedAmounts) => {
-      const burned = burnedAmounts
-        .reduce((acc, balance) => acc.add(balance), ethers.BigNumber.from(0))
-        .div(
-          ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NEAR_DECIMALS))
-        )
-        .toNumber();
+      const burned = burnedAmounts.reduce(
+        (acc, balance) => acc.add(balance),
+        ethers.BigNumber.from(0)
+      );
+      const circulatingSupply = totalSupply
+        .sub(burned)
+        .div(ethers.BigNumber.from(10).pow(ethers.BigNumber.from(decimals)));
       Near.asyncView(REF_CONTRACT_ID, "get_pool", {
         pool_id: poolId,
       }).then((pool) => {
         const tokenIndex = pool.token_account_ids.indexOf(tokenId);
         const nearIndex = 1 - tokenIndex;
-        const tokenInPool = ethers.BigNumber.from(pool.amounts[tokenIndex]);
-        const nearInPool = ethers.BigNumber.from(pool.amounts[nearIndex]);
+        const tokenInPool = ethers.BigNumber.from(pool.amounts[tokenIndex]).div(
+          ethers.BigNumber.from(10).pow(ethers.BigNumber.from(decimals))
+        );
+        const nearInPool = ethers.BigNumber.from(pool.amounts[nearIndex]).div(
+          ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NEAR_DECIMALS))
+        );
+        if (tokenId === "ndc.tkn.near") {
+          console.log(tokenInPool, nearInPool);
+        }
         const tokenCapInNear = nearInPool
-          .mul(ethers.BigNumber.from(circulatingSupply))
-          .div(ethers.BigNumber.from(tokenInPool));
+          .mul(circulatingSupply)
+          .div(tokenInPool);
         getNearPrice().then((nearPrice) => {
-          resolve(
-            tokenCapInNear
-              .div(
-                ethers.BigNumber.from(10).pow(
-                  ethers.BigNumber.from(NEAR_DECIMALS)
-                )
-              )
-              .toNumber() * nearPrice
-          );
+          resolve(tokenCapInNear.toNumber() * nearPrice);
         });
       });
     });
