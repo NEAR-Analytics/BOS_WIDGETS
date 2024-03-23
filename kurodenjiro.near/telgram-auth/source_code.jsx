@@ -370,7 +370,18 @@ const Spinner = styled.div`
     animation: rotation .5s linear infinite;
   }
 `;
+const QrCode = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    margin-bottom:1.5rem;
 
+    img {
+        max-width:20px;
+        margin-right:5px;
+    }
+`;
 const ErrorModal = ({ children }) => {
   return (
     <>
@@ -570,6 +581,10 @@ const AuthMethods = () => {
       <AuthButton
         as="a"
         style={context.accountId ? {} : disabledAuthButtonStyles}
+        onClick={() => {
+          setPlatform("twitter");
+          storePlatform("twitter");
+        }}
         href={TWITTER_AUTH_URL}
         background="#000"
         color="#FFF"
@@ -599,7 +614,11 @@ const AuthMethods = () => {
         as="a"
         target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
-        href={TELEGRAM_AUTH_URL}
+        onClick={() => {
+          setPlatform("telegram");
+          storePlatform("telegram");
+        }}
+        //href={TELEGRAM_AUTH_URL}
         background="#0088cc"
         color="#FFF"
         border="rgba(0,0,0,.15)"
@@ -763,6 +782,36 @@ const AuthProcess = ({ platform }) => {
             Try again
           </FinishButton>
         </StepDescription>
+      </AuthProcessWrapper>
+    ),
+    telegram: (
+      <AuthProcessWrapper>
+        <Header>
+          <img src={TELEGRAM_LOGO_URL} width="100%" />
+          Telegram
+        </Header>
+        <Step>Scan Your Qr Code</Step>
+        <QrCode>
+          <img src={TELEGRAM_LOGO_URL} width="100%" />
+        </QrCode>
+        <StepDescription>
+          <img src={TELEGRAM_LOGO_URL} width="100%" />
+        </StepDescription>
+        <Step>2. Choose a profile</Step>
+        <StepDescription>
+          {lensProfiles.length > 0 && (
+            <AvailableHandles handles={lensProfiles} />
+          )}
+          {lensProfiles.length == 0 && "No profiles to show yet."}
+        </StepDescription>
+        <Step>3. Sign a proof</Step>
+        <StepDescription>
+          <button onClick={() => signProof("lens")}>Sign proof</button>
+        </StepDescription>
+        <ErrorModal />
+        <FinishButton onClick={() => verifyProof("lens")}>
+          Verify profile
+        </FinishButton>
       </AuthProcessWrapper>
     ),
   };
