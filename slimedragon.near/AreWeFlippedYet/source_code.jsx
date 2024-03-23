@@ -1,65 +1,118 @@
 const INTEL_NEAR_POOL = 4663;
 const NVIDIA_NEAR_POOL = 4547;
-const REF_CONTRACT_ID = "v2.ref-finance.near";
-const INTEL_TOTAL_SUPPLY = 100_000_000_000;
-const NVIDIA_TOTAL_SUPPLY = 3_000_000_000_000;
-const NEAR_DECIMALS = 24;
-const INTEL_DECIMALS = 18;
-const NVIDIA_DECIMALS = 8;
 
-const [value, setValue] = useState(undefined);
+const [intelMCap, setIntelMCap] = useState(undefined);
+const [nvidiaMCap, setNvidiaMCap] = useState(undefined);
 
-const intelPool = Near.asyncView(REF_CONTRACT_ID, "get_pool", {
-  pool_id: INTEL_NEAR_POOL,
+function getNearPrice() {
+  const NEAR_USDT_POOL = 3;
+  const NEAR_DECIMALS = 24;
+  const USDT_DECIMALS = 6;
+  const NEAR_TOKEN_ID = "wrap.near";
+
+  return new Promise((resolve, reject) => {
+    const REF_CONTRACT_ID = "v2.ref-finance.near";
+    Near.asyncView(REF_CONTRACT_ID, "get_pool", {
+      pool_id: NEAR_USDT_POOL,
+    }).then((pool) => {
+      const nearIndex = pool.token_account_ids.indexOf(NEAR_TOKEN_ID);
+      const usdtIndex = 1 - nearIndex;
+      const nearInPool = ethers.BigNumber.from(pool.amounts[nearIndex]);
+      const usdtInPool = ethers.BigNumber.from(pool.amounts[usdtIndex]);
+      const nearHumanReadable =
+        nearInPool
+          .mul(ethers.BigNumber.from(100))
+          .div(
+            ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NEAR_DECIMALS))
+          )
+          .toNumber() / 100;
+      const usdtHumanReadable =
+        usdtInPool
+          .mul(ethers.BigNumber.from(100))
+          .div(
+            ethers.BigNumber.from(10).pow(ethers.BigNumber.from(USDT_DECIMALS))
+          )
+          .toNumber() / 100;
+      resolve(usdtHumanReadable / nearHumanReadable);
+    });
+  });
+}
+
+function getMarketCap(tokenId, poolId) {
+  const REF_CONTRACT_ID = "v2.ref-finance.near";
+  const NEAR_DECIMALS = 24;
+  const BURN_ADDRESSES = ["0".repeat(64)];
+
+  return new Promise((resolve, reject) => {
+    const decimals = Near.view(tokenId, "ft_metadata", {}).decimals;
+    const totalSupply = ethers.BigNumber.from(
+      Near.view(tokenId, "ft_total_supply", {})
+    );
+    const circulatingSupply = totalSupply;
+    const burnedPromises = BURN_ADDRESSES.map((burnAddress) =>
+      Near.asyncView(tokenId, "ft_balance_of", { account_id: burnAddress })
+    );
+    Promise.all(burnedPromises).then((burnedAmounts) => {
+      const burned = burnedAmounts
+        .reduce((acc, balance) => acc.add(balance), ethers.BigNumber.from(0))
+        .div(
+          ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NEAR_DECIMALS))
+        )
+        .toNumber();
+      Near.asyncView(REF_CONTRACT_ID, "get_pool", {
+        pool_id: poolId,
+      }).then((pool) => {
+        const tokenIndex = pool.token_account_ids.indexOf(tokenId);
+        const nearIndex = 1 - tokenIndex;
+        const tokenInPool = ethers.BigNumber.from(pool.amounts[tokenIndex]);
+        const nearInPool = ethers.BigNumber.from(pool.amounts[nearIndex]);
+        const tokenCapInNear = nearInPool
+          .mul(ethers.BigNumber.from(circulatingSupply))
+          .div(ethers.BigNumber.from(tokenInPool));
+        getNearPrice().then((nearPrice) => {
+          resolve(
+            tokenCapInNear
+              .div(
+                ethers.BigNumber.from(10).pow(
+                  ethers.BigNumber.from(NEAR_DECIMALS)
+                )
+              )
+              .toNumber() * nearPrice
+          );
+        });
+      });
+    });
+  });
+}
+
+const intelCap = getMarketCap("intel.tkn.near", INTEL_NEAR_POOL);
+const nvidiaCap = getMarketCap("nearnvidia.near", NVIDIA_NEAR_POOL);
+
+Promise.all([intelCap, nvidiaCap]).then(([intel, nvidia]) => {
+  setIntelMCap(intel);
+  setNvidiaMCap(nvidia);
 });
-const nvidiaPool = Near.asyncView(REF_CONTRACT_ID, "get_pool", {
-  pool_id: NVIDIA_NEAR_POOL,
-});
 
-Promise.all([intelPool, nvidiaPool]).then(([intel, nvidia]) => {
-  const intelInIntelPool = ethers.BigNumber.from(intel.amounts[1]).div(
-    ethers.BigNumber.from(10).pow(ethers.BigNumber.from(INTEL_DECIMALS))
-  );
-  const nearInIntelPool = ethers.BigNumber.from(intel.amounts[0]).div(
-    ethers.BigNumber.from(10).pow(ethers.BigNumber.from(INTEL_DECIMALS))
-  );
-  const intelCapInNear = nearInIntelPool
-    .mul(
-      ethers.BigNumber.from(INTEL_TOTAL_SUPPLY).mul(
-        ethers.BigNumber.from(10).pow(ethers.BigNumber.from(INTEL_DECIMALS))
-      )
-    )
-    .div(ethers.BigNumber.from(intelInIntelPool));
-
-  const nvidiaInNvidiaPool = ethers.BigNumber.from(nvidia.amounts[0]).div(
-    ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NVIDIA_DECIMALS))
-  );
-  const nearInNvidiaPool = ethers.BigNumber.from(nvidia.amounts[1]).div(
-    ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NVIDIA_DECIMALS))
-  );
-  const nvidiaCapInNear = nearInNvidiaPool
-    .mul(
-      ethers.BigNumber.from(NVIDIA_TOTAL_SUPPLY).mul(
-        ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NVIDIA_DECIMALS))
-      )
-    )
-    .div(ethers.BigNumber.from(nvidiaInNvidiaPool));
-
-  setValue(intelCapInNear.mul(10000).div(nvidiaCapInNear).toNumber() / 10000);
-});
-
-return value === undefined ? (
+return intelMCap === undefined ? (
   "Loading ..."
 ) : (
   <>
     <h1>Are we flipped yet?</h1>
-    {value > 1 ? (
+    {intelMCap > nvidiaMCap ? (
       <h3>Yes! INTEAR has flipped NEARVIDIA</h3>
     ) : (
-      <h3>
-        Not yet! But INTEAR has achieved {(value * 100).toFixed(2)}% progress
-        towards flipping NEARVIDIA
-      </h3>
+      <>
+        <h3>
+          Not yet! But INTEAR has achieved{" "}
+          {((intelMCap / nvidiaMCap) * 100).toFixed(2)}% progress towards
+          flipping NEARVIDIA
+        </h3>
+        <p>
+          <b>$INTEAR</b> market cap: ${intelMCap.toFixed(2)}
+          <br />
+          <b>$NEARVIDIA</b> market cap: ${nvidiaMCap.toFixed(2)}
+        </p>
+      </>
     )}
   </>
 );
