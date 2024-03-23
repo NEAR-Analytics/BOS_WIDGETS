@@ -3,7 +3,7 @@ const containerStyles = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "90vh",
+  height: "100vh",
   backgroundColor: "#151718",
   color: "#fff",
 };
@@ -23,7 +23,7 @@ return (
   <>
     <div style={containerStyles}>
       <div className="mt-5" style={innerContainerStyles}>
-        <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
+        <div style={{ flex: 1, padding: "2rem" }}>
           <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
             Decentralised Music Streaming
           </p>
@@ -42,8 +42,14 @@ return (
     </div>
     <div style={containerStyles}>
       <div className="mb-5" style={innerContainerStyles}>
-        <div style={{ flex: 1, paddingLeft: "4rem", padding: "2rem" }}>
-          <p style={{ fontSize: "1.75rem", fontWeight: "bold" }}>
+        <div style={{ flex: 1, padding: "2rem" }}>
+          <p
+            style={{
+              fontSize: "1.75rem",
+              fontWeight: "bold",
+              // marginTop: "4rem",
+            }}
+          >
             Upload Your First Song
           </p>
           <p style={paragraphStyles}>
