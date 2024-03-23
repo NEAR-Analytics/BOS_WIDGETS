@@ -43,6 +43,8 @@ const extendedCode = `
       font-size: ${fontSize};
       line-height: 1.5; // Adjust line height for marquee
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      height: 100vh;
+      width: 100vw;
     }
 
     .marquee span {
