@@ -31,7 +31,7 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn btn-sm ${
-      loading || connected ? "btn-danger" : "btn-outline-dark"
+      loading || connected ? "btn-danger" : "btn-primary"
     }`}
     data={data}
   >
