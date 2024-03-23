@@ -365,7 +365,7 @@ const InputAmount = styled.input`
     justify-content: center;
   }
 `;
-const User = "multisend.testnet";
+const User = "fdaomultixender.near";
 const Content3 = ({ distributeInput }) => (
   <div>
     <Widget
@@ -492,7 +492,7 @@ const Main = () => {
     // Set simple popup visibility to false
     setSimplePopupVisibility(false);
 
-    const Contract = "fdaomultixender.near";
+    const Contract = "multi.fdaomultixender.near";
     const Method = "transfer";
     const transferAccountId = "";
     const Gas = 100000000000000;
