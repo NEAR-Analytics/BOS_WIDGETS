@@ -379,40 +379,19 @@ const pages = {
       <input
         type="text"
         placeholder="Title and Experience"
-        value={State.get().myInfo.titleAndExperience}
-        onChange={(e) =>
-          saveMyInfo(
-            e.target.value,
-            State.get().myInfo.skills,
-            State.get().myInfo.description
-          )
-        }
+        onBlur={(e) => myInfo.titleAndExperience(e.target.value)}
       />
       <br />
       <input
         type="text"
         placeholder="Skills"
-        value={State.get().myInfo.skills}
-        onChange={(e) =>
-          saveMyInfo(
-            State.get().myInfo.titleAndExperience,
-            e.target.value,
-            State.get().myInfo.description
-          )
-        }
+        onBlur={(e) => myInfo.skills(e.target.value)}
       />
       <br />
       <input
         type="text"
         placeholder="Short Description of Yourself"
-        value={State.get().myInfo.description}
-        onChange={(e) =>
-          saveMyInfo(
-            State.get().myInfo.titleAndExperience,
-            State.get().myInfo.skills,
-            e.target.value
-          )
-        }
+        onBlur={(e) => myInfo.description(e.target.value)}
       />
       <br />
       <FormButton>Confirm</FormButton>
@@ -420,11 +399,9 @@ const pages = {
       <input
         type="text"
         placeholder="Add Student"
-        value={State.get().addNewStudent}
-        onChange={(e) => {
-          onInputChange(e.target.value);
-        }}
+        onBlur={(e) => onInputChange(e.target.value)}
       />
+
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
           onClick={() => {
