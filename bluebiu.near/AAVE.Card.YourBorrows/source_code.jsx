@@ -99,11 +99,7 @@ return (
                           src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
                           props={{
                             children: [
-                              <img
-                                width={64}
-                                height={64}
-                                src={`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
-                              />,
+                              <img width={64} height={64} src={row?.icon} />,
                               <div>
                                 <div className="token-title">{row.symbol}</div>
                                 <div className="token-chain">{row.name}</div>
