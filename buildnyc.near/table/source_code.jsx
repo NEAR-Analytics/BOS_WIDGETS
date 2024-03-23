@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "buildnyc.near";
 const [newMember, setNewMember] = useState("");
 
 const social = Social.getr(`${accountId}/graph`);
@@ -82,12 +82,6 @@ return (
             {graph}
           </Tab>
         ))}
-        <button
-          onClick={createList}
-          className="p-1 ms-1 mt-1 mb-1 btn btn-sm btn-outline-light"
-        >
-          +
-        </button>
       </TabBar>
       <SheetContainer>
         <br />
@@ -106,10 +100,17 @@ return (
         <br />
         <b>{members.length} members</b>
         {members.map((member, index) => (
-          <div className="m-1" key={index}>
+          <div
+            className="m-1 d-flex flex-row justify-content-between"
+            key={index}
+          >
             <Widget
               src="mob.near/widget/N.ProfileLine"
               props={{ accountId: member }}
+            />
+            <Widget
+              src="hack.near/widget/ConnectButton"
+              props={{ accountId: member, graphId }}
             />
           </div>
         ))}
