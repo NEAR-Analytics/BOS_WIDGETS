@@ -426,7 +426,6 @@ const signProof = (platform) => {
 
 const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
-
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
     method: "POST",
     headers: {
@@ -466,6 +465,19 @@ const verifyProof = (platform, registryContract) => {
       setLoading(false);
     }
   );
+};
+
+const qrCodeBase64 = () => {
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram-qr-code`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  }).then(({ ok }) => {
+    if (ok) {
+    }
+  });
 };
 
 const disabledAuthButtonStyles = {
