@@ -31,10 +31,10 @@ return (
   <CommitButton
     disabled={loading}
     className={`btn btn-sm ${
-      loading || connected ? "btn-secondary" : "btn-outline-dark"
+      loading || connected ? "btn-danger" : "btn-outline-dark"
     }`}
     data={data}
   >
-    {loading ? "" : connected ? "Remove" : "Add"}
+    {loading ? "" : connected ? "x" : "+"}
   </CommitButton>
 );
