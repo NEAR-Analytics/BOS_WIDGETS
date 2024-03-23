@@ -47,6 +47,7 @@ const heroDataMap = {
   "Health Factor": healthFactor,
   "Available rewards": Number(rewardsAmount || 0).toFixed(2),
 };
+
 const heroDataTitle = heroData.map((item) => ({
   name: item,
   value: heroDataMap[item],
