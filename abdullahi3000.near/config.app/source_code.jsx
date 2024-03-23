@@ -42,7 +42,6 @@ return {
       init: {
         name: "Song Uploader",
       },
-      hide: true,
     },
     profile: {
       path: "buildhub.near/widget/page.profile",
