@@ -218,7 +218,7 @@ function Navbar(props) {
         <Left>
           <Link
             to={href({
-              widgetSrc: "buildhub.near/widget/app",
+              widgetSrc: "abdullahi3000.near/widget/app",
               params: {
                 page: "home",
               },
@@ -243,7 +243,7 @@ function Navbar(props) {
                     key={`desktop=${k}`}
                     style={{ textDecoration: "none" }}
                     to={href({
-                      widgetSrc: "buildhub.near/widget/app",
+                      widgetSrc: "abdullahi3000.near/widget/app",
                       params: {
                         page: k,
                       },
@@ -280,7 +280,7 @@ function Navbar(props) {
         <MobileNavigation>
           <Link
             to={href({
-              widgetSrc: "buildhub.near/widget/app",
+              widgetSrc: "abdullahi3000.near/widget/app",
               params: {
                 page: "home",
               },
@@ -310,7 +310,7 @@ function Navbar(props) {
           <MobileNavigation>
             <Link
               to={href({
-                widgetSrc: "buildhub.near/widget/app",
+                widgetSrc: "abdullahi3000.near/widget/app",
                 params: {
                   page: "home",
                 },
@@ -345,7 +345,7 @@ function Navbar(props) {
                       key={`mobile=${k}`}
                       style={{ textDecoration: "none" }}
                       to={href({
-                        widgetSrc: "buildhub.near/widget/app",
+                        widgetSrc: "abdullahi3000.near/widget/app",
                         params: {
                           page: k,
                         },
