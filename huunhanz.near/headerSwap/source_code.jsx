@@ -1,7 +1,9 @@
 State.init({
   color: "#31cf34",
-  image1: "https://lonk.meme/assets/images/logo.svg",
-  image2: "https://lonk.meme/assets/images/dragon.svg",
+  image1:
+    "https://bafkreidzrna3q6csqykuvzih6yywrijmdg4fn4tb53azjmmjuobfus4v2e.ipfs.nftstorage.link/",
+  image2:
+    "https://bafybeibuj22kfgmevy3os6akrswxosjyjv5q6tecyv5jsfpw7iccajp5qa.ipfs.nftstorage.link/",
 });
 
 const [dropdownVisible, setDropdownVisible] = useState(false);
