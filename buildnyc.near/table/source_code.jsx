@@ -64,14 +64,32 @@ return (
   <>
     <Container>
       <div className="m-2 d-flex flex-row justify-content-between">
-        <a href="/" style={{ color: "#000", textDecoration: "none" }}>
-          Home
-        </a>
+        <div className="d-flex flex-row">
+          <a href="/">
+            <Widget
+              src="mob.near/widget/Image"
+              props={{
+                image: props.image,
+                style: { width: "39px" },
+                className: "m-1",
+                fallbackUrl:
+                  "https://builders.mypinata.cloud/ipfs/QmQmKGGJXhkhGrTbE4MgJ3G1wUUu8eo7mNKwRSCB5tihCw",
+              }}
+            />
+          </a>
+          <a
+            href="/buildcity.near/widget/app"
+            style={{ color: "#000", textDecoration: "none" }}
+          >
+            <h5 className="m-2">Build City</h5>
+          </a>
+        </div>
         <Widget
-          src="mob.near/widget/N.ProfileLine"
+          src="mob.near/widget/Profile.ShortInlineBlock"
           props={{ accountId: "buildnyc.near", hideAccountId: true }}
         />
       </div>
+      <br />
       <TabBar>
         {graphs.map((graph) => (
           <Tab
@@ -98,7 +116,9 @@ return (
           />
         </div>
         <br />
-        <b>{members.length} members</b>
+        <b>
+          {members.length} {members.length === 1 ? "member" : "members"}
+        </b>
         {members.map((member, index) => (
           <div
             className="m-1 d-flex flex-row justify-content-between"
