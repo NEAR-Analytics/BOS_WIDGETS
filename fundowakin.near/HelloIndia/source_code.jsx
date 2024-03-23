@@ -24,16 +24,6 @@ const width = "100vw";
 const logoUrl =
   "https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/5d8a56da-0df6-4e25-ba2d-c2029e8dd760-logo.png";
 
-const SOuterWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-`;
-
 const extendedCode = `
   <style>
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -43,6 +33,7 @@ const extendedCode = `
       width: ${width};
       margin: 0;
       padding: 0;
+      position: fixed;
       background-color: ${backgroundColor};
       font-family: 'Roboto', sans-serif;
     }
@@ -96,9 +87,9 @@ const extendedCode = `
     }
 
     .logo {
-      max-width: 300px; // Reduced logo size
-      width: auto; // ensure logo maintains aspect ratio
-      height: auto; // ensure logo maintains aspect ratio
+      max-width: 300px; 
+      width: auto;
+      height: auto;
       transition: transform 0.3s, opacity 0.5s;
       opacity: 0;
     }
@@ -112,7 +103,7 @@ const extendedCode = `
       opacity: 1;
     }
   </style>
-  <SOuterWrapper>
+  
     <div class="marquee">
       <span>${helloIndiaText}</span>
     </div>
@@ -125,7 +116,6 @@ const extendedCode = `
     <div class="logo-container">
       <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
     </div>
-  </SOuterWrapper>
 `;
 
 return (
