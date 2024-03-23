@@ -43,6 +43,13 @@ return {
         name: "Song Uploader",
       },
     },
+    joinUs: {
+      path: "abdullahi3000.near/widget/harmonic.join.us",
+      blockHeight: "final",
+      init: {
+        name: "Join Us",
+      },
+    },
     profile: {
       path: "buildhub.near/widget/page.profile",
       blockHeight: "final",
