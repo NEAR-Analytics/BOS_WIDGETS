@@ -87,6 +87,12 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; /* Вирівнює кнопки по центру по горизонталі */
+  width: 100%; /* Розтягує контейнер на всю ширину */
+`;
+
 return (
   <SOuterWrapper>
     <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
@@ -101,22 +107,24 @@ return (
           onChange={onAmountInputChange}
         />
       </p>
-      <AmountButton onClick={onPresetButtonClick} value="5">
-        5
-      </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="25">
-        25
-      </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="50">
-        50
-      </AmountButton>
-      <AmountButton
-        onClick={onPresetButtonClick}
-        value={yourAccountBalance - 0.05}
-      >
-        Max
-      </AmountButton>
-      <StakeButton onClick={onStakeClick}>Stake</StakeButton>
+      <ButtonContainer>
+        <AmountButton onClick={onPresetButtonClick} value="5">
+          5
+        </AmountButton>
+        <AmountButton onClick={onPresetButtonClick} value="25">
+          25
+        </AmountButton>
+        <AmountButton onClick={onPresetButtonClick} value="50">
+          50
+        </AmountButton>
+        <AmountButton
+          onClick={onPresetButtonClick}
+          value={yourAccountBalance - 0.05}
+        >
+          Max
+        </AmountButton>
+        <StakeButton onClick={onStakeClick}>Stake</StakeButton>
+      </ButtonContainer>
       <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
       <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
       <p>Your balance is: {yourAccountBalance} Near</p>
