@@ -1,8 +1,3 @@
-initState({
-  amount: "1",
-  validator: "nearuaguild.poolv1.near",
-});
-
 const accountId = props.wallet_id || context.accountId;
 const decimals = props.decimal_places ?? 1;
 
