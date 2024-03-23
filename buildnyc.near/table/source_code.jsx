@@ -69,7 +69,7 @@ return (
         </a>
         <Widget
           src="mob.near/widget/N.ProfileLine"
-          props={{ accountId: "buildcity.near", hideAccountId: true }}
+          props={{ accountId: "buildnyc.near", hideAccountId: true }}
         />
       </div>
       <TabBar>
