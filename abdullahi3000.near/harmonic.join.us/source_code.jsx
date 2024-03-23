@@ -24,7 +24,7 @@ return (
             compensation, and connect directly with your fans.
           </p>
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, color: "BLACK" }}>
           <Widget src="abdullahi3000.near/widget/create.artist" />
         </div>
       </div>
