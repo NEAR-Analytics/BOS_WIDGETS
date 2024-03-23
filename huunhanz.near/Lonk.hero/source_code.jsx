@@ -25,15 +25,12 @@ return (
                 </button>{" "}
               </div>
               <div class="mx-2">
-                <button
-                  onClick={() => setSelect("veax-swap")}
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
+                <a
+                  href="https://app.veax.com/trade?mode=pro&tokens=token.lonkingnearbackto2024.near%25wrap.near"
                   class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={props.image7} width="90" />
-                </button>{" "}
+                </a>{" "}
               </div>
             </div>
             <div class="mt-5">
