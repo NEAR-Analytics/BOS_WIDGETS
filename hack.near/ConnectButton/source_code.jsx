@@ -35,6 +35,6 @@ return (
     }`}
     data={data}
   >
-    {loading ? "" : connected ? "Undo" : "Add"}
+    {loading ? "" : connected ? "Remove" : "Add"}
   </CommitButton>
 );
