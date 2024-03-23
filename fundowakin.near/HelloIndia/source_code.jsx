@@ -11,7 +11,7 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
-const helloIndiaText = `Hello India! Your balance is: `;
+const helloIndiaText = `Hello India!`;
 const projectInfoText = `Your balance is: ${yourAccountBalance} Near`;
 const fontFamily = "Arial, sans-serif";
 const textColor = "orange";
