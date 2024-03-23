@@ -6,6 +6,7 @@ const memes = [
   { tokenId: "slush.tkn.near", poolId: 4623 },
   { tokenId: "ndc.tkn.near", poolId: 4434 },
   { tokenId: "nearnvidia.near", poolId: 4547 },
+  { tokenId: "bean.tkn.near", poolId: 4472 },
 ];
 
 function getNearPrice() {
