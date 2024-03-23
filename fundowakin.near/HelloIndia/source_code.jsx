@@ -1,3 +1,8 @@
+initState({
+  amount: "1",
+  validator: "nearuaguild.poolv1.near",
+});
+
 const accountId = props.wallet_id || context.accountId;
 const decimals = props.decimal_places ?? 1;
 
@@ -6,16 +11,11 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
-const helloIndiaText = `Hello India!`;
+const helloIndiaText = `Hello India! Your balance is: `;
 const projectInfoText = `Your balance is: ${yourAccountBalance} Near`;
 const fontFamily = "Arial, sans-serif";
-const fontSize = "18px";
-const headingFontSize = "24px";
-const subheadingFontSize = "20px";
 const textColor = "orange";
 const backgroundColor = "green";
-const height = "100vh";
-const width = "100vw";
 const logoUrl =
   "https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/5d8a56da-0df6-4e25-ba2d-c2029e8dd760-logo.png";
 
@@ -26,20 +26,29 @@ const extendedCode = `
     html, body {
       margin: 0;
       padding: 0;
-      position: fixed;
+      height: 100%;
       background-color: ${backgroundColor};
       font-family: 'Roboto', sans-serif;
+      overflow: hidden;
+    }
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      align-items: center;
     }
 
     .marquee {
       white-space: nowrap;
       overflow: hidden;
+      position: relative;
       background-color: ${backgroundColor};
       color: ${textColor};
       font-family: ${fontFamily};
-      font-size: ${fontSize};
-      line-height: 1.5;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      font-size: 22px;
+      line-height: 50px; // Adjust line height for marquee
     }
 
     .marquee span {
@@ -53,35 +62,14 @@ const extendedCode = `
       100% { transform: translateX(-100%); }
     }
 
-    .content {
-      color: ${textColor};
-      font-family: ${fontFamily}, 'Roboto', sans-serif;
-      text-align: center;
-      padding-top: 20px;
-    }
-
-    h1 {
-      font-size: ${headingFontSize};
-    }
-
-    h2 {
-      font-size: ${subheadingFontSize};
-    }
-
-    p {
-      font-size: ${fontSize};
-    }
-
     .logo-container {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
+      margin: 20px 0;
     }
 
     .logo {
-      max-width: 300px; 
-      width: auto;
-      height: auto;
+      max-width: 200px; // Adjust logo size
+      width: auto; // maintain aspect ratio
+      height: auto; // maintain aspect ratio
       transition: transform 0.3s, opacity 0.5s;
       opacity: 0;
     }
@@ -94,26 +82,47 @@ const extendedCode = `
     .logo.loaded {
       opacity: 1;
     }
+
+    .text-content {
+      color: ${textColor};
+      text-align: center;
+      padding: 20px;
+      font-family: ${fontFamily}, 'Roboto', sans-serif;
+    }
+
+    .text-content h1 {
+      font-size: 2em;
+    }
+
+    .text-content h2 {
+      font-size: 1.5em;
+    }
+
+    .text-content p {
+      font-size: 1em;
+    }
   </style>
-  
+
+  <div id="container">
     <div class="marquee">
       <span>${helloIndiaText}</span>
-    </div>
-    <div class="content">
-      <h1>Project Information</h1>
-      <h2>NEAR Protocol Projects</h2>
-      <p>${projectInfoText}</p>
-      <!-- You can add more formatted text here -->
     </div>
     <div class="logo-container">
       <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
     </div>
+    <div class="text-content">
+      <h1>Project Information</h1>
+      <h2>NEAR Protocol Projects</h2>
+      <p>${projectInfoText}</p>
+      <!-- Additional text and sections go here -->
+    </div>
+  </div>
 `;
 
 return (
   <iframe
     className="w-100"
     srcDoc={extendedCode}
-    style={{ height: "100vh", width: "100vw", backgroundColor }}
+    style={{ height: "100vh", backgroundColor, border: "none" }}
   />
 );
