@@ -379,11 +379,7 @@ return (
                       ),
                       right: (
                         <TokenWrapper>
-                          <img
-                            width={26}
-                            height={26}
-                            src={`https://app.aave.com/icons/tokens/${symbol.toLowerCase()}.svg`}
-                          />
+                          <img width={26} height={26} src={data?.icon} />
                           <TokenTexture>{symbol}</TokenTexture>
                         </TokenWrapper>
                       ),
