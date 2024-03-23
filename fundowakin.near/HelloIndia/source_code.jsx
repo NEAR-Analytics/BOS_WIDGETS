@@ -11,13 +11,16 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
-const text = `Hello India! Your balance is: ${yourAccountBalance} Near`;
+const helloIndiaText = `Hello India! Your balance is: `;
+const projectInfoText = `Your balance is: ${yourAccountBalance} Near`;
 const fontFamily = "Arial, sans-serif";
-const fontSize = "22px";
+const fontSize = "18px"; // Reduced font size
+const headingFontSize = "24px"; // Reduced heading font size
+const subheadingFontSize = "20px"; // Reduced subheading font size
 const textColor = "orange";
 const backgroundColor = "green";
-const height = "100%";
-const width = "100%";
+const height = "100vh"; // use vh for full viewport height
+const width = "100vw"; // use vw for full viewport width
 const logoUrl =
   "https://zealy-webapp-images-prod.s3.eu-west-1.amazonaws.com/public/5d8a56da-0df6-4e25-ba2d-c2029e8dd760-logo.png";
 
@@ -25,8 +28,12 @@ const extendedCode = `
   <style>
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
 
-    body {
+    html, body {
+      height: ${height};
+      width: ${width};
       margin: 0;
+      padding: 0;
+      background-color: ${backgroundColor};
       font-family: 'Roboto', sans-serif;
     }
 
@@ -34,14 +41,11 @@ const extendedCode = `
       white-space: nowrap;
       overflow: hidden;
       position: relative;
-      color: ${textColor};
       background-color: ${backgroundColor};
-      font-family: ${fontFamily}, 'Roboto', sans-serif;
+      color: ${textColor};
+      font-family: ${fontFamily};
       font-size: ${fontSize};
-      height: ${height};
-      width: ${width};
-      align-items: center;
-      justify-content: start;
+      line-height: 1.5; // Adjust line height for marquee
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
 
@@ -56,17 +60,35 @@ const extendedCode = `
       100% { transform: translateX(-100%); }
     }
 
+    .content {
+      color: ${textColor};
+      font-family: ${fontFamily}, 'Roboto', sans-serif;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    h1 {
+      font-size: ${headingFontSize};
+    }
+
+    h2 {
+      font-size: ${subheadingFontSize};
+    }
+
+    p {
+      font-size: ${fontSize};
+    }
+
     .logo-container {
-      width: ${width};
       display: flex;
       justify-content: center;
       margin-top: 10px;
     }
 
     .logo {
-      max-width: 600px;
-      width: 100%;
-      height: 100%;
+      max-width: 300px; // Reduced logo size
+      width: auto; // ensure logo maintains aspect ratio
+      height: auto; // ensure logo maintains aspect ratio
       transition: transform 0.3s, opacity 0.5s;
       opacity: 0;
     }
@@ -82,7 +104,13 @@ const extendedCode = `
   </style>
 
   <div class="marquee">
-    <span>${text}</span>
+    <span>${helloIndiaText}</span>
+  </div>
+  <div class="content">
+    <h1>Project Information</h1>
+    <h2>NEAR Protocol Projects</h2>
+    <p>${projectInfoText}</p>
+    <!-- You can add more formatted text here -->
   </div>
   <div class="logo-container">
     <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
