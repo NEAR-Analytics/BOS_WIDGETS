@@ -56,18 +56,18 @@ const TabItem = styled.div`
 return (
   <TabContainer>
     <TabItem
-      selected={select === "supply"}
-      onClick={() => setSelect("supply")}
+      selected={select === "MARKET"}
+      onClick={() => setSelect("MARKET")}
       style={theme ? theme : {}}
     >
-      Supply
+      Market
     </TabItem>
     <TabItem
-      selected={select === "borrow"}
-      onClick={() => setSelect("borrow")}
+      selected={select === "YOURS"}
+      onClick={() => setSelect("YOURS")}
       style={theme ? theme : {}}
     >
-      Borrow
+      Yours
     </TabItem>
   </TabContainer>
 );
