@@ -222,7 +222,7 @@ const renderApy = (record) => {
           .map((reward, index) => {
             return (
               <RewardApyItem key={index}>
-                <RewardIcon src={reward.icon} />
+                {reward.icon ? <RewardIcon src={reward.icon} /> : null}
                 <RewardApy>
                   {type === "deposit" ? reward.supply : reward.borrow} APR
                 </RewardApy>
