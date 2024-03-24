@@ -1,5 +1,3 @@
-const [select, setSelect] = useState("");
-
 const config = {
   image4:
     "https://bafybeib6kjh37qmodapxwjq3ukckhabckasdoamjas7ehigzqbjazu4kyq.ipfs.nftstorage.link/",
@@ -34,7 +32,6 @@ return (
             <div class="d-flex justify-content-center">
               <div class="mx-2">
                 <button
-                  onClick={() => setSelect("ref-swap")}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -147,9 +144,7 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              {select == "ref-swap"
-                ? "Swap Token Ref Finance"
-                : "Swap Token Veax"}
+              Swap Token Ref Finance
             </h5>
             <button
               type="button"
@@ -159,11 +154,7 @@ return (
             ></button>
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
-            {select == "ref-swap" ? (
-              <Widget src="huunhanz.near/widget/ref-swap" />
-            ) : (
-              <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
-            )}
+            <Widget src="huunhanz.near/widget/ref-swap" />
           </div>
         </div>
       </div>
