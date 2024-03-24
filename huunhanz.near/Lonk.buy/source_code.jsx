@@ -164,7 +164,7 @@ return (
               <button
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
+                data-bs-target="#buyModal"
                 class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
               >
                 <img src={props.image6} width="186" />
@@ -177,9 +177,9 @@ return (
 
     <div
       class="modal fade"
-      id="exampleModal"
+      id="buyModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="buyModal"
       aria-hidden="true"
     >
       <div class="modal-dialog">
