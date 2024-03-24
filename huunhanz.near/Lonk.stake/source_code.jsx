@@ -221,7 +221,7 @@ return (
           <div>
             <div
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#modalStake"
               class="button-stake"
             >
               Stake
@@ -232,9 +232,9 @@ return (
     </Container>
     <div
       class="modal fade"
-      id="exampleModal"
+      id="modalStake"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="modalStake"
       aria-hidden="true"
     >
       <div class="modal-dialog">
