@@ -3,6 +3,7 @@ const Wrap = styled.div`
   /* background: #0e0e26; */
   min-height: 100vh;
   color: white;
+  font-family: Gantari;
 `;
 
 const FlexContainer = styled.div``;
@@ -10,6 +11,36 @@ const FlexContainer = styled.div``;
 const ChainsWrap = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+const Yours = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 16px;
+`;
+const YoursTableWrapper = styled.div`
+  background-color: rgba(53, 55, 73, 0.2);
+  border-radius: 6px;
+  width: 50%;
+`;
+const Title = styled.div`
+  padding: 10px 20px 0;
+  /* border-bottom: 1px solid #292c42; */
+`;
+const SubTitle = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Label = styled.div`
+  color: #979abe;
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 5px;
+`;
+const Value = styled.div`
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 15px;
 `;
 
 const ROUND_DOWN = 0;
@@ -33,7 +64,7 @@ const {
   toast,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
-// console.log("AAVE.V3: ", props);
+console.log("AAVE.V3: ", props);
 
 function isValid(a) {
   if (!a) return false;
@@ -221,22 +252,21 @@ State.init({
 
   assetsToSupply: undefined, //[{markets}]
   yourSupplies: undefined, //[{markets}]
+  netWorthUSD: "",
+  totalNetApy: "",
+  healthFactor: "",
   assetsToBorrow: {
     availableBorrowsUSD: "",
-    debts: markets, //TODO?
-    healthFactor: "",
-    netApy: "",
-    netWorthUSD: "",
+    debts: markets,
+    // netApy: "",
   },
   yourBorrows: {
     availableBorrowsUSD: "",
     debts: [],
-    healthFactor: "",
-    netApy: 0.013302895831857352,
-    netWorthUSD: "3.94563967927797537582010364",
+    // netApy: '',
   },
   baseAssetBalance: undefined,
-  selectTab: "supply", // supply | borrow
+  selectTab: "MARKET", // MARKET | YOURS
   fresh: 0, // fresh rewards
 });
 
@@ -267,18 +297,19 @@ function calculateAvailableBorrows({
   marketReferencePriceInUsd,
 }) {
   return isValid(availableBorrowsUSD) && isValid(marketReferencePriceInUsd)
-    ? Big(availableBorrowsUSD).div(marketReferencePriceInUsd).toFixed()
+    ? Big(availableBorrowsUSD || 0)
+        .div(marketReferencePriceInUsd)
+        .toFixed()
     : Number(0).toFixed();
 }
 
 function bigMin(_a, _b) {
-  const a = Big(_a);
-  const b = Big(_b);
+  const a = Big(_a || 0);
+  const b = Big(_b || 0);
   return a.gt(b) ? b : a;
 }
 
 function formatHealthFactor(healthFactor) {
-  // console.log("formatHealthFactor:", healthFactor);
   if (healthFactor === "∞") return healthFactor;
   if (!healthFactor || !isValid(healthFactor)) return "-";
   if (Number(healthFactor) === -1) return "∞";
@@ -331,11 +362,11 @@ function updateData(refresh) {
     })
     .then((userBalances) => {
       const assetsToSupply = markets.map((market, idx) => {
-        const balanceRaw = Big(
+        const _bal =
           market.symbol === config.nativeCurrency.symbol
             ? state.baseAssetBalance
-            : userBalances[idx]
-        ).div(Big(10).pow(market.decimals));
+            : userBalances[idx];
+        const balanceRaw = Big(_bal || 0).div(Big(10).pow(market.decimals));
 
         const balance = balanceRaw.toFixed(market.decimals, ROUND_DOWN);
 
@@ -343,8 +374,24 @@ function updateData(refresh) {
           .mul(market.marketReferencePriceInUsd || 0)
           .toFixed(3, ROUND_DOWN);
 
+        const availableBorrowsUSD = bigMin(
+          state.assetsToBorrow.availableBorrowsUSD,
+          market.availableLiquidityUSD
+        )
+          .times(ACTUAL_BORROW_AMOUNT_RATE)
+          .toFixed();
+
+        const availableBorrows = calculateAvailableBorrows({
+          availableBorrowsUSD,
+          marketReferencePriceInUsd: market.marketReferencePriceInUsd,
+        });
+        // console.log(44444, availableBorrows);
+        // item.availableBorrows = availableBorrows;
+
         return {
           ...market,
+          availableBorrowsUSD,
+          availableBorrows,
           balance,
           balanceInUSD,
         };
@@ -361,7 +408,7 @@ function updateData(refresh) {
         assetsToSupply,
       });
       // get user borrow data
-      updateUserDebts(marketsMapping, assetsToSupply, refresh);
+      // updateUserDebts(marketsMapping, assetsToSupply, refresh);
     })
     .catch((err) => {
       console.log("batchBalanceOfERROR:", err);
@@ -376,6 +423,30 @@ function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
     return;
   }
 
+  const _assetsToSupply = [...state.assetsToSupply];
+
+  _assetsToSupply.forEach((item) => {
+    const availableBorrowsUSD = bigMin(
+      state.assetsToBorrow.availableBorrowsUSD,
+      item.availableLiquidityUSD
+    )
+      .times(ACTUAL_BORROW_AMOUNT_RATE)
+      .toFixed();
+    console.log(33333, availableBorrowsUSD);
+    item.availableBorrowsUSD = availableBorrowsUSD;
+    const availableBorrows = calculateAvailableBorrows({
+      availableBorrowsUSD,
+      marketReferencePriceInUsd: item.marketReferencePriceInUsd,
+    });
+    console.log(44444, availableBorrows);
+    item.availableBorrows = availableBorrows;
+    item.abcd = 1234;
+  });
+  console.log(222222, _assetsToSupply);
+  State.update({
+    assetsToSupply: _assetsToSupply,
+  });
+  return;
   const prevYourBorrows = { ...state.yourBorrows };
 
   // userDebts depends on the balance from assetsToSupply
@@ -387,7 +458,7 @@ function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
     }
     return prev;
   }, {});
-
+  console.log(111111, markets, assetsToSupplyMap);
   const debts = markets
     .map((userDebt) => {
       const market = assetsToSupplyMap[userDebt.underlyingAsset];
@@ -425,7 +496,7 @@ function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
         balanceInUSD: assetsToSupplyMap[assetsToSupplyMapKey].balanceInUSD,
       };
     })
-    .filter((asset) => !!asset)
+    // .filter((asset) => !!asset)
     // .sort((asset1, asset2) => {
     //   const availableBorrowsUSD1 = Number(asset1.availableBorrowsUSD);
     //   const availableBorrowsUSD2 = Number(asset2.availableBorrowsUSD);
@@ -439,7 +510,6 @@ function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
 
   const assetsToBorrow = {
     ...state.assetsToBorrow,
-    // healthFactor: formatHealthFactor(userDebts.healthFactor),
     debts,
   };
 
@@ -614,7 +684,7 @@ function getPoolDataProvider() {
           _debts[i].supplyAPY = depositAPY;
           _debts[i].variableBorrowAPY = variableBorrowAPY;
 
-          prevAssetsToBorrow.netApy = netApy;
+          // prevAssetsToBorrow.netApy = netApy;
           prevAssetsToBorrow.variableBorrowAPY = variableBorrowAPY;
         }
       }
@@ -622,7 +692,7 @@ function getPoolDataProvider() {
         assetsToSupply: prevAssetsToSupply,
         assetsToBorrow: {
           ...state.assetsToBorrow,
-          netApy,
+          // netApy,
           debts: _debts,
         },
       });
@@ -656,14 +726,14 @@ function fetchUserAccountData() {
       // });
       State.update({
         currentLiquidationThreshold,
+        healthFactor: formatHealthFactor(
+          ethers.utils.formatUnits(healthFactor)
+        ),
         assetsToBorrow: {
           ...state.assetsToBorrow,
           availableBorrowsUSD: ethers.utils.formatUnits(
             availableBorrowsBase,
             8
-          ),
-          healthFactor: formatHealthFactor(
-            ethers.utils.formatUnits(healthFactor)
           ),
         },
       });
@@ -925,81 +995,6 @@ function getAllUserRewards() {
     });
 }
 
-function claimRewards() {
-  const arr = markets
-    .map((item) => [
-      item.aTokenAddress,
-      // item.stableDebtTokenAddress,
-      item.variableDebtTokenAddress,
-    ])
-    .flat();
-  const addrs = [...new Set(arr)];
-  const claimProvider = new ethers.Contract(
-    config.incentivesProxy,
-    [
-      {
-        inputs: [
-          { internalType: "address[]", name: "assets", type: "address[]" },
-          { internalType: "address", name: "to", type: "address" },
-        ],
-        name: "claimAllRewards",
-        outputs: [
-          {
-            internalType: "address[]",
-            name: "rewardsList",
-            type: "address[]",
-          },
-          {
-            internalType: "uint256[]",
-            name: "claimedAmounts",
-            type: "uint256[]",
-          },
-        ],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-
-  claimProvider
-    .claimAllRewards(addrs, account)
-    .then((tx) => {
-      tx.wait()
-        .then((res) => {
-          const { status, transactionHash } = res;
-          toast?.dismiss(toastId);
-          // State.update({
-          //   pending: false,
-          // });
-
-          if (status === 1) {
-            State.update({
-              ...state,
-              fresh: state.fresh + 1,
-            });
-            toast?.success({
-              title: `Claim successed!`,
-              tx: transactionHash,
-              chainId,
-            });
-          } else {
-            toast?.fail({
-              title: `Claim failed!`,
-              tx: transactionHash,
-              chainId,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log("tx_error:", err);
-        });
-    })
-    .catch((err) => {
-      console.log("claimRewards_error:", err);
-    });
-}
-
 useEffect(() => {
   if (!isChainSupported) return;
 
@@ -1008,8 +1003,8 @@ useEffect(() => {
 
 useEffect(() => {
   if (!account) return;
-  const { heroData } = config;
-  if (heroData.indexOf("Available rewards") > -1) {
+
+  if (dexConfig.rewardToken) {
     getAllUserRewards();
   }
 }, [fresh]);
@@ -1034,10 +1029,7 @@ function calcNetWorth() {
   );
   const netWorth = Big(supplyBal).minus(debtsBal).toFixed(2, ROUND_DOWN);
   State.update({
-    assetsToBorrow: {
-      ...state.assetsToBorrow,
-      netWorthUSD: netWorth,
-    },
+    netWorthUSD: netWorth,
   });
 }
 
@@ -1088,14 +1080,35 @@ useEffect(() => {
     .toFixed();
   const totalNetApy = Big(a).minus(Big(b)).toFixed();
 
+  const yourTotalSupply = state.yourSupplies.reduce(
+    (prev, curr) =>
+      Big(prev)
+        .plus(Big(curr.underlyingBalanceUSD || 0))
+        .toFixed(),
+    0
+  );
+  const yourTotalBorrow = state.yourBorrows.debts.reduce(
+    (prev, curr) =>
+      Big(prev)
+        .plus(Big(curr.balanceInUSD || 0))
+        .toFixed(),
+    0
+  );
+
   State.update({
     totalNetApy,
-    assetsToBorrow: {
-      ...state.assetsToBorrow,
-      netWorthUSD: netWorth,
-    },
+    netWorthUSD: netWorth,
+    yourTotalSupply,
+    yourTotalBorrow,
   });
 }, [state.yourSupplies, state.yourBorrows]);
+
+function onSuccess() {
+  State.update({
+    ...state,
+    fresh: state.fresh + 1,
+  });
+}
 
 console.log("STATE: ", state);
 
@@ -1122,19 +1135,15 @@ const body = isChainSupported ? (
         props={{
           config,
           netWorth: `$ ${
-            state.assetsToBorrow?.netWorthUSD
-              ? Big(state.assetsToBorrow.netWorthUSD).toFixed(2)
-              : "-"
+            state.netWorthUSD ? Big(state.netWorthUSD).toFixed(2) : "-"
           }`,
           netApy: `${
             state.totalNetApy
               ? Number(Big(state.totalNetApy).times(100).toFixed(2))
               : "-"
           }%`,
-          healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
-          rewardsAmount: state.rewardsAmount,
+          healthFactor: formatHealthFactor(state.healthFactor),
           theme: dexConfig?.theme,
-          claimRewards,
         }}
       />
     </FlexContainer>
@@ -1147,26 +1156,8 @@ const body = isChainSupported ? (
         setSelect: (tabName) => State.update({ selectTab: tabName }),
       }}
     />
-    {state.selectTab === "supply" && (
+    {state.selectTab === "MARKET" && (
       <>
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
-          props={{
-            config,
-            chainId: chainId,
-            yourSupplies: state.yourSupplies,
-            showWithdrawModal: state.showWithdrawModal,
-            setShowWithdrawModal: (isShow) =>
-              State.update({ showWithdrawModal: isShow }),
-            onActionSuccess,
-            healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
-            formatHealthFactor,
-            withdrawETHGas,
-            withdrawERC20Gas,
-            account,
-            theme: dexConfig?.theme,
-          }}
-        />
         <Widget
           src={`${config.ownerId}/widget/AAVE.Card.AssetsToSupply`}
           props={{
@@ -1177,39 +1168,17 @@ const body = isChainSupported ? (
             setShowSupplyModal: (isShow) =>
               State.update({ showSupplyModal: isShow }),
             onActionSuccess,
-            healthFactor: formatHealthFactor(state.assetsToBorrow.healthFactor),
+            healthFactor: formatHealthFactor(state.healthFactor),
             formatHealthFactor,
             depositETHGas,
             depositERC20Gas,
-            theme: dexConfig?.theme,
-          }}
-        />
-      </>
-    )}
-    {state.selectTab === "borrow" && (
-      <>
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.Card.YourBorrows`}
-          props={{
-            config,
-            chainId: chainId,
-            yourBorrows: state.yourBorrows,
-            showRepayModal: state.showRepayModal,
-            setShowRepayModal: (isShow) =>
-              State.update({ showRepayModal: isShow }),
-            showBorrowModal: state.showBorrowModal,
-            setShowBorrowModal: (isShow) =>
-              State.update({ showBorrowModal: isShow }),
-            formatHealthFactor,
-            onActionSuccess,
-            repayETHGas,
-            repayERC20Gas,
             borrowETHGas,
             borrowERC20Gas,
+            yourSupplies: state.yourSupplies,
             theme: dexConfig?.theme,
           }}
         />
-        <Widget
+        {/* <Widget
           src={`${config.ownerId}/widget/AAVE.Card.AssetsToBorrow`}
           props={{
             config,
@@ -1224,6 +1193,97 @@ const body = isChainSupported ? (
             borrowETHGas,
             borrowERC20Gas,
             theme: dexConfig?.theme,
+          }}
+        /> */}
+      </>
+    )}
+    {state.selectTab === "YOURS" && (
+      <>
+        <Yours>
+          <YoursTableWrapper>
+            <Title>
+              You Supplies
+              <SubTitle>
+                <Label>Balance:</Label>
+                <Value>$ {Number(state.yourTotalSupply).toFixed(2)}</Value>
+
+                <Label>APY:</Label>
+                <Value> %</Value>
+
+                <Label>Collateral:</Label>
+                <Value>$ </Value>
+              </SubTitle>
+            </Title>
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
+              props={{
+                config,
+                chainId: chainId,
+                yourSupplies: state.yourSupplies,
+                showWithdrawModal: state.showWithdrawModal,
+                setShowWithdrawModal: (isShow) =>
+                  State.update({ showWithdrawModal: isShow }),
+                onActionSuccess,
+                healthFactor: formatHealthFactor(state.healthFactor),
+                formatHealthFactor,
+                withdrawETHGas,
+                withdrawERC20Gas,
+                account,
+                theme: dexConfig?.theme,
+              }}
+            />
+          </YoursTableWrapper>
+          <YoursTableWrapper>
+            <Title>
+              You Borrows
+              <SubTitle>
+                <Label>Balance:</Label>
+                <Value>$ {Number(state.yourTotalBorrow).toFixed(2)}</Value>
+
+                <Label>APY:</Label>
+                <Value> %</Value>
+
+                <Label>Borrow power used:</Label>
+                <Value>$ </Value>
+              </SubTitle>
+            </Title>
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.Card.YourBorrows`}
+              props={{
+                config,
+                chainId: chainId,
+                yourBorrows: state.yourBorrows,
+                showRepayModal: state.showRepayModal,
+                setShowRepayModal: (isShow) =>
+                  State.update({ showRepayModal: isShow }),
+                showBorrowModal: state.showBorrowModal,
+                setShowBorrowModal: (isShow) =>
+                  State.update({ showBorrowModal: isShow }),
+                formatHealthFactor,
+                onActionSuccess,
+                repayETHGas,
+                repayERC20Gas,
+                borrowETHGas,
+                borrowERC20Gas,
+                theme: dexConfig?.theme,
+              }}
+            />
+          </YoursTableWrapper>
+        </Yours>
+        <Widget
+          src={`${config.ownerId}/widget/AAVE.Card.RewardsTable`}
+          props={{
+            account,
+            config,
+            data: [].concat({
+              ...dexConfig.rewardToken,
+              unclaimed: state.rewardsAmount,
+            }),
+            dapps: dexConfig,
+            onSuccess,
+            markets,
+            rewardAddress: config.incentivesProxy,
+            toast,
           }}
         />
       </>
