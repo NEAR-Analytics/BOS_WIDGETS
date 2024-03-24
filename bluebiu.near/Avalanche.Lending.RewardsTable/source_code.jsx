@@ -25,7 +25,7 @@ State.init({
   record: null,
 });
 
-const { dapps, toast, account, onSuccess } = props;
+const { dapps, toast, account, onSuccess, supplies } = props;
 
 const columns =
   Object.keys(dapps)[0] === "Valas Finance"
@@ -37,7 +37,7 @@ const columns =
         },
         {
           type: "total",
-          key: "rewards",
+          key: "unclaimed",
           width: "25%",
           name: "Rewards",
         },
@@ -113,6 +113,7 @@ return (
       <Widget
         src={state.dapp.handlerClaim}
         props={{
+          supplies,
           loading: state.loading,
           market: state.market,
           dapp: state.dapp,
