@@ -26,6 +26,14 @@ const buildRobotAuthorMessage = (text) => ({
   content: text,
 });
 
+//@ts-ignore
+const StyledTextarea = styled.textarea`
+  &:focus-visible {
+    outline: none; // Remove o indicador de foco
+  }
+  // Você pode adicionar mais estilos aqui
+`;
+
 const translateAuthor = (author) => {
   if (author === "user") return "Você";
   return "Lucy";
@@ -38,10 +46,15 @@ const Message = (props) => {
         width: "80%",
         backgroundColor: "#e3e3e3",
         padding: "10px",
-        borderRadius: "10px",
+        background:
+          props.role === "user" ? "rgb(228, 246, 255)" : "rgb(70, 151, 255)",
         alignSelf: props.role === "user" ? "flex-end" : "flex-start",
+        color: props.role === "user" ? "black" : "white",
+        borderRadius:
+          props.role === "user" ? "10px 10px 0px 10px" : "10px 10px 10px 0px",
         flexBasis: "1",
         flexShrink: "1",
+        fontWeight: "bold",
       }}
     >
       <div
@@ -108,48 +121,67 @@ function MainComponent(props, context) {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+    <div style={{ backgroundColor: "" }}>
       <div
         style={{
-          width: "100%",
-          height: "500px",
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "10px",
-          gap: "15px",
-          overflowY: "auto",
+          maxWidth: "700px",
+          margin: "0 auto",
         }}
       >
-        {messages.map((props) => {
-          return <Message {...props} />;
-        })}
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <textarea
-          disabled={isLoading}
-          placeholder="Envie sua mensagem"
-          spellCheck="false"
-          rows={2}
-          onChange={(evt) => {
-            setBufferMessage(evt.target.value);
-          }}
-          value={bufferMessage}
-          style={{ resize: "none", padding: "8px" }}
-        />
-        <button
-          disabled={isLoading}
-          onClick={() => {
-            setIsLoading(true);
-            const message = buildMeAuthorMessage(bufferMessage);
-            const newMessages = [...messages, message];
-            setBufferMessage("");
-            setMessages(newMessages);
-            requestRobot(newMessages);
+        <div
+          style={{
+            width: "100%",
+            height: "500px",
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "10px",
+            gap: "15px",
+            overflowY: "auto",
+            padding: "15px 30px",
           }}
         >
-          {isLoading ? "Carregando..." : "Enviar"}
-        </button>
+          {messages.map((props) => {
+            return <Message {...props} />;
+          })}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <StyledTextarea
+            disabled={isLoading}
+            placeholder="Envie sua mensagem"
+            spellCheck="false"
+            rows={2}
+            //@ts-ignore
+            onChange={(evt) => {
+              setBufferMessage(evt.target.value);
+            }}
+            value={bufferMessage}
+            style={{
+              resize: "none",
+              padding: "8px",
+              border: "solid 1px #a2a2a2",
+              borderRadius: "5px 5px 0 0",
+            }}
+          />
+          <button
+            style={{
+              backgroundColor: "rgb(70, 151, 255)",
+              fontWeight: "bold",
+              borderRadius: "0 0 5px 5px",
+            }}
+            disabled={isLoading}
+            onClick={() => {
+              setIsLoading(true);
+              const message = buildMeAuthorMessage(bufferMessage);
+              const newMessages = [...messages, message];
+              setBufferMessage("");
+              setMessages(newMessages);
+              requestRobot(newMessages);
+            }}
+          >
+            {isLoading ? "Carregando..." : "Enviar"}
+          </button>
+        </div>
       </div>
     </div>
   );
