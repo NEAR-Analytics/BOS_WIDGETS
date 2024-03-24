@@ -66,9 +66,7 @@ const toMigrated = ({ metadata, id, ...restParams }) => ({
 });
 
 const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
-  console.log('GITHUB configurator data', kanbanBoards);
   const data = kanbanBoards ? Object.values(kanbanBoards)?.[0] : {};
-
 
   if (!data) {
     return (
