@@ -238,6 +238,7 @@ return (
         data: state.rewards || [],
         dapps: props.dappsConfig,
         onSuccess: props.onSuccess,
+        supplies: state.supplies,
         toast,
       }}
     />
