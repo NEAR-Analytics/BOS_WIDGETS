@@ -174,6 +174,7 @@ useEffect(() => {
   let count = 0;
   const marketList = Object.values(markets);
   const underlyingTokensAddress = Object.keys(markets);
+  let rewardsAmount = 0;
 
   const getRewardPrice = () => {
     if (!rewardToken) {
@@ -528,15 +529,15 @@ useEffect(() => {
         info.totalAllocPoint = res[0].toString();
         info.rewardsPerSecond = res[1].toString();
 
-        getIncentiveDataForToken({
-          aTokenAddress: marketList[fetchedTokenLen].address,
-          variableDebtTokenAddress:
-            marketList[fetchedTokenLen].variableDebtTokenAddress,
-          address:
-            marketList[fetchedTokenLen].underlyingToken.address === "native"
-              ? wethAddress
-              : marketList[fetchedTokenLen].underlyingToken.address,
-        });
+        // getIncentiveDataForToken({
+        //   aTokenAddress: marketList[fetchedTokenLen].address,
+        //   variableDebtTokenAddress:
+        //     marketList[fetchedTokenLen].variableDebtTokenAddress,
+        //   address:
+        //     marketList[fetchedTokenLen].underlyingToken.address === "native"
+        //       ? wethAddress
+        //       : marketList[fetchedTokenLen].underlyingToken.address,
+        // });
       })
       .catch((err) => {
         console.log("getIncentiveData error");
@@ -753,7 +754,8 @@ useEffect(() => {
           return pre;
         }, 0);
 
-        // formatedData("getRewardsData");
+        rewardsAmount = total;
+        formatedData("getRewardsData");
       })
       .catch((err) => {
         console.log("getRewardsData error");
@@ -827,9 +829,8 @@ useEffect(() => {
       rewards = [
         {
           ...rewardToken,
-          // rewards: 1,
           // dailyRewards: totalDailyRewards.toString(),
-          // unclaimed: totalUnclaimed.toString(),
+          unclaimed: rewardsAmount,
         },
       ];
     }
