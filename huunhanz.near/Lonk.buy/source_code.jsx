@@ -1,3 +1,48 @@
+const config = {
+  image6:
+    "https://bafkreiejkfmncbzuni5lsrlpplmkqisasvjzgl4oxu3nnz7nmmjwwd56ii.ipfs.nftstorage.link/",
+  image7:
+    "https://bafkreiag6wx5sg3o2e7nuvbdnpoonymm6dge4woi77o3oroxsdztggr7n4.ipfs.nftstorage.link/",
+  image8:
+    "https://bafkreielhfr3ybofrjwtbxg7b7qx6suw7noot3wfkpe3s54gbgg4cao5mq.ipfs.nftstorage.link/",
+  image9:
+    "https://bafkreienvdqrium4lwlfcoz3tctc6ez27hmsiiwv5bsiwjwo2xfolkv4q4.ipfs.nftstorage.link/",
+  image10:
+    "https://bafkreifjthkkuez3glfevsmjw7orgj4fuxofrtoh3zb6k2bqinloixqml4.ipfs.nftstorage.link/",
+  image11:
+    "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
+  image12:
+    "https://bafybeibrllurzvgwyyqgy4wz52ye3nwfiy2ilnxlmel3zmo7lhokmakmlm.ipfs.nftstorage.link/",
+  image13:
+    "https://bafkreiexjgifxje7to3nhm2acpgqx6pssfnkyfupabkvz6xi4wngfsoyb4.ipfs.nftstorage.link/",
+  image14:
+    "https://bafkreih5stp52zlhjzbzns6c2yzmsimcx22olvwcdhxjdcwlke7ulwsnrq.ipfs.nftstorage.link/",
+  image15:
+    "https://bafkreiehul4maodboljbvzi4yjoz7cmp7nq5oawxecgk3gzyfx2obqnhse.ipfs.nftstorage.link/",
+  image16:
+    "https://bafkreie3zja43akg3e6g2ycjvmtxccauwhyh5u53wy3ybmkrkpejzxuazi.ipfs.nftstorage.link/",
+  image17:
+    "https://bafkreihig2ecbfwnm4jgahveewvg4yvhzpvvduxzrad6mkgercplvtutjm.ipfs.nftstorage.link/",
+  image18:
+    "https://bafkreiaox4wectrdmwuoymlwabd75icvy22slqp7sq3jbodrlklxxscfba.ipfs.nftstorage.link/",
+  image19:
+    "https://bafkreihrhaj3vchhhpyycnchh36uxvhr3e4x3fjczjciz7mh5ho73tjlxe.ipfs.nftstorage.link/",
+  image20:
+    "https://bafkreieyya7khotxum73zxozxktaejzgwbjb4larid4nsy3exzmd2z2d5q.ipfs.nftstorage.link/",
+  image21:
+    "https://bafkreic2easjnf44omosb7dyvby4c5d7xu3rnfvbxjr3lnfasomsb6vhsi.ipfs.nftstorage.link/",
+  image22:
+    "https://bafkreiheihm3itssrxi4tlermll7b6edmojztfnfvjd5wblgwqvgakaltq.ipfs.nftstorage.link/",
+  image23:
+    "https://bafkreial4qmjbm5al5m7qfznoz57fcmzxfw25soclrjm355suaixkrdhoa.ipfs.nftstorage.link/",
+  image24:
+    "https://bafkreiafkhpfp5dv2qzkrdhkm72pxuxr7hziil6yz4hpwx6u5sxztjhvve.ipfs.nftstorage.link/",
+  image25:
+    "https://bafkreibv4v5zo5z6dmjdbzxdcm35cbvxlcjewu4qmvvtsqdpolikvpkn24.ipfs.nftstorage.link/",
+  image26:
+    "https://bafkreiau36hvhq6zzkay5j7logwmp7nf2y5suumyknfmimclabrvokzdg4.ipfs.nftstorage.link/",
+};
+
 return (
   <>
     <div class="how font-md-bigger py-4 py-lg-5" id="how">
@@ -23,7 +68,7 @@ return (
                 href="https://my.shard.dog/"
                 class="button d-inline-block text-decoration-none py-1 px-5 border rounded-5"
               >
-                <img src={props.image12} width="205" />
+                <img src={config.image12} width="205" />
               </a>
             </p>
             <p>Some gud NEAR wallets:</p>
@@ -33,7 +78,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image13} alt="NEAR Wallet" width="50" />
+                <img src={config.image13} alt="NEAR Wallet" width="50" />
               </a>
 
               <a
@@ -41,7 +86,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image14} alt="NEAR Wallet" width="50" />
+                <img src={config.image14} alt="NEAR Wallet" width="50" />
               </a>
 
               <a
@@ -49,7 +94,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image15} alt="NEAR Wallet" width="50" />
+                <img src={config.image15} alt="NEAR Wallet" width="50" />
               </a>
 
               <a
@@ -57,7 +102,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image16} alt="NEAR Wallet" width="50" />
+                <img src={config.image16} alt="NEAR Wallet" width="50" />
               </a>
 
               <a
@@ -65,7 +110,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image17} alt="NEAR Wallet" width="50" />
+                <img src={config.image17} alt="NEAR Wallet" width="50" />
               </a>
 
               <a
@@ -73,7 +118,7 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1"
               >
-                <img src={props.image18} alt="NEAR Wallet" width="50" />
+                <img src={config.image18} alt="NEAR Wallet" width="50" />
               </a>
             </p>
           </div>
@@ -95,56 +140,56 @@ return (
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image19} alt="NEAR Wallet" width="50" />
+                <img src={config.image19} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.okx.com/trade-spot/near-usdt"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image20} alt="NEAR Wallet" width="50" />
+                <img src={config.image20} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.gate.io/trade/NEAR_USDT"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image21} alt="NEAR Wallet" width="50" />
+                <img src={config.image21} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.coinbase.com/price/near-protocol"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image22} alt="NEAR Wallet" width="50" />
+                <img src={config.image22} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.kucoin.com/trade/NEAR-USDT"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image23} alt="NEAR Wallet" width="50" />
+                <img src={config.image23} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.kraken.com/prices/near-protocol"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image24} alt="NEAR Wallet" width="50" />
+                <img src={config.image24} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://www.bybit.com/en/trade/spot/NEAR/USDT"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image25} alt="NEAR Wallet" width="50" />
+                <img src={config.image25} alt="NEAR Wallet" width="50" />
               </a>
               <a
                 href="https://crypto.com/price/near-protocol"
                 target="_blank"
                 class="text-decoration-none d-inline-block me-1 mb-1"
               >
-                <img src={props.image26} alt="NEAR Wallet" width="50" />
+                <img src={config.image26} alt="NEAR Wallet" width="50" />
               </a>
             </p>
             <p>
@@ -167,7 +212,7 @@ return (
                 data-bs-target="#buyModal"
                 class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
               >
-                <img src={props.image6} width="186" />
+                <img src={config.image6} width="186" />
               </button>{" "}
             </p>
           </div>
