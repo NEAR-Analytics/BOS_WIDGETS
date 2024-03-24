@@ -733,7 +733,7 @@ return (
                 }}
               />
               <Widget
-                src="bluebiu.near/widget/Lending.MarketInput"
+                src="bluebiu.near/widget/Lending.LiquityMarketInput"
                 props={{
                   icon: data.BORROW_URL,
                   symbol: data.BORROW_TOKEN,
@@ -743,7 +743,6 @@ return (
                   onChange: (val) => {
                     onBorrowAmountChange(val);
                   },
-                  hideBal: true,
                 }}
               />
             </>
@@ -764,7 +763,7 @@ return (
                 }}
               />
               <Widget
-                src="bluebiu.near/widget/Lending.MarketInput"
+                src="bluebiu.near/widget/Lending.LiquityMarketInput"
                 props={{
                   icon: data.BORROW_URL,
                   symbol: data.BORROW_TOKEN,
@@ -774,7 +773,6 @@ return (
                   onChange: (val) => {
                     onBorrowAmountChange(val);
                   },
-                  hideBal: true,
                 }}
               />
             </>
