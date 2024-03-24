@@ -460,7 +460,8 @@ const verifyCode = () => {
   }).then(({ ok, body: { user } }) => {
     if (ok) {
       setTelegramAuthUser(user);
-      console.log(user);
+      setProof(user.user.access_hash);
+      console.log(user.user.access_hash);
     } else {
       setDisplayError(true);
     }
@@ -612,9 +613,6 @@ useEffect(() => {
 useEffect(() => {
   if (platform === "twitter" && proof) {
     verifyProof("twitter");
-  }
-  if (platform === "telegram" && proof) {
-    verifyProof("telegram");
   }
 }, [platform, challenge, proof]);
 
@@ -858,11 +856,8 @@ const AuthProcess = ({ platform }) => {
           <img src={TELEGRAM_LOGO_URL} width="100%" />
           Telegram
         </Header>
-        <Step>1. Scan Your Qr Code</Step>
-        <QrCode>
-          <img src={telegramAuthQrCode} width="100%" />
-        </QrCode>
-        <Step>2. Your Phone Number</Step>
+
+        <Step>1. Your Phone Number</Step>
         <StepDescription>
           <PhoneInput
             placeholder="+84"
@@ -878,10 +873,10 @@ const AuthProcess = ({ platform }) => {
           ></PhoneInput>
           <button onClick={() => sendCode()}>Send Code</button>
         </StepDescription>
-        <Step>3. Verify Code</Step>
+        <Step>2. Verify Code</Step>
         <StepDescription>
           <PhoneInput
-            placeholder="XXX-XXX"
+            placeholder="XXX-XX"
             onChange={({ target: { value: text } }) => {
               if (timeout) {
                 clearTimeout(timeout);
@@ -894,12 +889,8 @@ const AuthProcess = ({ platform }) => {
           ></PhoneInput>
           <button onClick={() => verifyCode()}>Verify Code</button>
         </StepDescription>
-        <Step>3. Load Profile</Step>
-        <StepDescription>
-          <button onClick={() => signProof("lens")}>Sign proof</button>
-        </StepDescription>
         <ErrorModal />
-        <FinishButton onClick={() => verifyProof("lens")}>
+        <FinishButton onClick={() => verifyProof("telegram")}>
           Verify profile
         </FinishButton>
       </AuthProcessWrapper>
