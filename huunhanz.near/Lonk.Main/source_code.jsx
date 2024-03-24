@@ -1,4 +1,4 @@
-State.init({
+const config = {
   color: "#31cf34",
   image1:
     "https://bafkreidzrna3q6csqykuvzih6yywrijmdg4fn4tb53azjmmjuobfus4v2e.ipfs.nftstorage.link/",
@@ -56,7 +56,7 @@ State.init({
     "https://bafybeicgrco3ybsfei42gyny5laphmf3edmqnsfq667pjxr6ap47q77gqq.ipfs.nftstorage.link/",
   image28:
     "https://bafkreigt2jhdt2qr6lshkdrf3fjeizcdofnqgvtqkjhxxhaamy3vqsyhvu.ipfs.nftstorage.link/",
-});
+};
 
 const fkGroteskFamily = fetch(
   "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
@@ -68,7 +68,7 @@ const Main = styled.div`
     }
 
     .intro {
-        background: url(${state.image3}) no-repeat 100% 0 fixed;
+        background: url(${config.image3}) no-repeat 100% 0 fixed;
     }
 
     .py-lg-5 {
@@ -227,7 +227,7 @@ const Main = styled.div`
     }
 
     .roadmap {
-        background: url(${state.image27}) no-repeat 100% 100%;
+        background: url(${config.image27}) no-repeat 100% 100%;
         background-color: #52bfda;
         background-size: contain;
         min-height: 850px;
@@ -261,36 +261,36 @@ return (
       <Widget
         src="huunhanz.near/widget/Lonk.hero"
         props={{
-          image4: state.image4,
-          image5: state.image5,
-          image6: state.image6,
-          image7: state.image7,
-          image8: state.image8,
-          image9: state.image9,
-          image10: state.image10,
-          image11: state.image11,
+          image4: config.image4,
+          image5: config.image5,
+          image6: config.image6,
+          image7: config.image7,
+          image8: config.image8,
+          image9: config.image9,
+          image10: config.image10,
+          image11: config.image11,
         }}
       />
 
       <Widget
         src="huunhanz.near/widget/Lonk.buy"
         props={{
-          image12: state.image12,
-          image13: state.image13,
-          image14: state.image14,
-          image15: state.image15,
-          image16: state.image16,
-          image17: state.image17,
-          image18: state.image18,
-          image19: state.image19,
-          image20: state.image20,
-          image21: state.image21,
-          image22: state.image22,
-          image23: state.image23,
-          image24: state.image24,
-          image25: state.image25,
-          image26: state.image26,
-          image6: state.image6,
+          image12: config.image12,
+          image13: config.image13,
+          image14: config.image14,
+          image15: config.image15,
+          image16: config.image16,
+          image17: config.image17,
+          image18: config.image18,
+          image19: config.image19,
+          image20: config.image20,
+          image21: config.image21,
+          image22: config.image22,
+          image23: config.image23,
+          image24: config.image24,
+          image25: config.image25,
+          image26: config.image26,
+          image6: config.image6,
         }}
       />
       <div
@@ -368,7 +368,7 @@ return (
             </div>
             <div class="col-12 text-center">
               <a href="https://near.org" class="text-decoration-none">
-                <img src={state.image28} width="280" class="lonk-near" />
+                <img src={config.image28} width="280" class="lonk-near" />
               </a>
             </div>
           </div>
