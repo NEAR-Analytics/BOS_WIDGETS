@@ -57,7 +57,13 @@ State.init({
   image28:
     "https://bafkreigt2jhdt2qr6lshkdrf3fjeizcdofnqgvtqkjhxxhaamy3vqsyhvu.ipfs.nftstorage.link/",
 });
+
+const fkGroteskFamily = fetch(
+  "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
+).body;
+console.log(fkGroteskFamily);
 const Main = styled.div`
+    ${fkGroteskFamily}
     .main {
         display: block;
     }
@@ -200,6 +206,7 @@ const Main = styled.div`
         color: #fff;
         font-size: 4em;
         font-family: Lakki Reddy,cursive;
+  
         text-shadow: 0 4px 4px #00000040;
         text-transform: lowercase;
         margin-block-end: 0.33em;
