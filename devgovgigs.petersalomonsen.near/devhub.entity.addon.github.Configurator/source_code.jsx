@@ -71,7 +71,7 @@ const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
   if (!data) {
     return (
       <div class="alert alert-danger" role="alert">
-        Loading...
+        Loading....
       </div>
     );
   }
