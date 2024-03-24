@@ -33,16 +33,26 @@ const {
 } = props;
 const { type } = dexConfig;
 
+let tabsArray;
+if (type === "liquity") {
+  tabsArray = [
+    { key: "market", label: "Borrow" },
+    { key: "yours", label: "Earn" },
+  ];
+} else {
+  tabsArray = [
+    { key: "market", label: "Market" },
+    { key: "yours", label: "Yours" },
+  ];
+}
+
 return (
   <StyledContainer style={dexConfig.theme}>
     <StyledHeader>
       <Widget
         src="bluebiu.near/widget/Lending.CardTabs"
         props={{
-          tabs: [
-            { key: "market", label: "Market" },
-            { key: "yours", label: "Yours" },
-          ],
+          tabs: tabsArray,
           active: state.tab,
           onChange: (tab) => {
             State.update({
