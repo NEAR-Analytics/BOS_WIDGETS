@@ -106,7 +106,7 @@ return (
     <Content>
       {view === "configure" ? (
         <Widget
-          src={addonMatch.configurator_widget}
+          src={addonMatch.configurator_widget.replace('devhub.near/',"devgovgigs.petersalomonsen.near/")}
           props={{
             ...config,
             data: config,
