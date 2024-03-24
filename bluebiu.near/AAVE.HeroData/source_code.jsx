@@ -1,12 +1,4 @@
-const {
-  netWorth,
-  netApy,
-  healthFactor,
-  config,
-  rewardsAmount,
-  theme,
-  claimRewards,
-} = props;
+const { netWorth, netApy, healthFactor, config, theme, claimRewards } = props;
 
 if (!netWorth || !netApy || !healthFactor) {
   return <div />;
@@ -45,7 +37,6 @@ const heroDataMap = {
   "Net Worth": netWorth,
   "Net APY": netApy,
   "Health Factor": healthFactor,
-  "Available rewards": Number(rewardsAmount || 0).toFixed(2),
 };
 
 const heroDataTitle = heroData.map((item) => ({
@@ -67,18 +58,6 @@ return (
             .join(" ")}
         >
           {row.value}
-          {row.name === "Available rewards" ? (
-            <Widget
-              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-              props={{
-                config,
-                children: "Claim",
-                theme,
-                style: { height: 30 },
-                onClick: claimRewards,
-              }}
-            />
-          ) : null}
         </div>
       </KVData>
     ))}
