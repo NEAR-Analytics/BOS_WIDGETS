@@ -10,10 +10,15 @@ const {
   depositETHGas,
   depositERC20Gas,
   theme,
+
+  yourSupplies,
+  borrowETHGas,
+  borrowERC20Gas,
 } = props;
 
 State.init({
   data: undefined,
+  showBorrowModal: false,
 });
 
 const SupplyButton = ({ data, ...rest }) => {
@@ -35,6 +40,21 @@ const SupplyButton = ({ data, ...rest }) => {
   );
 };
 
+const BorrowButton = ({ data }) => (
+  <Widget
+    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+    props={{
+      config,
+      children: "Borrow",
+      theme,
+      onClick: () => {
+        State.update({ data, showBorrowModal: true });
+        // setShowBorrowModal(true);
+      },
+    }}
+  />
+);
+
 return (
   <>
     <Widget
@@ -44,7 +64,7 @@ return (
         style: {
           marginTop: "16px",
         },
-        title: "Assets to supply",
+        title: "Market",
         body:
           !assetsToSupply || assetsToSupply.length === 0 ? (
             <Widget
@@ -56,7 +76,6 @@ return (
             />
           ) : (
             <>
-              {/* pcView */}
               <Widget
                 src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
                 props={{
@@ -65,6 +84,8 @@ return (
                     "Asset",
                     "Wallet Balance",
                     "Supply APY",
+                    "Available to borrow",
+                    "Borrow APY",
                     "Can be Collateral",
                     "",
                   ],
@@ -86,6 +107,13 @@ return (
                       <div>$ {row.balanceInUSD}</div>
                     </div>,
                     `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+
+                    <div>
+                      <div>{Number(row.availableBorrows).toFixed(7)}</div>
+                      <div>$ {row.availableBorrowsUSD}</div>
+                    </div>,
+
+                    `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
                     <div style={{ paddingLeft: "50px" }}>
                       {(row.isIsolated ||
                         (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
@@ -98,108 +126,17 @@ return (
                         />
                       )}
                     </div>,
-                    <SupplyButton data={row} />,
+                    <div style={{ display: "flex", gap: 10 }}>
+                      <SupplyButton data={row} />
+                      <BorrowButton
+                        data={{
+                          ...row,
+                        }}
+                      />
+                    </div>,
                   ]),
                 }}
               />
-              {/* mobile view */}
-              {/* {assetsToSupply.map((row) => {
-                return (
-                  <Widget
-                    src={`${config.ownerId}/widget/AAVE.Card.CardContainer`}
-                    props={{
-                      children: [
-                        <Widget
-                          src={`${config.ownerId}/widget/AAVE.Card.CardsBody`}
-                          props={{
-                            config,
-                            children: [
-                              <Widget
-                                src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
-                                props={{
-                                  children: [
-                                    <img
-                                      width={64}
-                                      height={64}
-                                      src={row.icon}
-                                      // {`https://app.aave.com/icons/tokens/${row.symbol.toLowerCase()}.svg`}
-                                    />,
-                                    <div>
-                                      <div className="token-title">
-                                        {row.symbol}
-                                      </div>
-                                      <div className="token-chain">
-                                        {row.name}
-                                      </div>
-                                    </div>,
-                                  ],
-                                }}
-                              />,
-                              <Widget
-                                src={`${config.ownerId}/widget/AAVE.Card.CardDataWrapper`}
-                                props={{
-                                  children: [
-                                    <div className="card-data-row">
-                                      <div className="card-data-key">
-                                        Wallet Balance
-                                      </div>
-                                      <div className="card-data-value">
-                                        <div>
-                                          {Number(row.balance).toFixed(7)}
-                                        </div>
-                                        <div>$ {row.balanceInUSD}</div>
-                                      </div>
-                                    </div>,
-                                    <div className="card-data-row">
-                                      <div className="card-data-key">
-                                        Supply APY
-                                      </div>
-                                      <div className="card-data-value">{`${(
-                                        Number(row.supplyAPY) * 100
-                                      ).toFixed(2)} %`}</div>
-                                    </div>,
-                                    <div className="card-data-row">
-                                      <div className="card-data-key">
-                                        Can be Collateral
-                                      </div>
-                                      <div className="card-data-value">
-                                        {row.isIsolated && "—"}
-                                        {!row.isIsolated && (
-                                          <>
-                                            {row.usageAsCollateralEnabled && (
-                                              <img
-                                                src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
-                                                width={16}
-                                                height={16}
-                                              />
-                                            )}
-                                            {!row.usageAsCollateralEnabled && (
-                                              <img
-                                                src={`${config.ipfsPrefix}/bafkreie5skej6q2tik3qa3yldkep4r465poq33ay55uzp2p6hty2ifhkmq`}
-                                                width={16}
-                                                height={16}
-                                              />
-                                            )}
-                                          </>
-                                        )}
-                                      </div>
-                                    </div>,
-                                  ],
-                                }}
-                              />,
-                              <SupplyButton data={row} />,
-                            ],
-                          }}
-                        />,
-                        <Widget
-                          src={`${config.ownerId}/widget/AAVE.Card.Divider`}
-                          props={{ config }}
-                        />,
-                      ],
-                    }}
-                  />
-                );
-              })} */}
             </>
           ),
       }}
@@ -219,6 +156,30 @@ return (
           chainId,
           depositETHGas,
           depositERC20Gas,
+          formatHealthFactor,
+        }}
+      />
+    )}
+    {state.showBorrowModal && (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
+        props={{
+          config,
+          theme,
+          onRequestClose: () => {
+            State.update({
+              showBorrowModal: false,
+            });
+            // setShowBorrowModal(false)
+          },
+          data: {
+            ...state.data,
+            healthFactor,
+          },
+          onActionSuccess,
+          chainId,
+          borrowETHGas,
+          borrowERC20Gas,
           formatHealthFactor,
         }}
       />
