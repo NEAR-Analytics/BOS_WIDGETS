@@ -29,20 +29,20 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const BorrowButton = ({ data }) => (
-  <Widget
-    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-    props={{
-      config,
-      theme,
-      children: "Borrow",
-      onClick: () => {
-        State.update({ data });
-        setShowBorrowModal(true);
-      },
-    }}
-  />
-);
+// const BorrowButton = ({ data }) => (
+//   <Widget
+//     src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+//     props={{
+//       config,
+//       theme,
+//       children: "Borrow",
+//       onClick: () => {
+//         State.update({ data });
+//         setShowBorrowModal(true);
+//       },
+//     }}
+//   />
+// );
 
 const RepayButton = ({ data }) => (
   <Widget
@@ -67,78 +67,61 @@ const { debts, ...yourBorrowsCommonParams } = yourBorrows;
 
 return (
   <>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.Card.CardsView`}
-      props={{
-        config,
-        style: {
-          marginTop: "16px",
-        },
-        title: "Your borrows",
-        body: (
-          <>
-            {!debts || debts.length === 0 ? (
-              <Widget
-                src={`${config.ownerId}/widget/AAVE.Card.CardEmpty`}
-                props={{
-                  config,
-                  children: "Nothing borrowed yet",
-                }}
-              />
-            ) : (
-              <>
-                {/* pc view */}
+    {!debts || debts.length === 0 ? (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Card.CardEmpty`}
+        props={{
+          config,
+          children: "Nothing borrowed yet",
+        }}
+      />
+    ) : (
+      <>
+        <Widget
+          src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
+          props={{
+            config,
+            headers: ["Asset", "Debt", "APY", ""],
+            data: debts.map((row) => {
+              return [
                 <Widget
-                  src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
+                  src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
                   props={{
-                    config,
-                    headers: ["Asset", "Debt", "APY", ""],
-                    data: debts.map((row) => {
-                      return [
-                        <Widget
-                          src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
-                          props={{
-                            children: [
-                              <img width={64} height={64} src={row?.icon} />,
-                              <div>
-                                <div className="token-title">{row.symbol}</div>
-                                <div className="token-chain">{row.name}</div>
-                              </div>,
-                            ],
-                          }}
-                        />,
-                        <div>
-                          <div>
-                            {Number(row.balance).toFixed(7)}
-                            {/* {Number(row.variableBorrows).toFixed(7)} */}
-                          </div>
-                          <div>
-                            $ {Number(row.balanceInUSD).toFixed(2)}
-                            {/* {Number(row.variableBorrowsUSD).toFixed(2)} */}
-                          </div>
-                        </div>,
-                        `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
-                        <ButtonGroup>
-                          <RepayButton
-                            data={{ ...row, ...yourBorrowsCommonParams }}
-                          />
-                          <BorrowButton
-                            data={{
-                              ...row,
-                              ...yourBorrowsCommonParams,
-                            }}
-                          />
-                        </ButtonGroup>,
-                      ];
-                    }),
+                    children: [
+                      <img width={64} height={64} src={row?.icon} />,
+                      <div>
+                        <div className="token-title">{row.symbol}</div>
+                        <div className="token-chain">{row.name}</div>
+                      </div>,
+                    ],
                   }}
-                />
-              </>
-            )}
-          </>
-        ),
-      }}
-    />
+                />,
+                <div>
+                  <div>
+                    {Number(row.balance).toFixed(7)}
+                    {/* {Number(row.variableBorrows).toFixed(7)} */}
+                  </div>
+                  <div>
+                    $ {Number(row.balanceInUSD).toFixed(2)}
+                    {/* {Number(row.variableBorrowsUSD).toFixed(2)} */}
+                  </div>
+                </div>,
+                `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
+                <ButtonGroup>
+                  <RepayButton data={{ ...row, ...yourBorrowsCommonParams }} />
+                  {/* <BorrowButton
+                    data={{
+                      ...row,
+                      ...yourBorrowsCommonParams,
+                    }}
+                  /> */}
+                </ButtonGroup>,
+              ];
+            }),
+          }}
+        />
+      </>
+    )}
     {showRepayModal && (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.RepayModal`}
