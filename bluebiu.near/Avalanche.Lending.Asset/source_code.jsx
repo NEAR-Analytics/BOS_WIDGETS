@@ -33,11 +33,11 @@ const { icon, symbol, dappIcon, dappName } = props;
 
 return (
   <Asset>
-    <Icon src={icon} />
+    {icon ? <Icon src={icon} /> : null}
     <div>
       <Symbol>{symbol}</Symbol>
       <Dapp>
-        <DappIcon src={dappIcon} />
+        {dappIcon ? <DappIcon src={dappIcon} /> : null}
         <DappName>{dappName}</DappName>
       </Dapp>
     </div>
