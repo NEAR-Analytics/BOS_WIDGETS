@@ -6,7 +6,7 @@ if (!headers || !data) {
 
 const CardsTable = styled.div`
   margin-top: 20px;
-  padding: 0 30px;
+  padding: 0 20px;
 
   width: 100%;
 
