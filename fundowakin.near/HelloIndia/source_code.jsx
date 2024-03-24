@@ -48,7 +48,7 @@ const extendedCode = `
       color: ${textColor};
       font-family: ${fontFamily};
       font-size: 22px;
-      line-height: 50px; // Adjust line height for marquee
+      line-height: 50px;
     }
 
     .marquee span {
@@ -67,9 +67,9 @@ const extendedCode = `
     }
 
     .logo {
-      max-width: 200px; // Adjust logo size
-      width: auto; // maintain aspect ratio
-      height: auto; // maintain aspect ratio
+      max-width: 200px;
+      width: auto;
+      height: auto;
       transition: transform 0.3s, opacity 0.5s;
       opacity: 0;
     }
@@ -111,10 +111,14 @@ const extendedCode = `
       <img src="${logoUrl}" alt="Logo" class="logo" onload="this.classList.add('loaded')"/>
     </div>
     <div class="text-content">
-      <h1>Project Information</h1>
-      <h2>NEAR Protocol Projects</h2>
+      <h1>What Is NEAR Protocol?</h1>
+      <h2>NEAR General Information</h2>
+      <p>NEAR Protocol is a layer-one blockchain that was designed as a community-run cloud computing platform and that eliminates some of the limitations that have been bogging competing blockchains, such as low transaction speeds, low throughput and poor interoperability. This provides the ideal environment for DApps and creates a developer and user-friendly platform. For instance, NEAR uses human-readable account names, unlike the cryptographic wallet addresses common to Ethereum. NEAR also introduces unique solutions to scaling problems and has its own consensus mechanism called “Doomslug.”
+
+NEAR Protocol is being built by the NEAR Collective, its community that is updating the initial code and releasing updates to the ecosystem. Its declared goal is to build a platform that is “secure enough to manage high value assets like money or identity and performant enough to make them useful for everyday people.”
+
+Flux, a protocol that allows developers to create markets based on assets, commodities, real-world events, and Mintbase, an NFT minting platform are examples of projects being built on NEAR Protocol.</p>
       <p>${projectInfoText}</p>
-      <!-- Additional text and sections go here -->
     </div>
   </div>
 `;
