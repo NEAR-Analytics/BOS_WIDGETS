@@ -43,7 +43,11 @@ const [evmAddress, setEvmAddress] = useState("");
 const [loadedProfiles, setLoadedProfiles] = useState(false);
 const [lensProfiles, setLensProfiles] = useState([]);
 const [selectedHandle, setSelectedHandle] = useState("");
+const [phoneNumberHandle, setPhoneNumberHandle] = useState("");
+const [phoneCodeHashHandle, setPhoneCodeHashHandle] = useState("");
+const [verifyCodeHandle, setVerifyCodeHandle] = useState("");
 const [telegramAuthQrCode, setTelegramAuthQrCode] = useState("");
+const [telegramAuthUser, setTelegramAuthUser] = useState({});
 const [proof, setProof] = useState("");
 const [finished, setFinished] = useState(false);
 const [displayError, setDisplayError] = useState(false);
@@ -335,7 +339,12 @@ const ProfileInput = styled.input`
     border:1px solid rgba(0,0,0,.1);
     border-radius:10px;
 `;
-
+const PhoneInput = styled.input`
+    border:0;
+    padding: .5rem;
+    border:1px solid rgba(0,0,0,.1);
+    border-radius:10px;
+`;
 const ErrorPill = styled.div`
   background-color: #D32F2F;
   border-color: #B71C1C;
@@ -377,11 +386,6 @@ const QrCode = styled.div`
     justify-content:center;
     font-weight:bold;
     margin-bottom:1.5rem;
-
-    img {
-        max-width:20px;
-        margin-right:5px;
-    }
 `;
 const ErrorModal = ({ children }) => {
   return (
@@ -423,7 +427,45 @@ const signProof = (platform) => {
     }
   });
 };
-
+const sendCode = () => {
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram/send-code`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      phone: phoneNumberHandle,
+    }),
+  }).then(({ ok, body: { phone_code_hash } }) => {
+    if (ok) {
+      setPhoneCodeHashHandle(phone_code_hash);
+    } else {
+      setDisplayError(true);
+    }
+  });
+};
+const verifyCode = () => {
+  asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram/sign-in`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      phone: phoneNumberHandle,
+      phone_code_hash: phoneCodeHashHandle,
+      code: verifyCodeHandle,
+    }),
+  }).then(({ ok, body: { user } }) => {
+    if (ok) {
+      setTelegramAuthUser(user);
+      console.log(user);
+    } else {
+      setDisplayError(true);
+    }
+  });
+};
 const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
@@ -466,6 +508,21 @@ const verifyProof = (platform, registryContract) => {
     }
   );
 };
+const getUser = () => {
+  setInterval(() => {
+    asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram-get-user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    }).then(({ ok, body: { user } }) => {
+      if (ok) {
+        console.log(user);
+      }
+    });
+  }, 1000);
+};
 
 const qrCodeBase64 = () => {
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram-qr-code`, {
@@ -474,8 +531,10 @@ const qrCodeBase64 = () => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-  }).then(({ ok }) => {
+  }).then(({ ok, body: { QRCode_base64 } }) => {
     if (ok) {
+      //  getUser();
+      setTelegramAuthQrCode(QRCode_base64);
     }
   });
 };
@@ -623,7 +682,7 @@ const AuthMethods = () => {
         target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => {
-          setTelegramAuthQrCode("a");
+          qrCodeBase64();
           setPlatform("telegram");
           storePlatform("telegram");
         }}
@@ -799,21 +858,43 @@ const AuthProcess = ({ platform }) => {
           <img src={TELEGRAM_LOGO_URL} width="100%" />
           Telegram
         </Header>
-        <Step>Scan Your Qr Code</Step>
+        <Step>1. Scan Your Qr Code</Step>
         <QrCode>
-          <img src={TELEGRAM_LOGO_URL} width="100%" />
+          <img src={telegramAuthQrCode} width="100%" />
         </QrCode>
+        <Step>2. Your Phone Number</Step>
         <StepDescription>
-          <img src={TELEGRAM_LOGO_URL} width="100%" />
+          <PhoneInput
+            placeholder="+84"
+            onChange={({ target: { value: text } }) => {
+              if (timeout) {
+                clearTimeout(timeout);
+              }
+
+              timeout = setTimeout(() => {
+                setPhoneNumberHandle(text);
+              }, 300);
+            }}
+          ></PhoneInput>
+          <button onClick={() => sendCode()}>Send Code</button>
         </StepDescription>
-        <Step>2. Choose a profile</Step>
+        <Step>3. Verify Code</Step>
         <StepDescription>
-          {lensProfiles.length > 0 && (
-            <AvailableHandles handles={lensProfiles} />
-          )}
-          {lensProfiles.length == 0 && "No profiles to show yet."}
+          <PhoneInput
+            placeholder="XXX-XXX"
+            onChange={({ target: { value: text } }) => {
+              if (timeout) {
+                clearTimeout(timeout);
+              }
+
+              timeout = setTimeout(() => {
+                setVerifyCodeHandle(text);
+              }, 300);
+            }}
+          ></PhoneInput>
+          <button onClick={() => verifyCode()}>Verify Code</button>
         </StepDescription>
-        <Step>3. Sign a proof</Step>
+        <Step>3. Load Profile</Step>
         <StepDescription>
           <button onClick={() => signProof("lens")}>Sign proof</button>
         </StepDescription>
