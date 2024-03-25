@@ -45,7 +45,7 @@ const AmountButton = styled.button`
 
 const StakeButton = styled.button`
   background: white;
-  color: blue;
+  color: green;
   font-size: 1em;
   margin: 10px;
   padding: 0.25em 1em;
