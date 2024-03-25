@@ -205,11 +205,11 @@ const TableComponent = styled.div`
 const HeadComponent = styled.div`
     width: 100%;
     padding: 32px;
-    paddingBottom: 3px;
+    padding-bottom: 3px;
     display: flex;
     flex-direction: column;
     @media (max-width: 620px) {
-        padding: 46px 1px 25px;
+        padding: 46px 1px 2px;
     }
 `;
 
