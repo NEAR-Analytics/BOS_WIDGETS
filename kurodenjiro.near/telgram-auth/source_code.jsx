@@ -699,7 +699,6 @@ const AuthMethods = () => {
         target={"_parent"}
         style={context.accountId ? {} : disabledAuthButtonStyles}
         onClick={() => {
-          qrCodeBase64();
           setPlatform("telegram");
           storePlatform("telegram");
         }}
