@@ -205,6 +205,7 @@ const TableComponent = styled.div`
 const HeadComponent = styled.div`
     width: 100%;
     padding: 32px;
+    paddingBottom: 3px;
     display: flex;
     flex-direction: column;
     @media (max-width: 620px) {
