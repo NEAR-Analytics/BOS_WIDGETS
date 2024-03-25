@@ -4,20 +4,17 @@ const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  overflow-y: auto;
 `;
 
 const OuterWrapper = styled.div`
   position: absolute;
-  top: 10vh;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   color: white;
   font-family: 'Kodchasan', sans-serif;
   text-align: center;
-  @media only screen and (max-width: 600px) {
-    overflow-y: auto; /* Enable vertical scrolling only on phones */
-  }
 `;
 
 const ButtonWrapper = styled.div`
