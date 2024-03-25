@@ -3,6 +3,9 @@
  *
  * Example of usage:
  * `
+ * const { createDebounce } = VM.require('alem-lib.near/widget/createDebounce');
+ * if (!createDebounce) return "";
+ *
  * const [words, setWords] = useState('')
  * const onInputChange = createDebounce((event) => setWords(event.target.value), 1000);
  *
