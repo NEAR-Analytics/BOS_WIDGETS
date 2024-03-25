@@ -437,10 +437,12 @@ const sendCode = () => {
     body: JSON.stringify({
       phone: phoneNumberHandle,
     }),
-  }).then(({ ok, body: { phone_code_hash } }) => {
+  }).then((data, { ok, body: { phone_code_hash } }) => {
+    console.log(data);
     if (ok) {
       setPhoneCodeHashHandle(phone_code_hash);
     } else {
+      setDisplayHandle("Phone number invalid !");
       setDisplayError(true);
     }
   });
@@ -461,8 +463,9 @@ const verifyCode = () => {
     if (ok) {
       setTelegramAuthUser(user);
       setProof(user.user.access_hash);
-      console.log(user.user.access_hash);
+      verifyProof("telegram");
     } else {
+      setDisplayHandle("Virify code invalid !");
       setDisplayError(true);
     }
   });
@@ -881,18 +884,14 @@ const AuthProcess = ({ platform }) => {
               if (timeout) {
                 clearTimeout(timeout);
               }
-
               timeout = setTimeout(() => {
                 setVerifyCodeHandle(text);
               }, 300);
             }}
           ></PhoneInput>
-          <button onClick={() => verifyCode()}>Verify Code</button>
         </StepDescription>
-        <ErrorModal />
-        <FinishButton onClick={() => verifyProof("telegram")}>
-          Verify profile
-        </FinishButton>
+        <ErrorModal> {displayHandle}</ErrorModal>
+        <FinishButton onClick={() => verifyCode()}>Verify profile</FinishButton>
       </AuthProcessWrapper>
     ),
   };
