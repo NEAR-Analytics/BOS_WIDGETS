@@ -18,6 +18,12 @@ const OuterWrapper = styled.div`
   font-family: 'Kodchasan', sans-serif;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center content horizontally */
+`;
+
 const AmountButton = styled.button`
   /* Adapt the colors based on primary prop */
   background: ${(props) => (props.$primary ? "blue" : "white")};
@@ -108,22 +114,24 @@ return (
           onChange={onAmountInputChange}
         />
       </p>
-      <AmountButton onClick={onPresetButtonClick} value="5">
-        5
-      </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="25">
-        25
-      </AmountButton>
-      <AmountButton onClick={onPresetButtonClick} value="50">
-        50
-      </AmountButton>
-      <AmountButton
-        onClick={onPresetButtonClick}
-        value={yourAccountBalance - 0.05}
-      >
-        Max
-      </AmountButton>
-      <StakeButton onClick={onStakeClick}>Stake</StakeButton>
+      <ButtonWrapper>
+        <AmountButton onClick={onPresetButtonClick} value="5">
+          5
+        </AmountButton>
+        <AmountButton onClick={onPresetButtonClick} value="25">
+          25
+        </AmountButton>
+        <AmountButton onClick={onPresetButtonClick} value="50">
+          50
+        </AmountButton>
+        <AmountButton
+          onClick={onPresetButtonClick}
+          value={yourAccountBalance - 0.05}
+        >
+          Max
+        </AmountButton>
+        <StakeButton onClick={onStakeClick}>Stake</StakeButton>
+      </ButtonWrapper>
       <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
       <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
       <p>Your balance is: {yourAccountBalance} Near</p>
