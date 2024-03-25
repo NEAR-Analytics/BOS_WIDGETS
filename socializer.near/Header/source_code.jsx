@@ -45,9 +45,10 @@ const Logo = styled.div`
         position: relative;
     }
     & > .title {
-        left: 0;
-        top: 28px;
-        position: absolute;
+        // left: 0;
+        // top: 28px;
+        width: 170px;
+        position: relative;
     }
 
     @media (max-width: 620px) {
@@ -123,7 +124,7 @@ if (!state.loaded) getData();
 return (
   <Header>
     <Logo>
-      <img className="icon" src="https://e2e.nearverselabs.com/logo_icon.svg" />
+      {/*<img className="icon" src="https://e2e.nearverselabs.com/logo_icon.svg" />*/}
       <img
         className="title"
         src="https://e2e.nearverselabs.com/logo_title.svg"
