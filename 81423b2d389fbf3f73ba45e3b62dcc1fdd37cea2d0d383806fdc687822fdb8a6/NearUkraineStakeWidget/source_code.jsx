@@ -27,6 +27,10 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const Text = styled.div`
+  width: 100%;
+`;
+
 const Social = styled.div`
   position: absolute;
   left: 50%;
@@ -114,7 +118,9 @@ return (
     <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.MenuHeader" />
     <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
     <OuterWrapper>
-      <h1>Stake NEAR in NearUkraine</h1>
+      <Text>
+        <h1>Stake NEAR in NearUkraine</h1>
+      </Text>
       <p>
         Amount:
         <input
@@ -142,9 +148,11 @@ return (
         </AmountButton>
         <StakeButton onClick={onStakeClick}>Stake</StakeButton>
       </ButtonWrapper>
-      <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
-      <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
-      <p>Your balance is: {yourAccountBalance} Near</p>
+      <Text>
+        <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
+        <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
+        <p>Your balance is: {yourAccountBalance} Near</p>
+      </Text>
       <Social>
         <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
       </Social>
