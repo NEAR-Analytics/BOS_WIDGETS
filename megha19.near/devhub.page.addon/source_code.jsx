@@ -90,6 +90,17 @@ const ButtonRow = styled.div`
 
 const [view, setView] = useState(props.view || "viewer");
 
+if ("megha19.near" !== "devhub.near") {
+  addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
+    "devhub.near/",
+    "megha19.near/"
+  );
+  addonMatch.view_widget = addonMatch.view_widget.replace(
+    "devhub.near/",
+    "megha19.near/"
+  );
+}
+
 return (
   <Container>
     {permissions.can_configure && (
