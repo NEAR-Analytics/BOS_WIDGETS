@@ -1,5 +1,5 @@
 let { assets, socials, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 
 if (!assets) return <Widget src="flashui.near/widget/Loading" />;
@@ -51,7 +51,7 @@ const Socials = () => (
 return (
   <Footer className="justify-content-center">
     <div className="d-flex flex-column align-items-center gap-4">
-      <a href={`/ndcdev.near/widget/daos.App?page=home`}>
+      <a className="logo" href={`/ndcdev.near/widget/daos.App?page=home`}>
         <img src={assets.logoWhite} />
       </a>
       <Description>{content.home.footerDesc}</Description>
