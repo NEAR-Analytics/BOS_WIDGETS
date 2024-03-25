@@ -74,10 +74,14 @@ const onStakeClick = () => {
 
 const onAmountInputChange = ({ target }) => {
   let nearAmount;
-  if (target.value < 1) {
-    nearAmount = 1;
+  if (target.value === "") {
+    // If input is empty
+    nearAmount = ""; // Allow empty input
+  } else if (parseInt(target.value) < 1) {
+    // If input is less than 1
+    nearAmount = 1; // Set it to 1
   } else {
-    nearAmount = target.value;
+    nearAmount = target.value; // Otherwise, keep the entered value
   }
   State.update({ amount: nearAmount });
 };
