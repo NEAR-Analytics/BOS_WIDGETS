@@ -58,9 +58,9 @@ const Logo = styled.div`
             top: -25px;
         }
 
-        .title {
-            top: 15px;
-        }
+        // .title {
+        //     top: 15px;
+        // }
     }
 `;
 
