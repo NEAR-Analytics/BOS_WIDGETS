@@ -193,6 +193,7 @@ const TableComponent = styled.div`
   width: 100%;
   flex-direction: column;
   padding: 13px;
+  padding-top: 0;
     width: 100%;
     padding: 13px;
     display: flex;
@@ -205,7 +206,7 @@ const TableComponent = styled.div`
 const HeadComponent = styled.div`
     width: 100%;
     padding: 32px;
-    padding-bottom: 3px;
+    padding-bottom: 0px;
     display: flex;
     flex-direction: column;
     @media (max-width: 620px) {
