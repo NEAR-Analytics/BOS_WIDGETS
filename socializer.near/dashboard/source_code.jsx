@@ -189,13 +189,12 @@ const MainComponent = styled.div`
 `;
 
 const TableComponent = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 13px;
-  padding-top: 0;
+    display: flex;
     width: 100%;
+    flex-direction: column;
     padding: 13px;
+    padding-top: 0px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     @media (max-width: 620px) {
