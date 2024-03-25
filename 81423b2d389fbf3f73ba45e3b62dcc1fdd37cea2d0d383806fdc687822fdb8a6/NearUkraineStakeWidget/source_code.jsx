@@ -20,8 +20,8 @@ const OuterWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Center content horizontally */
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const AmountButton = styled.button`
