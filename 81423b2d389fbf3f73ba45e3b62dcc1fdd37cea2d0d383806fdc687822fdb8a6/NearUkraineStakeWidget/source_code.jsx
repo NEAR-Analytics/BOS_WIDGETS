@@ -9,7 +9,7 @@ const Background = styled.div`
 
 const OuterWrapper = styled.div`
   position: absolute;
-  top: 25%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
   color: white;
