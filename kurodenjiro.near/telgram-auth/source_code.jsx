@@ -65,6 +65,7 @@ const [loadingEvmAddress, setLoadingEvmAddress] = useState(false);
 const [onInit, setOnInit] = useState(true);
 const [twitterUrl, setTwitterUrl] = useState("");
 const [telegramUrl, setTelegramUrl] = useState("");
+const [telegramButton, setTelegramButton] = useState("Send Code");
 const [challenge, setChallenge] = useState("");
 const [loading, setLoading] = useState(false);
 const [loadingTwitterChallenge, setLoadingTwitterChallenge] = useState(false);
@@ -427,6 +428,20 @@ const signProof = (platform) => {
     }
   });
 };
+const countdownSendCode = (seconds) => {
+  let interval = setInterval(() => {
+    seconds--;
+
+    if (seconds < 0) {
+      clearInterval(interval);
+      setTelegramButton("Send Code");
+      console.log("Countdown complete!");
+    } else {
+      setTelegramButton(seconds.toString());
+      console.log(seconds + " seconds remaining");
+    }
+  }, 1000); // Update every second
+};
 const sendCode = () => {
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/telegram/send-code`, {
     method: "POST",
@@ -437,9 +452,9 @@ const sendCode = () => {
     body: JSON.stringify({
       phone: phoneNumberHandle,
     }),
-  }).then((data, { ok, body: { phone_code_hash } }) => {
-    console.log(data);
+  }).then(({ ok, body: { phone_code_hash } }) => {
     if (ok) {
+      countdownSendCode(10);
       setPhoneCodeHashHandle(phone_code_hash);
     } else {
       setDisplayHandle("Phone number invalid !");
@@ -470,6 +485,7 @@ const verifyCode = () => {
     }
   });
 };
+
 const verifyProof = (platform, registryContract) => {
   setDisplayError(false);
   asyncFetch(`${NEARBADGER_VERIFIERS_API}/verify/${platform}`, {
@@ -863,7 +879,7 @@ const AuthProcess = ({ platform }) => {
         <Step>1. Your Phone Number</Step>
         <StepDescription>
           <PhoneInput
-            placeholder="+84"
+            placeholder="+1"
             onChange={({ target: { value: text } }) => {
               if (timeout) {
                 clearTimeout(timeout);
@@ -874,12 +890,21 @@ const AuthProcess = ({ platform }) => {
               }, 300);
             }}
           ></PhoneInput>
-          <button onClick={() => sendCode()}>Send Code</button>
+          <button
+            onClick={() => sendCode()}
+            disabled={telegramButton !== "Send Code"}
+          >
+            {telegramButton}
+          </button>
+        </StepDescription>
+        <StepDescription>
+          To do so, go to the <b>Telegram Channel</b> copy <b>Login code</b>
+          <br />
         </StepDescription>
         <Step>2. Verify Code</Step>
         <StepDescription>
           <PhoneInput
-            placeholder="XXX-XX"
+            placeholder="XXXXX"
             onChange={({ target: { value: text } }) => {
               if (timeout) {
                 clearTimeout(timeout);
