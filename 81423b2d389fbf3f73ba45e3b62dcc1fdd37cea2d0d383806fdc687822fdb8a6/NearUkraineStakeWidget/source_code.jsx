@@ -4,12 +4,11 @@ const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  overflow-y: auto;
 `;
 
 const OuterWrapper = styled.div`
   position: absolute;
-  top: 10%;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
   color: white;
