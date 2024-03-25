@@ -1,11 +1,9 @@
-const SOuterWrapper = styled.div`
+const Background = styled.div`
   height: 100vh;
   width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-  margin: 0;
-  padding: 0;
 `;
 
 const OuterWrapper = styled.div`
@@ -16,6 +14,7 @@ const OuterWrapper = styled.div`
   transform: translate(-50%, -50%);
   color: white;
   font-family: 'Kodchasan', sans-serif;
+  text-align: center;
 `;
 
 const ButtonWrapper = styled.div`
@@ -27,6 +26,12 @@ const ButtonWrapper = styled.div`
     flex-direction: column; /* Switch to column layout if width is less than 600px */
     align-items: center; /* Center items horizontally in column layout */
   }
+`;
+
+const Social = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const AmountButton = styled.button`
@@ -106,7 +111,8 @@ const ButtonContainer = styled.div`
 `;
 
 return (
-  <SOuterWrapper>
+  <Background>
+    <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.MenuHeader" />
     <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
     <OuterWrapper>
       <h1>Stake NEAR in NearUkraine</h1>
@@ -140,7 +146,9 @@ return (
       <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
       <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
       <p>Your balance is: {yourAccountBalance} Near</p>
-      <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+      <Social>
+        <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+      </Social>
     </OuterWrapper>
-  </SOuterWrapper>
+  </Background>
 );
