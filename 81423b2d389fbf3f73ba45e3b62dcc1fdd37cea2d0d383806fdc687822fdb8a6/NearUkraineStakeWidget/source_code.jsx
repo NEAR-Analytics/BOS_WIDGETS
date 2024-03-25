@@ -20,8 +20,13 @@ const OuterWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: center; /* Center content horizontally */
+
+  @media (max-width: 600px) {
+    flex-direction: column; /* Switch to column layout if width is less than 600px */
+    align-items: center; /* Center items horizontally in column layout */
+  }
 `;
 
 const AmountButton = styled.button`
