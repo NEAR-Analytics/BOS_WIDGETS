@@ -34,23 +34,21 @@ const Social = styled.div`
 `;
 
 const AmountButton = styled.button`
-  /* Adapt the colors based on primary prop */
-  background: ${(props) => (props.$primary ? "blue" : "white")};
-  color: ${(props) => (props.$primary ? "white" : "blue")};
+  background: "white";
+  color: "blue";
   font-size: 1em;
   margin: 1em;
-  padding: 0.25em 1em;
+  padding: 0.25em 0.5em;
   border: 2px solid blue;
   border-radius: 3px;
 `;
 
 const StakeButton = styled.button`
-  /* Adapt the colors based on primary prop */
-  background: ${(props) => (props.$primary ? "green" : "white")};
-  color: ${(props) => (props.$primary ? "white" : "green")};
+  background: "white";
+  color: "blue";
   font-size: 1em;
   margin: 1em;
-  padding: 0.25em 1em;
+  padding: 0.25em 0.5em;
   border: 2px solid green;
   border-radius: 3px;
 `;
