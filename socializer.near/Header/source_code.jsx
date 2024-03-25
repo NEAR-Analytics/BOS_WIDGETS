@@ -145,23 +145,23 @@ return (
     <Content>
       <Button>
         <p>Wallets Active</p>
-        <h4>{state.active_wallets}</h4>
+        <h4>{Number(state.active_wallets)}</h4>
       </Button>
       <Button>
         <p> All Campaigns </p>
-        <h4>{state.campaigns_count}</h4>
+        <h4>{Number(state.campaigns_count)}</h4>
       </Button>
       <Button>
         <p>{`Rewards Paid $NEAR`}</p>
-        <h4>{state.near_rewards}</h4>
+        <h4>{Number(state.near_rewards)}</h4>
       </Button>
       <Button>
         <p>{`Rewards Paid $NEKO`}</p>
-        <h4>{state.neko_rewards}</h4>
+        <h4>{Number(state.neko_rewards)}</h4>
       </Button>
       <Button>
         <p>Total Transactions</p>
-        <h4>{state.total_transactions}</h4>
+        <h4>{Number(state.total_transactions)}</h4>
       </Button>
     </Content>
   </Header>
