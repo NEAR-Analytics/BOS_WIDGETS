@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
 );
 
 if (!fontCss) {
@@ -118,21 +118,6 @@ const Container = styled.div`
     }
   }
 
-  .btn-outline-primary {
-    border-radius: 10px;
-    color: #151718 !important;
-    text-decoration: none;
-    display: flex;
-    gap: 1rem;
-    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.15);
-    padding: 10px 40px 10px 25px;
-
-    &:hover {
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
-
   .btn-sm {
     padding: 5px 10px 5px 20px;
     box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
@@ -149,6 +134,18 @@ const Container = styled.div`
 
     &:hover {
       text-decoration: none;
+    }
+  }
+
+  a.post-btn {
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 10px 25px;
+    text-align: center;
+    color: #fff;
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
     }
   }
 
