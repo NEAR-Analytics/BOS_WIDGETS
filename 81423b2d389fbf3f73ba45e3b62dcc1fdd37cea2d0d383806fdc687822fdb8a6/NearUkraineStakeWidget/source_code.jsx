@@ -15,6 +15,9 @@ const OuterWrapper = styled.div`
   color: white;
   font-family: 'Kodchasan', sans-serif;
   text-align: center;
+  @media only screen and (max-width: 600px) {
+    overflow-y: auto; /* Enable vertical scrolling only on phones */
+  }
 `;
 
 const ButtonWrapper = styled.div`
