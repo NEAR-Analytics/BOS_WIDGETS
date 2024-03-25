@@ -34,21 +34,21 @@ const Social = styled.div`
 `;
 
 const AmountButton = styled.button`
-  background: "white";
-  color: "blue";
+  background: white;
+  color: blue;
   font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 0.5em;
+  margin: 10px;
+  padding: 0.25em 1em;
   border: 2px solid blue;
   border-radius: 3px;
 `;
 
 const StakeButton = styled.button`
-  background: "white";
-  color: "blue";
+  background: white;
+  color: blue;
   font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 0.5em;
+  margin: 10px;
+  padding: 0.25em 1em;
   border: 2px solid green;
   border-radius: 3px;
 `;
