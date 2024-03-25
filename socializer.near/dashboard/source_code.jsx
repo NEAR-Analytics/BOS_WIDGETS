@@ -62,13 +62,13 @@ State.init({
         width: 16,
         project: true,
       },
-      {
-        title: "Near Social  Post",
-        key: "social",
-        description: "Near Social  Post",
-        width: 32,
-        align: "center",
-      },
+      //   {
+      //     title: "Near Social  Post",
+      //     key: "social",
+      //     description: "Near Social  Post",
+      //     width: 32,
+      //     align: "center",
+      //   },
       {
         title: "Ends In",
         key: "endsin",
