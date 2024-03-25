@@ -23,6 +23,7 @@ const Sidebar = styled.div`
     }
     @media (max-width: 620px) {
         width : ${state.sidebar ? "235px" : "28px"};
+        min-width: ${state.sidebar ? "235px" : "28px"};
         z-index: 2;
         position: absolute;
         height:  ${state.sidebar ? "100%" : "10px"};
