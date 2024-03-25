@@ -82,13 +82,17 @@ const LinksContainer = styled.div`
 `;
 
 const NavigationLinks = () => (
-  <>
+  <div className="d-flex align-items-center gap-5">
     <a href={`/ndcdev.near/widget/daos.App?page=daos`}>DAOs</a>
     <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
-    <a href={`/ndcdev.near/widget/daos.App?page=create_post`}>
+    <a
+      className="post-btn d-flex align-items-center gap-2"
+      href={`/ndcdev.near/widget/daos.App?page=create_post`}
+    >
+      <i className="ph ph-plus fs-5" />
       Create Post
     </a>
-  </>
+  </div>
 );
 
 return (
@@ -109,11 +113,11 @@ return (
                 onClick={() => setShowNav(!showNav)}
               />
             </a>
-            {context.accountId === admin && (
-              <a href={`/ndcdev.near/widget/daos.App?page=config`}>
-                <i className="bi bi-gear-fill fs-3" />
-              </a>
-            )}
+
+            <a href={`/ndcdev.near/widget/daos.App?page=settings`}>
+              <i className="bi bi-gear-fill fs-3" />
+            </a>
+
             <a
               href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
             >
