@@ -1007,7 +1007,7 @@ useEffect(() => {
   if (dexConfig.rewardToken) {
     getAllUserRewards();
   }
-}, [fresh]);
+}, [dexConfig, fresh]);
 
 useEffect(() => {
   if (!isChainSupported || !state.assetsToSupply) return;
@@ -1270,22 +1270,24 @@ const body = isChainSupported ? (
             />
           </YoursTableWrapper>
         </Yours>
-        <Widget
-          src={`${config.ownerId}/widget/AAVE.Card.RewardsTable`}
-          props={{
-            account,
-            config,
-            data: [].concat({
-              ...dexConfig.rewardToken,
-              unclaimed: state.rewardsAmount,
-            }),
-            dapps: dexConfig,
-            onSuccess,
-            markets,
-            rewardAddress: config.incentivesProxy,
-            toast,
-          }}
-        />
+        {dexConfig.rewardToken ? (
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Card.RewardsTable`}
+            props={{
+              account,
+              config,
+              data: [].concat({
+                ...dexConfig.rewardToken,
+                unclaimed: state.rewardsAmount,
+              }),
+              dapps: dexConfig,
+              onSuccess,
+              markets,
+              rewardAddress: config.incentivesProxy,
+              toast,
+            }}
+          />
+        ) : null}
       </>
     )}
     {state.alertModalText && (
