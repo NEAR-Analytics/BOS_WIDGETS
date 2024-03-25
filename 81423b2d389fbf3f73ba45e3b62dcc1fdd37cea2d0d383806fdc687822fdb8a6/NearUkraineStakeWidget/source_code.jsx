@@ -113,9 +113,11 @@ return (
     <Widget src="nearukraineguild.near/widget/MysteryBox.Components.BackgroundStars" />
     <OuterWrapper>
       <h1>Stake NEAR in NearUkraine</h1>
-      <p>Total staked balance in validator is: {totalStakedBalance} Near</p>
-      <p>Your staked balance in validator is: {yourStakedBalance} Near</p>
-      <p>Your balance is: {yourAccountBalance} Near</p>
+      <p>
+        Total staked balance in validator is: {totalStakedBalance} Near <br />
+        Your staked balance in validator is: {yourStakedBalance} Near <br />
+        Your balance is: {yourAccountBalance} Near
+      </p>
       <p>
         Amount:
         <input
