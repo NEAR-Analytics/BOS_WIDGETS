@@ -22,7 +22,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("devhub.near", "get_proposal", {
+  editProposalData = Near.view("truedove38.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -252,7 +252,7 @@ const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
 
 const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("devhub.near", "get_proposals");
+const proposalsData = Near.view("truedove38.near", "get_proposals");
 
 const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
@@ -266,6 +266,9 @@ const [isSubmittingTransaction, setIsSubmittingTransaction] = useState(false);
 
 const [showProposalPage, setShowProposalPage] = useState(false); // when user creates/edit a proposal and confirm the txn, this is true
 const [proposalId, setProposalId] = useState(null);
+const [proposalIdsArray, setProposalIdsArray] = useState(null);
+const [isTxnCreated, setCreateTxn] = useState(false);
+const [oldProposalData, setOldProposalData] = useState(null);
 
 if (allowDraft) {
   draftProposalData = Storage.privateGet(draftKey);
@@ -395,10 +398,12 @@ useEffect(() => {
 }, [editProposalData, proposalsOptions]);
 
 useEffect(() => {
-  // Trigger when proposals data change, which will happen on cache invalidation
-  setIsSubmittingTransaction(false);
-  console.log("Proposals data change, assume transaction completed");
-}, [proposalsData]);
+  if (isSubmittingTransaction) {
+    // Trigger when proposals data change, which will happen on cache invalidation
+    setIsSubmittingTransaction(false);
+    console.log("Proposals data change, assume transaction completed");
+  }
+}, [proposalsData, isSubmittingTransaction]);
 
 useEffect(() => {
   if (
@@ -417,8 +422,6 @@ useEffect(() => {
   }
 }, [proposalsData]);
 
-useEffect(() => {});
-
 const InputContainer = ({ heading, description, children }) => {
   return (
     <div className="d-flex flex-column gap-1 gap-sm-2 w-100">
@@ -430,6 +433,43 @@ const InputContainer = ({ heading, description, children }) => {
     </div>
   );
 };
+
+// show proposal created after txn approval for popup wallet
+useEffect(() => {
+  if (isTxnCreated) {
+    if (editProposalData) {
+      setOldProposalData(editProposalData);
+      if (
+        editProposalData &&
+        typeof editProposalData === "object" &&
+        oldProposalData &&
+        typeof oldProposalData === "object" &&
+        JSON.stringify(editProposalData) !== JSON.stringify(oldProposalData)
+      ) {
+        setCreateTxn(false);
+        setProposalId(editProposalData.id);
+        setShowProposalPage(true);
+      }
+    } else {
+      const proposalIds = Near.view(
+        "truedove38.near",
+        "get_all_proposal_ids"
+      );
+      if (Array.isArray(proposalIds) && !proposalIdsArray) {
+        setProposalIdsArray(proposalIds);
+      }
+      if (
+        Array.isArray(proposalIds) &&
+        Array.isArray(proposalIdsArray) &&
+        proposalIds.length !== proposalIdsArray.length
+      ) {
+        setCreateTxn(false);
+        setProposalId(proposalIds.length - 1);
+        setShowProposalPage(true);
+      }
+    }
+  }
+});
 
 useEffect(() => {
   if (props.transactionHashes) {
@@ -465,7 +505,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  "devhub.near",
+                  "truedove38.near",
                   "get_all_proposal_ids"
                 ).then((proposalIdsArray) => {
                   setProposalId(
@@ -712,6 +752,7 @@ const SubmitBtn = () => {
 
 const onSubmit = ({ isDraft, isCancel }) => {
   setIsSubmittingTransaction(true);
+  setCreateTxn(true);
   console.log("submitting transaction");
   const linkedProposalsIds = linkedProposals.map((item) => item.value) ?? [];
   const body = {
@@ -747,7 +788,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
 
   Near.call([
     {
-      contractName: "devhub.near",
+      contractName: "truedove38.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
