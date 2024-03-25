@@ -22,10 +22,11 @@ const Sidebar = styled.div`
         display: flex;
     }
     @media (max-width: 620px) {
-        width : ${state.sidebar ? "235px" : "auto"};
+        width : ${state.sidebar ? "235px" : "28px"};
         z-index: 2;
         position: absolute;
-
+        height:  ${state.sidebar ? "100%" : "10px"};
+        align-items: flex-end;
         .content {
             display: ${state.sidebar ? "flex" : "none"};
         }
