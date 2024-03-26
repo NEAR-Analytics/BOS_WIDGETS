@@ -66,7 +66,7 @@ State.init({
         title: "Participants",
         key: "participants",
         description: "Participants",
-        width: 32,
+        width: 15,
         align: "center",
       },
       {
@@ -126,7 +126,7 @@ State.init({
         title: "Participants",
         key: "participants",
         description: "Participants",
-        width: 32,
+        width: 15,
         align: "center",
       },
       {
