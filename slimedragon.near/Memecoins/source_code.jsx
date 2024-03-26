@@ -91,9 +91,6 @@ function getMarketCap(tokenId, poolId) {
         const nearInPool = ethers.BigNumber.from(pool.amounts[nearIndex]).div(
           ethers.BigNumber.from(10).pow(ethers.BigNumber.from(NEAR_DECIMALS))
         );
-        if (tokenId === "ndc.tkn.near") {
-          console.log(tokenInPool, nearInPool);
-        }
         const tokenCapInNear = nearInPool
           .mul(circulatingSupply)
           .div(tokenInPool);
