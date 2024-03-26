@@ -192,8 +192,8 @@ const renderSquares = () => {
         <Square key={i}>
           <WidgetContainer>
             <svg
-              width={170}
-              height={200}
+              width="70%"
+              height="70%"
               viewBox="0 0 17 20"
               fill="none"
               {...props}
