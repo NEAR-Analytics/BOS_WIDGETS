@@ -354,38 +354,9 @@ return (
               <div className="buttons d-flex justify-content-between">
                 <Widget
                   loading=""
-                  src="mob.near/widget/N.CommentButton"
-                  props={{
-                    disabled: permissions.disableComment,
-                    onClick: () =>
-                      State.update({ showReply: !state.showReply }),
-                  }}
-                />
-                <RepostWidgetDesktop>
-                  <Widget
-                    loading=""
-                    src="mob.near/widget/N.RepostButton"
-                    props={{
-                      disable: permissions.disableRepost,
-                      notifyAccountId,
-                      item,
-                      // indexKey,
-                      // groupId,
-                    }}
-                  />
-                </RepostWidgetDesktop>
-                <Widget
-                  loading=""
                   src="mob.near/widget/N.LikeButton"
                   props={{
                     notifyAccountId,
-                    item,
-                  }}
-                />
-                <Widget
-                  loading=""
-                  src="buildhub.near/widget/components.post.BookmarkButton"
-                  props={{
                     item,
                   }}
                 />
