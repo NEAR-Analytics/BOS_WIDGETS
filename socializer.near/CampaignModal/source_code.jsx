@@ -31,6 +31,7 @@ const ModalOverlay = styled.div`
   z-index: 100;
   width: 400px;
   height: 100%;
+  overflow: auto;
   @media (max-width: 510px) {
     right: 10px;
     top: 54px;
