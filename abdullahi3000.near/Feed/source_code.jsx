@@ -1,7 +1,7 @@
 const { Feed } = VM.require("devs.near/widget/Feed") || {
   Feed: () => <></>,
 };
-const { Post, Button } = VM.require("abdullahi3000.near/widget/components") || {
+const { Post, Button } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
   Button: () => <></>,
 };
@@ -75,23 +75,21 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      context.accountId == "abdullahi3000.near" && (
-        <Widget
-          loading={
-            <div
-              className="placeholder-glow h-100 w-100"
-              style={{ height: 400 }}
-            ></div>
-          }
-          src="abdullahi3000.near/widget/Compose"
-          props={{
-            draftKey: feedName,
-            template: template,
-            requiredHashtags: requiredHashtags,
-            feed: { ...props },
-          }}
-        />
-      )
+      <Widget
+        loading={
+          <div
+            className="placeholder-glow h-100 w-100"
+            style={{ height: 400 }}
+          ></div>
+        }
+        src="buildhub.near/widget/Compose"
+        props={{
+          draftKey: feedName,
+          template: template,
+          requiredHashtags: requiredHashtags,
+          feed: { ...props },
+        }}
+      />
     )}
     <Feed
       index={(requiredHashtags || []).map((it) => ({
@@ -108,19 +106,15 @@ return (
         required: true,
       }))}
       Item={(p) => (
-        <>
-          {p.accountId == "abdullahi3000.near" && (
-            <Post
-              accountId={p.accountId}
-              blockHeight={p.blockHeight}
-              noBorder={true}
-              currentPath={`/abdullahi3000.near/widget/app?page=feed`}
-              customActions={customActions}
-              modalToggles={modalToggles}
-              setItem={setItem}
-            />
-          )}
-        </>
+        <Post
+          accountId={p.accountId}
+          blockHeight={p.blockHeight}
+          noBorder={true}
+          currentPath={`/buildhub.near/widget/app?page=feed`}
+          customActions={customActions}
+          modalToggles={modalToggles}
+          setItem={setItem}
+        />
       )}
     />
   </div>
