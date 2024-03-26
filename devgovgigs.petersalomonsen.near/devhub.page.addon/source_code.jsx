@@ -91,8 +91,14 @@ const ButtonRow = styled.div`
 const [view, setView] = useState(props.view || "viewer");
 
 if ("devgovgigs.petersalomonsen.near" !== "devhub.near") {
-  addonMatch.configurator_widget = addonMatch.configurator_widget.replace('devhub.near/',"devgovgigs.petersalomonsen.near/");
-  addonMatch.view_widget = addonMatch.view_widget.replace('devhub.near/',"devgovgigs.petersalomonsen.near/");
+  addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
+    "devhub.near/",
+    "devgovgigs.petersalomonsen.near/"
+  );
+  addonMatch.view_widget = addonMatch.view_widget.replace(
+    "devhub.near/",
+    "devgovgigs.petersalomonsen.near/"
+  );
 }
 
 return (
