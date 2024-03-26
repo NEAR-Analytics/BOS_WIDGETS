@@ -100,7 +100,7 @@ State.init({
       },
       {
         title: "Engage Link",
-        key: "post_link",
+        key: "result",
         description: "Engage Link",
         width: 10,
         align: "center",
