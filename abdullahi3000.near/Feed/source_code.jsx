@@ -110,7 +110,7 @@ return (
           accountId={p.accountId}
           blockHeight={p.blockHeight}
           noBorder={true}
-          currentPath={`/buildhub.near/widget/app?page=feed`}
+          currentPath={`/abdullahi3000.near/widget/app?page=feed`}
           customActions={customActions}
           modalToggles={modalToggles}
           setItem={setItem}
