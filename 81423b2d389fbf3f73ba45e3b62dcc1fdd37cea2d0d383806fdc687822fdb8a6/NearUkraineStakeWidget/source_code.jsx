@@ -277,3 +277,12 @@ return (
             }}
           />
         </StakeButtonWrapper>
+         </div>
+      <Social>
+        <SocialText>Follow us</SocialText>
+
+        <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
+      </Social>
+    </OuterWrapper>
+  </Background>
+);
