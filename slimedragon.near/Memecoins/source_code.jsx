@@ -46,23 +46,39 @@ function getNearPrice() {
 function getMarketCap(tokenId, poolId) {
   const REF_CONTRACT_ID = "v2.ref-finance.near";
   const NEAR_DECIMALS = 24;
-  const BURN_ADDRESSES = ["0".repeat(64)];
+  const NON_CIRCULATING_ADDRESSES = [
+    "0".repeat(64),
+    "staking.paras.near",
+    "cex-nearnvidia.near",
+    "lp-nearnvidia.near",
+    "nftstaking.jumpfinance.near",
+    "beanlabs-marketing.near",
+    "beanlabs.near",
+    "beanlabs-airdrop.near",
+    "beanlabs-team.near",
+    "creators.nekotoken.near",
+    "cookie.nekotoken.near",
+    "minigame.nekotoken.near",
+    "coreteam.nekotoken.near",
+    "launchpad.jumpfinance.near",
+    "distributions.nekotoken.near",
+  ];
 
   return new Promise((resolve, reject) => {
     const decimals = Near.view(tokenId, "ft_metadata", {}).decimals;
     const totalSupply = ethers.BigNumber.from(
       Near.view(tokenId, "ft_total_supply", {})
     );
-    const burnedPromises = BURN_ADDRESSES.map((burnAddress) =>
-      Near.asyncView(tokenId, "ft_balance_of", { account_id: burnAddress })
+    const nonCirculatingPromises = NON_CIRCULATING_ADDRESSES.map((address) =>
+      Near.asyncView(tokenId, "ft_balance_of", { account_id: address })
     );
-    Promise.all(burnedPromises).then((burnedAmounts) => {
-      const burned = burnedAmounts.reduce(
+    Promise.all(nonCirculatingPromises).then((nonCirculating) => {
+      const notInCirculation = nonCirculating.reduce(
         (acc, balance) => acc.add(balance),
         ethers.BigNumber.from(0)
       );
       const circulatingSupply = totalSupply
-        .sub(burned)
+        .sub(notInCirculation)
         .div(ethers.BigNumber.from(10).pow(ethers.BigNumber.from(decimals)));
       Near.asyncView(REF_CONTRACT_ID, "get_pool", {
         pool_id: poolId,
