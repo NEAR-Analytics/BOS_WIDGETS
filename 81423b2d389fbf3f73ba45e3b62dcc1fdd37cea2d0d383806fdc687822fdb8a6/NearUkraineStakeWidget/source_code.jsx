@@ -165,7 +165,7 @@ const onStakeClick = () => {
   // TODO: doesn't support floats right now due to limitation of JS integers
   const exactDeposit = parseInt(state.amount) + "000000000000000000000000";
   const deposit = (exactDeposit / 10e23).toFixed(decimals);
-  console.log(gas: 300 TGas, deposit: ${deposit} Near);
+  console.log(gas: 300 TGas, deposit: ${ deposit } Near);
   Near.call(
     "nearuaguild.poolv1.near",
     "deposit_and_stake",
@@ -197,7 +197,6 @@ const totalStakedBalance = (
   Near.view("nearuaguild.poolv1.near", "get_total_staked_balance", {}) / 1e24
 ).toFixed(decimals);
 
-Artem, [26.03.2024 01:45]
 const yourStakedBalance = (
   Near.view("nearuaguild.poolv1.near", "get_account_staked_balance", {
     account_id: accountId,
@@ -277,7 +276,7 @@ return (
             }}
           />
         </StakeButtonWrapper>
-         </div>
+      </div>
       <Social>
         <SocialText>Follow us</SocialText>
 
