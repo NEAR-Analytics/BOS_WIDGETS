@@ -48,8 +48,12 @@ return (
       </h5>
       <p style={{ fontSize: 12 }}>
         {
-          "These NEP Tokens Can be allocated as bounty for users that engage with your tweets. These can be withdrawn to you wallet at any time"
+          "Creators:  Can use these NEP-141 tokens for rewards and platform charges in your campaign creation. "
         }
+        <br />
+        {"Users: Winnings from campaigns are credited here. "}
+        <br />
+        {"You can withdraw these tokens to your wallet at any time."}
       </p>
       {state.error && (
         <p style={{ fontSize: 12, color: "red" }}>{state.error}</p>
