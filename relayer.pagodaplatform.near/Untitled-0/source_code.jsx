@@ -6,13 +6,14 @@ const Widget = ({ src }) => {
 };
 
 const Container = styled.div`
-  position: fixed;
-  height: 100%;
-  width: 100%;
+  
+  height: 100vh;
+  width: 100vw;
   top: 0;
   left: 0;
   margin: 0;
   padding: 0;
+  backgraund: grey;
 `;
 
 const PrimaryText = styled.p`
@@ -97,7 +98,7 @@ const ContainerBox = styled.div`
 
 const Square = styled.div`
   width: 20vw; /* Змінено розмір на 150px */
-  height: 40vh; /* Змінено розмір на 150px */
+  height: 20vw; /* Змінено розмір на 150px */
   margin: 40px; /* Збільшено відступи */
   padding: 20px;
   position: relative; /* Додано позиціонування */
