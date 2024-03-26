@@ -16,6 +16,9 @@ const config = {
   image11:
     "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
 };
+State.init({
+  select: "",
+});
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -32,6 +35,7 @@ return (
             <div class="d-flex justify-content-center">
               <div class="mx-2">
                 <button
+                  onClick={() => State.update({ select: "ref" })}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -41,13 +45,15 @@ return (
                 </button>{" "}
               </div>
               <div class="mx-2">
-                <a
-                  href="https://app.veax.com/trade?mode=pro&tokens=token.lonkingnearbackto2024.near%25wrap.near"
-                  target="_blank"
+                <button
+                  onClick={() => State.update({ select: "veax" })}
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
                   class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={config.image7} width="90" />
-                </a>{" "}
+                </button>{" "}
               </div>
             </div>
             <div class="mt-5">
@@ -144,7 +150,7 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token Ref Finance
+              Swap Token {state.select == "ref" ? "Ref Finance" : "Veax"}
             </h5>
             <button
               type="button"
@@ -154,7 +160,11 @@ return (
             ></button>
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/ref-swap" />
+            {state.select == "ref" ? (
+              <Widget src="huunhanz.near/widget/ref-swap" />
+            ) : (
+              <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+            )}
           </div>
         </div>
       </div>
