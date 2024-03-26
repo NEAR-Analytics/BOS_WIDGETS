@@ -57,7 +57,7 @@ State.init({
       },
       {
         title: "Project/User",
-        key: "accountId",
+        key: "poster",
         description: "Project/User",
         width: 16,
         project: true,
@@ -117,7 +117,7 @@ State.init({
       },
       {
         title: "Project/User",
-        key: "accountId",
+        key: "poster",
         description: "Project/User",
         width: 20,
         project: true,
