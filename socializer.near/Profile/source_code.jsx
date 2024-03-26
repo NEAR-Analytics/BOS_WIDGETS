@@ -29,7 +29,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "Token Deposited",
+    title: "Token Ledger",
     key: "balance",
     width: 25,
     align: "center",
