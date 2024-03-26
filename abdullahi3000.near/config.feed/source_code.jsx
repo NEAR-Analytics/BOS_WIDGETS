@@ -14,7 +14,7 @@ return {
   type: "app", // every.near/type/app
   routes: {
     all: {
-      path: "buildhub.near/widget/Feed",
+      path: "abdullahi3000.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "All", // maybe these should be moved to navbar specific
@@ -23,7 +23,7 @@ return {
       },
     },
     pitch: {
-      path: "buildhub.near/widget/Feed",
+      path: "abdullahi3000.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Pitch",
@@ -47,7 +47,7 @@ return {
       },
     },
     documents: {
-      path: "buildhub.near/widget/Feed",
+      path: "abdullahi3000.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Documents",
@@ -62,7 +62,7 @@ return {
       },
     },
     musicPlayer: {
-      path: "buildhub.near/widget/Feed",
+      path: "abdullahi3000.near/widget/Feed",
       blockHeight: "final",
       init: {
         name: "Music Player",
