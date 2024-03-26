@@ -99,6 +99,16 @@ initState({ amount: "1" });
 const accountId = props.wallet_id || context.accountId;
 const decimals = props.decimal_places ?? 1;
 
+const createButton = (onClick, text) => (
+  <Widget
+    src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
+    props={{
+      onClick,
+      text,
+    }}
+  />
+);
+
 const onStakeClick = () => {
   const gas = 300 * 10e11; // 300 TGas
   // TODO: doesn't support floats right now due to limitation of JS integers
@@ -145,12 +155,6 @@ const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center; /* Вирівнює кнопки по центру по горизонталі */
-  width: 100%; /* Розтягує контейнер на всю ширину */
-`;
-
 return (
   <Background>
     <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.MenuHeader" />
@@ -172,46 +176,16 @@ return (
           onChange={onAmountInputChange}
         />
         <ButtonWrapper>
-          <Widget
-            src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
-            props={{
-              onClick: () => onPresetButtonClick(5),
-              text: "5",
-            }}
-          />
-
-          <Widget
-            src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
-            props={{
-              onClick: () => onPresetButtonClick(25),
-              text: "25",
-            }}
-          />
-
-          <Widget
-            src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
-            props={{
-              onClick: () => onPresetButtonClick(50),
-              text: "50",
-            }}
-          />
-
-          <Widget
-            src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
-            props={{
-              onClick: () => onPresetButtonClick(yourAccountBalance - 0.05),
-              text: "Max",
-            }}
-          />
+          {createButton(() => onPresetButtonClick(5), "5")}
+          {createButton(() => onPresetButtonClick(25), "25")}
+          {createButton(() => onPresetButtonClick(50), "50")}
+          {createButton(
+            () => onPresetButtonClick(yourAccountBalance - 0.05),
+            "Max"
+          )}
         </ButtonWrapper>
         <StakeButtonWrapper>
-          <Widget
-            src="nearukraineguild.near/widget/MysteryBox.Manage.Components.SubmitButton"
-            props={{
-              onClick: onStakeClick,
-              text: "Stake",
-            }}
-          />
+          {createButton(() => onStakeClick(), "Stake")}
         </StakeButtonWrapper>
       </div>
       <Social>
