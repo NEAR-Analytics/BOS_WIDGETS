@@ -1,12 +1,12 @@
-const { Button } = VM.require("abdullahi3000.near/widget/components.Button");
+const { Button } = VM.require("buildhub.near/widget/components.Button");
 const { ProgressState } = VM.require(
-  "buildhub.near/widget/components.ProgressState"
+  "buildhub.near/widget/components.ProgressState",
 );
 const { Bullet } = VM.require("buildhub.near/widget/components.Bullet");
 const { Step } = VM.require("buildhub.near/widget/components.Step");
 const { InputField } = VM.require("buildhub.near/widget/components.InputField");
 const { UploadField } = VM.require(
-  "buildhub.near/widget/components.UploadField"
+  "buildhub.near/widget/components.UploadField",
 );
 const { TextBox } = VM.require("buildhub.near/widget/components.TextBox");
 const { TextEditor } = VM.require("buildhub.near/widget/components.TextEditor");
@@ -14,7 +14,7 @@ const { Checkbox } = VM.require("buildhub.near/widget/components.Checkbox");
 const { Avatar } = VM.require("buildhub.near/widget/components.Avatar");
 const { Modal } = VM.require("buildhub.near/widget/components.Modal");
 const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
-const { Tag } = VM.require("abdullahi3000.near/widget/components.Tag");
+const { Tag } = VM.require("buildhub.near/widget/components.Tag");
 
 function Pagination({
   totalPages,
@@ -41,7 +41,7 @@ function Post(props) {
   return (
     <Widget
       loading={<div className="w-100" style={{ height: "200px" }} />}
-      src={"abdullahi3000.near/widget/components.Post"}
+      src={"buildhub.near/widget/components.Post"}
       props={{ ...props }}
     />
   );
