@@ -107,7 +107,7 @@ State.init({
   loadRes: (value) =>
     State.update({
       estimate: value,
-      amountOut: value === null ? "" : Number(value.estimate) - 18000,
+      amountOut: value === null ? "" : value.estimate,
     }),
 });
 
@@ -313,14 +313,10 @@ const callTx = () => {
           },
         },
         {
-          Withdraw: [
-            state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-            "0",
-            null,
-          ],
+          Withdraw: ["wrap.near", "0", null],
         },
         {
-          Withdraw: [state.tokenOut.id, "0", null],
+          Withdraw: ["token.lonkingnearbackto2024.near", "0", null],
         },
       ]),
     },
@@ -355,7 +351,7 @@ const inputOnChange = (e) => {
 
 return (
   <Container>
-    <div className="swap-title">Swap</div>veax.near
+    <div className="swap-title">Swap</div>
     {
       <Widget
         src="weige.near/widget/ref-swap-getEstimate"
@@ -372,6 +368,7 @@ return (
         }}
       />
     }
+
     {
       <Widget
         src={`huunhanz.near/widget/ref-token-input`}
@@ -393,7 +390,7 @@ return (
       <Widget
         src={`huunhanz.near/widget/ref-token-input`}
         props={{
-          amount: state.amountOut,
+          amount: Number(state.amountOut) - 18000,
           disableInput: true,
           setAmount: (value) => State.update({ amountOut: value }),
           token: state.tokenOut,
@@ -404,6 +401,7 @@ return (
         }}
       />
     }
+
     <RateLine>
       <RefreshWrapper
         onClick={() => {
@@ -447,6 +445,7 @@ return (
         },
       }}
     />
+
     <Widget
       src="weige.near/widget/ref-swap-button"
       props={{
