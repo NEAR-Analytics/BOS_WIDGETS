@@ -1,3 +1,42 @@
+const weth9Abi = [
+  {
+    constant: false,
+    inputs: [{ name: "wad", type: "uint256" }],
+    name: "withdraw",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [],
+    name: "deposit",
+    outputs: [],
+    payable: true,
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, name: "dst", type: "address" },
+      { indexed: false, name: "wad", type: "uint256" },
+    ],
+    name: "Deposit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, name: "src", type: "address" },
+      { indexed: false, name: "wad", type: "uint256" },
+    ],
+    name: "Withdrawal",
+    type: "event",
+  },
+];
+
 const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-router.txt"
 );
@@ -204,10 +243,9 @@ const getErc20Balance = (tokenId, receiver, decimals, asset) => {
         );
         contract.balanceOf(receiver).then((res) => {
           let balance = ethers.utils.formatUnits(res, decimals);
+
           State.update({
-            inputBalance: parseFloat(balance - 0.000001)
-              .toFixed(6)
-              .toString(),
+            inputBalance: balance.toString(),
             unFixedInputBalance: res.toHexString(),
           });
         });
@@ -397,6 +435,7 @@ const existPool = () => {
       state.tokenRecieveSelected.name === "ETH"
         ? "WETH"
         : state.tokenRecieveSelected.name;
+  if (tokenNameA == "WETH" && tokenNameB == "WETH") return true;
 
   const poolName1 = `${tokenNameA}-${tokenNameB}`;
   const poolName2 = `${tokenNameB}-${tokenNameA}`;
@@ -432,6 +471,17 @@ const setMaxBalance = () => {
 };
 
 const confirmTransaction = () => {
+  if (
+    state.tokenSendSelected.name === "WETH" &&
+    state.tokenRecieveSelected.name === "ETH"
+  )
+    return unwrapEth();
+  else if (
+    state.tokenSendSelected.name === "ETH" &&
+    state.tokenRecieveSelected.name === "WETH"
+  )
+    return wrapEth();
+
   const router = new ethers.Contract(
     state.routerContract,
     routerAbi.body,
@@ -460,8 +510,102 @@ const confirmTransaction = () => {
     value: state.tokenSendSelected.name === "ETH" ? amountIn : amountIn2,
     gasLimit: 2303039,
   };
+
   try {
     router.exactInputSingle(paramsv2, overrides).then((res) => {
+      State.update({
+        onSwap: true,
+      });
+      setTimeout(() => {
+        State.update({
+          reloadTransactions: true,
+        });
+      }, 5000);
+      setTimeout(() => {
+        State.update({
+          tokenSendSelected: null,
+          tokenRecieveSelected: null,
+          amountInput: 0,
+          inputBalance: 0,
+          amountRecieve: 0,
+          rate: 0,
+          poolSelected: null,
+          onSwap: false,
+          reloadTransactions: true,
+        });
+      }, 15000);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const wrapEth = () => {
+  const contract = new ethers.Contract(
+    state.tokenSendSelected.address,
+    weth9Abi,
+    Ethers.provider().getSigner()
+  );
+
+  const amount = ethers.utils.parseUnits(
+    state.amountInput,
+    state.tokenSendSelected.decimals
+  );
+
+  const overrides = {
+    value: amount,
+    gasLimit: 2303039,
+  };
+
+  try {
+    /* function deposit() */
+    contract.deposit(overrides).then((res) => {
+      State.update({
+        onSwap: true,
+      });
+      setTimeout(() => {
+        State.update({
+          reloadTransactions: true,
+        });
+      }, 5000);
+      setTimeout(() => {
+        State.update({
+          tokenSendSelected: null,
+          tokenRecieveSelected: null,
+          amountInput: 0,
+          inputBalance: 0,
+          amountRecieve: 0,
+          rate: 0,
+          poolSelected: null,
+          onSwap: false,
+          reloadTransactions: true,
+        });
+      }, 15000);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const unwrapEth = () => {
+  const router = new ethers.Contract(
+    state.tokenSendSelected.address,
+    weth9Abi,
+    Ethers.provider().getSigner()
+  );
+
+  const wad = ethers.utils.parseUnits(
+    state.amountInput,
+    state.tokenSendSelected.decimals
+  );
+
+  const overrides = {
+    gasLimit: 3303039,
+  };
+
+  try {
+    /* function withdraw() = wad: uint256 */
+    router.withdraw(wad, overrides).then((res) => {
       State.update({
         onSwap: true,
       });
@@ -679,13 +823,22 @@ return (
                         Select Token
                       </option>
                       {TOKENS.map((token) => {
-                        return (
-                          <>
-                            {state.tokenSendSelected.name != token.name && (
-                              <option>{token.name}</option>
-                            )}
-                          </>
-                        );
+                        if (token.name == "ETH")
+                          return (
+                            <>
+                              {state.tokenSendSelected.name == "WETH" && (
+                                <option>{token.name}</option>
+                              )}
+                            </>
+                          );
+                        else
+                          return (
+                            <>
+                              {state.tokenSendSelected.name != token.name && (
+                                <option>{token.name}</option>
+                              )}
+                            </>
+                          );
                       })}
                     </select>
                   </div>
