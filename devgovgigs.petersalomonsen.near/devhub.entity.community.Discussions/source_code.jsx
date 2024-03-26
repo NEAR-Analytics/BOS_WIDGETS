@@ -75,7 +75,7 @@ const [sort, setSort] = useState("timedesc");
 const [isTransactionFinished, setIsTransactionFinished] = useState(false);
 
 const discussionsAccountId =
-  "discussions." + handle + ".community.devhub.near";
+  "discussions." + handle + ".community.truedove38.near";
 
 function checkIfReposted(blockHeight) {
   Near.asyncView("social.near", "get", {
@@ -101,7 +101,7 @@ function checkIfReposted(blockHeight) {
 function repostOnDiscussions(blockHeight) {
   Near.call([
     {
-      contractName: "devhub.near",
+      contractName: "truedove38.near",
       methodName: "create_discussion",
       args: {
         handle,
@@ -241,7 +241,7 @@ return (
               src="devgovgigs.petersalomonsen.near/widget/devhub.components.feed.SubscribedFeed"
               props={{
                 accounts: [
-                  `discussions.${handle}.community.devhub.near`,
+                  `discussions.${handle}.community.truedove38.near`,
                 ],
               }}
             />
