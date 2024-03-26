@@ -77,7 +77,7 @@ State.init({
         align: "center",
       },
       {
-        title: "Reward",
+        title: "Reward Per Winner",
         key: "reward",
         description: "Reward",
         width: 8,
@@ -192,8 +192,7 @@ const TableComponent = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    padding: 13px;
-    padding-top: 0px;
+    padding: 5px 24px 13px;
     width: 100%;
     display: flex;
     flex-direction: column;
