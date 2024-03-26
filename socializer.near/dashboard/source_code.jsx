@@ -394,7 +394,7 @@ return (
               themeColor: { table_pagination: themeColor.table_pagination },
               data: state.campaigns,
               columns: state.columns[state.menu.value],
-              rowsCount: 8,
+              rowsCount: 5,
               searchValue: state.searchValue,
               timer: state.menu.value === "live" ? true : false,
               timer_load: state.timer_load,
