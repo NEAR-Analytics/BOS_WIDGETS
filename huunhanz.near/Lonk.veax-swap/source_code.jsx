@@ -243,16 +243,38 @@ const callTx = () => {
   }
 
   if (register === null) {
-    tx.push({
-      contractName: "veax.near",
-      methodName: "storage_deposit",
-      deposit: expandToken(0.1, 24).toFixed(),
-      gas: expandToken(50, 12),
-      args: {
-        registration_only: true,
-        account_id: accountId,
+    tx.push(
+      {
+        contractName:
+          state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
+        methodName: "storage_deposit",
+        deposit: expandToken(0.0364, 24).toFixed(),
+        gas: expandToken(50, 12),
+        args: {
+          registration_only: true,
+          account_id: accountId,
+        },
       },
-    });
+      {
+        contractName: "veax.near",
+        methodName: "storage_deposit",
+        deposit: expandToken(0.00934, 24).toFixed(),
+        gas: expandToken(100, 12),
+        args: {
+          registration_only: false,
+          account_id: accountId,
+        },
+      },
+      {
+        contractName: "veax.near",
+        methodName: "register_tokens",
+        deposit: new Big("1").toFixed(),
+        gas: expandToken(100, 12),
+        args: {
+          token_ids: ["wrap.near", state.tokenOut.id],
+        },
+      }
+    );
   }
 
   if (state.tokenIn.id === "NEAR") {
@@ -260,101 +282,49 @@ const callTx = () => {
   }
 
   const minAmountOut = expandToken(
-    new Big(state.amountOut)
-      .mul(1 - Number(state.slippagetolerance) / 100)
-      .toFixed(state.tokenOut.decimals, 0),
+    Number(
+      new Big(state.amountOut)
+        .mul(1 - Number(state.slippagetolerance) / 100)
+        .toFixed(state.tokenOut.decimals, 0)
+    ) - 18000,
     state.tokenOut.decimals
   ).toFixed();
 
-  tx.push(
-    {
-      methodName: "ft_transfer_call",
-      contractName:
-        state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-      gas: expandToken(180, 12),
-      deposit: new Big("1").toFixed(),
-      args: {
-        receiver_id: "veax.near",
-        amount: expandToken(state.amountIn, state.tokenIn.decimals).toFixed(
-          0,
-          0
-        ),
-        msg: JSON.stringify([
-          "Deposit",
-          {
-            SwapExactIn: {
-              token_in:
-                state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-              token_out:
-                state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
-              amount: expandToken(
-                state.amountIn,
-                state.tokenIn.decimals
-              ).toFixed(0, 0),
-              amount_limit: minAmountOut,
-            },
-          },
-          {
-            Withdraw: [
+  tx.push({
+    methodName: "ft_transfer_call",
+    contractName: state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
+    gas: expandToken(180, 12),
+    deposit: new Big("1").toFixed(),
+    args: {
+      receiver_id: "veax.near",
+      amount: expandToken(state.amountIn, state.tokenIn.decimals).toFixed(0, 0),
+      msg: JSON.stringify([
+        "Deposit",
+        {
+          SwapExactIn: {
+            token_in:
               state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-              "0",
-              null,
-            ],
+            token_out: state.tokenOut.id,
+            amount: expandToken(state.amountIn, state.tokenIn.decimals).toFixed(
+              0,
+              0
+            ),
+            amount_limit: minAmountOut,
           },
-          {
-            Withdraw: [
-              state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
-              "0",
-              null,
-            ],
-          },
-        ]),
-      },
+        },
+        {
+          Withdraw: [
+            state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
+            "0",
+            null,
+          ],
+        },
+        {
+          Withdraw: [state.tokenOut.id, "0", null],
+        },
+      ]),
     },
-    {
-      methodName: "ft_on_transfer",
-      contractName: "veax.near",
-      gas: expandToken(180, 12),
-      deposit: new Big("1").toFixed(),
-      args: {
-        sender_id: "veax.near",
-        amount: expandToken(state.amountIn, state.tokenIn.decimals).toFixed(
-          0,
-          0
-        ),
-        msg: JSON.stringify([
-          "Deposit",
-          {
-            SwapExactIn: {
-              token_in:
-                state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-              token_out:
-                state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
-              amount: expandToken(
-                state.amountIn,
-                state.tokenIn.decimals
-              ).toFixed(0, 0),
-              amount_limit: minAmountOut,
-            },
-          },
-          {
-            Withdraw: [
-              state.tokenIn.id === "NEAR" ? "wrap.near" : state.tokenIn.id,
-              "0",
-              null,
-            ],
-          },
-          {
-            Withdraw: [
-              state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
-              "0",
-              null,
-            ],
-          },
-        ]),
-      },
-    }
-  );
+  });
 
   if (state.tokenOut.id === "NEAR") {
     tx.push({
