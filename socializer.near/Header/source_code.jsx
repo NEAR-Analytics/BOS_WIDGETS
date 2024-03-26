@@ -47,7 +47,7 @@ const Logo = styled.div`
     & > .title {
         // left: 0;
         // top: 28px;
-        width: 170px;
+        width: 215px;
         position: relative;
     }
 
