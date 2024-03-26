@@ -1,4 +1,3 @@
-
 const font = fetch(
   "https://fonts.googleapis.com/css2?family=Kodchasan:wght@700&display=swap"
 ).body;
@@ -165,7 +164,7 @@ const onStakeClick = () => {
   // TODO: doesn't support floats right now due to limitation of JS integers
   const exactDeposit = parseInt(state.amount) + "000000000000000000000000";
   const deposit = (exactDeposit / 10e23).toFixed(decimals);
-  console.log(gas: 300 TGas, deposit: ${ deposit } Near);
+  console.log(`gas: 300 TGas, deposit: ${deposit} Near`);
   Near.call(
     "nearuaguild.poolv1.near",
     "deposit_and_stake",
@@ -203,7 +202,7 @@ const yourStakedBalance = (
   }) / 1e24
 ).toFixed(decimals);
 
-const res = fetch(https://api.nearblocks.io/v1/account/${accountId});
+const res = fetch(`https://api.nearblocks.io/v1/account/${accountId}`);
 const yourAccountBalance = (res.body.account[0].amount / 1e24).toFixed(
   decimals
 );
