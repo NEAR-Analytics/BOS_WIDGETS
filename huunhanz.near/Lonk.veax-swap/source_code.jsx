@@ -107,7 +107,7 @@ State.init({
   loadRes: (value) =>
     State.update({
       estimate: value,
-      amountOut: value === null ? "" : value.estimate,
+      amountOut: value === null ? "" : Number(value.estimate) - 18000,
     }),
 });
 
