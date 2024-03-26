@@ -283,20 +283,6 @@ const contentWidget = (
         currentPath: props.currentPath,
       }}
     />
-    <RepostWidgetMobile>
-      <Widget
-        loading=""
-        src="mob.near/widget/N.RepostButton"
-        props={{
-          disable: permissions.disableRepost,
-          notifyAccountId,
-          item,
-          // indexKey,
-          // groupId,
-        }}
-      />
-      <span>Repost Feed</span>
-    </RepostWidgetMobile>
   </>
 );
 
@@ -371,50 +357,6 @@ return (
             )}
           </div>
         </div>
-        {state.showReply && (
-          <div className="my-3">
-            <Widget
-              loading=""
-              src="buildhub.near/widget/Comment.Compose"
-              props={{
-                notifyAccountId,
-                item,
-                initialText: `@${accountId}, `,
-                onComment: () => State.update({ showReply: false }),
-              }}
-            />
-          </div>
-        )}
-        {props.customComments
-          ? props.customComments
-          : !props.hideComments && (
-              <div
-                className="ms-5 my-3 ps-4"
-                style={{
-                  border:
-                    "2px solid var(--stroke-color, rgba(255, 255, 255, 0.2))",
-                  borderTop: 0,
-                  borderRight: 0,
-                  borderBottom: 0,
-                }}
-              >
-                <Widget
-                  key="comments"
-                  loading={""}
-                  src="buildhub.near/widget/Comment.Feed"
-                  props={{
-                    item,
-                    highlightComment: props.highlightComment,
-                    limit: props.commentsLimit,
-                    subscribe,
-                    raw,
-                    accounts: props.commentAccounts,
-                    groupId,
-                    permissions,
-                  }}
-                />
-              </div>
-            )}
       </Wrapper>
     </StyledPost>
   </>
