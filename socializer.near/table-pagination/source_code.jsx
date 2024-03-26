@@ -234,7 +234,7 @@ return (
                                   ? value === "won"
                                     ? "#4886fe"
                                     : value === "lost"
-                                    ? "#be7c05"
+                                    ? "#be3105"
                                     : "gray"
                                   : "#4886fe",
                                 cursor: "pointer",
@@ -260,7 +260,11 @@ return (
                               )}
                             </div>
                           ) : td.button ? (
-                            <Button onClick={() => td.click(row)}>
+                            <Button
+                              className="btn"
+                              disabled={row["participants"] === "0"}
+                              onClick={() => td.click(row)}
+                            >
                               {value}
                             </Button>
                           ) : (
