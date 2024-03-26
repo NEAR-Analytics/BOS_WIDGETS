@@ -123,6 +123,13 @@ State.init({
         project: true,
       },
       {
+        title: "Participants",
+        key: "participants",
+        description: "Participants",
+        width: 32,
+        align: "center",
+      },
+      {
         title: "Reward",
         key: "reward",
         description: "Reward",
