@@ -21,7 +21,7 @@ const Text = styled.p`
 
 const ButtonText = styled.p`
   font-family: 'Kodchasan', sans-serif;
-    margin: 0;
+  margin: 0;
 `;
 
 const HeaderText = styled.h1`
@@ -30,8 +30,8 @@ const HeaderText = styled.h1`
 
 const OuterWrapper = styled.div`
   position: absolute;
-      max-height: 70%;
-    height: 100%;
+  max-height: 70%;
+  height: 100%;
   top: 10%;
   left: 50%;
   width: 100%;
@@ -71,20 +71,20 @@ const StakeButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-      margin: 20px 0;
-      & button {
-        padding: 0 20px;
+  margin: 20px 0;
+  & button {
+    padding: 0 20px;
 
-        &:hover {
-          opacity: 0.8;
-        }
-      }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 `;
 
 const Social = styled.div`
   display: flex;
   justify-content: center;
-    align-items: center;
+  align-items: center;
 `;
 
 const StakeButton = styled.button`
@@ -104,7 +104,7 @@ const SocialText = styled.p`
   line-height: 16px;
   letter-spacing: 0em;
   text-align: center;
-  color: #ffffff;
+  color: white;
   text-transform: uppercase;
   margin: 0;
 `;
@@ -129,7 +129,7 @@ const AmountButton = styled.div`
   font-weight: 700;
   letter-spacing: 0em;
   text-align: center;
-  color: #ffffff;
+  color: white;
   text-transform: uppercase;
 
   background: none;
@@ -278,7 +278,6 @@ return (
       </div>
       <Social>
         <SocialText>Follow us</SocialText>
-
         <Widget src="nearukraineguild.near/widget/MysteryBox.Manage.Components.Socials" />
       </Social>
     </OuterWrapper>
