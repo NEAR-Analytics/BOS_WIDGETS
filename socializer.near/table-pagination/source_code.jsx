@@ -401,7 +401,10 @@ return (
                       background:
                         state.currentPage === 3 ||
                         state.currentPage ===
-                          handlePagination().buttons.length - 2
+                          handlePagination().buttons.length - 2 ||
+                        (state.currentPage > 3 &&
+                          state.currentPage <
+                            handlePagination().buttons.length - 2)
                           ? "#121212"
                           : "#fff",
                       borderColor:
