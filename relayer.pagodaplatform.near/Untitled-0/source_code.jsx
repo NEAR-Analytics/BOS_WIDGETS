@@ -70,7 +70,7 @@ const ContainerNav = styled.div`
 
   @media (max-width: 768px) {
     top: 10%;
-    left: 5%;
+    left: 0;
     width: 100%;
     flex-direction: row; /* Рядок для елементів на мобільних пристроях */
     
