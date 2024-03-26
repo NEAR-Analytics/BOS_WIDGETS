@@ -1,7 +1,7 @@
 const { Feed } = VM.require("devs.near/widget/Feed") || {
   Feed: () => <></>,
 };
-const { Post, Button } = VM.require("buildhub.near/widget/components") || {
+const { Post, Button } = VM.require("abdullahi3000.near/widget/components") || {
   Post: () => <></>,
   Button: () => <></>,
 };
