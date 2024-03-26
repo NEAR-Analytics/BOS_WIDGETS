@@ -241,7 +241,7 @@ function Router({ active, routes }) {
       <Widget
         src={src}
         props={{
-          currentPath: `/buildhub.near/widget/app?page=${page}`,
+          currentPath: `/abdullahi3000.near/widget/app?page=${page}`,
           page: tab,
           ...passProps,
           ...defaultProps,
