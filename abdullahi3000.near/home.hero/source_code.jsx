@@ -247,7 +247,7 @@ const Hero = (props) => {
             <>
               <Button
                 href={href({
-                  widgetSrc: "buildhub.near/widget/app",
+                  widgetSrc: "abdullahi3000.near/widget/app",
                   params: {
                     page: "feed",
                   },
