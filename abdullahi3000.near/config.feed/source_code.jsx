@@ -61,23 +61,5 @@ return {
 `,
       },
     },
-    musicPlayer: {
-      path: "abdullahi3000.near/widget/Feed",
-      blockHeight: "final",
-      init: {
-        name: "Music Player",
-        icon: "bi-music-note-list",
-        requiredHashtags: ["build", "idea"],
-        template: `## IDEA TITLE
-(posted via [${daoName} Gateway](${feedLink}?tab=idea))
-
-**What idea are you proposing?**
-- [Describe the idea]
-
-**Context or additional information:**
-- [Provide any context or details]
-`,
-      },
-    },
   },
 };
