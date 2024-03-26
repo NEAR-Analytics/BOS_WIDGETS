@@ -1,4 +1,4 @@
-Artem, [26.03.2024 01:45]
+
 const font = fetch(
   "https://fonts.googleapis.com/css2?family=Kodchasan:wght@700&display=swap"
 ).body;
