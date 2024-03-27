@@ -1,5 +1,4 @@
 const { label, options, onChange, placeholder, selected } = props;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,7 +8,6 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
 `;
-
 const Label = styled.label`
   font-style: normal;
   // font-weight: 600;
@@ -17,7 +15,6 @@ const Label = styled.label`
   line-height: 1.25em;
   color: #344054;
 `;
-
 return (
   <Container>
     {label && <Label>{label}</Label>}
