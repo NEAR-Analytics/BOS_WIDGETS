@@ -16,7 +16,6 @@ const Attribution = styled.div`
     margin-top: 86px;
   }
 `;
-
 return (
   <Attribution>
     <div>
