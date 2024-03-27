@@ -1,11 +1,8 @@
 const { potDetail } = props;
-
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-
 const [mobileMenuActive, setMobileMenuActive] = useState(false);
-
 const {
   application_start_ms,
   application_end_ms,
@@ -13,9 +10,7 @@ const {
   public_round_end_ms,
   cooldown_end_ms,
 } = potDetail;
-
 const now = Date.now();
-
 const stats = [
   {
     label: "Applications round",
@@ -25,7 +20,8 @@ const stats = [
     progress:
       now > application_end_ms
         ? 1
-        : (now - application_start_ms) / (application_end_ms - application_start_ms),
+        : (now - application_start_ms) /
+          (application_end_ms - application_start_ms),
   },
   {
     label: "Matching round",
@@ -35,7 +31,8 @@ const stats = [
     progress:
       now > public_round_end_ms
         ? 1
-        : (now - public_round_start_ms) / (public_round_end_ms - public_round_start_ms),
+        : (now - public_round_start_ms) /
+          (public_round_end_ms - public_round_start_ms),
   },
   {
     label: "Challenge period",
@@ -55,7 +52,6 @@ const stats = [
     progress: now > cooldown_end_ms && !!cooldown_end_ms ? 1 : 0,
   },
 ];
-
 const ProgressBar = ({ progress, completed, started }) => (
   <ProgressBarWrapper>
     <svg viewBox="0 0 160 160" className="circle">
@@ -78,7 +74,12 @@ const ProgressBar = ({ progress, completed, started }) => (
         strokeDashoffset={439.6 * progress + "px"}
       ></circle>
     </svg>
-    <svg className="check" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      className="check"
+      viewBox="0 0 12 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M3.72667 7.05333L0.946667 4.27333L0 5.21333L3.72667 8.94L11.7267 0.94L10.7867 0L3.72667 7.05333Z"
         style={{
@@ -88,7 +89,6 @@ const ProgressBar = ({ progress, completed, started }) => (
     </svg>
   </ProgressBarWrapper>
 );
-
 const getIndexOfActive = () => {
   let index;
   stats.forEach((state, idx) => {
@@ -99,10 +99,8 @@ const getIndexOfActive = () => {
   if (index === null) return 3;
   return index;
 };
-
 const containerHeight = 181;
 const showActiveState = getIndexOfActive() * (containerHeight / 4);
-
 const Wrapper = styled.div`
   border-top: 1px solid rgb(199 199 199 / 50%);
   border-bottom: 1px solid rgb(199 199 199 / 50%);
@@ -125,7 +123,6 @@ const Wrapper = styled.div`
     }
   }
 `;
-
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -149,7 +146,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const State = styled.div`
   display: flex;
   align-items: center;
@@ -163,7 +159,6 @@ const State = styled.div`
     color: #dd3345;
   }
 `;
-
 const Loader = styled.div`
   position: relative;
   background: #dbdbdb;
@@ -182,7 +177,6 @@ const Loader = styled.div`
     top: 50%;
   }
 `;
-
 const ProgressBarWrapper = styled.div`
   position: relative;
   display: flex;
@@ -204,7 +198,6 @@ const ProgressBarWrapper = styled.div`
     padding: 2px 0;
   }
 `;
-
 return (
   <Wrapper onClick={() => setMobileMenuActive(!mobileMenuActive)}>
     <Container
@@ -229,7 +222,11 @@ return (
         {stats.map(({ label, daysLeft, progress, started, completed }, idx) => {
           return (
             <State active={completed || started} key={timeLeft}>
-              <ProgressBar progress={progress} started={started} completed={completed} />
+              <ProgressBar
+                progress={progress}
+                started={started}
+                completed={completed}
+              />
               <div>
                 {label}
                 {started && !completed && (
@@ -245,7 +242,6 @@ return (
                 )}
                 {idx === 0 && !started && " hasn’t started"}
               </div>
-
               <Loader
                 style={{
                   background: completed ? "#629D13" : "#dbdbdb",
