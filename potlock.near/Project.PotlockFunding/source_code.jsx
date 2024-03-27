@@ -10,18 +10,19 @@ const {
   uniqueDonors,
   totalMatched,
 } = props;
-
-const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
+const { ownerId, SUPPORTED_FTS } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
-
-const { _address, getTimePassed } = VM.require(`potlock.near/widget/Components.DonorsUtils`) || {
+const { _address, getTimePassed } = VM.require(
+  `potlock.near/widget/Components.DonorsUtils`
+) || {
   _address: () => "",
   getTimePassed: () => "",
 };
 const { nearToUsd } = VM.require("potlock.near/widget/utils");
-
 const [filter, setFilter] = useState({
   date: false, // false === ascending
   price: false, // false === ascending
@@ -32,14 +33,11 @@ const [currentPage, setCurrentPage] = useState(1);
 const [totalDonations, setTotalDonations] = useState(donations);
 const [filteredDonations, setFilteredDonations] = useState(donations);
 const [search, setSearch] = useState("");
-
 const perPage = 30; // need to be less than 50
-
 useEffect(() => {
   setTotalDonations(donations);
   setFilteredDonations(donations);
 }, [donations]);
-
 const sortList = {
   all: {
     label: "All donations",
@@ -72,7 +70,6 @@ const sortList = {
         },
       }),
 };
-
 const searchDonations = (searchTerm) => {
   const filteredApplications = totalDonations.filter((item) => {
     const searchIn = [
@@ -82,13 +79,13 @@ const searchDonations = (searchTerm) => {
       item.donor_id || "",
       item.pot_id || "",
     ];
-    return searchIn.some((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
+    return searchIn.some((item) =>
+      item.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
   return filteredApplications;
 };
-
 const getDate = (donation) => donation.donated_at_ms || donation.donated_at;
-
 const sortDonation = (type) => {
   setCurrentFilter(type);
   const sort = !filter[type];
@@ -105,7 +102,6 @@ const sortDonation = (type) => {
     setFilteredDonations(sortedDonations);
   }
 };
-
 const filterDonations = (sortVal) => {
   const displayedDonations = searchDonations(search);
   let filtered;
@@ -118,7 +114,6 @@ const filterDonations = (sortVal) => {
     return displayedDonations;
   }
 };
-
 const getName = (donation) => {
   switch (donation.type) {
     case "direct":
@@ -133,7 +128,6 @@ const getName = (donation) => {
       return projectId ? donation.donor_id : donation.recipient_id;
   }
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -223,7 +217,6 @@ const PotlockFunding = styled.div`
     }
   }
 `;
-
 const FundingSrc = styled.div`
   display: flex;
   align-items: center;
@@ -265,7 +258,6 @@ const FundingSrc = styled.div`
     }
   }
 `;
-
 const SearchBar = styled.div`
   display: flex;
   align-items: center;
@@ -291,7 +283,6 @@ const SearchBar = styled.div`
     }
   }
 `;
-
 const Stats = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -326,7 +317,6 @@ const Stats = styled.div`
     }
   }
 `;
-
 const Sort = styled.div`
   display: none;
   justify-content: space-between;
@@ -345,7 +335,6 @@ const Sort = styled.div`
     display: flex;
   }
 `;
-
 const DropdownLabel = styled.div`
   display: flex;
   gap: 10px;
@@ -363,19 +352,19 @@ const DropdownLabel = styled.div`
     background: #ebebeb;
   }
 `;
-
 const ImgIcon = styled.img`
   width: 21px;
   height: 21px;
 `;
-
 const stats = {
   ...(totalDonationAmountNear
     ? {
         Donated: (
           <>
             {totalDonationAmountNear}N
-            {nearToUsd && <span>~${(totalDonationAmountNear * nearToUsd).toFixed(2)}</span>}
+            {nearToUsd && (
+              <span>~${(totalDonationAmountNear * nearToUsd).toFixed(2)}</span>
+            )}
           </>
         ),
       }
@@ -383,9 +372,14 @@ const stats = {
   ...(uniqueDonors ? { "Unique Donors": uniqueDonors } : {}),
   ...(uniqueDonors ? { "Total Matched": totalMatched + "N" } : {}),
 };
-
 const NearIcon = (props) => (
-  <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" id="near-logo">
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    id="near-logo"
+  >
     <rect width="24" height="24" rx="12" fill="#CECECE" />
     <path
       d="M15.616 6.61333L13.1121 10.3333C12.939 10.5867 13.2719 10.8933 13.5117 10.68L15.9756 8.53333C16.0422 8.48 16.1354 8.52 16.1354 8.61333V15.32C16.1354 15.4133 16.0155 15.4533 15.9623 15.3867L8.50388 6.45333C8.26415 6.16 7.91787 6 7.53163 6H7.26526C6.5727 6 6 6.57333 6 7.28V16.72C6 17.4267 6.5727 18 7.27858 18C7.71809 18 8.13097 17.7733 8.3707 17.3867L10.8746 13.6667C11.0477 13.4133 10.7148 13.1067 10.475 13.32L8.0111 15.4533C7.94451 15.5067 7.85128 15.4667 7.85128 15.3733V8.68C7.85128 8.58667 7.97114 8.54667 8.02442 8.61333L15.4828 17.5467C15.7225 17.84 16.0821 18 16.4551 18H16.7214C17.4273 18 18 17.4267 18 16.72V7.28C18 6.57333 17.4273 6 16.7214 6C16.2686 6 15.8557 6.22667 15.616 6.61333Z"
@@ -393,13 +387,20 @@ const NearIcon = (props) => (
     />
   </svg>
 );
-
 const ProfileImg = ({ address }) => (
-  <Widget src="mob.near/widget/ProfileImage" props={{ accountId: address, style: {} }} />
+  <Widget
+    src="mob.near/widget/ProfileImage"
+    props={{ accountId: address, style: {} }}
+  />
 );
-
 const PotIcon = () => (
-  <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -408,7 +409,6 @@ const PotIcon = () => (
     />
   </svg>
 );
-
 const Arrow = (props) => (
   <svg
     {...props}
@@ -425,9 +425,7 @@ const Arrow = (props) => (
     />
   </svg>
 );
-
 const [ftMetadata, setFtMetadata] = useState({});
-
 useEffect(() => {
   // Fetches FT metadata (required for icons & decimals)
   const metadata = {};
@@ -450,7 +448,6 @@ useEffect(() => {
       });
   });
 }, [totalDonationa]);
-
 return (
   <Container>
     {projectId && <Title>Potlock Funding</Title>}
@@ -488,12 +485,15 @@ return (
         Sort Date {currentFilter === "date" && <Arrow active={!filter.date} />}
       </div>
       <div onClick={() => sortDonation("price")}>
-        Sort Amount {currentFilter === "price" && <Arrow active={filter.price} />}
+        Sort Amount{" "}
+        {currentFilter === "price" && <Arrow active={filter.price} />}
       </div>
     </Sort>
     <PotlockFunding>
       <div className="header">
-        <div className="funding tab">{projectId ? "Funding Source" : "Project Name"}</div>
+        <div className="funding tab">
+          {projectId ? "Funding Source" : "Project Name"}
+        </div>
         <div className="tab sort" onClick={() => sortDonation("price")}>
           Amount {currentFilter === "price" && <Arrow active={filter.price} />}
         </div>
@@ -537,12 +537,14 @@ return (
             donated_at,
             donated_at_ms,
           } = donation;
-
           const ftId = ft_id || base_currency;
-
           const donationAmount = parseFloat(
             Big(total_amount || amount)
-              .div(Big(10).pow(ftId === "near" ? 24 : ftMetadata[ftId]?.decimals || 24))
+              .div(
+                Big(10).pow(
+                  ftId === "near" ? 24 : ftMetadata[ftId]?.decimals || 24
+                )
+              )
               .toFixed(2)
           );
           const addTrailingZeros = (number) => {
@@ -550,46 +552,57 @@ return (
             return number;
           };
           const isPot = type === "payout" || type === "sponsorship";
-
           const url = isPot
             ? `?tab=pot&potId=${pot_id}`
             : projectId
             ? `?tab=profile&accountId=${donor_id}`
             : `?tab=project&projectId=${project_id || recipient_id}`;
-
           const name = _address(getName(donation), 15);
-
           return (
             <div className="funding-row">
               <FundingSrc>
                 {isPot ? (
                   <PotIcon className="profile-image" />
                 ) : (
-                  <ProfileImg address={projectId ? donor_id : recipient_id || project_id} />
+                  <ProfileImg
+                    address={projectId ? donor_id : recipient_id || project_id}
+                  />
                 )}
                 <div className="funding-src">
                   <a href={hrefWithParams(url)} target="_blank">
                     {isPot && (
-                      <span className="pot-name"> {projectId ? "Matching Pool" : "Sponsor"} :</span>
+                      <span className="pot-name">
+                        {" "}
+                        {projectId ? "Matching Pool" : "Sponsor"} :
+                      </span>
                     )}{" "}
                     {name}
                   </a>
-                  <div className="type">{sortList[type].label?.slice(0, -1)}</div>
+                  <div className="type">
+                    {sortList[type].label?.slice(0, -1)}
+                  </div>
                 </div>
               </FundingSrc>
               <div className="price tab">
                 <div className="near-icon">
-                  {ftId === "near" ? <NearIcon /> : <ImgIcon src={ftMetadata[ftId]?.icon} />}
+                  {ftId === "near" ? (
+                    <NearIcon />
+                  ) : (
+                    <ImgIcon src={ftMetadata[ftId]?.icon} />
+                  )}
                 </div>
                 {addTrailingZeros(donationAmount)}
               </div>
               <div className="tab date">
-                {getTimePassed(donated_at_ms || donated_at || paid_at, true)} ago
+                {getTimePassed(donated_at_ms || donated_at || paid_at, true)}{" "}
+                ago
               </div>
             </div>
           );
         })}
-      {filteredDonations.length === 0 && <div className="funding-row">No Donations</div>}
+      {filteredDonations.length === 0 && (
+        <div className="funding-row">No Donations</div>
+      )}
     </PotlockFunding>
     <Widget
       src={`${ownerId}/widget/Components.Pagination`}
