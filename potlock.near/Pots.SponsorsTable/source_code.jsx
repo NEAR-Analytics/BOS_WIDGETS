@@ -1,25 +1,18 @@
 const { sponsors, filter, tab, hrefWithParams } = props;
 const isInPot = tab === "pot";
-
 const { ownerId } = VM.require("potlock.near/widget/constants");
 const { nearToUsd } = VM.require("potlock.near/widget/utils") || {
   nearToUsd: 1,
 };
-
 const [currentPage, setCurrentPage] = useState(1);
 const perPage = 30; // need to be less than 50
-
 useEffect(() => {
   setCurrentPage(1);
 }, [filter]);
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreicdcpxua47eddhzjplmrs23mdjt63czowfsa2jnw4krkt532pa2ha";
-
-const { getTimePassed, _address, calcNetDonationAmount, reverseArr } = VM.require(
-  `${ownerId}/widget/Components.DonorsUtils`
-);
-
+const { getTimePassed, _address, calcNetDonationAmount, reverseArr } =
+  VM.require(`${ownerId}/widget/Components.DonorsUtils`);
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -80,7 +73,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const TrRow = styled.div`
   display: flex;
   align-items: center;
@@ -93,11 +85,9 @@ const TrRow = styled.div`
     display: flex;
     align-items: center;
   }
-
   .address {
     color: #292929;
     font-weight: 600;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -120,7 +110,6 @@ const TrRow = styled.div`
     padding: 1rem 0.5rem;
   }
 `;
-
 const Percentage = styled.div`
   background: #ebebeb;
   box-shadow: 0px -1px 0px 0px #dbdbdb inset, 0px 0px 0px 0.5px #dbdbdb;
@@ -129,21 +118,20 @@ const Percentage = styled.div`
   min-width: 60px;
   text-align: right;
 `;
-
 const NoResult = styled.div`
   font-size: 1.125rem;
   text-align: center;
 `;
-
 const totalDonations = 0;
 sponsors.forEach((donation) => {
   totalDonations += donation.amount;
 });
-
 const ProfileImg = ({ donor_id }) => (
-  <Widget src="mob.near/widget/ProfileImage" props={{ accountId: donor_id, style: {} }} />
+  <Widget
+    src="mob.near/widget/ProfileImage"
+    props={{ accountId: donor_id, style: {} }}
+  />
 );
-
 return sponsors.length ? (
   <Container>
     <div className="transcation">
@@ -153,31 +141,35 @@ return sponsors.length ? (
         <div>Amount</div>
         {nearToUsd && !isInPot && <div>Amount (USD)</div>}
       </div>
-      {sponsors.slice((currentPage - 1) * perPage, currentPage * perPage).map((donation, idx) => {
-        const { donor_id, amount, percentage_share } = donation;
-
-        return (
-          <TrRow>
-            <div className="rank">#{idx + 1 + (currentPage - 1) * perPage}</div>
-
-            <a
-              href={hrefWithParams(`?tab=profile&accountId=${donor_id}`)}
-              className="address"
-              target="_blank"
-            >
-              <ProfileImg donor_id={donor_id} />
-
-              <OverlayTrigger placement="top" overlay={<Tooltip>{donor_id}</Tooltip>}>
-                <div> {_address(donor_id, 15)}</div>
-              </OverlayTrigger>
-            </a>
-            <div className="sponsors-amount">
-              {amount.toFixed(2).replace(/[.,]00$/, "")}N{" "}
-              <Percentage>{percentage_share}%</Percentage>{" "}
-            </div>
-          </TrRow>
-        );
-      })}
+      {sponsors
+        .slice((currentPage - 1) * perPage, currentPage * perPage)
+        .map((donation, idx) => {
+          const { donor_id, amount, percentage_share } = donation;
+          return (
+            <TrRow>
+              <div className="rank">
+                #{idx + 1 + (currentPage - 1) * perPage}
+              </div>
+              <a
+                href={hrefWithParams(`?tab=profile&accountId=${donor_id}`)}
+                className="address"
+                target="_blank"
+              >
+                <ProfileImg donor_id={donor_id} />
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<Tooltip>{donor_id}</Tooltip>}
+                >
+                  <div> {_address(donor_id, 15)}</div>
+                </OverlayTrigger>
+              </a>
+              <div className="sponsors-amount">
+                {amount.toFixed(2).replace(/[.,]00$/, "")}N{" "}
+                <Percentage>{percentage_share}%</Percentage>{" "}
+              </div>
+            </TrRow>
+          );
+        })}
     </div>
     <Widget
       src={`${ownerId}/widget/Components.Pagination`}
