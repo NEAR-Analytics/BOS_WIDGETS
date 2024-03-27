@@ -1,5 +1,4 @@
 const { ownerId } = props;
-
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -9,13 +8,11 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
-
 const Title = styled.div`
   color: #2e2e2e;
   font-size: 16px;
   font-weight: 600;
 `;
-
 const TeamMembersContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,7 +21,6 @@ const TeamMembersContainer = styled.div`
   gap: 2rem;
   flex-wrap: wrap;
 `;
-
 const TeamMemberItem = styled.a`
   display: flex;
   flex-direction: column;
@@ -55,15 +51,12 @@ const TeamMemberItem = styled.a`
     }
   }
 `;
-
 const TeamMemberAccountId = styled.div`
   color: #2e2e2e;
   font-size: 16px;
   font-weight: 400;
 `;
-
 const imageWidthPx = 129;
-
 const Col1 = styled.div`
   display: flex;
   width: 30%;
@@ -72,7 +65,6 @@ const Col1 = styled.div`
     width: 100%;
   }
 `;
-
 const Col2 = styled.div`
   display: flex;
   width: 70%;
@@ -80,7 +72,6 @@ const Col2 = styled.div`
     width: 100%;
   }
 `;
-
 const ProfileImg = ({ teamMember }) => (
   <Widget
     src="mob.near/widget/ProfileImage"
@@ -93,7 +84,6 @@ const ProfileImg = ({ teamMember }) => (
     }}
   />
 );
-
 return (
   <Container>
     <Col1>
@@ -108,7 +98,9 @@ return (
             if (teamMember.match(/.near/i).length > 0) {
               return (
                 <TeamMemberItem
-                  href={props.hrefWithParams(`?tab=profile&accountId=${teamMember}`)}
+                  href={props.hrefWithParams(
+                    `?tab=profile&accountId=${teamMember}`
+                  )}
                   target="_blank"
                 >
                   <ProfileImg teamMember={teamMember} />
