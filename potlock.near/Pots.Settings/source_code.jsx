@@ -1,7 +1,6 @@
 // get settings
 const { potDetail, potId, env, hrefWithParams } = props;
 const [editSettings, setEditSettings] = useState(false);
-
 const {
   ownerId,
   SUPPORTED_FTS: { NEAR },
@@ -11,39 +10,32 @@ const {
     NEAR: {},
   },
 };
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   isUserPotAdminOrGreater: () => {},
 };
-
 const { _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`) || {
   _address: (address) => address,
 };
-
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
     getContractId: () => {},
   }));
-
 PotFactorySDK = PotFactorySDK({ env });
-
 const potFactoryContractId = PotFactorySDK.getContractId();
-
-const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(potId, context.accountId);
-
+const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(
+  potId,
+  context.accountId
+);
 const formatTimestampForDateTimeLocal = (timestamp) => {
   const date = new Date(timestamp);
-
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // months are 0-indexed
   const day = date.getDate().toString().padStart(2, "0");
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
-
 const {
   owner,
   chef,
@@ -61,7 +53,6 @@ const {
   chef_fee_basis_points,
   min_matching_pool_donation_amount,
 } = potDetail;
-
 const fields = [
   {
     label: "Name",
@@ -116,24 +107,20 @@ const fields = [
     val: sybil_wrapper_provider ? "🤖 nada.bot human verified" : "none",
   },
 ];
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
-
 const Title = styled.div`
   font-weight: 600;
   font-size: 22px;
 `;
-
 const PrviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 922px;
 `;
-
 const AdminsWrapper = styled.div`
   position: absolute;
   display: flex;
@@ -148,7 +135,8 @@ const AdminsWrapper = styled.div`
     color: #292929;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0px 0px 1px 0px rgba(41, 41, 41, 0.74), 0px 3px 3px 0px rgba(123, 123, 123, 0.12),
+    box-shadow: 0px 0px 1px 0px rgba(41, 41, 41, 0.74),
+      0px 3px 3px 0px rgba(123, 123, 123, 0.12),
       0px 6px 6px 0px rgba(123, 123, 123, 0.12);
     a {
       display: flex;
@@ -180,7 +168,6 @@ const AdminsWrapper = styled.div`
     }
   }
 `;
-
 const Admins = styled.div`
   display: flex;
   font-size: 11px;
@@ -252,7 +239,6 @@ const Admins = styled.div`
     }
   }
 `;
-
 const Detail = styled.div`
   display: flex;
   flex-direction: column;
@@ -286,7 +272,6 @@ const Detail = styled.div`
     }
   }
 `;
-
 const ProfileImage = ({ address }) => (
   <Widget
     src={`${ownerId}/widget/Project.ProfileImage`}
@@ -297,17 +282,28 @@ const ProfileImage = ({ address }) => (
     }}
   />
 );
-
 const AdminsTooltip = () => (
   <AdminsWrapper>
     <div className="tip-icon">
-      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 5.24537e-07L-2.54292e-07 8L12 8L6 5.24537e-07Z" fill="white" />
+      <svg
+        width="12"
+        height="8"
+        viewBox="0 0 12 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 5.24537e-07L-2.54292e-07 8L12 8L6 5.24537e-07Z"
+          fill="white"
+        />
       </svg>
     </div>
     <div className="list">
       {admins.slice(0, admins.length).map((admin) => (
-        <a href={hrefWithParams(`?tab=profile&accountId=${admin}`)} target="_blank">
+        <a
+          href={hrefWithParams(`?tab=profile&accountId=${admin}`)}
+          target="_blank"
+        >
           <ProfileImage address={admin} />
           <div>{admin}</div>
         </a>
@@ -315,7 +311,6 @@ const AdminsTooltip = () => (
     </div>
   </AdminsWrapper>
 );
-
 return editSettings ? (
   <Container>
     <Title>Edit Pot settings</Title>
@@ -346,7 +341,10 @@ return editSettings ? (
                 overlay={<Tooltip id={`tooltip-${idx}`}>{admin}</Tooltip>}
                 key={admin}
               >
-                <a href={hrefWithParams(`?tab=profile&accountId=${admin}`)} target="_blank">
+                <a
+                  href={hrefWithParams(`?tab=profile&accountId=${admin}`)}
+                  target="_blank"
+                >
                   <ProfileImage address={admin} />
                 </a>
               </OverlayTrigger>
