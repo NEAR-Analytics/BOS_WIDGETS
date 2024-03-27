@@ -480,7 +480,7 @@ const verifyCode = () => {
       setProof(user.user.access_hash);
       verifyProof("telegram");
     } else {
-      setDisplayHandle("Virify code invalid !");
+      setDisplayHandle("Verify code invalid !");
       setDisplayError(true);
     }
   });
