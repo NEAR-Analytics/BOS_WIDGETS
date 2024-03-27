@@ -1,7 +1,8 @@
-const { project } = props;
+const { registration } = props;
+console.log("registration: ", registration);
 const Banner = styled.div`
   width: 100%;
-  background: ${project.status === "Pending" ? "#E6B800" : "#dd3345"};
+  background: ${registration.status === "Pending" ? "#E6B800" : "#dd3345"};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,12 +54,12 @@ return (
         ></path>
       </BannerAlertSvg>
       <BannerText>
-        This project status is {project.status} and has not been approved.
+        This project status is {registration.status} and has not been approved.
       </BannerText>
     </Row>
-    {project.review_notes && (
+    {registration.admin_notes && (
       <BannerText style={{ fontStyle: "italic" }}>
-        Admin review notes: {project.review_notes}
+        Admin review notes: {registration.admin_notes}
       </BannerText>
     )}
   </Banner>
