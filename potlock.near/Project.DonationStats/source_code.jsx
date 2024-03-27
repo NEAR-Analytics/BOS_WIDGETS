@@ -43,6 +43,7 @@ const data = DonateSDK.getConfig() || {
   net_donations_amount: 0,
   total_donations_count: 0,
 };
+console.log("data: ", data);
 const lastDonationAmount = data.net_donations_amount
   ? yoctosToUsd(data.net_donations_amount)
   : null;
