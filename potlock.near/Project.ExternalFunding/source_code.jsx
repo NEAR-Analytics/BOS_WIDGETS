@@ -1,7 +1,5 @@
 const { externalFunding } = props;
-
 const [showFundingTable, setShowFundingTable] = useState(true);
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,7 +107,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const Title = styled.div`
   font-size: 24px;
   font-weight: 600;
@@ -117,12 +114,10 @@ const Title = styled.div`
   align-items: center;
   gap: 16px;
 `;
-
 const Arrow = styled.svg`
   width: 12px;
   transition: all 200ms;
 `;
-
 const ArrowDown = (props) => (
   <Arrow
     {...props}
@@ -139,9 +134,7 @@ const ArrowDown = (props) => (
     />
   </Arrow>
 );
-
 const externalTableTabs = ["funding Source", "description", "amount"];
-
 return (
   <Container>
     <Title
@@ -152,7 +145,9 @@ return (
     >
       External Funding <ArrowDown showFundingTable={showFundingTable} />
     </Title>
-    <div className="description">This not related to the funding generated on this platform</div>
+    <div className="description">
+      This not related to the funding generated on this platform
+    </div>
     <div
       className={`
           external-funding ${showFundingTable ? "" : "hidden"}
@@ -165,17 +160,19 @@ return (
           </div>
         ))}
       </div>
-      {externalFunding.map(({ investorName, description, amountReceived, denomination }) => (
-        <div className="funding-row">
-          <div style={{ fontWeight: 600 }}>{investorName}</div>
-          <input type="checkbox" className="toggle-check" />
-          <div className="description">{description}</div>
-          <div className="amount">
-            {parseFloat(amountReceived).toLocaleString() + " " + denomination}{" "}
-            <ArrowDown showFundingTable={showFundingTable} />
+      {externalFunding.map(
+        ({ investorName, description, amountReceived, denomination }) => (
+          <div className="funding-row">
+            <div style={{ fontWeight: 600 }}>{investorName}</div>
+            <input type="checkbox" className="toggle-check" />
+            <div className="description">{description}</div>
+            <div className="amount">
+              {parseFloat(amountReceived).toLocaleString() + " " + denomination}{" "}
+              <ArrowDown showFundingTable={showFundingTable} />
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      )}
     </div>
   </Container>
 );
