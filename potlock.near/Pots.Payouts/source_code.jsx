@@ -1,29 +1,32 @@
 // get donations
 const { potId, potDetail } = props;
 // potDetail.cooldown_end_ms = 1710105146000; // TODO: remove this line
-const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
+const { ownerId, SUPPORTED_FTS } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
-const { calculatePayouts, yoctosToNear } = VM.require("potlock.near/widget/utils") || {
+const { calculatePayouts, yoctosToNear } = VM.require(
+  "potlock.near/widget/utils"
+) || {
   calculatePayouts: () => {},
   yoctosToNear: () => "",
 };
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   isUserPotAdminOrGreater: () => {},
   getPayoutsChallenges: () => {},
   challengePayouts: () => {},
   adminUpdatePayoutsChallenge: () => {},
 };
-
-const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(potId, context.accountId); // TODO: ADD THIS BACK IN
+const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(
+  potId,
+  context.accountId
+); // TODO: ADD THIS BACK IN
 // const userIsAdminOrGreater = true; // TODO: REMOVE THIS LINE
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const ALERT_ICON_URL =
 //   IPFS_BASE_URL + "bafkreicqarojxk6jhdtsk2scfsmnigqpxjfgar6om4wlhn5xmqbbu74u5i";
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,7 +39,6 @@ const Container = styled.div`
     width: 98%;
   }
 `;
-
 const OuterTextContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,7 +47,6 @@ const OuterTextContainer = styled.div`
     padding-right: 10px;
   }
 `;
-
 const OuterText = styled.div`
   color: #7b7b7b;
   font-size: 14px;
@@ -55,14 +56,12 @@ const OuterText = styled.div`
   letter-spacing: 1.12px;
   word-wrap: break-word;
 `;
-
 const Count = styled.div`
   color: #dd3345;
   font-size: 14px;
   font-weight: 600;
   line-height: 24px;
 `;
-
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,7 +72,6 @@ const TableContainer = styled.div`
   overflow-x: auto;
   flex-wrap: nowrap;
 `;
-
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -87,7 +85,6 @@ const Header = styled.div`
     display: none;
   }
 `;
-
 const HeaderItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -107,7 +104,6 @@ const HeaderItem = styled.div`
     }
   }
 `;
-
 const HeaderItemText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -115,7 +111,6 @@ const HeaderItemText = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
-
 const MobileAmount = styled.div`
   width: 100%;
   margin-left: 2rem;
@@ -130,7 +125,6 @@ const MobileAmount = styled.div`
     display: block;
   }
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -165,7 +159,6 @@ const Row = styled.div`
     }
   }
 `;
-
 const RowItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -202,7 +195,6 @@ const RowItem = styled.div`
     }
   }
 `;
-
 const RowText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -217,7 +209,6 @@ const RowText = styled.div`
     }
   }
 `;
-
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
@@ -229,7 +220,6 @@ const SearchBarContainer = styled.div`
     gap: 8px;
   }
 `;
-
 const SearchBar = styled.input`
   background: none;
   width: 100%;
@@ -240,7 +230,6 @@ const SearchBar = styled.input`
     border: none;
   }
 `;
-
 const SearchIcon = styled.div`
   display: flex;
   width: 24px;
@@ -248,7 +237,6 @@ const SearchIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const InfoContainer = styled.div`
   display: flex;
   align-items: center;
@@ -261,7 +249,6 @@ const InfoContainer = styled.div`
   margin-left: auto;
   margin-bottom: 1.5rem;
 `;
-
 const WarningText = styled.div`
   text-align: center;
   color: #dd3345;
@@ -274,7 +261,6 @@ const AlertSvg = styled.svg`
     width: 1rem;
   }
 `;
-
 const DivLink = styled.div`
   color: white;
   font-size: 14px;
@@ -282,7 +268,6 @@ const DivLink = styled.div`
   text-decoration: underline;
   cursor: pointer;
 `;
-
 // const existingChallengeForUser = (payoutsChallenges || []).find(
 //   (challenge) => challenge.challenger_id === context.accountId
 // );
@@ -294,12 +279,13 @@ State.init({
   filteredPayouts: null,
   showChallengePayoutsModal: false,
 });
-
 const { allPayouts, filteredPayouts, showChallengePayoutsModal } = state;
-
 const allDonationsForPot = Near.view(potId, "get_public_round_donations", {});
 if (!allPayouts && allDonationsForPot) {
-  const calculatedPayouts = calculatePayouts(allDonationsForPot, potDetail.matching_pool_balance);
+  const calculatedPayouts = calculatePayouts(
+    allDonationsForPot,
+    potDetail.matching_pool_balance
+  );
   console.log("calculated payouts: ", calculatedPayouts);
   if (potDetail.payouts.length) {
     // handle these payouts, which don't contain all the info needed
@@ -315,7 +301,10 @@ if (!allPayouts && allDonationsForPot) {
         donorCount,
       };
     });
-    State.update({ allPayouts: synthesizedPayouts, filteredPayouts: synthesizedPayouts });
+    State.update({
+      allPayouts: synthesizedPayouts,
+      filteredPayouts: synthesizedPayouts,
+    });
   } else {
     // calculate estimated payouts
     const allPayouts = Object.entries(calculatedPayouts).map(
@@ -335,17 +324,21 @@ if (!allPayouts && allDonationsForPot) {
     State.update({ allPayouts, filteredPayouts: allPayouts });
   }
 }
-
-const columns = ["Project", "Total Raised", "Total Unique Donors", "Matching Pool Allocation"];
-
+const columns = [
+  "Project",
+  "Total Raised",
+  "Total Unique Donors",
+  "Matching Pool Allocation",
+];
 const { base_currency } = potDetail;
-
 const searchPayouts = (searchTerm) => {
   // filter payouts that match the search term (donor_id, project_id)
   const filteredPayouts = allPayouts.filter((payout) => {
     const { projectId } = payout;
     const searchFields = [projectId];
-    return searchFields.some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()));
+    return searchFields.some((field) =>
+      field.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
   filteredPayouts.sort((a, b) => {
     // sort by matching pool allocation, highest to lowest
@@ -353,9 +346,7 @@ const searchPayouts = (searchTerm) => {
   });
   return filteredPayouts;
 };
-
 const MAX_ACCOUNT_ID_DISPLAY_LENGTH = 20;
-
 const ProfileImage = ({ projectId }) => (
   <Widget
     src={`${ownerId}/widget/Project.ProfileImage`}
@@ -369,7 +360,6 @@ const ProfileImage = ({ projectId }) => (
     }}
   />
 );
-
 const Arrow = styled.svg`
   width: 12px;
   rotate: 180deg;
@@ -379,29 +369,34 @@ const Arrow = styled.svg`
     display: block;
   }
 `;
-
 const ArrowDown = (props) => (
-  <Arrow {...props} viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Arrow
+    {...props}
+    viewBox="0 0 12 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M6 0.294983L0 6.29498L1.41 7.70498L6 3.12498L10.59 7.70498L12 6.29498L6 0.294983Z"
       fill="#7B7B7B"
     />
   </Arrow>
 );
-
 return (
   <Container>
     <Widget src={`${ownerId}/widget/Pots.PayoutsChallenges`} props={props} />
-
     {!potDetail.all_paid_out && (
       <InfoContainer>
-        <AlertSvg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <AlertSvg
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M7.25 4.25H8.75V5.75H7.25V4.25ZM7.25 7.25H8.75V11.75H7.25V7.25ZM8 0.5C3.86 0.5 0.5 3.86 0.5 8C0.5 12.14 3.86 15.5 8 15.5C12.14 15.5 15.5 12.14 15.5 8C15.5 3.86 12.14 0.5 8 0.5ZM8 14C4.6925 14 2 11.3075 2 8C2 4.6925 4.6925 2 8 2C11.3075 2 14 4.6925 14 8C14 11.3075 11.3075 14 8 14Z"
             fill="#EE8949"
           />
         </AlertSvg>
-
         <WarningText>
           {potDetail.cooldown_end_ms
             ? "These payouts have been set on the contract but have not been paid out yet."
@@ -426,7 +421,11 @@ return (
       </Header>
       <SearchBarContainer>
         <SearchIcon>
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M15.7549 14.2549H14.9649L14.6849 13.9849C15.6649 12.8449 16.2549 11.3649 16.2549 9.75488C16.2549 6.16488 13.3449 3.25488 9.75488 3.25488C6.16488 3.25488 3.25488 6.16488 3.25488 9.75488C3.25488 13.3449 6.16488 16.2549 9.75488 16.2549C11.3649 16.2549 12.8449 15.6649 13.9849 14.6849L14.2549 14.9649V15.7549L19.2549 20.7449L20.7449 19.2549L15.7549 14.2549ZM9.75488 14.2549C7.26488 14.2549 5.25488 12.2449 5.25488 9.75488C5.25488 7.26488 7.26488 5.25488 9.75488 5.25488C12.2449 5.25488 14.2549 7.26488 14.2549 9.75488C14.2549 12.2449 12.2449 14.2549 9.75488 14.2549Z"
               fill="#C7C7C7"
@@ -448,12 +447,14 @@ return (
       ) : (
         filteredPayouts.map((payout, index) => {
           const { projectId, donorCount, matchingAmount, totalAmount } = payout;
-
           return (
             <Row key={index}>
               <RowItem className="project">
                 <ProfileImage projectId={projectId} />
-                <a href={`?tab=project&projectId=${projectId}`} target={"_blank"}>
+                <a
+                  href={`?tab=project&projectId=${projectId}`}
+                  target={"_blank"}
+                >
                   {projectId.length > MAX_ACCOUNT_ID_DISPLAY_LENGTH
                     ? projectId.slice(0, MAX_ACCOUNT_ID_DISPLAY_LENGTH) + "..."
                     : projectId}
