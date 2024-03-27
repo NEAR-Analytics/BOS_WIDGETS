@@ -1,5 +1,6 @@
 const {
   config,
+  assetsToSupply,
   yourBorrows,
   showRepayModal,
   showBorrowModal,
@@ -136,6 +137,7 @@ return (
           repayETHGas,
           repayERC20Gas,
           formatHealthFactor,
+          assetsToSupply,
         }}
       />
     )}
