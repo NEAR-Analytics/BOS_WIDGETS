@@ -1,16 +1,17 @@
+// update
 
 const profile = {
   avatar:
-    "https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-  title: "Saidul Badhon",
-  subtitle: "Data Engineer",
+  "https://pbs.twimg.com/profile_images/1536919525190516737/SvU144V6_400x400.jpg",
+  title: "Kayleigh Svensson",
+  subtitle: "Head of Operations",
   links: [
-    { title: "github", url: "https://github.com/zahid-dev" },
-    { title: "twitter", url: "https://twitter.com/zahid-dev" },
+    { title: "Telegram", url: "t.me/kaysve" },
+    { title: "Twitter", url: "https://twitter.com/kaysve" },
   ],
   socials: [
-    { title: "github", url: "https://github.com/zahid-dev" },
-    { title: "twitter", url: "https://twitter.com/zahid-dev" },
+    { title: "Telegram", url: "t.me/kaysve" },
+    { title: "Twitter", url: "https://twitter.com/kaysve" },
   ],
 };
 
@@ -34,6 +35,11 @@ const titleToIcon = [
   {
     title: "linkedin",
     icon: <i class="bi bi-linkedin"></i>,
+  },
+
+  {
+    title: "telegram",
+    icon: <i class="bi bi-telegram"></i>,
   },
 ];
 
