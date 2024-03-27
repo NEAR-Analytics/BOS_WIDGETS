@@ -1,19 +1,18 @@
 const { projectId, donations, hrefWithParams } = props;
-const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
+const { ownerId, SUPPORTED_FTS } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
 const { nearToUsd } = VM.require("potlock.near/widget/utils") || {
   nearToUsd: 1,
 };
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreicdcpxua47eddhzjplmrs23mdjt63czowfsa2jnw4krkt532pa2ha";
-
 const { _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`) || {
   _address: () => "",
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,14 +20,14 @@ const Container = styled.div`
     background: white;
   }
 `;
-
 const Table = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
   background: white;
-  box-shadow: 0px 4px 12px -4px rgba(82, 82, 82, 0.2), 0px 2px 4px -2px rgba(82, 82, 82, 0.3);
+  box-shadow: 0px 4px 12px -4px rgba(82, 82, 82, 0.2),
+    0px 2px 4px -2px rgba(82, 82, 82, 0.3);
   border: 1px solid rgba(41, 41, 41, 0.5);
   padding-bottom: 1rem;
   .transaction {
@@ -87,7 +86,6 @@ const Table = styled.div`
     }
   }
 `;
-
 const TrRow = styled.div`
   > div,
   > span {
@@ -191,7 +189,6 @@ const Stats = styled.div`
     font-size: 12px;
   }
 `;
-
 const Filter = styled.div`
   display: flex;
   position: relative;
@@ -200,7 +197,6 @@ const Filter = styled.div`
     cursor: pointer;
   }
 `;
-
 const Search = styled.div`
   display: flex;
   position: relative;
@@ -222,7 +218,6 @@ const Search = styled.div`
     }
   }
 `;
-
 const APPLICATIONS_FILTERS = projectId
   ? {
       ALL: "All donations",
@@ -235,14 +230,12 @@ const APPLICATIONS_FILTERS = projectId
       SPONSORSHIP: "Sponsorship",
       MATCHED_DONATIONS: "Matched donations",
     };
-
 const [currentPage, setCurrentPage] = useState(1);
 const [totalDonations, setTotalDonation] = useState(donations);
 const [filteredDonations, setFilteredDonations] = useState(donations);
 const [search, setSearch] = useState("");
 const [sortVal, setSortVal] = useState(APPLICATIONS_FILTERS.ALL);
 const perPage = 30; // need to be less than 50
-
 const totalAmountNear = useMemo(() => {
   let total = Big(0);
   donations.forEach((donation) => {
@@ -252,20 +245,23 @@ const totalAmountNear = useMemo(() => {
   });
   return total;
 }, [donations]);
-
-const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(totalAmountNear.toString());
-
+const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(
+  totalAmountNear.toString()
+);
 const stats = [
   ...(nearToUsd
-    ? [{ label: "Donated", amount: (totalDonationAmountNear * nearToUsd).toFixed(2) }]
+    ? [
+        {
+          label: "Donated",
+          amount: (totalDonationAmountNear * nearToUsd).toFixed(2),
+        },
+      ]
     : []),
 ];
-
 useEffect(() => {
   setTotalDonation(donations);
   setFilteredDonations(donations);
 }, [donations]);
-
 const searchDonations = (searchTerm) => {
   const filteredApplications = totalDonations.filter((item) => {
     const searchIn = [
@@ -275,11 +271,12 @@ const searchDonations = (searchTerm) => {
       item.donor_id || "",
       item.pot_id || "",
     ];
-    return searchIn.some((item) => item.toLowerCase().includes(searchTerm.toLowerCase()));
+    return searchIn.some((item) =>
+      item.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
   return filteredApplications;
 };
-
 const sortDonations = (sortVal) => {
   const displayedDonations = searchDonations(search);
   let filtered;
@@ -292,7 +289,6 @@ const sortDonations = (sortVal) => {
     return displayedDonations;
   }
 };
-
 const getName = (donation) => {
   switch (APPLICATIONS_FILTERS[donation.type]) {
     case APPLICATIONS_FILTERS.DIRECT:
@@ -310,7 +306,6 @@ const getName = (donation) => {
       return _address(donation.recipient_id);
   }
 };
-
 return (
   <Container>
     <Stats>
@@ -372,27 +367,33 @@ return (
               type,
               project_id,
             } = donation;
-
             const isPot = !!pot_id;
             const donationAmount =
-              SUPPORTED_FTS[(base_currency || ft_id).toUpperCase()].fromIndivisible(total_amount);
-
+              SUPPORTED_FTS[
+                (base_currency || ft_id).toUpperCase()
+              ].fromIndivisible(total_amount);
             const recepientUrl = isPot
               ? `?tab=pot&potId=${pot_id}`
               : `?tab=project&projectId=${recipient_id}`;
             const profileUrl = `?tab=profile&accountId=${donor_id}`;
             const url = projectId ? profileUrl : recepientUrl;
-
             const name = projectId ? _address(donor_id) : getName(donation);
-            const profileImg = projectId ? donor_id : project_id || recipient_id;
-
-            const fees = SUPPORTED_FTS[(base_currency || ft_id).toUpperCase()].fromIndivisible(
+            const profileImg = projectId
+              ? donor_id
+              : project_id || recipient_id;
+            const fees = SUPPORTED_FTS[
+              (base_currency || ft_id).toUpperCase()
+            ].fromIndivisible(
               referrer_fee || 0 + chef_fee || 0 + protocol_fee || 0,
               3
             );
             return (
               <TrRow>
-                <a href={hrefWithParams(url)} className="address" target="_blank">
+                <a
+                  href={hrefWithParams(url)}
+                  className="address"
+                  target="_blank"
+                >
                   {type === "SPONSORSHIP" ? (
                     <img
                       className="profile-image"
