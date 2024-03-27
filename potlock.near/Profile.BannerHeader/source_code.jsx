@@ -1,19 +1,13 @@
 const { ShowFollowers, project, projectId } = props;
-
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-
 const accountId = props.accountId ?? context.accountId;
-
 if (!accountId) {
   return "No account ID";
 }
-
 const editable = props.bgImageOnChange && props.profileImageOnChange;
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
 // Loading Skeleton
 const loadingSkeleton = styled.keyframes`
   0% {
@@ -26,7 +20,6 @@ const loadingSkeleton = styled.keyframes`
     opacity: 1;
   }
 `;
-
 const SkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,7 +29,6 @@ const SkeletonContainer = styled.div`
   animation-duration: 1s;
   animation-iteration-count: infinite;
 `;
-
 const LoadingBackground = styled.div`
   position: relative;
   background: #eee;
@@ -66,7 +58,6 @@ const LoadingProfileImg = styled.div`
     border-radius: 50%;
   }
 `;
-
 const BannerSkeleton = () => (
   <SkeletonContainer>
     <LoadingBackground />
@@ -78,7 +69,6 @@ const BannerSkeleton = () => (
 if (profile === null) {
   return <Widget src={`${ownerId}/widget/Profile.BannerSkeleton`} />;
 }
-
 const name = profile.name || "No-name profile";
 const image = profile.image;
 const backgroundImage = props.backgroundImage || profile.backgroundImage;
@@ -86,15 +76,12 @@ const profileImage = props.profileImage || image;
 const imageStyle = props.imageStyle ?? {};
 const backgroundStyle = props.backgroundStyle ?? {};
 const containerStyle = props.containerStyle ?? {};
-
 const isVerified = projectId
   ? project.status === "Approved"
   : Near.view("v1.nadabot.near", "is_human", {
       account_id: accountId,
     });
-
 const Container = styled.div``;
-
 const ProfileWraper = styled.div`
   display: flex;
   padding-left: 4rem;
@@ -106,7 +93,6 @@ const ProfileWraper = styled.div`
     padding-left: 1rem;
   }
 `;
-
 const ProfileStats = styled.div`
   position: relative;
   z-index: 1;
@@ -147,7 +133,6 @@ const Verified = styled.div`
     }
   }
 `;
-
 const ProfileImageContainer = styled.div`
   width: ${props.imageStyle?.width ?? "128px"};
   height: ${props.imageStyle?.height ?? "128px"};
@@ -174,7 +159,6 @@ const ProfileImageContainer = styled.div`
     z-index: 2; // Ensure the image is on top
     pointer-events: none;
   }
-
   ${editable &&
   `
   &:after {
@@ -190,20 +174,15 @@ const ProfileImageContainer = styled.div`
     background-color: rgba(45.9, 45.9, 45.9, 0); // Start with transparent overlay
     transition: background-color 0.3s; // Smooth transition for the overlay
     pointer-events: none;
-
     @media screen and (max-width: 768px) {
       height: 64px;
     }
-
   }
-
   &:hover {
     cursor: pointer;
-
     &:after {
       background-color: rgba(45.9, 45.9, 45.9, 0.4); // Dark overlay with 40% opacity on hover
     }
-
     svg {
       opacity: 1; // Make the image visible on hover
     }
@@ -214,7 +193,6 @@ const ProfileImageContainer = styled.div`
     height: 72px;
   }
 `;
-
 const BackgroundImageContainer = styled.div`
   position: relative;
   width: 100%;
@@ -237,7 +215,6 @@ const BackgroundImageContainer = styled.div`
     z-index: 2; // Ensure the image is on top
     pointer-events: none;
   }
-
   ${editable &&
   `
   &:after {
@@ -252,21 +229,17 @@ const BackgroundImageContainer = styled.div`
     transition: background-color 0.3s; // Smooth transition for the overlay
     pointer-events: none;
   }
-
   &:hover {
     cursor: pointer;
-
     &:after {
       background-color: rgba(45.9, 45.9, 45.9, 0.4); // Dark overlay with 40% opacity on hover
     }
-
     svg {
       opacity: 1; // Make the image visible on hover
     }
   }
   `}
 `;
-
 const CameraSvg = ({ height }) => (
   <svg
     width={height}
@@ -294,7 +267,6 @@ const CameraSvg = ({ height }) => (
     </g>
   </svg>
 );
-
 return (
   <Container className="pt-0 position-relative" style={{ ...containerStyle }}>
     <BackgroundImageContainer>
@@ -340,7 +312,6 @@ return (
             image: profileImage,
           }}
         />
-
         {editable && (
           <Files
             multiple={false}
