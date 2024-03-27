@@ -1,5 +1,4 @@
 const { ownerId, accountId, projectId, nav } = props;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,19 +21,15 @@ const Nav = styled.div`
   .nav-link.active {
     border-bottom: 3px solid #dd3345;
   }
-
   .nav-item:not(:has(> .disabled)):hover {
     background: #dd334456;
     .nav-link {
       color: #dd3345;
     }
   }
-
   margin: 0 -12px;
 `;
-
 const profileLink = props.hrefWithParams(`?tab=profile&accountId=${accountId}`);
-
 return (
   <Container>
     <Nav>
