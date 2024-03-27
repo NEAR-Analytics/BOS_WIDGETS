@@ -13,7 +13,6 @@ const {
   ONE_TGAS: 0,
   SUPPORTED_FTS: {},
 };
-
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -25,20 +24,17 @@ PotFactorySDK = PotFactorySDK({ env: props.env });
 const potFactoryContractId = PotFactorySDK.getContractId();
 const protocolConfig = PotFactorySDK.getProtocolConfig();
 // console.log("props in config form: ", props);
-
 let RegistrySDK =
   VM.require("potlock.near/widget/SDK.registry") ||
   (() => ({
     getContractId: () => "",
   }));
 RegistrySDK = RegistrySDK({ env: props.env });
-
 const DEFAULT_REGISTRY_PROVIDER = `${RegistrySDK.getContractId()}:is_registered`;
 const DEFAULT_SYBIL_WRAPPER_PROVIDER = `${NADABOT_CONTRACT_ID}:${NADABOT_HUMAN_METHOD}`;
 const CURRENT_SOURCE_CODE_VERSION = "0.1.0";
 const SOURCE_CODE_LINK = "https://github.com/PotLock/core"; // for use in contract source metadata
 const POT_CODE_LINK = "https://github.com/PotLock/core/tree/main/contracts/pot"; // for directing user to view source code for Pot
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const ADD_ADMINS_ICON_URL =
 //   IPFS_BASE_URL + "bafkreig6c7m2z2lupreu2br4pm3xx575mv6uvmuy2qkij4kzzfpt7tipcq";
@@ -46,14 +42,12 @@ const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 //   IPFS_BASE_URL + "bafkreifyg2vvmdjpbhkylnhye5es3vgpsivhigkjvtv2o4pzsae2z4vi5i";
 const DEFAULT_PROFILE_IMAGE_URL =
   IPFS_BASE_URL + "bafkreifel4bfm6hxmklcsqjilk3bhvi3acf2rxqepcgglluhginbttkyqm";
-
 const MAX_POT_NAME_LENGTH = 64;
 const MAX_POT_DESCRIPTION_LENGTH = 256;
 const MAX_MAX_PROJECTS = 100;
 const MAX_REFERRAL_FEE_MATCHING_POOL_BASIS_POINTS = 1000; // 10%
 const MAX_REFERRAL_FEE_PUBLIC_ROUND_BASIS_POINTS = 1000; // 10%
 const MAX_CHEF_FEE_BASIS_POINTS = 1000; // 10%
-
 const getImageUrlFromSocialImage = (image) => {
   if (image.url) {
     return image.url;
@@ -61,20 +55,16 @@ const getImageUrlFromSocialImage = (image) => {
     return IPFS_BASE_URL + image.ipfs_cid;
   }
 };
-
 Big.PE = 100;
-
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 32px 0px;
   width: 100%;
-
   @media screen and (max-width: 880px) {
     padding: 10px 10px;
   }
 `;
-
 const FormDivider = styled.div`
   height: 2px;
   width: 100%;
@@ -83,7 +73,6 @@ const FormDivider = styled.div`
     display: none;
   }
 `;
-
 const FormSectionContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -93,7 +82,6 @@ const FormSectionContainer = styled.div`
     gap: 32px;
   }
 `;
-
 const FormSectionLeftDiv = styled.div`
   //   flex: 1;
   width: 30%;
@@ -105,7 +93,6 @@ const FormSectionLeftDiv = styled.div`
     width: 100%;
   }
 `;
-
 const FormSectionRightDiv = styled.div`
   width: 70%;
   display: flex;
@@ -115,21 +102,18 @@ const FormSectionRightDiv = styled.div`
     width: 100%;
   }
 `;
-
 const FormSectionTitle = styled.div`
   color: #2e2e2e;
   font-size: 16;
   font-weight: 600;
   word-wrap: break-word;
 `;
-
 const FormSectionDescription = styled.div`
   color: #2e2e2e;
   font-size: 16;
   font-weight: 400;
   word-wrap: break-word;
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -141,14 +125,12 @@ const Row = styled.div`
     align-items: flex-start;
   }
 `;
-
 const Checkbox = styled.div`
   display: flex;
   @media screen and (max-width: 768px) {
     flex-direction: row;
   }
 `;
-
 const Label = styled.label`
   font-weight: 500;
   font-size: 14px;
@@ -156,30 +138,23 @@ const Label = styled.label`
   word-wrap: break-word;
   color: #2e2e2e;
 `;
-
 const isUpdate = !!potDetail;
-
 const convertToUTCTimestamp = (localDateTime) => {
   if (!localDateTime) {
     return;
   }
   return new Date(localDateTime).getTime();
 };
-
 const formatTimestampForDateTimeLocal = (timestamp) => {
   const date = new Date(timestamp);
-
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // months are 0-indexed
   const day = date.getDate().toString().padStart(2, "0");
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
-
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
-
 // console.log("potDetail: ", potDetail);
-
 State.init({
   owner: isUpdate ? potDetail.owner : context.accountId,
   ownerError: "",
@@ -211,7 +186,9 @@ State.init({
     ? formatTimestampForDateTimeLocal(potDetail.application_start_ms)
     : "",
   applicationStartDateError: "",
-  applicationEndDate: isUpdate ? formatTimestampForDateTimeLocal(potDetail.application_end_ms) : "",
+  applicationEndDate: isUpdate
+    ? formatTimestampForDateTimeLocal(potDetail.application_end_ms)
+    : "",
   applicationEndDateError: "",
   matchingRoundStartDate: isUpdate
     ? formatTimestampForDateTimeLocal(potDetail.public_round_start_ms)
@@ -236,11 +213,12 @@ State.init({
   useNadabotSybil: isUpdate
     ? potDetail.sybil_wrapper_provider == DEFAULT_SYBIL_WRAPPER_PROVIDER
     : true,
-  usePotlockRegistry: isUpdate ? potDetail.registry_provider == DEFAULT_REGISTRY_PROVIDER : true,
+  usePotlockRegistry: isUpdate
+    ? potDetail.registry_provider == DEFAULT_REGISTRY_PROVIDER
+    : true,
   latestSourceCodeCommitHash: "",
   deploymentSuccess: false,
 });
-
 if (!isUpdate && !state.latestSourceCodeCommitHash) {
   const res = fetch("https://api.github.com/repos/PotLock/core/commits");
   if (res.ok && res.body.length > 0) {
@@ -249,11 +227,12 @@ if (!isUpdate && !state.latestSourceCodeCommitHash) {
     });
   }
 }
-
 const getPotDetailArgsFromState = () => {
   const args = {
     owner: state.owner,
-    admins: state.admins.filter((admin) => !admin.remove).map((admin) => admin.accountId),
+    admins: state.admins
+      .filter((admin) => !admin.remove)
+      .map((admin) => admin.accountId),
     chef: state.chef || null,
     pot_name: state.name,
     pot_description: state.description,
@@ -265,8 +244,12 @@ const getPotDetailArgsFromState = () => {
     min_matching_pool_donation_amount: NEAR.toIndivisible(
       state.minMatchingPoolDonationAmount
     ).toString(),
-    registry_provider: state.usePotlockRegistry ? DEFAULT_REGISTRY_PROVIDER : null,
-    sybil_wrapper_provider: state.useNadabotSybil ? DEFAULT_SYBIL_WRAPPER_PROVIDER : null,
+    registry_provider: state.usePotlockRegistry
+      ? DEFAULT_REGISTRY_PROVIDER
+      : null,
+    sybil_wrapper_provider: state.useNadabotSybil
+      ? DEFAULT_SYBIL_WRAPPER_PROVIDER
+      : null,
     custom_sybil_checks: null, // not necessary to include null values but doing so for clarity
     custom_min_threshold_score: null, // not necessary to include null values but doing so for clarity
     referral_fee_matching_pool_basis_points: parseInt(
@@ -287,9 +270,7 @@ const getPotDetailArgsFromState = () => {
   };
   return args;
 };
-
 // console.log("state; ", state);
-
 const canDeploy = useMemo(() => {
   if (
     !state.owner ||
@@ -319,12 +300,10 @@ const canDeploy = useMemo(() => {
   }
   return true;
 }, [state]);
-
 const handleDeploy = () => {
   // create deploy pot args
   const deployArgs = getPotDetailArgsFromState();
   console.log("deployArgs: ", deployArgs);
-
   Near.asyncView(potFactoryContractId, "calculate_min_deployment_deposit", {
     args: deployArgs,
   }).then((amount) => {
@@ -354,7 +333,8 @@ const handleDeploy = () => {
       PotFactorySDK.asyncGetPots().then((pots) => {
         // console.log("pots: ", pots);
         const pot = pots.find(
-          (pot) => pot.deployed_by === context.accountId && pot.deployed_at_ms > now
+          (pot) =>
+            pot.deployed_by === context.accountId && pot.deployed_at_ms > now
         );
         if (pot) {
           clearInterval(pollId);
@@ -364,7 +344,6 @@ const handleDeploy = () => {
     }, pollIntervalMs);
   });
 };
-
 const handleUpdate = () => {
   // create update pot args
   const updateArgs = getPotDetailArgsFromState();
@@ -386,9 +365,7 @@ const handleUpdate = () => {
   // <---- EXTENSION WALLET HANDLING ---->
   // TODO: IMPLEMENT
 };
-
 // console.log("state: ", state);
-
 const validateAndUpdatePercentages = (percent, stateKey, errorKey, maxVal) => {
   // TODO: move this to separate component for percentage input that accepts "basisPoints" bool parameter
   const updates = {
@@ -422,7 +399,6 @@ const validateAndUpdatePercentages = (percent, stateKey, errorKey, maxVal) => {
   }
   State.update(updates);
 };
-
 const handleAddAdmin = () => {
   let isValid = validateNearAddress(state.admin);
   if (!isValid) {
@@ -431,7 +407,11 @@ const handleAddAdmin = () => {
     });
     return;
   }
-  if (!state.admins.find((admin) => admin.accountId == state.admin && !admin.remove)) {
+  if (
+    !state.admins.find(
+      (admin) => admin.accountId == state.admin && !admin.remove
+    )
+  ) {
     // TODO: if already in state.admins with remove = true, set remove = false
     // get data from social.near
     // const profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
@@ -448,7 +428,6 @@ const handleAddAdmin = () => {
     });
   }
 };
-
 const handleRemoveAdmin = (accountId) => {
   State.update({
     admins: state.admins.map((admin) => {
@@ -459,11 +438,9 @@ const handleRemoveAdmin = (accountId) => {
     }),
   });
 };
-
 const userIsOwner = context.accountId === potDetail.owner;
 const userIsAdmin = isUpdate && potDetail.admins.includes(context.accountId);
 const isAdminOrGreater = userIsOwner || userIsAdmin;
-
 const FormSectionLeft = (title, description) => {
   return (
     <FormSectionLeftDiv>
@@ -472,7 +449,6 @@ const FormSectionLeft = (title, description) => {
     </FormSectionLeftDiv>
   );
 };
-
 return (
   <FormBody>
     <FormSectionContainer>
@@ -488,7 +464,9 @@ return (
             validate: () => {
               // **CALLED ON BLUR**
               const valid = validateNearAddress(state.owner);
-              State.update({ ownerError: valid ? "" : "Invalid NEAR account ID" });
+              State.update({
+                ownerError: valid ? "" : "Invalid NEAR account ID",
+              });
             },
             error: state.ownerError,
             disabled: isUpdate ? !userIsOwner : true,
@@ -528,7 +506,9 @@ return (
               // **CALLED ON BLUR**
               const valid = state.name.length <= MAX_POT_NAME_LENGTH;
               State.update({
-                nameError: valid ? "" : `Name must be ${MAX_POT_NAME_LENGTH} characters or less`,
+                nameError: valid
+                  ? ""
+                  : `Name must be ${MAX_POT_NAME_LENGTH} characters or less`,
               });
             },
             error: state.nameError,
@@ -541,14 +521,17 @@ return (
             label: "Custom handle (optional - will slugify name by default)",
             placeholder: "e.g. my-pot-handle",
             value: state.customHandle,
-            onChange: (customHandle) => State.update({ customHandle, customHandleError: "" }),
+            onChange: (customHandle) =>
+              State.update({ customHandle, customHandleError: "" }),
             validate: () => {
               // **CALLED ON BLUR**
               const suffix = `.${potFactoryContractId}`;
               const fullAddress = `${state.customHandle}${suffix}`;
               let customHandleError = "";
               if (fullAddress.length > 64) {
-                customHandleError = `Handle must be ${64 - suffix.length} characters or less`;
+                customHandleError = `Handle must be ${
+                  64 - suffix.length
+                } characters or less`;
               } else {
                 const valid = validateNearAddress(fullAddress);
                 customHandleError = valid
@@ -572,7 +555,8 @@ return (
             onChange: (description) => State.update({ description }),
             validate: () => {
               // **CALLED ON BLUR**
-              const valid = state.description.length <= MAX_POT_DESCRIPTION_LENGTH;
+              const valid =
+                state.description.length <= MAX_POT_DESCRIPTION_LENGTH;
               State.update({
                 descriptionError: valid
                   ? ""
@@ -653,13 +637,20 @@ return (
               // must be after now & before application end date
               // const now = Date.now();
               const now = new Date().getTime();
-              const applicationStartDate = new Date(state.applicationStartDate).getTime();
-              const applicationEndDate = new Date(state.applicationEndDate).getTime();
+              const applicationStartDate = new Date(
+                state.applicationStartDate
+              ).getTime();
+              const applicationEndDate = new Date(
+                state.applicationEndDate
+              ).getTime();
               const valid =
                 applicationStartDate > now &&
-                (!applicationEndDate || applicationStartDate < applicationEndDate);
+                (!applicationEndDate ||
+                  applicationStartDate < applicationEndDate);
               State.update({
-                applicationStartDateError: valid ? "" : "Invalid application start date",
+                applicationStartDateError: valid
+                  ? ""
+                  : "Invalid application start date",
               });
             },
             error: state.applicationStartDateError,
@@ -683,7 +674,9 @@ return (
                 (!state.applicationStartDate ||
                   state.applicationEndDate > state.applicationStartDate);
               State.update({
-                applicationEndDateError: valid ? "" : "Invalid application end date",
+                applicationEndDateError: valid
+                  ? ""
+                  : "Invalid application end date",
               });
             },
             error: state.applicationEndDateError,
@@ -706,7 +699,9 @@ return (
                 (!state.matchingRoundEndDate ||
                   state.matchingRoundStartDate < state.matchingRoundEndDate);
               State.update({
-                matchingRoundStartDateError: valid ? "" : "Invalid round start date",
+                matchingRoundStartDateError: valid
+                  ? ""
+                  : "Invalid round start date",
               });
             },
             error: state.matchingRoundStartDateError,
@@ -727,7 +722,11 @@ return (
               const valid =
                 !state.matchingRoundStartDate ||
                 state.matchingRoundEndDate > state.matchingRoundStartDate;
-              State.update({ matchingRoundEndDateError: valid ? "" : "Invalid round end date" });
+              State.update({
+                matchingRoundEndDateError: valid
+                  ? ""
+                  : "Invalid round end date",
+              });
             },
             error: state.matchingRoundEndDateError,
             disabled: isUpdate ? !isAdminOrGreater : false,
@@ -768,7 +767,9 @@ return (
               validate: () => {
                 // **CALLED ON BLUR**
                 const valid = validateNearAddress(state.chef);
-                State.update({ chefError: valid ? "" : "Invalid NEAR account ID" });
+                State.update({
+                  chefError: valid ? "" : "Invalid NEAR account ID",
+                });
               },
               error: state.chefError,
               disabled: isUpdate ? !isAdminOrGreater : false,
@@ -813,7 +814,9 @@ return (
             validate: () => {
               // **CALLED ON BLUR**
               const valid = parseInt(state.maxProjects) <= MAX_MAX_PROJECTS;
-              State.update({ maxProjectsError: valid ? "" : `Maximum ${MAX_MAX_PROJECTS}` });
+              State.update({
+                maxProjectsError: valid ? "" : `Maximum ${MAX_MAX_PROJECTS}`,
+              });
             },
             error: state.maxProjectsError,
             disabled: isUpdate ? !isAdminOrGreater : false,
@@ -864,7 +867,9 @@ return (
                 disabled: isUpdate ? !isAdminOrGreater : false,
               }}
             />
-            <Label htmlFor="sybilSelector">🤖 nada.bot human verification (recommended)</Label>
+            <Label htmlFor="sybilSelector">
+              🤖 nada.bot human verification (recommended)
+            </Label>
           </Checkbox>
         </Row>
         <Row style={{ justifyContent: "flex-end", marginTop: "36px" }}>
