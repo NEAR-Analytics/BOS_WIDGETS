@@ -1,6 +1,7 @@
 const {
   config,
   data,
+  assetsToSupply,
   onRequestClose,
   onActionSuccess,
   chainId,
@@ -14,6 +15,9 @@ const {
 if (!data) {
   return <div />;
 }
+const walletBal = assetsToSupply.find(
+  (item) => item.symbol === data.symbol
+).balance;
 
 const ROUND_DOWN = 0;
 function isValid(a) {
@@ -222,9 +226,9 @@ const updateNewHealthFactor = debounce(() => {
 
 const changeValue = (value) => {
   let amountInUSD = "0.00";
-  if (Number(value) > Number(shownMaxValue)) {
-    value = shownMaxValue;
-  }
+  // if (Number(value) > Number(shownMaxValue)) {
+  //   value = shownMaxValue;
+  // }
   if (Number(value) < 0) {
     value = "0";
   }
@@ -571,13 +575,17 @@ return (
                         left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
                         right: (
                           <GrayTexture>
-                            Wallet balance:{" "}
-                            {balance === "" || !isValid(balance)
+                            Wallet balance:
+                            {walletBal === "" || !isValid(walletBal)
                               ? "-"
-                              : Number(balance).toFixed(7)}
+                              : Number(walletBal).toFixed(7)}
+                            {/* {balance === "" || !isValid(balance)
+                              ? "-"
+                              : Number(balance).toFixed(7)} */}
                             <Max
                               onClick={() => {
-                                changeValue(shownMaxValue);
+                                // changeValue(shownMaxValue);
+                                changeValue(walletBal);
                               }}
                             >
                               MAX
