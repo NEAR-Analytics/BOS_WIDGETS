@@ -33,13 +33,14 @@ const Handler = styled.div`
   }
 `;
 
-const { active, disabled, onChange } = props;
+const { active, disabled, onChange, theme } = props;
 
 return (
   <Switcher
     onClick={() => {
       onChange?.();
     }}
+    style={theme ? theme : {}}
     className={`${active && "active"} ${disabled && "disabled"}`}
   >
     <Handler className={active && "active"} />
