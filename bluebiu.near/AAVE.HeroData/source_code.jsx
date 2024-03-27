@@ -1,4 +1,14 @@
-const { netWorth, netApy, healthFactor, config, theme, claimRewards } = props;
+const {
+  netWorth,
+  netApy,
+  healthFactor,
+  config,
+  theme,
+  claimRewards,
+  totalMarketSize,
+  totalAvailable,
+  totalBorrows,
+} = props;
 
 if (!netWorth || !netApy || !healthFactor) {
   return <div />;
@@ -37,6 +47,30 @@ const heroDataMap = {
   "Net Worth": netWorth,
   "Net APY": netApy,
   "Health Factor": healthFactor,
+  "Total market size": (
+    <Widget
+      src={`${config.ownerId}/widget/Utils.FormatNumber`}
+      props={{
+        number: totalMarketSize,
+      }}
+    />
+  ),
+  "Total available": (
+    <Widget
+      src={`${config.ownerId}/widget/Utils.FormatNumber`}
+      props={{
+        number: totalAvailable,
+      }}
+    />
+  ),
+  "Total borrows": (
+    <Widget
+      src={`${config.ownerId}/widget/Utils.FormatNumber`}
+      props={{
+        number: totalBorrows,
+      }}
+    />
+  ),
 };
 
 const heroDataTitle = heroData.map((item) => ({
