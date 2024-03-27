@@ -1,6 +1,5 @@
 const navHeightPx = 110;
 const navHeightPxMobile = 96;
-
 const Nav = styled.div`
   // commenting out stickiness for now
   // position: fixed;
@@ -16,7 +15,6 @@ const Nav = styled.div`
   background: #ffffff;
   z-index: 1000;
   // background: pink;
-
   @media screen and (max-width: 768px) {
     // display: none;
     padding: 24px 8px 24px 16px;
@@ -29,7 +27,6 @@ const Nav = styled.div`
     width: 10rem;
   }
 `;
-
 const NavLeft = styled.div`
   display: flex;
   flex-direction: row;
@@ -37,14 +34,12 @@ const NavLeft = styled.div`
   justify-content: center;
   // background: green;
 `;
-
 const NavRight = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
-
 const NavRightMobile = styled.div`
   display: none;
   @media screen and (max-width: 768px) {
@@ -56,7 +51,6 @@ const NavRightMobile = styled.div`
     padding-right: 16px;
   }
 `;
-
 const NavLogo = styled("Link")`
   display: flex;
   gap: 7px;
@@ -80,7 +74,6 @@ const NavLogo = styled("Link")`
     height: 1em;
   }
 `;
-
 const NavTabs = styled.div`
   display: flex;
   flex-direction: row;
@@ -90,7 +83,6 @@ const NavTabs = styled.div`
     display: none;
   }
 `;
-
 const NavTab = styled("Link")`
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   color: ${(props) => (props.selected ? "#2E2E2E" : "#7B7B7B")};
@@ -100,16 +92,13 @@ const NavTab = styled("Link")`
   word-wrap: break-word;
   text-decoration: none;
   position: relative;
-
   :not(:last-child) {
     margin-right: 32px;
   }
-
   :hover {
     text-decoration: none;
   }
 `;
-
 const Banner = styled.div`
   width: 100%;
   // max-height: 50px;
@@ -122,14 +111,12 @@ const Banner = styled.div`
   padding: 8px 0;
   // border-bottom: 2px rgb(96, 100, 102) solid;
 `;
-
 const BannerText = styled.div`
   text-align: center;
   color: white;
   font-size: 16px;
   font-weight: 600;
   margin-left: 8px;
-
   @media screen and (max-width: 768px) {
     font-size: 12px;
     margin-left: 4px;
@@ -145,49 +132,40 @@ const BannerLinkContainer = styled.a`
   line-height: 21px;
   margin-left: 16px;
   gap: 8px;
-
   &:hover {
     text-decoration: none;
   }
-
   @media screen and (max-width: 768px) {
     font-size: 12px;
     margin-left: 8px;
     gap: 4px;
   }
 `;
-
 const BannerLinkSvg = styled.svg`
   width: 20px;
   height: 20px;
   fill: none;
   transition: transform 0.2s ease;
-
   &:hover {
     transform: rotate(45deg);
   }
-
   @media screen and (max-width: 768px) {
     width: 16px;
     height: 16px;
   }
 `;
-
 const BannerAlertSvg = styled.svg`
   width: 18px;
-
   @media screen and (max-width: 768px) {
     width: 14px;
   }
 `;
-
 const NavMenu = styled.div`
   display: none;
   background: white;
   padding: 24px;
   width: 100%;
   gap: 16px;
-
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -195,7 +173,6 @@ const NavMenu = styled.div`
     align-items: flex-start;
   }
 `;
-
 const NavMenuItem = styled.a`
   color: ${(props) => (props.selected ? "#2E2E2E" : "#7B7B7B")};
   font-size: 14px;
@@ -204,7 +181,6 @@ const NavMenuItem = styled.a`
   word-wrap: break-word;
   cursor: pointer;
 `;
-
 const tabOptions = [
   { text: "Projects", link: "projects", disabled: false },
   { text: "Feed", link: "feed", disabled: false },
@@ -216,9 +192,7 @@ const tabOptions = [
   { text: "Donors", link: "donors", disabled: false },
   // { text: "Feedback", href: "https://potlock.org/feedback", newTab: true, disabled: false },
 ];
-
 const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
-
 return (
   <>
     {false && (
@@ -298,7 +272,10 @@ return (
             viewBox="0 0 24 24"
             fill="none"
           >
-            <path d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z" fill="#7B7B7B" />
+            <path
+              d="M3 18H21V16H3V18ZM3 13H21V11H3V13ZM3 6V8H21V6H3Z"
+              fill="#7B7B7B"
+            />
           </svg>
         </NavTab>
       </NavRightMobile>
