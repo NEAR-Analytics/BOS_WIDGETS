@@ -9,7 +9,6 @@ const {
   hrefWithParams,
   nav,
 } = props;
-
 const {
   admins,
   chef,
@@ -24,34 +23,32 @@ const {
   application_end_ms,
   cooldown_end_ms,
 } = potDetail;
-
 const [isMatchingPoolModalOpen, setIsMatchingPoolModalOpen] = useState(false);
-const [showChallengePayoutsModal, setShowChallengePayoutsModal] = useState(false);
-
+const [showChallengePayoutsModal, setShowChallengePayoutsModal] =
+  useState(false);
 const NADABOT_ICON_URL =
   IPFS_BASE_URL + "bafkreib2iag425b6dktehxlrshchyp2pccg5r6ea2blrnzppqia77kzdbe";
-
 const projectNotRegistered = registryStatus === null;
-const userIsAdminOrGreater = admins.includes(context.accountId) || owner === context.accountId;
+const userIsAdminOrGreater =
+  admins.includes(context.accountId) || owner === context.accountId;
 const userIsChefOrGreater = userIsAdminOrGreater || chef === context.accountId;
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getApplicationByProjectId: () => {},
 };
-
-const existingApplication = PotSDK.getApplicationByProjectId(potId, context.accountId);
-
+const existingApplication = PotSDK.getApplicationByProjectId(
+  potId,
+  context.accountId
+);
 const applicationExists = existingApplication || applicationSuccess;
-
 const now = Date.now();
-const publicRoundOpen = now >= public_round_start_ms && now < public_round_end_ms;
+const publicRoundOpen =
+  now >= public_round_start_ms && now < public_round_end_ms;
 console.log(potDetail);
-
 const applicationOpen = now >= application_start_ms && now < application_end_ms;
-
 const canApply = applicationOpen && !applicationExists && !userIsChefOrGreater;
-
-const { ownerId, NADA_BOT_URL } = VM.require("potlock.near/widget/constants") || {
+const { ownerId, NADA_BOT_URL } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   ownerId: "",
   NADA_BOT_URL: "",
 };
@@ -62,11 +59,9 @@ const { yoctosToNear, yoctosToUsdWithFallback, nearToUsd } = VM.require(
   nearToUsd: 1,
   yoctosToUsdWithFallback: () => "",
 };
-
 const potLink = `https://bos.potlock.io/?tab=pot&potId=${potId}${
   context.accountId && `&referrerId=${context.accountId}`
 }`;
-
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -84,20 +79,17 @@ const Container = styled.div`
   }
   @media only screen and (max-width: 768px) {
     padding: 3rem 0;
-
     .pool-table {
       max-width: 100%;
     }
   }
 `;
-
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
   flex: 1;
 `;
-
 const Title = styled.div`
   font-size: 40px;
   font-weight: 500;
@@ -111,12 +103,10 @@ const Description = styled.div`
     font-weight: 600;
   }
 `;
-
 const Fund = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-
   > div {
     display: flex;
     gap: 8px;
@@ -152,13 +142,10 @@ const Referral = styled.div`
   display: flex;
   align-items: center;
 `;
-
 const payoutsChallenges = PotSDK.getPayoutsChallenges(potId);
-
 const existingChallengeForUser = (payoutsChallenges || []).find(
   (challenge) => challenge.challenger_id === context.accountId
 );
-
 return (
   <Container>
     <Header>
@@ -169,9 +156,14 @@ return (
       <Fund>
         <div className="label">Matching Funds Available:</div>
         <div>
-          <div className="near-price">{yoctosToNear(matching_pool_balance, true)}</div>
+          <div className="near-price">
+            {yoctosToNear(matching_pool_balance, true)}
+          </div>
           {nearToUsd && (
-            <div lassName="usd-price"> {yoctosToUsdWithFallback(matching_pool_balance, true)}</div>
+            <div lassName="usd-price">
+              {" "}
+              {yoctosToUsdWithFallback(matching_pool_balance, true)}
+            </div>
           )}
         </div>
       </Fund>
@@ -204,14 +196,16 @@ return (
           <Widget
             src={`${ownerId}/widget/Components.Button`}
             props={{
-              type: registrationApproved || projectNotRegistered ? "primary" : "tertiary",
+              type:
+                registrationApproved || projectNotRegistered
+                  ? "primary"
+                  : "tertiary",
               text:
                 projectNotRegistered && registry_provider
                   ? "Register to Apply"
                   : registrationApproved || !registry_provider
                   ? "Apply to pot"
                   : `Project Registration ${registryStatus}`,
-
               style: { marginRight: "24px" },
               onClick:
                 projectNotRegistered && registry_provider
@@ -230,7 +224,9 @@ return (
             props={{
               type: "secondary",
               existingChallengeForUser,
-              text: existingChallengeForUser ? "Update challenge" : "Challenge payouts",
+              text: existingChallengeForUser
+                ? "Update challenge"
+                : "Challenge payouts",
               onClick: () => setShowChallengePayoutsModal(true),
             }}
           />
@@ -247,7 +243,10 @@ return (
       </Referral>
     </Header>
     <div className="pool-table">
-      <Widget src={`${ownerId}/widget/Pots.PoolAllocationTable`} props={props} />
+      <Widget
+        src={`${ownerId}/widget/Pots.PoolAllocationTable`}
+        props={props}
+      />
     </div>
     <Widget
       src={`${ownerId}/widget/Pots.FundModal`}
