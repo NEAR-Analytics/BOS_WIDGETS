@@ -15,6 +15,7 @@ const {
 
 State.init({
   data: undefined,
+  showCollateralModal,
 });
 
 const WithdrawButton = ({ data }) => {
@@ -34,7 +35,27 @@ const WithdrawButton = ({ data }) => {
     />
   );
 };
+const renderCollateral = (record) => {
+  return (
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.Switch"
+      props={{
+        theme,
+        onChange: () => {
+          console.log("--------", record);
+          if (record.usageAsCollateralEnabled === undefined) return;
 
+          State.update({
+            data: record,
+            showCollateralModal: true,
+            flag: record.usageAsCollateralEnabled ? false : true,
+          });
+        },
+        active: record.usageAsCollateralEnabled ? true : false,
+      }}
+    />
+  );
+};
 return (
   <>
     {!yourSupplies || yourSupplies.length === 0 ? (
@@ -51,7 +72,7 @@ return (
           src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
           props={{
             config,
-            headers: ["Asset", "Balance", "APY", ""],
+            headers: ["Asset", "Balance", "APY", "Collateral", ""],
             data: yourSupplies.map((row) => {
               return [
                 <Widget
@@ -70,7 +91,9 @@ return (
                   <div>{Number(row.underlyingBalance).toFixed(7)}</div>
                   <div>$ {Number(row.underlyingBalanceUSD).toFixed(2)}</div>
                 </div>,
+                renderCollateral(row),
                 `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+
                 <WithdrawButton data={row} />,
               ];
             }),
@@ -95,6 +118,29 @@ return (
           formatHealthFactor,
           account,
           onRequestClose: () => setShowWithdrawModal(false),
+        }}
+      />
+    )}
+    {state.showCollateralModal && (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Modal.CollateralModal`}
+        props={{
+          flag,
+          config,
+          theme,
+          chainId,
+          data: {
+            ...state.data,
+            healthFactor,
+          },
+          onActionSuccess,
+          formatHealthFactor,
+          account,
+          onRequestClose: () => {
+            State.update({
+              showCollateralModal: false,
+            });
+          },
         }}
       />
     )}
