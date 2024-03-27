@@ -5,7 +5,6 @@ const value = props.value ?? "";
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
-
 const Container = styled.div`
   display: flex;
   // flex: 1;
@@ -16,7 +15,6 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
 `;
-
 const Label = styled.label`
   font-weight: 500;
   font-size: 14px;
@@ -24,7 +22,6 @@ const Label = styled.label`
   word-wrap: break-word;
   color: #2e2e2e;
 `;
-
 const Error = styled.span`
   display: inline-block;
   font-style: normal;
@@ -35,12 +32,10 @@ const Error = styled.span`
   height: 0;
   overflow: hidden;
   transition: height 0.3s ease-in-out;
-
   &.show {
     height: 1.25em;
   }
 `;
-
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -50,7 +45,6 @@ const InputContainer = styled.div`
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
 `;
-
 const InputPrefix = styled.div`
   display: flex;
   justify-content: center;
@@ -63,7 +57,6 @@ const InputPrefix = styled.div`
   font-size: 16px;
   font-weight: 400;
 `;
-
 const Input = styled.input`
   border: none;
   display: flex;
@@ -75,7 +68,6 @@ const Input = styled.input`
   width: 100%;
   border-radius: 4px;
 `;
-
 return (
   <Container>
     {label && <Label>{label}</Label>}
