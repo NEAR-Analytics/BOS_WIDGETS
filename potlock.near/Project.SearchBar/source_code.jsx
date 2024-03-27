@@ -8,13 +8,10 @@ const {
   setSearchTerm,
   FilterMenuCustomStyle,
 } = props;
-
 const [openFilter, setOpenFilter] = useState(false);
-
 const onSearchChange = (event) => {
   setSearchTerm(event.target.value);
 };
-
 const SearchBarContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -27,14 +24,12 @@ const SearchBarContainer = styled.div`
     padding: 12px 16px 12px 0px;
   }
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   flex: 1;
 `;
-
 const SearchBar = styled.input`
   background: none;
   width: 100%;
@@ -46,7 +41,6 @@ const SearchBar = styled.input`
     border: none;
   }
 `;
-
 const FilterButton = styled.div`
   white-space: nowrap;
   display: flex;
@@ -58,7 +52,6 @@ const FilterButton = styled.div`
   line-height: 20px;
   color: #525252;
 `;
-
 const FilterIcon = styled.div`
   display: flex;
   width: 16px;
@@ -66,7 +59,6 @@ const FilterIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const FilterMenu = styled.div`
   position: absolute;
   background: #fff;
@@ -79,7 +71,8 @@ const FilterMenu = styled.div`
   border-radius: 6px;
   border: 1px solid rgba(41, 41, 41, 0.36);
   box-shadow: 0px 12px 20px -4px rgba(123, 123, 123, 0.32),
-    0px 4px 8px -3px rgba(123, 123, 123, 0.2), 0px 0px 2px 0px rgba(123, 123, 123, 0.36);
+    0px 4px 8px -3px rgba(123, 123, 123, 0.2),
+    0px 0px 2px 0px rgba(123, 123, 123, 0.36);
   z-index: 2;
   ${FilterMenuCustomStyle || ""}
   @media screen and (max-width: 768px) {
@@ -88,7 +81,6 @@ const FilterMenu = styled.div`
     width: 250px;
   }
 `;
-
 const FilterItem = styled.div`
   cursor: pointer;
   padding: 8px;
@@ -101,7 +93,6 @@ const FilterItem = styled.div`
     border-radius: 6px;
   }
 `;
-
 const SearchIcon = styled.div`
   display: flex;
   width: 24px;
@@ -109,7 +100,6 @@ const SearchIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 return (
   <SearchBarContainer>
     <Row>
@@ -122,13 +112,18 @@ return (
         </svg>
       </SearchIcon>
       <SearchBar
-        placeholder={`Search (${numItems}) ${numItems === 1 ? itemName : itemName + "s"}`}
+        placeholder={`Search (${numItems}) ${
+          numItems === 1 ? itemName : itemName + "s"
+        }`}
         onChange={onSearchChange}
         type="text"
         autocomplete="search"
       />
     </Row>
-    <div style={{ position: "relative" }} onClick={() => setOpenFilter(!openFilter)}>
+    <div
+      style={{ position: "relative" }}
+      onClick={() => setOpenFilter(!openFilter)}
+    >
       <FilterButton>
         {sortVal || title}
         <FilterIcon>
