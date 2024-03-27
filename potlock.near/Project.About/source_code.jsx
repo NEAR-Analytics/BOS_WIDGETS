@@ -3,17 +3,17 @@ const { ownerId } = VM.require("potlock.near/widget/constants") || {
 };
 const { profile } = props;
 const { name, description, plPublicGoodReason } = profile;
-const { getTeamMembersFromSocialProfileData } = VM.require("potlock.near/widget/utils") || {
+const { getTeamMembersFromSocialProfileData } = VM.require(
+  "potlock.near/widget/utils"
+) || {
   getTeamMembersFromSocialProfileData: () => [],
 };
-
 const Container = styled.div`
   max-width: 920px;
   display: flex;
   flex-direction: column;
   gap: 48px;
 `;
-
 const Header = styled.div`
   color: #2e2e2e;
   font-size: 40px;
@@ -23,7 +23,6 @@ const Header = styled.div`
     font-size: 32px;
   }
 `;
-
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +30,6 @@ const HeaderContainer = styled.div`
   justify-content: flex-start;
   gap: 24px;
 `;
-
 const GithubWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,7 +55,6 @@ const GithubWrapper = styled.div`
     }
   }
 `;
-
 const SmartContractWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -80,18 +77,19 @@ const smartContracts = profile.plSmartContracts
   ? Object.entries(JSON.parse(profile.plSmartContracts)).reduce(
       (accumulator, [chain, contracts]) => {
         // Iterate over each contract address in the current chain
-        const contractsForChain = Object.keys(contracts).map((contractAddress) => {
-          return [chain, contractAddress]; // Create an array with the chain and contract address
-        });
-
+        const contractsForChain = Object.keys(contracts).map(
+          (contractAddress) => {
+            return [chain, contractAddress]; // Create an array with the chain and contract address
+          }
+        );
         return accumulator.concat(contractsForChain); // Add the arrays for this chain to the accumulator
       },
       []
     )
   : [];
-
-const githubRepos = profile.plGithubRepos ? JSON.parse(profile.plGithubRepos) : [];
-
+const githubRepos = profile.plGithubRepos
+  ? JSON.parse(profile.plGithubRepos)
+  : [];
 const Github = () =>
   githubRepos.length > 0 ? (
     <GithubWrapper>
@@ -116,14 +114,16 @@ const Github = () =>
   ) : (
     "None provided"
   );
-
 const SmartContracts = () =>
   smartContracts.length > 0 ? (
     <SmartContractWrapper>
       {smartContracts.map(([chain, contract]) => {
         return (
           <div className="contract">
-            <Widget src={`${ownerId}/widget/Project.CopyIcon`} props={{ textToCopy: contract }} />
+            <Widget
+              src={`${ownerId}/widget/Project.CopyIcon`}
+              props={{ textToCopy: contract }}
+            />
             <div className="text">
               <div className="address">{contract}</div>
               <div className="chain">{chain}</div>
@@ -135,7 +135,6 @@ const SmartContracts = () =>
   ) : (
     "None provided"
   );
-
 const AboutItem = ({ title, text }) => (
   <Widget
     src={`${ownerId}/widget/Project.AboutItem`}
@@ -146,7 +145,6 @@ const AboutItem = ({ title, text }) => (
     }}
   />
 );
-
 const Team = () => (
   <Widget
     src={`${ownerId}/widget/Project.Team`}
@@ -156,14 +154,16 @@ const Team = () => (
     }}
   />
 );
-
 return (
   <Container>
     <HeaderContainer>
       <Header>About {name}</Header>
     </HeaderContainer>
     <AboutItem title="Overview" text={<Markdown text={description} />} />
-    <AboutItem title="Why we are a public good" text={plPublicGoodReason || "None provided"} />
+    <AboutItem
+      title="Why we are a public good"
+      text={plPublicGoodReason || "None provided"}
+    />
     <Team />
     <AboutItem title="Github repo(s)" text={<Github />} />
     <AboutItem title="Smart contracts" text={<SmartContracts />} />
