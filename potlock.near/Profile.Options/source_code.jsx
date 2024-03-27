@@ -4,14 +4,18 @@ const ProfileOptions = (props) => [
     id: "feed",
     disabled: false,
     source: `${props.ownerId}/widget/Profile.Feed`,
-    href: props.hrefWithParams(`?tab=profile&accountId=${props.accountId}&nav=feed`),
+    href: props.hrefWithParams(
+      `?tab=profile&accountId=${props.accountId}&nav=feed`
+    ),
   },
   {
     label: "Donations",
     id: "donations",
     disabled: false,
     source: `${props.ownerId}/widget/Project.PotlockFunding`,
-    href: props.hrefWithParams(`?tab=profile&accountId=${props.accountId}&nav=donations`),
+    href: props.hrefWithParams(
+      `?tab=profile&accountId=${props.accountId}&nav=donations`
+    ),
   },
   {
     label: "",
@@ -26,7 +30,6 @@ const ProfileOptions = (props) => [
     source: `${props.ownerId}/widget/Profile.FollowTabs`,
   },
 ];
-
 return {
   ProfileOptions,
 };
