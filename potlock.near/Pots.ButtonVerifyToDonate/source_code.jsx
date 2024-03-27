@@ -1,5 +1,4 @@
 const { ownerId } = props;
-
 return (
   <Widget
     src={`${ownerId}/widget/Components.Button`}
