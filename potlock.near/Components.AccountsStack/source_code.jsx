@@ -1,7 +1,5 @@
 const { accountIds, maxDisplayCount, sendToBack } = props;
-
 const MAX_DISPLAY_COUNT = maxDisplayCount || 5;
-
 const StackContainer = styled.div`
   width: 200px;
   height: 30px;
@@ -12,7 +10,6 @@ const StackContainer = styled.div`
     margin-left: 36px;
   }
 `;
-
 const MoreAccountsContainer = styled.div`
   width: 28px;
   height: 28px;
@@ -26,16 +23,16 @@ const MoreAccountsContainer = styled.div`
   z-index: ${accountIds.length + 1};
   margin-right: -8px;
 `;
-
 const MoreAccountsText = styled.div`
   color: white;
   font-size: 12px;
   font-weight: 600;
   text-align: center;
 `;
-
-const accounts = useMemo(() => accountIds.slice(0, MAX_DISPLAY_COUNT), [accountIds]);
-
+const accounts = useMemo(
+  () => accountIds.slice(0, MAX_DISPLAY_COUNT),
+  [accountIds]
+);
 return (
   <StackContainer>
     {accountIds.length > MAX_DISPLAY_COUNT && (
