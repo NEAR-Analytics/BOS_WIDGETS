@@ -1,5 +1,11 @@
-const { referrerId, totalAmount, bypassProtocolFee, recipientId, ftIcon } =
-  props;
+const {
+  referrerId,
+  totalAmount,
+  bypassProtocolFee,
+  recipientId,
+  potRferralFeeBasisPoints,
+  ftIcon,
+} = props;
 const { basisPointsToPercent } = VM.require("potlock.near/widget/utils") || {
   basisPointsToPercent: () => 0,
 };
@@ -138,9 +144,11 @@ State.init({
 if (!donationContractConfig) return "";
 const {
   protocol_fee_basis_points: protocolFeeBasisPoints,
-  referral_fee_basis_points: referralFeeBasisPoints,
+  referral_fee_basis_points,
   protocol_fee_recipient_account: protocolFeeRecipientAccount,
 } = donationContractConfig;
+const referralFeeBasisPoints =
+  potRferralFeeBasisPoints || referralFeeBasisPoints;
 const TOTAL_BASIS_POINTS = 10_000;
 let projectAllocationBasisPoints =
   TOTAL_BASIS_POINTS - (bypassProtocolFee ? 0 : protocolFeeBasisPoints);
