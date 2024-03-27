@@ -1,20 +1,22 @@
-const { allDonations, filter, handleSearch, sortDonation, currentFilter, hrefWithParams } = props;
+const {
+  allDonations,
+  filter,
+  handleSearch,
+  sortDonation,
+  currentFilter,
+  hrefWithParams,
+} = props;
 const [currentPage, setCurrentPage] = useState(1);
 const perPage = 30; // need to be less than 50
-
 useEffect(() => {
   setCurrentPage(1);
 }, [filter]);
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreicdcpxua47eddhzjplmrs23mdjt63czowfsa2jnw4krkt532pa2ha";
-
 const { ownerId } = VM.require("potlock.near/widget/constants");
-
 const { getTimePassed, _address, calcNetDonationAmount } = VM.require(
   `potlock.near/widget/Components.DonorsUtils`
 );
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,7 +70,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const SearchBarContainer = styled.div`
   display: flex;
   align-items: center;
@@ -81,7 +82,6 @@ const SearchBarContainer = styled.div`
     gap: 0.5rem;
   }
 `;
-
 const SearchBar = styled.input`
   background: none;
   width: 100%;
@@ -92,7 +92,6 @@ const SearchBar = styled.input`
     border: none;
   }
 `;
-
 const SearchIcon = styled.div`
   display: flex;
   width: 24px;
@@ -100,7 +99,6 @@ const SearchIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const TrRow = styled.div`
   display: flex;
   width: 100%;
@@ -172,7 +170,6 @@ const TrRow = styled.div`
     }
   }
 `;
-
 const MobileProjectAddress = styled.a`
   width: fit-content;
   color: #7b7b7b;
@@ -194,7 +191,6 @@ const MobileProjectAddress = styled.a`
     display: flex;
   }
 `;
-
 const Arrow = (props) => (
   <svg
     {...props}
@@ -211,11 +207,12 @@ const Arrow = (props) => (
     />
   </svg>
 );
-
 const ProfileImg = ({ address }) => (
-  <Widget src="mob.near/widget/ProfileImage" props={{ accountId: address, style: {} }} />
+  <Widget
+    src="mob.near/widget/ProfileImage"
+    props={{ accountId: address, style: {} }}
+  />
 );
-
 return (
   <Container>
     <div className="transcation">
@@ -233,7 +230,11 @@ return (
       </div>
       <SearchBarContainer>
         <SearchIcon>
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M15.7549 14.2549H14.9649L14.6849 13.9849C15.6649 12.8449 16.2549 11.3649 16.2549 9.75488C16.2549 6.16488 13.3449 3.25488 9.75488 3.25488C6.16488 3.25488 3.25488 6.16488 3.25488 9.75488C3.25488 13.3449 6.16488 16.2549 9.75488 16.2549C11.3649 16.2549 12.8449 15.6649 13.9849 14.6849L14.2549 14.9649V15.7549L19.2549 20.7449L20.7449 19.2549L15.7549 14.2549ZM9.75488 14.2549C7.26488 14.2549 5.25488 12.2449 5.25488 9.75488C5.25488 7.26488 7.26488 5.25488 9.75488 5.25488C12.2449 5.25488 14.2549 7.26488 14.2549 9.75488C14.2549 12.2449 12.2449 14.2549 9.75488 14.2549Z"
               fill="#C7C7C7"
@@ -243,52 +244,64 @@ return (
         <SearchBar placeholder="Search donations" onChange={handleSearch} />
       </SearchBarContainer>
       {allDonations.length > 0 ? (
-        allDonations.slice((currentPage - 1) * perPage, currentPage * perPage).map((donation) => {
-          const { donor_id, recipient_id, donated_at_ms, donated_at, project_id } = donation;
-          const projectId = recipient_id || project_id;
-          return (
-            <TrRow>
-              <a
-                href={hrefWithParams(`?tab=profile&accountId=${donor_id}`)}
-                className="address"
-                target="_blank"
-              >
-                <ProfileImg address={donor_id} />
-                <OverlayTrigger placement="top" overlay={<Tooltip>{donor_id}</Tooltip>}>
-                  <div>{_address(donor_id)}</div>
-                </OverlayTrigger>
-              </a>
-
-              <a
-                href={hrefWithParams(`?tab=project&projectId=${projectId}`)}
-                className="address project"
-                target="_blank"
-              >
-                <ProfileImg address={projectId} />
-                <OverlayTrigger placement="top" overlay={<Tooltip>{projectId}</Tooltip>}>
-                  <div>{_address(projectId)}</div>
-                </OverlayTrigger>
-              </a>
-
-              <div className="price">
-                <span>Donated</span>
-                <img src={nearLogo} alt="NEAR" />
-                {calcNetDonationAmount(donation).toFixed(2)}
-              </div>
-
-              <div className="date">
-                {getTimePassed(donated_at_ms || donated_at)} ago <span> to </span>
-                <MobileProjectAddress
+        allDonations
+          .slice((currentPage - 1) * perPage, currentPage * perPage)
+          .map((donation) => {
+            const {
+              donor_id,
+              recipient_id,
+              donated_at_ms,
+              donated_at,
+              project_id,
+            } = donation;
+            const projectId = recipient_id || project_id;
+            return (
+              <TrRow>
+                <a
+                  href={hrefWithParams(`?tab=profile&accountId=${donor_id}`)}
+                  className="address"
+                  target="_blank"
+                >
+                  <ProfileImg address={donor_id} />
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>{donor_id}</Tooltip>}
+                  >
+                    <div>{_address(donor_id)}</div>
+                  </OverlayTrigger>
+                </a>
+                <a
                   href={hrefWithParams(`?tab=project&projectId=${projectId}`)}
+                  className="address project"
                   target="_blank"
                 >
                   <ProfileImg address={projectId} />
-                  {_address(projectId)}
-                </MobileProjectAddress>
-              </div>
-            </TrRow>
-          );
-        })
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>{projectId}</Tooltip>}
+                  >
+                    <div>{_address(projectId)}</div>
+                  </OverlayTrigger>
+                </a>
+                <div className="price">
+                  <span>Donated</span>
+                  <img src={nearLogo} alt="NEAR" />
+                  {calcNetDonationAmount(donation).toFixed(2)}
+                </div>
+                <div className="date">
+                  {getTimePassed(donated_at_ms || donated_at)} ago{" "}
+                  <span> to </span>
+                  <MobileProjectAddress
+                    href={hrefWithParams(`?tab=project&projectId=${projectId}`)}
+                    target="_blank"
+                  >
+                    <ProfileImg address={projectId} />
+                    {_address(projectId)}
+                  </MobileProjectAddress>
+                </div>
+              </TrRow>
+            );
+          })
       ) : (
         <TrRow>No donations</TrRow>
       )}
