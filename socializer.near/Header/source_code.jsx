@@ -45,7 +45,7 @@ const Logo = styled.div`
         position: relative;
     }
     & > .title {
-        // left: 0;
+        right: 18px;
         // top: 28px;
         width: 215px;
         position: relative;
@@ -58,9 +58,9 @@ const Logo = styled.div`
             top: -25px;
         }
 
-        // .title {
-        //     top: 15px;
-        // }
+        .title {
+            top: -10px;
+        }
     }
 `;
 
@@ -79,7 +79,7 @@ const Content = styled.div`
 
     @media (max-width: 620px) {
         gap: 1px;
-        top: 80px;
+        top: 91px;
         margin-left: 0;
         position: absolute;
         
