@@ -478,7 +478,7 @@ const verifyCode = () => {
   }).then(({ ok, body: { user } }) => {
     if (ok) {
       setTelegramAuthUser(user);
-      setProof(user.user.access_hash);
+      setProof(user.user.id);
       setDisplayError(false);
       verifyProof("telegram");
     } else {
