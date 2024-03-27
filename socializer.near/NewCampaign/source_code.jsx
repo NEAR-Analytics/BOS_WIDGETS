@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const profile = Social.getr(`${accountId}/profile`);
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
 
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
@@ -46,6 +46,7 @@ State.init({
   tokens: [],
   error: "",
   balance: 0,
+  minimum: 0,
   loading: false,
   notification: "",
 });
@@ -198,6 +199,7 @@ const createCampaign = () => {
     total_reward,
     duration_hr,
     duration_min,
+    minimum,
   } = state;
   console.log(state);
   if (
@@ -211,6 +213,9 @@ const createCampaign = () => {
     (duration_hr == "00" && duration_min == "00")
   )
     return State.update({ error: "Please fill out all form fields" });
+
+  if (amount < minimum)
+    return State.update({ error: "Amount must be greater than " + minimum });
 
   State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
@@ -364,10 +369,11 @@ return (
                 });
               }}
             />
+            <p style={{ fontSize: 12 }}>{`Minimun amount ${state.minimum}`}</p>
           </div>
           <div
-            className="d-flex align-items-center form-value "
-            style={{ gap: 10 }}
+            className="d-flex flex-column align-items-center form-value "
+            style={{ gap: 0 }}
           >
             <Widget
               props={{
@@ -384,13 +390,14 @@ return (
                     token: e.value,
                     total_reward,
                     balance: e.balance,
+                    minimum: e.minimum,
                   });
                 },
               }}
               src={`${Owner}/widget/Select`}
             />
             <p
-              style={{ fontSize: 12, marginTop: 25 }}
+              style={{ fontSize: 12 }}
             >{`Available Balance = ${state.balance} ${state.token}`}</p>
           </div>
         </div>
