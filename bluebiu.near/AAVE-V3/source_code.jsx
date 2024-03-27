@@ -201,21 +201,33 @@ function getLiquidity() {
     provider: Ethers.provider(),
   })
     .then((res) => {
-      console.log("getLiquidity_res", res);
-      const l = res.length;
-      const aTokenTotal = res.slice(0, l / 2);
-      const debtTotal = res.slice(l / 2);
+      try {
+        console.log("getLiquidity_res", res);
+        const l = res.length;
+        const aTokenTotal = res.slice(0, l / 2);
+        const debtTotal = res.slice(l / 2);
 
-      for (let i = 0; i < markets.length; i++) {
-        const liquidityAmount = Big(aTokenTotal[i] || 0)
-          .minus(Big(debtTotal[i] || 0))
-          .toFixed();
-        markets[i].availableLiquidity = liquidityAmount;
-        markets[i].availableLiquidityUSD = Big(
-          ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
-        )
-          .mul(prices[markets[i].symbol])
-          .toFixed();
+        for (let i = 0; i < markets.length; i++) {
+          // console.log(
+          //   "getLiquidity-price",
+          //   markets.length,
+          //   i,
+          //   markets[i].symbol,
+          //   prices[markets[i].symbol]
+          // );
+          const liquidityAmount = Big(aTokenTotal[i] || 0)
+            .minus(Big(debtTotal[i] || 0))
+            .toFixed();
+          // console.log("liquidityAmount:", liquidityAmount);
+          markets[i].availableLiquidity = liquidityAmount;
+          markets[i].availableLiquidityUSD = Big(
+            ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
+          )
+            .mul(Big(prices[markets[i].symbol]))
+            .toFixed();
+        }
+      } catch (error) {
+        console.log("catch getLiquidity", error);
       }
     })
     .catch((err) => {
@@ -1273,6 +1285,7 @@ const body = isChainSupported ? (
               props={{
                 config,
                 chainId: chainId,
+                assetsToSupply: state.assetsToSupply,
                 yourBorrows: state.yourBorrows,
                 showRepayModal: state.showRepayModal,
                 setShowRepayModal: (isShow) =>
