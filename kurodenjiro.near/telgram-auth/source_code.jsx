@@ -455,6 +455,7 @@ const sendCode = () => {
   }).then(({ ok, body: { phone_code_hash } }) => {
     if (ok) {
       countdownSendCode(10);
+      setDisplayError(false);
       setPhoneCodeHashHandle(phone_code_hash);
     } else {
       setDisplayHandle("Phone number invalid !");
@@ -478,6 +479,7 @@ const verifyCode = () => {
     if (ok) {
       setTelegramAuthUser(user);
       setProof(user.user.access_hash);
+      setDisplayError(false);
       verifyProof("telegram");
     } else {
       setDisplayHandle("Verify code invalid !");
