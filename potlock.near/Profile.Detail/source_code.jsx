@@ -11,9 +11,7 @@ const {
     },
   },
 };
-
 const accountId = props.accountId ?? context.accountId;
-
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
@@ -21,7 +19,6 @@ let DonateSDK =
     asyncGetDonationsForDonor: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
-
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -29,28 +26,25 @@ let PotFactorySDK =
   }));
 PotFactorySDK = PotFactorySDK({ env: props.env });
 const pots = PotFactorySDK.getPots();
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetConfig: () => {},
   asyncGetDonationsForDonor: () => {},
 };
-
 const { ProfileOptions } = VM.require(`${ownerId}/widget/Profile.Options`) || {
   ProfileOptions: () => [],
 };
-
 if (!accountId) {
   return "No account ID";
 }
-
 const [directDonations, setDirectDonations] = useState(null);
 // mapping of pot IDs to array of sponsorship (matching pool) donations to this pot for this user
 const [potDonations, setPotDonations] = useState({});
-
 const getpotDonations = (potId, potDetail) => {
   return PotSDK.asyncGetDonationsForDonor(potId, accountId)
     .then((donations) => {
-      donations = donations.filter((donations) => donations.donor_id === accountId);
+      donations = donations.filter(
+        (donations) => donations.donor_id === accountId
+      );
       const updatedDonations = donations.map((donation) => ({
         ...donation,
         base_currency: potDetail.base_currency,
@@ -70,7 +64,6 @@ const getpotDonations = (potId, potDetail) => {
       });
     });
 };
-
 // Get Direct Donations
 let donationsForDonor = DonateSDK.getDonationsForDonor(accountId);
 if (donationsForDonor && !directDonations) {
@@ -88,21 +81,21 @@ if (pots && !potDonations[pots[pots.length - 1].id]) {
     });
   });
 }
-
 const [allDonations, sponsorships, matchingRoundDonations] = useMemo(() => {
   const potDonationsValue = Object.values(potDonations).flat();
-
-  const sponsorships = potDonationsValue.filter((donation) => donation.type === "sponsorship");
+  const sponsorships = potDonationsValue.filter(
+    (donation) => donation.type === "sponsorship"
+  );
   const matchingRoundDonations = potDonationsValue.filter(
     (donation) => donation.type === "matched"
   );
   const allDonations = [...(directDonations || []), ...potDonationsValue];
   allDonations.sort(
-    (a, b) => (b.donated_at || b.donated_at_ms) - (a.donated_at || a.donated_at_ms)
+    (a, b) =>
+      (b.donated_at || b.donated_at_ms) - (a.donated_at || a.donated_at_ms)
   );
   return [allDonations, sponsorships, matchingRoundDonations];
 }, [potDonations, directDonations]);
-
 // Get total donations & Unique donors count
 const [totalDonationAmountNear] = useMemo(() => {
   let total = Big(0);
@@ -112,18 +105,14 @@ const [totalDonationAmountNear] = useMemo(() => {
     }
   });
   const totalDonationAmountNear = NEAR.fromIndivisible(total.toString());
-
   return [totalDonationAmountNear];
 }, [allDonations]);
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const tags = Object.keys(profile.tags || {});
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 return (
   <Wrapper>
     <Widget
