@@ -18,17 +18,15 @@ Big.PE = 100;
 const FIFTY_TGAS = "50000000000000";
 const THREE_HUNDRED_TGAS = "300000000000000";
 const MIN_PROPOSAL_DEPOSIT_FALLBACK = "100000000000000000000000"; // 0.1N
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
-const DEFAULT_BANNER_IMAGE_CID = "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
+const DEFAULT_BANNER_IMAGE_CID =
+  "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
 const DEFAULT_PROFILE_IMAGE_URL =
   IPFS_BASE_URL + "bafkreifel4bfm6hxmklcsqjilk3bhvi3acf2rxqepcgglluhginbttkyqm";
 // const TRASH_ICON_URL =
 //   IPFS_BASE_URL + "bafkreifuvrxly3wuy4xdmavmdeb2o47nv6pzxwz3xmy6zvkxv76e55lj3y";
 // const EDIT_ICON_URL = IPFS_BASE_URL + "bafkreigc2laqrwu6g4ihm5n2qfxwl3g5phujtrwybone2ouxaz5ittjzee";
-
 const MAX_TEAM_MEMBERS_DISPLAY_COUNT = 5;
-
 if (!context.accountId) {
   return (
     <Widget
@@ -40,11 +38,9 @@ if (!context.accountId) {
     />
   );
 }
-
 const existingHorizonProject = Near.view(HORIZON_CONTRACT_ID, "get_project", {
   account_id: context.accountId,
 });
-
 const RegistrySDK =
   VM.require("potlock.near/widget/SDK.registry") ||
   (() => ({
@@ -53,23 +49,18 @@ const RegistrySDK =
     asyncGetProjectById: () => {},
   }));
 const registry = RegistrySDK({ env: props.env });
-
 const projects = registry.getProjects() || [];
-
 const imageHeightPx = 120;
 const profileImageTranslateYPx = 220;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 72px 64px 72px 64px;
-
   @media screen and (max-width: 768px) {
     padding: 0px;
   }
 `;
-
 const LowerBannerContainer = styled.div`
   position: absolute;
   top: 340px;
@@ -86,19 +77,16 @@ const LowerBannerContainer = styled.div`
     flex-direction: column;
   }
 `;
-
 const LowerBannerContainerLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   margin-left: 190px;
   // background: yellow;
-
   @media screen and (max-width: 768px) {
     margin-left: 0px;
   }
 `;
-
 const LowerBannerContainerRight = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,7 +94,6 @@ const LowerBannerContainerRight = styled.div`
   justify-content: flex-end; /* Pushes TeamContainer to the bottom */
   flex: 1;
 `;
-
 // const TeamContainer = styled.div`
 //   width: 200px;
 //   height: 30px;
@@ -116,14 +103,12 @@ const LowerBannerContainerRight = styled.div`
 //   flex-direction: row;
 //   // gap: -40px;
 // `;
-
 const AddTeamMembers = styled.a`
   margin: 0px 0px 16px 36px;
   cursor: pointer;
   color: #dd3345;
   font-size: 14px;
   font-weight: 600;
-
   &:hover {
     text-decoration: none;
   }
@@ -131,36 +116,30 @@ const AddTeamMembers = styled.a`
     margin-bottom: 0;
   }
 `;
-
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px 68px 32px 68px;
   width: 100%;
-
   @media screen and (max-width: 768px) {
     padding: 0px 32px 32px 32px;
   }
 `;
-
 const FormDivider = styled.div`
   height: 2px;
   width: 100%;
   background-color: #ebebeb;
 `;
-
 const FormSectionContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 160px;
   margin: 48px 0 48px 0;
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     gap: 32px;
   }
 `;
-
 const FormSectionLeftDiv = styled.div`
   flex: 1;
   display: flex;
@@ -168,41 +147,35 @@ const FormSectionLeftDiv = styled.div`
   // background-color: yellow;
   gap: 16px;
 `;
-
 const FormSectionRightDiv = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   // background-color: lightblue;
 `;
-
 const FormSectionTitle = styled.div`
   color: #2e2e2e;
   font-size: 16;
   font-weight: 600;
   word-wrap: break-word;
 `;
-
 const FormSectionDescription = styled.div`
   color: #2e2e2e;
   font-size: 16;
   font-weight: 400;
   word-wrap: break-word;
 `;
-
 const FormSectionIsRequired = styled.div`
   font-size: 16px;
   font-weight: 400;
   word-wrap: break-word;
   position: relative;
 `;
-
 const SvgContainer = styled.div`
   position: absolute;
   top: -6;
   left: -26;
 `;
-
 const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -211,11 +184,9 @@ const ButtonsContainer = styled.div`
   gap: 32px;
   margin-top: 32px;
 `;
-
 const Space = styled.div`
   height: ${(props) => props.height}px;
 `;
-
 const InputPrefix = styled.div`
   display: flex;
   justify-content: center;
@@ -229,7 +200,6 @@ const InputPrefix = styled.div`
   font-weight: 400;
   box-shadow: 0px -2px 0px rgba(93, 93, 93, 0.24) inset;
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -237,7 +207,6 @@ const Row = styled.div`
   align-items: flex-start;
   justify-content: center;
 `;
-
 const Icon = styled.svg`
   width: 20px;
   height: 20px;
@@ -249,9 +218,12 @@ const Icon = styled.svg`
     fill: #dd3345;
   }
 `;
-
-const FUNDING_SOURCE_COLUMNS = ["Funding Source", "Description", "Amount", "Denomination"];
-
+const FUNDING_SOURCE_COLUMNS = [
+  "Funding Source",
+  "Description",
+  "Amount",
+  "Denomination",
+];
 const FundingHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -260,7 +232,6 @@ const FundingHeader = styled.div`
   background: #f6f5f3;
   width: 100%;
 `;
-
 const FundingHeaderItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -269,7 +240,6 @@ const FundingHeaderItem = styled.div`
   padding: 10px 20px;
   width: ${100 / FUNDING_SOURCE_COLUMNS.length}%;
 `;
-
 const FundingHeaderItemText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -277,7 +247,6 @@ const FundingHeaderItemText = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
-
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -285,7 +254,6 @@ const TableRow = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 const TableRowItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -295,7 +263,6 @@ const TableRowItem = styled.div`
   padding: 20px;
   width: ${100 / FUNDING_SOURCE_COLUMNS.length}%;
 `;
-
 const TableRowText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -303,7 +270,6 @@ const TableRowText = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
-
 State.init({
   isDao: false,
   daoAddressTemp: "", // used while input is focused
@@ -350,7 +316,6 @@ State.init({
   showAlert: false,
   alertMessage: "",
 });
-
 const CATEGORY_MAPPINGS = {
   SOCIAL_IMPACT: "Social Impact",
   NON_PROFIT: "NonProfit",
@@ -371,7 +336,6 @@ const CATEGORY_MAPPINGS = {
     education: "EDUCATION",
   },
 };
-
 const CHAIN_OPTIONS = {
   NEAR: { isEVM: false },
   Solana: { isEVM: false },
@@ -400,19 +364,16 @@ const CHAIN_OPTIONS = {
   Linea: { isEVM: true }, // Assuming non-EVM due to lack of information.
   Metis: { isEVM: true },
 };
-
 const accountId = props.projectId
   ? props.projectId
   : state.isDao
   ? state.daoAddress
   : context.accountId;
 const policy = Near.view(accountId, "get_policy", {});
-
 const userHasPermissions = useMemo(() => {
   if (!policy) return true;
   return doesUserHaveDaoFunctionCallProposalPermissions(policy);
 }, [policy]);
-
 const getImageUrlFromSocialImage = (image) => {
   if (image.url) {
     return image.url;
@@ -420,19 +381,17 @@ const getImageUrlFromSocialImage = (image) => {
     return IPFS_BASE_URL + image.ipfs_cid;
   }
 };
-
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
-
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>{children}</ModalContent>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        {children}
+      </ModalContent>
     </ModalOverlay>
   );
 };
-
 // console.log("state: ", state);
-
 const setSocialData = (accountId, shouldSetTeamMembers) => {
   Near.asyncView("social.near", "get", { keys: [`${accountId}/**`] })
     .then((socialData) => {
@@ -464,7 +423,9 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
         // old/deprecated version
         if (typeof profileData.category == "string") {
           const availableCategory =
-            CATEGORY_MAPPINGS[CATEGORY_MAPPINGS._deprecated[profileData.category]];
+            CATEGORY_MAPPINGS[
+              CATEGORY_MAPPINGS._deprecated[profileData.category]
+            ];
           if (availableCategory) {
             categories.push(availableCategory);
           }
@@ -474,10 +435,11 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
         ? Object.entries(JSON.parse(profileData.plSmartContracts)).reduce(
             (accumulator, [chain, contracts]) => {
               // Iterate over each contract address in the current chain
-              const contractsForChain = Object.keys(contracts).map((contractAddress) => {
-                return [chain, contractAddress]; // Create an array with the chain and contract address
-              });
-
+              const contractsForChain = Object.keys(contracts).map(
+                (contractAddress) => {
+                  return [chain, contractAddress]; // Create an array with the chain and contract address
+                }
+              );
               return accumulator.concat(contractsForChain); // Add the arrays for this chain to the accumulator
             },
             []
@@ -485,18 +447,15 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
         : [];
       const hasSmartContracts = smartContracts.length > 0;
       smartContracts.push(["", ""]); // Add an empty string to the end of the array to allow for adding new contracts
-
       const githubRepos = profileData.plGithubRepos
         ? JSON.parse(profileData.plGithubRepos).map((repo) => [repo])
         : [];
       const originalGithubRepos = githubRepos;
       githubRepos.push([""]); // Add an empty string to the end of the array to allow for adding new repos
-
       const fundingSources = profileData.plFundingSources
         ? JSON.parse(profileData.plFundingSources)
         : [];
       const hasReceivedFunding = fundingSources.length > 0;
-
       const linktree = profileData.linktree || {};
       const twitter = linktree.twitter || "";
       const telegram = linktree.telegram || "";
@@ -540,7 +499,6 @@ const setSocialData = (accountId, shouldSetTeamMembers) => {
       State.update({ socialDataFetched: true });
     });
 };
-
 useEffect(() => {
   if (state.isDao && state.daoAddress) {
     setSocialData(state.daoAddress, true);
@@ -548,7 +506,6 @@ useEffect(() => {
     setSocialData(context.accountId, true);
   }
 }, [state.socialDataFetched, state.isDao, state.daoAddress, context.accountId]);
-
 const isCreateProjectDisabled =
   state.daoAddressError ||
   !state.name ||
@@ -563,16 +520,13 @@ const isCreateProjectDisabled =
   (state.hasReceivedFunding && !state.fundingSources.length) ||
   !state.categories.length ||
   state.categoriesError;
-
 const deepObjectDiff = (objOriginal, objUpdated) => {
   if (!objUpdated) objUpdated = {};
   let diff = {};
-
   function findDiff(original, updated, diffObj) {
     Object.keys(updated).forEach((key) => {
       const updatedValue = updated[key];
       const originalValue = original ? original[key] : undefined;
-
       // If both values are objects, recurse.
       if (
         typeof updatedValue === "object" &&
@@ -580,7 +534,9 @@ const deepObjectDiff = (objOriginal, objUpdated) => {
         (originalValue === undefined ||
           (typeof originalValue === "object" && originalValue !== null))
       ) {
-        const nestedDiff = originalValue ? findDiff(originalValue, updatedValue, {}) : updatedValue;
+        const nestedDiff = originalValue
+          ? findDiff(originalValue, updatedValue, {})
+          : updatedValue;
         if (Object.keys(nestedDiff).length > 0) {
           diffObj[key] = nestedDiff;
         }
@@ -589,23 +545,21 @@ const deepObjectDiff = (objOriginal, objUpdated) => {
         diffObj[key] = updatedValue;
       }
     });
-
     return diffObj;
   }
-
   return findDiff(objOriginal, objUpdated, diff);
 };
-
 const handleCreateOrUpdateProject = (e) => {
   if (isCreateProjectDisabled) return;
-  const daoAddressValid = state.isDao ? validateNearAddress(state.daoAddress) : true;
+  const daoAddressValid = state.isDao
+    ? validateNearAddress(state.daoAddress)
+    : true;
   if (!daoAddressValid) {
     State.update({
       daoAddressError: "Invalid NEAR account ID",
     });
     return;
   }
-
   // format smart contracts
   const formattedSmartContracts = state.smartContracts.reduce(
     (accumulator, [chain, contractAddress]) => {
@@ -620,7 +574,6 @@ const handleCreateOrUpdateProject = (e) => {
     },
     {}
   );
-
   const socialData = {
     // basic profile details
     profile: {
@@ -628,8 +581,12 @@ const handleCreateOrUpdateProject = (e) => {
       plCategories: JSON.stringify(state.categories),
       description: state.description,
       plPublicGoodReason: state.publicGoodReason,
-      plSmartContracts: state.hasSmartContracts ? JSON.stringify(formattedSmartContracts) : null,
-      plGithubRepos: JSON.stringify(state.githubRepos.map((repo) => repo[0]).filter((val) => val)),
+      plSmartContracts: state.hasSmartContracts
+        ? JSON.stringify(formattedSmartContracts)
+        : null,
+      plGithubRepos: JSON.stringify(
+        state.githubRepos.map((repo) => repo[0]).filter((val) => val)
+      ),
       plFundingSources: JSON.stringify(state.fundingSources),
       linktree: {
         website: state.website,
@@ -674,25 +631,22 @@ const handleCreateOrUpdateProject = (e) => {
       },
     },
   };
-
   if (state.backgroundImage) {
     socialData.profile.backgroundImage = state.backgroundImage;
   }
   if (state.profileImage) {
     socialData.profile.image = state.profileImage;
   }
-
   const diff = deepObjectDiff(state.existingSocialData, socialData);
-
   const socialArgs = {
     data: {
       [accountId]: diff,
     },
   };
-
   const potlockRegistryArgs = {};
-  const horizonArgs = { account_id: state.isDao ? state.daoAddress : context.accountId };
-
+  const horizonArgs = {
+    account_id: state.isDao ? state.daoAddress : context.accountId,
+  };
   // first, we have to get the account from social.near to see if it exists. If it doesn't, we need to add 0.1N to the deposit
   Near.asyncView(SOCIAL_CONTRACT_ID, "get_account", {
     account_id: state.isDao ? state.daoAddress : context.accountId,
@@ -707,10 +661,8 @@ const handleCreateOrUpdateProject = (e) => {
       depositFloat += 0.1;
     }
     socialTransaction.deposit = Big(depositFloat).mul(Big(10).pow(24));
-
     // instantiate transactions array that we will be passing to Near.call()
     let transactions = [socialTransaction];
-
     // if this is a creation action, we need to add the registry and horizon transactions
     if (!props.edit) {
       transactions.push(
@@ -733,7 +685,6 @@ const handleCreateOrUpdateProject = (e) => {
         );
       }
     }
-
     // if it is a DAO, we need to convert transactions to DAO function call proposals
     if (state.isDao) {
       const clonedTransactions = JSON.parse(JSON.stringify(transactions));
@@ -742,7 +693,9 @@ const handleCreateOrUpdateProject = (e) => {
           method_name: tx.methodName,
           gas: FIFTY_TGAS,
           deposit: tx.deposit ? tx.deposit.toString() : "0",
-          args: Buffer.from(JSON.stringify(tx.args), "utf-8").toString("base64"),
+          args: Buffer.from(JSON.stringify(tx.args), "utf-8").toString(
+            "base64"
+          ),
         };
         return {
           ...tx,
@@ -782,7 +735,6 @@ const handleCreateOrUpdateProject = (e) => {
     }, pollIntervalMs);
   });
 };
-
 if (props.projectId) {
   Near.asyncView(props.projectId, "get_policy", {}).then((policy) => {
     if (policy) {
@@ -794,18 +746,16 @@ if (props.projectId) {
     }
   });
 }
-
 const registeredProject = useMemo(() => {
-  return registry.getProjectById(state.isDao ? state.daoAddress : context.accountId);
+  return registry.getProjectById(
+    state.isDao ? state.daoAddress : context.accountId
+  );
 }, [state.isDao, state.daoAddress]);
-
 console.log("registeredProject: ", registeredProject);
-
 const proposals = Near.view(state.daoAddress, "get_proposals", {
   from_index: 0,
   limit: 1000,
 });
-
 const proposalInProgress = useMemo(() => {
   if (!state.isDao || !state.daoAddress || !proposals) return false;
   return proposals?.find((proposal) => {
@@ -816,7 +766,6 @@ const proposalInProgress = useMemo(() => {
     );
   });
 }, [state, proposals]);
-
 const handleAddTeamMember = () => {
   let isValid = validateNearAddress(state.teamMember);
   if (!isValid) {
@@ -834,7 +783,6 @@ const handleAddTeamMember = () => {
     });
   }
 };
-
 const FormSectionLeft = (title, description, isRequired) => {
   return (
     <FormSectionLeftDiv>
@@ -868,21 +816,25 @@ const FormSectionLeft = (title, description, isRequired) => {
     </FormSectionLeftDiv>
   );
 };
-
 const DeleteIcon = (props) => (
-  <Icon {...props} viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Icon
+    {...props}
+    viewBox="0 0 12 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M2.5 14C2.0875 14 1.73437 13.8531 1.44062 13.5594C1.14687 13.2656 1 12.9125 1 12.5V2.5H0V1H4V0H8V1H12V2.5H11V12.491C11 12.9137 10.8531 13.2708 10.5594 13.5625C10.2656 13.8542 9.9125 14 9.5 14H2.5ZM9.5 2.5H2.5V12.5H9.5V2.5ZM4 11H5.5V4H4V11ZM6.5 11H8V4H6.5V11Z"
       fill="#7B7B7B"
     />
   </Icon>
 );
-
 // if (props.edit && (!registeredProject || !userHasPermissions)) { // TODO: ADD THIS BACK IN
 if (props.edit && !userHasPermissions) {
-  return <h3 style={{ textAlign: "center", paddingTop: "32px" }}>Unauthorized</h3>;
+  return (
+    <h3 style={{ textAlign: "center", paddingTop: "32px" }}>Unauthorized</h3>
+  );
 }
-
 const uploadFileUpdateState = (body, callback) => {
   asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
@@ -890,9 +842,7 @@ const uploadFileUpdateState = (body, callback) => {
     body,
   }).then(callback);
 };
-
 // console.log("state in create form: ", state);
-
 return (
   <Container>
     {!state.socialDataFetched || !projects ? (
@@ -906,7 +856,9 @@ return (
           wordWrap: "break-word",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>You have a DAO proposal in progress.</h1>
+        <h1 style={{ textAlign: "center" }}>
+          You have a DAO proposal in progress.
+        </h1>
         <h5 style={{ wordWrap: "break-word", textAlign: "center" }}>
           Please come back once voting on your proposal has been completed.
         </h5>
@@ -918,8 +870,9 @@ return (
             textAlign: "center",
           }}
         >
-          NB: This proposal consists of 3 steps (individual proposals): Register information on NEAR
-          Social, register on Potlock, and register on NEAR Horizon.
+          NB: This proposal consists of 3 steps (individual proposals): Register
+          information on NEAR Social, register on Potlock, and register on NEAR
+          Horizon.
         </div>
         <a
           target="_blank"
@@ -940,7 +893,9 @@ return (
               text: "View your project",
               disabled: false,
               href: props.hrefWithParams(
-                `?tab=project&projectId=${registeredProject?.id || context.accountId}`
+                `?tab=project&projectId=${
+                  registeredProject?.id || context.accountId
+                }`
               ),
             }}
           />
@@ -961,7 +916,10 @@ return (
           src={`${ownerId}/widget/Profile.BannerHeader`}
           props={{
             ...props,
-            projectId: state.isDao && state.daoAddress ? state.daoAddress : context.accountId, // TODO: consider updating to use dao address if available, but will look weird bc no DAOs prob have a banner image on near social
+            projectId:
+              state.isDao && state.daoAddress
+                ? state.daoAddress
+                : context.accountId, // TODO: consider updating to use dao address if available, but will look weird bc no DAOs prob have a banner image on near social
             // allowEdit: true,
             backgroundImage: state.backgroundImage,
             profileImage: state.profileImage,
@@ -984,7 +942,11 @@ return (
             children: (
               <LowerBannerContainer>
                 <LowerBannerContainerLeft>
-                  <AddTeamMembers onClick={() => State.update({ isMultiAccountModalOpen: true })}>
+                  <AddTeamMembers
+                    onClick={() =>
+                      State.update({ isMultiAccountModalOpen: true })
+                    }
+                  >
                     {state.teamMembers.length > 0
                       ? "Add or remove team members"
                       : "Add team members"}
@@ -1041,7 +1003,10 @@ return (
                   value: state.isDao ? state.daoAddressTemp : context.accountId,
                   disabled: !state.isDao,
                   onChange: (daoAddress) =>
-                    State.update({ daoAddressTemp: daoAddress.toLowerCase(), daoAddressError: "" }),
+                    State.update({
+                      daoAddressTemp: daoAddress.toLowerCase(),
+                      daoAddressError: "",
+                    }),
                   validate: () => {
                     // **CALLED ON BLUR**
                     if (state.isDao) {
@@ -1052,7 +1017,8 @@ return (
                         });
                         return;
                       }
-                      const NO_PERMISSIONS_ERROR = "You do not have required roles for this DAO";
+                      const NO_PERMISSIONS_ERROR =
+                        "You do not have required roles for this DAO";
                       Near.asyncView(state.daoAddressTemp, "get_policy", {})
                         .then((policy) => {
                           // console.log("policy: ", policy);
@@ -1061,7 +1027,10 @@ return (
                           // TODO: break this out (duplicated in Project.Body)
                           const userRoles = policy.roles.filter((role) => {
                             if (role.kind === "Everyone") return true;
-                            return role.kind.Group && role.kind.Group.includes(context.accountId);
+                            return (
+                              role.kind.Group &&
+                              role.kind.Group.includes(context.accountId)
+                            );
                           });
                           const kind = "call";
                           const action = "AddProposal";
@@ -1083,7 +1052,8 @@ return (
                             const councilRole = policy.roles.find(
                               (role) => role.name === "council"
                             );
-                            const councilTeamMembers = councilRole?.kind?.Group || [];
+                            const councilTeamMembers =
+                              councilRole?.kind?.Group || [];
                             State.update({
                               daoAddress: state.daoAddressTemp,
                               teamMembers: councilTeamMembers,
@@ -1113,24 +1083,23 @@ return (
                   onChange: (name) => State.update({ name }),
                   validate: () => {
                     if (state.name.length < 3) {
-                      State.update({ nameError: "Name must be at least 3 characters" });
+                      State.update({
+                        nameError: "Name must be at least 3 characters",
+                      });
                       return;
                     }
-
                     if (state.name.length > 100) {
                       State.update({
                         nameError: "Name must be less than 100 characters",
                       });
                       return;
                     }
-
                     State.update({ nameError: "" });
                   },
                   error: state.nameError,
                 }}
               />
               <Space height={24} />
-
               <Widget
                 src={`${ownerId}/widget/Inputs.TextArea`}
                 props={{
@@ -1141,46 +1110,47 @@ return (
                   validate: () => {
                     if (state.description.length > 500) {
                       State.update({
-                        descriptionError: "Description must be less than 500 characters",
+                        descriptionError:
+                          "Description must be less than 500 characters",
                       });
                       return;
                     }
-
                     State.update({ descriptionError: "" });
                   },
                   error: state.descriptionError,
                 }}
               />
               <Space height={24} />
-
               <Widget
                 src={`${ownerId}/widget/Inputs.TextArea`}
                 props={{
                   label: "Reason for considering yourself a public good *",
                   placeholder: "Type response",
                   value: state.publicGoodReason,
-                  onChange: (publicGoodReason) => State.update({ publicGoodReason }),
+                  onChange: (publicGoodReason) =>
+                    State.update({ publicGoodReason }),
                   validate: () => {
                     if (state.publicGoodReason.length > 500) {
                       State.update({
-                        publicGoodReasonError: "Response must be less than 500 characters",
+                        publicGoodReasonError:
+                          "Response must be less than 500 characters",
                       });
                       return;
                     }
-
                     State.update({ publicGoodReasonError: "" });
                   },
                   error: state.publicGoodReasonError,
                 }}
               />
               <Space height={24} />
-
               <Widget
                 src={`${ownerId}/widget/Inputs.SelectMultiple`}
                 props={{
                   label: "Select category (select multiple) *",
                   placeholder: "Choose category",
-                  options: Object.values(CATEGORY_MAPPINGS).filter((el) => typeof el === "string"),
+                  options: Object.values(CATEGORY_MAPPINGS).filter(
+                    (el) => typeof el === "string"
+                  ),
                   onChange: (categories) => {
                     State.update({
                       categories,
@@ -1253,7 +1223,9 @@ return (
                               if (!isValid) {
                                 State.update({
                                   githubRepos: state.githubRepos.map((r, i) =>
-                                    i == index ? [r[0], "Invalid GitHub Repo URL"] : [r[0]]
+                                    i == index
+                                      ? [r[0], "Invalid GitHub Repo URL"]
+                                      : [r[0]]
                                   ),
                                 });
                                 return;
@@ -1263,10 +1235,18 @@ return (
                           }}
                         />
                         {state.githubRepos.length > 1 && (
-                          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
+                          <div
+                            style={{
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
                             <DeleteIcon
                               onClick={() => {
-                                const updatedRepos = state.githubRepos.filter((r, i) => i != index);
+                                const updatedRepos = state.githubRepos.filter(
+                                  (r, i) => i != index
+                                );
                                 State.update({
                                   githubRepos: updatedRepos,
                                 });
@@ -1282,7 +1262,8 @@ return (
                     props={{
                       type: "tertiary",
                       text: "Add another repository",
-                      disabled: !state.githubRepos[state.githubRepos.length - 1][0],
+                      disabled:
+                        !state.githubRepos[state.githubRepos.length - 1][0],
                       onClick: () => {
                         State.update({
                           githubRepos: [...state.githubRepos, [""]],
@@ -1304,104 +1285,127 @@ return (
                   true
                 )}
                 <FormSectionRightDiv>
-                  {state.smartContracts.map(([chain, contractAddress], index) => {
-                    return (
-                      <Row style={{ marginBottom: "12px" }} key={index}>
-                        <Widget
-                          src={`${ownerId}/widget/Inputs.Select`}
-                          props={{
-                            label: "Add chain",
-                            noLabel: false,
-                            placeholder: "Select chain",
-                            options: Object.keys(CHAIN_OPTIONS).map((chain) => ({
-                              text: chain,
-                              value: chain,
-                            })),
-                            value: {
-                              text: chain,
-                              value: chain,
-                            },
-                            onChange: (chain) => {
-                              const updatedSmartContracts = state.smartContracts.map((sc, i) => {
-                                if (i == index) {
-                                  return [chain.value, sc[1]];
-                                }
-                                return sc;
-                              });
-                              State.update({
-                                smartContracts: updatedSmartContracts,
-                              });
-                            },
-                          }}
-                        />
-                        <Widget
-                          src={`${ownerId}/widget/Inputs.Text`}
-                          props={{
-                            label: "Contract address",
-                            placeholder: "Enter address",
-                            value: contractAddress,
-                            onChange: (contractAddress) => {
-                              const updatedSmartContracts = state.smartContracts.map((sc, i) => {
-                                if (i == index) {
-                                  return [sc[0], contractAddress];
-                                }
-                                return sc;
-                              });
-                              State.update({
-                                smartContracts: updatedSmartContracts,
-                              });
-                            },
-                            validate: () => {
-                              // if NEAR, use validateNearAddress, otherwise if EVM, use validateEvmAddress
-                              const chain = state.smartContracts[index][0];
-                              const isEvm = CHAIN_OPTIONS[chain].isEVM;
-                              const isValid =
-                                chain == "NEAR"
-                                  ? validateNearAddress(contractAddress)
-                                  : isEvm
-                                  ? validateEVMAddress(contractAddress)
-                                  : true; // TODO: validate non-EVM, non-NEAR addresses
-                              // if invalid, set the error as the 3rd element of the array
-                              if (!isValid) {
-                                State.update({
-                                  smartContracts: state.smartContracts.map((sc, i) => {
+                  {state.smartContracts.map(
+                    ([chain, contractAddress], index) => {
+                      return (
+                        <Row style={{ marginBottom: "12px" }} key={index}>
+                          <Widget
+                            src={`${ownerId}/widget/Inputs.Select`}
+                            props={{
+                              label: "Add chain",
+                              noLabel: false,
+                              placeholder: "Select chain",
+                              options: Object.keys(CHAIN_OPTIONS).map(
+                                (chain) => ({
+                                  text: chain,
+                                  value: chain,
+                                })
+                              ),
+                              value: {
+                                text: chain,
+                                value: chain,
+                              },
+                              onChange: (chain) => {
+                                const updatedSmartContracts =
+                                  state.smartContracts.map((sc, i) => {
                                     if (i == index) {
-                                      return [sc[0], sc[1], "Invalid address"];
+                                      return [chain.value, sc[1]];
                                     }
                                     return sc;
-                                  }),
-                                });
-                                return;
-                              }
-                            },
-                            error: state.smartContracts[index][2] || "",
-                          }}
-                        />
-                        {state.smartContracts.length > 1 && (
-                          <div style={{ height: "100%", display: "flex", alignItems: "center" }}>
-                            <DeleteIcon
-                              onClick={() => {
-                                const updatedSmartContracts = state.smartContracts.filter(
-                                  (sc, i) => i != index
-                                );
+                                  });
                                 State.update({
                                   smartContracts: updatedSmartContracts,
                                 });
+                              },
+                            }}
+                          />
+                          <Widget
+                            src={`${ownerId}/widget/Inputs.Text`}
+                            props={{
+                              label: "Contract address",
+                              placeholder: "Enter address",
+                              value: contractAddress,
+                              onChange: (contractAddress) => {
+                                const updatedSmartContracts =
+                                  state.smartContracts.map((sc, i) => {
+                                    if (i == index) {
+                                      return [sc[0], contractAddress];
+                                    }
+                                    return sc;
+                                  });
+                                State.update({
+                                  smartContracts: updatedSmartContracts,
+                                });
+                              },
+                              validate: () => {
+                                // if NEAR, use validateNearAddress, otherwise if EVM, use validateEvmAddress
+                                const chain = state.smartContracts[index][0];
+                                const isEvm = CHAIN_OPTIONS[chain].isEVM;
+                                const isValid =
+                                  chain == "NEAR"
+                                    ? validateNearAddress(contractAddress)
+                                    : isEvm
+                                    ? validateEVMAddress(contractAddress)
+                                    : true; // TODO: validate non-EVM, non-NEAR addresses
+                                // if invalid, set the error as the 3rd element of the array
+                                if (!isValid) {
+                                  State.update({
+                                    smartContracts: state.smartContracts.map(
+                                      (sc, i) => {
+                                        if (i == index) {
+                                          return [
+                                            sc[0],
+                                            sc[1],
+                                            "Invalid address",
+                                          ];
+                                        }
+                                        return sc;
+                                      }
+                                    ),
+                                  });
+                                  return;
+                                }
+                              },
+                              error: state.smartContracts[index][2] || "",
+                            }}
+                          />
+                          {state.smartContracts.length > 1 && (
+                            <div
+                              style={{
+                                height: "100%",
+                                display: "flex",
+                                alignItems: "center",
                               }}
-                            />
-                          </div>
-                        )}
-                      </Row>
-                    );
-                  })}
+                            >
+                              <DeleteIcon
+                                onClick={() => {
+                                  const updatedSmartContracts =
+                                    state.smartContracts.filter(
+                                      (sc, i) => i != index
+                                    );
+                                  State.update({
+                                    smartContracts: updatedSmartContracts,
+                                  });
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Row>
+                      );
+                    }
+                  )}
                   <Widget
                     src={`${ownerId}/widget/Components.Button`}
                     props={{
                       type: "tertiary",
                       text: "Add another contract",
                       disabled:
-                        !state.smartContracts[state.smartContracts.length - 1][0] &&
-                        !state.smartContracts[state.smartContracts.length - 1][1],
+                        !state.smartContracts[
+                          state.smartContracts.length - 1
+                        ][0] &&
+                        !state.smartContracts[
+                          state.smartContracts.length - 1
+                        ][1],
                       onClick: () => {
                         State.update({
                           smartContracts: [...state.smartContracts, ["", ""]],
@@ -1430,13 +1434,18 @@ return (
                 <FundingHeader>
                   {FUNDING_SOURCE_COLUMNS.map((column, index) => (
                     <FundingHeaderItem>
-                      <FundingHeaderItemText key={index}>{column}</FundingHeaderItemText>
+                      <FundingHeaderItemText key={index}>
+                        {column}
+                      </FundingHeaderItemText>
                     </FundingHeaderItem>
                   ))}
                 </FundingHeader>
               )}
               {state.fundingSources.map(
-                ({ investorName, description, amountReceived, denomination }, index) => {
+                (
+                  { investorName, description, amountReceived, denomination },
+                  index
+                ) => {
                   return (
                     <TableRow key={index}>
                       <TableRowItem>
@@ -1460,10 +1469,13 @@ return (
                         /> */}
                         <DeleteIcon
                           onClick={() => {
-                            const updatedFundingSources = state.fundingSources.filter(
-                              (fs, i) => i != index
-                            );
-                            State.update({ fundingSources: updatedFundingSources });
+                            const updatedFundingSources =
+                              state.fundingSources.filter(
+                                (fs, i) => i != index
+                              );
+                            State.update({
+                              fundingSources: updatedFundingSources,
+                            });
                           }}
                         />
                       </TableRowItem>
@@ -1478,7 +1490,10 @@ return (
                   text: "Add funding source",
                   disabled: state.fundingSources.some(
                     (fs) =>
-                      !fs.investorName || !fs.amountReceived || !fs.denomination || !fs.description
+                      !fs.investorName ||
+                      !fs.amountReceived ||
+                      !fs.denomination ||
+                      !fs.description
                   ),
                   onClick: () => {
                     // add new funding source obj & set index
@@ -1515,7 +1530,8 @@ return (
                   preInputChildren: <InputPrefix>twitter.com/</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.twitter,
-                  onChange: (twitter) => State.update({ twitter: twitter.trim() }),
+                  onChange: (twitter) =>
+                    State.update({ twitter: twitter.trim() }),
                   validate: () => {
                     if (state.twitter.length > 15) {
                       State.update({
@@ -1536,7 +1552,8 @@ return (
                   preInputChildren: <InputPrefix>t.me/</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.telegram,
-                  onChange: (telegram) => State.update({ telegram: telegram.trim() }),
+                  onChange: (telegram) =>
+                    State.update({ telegram: telegram.trim() }),
                   validate: () => {
                     // TODO: add validation?
                   },
@@ -1566,7 +1583,8 @@ return (
                   preInputChildren: <InputPrefix>https://</InputPrefix>,
                   inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.website,
-                  onChange: (website) => State.update({ website: website.trim() }),
+                  onChange: (website) =>
+                    State.update({ website: website.trim() }),
                   validate: () => {
                     // TODO: add validation
                   },
@@ -1626,7 +1644,11 @@ return (
               // remove any funding sources with all empty values
               // console.log("state.fundingSources line 1660: ", state.fundingSources);
               const updatedFundingSources = state.fundingSources.filter(
-                (fs) => fs.investorName && fs.amountReceived && fs.denomination && fs.description
+                (fs) =>
+                  fs.investorName &&
+                  fs.amountReceived &&
+                  fs.denomination &&
+                  fs.description
               );
               // console.log("updatedFundingSources: ", updatedFundingSources);
               State.update({
@@ -1642,17 +1664,19 @@ return (
               amountReceived,
               denomination,
             }) => {
-              const updatedFundingSources = state.fundingSources.map((fs, i) => {
-                if (i == state.fundingSourceIndex) {
-                  return {
-                    investorName,
-                    description,
-                    amountReceived,
-                    denomination,
-                  };
+              const updatedFundingSources = state.fundingSources.map(
+                (fs, i) => {
+                  if (i == state.fundingSourceIndex) {
+                    return {
+                      investorName,
+                      description,
+                      amountReceived,
+                      denomination,
+                    };
+                  }
+                  return fs;
                 }
-                return fs;
-              });
+              );
               State.update({
                 fundingSources: updatedFundingSources,
                 fundingSourceIndex: null,
