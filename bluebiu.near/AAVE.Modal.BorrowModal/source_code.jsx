@@ -514,7 +514,7 @@ return (
                     const amount = Big(state.amount)
                       .mul(Big(10).pow(decimals))
                       .toFixed(0);
-                    if (symbol === config.nativeCurrency.symbol) {
+                    if (symbol === config.nativeWrapCurrency.symbol) {
                       // borrow weth
                       borrowETH(amount);
                     } else {
