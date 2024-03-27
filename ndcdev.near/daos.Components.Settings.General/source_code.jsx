@@ -27,6 +27,10 @@ const Form = styled.div`
       text-decoration: underline;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 const AutoComplete = styled.div`
@@ -70,7 +74,7 @@ const handleSave = () => {
 return (
   <Form className="d-flex flex-column gap-3">
     <div className="form-element">
-      <label className="form-label">Account ID</label>
+      <label className="form-label">DAO wallet</label>
       <input
         className="form-control"
         type="text"
@@ -107,11 +111,16 @@ return (
           <img className="w-25 object-fit-contain" src={daoLogoUrl} />
         </div>
       )}
-      <input
-        className="form-control"
-        type="text"
-        value={daoLogoUrl}
-        onChange={(e) => setDaoLogoUrl(e.target.value)}
+      <Widget
+        src={`ndcdev.near/widget/daos.Components.FileUploader`}
+        props={{
+          onChange: (file) => setDaoLogoUrl(file),
+          children: (
+            <div role="button" className="btn btn-secondary">
+              Upload Logo
+            </div>
+          ),
+        }}
       />
     </div>
 
@@ -122,11 +131,17 @@ return (
           <img className="object-fit-contain" src={daoBannerUrl} />
         </div>
       )}
-      <input
-        className="form-control"
-        type="text"
-        value={daoBannerUrl}
-        onChange={(e) => setDaoBannerUrl(e.target.value)}
+      <Widget
+        src={`ndcdev.near/widget/daos.Components.FileUploader`}
+        props={{
+          onChange: (file) => setDaoBannerUrl(file),
+
+          children: (
+            <div role="button" className="btn btn-secondary">
+              Upload Banner
+            </div>
+          ),
+        }}
       />
     </div>
 
