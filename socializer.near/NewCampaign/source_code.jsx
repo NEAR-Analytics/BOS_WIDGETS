@@ -148,6 +148,7 @@ const getTokenData = () => {
         State.update({
           tokens,
           balance,
+          minimum: tokens[0]["minimum"] ?? 0,
         });
       }
     }
