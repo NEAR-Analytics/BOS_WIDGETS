@@ -478,8 +478,8 @@ const verifyCode = () => {
   }).then(({ ok, body: { user } }) => {
     if (ok) {
       setTelegramAuthUser(user);
+      console.log(user.user.id);
       setProof(user.user.id);
-      setDisplayError(false);
       verifyProof("telegram");
     } else {
       setDisplayHandle("Verify code invalid !");
