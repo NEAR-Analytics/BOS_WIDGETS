@@ -11,7 +11,6 @@ const getButtonBackground = () => {
     return "white";
   }
 };
-
 const getButtonTextColor = () => {
   if (props.type === "primary") {
     if (props.disabled) {
@@ -22,9 +21,7 @@ const getButtonTextColor = () => {
     return "#2E2E2E";
   }
 };
-
 const tag = props.href ? "a" : "button";
-
 const Button = styled[tag]`
   flex-direction: row;
   justify-content: center;
@@ -42,19 +39,16 @@ const Button = styled[tag]`
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;
-
   &:hover {
     text-decoration: none;
     cursor: ${props.disabled ? "not-allowed" : "pointer"};
   }
 `;
-
 const Icon = styled.img`
   width: 20px;
   height: 20px;
   object-fit: contain;
 `;
-
 return (
   <Button
     onClick={(e) => {
