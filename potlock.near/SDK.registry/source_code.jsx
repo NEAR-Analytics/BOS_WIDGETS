@@ -1,6 +1,8 @@
 return ({ env }) => {
-  const contractId = env === "staging" ? "registry.staging.potlock.near" : "registry.potlock.near";
-
+  const contractId =
+    env === "staging"
+      ? "registry.staging.potlock.near"
+      : "registry.potlock.near";
   const RegistrySDK = {
     getContractId: () => contractId,
     getConfig: () => {
@@ -14,10 +16,14 @@ return ({ env }) => {
       return Near.view(contractId, "get_projects", {});
     },
     getProjectById: (projectId) => {
-      return Near.view(contractId, "get_project_by_id", { project_id: projectId });
+      return Near.view(contractId, "get_project_by_id", {
+        project_id: projectId,
+      });
     },
     asyncGetProjectById: (projectId) => {
-      return Near.asyncView(contractId, "get_project_by_id", { project_id: projectId });
+      return Near.asyncView(contractId, "get_project_by_id", {
+        project_id: projectId,
+      });
     },
     isProjectApproved: (projectId) => {
       const project = RegistrySDK.getProjectById(projectId);
