@@ -1,5 +1,6 @@
 const {
   config,
+  dexConfig,
   assetsToSupply,
   showSupplyModal,
   setShowSupplyModal,
@@ -10,7 +11,7 @@ const {
   depositETHGas,
   depositERC20Gas,
   theme,
-
+  yourTotalSupply,
   yourSupplies,
   borrowETHGas,
   borrowERC20Gas,
@@ -45,6 +46,7 @@ const BorrowButton = ({ data }) => (
     src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
     props={{
       config,
+      disabled: isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply),
       children: "Borrow",
       theme,
       onClick: () => {
@@ -54,6 +56,152 @@ const BorrowButton = ({ data }) => (
     }}
   />
 );
+
+let headers;
+let tableData;
+
+if (dexConfig.name === "Seamless Protocol") {
+  headers = [
+    "Asset",
+    "Total supplied",
+    "Supply APY",
+    "Total Borrowed",
+    "Borrow APY",
+    "Can be Collateral",
+    "",
+  ];
+  tableData = assetsToSupply.map((row) => [
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
+      props={{
+        children: [
+          <img width={64} height={64} src={row.icon} />,
+          <div>
+            <div className="token-title">{row.symbol}</div>
+            <div className="token-chain">{row.name}</div>
+          </div>,
+        ],
+      }}
+    />,
+    <div>
+      <div>
+        <Widget
+          src={`${config.ownerId}/widget/Utils.FormatNumber`}
+          props={{
+            number: row.totalSupply,
+          }}
+        />
+      </div>
+      <div>
+        $
+        <Widget
+          src={`${config.ownerId}/widget/Utils.FormatNumber`}
+          props={{
+            number: row.totalSupplyUSD,
+          }}
+        />
+      </div>
+    </div>,
+    `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+
+    <div>
+      <div>
+        <Widget
+          src={`${config.ownerId}/widget/Utils.FormatNumber`}
+          props={{
+            number: row.totalDebts,
+          }}
+        />
+      </div>
+      <div>
+        ${" "}
+        <Widget
+          src={`${config.ownerId}/widget/Utils.FormatNumber`}
+          props={{
+            number: row.totalDebtsUSD,
+          }}
+        />
+      </div>
+    </div>,
+
+    `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
+    <div style={{ paddingLeft: "50px" }}>
+      {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
+        "—"}
+      {!row.isIsolated && row.usageAsCollateralEnabled && (
+        <img
+          src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
+          width={16}
+          height={16}
+        />
+      )}
+    </div>,
+    <div style={{ display: "flex", gap: 10 }}>
+      <SupplyButton data={row} />
+      <BorrowButton
+        data={{
+          ...row,
+        }}
+      />
+    </div>,
+  ]);
+}
+if (["zerolend", "AAVE V3"].includes(dexConfig.name)) {
+  headers = [
+    "Asset",
+    "Wallet Balance",
+    "Supply APY",
+    "Available to borrow",
+    "Borrow APY",
+    "Can be Collateral",
+    "",
+  ];
+  tableData = assetsToSupply.map((row) => [
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
+      props={{
+        children: [
+          <img width={64} height={64} src={row.icon} />,
+          <div>
+            <div className="token-title">{row.symbol}</div>
+            <div className="token-chain">{row.name}</div>
+          </div>,
+        ],
+      }}
+    />,
+    <div>
+      <div>{Number(row.balance).toFixed(7)}</div>
+      <div>$ {row.balanceInUSD}</div>
+    </div>,
+    `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+
+    <div>
+      <div>{Number(row.availableBorrows).toFixed(7)}</div>
+      <div>$ {row.availableBorrowsUSD}</div>
+    </div>,
+
+    `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
+    <div style={{ paddingLeft: "50px" }}>
+      {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
+        "—"}
+      {!row.isIsolated && row.usageAsCollateralEnabled && (
+        <img
+          src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
+          width={16}
+          height={16}
+        />
+      )}
+    </div>,
+    <div style={{ display: "flex", gap: 10 }}>
+      <SupplyButton data={row} />
+      <BorrowButton
+        data={{
+          ...row,
+        }}
+      />
+    </div>,
+  ]);
+}
 
 return (
   <>
@@ -80,61 +228,8 @@ return (
                 src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
                 props={{
                   config,
-                  headers: [
-                    "Asset",
-                    "Wallet Balance",
-                    "Supply APY",
-                    "Available to borrow",
-                    "Borrow APY",
-                    "Can be Collateral",
-                    "",
-                  ],
-                  data: assetsToSupply.map((row) => [
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
-                      props={{
-                        children: [
-                          <img width={64} height={64} src={row.icon} />,
-                          <div>
-                            <div className="token-title">{row.symbol}</div>
-                            <div className="token-chain">{row.name}</div>
-                          </div>,
-                        ],
-                      }}
-                    />,
-                    <div>
-                      <div>{Number(row.balance).toFixed(7)}</div>
-                      <div>$ {row.balanceInUSD}</div>
-                    </div>,
-                    `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
-
-                    <div>
-                      <div>{Number(row.availableBorrows).toFixed(7)}</div>
-                      <div>$ {row.availableBorrowsUSD}</div>
-                    </div>,
-
-                    `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
-                    <div style={{ paddingLeft: "50px" }}>
-                      {(row.isIsolated ||
-                        (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
-                        "—"}
-                      {!row.isIsolated && row.usageAsCollateralEnabled && (
-                        <img
-                          src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
-                          width={16}
-                          height={16}
-                        />
-                      )}
-                    </div>,
-                    <div style={{ display: "flex", gap: 10 }}>
-                      <SupplyButton data={row} />
-                      <BorrowButton
-                        data={{
-                          ...row,
-                        }}
-                      />
-                    </div>,
-                  ]),
+                  headers,
+                  data: tableData,
                 }}
               />
             </>
