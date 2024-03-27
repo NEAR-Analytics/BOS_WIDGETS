@@ -424,29 +424,31 @@ State.init({
   isModalOpen: false,
   successfulDonation: null,
 });
-let RegistrySDK =
-  VM.require("potlock.near/widget/SDK.registry") ||
+let ListsSDK =
+  VM.require("potlock.near/widget/SDK.lists") ||
   (() => ({
-    getProjects: () => {},
+    getRegistrations: () => {},
     isRegistryAdmin: () => {},
   }));
-RegistrySDK = RegistrySDK({ env: props.env });
-const isRegistryAdmin = RegistrySDK.isRegistryAdmin(context.accountId);
+ListsSDK = ListsSDK({ env: props.env });
+const isRegistryAdmin = ListsSDK.isRegistryAdmin(context.accountId);
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     getConfig: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
-const allProjects = RegistrySDK.getProjects() || [];
+const allRegistrations = ListsSDK.getRegistrations() || [];
 // console.log("allProjects: ", allProjects);
 const projects = useMemo(() => {
   if (!isRegistryAdmin) {
-    return allProjects.filter((project) => project.status === "Approved");
+    return allRegistrations.filter(
+      (registration) => registration.status === "Approved"
+    );
   }
-  allProjects.sort((a, b) => b.submitted_ms - a.submitted_ms);
-  return allProjects;
-}, allProjects);
+  allRegistrations.sort((a, b) => b.submitted_ms - a.submitted_ms);
+  return allRegistrations;
+}, allRegistrations);
 // console.log("projects: ", projects);
 const featuredProjectIds = [
   "magicbuild.near",
@@ -454,7 +456,10 @@ const featuredProjectIds = [
   "yearofchef.near",
 ];
 const featuredProjects = useMemo(
-  () => projects.filter((project) => featuredProjectIds.includes(project.id)),
+  () =>
+    projects.filter((project) =>
+      featuredProjectIds.includes(project.registrant_id)
+    ),
   projects
 );
 const [totalDonation, setTotalDonation] = useState(0);
@@ -614,10 +619,13 @@ const searchByWords = (projects, searchTerm) => {
   // const dataArr = projects;
   // let alldata = [];
   projects.forEach((project) => {
-    const { id, status } = project;
-    const data = Social.getr(`${id}/profile`);
+    const { registrant_id, status } = project;
+    const data = Social.getr(`${registrant_id}/profile`);
     // alldata.push(data);
-    if (id.includes(searchTerm) || status.toLowerCase().includes(searchTerm)) {
+    if (
+      registrant_id.includes(searchTerm) ||
+      status.toLowerCase().includes(searchTerm)
+    ) {
       results.push(project);
     } else if (data) {
       if (
@@ -668,7 +676,7 @@ const handleTag = (key) => {
   });
   let projectFilterBySearch = [];
   dataArr.forEach((item) => {
-    const data = Social.getr(`${item.id}/profile`);
+    const data = Social.getr(`${item.registrant_id}/profile`);
     const tagsForProfile = getTagsFromSocialProfileData(data);
     tagSelected.forEach((tag) => {
       if (tagsForProfile.includes(tag)) {
@@ -803,7 +811,7 @@ return (
                 props={{
                   ...props,
                   // potId,
-                  projectId: project.id,
+                  projectId: project.registrant_id,
                   allowDonate: true,
                   // allowDonate:
                   //   sybilRequirementMet &&
@@ -889,7 +897,7 @@ return (
                   props={{
                     ...props,
                     // potId,
-                    projectId: project.id,
+                    projectId: project.registrant_id,
                     allowDonate: true,
                     // allowDonate:
                     //   sybilRequirementMet &&
