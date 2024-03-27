@@ -3,7 +3,6 @@ let PotFactorySDK =
   (() => ({
     getPots: () => {},
   }));
-
 return {
   getConfig: (potId) => {
     return Near.view(potId, "get_config", {});
@@ -34,22 +33,34 @@ return {
     return Near.view(potId, "get_donations_for_donor", { donor_id: accountId });
   },
   asyncGetDonationsForDonor: (potId, accountId) => {
-    return Near.asyncView(potId, "get_donations_for_donor", { donor_id: accountId });
+    return Near.asyncView(potId, "get_donations_for_donor", {
+      donor_id: accountId,
+    });
   },
   getDonationsForProject: (potId, projectId) => {
-    return Near.view(potId, "get_donations_for_project", { project_id: projectId });
+    return Near.view(potId, "get_donations_for_project", {
+      project_id: projectId,
+    });
   },
   asyncGetDonationsForProject: (potId, projectId) => {
-    return Near.asyncView(potId, "get_donations_for_project", { project_id: projectId });
+    return Near.asyncView(potId, "get_donations_for_project", {
+      project_id: projectId,
+    });
   },
   getDonationsForRecipient: (potId, recipientId) => {
-    return Near.view(potId, "get_donations_for_recipient", { recipient_id: recipientId });
+    return Near.view(potId, "get_donations_for_recipient", {
+      recipient_id: recipientId,
+    });
   },
   asyncGetDonationsForRecipient: (potId, recipientId) => {
-    return Near.asyncView(potId, "get_donations_for_recipient", { recipient_id: recipientId });
+    return Near.asyncView(potId, "get_donations_for_recipient", {
+      recipient_id: recipientId,
+    });
   },
   getApplicationByProjectId: (potId, projectId) => {
-    return Near.view(potId, "get_application_by_project_id", { project_id: projectId });
+    return Near.view(potId, "get_application_by_project_id", {
+      project_id: projectId,
+    });
   },
   getApprovedApplications: (potId) => {
     return Near.view(potId, "get_approved_applications", {});
@@ -77,12 +88,21 @@ return {
     };
     Near.call([transaction]);
   },
-  adminUpdatePayoutsChallenge: (potId, challengerId, notes, shouldResolveChallenge) => {
+  adminUpdatePayoutsChallenge: (
+    potId,
+    challengerId,
+    notes,
+    shouldResolveChallenge
+  ) => {
     const depositFloat = notes.length * 0.00003;
     const transaction = {
       contractName: potId,
       methodName: "admin_update_payouts_challenge",
-      args: { challenger_id: challengerId, notes, resolve_challenge: shouldResolveChallenge },
+      args: {
+        challenger_id: challengerId,
+        notes,
+        resolve_challenge: shouldResolveChallenge,
+      },
       deposit: Big(depositFloat).mul(Big(10).pow(24)),
       gas: "300000000000000",
     };
