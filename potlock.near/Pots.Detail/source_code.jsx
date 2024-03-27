@@ -11,23 +11,17 @@ const {
   ONE_TGAS: 0,
   SUPPORTED_FTS: {},
 };
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getConfig: () => {},
   asyncGetApplications: () => {},
 };
-
 const potDetail = PotSDK.getConfig(potId);
-
 const MAX_APPLICATION_MESSAGE_LENGTH = 1000;
-
 Big.PE = 100;
 const FIFTY_TGAS = "50000000000000";
 const THREE_HUNDRED_TGAS = "300000000000000";
 const MIN_PROPOSAL_DEPOSIT_FALLBACK = "100000000000000000000000"; // 0.1N
-
 const Wrapper = styled.div``;
-
 const SidebarContainer = styled.div`
   width: 25%;
   // width: 500px;
@@ -35,23 +29,19 @@ const SidebarContainer = styled.div`
     display: none;
   }
 `;
-
 const Container = styled.div`
   padding: 0px 68px;
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     width: 100%;
     padding: 0;
   }
 `;
-
 const ContainerInner = styled.div`
   display: flex;
   flex-direction: column;
   padding: 68px 0px;
 `;
-
 const BodyContainer = styled.div`
   margin-top: 52px;
   padding: 0 4rem;
@@ -61,13 +51,11 @@ const BodyContainer = styled.div`
     padding: 0;
   }
 `;
-
 const Divider = styled.div`
   height: 1px;
   width: 100%;
   background-color: #292929;
 `;
-
 const ModalTitle = styled.div`
   color: #525252;
   font-size: 16px;
@@ -76,13 +64,11 @@ const ModalTitle = styled.div`
   word-wrap: break-word;
   margin-bottom: 8px;
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
-
 State.init({
   isApplicationModalOpen: false,
   applicationMessage: "",
@@ -95,10 +81,10 @@ State.init({
   daoPolicy: null,
   registryStatus: null,
 });
-
 if (state.sybilRequirementMet === null) {
   if (potDetail.sybil_wrapper_provider) {
-    const [contractId, methodName] = potDetail.sybil_wrapper_provider.split(":");
+    const [contractId, methodName] =
+      potDetail.sybil_wrapper_provider.split(":");
     Near.asyncView(contractId, methodName, { account_id: context.accountId })
       .then((result) => {
         State.update({ sybilRequirementMet: result });
@@ -110,26 +96,19 @@ if (state.sybilRequirementMet === null) {
     State.update({ sybilRequirementMet: true });
   }
 }
-
 // console.log("state in pot detail: ", state);
-
 const noPot = potDetail === undefined;
 const loading = potDetail === null;
-
 if (loading) return <div class="spinner-border text-secondary" role="status" />;
-
 if (noPot) return "No pot found";
-
 const now = Date.now();
 const applicationNotStarted = now < potDetail.application_start_ms;
-const applicationOpen = now >= potDetail.application_start_ms && now < potDetail.application_end_ms;
-
+const applicationOpen =
+  now >= potDetail.application_start_ms && now < potDetail.application_end_ms;
 const publicRoundOpen =
   now >= potDetail.public_round_start_ms && now < potDetail.public_round_end_ms;
 const publicRoundClosed = now >= potDetail.public_round_end_ms;
-
 const payoutsPending = publicRoundClosed && !potDetail.cooldown_end_ms;
-
 // these will be passed down to child components
 props.navOptions = [
   {
@@ -175,7 +154,6 @@ props.navOptions = [
     href: props.hrefWithParams(`?tab=pot&potId=${potId}&nav=settings`),
   },
 ];
-
 if (!props.nav) {
   let nav;
   applicationNotStarted
@@ -189,18 +167,17 @@ if (!props.nav) {
     : (nav = "payouts");
   props.nav = nav;
 } // default to home tab
-
 // const imageHeightPx = 120;
 // const profileImageTranslateYPx = 220;
-
 const handleSendApplication = () => {
   const args = {
     message: state.applicationMessage,
   };
   let deposit = NEAR.toIndivisible("0.01");
-  const extraDeposit = Big(state.applicationMessage.length * 0.0001).mul(Big(10).pow(24));
+  const extraDeposit = Big(state.applicationMessage.length * 0.0001).mul(
+    Big(10).pow(24)
+  );
   deposit = deposit.plus(extraDeposit);
-
   const transactions = [
     {
       contractName: potId,
@@ -210,7 +187,6 @@ const handleSendApplication = () => {
       gas: ONE_TGAS.mul(100),
     },
   ];
-
   // if it is a DAO, we need to convert transactions to DAO function call proposals
   if (state.isDao) {
     const clonedTransactions = JSON.parse(JSON.stringify(transactions));
@@ -241,7 +217,6 @@ const handleSendApplication = () => {
       };
     });
   }
-
   Near.call(transactions);
   // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
   // <---- EXTENSION WALLET HANDLING ---->
@@ -252,7 +227,8 @@ const handleSendApplication = () => {
     PotSDK.asyncGetApplications(potId).then((applications) => {
       const application = applications.find(
         (application) =>
-          application.project_id === (state.isDao ? state.daoAddress : context.accountId)
+          application.project_id ===
+          (state.isDao ? state.daoAddress : context.accountId)
       );
       if (application) {
         clearInterval(pollId);
@@ -261,30 +237,26 @@ const handleSendApplication = () => {
     });
   }, pollIntervalMs);
 };
-
 const verifyIsOnRegistry = (address) => {
-  Near.asyncView("registry.potlock.near", "get_project_by_id", { project_id: address }).then(
-    (project) => {
-      if (project) {
-        State.update({ registryStatus: project.status });
-      }
+  Near.asyncView("registry.potlock.near", "get_project_by_id", {
+    project_id: address,
+  }).then((project) => {
+    if (project) {
+      State.update({ registryStatus: project.status });
     }
-  );
+  });
 };
-
 useEffect(() => {
   if (!state.isDao) {
     verifyIsOnRegistry(context.accountId || "");
   }
 }, []);
-
 // const registryRequirementMet = state.isOnRegistry || !potDetail.registry_provider;
 const registrationApproved = state.registryStatus === "Approved";
-const registrationNotApproved = state.registryStatus && state.registryStatus !== "Approved";
+const registrationNotApproved =
+  state.registryStatus && state.registryStatus !== "Approved";
 const canApply = registrationApproved || !potDetail?.registry_provider;
-
 const isError = state.applicationMessageError || state.daoAddressError;
-
 return (
   <Wrapper>
     <Widget
@@ -299,7 +271,8 @@ return (
       props={{
         ...props,
         potDetail: potDetail,
-        setApplicationModalOpen: (isOpen) => State.update({ isApplicationModalOpen: isOpen }),
+        setApplicationModalOpen: (isOpen) =>
+          State.update({ isApplicationModalOpen: isOpen }),
         sybilRequirementMet: state.sybilRequirementMet,
         applicationSuccess: state.applicationSuccess,
         registrationApproved,
@@ -343,15 +316,18 @@ return (
                 },
                 placeholder: "Your application message here...",
                 value: state.applicationMessage,
-                onChange: (applicationMessage) => State.update({ applicationMessage }),
+                onChange: (applicationMessage) =>
+                  State.update({ applicationMessage }),
                 validate: () => {
-                  if (state.applicationMessage.length > MAX_APPLICATION_MESSAGE_LENGTH) {
+                  if (
+                    state.applicationMessage.length >
+                    MAX_APPLICATION_MESSAGE_LENGTH
+                  ) {
                     State.update({
                       applicationMessageError: `Application message must be less than ${MAX_APPLICATION_MESSAGE_LENGTH} characters`,
                     });
                     return;
                   }
-
                   State.update({ applicationMessageError: "" });
                 },
                 error: state.applicationMessageError,
@@ -383,14 +359,17 @@ return (
                   label: "DAO address *",
                   placeholder: "E.g. mydao.sputnikdao.near",
                   value: state.daoAddress,
-                  onChange: (daoAddress) => State.update({ daoAddress, daoAddressError: "" }),
+                  onChange: (daoAddress) =>
+                    State.update({ daoAddress, daoAddressError: "" }),
                   validate: () => {
                     // **CALLED ON BLUR**
                     Near.asyncView(state.daoAddress, "get_policy", {})
                       .then((policy) => {
                         const hasPermissions = !policy
                           ? false
-                          : doesUserHaveDaoFunctionCallProposalPermissions(policy);
+                          : doesUserHaveDaoFunctionCallProposalPermissions(
+                              policy
+                            );
                         State.update({
                           daoAddressError: hasPermissions
                             ? ""
@@ -423,7 +402,9 @@ return (
                     : "Register to apply",
                   onClick: canApply ? handleSendApplication : null,
                   disabled: isError,
-                  href: canApply ? null : props.hrefWithParams(`?tab=createproject`),
+                  href: canApply
+                    ? null
+                    : props.hrefWithParams(`?tab=createproject`),
                   target: canApply ? "_self" : "_blank",
                 }}
               />
