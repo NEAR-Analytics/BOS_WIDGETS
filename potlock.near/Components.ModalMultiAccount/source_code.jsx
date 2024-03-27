@@ -12,13 +12,11 @@ const {
   accountError,
   accountIds,
 } = props;
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const ADD_ACCOUNTS_ICON_URL =
 //   IPFS_BASE_URL + "bafkreig6c7m2z2lupreu2br4pm3xx575mv6uvmuy2qkij4kzzfpt7tipcq";
 // const CLOSE_ICON_URL =
 //   IPFS_BASE_URL + "bafkreifyg2vvmdjpbhkylnhye5es3vgpsivhigkjvtv2o4pzsae2z4vi5i";
-
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,14 +25,12 @@ const ModalHeader = styled.div`
   width: 100%;
   margin-bottom: 24px;
 `;
-
 const ModalHeaderLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 `;
-
 const IconContainer = styled.div`
   width: 40px;
   height: 40px;
@@ -45,7 +41,6 @@ const IconContainer = styled.div`
   align-items: center;
   margin-right: 16px;
 `;
-
 const Icon = styled.svg`
   width: 20px;
   height: 20px;
@@ -55,34 +50,28 @@ const Icon = styled.svg`
     ${(props) => props.hover || ""}
   }
 `;
-
 const ModalTitle = styled.div`
   font-color: #2e2e2e;
   font-size: 16px;
   font-weight: 600;
 `;
-
 const ModalDescription = styled.p`
   font-color: #2e2e2e;
   font-size: 16px;
   font-weight: 400;
 `;
-
 const Space = styled.div`
   height: ${(props) => props.height}px;
 `;
-
 const MembersCount = styled.span`
   color: #2e2e2e;
   font-weight: 600;
 `;
-
 const MembersText = styled.div`
   color: #7b7b7b;
   font-size: 12px;
   font-weight: 400;
 `;
-
 return (
   <Widget
     src={`${ownerId}/widget/Components.Modal`}
@@ -94,7 +83,11 @@ return (
           <ModalHeader>
             <ModalHeaderLeft>
               <IconContainer>
-                <Icon viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <Icon
+                  viewBox="0 0 24 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M16.24 7.65C15.07 7.13 13.63 6.75 12 6.75C10.37 6.75 8.93 7.14 7.76 7.65C6.68 8.13 6 9.21 6 10.39V12H18V10.39C18 9.21 17.32 8.13 16.24 7.65ZM8.07 10C8.16 9.77 8.34 9.58 8.56 9.48C9.66 8.99 10.82 8.75 11.99 8.75C13.17 8.75 14.32 9 15.42 9.48C15.65 9.58 15.82 9.77 15.91 10H8.07Z"
                     fill="#151A23"
