@@ -1,6 +1,6 @@
 const accountId = props.accountId || context.accountId;
 
-if (!accountId) return "Login or send accountId in the props";
+if (!accountId) return "Login or send me money in the props";
 
 const profile = Social.getr(`${accountId}/profile`);
 
