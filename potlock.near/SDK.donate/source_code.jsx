@@ -1,6 +1,5 @@
 return ({ env }) => {
   const contractId = "donate.potlock.near";
-
   const DonateSDK = {
     getContractId: () => contractId,
     getConfig: () => {
@@ -22,7 +21,9 @@ return ({ env }) => {
       });
     },
     getDonationsForRecipient: (recipientId) => {
-      return Near.view(contractId, "get_donations_for_recipient", { recipient_id: recipientId });
+      return Near.view(contractId, "get_donations_for_recipient", {
+        recipient_id: recipientId,
+      });
     },
     asyncGetDonationsForRecipient: (recipientId) => {
       return Near.asyncView(contractId, "get_donations_for_recipient", {
@@ -31,10 +32,14 @@ return ({ env }) => {
     },
     getDonationsForProject: (projectId) => {},
     getDonationsForDonor: (donorId) => {
-      return Near.view(contractId, "get_donations_for_donor", { donor_id: donorId });
+      return Near.view(contractId, "get_donations_for_donor", {
+        donor_id: donorId,
+      });
     },
     asyncGetDonationsForDonor: (donorId) => {
-      return Near.asyncView(contractId, "get_donations_for_donor", { donor_id: donorId });
+      return Near.asyncView(contractId, "get_donations_for_donor", {
+        donor_id: donorId,
+      });
     },
   };
   return DonateSDK;
