@@ -1,15 +1,14 @@
 const { projectId, tab } = props;
-
 const accountId = context.accountId;
-
-const { DONATION_CONTRACT_ID, ownerId } = VM.require("potlock.near/widget/constants") || {
+const { DONATION_CONTRACT_ID, ownerId } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   DONATION_CONTRACT_ID: "",
   ownerId: "",
 };
 const { ProjectOptions } = VM.require(`${ownerId}/widget/Project.Options`) || {
   ProjectOptions: () => [],
 };
-
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
@@ -17,31 +16,25 @@ let DonateSDK =
     // asyncGetDonationsForRecipient: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
-
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
     getPots: () => {},
   }));
 PotFactorySDK = PotFactorySDK({ env: props.env });
-
 const pots = PotFactorySDK.getPots();
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetConfig: () => {},
   asyncGetDonationsForProject: () => {},
   asyncGetDonationsForRecipient: () => {},
 };
-
 let RegistrySDK =
   VM.require("potlock.near/widget/SDK.registry") ||
   (() => ({
     getProjectById: () => "",
   }));
 RegistrySDK = RegistrySDK({ env: props.env });
-
 const project = RegistrySDK.getProjectById(projectId);
-
 // Loading Skeleton
 const loadingSkeleton = styled.keyframes`
   0% {
@@ -54,7 +47,6 @@ const loadingSkeleton = styled.keyframes`
     opacity: 1;
   }
 `;
-
 const SkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,7 +56,6 @@ const SkeletonContainer = styled.div`
   animation-duration: 1s;
   animation-iteration-count: infinite;
 `;
-
 const LoadingBackground = styled.div`
   position: relative;
   background: #eee;
@@ -94,7 +85,6 @@ const LoadingProfileImg = styled.div`
     border-radius: 50%;
   }
 `;
-
 const BannerSkeleton = () => (
   <SkeletonContainer>
     <LoadingBackground />
@@ -103,17 +93,18 @@ const BannerSkeleton = () => (
     </LoadingProfileImg>
   </SkeletonContainer>
 );
-
 if (project === null) return <BannerSkeleton />;
 if (project == undefined) {
-  return <div style={{ marginTop: "1rem", fontSize: "1.5rem" }}>Project not found</div>;
+  return (
+    <div style={{ marginTop: "1rem", fontSize: "1.5rem" }}>
+      Project not found
+    </div>
+  );
 }
-
 const [directDonations, setDirectDonations] = useState(null);
 // mapping of pot IDs to array of Round Matching Donations for the project
 const [matchingRoundDonations, setMatchingRoundDonations] = useState({});
 const [potPayouts, setPotPayouts] = useState({});
-
 const getProjectRoundDonations = (potId, potDetail) => {
   return PotSDK.asyncGetDonationsForProject(potId, projectId)
     .then((donations) => {
@@ -136,7 +127,6 @@ const getProjectRoundDonations = (potId, potDetail) => {
       });
     });
 };
-
 // Get Project Direct Donations
 let donationsForRecipient = DonateSDK.getDonationsForRecipient(projectId);
 if (donationsForRecipient && !directDonations) {
@@ -146,11 +136,12 @@ if (donationsForRecipient && !directDonations) {
   }));
   setDirectDonations(donationsForRecipient);
 }
-
 if (pots && !matchingRoundDonations[pots[pots.length - 1].id]) {
   pots.forEach((pot) => {
     PotSDK.asyncGetConfig(pot.id).then((potDetail) => {
-      const payout = potDetail.payouts.filter((pay) => projectId === pay.project_id)[0];
+      const payout = potDetail.payouts.filter(
+        (pay) => projectId === pay.project_id
+      )[0];
       if (payout.paid_at)
         setPotPayouts((prevPayout) => ({
           ...prevPayout,
@@ -166,11 +157,14 @@ if (pots && !matchingRoundDonations[pots[pots.length - 1].id]) {
     });
   });
 }
-
 const allDonations = useMemo(() => {
   const RoundDonationsValue = Object.values(matchingRoundDonations).flat();
   let payouts = Object.values(potPayouts);
-  const allDonations = [...(directDonations || []), ...RoundDonationsValue, ...payouts];
+  const allDonations = [
+    ...(directDonations || []),
+    ...RoundDonationsValue,
+    ...payouts,
+  ];
   allDonations.sort((a, b) => {
     const b_donated_at = b.donated_at_ms || b.donated_at || b.paid_at;
     const a_donated_at = a.donated_at_ms || a.donated_at || a.paid_at;
@@ -178,17 +172,17 @@ const allDonations = useMemo(() => {
   });
   return allDonations;
 }, [matchingRoundDonations, directDonations, potPayouts]);
-
 const profile = Social.getr(`${projectId}/profile`);
-
 const Wrapper = styled.div`
   margin-top: calc(-1 * var(--body-top-padding, 0));
 `;
-
 return (
   <Wrapper>
     {project.status !== "Approved" && (
-      <Widget src={`${ownerId}/widget/Project.ProjectBanner`} props={{ ...props, project }} />
+      <Widget
+        src={`${ownerId}/widget/Project.ProjectBanner`}
+        props={{ ...props, project }}
+      />
     )}
     <Widget
       src={`${ownerId}/widget/Profile.Body`}
