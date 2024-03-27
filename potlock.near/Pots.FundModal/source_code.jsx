@@ -1,5 +1,5 @@
-const { isMatchingPoolModalOpen, onClose, potDetail, referrerId, potId } = props;
-
+const { isMatchingPoolModalOpen, onClose, potDetail, referrerId, potId } =
+  props;
 const {
   protocol_config_provider,
   chef_fee_basis_points,
@@ -8,7 +8,6 @@ const {
   min_matching_pool_donation_amount,
   referral_fee_matching_pool_basis_points,
 } = potDetail;
-
 State.init({
   matchingPoolDonationAmountNear: "",
   matchingPoolDonationAmountNearError: "",
@@ -17,7 +16,6 @@ State.init({
   bypassProtocolFee: false,
   bypassChefFee: false,
 });
-
 const {
   matchingPoolDonationAmountNear,
   matchingPoolDonationAmountNearError,
@@ -26,42 +24,44 @@ const {
   bypassProtocolFee,
   bypassChefFee,
 } = state;
-
 const { yoctosToNear } = VM.require("potlock.near/widget/utils") || {
   yoctosToNear: () => "",
 };
-
-const { _address } = VM.require(`potlock.near/widget/Components.DonorsUtils`) || {
+const { _address } = VM.require(
+  `potlock.near/widget/Components.DonorsUtils`
+) || {
   _address: () => "",
 };
-
-const { ownerId, MAX_DONATION_MESSAGE_LENGTH, SUPPORTED_FTS, ONE_TGAS } = VM.require(
-  "potlock.near/widget/constants"
-) || {
-  ownerId: "",
-  ONE_TGAS: 0,
-  MAX_DONATION_MESSAGE_LENGTH: 0,
-  SUPPORTED_FTS: {},
-};
-
+const { ownerId, MAX_DONATION_MESSAGE_LENGTH, SUPPORTED_FTS, ONE_TGAS } =
+  VM.require("potlock.near/widget/constants") || {
+    ownerId: "",
+    ONE_TGAS: 0,
+    MAX_DONATION_MESSAGE_LENGTH: 0,
+    SUPPORTED_FTS: {},
+  };
 const protocolConfigContractId = protocol_config_provider.split(":")[0];
 const protocolConfigViewMethodName = protocol_config_provider.split(":")[1];
-const protocolConfig = Near.view(protocolConfigContractId, protocolConfigViewMethodName, {});
-
-const protocolFeeRecipientProfile = Social.getr(`${protocolConfig?.account_id}/profile`);
+const protocolConfig = Near.view(
+  protocolConfigContractId,
+  protocolConfigViewMethodName,
+  {}
+);
+const protocolFeeRecipientProfile = Social.getr(
+  `${protocolConfig?.account_id}/profile`
+);
 const chefProfile = Social.getr(`${chef}/profile`);
-
 const chefFeeAmountNear = bypassChefFee
   ? 0
-  : (matchingPoolDonationAmountNear * potDetail?.chef_fee_basis_points) / 10_000 || 0;
-
+  : (matchingPoolDonationAmountNear * potDetail?.chef_fee_basis_points) /
+      10_000 || 0;
 const protocolFeeAmountNear = bypassProtocolFee
   ? 0
-  : (matchingPoolDonationAmountNear * protocolConfig?.basis_points) / 10_000 || 0;
+  : (matchingPoolDonationAmountNear * protocolConfig?.basis_points) / 10_000 ||
+    0;
 const referrerFeeAmountNear = referrerId
-  ? (matchingPoolDonationAmountNear * referral_fee_matching_pool_basis_points) / 10_000 || 0
+  ? (matchingPoolDonationAmountNear * referral_fee_matching_pool_basis_points) /
+      10_000 || 0
   : 0;
-
 const handleMatchingPoolDonation = () => {
   const args = {
     message: matchingPoolDonationMessage,
@@ -72,13 +72,13 @@ const handleMatchingPoolDonation = () => {
   if (state.bypassChefFee) {
     args.custom_chef_fee_basis_points = 0;
   }
-
   const amountFloat = parseFloat(matchingPoolDonationAmountNear || 0);
   if (!amountFloat) {
     State.update({ matchingPoolDonationAmountNearError: "Invalid amount" });
     return;
   }
-  const amountIndivisible = SUPPORTED_FTS[base_currency.toUpperCase()].toIndivisible(amountFloat);
+  const amountIndivisible =
+    SUPPORTED_FTS[base_currency.toUpperCase()].toIndivisible(amountFloat);
   const transactions = [
     {
       contractName: potId,
@@ -92,7 +92,6 @@ const handleMatchingPoolDonation = () => {
   // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
   // <---- EXTENSION WALLET HANDLING ----> // TODO: implement
 };
-
 const ModalTitle = styled.div`
   color: #525252;
   font-size: 16px;
@@ -101,14 +100,12 @@ const ModalTitle = styled.div`
   word-wrap: break-word;
   margin-bottom: 8px;
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 `;
-
 const UserChipLink = styled.a`
   display: flex;
   flex-direction: row;
@@ -118,12 +115,10 @@ const UserChipLink = styled.a`
   gap: 4px;
   border-radius: 32px;
   background: #ebebeb;
-
   &:hover {
     text-decoration: none;
   }
 `;
-
 const TextBold = styled.div`
   color: #292929;
   font-size: 12px;
@@ -132,7 +127,6 @@ const TextBold = styled.div`
   word-wrap: break-word;
   text-align: center;
 `;
-
 const FeeText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -144,7 +138,6 @@ const FeeText = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const Label = styled.label`
   width: 100%;
   font-size: 12px;
@@ -156,9 +149,7 @@ const Label = styled.label`
   align-items: center;
   justify-content: center;
 `;
-
 console.log(protocolFeeRecipientProfile);
-
 return (
   <Widget
     src={`${ownerId}/widget/Components.Modal`}
@@ -206,13 +197,15 @@ return (
               onChange: (matchingPoolDonationMessage) =>
                 State.update({ matchingPoolDonationMessage }),
               validate: () => {
-                if (matchingPoolDonationMessage.length > MAX_DONATION_MESSAGE_LENGTH) {
+                if (
+                  matchingPoolDonationMessage.length >
+                  MAX_DONATION_MESSAGE_LENGTH
+                ) {
                   State.update({
                     matchingPoolDonationMessageError: `Message must be less than ${MAX_DONATION_MESSAGE_LENGTH} characters`,
                   });
                   return;
                 }
-
                 State.update({ matchingPoolDonationMessageError: "" });
               },
               error: matchingPoolDonationMessageError,
@@ -230,7 +223,8 @@ return (
               }}
             />
             <Label htmlFor="bypassProtocolFeeSelector">
-              Bypass {protocolConfig?.basis_points / 100 || "-"}% protocol fee to{" "}
+              Bypass {protocolConfig?.basis_points / 100 || "-"}% protocol fee
+              to{" "}
               <UserChipLink
                 href={`https://near.social/mob.near/widget/ProfilePage?accountId=${protocolConfig?.account_id}`}
                 target="_blank"
@@ -247,7 +241,10 @@ return (
                   }}
                 />
                 <TextBold>
-                  {_address(protocolFeeRecipientProfile?.name || protocolConfig?.account_id)}
+                  {_address(
+                    protocolFeeRecipientProfile?.name ||
+                      protocolConfig?.account_id
+                  )}
                 </TextBold>
               </UserChipLink>
             </Label>
