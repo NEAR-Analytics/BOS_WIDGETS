@@ -5,17 +5,13 @@ const { getCartItemCount, getCart, removeItemsFromCart } = VM.require(
   getCart: () => {},
   removeItemsFromCart: () => {},
 };
-
 const { href } = VM.require("devs.near/widget/lib.url") || {
   href: () => {},
 };
-
 const navHeightPx = 110;
 const navHeightPxMobile = 96;
-
 const cart = getCart();
 const numCartItems = getCartItemCount();
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -30,12 +26,10 @@ const ModalOverlay = styled.div`
   padding-top: ${navHeightPx * 0.8 + 50}px;
   padding-right: 32px;
   z-index: 1000;
-
   @media screen and (max-width: 768px) {
     padding-right: 8px;
   }
 `;
-
 const ModalContainer = styled.div`
   width: 383px;
   padding: 24px 0px;
@@ -51,7 +45,6 @@ const ModalContainer = styled.div`
   max-width: 90vw;
   overflow-y: scroll;
 `;
-
 const ModalHeader = styled.div`
   width: 100%;
   // height: 100%;
@@ -63,7 +56,6 @@ const ModalHeader = styled.div`
   border-bottom: 1px #dbdbdb solid;
   position: relative;
 `;
-
 const ModalHeaderText = styled.div`
   text-align: center;
   color: #2e2e2e;
@@ -73,7 +65,6 @@ const ModalHeaderText = styled.div`
   line-height: 16px;
   word-wrap: break-word;
 `;
-
 const NoProjectsText = styled.div`
   text-align: center;
   color: #2e2e2e;
@@ -82,14 +73,12 @@ const NoProjectsText = styled.div`
   margin-top: 24px;
   width: 100%;
 `;
-
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 24px 24px 0 24px;
 `;
-
 const Ear = styled.div`
   width: 16px;
   height: 16px;
@@ -101,10 +90,8 @@ const Ear = styled.div`
   right: 32px;
   z-index: 1000;
 `;
-
 const CartModal = ({ Trigger }) => {
   Trigger = Trigger ?? (() => <></>);
-
   return (
     <Widget
       src={"devs.near/widget/Modal"}
@@ -180,5 +167,4 @@ const CartModal = ({ Trigger }) => {
     />
   );
 };
-
 return { CartModal };
