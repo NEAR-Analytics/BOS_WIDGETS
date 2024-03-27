@@ -1,11 +1,8 @@
 const { canDeploy, hrefWithParams } = props;
-
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-
 const POT_CODE_LINK = "https://github.com/PotLock/core/tree/main/contracts/pot"; // for directing user to view source code for Pot
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,7 +17,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const SuccessContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,7 +24,6 @@ const SuccessContainer = styled.div`
   width: 100%;
   gap: 24px;
 `;
-
 const HeaderTitle = styled.div`
   color: #292929;
   font-size: 60px;
@@ -37,7 +32,6 @@ const HeaderTitle = styled.div`
   word-wrap: break-word;
   font-family: Lora;
 `;
-
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -76,7 +70,6 @@ const HeaderContainer = styled.div`
     font-family: "Lora";
     margin: 0;
   }
-
   .info {
     display: flex;
     align-items: center;
@@ -87,7 +80,6 @@ const HeaderContainer = styled.div`
       height: 1em;
     }
   }
-
   @media only screen and (max-width: 992px) {
     .content {
       padding: 64px 20px;
@@ -111,7 +103,6 @@ const HeaderContainer = styled.div`
     }
   }
 `;
-
 return props.deploymentSuccess || state.deploymentSuccess ? (
   <SuccessContainer>
     <HeaderTitle>Deployment Successful!</HeaderTitle>
@@ -153,7 +144,6 @@ return props.deploymentSuccess || state.deploymentSuccess ? (
               fill="#7B7B7B"
             />
           </svg>
-
           <div>Know More about Quadratic Funding</div>
         </div>
       </div>
