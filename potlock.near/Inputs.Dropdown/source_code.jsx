@@ -1,7 +1,12 @@
-const { sortList, sortVal, title, handleSortChange, FilterMenuCustomStyle, showCount } = props;
-
+const {
+  sortList,
+  sortVal,
+  title,
+  handleSortChange,
+  FilterMenuCustomStyle,
+  showCount,
+} = props;
 const [openFilter, setOpenFilter] = useState(false);
-
 const FilterButton = styled.div`
   white-space: nowrap;
   display: flex;
@@ -19,7 +24,6 @@ const FilterButton = styled.div`
     font-weight: 500;
   }
 `;
-
 const FilterIcon = styled.div`
   display: flex;
   width: 16px;
@@ -27,7 +31,6 @@ const FilterIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const FilterMenu = styled.div`
   position: absolute;
   background: #fff;
@@ -40,11 +43,11 @@ const FilterMenu = styled.div`
   border-radius: 6px;
   border: 1px solid rgba(41, 41, 41, 0.36);
   box-shadow: 0px 12px 20px -4px rgba(123, 123, 123, 0.32),
-    0px 4px 8px -3px rgba(123, 123, 123, 0.2), 0px 0px 2px 0px rgba(123, 123, 123, 0.36);
+    0px 4px 8px -3px rgba(123, 123, 123, 0.2),
+    0px 0px 2px 0px rgba(123, 123, 123, 0.36);
   z-index: 3;
   ${FilterMenuCustomStyle || ""}
 `;
-
 const FilterItem = styled.div`
   cursor: pointer;
   padding: 8px;
@@ -73,11 +76,13 @@ const Screen = styled.div`
   left: 0;
   top: 0;
 `;
-
 return (
   <>
     {openFilter && <Screen onClick={() => setOpenFilter(false)} />}
-    <div style={{ position: "relative" }} onClick={() => setOpenFilter(!openFilter)}>
+    <div
+      style={{ position: "relative" }}
+      onClick={() => setOpenFilter(!openFilter)}
+    >
       <FilterButton>
         {sortVal || title}
         <FilterIcon>
@@ -105,7 +110,8 @@ return (
                 handleSortChange(option);
               }}
             >
-              {option.label} <div className="count">{showCount ? option.count : ""}</div>
+              {option.label}{" "}
+              <div className="count">{showCount ? option.count : ""}</div>
             </FilterItem>
           ))}
         </FilterMenu>
