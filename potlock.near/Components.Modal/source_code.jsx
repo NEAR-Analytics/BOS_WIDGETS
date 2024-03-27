@@ -13,7 +13,6 @@ const ModalOverlay = styled.div`
   // padding-top: 30vh;
   z-index: 1000;
 `;
-
 const ModalContent = styled.div`
   border-radius: 6px;
   width: 100%;
@@ -24,17 +23,13 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const overlayStyle = props.overlayStyle || {};
 const contentStyle = props.contentStyle || {};
-
 State.init({
   isModalOpen: false,
 });
-
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return "";
-
   return (
     <ModalOverlay onClick={onClose} style={overlayStyle}>
       <ModalContent onClick={(e) => e.stopPropagation()} style={contentStyle}>
@@ -43,12 +38,17 @@ const Modal = ({ isOpen, onClose, children }) => {
     </ModalOverlay>
   );
 };
-
 return (
   <Modal
-    isOpen={props.hasOwnProperty("isModalOpen") ? props.isModalOpen : state.isModalOpen}
+    isOpen={
+      props.hasOwnProperty("isModalOpen")
+        ? props.isModalOpen
+        : state.isModalOpen
+    }
     onClose={
-      props.hasOwnProperty("onClose") ? props.onClose : () => State.update({ isModalOpen: false })
+      props.hasOwnProperty("onClose")
+        ? props.onClose
+        : () => State.update({ isModalOpen: false })
     }
   >
     {props.children}
