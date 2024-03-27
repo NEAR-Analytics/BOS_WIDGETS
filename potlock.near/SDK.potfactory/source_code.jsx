@@ -1,7 +1,8 @@
 return ({ env }) => {
   const contractId =
-    env === "staging" ? "potfactory.staging.potlock.near" : "v1.potfactory.potlock.near";
-
+    env === "staging"
+      ? "potfactory.staging.potlock.near"
+      : "v1.potfactory.potlock.near";
   const PotFactorySDK = {
     getContractId: () => contractId,
     getConfig: () => {
@@ -19,7 +20,10 @@ return ({ env }) => {
     canUserDeployPot: (accountId) => {
       const config = PotFactorySDK.getConfig();
       if (config) {
-        return !config.require_whitelist || config.whitelisted_deployers.includes(accountId);
+        return (
+          !config.require_whitelist ||
+          config.whitelisted_deployers.includes(accountId)
+        );
       }
     },
   };
