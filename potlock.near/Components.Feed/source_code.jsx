@@ -1,14 +1,14 @@
 const { ownerId } = props;
-let RegistrySDK =
-  VM.require("potlock.near/widget/SDK.registry") ||
+let ListsSDK =
+  VM.require("potlock.near/widget/SDK.lists") ||
   (() => ({
-    getProjects: () => {},
+    getRegistrations: () => {},
   }));
-RegistrySDK = RegistrySDK({ env: props.env });
-const projects = RegistrySDK.getProjects() || [];
-const projectIds = projects
-  .filter((project) => project.status === "Approved")
-  .map((project) => project.id);
+ListsSDK = ListsSDK({ env: props.env });
+const registrations = ListsSDK.getRegistrations() || [];
+const registrantIds = registrations
+  .filter((reg) => reg.status === "Approved")
+  .map((reg) => reg.registrant_id);
 const Container = styled.div`
   padding: 24px 64px;
   @media screen and (max-width: 768px) {
@@ -20,7 +20,7 @@ return (
     <Widget
       key="feed"
       src={`${ownerId}/widget/Profile.Feed`}
-      props={{ accounts: projectIds }}
+      props={{ accounts: registrantIds }}
     />
   </Container>
 );
