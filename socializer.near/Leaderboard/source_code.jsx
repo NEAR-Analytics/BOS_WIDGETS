@@ -1,9 +1,9 @@
 const Owner = "socializer.near";
 const accountId = context.accountId;
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
 
 const Wrapper = styled.div`
-    width: 500px;
+    width: 600px;
     @media (max-width: 620px) {
         width: 100%;
     }
@@ -56,7 +56,7 @@ const TimeOptions = [
 
 State.init({
   menu: { value: "users" },
-  time: { value: "monthly" },
+  time: "monthly",
   list: [],
   loaded: false,
   error: "",
@@ -152,7 +152,7 @@ return (
     <Wrapper>
       <HeadContent>
         <h3>Leader Board : </h3>
-        <div className="d-flex flex-column gap-2 form-group mb-2">
+        <div className="d-flex flex-column gap-2 form-group mb-2 align-items-end">
           <Widget
             props={{
               API_URL,
@@ -163,16 +163,20 @@ return (
             }}
             src={`${Owner}/widget/Select`}
           />
-          <Widget
-            props={{
-              API_URL,
-              noLabel: true,
-              options: TimeOptions,
-              value: state.time,
-              onChange: (data) => selectMenu(data, "time"),
-            }}
-            src={`${Owner}/widget/Select`}
-          />
+          <div className="d-flex gap-2">
+            {TimeOptions.map((row) => (
+              <button
+                key={row.value}
+                className={`btn btn-${
+                  state.time === row.value ? "primary" : "default"
+                }`}
+                style={{ border: "1px solid" }}
+                onClick={() => selectMenu(row.value, "time")}
+              >
+                {row.text}
+              </button>
+            ))}
+          </div>
         </div>
       </HeadContent>
       <div>
