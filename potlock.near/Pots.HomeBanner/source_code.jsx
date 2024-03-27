@@ -1,9 +1,7 @@
 const { canDeploy, hrefWithParams } = props;
-
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,7 +40,6 @@ const Container = styled.div`
     font-family: "Lora";
     margin: 0;
   }
-
   .btns {
     display: flex;
     align-items: center;
@@ -72,7 +69,6 @@ const Container = styled.div`
       }
     }
   }
-
   @media only screen and (max-width: 768px) {
     .content {
       padding: 64px 20px;
@@ -96,7 +92,6 @@ const Container = styled.div`
     }
   }
 `;
-
 return (
   <Container>
     <Widget
@@ -108,7 +103,8 @@ return (
     <div className="content">
       <h3 className="sub-title">Explore Pots</h3>
       <h1 className="title">
-        Donate to Matching Rounds <br className="line-break" /> to Get Your Contributions Amplified.
+        Donate to Matching Rounds <br className="line-break" /> to Get Your
+        Contributions Amplified.
       </h1>
       <div className="btns">
         {canDeploy && <a href={hrefWithParams(`?tab=deploypot`)}>Deploy Pot</a>}
