@@ -1,5 +1,4 @@
 const { handleCallback, item, text } = props;
-
 const { addItemsToCart, removeItemsFromCart, itemExistsInCart } = VM.require(
   "potlock.near/widget/SDK.cart"
 ) ?? {
@@ -7,9 +6,7 @@ const { addItemsToCart, removeItemsFromCart, itemExistsInCart } = VM.require(
   removeItemsFromCart: () => {},
   itemExistsInCart: () => false,
 };
-
 const existsInCart = itemExistsInCart(item);
-
 return (
   <Widget
     src={"potlock.near/widget/Components.Button"}
