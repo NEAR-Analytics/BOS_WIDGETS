@@ -6,9 +6,7 @@ const {
   fundingSources,
   fundingSourceIndex,
 } = props;
-
 // console.log("props in add funding source modal: ", props);
-
 State.init({
   investorName: fundingSources[fundingSourceIndex]?.investorName || "",
   investorNameError: "",
@@ -19,15 +17,12 @@ State.init({
   amountReceived: fundingSources[fundingSourceIndex]?.amountReceived || "",
   amountReceivedError: "",
 });
-
 // console.log("state in add funding source modal: ", state);
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const MONEY_ICON_URL =
 //   IPFS_BASE_URL + "bafkreiem3zqv4smaflel54lwtl65d7zbulkan3vnfor4fi2sqn3n5p7tpe";
 // const CLOSE_ICON_URL =
 //   IPFS_BASE_URL + "bafkreifyg2vvmdjpbhkylnhye5es3vgpsivhigkjvtv2o4pzsae2z4vi5i";
-
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -39,7 +34,6 @@ const ModalHeader = styled.div`
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 `;
-
 const ModalHeaderText = styled.div`
   font-size: 16px;
   font-weight: 600;
@@ -48,7 +42,6 @@ const ModalHeaderText = styled.div`
   word-wrap: break-word;
   margin-left: 8px;
 `;
-
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,7 +50,6 @@ const ModalBody = styled.div`
   padding: 16px 20px 32px 20px;
   gap: 24px;
 `;
-
 const Icon = styled.svg`
   width: 20px;
   height: 20px;
@@ -71,13 +63,11 @@ const CloseIcon = styled.svg`
     rotate: 180deg;
   }
 `;
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
-
 return (
   <Widget
     src={`${ownerId}/widget/Components.Modal`}
@@ -107,7 +97,6 @@ return (
                   fill="#151A23"
                 />
               </Icon>
-
               <ModalHeaderText>Add Past Funding Source</ModalHeaderText>
             </Row>
             <CloseIcon
@@ -132,11 +121,15 @@ return (
                 onChange: (val) => State.update({ investorName: val }),
                 validate: () => {
                   if (state.investorName.length < 3) {
-                    State.update({ investorNameError: "Must be at least 3 characters" });
+                    State.update({
+                      investorNameError: "Must be at least 3 characters",
+                    });
                     return;
                   }
                   if (state.investorName.length > 50) {
-                    State.update({ investorNameError: "Must be less than 50 characters" });
+                    State.update({
+                      investorNameError: "Must be less than 50 characters",
+                    });
                     return;
                   }
                   State.update({ investorNameError: "" });
@@ -153,7 +146,9 @@ return (
                 onChange: (description) => State.update({ description }),
                 validate: () => {
                   if (state.description.length > 500) {
-                    State.update({ descriptionError: "Must be less than 500 characters" });
+                    State.update({
+                      descriptionError: "Must be less than 500 characters",
+                    });
                     return;
                   }
                   State.update({ descriptionError: "" });
@@ -167,14 +162,19 @@ return (
                 label: "Denomination of investment",
                 placeholder: "e.g. NEAR, USD, USDC, etc.",
                 value: state.denomination,
-                onChange: (val) => State.update({ denomination: val.toUpperCase() }),
+                onChange: (val) =>
+                  State.update({ denomination: val.toUpperCase() }),
                 validate: () => {
                   if (state.denomination.length < 3) {
-                    State.update({ denominationError: "Must be at least 3 characters" });
+                    State.update({
+                      denominationError: "Must be at least 3 characters",
+                    });
                     return;
                   }
                   if (state.denomination.length > 10) {
-                    State.update({ denominationError: "Must be less than 10 characters" });
+                    State.update({
+                      denominationError: "Must be less than 10 characters",
+                    });
                     return;
                   }
                   State.update({ denominationError: "" });
