@@ -1,5 +1,10 @@
 return (
-  <svg {...props} viewBox="0 0 1440 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    {...props}
+    viewBox="0 0 1440 400"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <g clip-path="url(#clip0_374_170)">
       <rect width="1440" height="400" fill="#FEF6EE" />
       <mask
@@ -11,7 +16,12 @@ return (
         width="1440"
         height="1024"
       >
-        <rect y="-312" width="1440" height="1024" fill="url(#paint0_radial_374_170)" />
+        <rect
+          y="-312"
+          width="1440"
+          height="1024"
+          fill="url(#paint0_radial_374_170)"
+        />
       </mask>
       <g mask="url(#mask0_374_170)">
         <g style={{ mixBlendMode: "multiply" }} opacity="0.3">
