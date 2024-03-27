@@ -1,5 +1,4 @@
 const { ownerId } = props;
-
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -8,37 +7,35 @@ let PotFactorySDK =
     asyncGetPots: () => {},
     canUserDeployPot: () => {},
   }));
-
 const [pots, setPots] = useState(null);
 const [inProgressRounds, setInProgressRounds] = useState([]);
 const [filteredRounds, setFilteredRounds] = useState([]);
 const [completedRounds, setCompletedRounds] = useState([]);
 const [filterSelcted, setFilterSelected] = useState([]);
 const [sortBy, setSortBy] = useState("");
-
 PotFactorySDK = PotFactorySDK({ env: props.env });
 const potFactoryContractId = PotFactorySDK.getContractId();
 const potFactoryConfig = PotFactorySDK.getConfig();
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetConfig: () => {},
 };
-
 const currentDate = Date.now();
-
 const filters = {
   application_open: (round) =>
-    currentDate > round.application_start_ms && currentDate < round.application_end_ms,
+    currentDate > round.application_start_ms &&
+    currentDate < round.application_end_ms,
   application_closed: (round) => currentDate > round.application_end_ms,
   round_end: (round) => currentDate > round.public_round_end_ms,
   round_open: (round) =>
-    currentDate > round.public_round_start_ms && currentDate < round.public_round_end_ms,
+    currentDate > round.public_round_start_ms &&
+    currentDate < round.public_round_end_ms,
   cooldown: (round) =>
-    currentDate > round.public_round_end_ms && currentDate < round.cooldown_end_ms,
+    currentDate > round.public_round_end_ms &&
+    currentDate < round.cooldown_end_ms,
   completed: (round) =>
-    currentDate > round.public_round_end_ms && currentDate > round.cooldown_end_ms,
+    currentDate > round.public_round_end_ms &&
+    currentDate > round.cooldown_end_ms,
 };
-
 const sortOptions = [
   {
     label: "Most to least in pot",
@@ -57,7 +54,6 @@ const sortOptions = [
     val: "least_donations",
   },
 ];
-
 if (!pots) {
   PotFactorySDK.asyncGetPots().then((pots) => {
     pots.forEach(({ id }) => {
@@ -70,7 +66,6 @@ if (!pots) {
     });
   });
 }
-
 const compareFunction = (a, b) => {
   // Cooldown Rounds
   if (filters.cooldown(a)) {
@@ -93,7 +88,6 @@ const compareFunction = (a, b) => {
   // Default case: no change in order
   return 0;
 };
-
 useEffect(() => {
   if (pots) {
     const potsVal = Object.values(pots);
@@ -112,9 +106,7 @@ useEffect(() => {
     setCompletedRounds(completed);
   }
 }, [pots]);
-
 const canDeploy = PotFactorySDK.canUserDeployPot(context.accountId);
-
 const Title = styled.div`
   margin-bottom: 1rem;
   display: flex;
@@ -126,7 +118,6 @@ const Title = styled.div`
     font-weight: 600;
   }
 `;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -179,18 +170,15 @@ const Container = styled.div`
     }
   }
 `;
-
 const Line = styled.div`
   height: 1px;
   width: 100%;
   background: #c7c7c7;
   margin: 3rem 0;
 `;
-
 if (!potFactoryConfig) {
   return <div class="spinner-border text-secondary" role="status" />;
 }
-
 const menuClass = `
 width: 286px;
 flex-direction: column;
@@ -205,11 +193,9 @@ gap: 0;
   padding: 0.5rem;
 }
 `;
-
 const handleFilter = ({ val }) => {
   let filteredRounds = inProgressRounds;
   let selectedUpdated = [];
-
   if (filterSelcted.includes(val)) {
     selectedUpdated = filterSelcted.filter((item) => item !== val);
     setFilterSelected(selectedUpdated);
@@ -217,41 +203,43 @@ const handleFilter = ({ val }) => {
     selectedUpdated = [...filterSelcted, val];
     setFilterSelected(selectedUpdated);
   }
-
   if (selectedUpdated.length === 0) {
     return setFilteredRounds(inProgressRounds);
   }
-
   filteredRounds = filteredRounds.filter((round) =>
     selectedUpdated.some((key) => {
       return filters[key](round) === true;
     })
   );
-
   setFilteredRounds(filteredRounds);
 };
-
 const handleSort = ({ val }) => {
   const sortedRounds = filteredRounds;
   switch (val) {
     case "least_pots":
-      sortedRounds.sort((a, b) => Big(b.matching_pool_balance) - Big(a.matching_pool_balance));
+      sortedRounds.sort(
+        (a, b) => Big(b.matching_pool_balance) - Big(a.matching_pool_balance)
+      );
       break;
     case "most_pots":
-      sortedRounds.sort((a, b) => Big(a.matching_pool_balance) - Big(b.matching_pool_balance));
+      sortedRounds.sort(
+        (a, b) => Big(a.matching_pool_balance) - Big(b.matching_pool_balance)
+      );
       break;
     case "most_donations":
-      sortedRounds.sort((a, b) => Big(b.total_public_donations) - Big(a.total_public_donations));
+      sortedRounds.sort(
+        (a, b) => Big(b.total_public_donations) - Big(a.total_public_donations)
+      );
       break;
     case "least_donations":
-      sortedRounds.sort((a, b) => Big(a.total_public_donations) - Big(b.total_public_donations));
+      sortedRounds.sort(
+        (a, b) => Big(a.total_public_donations) - Big(b.total_public_donations)
+      );
       break;
   }
-
   setFilteredRounds(sortedRounds);
   setSortBy(val);
 };
-
 return (
   <Container>
     <Widget
@@ -261,7 +249,6 @@ return (
         canDeploy,
       }}
     />
-
     <div className="content">
       <div className="header">
         <Title>
@@ -291,7 +278,6 @@ return (
           />
         </div>
       </div>
-
       <Widget
         src={`${ownerId}/widget/Project.ListSection`}
         props={{
