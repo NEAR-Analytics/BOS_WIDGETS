@@ -1,32 +1,28 @@
 const { accountId, projectId } = props;
-
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-const { nearToUsd, nearToUsdWithFallback } = VM.require("potlock.near/widget/utils") || {
+const { nearToUsd, nearToUsdWithFallback } = VM.require(
+  "potlock.near/widget/utils"
+) || {
   nearToUsd: 1,
   nearToUsdWithFallback: () => "",
 };
-
 const [isModalDonationOpen, setIsModalDonationOpen] = useState(false);
 const [successfulDonation, setSuccessfulDonation] = useState(false);
-
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     getDonationsForRecipient: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
-
 let RegistrySDK =
   VM.require("potlock.near/widget/SDK.registry") ||
   (() => ({
     isProjectApproved: () => {},
   }));
 RegistrySDK = RegistrySDK({ env: props.env });
-
 const projectIsApproved = RegistrySDK.isProjectApproved(projectId);
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -81,9 +77,7 @@ const Container = styled.div`
     }
   }
 `;
-
 const donationsForProject = DonateSDK.getDonationsForRecipient(props.projectId);
-
 const [totalDonations, totalDonors, totalReferralFees] = useMemo(() => {
   if (!donationsForProject) {
     return ["", ""];
@@ -111,13 +105,13 @@ const [totalDonations, totalDonors, totalReferralFees] = useMemo(() => {
     totalReferralFees.div(1e24).toNumber().toFixed(2),
   ];
 }, [donationsForProject]);
-
 return (
   <Container>
     <div className="donations-info">
       <div className="amount">{nearToUsdWithFallback(totalDonations)}</div>
       <div className="donors">
-        Raised from <span> {totalDonors}</span> Donor{totalDonors?.length === 1 ? "" : "s"}
+        Raised from <span> {totalDonors}</span> Donor
+        {totalDonors?.length === 1 ? "" : "s"}
       </div>
     </div>
     <div className="btn-wrapper">
@@ -129,9 +123,11 @@ return (
           onClick: () => setIsModalDonationOpen(true),
         }}
       />
-      <Widget src={`${ownerId}/widget/Project.FollowButton`} props={{ accountId: projectId }} />
+      <Widget
+        src={`${ownerId}/widget/Project.FollowButton`}
+        props={{ accountId: projectId }}
+      />
     </div>
-
     <Widget
       src={`${ownerId}/widget/Project.ModalDonation`}
       props={{
