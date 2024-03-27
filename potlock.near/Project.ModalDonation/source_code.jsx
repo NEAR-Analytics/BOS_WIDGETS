@@ -214,13 +214,13 @@ const {
   SUPPORTED_FTS: {},
 };
 // console.log("props in donation modal: ", props);
-let RegistrySDK =
-  VM.require("potlock.near/widget/SDK.registry") ||
+let ListsSDK =
+  VM.require("potlock.near/widget/SDK.lists") ||
   (() => ({
-    getProjects: () => {},
+    getRegistrations: () => {},
   }));
-RegistrySDK = RegistrySDK({ env: props.env });
-const projects = RegistrySDK.getProjects() || [];
+ListsSDK = ListsSDK({ env: props.env });
+const projects = ListsSDK.getRegistrations() || [];
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
@@ -260,7 +260,7 @@ const approvedProjectIds = useMemo(
     if (projects) {
       return projects
         .filter((project) => project.status === "Approved")
-        .map((project) => project.id);
+        .map((project) => project.registrant_id);
     }
   },
   [projects]
