@@ -4,7 +4,6 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-
 const CheckBox = styled.input`
   width: 18px;
   height: 18px;
@@ -13,9 +12,7 @@ const CheckBox = styled.input`
   cursor: pointer;
   // TODO: update background color when selected
 `;
-
 const Label = styled.label``;
-
 const Error = styled.span`
   display: inline-block;
   font-style: normal;
@@ -26,19 +23,15 @@ const Error = styled.span`
   height: 0;
   overflow: hidden;
   transition: height 0.3s ease-in-out;
-
   &.show {
     height: 1.25em;
   }
 `;
-
 const { id, disabled, checked, onClick } = props;
-
 const containerStyle = props.containerStyle ?? {};
 const checkBoxStyle = props.checkBoxStyle ?? {};
 const labelStyle = props.labelStyle ?? {};
 const error = props.error ?? "";
-
 return (
   <Container style={containerStyle}>
     <CheckBox
