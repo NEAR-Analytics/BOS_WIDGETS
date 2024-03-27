@@ -1,5 +1,4 @@
 const { accountIds, allowRemove, handleRemoveAccount } = props;
-
 const MembersListItem = styled.div`
   padding: 16px 0px;
   border-top: 1px #f0f0f0 solid;
@@ -8,7 +7,6 @@ const MembersListItem = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
 const MembersListItemLeft = styled.div`
   display: flex;
   flex-direction: row;
@@ -16,13 +14,11 @@ const MembersListItemLeft = styled.div`
   justify-content: flex-start;
   gap: 16px;
 `;
-
 const MembersListItemText = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: #2e2e2e;
 `;
-
 const RemoveMember = styled.a`
   color: #2e2e2e;
   font-size: 14px;
@@ -31,17 +27,14 @@ const RemoveMember = styled.a`
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
-
   &:hover {
     text-decoration: none;
   }
-
   ${MembersListItem}:hover & {
     visibility: visible;
     opacity: 1;
   }
 `;
-
 return (
   <>
     {accountIds.map((accountId) => {
@@ -67,7 +60,9 @@ return (
             <MembersListItemText>@{accountId}</MembersListItemText>
           </MembersListItemLeft>
           {allowRemove && (
-            <RemoveMember onClick={() => handleRemoveAccount(accountId)}>Remove</RemoveMember>
+            <RemoveMember onClick={() => handleRemoveAccount(accountId)}>
+              Remove
+            </RemoveMember>
           )}
         </MembersListItem>
       );
