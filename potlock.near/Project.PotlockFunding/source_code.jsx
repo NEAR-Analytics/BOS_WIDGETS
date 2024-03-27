@@ -327,8 +327,12 @@ const Sort = styled.div`
     font-weight: 500;
     cursor: pointer;
     gap: 8px;
+    color: #7b7b7b;
     svg {
       transition: rotate 300ms;
+    }
+    &.active {
+      color: #292929;
     }
   }
   @media screen and (max-width: 768px) {
@@ -369,7 +373,9 @@ const stats = {
         ),
       }
     : {}),
-  ...(uniqueDonors ? { "Unique Donors": uniqueDonors } : {}),
+  ...(uniqueDonors
+    ? { [`Unique donor${uniqueDonors === 1 ? "" : "s"}`]: uniqueDonors }
+    : {}),
   ...(uniqueDonors ? { "Total Matched": totalMatched + "N" } : {}),
 };
 const NearIcon = (props) => (
@@ -481,10 +487,16 @@ return (
       </div>
     </Stats>
     <Sort>
-      <div onClick={() => sortDonation("date")}>
+      <div
+        onClick={() => sortDonation("date")}
+        className={`${currentFilter === "date" ? "active" : ""}`}
+      >
         Sort Date {currentFilter === "date" && <Arrow active={!filter.date} />}
       </div>
-      <div onClick={() => sortDonation("price")}>
+      <div
+        onClick={() => sortDonation("price")}
+        className={`${currentFilter === "price" ? "active" : ""}`}
+      >
         Sort Amount{" "}
         {currentFilter === "price" && <Arrow active={filter.price} />}
       </div>
