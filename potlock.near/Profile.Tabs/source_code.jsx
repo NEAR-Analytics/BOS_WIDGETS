@@ -1,10 +1,8 @@
 const { navOptions } = props;
-
 const getSelectedNavOption = () => {
   const navOption = navOptions.find((option) => option.id == props.nav);
   return navOption ?? navOptions[0];
 };
-
 const NavOptionsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -29,7 +27,6 @@ const NavOptionsContainer = styled.div`
     white-space: nowrap;
     border-bottom: 2px solid transparent;
     transition: 300ms ease;
-
     :hover {
       border-bottom-color: #292929;
       text-decoration: none;
@@ -47,7 +44,6 @@ const NavOptionsContainer = styled.div`
     }
   }
 `;
-
 return (
   <NavOptionsContainer>
     {navOptions.map((option) => {
@@ -55,7 +51,9 @@ return (
       return option.label ? (
         <div
           key={option.label}
-          className={`${option.disabled ? "disabled" : ""} ${selected ? "selected" : ""}`}
+          className={`${option.disabled ? "disabled" : ""} ${
+            selected ? "selected" : ""
+          }`}
         >
           <a className={`nav-option `} href={option.href}>
             {option.label}
