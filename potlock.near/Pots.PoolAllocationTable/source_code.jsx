@@ -4,17 +4,16 @@ const {
   hrefWithParams,
   potDetail: { base_currency, total_public_donations, matching_pool_balance },
 } = props;
-
-const { ownerId, NADA_BOT_URL, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
+const { ownerId, NADA_BOT_URL, SUPPORTED_FTS } = VM.require(
+  "potlock.near/widget/constants"
+) || {
   ownerId: "",
   NADA_BOT_URL: "",
   SUPPORTED_FTS: {},
 };
-
 const { _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`) || {
   _address: (address) => address,
 };
-
 const {
   calculatePayouts,
   nearToUsdWithFallback,
@@ -28,7 +27,6 @@ const {
   formatWithCommas: () => "",
   nearToUsd: 1,
 };
-
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetDonationsForDonor: () => {},
   asyncGetApprovedApplications: () => {},
@@ -39,25 +37,20 @@ const RegistrySDK =
   (() => ({
     asyncGetProjectById: () => {},
   }));
-
 const registry = RegistrySDK({ env });
-
 const [projectsId, setProjectsId] = useState(null);
 const [projectsDonations, setProjectsDonations] = useState({});
 const [usdToggle, setUsdToggle] = useState(false);
 const [allPayouts, setAllPayouts] = useState(null);
-
 if (!projectsId) {
   PotSDK.asyncGetApprovedApplications(potId).then((projects) => {
     setProjectsId(projects);
   });
 }
-
 let sponsorshipDonations = PotSDK.getMatchingPoolDonations(potId);
-if (sponsorshipDonations) sponsorshipDonations.sort((a, b) => b.net_amount - a.net_amount);
-
+if (sponsorshipDonations)
+  sponsorshipDonations.sort((a, b) => b.net_amount - a.net_amount);
 const lastProject = projectsId[projectsId.length - 1].project_id;
-
 const calcUniqueDonors = (donations) => {
   // Get the count of unique donors
   const uniqueDonorIds = new Set();
@@ -70,30 +63,28 @@ const calcUniqueDonors = (donations) => {
   // Get the number of unique donor_id values
   return uniqueDonorIds.size;
 };
-
 const calcMatchedAmount = (donations) => {
   console.log("donations", donations);
   const total = Big(0);
   donations.forEach((donation) => {
     total = total.plus(Big(donation.net_amount));
   });
-  const amount = SUPPORTED_FTS[base_currency.toUpperCase()].fromIndivisible(total.toString());
+  const amount = SUPPORTED_FTS[base_currency.toUpperCase()].fromIndivisible(
+    total.toString()
+  );
   return amount;
 };
-
 const allDonationsForPot = Near.view(potId, "get_public_round_donations", {});
-
 const uniqueDonorIds = allDonationsForPot
   ? new Set(allDonationsForPot.map((donation) => donation.donor_id))
   : new Set([]);
-
 const donorsCount = uniqueDonorIds.size;
-
 if (!allPayouts && allDonationsForPot?.length > 0) {
-  const calculatedPayouts = calculatePayouts(allDonationsForPot, matching_pool_balance);
-
+  const calculatedPayouts = calculatePayouts(
+    allDonationsForPot,
+    matching_pool_balance
+  );
   let allPayouts = [];
-
   if (potDetail.payouts.length) {
     allPayouts = potDetail.payouts.map((payout) => {
       const { project_id, amount } = payout;
@@ -104,12 +95,14 @@ if (!allPayouts && allDonationsForPot?.length > 0) {
     });
   } else {
     // calculate estimated payouts
-    allPayouts = Object.entries(calculatedPayouts).map(([projectId, { matchingAmount }]) => {
-      return {
-        projectId,
-        matchingAmount,
-      };
-    });
+    allPayouts = Object.entries(calculatedPayouts).map(
+      ([projectId, { matchingAmount }]) => {
+        return {
+          projectId,
+          matchingAmount,
+        };
+      }
+    );
   }
   allPayouts.sort((a, b) => {
     // sort by matching pool allocation, highest to lowest
@@ -117,11 +110,9 @@ if (!allPayouts && allDonationsForPot?.length > 0) {
   });
   setAllPayouts(allPayouts.slice(0, 5));
 }
-
 const ProfileImg = ({ profile }) => (
   <Widget src="mob.near/widget/ProfileImage" props={{ profile, style: {} }} />
 );
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -162,7 +153,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const Row = styled.div`
   display: flex;
   align-items: center;
@@ -173,7 +163,6 @@ const Row = styled.div`
   &:last-of-type {
     border-bottom: none;
   }
-
   .address {
     display: flex;
     text-decoration: none;
@@ -193,9 +182,7 @@ const Row = styled.div`
     height: 18px;
   }
 `;
-
 const publicRoundStarted = projectsTotalDonations.length > 0;
-
 const Table = ({ donations, totalAmount, totalUniqueDonors, title }) => (
   <Container>
     <div className="header">
@@ -230,32 +217,37 @@ const Table = ({ donations, totalAmount, totalUniqueDonors, title }) => (
         {usdToggle ? "USD" : "NEAR"}
       </div>
     </div>
-    {donations.map(({ projectId, donor_id, matchingAmount, net_amount }, idx) => {
-      const id = donor_id || projectId;
-      const nearAmount = formatWithCommas(
-        SUPPORTED_FTS[base_currency.toUpperCase()].fromIndivisible(net_amount || matchingAmount)
-      );
-
-      const profile = Social.getr(`${id}/profile`);
-      const matchedAmout = usdToggle
-        ? yoctosToUsdWithFallback(matchingAmount || net_amount, true)
-        : nearAmount;
-      return (
-        <Row>
-          <div>#{idx + 1}</div>
-          <a className="address" href={hrefWithParams(`?tab=project&projectId=${id}`)}>
-            <ProfileImg profile={profile} />
-            {_address(profile.name || id, 15)}
-          </a>
-          <div>
-            {matchedAmout} {usdToggle ? " " : "N"}
-          </div>
-        </Row>
-      );
-    })}
+    {donations.map(
+      ({ projectId, donor_id, matchingAmount, net_amount }, idx) => {
+        const id = donor_id || projectId;
+        const nearAmount = formatWithCommas(
+          SUPPORTED_FTS[base_currency.toUpperCase()].fromIndivisible(
+            net_amount || matchingAmount
+          )
+        );
+        const profile = Social.getr(`${id}/profile`);
+        const matchedAmout = usdToggle
+          ? yoctosToUsdWithFallback(matchingAmount || net_amount, true)
+          : nearAmount;
+        return (
+          <Row>
+            <div>#{idx + 1}</div>
+            <a
+              className="address"
+              href={hrefWithParams(`?tab=project&projectId=${id}`)}
+            >
+              <ProfileImg profile={profile} />
+              {_address(profile.name || id, 15)}
+            </a>
+            <div>
+              {matchedAmout} {usdToggle ? " " : "N"}
+            </div>
+          </Row>
+        );
+      }
+    )}
   </Container>
 );
-
 return allPayouts?.length > 0 ? (
   <Table
     title="matching pool allocations"
@@ -267,7 +259,9 @@ return allPayouts?.length > 0 ? (
   <Table
     title="sponsors"
     totalAmount={nearToUsdWithFallback(calcMatchedAmount(sponsorshipDonations))}
-    totalUniqueDonors={new Set(sponsorshipDonations.map((obj) => obj.donor_id)).size}
+    totalUniqueDonors={
+      new Set(sponsorshipDonations.map((obj) => obj.donor_id)).size
+    }
     donations={sponsorshipDonations.slice(0, 5)}
   />
 ) : (
