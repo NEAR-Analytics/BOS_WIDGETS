@@ -1,19 +1,17 @@
 const { donations, base_currency, hrefWithParams } = props;
-
 const sponsorsLeaderboard = [
   donations.slice(1, 3),
   donations.slice(0, 1),
   donations.slice(3, 5),
 ].filter((subList) => subList.length > 0);
-
-const { _address } = VM.require("potlock.near/widget/Components.DonorsUtils") || {
+const { _address } = VM.require(
+  "potlock.near/widget/Components.DonorsUtils"
+) || {
   _address: () => "",
 };
-
 const { SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   SUPPORTED_FTS: {},
 };
-
 const Container = styled.div`
   display: flex;
   gap: 2rem;
@@ -36,7 +34,8 @@ const Container = styled.div`
     padding: 24px;
     font-size: 14px;
     &.first {
-      box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.08), 0px 1px 1px -1px rgba(0, 0, 0, 0.12);
+      box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.08),
+        0px 1px 1px -1px rgba(0, 0, 0, 0.12);
       border: 2px solid #dd3345;
       align-items: center;
       text-align: center;
@@ -104,7 +103,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const ProfileImg = ({ profile }) => (
   <Widget
     src="mob.near/widget/Image"
@@ -118,10 +116,11 @@ const ProfileImg = ({ profile }) => (
     }}
   />
 );
-
-const Sponsor = ({ donation: { amount, donor_id, percentage_share }, colIdx }) => {
+const Sponsor = ({
+  donation: { amount, donor_id, percentage_share },
+  colIdx,
+}) => {
   const profile = props.profile ?? Social.getr(`${donor_id}/profile`);
-
   return (
     <div className={`item ${colIdx === 2 && "first"}`}>
       <ProfileImg profile={profile} />
@@ -140,7 +139,6 @@ const Sponsor = ({ donation: { amount, donor_id, percentage_share }, colIdx }) =
     </div>
   );
 };
-
 return (
   <Container>
     {sponsorsLeaderboard.map((donationsCol, colIdx) => (
