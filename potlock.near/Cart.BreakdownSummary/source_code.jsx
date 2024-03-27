@@ -1,32 +1,27 @@
-const { referrerId, totalAmount, bypassProtocolFee, recipientId, ftIcon } = props;
+const { referrerId, totalAmount, bypassProtocolFee, recipientId, ftIcon } =
+  props;
 const { basisPointsToPercent } = VM.require("potlock.near/widget/utils") || {
   basisPointsToPercent: () => 0,
 };
-
 const { SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   SUPPORTED_FTS: {},
 };
-
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     getConfig: () => {},
   }));
-
 DonateSDK = DonateSDK({ env: props.env });
 const donationContractConfig = DonateSDK.getConfig();
-
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const CHEVRON_DOWN_URL =
   IPFS_BASE_URL + "bafkreiabkwyfxq6pcc2db7u4ldweld5xcjesylfuhocnfz7y3n6jw7dptm";
 const CHEVRON_UP_URL =
   IPFS_BASE_URL + "bafkreibdm7w6zox4znipjqlmxr66wsjjpqq4dguswo7evvrmzlnss3c3vi";
-
 const SvgIcon = styled.svg`
   width: 20px;
   height: 20px;
 `;
-
 const BreakdownSummary = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,7 +46,6 @@ const BreakdownSummary = styled.div`
     }
   }
 `;
-
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,7 +53,6 @@ const Header = styled.div`
   align-items: center;
   width: 100%;
 `;
-
 const BreakdownTitle = styled.div`
   color: #2e2e2e;
   font-size: 14px;
@@ -67,14 +60,12 @@ const BreakdownTitle = styled.div`
   font-weight: 600;
   word-wrap: break-word;
 `;
-
 const ChevronIcon = styled.svg`
   width: 1rem;
   height: 1rem;
   margin-left: 8px;
   transition: all 300ms ease-in-out;
 `;
-
 const BreakdownDetails = styled.div`
   display: flex;
   flex-direction: column;
@@ -87,7 +78,6 @@ const BreakdownDetails = styled.div`
   background: #fafafa;
   transition: all 300ms ease-in-out;
 `;
-
 const BreakdownItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -102,7 +92,6 @@ const BreakdownItem = styled.div`
     padding-bottom: 1rem;
   }
 `;
-
 const BreakdownItemLeft = styled.div`
   color: #7b7b7b;
   font-size: 14px;
@@ -110,7 +99,6 @@ const BreakdownItemLeft = styled.div`
   font-weight: 400;
   word-wrap: break-word;
 `;
-
 const BreakdownItemRight = styled.div`
   display: flex;
   flex-direction: row;
@@ -118,7 +106,6 @@ const BreakdownItemRight = styled.div`
   align-items: center;
   gap: 8px;
 `;
-
 const BreakdownAmount = styled.div`
   color: #2e2e2e;
   font-size: 14px;
@@ -126,12 +113,10 @@ const BreakdownAmount = styled.div`
   font-weight: 500;
   word-wrap: break-word;
 `;
-
 const Icon = styled.img`
   width: 24px;
   height: 24px;
 `;
-
 const NearIcon = (props) => (
   <SvgIcon
     {...props}
@@ -147,35 +132,33 @@ const NearIcon = (props) => (
     />
   </SvgIcon>
 );
-
 State.init({
   showBreakdown: false,
 });
-
 if (!donationContractConfig) return "";
-
 const {
   protocol_fee_basis_points: protocolFeeBasisPoints,
   referral_fee_basis_points: referralFeeBasisPoints,
   protocol_fee_recipient_account: protocolFeeRecipientAccount,
 } = donationContractConfig;
-
 const TOTAL_BASIS_POINTS = 10_000;
 let projectAllocationBasisPoints =
   TOTAL_BASIS_POINTS - (bypassProtocolFee ? 0 : protocolFeeBasisPoints);
 if (referrerId) {
   projectAllocationBasisPoints -= referralFeeBasisPoints;
 }
-const projectAllocationPercent = basisPointsToPercent(projectAllocationBasisPoints);
+const projectAllocationPercent = basisPointsToPercent(
+  projectAllocationBasisPoints
+);
 const projectAllocationAmount =
   (parseFloat(totalAmount) * projectAllocationBasisPoints) / TOTAL_BASIS_POINTS;
 const protocolFeePercent = basisPointsToPercent(protocolFeeBasisPoints);
-const protocolFeeAmount = (parseFloat(totalAmount) * protocolFeeBasisPoints) / TOTAL_BASIS_POINTS;
+const protocolFeeAmount =
+  (parseFloat(totalAmount) * protocolFeeBasisPoints) / TOTAL_BASIS_POINTS;
 const referrerFeePercent = basisPointsToPercent(referralFeeBasisPoints);
-const referrerFeeAmount = (parseFloat(totalAmount) * referralFeeBasisPoints) / TOTAL_BASIS_POINTS;
-
+const referrerFeeAmount =
+  (parseFloat(totalAmount) * referralFeeBasisPoints) / TOTAL_BASIS_POINTS;
 const nearIconUrl = SUPPORTED_FTS.NEAR.iconUrl;
-
 return (
   <BreakdownSummary
     style={props.containerStyle || {}}
@@ -206,7 +189,8 @@ return (
       {!bypassProtocolFee && (
         <BreakdownItem>
           <BreakdownItemLeft>
-            Protocol fee ({protocolFeePercent}% to {protocolFeeRecipientAccount})
+            Protocol fee ({protocolFeePercent}% to {protocolFeeRecipientAccount}
+            )
           </BreakdownItemLeft>
           <BreakdownItemRight>
             <BreakdownAmount>
@@ -238,10 +222,13 @@ return (
       </BreakdownItem>
       <BreakdownItem>
         <BreakdownItemLeft>
-          Project allocation (~{projectAllocationPercent}% to {recipientId || "project"})
+          Project allocation (~{projectAllocationPercent}% to{" "}
+          {recipientId || "project"})
         </BreakdownItemLeft>
         <BreakdownItemRight>
-          <BreakdownAmount>~{projectAllocationAmount.toFixed(2)}</BreakdownAmount>
+          <BreakdownAmount>
+            ~{projectAllocationAmount.toFixed(2)}
+          </BreakdownAmount>
           {ftIcon ? <Icon src={ftIcon} /> : <NearIcon />}
         </BreakdownItemRight>
       </BreakdownItem>
