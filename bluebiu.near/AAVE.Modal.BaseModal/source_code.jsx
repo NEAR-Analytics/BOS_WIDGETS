@@ -23,7 +23,7 @@ const ModalContainer = styled.div`
   border-radius: 16px;
 
   @media (min-width: 640px) {
-    width: 350px;
+    width: 450px;
   }
 `;
 
