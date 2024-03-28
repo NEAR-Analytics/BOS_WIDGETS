@@ -9,8 +9,19 @@ const list = Near.view("lists.potlock.near", "get_list", {
 const [showAdmins, setShowAdmins] = useState(false);
 const [showDetails, setShowDetails] = useState(false);
 
-const toggleAdmins = () => setShowAdmins(!showAdmins);
-const toggleDetails = () => setShowDetails(!showDetails);
+const toggleAdmins = () => {
+  setShowAdmins(!showAdmins);
+  if (showDetails) {
+    setShowDetails(false);
+  }
+};
+
+const toggleDetails = () => {
+  setShowDetails(!showDetails);
+  if (showAdmins) {
+    setShowAdmins(false);
+  }
+};
 
 return (
   <>
