@@ -89,7 +89,7 @@ const Container = styled.div`
         max-height:900px;
         height:100%;
         padding:30px 0;
-        width:350px;
+        width:100%;
     }
 `;
 
@@ -135,6 +135,9 @@ const Stake = styled.div`
     text-align:center;
     justify-content:center;
     align-items:center;
+    @media screen and (max-width:768px){
+        width:400px;
+    }
 
     .title{
         width:70%;
