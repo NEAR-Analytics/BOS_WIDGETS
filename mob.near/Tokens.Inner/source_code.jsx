@@ -2,7 +2,6 @@ const accountId = props.accountId;
 if (!accountId) {
   return "";
 }
-return "Sorry, temporary this API down";
 
 const [tokens, setTokens] = useState(false);
 const [loading, setLoading] = useState(true);
@@ -16,15 +15,20 @@ const priceData = Near.view("priceoracle.near", "get_price_data");
 useEffect(() => {
   setTokens(false);
   setLoading(true);
-  asyncFetch(
-    `https://api.fastnear.com/v0/account/${accountId}/ft_with_balances`
-  )
+  asyncFetch(`https://api.fastnear.com/v1/account/${accountId}/ft`)
     .then((res) => {
       if (!res.ok) {
         console.error("Failed to fetch ft_with_balances", res);
         return;
       }
-      setTokens(res.body.tokens);
+      setTokens(
+        Object.fromEntries(
+          (res.body.tokens || []).map(({ contract_id, balance }) => [
+            contract_id,
+            balance,
+          ])
+        )
+      );
     })
     .finally(() => setLoading(false));
 }, [accountId]);
