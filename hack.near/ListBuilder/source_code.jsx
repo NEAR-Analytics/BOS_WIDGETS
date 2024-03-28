@@ -156,12 +156,29 @@ return (
     <div className="d-flex flex-row justify-content-between">
       <div className="m-2">
         <h3>
-          <b>List Builder</b>
+          <a
+            style={{ color: "#000", textDecoration: "none" }}
+            href="https://github.com/PotLock/core/tree/main/contracts/lists"
+          >
+            <b>List Builder</b>
+          </a>
         </h3>
-        ↳
-        <a href="https://github.com/PotLock/core/tree/main/contracts/lists">
-          docs via GitHub
-        </a>
+        <button
+          className={`btn btn-sm btn-dark m-1 ${
+            activeTab === "explore" ? "active" : ""
+          }`}
+          onClick={() => switchTab("explore")}
+        >
+          Explore
+        </button>
+        <button
+          className={`btn btn-sm btn-dark m-1 ${
+            activeTab === "create" ? "active" : ""
+          }`}
+          onClick={() => switchTab("create")}
+        >
+          Create
+        </button>
       </div>
       <div className="m-3">
         <a
@@ -174,24 +191,6 @@ return (
           />
         </a>
       </div>
-    </div>
-    <div className="m-2">
-      <button
-        className={`btn btn-sm btn-dark m-1 ${
-          activeTab === "explore" ? "active" : ""
-        }`}
-        onClick={() => switchTab("explore")}
-      >
-        Explore
-      </button>
-      <button
-        className={`btn btn-sm btn-dark m-1 ${
-          activeTab === "create" ? "active" : ""
-        }`}
-        onClick={() => switchTab("create")}
-      >
-        Create
-      </button>
     </div>
     <br />
     {activeTab === "create" && (
