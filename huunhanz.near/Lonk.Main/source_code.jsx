@@ -16,121 +16,86 @@ const fkGroteskFamily = fetch(
   "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
 ).body;
 const Main = styled.div`
-    ${fkGroteskFamily}
-    .main {
-        display: block;
-    }
+  ${fkGroteskFamily}
+  .main {
+    display: block;
+  }
 
-    .intro {
-        background: url(${config.image3}) no-repeat 100% 0 fixed;
+  .intro {
+    background: url(${config.image3}) no-repeat 100% 0 fixed;
+  }
+  .container {
+    max-width: 1140px;
+  }
+  .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-direction:row;
+    margin-left: calc(var(--bs-gutter-x)*-.5);
+    margin-right: calc(var(--bs-gutter-x)*-.5);
+    margin-top: calc(var(--bs-gutter-y)*-1);
+    @media screen and (max-width:768px){
+      flex-direction:column;
+      gap:10px;
     }
-    .container {
-        max-width: 1140px;
-    }
+  }
 
-    .justify-content-around {
-        justify-content: space-around !important;
-    }
+  .ref {
+    height: 60px;
+    width: 270px;
+  }
 
-    .row {
-        --bs-gutter-x: 1.5rem;
-        --bs-gutter-y: 0;
-        display: flex;
-        flex-direction:row;
-        margin-left: calc(var(--bs-gutter-x)*-.5);
-        margin-right: calc(var(--bs-gutter-x)*-.5);
-        margin-top: calc(var(--bs-gutter-y)*-1);
-        @media screen and (max-width:768px){
-          flex-direction:column;
-          gap:10px;
-        }
-    }
+  .button {
+    border: 2px solid #31cf34;
+  }
+  .green-bg {
+    background-color: #31cf34;
+  }
 
-    .align-items-center {
-        align-items: center !important;
-    }
+  h2 {
+    color: #fff;
+    font-size: 4em;
+    font-family: Lakki Reddy,cursive;
 
-    .justify-content-center {
-        justify-content: center !important;
-    }
+    text-shadow: 0 4px 4px #00000040;
+    text-transform: lowercase;
+    margin-block-end: 0.33em;
+  }
 
-    .mb-4 {
-        margin-bottom: 1.5rem !important;
-    }
-    
-    .mt-3 {
-        margin-top: 1rem !important;
-    }
+  .green {
+    color: #31cf34;
+  }
 
-    .d-flex {
-        display: flex !important;
-    }
+  .badge {
+    background-color: #31cf34;
+    font-size: 1.1em;
+    padding: 3px 8px;
+  }
 
-    .mx-2 {
-        margin-left: 0.5rem !important;
-        margin-right: 0.5rem !important;
-    }
+  .green-bg {
+    background-color: #31cf34;
+    padding: 48px 0px;
+  }
 
-    .ref {
-        height: 60px;
-        width: 270px;
-    }
+  .roadmap {
+      background: url(${config.image27}) no-repeat 100% 100%;
+      background-color: #52bfda;
+      background-size: contain;
+      min-height: 850px;
+  }
+  .lonk-near {
+    bottom: 10px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+  }
 
-    .button {
-        border: 2px solid #31cf34;
-    }
-    .green-bg {
-        background-color: #31cf34;
-    }
-
-    h2 {
-        color: #fff;
-        font-size: 4em;
-        font-family: Lakki Reddy,cursive;
-  
-        text-shadow: 0 4px 4px #00000040;
-        text-transform: lowercase;
-        margin-block-end: 0.33em;
-    }
-
-    .green {
-        color: #31cf34;
-    }
-
-    .badge {
-        background-color: #31cf34;
-        font-size: 1.1em;
-        padding: 3px 8px;
-    }
-
-    .green-bg {
-        background-color: #31cf34;
-        padding: 48px 0px;
-    }
-
-    .roadmap {
-        background: url(${config.image27}) no-repeat 100% 100%;
-        background-color: #52bfda;
-        background-size: contain;
-        min-height: 850px;
-    }
-
-    .position-relative {
-        position: relative !important;
-    }
-
-    .lonk-near {
-        bottom: 10px;
-        left: 0;
-        margin: auto;
-        position: absolute;
-        right: 0;
-    }
-
-    .roadmap {
-        background-size: cover;
-        min-height: 986px;
-    }
+  .roadmap {
+    background-size: cover;
+    min-height: 986px;
+  }
 `;
 return (
   <Main>
