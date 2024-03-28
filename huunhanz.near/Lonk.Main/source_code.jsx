@@ -73,14 +73,18 @@ const Main = styled.div`
         margin-left: calc(var(--bs-gutter-x)*-.5);
         margin-right: calc(var(--bs-gutter-x)*-.5);
         margin-top: calc(var(--bs-gutter-y)*-1);
+        @media screen and (max-width:768px){
+          flex-direction:column;
+          gap:10px;
+        }
     }
 
     .align-items-center {
-        align-items: center!important;
+        align-items: center !important;
     }
 
     .justify-content-center {
-        justify-content: center!important;
+        justify-content: center !important;
     }
 
     .col-12 {
@@ -88,20 +92,20 @@ const Main = styled.div`
     }
 
     .mb-4 {
-        margin-bottom: 1.5rem!important;
+        margin-bottom: 1.5rem !important;
     }
     
     .mt-3 {
-        margin-top: 1rem!important;
+        margin-top: 1rem !important;
     }
 
     .d-flex {
-        display: flex!important;
+        display: flex !important;
     }
 
     .mx-2 {
-        margin-left: 0.5rem!important;
-        margin-right: 0.5rem!important;
+        margin-left: 0.5rem !important;
+        margin-right: 0.5rem !important;
     }
 
     .ref {
@@ -122,16 +126,16 @@ const Main = styled.div`
     }
 
     .mt-5 {
-        margin-top: 3rem!important;
+        margin-top: 3rem !important;
     }
 
     .px-2 {
-        padding-left: 0.5rem!important;
-        padding-right: 0.5rem!important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
     
     .d-inline-block {
-        display: inline-block!important;
+        display: inline-block !important;
     }
 
     .green-bg {
@@ -139,7 +143,7 @@ const Main = styled.div`
     }
 
     .flex-column-reverse {
-        flex-direction: column-reverse!important;
+        flex-direction: column-reverse !important;
     }
 
     p {
@@ -148,11 +152,11 @@ const Main = styled.div`
     }
 
     .text-uppercase {
-        text-transform: uppercase!important;
+        text-transform: uppercase !important;
     }
 
     .mb-0 {
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
     }
 
     h2 {
@@ -188,7 +192,7 @@ const Main = styled.div`
     }
 
     .position-relative {
-        position: relative!important;
+        position: relative !important;
     }
 
     .lonk-near {
