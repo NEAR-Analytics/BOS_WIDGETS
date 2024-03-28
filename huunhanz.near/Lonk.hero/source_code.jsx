@@ -30,41 +30,37 @@ return (
             <p class="">WE LONKING, NOT SHORTING</p>
             <p class="">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="">Get some $LONK</p>
-            <div class="d-flex justify-content-center button-swap">
-              <div class="mx-2">
-                <button
-                  onClick={() => setSelect("ref")}
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  style={{
-                    padding: "10px 20px",
-                    height: "60px",
-                    width: "270px",
-                    border: "2px solid #31cf34",
-                  }}
-                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-                >
-                  <img src={config.image6} width="186" />
-                </button>{" "}
-              </div>
-              <div class="mx-2">
-                <button
-                  onClick={() => setSelect("veax")}
-                  type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  style={{
-                    padding: "10px 20px",
-                    height: "60px",
-                    width: "270px",
-                    border: "2px solid #31cf34",
-                  }}
-                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-                >
-                  <img src={config.image7} width="90" />
-                </button>{" "}
-              </div>
+            <div class="button-swap">
+              <button
+                onClick={() => setSelect("ref")}
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                style={{
+                  padding: "10px 20px",
+                  height: "60px",
+                  width: "270px",
+                  border: "2px solid #31cf34",
+                }}
+                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+              >
+                <img src={config.image6} width="186" />
+              </button>
+              <button
+                onClick={() => setSelect("veax")}
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                style={{
+                  padding: "10px 20px",
+                  height: "60px",
+                  width: "270px",
+                  border: "2px solid #31cf34",
+                }}
+                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+              >
+                <img src={config.image7} width="90" />
+              </button>
             </div>
             <div class="mt-5">
               <a
