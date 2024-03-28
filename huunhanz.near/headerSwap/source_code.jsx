@@ -22,72 +22,7 @@ const Header = styled.div`
           background-color:${state.color};
       }
   
-      .py-3{
-          padding-bottom: 1rem!important;
-          padding-top: 1rem!important;
-      }
       
-      .container {
-          max-width: 1140px;
-          --bs-gutter-x: 1.5rem;
-          --bs-gutter-y: 0;
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: calc(var(--bs-gutter-x)*.5);
-          padding-right: calc(var(--bs-gutter-x)*.5);
-          width: 100%;
-      }
-  
-      .position-relative{
-          position: relative!important;
-      }
-  
-      header {
-          display: block;
-      }
-  
-  
-      .justify-content-md-between{
-          justify-content: space-between!important;
-      }
-  
-      .align-items-center {
-          align-items: center!important;
-      }
-  
-      .col-lg-3 {
-          flex: 0 0 auto;
-          width: 25%;
-      }
-      
-      .col-md-4 {
-          flex: 0 0 auto;
-          width: 33.33333333%;
-      }
-      
-      .col-12 {
-          flex: 0 0 auto;
-          width: 100%;
-      }
-  
-      .row {
-          --bs-gutter-x: 1.5rem;
-          --bs-gutter-y: 0;
-          display: flex;
-          flex-wrap: wrap;
-          margin-left: calc(var(--bs-gutter-x)*-.5);
-          margin-right: calc(var(--bs-gutter-x)*-.5);
-          margin-top: calc(var(--bs-gutter-y)*-1);
-      }
-  
-      .text-decoration-none {
-          text-decoration: none!important;
-      }
-  
-      .d-xl-none {
-          display: none!important;
-      }
-  
       .burger {
           color: #fff;
           cursor: pointer;
@@ -106,11 +41,6 @@ const Header = styled.div`
           width: 30px;
       }
   
-      .col-md-8 {
-          flex: 0 0 auto;
-          width: 66.66666667%;
-      }
-  
       .overlay {
           background-color: #000;
           height: 100%;
@@ -121,11 +51,7 @@ const Header = styled.div`
           width: 100%;
           z-index: 2;
       }
-  
-      .d-none {
-          display: none!important;
-      }
-  
+
       .navbar {
           background-color: transparent;
           height: auto;
@@ -133,57 +59,6 @@ const Header = styled.div`
           right: auto;
           top: auto;
           width: 100%;
-      }
-  
-      .justify-content-center {
-          justify-content: center!important;
-      }
-  
-      .navbar-nav {
-          --bs-nav-link-padding-x: 0;
-          --bs-nav-link-padding-y: 0.5rem;
-          --bs-nav-link-font-weight: ;
-          --bs-nav-link-color: var(--bs-navbar-color);
-          --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
-          --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
-          display: flex;
-          flex-direction: column;
-          list-style: none;
-          margin-bottom: 0;
-          padding-left: 0;
-      }
-  
-      ul {
-          margin-bottom: 1rem;
-          margin-top: 0;
-      }
-  
-      .p-1 {
-          padding: 0.25rem!important;
-      }
-  
-      li {
-          display: list-item;
-          text-align: -webkit-match-parent;
-      }
-  
-      .nav-link {
-          color: #fff;
-          font-family: Lakki Reddy,cursive;
-          font-size: 1rem;
-      }
-  
-      .col-lg-9 {
-          flex: 0 0 auto;
-          width: 75%;
-      }
-  
-      .nav-link span {
-          text-shadow: 0 4px 4px #00000040;
-      }
-  
-      .nav-link {
-          font-size: 1.5rem;
       }
   
       .dropdown-menu {
@@ -213,10 +88,6 @@ const Header = styled.div`
           margin-bottom: 0.7em;
       }
   
-      .p-lg-3 {
-          padding: 1rem!important;
-      }
-  
       .dropdown-item {
           font-size: 1.4rem;
           color: ${state.color};
@@ -231,6 +102,12 @@ const Header = styled.div`
               justify-content:start;
           }
        }
+       .header-swap{
+        display:flex;
+        @media screen and (max-width:768px){
+            display:none;
+        }
+       }
       
       
 `;
@@ -241,7 +118,7 @@ return (
       <div class="container">
         <span
           onClick={handlClick}
-          class="d-x1-none burger position-absolute top-50"
+          class="d-xl-none burger position-absolute top-50"
           id="burger"
         >
           <span class="burger-line"></span>
@@ -249,7 +126,7 @@ return (
           <span class="burger-line"></span>
           <span>Menu</span>
         </span>
-        <div class="row ml-2 justify-content-start justify-content-md-between align-items-center">
+        <div class="header-swap ml-2 justify-content-start justify-content-md-between align-items-center">
           <div class="col-lg-3 justify-content-start align-items-start">
             <a class="text-decoration-none logo">
               <img src={state.image2} alt="Icon" width="70" height="70" />
