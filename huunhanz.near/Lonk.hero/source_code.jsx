@@ -21,15 +21,15 @@ return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
       <div class="container py-3">
-        <div class="row justify-content-around">
-          <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
+        <div class="hero">
+          <div class="d-flex justify-content-center align-items-center">
             <img src={config.image4} alt="Green Dragon" width="350px" />
           </div>
-          <div class="col-12 col-lg-4">
+          <div class="">
             <img src={config.image5} width="200" />
-            <p class="mt-3 mp-4">WE LONKING, NOT SHORTING</p>
-            <p class="mp-4">LONKING $NEAR BACK TO $20.24 IN 2024</p>
-            <p class="mp-4">Get some $LONK</p>
+            <p class="">WE LONKING, NOT SHORTING</p>
+            <p class="">LONKING $NEAR BACK TO $20.24 IN 2024</p>
+            <p class="">Get some $LONK</p>
             <div class="d-flex justify-content-center">
               <div class="mx-2">
                 <button
