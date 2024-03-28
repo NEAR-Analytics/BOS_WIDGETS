@@ -49,7 +49,6 @@ State.init({
   minimum: 0,
   loading: false,
   notification: "",
-  error2: "",
 });
 
 const Wrapper = styled.div`
@@ -202,7 +201,6 @@ const createCampaign = () => {
     duration_hr,
     duration_min,
     minimum,
-    error2,
   } = state;
   console.log(state);
 
@@ -221,7 +219,10 @@ const createCampaign = () => {
   if (amount < minimum)
     return State.update({ error: "Amount must be greater than " + minimum });
 
-  if (error2) return State.update({ error: error2 });
+  if (amount < state.minimum)
+    return State.update({ error: `Minimun amount ${minimum}` });
+  if (winners < 1 || winners > 20)
+    return State.update({ error: " 1 <= Winners <= 20" });
 
   State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
@@ -369,12 +370,8 @@ return (
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
                 State.update({
-                  amount: amount ? amount : 0,
+                  amount: amount ? amount : "",
                   total_reward,
-                  error2:
-                    amount < state.minimum
-                      ? `Minimun amount ${state.minimum}`
-                      : "",
                 });
               }}
             />
@@ -437,8 +434,6 @@ return (
               State.update({
                 winners: winners ? winners : "",
                 total_reward,
-                error2:
-                  winners < 1 || winners > 20 ? " 1 <= Winners <= 20" : "",
               });
             }}
             className="col-lg-12  form-input"
