@@ -223,7 +223,7 @@ const Header = styled.div`
           text-shadow: 0 3px 6px #00000040;
           font-family: Lakki Reddy,cursive;
       }
-      @media (min-width: 768px) { 
+      @media (max-width: 768px) { 
           .logo{
               display:flex;
               flex-direction:row;
