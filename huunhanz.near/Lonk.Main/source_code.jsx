@@ -26,7 +26,7 @@ const MenuMobile = styled.ul`
     gap:5px;
     justify-content:start;
     ul{
-        list-style-type:none;
+        list-style:none;
         margin-left:20px;
     }
     li > a{
