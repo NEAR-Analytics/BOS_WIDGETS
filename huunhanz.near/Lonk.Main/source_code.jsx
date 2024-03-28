@@ -88,7 +88,7 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         justify-content:center;
-        margin:auto;
+        margin:20px auto;
         gap:20px;
         width:200px;
         height:60px;
