@@ -364,12 +364,12 @@ return (
               value={state.amount}
               className="form-input"
               onChange={(e) => {
-                const amount = Number(e.target.value);
+                const amount = e.target.value ? Number(e.target.value) : 0;
                 const total_reward = `${Number(
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
                 State.update({
-                  amount,
+                  amount: amount ? amount : 0,
                   total_reward,
                   error2:
                     amount < state.minimum
@@ -430,12 +430,12 @@ return (
             step="1"
             value={state.winners}
             onChange={(e) => {
-              const winners = parseInt(e.target.value);
+              const winners = e.target.value ? parseInt(e.target.value) : 0;
               const total_reward = `${Number(
                 (state.amount * winners).toFixed(4)
               )} ${state.token}`;
               State.update({
-                winners,
+                winners: winners ? winners : "",
                 total_reward,
                 error2:
                   winners < 1 || winners > 20 ? " 1 <= Winners <= 20" : "",
