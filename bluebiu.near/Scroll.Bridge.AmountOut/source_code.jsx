@@ -36,8 +36,6 @@ useEffect(() => {
                 return
             }
 
-            console.log('quote: ', quote)
-
             onLoad({
                 received: amountBig.minus(feeBig).toString(),
                 gasCost: feeBig.toString(),
