@@ -108,6 +108,11 @@ const Main = styled.div`
         gap:10px;
     }
   }
+  .image{
+    @media screen and (max-width:768px){
+        width:120px;
+    }
+  }
 `;
 return (
   <Main>
