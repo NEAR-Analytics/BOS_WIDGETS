@@ -19,12 +19,19 @@ const fkGroteskFamily = fetch(
 const MenuMobile = styled.ul`
     height:300px;
     width:100%;
-    padding:10px;
+    padding:10px;   
     background:#fff;
     display:flex;
     flex-direction:column;
     gap:5px;
     justify-content:start;
+    ul{
+        list-style-type:none;
+        margin-left:20px;
+    }
+    li > a{
+        text-decoration:none;    
+    }
 `;
 
 const Main = styled.div`
