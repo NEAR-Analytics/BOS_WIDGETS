@@ -54,7 +54,7 @@ return (
     {list && (
       <div className="card">
         <div className="d-flex flex-row justify-content-between card-header">
-          <h5 className="mt-2">
+          <h5 className="mt-2 ms-2">
             <b>{list.id}.</b>
             {list.name}
             <span className="m-1">
@@ -75,7 +75,7 @@ return (
           </div>
         </div>
         <div className="card-body">
-          <div className="d-flex flex-row justify-content-between">
+          <div className="d-flex flex-row justify-content-between ms-2">
             <div className="card-text">
               <p>{list.description}</p>
               <i>
@@ -83,7 +83,7 @@ return (
                 {timeSince(new Date(list.updated_at || list.created_at))}
               </i>
             </div>
-            <div style={{ textAlign: "right" }} className="card-info">
+            <div style={{ textAlign: "right" }} className="card-info me-2">
               <div className="mb-3">
                 Admins:
                 <Widget
