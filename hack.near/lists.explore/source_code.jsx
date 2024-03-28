@@ -159,13 +159,13 @@ const toggleFilters = () => {
 
 return (
   <div className="m-2 mb-3">
-    <div className="d-flex flex-row justify-content-between me-4">
+    <div className="d-flex flex-row justify-content-between me-3">
       <h4 className="m-1">
         <b>List Explorer</b>
       </h4>
       <button
         onClick={toggleFilters}
-        className={`m-1 btn btn-sm ${
+        className={`m-1 me-2 btn btn-sm ${
           !showFilters ? "btn-outline-dark" : "btn-dark"
         }`}
       >
