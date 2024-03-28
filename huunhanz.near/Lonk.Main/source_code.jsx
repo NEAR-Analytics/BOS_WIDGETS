@@ -15,6 +15,18 @@ const config = {
 const fkGroteskFamily = fetch(
   "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
 ).body;
+
+const MenuMobile = styled.ul`
+    height:300px;
+    width:100%;
+    padding:10px;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    justify-content:start;
+`;
+
 const Main = styled.div`
   ${fkGroteskFamily}
   .main {
@@ -115,92 +127,146 @@ const Main = styled.div`
   }
 `;
 return (
-  <Main>
-    <div class="main">
-      <Widget src="huunhanz.near/widget/Lonk.hero" />
+  <>
+    <MenuMobile>
+      <li>
+        <a class="dropdown-item" href="/ethereum">
+          from <span class="text-capitalize">ethereum</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/solana">
+          from <span class="text-capitalize">solana</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">arbitrum</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">optimism</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">polygon</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">fantom</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">avalanche</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/evm">
+          from <span class="text-capitalize">BSC</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/suit-aptos">
+          from <span class="text-capitalize">sui</span>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="/suit-aptos">
+          from <span class="text-capitalize">aptos</span>
+        </a>
+      </li>
+    </MenuMobile>
+    <Main>
+      <div class="main">
+        <Widget src="huunhanz.near/widget/Lonk.hero" />
 
-      <Widget src="huunhanz.near/widget/Lonk.buy" />
-      <div
-        class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
-        id="token"
-      >
-        <div class="container">
-          <div class="about">
-            <div class="col-12 col-md-6 ">
-              <p class="mb-5 text-uppercase">
-                <strong>420.69 Billions LONK</strong>
-              </p>
-              <p class="text-uppercase mb-0">
-                83.058% LPs, <br />
-                16.9420% Reserved:
-              </p>
-              <ul class="text-uppercase">
-                <li>Airdrop</li>
-                <li>Exchange Listings</li>
-              </ul>
-              <p>
-                NO TAXES <br />
-                No Team Allocations
-                <br />
-                No VCS
-                <br />
-                No presale
-                <br />
-                NO BS
-              </p>
+        <Widget src="huunhanz.near/widget/Lonk.buy" />
+        <div
+          class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
+          id="token"
+        >
+          <div class="container">
+            <div class="about">
+              <div class="col-12 col-md-6 ">
+                <p class="mb-5 text-uppercase">
+                  <strong>420.69 Billions LONK</strong>
+                </p>
+                <p class="text-uppercase mb-0">
+                  83.058% LPs, <br />
+                  16.9420% Reserved:
+                </p>
+                <ul class="text-uppercase">
+                  <li>Airdrop</li>
+                  <li>Exchange Listings</li>
+                </ul>
+                <p>
+                  NO TAXES <br />
+                  No Team Allocations
+                  <br />
+                  No VCS
+                  <br />
+                  No presale
+                  <br />
+                  NO BS
+                </p>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
+                <h2>tokenomics</h2>
+              </div>
             </div>
-            <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
-              <h2>tokenomics</h2>
+          </div>
+        </div>
+        <div
+          class="roadmap font-md-bigger py-4 py-lg-5 position-relative"
+          id="roadmap"
+        >
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <h2>roadmap</h2>
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 text-md-center">
+                <p class="text-uppercase mb-5">
+                  Phase 1: lonk
+                  <br />
+                  Phase 2: $lonk
+                  <br />
+                  phase 3: lonkdrop
+                  <br />
+                  PHASE 4: EVERYONE LONK
+                </p>
+                <br />
+              </div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="mb-3 mb-md-5"></div>
+              <div class="col-12"></div>
+              <div class="col-12 col-md-7">
+                <p>
+                  Disclaimer: <br />
+                  $LONK is a meme coin purely for entertainment, with no
+                  inherent value or promise of financial gain. It's managed
+                  informally without a dedicated team or a set roadmap, serving
+                  solely as a token of amusement.
+                </p>
+              </div>
+              <div class="col-12 text-center">
+                <a href="https://near.org" class="text-decoration-none">
+                  <img src={config.image28} width="280" class="lonk-near" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="roadmap font-md-bigger py-4 py-lg-5 position-relative"
-        id="roadmap"
-      >
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <h2>roadmap</h2>
-            </div>
-            <div class="col-12 col-md-4 col-lg-3 text-md-center">
-              <p class="text-uppercase mb-5">
-                Phase 1: lonk
-                <br />
-                Phase 2: $lonk
-                <br />
-                phase 3: lonkdrop
-                <br />
-                PHASE 4: EVERYONE LONK
-              </p>
-              <br />
-            </div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="col-12"></div>
-            <div class="col-12 col-md-7">
-              <p>
-                Disclaimer: <br />
-                $LONK is a meme coin purely for entertainment, with no inherent
-                value or promise of financial gain. It's managed informally
-                without a dedicated team or a set roadmap, serving solely as a
-                token of amusement.
-              </p>
-            </div>
-            <div class="col-12 text-center">
-              <a href="https://near.org" class="text-decoration-none">
-                <img src={config.image28} width="280" class="lonk-near" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </Main>
+    </Main>
+  </>
 );
