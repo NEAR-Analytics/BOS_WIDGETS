@@ -81,9 +81,12 @@ const Main = styled.div`
       min-height: 986px;
   }
   .button-swap{
+    margin:20px 0;
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
+        justify-content:center;
+        align-items:center;
         gap:20px;
         width:200px;
         height:40px;
