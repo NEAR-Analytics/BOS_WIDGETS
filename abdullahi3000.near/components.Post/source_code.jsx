@@ -305,7 +305,7 @@ return (
         <div className={`post ${props.reposted ? "reposted" : ""}`}>
           <div className="right d-flex flex-column gap-3">
             <Widget
-              src="buildhub.near/widget/components.post.Header"
+              src="abdullahi3000.near/widget/components.post.Header"
               loading=""
               props={{
                 accountId: accountId,
