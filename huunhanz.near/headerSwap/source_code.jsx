@@ -108,6 +108,12 @@ const Header = styled.div`
             display:none;
         }
        }
+       .nav-swap{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        margin-left:20px;
+       }
       
       
 `;
@@ -126,14 +132,14 @@ return (
           <span class="burger-line"></span>
           <span>Menu</span>
         </span>
-        <div class="ml-2 justify-content-start justify-content-md-between align-items-center">
+        <div class="nav-swap">
           <div class="col-lg-3 justify-content-start align-items-start">
             <a class="text-decoration-none logo">
               <img src={state.image2} alt="Icon" width="70" height="70" />
               <img src={state.image1} alt="Logo" width="141" height="60" />
             </a>
           </div>
-          <div class={`col-lg-9 header-swap `}>
+          <div class="header-swap">
             <div class="navbar justify-content-center" id="navbar">
               <ul class="navbar-nav d-xl-flex flex-xl-row justify-content-md-between">
                 <li class="nav-item p-1 p-lg-3">
