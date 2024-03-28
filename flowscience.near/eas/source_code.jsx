@@ -10,10 +10,11 @@ const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(easAbi.body);
 const abi = parsedAbi.abi;
 
-const [attestation, setAttestation] = useState("");
+const [attestation, setAttestation] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
 
+const bytes32Uid = ethers.utils.formatBytes32String(uid).slice(0, 64); // '0x' + 64 hex characters
 const easContract = new ethers.Contract(
   contractAddress,
   abi,
@@ -22,7 +23,7 @@ const easContract = new ethers.Contract(
 
 function getAttestation() {
   abi
-    .getAttestation(uid)
+    .getAttestation(bytes32Uid)
     .then((result) => {
       setAttestation(result);
       setError("");
