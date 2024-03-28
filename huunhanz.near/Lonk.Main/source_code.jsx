@@ -150,7 +150,7 @@ const toggleDropdown = () => {
 
 return (
   <>
-    <Widget href="huunhanz.near/widget/headerSwap" />
+    <Widget src="huunhanz.near/widget/headerSwap" />
     <MenuMobile>
       <li class="nav-item p-1 p-lg-3">
         <a class="nav-link close-menu" aria-current="page" href="/">
