@@ -16,11 +16,12 @@ const config = {
   image11:
     "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
 };
+const [select, setSelect] = useState("");
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
       <div class="container py-3">
-        <div class="row justify-content-around ">
+        <div class="row justify-content-around">
           <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src={config.image4} alt="Green Dragon" width="350px" />
           </div>
@@ -29,77 +30,85 @@ return (
             <p class="mt-3 mp-4">WE LONKING, NOT SHORTING</p>
             <p class="mp-4">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="mp-4">Get some $LONK</p>
-            <div class="d-flex justify-content-center button-swap">
+            <div class="d-flex justify-content-center">
               <div class="mx-2">
                 <button
+                  onClick={() => setSelect("ref")}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
-                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={config.image6} width="186" />
                 </button>{" "}
               </div>
               <div class="mx-2">
                 <button
+                  onClick={() => setSelect("veax")}
                   type="button"
                   data-bs-toggle="modal"
-                  data-bs-target="#veax"
-                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                  data-bs-target="#exampleModal"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={config.image7} width="90" />
                 </button>{" "}
               </div>
             </div>
-            <div class="mt-5 icon">
-              <div class="d-flex flex-row">
-                <a
-                  href="http://t.me/LonkonNEAR"
-                  target="_blank"
+            <div class="mt-5">
+              <a
+                href="http://t.me/LonkonNEAR"
+                target="_blank"
+                class="d-inline-block px-2"
+              >
+                <img
+                  src={config.image8}
+                  width="75"
                   class="d-inline-block px-2"
-                >
-                  <img
-                    src={config.image8}
-                    width="75"
-                    class="d-inline-block px-2"
-                  />
-                </a>
-                <a
-                  href="http://t.me/LonkonNEAR"
-                  target="_blank"
+                />
+              </a>
+              <a
+                href="http://t.me/LonkonNEAR"
+                target="_blank"
+                class="d-inline-block px-2"
+              >
+                <img
+                  src={config.image9}
+                  width="50"
                   class="d-inline-block px-2"
-                >
-                  <img
-                    src={config.image9}
-                    width="50"
-                    class="d-inline-block px-2"
-                  />
-                </a>
-              </div>
-              <div class="d-flex flex-row">
-                <a
-                  href="http://t.me/LonkonNEAR"
-                  target="_blank"
+                />
+              </a>
+              <a
+                href="http://t.me/LonkonNEAR"
+                target="_blank"
+                class="d-inline-block px-2"
+              >
+                <img
+                  src={config.image10}
+                  width="65"
                   class="d-inline-block px-2"
-                >
-                  <img
-                    src={config.image10}
-                    width="75"
-                    class="d-inline-block px-2"
-                  />
-                </a>
-                <a
-                  href="http://t.me/LonkonNEAR"
-                  target="_blank"
+                />
+              </a>
+              <a
+                href="http://t.me/LonkonNEAR"
+                target="_blank"
+                class="d-inline-block px-2"
+              >
+                <img
+                  src={config.image11}
+                  width="75"
                   class="d-inline-block px-2"
-                >
-                  <img
-                    src={config.image11}
-                    width="50"
-                    class="d-inline-block px-2"
-                  />
-                </a>
-              </div>
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -149,7 +158,7 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token Ref Finance
+              Swap Token {select == "ref" ? "Ref Finance" : "Veax"}
             </h5>
             <button
               type="button"
@@ -159,33 +168,11 @@ return (
             ></button>
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/ref-swap" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modal fade"
-      id="veax"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token Veax
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+            {select == "ref" ? (
+              <Widget src="huunhanz.near/widget/ref-swap" />
+            ) : (
+              <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+            )}
           </div>
         </div>
       </div>
