@@ -20,7 +20,7 @@ return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
       <div class="container py-3">
-        <div class="row justify-content-around">
+        <div class="row col-md justify-content-around ">
           <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src={config.image4} alt="Green Dragon" width="350px" />
           </div>
@@ -29,7 +29,7 @@ return (
             <p class="mt-3 mp-4">WE LONKING, NOT SHORTING</p>
             <p class="mp-4">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="mp-4">Get some $LONK</p>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex col-md justify-content-center">
               <div class="mx-2">
                 <button
                   type="button"
@@ -51,8 +51,9 @@ return (
                 </button>{" "}
               </div>
             </div>
-            <div class="mt-5">
-              <a
+            <div class="mt-5 col-md">
+              <div>
+                <a
                 href="http://t.me/LonkonNEAR"
                 target="_blank"
                 class="d-inline-block px-2"
@@ -74,28 +75,8 @@ return (
                   class="d-inline-block px-2"
                 />
               </a>
-              <a
-                href="http://t.me/LonkonNEAR"
-                target="_blank"
-                class="d-inline-block px-2"
-              >
-                <img
-                  src={config.image10}
-                  width="65"
-                  class="d-inline-block px-2"
-                />
-              </a>
-              <a
-                href="http://t.me/LonkonNEAR"
-                target="_blank"
-                class="d-inline-block px-2"
-              >
-                <img
-                  src={config.image11}
-                  width="75"
-                  class="d-inline-block px-2"
-                />
-              </a>
+              </div>
+              <div>/d
             </div>
           </div>
         </div>
