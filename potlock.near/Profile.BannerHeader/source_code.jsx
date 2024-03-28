@@ -1,4 +1,4 @@
-const { ShowFollowers, project, projectId, tab } = props;
+const { ShowFollowers, registration, projectId, tab } = props;
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
@@ -440,10 +440,10 @@ return (
             </Verified>
           ) : (
             <Verified>
-              {statuses[project.status].icon}
-              <div style={{ color: statuses[project.status].color }}>
+              {statuses[registration.status].icon}
+              <div style={{ color: statuses[registration.status].color }}>
                 {" "}
-                {project.status}
+                {registration.status}
               </div>
             </Verified>
           )}
