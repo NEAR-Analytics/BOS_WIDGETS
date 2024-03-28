@@ -80,6 +80,15 @@ const Main = styled.div`
       background-size: cover;
       min-height: 986px;
   }
+  .button-swap{
+    @media screen and (max-width:768px){
+        display:flex;
+        flex-direction:column;
+        gap:20px;
+        width:200px;
+        height:40px;
+    }
+  }
 `;
 return (
   <Main>
