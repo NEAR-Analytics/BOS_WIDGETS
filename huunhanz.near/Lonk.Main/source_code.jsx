@@ -52,24 +52,19 @@ const Main = styled.div`
         padding-top: 1rem!important;
     }
 
-    .col-lg-4 {
-        flex: 0 0 auto;
-        width: 33.33333333%;
-    }
-
     .container {
         max-width: 1140px;
     }
 
     .justify-content-around {
-        justify-content: space-around!important;
+        justify-content: space-around !important;
     }
 
     .row {
         --bs-gutter-x: 1.5rem;
         --bs-gutter-y: 0;
         display: flex;
-        flex-wrap: wrap;
+        flex-direction:row;
         margin-left: calc(var(--bs-gutter-x)*-.5);
         margin-right: calc(var(--bs-gutter-x)*-.5);
         margin-top: calc(var(--bs-gutter-y)*-1);
@@ -85,10 +80,6 @@ const Main = styled.div`
 
     .justify-content-center {
         justify-content: center !important;
-    }
-
-    .col-12 {
-        flex: 0 0 auto;
     }
 
     .mb-4 {
