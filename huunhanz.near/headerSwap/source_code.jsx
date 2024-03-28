@@ -190,52 +190,52 @@ return (
                     id="dropdown"
                   >
                     <li>
-                      <a class="dropdown-item" href="/ethereum">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">ethereum</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/solana">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">solana</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">arbitrum</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">optimism</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">polygon</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">fantom</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">avalanche</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/evm">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">BSC</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/suit-aptos">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">sui</span>
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/suit-aptos">
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">aptos</span>
                       </a>
                     </li>
