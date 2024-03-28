@@ -60,19 +60,20 @@ return (
   <div className="m-2 mb-3">
     <div className="d-flex flex-row justify-content-between me-3">
       <h4 className="m-1">
-        <b>List Creator</b>
+        <b>Create Lists</b>
       </h4>
       <div>
         <button
           disabled={state.admins.length === 0}
           onClick={createList}
-          className="btn btn-sm btn-success"
+          className="m-1 me-3 btn btn-sm btn-success"
         >
-          <i class="bi bi-stars"></i> Save
+          <i class="bi bi-stars"></i>
         </button>
       </div>
     </div>
-    <div className="m-2">
+    <hr />
+    <div className="m-3 me-4">
       <h5 className="mb-2">Name</h5>
       <div className="mb-3">
         <input
@@ -95,7 +96,7 @@ return (
         />
         <button
           disabled={!isValid}
-          className="btn btn-sm btn-outline-dark m-1 ms-3"
+          className="btn btn-sm btn-dark m-1 ms-3"
           onClick={() => addAdmin(state.newAdmin)}
         >
           <i class="bi bi-plus"></i>
@@ -103,27 +104,25 @@ return (
       </div>
       <br />
       <div>
-        <div>
-          {state.admins.map((admin, index) => (
-            <div
-              key={index}
-              className="d-flex flex-row justify-content-between mb-3"
-            >
-              <Widget
-                src="mob.near/widget/Profile"
-                props={{ accountId: admin }}
-              />
-              <div>
-                <button
-                  className="btn btn-sm btn-outline-danger m-1"
-                  onClick={() => removeAdmin(admin)}
-                >
-                  <i className="bi bi-x"></i>
-                </button>
-              </div>
+        {state.admins.map((admin, index) => (
+          <div
+            key={index}
+            className="d-flex flex-row justify-content-between mb-3"
+          >
+            <Widget
+              src="mob.near/widget/Profile"
+              props={{ accountId: admin }}
+            />
+            <div>
+              <button
+                className="btn btn-sm btn-danger m-1"
+                onClick={() => removeAdmin(admin)}
+              >
+                <i className="bi bi-x"></i>
+              </button>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   </div>
