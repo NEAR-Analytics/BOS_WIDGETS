@@ -295,6 +295,7 @@ return (
         maxInputBalance: state.maxInputBalance,
         currency: state.currency,
         target: {
+          id: state.to?.id,
           dstId: state.to?.dstId,
           address: state.currency?.targetAddress,
           poolId: state.currency?.targetPoolId,
