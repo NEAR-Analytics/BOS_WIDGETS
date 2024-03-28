@@ -165,7 +165,7 @@ return (
       </h4>
       <button
         onClick={toggleFilters}
-        className={`m-1 me-2 btn btn-sm ${
+        className={`m-1 me-3 btn btn-sm ${
           !showFilters ? "btn-outline-dark" : "btn-dark"
         }`}
       >
