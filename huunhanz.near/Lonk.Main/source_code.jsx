@@ -89,7 +89,7 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         justify-content:center;
-        align-items:center;
+        margin:auto;
         gap:20px;
         width:200px;
         height:60px;
