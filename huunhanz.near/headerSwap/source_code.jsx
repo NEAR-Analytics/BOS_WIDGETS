@@ -28,7 +28,7 @@ ${fkGroteskFamily}
 a{
     text-decoration:none;
 }
-.span{
+span{
 color: #fff;
 font-size: 4em;
 font-family: Lakki Reddy,cursive;
