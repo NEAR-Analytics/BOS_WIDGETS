@@ -59,7 +59,7 @@ return (
                 }}
                 class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
               >
-                <img src={config.image7} width="90" />
+                <img src={config.image7} class="image" width="90" />
               </button>
             </div>
             <div class="mt-5">
