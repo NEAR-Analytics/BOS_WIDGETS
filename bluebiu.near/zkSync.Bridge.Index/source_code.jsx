@@ -56,7 +56,7 @@ return (
           dstId: 324,
           name: CHAIN_NAME,
           logo: "https://assets.dapdap.net/images/bafkreicwo7gbj23ay4r6w5wwdwllyaxd6eo4w2cngr64sp26z5wmke7xju.svg",
-          explorer: "https://lineascan.build",
+          explorer: "https://explorer.zksync.io",
           routerEthAddress: "0x8731d54E9D02c286767d56ac03e8037C07e01e98",
           routerAddress: "0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590",
         },
