@@ -23,10 +23,9 @@ useEffect(() => {
       }
       setTokens(
         Object.fromEntries(
-          (res.body.tokens || []).map(({ contract_id, balance }) => [
-            contract_id,
-            balance,
-          ])
+          (res.body.tokens || [])
+            .filter(({ balance }) => !!balance)
+            .map(({ contract_id, balance }) => [contract_id, balance])
         )
       );
     })
@@ -58,6 +57,7 @@ const sortedTokens = useMemo(() => {
     balance,
     usdBalance: computeUsdBalance(tokenId, balance),
   }));
+  st.sort((a, b) => parseFloat(b.balance) - parseFloat(a.balance));
   st.sort((a, b) => parseFloat(b.usdBalance) - parseFloat(a.usdBalance));
   return st;
 }, [tokens, priceData]);
