@@ -20,7 +20,6 @@ const Main = styled.div`
   .main {
     display: block;
   }
-
   .intro {
     background: url(${config.image3}) no-repeat 100% 0 fixed;
   }
@@ -79,10 +78,10 @@ const Main = styled.div`
   }
 
   .roadmap {
-      background: url(${config.image27}) no-repeat 100% 100%;
-      background-color: #52bfda;
-      background-size: contain;
-      min-height: 850px;
+    background: url(${config.image27}) no-repeat 100% 100%;
+    background-color: #52bfda;
+    background-size: contain;
+    min-height: 850px;
   }
   .lonk-near {
     bottom: 10px;
