@@ -134,7 +134,7 @@ console.log(visible);
 return (
   <Header>
     <div class="header py-3 position-relative" id="header">
-      <div class="container d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-space-between">
         <span
           onClick={handlClick}
           class="d-xl-none burger position-absolute top-50"
