@@ -7,8 +7,7 @@ State.init({
 });
 
 const [dropdownVisible, setDropdownVisible] = useState(false);
-const [visible, setVisible] = useState(true);
-
+const { setVisible, visible } = props;
 const toggleDropdown = () => {
   setDropdownVisible(!dropdownVisible);
 };
