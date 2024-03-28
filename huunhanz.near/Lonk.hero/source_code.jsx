@@ -20,7 +20,7 @@ return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
       <div class="container py-3">
-        <div class="row col-md-1 justify-content-around ">
+        <div class="row justify-content-around ">
           <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src={config.image4} alt="Green Dragon" width="350px" />
           </div>
@@ -51,7 +51,7 @@ return (
                 </button>{" "}
               </div>
             </div>
-            <div class="mt-5 col-sm">
+            <div class="mt-5">
               <div>
                 <a
                   href="http://t.me/LonkonNEAR"
