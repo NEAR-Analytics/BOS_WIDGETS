@@ -106,7 +106,7 @@ const Title = styled.div`
     @media screen and (max-width:768px){
         flex-direction:column;
         text-align:start;
-        gap:0;
+        gap:0px;
     }
     .title{
         font-family: Lakki Reddy,cursive;
