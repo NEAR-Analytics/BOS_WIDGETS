@@ -17,7 +17,7 @@ const fkGroteskFamily = fetch(
 ).body;
 
 const MenuMobile = styled.ul`
-    height:300px;
+    height:250px;
     width:100%;
     padding:10px;   
     background:#fff;
@@ -25,14 +25,20 @@ const MenuMobile = styled.ul`
     flex-direction:column;
     gap:5px;
     justify-content:start;
-    ul{
-        list-style:none;
-    }
+    list-style: none;
     li{
         margin-left:40px;
     }
     li > a{
-        text-decoration:none;    
+        text-decoration:none; 
+    }
+    span{
+        font-size: 18px;
+        font-family: Lakki Reddy,cursive;
+
+        text-shadow: 0 4px 4px #efefef;
+        text-transform: lowercase;
+        margin-block-end: 0.33em;
     }
 `;
 
@@ -144,6 +150,7 @@ const toggleDropdown = () => {
 
 return (
   <>
+    <Widget href="huunhanz.near/widget/headerSwap" />
     <MenuMobile>
       <li class="nav-item p-1 p-lg-3">
         <a class="nav-link close-menu" aria-current="page" href="/">
