@@ -101,7 +101,7 @@ const Main = styled.div`
     justify-content:space-between;
     @media screen and (max-width:768px){
         flex-direction:column-reverse;
-        gap:20px;
+        gap:10px;
     }
   }
 `;
