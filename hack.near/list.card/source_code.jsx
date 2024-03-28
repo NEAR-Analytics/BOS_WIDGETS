@@ -70,7 +70,7 @@ return (
               href={`/hack.near/widget/list.view?listId=${listId}`}
               className="btn btn-sm btn-primary m-1"
             >
-              <i class="bi bi-view-list"></i> View
+              <i class="bi bi-eye-fill"></i>
             </a>
           </div>
         </div>
