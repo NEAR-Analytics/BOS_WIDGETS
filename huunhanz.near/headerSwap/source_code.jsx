@@ -223,12 +223,15 @@ const Header = styled.div`
           text-shadow: 0 3px 6px #00000040;
           font-family: Lakki Reddy,cursive;
       }
+      @media (min-width: 768px) { 
+          .logo{
+              display:flex;
+              flex-direction:row;
+              align-items:start;
+              justify-content:start;
+          }
+       }
       
-      .mobile-style{
-        @media screen and (max-width:768px){
-          display:none;
-        }
-      }
       
 `;
 console.log(visible);
@@ -247,8 +250,8 @@ return (
           <span>Menu</span>
         </span>
         <div class="row justify-content-center justify-content-md-between align-items-center">
-          <div class="col-lg-3">
-            <a class="text-decoration-none">
+          <div class="col-lg-3 justify-content-start align-items-start">
+            <a class="text-decoration-none logo">
               <img src={state.image2} alt="Icon" width="70" height="70" />
               <img src={state.image1} alt="Logo" width="141" height="60" />
             </a>
