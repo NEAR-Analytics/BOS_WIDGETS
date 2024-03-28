@@ -30,7 +30,7 @@ a{
 }
 span{
 color: #fff;
-font-size: 4em;
+font-size: 18px;
 font-family: Lakki Reddy,cursive;
 
 text-shadow: 0 4px 4px #00000040;
