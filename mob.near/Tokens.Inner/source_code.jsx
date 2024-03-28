@@ -10,7 +10,27 @@ const { bigToString, MutedDecimals } = VM.require(
   "mob.near/widget/Token.utils"
 );
 
-const priceData = Near.view("priceoracle.near", "get_price_data");
+// const priceData = Near.view("priceoracle.near", "get_price_data");
+const refPrices = JSON.parse(
+  fetch("https://indexer.ref.finance/list-token-price").body || "{}"
+);
+const accountBalance = fetch("https://rpc.mainnet.near.org", {
+  method: "POST",
+  request_type: "json",
+  headers: {
+    "Content-Type": "application/json; charset=utf-8",
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    id: "0",
+    method: "query",
+    params: {
+      request_type: "view_account",
+      finality: "optimistic",
+      account_id: accountId,
+    },
+  }),
+}).body.result.amount;
 
 useEffect(() => {
   setTokens(false);
@@ -36,20 +56,24 @@ const sortedTokens = useMemo(() => {
   if (!tokens) {
     return tokens;
   }
-  const prices = Object.fromEntries(
-    (priceData?.prices || []).map(({ asset_id, price }) => [asset_id, price])
-  );
+  tokens["near"] = accountBalance;
+  // const prices = Object.fromEntries(
+  //   (priceData?.prices || []).map(({ asset_id, price }) => [asset_id, price])
+  // );
   const computeUsdBalance = (tokenId, balance) => {
     if (balance === null) {
       return "0";
     }
-    const price = prices[tokenId] || {
-      multiplier: "0",
-      decimals: 1,
-    };
-    return Big(price.multiplier)
+    const price =
+      tokenId === "near"
+        ? refPrices["wrap.near"]
+        : refPrices[tokenId] || {
+            price: "0",
+            decimal: 1,
+          };
+    return Big(price.price)
       .mul(Big(balance))
-      .div(Big(10).pow(price.decimals))
+      .div(Big(10).pow(price.decimal))
       .toFixed(6);
   };
   const st = Object.entries(tokens).map(([tokenId, balance]) => ({
@@ -60,7 +84,7 @@ const sortedTokens = useMemo(() => {
   st.sort((a, b) => parseFloat(b.balance) - parseFloat(a.balance));
   st.sort((a, b) => parseFloat(b.usdBalance) - parseFloat(a.usdBalance));
   return st;
-}, [tokens, priceData]);
+}, [tokens, refPrices, accountBalance]);
 
 const Wrapper = styled.div`
 .header {
