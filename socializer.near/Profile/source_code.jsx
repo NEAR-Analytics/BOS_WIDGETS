@@ -4,7 +4,7 @@ const Admin = "humans-of-near.near";
 const profile = Social.getr(`${accountId}/profile`);
 const widgets = Social.getr(`${accountId}/widget`) ?? {};
 
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
 
 State.init({
   myAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${accountId}`,
@@ -52,6 +52,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding: 18px;
   gap: 18px;
+
+  input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 `;
 
 const WalletComponent = styled.div`
@@ -136,7 +141,7 @@ const toFixed = (x) => {
 const deposit = async (item) => {
   if (state.loading) return;
 
-  const amount = Number(state[item.id]);
+  const amount = Number(state[item.id] ?? 0);
   let oneTeraGas = 100000000000000;
   let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
@@ -162,7 +167,7 @@ const deposit = async (item) => {
 
 const withdraw = async (item) => {
   if (state.loading) return;
-  const amount = Number(state[item.id]);
+  const amount = Number(state[item.id] ?? 0);
 
   if (!amount || amount <= 0) return;
 
@@ -308,7 +313,6 @@ return (
                                 min="0"
                                 value={state[row.id] ?? ""}
                                 onChange={(e) => {
-                                  if (Number(e.target.value) <= 0) return;
                                   State.update({
                                     [row.id]: e.target.value,
                                   });
