@@ -24,34 +24,6 @@ const Main = styled.div`
     .intro {
         background: url(${config.image3}) no-repeat 100% 0 fixed;
     }
-
-    .py-lg-5 {
-        padding-bottom: 3rem!important;
-        padding-top: 3rem!important;
-    }
-    
-    .text-center {
-        text-align: center!important;
-    }
-
-    .font-md-bigger {
-        font-size: 1.2rem;
-    }
-
-    .text-uppercase {
-        text-transform: uppercase!important;
-    }
-
-    .py-4 {
-        padding-bottom: 1.5rem!important;
-        padding-top: 1.5rem!important;
-    }
-
-    .py-3 {
-        padding-bottom: 1rem!important;
-        padding-top: 1rem!important;
-    }
-
     .container {
         max-width: 1140px;
     }
@@ -107,47 +79,8 @@ const Main = styled.div`
     .button {
         border: 2px solid #31cf34;
     }
-
-    .rounded-5 {
-        border-radius: var(--bs-border-radius-xxl)!important;
-    }
-
-    .text-decoration-none {
-        text-decoration: none!important;
-    }
-
-    .mt-5 {
-        margin-top: 3rem !important;
-    }
-
-    .px-2 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-    
-    .d-inline-block {
-        display: inline-block !important;
-    }
-
     .green-bg {
         background-color: #31cf34;
-    }
-
-    .flex-column-reverse {
-        flex-direction: column-reverse !important;
-    }
-
-    p {
-        margin-bottom: 1rem;
-        margin-top: 0;
-    }
-
-    .text-uppercase {
-        text-transform: uppercase !important;
-    }
-
-    .mb-0 {
-        margin-bottom: 0 !important;
     }
 
     h2 {
@@ -192,11 +125,6 @@ const Main = styled.div`
         margin: auto;
         position: absolute;
         right: 0;
-    }
-
-    .col-md-6 {
-        flex: 0 0 auto;
-        width: 50%;
     }
 
     .roadmap {
