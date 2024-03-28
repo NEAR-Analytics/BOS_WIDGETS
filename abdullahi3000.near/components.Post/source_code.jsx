@@ -304,24 +304,6 @@ return (
       >
         <div className={`post ${props.reposted ? "reposted" : ""}`}>
           <div className="right d-flex flex-column gap-3">
-            <Widget
-              src="buildhub.near/widget/components.post.Header"
-              loading=""
-              props={{
-                accountId: accountId,
-                blockHeight: modifications[0].blockHeight ?? blockHeight,
-                pinned: pinned,
-                hideMenu: hideMenu,
-                link: link,
-                postType: "post",
-                item: item,
-                content: content,
-                customActions: customActions,
-                modalToggles: props.modalToggles,
-                setItem: props.setItem,
-                isEdited: isEdited,
-              }}
-            />
             {fullPostLink ? (
               <a
                 key="full-post-link"
