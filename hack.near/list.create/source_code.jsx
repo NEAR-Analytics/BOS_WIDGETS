@@ -57,18 +57,18 @@ const createList = () =>
   });
 
 return (
-  <div className="m-3">
-    <div className="d-flex flex-row justify-content-between">
-      <h3>
-        <b>Build Lists</b>
-      </h3>
+  <div className="m-2 mb-3">
+    <div className="d-flex flex-row justify-content-between me-3">
+      <h4 className="m-1">
+        <b>List Creator</b>
+      </h4>
       <div>
         <button
           disabled={state.admins.length === 0}
           onClick={createList}
-          className="btn btn-success me-2"
+          className="btn btn-sm btn-success"
         >
-          <i class="bi bi-stars"></i> Create
+          <i class="bi bi-stars"></i> Save
         </button>
       </div>
     </div>
@@ -95,7 +95,7 @@ return (
         />
         <button
           disabled={!isValid}
-          className="btn btn-primary m-1 ms-3"
+          className="btn btn-sm btn-outline-dark m-1 ms-3"
           onClick={() => addAdmin(state.newAdmin)}
         >
           <i class="bi bi-plus"></i>
@@ -113,12 +113,14 @@ return (
                 src="mob.near/widget/Profile"
                 props={{ accountId: admin }}
               />
-              <button
-                className="btn btn-danger m-1"
-                onClick={() => removeAdmin(admin)}
-              >
-                <i className="bi bi-x"></i>
-              </button>
+              <div>
+                <button
+                  className="btn btn-sm btn-outline-danger m-1"
+                  onClick={() => removeAdmin(admin)}
+                >
+                  <i className="bi bi-x"></i>
+                </button>
+              </div>
             </div>
           ))}
         </div>
