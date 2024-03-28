@@ -161,7 +161,7 @@ return (
   <div className="m-2 mb-3">
     <div className="d-flex flex-row justify-content-between me-3">
       <h4 className="m-1">
-        <b>List Explorer</b>
+        <b>Explore Lists</b>
       </h4>
       <button
         onClick={toggleFilters}
