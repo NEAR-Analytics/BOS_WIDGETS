@@ -166,7 +166,7 @@ return (
       <button
         onClick={toggleFilters}
         className={`m-1 me-3 btn btn-sm ${
-          !showFilters ? "btn-outline-dark" : "btn-dark"
+          !showFilters ? "btn-dark" : "btn-outline-dark"
         }`}
       >
         {!showFilters ? (
@@ -176,7 +176,6 @@ return (
         )}
       </button>
     </div>
-
     {showFilters && (
       <div className="row m-2">
         <div className="col">
@@ -207,7 +206,7 @@ return (
         </div>
       </div>
     )}
-    <br />
+    <hr />
     <div>
       {listsByOwner.length > 0 ? (
         <div className="m-2">
