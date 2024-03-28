@@ -16,106 +16,120 @@ const toggleDropdown = () => {
 const handlClick = () => {
   setVisible(!visible);
 };
+const fkGroteskFamily = fetch(
+  "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
+).body;
 
 const Header = styled.div`
-      .header{
-          background-color:${state.color};
-      }
-  
-      
-      .burger {
-          color: #fff;
-          cursor: pointer;
-          position: absolute;
-          right: 10px;
-          z-index: 3;
-      }
-  
-      .burger-line {
-          background-color: #fff;
-          border-radius: 4px;
-          display: block;
-          height: 4px;
-          margin-bottom: 3px;
-          transition: all .3s ease-in-out;
-          width: 30px;
-      }
-  
-      .overlay {
-          background-color: #000;
-          height: 100%;
-          left: 0;
-          opacity: .6;
-          position: fixed;
-          top: 0;
-          width: 100%;
-          z-index: 2;
-      }
+${fkGroteskFamily}
+.header{
+    background-color:${state.color};
+}
+a{
+    text-decoration:none;
+}
+.span{
+color: #fff;
+font-size: 4em;
+font-family: Lakki Reddy,cursive;
 
-      .navbar {
-          background-color: transparent;
-          height: auto;
-          position: relative;
-          right: auto;
-          top: auto;
-          width: 100%;
-      }
-  
-      .dropdown-menu {
-        border-radius: 10px; 
-        position: absolute;
-        top: 75px;
-        left: 24px;
-        z-index: 1000;
-        min-width: 10rem;
-        padding: 0.5rem 0;
-        margin: 0.125rem 0 0;
-        font-size: 1rem;
-        color: #212529;
-        text-align: left;
-        list-style: none;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        border: 1px solid #31cf34;
-      }
-  
-      .dropdown-menu.show {
-        display: block;
-      }
-  
-      .dropdown li {
-          margin-bottom: 0.7em;
-      }
-  
-      .dropdown-item {
-          font-size: 1.4rem;
-          color: ${state.color};
-          text-shadow: 0 3px 6px #00000040;
-          font-family: Lakki Reddy,cursive;
-      }
-      @media (max-width: 768px) { 
-          .logo{
-              display:flex;
-              flex-direction:row;
-              align-items:start;
-              justify-content:start;
-          }
-       }
-       .header-swap{
+text-shadow: 0 4px 4px #00000040;
+text-transform: lowercase;
+margin-block-end: 0.33em;
+}
+.burger {
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    z-index: 3;
+}
+
+.burger-line {
+    background-color: #fff;
+    border-radius: 4px;
+    display: block;
+    height: 4px;
+    margin-bottom: 3px;
+    transition: all .3s ease-in-out;
+    width: 30px;
+}
+
+.overlay {
+    background-color: #000;
+    height: 100%;
+    left: 0;
+    opacity: .6;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+.navbar {
+    background-color: transparent;
+    height: auto;
+    position: relative;
+    right: auto;
+    top: auto;
+    width: 100%;
+}
+
+.dropdown-menu {
+border-radius: 10px; 
+position: absolute;
+top: 75px;
+left: 24px;
+z-index: 1000;
+min-width: 10rem;
+padding: 0.5rem 0;
+margin: 0.125rem 0 0;
+font-size: 1rem;
+color: #212529;
+text-align: left;
+list-style: none;
+background-color: #fff;
+background-clip: padding-box;
+border: 1px solid rgba(0, 0, 0, 0.15);
+border: 1px solid #31cf34;
+}
+
+.dropdown-menu.show {
+display: block;
+}
+
+.dropdown li {
+    margin-bottom: 0.7em;
+}
+
+.dropdown-item {
+    font-size: 1.4rem;
+    color: ${state.color};
+    text-shadow: 0 3px 6px #00000040;
+    font-family: Lakki Reddy,cursive;
+}
+@media (max-width: 768px) { 
+    .logo{
         display:flex;
-        @media screen and (max-width:768px){
-            display:none;
-        }
-       }
-       .nav-swap{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        margin-left:20px;
-       }
-      
-      
+        flex-direction:row;
+        align-items:start;
+        justify-content:start;
+    }
+}
+.header-swap{
+display:flex;
+@media screen and (max-width:768px){
+    display:none;
+}
+}
+.nav-swap{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-left:20px;
+}
+
+
 `;
 console.log(visible);
 return (
