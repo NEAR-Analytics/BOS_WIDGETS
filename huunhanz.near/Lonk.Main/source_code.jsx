@@ -95,6 +95,18 @@ const Main = styled.div`
     background-size: cover;
     min-height: 986px;
   }
+  .icon{
+    display:flex;
+    flex-direction:row;
+  }
+  .button-swap{
+    display:flex;
+    flex-direction:row;
+    @media screen and (max-width:768px){
+      flex-direction:column;
+      gap:10px;
+    }
+  }
 `;
 return (
   <Main>
