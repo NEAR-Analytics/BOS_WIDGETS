@@ -166,7 +166,7 @@ return (
       <button
         onClick={toggleFilters}
         className={`m-1 me-3 btn btn-sm ${
-          !showFilters ? "btn-dark" : "btn-outline-dark"
+          !showFilters ? "btn-dark" : "btn-danger"
         }`}
       >
         {!showFilters ? (
