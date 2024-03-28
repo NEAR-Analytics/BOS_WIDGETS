@@ -33,10 +33,7 @@ const Main = styled.div`
     margin-left: calc(var(--bs-gutter-x)*-.5);
     margin-right: calc(var(--bs-gutter-x)*-.5);
     margin-top: calc(var(--bs-gutter-y)*-1);
-    @media screen and (max-width:768px){
-      flex-direction:column;
-      gap:10px;
-    }
+    
   }
   .green-bg {
       background-color: #31cf34;
