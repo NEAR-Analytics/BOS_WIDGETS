@@ -1,188 +1,194 @@
 const config = {
-  color: "#31cf34",
-  image1:
-    "https://bafkreidzrna3q6csqykuvzih6yywrijmdg4fn4tb53azjmmjuobfus4v2e.ipfs.nftstorage.link/",
-  image2:
-    "https://bafybeibuj22kfgmevy3os6akrswxosjyjv5q6tecyv5jsfpw7iccajp5qa.ipfs.nftstorage.link/",
-  image3:
-    "https://bafkreibeah7hmamkdzkrc7znm6u6jp4loiiy42shoyv2mb2hhlhiyynaia.ipfs.nftstorage.link/",
-  image27:
-    "https://bafybeicgrco3ybsfei42gyny5laphmf3edmqnsfq667pjxr6ap47q77gqq.ipfs.nftstorage.link/",
-  image28:
-    "https://bafkreigt2jhdt2qr6lshkdrf3fjeizcdofnqgvtqkjhxxhaamy3vqsyhvu.ipfs.nftstorage.link/",
+  image4:
+    "https://bafybeib6kjh37qmodapxwjq3ukckhabckasdoamjas7ehigzqbjazu4kyq.ipfs.nftstorage.link/",
+  image5:
+    "https://bafkreieghanoutojyhkfxfrfqqjgtn76bnbi25kxwi5byankqz3on2elnq.ipfs.nftstorage.link/",
+  image6:
+    "https://bafkreiejkfmncbzuni5lsrlpplmkqisasvjzgl4oxu3nnz7nmmjwwd56ii.ipfs.nftstorage.link/",
+  image7:
+    "https://bafkreiag6wx5sg3o2e7nuvbdnpoonymm6dge4woi77o3oroxsdztggr7n4.ipfs.nftstorage.link/",
+  image8:
+    "https://bafkreielhfr3ybofrjwtbxg7b7qx6suw7noot3wfkpe3s54gbgg4cao5mq.ipfs.nftstorage.link/",
+  image9:
+    "https://bafkreienvdqrium4lwlfcoz3tctc6ez27hmsiiwv5bsiwjwo2xfolkv4q4.ipfs.nftstorage.link/",
+  image10:
+    "https://bafkreifjthkkuez3glfevsmjw7orgj4fuxofrtoh3zb6k2bqinloixqml4.ipfs.nftstorage.link/",
+  image11:
+    "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
 };
-
-const fkGroteskFamily = fetch(
-  "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
-).body;
-const Main = styled.div`
-  ${fkGroteskFamily}
-  .main {
-    display: block;
-  }
-  .intro {
-    background: url(${config.image3}) no-repeat 100% 0 fixed;
-  }
-  .container {
-    max-width: 1140px;
-  }
-  .row {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-direction:row;
-    margin-left: calc(var(--bs-gutter-x)*-.5);
-    margin-right: calc(var(--bs-gutter-x)*-.5);
-    margin-top: calc(var(--bs-gutter-y)*-1);
-    @media screen and (max-width:768px){
-      flex-direction:column;
-      gap:10px;
-    }
-  }
-
-  .ref {
-    height: 60px;
-    width: 270px;
-  }
-
-  .button {
-    border: 2px solid #31cf34;
-  }
-  .green-bg {
-    background-color: #31cf34;
-  }
-
-  h2 {
-    color: #fff;
-    font-size: 4em;
-    font-family: Lakki Reddy,cursive;
-
-    text-shadow: 0 4px 4px #00000040;
-    text-transform: lowercase;
-    margin-block-end: 0.33em;
-  }
-
-  .green {
-    color: #31cf34;
-  }
-
-  .badge {
-    background-color: #31cf34;
-    font-size: 1.1em;
-    padding: 3px 8px;
-  }
-
-  .green-bg {
-    background-color: #31cf34;
-    padding: 48px 0px;
-  }
-
-  .roadmap {
-    background: url(${config.image27}) no-repeat 100% 100%;
-    background-color: #52bfda;
-    background-size: contain;
-    min-height: 850px;
-  }
-  .lonk-near {
-    bottom: 10px;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-  }
-
-  .roadmap {
-    background-size: cover;
-    min-height: 986px;
-  }
-`;
 return (
-  <Main>
-    <div class="main">
-      <Widget src="huunhanz.near/widget/Lonk.hero" />
-
-      <Widget src="huunhanz.near/widget/Lonk.buy" />
-      <div
-        class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
-        id="token"
-      >
-        <div class="container">
-          <div class="row flex-md-row align-items-center">
-            <div class="col-12 col-md-6 ">
-              <p class="mb-5 text-uppercase">
-                <strong>420.69 Billions LONK</strong>
-              </p>
-              <p class="text-uppercase mb-0">
-                83.058% LPs, <br />
-                16.9420% Reserved:
-              </p>
-              <ul class="text-uppercase">
-                <li>Airdrop</li>
-                <li>Exchange Listings</li>
-              </ul>
-              <p>
-                NO TAXES <br />
-                No Team Allocations
-                <br />
-                No VCS
-                <br />
-                No presale
-                <br />
-                NO BS
-              </p>
-            </div>
-            <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
-              <h2>tokenomics</h2>
-            </div>
+  <>
+    <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
+      <div class="container py-3">
+        <div class="row justify-content-around ">
+          <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
+            <img src={config.image4} alt="Green Dragon" width="350px" />
           </div>
-        </div>
-      </div>
-      <div
-        class="roadmap font-md-bigger py-4 py-lg-5 position-relative"
-        id="roadmap"
-      >
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <h2>roadmap</h2>
+          <div class="col-12 col-lg-4">
+            <img src={config.image5} width="200" />
+            <p class="mt-3 mp-4">WE LONKING, NOT SHORTING</p>
+            <p class="mp-4">LONKING $NEAR BACK TO $20.24 IN 2024</p>
+            <p class="mp-4">Get some $LONK</p>
+            <div class="d-flex justify-content-center button-swap">
+              <div class="mx-2">
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.image6} width="186" />
+                </button>{" "}
+              </div>
+              <div class="mx-2">
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#veax"
+                  class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.image7} width="90" />
+                </button>{" "}
+              </div>
             </div>
-            <div class="col-12 col-md-4 col-lg-3 text-md-center">
-              <p class="text-uppercase mb-5">
-                Phase 1: lonk
-                <br />
-                Phase 2: $lonk
-                <br />
-                phase 3: lonkdrop
-                <br />
-                PHASE 4: EVERYONE LONK
-              </p>
-              <br />
-            </div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="mb-3 mb-md-5"></div>
-            <div class="col-12"></div>
-            <div class="col-12 col-md-7">
-              <p>
-                Disclaimer: <br />
-                $LONK is a meme coin purely for entertainment, with no inherent
-                value or promise of financial gain. It's managed informally
-                without a dedicated team or a set roadmap, serving solely as a
-                token of amusement.
-              </p>
-            </div>
-            <div class="col-12 text-center">
-              <a href="https://near.org" class="text-decoration-none">
-                <img src={config.image28} width="280" class="lonk-near" />
-              </a>
+            <div class="mt-5 icon">
+              <div class="d-flex flex-row">
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image8}
+                    width="75"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image9}
+                    width="50"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+              </div>
+              <div class="d-flex flex-row">
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image10}
+                    width="75"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image11}
+                    width="50"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </Main>
+    <Widget src="huunhanz.near/widget/Lonk.stake" />
+    <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
+      <div class="container">
+        <div class="row flex-md-row align-items-center">
+          <div class="col-12 col-md-8 col-lg-7">
+            <p>
+              LONK READ AS “LONG”
+              <br />
+              LONK IS LONG
+              <br />
+              LONK IS 龍 <br />
+              LONK IS DRAGON (insert Illia)
+              <br />
+              LONK IS FREN WITH BONK
+              <br />
+              LONK IS LOVE
+              <br />
+              LONK IS NOT YOUR AVERAGE MEME COIN
+            </p>
+            <p class="text-uppercase">
+              Born from collective frenship, firmly grounded in the realms of
+              memetics and humor
+            </p>
+            <p class="text-uppercase mb-0">
+              YOUR NEAR journey is incomplete without LONK.
+            </p>
+          </div>
+          <div class="col-12 col-md-4 col-lg-5 text-left text-md-end">
+            <h2>about</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Swap Token Ref Finance
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center">
+            <Widget src="huunhanz.near/widget/ref-swap" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="veax"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Swap Token Veax
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center align-items-center">
+            <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </>
 );
