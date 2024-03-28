@@ -162,17 +162,17 @@ return (
     {visible && (
       <MenuMobile>
         <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" aria-current="page" href="/">
+          <a class="nav-link close-menu" aria-current="page" href="#">
             <span>home</span>
           </a>
         </li>
         <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="/#about">
+          <a class="nav-link close-menu" href="#about">
             <span>about</span>
           </a>
         </li>
         <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="/#how">
+          <a class="nav-link close-menu" href="#how">
             <span>how to buy</span>
           </a>
         </li>
@@ -242,12 +242,12 @@ return (
           </ul>
         </li>
         <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="/#token">
+          <a class="nav-link close-menu" href="#token">
             <span>tokenomic</span>
           </a>
         </li>
         <li class="nav-item p-1 p-lg-3">
-          <a class="nav-link close-menu" href="/#roadmap">
+          <a class="nav-link close-menu" href="#roadmap">
             <span>roadmap</span>
           </a>
         </li>
