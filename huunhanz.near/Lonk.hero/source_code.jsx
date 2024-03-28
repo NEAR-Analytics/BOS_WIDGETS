@@ -54,29 +54,52 @@ return (
             <div class="mt-5 col-md">
               <div>
                 <a
-                href="http://t.me/LonkonNEAR"
-                target="_blank"
-                class="d-inline-block px-2"
-              >
-                <img
-                  src={config.image8}
-                  width="75"
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
                   class="d-inline-block px-2"
-                />
-              </a>
-              <a
-                href="http://t.me/LonkonNEAR"
-                target="_blank"
-                class="d-inline-block px-2"
-              >
-                <img
-                  src={config.image9}
-                  width="50"
+                >
+                  <img
+                    src={config.image8}
+                    width="75"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
                   class="d-inline-block px-2"
-                />
-              </a>
+                >
+                  <img
+                    src={config.image9}
+                    width="50"
+                    class="d-inline-block px-2"
+                  />
+                </a>
               </div>
-              <div>/d
+              <div>
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image10}
+                    width="75"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+                <a
+                  href="http://t.me/LonkonNEAR"
+                  target="_blank"
+                  class="d-inline-block px-2"
+                >
+                  <img
+                    src={config.image11}
+                    width="50"
+                    class="d-inline-block px-2"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
