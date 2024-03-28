@@ -25,15 +25,13 @@ const Main = styled.div`
       background: url(${config.image3}) no-repeat 100% 0 fixed;
   }
 
-  .row {
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
+  .hero {
     display: flex; 
-    flex-direction:row;
-    margin-left: calc(var(--bs-gutter-x)*-.5);
-    margin-right: calc(var(--bs-gutter-x)*-.5);
-    margin-top: calc(var(--bs-gutter-y)*-1);
-    
+    flex-direction:row; 
+    justify-content:space-around;
+    @media screen and (max-width:768px){
+      flex-direction:column;
+    }
   }
   .green-bg {
       background-color: #31cf34;
