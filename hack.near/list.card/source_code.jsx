@@ -23,88 +23,75 @@ const toggleDetails = () => {
   }
 };
 
+function timeSince(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  let interval = seconds / 31536000;
+
+  if (interval > 1) {
+    return Math.floor(interval) + " years ago";
+  }
+  interval = seconds / 2592000;
+  if (interval > 1) {
+    return Math.floor(interval) + " months ago";
+  }
+  interval = seconds / 86400;
+  if (interval > 1) {
+    return Math.floor(interval) + " days ago";
+  }
+  interval = seconds / 3600;
+  if (interval > 1) {
+    return Math.floor(interval) + " hours ago";
+  }
+  interval = seconds / 60;
+  if (interval > 1) {
+    return Math.floor(interval) + " minutes ago";
+  }
+  return Math.floor(seconds) + " seconds ago";
+}
+
 return (
   <>
     {list && (
       <div className="card">
         <div className="d-flex flex-row justify-content-between card-header">
           <h5 className="mt-2">
-            <span className="me-1">
+            <b>{list.id}.</b>
+            {list.name}
+            <span className="m-1">
               {list.admin_only_registrations ? (
                 <i class="bi bi-lock-fill"></i>
               ) : (
                 <i class="bi bi-unlock"></i>
               )}
             </span>
-            {list.name}
           </h5>
           <div className="mt-1">
             <a
               href={`/hack.near/widget/list.view?listId=${listId}`}
-              className="btn btn-sm btn-success m-1"
+              className="btn btn-sm btn-primary m-1"
             >
-              View
+              <i class="bi bi-view-list"></i> View
             </a>
           </div>
         </div>
         <div className="card-body">
           <div className="d-flex flex-row justify-content-between">
-            <div className="card-text mt-1">
-              <p>{list.description}</p>{" "}
+            <div className="card-text">
+              <p>{list.description}</p>
               <i>
-                <b>Created:</b>
-                {new Date(list.created_at).toLocaleString()}
+                <i class="bi bi-clock-history"></i>
+                {timeSince(new Date(list.updated_at || list.created_at))}
               </i>
             </div>
             <div style={{ textAlign: "right" }} className="card-info">
-              <div>
-                <button
-                  onClick={toggleAdmins}
-                  className="btn btn-sm btn-outline-dark m-1"
-                >
-                  {!showAdmins ? (
-                    <i class="bi bi-caret-down-fill"> Admins</i>
-                  ) : (
-                    <i class="bi bi-caret-up-fill"> Admins</i>
-                  )}
-                </button>
-                <button
-                  onClick={toggleDetails}
-                  className="btn btn-sm btn-outline-dark m-1"
-                >
-                  {!showDetails ? (
-                    <i class="bi bi-caret-down-fill"> Details</i>
-                  ) : (
-                    <i class="bi bi-caret-up-fill"> Details</i>
-                  )}
-                </button>
+              <div className="mb-3">
+                Admins:
+                <Widget
+                  src="hack.near/widget/faces"
+                  props={{ accounts: list.admins }}
+                />
               </div>
-              {showAdmins && (
-                <div className="mt-1">
-                  {list.admins.map((admin, i) => (
-                    <div className="admin-profile" key={i}>
-                      <Widget
-                        src="mob.near/widget/N.ProfileLine"
-                        props={{ accountId: admin, hideAccountId: true }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-              {showDetails && (
-                <div className="mt-1">
-                  <div>
-                    <b>Default Status:</b>
-                    {list.default_registration_status}
-                  </div>
-                  <div>
-                    <b>Total Registrations:</b> {list.total_registrations_count}
-                  </div>
-                  <div>
-                    <b>Total Upvotes:</b> {list.total_upvotes_count}
-                  </div>
-                </div>
-              )}
+              <b>{list.total_registrations_count} Projects</b>
             </div>
           </div>
         </div>
