@@ -71,7 +71,10 @@ const getStargateStatus = () => {
   State.update({
     loading: true,
   });
-  if ((tx.fromChainId === 1 && tx.toChainId === 324) || (tx.fromChainId === 324 && tx.toChainId === 1)) {
+  if (
+    (tx.fromChainId === 1 && tx.toChainId === 324) || (tx.fromChainId === 324 && tx.toChainId === 1)
+    || (tx.fromChainId === 1 && tx.toChainId === 534352) || (tx.fromChainId === 534352 && tx.toChainId === 1)
+    ) {
     asyncFetch(`https://api.orbiter.finance/sdk/transaction/cross-chain/${tx.hash}`)
     .then(res => {
       if (res.body.status === 'success') {
