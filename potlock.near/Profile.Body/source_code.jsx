@@ -120,7 +120,7 @@ return (
               value: props.registration.status,
             },
             onChange: (status) => {
-              if (status.value != project.status) {
+              if (status.value != registration.status) {
                 setStatusReview({
                   ...statusReview,
                   newStatus: status.value,
