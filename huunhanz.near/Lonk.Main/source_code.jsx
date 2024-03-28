@@ -116,7 +116,7 @@ return (
         id="token"
       >
         <div class="container">
-          <div class="row flex-md-row align-items-center">
+          <div class="about">
             <div class="col-12 col-md-6 ">
               <p class="mb-5 text-uppercase">
                 <strong>420.69 Billions LONK</strong>
