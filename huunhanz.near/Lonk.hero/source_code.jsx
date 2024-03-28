@@ -20,7 +20,7 @@ const [select, setSelect] = useState("");
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
-      <div class="">
+      <div class="container py-3">
         <div class="hero">
           <div class="d-flex justify-content-center align-items-center">
             <img src={config.image4} alt="Green Dragon" width="350px" />
@@ -30,7 +30,7 @@ return (
             <p class="">WE LONKING, NOT SHORTING</p>
             <p class="">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="">Get some $LONK</p>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center button-swap">
               <div class="mx-2">
                 <button
                   onClick={() => setSelect("ref")}
@@ -41,6 +41,7 @@ return (
                     padding: "10px 20px",
                     height: "60px",
                     width: "270px",
+                    border: "2px solid #31cf34",
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
@@ -57,6 +58,7 @@ return (
                     padding: "10px 20px",
                     height: "60px",
                     width: "270px",
+                    border: "2px solid #31cf34",
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
