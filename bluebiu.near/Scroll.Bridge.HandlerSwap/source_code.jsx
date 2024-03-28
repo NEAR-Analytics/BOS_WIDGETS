@@ -12,7 +12,6 @@ const {
 } = props;
 if (!loading) return "";
 
-console.log('quote: ', quote)
 const _amount = new Big(amount).mul(Math.pow(10, 18)).toString()
 const lastNum = _amount.slice(0, _amount.length - quote.vc.length) + quote.vc;
 const signer = Ethers.provider().getSigner()
@@ -21,7 +20,6 @@ const params = {
     to: quote.endpoint,
     value: lastNum,
 }
-console.log('params: ', params)
 signer.sendTransaction(params)
 .then((tx) => {
     console.log(tx)
