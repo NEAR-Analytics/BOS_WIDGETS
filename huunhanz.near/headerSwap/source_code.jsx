@@ -27,7 +27,7 @@ ${fkGroteskFamily}
 a{
     text-decoration:none;
 }
-span{
+.span{
 color: #fff;
 font-size: 20px;
 font-family: Lakki Reddy,cursive;
@@ -161,17 +161,17 @@ return (
                     aria-current="page"
                     href="huunhanz.near/widget/Lonk.Index"
                   >
-                    <span>home</span>
+                    <span class="span">home</span>
                   </a>
                 </li>
                 <li class="nav-item p-1 p-lg-3">
                   <a class="nav-link close-menu" href="#about">
-                    <span>about</span>
+                    <span class="span">about</span>
                   </a>
                 </li>
                 <li class="nav-item p-1 p-lg-3">
                   <a class="nav-link close-menu" href="#how">
-                    <span>how to buy</span>
+                    <span class="span">how to buy</span>
                   </a>
                 </li>
                 <li class="nav-item p-1 p-lg-3 position-relative">
@@ -183,7 +183,7 @@ return (
                     id="toggle"
                     onClick={toggleDropdown}
                   >
-                    <span>bridge to near</span>
+                    <span class="span">bridge to near</span>
                   </a>
                   <ul
                     class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
@@ -243,12 +243,12 @@ return (
                 </li>
                 <li class="nav-item p-1 p-lg-3">
                   <a class="nav-link close-menu" href="#token">
-                    <span>tokenomic</span>
+                    <span class="span">tokenomic</span>
                   </a>
                 </li>
                 <li class="nav-item p-1 p-lg-3">
                   <a class="nav-link close-menu" href="#roadmap">
-                    <span>roadmap</span>
+                    <span class="span">roadmap</span>
                   </a>
                 </li>
               </ul>
