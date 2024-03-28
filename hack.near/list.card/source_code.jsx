@@ -68,7 +68,7 @@ return (
           <div className="mt-1">
             <a
               href={`/hack.near/widget/list.view?listId=${listId}`}
-              className="btn btn-sm btn-primary me-1"
+              className="btn btn-sm btn-primary me-2"
             >
               <i class="bi bi-eye-fill"></i>
             </a>
