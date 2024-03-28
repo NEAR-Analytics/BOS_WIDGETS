@@ -95,11 +95,13 @@ const Main = styled.div`
     }
   }
   .about{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
     @media screen and (max-width:768px){
-        display:flex;
         flex-direction:column-reverse;
         gap:20px;
-        
     }
   }
 `;
