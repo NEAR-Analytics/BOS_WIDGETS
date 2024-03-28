@@ -1,9 +1,8 @@
-const accountId = "jass.near";
+const accountId = "jgodwill.near";
 if (!accountId) {
   return "No accountId";
 }
-const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const blockHeight = 115447915;
 
 const content = JSON.parse(
   Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
