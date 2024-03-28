@@ -28,7 +28,16 @@ return (
     {list && (
       <div className="card">
         <div className="d-flex flex-row justify-content-between card-header">
-          <h5 className="mt-2">{list.name}</h5>
+          <h5 className="mt-2">
+            <span className="me-1">
+              {list.admin_only_registrations ? (
+                <i class="bi bi-lock-fill"></i>
+              ) : (
+                <i class="bi bi-unlock"></i>
+              )}
+            </span>
+            {list.name}
+          </h5>
           <div className="mt-1">
             <a
               href={`/hack.near/widget/list.view?listId=${listId}`}
@@ -85,12 +94,8 @@ return (
               {showDetails && (
                 <div className="mt-1">
                   <div>
-                    <b>Default Registration Status:</b>
+                    <b>Default Status:</b>
                     {list.default_registration_status}
-                  </div>
-                  <div>
-                    <b>Admin-only Registrations:</b>
-                    {JSON.stringify(list.admin_only_registrations)}
                   </div>
                   <div>
                     <b>Total Registrations:</b> {list.total_registrations_count}
