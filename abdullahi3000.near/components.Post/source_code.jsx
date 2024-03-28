@@ -329,10 +329,10 @@ return (
                 href={fullPostLink}
                 className="text-decoration-none link-dark"
               >
-                {contentWidget}
+                '{contentWidget}'
               </a>
             ) : (
-              contentWidget
+              "contentWidget"
             )}
             {props.customButtons ? (
               props.customButtons
