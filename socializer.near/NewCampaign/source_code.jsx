@@ -359,9 +359,6 @@ return (
           <div className="form-value">
             <p>{`Amount`}</p>
             <Input
-              type="number"
-              min="0.01"
-              step="0.1"
               value={state.amount}
               className="form-input"
               onChange={(e) => {
