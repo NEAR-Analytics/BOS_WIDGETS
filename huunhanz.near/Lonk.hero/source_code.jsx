@@ -29,7 +29,7 @@ return (
             <p class="mt-3 mp-4">WE LONKING, NOT SHORTING</p>
             <p class="mp-4">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="mp-4">Get some $LONK</p>
-            <div class="d-flex col-md justify-content-center">
+            <div class="d-flex col-xs justify-content-center">
               <div class="mx-2">
                 <button
                   type="button"
@@ -51,7 +51,7 @@ return (
                 </button>{" "}
               </div>
             </div>
-            <div class="mt-5 col-md">
+            <div class="mt-5 col-xs">
               <div>
                 <a
                   href="http://t.me/LonkonNEAR"
