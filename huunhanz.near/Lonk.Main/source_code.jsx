@@ -78,8 +78,11 @@ const Main = styled.div`
   }
   .roadmap {
     background-color: #52bfda;
-    background-size: contain;
+    background-size: cover;
     min-height: 800px;
+    @media screen and (max-width:768px){
+        background-size: contain;
+    }
   }
   .button-swap{
     display:flex;
