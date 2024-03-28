@@ -27,7 +27,9 @@ const MenuMobile = styled.ul`
     justify-content:start;
     ul{
         list-style:none;
-        margin-left:20px;
+    }
+    li{
+        margin-left:40px;
     }
     li > a{
         text-decoration:none;    
@@ -133,57 +135,104 @@ const Main = styled.div`
     }
   }
 `;
+
+const [dropdownVisible, setDropdownVisible] = useState(false);
+
+const toggleDropdown = () => {
+  setDropdownVisible(!dropdownVisible);
+};
+
 return (
   <>
     <MenuMobile>
-      <li>
-        <a class="dropdown-item" href="/ethereum">
-          from <span class="text-capitalize">ethereum</span>
+      <li class="nav-item p-1 p-lg-3">
+        <a class="nav-link close-menu" aria-current="page" href="/">
+          <span>home</span>
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" href="/solana">
-          from <span class="text-capitalize">solana</span>
+      <li class="nav-item p-1 p-lg-3">
+        <a class="nav-link close-menu" href="/#about">
+          <span>about</span>
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">arbitrum</span>
+      <li class="nav-item p-1 p-lg-3">
+        <a class="nav-link close-menu" href="/#how">
+          <span>how to buy</span>
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">optimism</span>
+      <li class="nav-item p-1 p-lg-3 position-relative">
+        <a
+          class={`nav-link dropdown-toggle ${dropdownVisible ? "show" : ""}`}
+          href="#"
+          id="toggle"
+          onClick={toggleDropdown}
+        >
+          <span>bridge to near</span>
+        </a>
+        <ul
+          class={`dropdown-menu ${dropdownVisible ? "show" : ""}`}
+          id="dropdown"
+        >
+          <li>
+            <a class="dropdown-item" href="/ethereum">
+              from <span class="text-capitalize">ethereum</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/solana">
+              from <span class="text-capitalize">solana</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">arbitrum</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">optimism</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">polygon</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">fantom</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">avalanche</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/evm">
+              from <span class="text-capitalize">BSC</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/suit-aptos">
+              from <span class="text-capitalize">sui</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/suit-aptos">
+              from <span class="text-capitalize">aptos</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item p-1 p-lg-3">
+        <a class="nav-link close-menu" href="/#token">
+          <span>tokenomic</span>
         </a>
       </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">polygon</span>
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">fantom</span>
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">avalanche</span>
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="/evm">
-          from <span class="text-capitalize">BSC</span>
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="/suit-aptos">
-          from <span class="text-capitalize">sui</span>
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item" href="/suit-aptos">
-          from <span class="text-capitalize">aptos</span>
+      <li class="nav-item p-1 p-lg-3">
+        <a class="nav-link close-menu" href="/#roadmap">
+          <span>roadmap</span>
         </a>
       </li>
     </MenuMobile>
