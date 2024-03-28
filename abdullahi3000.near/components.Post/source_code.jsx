@@ -262,7 +262,7 @@ if (modifications.length) {
 const link =
   props.link ??
   props.fullPostLink ??
-  `/mob.near/widget/MainPage.N.Post.Page?accountId=${"jass.near"}&blockHeight=${blockHeight}`;
+  `/mob.near/widget/MainPage.N.Post.Page?accountId=jass.near&blockHeight=${blockHeight}`;
 
 const contentWidget = (
   <>
