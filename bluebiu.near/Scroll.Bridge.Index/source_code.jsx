@@ -53,7 +53,7 @@ return (
         },
         chain: {
           id: CHAIN_ID,
-          dstId: 534352,
+          dstId: CHAIN_ID,
           name: CHAIN_NAME,
           logo: "https://www.dapdap.net/images/chains/scroll_white.svg",
           explorer: "https://scrollscan.com",
