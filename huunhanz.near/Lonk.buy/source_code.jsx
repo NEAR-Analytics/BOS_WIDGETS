@@ -210,7 +210,13 @@ return (
                 type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#buyModal"
-                class="ref button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                style={{
+                  padding: "10px 20px",
+                  height: "60px",
+                  width: "270px",
+                  border: "2px solid #31cf34",
+                }}
+                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
               >
                 <img src={config.image6} width="186" />
               </button>{" "}
