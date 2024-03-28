@@ -86,6 +86,8 @@ const Container = styled.div`
         flex-direction:column;
         justify-content:center;
         gap:30px;
+        max-height:350px;
+        padding:30px 0;
     }
 `;
 
@@ -99,6 +101,9 @@ const Title = styled.div`
     flex-direction:column;
     text-align:start;
     gap:2rem;
+    @media screen and (max-width:768px){
+        gap:30px;
+    }
     .title{
         font-family: Lakki Reddy,cursive;
         font-size: 5em;
