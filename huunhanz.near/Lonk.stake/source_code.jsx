@@ -82,6 +82,11 @@ const Container = styled.div`
     align-items:center;
     border-top:2px solid #31cf34;
     border-bottom:2px solid #31cf34;
+    @media screen and (max-width:768px){
+        flex-direction:column;
+        justify-content:center;
+        gap:30px;
+    }
 `;
 
 const Content = styled.div`
