@@ -77,8 +77,9 @@ const Main = styled.div`
       right: 0;
   }
   .roadmap {
-      background-size: cover;
-      min-height: 986px;
+    background-color: #52bfda;
+    background-size: contain;
+    min-height: 800px;
   }
   .button-swap{
     display:flex;
