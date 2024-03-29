@@ -1,16 +1,10 @@
-const {
-  donations,
-  potPayouts,
-  directDonations,
-  matchingRoundDonations,
-  profile,
-} = props;
-const { ownerId, SUPPORTED_FTS } = VM.require(
-  "potlock.near/widget/constants"
-) || {
+const { donations, potPayouts, directDonations, matchingRoundDonations, profile } = props;
+
+const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
+
 const NoResults = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,33 +32,31 @@ const NoResults = styled.div`
     }
   }
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Line = styled.div`
   width: 100%;
   background: #c7c7c7;
   height: 1px;
   margin: 3rem 0;
 `;
-const externalFunding = profile.plFundingSources
-  ? JSON.parse(profile.plFundingSources)
-  : [];
+
+const externalFunding = profile.plFundingSources ? JSON.parse(profile.plFundingSources) : [];
+
 // Get total donations & Unique donors count
 const [totalDonationAmountNear, uniqueDonors, totalMatched] = useMemo(() => {
   let totalNear = Big(0);
-  const uniqueDonors = [
-    ...new Set(donations.map((donation) => donation.donor_id)),
-  ];
+  const uniqueDonors = [...new Set(donations.map((donation) => donation.donor_id))];
   donations.forEach((donation) => {
     if (donation.ft_id === "near" || donation.base_currency === "near") {
       totalNear = totalNear.plus(Big(donation.total_amount || donation.amount));
     }
   });
-  const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(
-    totalNear.toString()
-  );
+  const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(totalNear.toString());
   let totalMatched = Big(0);
   potPayouts.forEach((payout) => {
     totalMatched = totalMatched.plus(Big(payout.amount));
@@ -72,6 +64,7 @@ const [totalDonationAmountNear, uniqueDonors, totalMatched] = useMemo(() => {
   totalMatched = SUPPORTED_FTS["NEAR"].fromIndivisible(totalMatched.toString());
   return [totalDonationAmountNear, uniqueDonors?.length, totalMatched];
 }, [donations]);
+
 return externalFunding.length === 0 && donations.length === 0 ? (
   <NoResults>
     <img
@@ -89,15 +82,11 @@ return externalFunding.length === 0 && donations.length === 0 ? (
       />
     )}
     {externalFunding.length > 0 && donations.length > 0 && <Line />}
+
     {donations.length > 0 && (
       <Widget
         src={`${ownerId}/widget/Project.PotlockFunding`}
-        props={{
-          ...props,
-          totalDonationAmountNear,
-          uniqueDonors,
-          totalMatched,
-        }}
+        props={{ ...props, totalDonationAmountNear, uniqueDonors, totalMatched }}
       />
     )}
   </Container>
