@@ -42,7 +42,7 @@ const StyledButton = styled.button`
   color: ${(props) => {
     switch (props.variant) {
       case "primary":
-        return "var(--button-primary-color, #000)";
+        return "var(--button-primary-color, #fff)";
       case "outline":
         return "var(--button-outline-color, #fff)";
       case "secondary":
