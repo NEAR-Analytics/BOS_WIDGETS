@@ -413,6 +413,7 @@ return (
             props={{
               API_URL,
               menu: state.menu,
+              length: state.campaigns.length,
             }}
             src={`${Owner}/widget/Status`}
           />
