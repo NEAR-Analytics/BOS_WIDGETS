@@ -1,5 +1,6 @@
 const title = props.title;
 const description = props.description;
+
 const icon = (
   <svg
     width="20"
@@ -17,6 +18,7 @@ const icon = (
     />
   </svg>
 );
+
 const Container = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -29,6 +31,7 @@ const Container = styled.div`
   border-radius: 4px;
   width: 100%;
 `;
+
 const Text = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,6 +39,7 @@ const Text = styled.div`
   padding: 0px;
   gap: 0.75em;
 `;
+
 const Heading = styled.div`
   font-style: normal;
   font-weight: 600;
@@ -43,6 +47,7 @@ const Heading = styled.div`
   line-height: 1.25em;
   color: #344054;
 `;
+
 const Description = styled.p`
   font-style: normal;
   font-weight: 400;
@@ -52,6 +57,7 @@ const Description = styled.p`
   white-space: wrap;
   margin: 0px;
 `;
+
 return (
   <Container>
     {icon}
