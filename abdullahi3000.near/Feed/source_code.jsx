@@ -75,7 +75,23 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      context.accountId
+      context.accountId == "jass.near" && (
+        <Widget
+          loading={
+            <div
+              className="placeholder-glow h-100 w-100"
+              style={{ height: 400 }}
+            ></div>
+          }
+          src="buildhub.near/widget/Compose"
+          props={{
+            draftKey: feedName,
+            template: template,
+            requiredHashtags: requiredHashtags,
+            feed: { ...props },
+          }}
+        />
+      )
     )}
     <Feed
       index={(requiredHashtags || []).map((it) => ({
