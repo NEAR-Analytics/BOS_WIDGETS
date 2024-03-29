@@ -4,27 +4,21 @@ const ProjectOptions = (props) => [
     id: "home",
     disabled: false,
     source: `${props.ownerId}/widget/Project.About`,
-    href: props.hrefWithParams(
-      `?tab=project&projectId=${props.projectId}&nav=home`
-    ),
+    href: props.hrefWithParams(`?tab=project&projectId=${props.projectId}&nav=home`),
   },
   {
     label: "Social Feed",
     id: "feed",
     disabled: false,
     source: `${props.ownerId}/widget/Profile.Feed`,
-    href: props.hrefWithParams(
-      `?tab=project&projectId=${props.projectId}&nav=feed`
-    ),
+    href: props.hrefWithParams(`?tab=project&projectId=${props.projectId}&nav=feed`),
   },
   {
     label: "Pots",
     id: "pots",
     disabled: false,
     source: `${props.ownerId}/widget/Project.Pots`,
-    href: props.hrefWithParams(
-      `?tab=project&projectId=${props.projectId}&nav=pots`
-    ),
+    href: props.hrefWithParams(`?tab=project&projectId=${props.projectId}&nav=pots`),
   },
   // {
   //   label: "Attestations",
@@ -36,9 +30,7 @@ const ProjectOptions = (props) => [
     id: "funding",
     disabled: false,
     source: `${props.ownerId}/widget/Project.FundingRaised`,
-    href: props.hrefWithParams(
-      `?tab=project&projectId=${props.projectId}&nav=funding`
-    ),
+    href: props.hrefWithParams(`?tab=project&projectId=${props.projectId}&nav=funding`),
   },
   {
     label: "",
@@ -53,6 +45,7 @@ const ProjectOptions = (props) => [
     source: `${props.ownerId}/widget/Profile.FollowTabs`,
   },
 ];
+
 return {
   ProjectOptions,
 };
