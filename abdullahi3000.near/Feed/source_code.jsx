@@ -75,7 +75,7 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      context.accountId == "jass.near" && (
+      context.accountId == "abdullahi3000.near" && (
         <Widget
           loading={
             <div
@@ -109,7 +109,7 @@ return (
       }))}
       Item={(p) => (
         <>
-          {p.accountId == "jass.near" && (
+          {p.accountId == "abdullahi3000.near" && (
             <Post
               accountId={p.accountId}
               blockHeight={p.blockHeight}
