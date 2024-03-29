@@ -1,7 +1,9 @@
 const { showChallengePayoutsModal, onCancel, existingChallengeForUser } = props;
+
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
+
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -13,6 +15,7 @@ const ModalHeader = styled.div`
   border-top-right-radius: 6px;
   font-weight: 500;
 `;
+
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,6 +26,7 @@ const ModalBody = styled.div`
   background: #fafafa;
   gap: 8px;
 `;
+
 const ModalFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -35,10 +39,12 @@ const ModalFooter = styled.div`
   gap: 24px;
   width: 100%;
 `;
+
 State.init({
   challengeReason: "",
   challengeReasonError: "",
 });
+
 useEffect(() => {
   if (existingChallengeForUser?.reason) {
     State.update({
@@ -46,16 +52,21 @@ useEffect(() => {
     });
   }
 }, [existingChallengeForUser]);
+
 const { challengeReason, challengeReasonError } = state;
+
 const handleCancelChallenge = () => {
   onCancel();
   State.update({ challengeReason: "", challengeReasonError: "" });
 };
+
 const handleSubmitChallenge = () => {
   PotSDK.challengePayouts(potId, challengeReason);
   onClose();
 };
+
 const MAX_CHALLENGE_TEXT_LENGTH = 1000;
+
 return (
   <Widget
     src={`${ownerId}/widget/Components.Modal`}
@@ -80,8 +91,7 @@ return (
                 },
                 placeholder: "Type the reason for your challenge here",
                 value: challengeReason,
-                onChange: (challengeReason) =>
-                  State.update({ challengeReason }),
+                onChange: (challengeReason) => State.update({ challengeReason }),
                 validate: () => {
                   if (challengeReason.length > MAX_CHALLENGE_TEXT_LENGTH) {
                     State.update({
@@ -89,6 +99,7 @@ return (
                     });
                     return;
                   }
+
                   State.update({ challengeReasonError: "" });
                 },
                 error: challengeReasonError,
