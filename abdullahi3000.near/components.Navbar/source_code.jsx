@@ -341,25 +341,51 @@ function Navbar(props) {
                     return null;
                   }
                   return (
-                    <Link
-                      key={`mobile=${k}`}
-                      style={{ textDecoration: "none" }}
-                      to={href({
-                        widgetSrc: "abdullahi3000.near/widget/app",
-                        params: {
-                          page: k,
-                        },
-                      })}
-                    >
-                      <span
-                        onClick={toggleDropdown}
-                        key={k}
-                        className={page === k ? "active" : null}
+                    <>
+                      <Link
+                        key={`mobile=${k}`}
+                        style={{ textDecoration: "none" }}
+                        to={href({
+                          widgetSrc: "abdullahi3000.near/widget/app",
+                          params: {
+                            page: k,
+                          },
+                        })}
                       >
-                        {route.init.icon && <i className={route.init.icon}></i>}
-                        {route.init.name}
-                      </span>
-                    </Link>
+                        <span
+                          onClick={toggleDropdown}
+                          key={k}
+                          className={page === k ? "active" : null}
+                        >
+                          {route.init.icon && (
+                            <i className={route.init.icon}></i>
+                          )}
+                          {route.init.name}
+                        </span>
+                      </Link>
+                      // artist network
+                      <Link
+                        key={`mobile=${k}`}
+                        style={{ textDecoration: "none" }}
+                        to={href({
+                          widgetSrc: "abdullahi3000.near/widget/app",
+                          params: {
+                            page: k,
+                          },
+                        })}
+                      >
+                        <span
+                          onClick={toggleDropdown}
+                          key={k}
+                          className={page === k ? "active" : null}
+                        >
+                          {route.init.icon && (
+                            <i className={route.init.icon}></i>
+                          )}
+                          {route.init.name}
+                        </span>
+                      </Link>
+                    </>
                   );
                 })}
             </NavLinks>
