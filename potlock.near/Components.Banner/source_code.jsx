@@ -3,13 +3,19 @@ let PotFactorySDK =
   (() => ({
     getPots: () => {},
   }));
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetConfig: () => {},
 };
+
 const [activeRounds, setActiveRounds] = useState([]);
+
 PotFactorySDK = PotFactorySDK({ env: props.env });
+
 const pots = PotFactorySDK.getPots();
+
 const now = Date.now();
+
 useEffect(() => {
   if (pots) {
     pots.forEach((pot) => {
@@ -32,12 +38,14 @@ useEffect(() => {
     });
   }
 }, [pots]);
+
 const Wrapper = styled.div`
   height: ${(props) => (props.active ? "48px" : "0px !important")};
   @media screen and (max-width: 768px) {
     height: 36px;
   }
 `;
+
 const Container = styled.div`
   width: 100%;
   height: ${(props) => (props.active ? "48px" : "0px !important")};
@@ -90,6 +98,11 @@ const Container = styled.div`
       gap: 0.5rem;
     }
   }
+  // @media screen and (max-width: 480px) {
+  //   .text {
+  //     font-size: 9px;
+  //   }
+  // }
 `;
 const isSingleRound = activeRounds.length === 1;
 const limit = isSingleRound ? 20 : 10;
@@ -97,10 +110,12 @@ const potName =
   activeRounds[0].pot_name.length > limit
     ? activeRounds[0].pot_name.slice(0, limit).trim() + "..."
     : activeRounds[0].pot_name;
+
 const textForOneRound = `${potName} round is live`;
 const textForMultipleRounds = `Pot round is live for ${potName} and +${
   activeRounds.length - 1
 } More`;
+
 return (
   <Wrapper active={!!activeRounds.length}>
     <Container active={!!activeRounds.length}>
@@ -108,9 +123,7 @@ return (
         {isSingleRound ? textForOneRound : textForMultipleRounds}
         <a
           href={props.hrefWithParams(
-            isSingleRound
-              ? `?tab=pot&potId=${activeRounds[0].pot_id}`
-              : `?tab=pots`
+            isSingleRound ? `?tab=pot&potId=${activeRounds[0].pot_id}` : `?tab=pots`
           )}
           className="link"
         >
