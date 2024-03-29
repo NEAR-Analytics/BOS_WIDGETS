@@ -1,4 +1,5 @@
 const { ownerId } = props;
+
 const Button = styled.button`
   flex-direction: row;
   justify-content: center;
@@ -16,21 +17,25 @@ const Button = styled.button`
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;
+
   &:hover {
     text-decoration: none;
     cursor: pointer;
   }
 `;
+
 State.init({
   isModalOpen: false,
   successfulDonation: null,
 });
+
 const handleDonateRandomly = () => {
   State.update({
     isModalOpen: true,
     successfulDonation: null,
   });
 };
+
 return (
   <>
     <Button onClick={handleDonateRandomly}>Donate Randomly</Button>
