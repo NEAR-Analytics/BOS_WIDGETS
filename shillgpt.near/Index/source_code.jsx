@@ -1720,7 +1720,8 @@ return (
                                             unstakeTokenId: up[0],
                                             unstakeAmount: getFtBalance(
                                               up[0],
-                                              up[1].user_balance
+                                              up[1].user_balance,
+                                              2
                                             ),
                                           });
                                         }}
