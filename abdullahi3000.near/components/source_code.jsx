@@ -21,6 +21,10 @@ if (!accountId) {
   return "No accountId";
 }
 
+const content =
+  props.content ??
+  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+
 function Pagination({
   totalPages,
   maxVisiblePages,
@@ -43,7 +47,17 @@ function Pagination({
 }
 
 function Post(props) {
-  return <>'hi there'</>;
+  return (
+    <>
+      {content && (
+        <Widget
+          loading={<div className="w-100" style={{ height: "200px" }} />}
+          src={"abdullahi3000.near/widget/components.Post"}
+          props={{ ...props }}
+        />
+      )}
+    </>
+  );
 }
 
 function User(props) {
