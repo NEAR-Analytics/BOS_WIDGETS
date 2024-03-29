@@ -107,19 +107,7 @@ return (
         },
         required: true,
       }))}
-      Item={(p) =>
-        context.accountId == "abdullahi3000.near" && (
-          <Post
-            accountId={p.accountId}
-            blockHeight={p.blockHeight}
-            noBorder={true}
-            currentPath={`/abdullahi3000.near/widget/app?page=feed`}
-            customActions={customActions}
-            modalToggles={modalToggles}
-            setItem={setItem}
-          />
-        )
-      }
+      Item={(p) => p.accountId}
     />
   </div>
 );
