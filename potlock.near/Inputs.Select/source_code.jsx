@@ -6,6 +6,7 @@ const options = props.options ?? [];
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,6 +16,7 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
 `;
+
 const Label = styled.label`
   font-weight: 500;
   font-size: 14px;
@@ -22,6 +24,7 @@ const Label = styled.label`
   word-wrap: break-word;
   color: #2e2e2e;
 `;
+
 const Error = styled.span`
   display: inline-block;
   font-style: normal;
@@ -32,10 +35,12 @@ const Error = styled.span`
   height: 0;
   overflow: hidden;
   transition: height 0.3s ease-in-out;
+
   &.show {
     height: 1.25em;
   }
 `;
+
 const Input = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -52,9 +57,11 @@ const Input = styled.div`
   color: #101828;
   width: 100%;
 `;
+
 const Placeholder = styled.span`
   color: #a0a3a8;
 `;
+
 const scaleOut = styled.keyframes`
   from {
     transform: scaleY(0);
@@ -63,6 +70,7 @@ const scaleOut = styled.keyframes`
     transform: scaleY(1);
   }
 `;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,6 +83,7 @@ const Content = styled.div`
   border-radius: 4px;
   background: #ffffff;
   z-index: 3 !important;
+
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
   /* } */
@@ -83,6 +92,7 @@ const Content = styled.div`
   /*   animation: ${scaleOut} 0.2s ease-in-out reverse; */
   /* } */
 `;
+
 const Viewport = styled.div`
   display: flex;
   flex-direction: column;
@@ -91,6 +101,7 @@ const Viewport = styled.div`
   padding: 0;
   width: 100%;
 `;
+
 const Item = styled.button`
   display: flex;
   flex-direction: row;
@@ -103,25 +114,27 @@ const Item = styled.button`
   background: transparent;
   border: none;
   transition: background 0.2s ease-in-out;
+
   &:nth-child(n + 1) {
     border-top: 1px solid #d0d5dd;
   }
+
   &:hover {
     background: #d0d5dd;
     boder: none;
   }
+
   &:focus {
     outline: none;
   }
 `;
+
 return (
   <Container style={props.containerStyles || {}}>
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}
-      onValueChange={(value) =>
-        onChange(options.find((option) => option.value === value))
-      }
+      onValueChange={(value) => onChange(options.find((option) => option.value === value))}
     >
       <Select.Trigger asChild={true}>
         <Input style={props.inputStyles || {}}>
@@ -153,6 +166,7 @@ return (
           {/* )} */}
         </Input>
       </Select.Trigger>
+
       <Select.Content asChild={true}>
         <Content>
           <Select.Viewport asChild={true}>
