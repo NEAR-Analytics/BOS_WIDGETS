@@ -1,8 +1,6 @@
 // get applications
 const { potId, potDetail, hrefWithParams } = props;
-const { daysAgo } = VM.require("potlock.near/widget/utils") || {
-  daysAgo: () => "",
-};
+const { daysAgo } = VM.require("potlock.near/widget/utils") || { daysAgo: () => "" };
 const {
   ONE_TGAS,
   ownerId,
@@ -12,15 +10,17 @@ const {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getApplications: () => {},
 };
-const { getTimePassed, _address } = VM.require(
-  `${ownerId}/widget/Components.DonorsUtils`
-) || {
+
+const { getTimePassed, _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`) || {
   _address: (address) => address,
 };
+
 const applications = PotSDK.getApplications(potId);
+
 const getApplicationCount = (sortVal) => {
   if (!applications) return;
   return applications?.filter((application) => {
@@ -28,6 +28,7 @@ const getApplicationCount = (sortVal) => {
     return application.status === sortVal;
   })?.length;
 };
+
 const APPLICATIONS_FILTERS = {
   ALL: {
     label: "All applications",
@@ -37,6 +38,7 @@ const APPLICATIONS_FILTERS = {
   PENDING: {
     label: "Pending applications",
     val: "PENDING",
+
     count: getApplicationCount("Pending"),
   },
   APPROVED: {
@@ -50,6 +52,7 @@ const APPLICATIONS_FILTERS = {
     count: getApplicationCount("Rejected"),
   },
 };
+
 const APPLICATIONS_FILTERS_TAGS = {
   Pending: {
     label: "Pending",
@@ -124,6 +127,7 @@ const APPLICATIONS_FILTERS_TAGS = {
     ),
   },
 };
+
 State.init({
   isModalOpen: false,
   newStatus: "",
@@ -134,6 +138,7 @@ State.init({
   filteredApplications: [],
   filterVal: "ALL",
 });
+
 const {
   isModalOpen,
   newStatus,
@@ -144,6 +149,7 @@ const {
   filteredApplications,
   filterVal,
 } = state;
+
 if (applications && !allApplications) {
   applications.reverse();
   State.update({
@@ -151,27 +157,26 @@ if (applications && !allApplications) {
     allApplications: applications,
   });
 }
-if (!allApplications)
-  return <div class="spinner-border text-secondary" role="status" />;
+
+if (!allApplications) return <div class="spinner-border text-secondary" role="status" />;
+
 const { owner, admins, chef } = potDetail;
+
 const isChefOrGreater =
-  context.accountId === chef ||
-  admins.includes(context.accountId) ||
-  context.accountId === owner;
+  context.accountId === chef || admins.includes(context.accountId) || context.accountId === owner;
+
 const handleApproveApplication = (projectId) => {
   State.update({ isModalOpen: true, newStatus: "Approved", projectId });
 };
+
 const handleRejectApplication = (projectId) => {
   State.update({ isModalOpen: true, newStatus: "Rejected", projectId });
 };
+
 const handleCancel = () => {
-  State.update({
-    isModalOpen: false,
-    newStatus: "",
-    projectId: "",
-    reviewMessage: "",
-  });
+  State.update({ isModalOpen: false, newStatus: "", projectId: "", reviewMessage: "" });
 };
+
 const handleSubmit = () => {
   const args = {
     project_id: projectId,
@@ -191,6 +196,7 @@ const handleSubmit = () => {
   // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
   // <---- TODO: IMPLEMENT EXTENSION WALLET HANDLING ---->
 };
+
 const searchApplications = (searchTerm) => {
   // filter applications that match the search term (message, project_id, review_notes or status)
   const filteredApplications = allApplications?.filter((application) => {
@@ -202,6 +208,7 @@ const searchApplications = (searchTerm) => {
   });
   return filteredApplications;
 };
+
 const sortApplications = (key) => {
   if (key === "ALL") {
     return searchApplications(searchTerm);
@@ -211,13 +218,16 @@ const sortApplications = (key) => {
   });
   return filtered;
 };
+
 const handleSort = (key) => {
   const sorted = sortApplications(key);
   State.update({ filteredApplications: sorted, filterVal: key });
 };
+
 const ProfileImg = ({ profile }) => (
   <Widget src="mob.near/widget/ProfileImage" props={{ profile, style: {} }} />
 );
+
 const Container = styled.div`
   display: flex;
   gap: 2rem;
@@ -232,6 +242,7 @@ const Container = styled.div`
     }
   }
 `;
+
 const Filter = styled.div`
   display: grid;
   width: 286px;
@@ -269,6 +280,7 @@ const Filter = styled.div`
     display: none;
   }
 `;
+
 const Applications = styled.div`
   border-radius: 6px;
   border: 1px solid #7b7b7b;
@@ -300,11 +312,13 @@ const SearchBar = styled.div`
     svg {
       left: 1rem;
     }
+
     input {
       padding: 8px 24px 8px 54px;
     }
   }
 `;
+
 const ApplicationRow = styled.div`
   display: flex;
   flex-direction: column;
@@ -403,15 +417,18 @@ const ApplicationRow = styled.div`
     }
   }
 `;
+
 const Dot = styled.div`
   width: 6px;
   height: 6px;
   background: #7b7b7b;
   border-radius: 50%;
+
   @media only screen and (max-width: 768px) {
     display: none;
   }
 `;
+
 const Status = styled.div`
   display: flex;
   padding: 6px 12px;
@@ -437,6 +454,7 @@ const Status = styled.div`
     }
   }
 `;
+
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -448,6 +466,7 @@ const ModalHeader = styled.div`
   border-top-right-radius: 6px;
   font-weight: 500;
 `;
+
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -458,6 +477,7 @@ const ModalBody = styled.div`
   background: #fafafa;
   gap: 8px;
 `;
+
 const ModalFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -470,6 +490,7 @@ const ModalFooter = styled.div`
   gap: 24px;
   width: 100%;
 `;
+
 const DropdownLabel = styled.div`
   display: flex;
   gap: 10px;
@@ -487,6 +508,7 @@ const DropdownLabel = styled.div`
     background: #ebebeb;
   }
 `;
+
 return (
   <Container>
     <div className="dropdown">
@@ -494,15 +516,9 @@ return (
         src={`${ownerId}/widget/Inputs.Dropdown`}
         props={{
           sortVal: (
-            <DropdownLabel
-              digit={APPLICATIONS_FILTERS[filterVal].count.toString().length}
-            >
-              <div className="label">
-                {APPLICATIONS_FILTERS[filterVal].label}
-              </div>
-              <div className="count">
-                {APPLICATIONS_FILTERS[filterVal].count}
-              </div>
+            <DropdownLabel digit={APPLICATIONS_FILTERS[filterVal].count.toString().length}>
+              <div className="label">{APPLICATIONS_FILTERS[filterVal].label}</div>
+              <div className="count">{APPLICATIONS_FILTERS[filterVal].count}</div>
             </DropdownLabel>
           ),
           showCount: true,
@@ -533,6 +549,7 @@ return (
               fill="#7B7B7B"
             />
           </svg>
+
           <div> {APPLICATIONS_FILTERS[key].label}</div>
           <div className="count">{APPLICATIONS_FILTERS[key].count}</div>
         </div>
@@ -558,106 +575,97 @@ return (
           className="search-input"
           onChange={(e) => {
             const results = searchApplications(e.target.value);
-            State.update({
-              searchTerm: e.target.value,
-              filteredApplications: results,
-            });
+            State.update({ searchTerm: e.target.value, filteredApplications: results });
           }}
         />
       </SearchBar>
       {filteredApplications.length ? (
-        filteredApplications.map(
-          ({ project_id, status, message, review_notes, submitted_at }) => {
-            const { borderColor, color, icon, label, background } =
-              APPLICATIONS_FILTERS_TAGS[status];
-            const profile = Social.getr(`${project_id}/profile`);
-            return (
-              <ApplicationRow key={project_id}>
-                <input type="checkbox" className="toggle-check" />
-                <div className="header">
-                  <div className="header-info">
-                    <ProfileImg profile={profile} />
-                    {profile?.name && (
-                      <div className="name">{_address(profile?.name, 10)}</div>
-                    )}
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={<Tooltip>{project_id}</Tooltip>}
+        filteredApplications.map(({ project_id, status, message, review_notes, submitted_at }) => {
+          const { borderColor, color, icon, label, background } = APPLICATIONS_FILTERS_TAGS[status];
+
+          const profile = Social.getr(`${project_id}/profile`);
+
+          return (
+            <ApplicationRow key={project_id}>
+              <input type="checkbox" className="toggle-check" />
+              <div className="header">
+                <div className="header-info">
+                  <ProfileImg profile={profile} />
+                  {profile?.name && <div className="name">{_address(profile?.name, 10)}</div>}
+
+                  <OverlayTrigger placement="top" overlay={<Tooltip>{project_id}</Tooltip>}>
+                    <a
+                      className="address"
+                      href={hrefWithParams(`?tab=project&projectId=${project_id}`)}
+                      target="_blank"
                     >
-                      <a
-                        className="address"
-                        href={hrefWithParams(
-                          `?tab=project&projectId=${project_id}`
-                        )}
-                        target="_blank"
-                      >
-                        {_address(project_id, 10)}
-                      </a>
-                    </OverlayTrigger>
-                    <Dot />
-                    <div className="date">{daysAgo(submitted_at)}</div>
+                      {_address(project_id, 10)}
+                    </a>
+                  </OverlayTrigger>
+
+                  <Dot />
+                  <div className="date">{daysAgo(submitted_at)}</div>
+                </div>
+                <Status
+                  style={{
+                    borderColor,
+                    color,
+                    background,
+                  }}
+                >
+                  <div>{label}</div>
+                  {icon}
+                </Status>
+                <svg
+                  width="12"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  fill="none"
+                  className="arrow"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 0.294922L0 6.29492L1.41 7.70492L6 3.12492L10.59 7.70492L12 6.29492L6 0.294922Z"
+                    fill="#7B7B7B"
+                  />
+                </svg>
+              </div>
+              <div className="content">
+                <div className="message">{message}</div>
+                {review_notes && (
+                  <div className="notes">
+                    <div className="title">Admin notes:</div>
+                    <div>{review_notes}</div>
                   </div>
-                  <Status
-                    style={{
-                      borderColor,
-                      color,
-                      background,
-                    }}
-                  >
-                    <div>{label}</div>
-                    {icon}
-                  </Status>
-                  <svg
-                    width="12"
-                    height="8"
-                    viewBox="0 0 12 8"
-                    fill="none"
-                    className="arrow"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 0.294922L0 6.29492L1.41 7.70492L6 3.12492L10.59 7.70492L12 6.29492L6 0.294922Z"
-                      fill="#7B7B7B"
-                    />
-                  </svg>
-                </div>
-                <div className="content">
-                  <div className="message">{message}</div>
-                  {review_notes && (
-                    <div className="notes">
-                      <div className="title">Admin notes:</div>
-                      <div>{review_notes}</div>
-                    </div>
-                  )}
-                  {isChefOrGreater && (
-                    <>
-                      {status !== "Approved" && (
-                        <Widget
-                          src={`${ownerId}/widget/Components.Button`}
-                          props={{
-                            type: "secondary",
-                            text: "Approve",
-                            onClick: () => handleApproveApplication(project_id),
-                          }}
-                        />
-                      )}
-                      {status !== "Rejected" && (
-                        <Widget
-                          src={`${ownerId}/widget/Components.Button`}
-                          props={{
-                            type: "primary",
-                            text: "Reject",
-                            onClick: () => handleRejectApplication(project_id),
-                          }}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </ApplicationRow>
-            );
-          }
-        )
+                )}
+                {isChefOrGreater && (
+                  <>
+                    {status !== "Approved" && (
+                      <Widget
+                        src={`${ownerId}/widget/Components.Button`}
+                        props={{
+                          type: "secondary",
+                          text: "Approve",
+                          onClick: () => handleApproveApplication(project_id),
+                        }}
+                      />
+                    )}
+                    {status !== "Rejected" && (
+                      <Widget
+                        src={`${ownerId}/widget/Components.Button`}
+                        props={{
+                          type: "primary",
+                          text: "Reject",
+                          onClick: () => handleRejectApplication(project_id),
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            </ApplicationRow>
+          );
+        })
       ) : (
         <div style={{ padding: "1rem" }}>No applications to display</div>
       )}
@@ -667,19 +675,14 @@ return (
       props={{
         ...props,
         isModalOpen,
-        onClose: () =>
-          State.update({ isModalOpen: false, newStatus: "", projectId: "" }),
+        onClose: () => State.update({ isModalOpen: false, newStatus: "", projectId: "" }),
         contentStyle: {
           padding: "0px",
         },
         children: (
           <>
             <ModalHeader>
-              {newStatus === "Approved"
-                ? "Approve "
-                : newStatus === "Rejected"
-                ? "Reject "
-                : ""}
+              {newStatus === "Approved" ? "Approve " : newStatus === "Rejected" ? "Reject " : ""}
               application from {projectId}
             </ModalHeader>
             <ModalBody>
@@ -702,6 +705,7 @@ return (
                       });
                       return;
                     }
+
                     State.update({ reviewMessageError: "" });
                   },
                   error: reviewMessageError,
