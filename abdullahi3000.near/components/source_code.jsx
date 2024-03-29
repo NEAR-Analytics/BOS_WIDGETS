@@ -49,7 +49,7 @@ function Pagination({
 function Post(props) {
   return (
     <>
-      {content && (
+      {content !== "" && (
         <Widget
           loading={<div className="w-100" style={{ height: "200px" }} />}
           src={"abdullahi3000.near/widget/components.Post"}
