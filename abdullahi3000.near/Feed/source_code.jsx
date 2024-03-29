@@ -75,21 +75,7 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      <Widget
-        loading={
-          <div
-            className="placeholder-glow h-100 w-100"
-            style={{ height: 400 }}
-          ></div>
-        }
-        src="buildhub.near/widget/Compose"
-        props={{
-          draftKey: feedName,
-          template: template,
-          requiredHashtags: requiredHashtags,
-          feed: { ...props },
-        }}
-      />
+      "widget"
     )}
     <Feed
       index={(requiredHashtags || []).map((it) => ({
