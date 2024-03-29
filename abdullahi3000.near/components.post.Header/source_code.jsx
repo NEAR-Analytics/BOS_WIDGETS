@@ -1,4 +1,6 @@
-const { Avatar, Modal } = VM.require("buildhub.near/widget/components") || {
+const { Avatar, Modal } = VM.require(
+  "abdullahi3000.near/widget/components"
+) || {
   Modal: () => <></>,
   Avatar: () => <></>,
 };
@@ -218,7 +220,7 @@ const MemoizedOverlay = useMemo(
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
 );
 
 const [showModal, setShowModal] = useState(false);
