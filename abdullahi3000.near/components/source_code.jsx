@@ -16,6 +16,11 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modal");
 const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
 const { Tag } = VM.require("buildhub.near/widget/components.Tag");
 
+const accountId = "abdullahi3000.near";
+if (!accountId) {
+  return "No accountId";
+}
+
 function Pagination({
   totalPages,
   maxVisiblePages,
@@ -39,11 +44,15 @@ function Pagination({
 
 function Post(props) {
   return (
-    <Widget
-      loading={<div className="w-100" style={{ height: "200px" }} />}
-      src={"abdullahi3000.near/widget/components.Post"}
-      props={{ ...props }}
-    />
+    <>
+      {accountId == "abdullahi3000.near" && (
+        <Widget
+          loading={<div className="w-100" style={{ height: "200px" }} />}
+          src={"abdullahi3000.near/widget/components.Post"}
+          props={{ ...props }}
+        />
+      )}
+    </>
   );
 }
 
