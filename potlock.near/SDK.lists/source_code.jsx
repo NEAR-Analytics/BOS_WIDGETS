@@ -1,8 +1,8 @@
 return ({ env }) => {
-  const contractId =
-    env === "staging" ? "lists.staging.potlock.near" : "lists.potlock.near";
+  const contractId = env === "staging" ? "lists.staging.potlock.near" : "lists.potlock.near";
   // const contractId = "lists.staging.potlock.near";
   const potlockRegistryListId = 1;
+
   const ListsSDK = {
     getContractId: () => contractId,
     getList: (listId) => {
@@ -21,17 +21,12 @@ return ({ env }) => {
       });
     },
     getRegistration: (listId, registrantId) => {
-      const registrations = Near.view(
-        contractId,
-        "get_registrations_for_registrant",
-        {
-          registrant_id: registrantId,
-        }
-      );
+      const registrations = Near.view(contractId, "get_registrations_for_registrant", {
+        registrant_id: registrantId,
+      });
       if (registrations) {
         const registration = registrations.find(
-          (registration) =>
-            registration.list_id === (listId || potlockRegistryListId)
+          (registration) => registration.list_id === (listId || potlockRegistryListId)
         );
         return Near.view(contractId, "get_registration", {
           registration_id: registration.id,
@@ -45,8 +40,7 @@ return ({ env }) => {
       }).then((registrations) => {
         if (registrations) {
           const registration = registrations.find(
-            (registration) =>
-              registration.list_id === (listId || potlockRegistryListId)
+            (registration) => registration.list_id === (listId || potlockRegistryListId)
           );
           return Near.asyncView(contractId, "get_registration", {
             registration_id: registration.id,
