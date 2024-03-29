@@ -1,5 +1,7 @@
 const { ownerId, backgroundColor, borderColor, textColor, text } = props;
+
 const textStyle = props.textStyle || {};
+
 const TagContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -13,10 +15,12 @@ const TagContainer = styled.div`
   padding: 6px 8px;
   border-radius: 4px;
 `;
+
 const TagText = styled.span`
   color: ${textColor || "#000000"};
   font-size: 14px;
 `;
+
 return (
   <TagContainer>
     {props.preElements}
