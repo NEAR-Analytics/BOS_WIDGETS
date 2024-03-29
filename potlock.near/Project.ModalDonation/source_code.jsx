@@ -7,12 +7,14 @@ const Row = styled.div`
   gap: 24px;
   width: 100%;
 `;
+
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 `;
+
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,6 +26,7 @@ const ModalHeader = styled.div`
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 `;
+
 const ModalHeaderText = styled.div`
   font-size: 16px;
   font-weight: 600;
@@ -32,6 +35,7 @@ const ModalHeaderText = styled.div`
   word-wrap: break-word;
   margin-left: 8px;
 `;
+
 const PointerIcon = styled.svg`
   width: 20px;
   height: 20px;
@@ -41,10 +45,12 @@ const PointerIcon = styled.svg`
     rotate: 90deg;
   }
 `;
+
 const SvgIcon = styled.svg`
   width: 20px;
   height: 20px;
 `;
+
 const HintText = styled.div`
   font-size: 11px;
   color: #7b7b7b;
@@ -52,6 +58,7 @@ const HintText = styled.div`
   line-height: 16px;
   word-wrap: break-word;
 `;
+
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,6 +67,7 @@ const ModalBody = styled.div`
   padding: 16px 20px 32px 20px;
   gap: 24px;
 `;
+
 const ModalFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -71,6 +79,7 @@ const ModalFooter = styled.div`
   gap: 24px;
   width: 100%;
 `;
+
 const TitleText = styled.div`
   font-size: 14px;
   color: #292929;
@@ -78,6 +87,7 @@ const TitleText = styled.div`
   line-height: 24px;
   word-break: break-word;
 `;
+
 const SubtitleText = styled.div`
   font-size: 14px;
   color: #7b7b7b;
@@ -85,6 +95,7 @@ const SubtitleText = styled.div`
   line-height: 24px;
   word-break: break-word;
 `;
+
 const AddNote = styled.div`
   font-size: 14px;
   color: #292929;
@@ -92,6 +103,7 @@ const AddNote = styled.div`
   line-height: 20px;
   word-wrap: break-word;
 `;
+
 const Label = styled.label`
   font-size: 12px;
   line-height: 16px;
@@ -102,6 +114,7 @@ const Label = styled.label`
   align-items: center;
   justify-content: center;
 `;
+
 const UserChipLink = styled.a`
   display: flex;
   flex-direction: row;
@@ -112,10 +125,12 @@ const UserChipLink = styled.a`
   gap: 4px;
   border-radius: 32px;
   background: #ebebeb;
+
   &:hover {
     text-decoration: none;
   }
 `;
+
 const TextBold = styled.div`
   color: #292929;
   font-size: 12px;
@@ -124,15 +139,18 @@ const TextBold = styled.div`
   word-wrap: break-word;
   text-align: center;
 `;
+
 const InfoBanner = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
   background: #dd3345;
   padding: 2px 0px;
+
   &:hover {
     text-decoration: none;
   }
+
   > div {
     color: white;
     font-size: 14px;
@@ -140,6 +158,7 @@ const InfoBanner = styled.a`
     line-height: 24px;
   }
 `;
+
 const InfoSection = styled.div`
   display: flex;
   flex-direction: row;
@@ -152,6 +171,7 @@ const InfoSection = styled.div`
   background: #fef3f2;
   gap: 16px;
 `;
+
 const VerifyLink = styled.a`
   color: #dd3345;
   font-size: 14px;
@@ -159,23 +179,28 @@ const VerifyLink = styled.a`
   line-height: 24px;
   word-wrap: break-word;
   text-align: center;
+
   &:hover {
     text-decoration: none;
   }
 `;
+
 const LinkSvg = styled.svg`
   width: 20px;
   height: 20px;
   fill: none;
   transition: transform 0.2s ease;
+
   &:hover {
     transform: rotate(45deg);
   }
+
   @media screen and (max-width: 768px) {
     width: 16px;
     height: 16px;
   }
 `;
+
 const NearIcon = (props) => (
   <SvgIcon
     {...props}
@@ -191,6 +216,7 @@ const NearIcon = (props) => (
     />
   </SvgIcon>
 );
+
 const {
   recipientId, // TODO: change this to projectId
   referrerId,
@@ -200,27 +226,25 @@ const {
   NADABOT_CONTRACT_ID,
   POT,
 } = props;
-const {
-  ownerId,
-  DONATION_CONTRACT_ID,
-  NADABOT_HUMAN_METHOD,
-  NADA_BOT_URL,
-  SUPPORTED_FTS,
-} = VM.require("potlock.near/widget/constants") || {
-  DONATION_CONTRACT_ID: "",
-  NADABOT_HUMAN_METHOD: "",
-  ownerId: "",
-  NADA_BOT_URL: "",
-  SUPPORTED_FTS: {},
-};
+const { ownerId, DONATION_CONTRACT_ID, NADABOT_HUMAN_METHOD, NADA_BOT_URL, SUPPORTED_FTS } =
+  VM.require("potlock.near/widget/constants") || {
+    DONATION_CONTRACT_ID: "",
+    NADABOT_HUMAN_METHOD: "",
+    ownerId: "",
+    NADA_BOT_URL: "",
+    SUPPORTED_FTS: {},
+  };
 // console.log("props in donation modal: ", props);
+
 let ListsSDK =
   VM.require("potlock.near/widget/SDK.lists") ||
   (() => ({
     getRegistrations: () => {},
   }));
 ListsSDK = ListsSDK({ env: props.env });
+
 const projects = ListsSDK.getRegistrations() || [];
+
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
@@ -228,6 +252,7 @@ let DonateSDK =
     asyncGetDonationsForDonor: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
+
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -235,6 +260,7 @@ let PotFactorySDK =
   }));
 PotFactorySDK = PotFactorySDK({ env: props.env });
 const pots = PotFactorySDK.getPots();
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getConfig: () => {},
   asyncGetConfig: () => {},
@@ -242,18 +268,17 @@ const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetApprovedApplications: () => {},
   asyncGetDonationsForDonor: () => {},
 };
-const { nearToUsd, formatWithCommas } = VM.require(
-  "potlock.near/widget/utils"
-) || {
+
+const { nearToUsd, formatWithCommas } = VM.require("potlock.near/widget/utils") || {
   nearToUsd: 1,
   formatWithCommas: () => {},
 };
-const { addItemsToCart, clearCart } = VM.require(
-  "potlock.near/widget/SDK.cart"
-) || {
+
+const { addItemsToCart, clearCart } = VM.require("potlock.near/widget/SDK.cart") || {
   addItemsToCart: () => {},
   clearCart: () => {},
 };
+
 const approvedProjectIds = useMemo(
   // TODO: get projects for pot if potId
   () => {
@@ -265,6 +290,7 @@ const approvedProjectIds = useMemo(
   },
   [projects]
 );
+
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const CLOSE_ICON_URL =
 //   IPFS_BASE_URL + "bafkreifyg2vvmdjpbhkylnhye5es3vgpsivhigkjvtv2o4pzsae2z4vi5i";
@@ -273,11 +299,16 @@ const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 //   IPFS_BASE_URL + "bafkreib2iag425b6dktehxlrshchyp2pccg5r6ea2blrnzppqia77kzdbe";
 // const ALERT_ICON_URL =
 //   IPFS_BASE_URL + "bafkreicqarojxk6jhdtsk2scfsmnigqpxjfgar6om4wlhn5xmqbbu74u5i";
+
 const MAX_NAME_LENGTH = 60;
 const MAX_DESCRIPTION_LENGTH = 77;
+
 const profile = Social.getr(`${recipientId}/profile`);
+
 const DEFAULT_DONATION_AMOUNT = "1";
+
 const MAX_NOTE_LENGTH = 60;
+
 const initialState = {
   amount: DEFAULT_DONATION_AMOUNT,
   denomination: DENOMINATION_OPTIONS[0].value,
@@ -294,22 +325,25 @@ const initialState = {
   intervalId: null,
   ftBalances: null,
   nearBalance: null,
-  denominationOptions: [
-    { text: "NEAR", value: "NEAR", selected: true, decimals: 24 },
-  ],
+  denominationOptions: [{ text: "NEAR", value: "NEAR", selected: true, decimals: 24 }],
 };
+
 State.init(initialState);
+
 const resetState = () => {
   State.update({ ...initialState });
 };
+
 const activeRound = useMemo(() => {
   if (!state.activeRoundsForProject) return;
   return state.activeRoundsForProject[0];
 }, [state.activeRoundsForProject]);
+
 const selectedDenomination = useMemo(
   () => state.denominationOptions.find((option) => option.selected),
   [state.denominationOptions]
 );
+
 const ftBalancesRes = useCache(
   () =>
     asyncFetch(
@@ -326,14 +360,9 @@ const ftBalancesRes = useCache(
   `ft-balances-${context.accountId}`
 );
 // console.log("ftBalancesRes: ", ftBalancesRes);
+
 useEffect(() => {
-  if (
-    context.accountId &&
-    !potId &&
-    !activeRound &&
-    ftBalancesRes &&
-    !state.ftBalances
-  ) {
+  if (context.accountId && !potId && !activeRound && ftBalancesRes && !state.ftBalances) {
     State.update({
       ftBalances: ftBalancesRes.balances,
       denominationOptions: state.denominationOptions.concat(
@@ -352,6 +381,7 @@ useEffect(() => {
     });
   }
 }, [context.accountId, state.ftBalances, ftBalancesRes, potId, activeRound]);
+
 const nearBalanceRes = useCache(
   () =>
     asyncFetch(
@@ -367,6 +397,7 @@ const nearBalanceRes = useCache(
       .catch((e) => console.log("error fetching near balance: ", e)),
   `near-balance-${context.accountId}`
 );
+
 useEffect(() => {
   if (context.accountId && nearBalanceRes && !state.nearBalance) {
     State.update({
@@ -374,6 +405,7 @@ useEffect(() => {
     });
   }
 }, [context.accountId, state.nearBalance, nearBalanceRes]);
+
 useEffect(() => {
   if (
     pots &&
@@ -399,6 +431,7 @@ useEffect(() => {
     State.update({ activeRoundsForProject });
   }
 }, [pots, state.approvedProjectsForPots, state.detailForPots]);
+
 useEffect(() => {
   if (pots) {
     const detailForPots = {};
@@ -416,6 +449,7 @@ useEffect(() => {
     });
   }
 }, [pots]);
+
 useEffect(() => {
   if (pots) {
     const approvedProjectsForPots = {};
@@ -433,22 +467,21 @@ useEffect(() => {
     });
   }
 }, [pots]);
+
 const handleModalClose = () => {
   resetState();
   onClose();
 };
+
 // console.log("state in donation modal: ", state);
-const isUserHumanVerified = Near.view(
-  NADABOT_CONTRACT_ID,
-  NADABOT_HUMAN_METHOD,
-  {
-    account_id: context.accountId,
-  }
-);
+
+const isUserHumanVerified = Near.view(NADABOT_CONTRACT_ID, NADABOT_HUMAN_METHOD, {
+  account_id: context.accountId,
+});
+
 const potDetail = state.detailForPots[activeRound];
-const protocolConfigContractId = potDetail
-  ? potDetail.protocol_config_provider.split(":")[0]
-  : "";
+
+const protocolConfigContractId = potDetail ? potDetail.protocol_config_provider.split(":")[0] : "";
 const protocolConfigViewMethodName = potDetail
   ? potDetail.protocol_config_provider.split(":")[1]
   : "";
@@ -456,12 +489,10 @@ const protocolConfig =
   protocolConfigContractId && protocolConfigViewMethodName
     ? Near.view(protocolConfigContractId, protocolConfigViewMethodName, {})
     : null;
+
 const donationContractConfig = !potDetail ? DonateSDK.getConfig() || {} : null;
-const [
-  protocolFeeRecipientAccount,
-  protocolFeeBasisPoints,
-  referralFeeBasisPoints,
-] = useMemo(
+
+const [protocolFeeRecipientAccount, protocolFeeBasisPoints, referralFeeBasisPoints] = useMemo(
   // if this is a pot donation, use pot config, else use donation contract config
   () => {
     if (protocolConfig) {
@@ -481,7 +512,9 @@ const [
     }
   }
 );
+
 const profileName = profile?.name || "No name";
+
 const handleAddToCart = () => {
   addItemsToCart([
     {
@@ -495,12 +528,10 @@ const handleAddToCart = () => {
   ]);
   handleModalClose();
 };
+
 const isFtDonation = selectedDenomination.text !== "NEAR";
-const storageBalanceBounds = Near.view(
-  selectedDenomination.id,
-  "storage_balance_bounds",
-  {}
-);
+
+const storageBalanceBounds = Near.view(selectedDenomination.id, "storage_balance_bounds", {});
 const storageBalanceProtocolFeeRecipient = Near.view(
   selectedDenomination.id,
   "storage_balance_of",
@@ -511,15 +542,13 @@ const storageBalanceReferrer = referrerId
       account_id: referrerId,
     })
   : null;
-const storageBalanceDonationContract = Near.view(
-  selectedDenomination.id,
-  "storage_balance_of",
-  {
-    account_id: DONATION_CONTRACT_ID,
-  }
-);
+const storageBalanceDonationContract = Near.view(selectedDenomination.id, "storage_balance_of", {
+  account_id: DONATION_CONTRACT_ID,
+});
+
 // const amountNear =
 //   state.denomination === "NEAR" ? state.amount : (state.amount / nearToUsd).toFixed(2);
+
 const pollForDonationSuccess = (projectId, afterTs) => {
   // poll for updates
   // TODO: update this to also poll Pot contract
@@ -530,11 +559,9 @@ const pollForDonationSuccess = (projectId, afterTs) => {
       .asyncGetDonationsForDonor(context.accountId)
       .then((donations) => {
         for (const donation of donations) {
-          const { recipient_id, project_id, donated_at_ms, donated_at } =
-            donation; // donation contract uses recipient_id, pot contract uses project_id; donation contract uses donated_at_ms, pot contract uses donated_at
+          const { recipient_id, project_id, donated_at_ms, donated_at } = donation; // donation contract uses recipient_id, pot contract uses project_id; donation contract uses donated_at_ms, pot contract uses donated_at
           if (
-            ((recipient_id === projectId || project_id === projectId) &&
-              donated_at_ms > afterTs) ||
+            ((recipient_id === projectId || project_id === projectId) && donated_at_ms > afterTs) ||
             donated_at > afterTs
           ) {
             // display success message
@@ -545,6 +572,7 @@ const pollForDonationSuccess = (projectId, afterTs) => {
       });
   }, pollIntervalMs);
 };
+
 const handleDonate = () => {
   // const amountIndivisible = SUPPORTED_FTS.NEAR.toIndivisible(parseFloat(amountNear));
   const donationAmountIndivisible = Big(state.amount).mul(
@@ -579,6 +607,7 @@ const handleDonate = () => {
   /// 2. CALL FT CONTRACT:
   /// - check for storage balance for all accounts (protocol fee recipient, referrer, project, donation contract)
   const transactions = [];
+
   if (isFtDonation) {
     const ftId = selectedDenomination.id;
     // add storage deposit transaction
@@ -603,17 +632,14 @@ const handleDonate = () => {
         contractName: ftId,
         methodName: "storage_deposit",
         args: { account_id: protocolFeeRecipientAccount },
-        deposit: storageMaxBig.minus(
-          Big(storageBalanceProtocolFeeRecipient || 0)
-        ),
+        deposit: storageMaxBig.minus(Big(storageBalanceProtocolFeeRecipient || 0)),
         gas: "100000000000000",
       });
     }
     // referrer
     if (
       referrerId &&
-      (!storageBalanceReferrer ||
-        Big(storageBalanceReferrer.total).lt(storageMaxBig))
+      (!storageBalanceReferrer || Big(storageBalanceReferrer.total).lt(storageMaxBig))
     ) {
       transactions.push({
         contractName: ftId,
@@ -637,41 +663,40 @@ const handleDonate = () => {
       });
     }
     // project (can't do this till this point)
-    Near.asyncView(ftId, "storage_balance_of", { account_id: projectId }).then(
-      (balance) => {
-        if (!balance || Big(balance.total).lt(storageMaxBig)) {
-          transactions.push({
-            contractName: ftId,
-            methodName: "storage_deposit",
-            args: { account_id: projectId },
-            deposit: storageMaxBig.minus(Big(balance || 0)),
-            gas: "100000000000000",
-          });
-        }
-        // add donation transaction
+    Near.asyncView(ftId, "storage_balance_of", { account_id: projectId }).then((balance) => {
+      if (!balance || Big(balance.total).lt(storageMaxBig)) {
         transactions.push({
           contractName: ftId,
-          methodName: "ft_transfer_call",
-          args: {
-            receiver_id: DONATION_CONTRACT_ID,
-            amount: donationAmountIndivisible.toFixed(0),
-            msg: JSON.stringify({
-              recipient_id: projectId,
-              referrer_id: referrerId || null,
-              bypass_protocol_fee: state.bypassProtocolFee,
-              message: args.message,
-            }),
-          },
-          deposit: "1",
-          gas: "300000000000000",
+          methodName: "storage_deposit",
+          args: { account_id: projectId },
+          deposit: storageMaxBig.minus(Big(balance || 0)),
+          gas: "100000000000000",
         });
-        const now = Date.now();
-        Near.call(transactions);
-        // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
-        // <-------- EXTENSION WALLET HANDLING -------->
-        pollForDonationSuccess(projectId, now);
       }
-    );
+
+      // add donation transaction
+      transactions.push({
+        contractName: ftId,
+        methodName: "ft_transfer_call",
+        args: {
+          receiver_id: DONATION_CONTRACT_ID,
+          amount: donationAmountIndivisible.toFixed(0),
+          msg: JSON.stringify({
+            recipient_id: projectId,
+            referrer_id: referrerId || null,
+            bypass_protocol_fee: state.bypassProtocolFee,
+            message: args.message,
+          }),
+        },
+        deposit: "1",
+        gas: "300000000000000",
+      });
+      const now = Date.now();
+      Near.call(transactions);
+      // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
+      // <-------- EXTENSION WALLET HANDLING -------->
+      pollForDonationSuccess(projectId, now);
+    });
   } else {
     transactions.push({
       contractName: isPotDonation ? potId : DONATION_CONTRACT_ID,
@@ -687,28 +712,26 @@ const handleDonate = () => {
     pollForDonationSuccess(projectId, now);
   }
 };
-const donateLoading =
-  !state.activeRoundsForProject || isUserHumanVerified === null;
-const donateDisabled =
-  donateLoading || state.amountError || state.donationNoteError;
+
+const donateLoading = !state.activeRoundsForProject || isUserHumanVerified === null;
+const donateDisabled = donateLoading || state.amountError || state.donationNoteError;
+
 const ftBalance = useMemo(() => {
   if (selectedDenomination.text === "NEAR") {
     return state.nearBalance
-      ? formatWithCommas(
-          Big(state.nearBalance.amount).div(Big(10).pow(24)).toFixed(2)
-        )
+      ? formatWithCommas(Big(state.nearBalance.amount).div(Big(10).pow(24)).toFixed(2))
       : "-";
   }
   const balance = state.denominationOptions.find(
     (option) => option.text === selectedDenomination.text
   );
   return balance
-    ? formatWithCommas(
-        Big(balance.amount).div(Big(10).pow(balance.decimals)).toFixed(2)
-      )
+    ? formatWithCommas(Big(balance.amount).div(Big(10).pow(balance.decimals)).toFixed(2))
     : "-";
 }, [selectedDenomination, state.ftBalances, state.nearBalance]);
+
 // console.log("ftBalance: ", ftBalance);
+
 return (
   <Widget
     src={`${ownerId}/widget/Components.Modal`}
@@ -726,9 +749,7 @@ return (
         <>
           <ModalHeader>
             <div></div>
-            <ModalHeaderText>
-              Donate {recipientId ? "to project" : "Randomly"}
-            </ModalHeaderText>
+            <ModalHeaderText>Donate {recipientId ? "to project" : "Randomly"}</ModalHeaderText>
             <PointerIcon
               viewBox="0 0 14 14"
               fill="none"
@@ -774,10 +795,7 @@ return (
                     </TitleText>
                     <SubtitleText>
                       {profile?.description?.length > MAX_DESCRIPTION_LENGTH
-                        ? profile?.description?.slice(
-                            0,
-                            MAX_DESCRIPTION_LENGTH
-                          ) + "..."
+                        ? profile?.description?.slice(0, MAX_DESCRIPTION_LENGTH) + "..."
                         : profile?.description}
                     </SubtitleText>
                   </Column>
@@ -785,8 +803,8 @@ return (
               )
             ) : (
               <SubtitleText>
-                Randomly donate to an approved project on our public good
-                registry and discover who you supported afterwards!
+                Randomly donate to an approved project on our public good registry and discover who
+                you supported afterwards!
               </SubtitleText>
             )}
             <Column style={{ width: "100%" }}>
@@ -803,22 +821,12 @@ return (
                     // error if amount is greater than balance
                     if (
                       Big(amount)
-                        .mul(
-                          Big(10).pow(
-                            isFtDonation ? selectedDenomination.decimals : 24
-                          )
-                        )
-                        .gt(
-                          isFtDonation
-                            ? selectedDenomination.amount
-                            : state.nearBalance.amount
-                        )
+                        .mul(Big(10).pow(isFtDonation ? selectedDenomination.decimals : 24))
+                        .gt(isFtDonation ? selectedDenomination.amount : state.nearBalance.amount)
                     ) {
                       State.update({ amountError: "Insufficient balance" });
                     } else if (!isFtDonation && parseFloat(amount) < 0.1) {
-                      State.update({
-                        amountError: "Minimum donation is 0.1 NEAR",
-                      });
+                      State.update({ amountError: "Minimum donation is 0.1 NEAR" });
                     }
                   },
                   error: state.amountError,
@@ -839,12 +847,10 @@ return (
                         },
                         onChange: ({ text, value }) => {
                           State.update({
-                            denominationOptions: state.denominationOptions.map(
-                              (option) => {
-                                option.selected = option.value === value;
-                                return option;
-                              }
-                            ),
+                            denominationOptions: state.denominationOptions.map((option) => {
+                              option.selected = option.value === value;
+                              return option;
+                            }),
                           });
                         },
                         containerStyles: {
@@ -857,8 +863,7 @@ return (
                           borderRadius: "4px 0px 0px 4px",
                           width: "auto",
                           padding: "12px 16px",
-                          boxShadow:
-                            "0px -2px 0px rgba(93, 93, 93, 0.24) inset",
+                          boxShadow: "0px -2px 0px rgba(93, 93, 93, 0.24) inset",
                         },
                         iconLeft: selectedDenomination.icon ? (
                           <img
@@ -873,18 +878,11 @@ return (
                   ),
                 }}
               />
-              <Row
-                style={{
-                  justifyContent: "space-between",
-                  width: "100%",
-                  padding: "0px",
-                }}
-              >
+              <Row style={{ justifyContent: "space-between", width: "100%", padding: "0px" }}>
                 <HintText>1 NEAR = ~${nearToUsd} USD</HintText>
                 <div style={{ display: "flex" }}>
-                  <HintText style={{ marginRight: "6px" }}>
-                    Account balance:{" "}
-                  </HintText>
+                  <HintText style={{ marginRight: "6px" }}>Account balance: </HintText>
+
                   {selectedDenomination.icon ? (
                     <img
                       src={selectedDenomination.icon}
@@ -893,6 +891,7 @@ return (
                   ) : (
                     <NearIcon style={{ height: "14px", width: "14px" }} />
                   )}
+
                   <HintText style={{ marginLeft: "4px" }}>{ftBalance}</HintText>
                 </div>
               </Row>
@@ -928,8 +927,7 @@ return (
                     }}
                   />
                   <TextBold>
-                    {protocolFeeRecipientProfile?.name ||
-                      protocolFeeRecipientAccount}
+                    {protocolFeeRecipientProfile?.name || protocolFeeRecipientAccount}
                   </TextBold>
                 </UserChipLink>
               </Label>
@@ -947,8 +945,7 @@ return (
                   }}
                 />
                 <Label htmlFor="bypassChefFeeSelector">
-                  Bypass {potDetail?.chef_fee_basis_points / 100 || "-"}% chef
-                  fee to{" "}
+                  Bypass {potDetail?.chef_fee_basis_points / 100 || "-"}% chef fee to{" "}
                   <UserChipLink
                     href={`https://near.social/mob.near/widget/ProfilePage?accountId=${potDetail?.chef}`}
                     target="_blank"
@@ -1020,18 +1017,12 @@ return (
                     fill="#7B7B7B"
                   />
                 </SvgIcon>
-                <AddNote onClick={() => State.update({ addNote: true })}>
-                  Add Note
-                </AddNote>
+                <AddNote onClick={() => State.update({ addNote: true })}>Add Note</AddNote>
               </Row>
             )}
             {activeRound && isUserHumanVerified === false && (
               <InfoSection>
-                <SvgIcon
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <SvgIcon viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z"
                     fill="#DD3345"
@@ -1040,8 +1031,7 @@ return (
                 <Column>
                   <TitleText>Increase your impact!</TitleText>
                   <SubtitleText>
-                    Verify that you are a human on nadabot to multiply the
-                    impact of your donation!
+                    Verify that you are a human on nadabot to multiply the impact of your donation!
                   </SubtitleText>
                   <VerifyLink href={NADA_BOT_URL} target="_blank">
                     Verify Now{" "}
@@ -1077,9 +1067,7 @@ return (
                     token: selectedDenomination,
                     referrerId,
                     potId: activeRound || null,
-                    potDetail: activeRound
-                      ? state.detailForPots[activeRound]
-                      : null,
+                    potDetail: activeRound ? state.detailForPots[activeRound] : null,
                   },
                   handleCallback: () => handleModalClose(),
                 }}
