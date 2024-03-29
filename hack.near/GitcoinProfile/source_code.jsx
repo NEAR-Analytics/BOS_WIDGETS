@@ -4,7 +4,7 @@ const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = !!props.fast || (!props.profile && accountId);
 
 const name = profile.name;
-const verified = props.verified || true;
+const verified = props.verified || false;
 
 const inner = (
   <div className="d-flex flex-row">
