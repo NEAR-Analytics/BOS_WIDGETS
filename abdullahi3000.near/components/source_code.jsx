@@ -47,7 +47,7 @@ function Pagination({
 function Post(props) {
   return (
     <>
-      {content !== "" && (
+      {content && (
         <Widget
           loading={<div className="w-100" style={{ height: "200px" }} />}
           src={"abdullahi3000.near/widget/components.Post"}
@@ -59,13 +59,7 @@ function Post(props) {
 }
 
 function User(props) {
-  return (
-    <Widget
-      loading={<div style={{ widget: "3rem", height: "3rem" }} />}
-      src="buildhub.near/widget/components.User"
-      props={{ ...props }}
-    />
-  );
+  return "hello user";
 }
 
 return {
