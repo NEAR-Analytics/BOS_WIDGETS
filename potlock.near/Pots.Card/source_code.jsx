@@ -1,20 +1,22 @@
 const { potId } = props;
+
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-const { daysUntil, yoctosToNear, yoctosToUsd } = VM.require(
-  "potlock.near/widget/utils"
-) || {
+const { daysUntil, yoctosToNear, yoctosToUsd } = VM.require("potlock.near/widget/utils") || {
   daysUntil: () => "",
   yoctosToNear: () => "",
   yoctosToUsd: () => "",
 };
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getConfig: () => {},
 };
 const potConfig = PotSDK.getConfig(potId);
+
 const MAX_DESCRIPTION_LENGTH = 100;
 const MAX_TITLE_LENGTH = 36;
+
 const Card = styled.a`
   display: flex;
   flex-direction: column;
@@ -30,6 +32,7 @@ const Card = styled.a`
     cursor: pointer;
   }
 `;
+
 const CardSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,6 +43,7 @@ const CardSection = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const Title = styled.div`
   color: #292929;
   font-size: 22px;
@@ -62,6 +66,7 @@ const Title = styled.div`
     margin-left: 0.5rem;
   }
 `;
+
 const Description = styled.div`
   color: #525252;
   font-size: 16px;
@@ -72,6 +77,7 @@ const Description = styled.div`
     color: rgb(123, 123, 123);
   }
 `;
+
 const Subtitle = styled.span`
   color: #7b7b7b;
   font-size: 14px;
@@ -79,6 +85,7 @@ const Subtitle = styled.span`
   line-height: 20px;
   word-wrap: break-word;
 `;
+
 if (!potConfig)
   return (
     <Card style={{ justifyContent: "center", alignItems: "center" }}>
@@ -89,6 +96,7 @@ if (!potConfig)
       )}
     </Card>
   );
+
 const {
   pot_name,
   pot_description,
@@ -101,28 +109,32 @@ const {
   public_round_end_ms,
   cooldown_end_ms,
 } = potConfig;
+
 // const totalAmount =
 //   props.SUPPORTED_FTS[base_currency.toUpperCase()].fromIndivisible(total_public_donations);
+
 const description = !pot_description
   ? "No description"
   : pot_description.length > MAX_DESCRIPTION_LENGTH
   ? `${pot_description.slice(0, MAX_DESCRIPTION_LENGTH)}...`
   : pot_description;
+
 const title = !pot_name
   ? "No title"
   : pot_name.length > MAX_TITLE_LENGTH
   ? `${pot_name.slice(0, MAX_TITLE_LENGTH)}...`
   : pot_name;
+
 const now = Date.now();
 const applicationNotStarted = now < application_start_ms;
 const applicationOpen = now >= application_start_ms && now < application_end_ms;
 const publicRoundNotStarted = now < public_round_start_ms;
-const publicRoundOpen =
-  now >= public_round_start_ms && now < public_round_end_ms;
+const publicRoundOpen = now >= public_round_start_ms && now < public_round_end_ms;
 const publicRoundClosed = now >= public_round_end_ms && now > cooldown_end_ms;
 const cooldownOpen = now >= public_round_end_ms && now < cooldown_end_ms;
 const amountNear = yoctosToNear(matching_pool_balance, true);
 const amountUsd = yoctosToUsd(matching_pool_balance);
+
 const tags = [
   /* Application tag */
   {
@@ -181,6 +193,7 @@ const tags = [
     visibility: publicRoundClosed,
   },
 ];
+
 const Tag = (props) => (
   <Widget
     src={`${ownerId}/widget/Pots.Tag`}
@@ -199,6 +212,7 @@ const Tag = (props) => (
     }}
   />
 );
+
 return (
   <Card href={props.hrefWithParams(`?tab=pot&potId=${potId}`)}>
     <CardSection>
@@ -222,9 +236,7 @@ return (
           <span className="text">in pot</span>
         </div>
       </Title>
-      {tags.map((tag) =>
-        tag.visibility ? <Tag {...tag} key={tag.text} /> : ""
-      )}
+      {tags.map((tag) => (tag.visibility ? <Tag {...tag} key={tag.text} /> : ""))}
     </CardSection>
   </Card>
 );
