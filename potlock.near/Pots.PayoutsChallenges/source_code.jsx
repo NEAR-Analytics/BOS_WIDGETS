@@ -1,22 +1,21 @@
 const { potId, hrefWithParams } = props;
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getPayoutsChallenges: () => {},
   adminUpdatePayoutsChallenge: () => {},
   isUserPotAdminOrGreater: () => false,
 };
+
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
-const { getTimePassed } = VM.require(
-  `potlock.near/widget/Components.DonorsUtils`
-) || {
+const { getTimePassed } = VM.require(`potlock.near/widget/Components.DonorsUtils`) || {
   getTimePassed: () => "",
 };
 const payoutsChallenges = PotSDK.getPayoutsChallenges(potId); // TODO: ADD THIS BACK IN
-const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(
-  potId,
-  context.accountId
-); // TODO: ADD THIS BACK IN
+
+const userIsAdminOrGreater = PotSDK.isUserPotAdminOrGreater(potId, context.accountId); // TODO: ADD THIS BACK IN
+
 State.init({
   adminModalChallengerId: "",
   challengeAdminNotes: "",
@@ -24,6 +23,7 @@ State.init({
   resolveChallenge: false,
   toggleChallenges: false,
 });
+
 const {
   adminModalChallengerId,
   challengeAdminNotes,
@@ -31,7 +31,9 @@ const {
   resolveChallenge,
   toggleChallenges,
 } = state;
+
 const MAX_CHALLENGE_TEXT_LENGTH = 1000;
+
 const handleAdminUpdateChallenge = () => {
   PotSDK.adminUpdatePayoutsChallenge(
     potId,
@@ -46,6 +48,7 @@ const handleAdminUpdateChallenge = () => {
     resolveChallenge: false,
   });
 };
+
 const handleCancelAdminUpdateChallenge = () => {
   State.update({
     adminModalChallengerId: "",
@@ -54,12 +57,14 @@ const handleCancelAdminUpdateChallenge = () => {
     resolveChallenge: false,
   });
 };
+
 const Line = styled.div`
   width: 100%;
   height: 1px;
   background: #c7c7c7;
   margin: 3rem 0;
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -95,6 +100,7 @@ const Table = styled.div`
     max-height: 0;
   }
 `;
+
 const Challenge = styled.div`
   display: flex;
   padding: 1rem;
@@ -188,6 +194,7 @@ const Challenge = styled.div`
     }
   }
 `;
+
 const ModalHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -199,6 +206,7 @@ const ModalHeader = styled.div`
   border-top-right-radius: 6px;
   font-weight: 500;
 `;
+
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -209,6 +217,7 @@ const ModalBody = styled.div`
   background: #fafafa;
   gap: 8px;
 `;
+
 const ModalFooter = styled.div`
   display: flex;
   flex-direction: row;
@@ -221,6 +230,7 @@ const ModalFooter = styled.div`
   gap: 24px;
   width: 100%;
 `;
+
 const HeaderItemText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -228,6 +238,7 @@ const HeaderItemText = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
+
 const AdminSVG = () => (
   <div className="admin-icon">
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -251,12 +262,11 @@ const AdminSVG = () => (
   </div>
 );
 const ProfileImg = ({ address }) => (
-  <Widget
-    src="mob.near/widget/ProfileImage"
-    props={{ accountId: address, style: {} }}
-  />
+  <Widget src="mob.near/widget/ProfileImage" props={{ accountId: address, style: {} }} />
 );
+
 console.log("payoutsChallenges", payoutsChallenges);
+
 return !payoutsChallenges ? (
   "Loading..."
 ) : payoutsChallenges.length === 0 ? (
@@ -290,63 +300,54 @@ return !payoutsChallenges ? (
         </svg>
       </Title>
       <Table className={`${!toggleChallenges ? "hidden" : ""}`}>
-        {payoutsChallenges.map(
-          ({ challenger_id, admin_notes, created_at, reason, resolved }) => (
-            <Challenge key={challenger_id}>
-              {/* <div className="vertical-line" /> */}
-              <div className="content">
-                <div className="header">
-                  <ProfileImg address={challenger_id} />
-                  <a
-                    className="id"
-                    href={hrefWithParams(
-                      `?tab=profile&accountId=${challenger_id}`
-                    )}
-                  >
-                    {challenger_id}
-                  </a>
-                  <div className="title">Challenged payout</div>
-                  <div className="date"> {getTimePassed(created_at)}</div>
-                </div>
-                <div className="reason">{reason}</div>
-                <div className="admin-header">
-                  <AdminSVG />
-                  <div
-                    className="resolved-state"
-                    style={{
-                      color: resolved ? "#4a7714" : "#C7C7C7",
-                    }}
-                  >
-                    Resolved
-                  </div>
-                  {resolved ? (
-                    <>
-                      <div className="dot" />
-                      <div>1 Response</div>
-                    </>
-                  ) : userIsAdminOrGreater ? (
-                    <>
-                      <div className="dot" />
-                      <button
-                        className="resolve-btn"
-                        onClick={() =>
-                          State.update({
-                            adminModalChallengerId: challenger_id,
-                          })
-                        }
-                      >
-                        Reply
-                      </button>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="reason">{admin_notes}</div>
+        {payoutsChallenges.map(({ challenger_id, admin_notes, created_at, reason, resolved }) => (
+          <Challenge key={challenger_id}>
+            {/* <div className="vertical-line" /> */}
+            <div className="content">
+              <div className="header">
+                <ProfileImg address={challenger_id} />
+                <a className="id" href={hrefWithParams(`?tab=profile&accountId=${challenger_id}`)}>
+                  {challenger_id}
+                </a>
+                <div className="title">Challenged payout</div>
+                <div className="date"> {getTimePassed(created_at)}</div>
               </div>
-            </Challenge>
-          )
-        )}
+              <div className="reason">{reason}</div>
+              <div className="admin-header">
+                <AdminSVG />
+                <div
+                  className="resolved-state"
+                  style={{
+                    color: resolved ? "#4a7714" : "#C7C7C7",
+                  }}
+                >
+                  Resolved
+                </div>
+
+                {resolved ? (
+                  <>
+                    <div className="dot" />
+                    <div>1 Response</div>
+                  </>
+                ) : userIsAdminOrGreater ? (
+                  <>
+                    <div className="dot" />
+                    <button
+                      className="resolve-btn"
+                      onClick={() => State.update({ adminModalChallengerId: challenger_id })}
+                    >
+                      Reply
+                    </button>
+                  </>
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="reason">{admin_notes}</div>
+            </div>
+          </Challenge>
+        ))}
       </Table>
       {/* Admin update challenge modal */}
       <Widget
@@ -359,16 +360,13 @@ return !payoutsChallenges ? (
           },
           children: (
             <>
-              <ModalHeader>
-                Update Challenge from {adminModalChallengerId}
-              </ModalHeader>
+              <ModalHeader>Update Challenge from {adminModalChallengerId}</ModalHeader>
               <ModalBody>
                 <HeaderItemText>Challenge Reason:</HeaderItemText>
                 <div>
                   {
                     payoutsChallenges.find(
-                      (challenge) =>
-                        challenge.challenger_id === adminModalChallengerId
+                      (challenge) => challenge.challenger_id === adminModalChallengerId
                     ).reason
                   }
                 </div>
@@ -382,17 +380,15 @@ return !payoutsChallenges ? (
                     },
                     placeholder: "Respond to the challenge here",
                     value: challengeAdminNotes,
-                    onChange: (challengeAdminNotes) =>
-                      State.update({ challengeAdminNotes }),
+                    onChange: (challengeAdminNotes) => State.update({ challengeAdminNotes }),
                     validate: () => {
-                      if (
-                        challengeAdminNotes.length > MAX_CHALLENGE_TEXT_LENGTH
-                      ) {
+                      if (challengeAdminNotes.length > MAX_CHALLENGE_TEXT_LENGTH) {
                         State.update({
                           challengeAdminNotesError: `Notes must be less than ${MAX_CHALLENGE_TEXT_LENGTH} characters`,
                         });
                         return;
                       }
+
                       State.update({ challengeAdminNotesError: "" });
                     },
                     error: challengeAdminNotesError,
@@ -426,8 +422,7 @@ return !payoutsChallenges ? (
                   props={{
                     type: "primary",
                     text: "Submit",
-                    disabled:
-                      !challengeAdminNotes || !!challengeAdminNotesError,
+                    disabled: !challengeAdminNotes || !!challengeAdminNotesError,
                     onClick: handleAdminUpdateChallenge,
                   }}
                 />
