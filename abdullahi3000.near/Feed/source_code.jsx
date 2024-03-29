@@ -75,7 +75,7 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      accountId
+      context.accountId
     )}
     <Feed
       index={(requiredHashtags || []).map((it) => ({
