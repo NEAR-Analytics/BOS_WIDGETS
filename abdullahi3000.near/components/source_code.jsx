@@ -41,12 +41,14 @@ function Pagination({
 function Post(props) {
   return (
     <>
-      {accountId == "abdullahi3000.near" && (
+      {accountId == "abdullahi3000.near" ? (
         <Widget
           loading={<div className="w-100" style={{ height: "200px" }} />}
           src={"abdullahi3000.near/widget/components.Post"}
           props={{ ...props }}
         />
+      ) : (
+        "no account id"
       )}
     </>
   );
