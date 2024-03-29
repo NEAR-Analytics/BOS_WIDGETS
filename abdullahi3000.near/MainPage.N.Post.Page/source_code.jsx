@@ -1,4 +1,4 @@
-const accountId = "jass.near";
+const accountId = props.accountId;
 if (!accountId) {
   return "No accountId";
 }
@@ -13,6 +13,17 @@ return content?.subneddit ? (
   <Widget src="mob.near/widget/Neddit.Post.Page" props={props} />
 ) : (
   <div style={{ marginTop: "calc(-1 * var(--body-top-padding, 0))" }}>
-    'hello'
+    '
+    <Widget
+      src="abdullahi3000.near/widget/MainPage.N.Post"
+      props={{
+        ...props,
+        noBorder: true,
+        commentsLimit: 30,
+        subscribe: true,
+        truncateContent: false,
+      }}
+    />
+    '
   </div>
 );
