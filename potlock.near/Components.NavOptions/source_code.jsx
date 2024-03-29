@@ -1,8 +1,10 @@
 const { navOptions } = props;
+
 const getSelectedNavOption = () => {
   const navOption = navOptions.find((option) => option.id == props.nav);
   return navOption ?? navOptions[0];
 };
+
 const NavOptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,21 +14,25 @@ const NavOptionsContainer = styled.div`
   width: 100%;
   margin-bottom: 32px;
 `;
+
 const NavOptionContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
+
 const NavOption = styled.a`
   font-size: 14px;
   padding: 8px 16px;
   font-weight: ${(props) => (props.selected ? 600 : 400)};
   color: ${(props) => (props.selected ? "#DD3345" : "#7B7B7B")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+
   &:hover {
     text-decoration: none;
   }
 `;
+
 return (
   <NavOptionsContainer>
     {navOptions.map((option) => {
@@ -40,20 +46,9 @@ return (
       ) : (
         <NavOptionContainer>
           {selected && (
-            <div
-              style={{
-                width: 2,
-                height: 16,
-                background: "#DD3345",
-                borderRadius: 2,
-              }}
-            />
+            <div style={{ width: 2, height: 16, background: "#DD3345", borderRadius: 2 }} />
           )}
-          <NavOption
-            selected={selected}
-            disabled={option.disabled}
-            href={option.href}
-          >
+          <NavOption selected={selected} disabled={option.disabled} href={option.href}>
             {option.label}
           </NavOption>
         </NavOptionContainer>
