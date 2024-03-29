@@ -2,6 +2,7 @@ const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getApprovedApplications: () => {},
   getPublicRoundDonations: () => {},
 };
+
 // Card Skeleton - Loading fallback
 const loadingSkeleton = styled.keyframes`
   0% {
@@ -14,6 +15,7 @@ const loadingSkeleton = styled.keyframes`
     opacity: 1;
   }
 `;
+
 const CardSkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,12 +33,14 @@ const CardSkeletonContainer = styled.div`
   animation-duration: 1s;
   animation-iteration-count: infinite;
 `;
+
 const HeaderSkeleton = styled.div`
   display: block;
   width: 100%;
   height: 168px;
   background: #eee;
 `;
+
 const ProfileImageSkeleton = styled.div`
   background: #e0e0e0;
   margin-left: 32px;
@@ -46,6 +50,7 @@ const ProfileImageSkeleton = styled.div`
   position: absolute;
   border-radius: 999px;
 `;
+
 const TitleSkeleton = styled.div`
   width: 120px;
   height: 24px;
@@ -53,6 +58,7 @@ const TitleSkeleton = styled.div`
   margin-left: 24px;
   margin-top: 24px;
 `;
+
 const DescriptionSkeleton = styled.div`
   width: 83%;
   height: 48px;
@@ -60,6 +66,7 @@ const DescriptionSkeleton = styled.div`
   margin-left: 24px;
   margin-top: 24px;
 `;
+
 const TagSkeleton = styled.div`
   background: #eee;
   border-radius: 4px;
@@ -67,14 +74,17 @@ const TagSkeleton = styled.div`
   width: 110px;
   margin: 24px;
 `;
+
 const FooterItemSkeleton = styled.div`
   width: 150px;
   height: 40px;
   background: #eee;
+
   @media screen and (max-width: 390px) {
     width: 100px;
   }
 `;
+
 const DonationsInfoContainerSkeleton = styled.div`
   display: flex;
   flex-direction: row;
@@ -84,12 +94,14 @@ const DonationsInfoContainerSkeleton = styled.div`
   width: 100%;
   border-top: 1px #f0f0f0 solid;
 `;
+
 const DonationsInfoItemSkeleton = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
   align-items: center;
 `;
+
 const CardSkeleton = () => (
   <CardSkeletonContainer>
     <HeaderSkeleton />
@@ -107,6 +119,7 @@ const CardSkeleton = () => (
     </DonationsInfoContainerSkeleton>
   </CardSkeletonContainer>
 );
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,6 +135,7 @@ const Title = styled.div`
     font-weight: 600;
   }
 `;
+
 const SearchBar = styled.div`
   display: flex;
   position: relative;
@@ -148,49 +162,48 @@ const SearchBar = styled.div`
     svg {
       left: 1rem;
     }
+
     input {
       padding: 8px 24px 8px 54px;
     }
   }
 `;
+
 const [searchTerm, setSearchTerm] = useState("");
 const [filteredProjects, setFilteredProjects] = useState([]);
 const [projects, setProjects] = useState(null);
+
 // get projects
 const { ownerId, potId, potDetail, sybilRequirementMet } = props;
-const {
-  calculatePayouts,
-  getTagsFromSocialProfileData,
-  getTeamMembersFromSocialProfileData,
-} = VM.require("potlock.near/widget/utils") || {
-  calculatePayouts: () => {},
-  getTagsFromSocialProfileData: () => [],
-  getTeamMembersFromSocialProfileData: () => [],
-};
+const { calculatePayouts, getTagsFromSocialProfileData, getTeamMembersFromSocialProfileData } =
+  VM.require("potlock.near/widget/utils") || {
+    calculatePayouts: () => {},
+    getTagsFromSocialProfileData: () => [],
+    getTeamMembersFromSocialProfileData: () => [],
+  };
+
 if (!projects) {
   PotSDK.asyncGetApprovedApplications(potId).then((projects) => {
     setProjects(projects);
     setFilteredProjects(projects);
   });
 }
-if (!projects)
-  return <div class="spinner-border text-secondary" role="status" />;
-const {
-  public_round_start_ms,
-  public_round_end_ms,
-  referral_fee_public_round_basis_points,
-} = potDetail;
+
+if (!projects) return <div class="spinner-border text-secondary" role="status" />;
+
+const { public_round_start_ms, public_round_end_ms, referral_fee_public_round_basis_points } =
+  potDetail;
+
 const now = Date.now();
-const publicRoundOpen =
-  now >= public_round_start_ms && now < public_round_end_ms;
+const publicRoundOpen = now >= public_round_start_ms && now < public_round_end_ms;
+
 const allDonationsForPot = PotSDK.getPublicRoundDonations(potId) || [];
+
 const payouts = useMemo(() => {
   if (allDonationsForPot.length)
-    return calculatePayouts(
-      allDonationsForPot,
-      potDetail.matching_pool_balance
-    );
+    return calculatePayouts(allDonationsForPot, potDetail.matching_pool_balance);
 }, [allDonationsForPot]);
+
 const searchByWords = (searchTerm) => {
   if (projects.length) {
     searchTerm = searchTerm.toLowerCase().trim();
@@ -205,13 +218,12 @@ const searchByWords = (searchTerm) => {
         getTagsFromSocialProfileData(profile).join(" "),
         getTeamMembersFromSocialProfileData(profile).join(" "),
       ];
-      return fields.some((item) =>
-        (item || "").toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      return fields.some((item) => (item || "").toLowerCase().includes(searchTerm.toLowerCase()));
     });
     setFilteredProjects(updatedProjects);
   }
 };
+
 return (
   <Container>
     <Title>
@@ -269,8 +281,7 @@ return (
                   publicRoundOpen &&
                   project.project_id !== context.accountId,
                 requireVerification: !sybilRequirementMet,
-                potRferralFeeBasisPoints:
-                  referral_fee_public_round_basis_points,
+                potRferralFeeBasisPoints: referral_fee_public_round_basis_points,
                 payoutDetails: payouts[project.project_id] || {
                   donorCount: 0,
                   matchingAmount: "0",
