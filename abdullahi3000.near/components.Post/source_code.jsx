@@ -266,25 +266,23 @@ const link =
 
 const contentWidget = (
   <>
-    {accountId == "abdullahi3000.near" && (
-      <Widget
-        key="content"
-        loading={
-          <div
-            className="overflow-hidden w-100 placeholder-glow"
-            style={{ minHeight: "100px" }}
-          />
-        }
-        src="buildhub.near/widget/components.post.Content"
-        props={{
-          content,
-          raw,
-          truncateContent: props.truncateContent,
-          noEmbed: props.noEmbed,
-          currentPath: props.currentPath,
-        }}
-      />
-    )}
+    <Widget
+      key="content"
+      loading={
+        <div
+          className="overflow-hidden w-100 placeholder-glow"
+          style={{ minHeight: "100px" }}
+        />
+      }
+      src="buildhub.near/widget/components.post.Content"
+      props={{
+        content,
+        raw,
+        truncateContent: props.truncateContent,
+        noEmbed: props.noEmbed,
+        currentPath: props.currentPath,
+      }}
+    />
   </>
 );
 
@@ -331,7 +329,7 @@ return (
                 href={fullPostLink}
                 className="text-decoration-none link-dark"
               >
-                {contentWidget}
+                {accountId == "abdullahi3000.near" && { contentWidget }}
               </a>
             ) : (
               contentWidget
