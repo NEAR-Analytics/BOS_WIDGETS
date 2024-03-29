@@ -62,7 +62,7 @@ const StyledButton = styled.button`
     background: ${(props) => {
       switch (props.variant) {
         case "primary":
-          return "var(--button-primary-hover-bg, #e49b48)";
+          return "#0d50c1";
         case "outline":
           return "var(--button-outline-hover-bg, rgba(255, 255, 255, 0.20))";
         default:
