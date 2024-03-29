@@ -332,7 +332,7 @@ return (
                 {accountId == "abdullahi3000.near" && { contentWidget }}
               </a>
             ) : (
-              contentWidget
+              "contentWidget"
             )}
             {props.customButtons ? (
               props.customButtons
