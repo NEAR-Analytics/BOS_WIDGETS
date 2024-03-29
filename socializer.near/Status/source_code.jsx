@@ -1,7 +1,7 @@
 const menu = props.menu ?? { value: "live" };
 
 return (
-  <div className="d-flex" style={{ gap: 25, paddingLeft: 30 }}>
+  <div className="d-flex" style={{ gap: 25, paddingLeft: 30, marginTop: -52 }}>
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
