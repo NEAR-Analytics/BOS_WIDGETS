@@ -1,7 +1,5 @@
 const { projectId } = props;
-const { getTagsFromSocialProfileData } = VM.require(
-  "potlock.near/widget/utils"
-) || {
+const { getTagsFromSocialProfileData } = VM.require("potlock.near/widget/utils") || {
   getTagsFromSocialProfileData: () => [],
 };
 const {
@@ -12,11 +10,9 @@ const {
   SUPPORTED_FTS: {},
 };
 const accountId = props.accountId ?? context.accountId;
-const [statusReview, setStatusReview] = useState({
-  modalOpen: false,
-  notes: "",
-  newStatus: "",
-});
+
+const [statusReview, setStatusReview] = useState({ modalOpen: false, notes: "", newStatus: "" });
+
 let ListsSDK =
   VM.require("potlock.near/widget/SDK.lists") ||
   (() => ({
@@ -24,10 +20,12 @@ let ListsSDK =
     isRegistryAdmin: () => {},
     getRegistration: () => {},
   }));
+
 ListsSDK = ListsSDK({ env: props.env });
 const listsContractId = ListsSDK.getContractId();
 const userIsRegistryAdmin = ListsSDK.isRegistryAdmin(context.accountId);
 const registration = ListsSDK.getRegistration(null, projectId);
+
 const handleUpdateStatus = () => {
   Near.call([
     {
@@ -42,16 +40,19 @@ const handleUpdateStatus = () => {
     },
   ]);
 };
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
 `;
+
 const Details = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +63,7 @@ const Details = styled.div`
     padding: 24px 1rem;
   }
 `;
+
 const SidebarContainer = styled.div`
   width: 15%;
   padding-left: 1rem;
@@ -72,6 +74,7 @@ const SidebarContainer = styled.div`
     }
   }
 `;
+
 const ModalTitle = styled.div`
   color: #525252;
   font-size: 16px;
@@ -80,6 +83,7 @@ const ModalTitle = styled.div`
   word-wrap: break-word;
   margin-bottom: 8px;
 `;
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -88,6 +92,7 @@ const Row = styled.div`
 const { PROJECT_STATUSES } = VM.require("potlock.near/widget/constants") || {
   PROJECT_STATUSES: [],
 };
+
 return (
   <Wrapper>
     <Widget
@@ -115,17 +120,10 @@ return (
               value: status,
               text: status,
             })),
-            value: {
-              text: props.registration.status,
-              value: props.registration.status,
-            },
+            value: { text: props.registration.status, value: props.registration.status },
             onChange: (status) => {
               if (status.value != registration.status) {
-                setStatusReview({
-                  ...statusReview,
-                  newStatus: status.value,
-                  modalOpen: true,
-                });
+                setStatusReview({ ...statusReview, newStatus: status.value, modalOpen: true });
               }
             },
             containerStyles: {
@@ -140,6 +138,7 @@ return (
           ...props,
         }}
       />
+
       <Details>
         <Widget
           src={props.navOptions.find((option) => option.id == props.nav).source}
@@ -158,9 +157,7 @@ return (
         onClose: () => setStatusReview({ ...statusReview, modalOpen: false }),
         children: (
           <>
-            <ModalTitle>
-              Enter Notes for changing status to {statusReview.newStatus}
-            </ModalTitle>
+            <ModalTitle>Enter Notes for changing status to {statusReview.newStatus}</ModalTitle>
             <Widget
               src={`${ownerId}/widget/Inputs.TextArea`}
               props={{
@@ -171,8 +168,7 @@ return (
                 },
                 placeholder: "Your notes here...",
                 value: statusReview.notes,
-                onChange: (notes) =>
-                  setStatusReview({ ...statusReview, notes }),
+                onChange: (notes) => setStatusReview({ ...statusReview, notes }),
                 validate: () => {
                   // none necessary
                 },
