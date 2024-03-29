@@ -41,7 +41,9 @@ function getScore() {
   decoder
     .getScore(address)
     .then((result) => {
-      setScore(result);
+      const integerScore = parseInt(result._hex, 16);
+      const actualScore = integerScore / 10000;
+      setScore(actualScore);
       setError("");
     })
     .catch((error) => {
@@ -99,11 +101,9 @@ return (
       <p className="m-1">{error}</p>
     </div>
     <div className="m-2">
-      {verified && (
-        <p className="m-2">
-          <b>Verified:</b> {JSON.stringify(verified)}
-        </p>
-      )}
+      <p className="m-2">
+        <Widget src="hack.near/widget/GitcoinProfile" props={{ verified }} />
+      </p>
       {score && (
         <p className="m-2">
           <b>Score:</b> {JSON.stringify(score)}
@@ -114,24 +114,6 @@ return (
           <b>Data:</b> {JSON.stringify(passport)}
         </p>
       )}
-    </div>
-    <hr />
-    <div className="m-3">
-      <h4>
-        <a href="https://docs.passport.gitcoin.co/building-with-passport/smart-contracts/contract-reference">
-          Contract Reference
-        </a>
-      </h4>
-      <p>
-        <i>using Optimism (0x1a4)</i>
-      </p>
-      <h5>
-        ABI --
-        <a href="https://github.com/gitcoinco/eas-proxy/blob/main/deployments/abi/GitcoinPassportDecoder.json">
-          GitHub
-        </a>
-      </h5>
-      <pre>{JSON.stringify(decoderAbi, null, 2)}</pre>
     </div>
   </>
 );
