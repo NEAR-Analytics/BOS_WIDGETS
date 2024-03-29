@@ -11,15 +11,16 @@ return (
         value={inputActionId}
         onChange={(e) => setInputActionId(e.target.value)}
       />
-      <button
+      <Link
         className={`btn ${
           accountId === inputActionId ? "btn-outline-secondary" : "btn-primary"
         }`}
         onClick={() => setAccountId(inputActionId)}
+        href={`/mob.near/widget/Tokens?accountId=${inputActionId}`}
         type="button"
       >
         Apply
-      </button>
+      </Link>
     </div>
     <Widget src="mob.near/widget/Tokens.Inner" props={{ accountId }} />
   </div>
