@@ -29,7 +29,7 @@ const StyledButton = styled.button`
   background: ${(props) => {
     switch (props.variant) {
       case "primary":
-        return "var(--button-primary-bg, #eca227)";
+        return "#0d50c1";
       case "outline":
         return "var(--button-outline-bg, transparent)";
       case "secondary":
