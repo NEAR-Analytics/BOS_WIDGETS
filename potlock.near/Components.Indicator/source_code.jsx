@@ -6,6 +6,7 @@ const Outer = styled.div`
   height: 18px;
   border-radius: 50%;
   background-color: ${props.colorOuter};
+
   @keyframes beacon {
     0%,
     100% {
@@ -15,17 +16,20 @@ const Outer = styled.div`
       transform: scale(1.3);
     }
   }
+
   ${props.animate &&
   `
   animation: beacon 1.5s infinite;
   `}
 `;
+
 const Inner = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background-color: ${props.colorInner};
 `;
+
 return (
   <Outer>
     <Inner />
