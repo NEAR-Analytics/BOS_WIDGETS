@@ -1,12 +1,16 @@
 const { getCartItemCount } = VM.require("potlock.near/widget/SDK.cart") ?? {
   getCartItemCount: () => 0,
 };
+
 const { CartModal } = VM.require("potlock.near/widget/Cart.Modal") ?? {
   CartModal: () => <></>,
 };
+
 const navHeightPx = 110;
 const navHeightPxMobile = 96;
+
 const numCartItems = getCartItemCount();
+
 const CartButton = styled.div`
   padding: ${numCartItems > 0 ? "8px 8px 8px 16px" : "8px 16px"};
   background: #2e2e2e;
@@ -17,6 +21,7 @@ const CartButton = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 const CartText = styled.div`
   color: white;
   font-size: 14px;
@@ -25,6 +30,7 @@ const CartText = styled.div`
   word-wrap: break-word;
   text-align: center;
 `;
+
 const CartCountContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -37,6 +43,7 @@ const CartCountContainer = styled.div`
   height: 18px;
   margin-left: 8px;
 `;
+
 return (
   <CartModal
     Trigger={({ openModal }) => (
