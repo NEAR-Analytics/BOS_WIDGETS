@@ -2,8 +2,8 @@ const ownerId = "potlock.near";
 const donationContractId = "donate.potlock.near";
 // const potFactoryContractId =
 //   props.env === "staging" ? "potfactory.staging.potlock.near" : "v1.potfactory.potlock.near";
-const nadabotContractId =
-  props.env === "staging" ? "v1.staging.nadabot.near" : "v1.nadabot.near";
+const nadabotContractId = props.env === "staging" ? "v1.staging.nadabot.near" : "v1.nadabot.near";
+
 const CREATE_PROJECT_TAB = "createproject";
 const EDIT_PROJECT_TAB = "editproject";
 const PROJECTS_LIST_TAB = "projects";
@@ -16,9 +16,11 @@ const POT_DETAIL_TAB = "pot";
 const DONORS_TAB = "donors";
 const PROFILE_TAB = "profile";
 const EDIT_PROFILE_TAB = "editprofile";
+
 const loraCss = fetch(
   "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
 ).body;
+
 const Theme = styled.div`
   position: relative;
   * {
@@ -32,24 +34,21 @@ const Theme = styled.div`
     font-style: normal;
     font-weight: 400;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Regular.woff)
-        format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Regular.woff) format("woff");
   }
   @font-face {
     font-family: mona-sans;
     font-style: normal;
     font-weight: 500;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Medium.woff)
-        format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-Medium.woff) format("woff");
   }
   @font-face {
     font-family: mona-sans;
     font-style: normal;
     font-weight: 600;
     src: local("Mona-Sans"),
-      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-SemiBold.woff)
-        format("woff");
+      url(https://fonts.cdnfonts.com/s/91271/Mona-Sans-SemiBold.woff) format("woff");
   }
   @font-face {
     font-family: mona-sans;
@@ -60,6 +59,7 @@ const Theme = styled.div`
   }
   ${loraCss}
 `;
+
 State.init({
   successModal: {
     isOpen:
@@ -71,6 +71,7 @@ State.init({
     successfulDonation: null,
   },
 });
+
 const tabContentWidget = {
   [CREATE_PROJECT_TAB]: "Project.Create",
   [EDIT_PROJECT_TAB]: "Project.Create",
@@ -85,6 +86,7 @@ const tabContentWidget = {
   [PROFILE_TAB]: "Profile.Detail",
   [EDIT_PROFILE_TAB]: "Profile.Edit",
 };
+
 const getTabWidget = (tab) => {
   const defaultTabWidget = tabContentWidget[PROJECTS_LIST_TAB];
   if (tab in tabContentWidget) {
@@ -92,6 +94,7 @@ const getTabWidget = (tab) => {
   }
   return defaultTabWidget;
 };
+
 const props = {
   ...(props ?? {}),
   ...(state ?? {}),
@@ -104,18 +107,15 @@ const props = {
       href = `${href}${href.includes("?") ? "&" : "?"}env=${props.env}`;
     }
     if (props.referrerId) {
-      href = `${href}${href.includes("?") ? "&" : "?"}referrerId=${
-        props.referrerId
-      }`;
+      href = `${href}${href.includes("?") ? "&" : "?"}referrerId=${props.referrerId}`;
     }
     return href;
   },
   openDonationSuccessModal: (donation) => {
-    State.update({
-      successModal: { isOpen: true, successfulDonation: donation },
-    });
+    State.update({ successModal: { isOpen: true, successfulDonation: donation } });
   },
 };
+
 if (props.transactionHashes) {
   switch (props.tab) {
     case CART_TAB:
@@ -126,18 +126,16 @@ if (props.transactionHashes) {
       clearCart();
       break;
     default:
-      console.log(
-        "transactionHash callback case not handled, tab: ",
-        props.tab
-      );
+      console.log("transactionHash callback case not handled, tab: ", props.tab);
   }
 }
+
 if (props.tab === EDIT_PROJECT_TAB) {
   props.edit = true;
 }
-const tabContent = (
-  <Widget src={`${ownerId}/widget/${getTabWidget(props.tab)}`} props={props} />
-);
+
+const tabContent = <Widget src={`${ownerId}/widget/${getTabWidget(props.tab)}`} props={props} />;
+
 const Content = styled.div`
   width: 100%;
   height: 100%;
@@ -146,13 +144,17 @@ const Content = styled.div`
   border-radius: 0rem 0rem 1.5rem 1.5rem;
   border-top: 1px solid var(--ui-elements-light, #eceef0);
   background: var(--base-white, #fff);
+
   &.form {
     border: none;
     background: #fafafa;
   }
 `;
+
 const isForm = [CREATE_PROJECT_TAB].includes(props.tab);
+
 // console.log("props in Index: ", props);
+
 return (
   <Theme>
     <Widget src={`${ownerId}/widget/Components.Nav`} props={props} />
@@ -167,10 +169,7 @@ return (
         ...props,
         isModalOpen: state.successModal.isOpen,
         successfulDonation: state.successModal.successfulDonation,
-        onClose: () =>
-          State.update({
-            successModal: { isOpen: false, successfulDonation: null },
-          }),
+        onClose: () => State.update({ successModal: { isOpen: false, successfulDonation: null } }),
       }}
     />
   </Theme>
