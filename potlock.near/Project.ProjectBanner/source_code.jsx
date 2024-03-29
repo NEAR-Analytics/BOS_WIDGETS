@@ -1,5 +1,7 @@
 const { registration } = props;
+
 const [toggle, setToggle] = useState(false);
+
 const statuses = {
   Graylisted: {
     background: "#C7C7C7",
@@ -27,6 +29,7 @@ const statuses = {
   },
 };
 const registrationStatus = statuses[registration.status];
+
 const Banner = styled.div`
   width: 100%;
   background: ${registrationStatus.background};
@@ -63,6 +66,7 @@ const Toggle = styled.span`
   color: ${registrationStatus.toggleColor};
   white-space: nowrap;
   margin-left: 0.5rem;
+
   svg {
     width: 12px;
     transition: all 300ms ease-in-out;
@@ -81,6 +85,7 @@ const Toggle = styled.span`
     }
   }
 `;
+
 const Notes = styled.div`
   overflow: hidden;
   transition: all 300ms ease-in-out;
@@ -95,12 +100,11 @@ const Notes = styled.div`
     margin-top: 12px;
   }
 `;
+
 return (
   <Banner>
     <Row>
-      <BannerText
-        onClick={() => (registration.admin_notes ? setToggle(!toggle) : "")}
-      >
+      <BannerText onClick={() => (registration.admin_notes ? setToggle(!toggle) : "")}>
         {registrationStatus.text}
         {registration.admin_notes && (
           <Toggle className={`${toggle ? "active" : ""}`}>
@@ -121,9 +125,7 @@ return (
       </BannerText>
     </Row>
     {registration.admin_notes && (
-      <Notes className={`${toggle ? "active" : ""}`}>
-        Admin notes: {registration.admin_notes}
-      </Notes>
+      <Notes className={`${toggle ? "active" : ""}`}>Admin notes: {registration.admin_notes}</Notes>
     )}
   </Banner>
 );
