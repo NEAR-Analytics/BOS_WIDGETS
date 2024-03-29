@@ -69,7 +69,6 @@ const Wrapper = styled.div`
   margin-bottom: 1em;
 }
 .token {
-  margin-bottom: 1em;
   overflow: hidden;
 }
 `;
