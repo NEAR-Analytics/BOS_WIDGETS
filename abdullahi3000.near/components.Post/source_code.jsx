@@ -227,9 +227,9 @@ const blockHeight =
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
 const hideButtons = !!props.hideButtons;
-const content =
-  props.content ??
-  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+const content = JSON.parse(
+  Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
+);
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const groupId = props.groupId ?? content.groupId;
