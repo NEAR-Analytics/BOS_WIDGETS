@@ -1,29 +1,22 @@
 const { ownerId } = props;
-if (
-  !props.accountId ||
-  !context.accountId ||
-  context.accountId === props.accountId
-) {
+if (!props.accountId || !context.accountId || context.accountId === props.accountId) {
   return "";
 }
-const followEdge = Social.keys(
-  `${context.accountId}/graph/follow/${props.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-const inverseEdge = Social.keys(
-  `${props.accountId}/graph/follow/${context.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
+
+const followEdge = Social.keys(`${context.accountId}/graph/follow/${props.accountId}`, undefined, {
+  values_only: true,
+});
+
+const inverseEdge = Social.keys(`${props.accountId}/graph/follow/${context.accountId}`, undefined, {
+  values_only: true,
+});
+
 const loading = followEdge === null || inverseEdge === null;
 const follow = followEdge && Object.keys(followEdge).length;
 const inverse = inverseEdge && Object.keys(inverseEdge).length;
+
 const type = follow ? "unfollow" : "follow";
+
 const socialArgs = {
   data: {
     [context.accountId]: {
@@ -46,13 +39,9 @@ const socialArgs = {
     },
   },
 };
-const buttonText = loading
-  ? "Loading"
-  : follow
-  ? "Following"
-  : inverse
-  ? "Follow back"
-  : "Follow";
+
+const buttonText = loading ? "Loading" : follow ? "Following" : inverse ? "Follow back" : "Follow";
+
 const FollowContainer = styled.div`
   position: relative;
   cursor: pointer;
@@ -88,6 +77,7 @@ const FollowContainer = styled.div`
       : ""}
   }
 `;
+
 return (
   <FollowContainer
     onClick={() => {
@@ -95,9 +85,7 @@ return (
         {
           contractName: "social.near",
           methodName: "set",
-          deposit: Big(JSON.stringify(socialArgs).length * 0.00003).mul(
-            Big(10).pow(24)
-          ),
+          deposit: Big(JSON.stringify(socialArgs).length * 0.00003).mul(Big(10).pow(24)),
           args: socialArgs,
         },
       ];
