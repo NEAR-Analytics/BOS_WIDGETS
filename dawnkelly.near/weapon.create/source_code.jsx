@@ -1,11 +1,27 @@
 const accountId = context.accountId;
 
 const [ammunition, setAmmunition] = useState("");
+{
+  /** 
+const [finesse, setFinesse] = useState("");
+const [heavy, setHeavy] = useState("");
+const [light, setLight] = useState("");
+const [loading, setLoading] = useState("");
+const [range, setRange] = useState("");
+const [reach, setReach] = useState("");
+const [special, setSpecial] = useState("");
+const [thrown, setThrown] = useState("");
+const [twoHanded, setTwoHanded] = useState("");
+const [versatile, setVersatile] = useState("");
+const [silvered, setSilvered] = useState("");
+*/
+}
 
 const [weapon, setWeapon] = useState(() => {
   const initialData = Social.getr(`${accountId}/game/weapon`) ?? {
     metadata: {
       name: "",
+      type: "",
       description: "",
       class: "",
       category: "",
@@ -125,7 +141,6 @@ return (
             name="type"
             id="type"
             type="text"
-            className="form-select"
             placeholder="What is the weapon type (club, rapier, etc)"
             value={weapon.metadata.type}
             onChange={handleTypeChange}
