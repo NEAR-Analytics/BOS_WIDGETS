@@ -370,8 +370,7 @@ function Navbar(props) {
                 key={`mobile=${k}`}
                 style={{ textDecoration: "none" }}
                 to={href({
-                  widgetSrc:
-                    "abdullahi3000.near/widget/app?page=harmonic.artists.network",
+                  widgetSrc: "abdullahi3000.near/widget/app?page=artistNetwork",
                   params: {
                     page: k,
                   },
