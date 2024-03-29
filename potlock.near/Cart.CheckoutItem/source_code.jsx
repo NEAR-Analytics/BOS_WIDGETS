@@ -4,22 +4,25 @@ const { basisPointsToPercent } = VM.require("potlock.near/widget/utils") || {
 const { SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   SUPPORTED_FTS: {},
 };
-const { removeItemsFromCart, updateItemInCart } = VM.require(
-  "potlock.near/widget/SDK.cart"
-) || {
+
+const { removeItemsFromCart, updateItemInCart } = VM.require("potlock.near/widget/SDK.cart") || {
   removeItemsFromCart: () => {},
   updateItemInCart: () => {},
 };
+
 const { cartItem, checked, handleCheckboxClick } = props;
+
 const projectId = cartItem?.id;
 const isPotDonation = cartItem?.potId;
-const profile =
-  props.profile || Social.get(`${projectId}/profile/**`, "final") || {};
+
+const profile = props.profile || Social.get(`${projectId}/profile/**`, "final") || {};
+
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const CHEVRON_DOWN_URL =
   IPFS_BASE_URL + "bafkreiabkwyfxq6pcc2db7u4ldweld5xcjesylfuhocnfz7y3n6jw7dptm";
 const CHEVRON_UP_URL =
   IPFS_BASE_URL + "bafkreibdm7w6zox4znipjqlmxr66wsjjpqq4dguswo7evvrmzlnss3c3vi";
+
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -32,11 +35,13 @@ const ItemContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `;
+
 const ItemLeft = styled.div`
   height: 100%;
   padding: 24px 16px;
   // background: green;
 `;
+
 const ItemRight = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,17 +50,20 @@ const ItemRight = styled.div`
   // background: yellow;
   border-left: 1px solid #dbdbdb;
 `;
+
 const ImageContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 32px;
 `;
+
 const DetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   overflow: hidden;
 `;
+
 const Title = styled.a`
   color: #2e2e2e;
   font-size: 16px;
@@ -63,6 +71,7 @@ const Title = styled.a`
   font-weight: 600;
   word-wrap: break-word;
 `;
+
 const Description = styled.div`
   color: #2e2e2e;
   font-size: 16px;
@@ -72,20 +81,24 @@ const Description = styled.div`
   overflow-wrap: break-word;
   margin: 16px 0px 24px 0px;
 `;
+
 const FtIcon = styled.img`
   width: 20px;
   height: 20px;
 `;
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
+
 const Icon = styled.svg`
   width: 20px;
   height: 20px;
 `;
+
 const NearIcon = (props) => (
   <Icon
     {...props}
@@ -101,19 +114,17 @@ const NearIcon = (props) => (
     />
   </Icon>
 );
+
 const [itemAmount, setItemAmount] = useState(cartItem?.amount);
 const [itemToken, setItemToken] = useState(cartItem?.token);
+
 State.init({
   ftBalances: null,
   denominationOptions: [
-    {
-      text: "NEAR",
-      value: "NEAR",
-      selected: itemToken.text === "NEAR",
-      decimals: 24,
-    },
+    { text: "NEAR", value: "NEAR", selected: itemToken.text === "NEAR", decimals: 24 },
   ],
 });
+
 // * REMOVING FTs FROM CHECKOUT FOR NOW *
 // const ftBalancesRes = useCache(
 //   () =>
@@ -131,7 +142,9 @@ State.init({
 //   `ft-balances-${context.accountId}`
 // );
 // console.log("ftBalancesRes: ", ftBalancesRes);
+
 // console.log("state in CheckoutItem: ", state);
+
 // * REMOVING FTs FROM CHECKOUT FOR NOW *
 // useEffect(() => {
 //   if (context.accountId && !isPotDonation && ftBalancesRes && !state.ftBalances) {
@@ -153,6 +166,7 @@ State.init({
 //     });
 //   }
 // }, [context.accountId, state.ftBalances, ftBalancesRes, isPotDonation]);
+
 return (
   <ItemContainer>
     <ItemLeft>
@@ -185,9 +199,7 @@ return (
       </ImageContainer>
       <DetailsContainer>
         <Row>
-          <Title
-            href={props.hrefWithParams(`?tab=project&projectId=${projectId}`)}
-          >
+          <Title href={props.hrefWithParams(`?tab=project&projectId=${projectId}`)}>
             {profile.name ?? ""}
           </Title>
           <Widget
@@ -195,9 +207,7 @@ return (
             props={{
               ...props,
               backgroundColor: isPotDonation ? "#FEF6EE" : "#F6F5F3",
-              borderColor: isPotDonation
-                ? "rgba(219, 82, 27, 0.36)"
-                : "#DBDBDB",
+              borderColor: isPotDonation ? "rgba(219, 82, 27, 0.36)" : "#DBDBDB",
               textColor: isPotDonation ? "#EA6A25" : "#292929",
               text: isPotDonation
                 ? cartItem.potDetail
@@ -238,9 +248,7 @@ return (
                   options: state.denominationOptions,
                   value: { text: itemToken.text, value: itemToken.value },
                   onChange: ({ text, value }) => {
-                    const token = state.denominationOptions.find(
-                      (option) => option.text === text
-                    );
+                    const token = state.denominationOptions.find((option) => option.text === text);
                     setItemToken(token);
                     setItemAmount(undefined);
                     updateCartItem({
@@ -262,11 +270,7 @@ return (
                     boxShadow: "0px -2px 0px rgba(93, 93, 93, 0.24) inset",
                   },
                   iconLeft:
-                    itemToken.text == "NEAR" ? (
-                      <NearIcon />
-                    ) : (
-                      <FtIcon src={itemToken.icon} />
-                    ),
+                    itemToken.text == "NEAR" ? <NearIcon /> : <FtIcon src={itemToken.icon} />,
                 }}
               />
             ),
