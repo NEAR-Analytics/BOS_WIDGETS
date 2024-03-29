@@ -371,7 +371,7 @@ function Navbar(props) {
                 style={{ textDecoration: "none" }}
                 to={href({
                   widgetSrc:
-                    "abdullahi3000.near/widget/harmonic.artists.network",
+                    "https://near.social/abdullahi3000.near/widget/app?page=harmonic.artists.network",
                   params: {
                     page: k,
                   },
