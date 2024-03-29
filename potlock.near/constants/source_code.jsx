@@ -1,12 +1,6 @@
 return {
   ownerId: "potlock.near",
-  PROJECT_STATUSES: [
-    "Pending",
-    "Approved",
-    "Rejected",
-    "Graylisted",
-    "Blacklisted",
-  ],
+  PROJECT_STATUSES: ["Pending", "Approved", "Rejected", "Graylisted", "Blacklisted"],
   DONATION_CONTRACT_ID: "donate.potlock.near",
   NADABOT_HUMAN_METHOD: "is_human",
   IPFS_BASE_URL: "https://ipfs.near.social/ipfs/",
@@ -34,6 +28,7 @@ return {
   },
   ToDo: styled.div`
     position: relative;
+
     &::before {
       content: "TODO: ";
       position: absolute;
