@@ -1,5 +1,7 @@
 const { sponsors, sortedDonations, currentTab } = props;
+
 const donations = currentTab === "sponsors" ? sponsors : sortedDonations;
+
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
@@ -7,6 +9,7 @@ const { nearToUsdWithFallback } = VM.require("potlock.near/widget/utils") || {
   nearToUsdWithFallback: () => "",
 };
 const { _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`);
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,8 +60,10 @@ const Container = styled.div`
     border-radius: 4px;
   }
 `;
+
 const Card = ({ donor }) => {
   const { id, rank, className, amount } = donor;
+
   const profile = Social.getr(`${id}/profile`);
   return (
     <div key={donation} className={className || ""}>
@@ -98,15 +103,14 @@ const Card = ({ donor }) => {
             <div className="description">
               {profile.description ? _address(profile.description, 20) : "-"}
             </div>
-            <div className="amount">
-              {nearToUsdWithFallback(amount)} Donated
-            </div>
+            <div className="amount">{nearToUsdWithFallback(amount)} Donated</div>
           </>
         )}
       </Container>
     </div>
   );
 };
+
 const leaderboard = [
   {
     rank: "#2",
@@ -130,6 +134,7 @@ const leaderboard = [
     amount: donations[2].amount,
   },
 ];
+
 return (
   <div className="cards">
     {leaderboard.map((donor) => (donor.id ? <Card donor={donor} /> : ""))}
