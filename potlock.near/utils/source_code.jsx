@@ -1,15 +1,16 @@
 const IPFS_BASE_URL = "https://ipfs.near.social/ipfs/";
 const nearToUsd = useCache(
   () =>
-    asyncFetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd"
-    ).then((res) => {
-      if (res.ok) {
-        return res.body.near.usd;
+    asyncFetch("https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd").then(
+      (res) => {
+        if (res.ok) {
+          return res.body.near.usd;
+        }
       }
-    }),
+    ),
   "nearToUsd"
 );
+
 const formatWithCommas = (amount) => {
   // Convert to a number and use toLocaleString to add commas
   return Number(amount).toLocaleString(undefined, {
@@ -17,6 +18,7 @@ const formatWithCommas = (amount) => {
     maximumFractionDigits: 2,
   });
 };
+
 return {
   formatWithCommas,
   formatDate: (timestamp) => {
@@ -35,23 +37,28 @@ return {
       "Dec",
     ];
     const date = new Date(timestamp);
+
     const year = date.getFullYear();
     const month = months[date.getMonth()];
     const day = date.getDate();
     let hour = date.getHours();
     const minute = date.getMinutes();
     const ampm = hour >= 12 ? "pm" : "am";
+
     // Convert hour to 12-hour format
     hour = hour % 12;
     hour = hour ? hour : 12; // the hour '0' should be '12'
+
     // Minutes should be two digits
     const minuteFormatted = minute < 10 ? "0" + minute : minute;
+
     return `${month} ${day}, ${year} ${hour}:${minuteFormatted}${ampm}`;
   },
   daysAgo: (timestamp) => {
     const now = new Date();
     const pastDate = new Date(timestamp);
     const differenceInTime = now - pastDate;
+
     // Convert time difference from milliseconds to days
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays === 0
@@ -62,8 +69,10 @@ return {
     const now = new Date();
     const futureDate = new Date(timestamp);
     const differenceInTime = futureDate - now;
+
     // Convert time difference from milliseconds to days
     const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+
     return `${differenceInDays} ${differenceInDays === 1 ? "day" : "days"}`;
   },
   getTagsFromSocialProfileData: (profileData) => {
@@ -82,11 +91,7 @@ return {
     const tags = profileData.plCategories
       ? JSON.parse(profileData.plCategories)
       : profileData.category
-      ? [
-          profileData.category.text ??
-            DEPRECATED_CATEGORY_MAPPINGS[profileData.category] ??
-            "",
-        ]
+      ? [profileData.category.text ?? DEPRECATED_CATEGORY_MAPPINGS[profileData.category] ?? ""]
       : [];
     return tags;
   },
@@ -127,8 +132,7 @@ return {
     return `${IPFS_BASE_URL}${cid}`;
   },
   validateNearAddress: (address) => {
-    const NEAR_ACCOUNT_ID_REGEX =
-      /^(?=.{2,64}$)(?!.*\.\.)(?!.*-$)(?!.*_$)[a-z\d._-]+$/i;
+    const NEAR_ACCOUNT_ID_REGEX = /^(?=.{2,64}$)(?!.*\.\.)(?!.*-$)(?!.*_$)[a-z\d._-]+$/i;
     let isValid = NEAR_ACCOUNT_ID_REGEX.test(address);
     // Additional ".near" check for IDs less than 64 characters
     if (address.length < 64 && !address.endsWith(".near")) {
@@ -155,14 +159,12 @@ return {
   nearToUsd,
   yoctosToNear: (amountYoctos, abbreviate) => {
     return (
-      formatWithCommas(new Big(amountYoctos).div(1e24).toFixed(2)) +
-      (abbreviate ? "N" : " NEAR")
+      formatWithCommas(new Big(amountYoctos).div(1e24).toFixed(2)) + (abbreviate ? "N" : " NEAR")
     );
   },
   yoctosToUsd: (amount) => {
     return nearToUsd
-      ? "~$" +
-          formatWithCommas(new Big(amount).mul(nearToUsd).div(1e24).toFixed(2))
+      ? "~$" + formatWithCommas(new Big(amount).mul(nearToUsd).div(1e24).toFixed(2))
       : null;
   },
   nearToUsdWithFallback: (amountNear, abbreviate) => {
@@ -172,12 +174,8 @@ return {
   },
   yoctosToUsdWithFallback: (amountYoctos, abbreviate) => {
     return nearToUsd
-      ? "~$" +
-          formatWithCommas(
-            new Big(amountYoctos).mul(nearToUsd).div(1e24).toFixed(2)
-          )
-      : formatWithCommas(new Big(amountYoctos).div(1e24).toFixed(2)) +
-          (abbreviate ? "N" : " NEAR");
+      ? "~$" + formatWithCommas(new Big(amountYoctos).mul(nearToUsd).div(1e24).toFixed(2))
+      : formatWithCommas(new Big(amountYoctos).div(1e24).toFixed(2)) + (abbreviate ? "N" : " NEAR");
   },
   calculatePayouts: (allPotDonations, totalMatchingPool) => {
     // * QF/CLR logic taken from https://github.com/gitcoinco/quadratic-funding/blob/master/quadratic-funding/clr.py *
@@ -198,9 +196,7 @@ return {
       if (!contributions[proj]) {
         contributions[proj] = {};
       }
-      contributions[proj][user] = Big(contributions[proj][user] || 0).plus(
-        amount
-      );
+      contributions[proj][user] = Big(contributions[proj][user] || 0).plus(amount);
     }
     console.log("contributions: ", contributions);
     // calculate the total overlapping contribution amounts between pairs of users for each project.
@@ -259,51 +255,49 @@ return {
     if (bigtot.gte(totalPot)) {
       console.log("NORMALIZING");
       for (const t of totals) {
-        t.matching_amount_str = Big(t.matching_amount_str)
-          .div(bigtot)
-          .times(totalPot)
-          .toFixed(0);
+        t.matching_amount_str = Big(t.matching_amount_str).div(bigtot).times(totalPot).toFixed(0);
       }
     }
+
     let totalAllocatedBeforeRounding = Big(0); // Initialize the accumulator as a Big object
+
     for (const t of totals) {
       const currentMatchingAmount = Big(t.matching_amount_str);
-      totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(
-        currentMatchingAmount
-      );
+      totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(currentMatchingAmount);
     }
+
     let residual = totalPot.minus(totalAllocatedBeforeRounding);
     console.log("first round residual: ", residual.toFixed(0));
+
     // Check if there is a residual due to rounding
     if (residual.abs().gt(Big("0"))) {
       // if (residual.toString() !== "0") {
       // Fairly distribute residual (proportionally to initial allocation)
       // NB: there may still be a residual after this step
       for (let i = 0; i < totals.length; i++) {
-        let proportion = Big(totals[i].matching_amount_str).div(
-          totalAllocatedBeforeRounding
-        );
+        let proportion = Big(totals[i].matching_amount_str).div(totalAllocatedBeforeRounding);
         let additionalAllocation = proportion.times(residual);
         // Update the matching amount with the additional allocation
         totals[i].matching_amount_str = Big(totals[i].matching_amount_str)
           .plus(additionalAllocation)
           .toFixed(0);
       }
+
       console.log("CALCULATING TOTALS AFTER RESIDUAL DISTRIBUTION");
       totalAllocatedBeforeRounding = Big(0); // Initialize the accumulator as a Big object
       for (const t of totals) {
         const currentMatchingAmount = Big(t.matching_amount_str);
-        totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(
-          currentMatchingAmount
-        );
+        totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(currentMatchingAmount);
       }
       residual = totalPot.minus(totalAllocatedBeforeRounding);
       console.log("second round residual: ", residual.toFixed(0));
+
       // OLD RESIDUAL ADJUSTMENT LOGIC
       // if (residual.abs().gt(Big("0"))) {
       //   console.log("MAKING FINAL ADJUSTMENT");
       //   // Step 1: Sort 'totals' in descending order based on 'matching_amount_str'
       //   totals.sort((a, b) => Big(b.matching_amount_str).minus(Big(a.matching_amount_str)));
+
       //   // Step 2: Allocate the residual
       //   let residualToAllocate = Big(residual);
       //   for (let i = 0; i < totals.length && residualToAllocate.gt(Big(0)); i++) {
@@ -317,6 +311,7 @@ return {
       //     residualToAllocate = residualToAllocate.minus(allocationIncrement);
       //   }
       //   // Ensure the loop above runs until 'residualToAllocate' is 0 or sufficiently small to be considered fully allocated
+
       //   // Recalculate 'totalAllocatedBeforeRounding' to verify the final allocation matches the total matching pool
       //   totalAllocatedBeforeRounding = Big(0);
       //   for (const t of totals) {
@@ -326,13 +321,12 @@ return {
       //   residual = totalPot.minus(totalAllocatedBeforeRounding);
       //   console.log("FINAL residual: ", residual.toFixed(0));
       // }
+
       if (residual.abs().gt(Big(0))) {
         // if (residual.toString() !== "0") {
         // Directly adjust the matching amount of one project to correct the residual
         // Find a project to adjust. Prefer adjusting projects with larger allocations to minimize impact
-        totals.sort((a, b) =>
-          Big(b.matching_amount_str).minus(Big(a.matching_amount_str))
-        );
+        totals.sort((a, b) => Big(b.matching_amount_str).minus(Big(a.matching_amount_str)));
         if (residual.gt(Big(0))) {
           // If residual is positive, increment the largest allocation
           totals[0].matching_amount_str = Big(totals[0].matching_amount_str)
@@ -350,18 +344,18 @@ return {
             }
           }
         }
+
         // Verify that the adjustment has corrected the residual
         totalAllocatedBeforeRounding = Big(0);
         for (const t of totals) {
           const currentMatchingAmount = Big(t.matching_amount_str);
-          totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(
-            currentMatchingAmount
-          );
+          totalAllocatedBeforeRounding = totalAllocatedBeforeRounding.plus(currentMatchingAmount);
         }
         residual = totalPot.minus(totalAllocatedBeforeRounding);
         console.log("Residual after final adjustment: ", residual.toFixed(0));
       }
     }
+
     const payouts = totals.reduce((acc, t) => {
       acc[t.id] = {
         totalAmount: t.contribution_amount_str,
