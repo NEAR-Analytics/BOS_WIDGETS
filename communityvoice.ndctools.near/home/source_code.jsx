@@ -1,55 +1,33 @@
-// home
+// Community voice
+const { getConfig } = VM.require("communityvoice.ndctools.near/widget/config.CommunityVoice");
+const { getCategories } = VM.require("communityvoice.ndctools.near/widget/lib.categories");
 
 let {
-  sharedBlockHeight,
-  tagShared,
   isTest,
   accountId,
-  sharedArticleId,
-  sharedCommentId,
-  sharedSearchInputValue,
-  topicShared,
+  sb: sharedBlockheight,
+  st: sharedTag,
+  said: sharedArticleId,
+  scid: sharedCommentId,
+  ss: sharedSearch,
 } = props;
 
-const initLibsCalls = {
-  SBT: [
-    {
-      functionName: "getSBTWhiteList",
-      key: "sbtWhiteList",
-      props: {},
-    },
-  ],
-};
+State.init({categories:getCategories(),category:getCategories().value})
 
-State.init({
-  functionsToCallByLibrary: initLibsCalls,
-  usersSBTs: [],
-});
-
-const usersSBTs = state.usersSBTs;
-
-let newLibsCalls = state.functionsToCallByLibrary;
-
-State.update({ libsCalls: newLibsCalls });
-
-const sbtWhiteList = state.sbtWhiteList
-  ? state.sbtWhiteList.map((sbt) => sbt.value)
-  : undefined;
-
-function createSbtOptions() {
-  return state.sbtWhiteList;
+const handleChangeCategory = (category) => {
+  State.update({category})
 }
 
-// const componentsOwner =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const componentsOwner = "sayalot.near";
+const sharedData = {
+  sharedBlockheight: sharedBlockheight ? Number(sharedBlockheight) : undefined,
+  sharedTag,
+  sharedArticleId,
+  sharedCommentId,
+  sharedSearch,
+} 
 
+const componentsOwner = "communityvoice.ndctools.near";
 const authorForWidget = "communityvoice.ndctools.near";
-// const authorForWidget =
-// "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-// const authorForWidget = "kenrou-it.near";
-// const authorForWidget = "silkking.near";
-
 const configWidget = "home";
 
 const widgets = {
@@ -74,6 +52,8 @@ const widgets = {
       kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
       compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
       articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
+      articleHistoryFirstContainer: `${componentsOwner}/widget/NDC.ArticleHistory.Container`,
+      articleHistorySecondContainer: `${componentsOwner}/widget/NDC.ArticleHistory.SecondContainer`,
     },
     standardWidgets: {
       fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
@@ -102,16 +82,14 @@ const widgets = {
   },
 
   libs: {
-    libSBT: `sayalot.near/widget/lib.SBT`,
-    libComment: `sayalot.near/widget/lib.comment`,
-    libArticle: `sayalot.near/widget/lib.article`,
-    libEmojis: `sayalot.near/widget/lib.emojis`,
-    libUpVotes: `sayalot.near/widget/lib.upVotes`,
-    libNotifications: `sayalot.near/widget/lib.notifications`,
+    libSBT: `communityvoice.ndctools.near/widget/lib.SBT`,
+    libComment: `communityvoice.ndctools.near/widget/lib.comment`,
+    libArticle: `communityvoice.ndctools.near/widget/lib.article`,
+    libReactions: `communityvoice.ndctools.near/widget/lib.reactions`,
+    libUpVotes: `communityvoice.ndctools.near/widget/lib.upVotes`,
+    libNotifications: `communityvoice.ndctools.near/widget/lib.notifications`,
   },
 };
-
-const libSrcArray = [widgets.libs.libSBT];
 
 const brand = {
   brandName: "Community Voice",
@@ -122,10 +100,10 @@ const brand = {
 };
 
 const baseActions = {
-  commentBaseAction: "communityVoiceComment",
-  articlesBaseAction: "communityVoiceArticle",
-  upVoteBaseAction: "communityVoiceUpVote",
-  reactionBaseAction: "communityVoiceReaction",
+  commentBaseAction: "sayALotComment",
+  articlesBaseAction: "sayALotArticle",
+  upVoteBaseAction: "sayALotUpVote",
+  reactionBaseAction: "sayALotReaction",
 };
 
 const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
@@ -133,82 +111,25 @@ const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
 const kanbanRequiredTags = [];
 const kanbanExcludedTags = [];
 
-const CallLibrary = styled.div`
-    display: none;
-`;
-
-function mainStateUpdate(obj) {
-  State.update(obj);
-}
-
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  return (
+return (
+  <> 
     <Widget
-      src={src}
+      src={widgets.views.editableWidgets.ndcForum}
       props={{
-        mainStateUpdate,
         isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
+        accountId,
+        authorForWidget,
         widgets,
-        callerWidget,
-        ...extraProps,
-        usersSBTs,
+        brand,
+        baseActions,
+        kanbanColumns,
+        kanbanRequiredLabels,
+        kanbanExcludedLabels,
+        handleChangeCategory,
+        categories:state.categories,
+        category:state.category,
+        sharedData,
       }}
     />
-  );
-}
-
-return (
-  <>
-    {sbtWhiteList ? (
-      <Widget
-        src={widgets.ndcForum}
-        src={widgets.views.editableWidgets.ndcForum}
-        props={{
-          sharedBlockHeight,
-          tagShared,
-          isTest,
-          accountId,
-          sbtWhiteList,
-          authorForWidget,
-          widgets,
-          brand,
-          baseActions,
-          createSbtOptions,
-          kanbanColumns,
-          kanbanRequiredLabels,
-          kanbanExcludedLabels,
-          sharedArticleId,
-          sharedCommentId,
-          sharedSearchInputValue,
-          topicShared,
-          callLibs,
-          mainStateUpdate,
-        }}
-      />
-    ) : (
-      <Widget
-        src={widgets.views.standardWidgets.newStyledComponents.Feedback.Spinner}
-      />
-    )}
-    <CallLibrary>
-      {libSrcArray.map((src) => {
-        return callLibs(
-          src,
-          mainStateUpdate,
-          state.functionsToCallByLibrary,
-          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
-          "home"
-        );
-      })}
-    </CallLibrary>
   </>
 );
