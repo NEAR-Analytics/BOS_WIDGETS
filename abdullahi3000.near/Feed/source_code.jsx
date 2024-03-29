@@ -75,7 +75,7 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      context.accountId == "jass.near" && (
+      context.accountId == "abdullahi3000.near" && (
         <Widget
           loading={
             <div
@@ -107,17 +107,19 @@ return (
         },
         required: true,
       }))}
-      Item={(p) => (
-        <Post
-          accountId={p.accountId}
-          blockHeight={p.blockHeight}
-          noBorder={true}
-          currentPath={`/abdullahi3000.near/widget/app?page=feed`}
-          customActions={customActions}
-          modalToggles={modalToggles}
-          setItem={setItem}
-        />
-      )}
+      Item={(p) =>
+        context.accountId == "abdullahi3000.near" && (
+          <Post
+            accountId={p.accountId}
+            blockHeight={p.blockHeight}
+            noBorder={true}
+            currentPath={`/abdullahi3000.near/widget/app?page=feed`}
+            customActions={customActions}
+            modalToggles={modalToggles}
+            setItem={setItem}
+          />
+        )
+      }
     />
   </div>
 );
