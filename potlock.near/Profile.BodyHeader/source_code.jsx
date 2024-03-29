@@ -4,6 +4,7 @@ const {
   accountId,
   projectId,
 } = props;
+
 const Header = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,6 +16,7 @@ const Header = styled.div`
     padding: 0 1rem;
   }
 `;
+
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -24,12 +26,14 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
+
 const Info = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
   flex: 1;
 `;
+
 const NameContainer = styled.div`
   display: flex;
   width: 100%;
@@ -38,17 +42,20 @@ const NameContainer = styled.div`
   align-items: end;
   gap: 1rem;
 `;
+
 const Name = styled.div`
   font-size: 40px;
   font-weight: 500;
   color: #2e2e2e;
   line-height: 1;
   font-family: "Lora";
+
   @media screen and (max-width: 768px) {
     font-size: 32px;
     line-height: 40px;
   }
 `;
+
 const AccountInfoContainer = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -56,6 +63,7 @@ const AccountInfoContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
+
 const AccountId = styled.div`
   font-size: 16px;
   font-weight: 400;
@@ -63,22 +71,27 @@ const AccountId = styled.div`
     font-size: 14px;
   }
 `;
+
 const ShareIconContainer = styled.img`
   width: 24px;
   height: 24px;
+
   @media screen and (max-width: 768px) {
     width: 16px;
     height: 16px;
   }
 `;
+
 const ShareIcon = (
   <ShareIconContainer
     src="https://ipfs.near.social/ipfs/bafkreia3xywhwwxloqjo7622r623u32vmhdxa2at6ecvd2ityga6c2rcgm"
     alt="share-icon"
   />
 );
+
 const policy = Near.view(props.projectId, "get_policy", {});
 const isDao = !!policy;
+
 const userHasPermissions = useMemo(() => {
   if (!policy) return false;
   // TODO: break this out (NB: duplicated in Project.CreateForm)
@@ -99,17 +112,17 @@ const userHasPermissions = useMemo(() => {
   });
   return allowed;
 }, [policy]);
+
 const isOwner = projectId === context.accountId;
 const isPermissionedMember = isDao && userHasPermissions;
 const canEdit = isOwner || isPermissionedMember;
+
 return (
   <Header>
     <Container>
       <Info>
         <NameContainer>
-          <Name>
-            {name.length > 25 ? name.slice(0, 25).trim() + "..." : name}
-          </Name>
+          <Name>{name.length > 25 ? name.slice(0, 25).trim() + "..." : name}</Name>
           <AccountInfoContainer>
             <AccountId>
               @{" "}
@@ -133,9 +146,7 @@ return (
                 text: "Edit profile",
                 style: { marginLeft: "auto" },
                 disabled: false,
-                href: props.hrefWithParams(
-                  `?tab=editproject&projectId=${projectId}`
-                ),
+                href: props.hrefWithParams(`?tab=editproject&projectId=${projectId}`),
               }}
             />
           )}
