@@ -1,8 +1,10 @@
 const { navOptions } = props;
+
 const getSelectedNavOption = () => {
   const navOption = navOptions.find((option) => option.id == props.nav);
   return navOption ?? navOptions[0];
 };
+
 const NavOptionsContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
@@ -12,23 +14,26 @@ const NavOptionsContainer = styled.div`
   -webkit-overflow-scrolling: touch; // For momentum scroll on iOS devices
   border-bottom: 1px #dbdbdb solid;
   margin-bottom: 16px;
+
   @media screen and (max-width: 768px) {
     display: flex;
     max-width: 85vw;
     flex-shrink: 0; // Prevent the container from shrinking
   }
 `;
+
 const NavOption = styled.a`
   position: relative;
   font-size: 14px;
   padding: 8px 16px;
   font-weight: ${(props) => (props.selected ? 600 : 400)};
-  color: ${(props) =>
-    props.selected ? "#DD3345" : props.disabled ? "lightgray" : "#7B7B7B"};
+  color: ${(props) => (props.selected ? "#DD3345" : props.disabled ? "lightgray" : "#7B7B7B")};
+
   &:focus,
   &:active {
     text-decoration: none; /* This removes the underline */
   }
+
   &::after {
     content: "";
     display: ${(props) => (props.selected ? "block" : "none")};
@@ -41,6 +46,7 @@ const NavOption = styled.a`
     background-color: #dd3345;
   }
 `;
+
 return (
   <NavOptionsContainer>
     {navOptions.map((option) => {
@@ -55,9 +61,7 @@ return (
         <NavOption
           selected={selected}
           disabled={option.disabled}
-          href={props.hrefWithParams(
-            `?tab=project&projectId=${props.projectId}&nav=${option.id}`
-          )}
+          href={props.hrefWithParams(`?tab=project&projectId=${props.projectId}&nav=${option.id}`)}
         >
           {option.label}
         </NavOption>
