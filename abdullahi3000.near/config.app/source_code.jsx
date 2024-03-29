@@ -43,6 +43,13 @@ return {
         name: "Song Uploader",
       },
     },
+    // artistNetwork: {
+    //   path: "abdullahi3000.near/widget/harmonic.artists.network",
+    //   blockHeight: "final",
+    //   init: {
+    //     name: "Our Artists",
+    //   },
+    // },
     joinUs: {
       path: "abdullahi3000.near/widget/harmonic.join.us",
       blockHeight: "final",
@@ -55,14 +62,6 @@ return {
       blockHeight: "final",
       init: {
         name: "Profile",
-      },
-      hide: true,
-    },
-    artistNetwork: {
-      path: "abdullahi3000.near/widget/harmonic.artists.network",
-      blockHeight: "final",
-      init: {
-        name: "Our Artists",
       },
       hide: true,
     },
