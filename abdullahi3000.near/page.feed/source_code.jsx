@@ -5,7 +5,7 @@ const { routes } = VM.require("abdullahi3000.near/widget/config.feed") ?? {
 };
 
 const { SidebarLayout } = VM.require(
-  "buildhub.near/widget/template.SidebarLayout"
+  "abdullahi3000.near/widget/template.SidebarLayout"
 ) || {
   SidebarLayout: () => <></>,
 };
