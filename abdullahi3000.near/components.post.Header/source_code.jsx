@@ -87,11 +87,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const accountId = "jass.near";
+const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
-const name = "jass.near" || Social.get(`${accountId}/profile/name`);
+const name = props.name || Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
 const link = props.link;
@@ -112,7 +112,7 @@ const Overlay = (props) => (
     className="link-dark text-truncate d-inline-flex mw-100"
     key={accountId}
     to={href({
-      widgetSrc: "buildhub.near/widget/app",
+      widgetSrc: "abdullahi3000.near/widget/app",
       params: {
         page: "profile",
         accountId,
