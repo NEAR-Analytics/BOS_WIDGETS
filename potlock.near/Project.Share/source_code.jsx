@@ -13,6 +13,7 @@ const copySvg = (
     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
   </svg>
 );
+
 const Icon = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,9 +22,11 @@ const Icon = styled.div`
   cursor: pointer;
   margin-left: 0.5em;
 `;
+
 State.init({
   copied: false,
 });
+
 return (
   <Icon
     // className={props.className ?? "btn btn-outline-primary border-0"}
@@ -41,8 +44,7 @@ return (
   >
     {state.copied ? (
       <>
-        {props.copiedIcon ?? <i className="bi bi-check-lg" />}{" "}
-        {props.copiedLabel ?? props.label}
+        {props.copiedIcon ?? <i className="bi bi-check-lg" />} {props.copiedLabel ?? props.label}
       </>
     ) : (
       <>
