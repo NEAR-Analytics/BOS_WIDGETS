@@ -75,7 +75,7 @@ return (
         </a>
       </LoginContainer>
     ) : (
-      "widget"
+      accountId
     )}
     <Feed
       index={(requiredHashtags || []).map((it) => ({
