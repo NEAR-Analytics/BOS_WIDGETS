@@ -262,7 +262,9 @@ const getFtBalance = (tokenId, balance, decimals) => {
     return "Undefined";
   }
   return Number(
-    Big(balance).div(Big(10).pow(allTokens[tokenId].decimals)).toFixed(decimals)
+    Big(balance)
+      .div(Big(10).pow(allTokens[tokenId].decimals))
+      .toFixed(decimals, 0) // 0 to ROUND_DOWN
   );
 };
 
@@ -280,7 +282,7 @@ const getNearBalance = (balance, decimals) => {
   if (balance === undefined) {
     return "Undefined";
   }
-  let res = Big(balance).div(Big(10).pow(24)).toFixed(decimals);
+  let res = Big(balance).div(Big(10).pow(24)).toFixed(decimals, 0); // 0 to ROUND_DOWN
   return Number(res);
 };
 
