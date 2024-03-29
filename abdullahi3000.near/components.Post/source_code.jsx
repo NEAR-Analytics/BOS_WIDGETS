@@ -218,7 +218,7 @@ const RepostWidgetMobile = styled.div`
     gap: 4px;
   }
 `;
-const accountId = props.accountId;
+const accountId = "jass.near";
 if (!accountId) {
   return "No accountId";
 }
