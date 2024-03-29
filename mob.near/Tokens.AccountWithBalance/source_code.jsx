@@ -31,13 +31,16 @@ const symbol = metadata?.symbol || tokenId;
 
 const Wrapper = styled.div`
 display: flex;
+padding: 0.5em 0;
 flex-wrap: nowrap;
 justify-content: space-between;
 .account-badge {
   min-width: 0;
   vertical-align: middle;
   margin-right: 1rem;
-
+}
+&:hover {
+  background: rgba(0, 0, 0, 0.02)
 }
 `;
 
