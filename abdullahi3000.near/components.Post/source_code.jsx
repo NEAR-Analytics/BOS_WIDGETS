@@ -322,17 +322,17 @@ return (
                 isEdited: isEdited,
               }}
             />
-            {fullPostLink ? (
+            {fullPostLink && accountId == "abdullahi3000.near" ? (
               <a
                 key="full-post-link"
                 target="_blank"
                 href={fullPostLink}
                 className="text-decoration-none link-dark"
               >
-                {accountId == "abdullahi3000.near" && { contentWidget }}
+                {contentWidget}
               </a>
             ) : (
-              "contentWidget"
+              contentWidget
             )}
             {props.customButtons ? (
               props.customButtons
