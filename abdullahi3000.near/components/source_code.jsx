@@ -16,7 +16,7 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modal");
 const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
 const { Tag } = VM.require("buildhub.near/widget/components.Tag");
 
-const accountId = props.accountId;
+const accountId = "abdullahi3000.near";
 function Pagination({
   totalPages,
   maxVisiblePages,
