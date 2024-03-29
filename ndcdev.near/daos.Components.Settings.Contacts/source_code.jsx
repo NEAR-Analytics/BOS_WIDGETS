@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 if (!contractName || !content)
   return <Widget src="flashui.near/widget/Loading" />;
@@ -59,7 +59,7 @@ useEffect(() => {
     setDaoContacts(
       selectedDao.metadata.contacts
         ? JSON.parse(selectedDao.metadata.contacts)
-        : {}
+        : {},
     );
   }
 }, [selectedDao]);
@@ -107,7 +107,7 @@ const handleSave = () => {
 return (
   <Form className="d-flex flex-column gap-3">
     <div className="form-element">
-      <label className="form-label">Web Site</label>
+      <label className="form-label">Website</label>
       <input
         className="form-control"
         type="text"
@@ -133,7 +133,7 @@ return (
     </div>
 
     <div className="form-element">
-      <label className="form-label">Dao Telegram</label>
+      <label className="form-label">DAO Telegram</label>
       <input
         className="form-control"
         type="text"
@@ -146,7 +146,7 @@ return (
     </div>
 
     <div className="form-element">
-      <label className="form-label">Dao X (Twitter)</label>
+      <label className="form-label">DAO X (Twitter)</label>
       <input
         className="form-control"
         type="text"
@@ -169,15 +169,17 @@ return (
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex gap-3 align-items-center">
                 {poc.name}
-                {poc.tg &&<small>
-                  <a
-                    className="d-flex gap-1 align-items-center bg-light p-2 rounded"
-                    href={`https://t.me/${poc.tg.replace("@", "")}`}
-                  >
-                    <i className="ph ph-telegram-logo" />
-                    {poc.tg.replace("@", "")}
-                  </a>
-                </small>}
+                {poc.tg && (
+                  <small>
+                    <a
+                      className="d-flex gap-1 align-items-center bg-light p-2 rounded"
+                      href={`https://t.me/${poc.tg.replace("@", "")}`}
+                    >
+                      <i className="ph ph-telegram-logo" />
+                      {poc.tg.replace("@", "")}
+                    </a>
+                  </small>
+                )}
               </div>
               <i
                 role="button"
