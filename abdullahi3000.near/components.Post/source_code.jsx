@@ -322,7 +322,7 @@ return (
                 isEdited: isEdited,
               }}
             />
-            {fullPostLink && accountId == "abdullahi3000.near" ? (
+            {fullPostLink ? (
               <a
                 key="full-post-link"
                 target="_blank"
