@@ -4,6 +4,7 @@ const { ownerId } = VM.require("potlock.near/widget/constants") || {
 const { calcNetDonationAmount, filterByDate } = VM.require(
   `${ownerId}/widget/Components.DonorsUtils`
 );
+
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -11,18 +12,22 @@ let PotFactorySDK =
   }));
 PotFactorySDK = PotFactorySDK({ env: props.env });
 const pots = PotFactorySDK.getPots();
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetMatchingPoolDonations: () => {},
 };
+
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     asyncGetDonations: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+
   .leaderboard {
     width: 100%;
     h1 {
@@ -59,6 +64,7 @@ const Container = styled.div`
     }
   }
 `;
+
 const Tabs = styled.div`
   display: flex;
   justify-content: space-between;
@@ -88,10 +94,12 @@ const Tabs = styled.div`
     width: fit-content;
   }
 `;
+
 const LoadingWrapper = styled.div`
   font-size: 1.5rem;
   margin-top: 1rem;
 `;
+
 const Filter = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +121,9 @@ const Filter = styled.div`
     font-size: 10px;
   }
 `;
+
 const Loading = () => <LoadingWrapper>Loading...</LoadingWrapper>;
+
 const [index, setIndex] = useState(0);
 const [currentTab, setTab] = useState("leaderboard");
 const [title, setTitle] = useState("");
@@ -122,8 +132,10 @@ const [allDonationsFetched, setAllDonationsFetched] = useState(false);
 const [donationsByPage, setDonationsByPage] = useState({});
 const [sponsorsByPage, setSponsorsByPage] = useState({});
 const [fetchDonationsError, setFetchDonationsError] = useState("");
+
 const limit = 900;
 const cachedDonationsValidityPeriod = 1000 * 60 * 5; // 5 minutes
+
 const getSponsorshipDonations = (potId) => {
   return PotSDK.asyncGetMatchingPoolDonations(potId).then((donations) => {
     if (sponsorsByPage[potId]) return "";
@@ -136,13 +148,12 @@ const getSponsorshipDonations = (potId) => {
     });
   });
 };
+
 // Get Sponsorship Donations
+
 if (pots && !sponsorsByPage[pots[pots.length - 1].id]) {
   const cachedSponsors = Storage.get("sponsorsByPage");
-  if (
-    cachedSponsors &&
-    cachedSponsors.ts > Date.now() - cachedDonationsValidityPeriod
-  ) {
+  if (cachedSponsors && cachedSponsors.ts > Date.now() - cachedDonationsValidityPeriod) {
     console.log("using cached sponsors");
     setSponsorsByPage(cachedSponsors.val);
   } else if (cachedSponsors !== null) {
@@ -151,6 +162,7 @@ if (pots && !sponsorsByPage[pots[pots.length - 1].id]) {
     });
   }
 }
+
 const sponsors = useMemo(() => {
   if (!sponsorsByPage[pots[pots.length - 1].id]) return [];
   let sponsors = Object.values(sponsorsByPage).flat();
@@ -167,14 +179,12 @@ const sponsors = useMemo(() => {
   sponsors = Object.values(sponsors).sort((a, b) => b.amount - a.amount);
   return sponsors;
 }, [sponsorsByPage, filter]);
+
 if (!allDonationsFetched && !donationsByPage[index]) {
   // first, try to get from cache
   const cacheKey = `donationsByPage-${index}-${limit}`;
   const cachedDonations = Storage.get(cacheKey);
-  if (
-    cachedDonations &&
-    cachedDonations.ts > Date.now() - cachedDonationsValidityPeriod
-  ) {
+  if (cachedDonations && cachedDonations.ts > Date.now() - cachedDonationsValidityPeriod) {
     console.log("using cached donations for page ", index);
     setDonationsByPage({ ...donationsByPage, [index]: cachedDonations.val });
     if (cachedDonations.val.length === limit) {
@@ -189,13 +199,7 @@ if (!allDonationsFetched && !donationsByPage[index]) {
     DonateSDK.asyncGetDonations(limit * index, limit)
       .then((donationsPart) => {
         const endTime = Date.now();
-        console.log(
-          "fetched donations for index",
-          index,
-          "in",
-          endTime - startTime,
-          "ms"
-        );
+        console.log("fetched donations for index", index, "in", endTime - startTime, "ms");
         // cache the result
         Storage.set(cacheKey, { val: donationsPart, ts: Date.now() });
         setDonationsByPage({ ...donationsByPage, [index]: donationsPart });
@@ -210,6 +214,7 @@ if (!allDonationsFetched && !donationsByPage[index]) {
       });
   }
 }
+
 const [allDonations, totalsByDonor, sortedDonations] = useMemo(() => {
   if (!allDonationsFetched) return [[], {}, []];
   let donations = Object.values(donationsByPage).flat();
@@ -223,11 +228,10 @@ const [allDonations, totalsByDonor, sortedDonations] = useMemo(() => {
     };
     return accumulator;
   }, {});
-  const sortedDonations = Object.values(totalsByDonor).sort(
-    (a, b) => b.amount - a.amount
-  );
+  const sortedDonations = Object.values(totalsByDonor).sort((a, b) => b.amount - a.amount);
   return [donations, totalsByDonor, sortedDonations];
 }, [donationsByPage, allDonationsFetched, filter]);
+
 const leaderboard = [
   {
     rank: "#2",
@@ -251,6 +255,7 @@ const leaderboard = [
     amount: sortedDonations[2].amount,
   },
 ];
+
 const filterOptions = [
   { text: "All Time", value: "all" },
   { text: "1Y", value: "year" },
@@ -258,12 +263,14 @@ const filterOptions = [
   { text: "1W", value: "week" },
   { text: "24H", value: "day" },
 ];
+
 const MenuItem = ({ count, children, className }) => (
   <div className={`menu-item ${className || ""}`}>
     <div className="label">{children}</div>
     <div className="count">{count}</div>
   </div>
 );
+
 const tabs = [
   {
     label: "Donor Leaderboard",
@@ -281,11 +288,13 @@ const tabs = [
     count: allDonations.length,
   },
 ];
+
 const options = [
   { tab: "feed", src: "Components.DonorsTrx" },
   { tab: "leaderboard", src: "Components.DonorsLeaderboard" },
   { tab: "sponsors", src: "Components.DonorsLeaderboard" },
 ];
+
 const sortList = tabs.map((tab) => ({
   label: (
     <MenuItem key={tab.val} count={tab.count}>
@@ -294,6 +303,7 @@ const sortList = tabs.map((tab) => ({
   ),
   val: tab,
 }));
+
 return (
   <Container>
     {fetchDonationsError ? (
@@ -347,9 +357,7 @@ return (
           </Filter>
         </Tabs>
         <Widget
-          src={`${ownerId}/widget/${
-            options.find((option) => option.tab == currentTab).src
-          }`}
+          src={`${ownerId}/widget/${options.find((option) => option.tab == currentTab).src}`}
           props={{
             ...props,
             allDonations: allDonations,
