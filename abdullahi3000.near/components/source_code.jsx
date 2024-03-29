@@ -16,13 +16,6 @@ const { Modal } = VM.require("buildhub.near/widget/components.Modal");
 const { Hashtag } = VM.require("buildhub.near/widget/components.Hashtag");
 const { Tag } = VM.require("buildhub.near/widget/components.Tag");
 
-const accountId = "abdullahi3000.near";
-if (!accountId) {
-  return "No accountId";
-}
-
-const content = JSON.parse(Social.get(`${accountId}/post/main`, blockHeight));
-
 function Pagination({
   totalPages,
   maxVisiblePages,
@@ -46,20 +39,22 @@ function Pagination({
 
 function Post(props) {
   return (
-    <>
-      {content && (
-        <Widget
-          loading={<div className="w-100" style={{ height: "200px" }} />}
-          src={"abdullahi3000.near/widget/components.Post"}
-          props={{ ...props }}
-        />
-      )}
-    </>
+    <Widget
+      loading={<div className="w-100" style={{ height: "200px" }} />}
+      src={"abdullahi3000.near/widget/components.Post"}
+      props={{ ...props }}
+    />
   );
 }
 
 function User(props) {
-  return "hello user";
+  return (
+    <Widget
+      loading={<div style={{ widget: "3rem", height: "3rem" }} />}
+      src="buildhub.near/widget/components.User"
+      props={{ ...props }}
+    />
+  );
 }
 
 return {
