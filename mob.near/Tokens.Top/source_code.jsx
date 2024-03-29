@@ -11,7 +11,7 @@ return (
         value={inputActionId}
         onChange={(e) => setInputActionId(e.target.value)}
       />
-      <a
+      <Link
         className={`btn ${
           tokenId === inputActionId ? "btn-outline-secondary" : "btn-primary"
         }`}
@@ -20,7 +20,7 @@ return (
         type="button"
       >
         Apply
-      </a>
+      </Link>
     </div>
     <Widget src="mob.near/widget/Tokens.Top.Inner" props={{ tokenId }} />
   </div>
