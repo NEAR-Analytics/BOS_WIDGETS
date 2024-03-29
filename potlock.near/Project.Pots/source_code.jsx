@@ -1,7 +1,9 @@
 const { projectId } = props;
+
 const { ownerId } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
 };
+
 let PotFactorySDK =
   VM.require("potlock.near/widget/SDK.potfactory") ||
   (() => ({
@@ -9,11 +11,14 @@ let PotFactorySDK =
   }));
 PotFactorySDK = PotFactorySDK({ env: props.env });
 const pots = PotFactorySDK.getPots();
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   asyncGetApprovedApplications: () => {},
 };
+
 const [potIds, setPotIds] = useState(null); // ids[] of pots that approved project
 const [loading, setLoading] = useState(true); // ids[] of pots that approved project
+
 const getApprovedApplications = (potId) =>
   PotSDK.asyncGetApprovedApplications(potId)
     .then((applications) => {
@@ -22,14 +27,14 @@ const getApprovedApplications = (potId) =>
       }
       if (pots[pots.length - 1].id === potId) setLoading(false);
     })
-    .catch(() =>
-      console.log(`Error fetching approved applications for ${potId}`)
-    );
+    .catch(() => console.log(`Error fetching approved applications for ${potId}`));
+
 if (pots && loading) {
   pots.forEach((pot) => {
     getApprovedApplications(pot.id);
   });
 }
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -43,6 +48,7 @@ const Container = styled.div`
     grid-template-columns: repeat(1, 1fr);
   }
 `;
+
 const NoResults = styled.div`
   display: flex;
   justify-content: space-between;
@@ -72,6 +78,7 @@ const NoResults = styled.div`
     }
   }
 `;
+
 const PotCard = ({ potId }) => (
   <Widget
     src={`${ownerId}/widget/Pots.Card`}
@@ -82,6 +89,7 @@ const PotCard = ({ potId }) => (
     }}
   />
 );
+
 return loading ? (
   "Loading..."
 ) : potIds.length ? (
@@ -92,9 +100,7 @@ return loading ? (
   </Container>
 ) : (
   <NoResults>
-    <div className="text">
-      This project has not participated in any pots yet.
-    </div>
+    <div className="text">This project has not participated in any pots yet.</div>
     <img
       src="https://ipfs.near.social/ipfs/bafkreibcjfkv5v2e2n3iuaaaxearps2xgjpc6jmuam5tpouvi76tvfr2de"
       alt="pots"
