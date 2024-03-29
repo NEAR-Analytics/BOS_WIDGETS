@@ -1,24 +1,25 @@
 const { accountId, projectId, donations } = props;
-const { ownerId, SUPPORTED_FTS } = VM.require(
-  "potlock.near/widget/constants"
-) || {
+
+const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
-const { nearToUsd, nearToUsdWithFallback } = VM.require(
-  "potlock.near/widget/utils"
-) || {
+
+const { nearToUsd, nearToUsdWithFallback } = VM.require("potlock.near/widget/utils") || {
   nearToUsd: 1,
   nearToUsdWithFallback: () => "",
 };
+
 const [isModalDonationOpen, setIsModalDonationOpen] = useState(false);
 const [successfulDonation, setSuccessfulDonation] = useState(false);
+
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     getDonationsForRecipient: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,32 +74,29 @@ const Container = styled.div`
     }
   }
 `;
+
 const donationsForProject = DonateSDK.getDonationsForRecipient(props.projectId);
+
 // Get total donations & Unique donors count
 const [totalDonationAmountNear, uniqueDonors] = useMemo(() => {
   let totalNear = Big(0);
-  const uniqueDonors = [
-    ...new Set(donations.map((donation) => donation.donor_id)),
-  ];
+  const uniqueDonors = [...new Set(donations.map((donation) => donation.donor_id))];
   donations.forEach((donation) => {
     if (donation.ft_id === "near" || donation.base_currency === "near") {
       totalNear = totalNear.plus(Big(donation.total_amount || donation.amount));
     }
   });
-  const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(
-    totalNear.toString()
-  );
+  const totalDonationAmountNear = SUPPORTED_FTS["NEAR"].fromIndivisible(totalNear.toString());
+
   return [totalDonationAmountNear, uniqueDonors?.length];
 }, [donations]);
+
 return (
   <Container>
     <div className="donations-info">
-      <div className="amount">
-        {nearToUsdWithFallback(totalDonationAmountNear)}
-      </div>
+      <div className="amount">{nearToUsdWithFallback(totalDonationAmountNear)}</div>
       <div className="donors">
-        Raised from <span> {uniqueDonors}</span>{" "}
-        {uniqueDonors === 1 ? "donor" : "donors"}
+        Raised from <span> {uniqueDonors}</span> {uniqueDonors === 1 ? "donor" : "donors"}
       </div>
     </div>
     <div className="btn-wrapper">
@@ -110,11 +108,9 @@ return (
           onClick: () => setIsModalDonationOpen(true),
         }}
       />
-      <Widget
-        src={`${ownerId}/widget/Project.FollowButton`}
-        props={{ accountId: projectId }}
-      />
+      <Widget src={`${ownerId}/widget/Project.FollowButton`} props={{ accountId: projectId }} />
     </div>
+
     <Widget
       src={`${ownerId}/widget/Project.ModalDonation`}
       props={{
