@@ -43,13 +43,13 @@ return {
         name: "Song Uploader",
       },
     },
-    artistNetwork: {
-      path: "abdullahi3000.near/widget/harmonic.artists.network",
-      blockHeight: "final",
-      init: {
-        name: "Our Artists",
-      },
-    },
+    // artistNetwork: {
+    //   path: "abdullahi3000.near/widget/harmonic.artists.network",
+    //   blockHeight: "final",
+    //   init: {
+    //     name: "Our Artists",
+    //   },
+    // },
     joinUs: {
       path: "abdullahi3000.near/widget/harmonic.join.us",
       blockHeight: "final",
