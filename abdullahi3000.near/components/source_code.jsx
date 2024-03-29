@@ -21,9 +21,7 @@ if (!accountId) {
   return "No accountId";
 }
 
-const content =
-  props.content ??
-  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+const content = JSON.parse(Social.get(`${accountId}/post/main`, blockHeight));
 
 function Pagination({
   totalPages,
