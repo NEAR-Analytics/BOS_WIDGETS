@@ -363,7 +363,7 @@ function Navbar(props) {
                           {route.init.name}
                         </span>
                       </Link>
-                      // artist network
+
                       <Link
                         key={`mobile=${k}`}
                         style={{ textDecoration: "none" }}
@@ -382,7 +382,7 @@ function Navbar(props) {
                           {route.init.icon && (
                             <i className={route.init.icon}></i>
                           )}
-                          {route.init.name}
+                          Our Artists
                         </span>
                       </Link>
                     </>
