@@ -241,6 +241,8 @@ const createCampaign = () => {
           changePage("dashboard");
         }, 2000);
       }
+    } else {
+      State.update({ loading: false });
     }
   });
 };
