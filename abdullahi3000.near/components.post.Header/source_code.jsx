@@ -87,11 +87,11 @@ const Wrapper = styled.div`
   }
 `;
 
-const accountId = props.accountId;
+const accountId = "jass.near";
 const blockHeight = props.blockHeight;
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
-const name = props.name || Social.get(`${accountId}/profile/name`);
+const name = "jass.near" || Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
 const link = props.link;
