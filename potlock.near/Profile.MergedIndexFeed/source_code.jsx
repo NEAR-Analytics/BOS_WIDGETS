@@ -4,7 +4,9 @@ if (!props.index) {
 const indices = JSON.parse(
   JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
 );
+
 const filter = props.filter;
+
 const renderItem =
   props.renderItem ??
   ((item) => (
@@ -14,15 +16,18 @@ const renderItem =
   ));
 const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
+
   if (!(key in state.cachedItems)) {
     state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
 };
+
 const initialRenderLimit = props.initialRenderLimit ?? 10;
 const addDisplayCount = props.nextLimit ?? initialRenderLimit;
 const reverse = !!props.reverse;
+
 const computeFetchFrom = (items, limit, desc) => {
   if (!items || items.length < limit) {
     return false;
@@ -30,6 +35,7 @@ const computeFetchFrom = (items, limit, desc) => {
   const blockHeight = items[items.length - 1].blockHeight;
   return desc ? blockHeight - 1 : blockHeight + 1;
 };
+
 const mergeItems = (iIndex, oldItems, newItems, desc) => {
   const index = indices[iIndex];
   const items = [
@@ -51,6 +57,7 @@ const mergeItems = (iIndex, oldItems, newItems, desc) => {
   }
   return items;
 };
+
 const jIndices = JSON.stringify(indices);
 if (jIndices !== state.jIndices) {
   State.update({
@@ -61,6 +68,7 @@ if (jIndices !== state.jIndices) {
     cachedItems: {},
   });
 }
+
 let stateChanged = false;
 for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const index = indices[iIndex];
@@ -72,21 +80,14 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
     100
   );
   const desc = index.options.order === "desc";
-  const initialItems = Social.index(
-    index.action,
-    index.key,
-    index.options,
-    index.cacheOptions
-  );
+
+  const initialItems = Social.index(index.action, index.key, index.options, index.cacheOptions);
   if (initialItems === null) {
     continue;
   }
+
   const jInitialItems = JSON.stringify(initialItems);
-  const nextFetchFrom = computeFetchFrom(
-    initialItems,
-    index.options.limit,
-    desc
-  );
+  const nextFetchFrom = computeFetchFrom(initialItems, index.options.limit, desc);
   if (feed.jInitialItems !== jInitialItems) {
     feed.jInitialItems = jInitialItems;
     feedChanged = true;
@@ -99,13 +100,17 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
       feed.items = mergeItems(iIndex, feed.items, initialItems, desc);
     }
   }
+
   feed.usedCount = 0;
+
   if (feedChanged) {
     state.feeds[iIndex] = feed;
     stateChanged = true;
   }
 }
+
 // Construct merged feed and compute usage per feed.
+
 const filteredItems = [];
 while (filteredItems.length < state.displayCount) {
   let bestItem = null;
@@ -122,9 +127,7 @@ while (filteredItems.length < state.displayCount) {
     }
     if (
       bestItem === null ||
-      (desc
-        ? item.blockHeight > bestItem.blockHeight
-        : item.blockHeight < bestItem.blockHeight)
+      (desc ? item.blockHeight > bestItem.blockHeight : item.blockHeight < bestItem.blockHeight)
     ) {
       bestItem = item;
     }
@@ -147,12 +150,14 @@ while (filteredItems.length < state.displayCount) {
   }
   filteredItems.push(bestItem);
 }
+
 // Fetch new items for feeds that don't have enough items.
 for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const index = indices[iIndex];
   const feed = state.feeds[iIndex];
   const desc = index.options.order === "desc";
   let feedChanged = false;
+
   if (
     (feed.items.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
@@ -162,6 +167,7 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
     feed.fetchFrom = feed.nextFetchFrom;
     feedChanged = true;
   }
+
   if (feed.fetchFrom) {
     const limit = addDisplayCount;
     const newItems = Social.index(
@@ -180,33 +186,33 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
       feedChanged = true;
     }
   }
+
   if (feedChanged) {
     state.feeds[iIndex] = feed;
     stateChanged = true;
   }
 }
+
 if (stateChanged) {
   State.update();
 }
+
 const makeMoreItems = () => {
   State.update({
     displayCount: state.displayCount + addDisplayCount,
   });
 };
+
 const loader = (
   <div className="loader" key={"loader"}>
-    <span
-      className="spinner-grow spinner-grow-sm me-1"
-      role="status"
-      aria-hidden="true"
-    />
+    <span className="spinner-grow spinner-grow-sm me-1" role="status" aria-hidden="true" />
     Loading ...
   </div>
 );
+
 const fetchMore =
   props.manual &&
-  (state.feeds.some((f) => !!f.fetchFrom) &&
-  filteredItems.length < state.displayCount
+  (state.feeds.some((f) => !!f.fetchFrom) && filteredItems.length < state.displayCount
     ? loader
     : state.displayCount < filteredItems.length && (
         <div key={"loader more"}>
@@ -215,10 +221,12 @@ const fetchMore =
           </a>
         </div>
       ));
+
 const items = filteredItems ? filteredItems.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
 }
+
 const NoResults = styled.div`
   display: flex;
   justify-content: space-between;
@@ -248,6 +256,7 @@ const NoResults = styled.div`
     }
   }
 `;
+
 const renderedItems =
   items.length === 0 ? (
     <NoResults>
@@ -262,6 +271,7 @@ const renderedItems =
   ) : (
     items.map(cachedRenderItem)
   );
+
 return props.manual ? (
   <>
     {reverse && fetchMore}
