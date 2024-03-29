@@ -1,4 +1,4 @@
-const { Button } = VM.require("buildhub.near/widget/components") || {
+const { Button } = VM.require("abdullahi3000.near/widget/components") || {
   Button: () => <></>,
 };
 
