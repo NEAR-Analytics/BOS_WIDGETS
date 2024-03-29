@@ -1,14 +1,20 @@
 const { allDonations, filter } = props;
 const [currentPage, setCurrentPage] = useState(1);
 const perPage = 30; // need to be less than 50
+
 useEffect(() => {
   setCurrentPage(1);
 }, [filter]);
+
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreicdcpxua47eddhzjplmrs23mdjt63czowfsa2jnw4krkt532pa2ha";
+
 const { ownerId } = VM.require("potlock.near/widget/constants");
-const { getTimePassed, _address, calcNetDonationAmount, reverseArr } =
-  VM.require(`potlock.near/widget/Components.DonorsUtils`);
+
+const { getTimePassed, _address, calcNetDonationAmount, reverseArr } = VM.require(
+  `potlock.near/widget/Components.DonorsUtils`
+);
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,12 +70,14 @@ const Container = styled.div`
     }
   }
 `;
+
 const TrRow = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   gap: 1rem;
   padding: 20px 10px;
+
   > div,
   > span {
     width: 100px;
@@ -122,16 +130,16 @@ const TrRow = styled.div`
     }
   }
 `;
+
 const NoResult = styled.div`
   font-size: 2rem;
   text-align: center;
 `;
+
 const ProfileImg = ({ address }) => (
-  <Widget
-    src="mob.near/widget/ProfileImage"
-    props={{ accountId: address, style: {} }}
-  />
+  <Widget src="mob.near/widget/ProfileImage" props={{ accountId: address, style: {} }} />
 );
+
 return allDonations.length ? (
   <Container>
     <div className="transcation">
@@ -144,40 +152,33 @@ return allDonations.length ? (
       {reverseArr(allDonations)
         .slice((currentPage - 1) * perPage, currentPage * perPage)
         .map((donation) => {
-          const {
-            donor_id,
-            recipient_id,
-            donated_at_ms,
-            donated_at,
-            project_id,
-          } = donation;
+          const { donor_id, recipient_id, donated_at_ms, donated_at, project_id } = donation;
           const projectId = recipient_id || project_id;
           return (
             <TrRow>
               <a
-                href={props.hrefWithParams(
-                  `?tab=profile&accountId=${donor_id}`
-                )}
+                href={props.hrefWithParams(`?tab=profile&accountId=${donor_id}`)}
                 className="address"
                 target="_blank"
               >
                 <ProfileImg address={donor_id} />
                 {_address(donor_id)}
               </a>
+
               <a
-                href={props.hrefWithParams(
-                  `?tab=project&projectId=${projectId}`
-                )}
+                href={props.hrefWithParams(`?tab=project&projectId=${projectId}`)}
                 className="address"
                 target="_blank"
               >
                 <ProfileImg address={projectId} />
                 {_address(projectId)}
               </a>
+
               <div className="price">
                 <img src={nearLogo} alt="NEAR" />
                 {calcNetDonationAmount(donation).toFixed(2)}
               </div>
+
               <div>{getTimePassed(donated_at_ms || donated_at)} ago</div>
             </TrRow>
           );
