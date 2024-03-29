@@ -97,7 +97,7 @@ const NavLinks = styled.div`
   }
 
   .active {
-    color: var(--eca-227, #eca227);
+    color: #0d50c1;
     font-weight: 700;
   }
 
@@ -174,7 +174,7 @@ const StyledDropdown = styled.div`
       :hover,
       :focus {
         text-decoration: none;
-        background-color: var(--slate-dark-1);
+        background-color: #0d50c1;
         color: white;
 
         svg {
