@@ -48,7 +48,7 @@ function Post(props) {
           props={{ ...props }}
         />
       ) : (
-        "no account id"
+        { accountId }
       )}
     </>
   );
