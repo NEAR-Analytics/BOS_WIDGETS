@@ -31,7 +31,7 @@ const symbol = metadata?.symbol || tokenId;
 
 const Wrapper = styled.div`
 display: flex;
-padding: 0.5em 0;
+padding: 0.5em;
 flex-wrap: nowrap;
 justify-content: space-between;
 .token-badge {
