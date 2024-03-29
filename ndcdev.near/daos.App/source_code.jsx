@@ -136,6 +136,14 @@ function Page() {
         />
       );
     }
+    case "supported_projects": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos.Pages.SupportedProjects`}
+          props={props}
+        />
+      );
+    }
 
     default: {
       const NotFound = styled.div`
