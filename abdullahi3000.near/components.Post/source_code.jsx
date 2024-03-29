@@ -218,7 +218,7 @@ const RepostWidgetMobile = styled.div`
     gap: 4px;
   }
 `;
-const accountId = "jass.near";
+const accountId = "abdullahi3000.near";
 if (!accountId) {
   return "No accountId";
 }
