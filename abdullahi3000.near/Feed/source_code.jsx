@@ -107,7 +107,21 @@ return (
         },
         required: true,
       }))}
-      Item={(p) => p.accountId}
+      Item={(p) => (
+        <>
+          {p.accountId == "abdullahi3000.near" && (
+            <Post
+              accountId={p.accountId}
+              blockHeight={p.blockHeight}
+              noBorder={true}
+              currentPath={`/abdullahi3000.near/widget/app?page=feed`}
+              customActions={customActions}
+              modalToggles={modalToggles}
+              setItem={setItem}
+            />
+          )}
+        </>
+      )}
     />
   </div>
 );
