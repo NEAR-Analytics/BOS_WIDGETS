@@ -363,31 +363,29 @@ function Navbar(props) {
                           {route.init.name}
                         </span>
                       </Link>
-
-                      <Link
-                        key={`mobile=${k}`}
-                        style={{ textDecoration: "none" }}
-                        to={href({
-                          widgetSrc: "abdullahi3000.near/widget/app",
-                          params: {
-                            page: k,
-                          },
-                        })}
-                      >
-                        <span
-                          onClick={toggleDropdown}
-                          key={k}
-                          className={page === k ? "active" : null}
-                        >
-                          {route.init.icon && (
-                            <i className={route.init.icon}></i>
-                          )}
-                          Our Artists
-                        </span>
-                      </Link>
                     </>
                   );
                 })}
+              <Link
+                key={`mobile=${k}`}
+                style={{ textDecoration: "none" }}
+                to={href({
+                  widgetSrc:
+                    "abdullahi3000.near/widget/harmonic.artists.network",
+                  params: {
+                    page: k,
+                  },
+                })}
+              >
+                <span
+                  onClick={toggleDropdown}
+                  key={k}
+                  className={page === k ? "active" : null}
+                >
+                  {route.init.icon && <i className={route.init.icon}></i>}
+                  Our Artists
+                </span>
+              </Link>
             </NavLinks>
             <div className="d-flex flex-column gap-2 w-100">
               {context.accountId ? (
