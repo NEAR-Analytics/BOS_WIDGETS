@@ -61,7 +61,7 @@ const Heading = styled.h1`
   margin: 0;
 
   span {
-    color: var(--eca-227, #eca227);
+    color: #0d50c1;
     font-weight: 600;
   }
 
