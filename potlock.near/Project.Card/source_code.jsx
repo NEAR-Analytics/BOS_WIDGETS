@@ -1,37 +1,38 @@
 const { potId, potDetail, payoutDetails } = props;
-const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } =
-  VM.require("potlock.near/widget/utils") || {
-    ipfsUrlFromCid: () => "",
-    yoctosToNear: () => "",
-    yoctosToUsdWithFallback: () => "",
-    nearToUsd: 1,
-  };
-const { ownerId, NADA_BOT_URL, SUPPORTED_FTS } = VM.require(
-  "potlock.near/widget/constants"
+const { nearToUsd, ipfsUrlFromCid, yoctosToNear, yoctosToUsdWithFallback } = VM.require(
+  "potlock.near/widget/utils"
 ) || {
+  ipfsUrlFromCid: () => "",
+  yoctosToNear: () => "",
+  yoctosToUsdWithFallback: () => "",
+  nearToUsd: 1,
+};
+const { ownerId, NADA_BOT_URL, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
   NADA_BOT_URL: "",
   SUPPORTED_FTS: {},
 };
-const { getTagsFromSocialProfileData } = VM.require(
-  "potlock.near/widget/utils"
-) || {
+const { getTagsFromSocialProfileData } = VM.require("potlock.near/widget/utils") || {
   getTagsFromSocialProfileData: () => [],
 };
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getDonationsForProject: () => {},
 };
+
 let DonateSDK =
   VM.require("potlock.near/widget/SDK.donate") ||
   (() => ({
     getDonationsForRecipient: () => {},
   }));
 DonateSDK = DonateSDK({ env: props.env });
+
 const CardLink = styled("Link")`
   &:hover {
     text-decoration: none;
   }
 `;
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,6 +51,7 @@ const Card = styled.div`
     transform: translateY(-1rem);
   }
 `;
+
 const HeaderContainer = styled.div`
   padding-left: 16px;
   &:hover {
@@ -60,7 +62,9 @@ const HeaderContainer = styled.div`
     border-radius: 0;
   }
 `;
+
 const backgroundStyleHeightPx = 168;
+
 const BackgroundImageContainer = styled.div`
   svg {
     position: absolute;
@@ -73,30 +77,31 @@ const BackgroundImageContainer = styled.div`
     pointer-events: none;
   }
 `;
+
 const ProfileImageContainer = styled.div`
   transform: translateY(138px);
   width: 40px;
   height: 40px;
   position: absolute;
+
   img {
     width: 40px;
     height: 40px;
   }
+
   &:hover {
     cursor: pointer;
+
     &:after {
-      background-color: rgba(
-        45.9,
-        45.9,
-        45.9,
-        0.4
-      ); // Dark overlay with 40% opacity on hover
+      background-color: rgba(45.9, 45.9, 45.9, 0.4); // Dark overlay with 40% opacity on hover
     }
+
     svg {
       opacity: 1; // Make the image visible on hover
     }
   }
 `;
+
 const Info = styled.div`
   display: flex;
   flex-direction: column;
@@ -105,6 +110,7 @@ const Info = styled.div`
   gap: 16px;
   flex: 1;
 `;
+
 const Title = styled.div`
   font-size: 16px;
   font-weight: 600;
@@ -114,12 +120,14 @@ const Title = styled.div`
   white-space: nowrap;
   width: 100%;
 `;
+
 const SubTitle = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: #2e2e2e;
   word-wrap: break-word;
 `;
+
 const DonationsInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -129,12 +137,14 @@ const DonationsInfoContainer = styled.div`
   width: 100%;
   border-top: 1px #f0f0f0 solid;
 `;
+
 const DonationsInfoItem = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
   align-items: center;
 `;
+
 const DonationButton = styled.button`
   flex-direction: row;
   justify-content: center;
@@ -152,17 +162,20 @@ const DonationButton = styled.button`
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;
+
   &:hover {
     text-decoration: none;
     cursor: pointer;
   }
 `;
+
 const Amount = styled.div`
   font-size: 17px;
   font-weight: 600;
   color: #292929;
   line-height: 24px;
 `;
+
 const AmountDescriptor = styled.div`
   font-size: 11px;
   font-weight: 400;
@@ -172,11 +185,13 @@ const AmountDescriptor = styled.div`
   line-height: 16px;
   letter-spacing: 1.1px;
 `;
+
 const Tags = styled.div`
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 `;
+
 const Tag = styled.span`
   box-shadow: 0px -0.699999988079071px 0px rgba(123, 123, 123, 0.36) inset;
   padding: 4px 8px;
@@ -184,6 +199,7 @@ const Tag = styled.span`
   border: 1px solid rgba(123, 123, 123, 0.36);
   color: #2e2e2e;
 `;
+
 const MatchingSection = styled.div`
   display: flex;
   padding: 8px 24px;
@@ -192,6 +208,7 @@ const MatchingSection = styled.div`
   background: #ebebeb;
   border-radius: 0px 0px 12px 12px;
 `;
+
 const MatchingTitle = styled.div`
   color: #292929;
   font-size: 11px;
@@ -201,6 +218,7 @@ const MatchingTitle = styled.div`
   text-transform: uppercase;
   word-wrap: break-word;
 `;
+
 const MatchingAmount = styled.div`
   color: #292929;
   font-size: 14px;
@@ -208,6 +226,7 @@ const MatchingAmount = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
+
 // Skeleton
 const loadingSkeleton = styled.keyframes`
   0% {
@@ -220,6 +239,7 @@ const loadingSkeleton = styled.keyframes`
     opacity: 1;
   }
 `;
+
 const CardSkeletonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -237,12 +257,14 @@ const CardSkeletonContainer = styled.div`
   animation-duration: 1s;
   animation-iteration-count: infinite;
 `;
+
 const HeaderSkeleton = styled.div`
   display: block;
   width: 100%;
   height: 168px;
   background: #eee;
 `;
+
 const ProfileImageSkeleton = styled.div`
   background: #e0e0e0;
   margin-left: 32px;
@@ -252,6 +274,7 @@ const ProfileImageSkeleton = styled.div`
   position: absolute;
   border-radius: 999px;
 `;
+
 const TitleSkeleton = styled.div`
   width: 120px;
   height: 24px;
@@ -259,6 +282,7 @@ const TitleSkeleton = styled.div`
   margin-left: 24px;
   margin-top: 24px;
 `;
+
 const DescriptionSkeleton = styled.div`
   width: 83%;
   height: 48px;
@@ -266,6 +290,7 @@ const DescriptionSkeleton = styled.div`
   margin-left: 24px;
   margin-top: 24px;
 `;
+
 const TagSkeleton = styled.div`
   background: #eee;
   border-radius: 4px;
@@ -273,14 +298,17 @@ const TagSkeleton = styled.div`
   width: 110px;
   margin: 24px;
 `;
+
 const FooterItemSkeleton = styled.div`
   width: 150px;
   height: 40px;
   background: #eee;
+
   @media screen and (max-width: 390px) {
     width: 100px;
   }
 `;
+
 const DonationsInfoContainerSkeleton = styled.div`
   display: flex;
   flex-direction: row;
@@ -290,12 +318,14 @@ const DonationsInfoContainerSkeleton = styled.div`
   width: 100%;
   border-top: 1px #f0f0f0 solid;
 `;
+
 const DonationsInfoItemSkeleton = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
   align-items: center;
 `;
+
 const CardSkeleton = () => (
   <CardSkeletonContainer>
     <HeaderSkeleton />
@@ -313,6 +343,7 @@ const CardSkeleton = () => (
     </DonationsInfoContainerSkeleton>
   </CardSkeletonContainer>
 );
+
 State.init({
   donateModal: {
     isOpen: false,
@@ -323,6 +354,7 @@ State.init({
     successfulDonation: null,
   },
 });
+
 const openDonateModal = () => {
   State.update({
     donateModal: {
@@ -335,19 +367,26 @@ const openDonateModal = () => {
     },
   });
 };
+
 const projectId = props.project.id || props.projectId;
 const profile = Social.getr(`${projectId}/profile`);
+
 if (!profile) return <CardSkeleton />;
+
 const MAX_DESCRIPTION_LENGTH = 80;
+
 const { name, description, plCategories } = profile;
 // const name = profile?.name || "No name";
 // const description = profile?.description || "No description";
 // const category = profile?.category || "No category";
+
 const donationsForProject = potId
   ? PotSDK.getDonationsForProject(potId, projectId)
   : DonateSDK.getDonationsForRecipient(projectId);
+
 // console.log(donationsForProject);
 if (donationsForProject === null) return <CardSkeleton />;
+
 const [totalAmountNear, totalDonors] = useMemo(() => {
   if (!donationsForProject) return ["0", 0];
   const donors = [];
@@ -357,14 +396,14 @@ const [totalAmountNear, totalDonors] = useMemo(() => {
       donors.push(donation.donor_id);
     }
     // if (donation.ft_id === "near" || donation.base_currency === "near") {
-    totalDonationAmountNear = totalDonationAmountNear.plus(
-      new Big(donation.total_amount)
-    );
+    totalDonationAmountNear = totalDonationAmountNear.plus(new Big(donation.total_amount));
     // }
   }
   return [totalDonationAmountNear.toString(), donors.length];
 }, [donationsForProject]);
+
 const projectUrl = props.hrefWithParams(`?tab=project&projectId=${projectId}`);
+
 const getImageSrc = (image) => {
   const defaultImageUrl =
     "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
@@ -377,6 +416,7 @@ const getImageSrc = (image) => {
   }
   return defaultImageUrl;
 };
+
 const backgroundImageStyle = {
   objectFit: "cover",
   left: 0,
@@ -385,6 +425,7 @@ const backgroundImageStyle = {
   borderRadius: "6px 6px 0px 0px",
   pointerEvents: "none",
 };
+
 const profileImageStyle = {
   width: "40px",
   height: "40px",
@@ -393,7 +434,9 @@ const profileImageStyle = {
   left: "14px",
   pointerEvents: "none",
 };
+
 const tags = getTagsFromSocialProfileData(profile);
+
 return (
   <>
     <CardLink href={projectUrl} key={projectId}>
@@ -464,9 +507,7 @@ return (
         <DonationsInfoContainer>
           <DonationsInfoItem>
             <Amount>
-              {totalAmountNear
-                ? yoctosToUsdWithFallback(totalAmountNear, true)
-                : "-"}
+              {totalAmountNear ? yoctosToUsdWithFallback(totalAmountNear, true) : "-"}
             </Amount>
             <AmountDescriptor>Raised</AmountDescriptor>
           </DonationsInfoItem>
