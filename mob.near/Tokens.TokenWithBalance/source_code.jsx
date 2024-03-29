@@ -30,9 +30,13 @@ const icon = metadata?.icon;
 const symbol = metadata?.symbol || tokenId;
 
 const Wrapper = styled.div`
+display: flex;
+padding: 0.5em 0;
+flex-wrap: nowrap;
+justify-content: space-between;
 .token-badge {
+  min-width: 0;
   vertical-align: middle;
-  width: 12rem;
   margin-right: 1rem;
 
   .token-name {
@@ -47,34 +51,39 @@ const Wrapper = styled.div`
     margin-right: 0.5em;
   }
 }
+&:hover {
+  background: rgba(0, 0, 0, 0.02)
+}
 `;
 
 return (
   <Wrapper>
-    <div className="d-inline-block token-badge">
-      <div className="token-name text-truncate" title={name}>
-        {name}
-      </div>
-      <div
-        title={tokenId}
-        className="text-nowrap overflow-hidden d-flex align-items-center"
-      >
-        {icon && <img src={icon} alt="Token Icon" />}
-        <span className="font-monospace align-middle text-truncate">
-          {symbol}
-        </span>
-      </div>
+    <div className="d-inline-block token-badge flex-grow-1">
+      <Link href={`/mob.near/widget/Tokens.Top?tokenId=${tokenId}`}>
+        <div className="token-name text-truncate" title={name}>
+          {name}
+        </div>
+        <div
+          title={tokenId}
+          className="text-nowrap overflow-hidden d-flex align-items-center"
+        >
+          {icon && <img src={icon} alt="Token Icon" />}
+          <span className="font-monospace align-middle text-truncate text-dark">
+            {symbol}
+          </span>
+        </div>
+      </Link>
     </div>
-    <span className="font-monospace fw-bold">
+    <div className="font-monospace fw-bold">
       <MutedDecimals
         value={bigToString(adjustedBalance ? adjustedBalance.toString() : null)}
       />
-    </span>
+    </div>
     {Big(usdBalance || "0").gt(0) && (
-      <span className="font-monospace fw-bold d-inline-flex ms-3">
+      <div className="font-monospace fw-bold d-inline-flex ms-3">
         <span className="text-secondary">~$</span>
         <MutedDecimals value={bigToString(usdBalance)} />
-      </span>
+      </div>
     )}
   </Wrapper>
 );
