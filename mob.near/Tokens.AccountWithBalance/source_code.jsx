@@ -31,7 +31,7 @@ const symbol = metadata?.symbol || tokenId;
 
 const Wrapper = styled.div`
 display: flex;
-padding: 0.5em 0;
+padding: 0.5em;
 flex-wrap: nowrap;
 justify-content: space-between;
 .account-badge {
@@ -47,12 +47,12 @@ justify-content: space-between;
 return (
   <Wrapper>
     <div className="d-inline-block account-badge flex-grow-1">
-      <a href={`/mob.near/widget/Tokens?accountId=${accountId}`}>
+      <Link href={`/mob.near/widget/Tokens?accountId=${accountId}`}>
         <Widget
           src="mob.near/widget/Profile.ShortInlineBlock"
           props={{ accountId }}
         />
-      </a>
+      </Link>
     </div>
     <div className="font-monospace fw-bold">
       <MutedDecimals
