@@ -3,22 +3,21 @@ const {
   potId,
   potDetail: { base_currency },
 } = props;
-const { ownerId, SUPPORTED_FTS } = VM.require(
-  "potlock.near/widget/constants"
-) || {
+
+const { ownerId, SUPPORTED_FTS } = VM.require("potlock.near/widget/constants") || {
   ownerId: "",
   SUPPORTED_FTS: {},
 };
-const { getTimePassed, _address } = VM.require(
-  `${ownerId}/widget/Components.DonorsUtils`
-) || {
+const { getTimePassed, _address } = VM.require(`${ownerId}/widget/Components.DonorsUtils`) || {
   getTimePassed: () => "",
   _address: (address) => address,
 };
+
 const PotSDK = VM.require("potlock.near/widget/SDK.pot") || {
   getPublicRoundDonations: () => {},
 };
 const publicRoundDonations = PotSDK.getPublicRoundDonations(potId);
+
 State.init({
   allDonations: null,
   filteredDonations: [],
@@ -28,22 +27,24 @@ State.init({
     price: false, // false === ascending
   },
 });
+
 const { allDonations, filteredDonations, currentFilter, filter } = state;
+
 if (publicRoundDonations && !allDonations) {
   publicRoundDonations.reverse();
-  State.update({
-    filteredDonations: publicRoundDonations,
-    allDonations: publicRoundDonations,
-  });
+  State.update({ filteredDonations: publicRoundDonations, allDonations: publicRoundDonations });
 }
-if (!allDonations)
-  return <div class="spinner-border text-secondary" role="status" />;
+
+if (!allDonations) return <div class="spinner-border text-secondary" role="status" />;
+
 // console.log("donations: ", donations);
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+
   @media screen and (min-width: 375px) and (max-width: 768px) {
     width: 99%;
   }
@@ -51,6 +52,7 @@ const Container = styled.div`
     width: 98%;
   }
 `;
+
 const OuterTextContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -60,13 +62,16 @@ const OuterTextContainer = styled.div`
     padding-right: 10px;
   }
 `;
+
 const OuterText = styled.div`
   font-size: 18px;
   font-weight: 600;
 `;
+
 const DonationsCount = styled.div`
   font-size: 16px;
 `;
+
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,6 +83,7 @@ const TableContainer = styled.div`
   overflow-x: auto;
   flex-wrap: nowrap;
 `;
+
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -86,6 +92,7 @@ const Header = styled.div`
   background: #f6f5f3;
   width: 100%;
 `;
+
 const HeaderItem = styled.div`
   display: flex;
   flex-direction: row;
@@ -94,6 +101,7 @@ const HeaderItem = styled.div`
   padding: 10px 20px;
   width: ${100 / columns.length}%;
 `;
+
 const HeaderItemText = styled.div`
   color: #292929;
   font-size: 14px;
@@ -101,6 +109,7 @@ const HeaderItemText = styled.div`
   line-height: 24px;
   word-wrap: break-word;
 `;
+
 const Sort = styled.div`
   display: none;
   justify-content: space-between;
@@ -124,6 +133,7 @@ const Sort = styled.div`
     display: flex;
   }
 `;
+
 const Arrow = (props) => (
   <svg
     {...props}
@@ -140,17 +150,17 @@ const Arrow = (props) => (
     />
   </svg>
 );
+
 const searchDonations = (searchTerm) => {
   // filter donations that match the search term (donor_id, project_id)
   const filteredDonations = allDonations.filter((donation) => {
     const { donor_id, project_id } = donation;
     const searchFields = [donor_id, project_id];
-    return searchFields.some((field) =>
-      field.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    return searchFields.some((field) => field.toLowerCase().includes(searchTerm.toLowerCase()));
   });
   return filteredDonations;
 };
+
 const sortDonation = (type) => {
   const sort = !filter[type];
   State.update({ currentFilter: type, filter: { ...filter, [type]: sort } });
@@ -166,10 +176,12 @@ const sortDonation = (type) => {
     State.update({ filteredDonations: sortedDonations });
   }
 };
+
 const handleSearch = ({ target: { value } }) => {
   const filteredDonations = searchDonations(value);
   State.update({ filteredDonations });
 };
+
 const ProfileImg = (address) => (
   <Widget
     src={`${ownerId}/widget/Project.ProfileImage`}
@@ -180,6 +192,7 @@ const ProfileImg = (address) => (
     }}
   />
 );
+
 return (
   <Container>
     <OuterTextContainer>
@@ -197,8 +210,7 @@ return (
         onClick={() => sortDonation("price")}
         className={`${currentFilter === "price" ? "active" : ""}`}
       >
-        Sort Amount{" "}
-        {currentFilter === "price" && <Arrow active={filter.price} />}
+        Sort Amount {currentFilter === "price" && <Arrow active={filter.price} />}
       </div>
     </Sort>
     <Widget
