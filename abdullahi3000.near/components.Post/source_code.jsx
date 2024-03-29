@@ -218,7 +218,7 @@ const RepostWidgetMobile = styled.div`
     gap: 4px;
   }
 `;
-const accountId = "abdullahi3000.near";
+const accountId = props.accountId;
 if (!accountId) {
   return "No accountId";
 }
@@ -322,7 +322,7 @@ return (
                 isEdited: isEdited,
               }}
             />
-            {fullPostLink ? (
+            {fullPostLink && accountId == "abdullahi3000.near" ? (
               <a
                 key="full-post-link"
                 target="_blank"
