@@ -1,10 +1,10 @@
-const accountId = props.accountId;
+const accountId = props.accountId || "every.near";
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = !!props.fast || (!props.profile && accountId);
 
 const name = profile.name;
-const verified = !!props.verified;
+const verified = props.verified || true;
 
 const inner = (
   <div className="d-flex flex-row">
