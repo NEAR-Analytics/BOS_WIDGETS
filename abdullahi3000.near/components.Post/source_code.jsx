@@ -227,9 +227,9 @@ const blockHeight =
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
 const hideButtons = !!props.hideButtons;
-const content = JSON.parse(
-  Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
-);
+const content =
+  props.content ??
+  JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const groupId = props.groupId ?? content.groupId;
@@ -264,27 +264,7 @@ const link =
   props.fullPostLink ??
   `/abdullahi3000.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
-const contentWidget = (
-  <>
-    <Widget
-      key="content"
-      loading={
-        <div
-          className="overflow-hidden w-100 placeholder-glow"
-          style={{ minHeight: "100px" }}
-        />
-      }
-      src="buildhub.near/widget/components.post.Content"
-      props={{
-        content,
-        raw,
-        truncateContent: props.truncateContent,
-        noEmbed: props.noEmbed,
-        currentPath: props.currentPath,
-      }}
-    />
-  </>
-);
+const contentWidget = <>'hello'</>;
 
 return (
   <>
