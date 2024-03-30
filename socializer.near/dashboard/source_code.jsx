@@ -1,7 +1,8 @@
 const Owner = "socializer.near";
 const accountId = context.accountId;
 
-const API_URL = props?.API_URL || "http://localhost:3000";
+const API_URL = props?.API_URL || "https://e2e.nearverselabs.com/";
+
 const changePage = props?.changePage || (() => {});
 const page = props?.page || "";
 
@@ -66,7 +67,7 @@ State.init({
         title: "Participants",
         key: "participants",
         description: "Participants",
-        width: 15,
+        width: 14,
         align: "center",
       },
       {
