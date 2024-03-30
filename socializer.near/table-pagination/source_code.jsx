@@ -220,7 +220,9 @@ return (
                                   });
                                 }}
                               />
-                              {name}
+                              {name.length > 20
+                                ? `${name.slice(0, 15)}...`
+                                : name}
                             </div>
                           ) : td.link ? (
                             <div
