@@ -1,11 +1,11 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const API_URL = "https://e2e.nearverselabs.com";
-const currentPage = Storage.get("page") || "dashboard";
+// const currentPage = Storage.get("page") || "dashboard";
 console.log(Storage.get("page"), "=====page");
 State.init({
   sate: false,
-  page: currentPage,
+  page: Storage.get("page") || "dashboard",
   sidebar: [
     {
       icon: (
