@@ -1,11 +1,11 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const API_URL = "https://e2e.nearverselabs.com";
-// const currentPage = Storage.get("page") || "dashboard";
-console.log(Storage.get("page"), "=====page");
+const currentPage = Storage.get("page") || "dashboard";
+
 State.init({
   sate: false,
-  page: Storage.get("page") || "dashboard",
+  page: currentPage,
   sidebar: [
     {
       icon: (
@@ -169,16 +169,19 @@ const Content = styled.div`
 `;
 
 const changeTab = (value) => {
-  const list = state.sidebar;
-  const result = list.map((item) => {
-    item.active = false;
-    if (item.value === value) item.active = true;
-    return item;
-  });
+  //   const list = state.sidebar;
+  //   const result = list.map((item) => {
+  //     item.active = false;
+  //     if (item.value === value) item.active = true;
+  //     return item;
+  //   });
 
-  State.update({ page: value, sidebar: result });
   Storage.set("page", value);
 };
+
+useEffect(() => {
+  State.update({ page: currentPage });
+}, [currentPage]);
 
 return (
   <Wrapper className="root">
