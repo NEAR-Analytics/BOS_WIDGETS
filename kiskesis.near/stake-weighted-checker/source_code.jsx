@@ -222,21 +222,26 @@ return (
     <button onClick={() => getVotingPower(state.accountId)}>
       Get Voting Power
     </button>
-    {state.votingPower && (
-      <div>
-        <b>Voting Power:</b> {state.votingPower}
-      </div>
-    )}
-    {state.voterInfo && (
-      <div>
+    <div className="text-center">
+      {state.votingPower && (
         <div>
-          <b>Active Months:</b> {state.voterInfo.active_months}
+          <b>Voting Power:</b> {state.votingPower}
         </div>
+      )}
+      {state.voterInfo && (
         <div>
-          <b>Stake:</b> {state.voterInfo.stake}
+          <div>
+            <b>Active Months:</b> {state.voterInfo.active_months}
+          </div>
+          <div>
+            <b>Stake:</b>{" "}
+            {(parseFloat(state.voterInfo.stake) / Math.pow(10, 24)).toFixed(2)}{" "}
+            Near
+          </div>
         </div>
-      </div>
-    )}
+      )}
+    </div>
+
     <Card className="mt-3">
       <CardTitle>Calculation of Voting Power</CardTitle>
       <pre
