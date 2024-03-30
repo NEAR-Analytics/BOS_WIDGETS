@@ -142,7 +142,7 @@ return (
         {list.map((item) => (
           <ListItem
             key={item.label}
-            data-state={item.active ? "active" : ""}
+            data-state={item.value === page ? "active" : ""}
             onClick={() => {
               changeTab(item.value);
             }}
