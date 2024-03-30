@@ -4,7 +4,7 @@ const [selectedAuthor, setSelectedAuthor] = useState(null);
 if (!authorsOptions.length) {
   const data = [{ label: "None", value: "" }];
   const authors = Near.view(
-    "truedove38.near",
+    "devhub.near",
     "get_all_proposal_authors",
     {}
   );
