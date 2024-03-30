@@ -181,7 +181,7 @@ const changeTab = (value) => {
   });
 
   State.update({ page: value, sidebar: result });
-  Storage.set("page", "value");
+  Storage.set("page", value);
 };
 
 return (
