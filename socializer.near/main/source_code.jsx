@@ -52,7 +52,6 @@ State.init({
       ),
       label: "Dashboard",
       value: "dashboard",
-      active: true,
     },
     {
       icon: (
@@ -71,7 +70,6 @@ State.init({
       ),
       label: "Leaderboard",
       value: "leaderboard",
-      active: false,
     },
     {
       icon: (
@@ -89,7 +87,6 @@ State.init({
       ),
       label: "Ledger",
       value: "profile",
-      active: false,
     },
   ],
 });
@@ -142,7 +139,6 @@ if (!accountId) {
         ),
         label: "Dashboard",
         value: "dashboard",
-        active: true,
       },
     ],
   });
