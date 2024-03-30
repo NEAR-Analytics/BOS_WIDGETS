@@ -10,7 +10,7 @@ const communityData = getCommunity({ handle });
 const [postsExists, setPostExists] = useState(false);
 const [submittedAnnouncementData, setSubmittedAnnouncementData] =
   useState(null);
-const communityAccountId = `${handle}.community.truedove38.near`;
+const communityAccountId = `${handle}.community.devhub.near`;
 
 useEffect(() => {
   if (submittedAnnouncementData) {
@@ -115,7 +115,7 @@ return (
                       setSubmittedAnnouncementData(v);
                       setCommunitySocialDB({ handle, data: v });
                     },
-                    profileAccountId: `${handle}.community.truedove38.near`,
+                    profileAccountId: `${handle}.community.devhub.near`,
                     isFinished: () => submittedAnnouncementData === null,
                   }}
                 />
