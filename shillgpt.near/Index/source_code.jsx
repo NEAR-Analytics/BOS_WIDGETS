@@ -1,7 +1,9 @@
 let contractId = "v1.shillgpt.near";
-let accountId = context.accountId;
+const PRETEND_ACCOUNT_ID = null;
+let accountId = PRETEND_ACCOUNT_ID ?? context.accountId;
 let debugMode = !!props.debug ?? false;
 const MAX_MESSAGE_LENGTH = 600;
+const IGNORE_LATEST_RESPONSE_EXPIRED = true;
 
 if (props.referral_id && props.referral_id !== Storage.get("referral_id")) {
   Storage.set("referral_id", props.referral_id);
@@ -62,7 +64,7 @@ if (state === undefined) {
     State.update((state) => ({
       ...state,
       nonce:
-        accountId && !state.pauseNonce && !state.requestFrom
+        accountId && !state.pauseNonce && !state.requestFromAccountId
           ? state.nonce + 1
           : state.nonce,
     }));
@@ -108,62 +110,49 @@ const getUserRequestResponse = (requestAccountId) => {
         }
 
         console.log("userRequestResponse", userRequestResponse);
+        let shillResponseText = userRequestResponse.response.text;
+        let shillResponseSize = "SHILL_DECLINED";
+        let shillResponseObject;
+        try {
+          shillResponseObject = JSON.parse(userRequestResponse.response.text);
+          shillResponseText = shillResponseObject.reason;
+          shillResponseSize = shillResponseObject.size;
+        } catch (ex) {
+          console.log("get_user_request_response parse error", ex);
+        }
+
         if (
           userRequestResponse?.response.ok &&
           userRequestResponse?.response.text
         ) {
           userRequestResponse.response.shillAccepted =
-            userRequestResponse.response.text.startsWith("SHILL_ACCEPTED_");
+            shillResponseSize.startsWith("SHILL_ACCEPTED");
           userRequestResponse.response.shillDeclined =
-            userRequestResponse.response.text.startsWith("SHILL_DECLINED");
-          userRequestResponse.response.textCleaned =
-            userRequestResponse.response.text
-              .replace("SHILL_ACCEPTED_HALF", "")
-              .replace("SHILL_ACCEPTED_QUARTER", "")
-              .replace("SHILL_ACCEPTED_EIGHTH", "")
-              .replace("SHILL_ACCEPTED_SIXTEENTH", "")
-              .replace("SHILL_DECLINED", "")
-              .trim();
+            shillResponseSize == "SHILL_DECLINED";
+          userRequestResponse.response.textCleaned = shillResponseText;
 
-          if (
-            userRequestResponse.response.text.startsWith("SHILL_ACCEPTED_HALF")
-          ) {
+          if (shillResponseSize == "SHILL_ACCEPTED_HALF") {
             userRequestResponse.response.verdict = "Shill accepted!!!";
             userRequestResponse.response.color = "#00a951";
-          } else if (
-            userRequestResponse.response.text.startsWith(
-              "SHILL_ACCEPTED_QUARTER"
-            )
-          ) {
+          } else if (shillResponseSize == "SHILL_ACCEPTED_QUARTER") {
             userRequestResponse.response.verdict =
               "Shill accepted by half amount!";
             userRequestResponse.response.color = "#00a951";
-          } else if (
-            userRequestResponse.response.text.startsWith(
-              "SHILL_ACCEPTED_EIGHTH"
-            )
-          ) {
+          } else if (shillResponseSize == "SHILL_ACCEPTED_EIGHTH") {
             userRequestResponse.response.verdict =
               "Shill accepted by quoter amount";
             userRequestResponse.response.color = "#00a951";
-          } else if (
-            userRequestResponse.response.text.startsWith(
-              "SHILL_ACCEPTED_SIXTEENTH"
-            )
-          ) {
+          } else if (shillResponseSize == "SHILL_ACCEPTED_SIXTEENTH") {
             userRequestResponse.response.verdict =
               "Shill accepted by eighth amount";
             userRequestResponse.response.color = "#00a951";
-          } else if (
-            userRequestResponse.response.text.startsWith("SHILL_DECLINED")
-          ) {
+          } else if (shillResponseSize == "SHILL_DECLINED") {
             userRequestResponse.response.verdict = "Shill declined...";
             userRequestResponse.response.color = "#e02e49";
           }
         } else if (userRequestResponse?.response.ok == false) {
           userRequestResponse.response.verdict = "Shill Failed";
-          userRequestResponse.response.textCleaned =
-            userRequestResponse.response.text;
+          userRequestResponse.response.textCleaned = shillResponseText;
           userRequestResponse.response.color = "#e02e49";
         } else {
           userRequestResponse.response = { verdict: "Pending" };
@@ -592,7 +581,7 @@ let isLatestResponseExpired =
   now;
 
 let showLatestResponse = !state.requestFromAccountId
-  ? isLatestResponseExpired
+  ? IGNORE_LATEST_RESPONSE_EXPIRED || isLatestResponseExpired
   : true;
 
 console.log("showLatestResponse", showLatestResponse);
@@ -1673,10 +1662,20 @@ return (
                   </div>
                   <div class="card-body">
                     <ol class="olcards">
-                      {(user_pools ?? []).map(
-                        (up) =>
+                      {(user_pools ?? []).map((up) => {
+                        let tokenBalance = getFtBalance(
+                          up[0],
+                          up[1].user_balance,
+                          2
+                        );
+                        let tokenValue = (
+                          parseFloat(state.prices[up[0]]?.price ?? 0) *
+                          parseFloat(tokenBalance ?? 0)
+                        ).toFixed(2);
+
+                        return (
                           up[1].user_balance > 0 &&
-                          getFtBalance(up[0], up[1].user_balance, 2) > 0 && (
+                          tokenBalance > 0 && (
                             <MyListItem
                               cardColor="#00a951"
                               backColor="#eee"
@@ -1693,11 +1692,7 @@ return (
                                   </div>
                                   <div>
                                     <span>
-                                      {`User balance: ${getFtBalance(
-                                        up[0],
-                                        up[1].user_balance,
-                                        2
-                                      )}.`}
+                                      {`User balance: ${tokenBalance}. ($${tokenValue})`}
                                       {!timestampBeforeNow(
                                         up[1].user_unstake_date
                                       ) && (
@@ -1737,7 +1732,8 @@ return (
                               </div>
                             </MyListItem>
                           )
-                      )}
+                        );
+                      })}
                     </ol>
                   </div>
                 </div>
