@@ -97,7 +97,7 @@ const FeedItem = ({ proposal, index }) => {
   const blockHeight = parseInt(proposal.social_db_post_block_height);
   const item = {
     type: "social",
-    path: `truedove38.near/post/main`,
+    path: `devhub.near/post/main`,
     blockHeight: blockHeight,
   };
 
@@ -183,7 +183,7 @@ const FeedItem = ({ proposal, index }) => {
 };
 
 const getProposal = (proposal_id) => {
-  return Near.asyncView("truedove38.near", "get_proposal", {
+  return Near.asyncView("devhub.near", "get_proposal", {
     proposal_id,
   });
 };
@@ -220,7 +220,6 @@ const FeedPage = () => {
       category
       summary
       editor_id
-      name
       proposal_id
       ts
       timeline
