@@ -22,7 +22,7 @@ let editProposalData = null;
 let draftProposalData = null;
 
 if (isEditPage) {
-  editProposalData = Near.view("truedove38.near", "get_proposal", {
+  editProposalData = Near.view("devhub.near", "get_proposal", {
     proposal_id: parseInt(id),
   });
 }
@@ -250,9 +250,7 @@ const [requestedSponsorshipToken, setRequestedSponsorshipToken] = useState(
 );
 const [supervisor, setSupervisor] = useState(null);
 const [allowDraft, setAllowDraft] = useState(true);
-
-const [proposalsOptions, setProposalsOptions] = useState([]);
-const proposalsData = Near.view("truedove38.near", "get_proposals");
+const proposalsData = Near.view("devhub.near", "get_proposals");
 
 const [loading, setLoading] = useState(true);
 const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(false);
@@ -385,17 +383,29 @@ useEffect(() => {
 
 useEffect(() => {
   if (
-    proposalsOptions.length > 0 &&
     editProposalData &&
     editProposalData?.snapshot?.linked_proposals?.length > 0
   ) {
-    let data = [];
     editProposalData.snapshot.linked_proposals.map((item) => {
-      data.push(proposalsOptions.find((i) => i.value === item));
+      useCache(
+        () =>
+          Near.asyncView("devhub.near", "get_proposal", {
+            proposal_id: parseInt(item),
+          }).then((proposal) => {
+            setLinkedProposals([
+              ...linkedProposals,
+              {
+                label: "# " + proposal.id + " : " + proposal.snapshot.name,
+                value: proposal.id,
+              },
+            ]);
+          }),
+        item + "linked_proposals",
+        { subscribe: false }
+      );
     });
-    setLinkedProposals(data);
   }
-}, [editProposalData, proposalsOptions]);
+}, [editProposalData]);
 
 useEffect(() => {
   if (isSubmittingTransaction) {
@@ -405,22 +415,7 @@ useEffect(() => {
   }
 }, [proposalsData, isSubmittingTransaction]);
 
-useEffect(() => {
-  if (
-    proposalsData !== null &&
-    Array.isArray(proposalsData) &&
-    !proposalsOptions.length
-  ) {
-    const data = [];
-    for (const prop of proposalsData) {
-      data.push({
-        label: "Id " + prop.id + " : " + prop.snapshot.name,
-        value: prop.id,
-      });
-    }
-    setProposalsOptions(data);
-  }
-}, [proposalsData]);
+useEffect(() => {});
 
 const InputContainer = ({ heading, description, children }) => {
   return (
@@ -452,7 +447,7 @@ useEffect(() => {
       }
     } else {
       const proposalIds = Near.view(
-        "truedove38.near",
+        "devhub.near",
         "get_all_proposal_ids"
       );
       if (Array.isArray(proposalIds) && !proposalIdsArray) {
@@ -505,7 +500,7 @@ useEffect(() => {
             useCache(
               () =>
                 Near.asyncView(
-                  "truedove38.near",
+                  "devhub.near",
                   "get_all_proposal_ids"
                 ).then((proposalIdsArray) => {
                   setProposalId(
@@ -576,7 +571,7 @@ const DropdowntBtnContainer = styled.div`
     border: 1px solid #ccc;
     background-color: #fff;
     padding: 0.5rem;
-    z-index: 9999;
+    z-index: 99;
     font-size: 13px;
     border-radius:0.375rem !important;
   }
@@ -788,7 +783,7 @@ const onSubmit = ({ isDraft, isCancel }) => {
 
   Near.call([
     {
-      contractName: "truedove38.near",
+      contractName: "devhub.near",
       methodName: isEditPage ? "edit_proposal" : "add_proposal",
       args: args,
       gas: 270000000000000,
@@ -1184,9 +1179,8 @@ if (showProposalPage) {
                     );
                   })}
                   <Widget
-                    src="megha19.near/widget/devhub.components.molecule.DropDownWithSearch"
+                    src="megha19.near/widget/devhub.entity.proposal.LinkedProposalsDropdown"
                     props={{
-                      selectedValue: "",
                       onChange: (v) => {
                         if (
                           !linkedProposals.some(
@@ -1196,11 +1190,6 @@ if (showProposalPage) {
                           setLinkedProposals([...linkedProposals, v]);
                         }
                       },
-                      options: proposalsOptions,
-                      showSearch: true,
-                      searchInputPlaceholder: "Search by Id",
-                      defaultLabel: "Search proposals",
-                      searchByValue: true,
                     }}
                   />
                 </div>
