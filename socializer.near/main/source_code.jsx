@@ -1,10 +1,10 @@
 const accountId = context.accountId;
 const Owner = "socializer.near";
 const API_URL = "https://e2e.nearverselabs.com";
-
+const currentPage = Storage.get("page") || "dashboard";
 State.init({
   sate: false,
-  page: "dashboard",
+  page: currentPage,
   sidebar: [
     {
       icon: (
@@ -180,6 +180,7 @@ const changeTab = (value) => {
   });
 
   State.update({ page: value, sidebar: result });
+  Storage.set("page", "value");
 };
 
 return (
