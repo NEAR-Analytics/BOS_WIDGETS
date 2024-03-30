@@ -257,7 +257,7 @@ return (
         You will have a chance to preview your data before saving your creation
       </p>
       <div className="mb-3 p-1">
-        <label for="name">Name:</label>
+        <label htmlFor="name">Name:</label>
         <input
           id="name"
           type="text"
@@ -274,7 +274,6 @@ return (
             name="type"
             id="type"
             type="text"
-            className="form-select"
             placeholder="What is the weapon type (club, rapier, etc)"
             value={weapon.metadata.type}
             onChange={handleTypeChange}
@@ -295,7 +294,7 @@ return (
     </div>
 
     <div className="mb-3 p-1">
-      <label for="description">Description:</label>
+      <label htmlFor="description">Description:</label>
       <input
         id="description"
         type="textarea"
@@ -312,7 +311,7 @@ return (
       <h5 className="mb-2 d-block">Class & Category</h5>
       <div className="row align-items-center">
         <div className="col">
-          <label for="class">Class:</label>
+          <label htmlFor="class">Class:</label>
           <select
             name="class"
             id="class"
@@ -324,7 +323,7 @@ return (
             <option value="melee">Melee</option>
             <option value="range">Range</option>
           </select>
-          <label for="category">Category:</label>
+          <label htmlFor="category">Category:</label>
           <select
             name="category"
             id="category"
@@ -342,23 +341,23 @@ return (
     <div className="mb-3 p-1">
       <span className="mb-2 d-block"></span>
       <div className="mb-3 p-1">
-        <label for="weight">Weight:</label>
+        <label htmlFor="weight">Weight:</label>
         <input
+          name="weight"
           id="weight"
           type="text"
           placeholder="What is the weapon's weight in pounds?"
           value={weapon.metadata.weight}
           onChange={handleWeightChange}
-        />
+        ></input>
       </div>
 
       <div className="mb-3 p-1">
-        <label for="cost">Cost:</label>
+        <label htmlFor="cost">Cost:</label>
         <input
           name="cost"
           id="cost"
           type="text"
-          className="form-select"
           placeholder="Weapon cost (in gold pieces)"
           value={weapon.metadata.cost}
           onChange={handleCostChange}
@@ -366,7 +365,7 @@ return (
       </div>
 
       <div className="mb-3 p-1">
-        <label for="damage">Damage:</label>
+        <label htmlFor="damage">Damage:</label>
         <input
           id="damage"
           type="number"
