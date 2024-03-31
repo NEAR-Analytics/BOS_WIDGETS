@@ -35,7 +35,7 @@ const MenuMobile = styled.ul`
         text-decoration:none; 
     }
     span{
-        font-size: 18px;
+        font-size: 20px;
         font-family: Lakki Reddy,cursive;
 
         text-shadow: 0 4px 4px #efefef;
@@ -62,6 +62,10 @@ const Main = styled.div`
     @media screen and (max-width:768px){
       flex-direction:column;
     }
+  }
+  .hero-text{
+    font-size:1.2rem;
+    font-family: Kodchasan,sans-serif;
   }
   .green-bg {
       background-color: #31cf34;
@@ -146,12 +150,15 @@ const Main = styled.div`
   }
   .roadmap-text{
     font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
   }
   .tokenic{
     font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
   }
   .footer-text{
     font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
   }
 `;
 
