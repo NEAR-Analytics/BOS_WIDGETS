@@ -112,7 +112,7 @@ return (
         </div>
       </div>
     </div>
-    <Widget src="huunhanz.near/widget/Lonk.stake" />
+    <Widget src="louisdevzz.near/widget/Lonk.stake" />
     <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="about">
