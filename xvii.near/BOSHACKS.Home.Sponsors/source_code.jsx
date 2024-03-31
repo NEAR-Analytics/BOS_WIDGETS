@@ -1,4 +1,3 @@
-/**Add place to check out current bounties */
 const Section = styled.div`
   display: flex;
   width: 100%;
@@ -55,6 +54,11 @@ const sponsors = [
     name: "MarmaJ",
     image:
       "https://pbs.twimg.com/profile_images/1621907418467663877/JcB4OAXp_400x400.jpg",
+  },
+  {
+    url: "https://www.neardc.org/",
+    name: "NDC",
+    image: "https://i.imgur.com/4ysJblg.jpeg",
   },
 ];
 
