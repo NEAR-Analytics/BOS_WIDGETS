@@ -130,6 +130,7 @@ const Main = styled.div`
     flex-direction:row;
     align-items:center;
     justify-content:space-between;
+    font-family: Lakki Reddy,cursive;
     @media screen and (max-width:768px){
         flex-direction:column-reverse;
         gap:10px;
