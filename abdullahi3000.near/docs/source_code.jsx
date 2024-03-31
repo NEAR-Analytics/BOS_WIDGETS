@@ -1,9 +1,10 @@
 if (!props.docId) {
-  props.docId = "15OHRDOitDKqy9nJb2vttezYF9m5wx9m-";
+  props.docId = "1Zlr1LDw-eMwMoocH9Y90kmsZCeX5gYVZugFonDpiKhg";
   //   return <div className="">No document ID provided.</div>;
 }
 
-const url = `https://drive.google.com/file/d/${props.docId}/view`;
+const url = `https://docs.google.com/document/d/${props.docId}/edit`;
+
 return (
   <>
     <iframe
