@@ -150,7 +150,7 @@ const Main = styled.div`
   .tokenic{
     font-family: Kodchasan,sans-serif;
   }
-  .footer{
+  .footer-text{
     font-family: Kodchasan,sans-serif;
   }
 `;
@@ -335,7 +335,7 @@ return (
               <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="col-12"></div>
-              <div class="col-12 col-md-7 footer">
+              <div class="col-12 col-md-7 footer-text">
                 <p>
                   Disclaimer: <br />
                   $LONK is a meme coin purely for entertainment, with no
