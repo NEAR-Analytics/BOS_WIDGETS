@@ -13,6 +13,7 @@ const {
   borrowETHGas,
   borrowERC20Gas,
   formatHealthFactor,
+  calcHealthFactor,
   theme,
 } = props;
 
@@ -137,11 +138,12 @@ return (
           repayETHGas,
           repayERC20Gas,
           formatHealthFactor,
+          calcHealthFactor,
           assetsToSupply,
         }}
       />
     )}
-    {showBorrowModal && (
+    {/* {showBorrowModal && (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
         props={{
@@ -154,8 +156,9 @@ return (
           borrowETHGas,
           borrowERC20Gas,
           formatHealthFactor,
+          calcHealthFactor,
         }}
       />
-    )}
+    )} */}
   </>
 );
