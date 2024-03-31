@@ -206,7 +206,8 @@ return (
       </p>
     </CardContainer>
     <p>
-      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg' or hash(64 symbols) 
+      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg'
+      or hash(64 symbols)
       <br></br>and click to see your voting power and related info
     </p>
     <LabelArea>
@@ -218,7 +219,6 @@ return (
           placeholder={wallet}
           onChange={(e) => validate(e.target.value)}
           className="w-100"
-          style={{ maxWidth: "200px" }}
         />
         <Error>{state.valid ? <></> : state.errorMessage}</Error>
       </div>
@@ -263,7 +263,7 @@ return (
       Explanation of voting power: The maximum voting power for the tokens is
       1000 <br></br>
       <br></br> Additionally, if you ever staked with your account, you can have
-      20*(active onchain months) voting power 
+      20*(active onchain months) voting power
       <br></br>Total is around 150k accounts that can potentially vote
     </p>
   </div>
