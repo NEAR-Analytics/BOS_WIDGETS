@@ -8,34 +8,6 @@ setCommunitySocialDB = setCommunitySocialDB || (() => <></>);
 
 const communityData = getCommunity({ handle });
 const [postsExists, setPostExists] = useState(false);
-const [submittedAnnouncementData, setSubmittedAnnouncementData] =
-  useState(null);
-const communityAccountId = `${handle}.community.devhub.near`;
-
-useEffect(() => {
-  if (submittedAnnouncementData) {
-    const checkForAnnouncementInSocialDB = () => {
-      Near.asyncView("social.near", "get", {
-        keys: [`${communityAccountId}/post/**`],
-      }).then((result) => {
-        try {
-          const submittedAnnouncementText = JSON.parse(
-            submittedAnnouncementData.post.main
-          ).text;
-          const lastAnnouncementTextFromSocialDB = JSON.parse(
-            result[communityAccountId].post.main
-          ).text;
-          if (submittedAnnouncementText === lastAnnouncementTextFromSocialDB) {
-            setSubmittedAnnouncementData(null);
-            return;
-          }
-        } catch (e) {}
-        setTimeout(() => checkForAnnouncementInSocialDB(), 1000);
-      });
-    };
-    checkForAnnouncementInSocialDB();
-  }
-}, [submittedAnnouncementData]);
 
 const MainContent = styled.div`
   padding-left: 2rem;
@@ -111,12 +83,8 @@ return (
                 <Widget
                   src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Compose"}
                   props={{
-                    onSubmit: (v) => {
-                      setSubmittedAnnouncementData(v);
-                      setCommunitySocialDB({ handle, data: v });
-                    },
+                    onSubmit: (v) => setCommunitySocialDB({ handle, data: v }),
                     profileAccountId: `${handle}.community.devhub.near`,
-                    isFinished: () => submittedAnnouncementData === null,
                   }}
                 />
               </div>
@@ -156,7 +124,9 @@ return (
               src="devgovgigs.petersalomonsen.near/widget/devhub.components.organism.Feed"
               props={{
                 showFlagAccountFeature: true,
-                filteredAccountIds: [communityAccountId],
+                filteredAccountIds: [
+                  `${handle}.community.devhub.near`,
+                ],
                 sort: sort,
                 setPostExists: setPostExists,
                 showFlagAccountFeature: true,
