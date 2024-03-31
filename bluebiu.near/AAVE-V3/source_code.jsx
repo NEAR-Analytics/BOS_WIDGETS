@@ -90,15 +90,19 @@ function gasEstimation(action) {
   }
 
   const { marketReferencePriceInUsd, decimals } = baseAsset;
-  return getGasPrice().then((gasPrice) => {
-    const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
-
-    return Big(gasPrice.toString())
-      .mul(gasLimit)
-      .div(Big(10).pow(decimals))
-      .mul(marketReferencePriceInUsd)
-      .toFixed(2);
-  });
+  return getGasPrice()
+    .then((gasPrice) => {
+      const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
+      console.log("gasPrice--", gasPrice);
+      return Big(gasPrice.toString())
+        .mul(gasLimit)
+        .div(Big(10).pow(decimals))
+        .mul(marketReferencePriceInUsd)
+        .toFixed(2);
+    })
+    .catch((err) => {
+      console.log("gasEstimation error");
+    });
 }
 
 function depositETHGas() {
@@ -159,6 +163,7 @@ function getConfig() {
 
 const config = getConfig();
 // console.log("CONFIG: ", config);
+console.log("markets--", dexConfig);
 const markets = dexConfig?.rawMarkets?.map((item) => ({
   ...item,
   marketReferencePriceInUsd: prices[item.symbol],
@@ -223,7 +228,7 @@ function getLiquidity() {
           markets[i].availableLiquidityUSD = Big(
             ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
           )
-            .mul(Big(prices[markets[i].symbol]))
+            .mul(Big(prices[markets[i].symbol]) || 0)
             .toFixed();
         }
       } catch (error) {
@@ -234,7 +239,6 @@ function getLiquidity() {
       console.log("getLiquidity_err", err);
     });
 }
-getLiquidity();
 
 const marketsMapping = markets.reduce((prev, cur) => {
   prev[cur.underlyingAsset] = cur;
@@ -248,7 +252,7 @@ State.init({
   showSupplyModal: false,
   showRepayModal: false,
   showBorrowModal: false,
-
+  threshold: 1,
   assetsToSupply: undefined, //[{markets}]
   yourSupplies: undefined, //[{markets}]
   netWorthUSD: "",
@@ -315,6 +319,31 @@ function formatHealthFactor(healthFactor) {
   return Big(healthFactor).toFixed(2, ROUND_DOWN);
 }
 
+function calcHealthFactor(type, symbol, amount) {
+  //TODO Collateral rp yourTotalSupply
+  let newHealthFactor, deno;
+  console.log("calcHealthFactor--", type, symbol, amount, prices[symbol]);
+  const assetsUSD = Big(prices[symbol]).times(Big(amount));
+  if (type === "SUPPLY") {
+    deno = Big(state.yourTotalSupply).plus(assetsUSD);
+  }
+  if (type === "WITHDRAW") {
+    deno = Big(state.yourTotalSupply).minus(assetsUSD);
+  }
+  if (type === "BORROW") {
+    deno = Big(state.yourTotalBorrow).plus(assetsUSD);
+  }
+  if (type === "REPAY") {
+    deno = Big(state.yourTotalBorrow).minus(assetsUSD);
+  }
+  newHealthFactor = deno
+    .times(Big(state.threshold))
+    .div(Big(state.yourTotalBorrow));
+
+  console.log("calcHealthFactor--", newHealthFactor);
+  return newHealthFactor.toFixed(2);
+}
+
 function batchBalanceOf(chainId, userAddress, tokenAddresses, abi) {
   const balanceProvider = new ethers.Contract(
     config.balanceProviderAddress,
@@ -352,11 +381,11 @@ function updateData(refresh) {
     config.walletBalanceProviderABI
   )
     .then((balances) => {
-      // console.log(
-      //   "getBalance",
-      //   balances,
-      //   balances.map((balance) => balance.toString())
-      // );
+      console.log(
+        "getBalance",
+        balances,
+        balances.map((balance) => balance.toString())
+      );
       return balances?.map((balance) => balance.toString());
     })
     .then((userBalances) => {
@@ -459,10 +488,11 @@ function getPoolDataProvider() {
   // const underlyingTokens = prevAssetsToSupply.map(
   //   (item) => item.underlyingAsset
   // );
+
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-
+  console.log("getPoolDataProvider--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getReserveData",
@@ -604,7 +634,7 @@ function getPoolDataProviderTotalSupply() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-
+  console.log("getPoolDataProviderTotalSupply--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getATokenTotalSupply",
@@ -661,7 +691,7 @@ function getPoolDataProviderTotalDebt() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-
+  console.log("getPoolDataProviderTotalDebt--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getTotalDebt",
@@ -737,6 +767,7 @@ function fetchUserAccountData() {
         currentLiquidationThreshold.toString(),
         4
       );
+
       const _totalCollateralBaseUSD = Big(totalCollateralBaseUSD).times(
         Big(threshold)
       );
@@ -746,6 +777,7 @@ function fetchUserAccountData() {
         .toFixed();
 
       State.update({
+        threshold,
         currentLiquidationThreshold,
         BorrowPowerUsed,
         healthFactor: !totalCollateralBase.toNumber()
@@ -790,6 +822,7 @@ function calculateHealthFactorFromBalances({
 
 function getUserDeposits() {
   const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
+  console.log("getUserDeposits--", markets);
 
   const calls = aTokenAddresss?.map((addr) => ({
     address: addr,
@@ -957,6 +990,7 @@ function getUserDebts() {
 }
 
 function getAllUserRewards() {
+  console.log("getAllUserRewards--", markets);
   const arr = markets
     ?.map((item) => [
       item.aTokenAddress,
@@ -1014,7 +1048,7 @@ function getAllUserRewards() {
 
 useEffect(() => {
   if (!isChainSupported) return;
-
+  getLiquidity();
   fetchUserAccountData();
 }, [isChainSupported]);
 
@@ -1038,6 +1072,7 @@ useEffect(() => {
 useEffect(() => {
   if (dexConfig.name !== "Seamless Protocol") return;
   if (!Array.isArray(state.assetsToSupply)) return;
+  console.log("calc totalMarketSize");
   const totalMarketSize = state.assetsToSupply.reduce((prev, curr) => {
     return Big(prev).plus(Big(curr.totalSupplyUSD)).toFixed();
   }, 0);
@@ -1058,26 +1093,35 @@ useEffect(() => {
   if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
-
+  console.log("calc net apy");
   //calc net worth
   const supplyBal = state.yourSupplies.reduce(
-    (total, cur) => Big(total).plus(cur.underlyingBalanceUSD).toFixed(),
+    (total, cur) =>
+      Big(total || 0)
+        .plus(cur.underlyingBalanceUSD)
+        .toFixed(),
     0
   );
-
+  console.log("supplyBal--", supplyBal);
   const debtsBal = state.yourBorrows.debts.reduce(
-    (total, cur) => Big(total).plus(cur.balanceInUSD).toFixed(),
+    (total, cur) =>
+      Big(total || 0)
+        .plus(cur.balanceInUSD)
+        .toFixed(),
     0
   );
-  const netWorth = Big(supplyBal).minus(debtsBal).toFixed(2, ROUND_DOWN);
-
+  console.log("debtsBal--", debtsBal);
+  const netWorth = Big(supplyBal || 0)
+    .minus(debtsBal)
+    .toFixed(2, ROUND_DOWN);
+  console.log("netWorth--", netWorth);
   if (!Number(netWorth)) return;
 
   //calc net apy
 
   const weightedAverageSupplyAPY = state.yourSupplies.reduce(
     (total, cur) =>
-      Big(total)
+      Big(total || 0)
         .plus(
           Big(cur.underlyingBalanceUSD)
             .times(Big(cur.supplyAPY))
@@ -1086,9 +1130,10 @@ useEffect(() => {
         .toFixed(),
     0
   );
+  console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
   const weightedAverageBorrowsAPY = state.yourBorrows.debts.reduce(
     (total, cur) =>
-      Big(total)
+      Big(total || 0)
         .plus(
           Big(cur.balanceInUSD)
             .times(Big(cur.variableBorrowAPY))
@@ -1097,17 +1142,20 @@ useEffect(() => {
         .toFixed(),
     0
   );
+  console.log("weightedAverageBorrowsAPY--", weightedAverageBorrowsAPY);
 
-  const a = Big(weightedAverageSupplyAPY)
+  const a = Big(weightedAverageSupplyAPY || 0)
     .times(supplyBal)
     .div(netWorth || 1)
     .toFixed();
-  const b = Big(weightedAverageBorrowsAPY)
+  console.log("a--", a);
+  const b = Big(weightedAverageBorrowsAPY || 0)
     .times(debtsBal)
     .div(netWorth || 1)
     .toFixed();
+  console.log("b--", b);
   const totalNetApy = Big(a).minus(Big(b)).toFixed();
-
+  console.log("totalNetApy--", totalNetApy);
   const yourTotalSupply = state.yourSupplies.reduce(
     (prev, curr) =>
       Big(prev)
@@ -1115,6 +1163,7 @@ useEffect(() => {
         .toFixed(),
     0
   );
+  console.log("yourTotalSupply--", yourTotalSupply);
   const yourTotalBorrow = state.yourBorrows.debts.reduce(
     (prev, curr) =>
       Big(prev)
@@ -1122,7 +1171,7 @@ useEffect(() => {
         .toFixed(),
     0
   );
-
+  console.log("yourTotalBorrow--", yourTotalBorrow);
   State.update({
     totalNetApy,
     netWorthUSD: netWorth,
@@ -1163,11 +1212,15 @@ const body = isChainSupported ? (
         props={{
           config,
           netWorth: `$ ${
-            state.netWorthUSD ? Big(state.netWorthUSD).toFixed(2) : "-"
+            state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
           }`,
           netApy: `${
             state.totalNetApy
-              ? Number(Big(state.totalNetApy).times(100).toFixed(2))
+              ? Number(
+                  Big(state.totalNetApy || 0)
+                    .times(100)
+                    .toFixed(2)
+                )
               : "-"
           }%`,
           healthFactor: formatHealthFactor(state.healthFactor),
@@ -1202,6 +1255,7 @@ const body = isChainSupported ? (
             onActionSuccess,
             healthFactor: formatHealthFactor(state.healthFactor),
             formatHealthFactor,
+            calcHealthFactor,
             depositETHGas,
             depositERC20Gas,
             borrowETHGas,
@@ -1259,6 +1313,7 @@ const body = isChainSupported ? (
                 onActionSuccess,
                 healthFactor: formatHealthFactor(state.healthFactor),
                 formatHealthFactor,
+                calcHealthFactor,
                 withdrawETHGas,
                 withdrawERC20Gas,
                 account,
@@ -1294,6 +1349,7 @@ const body = isChainSupported ? (
                 setShowBorrowModal: (isShow) =>
                   State.update({ showBorrowModal: isShow }),
                 formatHealthFactor,
+                calcHealthFactor,
                 onActionSuccess,
                 repayETHGas,
                 repayERC20Gas,
