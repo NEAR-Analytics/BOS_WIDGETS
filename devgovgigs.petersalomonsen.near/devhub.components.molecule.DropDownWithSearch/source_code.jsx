@@ -7,7 +7,6 @@ const {
   searchInputPlaceholder,
   searchByLabel,
   searchByValue,
-  onSearch,
 } = props;
 
 const [searchTerm, setSearchTerm] = useState("");
@@ -38,10 +37,6 @@ useEffect(() => {
 const handleSearch = (event) => {
   const term = event.target.value.toLowerCase();
   setSearchTerm(term);
-  if (typeof onSearch === "function") {
-    onSearch(term);
-    return;
-  }
 
   const filteredOptions = options.filter((option) => {
     if (searchByLabel) {
