@@ -8,6 +8,7 @@ const {
   chainId,
   healthFactor,
   formatHealthFactor,
+  calcHealthFactor,
   depositETHGas,
   depositERC20Gas,
   theme,
@@ -252,6 +253,7 @@ return (
           depositETHGas,
           depositERC20Gas,
           formatHealthFactor,
+          calcHealthFactor,
         }}
       />
     )}
@@ -276,6 +278,7 @@ return (
           borrowETHGas,
           borrowERC20Gas,
           formatHealthFactor,
+          calcHealthFactor,
         }}
       />
     )}
