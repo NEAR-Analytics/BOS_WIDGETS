@@ -9,6 +9,7 @@ const {
   repayETHGas,
   repayERC20Gas,
   formatHealthFactor,
+  calcHealthFactor,
   theme,
 } = props;
 
@@ -206,22 +207,16 @@ function debounce(fn, wait) {
 
 const updateNewHealthFactor = debounce(() => {
   State.update({ newHealthFactor: "-" });
-
-  Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((address) => {
-      getNewHealthFactor(
-        chainId,
-        address,
-        data.underlyingAsset,
-        "repay",
-        state.amountInUSD
-      ).then((response) => {
-        const newHealthFactor = formatHealthFactor(response.body);
-        State.update({ newHealthFactor });
-      });
-    });
+  const newHealthFactor = formatHealthFactor(
+    calcHealthFactor("REPAY", symbol, state.amount)
+  );
+  console.log(
+    "REPAY updateNewHealthFactor",
+    symbol,
+    state.amount,
+    newHealthFactor
+  );
+  State.update({ newHealthFactor });
 }, 1000);
 
 const changeValue = (value) => {
