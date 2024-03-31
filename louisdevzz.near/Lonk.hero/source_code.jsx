@@ -169,7 +169,7 @@ return (
             {select == "ref" ? (
               <Widget src="huunhanz.near/widget/ref-swap" />
             ) : (
-              <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+              <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
             )}
           </div>
         </div>
