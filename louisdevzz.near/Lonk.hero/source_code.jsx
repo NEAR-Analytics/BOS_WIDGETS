@@ -27,9 +27,9 @@ return (
           </div>
           <div class="">
             <img src={config.image5} width="200" />
-            <p class="">WE LONKING, NOT SHORTING</p>
-            <p class="">LONKING $NEAR BACK TO $20.24 IN 2024</p>
-            <p class="">Get some $LONK</p>
+            <p class="hero-text">WE LONKING, NOT SHORTING</p>
+            <p class="hero-text">LONKING $NEAR BACK TO $20.24 IN 2024</p>
+            <p class="hero-text">Get some $LONK</p>
             <div class="button-swap">
               <button
                 onClick={() => setSelect("ref")}
