@@ -138,6 +138,7 @@ const Main = styled.div`
     align-items:center;
     justify-content:space-between;
     font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
     @media screen and (max-width:768px){
         flex-direction:column-reverse;
         gap:10px;
