@@ -1,9 +1,9 @@
 if (!props.docId) {
-  props.docId = "1Zlr1LDw-eMwMoocH9Y90kmsZCeX5gYVZugFonDpiKhg";
+  props.docId = "b3c9ae3826e7425c94b23f9da797f1dd";
   //   return <div className="">No document ID provided.</div>;
 }
 
-const url = `https://docs.google.com/document/d/${props.docId}/edit`;
+const url = `https://www.notion.so/${props.docId}?pvs=4`;
 
 return (
   <>
