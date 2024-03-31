@@ -144,7 +144,7 @@ const Main = styled.div`
         width:120px;
     }
   }
-  .roadmap{
+  .roadmap-text{
     font-family: Kodchasan,sans-serif;
   }
   .tokenic{
@@ -316,7 +316,7 @@ return (
                 <h2>roadmap</h2>
               </div>
               <div class="col-12 col-md-4 col-lg-3 text-md-center">
-                <p class="text-uppercase mb-5 roadmap">
+                <p class="text-uppercase mb-5 roadmap-text">
                   Phase 1: lonk
                   <br />
                   Phase 2: $lonk
