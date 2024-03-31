@@ -1,9 +1,10 @@
 if (!props.docId) {
-  props.docId = "15OHRDOitDKqy9nJb2vttezYF9m5wx9m-";
+  props.docId =
+    "2PACX-1vTuHmtefG_zha1FOUhYVP3IorhGkuqNYNG50HMTSMQrQnP6h0yap0JrQCArxIEw4ONnyTAD_bCOXhuq";
   //   return <div className="">No document ID provided.</div>;
 }
 
-const url = `https://drive.google.com/file/d/${props.docId}/view`;
+const url = `https://docs.google.com/document/d/e/${props.docId}/pub?embedded=true`;
 return (
   <>
     <iframe
