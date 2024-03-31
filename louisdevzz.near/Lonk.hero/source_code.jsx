@@ -75,7 +75,7 @@ return (
                 />
               </a>
               <a
-                href="http://t.me/LonkonNEAR"
+                href="https://twitter.com/Lonkonnear"
                 target="_blank"
                 class="d-inline-block px-2"
               >
@@ -86,7 +86,7 @@ return (
                 />
               </a>
               <a
-                href="http://t.me/LonkonNEAR"
+                href="https://dexscreener.com/near/refv1-4314"
                 target="_blank"
                 class="d-inline-block px-2"
               >
@@ -97,7 +97,7 @@ return (
                 />
               </a>
               <a
-                href="http://t.me/LonkonNEAR"
+                href="https://www.coingecko.com/en/coins/lonk-on-near"
                 target="_blank"
                 class="d-inline-block px-2"
               >
