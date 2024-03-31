@@ -14,7 +14,6 @@ const Container = styled.div`
   ${fkGroteskFamily}
   ${fondKod}
     font-family: Kodchasan,sans-serif;
-    max-width: 1320px;
     .intro {
         background: url(${config.image3}) no-repeat 100% 0 fixed;
     }
@@ -37,7 +36,7 @@ return (
   <>
     <Widget src="louisdevzz.near/widget/headerSwap" />
     <Container>
-      <div class="py-4">
+      <div class="py-4 container">
         <div class="title">Bridge From Ethereum to NEAR</div>
         <div class="step">
           <img class="bage" src="https://lonk.meme/assets/images/v.svg" />
