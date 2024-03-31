@@ -15,7 +15,9 @@ const config = {
 const fkGroteskFamily = fetch(
   "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
 ).body;
-
+const fondKod = fetch(
+  "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+).body;
 const MenuMobile = styled.ul`
     height:250px;
     width:100%;
@@ -44,6 +46,7 @@ const MenuMobile = styled.ul`
 
 const Main = styled.div`
   ${fkGroteskFamily}
+  ${fondKod}
   .main {
       display: block;
   }
@@ -130,7 +133,7 @@ const Main = styled.div`
     flex-direction:row;
     align-items:center;
     justify-content:space-between;
-    font-family: Lakki Reddy,cursive;
+    font-family: Kodchasan,sans-serif;
     @media screen and (max-width:768px){
         flex-direction:column-reverse;
         gap:10px;
@@ -140,6 +143,15 @@ const Main = styled.div`
     @media screen and (max-width:768px){
         width:120px;
     }
+  }
+  .roadmap{
+    font-family: Kodchasan,sans-serif;
+  }
+  .tokenic{
+    font-family: Kodchasan,sans-serif;
+  }
+  .footer{
+    font-family: Kodchasan,sans-serif;
   }
 `;
 
@@ -265,7 +277,7 @@ return (
         >
           <div class="container">
             <div class="about">
-              <div class="col-12 col-md-6 ">
+              <div class="col-12 col-md-6 tokenic">
                 <p class="mb-5 text-uppercase">
                   <strong>420.69 Billions LONK</strong>
                 </p>
@@ -304,7 +316,7 @@ return (
                 <h2>roadmap</h2>
               </div>
               <div class="col-12 col-md-4 col-lg-3 text-md-center">
-                <p class="text-uppercase mb-5">
+                <p class="text-uppercase mb-5 roadmap">
                   Phase 1: lonk
                   <br />
                   Phase 2: $lonk
@@ -323,7 +335,7 @@ return (
               <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
               <div class="col-12"></div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 col-md-7 footer">
                 <p>
                   Disclaimer: <br />
                   $LONK is a meme coin purely for entertainment, with no
