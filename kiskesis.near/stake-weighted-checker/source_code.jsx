@@ -245,7 +245,6 @@ return (
         </div>
       )}
     </div>
-
     <Card className="my-4">
       <CardTitle>Calculation of Voting Power</CardTitle>
       <pre
@@ -266,6 +265,17 @@ return (
       20*(active onchain months) voting power
       <br></br>
       <br></br>Total is around 150k accounts that can potentially vote
+      <br></br>
+      <br></br>
+      Data made from a{" "}
+      <a
+        href="https://bafybeidy6aerzfcaytshbntccgq6oquopd4q3ftsuaz66bstjfc4vpuwku.ipfs.w3s.link/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        snapshot
+      </a>{" "}
+      that was made on 17.12.2023
     </p>
     <div>
       <p>
@@ -282,5 +292,95 @@ return (
         </span>
       </p>
     </div>
+
+    <h1>Some useful analytics:</h1>
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 22.82],
+          ["1-10", 6.54],
+          ["10-100", 12.98],
+          ["100-1000", 30.45],
+          ["1000-10000", 18.02],
+          ["10000+", 9.18],
+        ],
+        chartOption: {
+          title: "Voting Power Distribution",
+          type: "donut",
+        },
+      }}
+    />
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 9410],
+          ["1-10", 94670],
+          ["10-100", 1330000],
+          ["100-1000", 8080000],
+          ["1000-10000", 5515550],
+          ["10000+", 2886694],
+        ],
+        chartOption: {
+          title: "Staking Power",
+          type: "donut",
+        },
+      }}
+    />
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 7844022],
+          ["1-10", 2157842],
+          ["10-100", 3137216],
+          ["100-1000", 2401050],
+          ["1000-10000", 685902],
+          ["10000+", 273968],
+        ],
+        chartOption: {
+          title: "Activity Power",
+          type: "donut",
+        },
+      }}
+    />
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 131],
+          ["1-10", 137],
+          ["10-100", 187],
+          ["100-1000", 571],
+          ["1000-10000", 1183],
+          ["10000+", 1510],
+        ],
+        chartOption: {
+          title: "Power Per User",
+          type: "donut",
+        },
+      }}
+    />
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 47.54],
+          ["1-10", 13.08],
+          ["10-100", 19.01],
+          ["100-1000", 14.55],
+          ["1000-10000", 4.16],
+          ["10000+", 1.66],
+        ],
+        chartOption: {
+          title: "Users by stake category",
+          type: "donut",
+        },
+      }}
+    />
   </div>
 );
