@@ -164,7 +164,7 @@ const toggleDropdown = () => {
 return (
   <>
     <Widget
-      src="huunhanz.near/widget/headerSwap"
+      src="louisdevzz.near/widget/headerSwap"
       props={{
         visible,
         setVisible: (value) => {
@@ -268,9 +268,9 @@ return (
     )}
     <Main>
       <div class="main">
-        <Widget src="huunhanz.near/widget/Lonk.hero" />
+        <Widget src="louisdevzz.near/widget/Lonk.hero" />
 
-        <Widget src="huunhanz.near/widget/Lonk.buy" />
+        <Widget src="louisdevzz.near/widget/Lonk.buy" />
         <div
           class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
           id="token"
