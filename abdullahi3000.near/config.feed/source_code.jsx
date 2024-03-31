@@ -47,7 +47,7 @@ return {
       },
     },
     documents: {
-      path: "abdullahi.near/widget/docs",
+      path: "abdullahi3000.near/widget/docs",
       blockHeight: "final",
       init: {
         name: "Documents",
