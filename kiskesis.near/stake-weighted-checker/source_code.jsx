@@ -258,25 +258,37 @@ return (
         <CodeSnippet>{codeSnippet}</CodeSnippet>
       </pre>
     </Card>
-    <p>
-      Explanation of voting power: The maximum voting power for the tokens is
-      1000 <br></br>
-      <br></br> Additionally, if you ever staked with your account, you can have
-      20*(active onchain months) voting power
-      <br></br>
-      <br></br>Total is around 150k accounts that can potentially vote
-      <br></br>
-      <br></br>
-      Data made from a{" "}
-      <a
-        href="https://bafybeidy6aerzfcaytshbntccgq6oquopd4q3ftsuaz66bstjfc4vpuwku.ipfs.w3s.link/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        snapshot
-      </a>{" "}
-      that was made on 17.12.2023
-    </p>
+    <div>
+      <h4>Explanation of voting power: </h4>
+
+      <ol class="my-4 list-group list-group-numbered">
+        <li class="list-group-item">
+          After the treashold 1000 Near system use quadratic formula
+        </li>
+        <li class="list-group-item">1000 staked Near - 1000 votes</li>
+        <li class="list-group-item">
+          1001000 (1mil) Near - 1000+sqrt(1000000) = 2000 votes
+        </li>
+        <li class="list-group-item">
+          Additionally, if you ever staked with your account, you can have
+          20*(active onchain months) voting power
+        </li>
+        <li class="list-group-item">
+          Total is around 150k accounts that can potentially vote
+        </li>
+        <li class="list-group-item">
+          Data made from a{" "}
+          <a
+            href="https://bafybeidy6aerzfcaytshbntccgq6oquopd4q3ftsuaz66bstjfc4vpuwku.ipfs.w3s.link/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            snapshot
+          </a>{" "}
+          that was made on 17.12.2023
+        </li>
+      </ol>
+    </div>
     <div>
       <p>
         <span style={{ fontWeight: "bold" }}>
@@ -288,7 +300,14 @@ return (
           >
             here
           </a>
-          .
+          if you have any questions please ask them{" "}
+          <a
+            href="https://t.me/ndcopstech"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            in Ops team telegram chat
+          </a>
         </span>
       </p>
     </div>
