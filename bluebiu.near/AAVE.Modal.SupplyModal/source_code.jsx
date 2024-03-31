@@ -7,6 +7,7 @@ const {
   depositETHGas,
   depositERC20Gas,
   formatHealthFactor,
+  calcHealthFactor,
   theme,
 } = props;
 
@@ -429,20 +430,6 @@ function depositErc20(amount) {
     .catch(() => State.update({ loading: false }));
 }
 
-/**
- *
- * @param {string} chainId
- * @param {string} address user address
- * @param {string} asset asset address
- * @param {string} action 'deposit' | 'withdraw' | 'borrow' | 'repay'
- * @param {string} amount amount in USD with 2 fixed decimals
- * @returns
- */
-function getNewHealthFactor(chainId, address, asset, action, amount) {
-  const url = `${config.AAVE_API_BASE_URL}/${chainId}/health/${address}`;
-  return asyncFetch(`${url}?asset=${asset}&action=${action}&amount=${amount}`);
-}
-
 const maxValue =
   symbol === config.nativeCurrency.symbol
     ? Big(balance).minus(MIN_ETH_GAS_FEE).toFixed(decimals)
@@ -461,22 +448,16 @@ function debounce(fn, wait) {
 
 const updateNewHealthFactor = debounce(() => {
   State.update({ newHealthFactor: "-" });
-
-  Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((address) => {
-      getNewHealthFactor(
-        chainId,
-        address,
-        underlyingAsset,
-        "deposit",
-        state.amountInUSD
-      ).then((response) => {
-        const newHealthFactor = formatHealthFactor(response.body);
-        State.update({ newHealthFactor });
-      });
-    });
+  const newHealthFactor = formatHealthFactor(
+    calcHealthFactor("SUPPLY", symbol, state.amount)
+  );
+  console.log(
+    "supply updateNewHealthFactor",
+    symbol,
+    state.amount,
+    newHealthFactor
+  );
+  State.update({ newHealthFactor });
 }, 1000);
 
 const disabled =
