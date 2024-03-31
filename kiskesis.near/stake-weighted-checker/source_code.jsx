@@ -9,6 +9,7 @@ const Input = styled.input`
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
+  width: 100%;
 `;
 
 const LabelArea = styled.div`
@@ -205,8 +206,8 @@ return (
       </p>
     </CardContainer>
     <p>
-      Type the account which you want to validate 'XXX.near' and click button to
-      see your voting power and related information
+      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg' or hash(64 symbols) 
+      <br></br>and click to see your voting power and related info
     </p>
     <LabelArea>
       <div className="d-flex flex-column justify-content-center align-items-center">
@@ -261,9 +262,9 @@ return (
     <p>
       Explanation of voting power: The maximum voting power for the tokens is
       1000 <br></br>
-      <br></br> Additionally if you ever staked with your account you can have
-      20*active onchain months voting power Total is around 150k accounts that
-      can potentially vote
+      <br></br> Additionally, if you ever staked with your account, you can have
+      20*(active onchain months) voting power 
+      <br></br>Total is around 150k accounts that can potentially vote
     </p>
   </div>
 );
