@@ -47,7 +47,7 @@ return {
       },
     },
     documents: {
-      path: "abdullahi3000.near/widget/Feed",
+      path: "jgodwill.near/widget/gdocs",
       blockHeight: "final",
       init: {
         name: "Documents",
