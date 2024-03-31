@@ -52,8 +52,7 @@ const Main = styled.div`
   }
 
   .intro {
-    margin-top:30px;
-    background: url(${config.image3}) no-repeat 100% 0 fixed;
+    background: url(${config.image3}) no-repeat 100% 50px fixed;
   }
 
   .hero {
