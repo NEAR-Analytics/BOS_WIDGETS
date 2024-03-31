@@ -81,7 +81,6 @@ const Container = styled.div`
     padding:10px 0;
     align-items:center;
     border-top:2px solid #31cf34;
-    border-bottom:2px solid #31cf34;
     @media screen and (max-width:768px){
         flex-direction:column;
         justify-content:center;
