@@ -9,6 +9,7 @@ const {
   withdrawETHGas,
   withdrawERC20Gas,
   formatHealthFactor,
+  calcHealthFactor,
   account,
   theme,
 } = props;
@@ -116,6 +117,7 @@ return (
           withdrawETHGas,
           withdrawERC20Gas,
           formatHealthFactor,
+          calcHealthFactor,
           account,
           onRequestClose: () => setShowWithdrawModal(false),
         }}
@@ -135,6 +137,7 @@ return (
           },
           onActionSuccess,
           formatHealthFactor,
+          calcHealthFactor,
           account,
           onRequestClose: () => {
             State.update({
