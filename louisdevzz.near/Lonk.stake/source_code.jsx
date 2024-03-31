@@ -10,7 +10,7 @@ const [amount, setAmount] = useState("");
 const onStakeClick = () => {
   const gas = 300 * 1000000000000;
   // TODO: doesn't support floats right now due to limitation of JS integers
-  const deposit = Big(amount).mul(Big(10).pow(8)).toFixed(0);
+  const deposit = Big(amount).mul(Big(10).pow(24)).toFixed(0);
   console.log(gas, deposit);
   Near.call(
     "lonk_validator.poolv1.near",
