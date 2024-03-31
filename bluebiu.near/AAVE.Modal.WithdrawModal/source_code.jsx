@@ -7,6 +7,7 @@ const {
   withdrawETHGas,
   withdrawERC20Gas,
   formatHealthFactor,
+  calcHealthFactor,
   account,
   theme,
 } = props;
@@ -312,6 +313,19 @@ function debounce(fn, wait) {
     State.update({ timer });
   };
 }
+const updateNewHealthFactor = debounce(() => {
+  State.update({ newHealthFactor: "-" });
+  const newHealthFactor = formatHealthFactor(
+    calcHealthFactor("WITHDRAW", symbol, state.amount)
+  );
+  console.log(
+    "withdraw updateNewHealthFactor",
+    symbol,
+    state.amount,
+    newHealthFactor
+  );
+  State.update({ newHealthFactor });
+}, 1000);
 
 const changeValue = (value) => {
   if (Number(value) > shownMaxValue) {
@@ -324,9 +338,11 @@ const changeValue = (value) => {
     const amountInUSD = Big(value)
       .mul(marketReferencePriceInUsd)
       .toFixed(2, ROUND_DOWN);
+
     State.update({
       amountInUSD,
     });
+    updateNewHealthFactor();
   } else {
     State.update({
       amountInUSD: "0.00",
