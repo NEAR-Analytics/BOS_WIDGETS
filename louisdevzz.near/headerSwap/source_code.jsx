@@ -190,82 +190,52 @@ return (
                     id="dropdown"
                   >
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.etherum"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">ethereum</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.solana"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">solana</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">arbitrum</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">optimism</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">polygon</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">fantom</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">avalanche</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.evm"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">BSC</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.sui"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">sui</span>
                       </a>
                     </li>
                     <li>
-                      <a
-                        class="dropdown-item"
-                        href="https://near.org/louisdevzz.near/widget/Lonk.sui"
-                      >
+                      <a class="dropdown-item" href="#">
                         from <span class="text-capitalize">aptos</span>
                       </a>
                     </li>
