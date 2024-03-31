@@ -52,9 +52,11 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
+const wallet = props.wallet_id || context.accountId;
+
 State.init({
   valid: true,
-  accountId: "",
+  accountId: wallet,
   errorMessage: <></>,
   votingPower: null,
   voterInfo: null,
@@ -212,6 +214,7 @@ return (
           id
           type="text"
           value={v}
+          placeholder={wallet}
           onChange={(e) => validate(e.target.value)}
           className="w-100"
           style={{ maxWidth: "200px" }}
