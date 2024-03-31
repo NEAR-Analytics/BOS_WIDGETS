@@ -7,9 +7,40 @@ const shrinkToken = (value, decimals) => {
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
-const chakraFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-).body;
+
+const account = fetch("https://rpc.mainnet.near.org", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    id: "dontcare",
+    method: "query",
+    params: {
+      request_type: "view_account",
+      finality: "final",
+      account_id: accountId,
+    },
+  }),
+});
+
+const getBalance = (token_id, tokenMeta) => {
+  let amount;
+
+  if (!accountId) {
+    return "0";
+  }
+
+  if (token_id === "NEAR") amount = account.body.result.amount;
+  else {
+    amount = Near.view(token_id, "ft_balance_of", {
+      account_id: accountId,
+    });
+  }
+
+  return !amount ? "0" : shrinkToken(amount, tokenMeta.decimals).toFixed();
+};
 
 const LONK_TOKEN_META = {
   decimals: 8,
@@ -42,7 +73,6 @@ const ExchangeIcon = (
         tokenIn: state.tokenOut,
         tokenOut: state.tokenIn,
       });
-      loadBalance();
     }}
   >
     <path
@@ -67,15 +97,11 @@ const Exchange = <ExchangeWrapper>{ExchangeIcon}</ExchangeWrapper>;
 State.init({
   tokenIn: NEAR_META,
   tokenOut: LONK_TOKEN_META,
-  count: 5,
-  amountIn: "0.1",
+  amountIn: "1",
   amountOut: "",
   showSetting: false,
   slippagetolerance: "0.5",
   estimate: {},
-  balanceTokenIn: "",
-  balanceTokenOut: "",
-  notEnough: "",
   timerIntervalSet: false,
   reloadPools: false,
   loadRes: (value) =>
@@ -85,50 +111,10 @@ State.init({
     }),
 });
 
-const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
-const loadBalance = () => {
-  asyncFetch(`https://api3.nearblocks.io/v1/account/${accountId}`).then(
-    (res) => {
-      const getBalance = (token_id, tokenMeta) => {
-        let amount;
+if (!Storage.get("count")) {
+  Storage.set("count", 21);
+}
 
-        if (!accountId) {
-          return "0";
-        }
-        if (token_id === "NEAR") amount = res.body.account[0].amount;
-        else {
-          amount = Near.view(token_id, "ft_balance_of", {
-            account_id: accountId,
-          });
-        }
-
-        return !amount
-          ? "0"
-          : shrinkToken(amount, tokenMeta.decimals).toFixed();
-      };
-      const balanceTokenIn = getBalance(state.tokenIn.id, state.tokenIn);
-      const balanceTokenOut = getBalance(state.tokenOut.id, state.tokenOut);
-
-      const notEnough = new Big(state.amountIn || 0).gt(
-        new Big(balanceTokenIn).minus(
-          state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
-        )
-      );
-
-      State.update({
-        notEnough: notEnough,
-        balanceTokenIn: formatToken(balanceTokenIn),
-        balanceTokenOut: formatToken(balanceTokenOut),
-        reloadPools: true,
-        tokenIn: state.tokenIn,
-        tokenOut: state.tokenOut,
-      });
-    }
-  );
-};
-useEffect(() => {
-  loadBalance();
-}, []);
 let timerInterval;
 
 if (!state.timerIntervalSet) {
@@ -136,13 +122,16 @@ if (!state.timerIntervalSet) {
     timerIntervalSet: true,
   });
   timerInterval = setTimeout(() => {
-    const count = state.count;
+    const count = Storage.get("count");
 
     if (count === 1) {
-      loadBalance();
+      State.update({
+        reloadPools: true,
+      });
     }
+    Storage.set("count", count === 1 ? 21 : count - 1);
+
     State.update({
-      count: count === 1 ? 5 : count - 1,
       timerIntervalSet: false,
     });
 
@@ -151,14 +140,12 @@ if (!state.timerIntervalSet) {
 }
 
 const Container = styled.div`
-  width: 470px;
+  width: 430px;
 
   color: white;
-    font-family:Chakra Petch, sans-serif;
-    background:#282828;
-    padding:22px;
+
   .swap-title {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 700;
   }
 
@@ -206,6 +193,12 @@ const RateWrapper = styled.div`
   font-size: 12px;
   color: #7c7f96;
 `;
+
+const notEnough = new Big(state.amountIn || 0).gt(
+  new Big(getBalance(state.tokenIn.id, state.tokenIn)).minus(
+    state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
+  )
+);
 
 const canSwap =
   Number(state.amountIn || 0) > 0 &&
@@ -338,8 +331,7 @@ const callTx = () => {
     });
   }
 
-  const res = Near.call(tx);
-  console.log(res);
+  Near.call(tx);
 };
 
 const inputOnChange = (e) => {
@@ -347,6 +339,7 @@ const inputOnChange = (e) => {
   if (targetValue !== "" && !targetValue.match(/^\d*(\.\d*)?$/)) {
     return;
   }
+
   let amountIn = targetValue.replace(/^0+/, "0"); // remove prefix 0
 
   State.update({
@@ -356,7 +349,7 @@ const inputOnChange = (e) => {
 
 return (
   <Container>
-    <div className="swap-title">Trade tokens</div>
+    <div className="swap-title">Swap</div>
     {
       <Widget
         src="weige.near/widget/ref-swap-getEstimate"
@@ -373,12 +366,12 @@ return (
         }}
       />
     }
+
     {
       <Widget
-        src={`louisdevzz.near/widget/veax-token-input`}
+        src={`huunhanz.near/widget/ref-token-input`}
         props={{
           amount: state.amountIn,
-          balance: state.balanceTokenIn,
           disableInput: false,
           inputOnChange: inputOnChange,
           setAmount: (value) => State.update({ amountIn: value }),
@@ -393,10 +386,9 @@ return (
     {Exchange}
     {
       <Widget
-        src={`louisdevzz.near/widget/veax-token-input`}
+        src={`huunhanz.near/widget/ref-token-input`}
         props={{
           amount: state.amountOut,
-          balance: state.balanceTokenOut,
           disableInput: true,
           setAmount: (value) => State.update({ amountOut: value }),
           token: state.tokenOut,
@@ -414,11 +406,11 @@ return (
           clearTimeout(timerInterval);
           State.update({
             reloadPools: true,
-            count: 5,
           });
+          Storage.set("count", 21);
         }}
       >
-        <Refresh>{state.count - 1}</Refresh>
+        <Refresh>{Storage.get("count") - 1}</Refresh>
         <RefreshText>Refresh</RefreshText>
       </RefreshWrapper>
 
@@ -428,9 +420,32 @@ return (
           : new Big(state.amountOut || 0).div(state.amountIn || 1).toFixed(4, 0)
       } ${state.tokenOut.symbol}`}</RateWrapper>
     </RateLine>
+    <Widget
+      src={`weige.near/widget/SlippageTolerance`}
+      props={{
+        showSetting: state.showSetting,
+        updateSetting: () =>
+          State.update({
+            showSetting: !state.showSetting,
+          }),
+        slippagetolerance: state.slippagetolerance,
+        setSlippagetolerance: (value) => {
+          if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
+            return;
+          }
+          if (Number(value) > 99.9999) return;
+
+          let slippagetolerance = value.replace(/^0+/, "0"); // remove prefix 0
+
+          State.update({
+            slippagetolerance,
+          });
+        },
+      }}
+    />
 
     <Widget
-      src="louisdevzz.near/widget/ref-swap-button"
+      src="weige.near/widget/ref-swap-button"
       props={{
         accountId,
         notEnough,
