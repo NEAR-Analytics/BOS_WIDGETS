@@ -9,7 +9,6 @@ const Input = styled.input`
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
-  width: 100%;
 `;
 
 const LabelArea = styled.div`
@@ -32,32 +31,9 @@ const CodeSnippet = styled.div`
   margin: 0;
 `;
 
-const CardContainer = styled.div`
-  background-color: #ffebee; /* Soft red color */
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  margin: 20px auto;
-`;
-
-const Message = styled.p`
-  color: #b71c1c; /* Darker red color for emphasis */
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
-const Link = styled.a`
-  color: #b71c1c; /* Darker red color for emphasis */
-  text-decoration: underline;
-  cursor: pointer;
-`;
-
-const wallet = props.wallet_id || context.accountId;
-
 State.init({
   valid: true,
-  accountId: wallet,
+  accountId: "",
   errorMessage: <></>,
   votingPower: null,
   voterInfo: null,
@@ -117,7 +93,7 @@ const validate = (accountId) => {
 const accountId = props.accountId ?? "Login with NEAR Wallet";
 
 const getVotingPower = (accountId) => {
-  const votingPower = asyncFetch("https://rpc.testnet.near.org", {
+  const votingPower = fetch("https://rpc.testnet.near.org", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -134,34 +110,48 @@ const getVotingPower = (accountId) => {
         args_base64: btoa(JSON.stringify({ voter: `${accountId}` })),
       },
     }),
-  }).then((res) => {
-    State.update({
-      votingPower: String.fromCharCode(...res.body.result.result),
-    });
   });
 
-  const voterInfo = asyncFetch("https://rpc.testnet.near.org", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: "dontcare",
-      method: "query",
-      jsonrpc: "2.0",
-      params: {
-        request_type: "call_function",
-        finality: "final",
-        account_id: "snapshot-test.testnet",
-        method_name: "get_eligible_voter_info",
-        args_base64: btoa(JSON.stringify({ account_id: `${accountId}` })),
-      },
-    }),
-  }).then((res) => {
-    State.update({
-      voterInfo: JSON.parse(String.fromCharCode(...res.body.result.result)),
-    });
-  });
+  // const voterInfo = fetch("https://rpc.testnet.near.org", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     id: "dontcare",
+  //     method: "query",
+  //     jsonrpc: "2.0",
+  //     params: {
+  //       request_type: "call_function",
+  //       finality: "final",
+  //       account_id: "snapshot-test.testnet",
+  //       method_name: "get_eligible_voter_info",
+  //       args_base64: btoa(JSON.stringify({ account_id: `${accountId}` })),
+  //     },
+  //   }),
+  // });
+
+  // const voterInfo = fetch("https://rpc.testnet.near.org", {
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   method: "POST",
+  //   body: JSON.stringify({
+  //     method: "query",
+  //     jsonrpc: "2.0",
+  //     contract: "snapshot-test.testnet",
+  //     params: {
+  //       request_type: "get_eligible_voter_info",
+  //       finality: "final",
+  //       account_id: `${accountId}`,
+  //     },
+  //   }),
+  // });
+
+  console.log("votingPower", votingPower);
+  console.log("voterInfo", voterInfo.body.result);
+
+  State.update({ votingPower, voterInfo });
 };
 
 const Card = ({ children, className }) => {
@@ -179,6 +169,8 @@ const CardTitle = ({ children, className }) => {
   return <p className={`card-title ${className}`}>{children}</p>;
 };
 
+console.log("state.voterInfo", state.voterInfo);
+
 const codeSnippet = `stakepower = if stake > 1000 (configurable) 
   1000 + sqrt(stake - 1000)
 else {
@@ -189,26 +181,11 @@ activity_power = 20 * active_months
 result = stake_power + activity_power`;
 
 return (
-  <div className="d-flex flex-column align-items-center p-4">
+  <div className="d-flex flex-column align-items-center">
     <h1>Check your voting power for NDC Stake-Weighted mechanism</h1>
-    <CardContainer>
-      <Message>
-        Your vote matters! Please take a moment to cast your vote and help shape
-        the future of our community.
-      </Message>
-      <p>
-        Don't forget to{" "}
-        <Link href="https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=voting-body-v1.ndc-gwg.near&proposalId=11">
-          cast your vote
-        </Link>{" "}
-        to support this stake-weighted solution or reject it if you didn't like
-        it.
-      </p>
-    </CardContainer>
     <p>
-      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg'
-      or hash(64 symbols)
-      <br></br>and click to see your voting power and related info
+      Type the account which you want to validate 'XXX.near' and click button to
+      see your voting power and related information
     </p>
     <LabelArea>
       <div className="d-flex flex-column justify-content-center align-items-center">
@@ -216,9 +193,9 @@ return (
           id
           type="text"
           value={v}
-          placeholder={wallet}
           onChange={(e) => validate(e.target.value)}
           className="w-100"
+          style={{ maxWidth: "200px" }}
         />
         <Error>{state.valid ? <></> : state.errorMessage}</Error>
       </div>
@@ -226,26 +203,13 @@ return (
     <button onClick={() => getVotingPower(state.accountId)}>
       Get Voting Power
     </button>
-    <div className="text-center">
-      {state.votingPower && (
-        <div>
-          <b>Voting Power:</b> {state.votingPower}
-        </div>
-      )}
-      {state.voterInfo && (
-        <div>
-          <div>
-            <b>Active Months:</b> {state.voterInfo.active_months}
-          </div>
-          <div>
-            <b>Stake:</b>{" "}
-            {(parseFloat(state.voterInfo.stake) / Math.pow(10, 24)).toFixed(2)}{" "}
-            Near
-          </div>
-        </div>
-      )}
-    </div>
-
+    {state.votingPower && <div>Voting Power: {state.votingPower}</div>}
+    {state.voterInfo && (
+      <div>
+        <div>Active Months: {state.voterInfo.active_months}</div>
+        <div>Stake: {state.voterInfo.stake}</div>
+      </div>
+    )}
     <Card className="mt-3">
       <CardTitle>Calculation of Voting Power</CardTitle>
       <pre
@@ -259,12 +223,5 @@ return (
         <CodeSnippet>{codeSnippet}</CodeSnippet>
       </pre>
     </Card>
-    <p>
-      Explanation of voting power: The maximum voting power for the tokens is
-      1000 <br></br>
-      <br></br> Additionally, if you ever staked with your account, you can have
-      20*(active onchain months) voting power
-      <br></br>Total is around 150k accounts that can potentially vote
-    </p>
   </div>
 );
