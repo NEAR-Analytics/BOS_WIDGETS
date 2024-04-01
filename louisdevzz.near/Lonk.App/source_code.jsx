@@ -128,7 +128,7 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         gap:10px;
-        width:120px;
+        width:200px;
         height:40px;
     }
   }
@@ -142,8 +142,9 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         gap:10px;
-        width:120px;
-        height:40px;
+        margin:60px;
+        width:200px;
+        height:60px;
     }
   }
   .image{
