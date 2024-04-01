@@ -47,7 +47,7 @@ return (
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={config.image6} width="186" />
+                  <img src={config.image6} class="image" width="186" />
                 </button>
                 <button
                   onClick={() => setSelect("veax")}
@@ -93,7 +93,7 @@ return (
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={config.lonk_bot} width="120" />
+                  <img src={config.lonk_bot} class="image" width="120" />
                 </a>
               </div>
             </div>
