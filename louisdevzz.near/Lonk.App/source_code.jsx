@@ -128,7 +128,7 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         margin:60px;
-        gap:20px;
+        gap:10px;
         width:200px;
         height:60px;
     }
@@ -143,9 +143,15 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         margin:60px;
-        gap:20px;
+        gap:10px;
         width:200px;
         height:60px;
+    }
+  }
+  .image{
+    @media screen and (max-width:768px){
+      width:120px;
+      height:40px;
     }
   }
   .about{
