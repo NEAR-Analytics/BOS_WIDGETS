@@ -47,7 +47,7 @@ return {
       },
     },
     documents: {
-      path: "abdullahi3000.near/widget/docs",
+      path: "abdullahi3000.near/widget/harmonic.docs",
       blockHeight: "final",
       init: {
         name: "Documents",
