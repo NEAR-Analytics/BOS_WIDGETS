@@ -52,28 +52,14 @@ return {
       init: {
         name: "Documents",
         icon: "bi-file-text",
-        requiredHashtags: ["build", "question"],
-        template: `## what is your question?
-(posted via [${daoName} Gateway](${feedLink}?tab=question))
-
-[what are you thinking about?]
-[why are you asking?]
-`,
       },
     },
     treasury: {
-      path: "abdullahi3000.near/widget/docs",
+      path: "astraplusplus.ndctools.near/widget/DAO.Funds.index",
       blockHeight: "final",
       init: {
         name: "Treasury",
         icon: "bi bi-cash-coin",
-        requiredHashtags: ["build", "question"],
-        template: `## what is your question?
-(posted via [${daoName} Gateway](${feedLink}?tab=question))
-
-[what are you thinking about?]
-[why are you asking?]
-`,
       },
     },
   },
