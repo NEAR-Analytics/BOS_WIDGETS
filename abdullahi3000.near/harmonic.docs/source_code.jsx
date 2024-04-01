@@ -25,13 +25,13 @@ return (
   <div
     className="container-fluid"
     style={{
-      backgroundColor: "rgb(230, 230, 230)",
+      backgroundColor: "#151718",
       borderRadius: "20px",
       padding: "0",
     }}
   >
     <Widget
-      src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
+      src={`abdullahi3000/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
