@@ -120,9 +120,9 @@ const Main = styled.div`
   }
   .button-swap{
     display:flex;
-    justify-content:space-between;
+    flex-direction:column;
     gap:20px;
-    
+    justify-content:space-between;
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
@@ -134,7 +134,10 @@ const Main = styled.div`
     }
   }
   .item{
-    margin-top:20px;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    gap:20px;
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
