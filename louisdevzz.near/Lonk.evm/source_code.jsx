@@ -41,9 +41,12 @@ const Container = styled.div`
       display:flex;
       flex-direction:row;
       justify-content:space-between;
+      flex: 0 0 auto;
+      width: 50%;
       @media screen and (max-width:768px){
         flex-direction:column;
         justify-content:center;
+        width:100%
       }
     }
 `;
