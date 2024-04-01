@@ -539,7 +539,7 @@ const handleApprove = (isToken0) => {
   );
 
   contract
-    .approve(STEER_PERIPHERY_ADDRESS, tokenWei)
+    .approve(curChain.chain_id === 169 ? vaultAddress : ethers.utils.getAddress(STEER_PERIPHERY_ADDRESS), tokenWei)
     .then((tx) => tx.wait())
     .then((receipt) => {
       const payload = isToken0
