@@ -10,7 +10,10 @@ if (!balances) {
     },
   };
   const res = fetch(
-    `${baseApi}/account/balances?accounts=${"harmonic-guild-v1.sputnik-dao.near"}`,
+    `${baseApi}/account/balances?accounts=${[
+      "harmonic-guild-v1.sputnik-dao.near" ??
+        "harmonic-guild-v1.sputnik-dao.near",
+    ]}`,
     fetchApiConfig
   );
   if (!res.body) {
