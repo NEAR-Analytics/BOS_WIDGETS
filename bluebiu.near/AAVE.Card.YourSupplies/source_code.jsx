@@ -44,15 +44,14 @@ const renderCollateral = (record) => {
         theme,
         onChange: () => {
           console.log("--------", record);
-          if (record.usageAsCollateralEnabled === undefined) return;
 
           State.update({
             data: record,
             showCollateralModal: true,
-            flag: record.usageAsCollateralEnabled ? false : true,
+            flag: record.isCollateraled ? false : true,
           });
         },
-        active: record.usageAsCollateralEnabled ? true : false,
+        active: record.isCollateraled ? true : false,
       }}
     />
   );
@@ -92,8 +91,8 @@ return (
                   <div>{Number(row.underlyingBalance).toFixed(7)}</div>
                   <div>$ {Number(row.underlyingBalanceUSD).toFixed(2)}</div>
                 </div>,
-                renderCollateral(row),
                 `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+                renderCollateral(row),
 
                 <WithdrawButton data={row} />,
               ];
@@ -127,7 +126,7 @@ return (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Modal.CollateralModal`}
         props={{
-          flag,
+          flag: state.flag,
           config,
           theme,
           chainId,
