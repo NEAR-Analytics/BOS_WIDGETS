@@ -54,7 +54,7 @@ const Main = styled.div`
   .intro {
     background: url(${config.image3}) no-repeat 100% 0 fixed;
     @media screen and (max-width:768px){
-        min-width:1000px;
+        min-height:1000px;
     }
   }
 
