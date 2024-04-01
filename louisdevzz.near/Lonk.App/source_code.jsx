@@ -122,6 +122,7 @@ const Main = styled.div`
     display:flex;
     flex-direction:column;
     gap:20px;
+    padding:60px 0;
     justify-content:space-between;
     @media screen and (max-width:768px){
         display:flex;
