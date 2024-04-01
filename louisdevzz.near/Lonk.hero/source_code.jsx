@@ -241,7 +241,7 @@ return (
               class="modal-body d-flex justify-content-center align-items-center"
               style={{ fontWeight: "600" }}
             >
-              Please connect wallet before swap!!!
+              Please connect wallet!
             </div>
           </div>
         </div>
