@@ -69,7 +69,7 @@ return (
           //     marginTop: "80px",
           //   },
           // },
-          noAccountTips: "BSC Bridge",
+          noAccountTips: "BNB Chain Bridge",
           wrongNetworkTips: "To proceed, kindly switch to BNB Chain.",
         },
         chain: {
