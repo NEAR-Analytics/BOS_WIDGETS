@@ -21,14 +21,17 @@ const Container = styled.div`
         font-family: Lakki Reddy,cursive;
         font-size: 1.3rem;
         color:#31cf34;
+        padding-top:20px;
     }
     .step{
         font-weight: bolder;
+        padding: 20px 0;
     }
     .bage{
         background-color: #31cf34;
         font-size: 1.1em;
         padding: 3px 8px;
+        border-radius:5px;
     }
 `;
 
@@ -42,23 +45,23 @@ return (
           <img class="bage" src="https://lonk.meme/assets/images/v.svg" />
           Bruv have many options. 1-step way:
         </div>
-        <ul>
+        <ul class="py-2">
           <li>Rainbow Bridge (Official NEAR Bridge)</li>
           <li>Rubic Exchange</li>
         </ul>
         <div class="step">2-step way:</div>
         <div> Step 1, Bridge to Aurora using: </div>
-        <ul>
+        <ul class="py-2">
           <li>Meson</li>
           <li>Synapse</li>
           <li>Boring DAO</li>
         </ul>
         <div>Step 2, Bridge from Aurora to NEAR using: </div>
-        <ul>
+        <ul class="py-2">
           <li>Rainbow Bridge (Official NEAR Bridge)</li>
         </ul>
-        <div>Done bridging?</div>
-        <div>Get some $LONK bruv </div>
+        <div class="pt-5 font-weight-bolder">Done bridging?</div>
+        <div class="pt-2">Get some $LONK bruv </div>
         <button
           type="button"
           data-bs-toggle="modal"
@@ -68,6 +71,7 @@ return (
             height: "60px",
             width: "270px",
             border: "2px solid #31cf34",
+            marginTop: "20px;",
           }}
           class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
         >
