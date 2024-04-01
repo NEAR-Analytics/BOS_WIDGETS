@@ -50,7 +50,7 @@ return (
           <li>Rainbow Bridge (Official NEAR Bridge)</li>
           <li>Rubic Exchange</li>
         </ul>
-        <div>
+        <div class="d-flex justify-content-between flex-row">
           <div>
             <div class="step">2-step way:</div>
             <div> Step 1, Bridge to Aurora using: </div>
