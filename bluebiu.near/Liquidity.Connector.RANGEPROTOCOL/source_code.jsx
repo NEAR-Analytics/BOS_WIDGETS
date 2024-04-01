@@ -111,6 +111,9 @@ const ContainerLogin = styled.div`
 `;
 State.init({
   allData: null,
+  userData: null,
+  feesData: null,
+  rangeData: null,
   loading: false,
   dataList: [],
   filterList: [],
@@ -184,10 +187,10 @@ const {
   ALL_DATA_URL,
   ICON_VAULT_MAP,
   USER_DATA_BASE,
-  FEES_BSC_PANCAKESWAP_URL,
-
+  FEES_URL,
+  RANGE_URL
 } = dexConfig
-async function fetchAllData() {
+function fetchAllData() {
   State.update({
     loading: true
   });
@@ -207,6 +210,81 @@ async function fetchAllData() {
   }).catch(() => {
     State.update({
       loading: false
+    })
+  })
+}
+function fetchUserData() {
+  asyncFetch(RANGE_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      "variables": {},
+      "query": "{\n  users(where: {id: \"" + sender + "\"}) {\n    id\n    vaultBalances {\n      token0\n      token1\n      balance\n      address\n      vault {\n        id\n        token0\n        token1\n      }\n    }\n  }\n}"
+    })
+  }).then(result => {
+    try {
+      if (result.ok) {
+        const users = result.body.data.users
+        const userData = {
+        }
+        users.forEach(user => {
+          user.vaultBalances.forEach(vaultBalance => {
+            userData[vaultBalance.vault.id] = vaultBalance
+          })
+        })
+        State.update({
+          userData,
+        })
+      }
+    } catch (error) {
+    }
+  })
+}
+function fetchFeesData() {
+  asyncFetch(FEES_URL).then(result => {
+    try {
+      if (result.ok) {
+        const data = JSON.parse(result.body)
+        State.update({
+          feesData: data,
+        })
+      }
+    } catch (error) {
+    }
+  })
+}
+function handleFetchRangeData(vault) {
+  return new Promise((resolve, reject) => {
+    asyncFetch(RANGE_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        "variables": {},
+        "query": "{\n  vault(id: \"" + vault + "\") {\n    liquidity\n    balance0\n    balance1\n    totalSupply\n    totalFeesEarned0\n    totalFeesEarned1\n    token0\n    token1\n    name\n    tag\n    pool\n  }\n}"
+      })
+    })
+      .then(result => {
+        if (result.ok) {
+          resolve({
+            [vault]: result.body.data.vault
+          })
+        }
+      })
+      .catch(reject)
+  })
+}
+function fetchRangeData() {
+  const promiseArray = []
+  for (let i = 0; i < pairs.length; i++) {
+    const vault = addresses[pairs[i].id]
+    promiseArray.push(handleFetchRangeData(vault))
+  }
+  Promise.all(promiseArray).then((resultArray) => {
+    const rangeData = {}
+    for (let i = 0; i < resultArray.length; i++) {
+      const result = resultArray[i]
+      Object.assign(rangeData, result)
+    }
+    State.update({
+      rangeData
     })
   })
 }
@@ -234,6 +312,11 @@ function handleSearchInput(event) {
     token: event.target.value
   })
 }
+function refetch() {
+  fetchAllData()
+  fetchFeesData()
+  fetchRangeData()
+}
 useEffect(() => {
   if (state.dataList) {
     let filterList = []
@@ -243,9 +326,10 @@ useEffect(() => {
         const target = (state.token || '').toUpperCase()
         return source.indexOf(target) > -1
       })
-    } else if (state.categoryIndex === 1 && state.userPositions) {
+    } else if (state.categoryIndex === 1 && state.userData) {
+
       state.dataList.forEach(data => {
-        if (state.userPositions && addresses[data.id] in state.userPositions) {
+        if (state.userData && addresses[data.id].toLowerCase() in state.userData) {
           filterList.push(data)
         }
       })
@@ -266,7 +350,18 @@ useEffect(() => {
       categoryIndex: 0,
       userPositions: null
     })
-    fetchAllData()
+    if (!state.allData) {
+      fetchAllData()
+    }
+    if (!state.userData) {
+      fetchUserData()
+    }
+    if (!state.fees) {
+      fetchFeesData()
+    }
+    if (!state.range) {
+      fetchRangeData()
+    }
   }
 }, [curChain])
 const columnList = [{
@@ -327,13 +422,13 @@ const columnList = [{
   }
 }, {
   width: '10%',
-  key: 'totalApr',
-  label: 'Total APR',
+  key: 'apy',
+  label: 'APR (7d)',
   type: 'slot',
   render: (data) => {
     return (
       <StyledDashedUndeline>
-        <TdTxt>{data.totalApr}</TdTxt>
+        <TdTxt>{data.apy}</TdTxt>
       </StyledDashedUndeline>
     )
   }
@@ -344,13 +439,9 @@ const columnList = [{
   label: 'Your Liquidity',
   type: 'slot',
   render: (data, index) => {
-    const userPositions = state.userPositions
-    const userBalance = userPositions && addresses[data.id] in userPositions
-      ? userPositions[addresses[data.id]].balanceUSD
-      : undefined;
     return (
       <>
-        <TdTxt>{userBalance ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
+        <TdTxt>{data.liquidityUSD ? `${formatFiat(data.liquidityUSD)}` : "-"}</TdTxt>
         {data.liquidity && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
@@ -362,27 +453,30 @@ const columnList = [{
 
 return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> : (
   <StyledColumn>
-    {state.allData && (
-      <Widget
-        src={"bluebiu.near/widget/Liquidity.Data.RANGEPROTOCOL"}
-        props={{
-          pairs,
-          addresses,
-          allData: state.allData,
-          prices,
-          curChain,
-          multicallAddress,
-          FEES_BSC_PANCAKESWAP_URL,
-          // LAST_SNAP_SHOT_DATA_URL,
-          onLoad: (data) => {
-            State.update({
-              dataList: data.dataList,
-              loading: false
-            })
-          }
-        }}
-      />
-    )}
+    {state.allData &&
+      state.feesData &&
+      state.rangeData && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Data.RANGEPROTOCOL"}
+          props={{
+            pairs,
+            addresses,
+            allData: state.allData,
+            prices,
+            curChain,
+            feesData: state.feesData,
+            rangeData: state.rangeData,
+            multicallAddress,
+            // LAST_SNAP_SHOT_DATA_URL,
+            onLoad: (data) => {
+              State.update({
+                dataList: data.dataList,
+                loading: false
+              })
+            }
+          }}
+        />
+      )}
     <Widget
       src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
       props={{
@@ -396,10 +490,11 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
       }}
     />
     <Widget
-      src={"bluebiu.near/widget/Liquidity.Bridge.List"}
+      src={"bluebiu.near/widget/Liquidity.Bridge.RANGEPROTOCOL.List"}
       props={{
         toast,
         prices,
+        refetch,
         columnList,
         userPositions: state.userPositions,
         dataIndex: state.dataIndex,
