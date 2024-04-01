@@ -24,6 +24,8 @@ State.init({
 });
 
 const SupplyButton = ({ data, ...rest }) => {
+  const { totalSupplyUSD, supplyCap } = data;
+  const isFull = Big(totalSupplyUSD).gte(supplyCap);
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -32,7 +34,7 @@ const SupplyButton = ({ data, ...rest }) => {
         // width: 148,
         theme,
         children: "Supply",
-        disabled: Number(data.balanceInUSD) === 0,
+        disabled: Number(data.balanceInUSD) === 0 || isFull,
         onClick: () => {
           State.update({ data });
           setShowSupplyModal(true);
@@ -42,21 +44,26 @@ const SupplyButton = ({ data, ...rest }) => {
   );
 };
 
-const BorrowButton = ({ data }) => (
-  <Widget
-    src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-    props={{
-      config,
-      disabled: isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply),
-      children: "Borrow",
-      theme,
-      onClick: () => {
-        State.update({ data, showBorrowModal: true });
-        // setShowBorrowModal(true);
-      },
-    }}
-  />
-);
+const BorrowButton = ({ data }) => {
+  const { totalDebtsUSD, borrowCap } = data;
+  const isFull = Big(totalDebtsUSD).gte(borrowCap);
+  return (
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+      props={{
+        config,
+        disabled:
+          isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply) || isFull,
+        children: "Borrow",
+        theme,
+        onClick: () => {
+          State.update({ data, showBorrowModal: true });
+          // setShowBorrowModal(true);
+        },
+      }}
+    />
+  );
+};
 
 let headers;
 let tableData;
