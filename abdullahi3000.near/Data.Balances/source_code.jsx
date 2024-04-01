@@ -11,10 +11,9 @@ if (!balances) {
   };
   const res = fetch(
     `${baseApi}/account/balances?accounts=${[
-      "harmonic-guild-v1.sputnik-dao.near" ??
-        "harmonic-guild-v1.sputnik-dao.near",
+      props.accountId ?? context.accountId,
     ]}`,
-    fetchApiConfig
+    fetchApiConfig,
   );
   if (!res.body) {
     return "Loading...";
@@ -24,7 +23,7 @@ if (!balances) {
 
 // Parsing the data to the format expected by the chart
 const balancesTotal = balances.balancesTotal.sort(
-  (a, b) => b.usdPrice - a.usdPrice
+  (a, b) => b.usdPrice - a.usdPrice,
 );
 const balanceData = balancesTotal.map((balance) => balance.usdPrice);
 const balanceLabels = balancesTotal.map((balance) => balance.contract);
@@ -125,7 +124,7 @@ const code = `
     #currentValue {
         font-size: 24px;
         font-weight: 600;
-        color: #fff;
+        color: rgb(0, 0, 0);
         font-family: "Open Sans", sans-serif;
     }
     #donutContainer {
@@ -196,7 +195,7 @@ const code = `
 
   #table .item > span:nth-child(2) {
     text-transform: lowercase;
-    color: #999;
+    color: #000;
     max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -308,7 +307,7 @@ const code = `
         ctx.font = "bold " + (right - left) * 0.14 + "px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#fff";
+        ctx.fillStyle = "#000";
 
         // If an element is being hovered
         if (chart.hoveredElement) {
