@@ -65,7 +65,7 @@ const ERC20_ABI = [
     "stateMutability": "view",
     "type": "function"
   },
-  "function balanceOf(address) view returns (uint256)"
+  "function balanceOf(address) view returns (uint256)",
 ];
 
 const MulticallContract = new ethers.Contract(
@@ -77,7 +77,6 @@ const MulticallContract = new ethers.Contract(
 const multicallv2 = (abi, calls, options, onSuccess, onError) => {
   const { requireSuccess, ...overrides } = options || {};
   const itf = new ethers.utils.Interface(abi);
-  console.log('====calls', calls)
   const calldata = calls.map((call) => ({
     target: call.address.toLowerCase(),
     callData: itf.encodeFunctionData(call.name, call.params),
