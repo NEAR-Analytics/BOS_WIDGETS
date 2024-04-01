@@ -31,7 +31,7 @@ return (
     }}
   >
     <Widget
-      src={`abdullahi3000/widget/WikiOnSocialDB_MainNavigation`}
+      src={`abdullahi3000.near/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
     />
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
