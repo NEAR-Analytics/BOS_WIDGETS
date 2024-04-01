@@ -21,7 +21,10 @@ const config = {
 const [select, setSelect] = useState("");
 return (
   <>
-    <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
+    <div
+      style={{ minHeight: "900px" }}
+      class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center"
+    >
       <div class="py-3">
         <div class="hero">
           <div class="d-flex justify-content-center align-items-center">
