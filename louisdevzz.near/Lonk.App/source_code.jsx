@@ -127,10 +127,9 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         justify-content:center;
-        margin:60px;
         gap:10px;
-        width:200px;
-        height:60px;
+        width:120px;
+        height:40px;
     }
   }
   .item{
@@ -142,10 +141,9 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         justify-content:center;
-        margin:60px;
         gap:10px;
-        width:200px;
-        height:60px;
+        width:120px;
+        height:40px;
     }
   }
   .image{
