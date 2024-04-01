@@ -1,4 +1,4 @@
-const widgetOwner = props.widgetOwner || "astraplusplus.ndctools.near";
+const widgetOwner = props.widgetOwner || "abdullahi3000.near";
 const daoId = props.daoId;
 
 const baseApi = "https://api.pikespeak.ai";
@@ -56,26 +56,16 @@ const fether = {
 
 const Container = styled.div``;
 
-const containerStyles = {
-  backgroundColor: "#151718",
-  color: "#fff",
-};
-
 return (
-  <Container style={containerStyles} className="d-flex flex-column gap-4">
-    <div className="ndc-card p-4" style={{ flex: 1, color: "WHITE" }}>
-      <h3 className="mb-3">Current Balance</h3>
-      <Widget
-        src="abdullahi3000.near/widget/Data.Balances"
-        props={{
-          balances: balances.body,
-        }}
-      />
-    </div>
-    {/* <Widget
+  <Container className="d-flex flex-column gap-4">
+    <Widget
+      src={`${widgetOwner}/widget/DAO.Funds.Balance`}
+      props={{ daoId, fether }}
+    />
+    <Widget
       src={`${widgetOwner}/widget/DAO.Funds.Transactions`}
       props={{ daoId, fether }}
-    /> */}
+    />
     {/* <Widget
       src={`${widgetOwner}/widget/DAO.Funds.Outgoing`}
       props={{ daoId, fether }}
