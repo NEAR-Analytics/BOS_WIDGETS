@@ -167,6 +167,7 @@ const BalancePrice = styled.div`
   span {
     color: #FFF;
     text-decoration-line: underline;
+    cursor: pointer;
   }
 `
 
