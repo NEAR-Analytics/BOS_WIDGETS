@@ -12,6 +12,55 @@ width: 400px;
 max-height: 646px;
 `;
 
+const HeaderEditor = styled.div`
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(2, 25, 58, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.09px;
+    text-align: left;
+`;
+const ButtonsBlock = styled.div`
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const ButtonsRevert = styled.div`
+display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(226, 226, 229, 1);
+    color: rgba(2, 25, 58, 1);
+    width: 175px;
+    height:42px;
+    border-radius: 10px;
+      font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+    `;
+const ButtonsSave = styled.div`
+display: flex;
+    justify-content: center;
+    align-items: center;
+      width: 175px;
+    height:42px;
+    border-radius: 10px;
+    background: rgba(56, 75, 255, 1);
+    color:#fff;
+    font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+
+    `;
+
 const closeIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -63,12 +112,26 @@ const iconEdit = (
 return (
   <div>
     <SelectedMutationEditorWrapper>
-      <div>
+      <HeaderEditor>
         Some Mutation Name
         {closeIcon}
+      </HeaderEditor>
+      <div>
+        {" "}
+        <Widget
+          src="bos.dapplets.near/widget/ApplicationCard"
+          props={{
+            src: app.id,
+            metadata: app.metadata,
+            onComponentSelect: () => props.onSelect(app),
+            hideButtons: !context.accountId,
+          }}
+        />
       </div>
-      <div>search</div>
-      <div>buttons</div>
+      <ButtonsBlock>
+        <ButtonsRevert>Revert changes</ButtonsRevert>
+        <ButtonsSave>Save</ButtonsSave>
+      </ButtonsBlock>
     </SelectedMutationEditorWrapper>
   </div>
 );
