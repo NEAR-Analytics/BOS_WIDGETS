@@ -223,7 +223,11 @@ return (
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+              <h5
+                class="modal-title"
+                id="exampleModalLabel"
+                style={{ color: "#f6d32d" }}
+              >
                 Warning
               </h5>
               <button
@@ -233,7 +237,10 @@ return (
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body d-flex justify-content-center align-items-center">
+            <div
+              class="modal-body d-flex justify-content-center align-items-center"
+              style={{ fontWeight: "600" }}
+            >
               Please connect wallet before swap!!!
             </div>
           </div>
