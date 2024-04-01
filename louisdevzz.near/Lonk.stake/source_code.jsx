@@ -238,7 +238,7 @@ return (
           />
         </div>
         <div class="sub-amount">
-          ~{Number(getBalanceNum("NEAR")).toFixed(8)} USD
+          ~{Number(getBalanceNum("NEAR")).toFixed(0)} USD
         </div>
         <div class="available">
           Available: {Number(getBalance("NEAR", NEAR_META)).toFixed(2)}
