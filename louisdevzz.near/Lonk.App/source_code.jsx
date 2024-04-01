@@ -140,7 +140,7 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         gap:20px;
-        margin:0 40px;
+        margin:0 60px;
     }
   }
   .about{
