@@ -34,6 +34,9 @@ const Container = styled.div`
     li{
         text-decoration: underline;
     }
+    a{
+        color:black;
+    }
 `;
 
 return (
