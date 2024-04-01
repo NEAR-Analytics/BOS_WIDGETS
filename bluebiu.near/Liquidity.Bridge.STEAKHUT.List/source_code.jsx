@@ -75,6 +75,7 @@ const Tr = styled.div`
 const Td = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
   gap: 6px;
   &.column {
     flex-direction: column;
@@ -145,6 +146,7 @@ const StyledVaultImage = styled.div`
 const {
   toast,
   prices,
+  refetch,
   dataList,
   dataIndex,
   columnList,
@@ -206,6 +208,7 @@ return (
                     toast,
                     theme,
                     prices,
+                    refetch,
                     addresses,
                     addAction,
                     proxyAddress,
