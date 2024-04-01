@@ -67,7 +67,7 @@ return (
               </div>
               <div class="item">
                 <a
-                  href=""
+                  href="https://orderly.network/docs/trade-on-orderly/trading-guis"
                   target="_blank"
                   style={{
                     padding: "10px 20px",
@@ -83,7 +83,7 @@ return (
                   Orderly Network
                 </a>
                 <a
-                  href=""
+                  href="https://t.me/lonk_bot"
                   target="_blank"
                   style={{
                     padding: "10px 20px",
