@@ -121,7 +121,19 @@ const Main = styled.div`
   .button-swap{
     display:flex;
     justify-content:space-between;
-    gap:10px;
+    gap:20px;
+    margin-top:20px;
+    @media screen and (max-width:768px){
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        margin:60px;
+        gap:20px;
+        width:200px;
+        height:60px;
+    }
+  }
+  .item{
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
