@@ -1,65 +1,126 @@
+State.init({
+  textSave: `Save`,
+  isOpenParametersSave: false,
+  parametersSave: ["Publish", "Commit to origin"],
+});
 const SelectedMutationEditorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  top: 217px;
-  left: 760px;
-  padding: 20px;
-  gap: 20px;
-  border-radius: 10px;
-  border: 1px solid #02193a;
-  background: #f8f9ff;
-  width: 400px;
-  max-height: 646px;
+display: flex;
+flex-direction: column;
+top: 217px;
+left: 760px;
+padding: 20px;
+gap: 20px;
+border-radius: 10px;
+border: 1px solid #02193A;
+background: #F8F9FF;
+width: 400px;
+max-height: 646px;
 `;
 
 const HeaderEditor = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgba(2, 25, 58, 1);
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21.09px;
-  text-align: left;
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(2, 25, 58, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.09px;
+    text-align: left;
 `;
 const ButtonsBlock = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const ButtonsRevert = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(226, 226, 229, 1);
-  color: rgba(2, 25, 58, 1);
-  width: 175px;
-  height: 42px;
-  border-radius: 10px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20.86px;
-  text-align: center;
-`;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(226, 226, 229, 1);
+    color: rgba(2, 25, 58, 1);
+    width: 175px;
+    height:42px;
+    border-radius: 10px;
+      font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+    `;
 const ButtonsSave = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 175px;
-  height: 42px;
-  border-radius: 10px;
-  background: rgba(56, 75, 255, 1);
-  color: #fff;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20.86px;
-  text-align: center;
+display: flex;
+    justify-content: center;
+    align-items: center;
+      width: 175px;
+    height:42px;
+    border-radius: 10px;
+    background: rgba(56, 75, 255, 1);
+    color:#fff;
+    font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+position: relative;
+
+    `;
+const TextSave = styled.div`
+    display: inline-block;
+    overflow: hidden;
+    word-wrap: no-wrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0 10px;
+    text-align: center;
+    `;
+const ArrowWrapper = styled.div`
+display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    margin-left: auto;
+    .rotateIcon{
+        transform: rotate(180deg);
+    }
 `;
 
+const SaveChanges = styled.div`
+position:absolute;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+right: 0;
+top:52px;
+width: 179px;
+height: 112px;
+padding: 10px;
+gap: 10px;
+border-radius: 10px;
+background:rgba(231, 236, 239, 1);
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+color: rgba(34, 34, 34, 1);
+
+`;
+
+const SaveChangesItem = styled.div`
+display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 159px;
+height:41px;
+border-radius: 4px ; 
+&:hover{
+   background:rgba(217, 222, 225, 1); 
+}
+`;
 const closeIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -108,6 +169,25 @@ const iconEdit = (
     />
   </svg>
 );
+
+const arrow = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="8"
+    viewBox="0 0 14 8"
+    fill="none"
+  >
+    <path
+      d="M1 1L7 7L13 1"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 return (
   <div>
     <SelectedMutationEditorWrapper>
@@ -129,7 +209,40 @@ return (
       </div>
       <ButtonsBlock>
         <ButtonsRevert>Revert changes</ButtonsRevert>
-        <ButtonsSave>Save</ButtonsSave>
+        <ButtonsSave>
+          <TextSave>{state.textSave}</TextSave>
+          <ArrowWrapper
+            style={{
+              transform: state.isOpenParametersSave
+                ? "rotate(180deg)"
+                : "rotate(0deg)",
+            }}
+            onClick={() =>
+              State.update({
+                isOpenParametersSave: !state.isOpenParametersSave,
+              })
+            }
+          >
+            {arrow}
+          </ArrowWrapper>
+          {state.isOpenParametersSave ? (
+            <SaveChanges>
+              {state.parametersSave.map((x, i) => (
+                <SaveChangesItem
+                  onClick={() =>
+                    State.update({
+                      isOpenParametersSave: !state.isOpenParametersSave,
+                      textSave: x,
+                    })
+                  }
+                  key={i}
+                >
+                  {x}
+                </SaveChangesItem>
+              ))}
+            </SaveChanges>
+          ) : null}
+        </ButtonsSave>
       </ButtonsBlock>
     </SelectedMutationEditorWrapper>
   </div>
