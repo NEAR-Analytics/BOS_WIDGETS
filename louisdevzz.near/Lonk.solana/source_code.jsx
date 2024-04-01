@@ -23,6 +23,9 @@ const Container = styled.div`
         color:#31cf34;
         padding-top:20px;
     }
+    .sub-title{
+        font-weight:bold;
+    }
     .step{
         font-weight: bolder;
         padding: 20px 0;
@@ -44,7 +47,7 @@ return (
     <Container>
       <div class="py-4 container">
         <div class="title">Bridge From Ethereum to NEAR</div>
-        <div class="text-weight-bold">Bonk 🤝 Lonk</div>
+        <div class="sub-title">Bonk 🤝 Lonk</div>
         <div class="step">
           <img class="bage" src="https://lonk.meme/assets/images/v.svg" />
           Bruv have 2 options, only 1 step:
