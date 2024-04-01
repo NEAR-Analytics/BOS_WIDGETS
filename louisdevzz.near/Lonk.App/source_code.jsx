@@ -166,9 +166,15 @@ const Main = styled.div`
         gap:10px;
     }
   }
-  .image{
+  .button{
     @media screen and (max-width:768px){
         width:120px;
+        height:40px;
+    }
+  }
+  .image{
+    @media screen and (max-width:768px){
+        width:150px;
     }
   }
   .roadmap-text{
