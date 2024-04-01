@@ -14,9 +14,7 @@ const Container = styled.div`
   ${fkGroteskFamily}
   ${fondKod}
     font-family: Kodchasan,sans-serif;
-    .intro {
-        background: url(${config.image3}) no-repeat 100% 0 fixed;
-    }
+    background: url(${config.image3}) no-repeat 100% 0 fixed;
     .title{
         font-family: Lakki Reddy,cursive;
         font-size: 1.3rem;
