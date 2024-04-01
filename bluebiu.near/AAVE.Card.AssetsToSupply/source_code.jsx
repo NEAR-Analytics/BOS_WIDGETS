@@ -24,8 +24,15 @@ State.init({
 });
 
 const SupplyButton = ({ data, ...rest }) => {
-  const { totalSupplyUSD, supplyCap } = data;
-  const isFull = Big(totalSupplyUSD).gte(supplyCap);
+  let disabled;
+
+  if (dexConfig.name === "Seamless Protocol") {
+    const { totalSupplyUSD, supplyCap } = data;
+    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCap || 0));
+    disabled = Number(data.balanceInUSD) === 0 || isFull;
+  } else {
+    disabled = Number(data.balanceInUSD) === 0;
+  }
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -34,7 +41,7 @@ const SupplyButton = ({ data, ...rest }) => {
         // width: 148,
         theme,
         children: "Supply",
-        disabled: Number(data.balanceInUSD) === 0 || isFull,
+        disabled,
         onClick: () => {
           State.update({ data });
           setShowSupplyModal(true);
@@ -45,15 +52,21 @@ const SupplyButton = ({ data, ...rest }) => {
 };
 
 const BorrowButton = ({ data }) => {
-  const { totalDebtsUSD, borrowCap } = data;
-  const isFull = Big(totalDebtsUSD).gte(borrowCap);
+  let disabled;
+  if (dexConfig.name === "Seamless Protocol") {
+    const { totalDebtsUSD, borrowCap } = data;
+    const isFull = Big(totalDebtsUSD || 0).gte(Big(borrowCap || 0));
+    disabled =
+      isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply) || isFull;
+  } else {
+    disabled = isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply);
+  }
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
       props={{
         config,
-        disabled:
-          isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply) || isFull,
+        disabled,
         children: "Borrow",
         theme,
         onClick: () => {
