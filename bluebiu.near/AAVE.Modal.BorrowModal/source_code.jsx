@@ -10,7 +10,7 @@ const {
   calcHealthFactor,
   theme,
 } = props;
-
+const hasHF = config.heroData.includes("Health Factor");
 if (!data) {
   return <div />;
 }
@@ -213,7 +213,9 @@ const changeValue = (value) => {
       .toFixed(2, ROUND_DOWN);
   }
   State.update({ amount: value, amountInUSD });
-  updateNewHealthFactor();
+  if (hasHF) {
+    updateNewHealthFactor();
+  }
 };
 
 function borrowERC20(amount) {
@@ -408,29 +410,31 @@ return (
                 config,
                 children: (
                   <TransactionOverviewContainer>
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <PurpleTexture>Health Factor</PurpleTexture>,
-                        right: (
-                          <div style={{ textAlign: "right" }}>
-                            <GreenTexture>
-                              {healthFactor}
-                              <img
-                                src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
-                                width={16}
-                                height={16}
-                              />{" "}
-                              {state.newHealthFactor}
-                            </GreenTexture>
-                            <WhiteTexture>
-                              Liquidation at &lt;{" "}
-                              {config.FIXED_LIQUIDATION_VALUE}
-                            </WhiteTexture>
-                          </div>
-                        ),
-                      }}
-                    />
+                    {hasHF ? (
+                      <Widget
+                        src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                        props={{
+                          left: <PurpleTexture>Health Factor</PurpleTexture>,
+                          right: (
+                            <div style={{ textAlign: "right" }}>
+                              <GreenTexture>
+                                {healthFactor}
+                                <img
+                                  src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                                  width={16}
+                                  height={16}
+                                />{" "}
+                                {state.newHealthFactor}
+                              </GreenTexture>
+                              <WhiteTexture>
+                                Liquidation at &lt;{" "}
+                                {config.FIXED_LIQUIDATION_VALUE}
+                              </WhiteTexture>
+                            </div>
+                          ),
+                        }}
+                      />
+                    ) : null}
                   </TransactionOverviewContainer>
                 ),
               }}
