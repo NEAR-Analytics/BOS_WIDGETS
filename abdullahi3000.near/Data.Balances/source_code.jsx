@@ -125,7 +125,7 @@ const code = `
     #currentValue {
         font-size: 24px;
         font-weight: 600;
-        color: rgb(0, 0, 0);
+        color: #fff;
         font-family: "Open Sans", sans-serif;
     }
     #donutContainer {
@@ -196,7 +196,7 @@ const code = `
 
   #table .item > span:nth-child(2) {
     text-transform: lowercase;
-    color: #000;
+    color: #999;
     max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -308,7 +308,7 @@ const code = `
         ctx.font = "bold " + (right - left) * 0.14 + "px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#000";
+        ctx.fillStyle = "#fff";
 
         // If an element is being hovered
         if (chart.hoveredElement) {
