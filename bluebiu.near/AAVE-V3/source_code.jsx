@@ -649,13 +649,6 @@ function getPoolDataProviderTotalSupply() {
         stateMutability: "view",
         type: "function",
       },
-      {
-        inputs: [{ internalType: "address", name: "asset", type: "address" }],
-        name: "getTotalDebt",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
     ],
     calls,
     options: {},
@@ -671,7 +664,13 @@ function getPoolDataProviderTotalSupply() {
           prevAssetsToSupply[i].decimals
         );
         prevAssetsToSupply[i].totalSupply = _totalSupply;
-        prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply)
+        console.log(
+          "_totalSupply--",
+          _totalSupply,
+          prevAssetsToSupply[i].symbol,
+          prices[prevAssetsToSupply[i].symbol]
+        );
+        prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply || 0)
           .times(prices[prevAssetsToSupply[i].symbol])
           .toFixed();
       }
@@ -731,6 +730,53 @@ function getPoolDataProviderTotalDebt() {
     })
     .catch((err) => {
       console.log("getPoolDataProviderTotal_err", err);
+    });
+}
+function getPoolDataProviderCaps() {
+  const prevAssetsToSupply = [...state.assetsToSupply];
+
+  const underlyingTokens = dexConfig?.rawMarkets?.map(
+    (market) => market.underlyingAsset
+  );
+  console.log("getPoolDataProviderCaps--", underlyingTokens);
+  const calls = underlyingTokens?.map((addr) => ({
+    address: config.PoolDataProvider,
+    name: "getReserveCaps",
+    params: [addr],
+  }));
+
+  multicall({
+    abi: [
+      {
+        inputs: [{ internalType: "address", name: "asset", type: "address" }],
+        name: "getReserveCaps",
+        outputs: [
+          { internalType: "uint256", name: "borrowCap", type: "uint256" },
+          { internalType: "uint256", name: "supplyCap", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("getPoolDataProviderCaps_res", res);
+
+      for (let i = 0; i < res.length; i++) {
+        const [borrowCap, supplyCap] = res[i];
+        prevAssetsToSupply[i].borrowCap = borrowCap.toNumber();
+        prevAssetsToSupply[i].supplyCap = supplyCap.toNumber();
+      }
+      State.update({
+        assetsToSupply: prevAssetsToSupply,
+      });
+    })
+    .catch((err) => {
+      console.log("getPoolDataProviderCaps_err", err);
     });
 }
 
@@ -1139,6 +1185,7 @@ useEffect(() => {
   getPoolDataProvider();
   getPoolDataProviderTotalSupply();
   getPoolDataProviderTotalDebt();
+  getPoolDataProviderCaps();
   getUserDeposits();
 }, [state.assetsToSupply]);
 
@@ -1346,23 +1393,6 @@ const body = isChainSupported ? (
             theme: dexConfig?.theme,
           }}
         />
-        {/* <Widget
-          src={`${config.ownerId}/widget/AAVE.Card.AssetsToBorrow`}
-          props={{
-            config,
-            chainId: chainId,
-            assetsToBorrow: state.assetsToBorrow,
-            showBorrowModal: state.showBorrowModal,
-            yourSupplies: state.yourSupplies,
-            setShowBorrowModal: (isShow) =>
-              State.update({ showBorrowModal: isShow }),
-            formatHealthFactor,
-            onActionSuccess,
-            borrowETHGas,
-            borrowERC20Gas,
-            theme: dexConfig?.theme,
-          }}
-        /> */}
       </>
     )}
     {state.selectTab === "YOURS" && (
