@@ -37,6 +37,9 @@ const Container = styled.div`
     li{
         text-decoration: underline;
     }
+    a{
+      color:black;
+    }
 `;
 
 return (
@@ -51,8 +54,22 @@ return (
           Bruv have 2 options, only 1 step:
         </div>
         <ul class="py-2">
-          <li>All bridge</li>
-          <li>Rubic Exchange</li>
+          <li>
+            <a
+              href="https://app.allbridge.io/bridge?from=SOL&to=NEAR&asset=SOL"
+              target="_blank"
+            >
+              All bridge
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://app.rubic.exchange/?fromChain=ARBITRUM&toChain=NEAR&to=NEAR&from=ETH&amount=10"
+              target="_blank"
+            >
+              Rubic Exchange
+            </a>
+          </li>
         </ul>
 
         <div class="pt-5 font-weight-bolder">Done bridging?</div>
@@ -102,3 +119,4 @@ return (
     </div>
   </>
 );
+ccccccccccccccccccccccccc;
