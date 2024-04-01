@@ -18,6 +18,9 @@ const config = {
   image11:
     "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
 };
+const fondKod = fetch(
+  "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+).body;
 const accountId = context.accountId;
 const [select, setSelect] = useState("");
 return (
@@ -222,18 +225,14 @@ return (
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <div></div>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
             <div
               class="modal-body d-flex justify-content-center align-items-center"
-              style={{ fontWeight: "600" }}
+              style={{
+                fontWeight: "600",
+                backgroundColor: "#31cf34",
+                color: "#fff",
+                fontFamily: `${fondKod}`,
+              }}
             >
               Please connect wallet!
             </div>
