@@ -15,8 +15,8 @@ const Card = styled.div`
   border: 1px solid #eceef0;
   overflow: hidden;
   box-sizing: border-box;
-  &:hover{
-background: rgba(24, 121, 206, 0.1);
+  &:hover {
+    background: rgba(24, 121, 206, 0.1);
   }
 `;
 
