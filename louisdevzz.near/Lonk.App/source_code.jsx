@@ -53,9 +53,6 @@ const Main = styled.div`
 
   .intro {
     background: url(${config.image3}) no-repeat 100% 0 fixed;
-    @media screen and (max-width:768px){
-        min-height:1000px;
-    }
   }
 
   .hero {
@@ -125,7 +122,7 @@ const Main = styled.div`
     display:flex;
     flex-direction:column;
     gap:20px;
-    padding:60px 0;
+    margin:60px 0;
     justify-content:space-between;
     @media screen and (max-width:768px){
         display:flex;
