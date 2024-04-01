@@ -11,7 +11,7 @@ const authorsWhitelist = [
   "kdot.near",
   "vikash.near",
 ];
-const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "abdullahi3000.near";
 const accountId = props.accountId ?? context.accountId;
 // if (!accountId) {
 //   return "No account ID";
@@ -30,13 +30,13 @@ return (
       padding: "0",
     }}
   >
-    <Widget
-      src={`abdullahi3000.near/widget/WikiOnSocialDB_MainNavigation`}
+    {/*<Widget
+      src={`${authorForWidget}/widget/WikiOnSocialDB_MainNavigation`}
       props={{ currentNavPill: "articles", writersWhiteList }}
-    />
+    />*/}
     <div style={{ margin: "0 auto", width: "90%", minWidth: "360px" }}>
       <Widget
-        src={`${authorForWidget}/widget/NDCDocs_AllArticlesList`}
+        src={`${authorForWidget}/widget/harmonic.docs_AllArticlesList`}
         props={{ writersWhiteList }}
       />
     </div>
