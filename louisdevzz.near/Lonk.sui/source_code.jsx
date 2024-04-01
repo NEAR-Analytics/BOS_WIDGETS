@@ -92,7 +92,9 @@ return (
             <div class="py-2">Step 2, visit other guides pls 😭 </div>
           </div>
         </div>
-        <div class="pt-5 font-weight-bolder">Done bridging?</div>
+        <div class="pt-5 font-weight-bolder" style={{ fontWeight: "600" }}>
+          Done bridging?
+        </div>
         <div class="py-2">Get some $LONK bruv </div>
         <button
           type="button"
