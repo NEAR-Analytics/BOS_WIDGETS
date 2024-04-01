@@ -55,7 +55,7 @@ return {
       },
     },
     treasury: {
-      path: "astraplusplus.ndctools.near/widget/DAO.Funds.index",
+      path: "abdullahi3000.near/widget/DAO.Funds.index",
       blockHeight: "final",
       init: {
         name: "Treasury",
