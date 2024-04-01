@@ -15,7 +15,9 @@ const config = {
 const fkGroteskFamily = fetch(
   "https://fonts.googleapis.com/css2?family=Lakki+Reddy&display=swap"
 ).body;
-
+const fondKod = fetch(
+  "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+).body;
 const MenuMobile = styled.ul`
     height:250px;
     width:100%;
@@ -33,7 +35,7 @@ const MenuMobile = styled.ul`
         text-decoration:none; 
     }
     span{
-        font-size: 18px;
+        font-size: 20px;
         font-family: Lakki Reddy,cursive;
 
         text-shadow: 0 4px 4px #efefef;
@@ -44,12 +46,13 @@ const MenuMobile = styled.ul`
 
 const Main = styled.div`
   ${fkGroteskFamily}
+  ${fondKod}
   .main {
       display: block;
   }
 
   .intro {
-      background: url(${config.image3}) no-repeat 100% 0 fixed;
+    background: url(${config.image3}) no-repeat 100% 0 fixed;
   }
 
   .hero {
@@ -59,6 +62,10 @@ const Main = styled.div`
     @media screen and (max-width:768px){
       flex-direction:column;
     }
+  }
+  .hero-text{
+    font-size:1.2rem;
+    font-family: Kodchasan,sans-serif;
   }
   .green-bg {
       background-color: #31cf34;
@@ -113,16 +120,27 @@ const Main = styled.div`
   }
   .button-swap{
     display:flex;
+    flex-direction:column;
+    gap:20px;
     justify-content:space-between;
-    gap:10px;
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
         justify-content:center;
-        margin:60px;
+        gap:10px;
+    }
+  }
+  .item{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    gap:20px;
+    @media screen and (max-width:768px){
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
         gap:20px;
-        width:200px;
-        height:60px;
+        margin:0 60px;
     }
   }
   .about{
@@ -130,15 +148,31 @@ const Main = styled.div`
     flex-direction:row;
     align-items:center;
     justify-content:space-between;
+    font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
     @media screen and (max-width:768px){
         flex-direction:column-reverse;
         gap:10px;
     }
   }
-  .image{
+  .button{
     @media screen and (max-width:768px){
         width:120px;
+        height:40px;
+        font-size:18px;
     }
+  }
+  .roadmap-text{
+    font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
+  }
+  .tokenic{
+    font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
+  }
+  .footer-text{
+    font-family: Kodchasan,sans-serif;
+    font-size:1.2rem;
   }
 `;
 
@@ -151,7 +185,7 @@ const toggleDropdown = () => {
 return (
   <>
     <Widget
-      src="huunhanz.near/widget/headerSwap"
+      src="louisdevzz.near/widget/headerSwap"
       props={{
         visible,
         setVisible: (value) => {
@@ -258,8 +292,41 @@ return (
         <Widget src="louisdevzz.near/widget/Lonk.hero" />
 
         <Widget src="louisdevzz.near/widget/Lonk.buy" />
-        <Widget src="louisdevzz.near/widget/Lonk.about" />
-
+        <div
+          class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
+          id="token"
+        >
+          <div class="container">
+            <div class="about">
+              <div class="col-12 col-md-6 tokenic">
+                <p class="mb-5 text-uppercase">
+                  <strong>420.69 Billions LONK</strong>
+                </p>
+                <p class="text-uppercase mb-0">
+                  83.058% LPs, <br />
+                  16.9420% Reserved:
+                </p>
+                <ul class="text-uppercase">
+                  <li>Airdrop</li>
+                  <li>Exchange Listings</li>
+                </ul>
+                <p>
+                  NO TAXES <br />
+                  No Team Allocations
+                  <br />
+                  No VCS
+                  <br />
+                  No presale
+                  <br />
+                  NO BS
+                </p>
+              </div>
+              <div class="col-12 col-md-6 col-lg-6 text-left text-md-end">
+                <h2>tokenomics</h2>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="roadmap font-md-bigger py-4 py-lg-5 position-relative"
           id="roadmap"
@@ -270,7 +337,7 @@ return (
                 <h2>roadmap</h2>
               </div>
               <div class="col-12 col-md-4 col-lg-3 text-md-center">
-                <p class="text-uppercase mb-5">
+                <p class="text-uppercase mb-5 roadmap-text">
                   Phase 1: lonk
                   <br />
                   Phase 2: $lonk
@@ -283,13 +350,7 @@ return (
               </div>
               <div class="mb-3 mb-md-5"></div>
               <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="mb-3 mb-md-5"></div>
-              <div class="col-12"></div>
-              <div class="col-12 col-md-7">
+              <div class="col-12 col-md-7 footer-text">
                 <p>
                   Disclaimer: <br />
                   $LONK is a meme coin purely for entertainment, with no
