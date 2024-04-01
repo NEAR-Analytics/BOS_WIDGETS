@@ -247,9 +247,13 @@ return (
                               onClick={() => td.click(row)}
                             >
                               {td.icon ? (
-                                <a href={value} target="_blank">
-                                  {td.icon}
-                                </a>
+                                value ? (
+                                  <a href={value} target="_blank">
+                                    {td.icon}
+                                  </a>
+                                ) : (
+                                  td.icon
+                                )
                               ) : (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
