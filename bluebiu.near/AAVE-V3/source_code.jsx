@@ -320,15 +320,14 @@ function formatHealthFactor(healthFactor) {
 }
 
 function calcHealthFactor(type, symbol, amount) {
-  //TODO Collateral rp yourTotalSupply
   let newHealthFactor, deno;
   console.log("calcHealthFactor--", type, symbol, amount, prices[symbol]);
   const assetsUSD = Big(prices[symbol]).times(Big(amount));
   if (type === "SUPPLY") {
-    deno = Big(state.yourTotalSupply).plus(assetsUSD);
+    deno = Big(state.yourTotalCollateral).plus(assetsUSD);
   }
   if (type === "WITHDRAW") {
-    deno = Big(state.yourTotalSupply).minus(assetsUSD);
+    deno = Big(state.yourTotalCollateral).minus(assetsUSD);
   }
   if (type === "BORROW") {
     deno = Big(state.yourTotalBorrow).plus(assetsUSD);
@@ -962,8 +961,11 @@ function getUserDebts() {
           );
 
           let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
+          console.log("_bal--", _bal);
           market.balance = _bal;
-          market.balanceInUSD = Big(_bal).mul(prices[market.symbol]).toFixed();
+          market.balanceInUSD = Big(_bal || 0)
+            .mul(prices[market.symbol] || 1)
+            .toFixed();
           userDebs.push(market);
         }
       }
@@ -1046,6 +1048,77 @@ function getAllUserRewards() {
     });
 }
 
+function chunk(arr, size) {
+  let result = [];
+
+  let temp = [];
+  for (let i = arr.length - 1; i > -1; i--) {
+    temp.push(arr[i]);
+    if (temp.length === size) {
+      result.push(temp);
+
+      temp = [];
+    }
+  }
+  if (temp.length !== 0) result.push(temp);
+  return result;
+}
+
+// to get collateral status
+function getCollateralStatus() {
+  const calls = [
+    {
+      address: config.aavePoolV3Address,
+      name: "getUserConfiguration",
+      params: [account],
+    },
+    {
+      address: config.aavePoolV3Address,
+      name: "getReservesList",
+    },
+  ];
+
+  multicall({
+    abi: config.aavePoolV3ABI.body,
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("getCollateralStatus-res:", res);
+      const [[rawStatus], [addrs]] = res;
+      const _status = parseInt(rawStatus.toString()).toString(2).split("");
+      const _statusArray = chunk(_status, 2);
+      // console.log("_status--", _statusArray, addrs);
+      const _yourSupplies = [...state.yourSupplies];
+      for (let i = 0; i < _yourSupplies.length; i++) {
+        const item = _yourSupplies[i];
+        const index = addrs.findIndex((addr) => addr === item.underlyingAsset);
+
+        _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
+      }
+
+      const yourTotalCollateral = _yourSupplies
+        .filter((item) => item.isCollateraled === 1)
+        .reduce(
+          (prev, curr) =>
+            Big(prev)
+              .plus(Big(curr.underlyingBalanceUSD || 0))
+              .toFixed(),
+          0
+        );
+
+      State.update({
+        yourSupplies: _yourSupplies,
+        yourTotalCollateral,
+      });
+    })
+    .catch((err) => {
+      console.log("getCollateralStatus-error:", err);
+    });
+}
+
 useEffect(() => {
   if (!isChainSupported) return;
   getLiquidity();
@@ -1114,7 +1187,7 @@ useEffect(() => {
   const netWorth = Big(supplyBal || 0)
     .minus(debtsBal)
     .toFixed(2, ROUND_DOWN);
-  console.log("netWorth--", netWorth);
+  console.log("netWorth--", netWorth, state.yourSupplies);
   if (!Number(netWorth)) return;
 
   //calc net apy
@@ -1123,8 +1196,8 @@ useEffect(() => {
     (total, cur) =>
       Big(total || 0)
         .plus(
-          Big(cur.underlyingBalanceUSD)
-            .times(Big(cur.supplyAPY))
+          Big(cur.underlyingBalanceUSD || 0)
+            .times(Big(cur.supplyAPY || 0))
             .div(supplyBal || 1)
         )
         .toFixed(),
@@ -1164,6 +1237,7 @@ useEffect(() => {
     0
   );
   console.log("yourTotalSupply--", yourTotalSupply);
+
   const yourTotalBorrow = state.yourBorrows.debts.reduce(
     (prev, curr) =>
       Big(prev)
@@ -1172,6 +1246,7 @@ useEffect(() => {
     0
   );
   console.log("yourTotalBorrow--", yourTotalBorrow);
+
   State.update({
     totalNetApy,
     netWorthUSD: netWorth,
@@ -1179,6 +1254,12 @@ useEffect(() => {
     yourTotalBorrow,
   });
 }, [state.yourSupplies, state.yourBorrows]);
+
+useEffect(() => {
+  if (state.selectTab === "YOURS") {
+    getCollateralStatus();
+  }
+}, [state.selectTab]);
 
 function onSuccess() {
   State.update({
@@ -1298,7 +1379,7 @@ const body = isChainSupported ? (
                 <Value> %</Value>
 
                 <Label>Collateral:</Label>
-                <Value>$ </Value>
+                <Value>$ {Number(state.yourTotalCollateral).toFixed(2)}</Value>
               </SubTitle>
             </Title>
             <Widget
