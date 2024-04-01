@@ -10,10 +10,8 @@ if (!balances) {
     },
   };
   const res = fetch(
-    `${baseApi}/account/balances?accounts=${[
-      props.accountId ?? context.accountId,
-    ]}`,
-    fetchApiConfig,
+    `${baseApi}/account/balances?accounts=${"harmonic-guild-v1.sputnik-dao.near"}`,
+    fetchApiConfig
   );
   if (!res.body) {
     return "Loading...";
@@ -23,7 +21,7 @@ if (!balances) {
 
 // Parsing the data to the format expected by the chart
 const balancesTotal = balances.balancesTotal.sort(
-  (a, b) => b.usdPrice - a.usdPrice,
+  (a, b) => b.usdPrice - a.usdPrice
 );
 const balanceData = balancesTotal.map((balance) => balance.usdPrice);
 const balanceLabels = balancesTotal.map((balance) => balance.contract);
