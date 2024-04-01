@@ -23,7 +23,7 @@ return {
       },
     },
     pitch: {
-      path: "abdullahi3000.near/widget/Feed",
+      path: "abdullahi3000.near/widget/harmonic.pitch",
       blockHeight: "final",
       init: {
         name: "Pitch",
