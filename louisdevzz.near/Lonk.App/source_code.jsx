@@ -122,7 +122,7 @@ const Main = styled.div`
     display:flex;
     justify-content:space-between;
     gap:20px;
-    margin-top:20px;
+    
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
@@ -134,6 +134,7 @@ const Main = styled.div`
     }
   }
   .item{
+    margin-top:20px;
     @media screen and (max-width:768px){
         display:flex;
         flex-direction:column;
