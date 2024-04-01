@@ -5,6 +5,7 @@ const {
   data,
   toast,
   prices,
+  refetch,
   addresses,
   proxyAddress,
   addAction,
@@ -176,6 +177,7 @@ const BalancePrice = styled.div`
   span {
     color: #FFF;
     text-decoration-line: underline;
+    cursor: pointer;
   }
 `
 
@@ -725,7 +727,6 @@ const handleDeposit = () => {
     abi,
     Ethers.provider().getSigner()
   );
-  console.log('===amountX', amountX, '===amountY', amountY)
   contract
     .depositAVAXPair(amountX, amountY, 0, 0, {
       value: amountX
@@ -735,18 +736,17 @@ const handleDeposit = () => {
     })
     .then((receipt) => {
       const { status, transactionHash } = receipt;
-      // addAction?.({
-      //   type: "Liquidity",
-      //   action: "Deposit",
-      //   token0,
-      //   token1,
-      //   amount: amount0,
-      //   template: "SteakHut",
-      //   status: status,
-      //   add: can_add_action,
-      //   transactionHash,
-      //   chain_id: props.chainId,
-      // });
+      addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token0,
+        token1,
+        amount: amount0,
+        template: "SteakHut",
+        status: status,
+        transactionHash,
+        chain_id: props.chainId,
+      });
 
       State.update({
         isLoading: false,
@@ -755,7 +755,6 @@ const handleDeposit = () => {
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      const { refetch } = props;
       if (refetch) refetch();
 
       toast?.dismiss(toastId);
@@ -868,14 +867,12 @@ const handleWithdraw = () => {
         amount: lpAmount,
         template: "SteakHut",
         status: status,
-        add: can_add_action,
         transactionHash,
         chain_id: state.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
-      const { refetch } = props;
       if (refetch) refetch();
 
       toast?.dismiss(toastId);
