@@ -37,6 +37,15 @@ const Container = styled.div`
     a{
         color:black;
     }
+    .main{
+      display:flex;
+      flex-direction:row;
+      justify-content:space-between;
+      @media screen and (max-width:768px){
+        flex-direction:column;
+        justify-content:center;
+      }
+    }
 `;
 
 return (
@@ -59,7 +68,7 @@ return (
             </a>
           </li>
         </ul>
-        <div class="d-flex justify-content-between flex-row">
+        <div class="main">
           <div>
             <div class="step">Multiple steps way:</div>
             <div> Step 1, Bridge to Ethereum, or any EVM chains using: </div>
