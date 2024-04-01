@@ -62,7 +62,7 @@ useEffect(() => {
     }&src_quote_token_amount=${amount}&dst_chain_id=${
       outputCurrency.chainId
     }&dst_quote_token_address=${path[1]}&slippage=${
-      slippage || 0.5
+      slippage * 100 || 0.5
     }&commission_rate=1000&affiliate=0xC25d79fc4970479B88068Ce8891eD9bE5799210D`;
 
     asyncFetch(`https://router-api.xy.finance/xy_router/quote?${params}`)
