@@ -1,4 +1,6 @@
 const config = {
+  lonk_bot:
+    "https://bafkreidusllz2u36hgmbvidbrliwrmxxpts57tljecslc4qtb72rpj2dji.ipfs.nftstorage.link/",
   image4:
     "https://bafybeib6kjh37qmodapxwjq3ukckhabckasdoamjas7ehigzqbjazu4kyq.ipfs.nftstorage.link/",
   image5:
@@ -61,6 +63,34 @@ return (
               >
                 <img src={config.image7} class="image" width="90" />
               </button>
+              <a
+                href=""
+                target="_blank"
+                style={{
+                  padding: "10px 20px",
+                  height: "60px",
+                  width: "270px",
+                  border: "2px solid #31cf34",
+                  color: "#000",
+                  fontSize: "25px",
+                }}
+                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+              >
+                Orderly Network
+              </a>
+              <a
+                href=""
+                target="_blank"
+                style={{
+                  padding: "10px 20px",
+                  height: "60px",
+                  width: "270px",
+                  border: "2px solid #31cf34",
+                }}
+                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+              >
+                <img src={config.lonk_bot} width="120" />
+              </a>
             </div>
             <div class="mt-5">
               <a
