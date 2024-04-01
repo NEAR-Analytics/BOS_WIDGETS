@@ -34,6 +34,9 @@ const Container = styled.div`
     li{
         text-decoration: underline;
     }
+    a{
+      color:black;
+    }
 `;
 
 return (
@@ -47,21 +50,48 @@ return (
           Bruv have many options. 1-step way:
         </div>
         <ul class="py-2">
-          <li>Rainbow Bridge (Official NEAR Bridge)</li>
-          <li>Rubic Exchange</li>
+          <li>
+            <a href="https://rainbowbridge.app/transfer" target="_blank">
+              Rainbow Bridge (Official NEAR Bridge)
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://app.rubic.exchange/?fromChain=ARBITRUM&toChain=NEAR&to=NEAR&from=ETH&amount=10"
+              target="_blank"
+            >
+              Rubic Exchange
+            </a>
+          </li>
         </ul>
         <div class="d-flex justify-content-between flex-row">
           <div>
             <div class="step">2-step way:</div>
             <div> Step 1, Bridge to Aurora using: </div>
             <ul class="py-2">
-              <li>Meson</li>
-              <li>Synapse</li>
-              <li>Boring DAO</li>
+              <li>
+                <a href="https://meson.fi/" target="_blank">
+                  Meson
+                </a>
+              </li>
+              <li>
+                <a href="https://www.synapseprotocol.com/" target="_blank">
+                  Synapse
+                </a>
+              </li>
+              <li>
+                <a href="https://aggregator.boringdao.com/" target="_blank">
+                  Boring DAO
+                </a>
+              </li>
             </ul>
             <div>Step 2, Bridge from Aurora to NEAR using: </div>
             <ul class="py-3">
-              <li>Rainbow Bridge (Official NEAR Bridge)</li>
+              <li>
+                <a href="https://rainbowbridge.app/transfer" target="_blank">
+                  Rainbow Bridge (Official NEAR Bridge)
+                </a>
+              </li>
             </ul>
           </div>
           <div class="col-lg-6">
@@ -71,13 +101,29 @@ return (
               on, here are some recommendation:
             </div>
             <ul class="py-2">
-              <li>Stargate</li>
-              <li>Orbiter</li>
-              <li>Across Protocal</li>
+              <li>
+                <a href="https://stargate.finance/" target="_blank">
+                  Stargate
+                </a>
+              </li>
+              <li>
+                <a href="https://www.orbiter.finance/" target="_blank">
+                  Orbiter
+                </a>
+              </li>
+              <li>
+                <a href="https://across.to/" target="_blank">
+                  Across Protocal
+                </a>
+              </li>
             </ul>
             <div>Step 2, Bridge from Ethereum to NEAR using: </div>
             <ul class="py-3">
-              <li>Rainbow Bridge (Official NEAR Bridge)</li>
+              <li>
+                <a href="https://rainbowbridge.app/transfer" target="_blank">
+                  Rainbow Bridge (Official NEAR Bridge)
+                </a>
+              </li>
             </ul>
           </div>
         </div>
