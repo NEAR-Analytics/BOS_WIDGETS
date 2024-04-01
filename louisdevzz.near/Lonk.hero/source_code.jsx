@@ -16,7 +16,7 @@ const config = {
   image11:
     "https://bafkreigkwuy4k4txpn4jhivrwdagvvooiivbi3yywamv6krxv77bqitrmm.ipfs.nftstorage.link/",
 };
-const accountId = context.accountId;
+const accountId = props.accountId || context.accountId;
 const [select, setSelect] = useState("");
 return (
   <>
@@ -146,38 +146,37 @@ return (
         </div>
       </div>
     </div>
-    {(accountId && select == "ref") ||
-      (select != "ref" && (
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Swap Token {select == "ref" ? "Ref Finance" : "Veax"}
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body d-flex justify-content-center align-items-center">
-                {select == "ref" ? (
-                  <Widget src="huunhanz.near/widget/ref-swap" />
-                ) : (
-                  <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
-                )}
-              </div>
+    {accountId && (
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Swap Token {select == "ref" ? "Ref Finance" : "Veax"}
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+              {select == "ref" ? (
+                <Widget src="huunhanz.near/widget/ref-swap" />
+              ) : (
+                <Widget src="huunhanz.near/widget/Lonk.veax-swap" />
+              )}
             </div>
           </div>
         </div>
-      ))}
+      </div>
+    )}
   </>
 );
