@@ -64,7 +64,7 @@ return (
               <li>Rainbow Bridge (Official NEAR Bridge)</li>
             </ul>
           </div>
-          <div>
+          <div class="col-lg-6">
             <div class="step">Another 2-step way (the expensive one):</div>
             <div class="py">
               Step 1, Bridge to Ethereum from whatever chain bruv have assets
