@@ -34,6 +34,9 @@ const Container = styled.div`
     li{
         text-decoration: underline;
     }
+    a{
+      color:black;
+    }
 `;
 
 return (
@@ -47,19 +50,46 @@ return (
           Bruv have many options. 1-step way:
         </div>
         <ul class="py-2">
-          <li>Rainbow Bridge (Official NEAR Bridge)</li>
-          <li>Rubic Exchange</li>
+          <li>
+            <a href="https://rainbowbridge.app/transfer" target="_blank">
+              Rainbow Bridge (Official NEAR Bridge)
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://app.rubic.exchange/?fromChain=ARBITRUM&toChain=NEAR&to=NEAR&from=ETH&amount=10"
+              target="_blank"
+            >
+              Rubic Exchange
+            </a>
+          </li>
         </ul>
         <div class="step">2-step way:</div>
         <div> Step 1, Bridge to Aurora using: </div>
         <ul class="py-2">
-          <li>Meson</li>
-          <li>Synapse</li>
-          <li>Boring DAO</li>
+          <li>
+            <a href="https://meson.fi/" target="_blank">
+              Meson
+            </a>
+          </li>
+          <li>
+            <a href="https://www.synapseprotocol.com/" target="_blank">
+              Synapse
+            </a>
+          </li>
+          <li>
+            <a href="https://aggregator.boringdao.com/" target="_blank">
+              Boring DAO
+            </a>
+          </li>
         </ul>
         <div>Step 2, Bridge from Aurora to NEAR using: </div>
         <ul class="py-3">
-          <li>Rainbow Bridge (Official NEAR Bridge)</li>
+          <li>
+            <a href="https://rainbowbridge.app/transfer" target="_blank">
+              Rainbow Bridge (Official NEAR Bridge)
+            </a>
+          </li>
         </ul>
         <div class="pt-5 font-weight-bolder">Done bridging?</div>
         <div class="py-2">Get some $LONK bruv </div>
