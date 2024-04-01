@@ -46,22 +46,34 @@ return (
           Bruv have many options. 1-step way:
         </div>
         <ul class="py-2">
-          <li>Rainbow Bridge (Official NEAR Bridge)</li>
-          <li>Rubic Exchange</li>
+          <li>
+            <u>Rainbow Bridge (Official NEAR Bridge)</u>
+          </li>
+          <li>
+            <u>Rubic Exchange</u>
+          </li>
         </ul>
         <div class="step">2-step way:</div>
         <div> Step 1, Bridge to Aurora using: </div>
         <ul class="py-2">
-          <li>Meson</li>
-          <li>Synapse</li>
-          <li>Boring DAO</li>
+          <li>
+            <u>Meson</u>
+          </li>
+          <li>
+            <u>Synapse</u>
+          </li>
+          <li>
+            <u>Boring DAO</u>
+          </li>
         </ul>
         <div>Step 2, Bridge from Aurora to NEAR using: </div>
-        <ul class="py-2">
-          <li>Rainbow Bridge (Official NEAR Bridge)</li>
+        <ul class="py-3">
+          <li>
+            <u>Rainbow Bridge (Official NEAR Bridge)</u>
+          </li>
         </ul>
         <div class="pt-5 font-weight-bolder">Done bridging?</div>
-        <div class="pt-2">Get some $LONK bruv </div>
+        <div class="py-2">Get some $LONK bruv </div>
         <button
           type="button"
           data-bs-toggle="modal"
@@ -73,7 +85,7 @@ return (
             border: "2px solid #31cf34",
             marginTop: "20px;",
           }}
-          class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+          class="button py-2 d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
         >
           <img src={config.image6} width="186" />
         </button>
