@@ -1,65 +1,64 @@
 const SelectedMutationEditorWrapper = styled.div`
-display: flex;
-flex-direction: column;
-top: 217px;
-left: 760px;
-padding: 20px;
-gap: 20px;
-border-radius: 10px;
-border: 1px solid #02193A;
-background: #F8F9FF;
-width: 400px;
-max-height: 646px;
+  display: flex;
+  flex-direction: column;
+  top: 217px;
+  left: 760px;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  border: 1px solid #02193a;
+  background: #f8f9ff;
+  width: 400px;
+  max-height: 646px;
 `;
 
 const HeaderEditor = styled.div`
-display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(2, 25, 58, 1);
-    font-family: Roboto;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 21.09px;
-    text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(2, 25, 58, 1);
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21.09px;
+  text-align: left;
 `;
 const ButtonsBlock = styled.div`
-display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ButtonsRevert = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgba(226, 226, 229, 1);
-    color: rgba(2, 25, 58, 1);
-    width: 175px;
-    height:42px;
-    border-radius: 10px;
-      font-family: Roboto;
-font-size: 14px;
-font-weight: 400;
-line-height: 20.86px;
-text-align: center;
-    `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(226, 226, 229, 1);
+  color: rgba(2, 25, 58, 1);
+  width: 175px;
+  height: 42px;
+  border-radius: 10px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20.86px;
+  text-align: center;
+`;
 const ButtonsSave = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-      width: 175px;
-    height:42px;
-    border-radius: 10px;
-    background: rgba(56, 75, 255, 1);
-    color:#fff;
-    font-family: Roboto;
-font-size: 14px;
-font-weight: 400;
-line-height: 20.86px;
-text-align: center;
-
-    `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(56, 75, 255, 1);
+  color: #fff;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20.86px;
+  text-align: center;
+`;
 
 const closeIcon = (
   <svg
