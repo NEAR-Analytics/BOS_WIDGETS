@@ -33,7 +33,7 @@ return (
             <p class="hero-text">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="hero-text">Get some $LONK</p>
             <div class="button-swap">
-              <div>
+              <div class="item">
                 <button
                   onClick={() => setSelect("ref")}
                   type="button"
@@ -65,7 +65,7 @@ return (
                   <img src={config.image7} class="image" width="90" />
                 </button>
               </div>
-              <div>
+              <div class="item">
                 <a
                   href=""
                   target="_blank"
