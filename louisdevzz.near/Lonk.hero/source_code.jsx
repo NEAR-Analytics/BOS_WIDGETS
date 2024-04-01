@@ -226,7 +226,7 @@ return (
               <h5
                 class="modal-title"
                 id="exampleModalLabel"
-                style={{ color: "#f6d32d" }}
+                style={{ color: "#f6d32d", fontWeight: "600" }}
               >
                 Warning
               </h5>
