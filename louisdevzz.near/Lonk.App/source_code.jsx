@@ -140,16 +140,9 @@ const Main = styled.div`
         display:flex;
         flex-direction:column;
         justify-content:center;
-        gap:10px;
-        margin:60px;
+        gap:20px;
         width:200px;
         height:60px;
-    }
-  }
-  .image{
-    @media screen and (max-width:768px){
-      width:120px;
-      height:40px;
     }
   }
   .about{
@@ -168,11 +161,7 @@ const Main = styled.div`
     @media screen and (max-width:768px){
         width:120px;
         height:40px;
-    }
-  }
-  .image{
-    @media screen and (max-width:768px){
-        width:150px;
+        font-size:18px;
     }
   }
   .roadmap-text{
