@@ -42,7 +42,13 @@ const config = {
   image26:
     "https://bafkreiau36hvhq6zzkay5j7logwmp7nf2y5suumyknfmimclabrvokzdg4.ipfs.nftstorage.link/",
 };
-
+const fondKod = fetch(
+  "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+).body;
+const Content = styled.div`
+  ${fondKod}
+font-family: Kodchasan,sans-serif;
+`;
 return (
   <>
     <div class="how font-md-bigger py-4 py-lg-5" id="how">
@@ -51,177 +57,179 @@ return (
           <div class="col-12">
             <h2 class="green">how to buy</h2>
           </div>
-          <div class="col-12 col-lg-5 offset-lg-7">
-            <p>
-              <strong>
-                <span class="badge">1</span>
-                Get yourself a NEAR wallet
-              </strong>
-            </p>
-            <p>
-              Bruv you won’t be able to use, trade or $LONK without a wallet, so
-              create a FREE wallet here with prepaid gas. (yes we know NEAR tech
-              is awesome)
-            </p>
-            <p>
-              <a
-                href="https://my.shard.dog/"
-                class="button d-inline-block text-decoration-none py-1 px-5 border rounded-5"
-              >
-                <img src={config.image12} width="205" />
-              </a>
-            </p>
-            <p>Some gud NEAR wallets:</p>
-            <p>
-              <a
-                href="https://meteorwallet.app/"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image13} alt="NEAR Wallet" width="50" />
-              </a>
+          <Content>
+            <div class="col-12 col-lg-5 offset-lg-7">
+              <p>
+                <strong>
+                  <span class="badge">1</span>
+                  Get yourself a NEAR wallet
+                </strong>
+              </p>
+              <p>
+                Bruv you won’t be able to use, trade or $LONK without a wallet,
+                so create a FREE wallet here with prepaid gas. (yes we know NEAR
+                tech is awesome)
+              </p>
+              <p>
+                <a
+                  href="https://my.shard.dog/"
+                  class="button d-inline-block text-decoration-none py-1 px-5 border rounded-5"
+                >
+                  <img src={config.image12} width="205" />
+                </a>
+              </p>
+              <p>Some gud NEAR wallets:</p>
+              <p>
+                <a
+                  href="https://meteorwallet.app/"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image13} alt="NEAR Wallet" width="50" />
+                </a>
 
-              <a
-                href="https://herewallet.app/"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image14} alt="NEAR Wallet" width="50" />
-              </a>
+                <a
+                  href="https://herewallet.app/"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image14} alt="NEAR Wallet" width="50" />
+                </a>
 
-              <a
-                href="https://mynearwallet.com/"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image15} alt="NEAR Wallet" width="50" />
-              </a>
+                <a
+                  href="https://mynearwallet.com/"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image15} alt="NEAR Wallet" width="50" />
+                </a>
 
-              <a
-                href="https://sender.org/"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image16} alt="NEAR Wallet" width="50" />
-              </a>
+                <a
+                  href="https://sender.org/"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image16} alt="NEAR Wallet" width="50" />
+                </a>
 
-              <a
-                href="https://nightly.app/"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image17} alt="NEAR Wallet" width="50" />
-              </a>
+                <a
+                  href="https://nightly.app/"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image17} alt="NEAR Wallet" width="50" />
+                </a>
 
-              <a
-                href="https://wallet.mintbase.xyz"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1"
-              >
-                <img src={config.image18} alt="NEAR Wallet" width="50" />
-              </a>
-            </p>
-          </div>
-          <div class="col-12 py-4">
-            <p>
-              <strong>
-                <span class="badge">2</span>
-                Bring some assets to NEAR
-              </strong>
-            </p>
-            <p>
-              <strong>NEAR</strong>, <strong>USDT</strong> , and{" "}
-              <strong>USDC</strong> can be bought and withdrawn from all major
-              exchanges:
-            </p>
-            <p>
-              <a
-                href="https://www.binance.com/en/trade/NEAR_USDT"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image19} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.okx.com/trade-spot/near-usdt"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image20} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.gate.io/trade/NEAR_USDT"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image21} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.coinbase.com/price/near-protocol"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image22} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.kucoin.com/trade/NEAR-USDT"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image23} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.kraken.com/prices/near-protocol"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image24} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://www.bybit.com/en/trade/spot/NEAR/USDT"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image25} alt="NEAR Wallet" width="50" />
-              </a>
-              <a
-                href="https://crypto.com/price/near-protocol"
-                target="_blank"
-                class="text-decoration-none d-inline-block me-1 mb-1"
-              >
-                <img src={config.image26} alt="NEAR Wallet" width="50" />
-              </a>
-            </p>
-            <p>
-              or you can bridge assets from other chains! Take a look at our
-              guide bruv :)
-            </p>
-          </div>
-          <div class="col-12 col-lg-5 offset-lg-7">
-            <p>
-              <strong>
-                <span class="badge">3</span> $LONK the token!
-              </strong>
-              <br />
-              Get some $LONK bruv
-            </p>
-            <p>
-              <button
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#buyModal"
-                style={{
-                  padding: "10px 20px",
-                  height: "60px",
-                  width: "270px",
-                  border: "2px solid #31cf34",
-                }}
-                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-              >
-                <img src={config.image6} width="186" />
-              </button>{" "}
-            </p>
-          </div>
+                <a
+                  href="https://wallet.mintbase.xyz"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1"
+                >
+                  <img src={config.image18} alt="NEAR Wallet" width="50" />
+                </a>
+              </p>
+            </div>
+            <div class="col-12 py-4">
+              <p>
+                <strong>
+                  <span class="badge">2</span>
+                  Bring some assets to NEAR
+                </strong>
+              </p>
+              <p>
+                <strong>NEAR</strong>, <strong>USDT</strong> , and{" "}
+                <strong>USDC</strong> can be bought and withdrawn from all major
+                exchanges:
+              </p>
+              <p>
+                <a
+                  href="https://www.binance.com/en/trade/NEAR_USDT"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image19} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.okx.com/trade-spot/near-usdt"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image20} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.gate.io/trade/NEAR_USDT"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image21} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.coinbase.com/price/near-protocol"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image22} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.kucoin.com/trade/NEAR-USDT"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image23} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.kraken.com/prices/near-protocol"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image24} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://www.bybit.com/en/trade/spot/NEAR/USDT"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image25} alt="NEAR Wallet" width="50" />
+                </a>
+                <a
+                  href="https://crypto.com/price/near-protocol"
+                  target="_blank"
+                  class="text-decoration-none d-inline-block me-1 mb-1"
+                >
+                  <img src={config.image26} alt="NEAR Wallet" width="50" />
+                </a>
+              </p>
+              <p>
+                or you can bridge assets from other chains! Take a look at our
+                guide bruv :)
+              </p>
+            </div>
+            <div class="col-12 col-lg-5 offset-lg-7">
+              <p>
+                <strong>
+                  <span class="badge">3</span> $LONK the token!
+                </strong>
+                <br />
+                Get some $LONK bruv
+              </p>
+              <p>
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#buyModal"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                    border: "2px solid #31cf34",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.image6} width="186" />
+                </button>{" "}
+              </p>
+            </div>
+          </Content>
         </div>
       </div>
     </div>
