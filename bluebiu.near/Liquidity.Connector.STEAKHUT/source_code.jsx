@@ -136,13 +136,6 @@ const {
   connectProps,
   prices,
 } = props
-// const CONNECT_PROPS = {
-//   ...props.connectProps,
-//   chainId: MAINNET_CHAIN_ID,
-//   chainName: CHAIN_CONFIG.chainName,
-//   noAccountTips: `${CHAIN_CONFIG.chainName} Liquidity`,
-//   wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_CONFIG.chainName} Chain.`,
-// };
 
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
@@ -184,25 +177,6 @@ const {
   USER_DATA_BASE,
   LAST_SNAP_SHOT_DATA_URL,
 } = dexConfig
-// function fetchAllData() {
-//   State.update({
-//     loading: true
-//   });
-
-//   asyncFetch(ALL_DATA_URL, {
-//     method: 'POST',
-//     body: JSON.stringify({
-//       "variables": {},
-//       "query": "{\n  vaults(first: 100, where: {IsWhitelisted: true}) {\n    id\n    underlyingX\n    underlyingY\n    tokenX {\n      id\n      name\n      symbol\n      priceUSD\n      decimals\n      __typename\n    }\n    tokenY {\n      id\n      name\n      symbol\n      priceUSD\n      decimals\n      __typename\n    }\n    name\n    shares\n    strategy {\n      id\n      harvests(\n        orderBy: blockTimestamp\n        orderDirection: desc\n        first: 1000\n        where: {blockTimestamp_gte: 1710000000}\n      ) {\n        id\n        amountX\n        amountY\n        amountXBefore\n        amountYBefore\n        lastHarvest\n        blockTimestamp\n        __typename\n      }\n      __typename\n    }\n    users(first: 1, where: {address: \"0xC25d79fc4970479B88068Ce8891eD9bE5799210D\"}) {\n      id\n      address\n      amount\n      __typename\n    }\n    __typename\n  }\n}"
-//     })
-//   }).then((res) => {
-//     if (!res.ok) return;
-//     State.update({
-//       allData: res.body?.data?.vaults ?? [],
-//       loading: false
-//     })
-//   })
-// }
 function fetchAllData() {
   State.update({
     loading: true
@@ -236,11 +210,6 @@ function handleChangeDataIndex(index) {
   })
 }
 function handleChangeCategoryIndex(index) {
-  // if (index === 0) {
-  //   fetchAllData()
-  // } else {
-  //   fetchUserAllData()
-  // }
   State.update({
     categoryIndex: index
   })
@@ -255,6 +224,9 @@ function handleSearchInput(event) {
   State.update({
     token: event.target.value
   })
+}
+function refetch() {
+  fetchAllData()
 }
 
 useEffect(() => {
@@ -404,6 +376,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
       props={{
         toast,
         prices,
+        refetch,
         columnList,
         userPositions: state.userPositions,
         dataIndex: state.dataIndex,
