@@ -33,64 +33,69 @@ return (
             <p class="hero-text">LONKING $NEAR BACK TO $20.24 IN 2024</p>
             <p class="hero-text">Get some $LONK</p>
             <div class="button-swap">
-              <button
-                onClick={() => setSelect("ref")}
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                style={{
-                  padding: "10px 20px",
-                  height: "60px",
-                  width: "270px",
-                  border: "2px solid #31cf34",
-                }}
-                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-              >
-                <img src={config.image6} width="186" />
-              </button>
-              <button
-                onClick={() => setSelect("veax")}
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-                style={{
-                  padding: "10px 20px",
-                  height: "60px",
-                  width: "270px",
-                  border: "2px solid #31cf34",
-                }}
-                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-              >
-                <img src={config.image7} class="image" width="90" />
-              </button>
-              <a
-                href=""
-                target="_blank"
-                style={{
-                  padding: "10px 20px",
-                  height: "60px",
-                  width: "270px",
-                  border: "2px solid #31cf34",
-                  color: "#000",
-                  fontSize: "25px",
-                }}
-                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-              >
-                Orderly Network
-              </a>
-              <a
-                href=""
-                target="_blank"
-                style={{
-                  padding: "10px 20px",
-                  height: "60px",
-                  width: "270px",
-                  border: "2px solid #31cf34",
-                }}
-                class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
-              >
-                <img src={config.lonk_bot} width="120" />
-              </a>
+              <div>
+                <button
+                  onClick={() => setSelect("ref")}
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                    border: "2px solid #31cf34",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.image6} width="186" />
+                </button>
+                <button
+                  onClick={() => setSelect("veax")}
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                    border: "2px solid #31cf34",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.image7} class="image" width="90" />
+                </button>
+              </div>
+              <div>
+                <a
+                  href=""
+                  target="_blank"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                    border: "2px solid #31cf34",
+                    color: "#000",
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  Orderly Network
+                </a>
+                <a
+                  href=""
+                  target="_blank"
+                  style={{
+                    padding: "10px 20px",
+                    height: "60px",
+                    width: "270px",
+                    border: "2px solid #31cf34",
+                  }}
+                  class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
+                >
+                  <img src={config.lonk_bot} width="120" />
+                </a>
+              </div>
             </div>
             <div class="mt-5">
               <a
