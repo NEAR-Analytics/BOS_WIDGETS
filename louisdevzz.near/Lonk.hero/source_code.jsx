@@ -81,7 +81,7 @@ return (
               >
                 <img
                   src={config.image9}
-                  width="50"
+                  width="68"
                   class="d-inline-block px-2"
                 />
               </a>
