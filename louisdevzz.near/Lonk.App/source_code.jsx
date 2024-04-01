@@ -129,8 +129,6 @@ const Main = styled.div`
         flex-direction:column;
         justify-content:center;
         gap:10px;
-        width:200px;
-        height:40px;
     }
   }
   .item{
