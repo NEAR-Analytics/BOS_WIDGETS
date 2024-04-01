@@ -15,6 +15,7 @@ const StyledVaultImage = styled.div`
   img {
     width: 28px;
     height: 28px;
+    border-radius: 50%;
   }
 `
 const SvgIcon = styled.div`
