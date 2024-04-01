@@ -223,13 +223,7 @@ return (
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5
-                class="modal-title"
-                id="exampleModalLabel"
-                style={{ color: "#f6d32d", fontWeight: "600" }}
-              >
-                Warning
-              </h5>
+              <div></div>
               <button
                 type="button"
                 class="btn-close"
