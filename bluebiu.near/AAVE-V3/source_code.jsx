@@ -271,6 +271,8 @@ State.init({
   baseAssetBalance: undefined,
   selectTab: "MARKET", // MARKET | YOURS
   fresh: 0, // fresh rewards
+  yourSupplyApy: 0,
+  yourBorrowApy: 0,
 });
 
 const loading =
@@ -590,6 +592,7 @@ function getPoolDataProvider() {
           const depositAPY = Big(
             Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
           ).toFixed();
+          console.log("depositAPY--", depositAPY);
 
           const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
 
@@ -1185,7 +1188,9 @@ useEffect(() => {
   getPoolDataProvider();
   getPoolDataProviderTotalSupply();
   getPoolDataProviderTotalDebt();
-  getPoolDataProviderCaps();
+  if (dexConfig.name === "Seamless Protocol") {
+    getPoolDataProviderCaps();
+  }
   getUserDeposits();
 }, [state.assetsToSupply]);
 
@@ -1230,7 +1235,7 @@ useEffect(() => {
         .toFixed(),
     0
   );
-  console.log("debtsBal--", debtsBal);
+  console.log("debtsBal--", debtsBal, supplyBal);
   const netWorth = Big(supplyBal || 0)
     .minus(debtsBal)
     .toFixed(2, ROUND_DOWN);
@@ -1299,6 +1304,9 @@ useEffect(() => {
     netWorthUSD: netWorth,
     yourTotalSupply,
     yourTotalBorrow,
+    //TODO + reward apy
+    yourSupplyApy: weightedAverageSupplyAPY,
+    yourBorrowApy: weightedAverageBorrowsAPY,
   });
 }, [state.yourSupplies, state.yourBorrows]);
 
@@ -1406,7 +1414,9 @@ const body = isChainSupported ? (
                 <Value>$ {Number(state.yourTotalSupply).toFixed(2)}</Value>
 
                 <Label>APY:</Label>
-                <Value> %</Value>
+                <Value>
+                  {Big(state.yourSupplyApy).times(100).toFixed(2)} %
+                </Value>
 
                 <Label>Collateral:</Label>
                 <Value>$ {Number(state.yourTotalCollateral).toFixed(2)}</Value>
@@ -1440,7 +1450,9 @@ const body = isChainSupported ? (
                 <Value>$ {Number(state.yourTotalBorrow).toFixed(2)}</Value>
 
                 <Label>APY:</Label>
-                <Value> %</Value>
+                <Value>
+                  {Big(state.yourBorrowApy).times(100).toFixed(2)} %
+                </Value>
 
                 <Label>Borrow power used:</Label>
                 <Value>{Number(state.BorrowPowerUsed).toFixed(2)}%</Value>
