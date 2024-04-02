@@ -98,7 +98,7 @@ const Input = styled.input`
   width: 80px;
 `;
 
-const getTokenData = (historyParam = "all") => {
+const getTokenData = (historyParam) => {
   return asyncFetch(
     API_URL + `/api/token?accountId=${accountId}&param=${historyParam}`
   ).then((res) => {
@@ -218,7 +218,7 @@ const registry = async (item) => {
   );
 };
 
-if (!state.loaded) getTokenData();
+if (!state.loaded) getTokenData("all");
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
