@@ -212,9 +212,13 @@ return (
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                style={{ color: "#fff" }}
               ></button>
             </div>
-            <div class="modal-body d-flex justify-content-center align-items-center">
+            <div
+              style={{ background: "#182733" }}
+              class="modal-body d-flex justify-content-center align-items-center"
+            >
               {select == "ref" ? (
                 <Widget src="louisdevzz.near/widget/ref-swap" />
               ) : (
