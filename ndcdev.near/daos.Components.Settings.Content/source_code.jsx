@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 if (!contractName || !content)
   return <Widget src="flashui.near/widget/Loading" />;
@@ -59,7 +59,7 @@ useEffect(() => {
         : {
             info: {},
             guidance: {},
-          },
+          }
     );
   }
 }, [selectedDao]);
