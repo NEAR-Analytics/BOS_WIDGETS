@@ -6,15 +6,6 @@ const code = `
   <!DOCTYPE html>
   <html lang="en">
     <head>
-      <style>
-        body {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background-color: RED;
-        }
-      </style>
     </head>
     <body>
 
@@ -32,7 +23,6 @@ const code = `
 
 return (
   <div
-    className="w-100 h-100"
     style={{
       minHeight: "500px",
       minWidth: "300px",
