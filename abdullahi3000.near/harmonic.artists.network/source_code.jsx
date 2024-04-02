@@ -16,7 +16,7 @@ const titleStyle = {
 
 return (
   <>
-    <div style={cardStyle} className="m-4 text-center">
+    <div style={cardStyle} className="text-center">
       <h3 style={titleStyle} className="mt-5">
         Join our Network of Artists
       </h3>
