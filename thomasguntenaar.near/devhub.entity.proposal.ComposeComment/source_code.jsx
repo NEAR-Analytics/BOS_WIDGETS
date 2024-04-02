@@ -47,7 +47,7 @@ if (!accountId) {
         backgroundColor: "#ECF8FB",
         border: "1px solid #E2E6EC",
       }}
-      className="d-flex align-items-center gap-1 p-4 rounded-2"
+      className="d-flex align-items-center gap-1 p-4 rounded-2 flex-wrap flex-md-nowrap"
     >
       <Link to="https://near.org/signup">
         <Widget
@@ -137,7 +137,7 @@ function composeData() {
       notifications.length > 1 ? notifications : notifications[0]
     );
   }
-  // TODO near call set function together with the track_comment in one transaction
+
   Social.set(data, {
     force: true,
     onCommit: () => {
@@ -146,6 +146,12 @@ function composeData() {
     onCancel: () => {},
   });
 }
+
+useEffect(() => {
+  if (props.transactionHashes && comment) {
+    setComment("");
+  }
+}, [props.transactionHashes, comment]);
 
 return (
   <div className="d-flex gap-2">
@@ -174,6 +180,7 @@ return (
           src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
           props={{
             label: "Comment",
+            disabled: !comment,
             classNames: { root: "green-btn btn-sm" },
             onClick: () => {
               composeData();
