@@ -13,53 +13,28 @@ const feedLink = "https://https://www.harmonicguild.io";
 return {
   type: "app", // every.near/type/app
   routes: {
-    all: {
-      path: "abdullahi3000.near/widget/Feed",
+    player: {
+      path: "abdullahi3000.near/widget/harmonic.music.player",
       blockHeight: "final",
       init: {
-        name: "All", // maybe these should be moved to navbar specific
-        icon: "bi-list",
-        requiredHashtags: ["build"],
+        name: "Music Player", // maybe these should be moved to navbar specific
+        icon: "bi bi-vinyl-fill",
       },
     },
-    pitch: {
-      path: "abdullahi3000.near/widget/harmonic.pitch",
+    uploader: {
+      path: "abdullahi3000.near/widget/harmonic.song.uploader",
       blockHeight: "final",
       init: {
-        name: "Pitch",
-        icon: "bi-bell",
-        requiredHashtags: ["build", "update"],
-        template: `### BUILDER UPDATE:  ${formatDate(new Date())}
-(posted via [${daoName} Gateway](${feedLink}?tab=update))
-
-**✅ DONE**
-- [what'd you do]
-- [link proof]
-
-**⏩ NEXT**
-- [what's next?]
-- [what are you thinking about?]
-
-**🛑 BLOCKERS**
-- [what's blocking you?]
-- [how can someone help?]
-`,
+        name: "Music Uploader",
+        icon: "bi bi-cloud-arrow-up-fill",
       },
     },
-    documents: {
-      path: "abdullahi3000.near/widget/docs",
+    network: {
+      path: "abdullahi3000.near/widget/harmonic.artists.network",
       blockHeight: "final",
       init: {
-        name: "Documents",
-        icon: "bi-file-text",
-      },
-    },
-    treasury: {
-      path: "abdullahi3000.near/widget/DAO.Funds.index",
-      blockHeight: "final",
-      init: {
-        name: "Treasury",
-        icon: "bi bi-cash-coin",
+        name: "Artists Network",
+        icon: "bi bi-people-fill",
       },
     },
   },
