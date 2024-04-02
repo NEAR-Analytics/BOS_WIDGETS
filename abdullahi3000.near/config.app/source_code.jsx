@@ -16,7 +16,7 @@ return {
       },
     },
     music: {
-      path: "abdullahi3000.near/widget/harmonic.music",
+      path: "abdullahi3000.near/widget/page.music",
       blockHeight: "final",
       init: {
         name: "Music",
