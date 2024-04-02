@@ -12,19 +12,14 @@ const code = `
           justify-content: center;
           align-items: center;
           height: 100vh;
-          background-color: #f0f0f0;
-        }
-        iframe {
-          /* Adjust iframe size as needed */
-          width: 80%;
-          height: 450px; /* Adjust height based on the aspect ratio */
+          background-color: RED;
         }
       </style>
     </head>
     <body>
 
       <div className={styles.container}>
-        <div className="relative w-full md:w-1/2 mx-auto rounded-xl overflow-hidden">
+        <div>
           <video controls autoPlay>
             <source src=${mediaImage}></source>
           </video>
@@ -43,6 +38,6 @@ return (
       minWidth: "300px",
     }}
   >
-    <iframe iframeResizer className="w-80 h-100" srcDoc={code} />
+    <iframe iframeResizer className="w-100 h-100" srcDoc={code} />
   </div>
 );
