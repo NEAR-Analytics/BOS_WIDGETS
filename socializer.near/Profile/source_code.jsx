@@ -218,7 +218,7 @@ const registry = async (item) => {
   );
 };
 
-if (!state.loaded) getTokenData("all");
+if (!state.loaded) getTokenData("All");
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
