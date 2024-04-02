@@ -6,15 +6,31 @@ const code = `
   <!DOCTYPE html>
   <html lang="en">
     <head>
+      <style>
+        body, html {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #f0f0f0;
+        }
+        .video-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      </style>
     </head>
     <body>
 
-      <div className={styles.container}>
-        <div>
-          <video controls autoPlay>
-            <source src=${mediaImage}></source>
-          </video>
-        </div>
+      <div class="video-container">
+        <video controls autoplay style="max-width:100%;height:auto;">
+          <source src="${mediaImage}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
 
     </body>
@@ -23,11 +39,12 @@ const code = `
 
 return (
   <div
+    className="w-100 h-100"
     style={{
       minHeight: "500px",
       minWidth: "300px",
     }}
   >
-    <iframe iframeResizer className="w-100 h-100" srcDoc={code} />
+    <iframe className="w-100 h-100" srcDoc={code} title="Embedded Media" />
   </div>
 );
