@@ -1,115 +1,17 @@
 
-const StyledColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const StyledRow = styled.div`
-  display: flex;
-  flex-direction: row;
-`
+const {
+  Column,
+  Row,
+  StyledVaultImage,
+  SvgIcon,
+  StyledDashedUndeline,
+  TdTxt,
+  PoolPercentage,
+  StrategyTxt,
+  TitleText,
+  ContainerLogin,
+} = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
-const StyledVaultImage = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  img {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-  }
-`
-const SvgIcon = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &.icon-right {
-    position: absolute;
-    right: 28px;
-    top: 50%;
-    transform: translateY(-50%);
-
-    &.rotate {
-      transform: translateY(-50%) rotate(90deg);
-    }
-  }
-`
-const StyledDashedUndeline = styled.div`
-  padding: 2px 0;
-  border-bottom: 1px dashed #979ABE;
-`
-const TdTxt = styled.div`
-  color: #FFF;
-  font-family: Gantari;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  &.gray {
-    color: #979ABE;
-    font-size: 12px;
-  }
-`
-const PoolPercentage = styled.div`
-  padding: 3px 8px;
-  border-radius: 24px;
-  background: rgba(151, 154, 190, 0.1);
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`
-
-const StrategyTxt = styled.div`
-  padding: 7px 10px;
-  border-radius: 6px;
-  background: rgba(151, 154, 190, 0.1);
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`
-const TitleText = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  color: #ffffff;
-  @media (max-width: 900px) {
-    display: none;
-  }
-`;
-const ContainerLogin = styled.div`
-  display: flex;
-  max-width: 500px;
-
-  flex-direction: column;
-  margin: 80px auto auto auto;
-
-  .web3-connect {
-    width: 480px;
-    height: 60px;
-    border-radius: 10px;
-    background-color: #fff;
-    color: #0f1126;
-    font-size: 18px;
-    font-weight: 500;
-    border: none;
-    margin-top: 20px;
-  }
-
-  @media (max-width: 736px) {
-    max-width: 100%;
-    .web3-connect {
-      width: 100%;
-
-      font-size: 16px;
-      height: 40px;
-    }
-  }
-`;
 State.init({
   allData: null,
   loading: false,
@@ -330,7 +232,7 @@ const columnList = [{
 }]
 
 return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> : (
-  <StyledColumn>
+  <Column>
     {state.allData && (
       <Widget
         src={"bluebiu.near/widget/Liquidity.Data.ARRAKIS"}
@@ -392,5 +294,5 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         }}
       />
     )}
-  </StyledColumn>
+  </Column>
 )
