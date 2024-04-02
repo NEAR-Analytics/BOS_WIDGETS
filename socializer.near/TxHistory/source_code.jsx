@@ -122,7 +122,7 @@ return (
       props={{
         API_URL,
         themeColor: { table_pagination: themeColor.table_pagination },
-        data,
+        data: props?.data,
         columns,
         rowsCount: 5,
       }}
