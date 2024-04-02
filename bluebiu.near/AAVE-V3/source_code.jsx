@@ -213,17 +213,11 @@ function getLiquidity() {
         const debtTotal = res.slice(l / 2);
 
         for (let i = 0; i < markets.length; i++) {
-          // console.log(
-          //   "getLiquidity-price",
-          //   markets.length,
-          //   i,
-          //   markets[i].symbol,
-          //   prices[markets[i].symbol]
-          // );
+          console.log("mm--", markets[i], prices[markets[i].symbol]);
           const liquidityAmount = Big(aTokenTotal[i] || 0)
             .minus(Big(debtTotal[i] || 0))
             .toFixed();
-          // console.log("liquidityAmount:", liquidityAmount);
+          console.log("liquidityAmount--", liquidityAmount);
           markets[i].availableLiquidity = liquidityAmount;
           markets[i].availableLiquidityUSD = Big(
             ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
@@ -239,6 +233,7 @@ function getLiquidity() {
       console.log("getLiquidity_err", err);
     });
 }
+getLiquidity();
 
 const marketsMapping = markets.reduce((prev, cur) => {
   prev[cur.underlyingAsset] = cur;
@@ -410,13 +405,12 @@ function updateData(refresh) {
         )
           .times(ACTUAL_BORROW_AMOUNT_RATE)
           .toFixed();
-
+        console.log("availableBorrowsUSD--", availableBorrowsUSD);
         const availableBorrows = calculateAvailableBorrows({
           availableBorrowsUSD,
           marketReferencePriceInUsd: market.marketReferencePriceInUsd,
         });
-        // console.log(44444, availableBorrows);
-        // item.availableBorrows = availableBorrows;
+        console.log("availableBorrows--", availableBorrows);
 
         return {
           ...market,
@@ -1176,7 +1170,7 @@ function getCollateralStatus() {
 
 useEffect(() => {
   if (!isChainSupported) return;
-  getLiquidity();
+
   fetchUserAccountData();
 }, [isChainSupported]);
 
