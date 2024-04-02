@@ -27,7 +27,10 @@ const code = `
     <body>
 
       <div class="video-container">
-        <video controls autoplay style="max-width:100%;height:100%;">
+        <video controls autoplay style="${{
+          maxwidth: "100%",
+          height: "100%",
+        }}">
           <source src="${mediaImage}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
