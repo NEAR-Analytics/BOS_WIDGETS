@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 const { id } = props;
@@ -13,36 +13,35 @@ const Container = styled.div`
 
   .image-container {
     position: relative;
-    display: inline-block; 
-   }
+    display: inline-block;
+  }
 
-   .overlay-button {
+  .overlay-button {
     position: absolute;
-    top: 85%; 
+    top: 85%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
 
     @media screen and (max-width: 786px) {
-      top: 75%; 
+      top: 75%;
       left: 85%;
     }
-}
-
-a.btn {
-  border: 2px solid white;
-  background: #151718;
-  box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
-  color: #f0f0f0;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center !important;
-
-
-  &:hover {
-    color: #fff;
-    text-decoration: none;
   }
-}
+
+  a.btn {
+    border: 2px solid white;
+    background: #151718;
+    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+    color: #f0f0f0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center !important;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
 `;
 
 const Section = styled.div`
@@ -163,22 +162,23 @@ const ProjectCard = ({ project }) => (
   </ProjectContainer>
 );
 
-
 const handelOnFollow = () => {
   if (!accountId) return;
-  Near.call("aurora.dao-check.near", 'check_in');
+  Near.call("aurora.dao-check.near", "check_in");
 };
 
 return (
   <Container>
-
-    {id === 'aurora-community-dao' ?
+    {id === "aurora-community-dao" ? (
       <div className="image-container">
         <img className="hero-img" src={dao.banner_url} alt="Banner Image" />
-        <a className="overlay-button btn" onClick={handelOnFollow}>Follow</a>
+        <a className="overlay-button btn" onClick={handelOnFollow}>
+          Follow
+        </a>
       </div>
-      : <img className="hero-img" src={dao.banner_url} alt="Banner Image" />
-    }
+    ) : (
+      <img className="hero-img" src={dao.banner_url} alt="Banner Image" />
+    )}
 
     <Section className="with-circles">
       <Widget
@@ -219,7 +219,7 @@ return (
 
     <Section className="d-flex flex-column gap-5">
       <Widget
-        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHourse`}
+        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHours`}
         props={{ dao }}
       />
     </Section>
