@@ -72,6 +72,7 @@ const options = [
 
 const selectMenu = (data) => {
   State.update({ menu: data });
+  data = [];
   getTokenData(data.text);
 };
 
