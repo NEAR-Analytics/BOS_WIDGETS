@@ -228,7 +228,11 @@ return (
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        style={{ margin: "auto" }}
+        style={{
+          margin: "auto",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
