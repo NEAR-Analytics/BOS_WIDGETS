@@ -1,6 +1,7 @@
 const Owner = "socializer.near";
 const API_URL = props?.API_URL || "http://localhost:3000";
 const data = props?.data || [];
+const getTokenData = props?.getTokenData || ((param) => {});
 
 const columns = [
   {
@@ -71,14 +72,11 @@ const options = [
 
 const selectMenu = (data) => {
   State.update({ menu: data });
-  props.getTokenData(data);
-  props.loaded = false;
+  getTokenData(data);
 };
 
 State.init({
   menu: { value: "all" },
-  timer_load: false,
-  loaded: false,
 });
 
 const TxComponent = styled.div`
