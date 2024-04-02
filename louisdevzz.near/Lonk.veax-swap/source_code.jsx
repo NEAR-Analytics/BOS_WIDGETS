@@ -99,7 +99,7 @@ const Exchange = <ExchangeWrapper>{ExchangeIcon}</ExchangeWrapper>;
 State.init({
   tokenIn: NEAR_META,
   tokenOut: LONK_TOKEN_META,
-  amountIn: "1",
+  amountIn: "0.1",
   amountOut: "",
   showSetting: false,
   slippagetolerance: "0.5",
@@ -142,6 +142,7 @@ if (!state.timerIntervalSet) {
 }
 
 const Container = styled.div`
+${chakraFont}
   width: 470px;
 
   color: white;
@@ -373,7 +374,7 @@ return (
 
     {
       <Widget
-        src={`huunhanz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input`}
         props={{
           amount: state.amountIn,
           disableInput: false,
@@ -390,7 +391,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`huunhanz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input`}
         props={{
           amount: state.amountOut,
           disableInput: true,
@@ -426,7 +427,7 @@ return (
     </RateLine>
 
     <Widget
-      src="weige.near/widget/ref-swap-button"
+      src="louisdevzz.near/widget/ref-swap-button"
       props={{
         accountId,
         notEnough,
