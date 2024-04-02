@@ -15,11 +15,18 @@ const code = `
           align-items: center;
           background-color: RED;
         }
+        .video-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100vh;
+        }
       </style>
     </head>
     <body>
 
-      <div className="video-container">
+      <div class="video-container">
         <video controls autoplay>
           <source src="${mediaImage}" type="video/mp4">
           Your browser does not support the video tag.
@@ -31,13 +38,7 @@ const code = `
 `;
 
 return (
-  <div
-    className="w-100 h-100"
-    style={{
-      minHeight: "900px",
-      minWidth: "300px",
-    }}
-  >
+  <div>
     <iframe className="w-100 h-100" srcDoc={code} title="Embedded Media" />
   </div>
 );
