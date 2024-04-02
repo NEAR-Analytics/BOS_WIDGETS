@@ -131,6 +131,32 @@ const Button = styled.button`
   line-height: normal;
 `;
 
+const LoadingSpinner = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  border-top-color: white;
+  opacity: ${({ loading }) => (loading ? 1 : 0)};
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  margin: auto;
+  width: 16px;
+  height: 16px;
+  transition: opacity 200ms;
+  animation: ${rotate} 1s linear;
+  animation-iteration-count: infinite;
+  transition-delay: ${({ loading }) => (loading ? "200ms" : "0ms")}
+`;
+
+const ButtonLoader = ({ color, onClick, loading, children }) => (
+  <Button loading={loading} color={color} onClick={onClick}>
+    <LoadingSpinner loading={loading} />
+    {children}
+  </Button>
+);
+
 const getTokenData = () => {
   return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
     (res) => {
@@ -459,7 +485,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex form-group" style={{ gap: 20 }}>
+      <div className="d-flex align-items-center form-group" style={{ gap: 20 }}>
         <div
           className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
@@ -469,7 +495,10 @@ return (
             {"Campaign duration in HH:MM"}
           </p>
         </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4  form-value form-duration">
+        <div
+          className="d-flex align-items-center col-lg-6 gap-4  form-value form-duration"
+          style={{ height: "40px" }}
+        >
           <Widget
             props={{
               noLabel: true,
@@ -500,16 +529,28 @@ return (
           />
         </div>
       </div>
+      <p style={{ fontSize: 16, color: "#595959" }}>
+        {`You are paying: ${state.total_reward} $${state.token.text} for rewards, and 0.1 $NEAR as campaign fees`}
+      </p>
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "end",
+          justifyContent: "start",
           gap: 21,
         }}
       >
+        <ButtonLoader
+          loading={state.loading}
+          color="hsl(120, 100%, 40%)"
+          onClick={createCampaign}
+        >
+          Submit
+        </ButtonLoader>
+        //{" "}
         <Button disabled={state.loading} onClick={createCampaign}>
-          {state.loading ? "Loading..." : "Submit"}
+          // {state.loading ? "Loading..." : "Submit"}
+          //{" "}
         </Button>
       </div>
     </MainComponent>
