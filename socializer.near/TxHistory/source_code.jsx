@@ -77,7 +77,7 @@ const selectMenu = (data) => {
 
 State.init({
   menu: { value: "all" },
-  historyData: props?.data,
+  historyData: props?.data || [],
 });
 
 const TxComponent = styled.div`
