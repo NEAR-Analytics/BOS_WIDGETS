@@ -175,7 +175,6 @@ const Main = styled.div`
     font-size:1.2rem;
   }
 `;
-const accountId = context.accountId;
 const [dropdownVisible, setDropdownVisible] = useState(false);
 const [visible, setVisible] = useState(false);
 const toggleDropdown = () => {
@@ -280,7 +279,7 @@ return (
     )}
     <Main>
       <div class="main">
-        <Widget src="louisdevzz.near/widget/Lonk.hero" props={{ accountId }} />
+        <Widget src="louisdevzz.near/widget/Lonk.hero" />
 
         <Widget src="louisdevzz.near/widget/Lonk.buy" />
         <div
