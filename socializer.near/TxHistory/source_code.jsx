@@ -1,6 +1,6 @@
 const Owner = "socializer.near";
 const API_URL = props?.API_URL || "http://localhost:3000";
-const list = props?.data || [];
+let list = props?.data || [];
 const getTokenData = props?.getTokenData || ((param) => {});
 
 State.init({
@@ -76,9 +76,12 @@ const options = [
 ];
 
 const selectMenu = (e) => {
-  getTokenData(e.text);
   State.update({ menu: e });
 };
+
+useEffect(() => {
+  if (state.menu?.text) getTokenData(state.menu.text);
+}, [state.menu]);
 
 console.log(state);
 
