@@ -142,7 +142,6 @@ if (!state.timerIntervalSet) {
 }
 
 const Container = styled.div`
-${chakraFont}
   width: 470px;
 
   color: white;
