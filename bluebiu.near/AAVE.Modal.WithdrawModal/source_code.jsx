@@ -9,6 +9,8 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   account,
+  maxWithdrawBalanceUSD,
+  prices,
   theme,
 } = props;
 
@@ -35,7 +37,7 @@ const {
   availableLiquidity,
   healthFactor,
 } = data;
-
+console.log("withdraw-props--", props);
 const availableLiquidityAmount = Big(availableLiquidity)
   .div(Big(10).pow(decimals))
   .toFixed();
@@ -299,10 +301,25 @@ const actualMaxValue =
           .mul(Big(10).pow(decimals))
           .toFixed(0, ROUND_DOWN)
     : "0";
-const shownMaxValue =
-  isValid(underlyingBalance) && isValid(availableLiquidityAmount)
-    ? bigMin(underlyingBalance, availableLiquidityAmount).toFixed(decimals)
-    : Big("0").toFixed(decimals);
+// const shownMaxValue =
+//   isValid(underlyingBalance) && isValid(availableLiquidityAmount)
+//     ? bigMin(underlyingBalance, availableLiquidityAmount).toFixed(decimals)
+//     : Big("0").toFixed(decimals);
+
+let shownMaxValue;
+
+if (symbol === config.nativeCurrency.symbol) {
+  shownMaxValue = bigMin(
+    underlyingBalance,
+    Big(maxWithdrawBalanceUSD)
+      .div(Big(prices[config.nativeCurrency.symbol]))
+      .toFixed()
+  ).toFixed(decimals);
+} else {
+  shownMaxValue = bigMin(underlyingBalanceUSD, maxWithdrawBalanceUSD).toFixed(
+    decimals
+  );
+}
 
 function debounce(fn, wait) {
   let timer = state.timer;
@@ -411,7 +428,8 @@ return (
                       right: (
                         <GrayTexture>
                           Supply Balance:{" "}
-                          {Big(underlyingBalance).toFixed(3, ROUND_DOWN)}
+                          {Big(shownMaxValue).toFixed(3, ROUND_DOWN)}
+                          {/* {Big(underlyingBalance).toFixed(3, ROUND_DOWN)} */}
                           <Max
                             onClick={() => {
                               changeValue(shownMaxValue);
