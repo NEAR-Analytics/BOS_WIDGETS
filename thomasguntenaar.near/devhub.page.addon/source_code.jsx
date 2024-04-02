@@ -90,6 +90,17 @@ const ButtonRow = styled.div`
 
 const [view, setView] = useState(props.view || "viewer");
 
+if ("thomasguntenaar.near" !== "devhub.near") {
+  addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
+    "devhub.near/",
+    "thomasguntenaar.near/"
+  );
+  addonMatch.view_widget = addonMatch.view_widget.replace(
+    "devhub.near/",
+    "thomasguntenaar.near/"
+  );
+}
+
 return (
   <Container>
     {permissions.can_configure && (
