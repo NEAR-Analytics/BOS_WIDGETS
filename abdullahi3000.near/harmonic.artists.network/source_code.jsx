@@ -4,6 +4,7 @@ const cardStyle = {
   justifyContent: "center",
   flexDirection: "column", // To align children vertically
   minHeight: "80vh",
+  backgroundColor: "#151718",
   color: "#fff",
 };
 
