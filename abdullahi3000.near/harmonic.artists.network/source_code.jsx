@@ -3,6 +3,7 @@ const cardStyle = {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column", // To align children vertically
+  width: "100%",
   minHeight: "80vh",
   backgroundColor: "#151718",
   color: "#fff",
