@@ -1,13 +1,73 @@
+const translations = {
+  en: {
+    title: "Créateur de jetons tkn.near",
+    description:
+      "Here you can create a new token on NEAR using the tkn.near contract.",
+    ownerIdDescription:
+      "This is the account ID of the token owner, which is the currently logged-in account.",
+    totalSupplyDescription:
+      "This is the total number of tokens you want to create, without considering the decimal places. The actual total supply will be calculated based on this value and the number of decimal places you specify.",
+    tokenNameDescription: "This is the human-readable name of your token.",
+    tokenSymbolDescription:
+      "This is the abbreviated symbol for your token, usually 3-5 uppercase letters.",
+    tokenIconDescription:
+      "This is the Base64-encoded image data for your token icon. You can use a service like base64-image.de to convert your image to Base64.",
+    tokenDecimalsDescription:
+      "This is the number of decimal places for your token.",
+    createTokenButton: "Create Token",
+    loginPrompt: "Please log in to create a new token.",
+  },
+  fr: {
+    title: "Créateur de jetons tkn.near",
+    description:
+      "Sur cette page, vous pouvez créer un nouveau jeton sur NEAR en utilisant le contrat tkn.near.",
+    ownerIdDescription:
+      "Il s'agit de l'identifiant du compte propriétaire du jeton, c'est-à-dire le compte actuellement connecté.",
+    totalSupplyDescription:
+      "Indiquez ici le nombre total de jetons à créer, sans compter les décimales. La quantité finale sera calculée à partir de ce nombre et du nombre de décimales que vous spécifierez.",
+    tokenNameDescription:
+      "Donnez un nom à votre jeton, facilement compréhensible.",
+    tokenSymbolDescription:
+      "Choisissez un symbole court pour votre jeton, généralement 3 à 5 lettres majuscules.",
+    tokenIconDescription:
+      "Vous pouvez ajouter une icône à votre jeton en fournissant une image encodée en Base64. Utilisez un service comme base64-image.de pour convertir votre image.",
+    tokenDecimalsDescription:
+      "Précisez le nombre de décimales pour votre jeton.",
+    createTokenButton: "Créer mon jeton",
+    loginPrompt: "Veuillez vous connecter pour pouvoir créer un nouveau jeton.",
+  },
+  zh: {
+    title: "Créateur de jetons tkn.near",
+    description: "在這裡，您可以使用 tkn.near 合約在 NEAR 上建立一個新的代幣。",
+    ownerIdDescription: "代幣擁有者的帳戶。",
+    totalSupplyDescription:
+      "請輸入您要建立的代幣總量,不包含小數位數。實際的總發行量會根據這個數字和您指定的小數位數計算出來。",
+    tokenNameDescription: "幫您的代幣取一個好記的名字。",
+    tokenSymbolDescription:
+      "為您的代幣選一個簡短有力的符號，通常是 3 到 5 個大寫英文字母。",
+    tokenIconDescription:
+      "您可以為代幣上傳一個 Base64 編碼的圖示。可以用 base64-image.de 這類的服務把圖片轉換成 Base64 格式。",
+    tokenDecimalsDescription: "請設定您的代幣要有幾位小數。",
+    createTokenButton: "建立代幣",
+    loginPrompt: "請先登入才能建立新的代幣。",
+  },
+};
+
 const ownerId = context.accountId;
 const contract = "tkn.near";
 
 State.init({
+  language: "en",
   totalSupply: "",
   tokenName: "",
   tokenSymbol: "",
   tokenIcon: "",
   tokenDecimals: "",
 });
+
+const onLanguageChange = (language) => {
+  State.update({ language });
+};
 
 const onInputChange =
   (key) =>
@@ -46,7 +106,7 @@ const onCreateBtnClick = () => {
       },
     ]);
   } else {
-    alert("Veuillez remplir tous les champs obligatoires.");
+    alert(translations[state.language].loginPrompt);
   }
 };
 
@@ -61,13 +121,29 @@ const Wrapper = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
+`;
+
+const LanguageSelector = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+`;
+
+const Flag = styled.span`
+  font-size: 1.5rem;
 `;
 
 const Title = styled.h1`
- font-size: 2rem;
- font-weight: bold;
- text-align: center;
- margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
 `;
 
 const Text = styled.p`
@@ -117,24 +193,26 @@ const Button = styled.button`
 
 return (
   <Wrapper>
-    <Title>tkn.near minter</Title>
-    <Text>
-      Ici, vous pouvez créer un nouveau jeton sur NEAR en utilisant le contrat
-      tkn.near.
-    </Text>
+    <LanguageSelector>
+      <Flag onClick={() => onLanguageChange("en")}>🇺🇸</Flag>
+      <Flag onClick={() => onLanguageChange("fr")}>🇫🇷</Flag>
+      <Flag onClick={() => onLanguageChange("zh")}>🇭🇰</Flag>
+    </LanguageSelector>
+    <Title>{translations[state.language].title}</Title>
+    <Text>{translations[state.language].description}</Text>
     {context.accountId ? (
       <>
         <FormGroup>
-          <Label htmlFor="ownerId">ID du propriétaire</Label>
+          <Label htmlFor="ownerId">Owner ID</Label>
           <Input id="ownerId" value={ownerId} disabled />
           <SmallText>
-            Il s'agit de l'ID du compte propriétaire du jeton, c'est-à-dire le
-            compte actuellement connecté.
+            {translations[state.language].ownerIdDescription}
           </SmallText>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="totalSupply">
-            Offre totale <span style={{ color: "red" }}>*</span>
+            Total Supply
+            <span style={{ color: "red" }}>*</span>
           </Label>
           <Input
             id="totalSupply"
@@ -142,15 +220,13 @@ return (
             onChange={onInputChange("totalSupply")}
           />
           <SmallText>
-            Il s'agit du nombre total de jetons que vous souhaitez créer, sans
-            tenir compte des décimales. L'offre totale réelle sera calculée en
-            fonction de cette valeur et du nombre de décimales que vous
-            spécifiez.
+            {translations[state.language].totalSupplyDescription}
           </SmallText>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="tokenName">
-            Nom du jeton <span style={{ color: "red" }}>*</span>
+            Token Name
+            <span style={{ color: "red" }}>*</span>
           </Label>
           <Input
             id="tokenName"
@@ -158,12 +234,13 @@ return (
             onChange={onInputChange("tokenName")}
           />
           <SmallText>
-            C'est le nom de votre jeton lisible par un être humain.
+            {translations[state.language].tokenNameDescription}
           </SmallText>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="tokenSymbol">
-            Symbole du jeton <span style={{ color: "red" }}>*</span>
+            Symbol
+            <span style={{ color: "red" }}>*</span>
           </Label>
           <Input
             id="tokenSymbol"
@@ -171,33 +248,41 @@ return (
             onChange={onInputChange("tokenSymbol")}
           />
           <SmallText>
-            Il s'agit du symbole abrégé de votre jeton, généralement 3 à 5
-            lettres majuscules.
+            {translations[state.language].tokenSymbolDescription}
           </SmallText>
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="tokenIcon">Icône du jeton (facultatif)</Label>
+          <Label htmlFor="tokenIcon">Icon</Label>
           <Input
             id="tokenIcon"
             placeholder="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAI..."
             onChange={onInputChange("tokenIcon")}
           />
           <SmallText>
-            Il s'agit des données d'image codées en Base64 pour l'icône de votre
-            jeton. Vous pouvez utiliser un service tel que{" "}
-            <a
-              href="https://www.base64-image.de/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              base64-image.de
-            </a>{" "}
-            pour convertir votre image en Base64.
+            {translations[state.language].tokenIconDescription
+              .split(" ")
+              .map((word, index) => {
+                if (word === "base64-image.de") {
+                  return (
+                    <a
+                      key={index}
+                      href="https://www.base64-image.de/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {word}
+                    </a>
+                  );
+                } else {
+                  return <span key={index}>{word} </span>;
+                }
+              })}
           </SmallText>
         </FormGroup>
         <FormGroup>
           <Label htmlFor="tokenDecimals">
-            Décimales du jeton <span style={{ color: "red" }}>*</span>
+            Decimals
+            <span style={{ color: "red" }}>*</span>
           </Label>
           <Input
             id="tokenDecimals"
@@ -205,11 +290,12 @@ return (
             onChange={onInputChange("tokenDecimals")}
           />
           <SmallText>
-            Il s'agit du nombre de décimales pour votre jeton.
+            {translations[state.language].tokenDecimalsDescription}
           </SmallText>
         </FormGroup>
         <Button onClick={onCreateBtnClick}>
-          <i className="fas fa-plus-circle"></i> Créer le jeton
+          <i className="fas fa-plus-circle"></i>{" "}
+          {translations[state.language].createTokenButton}
         </Button>
       </>
     ) : (
@@ -221,7 +307,7 @@ return (
           borderRadius: "5px",
         }}
       >
-        Veuillez vous connecter pour créer un nouveau jeton.
+        {translations[state.language].loginPrompt}
       </Text>
     )}
   </Wrapper>
