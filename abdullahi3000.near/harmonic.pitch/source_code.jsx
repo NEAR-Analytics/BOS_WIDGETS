@@ -11,7 +11,7 @@ const code = `
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100vh; /* This will make sure the body takes the full viewport height */
+      height: 100%; /* This will make sure the body takes the full viewport height */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,7 +19,7 @@ const code = `
     }
     .video-container {
       width: 100%;
-      height: 100vh; /* Make sure the container takes the full height of its parent */
+      height: 100%; /* Make sure the container takes the full height of its parent */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -27,8 +27,8 @@ const code = `
     }
     video {
       width: 100%; /* Adjust as needed */
-      height: 100vh; /* Adjust as needed */
-      max-height: 100vh; /* Ensure the video does not exceed the container's height */
+      height: auto; /* Adjust as needed */
+      max-height: 100%; /* Ensure the video does not exceed the container's height */
     }
   </style>
 </head>
@@ -47,12 +47,12 @@ const code = `
 
 return (
   <div
-    className="w-100 h-100vh"
+    className="w-100 h-100"
     style={{
-      minHeight: "500vh",
+      minHeight: "500px",
       minWidth: "300px",
     }}
   >
-    <iframe className="w-100 h-100vh" srcDoc={code} title="Embedded Media" />
+    <iframe className="w-100 h-100" srcDoc={code} title="Embedded Media" />
   </div>
 );
