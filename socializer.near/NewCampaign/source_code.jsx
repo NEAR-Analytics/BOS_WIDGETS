@@ -473,7 +473,10 @@ return (
             step="1"
             value={state.winners}
             onChange={(e) => {
-              const winners = e.target.value ? parseInt(e.target.value) : 0;
+              const winners = Math.abs(
+                e.target.value ? parseInt(e.target.value) : 0
+              );
+              winners = winners > 20 ? 20 : winners;
               const total_reward = `${Number(
                 (state.amount * winners).toFixed(4)
               )} ${state.token}`;
