@@ -198,9 +198,12 @@ return (
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog" style={{ backgroundColor: "#182733" }}>
+        <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
+            <div
+              class="modal-header"
+              style={{ background: "#182733", color: "#fff" }}
+            >
               <h5 class="modal-title" id="exampleModalLabel">
                 Swap Token {select == "ref" ? "Ref Finance" : "Veax"}
               </h5>
