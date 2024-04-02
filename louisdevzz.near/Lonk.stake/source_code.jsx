@@ -273,6 +273,12 @@ return (
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -40%)",
+        }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
