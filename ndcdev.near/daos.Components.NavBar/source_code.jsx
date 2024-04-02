@@ -85,7 +85,9 @@ const LinksContainer = styled.div`
 
 const NavigationLinks = () => (
   <>
-    <a href={`/ndcdev.near/widget/daos.App?page=supported_projects`}>Supported Projects</a>
+    <a href={`/ndcdev.near/widget/daos.App?page=supported_projects`}>
+      Supported Projects
+    </a>
     <a href={`/ndcdev.near/widget/daos.App?page=daos`}>DAOs</a>
     <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
     <div className="d-flex flex-wrap gap-3">
