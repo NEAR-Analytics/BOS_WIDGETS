@@ -80,6 +80,8 @@ const selectMenu = (e) => {
   State.update({ menu: e });
 };
 
+console.log(state);
+
 const TxComponent = styled.div`
   display: flex;
   width: 100%;
