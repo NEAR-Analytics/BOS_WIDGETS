@@ -55,6 +55,7 @@ font-family: Kodchasan,sans-serif;
 }
 }
 `;
+const accountId = context.accountId;
 return (
   <>
     <div class="how font-md-bigger py-4 py-lg-5" id="how">
@@ -240,31 +241,33 @@ return (
       </div>
     </div>
 
-    <div
-      class="modal fade"
-      id="buyModal"
-      tabindex="-1"
-      aria-labelledby="buyModal"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Swap Token Ref Finance
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="louisdevzz.near/widget/ref-swap" />
+    {!accountId && (
+      <div
+        class="modal fade"
+        id="buyModal"
+        tabindex="-1"
+        aria-labelledby="buyModal"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Swap Token Ref Finance
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+              <Widget src="louisdevzz.near/widget/ref-swap" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )}
   </>
 );
