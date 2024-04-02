@@ -27,7 +27,7 @@ const code = `
     }
     video {
       width: 100%; /* Adjust as needed */
-      height: auto; /* Adjust as needed */
+      height: 100vh; /* Adjust as needed */
       max-height: 100%; /* Ensure the video does not exceed the container's height */
     }
   </style>
