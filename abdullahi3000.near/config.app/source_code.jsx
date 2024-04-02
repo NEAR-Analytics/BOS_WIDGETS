@@ -23,7 +23,7 @@ return {
       },
     },
     joinUs: {
-      path: "abdullahi3000.near/widget/harmonic.pitch",
+      path: "abdullahi3000.near/widget/harmonic.join.us",
       blockHeight: "final",
       init: {
         name: "Join Us",
