@@ -8,7 +8,9 @@ State.init({
   },
 });
 
-//console.log(Near.view("v1.social08.testnet", "get"));
+const testLogin = () => {
+  Near.login();
+};
 
 const testCall = () => {
   Near.call("v1.social08.testnet", "set", {
@@ -35,6 +37,7 @@ return (
   <div>
     <h2>socialDB Testnet Interface</h2>
     <i>Note: this component isn't calling the testnet contract properly yet.</i>
+    <button onClick={testLogin}>Login to Testnet</button>
     <hr />
 
     <h5>Deploy/View by Path</h5>
@@ -50,7 +53,7 @@ return (
 
     <h5>Bulk Deploy</h5>
     <p>
-      <b>Current account:</b> {context.accountId}
+      <b>Your Mainnet Account:</b> {context.accountId}
     </p>
     <button onClick={testCall}>Deploy Your Entire socialDB Account</button>
     <br />
