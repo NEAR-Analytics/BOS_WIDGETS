@@ -71,7 +71,32 @@ const Tag = styled.div`
   font-weight: 800;
 `;
 
-const [sort, setSort] = useState("timedesc");
+const [sort, setSort] = useState("desc");
+const [isTransactionFinished, setIsTransactionFinished] = useState(false);
+
+const discussionsAccountId =
+  "discussions." + handle + ".community.devhub.near";
+
+function checkIfReposted(blockHeight) {
+  Near.asyncView("social.near", "get", {
+    keys: [`${discussionsAccountId}/index/**`],
+  })
+    .then((response) => {
+      const repost = response[discussionsAccountId].index.repost;
+
+      if (repost && repost.indexOf(`"blockHeight":${blockHeight}`) > -1) {
+        setIsTransactionFinished(true);
+      } else {
+        setTimeout(() => checkIfReposted(), 500);
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "DevHub Error [Discussions]: checkIfReposted failed",
+        error
+      );
+    });
+}
 
 function repostOnDiscussions(blockHeight) {
   Near.call([
@@ -85,6 +110,7 @@ function repostOnDiscussions(blockHeight) {
       gas: Big(10).pow(14),
     },
   ]);
+  checkIfReposted(blockHeight);
 }
 
 async function checkHashes() {
@@ -167,11 +193,14 @@ return (
               <Widget
                 src={"thomasguntenaar.near/widget/devhub.entity.community.Compose"}
                 props={{
+                  isFinished: () => isTransactionFinished,
                   onSubmit: (v) => {
+                    console.log("ON SUBMIT");
                     Storage.set(
                       NEW_DISCUSSION_POSTED_CONTENT_STORAGE_KEY,
                       v.post.main
                     );
+
                     Social.set(v, {
                       force: true,
                       onCommit: () => {
@@ -196,7 +225,7 @@ return (
                   setSort(e.target.value);
                 }}
               >
-                <option selected value="timedesc">
+                <option selected value="desc">
                   Latest
                 </option>
                 <option value="recentcommentdesc">Last Commented</option>
@@ -209,8 +238,9 @@ return (
                 We will replace this with our custom feed as soon as it can support reposts */}
             <Widget
               key="feed"
-              src="mob.near/widget/MainPage.N.Feed"
+              src="thomasguntenaar.near/widget/devhub.components.feed.SubscribedFeed"
               props={{
+                sort: sort,
                 accounts: [
                   `discussions.${handle}.community.devhub.near`,
                 ],
