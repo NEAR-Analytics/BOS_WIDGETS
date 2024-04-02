@@ -1,6 +1,6 @@
 const Owner = "socializer.near";
 const API_URL = props?.API_URL || "http://localhost:3000";
-const data = props?.data || [];
+let data = props?.data || [];
 const getTokenData = props?.getTokenData || ((param) => {});
 
 const columns = [
@@ -71,6 +71,7 @@ const options = [
 ];
 
 const selectMenu = (data) => {
+  data = [];
   getTokenData(data.text);
   State.update({ menu: data });
 };
@@ -117,15 +118,17 @@ return (
         src={`${Owner}/widget/Select`}
       />
     </SelectContent>
-    <Widget
-      src={`${Owner}/widget/table-pagination`}
-      props={{
-        API_URL,
-        themeColor: { table_pagination: themeColor.table_pagination },
-        data,
-        columns,
-        rowsCount: 5,
-      }}
-    />
+    {data.length && (
+      <Widget
+        src={`${Owner}/widget/table-pagination`}
+        props={{
+          API_URL,
+          themeColor: { table_pagination: themeColor.table_pagination },
+          data,
+          columns,
+          rowsCount: 5,
+        }}
+      />
+    )}
   </TxComponent>
 );
