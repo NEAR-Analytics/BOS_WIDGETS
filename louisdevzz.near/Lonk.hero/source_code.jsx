@@ -191,43 +191,75 @@ return (
       </div>
     </div>
     {accountId ? (
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div
-              class="modal-header"
-              style={{ background: "#182733", color: "#fff" }}
-            >
-              <h5 class="modal-title" id="exampleModalLabel">
-                Swap Token {select == "ref" ? "Ref Finance" : "Veax"}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                style={{ filter: "brightness(0) invert(1)" }}
-              ></button>
-            </div>
-            <div
-              style={{ background: "#182733" }}
-              class="modal-body d-flex justify-content-center align-items-center"
-            >
-              {select == "ref" ? (
+      select == "ref" ? (
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div
+                class="modal-header"
+                style={{ background: "#182733", color: "#fff" }}
+              >
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Swap Token Ref Finance
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  style={{ filter: "brightness(0) invert(1)" }}
+                ></button>
+              </div>
+              <div
+                style={{ background: "#182733" }}
+                class="modal-body d-flex justify-content-center align-items-center"
+              >
                 <Widget src="louisdevzz.near/widget/ref-swap" />
-              ) : (
-                <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
-              )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div
+                class="modal-header"
+                style={{ background: "#282828", color: "#fff" }}
+              >
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Swap Token Veax
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  style={{ filter: "brightness(0) invert(1)" }}
+                ></button>
+              </div>
+              <div
+                style={{ background: "#282828" }}
+                class="d-flex justify-content-center align-items-center"
+              >
+                <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )
     ) : (
       <div
         class={`modal fade`}
