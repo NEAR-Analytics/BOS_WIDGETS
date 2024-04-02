@@ -107,8 +107,8 @@ return (
               role="button"
               className="d-flex gap-1 align-items-center"
               onClick={() => {
-                if (isLikedByMe(comment)) return;
-                handleLike(comment.id);
+                if(isLikedByMe(comment)) return;
+                handleLike(comment.id)
               }}
             >
               <small className="blue">{comment.likes.length}</small>
