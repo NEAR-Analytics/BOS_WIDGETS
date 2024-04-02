@@ -261,7 +261,7 @@ return (
             ></button>
           </div>
           <div class="modal-body d-flex justify-content-center align-items-center">
-            <Widget src="huunhanz.near/widget/ref-swap" />
+            <Widget src="louisdevzz.near/widget/ref-swap" />
           </div>
         </div>
       </div>
