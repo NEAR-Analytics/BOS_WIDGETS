@@ -29,26 +29,12 @@ return {
     //     name: "Documents",
     //   },
     // },
-    musicPlayer: {
-      path: "abdullahi3000.near/widget/harmonic.music.player",
+    music: {
+      path: "abdullahi3000.near/widget/harmonic.music",
       blockHeight: "final",
       init: {
-        name: "Music Player",
+        name: "Music",
       },
-    },
-    songUploader: {
-      path: "abdullahi3000.near/widget/harmonic.song.uploader",
-      blockHeight: "final",
-      init: {
-        name: "Song Uploader",
-      },
-    },
-    artistNetwork: {
-      path: "abdullahi3000.near/widget/harmonic.artists.network",
-      blockHeight: "final",
-      // init: {
-      //   name: "Our Artists",
-      // },
     },
     joinUs: {
       path: "abdullahi3000.near/widget/harmonic.join.us",
