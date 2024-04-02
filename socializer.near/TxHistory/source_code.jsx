@@ -72,8 +72,8 @@ const options = [
 
 const selectMenu = (data) => {
   State.update({ menu: data });
-  data = [];
   getTokenData(data.text);
+  console.log(props.data);
 };
 
 State.init({
