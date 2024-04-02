@@ -1,5 +1,6 @@
 const Owner = "socializer.near";
 const API_URL = props?.API_URL || "http://localhost:3000";
+const data = props?.data || [];
 const getTokenData = props?.getTokenData || ((param) => {});
 
 const columns = [
@@ -71,13 +72,12 @@ const options = [
 
 const selectMenu = (data) => {
   getTokenData(data.text);
-  console.log(props.data);
-  State.update({ menu: data, historyData: props?.data });
+  State.update({ menu: data });
 };
+console.log(data);
 
 State.init({
   menu: { value: "all" },
-  historyData: props?.data || [],
 });
 
 const TxComponent = styled.div`
@@ -122,7 +122,7 @@ return (
       props={{
         API_URL,
         themeColor: { table_pagination: themeColor.table_pagination },
-        data: historyData,
+        data,
         columns,
         rowsCount: 5,
       }}
