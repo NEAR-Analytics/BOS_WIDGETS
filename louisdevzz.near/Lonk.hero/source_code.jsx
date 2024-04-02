@@ -232,6 +232,7 @@ return (
           margin: "auto",
           justifyContent: "center",
           alignItems: "center",
+          display: "flex",
         }}
       >
         <div class="modal-dialog">
