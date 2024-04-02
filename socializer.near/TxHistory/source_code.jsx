@@ -4,7 +4,7 @@ const list = props?.data || [];
 const menu = props?.menu || [];
 const options = props?.options || [];
 const getTokenData = props?.getTokenData || ((param) => {});
-
+console.log(list, props.data);
 const columns = [
   {
     title: "S.No",
