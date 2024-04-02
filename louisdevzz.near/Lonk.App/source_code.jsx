@@ -184,15 +184,6 @@ const toggleDropdown = () => {
 
 return (
   <>
-    <Widget
-      src="louisdevzz.near/widget/headerSwap"
-      props={{
-        visible,
-        setVisible: (value) => {
-          setVisible(value);
-        },
-      }}
-    />
     {visible && (
       <MenuMobile>
         <li class="nav-item p-1 p-lg-3">
