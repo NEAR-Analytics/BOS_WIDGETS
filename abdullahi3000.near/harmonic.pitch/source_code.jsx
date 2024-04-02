@@ -1,3 +1,5 @@
+const mediaImage = "http://media.w3.org/2010/05/sintel/trailer.mp4";
+
 const code = `
   <!DOCTYPE html>
   <html lang="en">
@@ -19,7 +21,13 @@ const code = `
     </head>
     <body>
 
-      <iframe src="https://harmonicguild-my.sharepoint.com/personal/quinn_harmonicguild_io/_layouts/15/stream.aspx?id=%2Fpersonal%2Fquinn%5Fharmonicguild%5Fio%2FDocuments%2FContent%2FAttachments%2FProduct%20Demo%5FShort%5FNoMusic%201%2Emp4&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview" title="Harmonic Guild Pitch" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div className={styles.container}>
+        <div className="relative w-full md:w-1/2 mx-auto rounded-xl overflow-hidden">
+          <video controls autoPlay>
+            <source src=${mediaImage}></source>
+          </video>
+        </div>
+      </div>
 
     </body>
   </html>
@@ -27,24 +35,12 @@ const code = `
 
 return (
   <div
-    className="w-100"
+    className="w-100 h-100"
     style={{
       minHeight: "500px",
       minWidth: "300px",
     }}
   >
-    <iframe
-      iframeResizer
-      className="w-100"
-      srcDoc={code}
-      message={{
-        data: chartData,
-        colors,
-        balances: {
-          totalUsd: balances.totalUsd,
-          balancesTotal: balancesTotal,
-        },
-      }}
-    />
+    <iframe iframeResizer className="w-100 h-100" srcDoc={code} />
   </div>
 );
