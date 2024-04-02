@@ -41,7 +41,7 @@ return (
   <div
     className="w-100 h-100"
     style={{
-      minHeight: "500px",
+      minHeight: "1000px",
       minWidth: "300px",
     }}
   >
