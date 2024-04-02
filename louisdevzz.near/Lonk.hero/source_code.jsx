@@ -27,7 +27,7 @@ const Content = styled.div`
     font-family: Kodchasan,sans-serif;
     font-size:1.2rem;
 `;
-const accountId = props.accountId;
+const accountId = context.accountId;
 const [select, setSelect] = useState("");
 return (
   <>
