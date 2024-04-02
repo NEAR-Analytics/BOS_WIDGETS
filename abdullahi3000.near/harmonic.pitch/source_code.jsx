@@ -14,7 +14,7 @@ const code = `
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: red;
+        background-color: #f0f0f0;
       }
       .video-container {
         width: 100%; /* Ensure the container fills the width */
@@ -47,8 +47,8 @@ return (
   <div
     className="w-100 h-100"
     style={{
-      minHeight: "40rem",
-      minWidth: "100px",
+      minHeight: "30rem",
+      minWidth: "30rem",
     }}
   >
     <iframe
