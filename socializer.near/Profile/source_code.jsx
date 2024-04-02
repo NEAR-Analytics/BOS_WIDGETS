@@ -98,9 +98,9 @@ const Input = styled.input`
   width: 80px;
 `;
 
-const getTokenData = (historyParam) => {
+const getTokenData = (historyType) => {
   return asyncFetch(
-    API_URL + `/api/token?accountId=${accountId}&param=${historyParam}`
+    API_URL + `/api/token?accountId=${accountId}&historyType=${historyType}`
   ).then((res) => {
     if (res.ok) {
       const { token, history } = res.body;
