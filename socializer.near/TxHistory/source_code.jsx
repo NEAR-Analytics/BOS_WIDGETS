@@ -38,6 +38,49 @@ const columns = [
   },
 ];
 
+const options = [
+  {
+    text: "All",
+    value: "all",
+  },
+  {
+    text: "Winnings",
+    value: "winnings",
+  },
+  {
+    text: "Reward Spent",
+    value: "rewardspent",
+  },
+  {
+    text: "Reward Returned",
+    value: "rewardreturned",
+  },
+  {
+    text: "Campaign Fee",
+    value: "campaignfee",
+  },
+  {
+    text: "Deposit",
+    value: "deposit",
+  },
+  {
+    text: "Withdrawal",
+    value: "withdrawal",
+  },
+];
+
+const selectMenu = (data) => {
+  State.update({ menu: data });
+  props.getTokenData(data);
+  props.loaded = false;
+};
+
+State.init({
+  menu: { value: "all" },
+  timer_load: false,
+  loaded: false,
+});
+
 const TxComponent = styled.div`
   display: flex;
   width: 100%;
@@ -49,9 +92,32 @@ const TxComponent = styled.div`
   gap: 20px;
 `;
 
+const SelectContent = styled.div`
+    gap: 21px;
+    display: flex;
+    align-items: center;
+    
+    @media (max-width: 620px) {
+        gap: 10px;
+        justify-content: flex-end;
+    }
+`;
+
 return (
   <TxComponent>
     <h4>{`Transaction Ledger`}</h4>
+    <SelectContent>
+      <Widget
+        props={{
+          API_URL,
+          noLabel: true,
+          options,
+          value: state.menu,
+          onChange: selectMenu,
+        }}
+        src={`${Owner}/widget/Select`}
+      />
+    </SelectContent>
     <Widget
       src={`${Owner}/widget/table-pagination`}
       props={{
