@@ -58,6 +58,7 @@ const TokenWrapper = styled.div`
   cursor: pointer;
   background-color:rgb(31, 31, 31);
   padding: 10px 20px;
+  margin-left:-10px;
   clip-path: polygon(0 0,100% 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
 `;
 
