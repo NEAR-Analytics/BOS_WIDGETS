@@ -7,7 +7,9 @@ const shrinkToken = (value, decimals) => {
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
-
+const chakraFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+).body;
 const account = fetch("https://rpc.mainnet.near.org", {
   method: "POST",
   headers: {
@@ -140,12 +142,14 @@ if (!state.timerIntervalSet) {
 }
 
 const Container = styled.div`
-  width: 430px;
+  width: 470px;
 
   color: white;
-
+    font-family:Chakra Petch, sans-serif;
+    background:#282828;
+    padding:22px;
   .swap-title {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 700;
   }
 
@@ -349,7 +353,7 @@ const inputOnChange = (e) => {
 
 return (
   <Container>
-    <div className="swap-title">Swap</div>
+    <div className="swap-title">Trade tokens</div>
     {
       <Widget
         src="weige.near/widget/ref-swap-getEstimate"
@@ -420,29 +424,6 @@ return (
           : new Big(state.amountOut || 0).div(state.amountIn || 1).toFixed(4, 0)
       } ${state.tokenOut.symbol}`}</RateWrapper>
     </RateLine>
-    <Widget
-      src={`weige.near/widget/SlippageTolerance`}
-      props={{
-        showSetting: state.showSetting,
-        updateSetting: () =>
-          State.update({
-            showSetting: !state.showSetting,
-          }),
-        slippagetolerance: state.slippagetolerance,
-        setSlippagetolerance: (value) => {
-          if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
-            return;
-          }
-          if (Number(value) > 99.9999) return;
-
-          let slippagetolerance = value.replace(/^0+/, "0"); // remove prefix 0
-
-          State.update({
-            slippagetolerance,
-          });
-        },
-      }}
-    />
 
     <Widget
       src="weige.near/widget/ref-swap-button"
