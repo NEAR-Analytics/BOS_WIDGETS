@@ -27,7 +27,7 @@ const code = `
     <body>
 
       <div class="video-container">
-        <video controls autoplay style="max-width:100%;height:auto;">
+        <video controls autoplay style="max-width:100%;height:100%;">
           <source src="${mediaImage}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -41,7 +41,7 @@ return (
   <div
     className="w-100 h-100"
     style={{
-      minHeight: "1000px",
+      minHeight: "500px",
       minWidth: "300px",
     }}
   >
