@@ -9,7 +9,7 @@ const [player, setPlayer] = useState(() => {
       class: "",
       skill: "",
       ability: "",
-      wekaness: "",
+      weakness: "",
       defaultWeapon: "",
       attack: "",
       defense: "",
@@ -183,8 +183,8 @@ return (
           cols="80"
           max-length="1200"
           placeholder="What is your character's description?"
-          value={player.metadata.name}
-          onChange={handleNameChange}
+          value={player.metadata.description}
+          onChange={handleDescriptionChange}
         />
       </div>
       <div className="mb-3 p-1">
