@@ -8,27 +8,13 @@ return {
         name: "Home",
       },
     },
-    feed: {
+    governance: {
       path: "abdullahi3000.near/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Feed",
+        name: "Governance",
       },
     },
-    // pitch: {
-    //   path: "abdullahi3000.near/widget/page.feed",
-    //   blockHeight: "final",
-    //   init: {
-    //     name: "Pitch",
-    //   },
-    // },
-    // documents: {
-    //   path: "abdullahi3000.near/widget/page.feed",
-    //   blockHeight: "final",
-    //   init: {
-    //     name: "Documents",
-    //   },
-    // },
     music: {
       path: "abdullahi3000.near/widget/harmonic.music",
       blockHeight: "final",
