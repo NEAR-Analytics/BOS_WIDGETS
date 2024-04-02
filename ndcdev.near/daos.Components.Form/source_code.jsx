@@ -96,7 +96,7 @@ const ProposalButton = () => (
     style={{ width: "max-content" }}
     className="btn btn-primary"
     disabled={form[formEls.post_type].some(
-      (el) => el.required && !formEls[el.name]
+      (el) => el.required && !formEls[el.name],
     )}
     onClick={handleSave}
   >
@@ -128,22 +128,22 @@ return (
     ) : (
       <Form className="d-flex flex-column gap-3">
         {!id && (
-        <div
-          onClick={() => {
-            const newFormEl = formEls;
-            newFormEl.post_type =
-              formEls.post_type === "Proposal" ? "Report" : "Proposal";
-            setFormEls(newFormEl);
-          }}
-        >
-          <p className="mb-2">Post type</p>
-          <div className="d-flex gap-3 align-items-center">
-            <Widget src={`ndcdev.near/widget/daos.Components.Switch`} />
-            <TypeSection>
-              <h4>{formEls.post_type}</h4>
-            </TypeSection>
+          <div
+            onClick={() => {
+              const newFormEl = formEls;
+              newFormEl.post_type =
+                formEls.post_type === "Proposal" ? "Report" : "Proposal";
+              setFormEls(newFormEl);
+            }}
+          >
+            <p className="mb-2">Post type</p>
+            <div className="d-flex gap-3 align-items-center">
+              <Widget src={`ndcdev.near/widget/daos.Components.Switch`} />
+              <TypeSection>
+                <h4>{formEls.post_type}</h4>
+              </TypeSection>
+            </div>
           </div>
-        </div>
         )}
         <div className="form-element">
           <label>Select DAO</label>
