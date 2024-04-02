@@ -273,6 +273,7 @@ State.init({
   fresh: 0, // fresh rewards
   yourSupplyApy: 0,
   yourBorrowApy: 0,
+  maxWithdrawBalanceUSD: 0,
 });
 
 const loading =
@@ -1102,7 +1103,7 @@ function chunk(arr, size) {
 
   let temp = [];
   for (let i = arr.length - 1; i > -1; i--) {
-    temp.push(arr[i]);
+    temp.unshift(arr[i]);
     if (temp.length === size) {
       result.push(temp);
 
@@ -1138,8 +1139,9 @@ function getCollateralStatus() {
       console.log("getCollateralStatus-res:", res);
       const [[rawStatus], [addrs]] = res;
       const _status = parseInt(rawStatus.toString()).toString(2).split("");
+      console.log("_status--", _status);
       const _statusArray = chunk(_status, 2);
-      // console.log("_status--", _statusArray, addrs);
+      console.log("_status--", _statusArray, addrs);
       const _yourSupplies = [...state.yourSupplies];
       for (let i = 0; i < _yourSupplies.length; i++) {
         const item = _yourSupplies[i];
@@ -1157,10 +1159,14 @@ function getCollateralStatus() {
               .toFixed(),
           0
         );
+      const maxWithdrawBalanceUSD = Big(yourTotalCollateral)
+        .minus(Big(state.yourTotalBorrow).times(Big(state.threshold)))
+        .toFixed();
 
       State.update({
         yourSupplies: _yourSupplies,
         yourTotalCollateral,
+        maxWithdrawBalanceUSD,
       });
     })
     .catch((err) => {
@@ -1438,6 +1444,8 @@ const body = isChainSupported ? (
                 withdrawETHGas,
                 withdrawERC20Gas,
                 account,
+                prices,
+                maxWithdrawBalanceUSD: state.maxWithdrawBalanceUSD,
                 theme: dexConfig?.theme,
               }}
             />
