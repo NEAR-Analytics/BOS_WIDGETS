@@ -72,7 +72,7 @@ const options = [
 
 const selectMenu = (data) => {
   State.update({ menu: data });
-  getTokenData(data);
+  getTokenData(data.text);
 };
 
 State.init({
