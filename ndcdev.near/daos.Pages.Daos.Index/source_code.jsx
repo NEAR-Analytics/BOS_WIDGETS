@@ -240,7 +240,7 @@ return (
     {dao.metadata.contacts && 
     <Section className="d-flex flex-column gap-5">
       <Widget
-        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHourse`}
+        src={`ndcdev.near/widget/daos.Components.Dao.OfficeHours`}
         props={{ dao }}
       />
     </Section>
