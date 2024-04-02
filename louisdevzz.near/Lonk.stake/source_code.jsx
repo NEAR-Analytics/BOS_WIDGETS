@@ -253,7 +253,9 @@ return (
           </div>
           <div>
             <button
-              onClick={onStakeClick}
+              onClick={() => {
+                accountId && onStakeClick();
+              }}
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
               class="button-stake"
