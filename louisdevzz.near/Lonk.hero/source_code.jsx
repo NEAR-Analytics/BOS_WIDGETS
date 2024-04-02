@@ -223,11 +223,12 @@ return (
       </div>
     ) : (
       <div
-        class="modal fade"
+        class="modal fade d-flex justify-content-center align-items-center"
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        style={{ margin: "auto" }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
