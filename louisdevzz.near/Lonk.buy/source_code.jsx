@@ -48,6 +48,12 @@ const fondKod = fetch(
 const Content = styled.div`
   ${fondKod}
 font-family: Kodchasan,sans-serif;
+.share-dog{
+@media screen and (max-width:768px){
+    width: 100px;
+  margin-left: -40px;
+}
+}
 `;
 return (
   <>
@@ -75,7 +81,7 @@ return (
                   href="https://my.shard.dog/"
                   class="button d-inline-block text-decoration-none py-1 px-5 border rounded-5"
                 >
-                  <img src={config.image12} width="205" />
+                  <img class="share-dog" src={config.image12} width="205" />
                 </a>
               </p>
               <p>Some gud NEAR wallets:</p>
