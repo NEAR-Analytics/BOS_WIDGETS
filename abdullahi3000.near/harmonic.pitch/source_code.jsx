@@ -1,3 +1,5 @@
+const coverImage =
+  "https://arweave.net/20P7TRwdQ45AB9EBG72AEOswods5UoMXZb42EAoLxBE";
 const mediaImage = "http://media.w3.org/2010/05/sintel/trailer.mp4";
 
 const code = `
@@ -10,11 +12,12 @@ const code = `
           justify-content: center;
           align-items: center;
           height: 100vh;
-          background-color: #fff;
+          background-color: #f0f0f0;
         }
         iframe {
+          /* Adjust iframe size as needed */
           width: 80%;
-          height: 450px;
+          height: 450px; /* Adjust height based on the aspect ratio */
         }
       </style>
     </head>
@@ -40,6 +43,6 @@ return (
       minWidth: "300px",
     }}
   >
-    <iframe iframeResizer className="w-100 h-100" srcDoc={code} />
+    <iframe iframeResizer className="w-80 h-100" srcDoc={code} />
   </div>
 );
