@@ -8,7 +8,7 @@ State.init({
   },
 });
 
-console.log(Near.view("v1.social08.testnet", "get_user"));
+//console.log(Near.view("v1.social08.testnet", "get"));
 
 const testCall = () => {
   Near.call("v1.social08.testnet", "set", {
@@ -34,7 +34,7 @@ const handleInputChange = (event) => {
 return (
   <div>
     <h2>socialDB Testnet Interface</h2>
-    <i>Note: this component isn't working properly yet.</i>
+    <i>Note: this component isn't calling the testnet contract properly yet.</i>
     <hr />
 
     <h5>Deploy/View by Path</h5>
