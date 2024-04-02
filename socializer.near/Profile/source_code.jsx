@@ -13,6 +13,7 @@ State.init({
   loaded: false,
   error: "",
   loading: false,
+  menu: { text: "All", value: "all" },
 });
 
 const columns = [
@@ -40,6 +41,37 @@ const columns = [
     width: 25,
     align: "center",
     action: true,
+  },
+];
+
+const options = [
+  {
+    text: "All",
+    value: "all",
+  },
+  {
+    text: "Winnings",
+    value: "winnings",
+  },
+  {
+    text: "Reward Spent",
+    value: "rewardspent",
+  },
+  {
+    text: "Reward Returned",
+    value: "rewardreturned",
+  },
+  {
+    text: "Campaign Fee",
+    value: "campaignfee",
+  },
+  {
+    text: "Deposit",
+    value: "deposit",
+  },
+  {
+    text: "Withdrawal",
+    value: "withdrawal",
   },
 ];
 
@@ -98,15 +130,16 @@ const Input = styled.input`
   width: 80px;
 `;
 
-const getTokenData = (historyType) => {
+const getTokenData = (e) => {
   return asyncFetch(
-    API_URL + `/api/token?accountId=${accountId}&historyType=${historyType}`
+    API_URL + `/api/token?accountId=${accountId}&historyType=${e.text}`
   ).then((res) => {
     if (res.ok) {
       const { token, history } = res.body;
       State.update({
-        tokens: token,
         history,
+        menu: e,
+        tokens: token,
         loaded: true,
         loading: false,
       });
@@ -218,7 +251,9 @@ const registry = async (item) => {
   );
 };
 
-if (!state.loaded) getTokenData("All");
+useEffect(() => {
+  getTokenData(state.menu);
+}, []);
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
@@ -365,8 +400,10 @@ return (
       src={`${Owner}/widget/TxHistory`}
       props={{
         API_URL,
-        data: state.history,
+        options,
         getTokenData,
+        menu: state.menu,
+        data: state.history,
       }}
     />
   </Wrapper>
