@@ -361,15 +361,13 @@ return (
       </div>
     </TokenComponent>
 
-    {state.history.length != 0 && (
-      <Widget
-        src={`${Owner}/widget/TxHistory`}
-        props={{
-          API_URL,
-          data: state.history,
-          getTokenData,
-        }}
-      />
-    )}
+    <Widget
+      src={`${Owner}/widget/TxHistory`}
+      props={{
+        API_URL,
+        data: state.history,
+        getTokenData,
+      }}
+    />
   </Wrapper>
 );
