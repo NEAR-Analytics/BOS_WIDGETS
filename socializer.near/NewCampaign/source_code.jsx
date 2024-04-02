@@ -554,7 +554,7 @@ return (
         </div>
       </div>
       <p style={{ fontSize: 16, color: "#595959" }}>
-        {`You are paying: ${state.total_reward} $${state.token.text} for rewards, and 0.1 $NEAR as campaign fees`}
+        {`You are paying: ${state.total_reward} $${state.token.text} for rewards, and 0.01 $NEAR as campaign fees`}
       </p>
       <div
         style={{
