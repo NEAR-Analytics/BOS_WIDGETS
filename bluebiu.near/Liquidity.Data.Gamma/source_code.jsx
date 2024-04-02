@@ -225,15 +225,15 @@ function getLiquidity() {
   )
 }
 function getTotalApr() {
-  const name = curChain.name
-  if (['Base', 'Optimism', 'Polygon zkEVM'].includes(name)) {
+  const chain_id = curChain.chain_id
+  if ([8453, 10, 1101, 5000].includes(chain_id)) {
     dataList = dataList.map(data => {
       data.totalApr = formatPercent(data.returns.weekly.feeApr)
       return data
     })
     formatedData('getTotalApr')
   }
-  if (name === 'Linea') {
+  if (chain_id === 59144) {
     asyncFetch("https://api.lynex.fi/api/v1/fusions").then((res) => {
       if (!res.ok) return;
       const fusionsData = res?.body?.data
@@ -249,7 +249,7 @@ function getTotalApr() {
       formatedData('getTotalApr')
     });
   }
-  if (name === 'BSC') {
+  if (chain_id === 56) {
     const calls = [];
     const addressMap = {
       'N ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
@@ -288,8 +288,8 @@ function getTotalApr() {
   }
 }
 function getFeeTiers() {
-  const name = curChain.name
-  if (['Linea', 'BSC'].includes(name)) {
+  const chain_id = curChain.chain_id
+  if ([59144, 56].includes(chain_id)) {
     const calls = [];
     dataList.forEach(data => {
       calls.push({
