@@ -98,26 +98,26 @@ const Input = styled.input`
   width: 80px;
 `;
 
-const getTokenData = () => {
-  return asyncFetch(API_URL + `/api/token?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        const { token, history } = res.body;
-        State.update({
-          tokens: token,
-          history,
-          loaded: true,
-          loading: false,
-        });
-      } else {
-        State.update({
-          ...state,
-          loaded: true,
-          error: res.error,
-        });
-      }
+const getTokenData = (historyParam = "all") => {
+  return asyncFetch(
+    API_URL + `/api/token?accountId=${accountId}&param=${historyParam}`
+  ).then((res) => {
+    if (res.ok) {
+      const { token, history } = res.body;
+      State.update({
+        tokens: token,
+        history,
+        loaded: true,
+        loading: false,
+      });
+    } else {
+      State.update({
+        ...state,
+        loaded: true,
+        error: res.error,
+      });
     }
-  );
+  });
 };
 
 const toFixed = (x) => {
@@ -367,6 +367,7 @@ return (
         props={{
           API_URL,
           data: state.history,
+          getTokenData,
         }}
       />
     )}
