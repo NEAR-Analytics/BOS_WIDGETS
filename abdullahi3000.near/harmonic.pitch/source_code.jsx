@@ -26,11 +26,8 @@ const code = `
     </head>
     <body>
 
-      <div class="video-container">
-        <video controls autoplay style="${{
-          maxwidth: "100%",
-          height: "100%",
-        }}">
+      <div className="video-container">
+        <video controls autoplay>
           <source src="${mediaImage}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
