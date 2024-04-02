@@ -1,6 +1,7 @@
 const coverImage =
   "https://arweave.net/20P7TRwdQ45AB9EBG72AEOswods5UoMXZb42EAoLxBE";
-const mediaImage = "http://media.w3.org/2010/05/sintel/trailer.mp4";
+const mediaImage =
+  "https://hudsuller-digital-product.s3.amazonaws.com/Product+Demo_Short_NoMusic+1.mp4";
 
 const code = `
   <!DOCTYPE html>
