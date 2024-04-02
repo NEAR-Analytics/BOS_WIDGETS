@@ -5,6 +5,21 @@ if (!href) {
 }
 
 const Container = styled.div`
+  .full-width-div {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .card.no-border {
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: -3.5rem;
+  }
+
   @media screen and (max-width: 768px) {
     font-size: 13px;
   }
@@ -26,6 +41,9 @@ const Container = styled.div`
   }
 
   .proposal-card {
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
     &:hover {
       background-color: #f4f4f4;
     }
@@ -47,6 +65,15 @@ const Container = styled.div`
       min-height: 32px;
     }
   }
+
+  a.no-space {
+    display: inline-block;
+  }
+
+  .text-wrap {
+    overflow: hidden;
+    white-space: normal;
+  }
 `;
 
 const Heading = styled.div`
@@ -54,12 +81,16 @@ const Heading = styled.div`
   font-weight: 700;
   width: 100%;
 
+  .text-normal {
+    font-weight: normal !important;
+  }
+
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
 `;
 
-const FeedItem = ({ proposal }) => {
+const FeedItem = ({ proposal, index }) => {
   const accountId = proposal.author_id;
   const profile = Social.get(`${accountId}/profile/**`, "final");
   // We will have to get the proposal from the contract to get the block height.
@@ -82,16 +113,21 @@ const FeedItem = ({ proposal }) => {
       onClick={(e) => e.stopPropagation()}
       style={{ textDecoration: "none" }}
     >
-      <div className="proposal-card d-flex justify-content-between gap-2 text-muted cursor-pointer p-3">
-        <div className="d-flex gap-4">
+      <div
+        className={
+          "proposal-card d-flex justify-content-between gap-2 text-muted cursor-pointer p-3 w-100 flex-wrap flex-sm-nowrap " +
+          (index !== 0 && " border")
+        }
+      >
+        <div className="d-flex gap-4 w-100">
           <Widget
             src={"thomasguntenaar.near/widget/devhub.entity.proposal.Profile"}
             props={{
               accountId,
             }}
           />
-          <div className="d-flex flex-column gap-2">
-            <div className="d-flex gap-2 align-items-center flex-wrap">
+          <div className="d-flex flex-column gap-2 w-100 text-wrap">
+            <div className="d-flex gap-2 align-items-center flex-wrap w-100">
               <div className="h6 mb-0 text-black">{proposal.name}</div>
               <Widget
                 src={"thomasguntenaar.near/widget/devhub.entity.proposal.CategoryTag"}
@@ -100,8 +136,10 @@ const FeedItem = ({ proposal }) => {
                 }}
               />
             </div>
-            <div className="d-flex gap-2 align-items-center text-sm">
-              <div>By {profile.name ?? accountId} ･ </div>
+            <div className="d-flex gap-2 align-items-center text-sm w-100">
+              <div className="text-truncate">
+                By {profile.name ?? accountId} ･{" "}
+              </div>
               <Widget
                 src="near/widget/TimeAgo"
                 props={{
@@ -131,7 +169,7 @@ const FeedItem = ({ proposal }) => {
             </div>
           </div>
         </div>
-        <div className="align-self-center">
+        <div className="align-self-center" style={{ minWidth: "fit-content" }}>
           <Widget
             src={"thomasguntenaar.near/widget/devhub.entity.proposal.StatusTag"}
             props={{
@@ -182,7 +220,6 @@ const FeedPage = () => {
       category
       summary
       editor_id
-      name
       proposal_id
       ts
       timeline
@@ -284,7 +321,7 @@ const FeedPage = () => {
         " rounded-top-2"
       }
     >
-      <FeedItem proposal={item} />
+      <FeedItem proposal={item} index={index} />
     </div>
   );
   const cachedRenderItem = (item, index) => {
@@ -362,7 +399,7 @@ const FeedPage = () => {
       <div className="d-flex justify-content-between flex-wrap gap-2 align-items-center">
         <Heading>
           DevDAO Proposals
-          <span className="text-muted">
+          <span className="text-muted text-normal">
             ({state.aggregatedCount ?? state.data.length}){" "}
           </span>
         </Heading>
@@ -452,18 +489,56 @@ const FeedPage = () => {
         {!Array.isArray(state.data) ? (
           loader
         ) : (
-          <div className="card rounded-0 p-1 mt-4">
-            <div className="p-2 p-sm-4">
+          <div className="card no-border rounded-0 mt-4 py-3 full-width-div">
+            <div className="container-xl">
               <div className="text-muted bg-grey text-sm mt-2 p-3 rounded-3">
-                <p className="d-flex gap-4 align-items-center mb-0">
+                <p className="d-flex gap-3 align-items-center mb-0">
                   <div>
                     <i class="bi bi-info-circle"></i>
                   </div>
-                  DevDAO is the primary organization behind DevHub, and we offer
-                  sponsorships to contributors and projects that align with our
-                  goal of fostering a self-sufficient community of developers
-                  for a thriving NEAR ecosystem. Check out our Funding
-                  Guidelines for more details.
+                  <div>
+                    <span className="fw-bold">
+                      Welcome to
+                      <a
+                        href="https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=overview"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        DevDAO’s New Proposal Feed!
+                      </a>
+                    </span>
+                    This dedicated space replaces the
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=feed"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      old activity feed
+                    </a>
+                    , making it easier to submit and track funding requests from
+                    DevDAO, the primary organization behind DevHub. To submit a
+                    formal proposal, click New Proposal. See our{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      guidelines
+                    </a>
+                    for details. For discussions and brainstorming, please
+                    utilize the relevant{" "}
+                    <a
+                      href="https://near.org/devhub.near/widget/app?page=communities"
+                      className="text-decoration-underline no-space"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      communities
+                    </a>
+                    .
+                  </div>
                 </p>
               </div>
               <div className="mt-4 border rounded-2">
