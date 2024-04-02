@@ -223,7 +223,7 @@ return (
       </div>
     ) : (
       <div
-        class="modal fade d-flex justify-content-center align-items-center"
+        class="modal fade "
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
