@@ -125,17 +125,23 @@ const Button = styled.button`
   background: var(--Dark, #121212); 
   color: var(--light_95, #F3F3F3);
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: capitalize;
   line-height: normal;
+  border: none;
+  border-radius: 4px;
+  margin: 12px;
+  cursor: pointer;
+  position: relative;
 `;
-const rotate = `@keyframes rotate{
-  100% {
-    transform: rotate(360deg);
-  }
-}`;
+
 const LoadingSpinner = styled.div`
+  @keyframes rotate{
+    100% {
+        transform: rotate(360deg);
+    }
+  }
   border: 4px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   border-top-color: white;
@@ -146,10 +152,10 @@ const LoadingSpinner = styled.div`
   top: 25%;
   bottom: 25%;
   margin: auto;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   transition: opacity 200ms;
-  animation: ${rotate} 1s linear;
+  animation: rotate 1s linear;
   animation-iteration-count: infinite;
   transition-delay: ${() => (state.loading ? "200ms" : "0ms")}
 `;
@@ -263,26 +269,26 @@ const createCampaign = () => {
     return State.update({ error: " 1 <= Winners <= 20" });
 
   State.update({ error: "", loading: true });
-  //   asyncFetch(API_URL + `/api/campaign`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ ...state, accountId }),
-  //   }).then((res) => {
-  //     if (res.ok) {
-  //       const { error, data } = res.body;
-  //       if (error) State.update({ error, loading: false });
-  //       else if (data && data === "success") {
-  //         State.update({ loading: false, notification: "Campaign created!" });
-  //         setTimeout(() => {
-  //           changePage("dashboard");
-  //         }, 2000);
-  //       }
-  //     } else {
-  //       State.update({ loading: false });
-  //     }
-  //   });
+  asyncFetch(API_URL + `/api/campaign`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...state, accountId }),
+  }).then((res) => {
+    if (res.ok) {
+      const { error, data } = res.body;
+      if (error) State.update({ error, loading: false });
+      else if (data && data === "success") {
+        State.update({ loading: false, notification: "Campaign created!" });
+        setTimeout(() => {
+          changePage("dashboard");
+        }, 2000);
+      }
+    } else {
+      State.update({ loading: false });
+    }
+  });
 };
 
 return (
