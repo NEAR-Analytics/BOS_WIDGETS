@@ -9,7 +9,6 @@ const Wrapper = styled.div`
     bottom: 0;
     z-index: 1;
     width: 1px;
-    height: 110%;
     background-color: var(--bs-border-color);
     z-index: 1;
   }
@@ -18,10 +17,27 @@ const Wrapper = styled.div`
     overflow: hidden;
     white-space: normal;
   }
+
+  .fw-bold {
+    font-weight: 600 !important;
+  }
+
+  .inline-flex {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    .inline-flex {
+      display: -webkit-inline-box !important;
+    }
+  }
 `;
 
 const CommentContainer = styled.div`
   border: 1px solid lightgrey;
+  overflow: auto;
 `;
 
 const Header = styled.div`
@@ -123,8 +139,11 @@ const Comment = ({ commentItem }) => {
     blockHeight,
   };
   const content = JSON.parse(Social.get(item.path, blockHeight) ?? "null");
+  const link = `https://near.social/devhub.near/widget/app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`;
+  const hightlightComment =
+    parseInt(props.blockHeight ?? "") === blockHeight &&
+    props.accountId === accountId;
 
-  const link = `https://near.org/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
   return (
     <div style={{ zIndex: 99, background: "white" }}>
       <div className="d-flex gap-2 flex-1">
@@ -136,10 +155,14 @@ const Comment = ({ commentItem }) => {
             }}
           />
         </div>
-        <CommentContainer className="rounded-2 flex-1">
+        <CommentContainer
+          style={{ border: hightlightComment ? "2px solid black" : "" }}
+          className="rounded-2 flex-1"
+        >
           <Header className="d-flex gap-3 align-items-center p-2 px-3">
-            <div>
-              {accountId} commented
+            <div className="text-muted">
+              <span className="fw-bold text-black">{accountId}</span> commented
+              ･{" "}
               <Widget
                 src="near/widget/TimeAgo"
                 props={{
@@ -184,13 +207,6 @@ const Comment = ({ commentItem }) => {
                   url: link,
                 }}
               />
-              <Widget
-                src="near/widget/ShareButton"
-                props={{
-                  postType: "post",
-                  url: link,
-                }}
-              />
             </div>
           </div>
         </CommentContainer>
@@ -200,7 +216,8 @@ const Comment = ({ commentItem }) => {
 };
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  const updated = string.replace("_", " ");
+  return updated.charAt(0).toUpperCase() + updated.slice(1).toLowerCase();
 }
 
 function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
@@ -209,35 +226,68 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
   switch (timeline) {
     case "status":
       return (
-        <span>
-          moved proposal from {capitalizeFirstLetter(oldValue)} to{" "}
-          {capitalizeFirstLetter(newValue)} stage
-        </span>
+        oldValue !== newValue && (
+          <span className="inline-flex">
+            moved proposal from{" "}
+            <Widget
+              src={"thomasguntenaar.near/widget/devhub.entity.proposal.StatusTag"}
+              props={{
+                timelineStatus: oldValue,
+              }}
+            />
+            to{" "}
+            <Widget
+              src={"thomasguntenaar.near/widget/devhub.entity.proposal.StatusTag"}
+              props={{
+                timelineStatus: newValue,
+              }}
+            />
+            stage
+          </span>
+        )
       );
     case "sponsor_requested_review":
-      return !oldValue && newValue && <span>completed review </span>;
+      return !oldValue && newValue && <span>completed review</span>;
     case "reviewer_completed_attestation":
-      return !oldValue && newValue && <span>completed attestation </span>;
-    case "reviewer_completed_attestation":
-      return !oldValue && newValue && <span>completed attestation </span>;
+      return !oldValue && newValue && <span>completed attestation</span>;
+    case "kyc_verified":
+      return !oldValue && newValue && <span>verified KYC/KYB</span>;
     case "test_transaction_sent":
       return (
         !oldValue &&
-        newValue && <span>successfully sent test transaction </span>
+        newValue && (
+          <span>
+            confirmed sponsorship and shared funding steps with recipient
+          </span>
+        )
       );
-    case "request_for_trustees_created":
-      return (
-        !oldValue &&
-        newValue && <span>successfully created request for trustees </span>
-      );
+    // we don't have this step for now
+    // case "request_for_trustees_created":
+    //   return !oldValue && newValue && <span>successfully created request for trustees</span>;
     default:
       return null;
   }
 }
 
+const AccountProfile = ({ accountId }) => {
+  return (
+    <span className="inline-flex fw-bold text-black">
+      <Widget
+        src={"thomasguntenaar.near/widget/devhub.entity.proposal.Profile"}
+        props={{
+          accountId: accountId,
+          size: "sm",
+        }}
+      />
+      {accountId}
+    </span>
+  );
+};
+
 const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
   switch (key) {
     case "name":
+      return <span>changed title</span>;
     case "summary":
     case "description":
       return <span>changed {key}</span>;
@@ -263,22 +313,31 @@ const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
       );
     case "receiver_account":
       return (
-        <span>
-          changed receiver account from {originalValue} to {modifiedValue}
+        <span className="inline-flex">
+          changed receiver account from{" "}
+          <AccountProfile accountId={originalValue} />
+          to <AccountProfile accountId={modifiedValue} />
         </span>
       );
     case "supervisor":
       return !originalValue && modifiedValue ? (
-        <span>added {modifiedValue} as supervisor</span>
+        <span className="inline-flex">
+          added
+          <AccountProfile accountId={modifiedValue} />
+          as supervisor
+        </span>
       ) : (
-        <span>
-          changed receiver account from {originalValue} to {modifiedValue}
+        <span className="inline-flex">
+          changed receiver account from{" "}
+          <AccountProfile accountId={originalValue} />
+          to <AccountProfile accountId={modifiedValue} />
         </span>
       );
     case "requested_sponsor":
       return (
-        <span>
-          changed sponsor from {originalValue} to {modifiedValue}
+        <span className="inline-flex">
+          changed sponsor from <AccountProfile accountId={originalValue} />
+          to <AccountProfile accountId={modifiedValue} />
         </span>
       );
     case "timeline": {
@@ -287,13 +346,15 @@ const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
       return modifiedKeys.map((i, index) => {
         const text = parseTimelineKeyAndValue(i, originalValue, modifiedValue);
         return (
-          <span>
-            {text}
-            {text &&
-              originalKeys.length > 1 &&
-              index < modifiedKeys.length - 1 &&
-              ", "}
-          </span>
+          text && (
+            <span key={index} className="inline-flex">
+              {text}
+              {text &&
+                originalKeys.length > 1 &&
+                index < modifiedKeys.length - 1 &&
+                "･"}
+            </span>
+          )
         );
       });
     }
@@ -330,37 +391,60 @@ const Log = ({ timestamp }) => {
     return <></>;
   }
 
-  return (
-    <LogIconContainer className="d-flex gap-3 align-items-center">
-      <img
-        src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
-        height={30}
-      />
-      <div className="flex-1 w-100 text-wrap">
-        {editorId}
-        {valuesArray.map((i, index) => {
-          if (i.key && i.key !== "timestamp") {
-            return (
-              <span>
-                {parseProposalKeyAndValue(
-                  i.key,
-                  i.modifiedValue,
-                  i.originalValue
-                )}
-                {index < valuesArray.length - 2 ? ", " : "."}
-              </span>
-            );
-          }
-        })}
-      </div>
-    </LogIconContainer>
-  );
+  return valuesArray.map((i, index) => {
+    if (i.key && i.key !== "timestamp") {
+      return (
+        <LogIconContainer
+          className="d-flex gap-3 align-items-center"
+          key={index}
+        >
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
+            height={30}
+          />
+          <div
+            className={
+              "flex-1 gap-1 w-100 text-wrap text-muted align-items-center " +
+              (i.key === "timeline" &&
+              Object.keys(i.originalValue ?? {}).length > 1
+                ? ""
+                : "inline-flex")
+            }
+          >
+            <span className="inline-flex fw-bold text-black">
+              <Widget
+                src={"thomasguntenaar.near/widget/devhub.entity.proposal.Profile"}
+                props={{
+                  accountId: editorId,
+                  size: "sm",
+                }}
+              />
+
+              {(editorId ?? "").substring(0, 15)}
+              {(editorId ?? "").length > 15 ? "..." : ""}
+            </span>
+            {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
+            on
+            <Widget
+              src="near/widget/TimeAgo"
+              props={{
+                blockTimestamp: timestamp * 1000000,
+              }}
+            />
+          </div>
+        </LogIconContainer>
+      );
+    }
+  });
 };
 
 if (Array.isArray(state.data)) {
   return (
     <Wrapper>
-      <div className="log-line"> </div>
+      <div
+        className="log-line"
+        style={{ height: state.data.length > 2 ? "110%" : "150%" }}
+      ></div>
       <div className="d-flex flex-column gap-4">
         {state.data.map((i, index) => {
           if (i.blockHeight) {
