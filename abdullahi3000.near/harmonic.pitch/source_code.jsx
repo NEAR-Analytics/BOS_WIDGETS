@@ -11,11 +11,11 @@ const code = `
           margin: 0;
           padding: 0;
           width: 100%;
-          height: 100%;
+          height: 100vh;
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: #f0f0f0;
+          background-color: RED;
         }
         .video-container {
           display: flex;
