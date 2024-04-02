@@ -12,209 +12,24 @@ const {
   ICON_VAULT_MAP
 } = props;
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  &.price-input {
-    width: 500px;
-    margin: 0 auto 20px;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`
-const Wrapper = styled.div`
-  
-`
-const FilterButtonList = styled.div`
-  margin-bottom: 20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid #373A53;
-  border-bottom: 1px solid #373A53;
-`
-const FilterButton = styled.div`
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 250px;
-  height: 48px;
-  border-left: 1px solid #373A53;
-  border-right: 1px solid #373A53;
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  &:first-of-type {
-    border-right: none;
-  }
-  &.isActive {
-    color: #FFF;
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 100%;
-      bottom: -2px;
-      height: 5px;
-      flex-shrink: 0;
-      background: #1362E4;
-    }
-  }
-`
-const InputWrapList = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-const InputWrap = styled.div`
-  position: relative;
-  /* width: 243px; */
-  height: 46px;
-  /* flex-shrink: 0;
-  fill: #1B1E27;
-  stroke-width: 1px;
-  stroke: #33364B; */
-  background: #33364B;
-  border-radius: 12px;
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
-  
-  input::-webkit-outer-spin-button{
-    -webkit-appearance: none !important;
-  }
-  input[type="number"]{
-    -moz-appearance: textfield;
-  }
-
-`
-const Input = styled.input`
-  border: none;
-  outline: none;
-  background: transparent;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  color: #FFF;
-  font-family: Gantari;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  padding: 0 80px 0 10px;
-`
-const InputSuffix = styled.div`
-  position: absolute;
-  top: 13px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  span {
-    color: #FFF;
-    text-align: right;
-    font-family: Gantari;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-  img {
-    width: 20px;
-    border-radius: 50%;
-  }
-
-`
-const StyledImageList = styled.div`
-  display: flex;
-  align-items: center;
-  
-`
-const PriceWrap = styled.div`
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const TotalPrice = styled.span`
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 12px;
-  opacity: 0.3;
-`
-const BalancePrice = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #979ABE;
-  text-align: right;
-  font-family: Gantari;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  span {
-    color: #FFF;
-    text-decoration-line: underline;
-    cursor: pointer;
-  }
-`
-
-const StyledButtonList = styled.div`
-  width: 500px;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-`
-const StyledButton = styled.button`
-  outline: none;
-  border: none;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 46px;
-  border-radius: 8px;
-  /* background: #FFF; */
-  /* color: #1E2028; */
-  background-color: var(--button-color);
-  color: var(--button-text-color);
-  font-family: Gantari;
-  font-size: 16px;
-  font-weight: 500;
-  &[disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`
-
-const StyledLoading = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: rotate 1.5s linear  infinite;
-  @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`
+const {
+  Row,
+  Column,
+  DetailWrapper,
+  FilterButtonList,
+  FilterButton,
+  InputWrapList,
+  InputWrap,
+  Input,
+  InputSuffix,
+  StyledImageList,
+  PriceWrap,
+  TotalPrice,
+  BalancePrice,
+  StyledButtonList,
+  StyledButton,
+  StyledLoading
+} = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
 
 const iconCircle = (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -279,12 +94,12 @@ const sender = Ethers.send("eth_requestAccounts", [])[0];
 // if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 const { token0, token1, decimals0, decimals1, id } = data || defaultPair;
 
-const hypeAddress = addresses[id];
+const vaultAddress = addresses[id];
 
 const updateLPBalance = () => {
   const abi = ["function balanceOf(address) view returns (uint256)"];
   const vaultContract = new ethers.Contract(
-    hypeAddress,
+    vaultAddress,
     abi,
     Ethers.provider()
   );
@@ -378,7 +193,7 @@ const checkApproval = (token0Amount, token1Amount) => {
   );
 
   token0Contract
-    .allowance(sender, hypeAddress)
+    .allowance(sender, vaultAddress)
     .then((allowance0) => {
       State.update({
         isToken0Approved: !new Big(allowance0.toString()).lt(token0Wei),
@@ -393,7 +208,7 @@ const checkApproval = (token0Amount, token1Amount) => {
   );
 
   token1Contract
-    .allowance(sender, hypeAddress)
+    .allowance(sender, vaultAddress)
     .then((allowance1) => {
       State.update({
         isToken1Approved: !new Big(allowance1.toString()).lt(token1Wei),
@@ -440,7 +255,7 @@ const handleToken0Change = (amount) => {
     Ethers.provider()
   );
   proxyContract
-    .getDepositAmount(hypeAddress, addresses[token0], token0Wei)
+    .getDepositAmount(vaultAddress, addresses[token0], token0Wei)
     .then((depositAmount) => {
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
 
@@ -490,7 +305,7 @@ const handleToken1Change = (amount) => {
   );
 
   proxyContract
-    .getDepositAmount(hypeAddress, addresses[token1], token1Wei)
+    .getDepositAmount(vaultAddress, addresses[token1], token1Wei)
     .then((depositAmount) => {
       const amount0 = getFromDepositAmount(depositAmount, decimals0);
       State.update({ amount0 });
@@ -547,7 +362,7 @@ const handleApprove = (isToken0) => {
   );
 
   tokenContract
-    .approve(hypeAddress, tokenWei)
+    .approve(vaultAddress, tokenWei)
     .then((tx) => tx.wait())
     .then((receipt) => {
       const payload = isToken0
@@ -608,8 +423,9 @@ const handleDeposit = () => {
     proxyAbi,
     Ethers.provider().getSigner()
   );
+  console.log(token0Wei.toString(), token1Wei.toString(), sender, ethers.utils.getAddress(vaultAddress))
   proxyContract
-    .deposit(token0Wei, token1Wei, sender, hypeAddress, [0, 0, 0, 0])
+    .deposit(token0Wei, token1Wei, sender, ethers.utils.getAddress(vaultAddress), [0, 0, 0, 0])
     .then((tx) => {
       return tx.wait();
     })
@@ -676,7 +492,7 @@ const handleWithdraw = () => {
   ];
 
   const hypeContract = new ethers.Contract(
-    hypeAddress,
+    vaultAddress,
     abi,
     Ethers.provider().getSigner()
   );
@@ -783,7 +599,7 @@ useEffect(() => {
   }
 }, [data]);
 return (
-  <Wrapper>
+  <DetailWrapper>
     <FilterButtonList>
       <FilterButton className={isDeposit ? 'isActive' : ''} onClick={() => changeMode(true)}>Deposit</FilterButton>
       <FilterButton className={!isDeposit ? 'isActive' : ''} onClick={() => changeMode(false)}>Withdraw</FilterButton>
@@ -903,7 +719,6 @@ return (
 
                   handleLPChange(lpBalance);
                 }}
-                className="v"
               >
                 {lpBalance}
               </span></BalancePrice>
@@ -927,5 +742,5 @@ return (
       </>
     }
 
-  </Wrapper>
+  </DetailWrapper>
 )
