@@ -11,6 +11,8 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   account,
+  maxWithdrawBalanceUSD,
+  prices,
   theme,
 } = props;
 
@@ -118,6 +120,8 @@ return (
           formatHealthFactor,
           calcHealthFactor,
           account,
+          prices,
+          maxWithdrawBalanceUSD,
           onRequestClose: () => setShowWithdrawModal(false),
         }}
       />
