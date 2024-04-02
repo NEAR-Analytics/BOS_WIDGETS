@@ -14,7 +14,7 @@ const code = `
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #f0f0f0;
+        background-color: red;
       }
       .video-container {
         width: 100%; /* Ensure the container fills the width */
@@ -47,7 +47,7 @@ return (
   <div
     className="w-100 h-100"
     style={{
-      minHeight: "20px",
+      minHeight: "40rem",
       minWidth: "100px",
     }}
   >
