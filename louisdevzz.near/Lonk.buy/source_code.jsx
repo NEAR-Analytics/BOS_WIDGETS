@@ -241,33 +241,38 @@ return (
       </div>
     </div>
 
-    {!accountId && (
-      <div
-        class="modal fade"
-        id="buyModal"
-        tabindex="-1"
-        aria-labelledby="buyModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Swap Token Ref Finance
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body d-flex justify-content-center align-items-center">
-              <Widget src="louisdevzz.near/widget/ref-swap" />
-            </div>
+    <div
+      class="modal fade"
+      id="buyModal"
+      tabindex="-1"
+      aria-labelledby="buyModal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style={{ background: "#182733", color: "#fff" }}
+          >
+            <h5 class="modal-title" id="exampleModalLabel">
+              Swap Token Ref Finance
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              style={{ filter: "brightness(0) invert(1)" }}
+            ></button>
+          </div>
+          <div
+            style={{ background: "#182733" }}
+            class="modal-body d-flex justify-content-center align-items-center"
+          >
+            <Widget src="louisdevzz.near/widget/ref-swap" />
           </div>
         </div>
       </div>
-    )}
+    </div>
   </>
 );
