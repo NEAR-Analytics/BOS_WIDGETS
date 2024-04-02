@@ -37,7 +37,7 @@ State.init({
   requirements: [],
   username: "",
   post_link: "",
-  amount: 0.1,
+  amount: 0,
   token: "NEAR",
   winners: 1,
   total_reward: "",
@@ -264,7 +264,7 @@ const createCampaign = () => {
     return State.update({ error: "Amount must be greater than " + minimum });
 
   if (amount < state.minimum)
-    return State.update({ error: `Minimun amount ${minimum}` });
+    return State.update({ error: `Minimum amount ${minimum}` });
   if (winners < 1 || winners > 20)
     return State.update({ error: " 1 <= Winners <= 20" });
 
@@ -396,7 +396,7 @@ return (
           className="d-flex form-label"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
         >
-          <p style={{ fontWeight: 600 }}>{"Reward  Per Winner*"}</p>
+          <p style={{ fontWeight: 600 }}>{"Reward Per Winner*"}</p>
           <p style={{ fontSize: 14, color: "#595959" }}>
             {"Amount and Token Type "}
           </p>
@@ -408,7 +408,9 @@ return (
               value={state.amount}
               className="form-input"
               onChange={(e) => {
-                const amount = e.target.value ? Number(e.target.value) : 0;
+                const amount = Math.abs(
+                  e.target.value ? Number(e.target.value) : 0
+                );
                 const total_reward = `${Number(
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
@@ -417,6 +419,7 @@ return (
                   total_reward,
                 });
               }}
+              type="number"
             />
             <p style={{ fontSize: 12 }}>{`Minimun amount ${state.minimum}`}</p>
           </div>
