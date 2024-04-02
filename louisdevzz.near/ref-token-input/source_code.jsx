@@ -20,13 +20,13 @@ const ArrowDown = (
 );
 
 const TokenAmount = styled.div`
-  background: #373a53;
-  border-radius: 12px;
   width: 430px;
   @media (max-width: 736px) {
     width: 100%;
   }
-  padding: 18px 16px;
+background:#3f3f3f;
+height:100px;
+padding:40px;
   color: white;
   display: flex;
   align-items: center;
@@ -42,6 +42,7 @@ const Input = styled.input`
   ::placeholder {
     color: #7c7f96;
   }
+  text-align:end;
   color: white;
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {
@@ -55,6 +56,9 @@ const TokenWrapper = styled.div`
   align-items: center;
   color: white;
   cursor: pointer;
+  background-color:rgb(31, 31, 31);
+  padding: 10px 20px;
+  clip-path: polygon(0 0,100% 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
 `;
 
 const Icon = styled.img`
@@ -68,6 +72,23 @@ const Symbol = styled.span`
   margin-left: 8px;
   font-size: 18px;
 `;
+
+const account = fetch("https://rpc.mainnet.near.org", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    id: "dontcare",
+    method: "query",
+    params: {
+      request_type: "view_account",
+      finality: "final",
+      account_id: accountId,
+    },
+  }),
+});
 
 // 新增接口
 const accountNum = JSON.parse(
@@ -90,24 +111,7 @@ const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const formatTokenBig = (v, decimals) =>
   Math.floor(v * Math.pow(10, Math.min(decimals, 8))) /
   Math.pow(10, Math.min(decimals, 8));
-const account = fetch("https://rpc.mainnet.near.org", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    jsonrpc: "2.0",
-    id: "dontcare",
-    method: "query",
-    params: {
-      request_type: "view_account",
-      finality: "final",
-      account_id: accountId,
-    },
-  }),
-});
 
-const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 const getBalance = (token_id) => {
   let amount;
 
@@ -122,9 +126,13 @@ const getBalance = (token_id) => {
     });
   }
 
-  return !!amount ? formatToken(shrinkToken(amount, 24)) : "-";
+  return !!amount
+    ? formatToken(shrinkToken(amount, props.token.decimals))
+    : "-";
 };
-const [balance, setBalance] = useState(getBalance("NEAR"));
+
+const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
+
 State.init({
   show: false,
   handleClose: () => {
@@ -139,13 +147,6 @@ State.init({
   },
 });
 
-useEffect(() => {
-  const timerInterval = setInterval(() => {
-    setBalance(getBalance("NEAR"));
-  }, 2000);
-  return () => clearInterval(timerInterval);
-}, []);
-console.log(balance);
 const BalanceWrapper = styled.div`
   color: #7c7f96;
   font-size: 12px;
@@ -158,6 +159,7 @@ const BalanceWrapper = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin-top: 8px;
+
 `;
 
 const SelectToken = (
@@ -177,6 +179,15 @@ const SelectToken = (
 return (
   <Wrapper>
     <TokenAmount>
+      <TokenWrapper
+        onClick={() => {
+          state.handleOpen();
+        }}
+      >
+        <Icon src={props.token.icon} />
+        <Symbol>{props.token.symbol}</Symbol>
+        {ArrowDown}
+      </TokenWrapper>
       <Input
         class="ref-token-inut"
         placeholder="0.0"
@@ -190,16 +201,6 @@ return (
         }
         disabled={!!disableInput}
       />
-
-      <TokenWrapper
-        onClick={() => {
-          state.handleOpen();
-        }}
-      >
-        <Icon src={props.token.icon} />
-        <Symbol>{props.token.symbol}</Symbol>
-        {ArrowDown}
-      </TokenWrapper>
     </TokenAmount>
     <BalanceWrapper>
       <div>
@@ -209,7 +210,7 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {balance}</div>
+      <div>Balance: {accountId ? getBalance(props.token.id) : "-"}</div>
     </BalanceWrapper>
 
     {SelectToken}
