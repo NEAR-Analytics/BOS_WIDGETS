@@ -223,17 +223,15 @@ return (
       </div>
     ) : (
       <div
-        class="modal fade "
+        class={`modal fade ${
+          select.length > 0
+            ? "d-flex justify-conten-center align-items-center mx-auto"
+            : ""
+        }`}
         id="exampleModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        style={{
-          margin: "auto",
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-        }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
