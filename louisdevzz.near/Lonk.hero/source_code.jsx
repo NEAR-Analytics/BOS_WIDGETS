@@ -213,7 +213,7 @@ return (
             </div>
             <div class="modal-body d-flex justify-content-center align-items-center">
               {select == "ref" ? (
-                <Widget src="huunhanz.near/widget/ref-swap" />
+                <Widget src="louisdevzz.near/widget/ref-swap" />
               ) : (
                 <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
               )}
@@ -228,14 +228,6 @@ return (
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "0",
-          left: "0",
-          bottom: "0",
-          right: "0",
-          margin: "auto",
-        }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
