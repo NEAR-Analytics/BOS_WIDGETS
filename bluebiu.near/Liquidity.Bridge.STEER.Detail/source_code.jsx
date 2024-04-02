@@ -13,218 +13,27 @@ const {
   ICON_VAULT_MAP
 } = props;
 const STEER_PERIPHERY_ADDRESS = curChain.chain_id === 169 ? '0xD90c8970708FfdFC403bdb56636621e3E9CCe921' : '0x806c2240793b3738000fcb62C66BF462764B903F'
+
 const {
   StyledFont,
-  StyledFlex
+  StyledFlex,
+  Row,
+  Column,
+  DetailWrapper,
+  FilterButtonList,
+  FilterButton,
+  InputWrapList,
+  InputWrap,
+  Input,
+  InputSuffix,
+  StyledImageList,
+  PriceWrap,
+  TotalPrice,
+  BalancePrice,
+  StyledButtonList,
+  StyledButton,
+  StyledLoading
 } = VM.require('bluebiu.near/widget/Liquidity.Handler.Styles')
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  &.price-input {
-    width: 500px;
-    margin: 0 auto 20px;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`
-const Wrapper = styled.div`
-  
-`
-const FilterButtonList = styled.div`
-  margin-bottom: 20px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid #373A53;
-  border-bottom: 1px solid #373A53;
-`
-const FilterButton = styled.div`
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 250px;
-  height: 48px;
-  border-left: 1px solid #373A53;
-  border-right: 1px solid #373A53;
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  &:first-of-type {
-    border-right: none;
-  }
-  &.isActive {
-    color: #FFF;
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      width: 100%;
-      bottom: -2px;
-      height: 5px;
-      flex-shrink: 0;
-      background: #1362E4;
-    }
-  }
-`
-const InputWrapList = styled.div`
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const Input = styled.input`
-  border: none;
-  outline: none;
-  background: transparent;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  color: #FFF;
-  font-family: Gantari;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  padding: 0 80px 0 10px;
-`
-const InputSuffix = styled.div`
-  position: absolute;
-  top: 13px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  span {
-    color: #FFF;
-    text-align: right;
-    font-family: Gantari;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-  img {
-    width: 20px;
-    border-radius: 50%;
-  }
-
-`
-const InputWrap = styled.div`
-  position: relative;
-  /* width: 243px; */
-  height: 46px;
-  /* flex-shrink: 0;
-  fill: #1B1E27;
-  stroke-width: 1px;
-  stroke: #33364B; */
-  background: #33364B;
-  border-radius: 12px;
-  border: 1px solid #33364B;
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-  }
-  
-  input::-webkit-outer-spin-button{
-    -webkit-appearance: none !important;
-  }
-  input[type="number"]{
-    -moz-appearance: textfield;
-  }
-  &.inSufficient {
-    border-color: #FF547D;
-  }
-
-`
-const StyledImageList = styled.div`
-  display: flex;
-  align-items: center;
-  
-`
-const PriceWrap = styled.div`
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const TotalPrice = styled.span`
-  color: #979ABE;
-  font-family: Gantari;
-  font-size: 12px;
-  opacity: 0.3;
-`
-const BalancePrice = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #979ABE;
-  text-align: right;
-  font-family: Gantari;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  span {
-    color: #FFF;
-    text-decoration-line: underline;
-    cursor: pointer;
-  }
-`
-
-const StyledButtonList = styled.div`
-  width: 500px;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-`
-const StyledButton = styled.button`
-  outline: none;
-  border: none;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 46px;
-  border-radius: 8px;
-  /* background: #FFF; */
-  /* color: #1E2028; */
-  background-color: var(--button-color);
-  color: var(--button-text-color);
-  font-family: Gantari;
-  font-size: 16px;
-  font-weight: 500;
-  &[disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`
-
-const StyledLoading = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: rotate 1.5s linear  infinite;
-  @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`
 
 const iconCircle = (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -855,7 +664,7 @@ useEffect(() => {
 }, [data]);
 
 return (
-  <Wrapper>
+  <DetailWrapper>
     <FilterButtonList>
       <FilterButton className={isDeposit ? 'isActive' : ''} onClick={() => changeMode(true)}>Deposit</FilterButton>
       <FilterButton className={!isDeposit ? 'isActive' : ''} onClick={() => changeMode(false)}>Withdraw</FilterButton>
@@ -1000,5 +809,5 @@ return (
       </>
     }
 
-  </Wrapper>
+  </DetailWrapper>
 )
