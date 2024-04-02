@@ -212,7 +212,7 @@ return (
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                style={{ color: "#fff" }}
+                style={{ filter: "brightness(0) invert(1)" }}
               ></button>
             </div>
             <div
