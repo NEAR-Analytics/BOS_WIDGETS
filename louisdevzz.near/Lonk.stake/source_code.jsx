@@ -8,17 +8,19 @@ const expandToken = (value, decimals) => {
 };
 const [amount, setAmount] = useState("");
 const onStakeClick = () => {
-  const gas = 300 * 1000000000000;
-  // TODO: doesn't support floats right now due to limitation of JS integers
-  const deposit = Big(amount).mul(Big(10).pow(24)).toFixed(0);
-  console.log(gas, deposit);
-  Near.call(
-    "lonk_validator.poolv1.near",
-    "deposit_and_stake",
-    {},
-    gas,
-    deposit
-  );
+  if (accountId) {
+    const gas = 300 * 1000000000000;
+    // TODO: doesn't support floats right now due to limitation of JS integers
+    const deposit = Big(amount).mul(Big(10).pow(24)).toFixed(0);
+    console.log(gas, deposit);
+    Near.call(
+      "lonk_validator.poolv1.near",
+      "deposit_and_stake",
+      {},
+      gas,
+      deposit
+    );
+  }
 };
 
 const account = fetch("https://rpc.mainnet.near.org", {
@@ -253,11 +255,9 @@ return (
           </div>
           <div>
             <button
-              onClick={() => {
-                accountId && onStakeClick();
-              }}
+              onClick={onStakeClick}
               data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
+              data-bs-target="#stake"
               class="button-stake"
             >
               Stake
@@ -269,7 +269,7 @@ return (
     {!accountId && (
       <div
         class="modal fade"
-        id="exampleModal"
+        id="stake"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
