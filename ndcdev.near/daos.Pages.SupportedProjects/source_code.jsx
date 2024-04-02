@@ -1,10 +1,10 @@
 let { assets, content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 
 content = content.home;
 
-let projects = []
+let projects = [];
 
 let projectsDaoId2 = Near.view(contractName, "get_dao_communities", {
   dao_id: parseInt(2),
@@ -20,10 +20,17 @@ let projectsDaoId3 = Near.view(contractName, "get_dao_communities", {
   dao_id: parseInt(3),
 });
 
-if (!contractName || !content || !projects || !projectsDaoId2 || !projectsDaoId4 || !projectsDaoId3)
+if (
+  !contractName ||
+  !content ||
+  !projects ||
+  !projectsDaoId2 ||
+  !projectsDaoId4 ||
+  !projectsDaoId3
+)
   return <Widget src="flashui.near/widget/Loading" />;
 
-projects = [...projectsDaoId2, ...projectsDaoId4, ...projectsDaoId3] 
+projects = [...projectsDaoId2, ...projectsDaoId4, ...projectsDaoId3];
 
 const Wrapper = styled.div`
   width: 80%;
@@ -42,7 +49,7 @@ return (
           props={{
             title: content.featuredProducts.title,
             projects: content.featuredProducts.projects.map((title) =>
-              projects.find((p) => p.title === title)
+              projects.find((p) => p.title === title),
             ),
           }}
         />
@@ -51,4 +58,4 @@ return (
       <></>
     )}
   </>
-)
+);
