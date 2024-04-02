@@ -26,7 +26,7 @@ const TokenAmount = styled.div`
   }
 background:#3f3f3f;
 height:100px;
-padding:40px;
+padding:40px 20px;
   color: white;
   display: flex;
   align-items: center;
