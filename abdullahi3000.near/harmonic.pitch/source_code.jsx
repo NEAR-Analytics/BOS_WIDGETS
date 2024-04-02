@@ -20,6 +20,7 @@ const code = `
           justify-content: center;
           align-items: center;
           width: 100%;
+          padding-top: 50px
           height: 100vh;
         }
       </style>
@@ -38,7 +39,13 @@ const code = `
 `;
 
 return (
-  <div>
+  <div
+    className="w-100 h-100"
+    style={{
+      minHeight: "500px",
+      minWidth: "300px",
+    }}
+  >
     <iframe className="w-100 h-100" srcDoc={code} title="Embedded Media" />
   </div>
 );
