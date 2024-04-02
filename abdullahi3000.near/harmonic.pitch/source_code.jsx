@@ -10,12 +10,11 @@ const code = `
           justify-content: center;
           align-items: center;
           height: 100vh;
-          background-color: #f0f0f0;
+          background-color: #fff;
         }
         iframe {
-          /* Adjust iframe size as needed */
           width: 80%;
-          height: 450px; /* Adjust height based on the aspect ratio */
+          height: 450px;
         }
       </style>
     </head>
