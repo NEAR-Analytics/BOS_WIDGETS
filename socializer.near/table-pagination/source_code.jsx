@@ -13,14 +13,14 @@ State.init({ currentPage: 1, list: [], loaded: timer_load });
 let Interval = null;
 
 const filteredData = () => {
-  return (searchResult = data.filter((row) => {
+  return data.filter((row) => {
     if (!searchValue) return true;
     const profile = Social.getr(`${row.poster}/profile`);
     const name = profile.name || row.poster || "";
     return name
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
-  }));
+  });
 };
 
 useEffect(() => {
