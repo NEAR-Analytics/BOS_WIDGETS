@@ -312,7 +312,7 @@ function getBalance() {
     (result) => {
       for (let i = 0; i < result.length; i++) {
         const element = result[i];
-        dataList[i].balance = Big(ethers.utils.formatUnits(element[0], 18)).toFixed(2)
+        dataList[i].balance = ethers.utils.formatUnits(element[0], 18)
       }
       formatedData('getBalance')
       getLiquidity()
@@ -329,5 +329,4 @@ useEffect(() => {
   getTvlUSD()
   getFeeApr()
   getBalance()
-  // getLiquidity()
 }, [])
