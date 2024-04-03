@@ -45,10 +45,9 @@ const code = `
 
 return (
   <div
-    className="w-100 vh-100"
     style={{
-      minHeight: "30rem",
-      minWidth: "30rem",
+      height: "100vh",
+      width: "100%",
     }}
   >
     <iframe
