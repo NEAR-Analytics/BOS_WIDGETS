@@ -6,6 +6,7 @@ const {
   onLoad,
   // chainType,
   curChain,
+  FEE_APR_URL,
   multicallAddress,
   prices
 } = props
@@ -214,7 +215,7 @@ function getFeeApr() {
       name: "balanceOf",
       params: [data.stakingAddress]
     })
-    baseAprUrl.push(`https://ro81h8hq6b.execute-api.us-east-1.amazonaws.com/pool/fee-apr?address=${addresses[data.id]}&chain=${curChain.chain_id}&interval=604800`)
+    baseAprUrl.push(`${FEE_APR_URL}?address=${addresses[data.id]}&chain=${curChain.chain_id}&interval=604800`)
   })
   const promiseArray = []
   if (curChain.chain_id === 169) {
