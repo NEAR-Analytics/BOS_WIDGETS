@@ -1,304 +1,405 @@
-// FETCH LIDO ABI
+const Input = styled.input`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5em 0.75em;
+  gap: 0.5em;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 4px;
+  width: 100%;
+`;
 
-const lidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
-const mainnetLidoContract = "0xae7ab96520de3a18e5e111b5eaab095312d7fe84";
-const rinkebyLidoContract = "0xF4242f9d78DB7218Ad72Ee3aE14469DBDE8731eD";
-const kovanLidoContract = "0x4b7FCBC11BB45075b9A1F953128C09bC97D6a0D7";
-const gorliLidoContract = "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F";
-const tokenDecimals = 18;
+const LabelArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25em;
+  margin-bottom: 0.5em;
+  flex-wrap: wrap;
+`;
 
-// "gorli" // "rinkeby" // "mainnet"
-const network = "gorli"; 
+const Error = styled.small`
+  color: red;
+`;
 
-switch (network) {
-  case "kovan":
-    lidoContract = kovanLidoContract;
-    break;
-  case "gorli":
-    lidoContract = gorliLidoContract;
-    break;
-  case "rinkeby":
-    lidoContract = rinkebyLidoContract;
-    break;
-  case "mainnet":
-    lidoContract = mainnetLidoContract;
-    break;
-  default:
-    lidoContract = mainnetLidoContract;
-    break;
-}
+const CodeSnippet = styled.div`
+  font-family: monospace;
+  white-space: pre-wrap;
+  margin: 0;
+`;
 
-const lidoAbi = fetch(
-  "https://raw.githubusercontent.com/lidofinance/lido-subgraph/master/abis/Lido.json"
-);
+const CardContainer = styled.div`
+  background-color: #ffebee; /* Soft red color */
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+`;
 
-if (!lidoAbi.ok) {
-  return "Loading";
-}
+const Message = styled.p`
+  color: #b71c1c; /* Darker red color for emphasis */
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
 
-const iface = new ethers.utils.Interface(lidoAbi.body);
+const Link = styled.a`
+  color: #b71c1c; /* Darker red color for emphasis */
+  text-decoration: underline;
+  cursor: pointer;
+`;
 
-// FETCH LIDO STAKING APR
+const wallet = props.wallet_id || context.accountId;
 
-if (state.lidoArp === undefined) {
-  const apr = fetch(
-    "https://api.allorigins.win/get?url=https://stake.lido.fi/api/sma-steth-apr"
-  );
-  if (!apr) return;
-  State.update({ lidoArp: JSON.parse(apr?.body?.contents) ?? "..." });
-}
+State.init({
+  valid: true,
+  accountId: wallet,
+  errorMessage: <></>,
+  votingPower: null,
+  voterInfo: null,
+});
 
-// HELPER FUNCTIONS
+const validate = (accountId) => {
+  const accountIdRegex =
+    /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
 
-const getStakedBalance = (receiver) => {
-  const encodedData = iface.encodeFunctionData("balanceOf", [receiver]);
-
-  return Ethers.provider()
-    .call({
-      to: lidoContract,
-      data: encodedData,
-    })
-    .then((rawBalance) => {
-      const receiverBalanceHex = iface.decodeFunctionResult(
-        "balanceOf",
-        rawBalance
-      );
-
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  if (typeof accountId !== "string") {
+    State.update({
+      accountId: "",
+      valid: false,
+      errorMessage: "Account ID must be a text value!",
     });
+    return;
+  }
+
+  if (accountId.length < 2) {
+    State.update({
+      accountId: "",
+      valid: false,
+      errorMessage: "Account ID must be at least 2 characters long!",
+    });
+    return;
+  }
+
+  if (accountId.length > 64) {
+    State.update({
+      accountId: "",
+      valid: false,
+      errorMessage: "Account ID must be at most 64 characters long!",
+    });
+    return;
+  }
+
+  if (!accountIdRegex.test(accountId)) {
+    State.update({
+      accountId: "",
+      valid: false,
+      errorMessage: (
+        <>
+          Account ID must follow the rules specified{" "}
+          <a href="https://nomicon.io/DataStructures/Account#account-id-rules">
+            here
+          </a>
+          and ends on .near!
+        </>
+      ),
+    });
+    return;
+  }
+
+  State.update({ valid: true, errorMessage: "", accountId });
 };
 
-const submitEthers = (strEther, _referral) => {
-  if (!strEther) {
-    return console.log("Amount is missing");
-  }
-  const erc20 = new ethers.Contract(
-    lidoContract,
-    lidoAbi.body,
-    Ethers.provider().getSigner()
-  );
+const accountId = props.accountId ?? "Login with NEAR Wallet";
 
-  let amount = ethers.utils.parseUnits(strEther, tokenDecimals).toHexString();
+const getVotingPower = (accountId) => {
+  const votingPower = asyncFetch("https://rpc.testnet.near.org", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: "dontcare",
+      method: "query",
+      jsonrpc: "2.0",
+      params: {
+        request_type: "call_function",
+        finality: "final",
+        account_id: "snapshot-test.testnet",
+        method_name: "get_vote_power",
+        args_base64: btoa(JSON.stringify({ voter: `${accountId}` })),
+      },
+    }),
+  }).then((res) => {
+    State.update({
+      votingPower: String.fromCharCode(...res.body.result.result),
+    });
+  });
 
-  erc20.submit(lidoContract, { value: amount }).then((transactionHash) => {
-    console.log("transactionHash is " + transactionHash);
+  const voterInfo = asyncFetch("https://rpc.testnet.near.org", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      id: "dontcare",
+      method: "query",
+      jsonrpc: "2.0",
+      params: {
+        request_type: "call_function",
+        finality: "final",
+        account_id: "snapshot-test.testnet",
+        method_name: "get_eligible_voter_info",
+        args_base64: btoa(JSON.stringify({ account_id: `${accountId}` })),
+      },
+    }),
+  }).then((res) => {
+    State.update({
+      voterInfo: JSON.parse(String.fromCharCode(...res.body.result.result)),
+    });
   });
 };
 
-// DETECT SENDER
-
-if (state.sender === undefined) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  if (accounts.length) {
-    State.update({ sender: accounts[0] });
-    console.log("set sender", accounts[0]);
-  }
-}
-
-//if (!state.sender)  return "Please login first";
-
-// FETCH SENDER BALANCE
-
-if (state.balance === undefined && state.sender) {
-  Ethers.provider()
-    .getBalance(state.sender)
-    .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(2) });
-    });
-}
-
-// FETCH SENDER STETH BALANCE
-
-// if (state.stakedBalance === undefined && state.sender) {
-//   getStakedBalance(state.sender).then((stakedBalance) => {
-//     State.update({ stakedBalance });
-//   });
-// }
-
-// FETCH TX COST // only applies to lido
-
-if (state.txCost === undefined) {
-  const gasEstimate = ethers.BigNumber.from(1875000);
-  const gasPrice = ethers.BigNumber.from(1500000000);
-
-  const gasCostInWei = gasEstimate.mul(gasPrice);
-  const gasCostInEth = ethers.utils.formatEther(gasCostInWei);
-
-  // change to uniswap
-  let responseGql = fetch(
-    "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: `{
-          bundle(id: "1" ) {
-            ethPrice
-          }
-        }`,
-      }),
-    }
+const Card = ({ children, className }) => {
+  return (
+    <div
+      className={`card ${className}`}
+      style={{ maxWidth: "800px", padding: "2px" }}
+    >
+      <div className="card-body p-2">{children}</div>
+    </div>
   );
-
-  if (!responseGql) return "";
-
-  const ethPriceInUsd = responseGql.body.data.bundle.ethPrice;
-
-  const txCost = Number(gasCostInEth) * Number(ethPriceInUsd);
-
-  State.update({ txCost: `$${txCost.toFixed(2)}` });
-}
-
-// FETCH CSS
-
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
-).body;
-const css = fetch(
-  "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
-).body;
-
-if (!cssFont || !css) return "";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-    font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    ${cssFont}
-    ${css}
-`,
-  });
-}
-const Theme = state.theme;
-
-// OUTPUT UI
-
-const getSender = () => {
-  return !state.sender
-    ? ""
-    : state.sender.substring(0, 6) +
-        "..." +
-        state.sender.substring(state.sender.length - 4, state.sender.length);
 };
+
+const CardTitle = ({ children, className }) => {
+  return <p className={`card-title ${className}`}>{children}</p>;
+};
+
+const codeSnippet = `stakepower = if stake > 1000 (configurable) 
+  1000 + sqrt(stake - 1000)
+else {
+  stake
+}
+activity_power = 20 * active_months
+
+result = stake_power + activity_power`;
 
 return (
-  <Theme>
-    <div class="LidoContainer">
-      <div class="Header">🦄 Swap on Uniswap </div>
-      <div class="SubHeader">Swap Using Uniswap v2 Contracts.</div>
-
-      <div class="LidoForm">
-        {state.sender && (
-          <>
-            <div class="LidoFormTopContainer">
-              <div class="LidoFormTopContainerLeft">
-                <div class="LidoFormTopContainerLeftContent1">
-                  <div class="LidoFormTopContainerLeftContent1Container">
-                    <span>Available to stake</span>
-                    <div class="LidoFormTopContainerLeftContent1Circle" />
-                  </div>
-                </div>
-                <div class="LidoFormTopContainerLeftContent2">
-                  <span>
-                    {state.balance ?? (!state.sender ? "0" : "...")}&nbsp;ETH
-                  </span>
-                </div>
-              </div>
-              <div class="LidoFormTopContainerRight">
-                <div class="LidoFormTopContainerRightContent1">
-                  <div class="LidoFormTopContainerRightContent1Text">
-                    <span>{getSender()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="LidoSplitter" />
-          </>
-        )}
-        <div
-          class={
-            state.sender ? "LidoFormBottomContainer" : "LidoFormTopContainer"
-          }
-        >
-          <div class="LidoFormTopContainerLeft">
-            <div class="LidoFormTopContainerLeftContent1">
-              <div class="LidoFormTopContainerLeftContent1Container">
-                <span>Staked amount</span>
-              </div>
-            </div>
-            <div class="LidoFormTopContainerLeftContent2">
-              <span>
-                {state.stakedBalance ?? (!state.sender ? "0" : "...")}
-                &nbsp;stETH
-              </span>
-            </div>
-          </div>
-          <div class="LidoFormTopContainerRight">
-            <div class="LidoAprContainer">
-              <div class="LidoAprTitle">Lido APR</div>
-              <div class="LidoAprValue">{state.lidoArp ?? "..."}%</div>
-            </div>
-          </div>
-        </div>
+  <div className="d-flex flex-column align-items-center p-4">
+    <h1>Check your voting power for NDC Stake-Weighted mechanism</h1>
+    <CardContainer>
+      <Message>
+        Your vote matters! Please take a moment to cast your vote and help shape
+        the future of our community.
+      </Message>
+      <p>
+        Don't forget to{" "}
+        <Link href="https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=voting-body-v1.ndc-gwg.near&proposalId=11">
+          cast your vote
+        </Link>{" "}
+        to support this stake-weighted solution or reject it if you didn't like
+        it.
+      </p>
+    </CardContainer>
+    <p>
+      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg'
+      or hash(64 symbols)
+      <br></br>and click to see your voting power and related info
+    </p>
+    <LabelArea>
+      <div className="d-flex flex-column justify-content-center align-items-center">
+        <Input
+          id
+          type="text"
+          value={v}
+          placeholder={wallet}
+          onChange={(e) => validate(e.target.value)}
+          className="w-100"
+        />
+        <Error>{state.valid ? <></> : state.errorMessage}</Error>
       </div>
-      <div class="LidoStakeForm">
-        <div class="LidoStakeFormInputContainer">
-          <span class="LidoStakeFormInputContainerSpan1"></span>
-          <span class="LidoStakeFormInputContainerSpan2">
-            <input
-              disabled={!state.sender}
-              class="LidoStakeFormInputContainerSpan2Input"
-              value={state.strEther}
-              onChange={(e) => State.update({ strEther: e.target.value })}
-              placeholder="Amount"
-            />
-          </span>
-          <span
-            class="LidoStakeFormInputContainerSpan3"
-            onClick={() => {
-              State.update({
-                strEther: (parseFloat(state.balance) - 0.05).toFixed(2),
-              });
-            }}
-          >
-            <button
-              class="LidoStakeFormInputContainerSpan3Content"
-              disabled={!state.sender}
-            >
-              <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
-            </button>
-          </span>
+    </LabelArea>
+    <button onClick={() => getVotingPower(state.accountId)}>
+      Get Voting Power
+    </button>
+    <div className="text-center">
+      {state.votingPower && (
+        <div>
+          <b>Voting Power:</b> {state.votingPower}
         </div>
-        {!!state.sender ? (
-          <button
-            class="LidoStakeFormSubmitContainer"
-            onClick={() => submitEthers(state.strEther, state.sender)}
-          >
-            <span>Swap</span>
-          </button>
-        ) : (
-          <Web3Connect
-            className="LidoStakeFormSubmitContainer"
-            connectLabel="Connect with Web3"
-          />
-        )}
-
-        <div class="LidoFooterContainer">
-          {state.sender && (
-            <div class="LidoFooterRaw">
-              <div class="LidoFooterRawLeft">You will receive</div>
-              <div class="LidoFooterRawRight">${state.strEther ?? 0} stETH</div>
-            </div>
-          )}
-          <div class="LidoFooterRaw">
-            <div class="LidoFooterRawLeft">Transaction cost</div>
-            <div class="LidoFooterRawRight">{state.txCost}</div>
+      )}
+      {state.voterInfo && (
+        <div>
+          <div>
+            <b>Active Months:</b> {state.voterInfo.active_months}
+          </div>
+          <div>
+            <b>Stake:</b>{" "}
+            {(parseFloat(state.voterInfo.stake) / Math.pow(10, 24)).toFixed(2)}{" "}
+            Near
           </div>
         </div>
-      </div>
+      )}
     </div>
-  </Theme>
+    <Card className="my-4">
+      <CardTitle>Calculation of Voting Power</CardTitle>
+      <pre
+        style={{
+          backgroundColor: "#f3f3f3",
+          padding: "10px",
+          borderRadius: "5px",
+          overflowX: "auto",
+        }}
+      >
+        <CodeSnippet>{codeSnippet}</CodeSnippet>
+      </pre>
+    </Card>
+    <div>
+      <h4>Explanation of voting power: </h4>
+
+      <ol class="my-4 list-group list-group-numbered">
+        <li class="list-group-item">
+          After the treashold 1000 Near system use quadratic formula
+        </li>
+        <li class="list-group-item">1000 staked Near - 1000 votes</li>
+        <li class="list-group-item">
+          1001000 (1mil) Near - 1000+sqrt(1000000) = 2000 votes
+        </li>
+        <li class="list-group-item">
+          Additionally, if you ever staked with your account, you can have
+          20*(active onchain months) voting power
+        </li>
+        <li class="list-group-item">
+          Total is around 150k accounts that can potentially vote
+        </li>
+        <li class="list-group-item">
+          Data made from a{" "}
+          <a
+            href="https://bafybeidy6aerzfcaytshbntccgq6oquopd4q3ftsuaz66bstjfc4vpuwku.ipfs.w3s.link/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            snapshot
+          </a>{" "}
+          that was made on 17.12.2023
+        </li>
+      </ol>
+    </div>
+    <div>
+      <p>
+        <span style={{ fontWeight: "bold" }}>
+          Read more about the voting system and how it will be implemented{" "}
+          <a
+            href="https://hackmd.io/8YBpAi47QN2ceqPLjG68Iw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>
+          if you have any questions please ask them{" "}
+          <a
+            href="https://t.me/ndcopstech"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            in Ops team telegram chat
+          </a>
+        </span>
+      </p>
+    </div>
+
+    <h1>Some useful analytics:</h1>
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 22.82],
+          ["1-10", 6.54],
+          ["10-100", 12.98],
+          ["100-1000", 30.45],
+          ["1000-10000", 18.02],
+          ["10000+", 9.18],
+        ],
+        chartOption: {
+          title: "Voting Power Distribution",
+          type: "donut",
+        },
+      }}
+    />
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 9410],
+          ["1-10", 94670],
+          ["10-100", 1330000],
+          ["100-1000", 8080000],
+          ["1000-10000", 5515550],
+          ["10000+", 2886694],
+        ],
+        chartOption: {
+          title: "Staking Power",
+          type: "donut",
+        },
+      }}
+    />
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 7844022],
+          ["1-10", 2157842],
+          ["10-100", 3137216],
+          ["100-1000", 2401050],
+          ["1000-10000", 685902],
+          ["10000+", 273968],
+        ],
+        chartOption: {
+          title: "Activity Power",
+          type: "donut",
+        },
+      }}
+    />
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 131],
+          ["1-10", 137],
+          ["10-100", 187],
+          ["100-1000", 571],
+          ["1000-10000", 1183],
+          ["10000+", 1510],
+        ],
+        chartOption: {
+          title: "Power Per User",
+          type: "donut",
+        },
+      }}
+    />
+
+    <Widget
+      src="lord1.near/widget/Pie-chart"
+      props={{
+        data: [
+          ["0-1", 47.54],
+          ["1-10", 13.08],
+          ["10-100", 19.01],
+          ["100-1000", 14.55],
+          ["1000-10000", 4.16],
+          ["10000+", 1.66],
+        ],
+        chartOption: {
+          title: "Users by stake category",
+          type: "donut",
+        },
+      }}
+    />
+  </div>
 );
