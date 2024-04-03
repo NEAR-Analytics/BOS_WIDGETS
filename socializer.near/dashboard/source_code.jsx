@@ -41,6 +41,7 @@ const handleSearch = (event) => {
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
+  console.log("searchResult", searchResult);
   State.update({ searchValue: value, rowList: searchResult });
 };
 
