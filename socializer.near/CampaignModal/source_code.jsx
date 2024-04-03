@@ -19,7 +19,6 @@ State.init({
   human: false,
   loaded: false,
   loading: false,
-  notification: "" ? 1213131 : "",
 });
 
 const ModalOverlay = styled.div`
@@ -158,15 +157,10 @@ const verifyEnter = () => {
           follow,
           repost,
           comment,
-          error: finished ? "" : "Please complete all tasks",
-          notification: ""
-            ? 1213131
-            : finished
-            ? "Participation Successful"
-            : "",
           human,
           loading: false,
         });
+        if (finished) onClose("Participation Successful");
       }
     }
   });
@@ -271,16 +265,5 @@ return (
         disabled={state.loading}
       >{`Verify & Enter`}</Button>
     </ModalAction>
-    <div
-      className="d-flex justify-content-end position-absolute"
-      style={{ right: 10 }}
-    >
-      <Widget
-        props={{
-          text: state.notification === "" ? 1213131 : state.notification,
-        }}
-        src={`${Owner}/widget/Alert`}
-      />
-    </div>
   </ModalOverlay>
 );
