@@ -23,7 +23,7 @@ useEffect(() => {
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
   console.log("searchResult->>>>>>>", searchResult);
-  State.update({ ...{ list: searchResult } });
+  State.update({ ...state.list, list: searchResult });
 }, [searchValue]);
 const handlePagination = () => {
   console.log("handlePagination-----", state);
