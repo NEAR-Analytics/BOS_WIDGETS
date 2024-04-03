@@ -248,7 +248,7 @@ return (
                               {td.icon ? (
                                 value ? (
                                   <a href={value} target="_blank">
-                                    td.icon
+                                    {td.icon}
                                   </a>
                                 ) : (
                                   ""
