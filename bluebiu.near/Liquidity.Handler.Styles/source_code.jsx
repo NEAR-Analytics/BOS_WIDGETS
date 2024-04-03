@@ -139,6 +139,7 @@ const Td = styled.div`
   gap: 6px;
   &.column {
     flex-direction: column;
+    align-items: flex-start;
     gap: 5px;
   }
   &:first-of-type {
@@ -278,14 +279,11 @@ const InputWrapList = styled.div`
 `
 const InputWrap = styled.div`
   position: relative;
-  /* width: 243px; */
   height: 46px;
-  /* flex-shrink: 0;
-  fill: #1B1E27;
-  stroke-width: 1px;
-  stroke: #33364B; */
   background: #33364B;
   border-radius: 12px;
+  border: 1px solid #33364B;
+  overflow: hidden;
   input::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
   }
@@ -295,6 +293,9 @@ const InputWrap = styled.div`
   }
   input[type="number"]{
     -moz-appearance: textfield;
+  }
+  &.inSufficient {
+    border-color: #FF547D;
   }
 
 `
@@ -394,8 +395,11 @@ const StyledButton = styled.button`
   font-size: 16px;
   font-weight: 500;
   &[disabled] {
-    opacity: 0.5;
+    opacity: 0.5!important;
     cursor: not-allowed;
+  }
+  &:hover {
+    opacity: 0.8;
   }
 `
 
