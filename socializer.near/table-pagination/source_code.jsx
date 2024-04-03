@@ -21,6 +21,7 @@ useEffect(() => {
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
+  console.log(searchValue, "==>searchValue", searchResult);
   State.update({ ...state, list: searchResult });
 }, [searchValue, data]);
 
