@@ -1,7 +1,12 @@
 return (
   <div
-    className="d-flex flex-column justify-content-center align-items-center bg-dark text-white"
-    style={{ width: "100%", height: "100%" }}
+    className="d-flex flex-column justify-content-center align-items-center text-white"
+    style={{
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#151718",
+      padding: "2rem",
+    }}
   >
     <div className="mb-5 p-2">
       <h2 className="fs-3 fw-bold mb-3 text-center">Upload Your First Song</h2>
