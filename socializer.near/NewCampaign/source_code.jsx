@@ -214,6 +214,7 @@ const changeAmount = (value) => {
   }`;
   if (amount < state.minimum)
     State.update({ error: "Amount must be greater than " + minimum });
+  else State.update({ error: "" });
   State.update({
     amount: amount,
     total_reward,
