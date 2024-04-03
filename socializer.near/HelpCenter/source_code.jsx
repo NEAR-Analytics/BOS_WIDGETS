@@ -2,7 +2,7 @@ const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
   width: 188px;
-  height: 252px;
+  height: 322px;
   border-radius: 10px;
   border: 0;
   color: white;
