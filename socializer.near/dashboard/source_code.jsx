@@ -27,8 +27,8 @@ const viewWins = (data) => {
   State.update({ view_win: true, selected: data });
 };
 
-const onClose = () => {
-  State.update({ show_detail: false, view_win: false });
+const onClose = (notification = "") => {
+  State.update({ show_detail: false, view_win: false, notification });
 };
 
 const handleSearch = (event) => {
@@ -185,6 +185,7 @@ State.init({
   },
   timer_load: false,
   loaded: false,
+  notification: "",
 });
 
 const MainComponent = styled.div`
@@ -451,6 +452,19 @@ return (
         }}
         src={`${Owner}/widget/WinnersModal`}
       />
+    )}
+    {state.notification && (
+      <div
+        className="d-flex justify-content-end position-absolute"
+        style={{ right: 10 }}
+      >
+        <Widget
+          props={{
+            text: state.notification,
+          }}
+          src={`${Owner}/widget/Alert`}
+        />
+      </div>
     )}
   </MainComponent>
 );
