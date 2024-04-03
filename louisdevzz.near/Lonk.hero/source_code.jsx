@@ -79,7 +79,7 @@ return (
               </div>
               <div class="item">
                 <a
-                  href="https://orderly.network/docs/trade-on-orderly/trading-guis"
+                  href="https://dex.btse.com/trade/SPOT_LONK_USDC.e"
                   target="_blank"
                   style={{
                     padding: "10px 20px",
