@@ -3,33 +3,46 @@ const Container = styled.div`
   padding: 2em;
 `;
 
+const profile = Social.getr(`${context.accountId}/profile`);
+
 return (
   <Container>
     <div className="d-flex flex-row justify-content-between">
       <div className="m-2">
-        <h3 className="m-1">
+        <h3>
           <b>NEAR Builders Cooperative</b>
         </h3>
-        <p className="m-2">
+        <p className="m-1">
           <b>
-            🚧 <a href="https://nearbuilders.org">nearbuilders.org</a> 🚧
+            <a
+              style={{ textDecoration: "none" }}
+              href="https://nearbuilders.org"
+            >
+              nearbuilders.org
+            </a>
           </b>
         </p>
       </div>
       <div className="d-flex flex-row m-1">
-        <div className="m-2">
-          <Widget
-            src="hack.near/widget/profile.inline"
-            props={{ accountId: context.accountId }}
-          />
-        </div>
-        <div className="m-2">
-          <a
-            className="m-2 btn btn-sm btn-light"
-            href="/near/widget/ProfileEditor"
-          >
-            Edit Profile
-          </a>
+        <div className="m-3">
+          {profile ? (
+            <a
+              style={{ color: "#000", textDecoration: "none" }}
+              href={`/near/widget/Profile?accountId=${context.accountId}`}
+            >
+              <Widget
+                src="hack.near/widget/profile.inline"
+                props={{ accountId: context.accountId }}
+              />
+            </a>
+          ) : (
+            <a
+              className="m-2 btn btn-sm btn-light"
+              href="/near/widget/ProfileEditor"
+            >
+              Edit Profile
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -350,7 +363,12 @@ return (
           Agreement should be directed to:{" "}
         </span>
         <span>
-          <a href="mailto:support@nearbuilders.org">support@nearbuilders.org</a>
+          <a
+            style={{ color: "#000", textDecoration: "none" }}
+            href="mailto:support@nearbuilders.org"
+          >
+            support@nearbuilders.org
+          </a>
         </span>
       </p>
       <Widget
