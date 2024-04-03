@@ -14,7 +14,7 @@ const code = `
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #f0f0f0;
+        background-color: #151718;
       }
       .video-container {
         width: 100%; /* Ensure the container fills the width */
