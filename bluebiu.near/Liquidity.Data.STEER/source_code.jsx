@@ -279,9 +279,8 @@ function getLiquidity() {
     for (let i = 0; i < dataList.length; i++) {
       const data = dataList[i]
       const [totalSupplyResult, getTotalAmountsResult] = result
-      // const [total0, total1] = getTotalAmountsResult[i]
       const total0 = ethers.utils.formatUnits(getTotalAmountsResult[i][0], data.decimals0)
-      const total1 = ethers.utils.formatUnits(getTotalAmountsResult[i][0], data.decimals1)
+      const total1 = ethers.utils.formatUnits(getTotalAmountsResult[i][1], data.decimals1)
       const totalSupply = ethers.utils.formatUnits(totalSupplyResult[i][0], 18)
       const priceLp = Big(Big(total0)
         .times(prices[data.token0])
@@ -312,7 +311,7 @@ function getBalance() {
     (result) => {
       for (let i = 0; i < result.length; i++) {
         const element = result[i];
-        dataList[i].balance = Big(ethers.utils.formatUnits(element[0], 18)).toFixed(2)
+        dataList[i].balance = Big(ethers.utils.formatUnits(element[0], 18)).toFixed(4)
       }
       formatedData('getBalance')
       getLiquidity()
