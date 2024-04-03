@@ -2,7 +2,7 @@ const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
   width: 188px;
-  height: 352px;
+  height: 252px;
   border-radius: 10px;
   border: 0;
   color: white;
@@ -47,7 +47,6 @@ const HelpButton = styled.button`
   flex-shrink: 0;
   border-radius: 10px;
   background: #F3F3F3;
-  position: absolute;
   text-align: center;
   font-size: 12px;
   font-style: normal;
@@ -137,19 +136,10 @@ return (
         }}
       />
 
-      <Text>Suggestions</Text>
-      <Text
-        style={{
-          fontSize: 12,
-          textAlign: "center",
-          letterSpacing: "-0.24px",
-          marginBottom: 10,
-        }}
-      >
-        Having Trouble in Learning. Please contact us for more questions.
-      </Text>
+      <Text>Need Support?</Text>
 
-      <HelpButton>Go To Help Center</HelpButton>
+      <HelpButton>User Guide</HelpButton>
+      <HelpButton>Telegram Support</HelpButton>
     </HelpContent>
   </HelpComponent>
 );
