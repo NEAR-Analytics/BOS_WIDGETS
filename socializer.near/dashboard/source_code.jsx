@@ -226,6 +226,14 @@ const TitleComponent = styled.div`
   flex-direction: column;
   gap: 32px;
 `;
+const TitleStatusText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  @media (max-width: 620px) {
+        flex-direction: column;
+    }
+`;
 
 const FilterContent = styled.div`
     gap: 7px;
@@ -381,22 +389,24 @@ return (
         </FilterContent>
         <TitleContent>
           <h4 style={{ margin: 0 }}>{state.title[state.menu.value].tl}</h4>
-          <p style={{ fontSize: 14, margin: 0 }}>
-            {state.title[state.menu.value].subtl}
-          </p>
-          {state.error && (
-            <p style={{ fontSize: 14, margin: 0, color: "red" }}>
-              {state.error}
+          <TitleStatusText>
+            <p style={{ fontSize: 14, margin: 0 }}>
+              {state.title[state.menu.value].subtl}
             </p>
-          )}
-          <Widget
-            props={{
-              API_URL,
-              menu: state.menu,
-              length: state.campaigns.length,
-            }}
-            src={`${Owner}/widget/Status`}
-          />
+            {state.error && (
+              <p style={{ fontSize: 14, margin: 0, color: "red" }}>
+                {state.error}
+              </p>
+            )}
+            <Widget
+              props={{
+                API_URL,
+                menu: state.menu,
+                length: state.campaigns.length,
+              }}
+              src={`${Owner}/widget/Status`}
+            />
+          </TitleStatusText>
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
