@@ -2,7 +2,7 @@ const menu = props.menu ?? { value: "live" };
 const length = props.length ?? 0;
 
 return (
-  <div className="d-flex" style={{ gap: 25, marginTop: length > 5 ? -52 : 0 }}>
+  <div className="d-flex" style={{ gap: 20 }}>
     <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
