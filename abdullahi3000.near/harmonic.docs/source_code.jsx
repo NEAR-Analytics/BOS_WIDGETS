@@ -11,7 +11,7 @@ const authorsWhitelist = [
   "kdot.near",
   "vikash.near",
 ];
-const authorForWidget = "neardigitalcollective.near";
+const authorForWidget = "abdullahi3000.near";
 const accountId = props.accountId ?? context.accountId;
 // if (!accountId) {
 //   return "No account ID";
