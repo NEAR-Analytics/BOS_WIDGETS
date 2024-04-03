@@ -160,12 +160,14 @@ function selectSong(index) {
     currentSongIndex: index,
   });
 }
-
-//<h1 style={styles.heading}>Decentralised Music Streaming</h1>
 return (
-  <div style={styles.container}>
-    <InnerContainer>
-      <div style={styles.playerContainer}>
+  <div
+    className="container py-3"
+    style={{ height: "100%", width: "100%", backgroundColor: "#fff" }}
+  >
+    <div className="row">
+      <div className="col-lg-6">
+        {/* Widget for displaying the NftImage */}
         <Widget
           src="mob.near/widget/NftImage"
           props={{
@@ -174,84 +176,59 @@ return (
               contractId: songs[state.currentSongIndex].nft_contract_id,
             },
             style: {
-              width: 300,
-              height: 300,
+              width: "100%",
+              height: "auto",
               objectFit: "cover",
-              minWidth: size,
-              minHeight: size,
-              maxWidth: size,
-              maxHeight: size,
-              overflowWrap: "break-word",
             },
             fallbackUrl:
               "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
           }}
         />
-
-        <div style={styles.buttonContainer}>
-          <button
-            style={{
-              backgroundColor: "#4472c4",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={playPreviousSong}
-          >
+        {/* Control buttons */}
+        <div className="d-flex justify-content-center my-3">
+          <button className="btn btn-primary mx-2" onClick={playPreviousSong}>
             Previous
           </button>
-          <button
-            style={{
-              backgroundColor: "#4472c4",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={pauseCurrentSong}
-          >
+          <button className="btn btn-secondary mx-2" onClick={pauseCurrentSong}>
             Pause
           </button>
-          <button
-            style={{
-              backgroundColor: "#4472c4",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={playCurrentSong}
-          >
+          <button className="btn btn-success mx-2" onClick={playCurrentSong}>
             Play
           </button>
-          <button
-            style={{
-              backgroundColor: "#4472c4",
-              color: "white",
-              marginRight: "10px",
-            }}
-            onClick={playNextSong}
-          >
+          <button className="btn btn-primary mx-2" onClick={playNextSong}>
             Next
           </button>
         </div>
       </div>
-      <div style={styles.songListContainer}>
-        <h3
-          className="font-bold"
+
+      <div className="col-lg-6">
+        {/* Scrollable list of songs */}
+        <div
+          className="overflow-auto"
           style={{
-            paddingLeft: "1rem",
+            width: "24rem",
+            height: "24rem",
+            overflowY: "auto",
+            padding: "1rem",
           }}
         >
-          Songs
-        </h3>
-        {songs.map((song, i) => (
-          <Widget
-            src="efiz.near/widget/MusicPlayer-Harmonic.Track"
-            props={{
-              styles,
-              selected: state.currentSongIndex === i,
-              selectSong: () => selectSong(i),
-              song,
-            }}
-          />
-        ))}
+          {" "}
+          {/* Adjust maxHeight as needed */}
+          <h3 className="font-weight-bold text-center my-3">Songs</h3>
+          {songs.map((song, i) => (
+            <Widget
+              key={i}
+              src="efiz.near/widget/MusicPlayer-Harmonic.Track"
+              props={{
+                selected: state.currentSongIndex === i,
+                selectSong: () => selectSong(i),
+                song,
+                // Make sure this Widget is also styled or accepts Bootstrap classes for responsiveness
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </InnerContainer>
+    </div>
   </div>
 );
