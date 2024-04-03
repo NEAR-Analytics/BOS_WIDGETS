@@ -24,33 +24,31 @@ return (
           </b>
         </p>
       </div>
-      <div className="d-flex flex-row m-1">
-        <div className="m-3">
-          {profile ? (
-            <span>
+      <div className="m-2">
+        {profile ? (
+          <span>
+            <a
+              style={{ color: "#000", textDecoration: "none" }}
+              href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
+            >
+              <Widget
+                src="hack.near/widget/profile.inline"
+                props={{ accountId: context.accountId }}
+              />
+            </a>
+          </span>
+        ) : (
+          <span>
+            {context.accountId && (
               <a
-                style={{ color: "#000", textDecoration: "none" }}
-                href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
+                className="m-2 btn btn-sm btn-light"
+                href="/near/widget/ProfileEditor"
               >
-                <Widget
-                  src="hack.near/widget/profile.inline"
-                  props={{ accountId: context.accountId }}
-                />
+                Edit Profile
               </a>
-            </span>
-          ) : (
-            <span>
-              {context.accountId && (
-                <a
-                  className="m-2 btn btn-sm btn-light"
-                  href="/near/widget/ProfileEditor"
-                >
-                  Edit Profile
-                </a>
-              )}
-            </span>
-          )}
-        </div>
+            )}
+          </span>
+        )}
       </div>
     </div>
     <hr />
