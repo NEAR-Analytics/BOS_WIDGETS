@@ -22,7 +22,7 @@ useEffect(() => {
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
   State.update({ ...state, list: searchResult });
-}, [searchValue]);
+}, [searchValue, data]);
 
 const handlePagination = () => {
   if (!rowsCount) return { table: state.list };
