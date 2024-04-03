@@ -1,4 +1,6 @@
 const config = {
+  orderly_network:
+    "https://bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44.ipfs.nftstorage.link/",
   lonk_bot:
     "https://bafkreidusllz2u36hgmbvidbrliwrmxxpts57tljecslc4qtb72rpj2dji.ipfs.nftstorage.link/",
   image4:
@@ -90,7 +92,7 @@ return (
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  Orderly Network
+                  <img src={config.orderly_network} />
                 </a>
                 <a
                   href="https://t.me/lonk_bot"
@@ -199,7 +201,7 @@ return (
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div
                 class="modal-header"
