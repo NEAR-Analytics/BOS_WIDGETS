@@ -15,10 +15,12 @@ let Interval = null;
 useEffect(() => {
   console.log(searchValue);
   const searchResult = data.filter((row) => {
-    if (!value) return true;
+    if (!searchValue) return true;
     const profile = Social.getr(`${row.poster}/profile`);
     const name = profile.name || row.poster || "";
-    return name.toLocaleLowerCase().includes(value.toLocaleLowerCase() ?? "");
+    return name
+      .toLocaleLowerCase()
+      .includes(searchValue.toLocaleLowerCase() ?? "");
   });
   State.update({ list: searchResult });
 }, [searchValue]);
