@@ -387,7 +387,10 @@ return (
                                 href="#"
                                 onClick={() => deposit(row)}
                                 style={{
-                                  color: !state.registered[row.id] && "gray",
+                                  color:
+                                    (row.id !== "NEAR" ||
+                                      !state.registered[row.id]) &&
+                                    "gray",
                                 }}
                                 className="text-decoration-underline"
                               >
@@ -397,8 +400,10 @@ return (
                                 href="#"
                                 onClick={() => withdraw(row)}
                                 style={{
-                                  color: !state.registered[row.id] && "gray",
-                                  color: state.loading && "red",
+                                  color:
+                                    (row.id !== "NEAR" ||
+                                      !state.registered[row.id]) &&
+                                    "gray",
                                 }}
                                 className="text-decoration-underline"
                               >
