@@ -45,7 +45,7 @@ const code = `
 
 return (
   <div
-    className="w-100 h-100"
+    className="vw-100 vh-100"
     style={{
       minHeight: "30rem",
       minWidth: "30rem",
