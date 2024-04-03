@@ -9,7 +9,6 @@ const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
 State.init({ currentPage: 1, list: data, loaded: timer_load });
-console.log("tabledat-----", state.list);
 
 let Interval = null;
 
