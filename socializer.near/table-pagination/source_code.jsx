@@ -150,8 +150,8 @@ return (
             handlePagination()
               .table.filter((row) => {
                 if (!searchValue) return true;
-                const profile = Social.getr(`${row.accountId}/profile`);
-                const name = profile.name || row.accountId || "";
+                const profile = Social.getr(`${row.poster}/profile`);
+                const name = profile.name || row.poster || "";
                 return name
                   .toLocaleLowerCase()
                   .includes(searchValue.toLocaleLowerCase() ?? "");
