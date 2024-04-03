@@ -143,7 +143,7 @@ return (
       >
         {state.winners.map((item, i) => {
           const profile = Social.getr(`${item.accountId}/profile`);
-          return <p>{`${i}) ${profile.name || item.accountId} `}</p>;
+          return <p>{`${i + 1}) ${profile.name || item.accountId} `}</p>;
         })}
       </div>
     </ModalContent>
