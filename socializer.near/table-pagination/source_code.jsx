@@ -8,7 +8,6 @@ const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
-
 State.init({ currentPage: 1, list: data, loaded: timer_load });
 
 let Interval = null;
@@ -248,9 +247,7 @@ return (
                             >
                               {td.icon ? (
                                 value ? (
-                                  <a href={value} target="_blank">
-                                    {td.icon}
-                                  </a>
+                                  <a href={value} target="_blank"></a>
                                 ) : (
                                   td.icon
                                 )
