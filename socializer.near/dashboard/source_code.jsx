@@ -42,6 +42,7 @@ const handleSearch = (event) => {
   console.log("searchResult", searchResult);
   State.update({ searchValue: value, rowList: searchResult });
 };
+console.log("state.rowList------->", state.rowList);
 
 const selectMenu = (data) => {
   State.update({ menu: data, campaigns: [], timer_load: false, loaded: false });
