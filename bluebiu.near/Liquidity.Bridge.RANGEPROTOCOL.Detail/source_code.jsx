@@ -42,8 +42,6 @@ const iconCircle = (
 )
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
-// const curPositionUSD = userPositions[data.vaultAddress]?.balanceUSD;
-
 State.init({
   isDeposit: defaultDeposit,
   lpBalance: "",
@@ -94,7 +92,7 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
 };
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-const { token0, token1, decimals0, decimals1, id, poolAddress } = data || defaultPair;
+const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
 
 const vaultAddress = addresses[id];
 
@@ -578,12 +576,12 @@ const balance1 =
 
 
 const balanceLp =
-  !lpAmount || !lpBalance || !curPositionUSD
+  !lpAmount || !lpBalance || !liquidity
     ? "-"
     : parseFloat(
       Big(lpAmount)
-        .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-        .times(curPositionUSD)
+        .div(lpBalance)
+        .times(liquidity)
         .toFixed(4)
     );
 
@@ -638,7 +636,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance0}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
             </PriceWrap>
           </Column>
           <Column>
@@ -651,7 +649,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance1}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(false)}>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
             </PriceWrap>
           </Column>
         </Row>
