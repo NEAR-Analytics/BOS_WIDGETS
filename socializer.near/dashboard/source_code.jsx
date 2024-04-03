@@ -85,19 +85,19 @@ State.init({
         align: "center",
       },
       {
-        title: "Total Rewards",
-        key: "total_reward",
-        description: "Total Rewards",
-        width: 10,
-        align: "center",
-      },
-      {
         title: "Winners",
         key: "winners",
         description: "Winners",
         width: 10,
         align: "center",
         click: () => {},
+      },
+      {
+        title: "Total Rewards",
+        key: "total_reward",
+        description: "Total Rewards",
+        width: 10,
+        align: "center",
       },
       {
         title: "Engage Link",
