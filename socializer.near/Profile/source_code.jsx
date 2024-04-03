@@ -253,9 +253,22 @@ const registry = async (item) => {
     oneNEARInYoctoNEAR
   );
 };
+const tokenMetadata = Near.view("ftv2.nekotoken.near", "ft_metadata", {});
+const isRegister = Near.view("ftv2.nekotoken.near", "ft_balance_of", {
+  account_id: accountId,
+});
+const aa = async () => {
+  console.log(
+    "tokenMetadata,isRegister-->",
+    accountId,
+    tokenMetadata,
+    isRegister
+  );
+};
 
 useEffect(() => {
   getTokenData(state.menu);
+  aa();
 }, []);
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
