@@ -55,7 +55,7 @@ const onRegBtnClick = () => {
   }
 };
 
-  // This action happens when the `Send Tokens` button is clicked
+// This action happens when the `Send Tokens` button is clicked
 const onSendBtnClick = () => {
   const amount = state.amount || state.mft_balance;
 
