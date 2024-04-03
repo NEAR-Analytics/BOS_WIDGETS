@@ -77,6 +77,7 @@ const {
   ammImage,
   proxyAddress,
   ALL_DATA_URL,
+  FEE_APR_URL,
   STAKING_POOLS_URL,
   ICON_VAULT_MAP,
   LAST_SNAP_SHOT_DATA_URL,
@@ -297,6 +298,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
           stakingPoolsData: state.stakingPoolsData,
           prices,
           curChain,
+          FEE_APR_URL,
           multicallAddress,
           onLoad: (data) => {
             State.update({
