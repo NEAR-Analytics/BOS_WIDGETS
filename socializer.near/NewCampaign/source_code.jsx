@@ -207,6 +207,19 @@ const changeRequirement = (label) => {
   });
 };
 
+const changeAmount = (value) => {
+  const amount = Math.abs(value && Number(value));
+  const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
+    state.token
+  }`;
+  if (amount < state.minimum)
+    State.update({ error: "Amount must be greater than " + minimum });
+  State.update({
+    amount: amount,
+    total_reward,
+  });
+};
+
 const changePostLink = (link) => {
   State.update({ error: "", post_link: link, loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
@@ -246,7 +259,6 @@ const createCampaign = () => {
     duration_min,
     minimum,
   } = state;
-  console.log(state);
 
   if (
     !requirements.length ||
@@ -263,8 +275,6 @@ const createCampaign = () => {
   if (amount < minimum)
     return State.update({ error: "Amount must be greater than " + minimum });
 
-  if (amount < state.minimum)
-    return State.update({ error: `Minimum amount ${minimum}` });
   if (winners < 1 || winners > 20)
     return State.update({ error: " 1 <= Winners <= 20" });
 
@@ -414,16 +424,7 @@ return (
                   : "1px solid var(--light_70,black)",
               }}
               onChange={(e) => {
-                const amount = Math.abs(
-                  e.target.value && Number(e.target.value)
-                );
-                const total_reward = `${Number(
-                  (amount * state.winners).toFixed(4)
-                )} ${state.token}`;
-                State.update({
-                  amount: amount,
-                  total_reward,
-                });
+                changeAmount(e.target.value);
               }}
             />
             <p style={{ fontSize: 12 }}>{`Minimun amount ${state.minimum}`}</p>
