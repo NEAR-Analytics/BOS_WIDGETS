@@ -42,19 +42,21 @@ const Circle = styled.p`
   border-radius: 50%;
 `;
 
-const HelpButton = styled.button`
+const HelpButton = styled.a`
   width: 156px;
   height: 40px;
   flex-shrink: 0;
   border-radius: 10px;
   background: #F3F3F3;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.24px;
-  bottom: 16px;
+  text-decoration: none;
+  color: black;
+  padding: 10px;
 `;
 
 const QuestionIcon = () => (
@@ -137,12 +139,19 @@ return (
         }}
       />
       <div>
-        <Text>Need </Text>
+        <Text>Need</Text>
         <Text>Support?</Text>
       </div>
 
-      <HelpButton>User Guide</HelpButton>
-      <HelpButton>Telegram Support</HelpButton>
+      <HelpButton
+        href="https://socializer-user-guide.nearverselabs.com/"
+        target="blank"
+      >
+        User Guide
+      </HelpButton>
+      <HelpButton href="https://t.me/NearverseLabs_Support" target="blank">
+        Telegram Support
+      </HelpButton>
     </HelpContent>
   </HelpComponent>
 );
