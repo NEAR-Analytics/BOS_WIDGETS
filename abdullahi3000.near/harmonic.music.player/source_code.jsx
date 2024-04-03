@@ -12,11 +12,11 @@ return (
           >
             <p
               className="text-center"
-              style={{ fontSize: "1.4rem", fontWeight: "bold" }}
+              style={{ fontSize: "1.75rem", fontWeight: "bold" }}
             >
               Decentralised Music Streaming
             </p>
-            <p className="text-left" style={{ fontSize: "1.2rem" }}>
+            <p className="text-left" style={{ fontSize: "1.25rem" }}>
               Experience a truly decentralized music player fully on-chain. Our
               mission is to bring transparency to streaming and revolutionize
               payments for musicians. With Harmonic Guild, we are returning
