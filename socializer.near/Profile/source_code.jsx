@@ -386,6 +386,9 @@ return (
                               <a
                                 href="#"
                                 onClick={() => deposit(row)}
+                                style={{
+                                  color: state.registered[row.id] && "gray",
+                                }}
                                 className="text-decoration-underline"
                               >
                                 {`Deposit`}
@@ -393,7 +396,10 @@ return (
                               <a
                                 href="#"
                                 onClick={() => withdraw(row)}
-                                style={{ color: state.loading && "red" }}
+                                style={{
+                                  color: state.loading && "red",
+                                  color: state.registered[row.id] && "gray",
+                                }}
                                 className="text-decoration-underline"
                               >
                                 {`Withdraw`}
