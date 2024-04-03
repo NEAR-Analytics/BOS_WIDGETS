@@ -37,7 +37,7 @@ State.init({
   requirements: [],
   username: "",
   post_link: "",
-  amount: 0,
+  amount: "",
   token: "NEAR",
   winners: 1,
   total_reward: "",
