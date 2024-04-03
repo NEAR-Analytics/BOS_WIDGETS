@@ -12,8 +12,19 @@ State.init({ currentPage: 1, list: data, loaded: timer_load });
 
 let Interval = null;
 
+useEffect(() => {
+  console.log(searchValue);
+  const searchResult = data.filter((row) => {
+    if (!value) return true;
+    const profile = Social.getr(`${row.poster}/profile`);
+    const name = profile.name || row.poster || "";
+    return name.toLocaleLowerCase().includes(value.toLocaleLowerCase() ?? "");
+  });
+  State.update({ list: searchResult });
+}, [searchValue]);
 const handlePagination = () => {
   console.log("handlePagination-----", state.list);
+
   if (!rowsCount) return { table: state.list };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(state.list.length / rowsCount);
