@@ -167,7 +167,6 @@ return (
   >
     <div className="row">
       <div className="col-lg-6">
-        {/* Widget for displaying the NftImage */}
         <Widget
           src="mob.near/widget/NftImage"
           props={{
@@ -184,7 +183,6 @@ return (
               "https://ipfs.near.social/ipfs/bafkreihdiy3ec4epkkx7wc4wevssruen6b7f3oep5ylicnpnyyqzayvcry",
           }}
         />
-        {/* Control buttons */}
         <div className="d-flex justify-content-center my-3">
           <button className="btn btn-primary mx-2" onClick={playPreviousSong}>
             Previous
@@ -202,7 +200,6 @@ return (
       </div>
 
       <div className="col-lg-6">
-        {/* Scrollable list of songs */}
         <div
           className="overflow-auto"
           style={{
@@ -213,17 +210,16 @@ return (
           }}
         >
           {" "}
-          {/* Adjust maxHeight as needed */}
           <h3 className="font-weight-bold text-center my-3">Songs</h3>
           {songs.map((song, i) => (
             <Widget
               key={i}
               src="efiz.near/widget/MusicPlayer-Harmonic.Track"
               props={{
+                styles,
                 selected: state.currentSongIndex === i,
                 selectSong: () => selectSong(i),
                 song,
-                // Make sure this Widget is also styled or accepts Bootstrap classes for responsiveness
               }}
             />
           ))}
