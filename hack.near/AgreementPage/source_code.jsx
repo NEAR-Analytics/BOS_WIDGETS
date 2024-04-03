@@ -8,24 +8,12 @@ const profile =
 
 return (
   <Container>
-    <div className="d-flex flex-row justify-content-between">
-      <div className="m-2">
-        <h3>NEAR Builders Cooperative</h3>
-      </div>
-      <div className="m-2">
-        <a
-          style={{ color: "#000", textDecoration: "none" }}
-          href="https://nearbuilders.org"
-        >
-          <Widget
-            src="hack.near/widget/profile.inline"
-            props={{ accountId: "nearbuilders.near" }}
-          />
-        </a>
-      </div>
+    <div className="m-2">
+      <Widget src="hack.near/widget/profile.dao" />
     </div>
     <hr />
     <div className="m-2">
+      <h3>Cooperative</h3>
       <h5>Member Agreement</h5>
       <p>
         <span>
@@ -358,8 +346,8 @@ return (
               href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
             >
               <Widget
-                src="hack.near/widget/profile.inline"
-                props={{ accountId: "efiz.near" }}
+                src="hack.near/widget/profile.image"
+                props={{ accountId: context.accountId }}
               />
             </a>
           </span>
