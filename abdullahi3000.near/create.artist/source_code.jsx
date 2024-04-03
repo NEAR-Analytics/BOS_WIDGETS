@@ -134,7 +134,7 @@ return (
             <Widget src={state.template} props={{ data: state.config }} />
           ) : (
             <Widget
-              src="efiz.near/widget/create"
+              src="abdullahi3000.near/widget/create"
               props={{
                 item: {
                   type: state.selectedType,
