@@ -608,7 +608,7 @@ return (
       isDeposit ? <>
         <Row className="price-input">
           <Column>
-            <InputWrap>
+            <InputWrap className={Number(amount0) > Number(balances[token0]) ? "inSufficient" : ""}>
               <Input value={amount0} type="number" onChange={(e) => handleToken0Change(e.target.value)} />
               <InputSuffix>
                 <img src={ICON_VAULT_MAP[token0]} alt={token0} />
@@ -617,11 +617,11 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance0}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
             </PriceWrap>
           </Column>
           <Column>
-            <InputWrap>
+            <InputWrap className={Number(amount1) > Number(balances[token1]) ? "inSufficient" : ""}>
               <Input value={amount1} type="number" onChange={(e) => handleToken1Change(e.target.value)} />
               <InputSuffix>
                 <img src={ICON_VAULT_MAP[token1]} alt={token1} />
@@ -630,7 +630,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance1}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(false)}>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
             </PriceWrap>
           </Column>
         </Row>
