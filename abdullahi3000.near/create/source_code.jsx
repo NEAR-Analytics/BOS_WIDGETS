@@ -87,7 +87,7 @@ function Property({ property, value }) {
     // Build an array (recursively calls this Widget)
     return (
       <Widget
-        src="efiz.near/widget/every.array.build"
+        src="abdullahi3000.near/widget/every.array.build"
         props={{
           item: { ...property, value },
           onChange: (val) => handleInputChange(property.name, val),
