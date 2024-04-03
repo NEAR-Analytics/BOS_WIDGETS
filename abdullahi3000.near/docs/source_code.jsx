@@ -1,5 +1,5 @@
 const url =
-  "https://v2.akord.com/public/vaults/active/FfYz40zp0UIrAqEIhbdfe97PMAdVYMyxvMD4YWIZ1xg/gallery#9ef7fdf1-8bd0-4c6d-a990-e4be8946dbf2";
+  "https://drive.google.com/file/d/1id_f8nkc8skMyrqfnecW6TOI8Q9r7dIy/preview";
 
 const code = `
 <!DOCTYPE html>
@@ -17,13 +17,17 @@ const code = `
       }
       .pdf-container {
         width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: hidden; /* Hides scrollbars on the pdf-container */
+        height: 100%; /* Responsive height */
+        overflow: auto; /* Enables scrollbars when needed */
+        position: relative; /* Ensures proper scaling within container */
       }
       iframe {
         width: 100%;
-        height: 100%;
+        height: 100vh; /* Responsive height based on viewport */
         border: none; /* Removes the default iframe border */
+        position: absolute; /* Allows responsive scaling */
+        top: 0;
+        left: 0;
       }
     </style>
   </head>
@@ -43,11 +47,13 @@ return (
     {url ? (
       <>
         <iframe
-          className="w-100 h-100" // Ensures the iframe takes up the entire area of its parent
+          className="w-100 h-100" // Ensures the iframe adapts to the container size
           style={{ border: "none" }} // Removes any default styling (e.g., border)
           srcDoc={code}
           title="PDF Viewer"
         ></iframe>
+        {/* Ensure Widget is correctly referenced with your NEAR component here 
+        <Widget src={`abdullahi3000.near/widget/harmonic.docs`} />*/}
       </>
     ) : (
       <div>Loading...</div>
