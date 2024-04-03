@@ -41,7 +41,7 @@ const code = `
 
 return (
   <div
-    className="container-fluid d-flex flex-column justify-content-center align-items-center"
+    className="container-fluid justify-content-center align-items-center"
     style={{ backgroundColor: "#151718", overflowY: "auto", height: "100vh" }}
   >
     {url ? (
@@ -52,8 +52,8 @@ return (
           srcDoc={code}
           title="PDF Viewer"
         ></iframe>
-        {/* Ensure Widget is correctly referenced with your NEAR component here 
-        <Widget src={`abdullahi3000.near/widget/harmonic.docs`} />*/}
+        {/* Ensure Widget is correctly referenced with your NEAR component here */}
+        <Widget src={`abdullahi3000.near/widget/harmonic.docs`} />
       </>
     ) : (
       <div>Loading...</div>
