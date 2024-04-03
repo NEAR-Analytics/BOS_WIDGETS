@@ -27,12 +27,8 @@ return (
     </div>
     <div className="text-truncate">
       <div className="text-truncate">
-        <span className="fw-bold">{name}</span>
-        <Widget
-          loading=""
-          src="james.near/widget/BuilderHat"
-          props={{ accountId }}
-        />
+        <span className="fw-bold me-1">{name}</span>
+        <Widget src="james.near/widget/BuilderHat" props={{ accountId }} />
       </div>
       <div className="text-truncate text-muted">
         <small>
