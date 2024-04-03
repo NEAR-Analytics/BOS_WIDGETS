@@ -14,6 +14,7 @@ State.init({
   error: "",
   loading: false,
   menu: { text: "All", value: "all" },
+  registered: { NEKO: false, NVRS: false },
 });
 
 const columns = [
@@ -254,25 +255,35 @@ const registry = async (item) => {
   );
 };
 
-const tokenMetadata = Near.view("ftv2.nekotoken.near", "storage_balance_of", {
-  account_id: accountId,
-});
-const isRegister = Near.view("ftv2.nekotoken.near", "ft_balance_of", {
-  account_id: accountId,
-});
-const aa = async () => {
-  console.log(
-    "tokenMetadata,isRegister-->",
-    accountId,
-    tokenMetadata,
-    isRegister
+const getRegisteredStatus = () => {
+  const isRegisterNEKO = Near.view(
+    "ftv2.nekotoken.near",
+    "storage_balance_of",
+    {
+      account_id: accountId,
+    }
   );
+  const isRegisterNVRS = Near.view(
+    "rocketbois-reward.near",
+    "storage_balance_of",
+    {
+      account_id: accountId,
+    }
+  );
+  State.update({
+    registered: {
+      NEKO: isRegisterNEKO ? true : false,
+      NVRS: isRegisterNVRS ? true : false,
+    },
+  });
 };
 
 useEffect(() => {
+  getRegisteredStatus();
   getTokenData(state.menu);
-  aa();
 }, []);
+
+console.log(state);
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
