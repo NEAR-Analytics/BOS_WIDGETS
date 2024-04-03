@@ -49,7 +49,7 @@ return (
               style={{ color: "#333", textDecoration: "none" }}
               href="https://devs.near.social"
             >
-              @buidl.near
+              @devs.near
             </a>
           </span>
         </small>
