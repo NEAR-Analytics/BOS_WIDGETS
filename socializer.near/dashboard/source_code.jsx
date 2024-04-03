@@ -33,7 +33,15 @@ const onClose = (notification) => {
 
 const handleSearch = (event) => {
   const value = event.target.value;
-  State.update({ searchValue: value });
+  const searchResult = state.campaigns.filter((row) => {
+    if (!searchValue) return true;
+    const profile = Social.getr(`${row.poster}/profile`);
+    const name = profile.name || row.poster || "";
+    return name
+      .toLocaleLowerCase()
+      .includes(searchValue.toLocaleLowerCase() ?? "");
+  });
+  State.update({ searchValue: value, rowList: searchResult });
 };
 
 const selectMenu = (data) => {
@@ -42,6 +50,7 @@ const selectMenu = (data) => {
 
 State.init({
   campaigns: [],
+  rowList: [],
   error: "",
   show_detail: false,
   view_win: false,
@@ -421,7 +430,7 @@ return (
             props={{
               API_URL,
               themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.campaigns,
+              data: state.rowList,
               columns: state.columns[state.menu.value],
               rowsCount: 5,
               searchValue: state.searchValue,
