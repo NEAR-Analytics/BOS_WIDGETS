@@ -3,7 +3,7 @@ const fileAccept = props.fileAccept || "*"; // Which file extensions are accepte
 const fileIcon = props.fileIcon || "bi-file"; // File icon class
 const buttonText = props.buttonText || "Upload a file"; // File button upload text
 
-// Exit if user is not signed 
+// Exit if user is not signed
 if (!accountId) {
   return "Please sign in with NEAR wallet to add a new blog entry";
 }
