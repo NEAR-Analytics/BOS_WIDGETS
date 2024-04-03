@@ -47,12 +47,11 @@ return (
     {url ? (
       <>
         <iframe
-          className="w-100 h-100" // Ensures the iframe adapts to the container size
-          style={{ border: "none" }} // Removes any default styling (e.g., border)
+          className="w-100 h-100"
+          style={{ border: "none" }}
           srcDoc={code}
           title="PDF Viewer"
         ></iframe>
-        {/* Ensure Widget is correctly referenced with your NEAR component here */}
         <Widget src={`abdullahi3000.near/widget/harmonic.docs`} />
       </>
     ) : (
