@@ -3,18 +3,15 @@ const onChange = props.onChange;
 
 const Input = styled.input`
   height: 30px;
-  width: 100%;
 `;
 
 const Select = styled.select`
   height: 30px;
-  width: 100%;
 `;
 
 const Button = styled.button`
   text-transform: lowercase !important;
   padding: 8px;
-  width: 100%;
 `;
 
 const Container = styled.div`
@@ -26,12 +23,9 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 8px;
 `;
 
 const Label = styled.label`
-  flex-basis: 100%;
 `;
 
 State.init({
@@ -87,7 +81,7 @@ function Property({ property, value }) {
     // Build an array (recursively calls this Widget)
     return (
       <Widget
-        src="abdullahi3000.near/widget/every.array.build"
+        src="efiz.near/widget/every.array.build"
         props={{
           item: { ...property, value },
           onChange: (val) => handleInputChange(property.name, val),
