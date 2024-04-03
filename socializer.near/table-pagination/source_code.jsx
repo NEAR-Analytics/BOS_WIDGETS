@@ -22,10 +22,11 @@ useEffect(() => {
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
-  State.update({ list: searchResult });
+  console.log("searchResult->>>>>>>", searchResult);
+  State.update({ ...{ list: searchResult } });
 }, [searchValue]);
 const handlePagination = () => {
-  console.log("handlePagination-----", state.list);
+  console.log("handlePagination-----", state);
 
   if (!rowsCount) return { table: state.list };
   const currentPage = state.currentPage;
