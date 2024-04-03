@@ -134,7 +134,7 @@ return (
       >
         X
       </button>
-      <ModalTitle>{`Winners`}</ModalTitle>
+      <ModalTitle>{`Winners of Campaign ${data.id}`}</ModalTitle>
       <hr />
 
       <div
@@ -143,11 +143,7 @@ return (
       >
         {state.winners.map((item, i) => {
           const profile = Social.getr(`${item.accountId}/profile`);
-          return (
-            <p>{`Social Username ${profile.name || item.accountId} ${
-              i + 1 < 10 ? `0${i + 1}` : i + 1
-            }`}</p>
-          );
+          return <p>{`${i}) ${profile.name || item.accountId} `}</p>;
         })}
       </div>
     </ModalContent>
