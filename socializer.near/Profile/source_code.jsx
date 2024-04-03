@@ -388,8 +388,8 @@ return (
                                 onClick={() => deposit(row)}
                                 style={{
                                   color:
-                                    (row.id !== "NEAR" ||
-                                      !state.registered[row.id]) &&
+                                    row.id !== "NEAR" &&
+                                    !state.registered[row.id] &&
                                     "gray",
                                 }}
                                 className="text-decoration-underline"
@@ -401,8 +401,8 @@ return (
                                 onClick={() => withdraw(row)}
                                 style={{
                                   color:
-                                    (row.id !== "NEAR" ||
-                                      !state.registered[row.id]) &&
+                                    row.id !== "NEAR" &&
+                                    !state.registered[row.id] &&
                                     "gray",
                                 }}
                                 className="text-decoration-underline"
