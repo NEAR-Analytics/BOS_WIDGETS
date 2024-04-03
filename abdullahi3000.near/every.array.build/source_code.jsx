@@ -69,7 +69,7 @@ return (
     {state.inputValues?.map((inputValue, index) => (
       <Row key={index}>
         <Widget
-          src="efiz.near/widget/create"
+          src="abdullahi3000.near/widget/create"
           props={{
             item: {
               type: item.type,
@@ -86,7 +86,7 @@ return (
     ) : (
       <Row>
         <Widget
-          src="efiz.near/widget/create"
+          src="abdullahi3000.near/widget/create"
           props={{
             item: {
               type: item.type,
