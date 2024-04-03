@@ -114,7 +114,7 @@ const LogoUnderText = styled.p`
 
 const TextGroup = styled.div`
   position:relative;
-  bottom:90px;
+  bottom:80px;
 `;
 
 const getData = () => {
