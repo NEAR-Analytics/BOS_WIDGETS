@@ -12,17 +12,20 @@ State.init({ currentPage: 1, list: [], loaded: timer_load });
 
 let Interval = null;
 
-useEffect(() => {
-  const searchResult = data.filter((row) => {
+const filteredData = () => {
+  return (searchResult = data.filter((row) => {
     if (!searchValue) return true;
     const profile = Social.getr(`${row.poster}/profile`);
     const name = profile.name || row.poster || "";
     return name
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
-  });
-  console.log(searchValue, "==>searchValue", searchResult);
-  State.update({ ...state, list: searchResult });
+  }));
+};
+
+useEffect(() => {
+  const list = filteredData();
+  State.update({ ...state, list });
 }, [searchValue, data]);
 
 const handlePagination = () => {
@@ -88,8 +91,9 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  if (!data.length) return;
-  const compaign = data.map((row, index) => {
+  const list = filteredData();
+  if (!list.length) return;
+  const compaign = list.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) return false;
 
@@ -101,6 +105,7 @@ const startTimer = () => {
 
   if (!compaign.length) return;
   State.update({
+    ...state,
     list: compaign,
     loaded: true,
   });
@@ -110,10 +115,12 @@ const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
   startTimer();
   const interval = setInterval(() => {
-    if (!data.length) clearInterval(Interval);
+    const list = filteredData();
+    if (!list.length) clearInterval(Interval);
     startTimer();
   }, 1000);
   State.update({
+    ...state,
     loaded: true,
   });
   Interval = interval;
