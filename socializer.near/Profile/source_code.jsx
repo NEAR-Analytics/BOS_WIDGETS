@@ -279,12 +279,10 @@ const getRegisteredStatus = () => {
   });
 };
 
-useEffect(() => {
+if (!state.loaded) {
   getRegisteredStatus();
   getTokenData(state.menu);
-}, []);
-
-console.log(state);
+}
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
 
