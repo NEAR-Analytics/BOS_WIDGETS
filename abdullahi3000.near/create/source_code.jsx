@@ -3,15 +3,18 @@ const onChange = props.onChange;
 
 const Input = styled.input`
   height: 30px;
+  width: 100%;
 `;
 
 const Select = styled.select`
   height: 30px;
+  width: 100%;
 `;
 
 const Button = styled.button`
   text-transform: lowercase !important;
   padding: 8px;
+  width: 100%;
 `;
 
 const Container = styled.div`
@@ -23,9 +26,12 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const Label = styled.label`
+  flex-basis: 100%;
 `;
 
 State.init({
