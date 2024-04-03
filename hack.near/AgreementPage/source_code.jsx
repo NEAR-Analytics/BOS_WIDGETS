@@ -3,7 +3,8 @@ const Container = styled.div`
   padding: 2em;
 `;
 
-const profile = Social.getr(`${context.accountId}/profile`);
+const profile =
+  context.accountId && Social.getr(`${context.accountId}/profile`);
 
 return (
   <Container>
