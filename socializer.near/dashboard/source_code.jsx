@@ -389,6 +389,14 @@ return (
               {state.error}
             </p>
           )}
+          <Widget
+            props={{
+              API_URL,
+              menu: state.menu,
+              length: state.campaigns.length,
+            }}
+            src={`${Owner}/widget/Status`}
+          />
         </TitleContent>
       </TitleComponent>
     </HeadComponent>
@@ -409,16 +417,6 @@ return (
             }}
           />
         </TableComponent>
-        <div>
-          <Widget
-            props={{
-              API_URL,
-              menu: state.menu,
-              length: state.campaigns.length,
-            }}
-            src={`${Owner}/widget/Status`}
-          />
-        </div>
       </>
     )}
 
