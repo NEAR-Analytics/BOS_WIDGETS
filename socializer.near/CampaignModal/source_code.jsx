@@ -265,18 +265,16 @@ return (
         disabled={state.loading}
       >{`Verify & Enter`}</Button>
     </ModalAction>
-    {state.notification && (
-      <div
-        className="d-flex justify-content-end position-absolute"
-        style={{ right: 10 }}
-      >
-        <Widget
-          props={{
-            text: state.notification,
-          }}
-          src={`${Owner}/widget/Alert`}
-        />
-      </div>
-    )}
+    <div
+      className="d-flex justify-content-end position-absolute"
+      style={{ right: 10 }}
+    >
+      <Widget
+        props={{
+          text: state.notification,
+        }}
+        src={`${Owner}/widget/Alert`}
+      />
+    </div>
   </ModalOverlay>
 );
