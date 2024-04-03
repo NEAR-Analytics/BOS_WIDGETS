@@ -8,12 +8,11 @@ const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
-State.init({ currentPage: 1, list: data, loaded: timer_load });
+State.init({ currentPage: 1, list: [], loaded: timer_load });
 
 let Interval = null;
 
 useEffect(() => {
-  console.log(searchValue);
   const searchResult = data.filter((row) => {
     if (!searchValue) return true;
     const profile = Social.getr(`${row.poster}/profile`);
@@ -23,11 +22,11 @@ useEffect(() => {
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
   console.log("searchResult->>>>>>>", searchResult);
-  State.update({ ...state, list: searchResult });
-}, [searchValue]);
-const handlePagination = () => {
+  State.update({ list: searchResult });
   console.log("handlePagination-----", state);
+}, [searchValue]);
 
+const handlePagination = () => {
   if (!rowsCount) return { table: state.list };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(state.list.length / rowsCount);
