@@ -8,12 +8,12 @@ const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
-State.init({ currentPage: 1, list: [], loaded: timer_load });
+State.init({ currentPage: 1, list: [], temp: [], loaded: timer_load });
 
 let Interval = null;
 
-const filteredData = () => {
-  return data.filter((row) => {
+useEffect(() => {
+  const list = data.filter((row) => {
     if (!searchValue) return true;
     const profile = Social.getr(`${row.poster}/profile`);
     const name = profile.name || row.poster || "";
@@ -21,11 +21,7 @@ const filteredData = () => {
       .toLocaleLowerCase()
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
-};
-
-useEffect(() => {
-  const list = filteredData();
-  State.update({ ...state, list });
+  State.update({ ...state, list, temp: list });
 }, [searchValue, data]);
 
 const handlePagination = () => {
@@ -91,9 +87,8 @@ const getTimeRemaining = (e) => {
 };
 
 const startTimer = () => {
-  const list = filteredData();
-  if (!list.length) return;
-  const compaign = list.map((row, index) => {
+  if (!state.temp.length) return;
+  const compaign = state.temp.map((row, index) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(row.ends);
     if (total <= 0) return false;
 
@@ -115,8 +110,7 @@ const setEndsIn = () => {
   if (Interval) clearInterval(Interval);
   startTimer();
   const interval = setInterval(() => {
-    const list = filteredData();
-    if (!list.length) clearInterval(Interval);
+    if (!state.temp.length) clearInterval(Interval);
     startTimer();
   }, 1000);
   State.update({
@@ -125,7 +119,7 @@ const setEndsIn = () => {
   });
   Interval = interval;
 };
-if (timer && !state.loaded) setEndsIn();
+if (timer && !state.loaded && state.temp.length) setEndsIn();
 else if (!timer && Interval) clearInterval(Interval);
 
 return (
@@ -193,6 +187,7 @@ return (
                       const profile = Social.getr(`${key}/profile`);
                       name = profile.name ?? key;
                       State.update({
+                        ...state,
                         [key]: `https://i.near.social/magic/large/https://near.social/magic/img/account/${key}`,
                       });
                     }
@@ -310,7 +305,7 @@ return (
               <button
                 onClick={() => {
                   const page = state.currentPage - 1;
-                  if (page > 0) State.update({ currentPage: page });
+                  if (page > 0) State.update({ ...state, currentPage: page });
                 }}
                 className="page-link btn"
                 style={{
