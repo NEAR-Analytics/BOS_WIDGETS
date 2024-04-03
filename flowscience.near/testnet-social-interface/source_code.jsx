@@ -2,14 +2,22 @@ const [text_input, setTextInput] = useState("");
 const [state, setState] = useState(State.value);
 
 State.init({
-  value: "",
+  testnetId: "",
+  targetPath: "",
   update: (newValue) => {
     State.value = newValue;
   },
 });
 
+const testnetConfig = {
+  networkId: "testnet",
+  nodeUrl: "https://rpc.testnet.near.org",
+  walletUrl: "https://testnet.mynearwallet.com/",
+  contractName: "v1.social08.testnet", // Update contractName based on your contract
+};
+
 const testLogin = () => {
-  Near.login();
+  Near.connect(testnetConfig);
 };
 
 const testCall = () => {
@@ -37,10 +45,17 @@ return (
   <div>
     <h2>socialDB Testnet Interface</h2>
     <i>Note: this component isn't calling the testnet contract properly yet.</i>
-    <button onClick={testLogin}>Login to Testnet</button>
+    <p />
+    <button onClick={testLogin}>Link Testnet Account</button>
+    <p />
+    <p>
+      <b>Mainnet Account:</b> {context.accountId}
+      <br />
+      <b>Testnet Account:</b> {state.testnetId}
+    </p>
     <hr />
 
-    <h5>Deploy/View by Path</h5>
+    <h4>Deploy/View by Path</h4>
     <p>
       <b>Set Data:</b> Enter mainnet path to deploy on testnet.
       <br />
@@ -51,18 +66,17 @@ return (
     <button onClick={testView}>Get Data</button>
     <hr />
 
-    <h5>Bulk Deploy</h5>
-    <p>
-      <b>Your Mainnet Account:</b> {context.accountId}
-    </p>
+    <h4>Bulk Deploy</h4>
     <button onClick={testCall}>Deploy Your Entire socialDB Account</button>
     <br />
     <br />
-    <p>Subsets</p>
+    <p>
+      <b>Deploy Subsets</b>
+    </p>
     <button onClick={testCall}>Profile</button>
     <button onClick={testCall}>Widgets</button>
     <button onClick={testCall}>Types</button>
 
-    <div>{state.value}</div>
+    <div>{state.targetPath}</div>
   </div>
 );
