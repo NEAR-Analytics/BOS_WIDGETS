@@ -117,7 +117,7 @@ const handleProfileSave = () => {
 
 return (
   <>
-    <div className="d-flex flex-column align-items-center justify-content-center vh-100 text-white">
+    <div className="d-flex flex-column align-items-center justify-content-center text-white">
       <div className="d-flex flex-column flex-lg-row w-100 p-3">
         <div
           className="bg-light text-dark p-3 d-flex flex-column gap-2"
