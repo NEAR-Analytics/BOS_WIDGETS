@@ -39,7 +39,6 @@ const handleSearch = (event) => {
     const name = profile.name || row.poster || "";
     return name.toLocaleLowerCase().includes(value.toLocaleLowerCase() ?? "");
   });
-  console.log("searchResult", searchResult);
   State.update({ searchValue: value, rowList: searchResult });
 };
 console.log("state.rowList------->", state.rowList);
@@ -352,6 +351,10 @@ const getCampaignData = (type) => {
   });
 };
 
+const testHook = () => {
+  console.log("test hoook-------", state);
+};
+
 if (!state.loaded) getCampaignData(state.menu.value);
 
 if (!state.loaded) return <Widget src={`${Owner}/widget/preload`} />;
@@ -447,6 +450,7 @@ return (
               timer_load: state.timer_load,
             }}
           />
+          {testHook}
         </TableComponent>
       </>
     )}
