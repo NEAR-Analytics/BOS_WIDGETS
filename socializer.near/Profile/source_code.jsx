@@ -15,6 +15,7 @@ State.init({
   loading: false,
   menu: { text: "All", value: "all" },
   registered: { NEKO: false, NVRS: false },
+  notification: "",
 });
 
 const columns = [
@@ -226,7 +227,7 @@ const withdraw = async (item) => {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.ok) {
-      const { error, data, code } = res.body;
+      const { error, data } = res.body;
       if (error) {
         State.update({ ...state, error, loading: false });
       } else if (data && data === "success") {
@@ -234,6 +235,7 @@ const withdraw = async (item) => {
           ...state,
           loaded: false,
           loading: false,
+          notification: "Withdrawal Success",
         });
       }
     }
@@ -447,5 +449,18 @@ return (
         data: state.history,
       }}
     />
+    {state.notification && (
+      <div
+        className="d-flex justify-content-end position-absolute"
+        style={{ right: 10 }}
+      >
+        <Widget
+          props={{
+            text: state.notification,
+          }}
+          src={`${Owner}/widget/Alert`}
+        />
+      </div>
+    )}
   </Wrapper>
 );
