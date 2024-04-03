@@ -11,7 +11,7 @@ return (
             style={{ padding: "2rem" }}
           >
             <p
-              className="text-left"
+              className="text-center fw-bold fs-4"
               style={{ fontSize: "1.75rem", fontWeight: "bold" }}
             >
               Decentralised Music Streaming
