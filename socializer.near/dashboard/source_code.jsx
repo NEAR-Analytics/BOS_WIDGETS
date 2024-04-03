@@ -344,6 +344,7 @@ const getCampaignData = (type) => {
       State.update({
         loaded: true,
         campaigns: data,
+        rowList: data,
       });
     } else {
       State.update({ loaded: true, error: res.error });
