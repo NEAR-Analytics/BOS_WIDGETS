@@ -33,15 +33,8 @@ const onClose = (notification) => {
 
 const handleSearch = (event) => {
   const value = event.target.value;
-  const searchResult = state.campaigns.filter((row) => {
-    if (!value) return true;
-    const profile = Social.getr(`${row.poster}/profile`);
-    const name = profile.name || row.poster || "";
-    return name.toLocaleLowerCase().includes(value.toLocaleLowerCase() ?? "");
-  });
-  State.update({ searchValue: value, rowList: searchResult });
+  State.update({ searchValue: value });
 };
-console.log("state.rowList------->", state.rowList);
 
 const selectMenu = (data) => {
   State.update({ menu: data, campaigns: [], timer_load: false, loaded: false });
@@ -49,7 +42,6 @@ const selectMenu = (data) => {
 
 State.init({
   campaigns: [],
-  rowList: [],
   error: "",
   show_detail: false,
   view_win: false,
@@ -343,16 +335,11 @@ const getCampaignData = (type) => {
       State.update({
         loaded: true,
         campaigns: data,
-        rowList: data,
       });
     } else {
       State.update({ loaded: true, error: res.error });
     }
   });
-};
-
-const testHook = () => {
-  console.log("test hoook-------", state);
 };
 
 if (!state.loaded) getCampaignData(state.menu.value);
@@ -442,7 +429,7 @@ return (
             props={{
               API_URL,
               themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.rowList,
+              data: state.campaigns,
               columns: state.columns[state.menu.value],
               rowsCount: 5,
               searchValue: state.searchValue,
@@ -450,7 +437,6 @@ return (
               timer_load: state.timer_load,
             }}
           />
-          {testHook}
         </TableComponent>
       </>
     )}
