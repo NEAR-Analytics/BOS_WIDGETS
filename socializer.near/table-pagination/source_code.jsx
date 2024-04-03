@@ -22,8 +22,8 @@ useEffect(() => {
       .includes(searchValue.toLocaleLowerCase() ?? "");
   });
   console.log("searchResult->>>>>>>", searchResult);
-  State.update({ list: searchResult });
   console.log("handlePagination-----", state);
+  State.update({ ...state, list: searchResult });
 }, [searchValue]);
 
 const handlePagination = () => {
