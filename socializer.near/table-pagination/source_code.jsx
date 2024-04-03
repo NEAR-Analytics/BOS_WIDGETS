@@ -3,17 +3,18 @@ if (!props.data || !props.columns) {
 }
 
 const { data, columns, searchValue } = props;
-console.log("tabledat-----", data);
 const rowsCount = props.rowsCount || 5;
 const pagination = props.pagination || true;
 const themeColor = props.themeColor;
 const timer = props.timer ?? false;
 const timer_load = props.timer_load ?? false;
 State.init({ currentPage: 1, list: data, loaded: timer_load });
+console.log("tabledat-----", state.list);
 
 let Interval = null;
 
 const handlePagination = () => {
+  console.log("handlePagination-----", state.list);
   if (!rowsCount) return { table: state.list };
   const currentPage = state.currentPage;
   const totalPages = Math.ceil(state.list.length / rowsCount);
