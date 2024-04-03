@@ -408,15 +408,20 @@ return (
               value={state.amount}
               className="form-input"
               type="number"
+              style={{
+                border: state.error.includes("Amount must be")
+                  ? "1px solid var(--light_70,red)"
+                  : "1px solid var(--light_70,black)",
+              }}
               onChange={(e) => {
                 const amount = Math.abs(
-                  e.target.value ? Number(e.target.value) : 0
+                  e.target.value && Number(e.target.value)
                 );
                 const total_reward = `${Number(
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
                 State.update({
-                  amount: amount ? amount : 0,
+                  amount: amount,
                   total_reward,
                 });
               }}
