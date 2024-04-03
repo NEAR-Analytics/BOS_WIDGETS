@@ -27,29 +27,17 @@ return (
     </div>
     <div className="text-truncate">
       <div className="text-truncate">
-        <span className="fw-bold">{name}</span>{" "}
+        <span className="fw-bold">{name}</span>
         <Widget
           loading=""
           src="james.near/widget/BuilderHat"
           props={{ accountId }}
         />
-        <small>
-          <span className="font-monospace ms-1">@{accountId}</span>
-        </small>
       </div>
       <div className="text-truncate text-muted">
-        {tags.length > 0 && (
-          <>
-            {tags.map((tag, i) => (
-              <span
-                key={i}
-                className="me-1 fw-light badge border border-secondary text-bg-light"
-              >
-                #{tag}
-              </span>
-            ))}
-          </>
-        )}
+        <small>
+          <span className="font-monospace">@{accountId}</span>
+        </small>
       </div>
     </div>
   </div>
