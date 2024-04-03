@@ -788,7 +788,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance0}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(true)}>{Big(balances[token0] ?? 0).toFixed(6)}</span> {token0}</BalancePrice>
             </PriceWrap>
           </Column>
           <Column>
@@ -801,7 +801,7 @@ return (
             </InputWrap>
             <PriceWrap>
               <TotalPrice>${balance1}</TotalPrice>
-              <BalancePrice>Balance:<span>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
+              <BalancePrice>Balance:<span onClick={() => handleMax(false)}>{Big(balances[token1] ?? 0).toFixed(6)}</span> {token1}</BalancePrice>
             </PriceWrap>
           </Column>
         </Row>
