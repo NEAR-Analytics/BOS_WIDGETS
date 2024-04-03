@@ -4,120 +4,127 @@ State.init({
   parametersSave: ["Publish", "Commit to origin"],
 });
 const SelectedMutationEditorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  top: 217px;
-  left: 760px;
-  padding: 20px;
-  gap: 20px;
-  border-radius: 10px;
-  border: 1px solid #02193a;
-  background: #f8f9ff;
-  width: 400px;
-  max-height: 646px;
+display: flex;
+flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+ transform: translate(-50%, -50%);
+padding: 20px;
+gap: 20px;
+border-radius: 10px;
+border: 1px solid #02193A;
+background: #F8F9FF;
+width: 400px;
+max-height: 646px;
 `;
 
 const HeaderEditor = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: rgba(2, 25, 58, 1);
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 21.09px;
-  text-align: left;
+display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(2, 25, 58, 1);
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.09px;
+    text-align: left;
+    svg{
+      margin-left: auto;
+    }
 `;
 const ButtonsBlock = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const ButtonsRevert = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(226, 226, 229, 1);
-  color: rgba(2, 25, 58, 1);
-  width: 175px;
-  height: 42px;
-  border-radius: 10px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20.86px;
-  text-align: center;
-`;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(226, 226, 229, 1);
+    color: rgba(2, 25, 58, 1);
+    width: 175px;
+    height:42px;
+    border-radius: 10px;
+      font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+    `;
 const ButtonsSave = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 175px;
-  height: 42px;
-  border-radius: 10px;
-  background: rgba(56, 75, 255, 1);
-  color: #fff;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20.86px;
-  text-align: center;
-  position: relative;
-`;
+display: flex;
+    justify-content: center;
+    align-items: center;
+      width: 175px;
+    height:42px;
+    border-radius: 10px;
+    background: rgba(56, 75, 255, 1);
+    color:#fff;
+    font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+position: relative;
+
+    `;
 const TextSave = styled.div`
-  display: inline-block;
-  overflow: hidden;
-  word-wrap: no-wrap;
-  text-overflow: ellipsis;
-  width: 100%;
-  padding: 0 10px;
-  text-align: center;
-`;
+    display: inline-block;
+    overflow: hidden;
+    word-wrap: no-wrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    padding: 0 10px;
+    text-align: center;
+    `;
 const ArrowWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 42px;
-  height: 42px;
-  margin-left: auto;
-  .rotateIcon {
-    transform: rotate(180deg);
-  }
+display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    margin-left: auto;
+    .rotateIcon{
+        transform: rotate(180deg);
+    }
 `;
 
 const SaveChanges = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  right: 0;
-  top: 52px;
-  width: 179px;
-  height: 112px;
-  padding: 10px;
-  gap: 10px;
-  border-radius: 10px;
-  background: rgba(231, 236, 239, 1);
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20.86px;
-  text-align: center;
-  color: rgba(34, 34, 34, 1);
+position:absolute;
+display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+right: 0;
+top:52px;
+width: 179px;
+height: 112px;
+padding: 10px;
+gap: 10px;
+border-radius: 10px;
+background:rgba(231, 236, 239, 1);
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 20.86px;
+text-align: center;
+color: rgba(34, 34, 34, 1);
+
 `;
 
 const SaveChangesItem = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 159px;
-  height: 41px;
-  border-radius: 4px;
-  &:hover {
-    background: rgba(217, 222, 225, 1);
-  }
+display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 159px;
+height:41px;
+border-radius: 4px ; 
+&:hover{
+   background:rgba(217, 222, 225, 1); 
+}
 `;
 const closeIcon = (
   <svg
@@ -190,7 +197,7 @@ return (
   <div>
     <SelectedMutationEditorWrapper>
       <HeaderEditor>
-        Some Mutation Name
+        {props.mutationName}
         {closeIcon}
       </HeaderEditor>
       <div>
