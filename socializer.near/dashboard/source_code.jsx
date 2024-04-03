@@ -27,7 +27,7 @@ const viewWins = (data) => {
   State.update({ view_win: true, selected: data });
 };
 
-const onClose = (notification = "") => {
+const onClose = (notification) => {
   State.update({ show_detail: false, view_win: false, notification });
 };
 
