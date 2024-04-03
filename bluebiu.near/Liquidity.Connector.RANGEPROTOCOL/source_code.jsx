@@ -232,7 +232,7 @@ useEffect(() => {
     } else if (state.categoryIndex === 1 && state.userData) {
 
       state.dataList.forEach(data => {
-        if (state.userData && addresses[data.id].toLowerCase() in state.userData) {
+        if (Big(data.balance).gt(0)) {
           filterList.push(data)
         }
       })
@@ -253,18 +253,10 @@ useEffect(() => {
       categoryIndex: 0,
       userPositions: null
     })
-    if (!state.allData) {
-      fetchAllData()
-    }
-    if (!state.userData) {
-      fetchUserData()
-    }
-    if (!state.fees) {
-      fetchFeesData()
-    }
-    if (!state.range) {
-      fetchRangeData()
-    }
+    fetchAllData()
+    fetchUserData()
+    fetchFeesData()
+    fetchRangeData()
   }
 }, [curChain])
 const columnList = [{
@@ -344,8 +336,8 @@ const columnList = [{
   render: (data, index) => {
     return (
       <>
-        <TdTxt>{data.liquidityUSD ? `${formatFiat(data.liquidityUSD)}` : "-"}</TdTxt>
-        {data.liquidity && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
+        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
+        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{data.balance} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -369,6 +361,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
             curChain,
             feesData: state.feesData,
             rangeData: state.rangeData,
+            RANGE_URL,
             multicallAddress,
             // LAST_SNAP_SHOT_DATA_URL,
             onLoad: (data) => {
