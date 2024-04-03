@@ -7,9 +7,9 @@ const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
     position: absolute;
-    top: 50%;
+    top: 150px;
     left: 50%;
- transform: translate(-50%, -50%);
+ transform: translateX(-50%);
 padding: 20px;
 gap: 20px;
 border-radius: 10px;
