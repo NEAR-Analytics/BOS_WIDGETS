@@ -142,8 +142,9 @@ return (
         style={{ flexDirection: "column", gap: 25, padding: 10 }}
       >
         {state.winners.map((item, i) => {
-          const profile = Social.getr(`${item.accountId}/profile`);
-          return <p>{`${i + 1}) ${profile.name || item.accountId} `}</p>;
+          //   const profile = Social.getr(`${item.accountId}/profile`);
+          //   return <p>{`${i + 1}) ${profile.name || item.accountId} `}</p>;
+          return <p>{`${i + 1}) ${item.accountId} `}</p>;
         })}
       </div>
     </ModalContent>
