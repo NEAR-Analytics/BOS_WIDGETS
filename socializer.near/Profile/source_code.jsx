@@ -233,6 +233,7 @@ const withdraw = async (item) => {
         State.update({
           ...state,
           loaded: false,
+          loading: false,
         });
       }
     }
@@ -404,6 +405,7 @@ return (
                                     row.id !== "NEAR" &&
                                     !state.registered[row.id] &&
                                     "gray",
+                                  color: state.loading && "red",
                                 }}
                                 className="text-decoration-underline"
                               >
