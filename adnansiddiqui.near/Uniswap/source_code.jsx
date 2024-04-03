@@ -7,7 +7,8 @@ const kovanLidoContract = "0x4b7FCBC11BB45075b9A1F953128C09bC97D6a0D7";
 const gorliLidoContract = "0x1643E812aE58766192Cf7D2Cf9567dF2C37e9B7F";
 const tokenDecimals = 18;
 
-const network = "gorli"; // "gorli" // "rinkeby" // "mainnet"
+// "gorli" // "rinkeby" // "mainnet"
+const network = "gorli"; 
 
 switch (network) {
   case "kovan":
