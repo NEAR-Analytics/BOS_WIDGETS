@@ -407,6 +407,7 @@ return (
             <Input
               value={state.amount}
               className="form-input"
+              type="number"
               onChange={(e) => {
                 const amount = Math.abs(
                   e.target.value ? Number(e.target.value) : 0
@@ -415,11 +416,10 @@ return (
                   (amount * state.winners).toFixed(4)
                 )} ${state.token}`;
                 State.update({
-                  amount: amount ? amount : "",
+                  amount: amount ? amount : 0,
                   total_reward,
                 });
               }}
-              type="number"
             />
             <p style={{ fontSize: 12 }}>{`Minimun amount ${state.minimum}`}</p>
           </div>
