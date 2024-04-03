@@ -2,7 +2,7 @@ return (
   <>
     <div
       className="d-flex flex-column justify-content-center align-items-center"
-      style={{ height: "100vh", backgroundColor: "#151718", color: "#fff" }}
+      style={{ height: "100%", backgroundColor: "#151718", color: "#fff" }}
     >
       <div className="container mt-5 mb-5">
         <div className="row">
