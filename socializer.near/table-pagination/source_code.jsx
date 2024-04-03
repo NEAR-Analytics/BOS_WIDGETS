@@ -106,21 +106,38 @@ const startTimer = () => {
   });
 };
 
-const setEndsIn = () => {
-  if (Interval) clearInterval(Interval);
-  startTimer();
-  const interval = setInterval(() => {
-    if (!state.temp.length) clearInterval(Interval);
+// const setEndsIn = () => {
+//   if (Interval) clearInterval(Interval);
+//   startTimer();
+//   const interval = setInterval(() => {
+//     if (!state.temp.length) clearInterval(Interval);
+//     startTimer();
+//   }, 1000);
+//   State.update({
+//     ...state,
+//     loaded: true,
+//   });
+//   Interval = interval;
+// };
+
+useEffect(() => {
+  if (timer && !state.loaded && state.temp.length) {
     startTimer();
-  }, 1000);
-  State.update({
-    ...state,
-    loaded: true,
-  });
-  Interval = interval;
-};
-if (timer && !state.loaded && state.temp.length) setEndsIn();
-else if (!timer && Interval) clearInterval(Interval);
+    const intervalId = setInterval(() => {
+      //   if (!state.temp.length) clearInterval(Interval);
+      startTimer();
+    }, 1000);
+    State.update({
+      ...state,
+      loaded: true,
+    });
+    // Interval = interval;
+    return () => {
+      clearInterval(intervalId);
+    };
+  }
+}, [timer, state.loaded, state.temp]);
+// else if (!timer && Interval) clearInterval(Interval);
 
 return (
   <div className="table-responsive" style={{ backgroundColor: "#FAFAFA" }}>
