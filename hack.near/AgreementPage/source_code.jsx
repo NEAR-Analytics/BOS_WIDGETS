@@ -10,45 +10,18 @@ return (
   <Container>
     <div className="d-flex flex-row justify-content-between">
       <div className="m-2">
-        <h3>
-          <b>NEAR Builders Cooperative</b>
-        </h3>
-        <p className="m-1">
-          <b>
-            <a
-              style={{ textDecoration: "none" }}
-              href="https://nearbuilders.org"
-            >
-              nearbuilders.org
-            </a>
-          </b>
-        </p>
+        <h3>NEAR Builders Cooperative</h3>
       </div>
       <div className="m-2">
-        {profile ? (
-          <span>
-            <a
-              style={{ color: "#000", textDecoration: "none" }}
-              href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
-            >
-              <Widget
-                src="hack.near/widget/profile.inline"
-                props={{ accountId: context.accountId }}
-              />
-            </a>
-          </span>
-        ) : (
-          <span>
-            {context.accountId && (
-              <a
-                className="m-2 btn btn-sm btn-light"
-                href="/near/widget/ProfileEditor"
-              >
-                Edit Profile
-              </a>
-            )}
-          </span>
-        )}
+        <a
+          style={{ color: "#000", textDecoration: "none" }}
+          href="https://nearbuilders.org"
+        >
+          <Widget
+            src="hack.near/widget/profile.inline"
+            props={{ accountId: "nearbuilders.near" }}
+          />
+        </a>
       </div>
     </div>
     <hr />
@@ -376,10 +349,33 @@ return (
           </a>
         </span>
       </p>
-      <Widget
-        src="hack.near/widget/profile.inline"
-        props={{ accountId: "nearbuilders.near" }}
-      />
+
+      <div className="m-2">
+        {profile ? (
+          <span>
+            <a
+              style={{ color: "#000", textDecoration: "none" }}
+              href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
+            >
+              <Widget
+                src="hack.near/widget/profile.inline"
+                props={{ accountId: "efiz.near" }}
+              />
+            </a>
+          </span>
+        ) : (
+          <span>
+            {context.accountId && (
+              <a
+                className="m-2 btn btn-sm btn-light"
+                href="/near/widget/ProfileEditor"
+              >
+                Edit Profile
+              </a>
+            )}
+          </span>
+        )}
+      </div>
     </div>
   </Container>
 );
