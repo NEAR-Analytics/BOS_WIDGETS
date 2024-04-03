@@ -9,6 +9,7 @@ const {
   multicallAddress,
   feesData,
   rangeData,
+  RANGE_URL,
   prices
 } = props
 
@@ -101,6 +102,33 @@ const multicallv2 = (abi, calls, options, onSuccess, onError) => {
       onError?.(err);
     });
 };
+function multicallv2WithPromise(abi, calls, options) {
+  return new Promise((resolve, reject) => {
+    multicallv2(
+      abi,
+      calls,
+      options,
+      resolve,
+      reject)
+  })
+}
+function asyncFetchWithPromise(url, options) {
+  return new Promise((resolve, reject) => {
+    asyncFetch(url, options || {}).then(result => {
+      try {
+        if (result.ok) {
+          resolve(result.body)
+        } else {
+          reject(result.status)
+        }
+      } catch (error) {
+        reject(error)
+      }
+    }).catch(reject)
+  })
+
+}
+
 const fetchFusionsData = () => {
   asyncFetch("https://api.lynex.fi/api/v1/fusions").then((res) => {
     if (!res.ok) return;
@@ -116,7 +144,6 @@ const formatPercent = (value) => {
 };
 
 function formatedData(type) {
-  console.log('===type', type)
   onLoad({
     loading,
     dataList
@@ -135,33 +162,46 @@ function getDataList() {
 }
 
 function getLiquidity() {
-  const calls = [];
   const sender = Ethers.send("eth_requestAccounts", [])[0];
-  dataList.forEach(data => {
-    calls.push({
-      address: data.vaultAddress,
-      name: "balanceOf",
-      params: [sender],
-    });
-  })
-  multicallv2(
-    ERC20_ABI,
-    calls,
-    {},
-    (res) => {
-      for (let i = 0, len = res.length; i < len; i++) {
-        if (res[i]) {
-          dataList[i].liquidity = Big(ethers.utils.formatUnits(res[i][0]._hex)).toFixed(2)
+  const query = `{
+    users(where: {id: "${sender}"}) {
+      id
+      vaultBalances {
+        token0
+        token1
+        balance
+        address
+        vault {
+          id
+          token0
+          token1
+        }
+      }
+    }
+  }`
+  asyncFetch(RANGE_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      query
+    })
+  }).then(result => {
+    if (result.ok) {
+      const vaultBalances = result?.body?.data?.users[0]?.vaultBalances ?? []
+      for (let i = 0; i < dataList.length; i++) {
+        // const element = array[i];
+        const data = dataList[i]
+        const balance = vaultBalances.find(vaultBalance => vaultBalance.vault.id.toLowerCase() === addresses[data.id].toLowerCase())
+        if (balance) {
+          const {
+            token0,
+            token1
+          } = balance
+          dataList[i].liquidity = Big(ethers.utils.formatUnits(token0, data.decimals0)).times(prices[data.token0]).plus(Big(ethers.utils.formatUnits(token1, data.decimals1)).times(prices[data.token1])).toFixed(4)
         }
       }
       formatedData('getLiquidity')
-    },
-    (error) => {
-      setTimeout(() => {
-        getLiquidity();
-      }, 500);
     }
-  )
+  })
 }
 function getFee() {
   for (let i = 0; i < dataList.length; i++) {
@@ -183,24 +223,101 @@ function handleGetTvl(i, range) {
   formatedData('getTvl')
 }
 function getTvl() {
-  for (let i = 0; i < dataList.length; i++) {
-    const vault = dataList[i].vault
-    const range = rangeData[vault]
-    handleGetTvl(i, range)
+  if (curChain.chain_id === 56) {
+    for (let i = 0; i < dataList.length; i++) {
+      const vault = dataList[i].vault
+      const range = rangeData[vault]
+      handleGetTvl(i, range)
+    }
+  } else {
+    const promiseArray = []
+    for (let i = 0; i < dataList.length; i++) {
+      const query = `{
+        vault(id: "${dataList[i].vault}") {
+          liquidity
+          balance0
+          balance1
+          totalSupply
+          totalFeesEarned0
+          totalFeesEarned1
+          name
+          tag
+          pool
+        }
+      }`
+      promiseArray.push(asyncFetchWithPromise("https://api.goldsky.com/api/public/project_clm97huay3j9y2nw04d8nhmrt/subgraphs/izumi-manta/0.2/gn", {
+        method: "POST",
+        body: JSON.stringify({
+          query
+        })
+      }))
+    }
+    Promise.all(promiseArray)
+      .then(result => {
+        for (let i = 0; i < result.length; i++) {
+          // const element = array[i];
+          const {
+            balance0,
+            balance1
+          } = result[i].data.vault
+          const data = dataList[i]
+          dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
+            .times(prices[data.token0] ?? 0)
+            .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
+            .toFixed(2)
+        }
+        formatedData('getTvl')
+      })
   }
 
 }
 function getApy() {
-  for (let i = 0; i < dataList.length; i++) {
-    const vault = dataList[i].vault
-    dataList[i].apy = Big(feesData[vault].apy).toFixed(2) + '%'
+  if (curChain.chain_id === 56) {
+    for (let i = 0; i < dataList.length; i++) {
+      const vault = dataList[i].vault
+      dataList[i].apy = Big(feesData[vault]?.apy ?? 0).toFixed(2) + '%'
+    }
+  } else {
+    for (let i = 0; i < dataList.length; i++) {
+      const data = dataList[i]
+      dataList[i].apy = Big(data?.fee_apy ?? 0).plus(data?.asset_yield ?? 0).toFixed(2) + '%'
+    }
   }
   formatedData('getApy')
 }
-
+function getBalance() {
+  const calls = [];
+  const sender = Ethers.send("eth_requestAccounts", [])[0];
+  dataList.forEach(data => {
+    calls.push({
+      address: ethers.utils.getAddress(addresses[data.id]),
+      name: "balanceOf",
+      params: [sender],
+    });
+  })
+  multicallv2(
+    ERC20_ABI,
+    calls,
+    {},
+    (result) => {
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        dataList[i].balance = ethers.utils.formatUnits(element[0], 18)
+      }
+      formatedData('getBalance')
+    },
+    (error) => {
+      setTimeout(() => {
+        getBalance();
+      }, 500);
+    }
+  )
+}
 useEffect(() => {
   getDataList()
   getFee()
   getTvl()
   getApy()
+  getBalance()
+  getLiquidity()
 }, [])
