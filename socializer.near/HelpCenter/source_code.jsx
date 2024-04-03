@@ -29,7 +29,8 @@ const Question = styled.div`
 `;
 
 const Text = styled.p`
-  margin: 0
+  margin: 0;
+  text-align:center;
 `;
 
 const Circle = styled.p`
@@ -135,8 +136,10 @@ return (
           right: -100,
         }}
       />
-
-      <Text>Need Support?</Text>
+      <div>
+        <Text>Need </Text>
+        <Text>Support?</Text>
+      </div>
 
       <HelpButton>User Guide</HelpButton>
       <HelpButton>Telegram Support</HelpButton>
