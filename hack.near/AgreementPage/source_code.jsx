@@ -27,22 +27,28 @@ return (
       <div className="d-flex flex-row m-1">
         <div className="m-3">
           {profile ? (
-            <a
-              style={{ color: "#000", textDecoration: "none" }}
-              href={`/near/widget/Profile?accountId=${context.accountId}`}
-            >
-              <Widget
-                src="hack.near/widget/profile.inline"
-                props={{ accountId: context.accountId }}
-              />
-            </a>
+            <span>
+              <a
+                style={{ color: "#000", textDecoration: "none" }}
+                href={`/near/widget/Profile?accountId=${context.accountId}`}
+              >
+                <Widget
+                  src="hack.near/widget/profile.inline"
+                  props={{ accountId: context.accountId }}
+                />
+              </a>
+            </span>
           ) : (
-            <a
-              className="m-2 btn btn-sm btn-light"
-              href="/near/widget/ProfileEditor"
-            >
-              Edit Profile
-            </a>
+            <span>
+              {context.accountId && (
+                <a
+                  className="m-2 btn btn-sm btn-light"
+                  href="/near/widget/ProfileEditor"
+                >
+                  Edit Profile
+                </a>
+              )}
+            </span>
           )}
         </div>
       </div>
