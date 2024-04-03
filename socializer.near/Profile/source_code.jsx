@@ -401,11 +401,11 @@ return (
                                 href="#"
                                 onClick={() => withdraw(row)}
                                 style={{
-                                  color:
-                                    row.id !== "NEAR" &&
-                                    !state.registered[row.id] &&
-                                    "gray",
-                                  color: state.loading && "red",
+                                  color: !state.loading
+                                    ? row.id !== "NEAR" &&
+                                      !state.registered[row.id] &&
+                                      "gray"
+                                    : "red",
                                 }}
                                 className="text-decoration-underline"
                               >
