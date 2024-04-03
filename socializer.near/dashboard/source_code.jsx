@@ -34,12 +34,10 @@ const onClose = (notification) => {
 const handleSearch = (event) => {
   const value = event.target.value;
   const searchResult = state.campaigns.filter((row) => {
-    if (!searchValue) return true;
+    if (!value) return true;
     const profile = Social.getr(`${row.poster}/profile`);
     const name = profile.name || row.poster || "";
-    return name
-      .toLocaleLowerCase()
-      .includes(searchValue.toLocaleLowerCase() ?? "");
+    return name.toLocaleLowerCase().includes(value.toLocaleLowerCase() ?? "");
   });
   console.log("searchResult", searchResult);
   State.update({ searchValue: value, rowList: searchResult });
