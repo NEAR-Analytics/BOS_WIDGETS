@@ -3,6 +3,7 @@ if (!props.data || !props.columns) {
 }
 
 const { data, columns, searchValue } = props;
+console.log("tabledat-----", data);
 const rowsCount = props.rowsCount || 5;
 const pagination = props.pagination || true;
 const themeColor = props.themeColor;
