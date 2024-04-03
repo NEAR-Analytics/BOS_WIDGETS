@@ -1,4 +1,6 @@
+const Owner = "socializer.near";
 const accountId = context.accountId;
+
 if (!accountId) return;
 
 const API_URL = props.API_URL || "http://localhost:3000";
