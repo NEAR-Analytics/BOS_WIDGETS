@@ -114,12 +114,13 @@ function formatedData() {
   })
 }
 function getDataList() {
-  allData.forEach((data) => {
-    const findIndex = pairs.findIndex(pair => pair.poolAddress === data.id)
+  pairs.forEach(pair => {
+    const findIndex = allData.findIndex(data => pair.poolAddress === data.id)
+    console.log('=findIndex', findIndex)
     if (findIndex > -1) {
       dataList.push({
-        initialData: data,
-        ...pairs[findIndex],
+        ...pair,
+        initialData: allData[findIndex],
         feeApr: 'NaN%',
       })
     }
