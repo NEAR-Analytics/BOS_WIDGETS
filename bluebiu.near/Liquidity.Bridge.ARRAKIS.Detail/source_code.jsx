@@ -59,7 +59,7 @@ State.init({
   isToken1Approved: true,
   isToken0Approving: false,
   isToken1Approving: false,
-  isWithApprived: false,
+  isWithApprived: true,
   isWithApproving: false,
   loadingMsg: "",
   isPostTx: false,
@@ -98,7 +98,7 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
 };
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
-const { token0, token1, decimals0, decimals1, id, poolAddress } = data || defaultPair;
+const { token0, token1, decimals0, decimals1, id, poolAddress, liquidity } = data || defaultPair;
 
 const vaultAddress = addresses[id];
 
@@ -762,7 +762,7 @@ const handleWithdraw = () => {
 };
 
 const tokensPrice = prices;
-const curPositionUSD = tokensPrice['USDC']
+// const curPositionUSD = tokensPrice['USDC']
 
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
@@ -780,14 +780,13 @@ const balance1 =
     ? "-"
     : parseFloat(Big(amount1).times(tokensPrice[token1]).toFixed(4));
 
-
 const balanceLp =
-  !lpAmount || !lpBalance || !curPositionUSD
+  !lpAmount || !lpBalance || !liquidity
     ? "-"
     : parseFloat(
       Big(lpAmount)
-        .div(Big(lpBalance).gt(0) ? lpBalance : 1)
-        .times(curPositionUSD)
+        .div(lpBalance)
+        .times(liquidity)
         .toFixed(4)
     );
 
@@ -944,7 +943,6 @@ return (
 
                   handleLPChange(lpBalance);
                 }}
-                className="v"
               >
                 {lpBalance}
               </span></BalancePrice>
