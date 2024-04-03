@@ -118,13 +118,14 @@ const getVerifyState = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment, human } = data;
+        const { like, follow, repost, comment, human, finished } = data;
         State.update({
           like,
           follow,
           repost,
           comment,
           human,
+          error: finished ? "" : "Please complete all tasks",
           loaded: true,
           loading: false,
         });
@@ -148,12 +149,13 @@ const verifyEnter = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data) {
-        const { like, follow, repost, comment, human } = data;
+        const { like, follow, repost, comment, human, finished } = data;
         State.update({
           like,
           follow,
           repost,
           comment,
+          error: finished ? "" : "Please complete all tasks",
           human,
           loading: false,
         });
@@ -235,6 +237,9 @@ return (
             )}
           </div>
         ))}
+        {state.error && (
+          <p style={{ fontSize: 14, margin: 0, color: "red" }}>{state.error}</p>
+        )}
       </div>
     </ModalContent>
     <ModalAction>
