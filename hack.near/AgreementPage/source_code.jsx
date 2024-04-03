@@ -30,7 +30,7 @@ return (
             <span>
               <a
                 style={{ color: "#000", textDecoration: "none" }}
-                href={`/near/widget/Profile?accountId=${context.accountId}`}
+                href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
               >
                 <Widget
                   src="hack.near/widget/profile.inline"
