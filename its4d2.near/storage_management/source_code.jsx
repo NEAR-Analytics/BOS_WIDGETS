@@ -224,7 +224,7 @@ const Title = styled.h1`
 
 const LanguageSelector = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 0rem;
   right: 1rem;
   display: flex;
   align-items: center;
@@ -397,34 +397,45 @@ return (
       </LanguageSelector>
     </TitleWrapper>
     <Text>{translations[state.language].description}</Text>
-    <Button
-      onClick={() =>
-        storageWithdrawAll(
-          Object.entries(storageBalances)
-            .filter(
-              ([_, storageBalanceOf]) =>
-                storageBalanceOf != null &&
-                !!storageBalanceOf.total &&
-                !!storageBalanceOf.available &&
-                Number(storageBalanceOf.available) > 0
-            )
-            .map(([contractId]) => contractId)
-        )
-      }
-    >
-      {translations[state.language].totalButton
-        .replace("{{amount}}", totalAvailable)
-        .replace(
-          "{{count}}",
-          Object.values(storageBalances).filter(
-            (storageBalanceOf) =>
-              storageBalanceOf != null &&
-              !!storageBalanceOf.total &&
-              !!storageBalanceOf.available &&
-              Number(storageBalanceOf.available) > 0
-          ).length
+    {context.accountId ? (
+      <>
+        {!state.doneTxs || !state.doneRpc ? (
+          <Centered>
+            <Spinner />
+            <div>
+              {!state.doneTxs
+                ? translations[state.language].loadingTxs
+                : translations[state.language].scanningTxs}
+              {!state.doneRpc && (
+                <>
+                  <br />
+                  {translations[state.language].remaining}: {txs.length}
+                </>
+              )}
+            </div>
+          </Centered>
+        ) : (
+          <>
+            <Button onClick={() => storageWithdrawAll()}>
+              {translations[state.language].totalButton
+                .replace("{{amount}}", totalAvailable)
+                .replace("{{count}}", state.storageDeposits.length)}
+            </Button>
+            <FormGroup>{renderStorageInfos()}</FormGroup>
+          </>
         )}
-    </Button>
-    <FormGroup>{renderStorageInfos()}</FormGroup>
+      </>
+    ) : (
+      <Text
+        style={{
+          color: "#856404",
+          backgroundColor: "#fff3cd",
+          padding: "1rem",
+          borderRadius: "5px",
+        }}
+      >
+        {translations[state.language].loginPrompt}
+      </Text>
+    )}
   </Wrapper>
 );
