@@ -14,6 +14,21 @@ const Callout = styled.div`
   font-family: sans-serif;
 `;
 
+const CalloutHeader = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+`;
+
+const CalloutHeaderCaption = styled.div`
+    color: #02193A;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 149%; /* 17.88px */
+`;
+
 const CalloutTitle = styled.div`
   color: #02193a;
   font-size: 18px;
@@ -103,11 +118,16 @@ const callout = (
     arrow={<Widget src="bos.dapplets.near/widget/Onboarding.Arrow" />}
   >
     <Callout>
+      <CalloutHeader>
+        <CalloutHeaderCaption>
+          Step {currentStepIndex + 1} of {steps.length}
+        </CalloutHeaderCaption>
+      </CalloutHeader>
       <CalloutTitle>It's a sandbox story first</CalloutTitle>
       <CalloutDescription>
-        We are now in a sandbox mutation. Through it, we can suspendisse mattis
-        interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat
-        aliquet vitae curabitur non. LinkId: {link.id}
+        {props.context?.parsed?.text}
+        <br />
+        LinkId: {link.id}
       </CalloutDescription>
       <ActionsGroup>
         <ActionButton onClick={handleBackClick} disabled={isFirstStep}>
