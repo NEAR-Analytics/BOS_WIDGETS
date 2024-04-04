@@ -201,16 +201,17 @@ return (
         {closeIcon}
       </HeaderEditor>
       <div>
-        {" "}
-        <Widget
-          src="bos.dapplets.near/widget/ApplicationCard"
-          props={{
-            src: app.id,
-            metadata: app.metadata,
-            onComponentSelect: () => props.onSelect(app),
-            hideButtons: !context.accountId,
-          }}
-        />
+        {props.app && props.app.length
+          ? props.app.map((app, i) => (
+              <Widget
+                key={app.id}
+                src="bos.dapplets.near/widget/ApplicationCard"
+                props={{
+                  src: app.id,
+                }}
+              />
+            ))
+          : null}
       </div>
       <ButtonsBlock>
         <ButtonsRevert>Revert changes</ButtonsRevert>
