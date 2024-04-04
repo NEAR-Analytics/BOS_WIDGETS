@@ -99,35 +99,39 @@ const handleNextClick = () => {
 const isVisibleStep = storageStepIndex === currentStepIndex;
 
 const callout = (
-  <Callout>
-    <CalloutTitle>It's a sandbox story first</CalloutTitle>
-    <CalloutDescription>
-      We are now in a sandbox mutation. Through it, we can suspendisse mattis
-      interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat
-      aliquet vitae curabitur non. LinkId: {link.id}
-    </CalloutDescription>
-    <ActionsGroup>
-      <ActionButton onClick={handleBackClick} disabled={isFirstStep}>
-        Back
-      </ActionButton>
-      <ActionButton
-        $primary={true}
-        onClick={handleNextClick}
-        disabled={isLastStep}
-      >
-        Next
-      </ActionButton>
-    </ActionsGroup>
-  </Callout>
+  <DappletCallout
+    arrow={<Widget src="bos.dapplets.near/widget/Onboarding.Arrow" />}
+  >
+    <Callout>
+      <CalloutTitle>It's a sandbox story first</CalloutTitle>
+      <CalloutDescription>
+        We are now in a sandbox mutation. Through it, we can suspendisse mattis
+        interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat
+        aliquet vitae curabitur non. LinkId: {link.id}
+      </CalloutDescription>
+      <ActionsGroup>
+        <ActionButton onClick={handleBackClick} disabled={isFirstStep}>
+          Back
+        </ActionButton>
+        <ActionButton
+          $primary={true}
+          onClick={handleNextClick}
+          disabled={isLastStep}
+        >
+          Next
+        </ActionButton>
+      </ActionsGroup>
+    </Callout>
+  </DappletCallout>
 );
 
 return (
-  <DappletCallout
-    show={true}
+  <OverlayTrigger
+    show={isVisibleStep}
     delay={{ show: 250, hide: 300 }}
     placement="right"
     overlay={callout}
   >
     <div>Target</div>
-  </DappletCallout>
+  </OverlayTrigger>
 );
