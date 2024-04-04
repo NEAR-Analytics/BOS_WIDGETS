@@ -32,13 +32,57 @@ const CalloutDescription = styled.div`
   line-height: 149%; /* 17.88px */
 `;
 
+const ActionsGroup = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+`;
+
+const ActionButton = styled.div`
+    display: flex;
+    height: 42px;
+    padding: 0px 20px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    border-radius: 90px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    border: ${(props) => (props.$primary ? "initial" : "1px solid #E2E2E5")};
+    background: ${(props) => (props.$primary ? "#02193A" : "initial")};
+    color: ${(props) => (props.$primary ? "#fff" : "initial")};
+
+    &:hover {
+        background: ${(props) => (props.$primary ? "#1c3559" : "#eee")};
+    }
+
+    &:active {
+        background: ${(props) => (props.$primary ? "#020c19" : "#ddd")};
+    }
+`;
+
+const handleBackClick = () => {};
+
+const handleNextClick = () => {};
+
+const { link } = props;
+
 return (
   <Callout>
     <CalloutTitle>It's a sandbox story first</CalloutTitle>
     <CalloutDescription>
       We are now in a sandbox mutation. Through it, we can suspendisse mattis
       interdum auctor volutpat nisl quis. Scelerisque morbi eget volutpat
-      aliquet vitae curabitur non.
+      aliquet vitae curabitur non. LinkId: {link.id}
     </CalloutDescription>
+    <ActionsGroup>
+      <ActionButton onClick={handleBackClick}>Back</ActionButton>
+      <ActionButton $primary={true} onClick={handleNextClick}>
+        Next
+      </ActionButton>
+    </ActionsGroup>
   </Callout>
 );
