@@ -218,6 +218,7 @@ return (
                 src: app.id,
                 metadata: app.metadata,
                 hideButtons: !context.accountId,
+                selectedApps: props.selectedApps.filter((x) => x === app.id)[0],
               }}
             />
           ))
