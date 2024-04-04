@@ -14,7 +14,7 @@ const Card = styled.div`
   border-radius: 10px;
   background: #fff;
   border: 1px solid #eceef0;
-  overflow: hidden;
+  // overflow: hidden;
   box-sizing: border-box;
   &:hover {
     background: rgba(24, 121, 206, 0.1);
