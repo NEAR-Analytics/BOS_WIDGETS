@@ -100,6 +100,9 @@ const handleHitPointsChange = (e) => {
 const handleSave = () => {
   Social.set({
     game: { monster },
+    index: {
+      createMonster: JSON.stringify({ key: "create", value: "monster" }),
+    },
   });
 };
 
