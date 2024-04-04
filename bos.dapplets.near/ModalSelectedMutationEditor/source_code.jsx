@@ -200,19 +200,19 @@ return (
         {props.mutationName}
         {closeIcon}
       </HeaderEditor>
-      <div>
-        {props.apps && props.apps.length
-          ? props.apps.map((app, i) => (
-              <Widget
-                key={i}
-                src="bos.dapplets.near/widget/ApplicationCard"
-                props={{
-                  src: app,
-                }}
-              />
-            ))
-          : null}
-      </div>
+
+      {props.apps && props.apps.length
+        ? props.apps.map((app, i) => (
+            <Widget
+              key={i}
+              src="bos.dapplets.near/widget/ApplicationCard"
+              props={{
+                src: app,
+              }}
+            />
+          ))
+        : null}
+
       <ButtonsBlock>
         <ButtonsRevert>Revert changes</ButtonsRevert>
         <ButtonsSave>
