@@ -7,7 +7,7 @@ const metadata =
   props.metadata ??
   Social.get(`${accountId}/widget/${widgetName}/metadata/**`, "final") ??
   {};
-
+console.log(selectedApps, "selectedApps");
 const Card = styled.div`
   position: relative;
   width: 100%;
