@@ -4,6 +4,8 @@ if (!href) {
   return <></>;
 }
 
+const {namespace, entityType, schemaFile} = props;
+
 const Card = styled.div`
   cursor: pointer;
   background-color: white;
@@ -70,8 +72,8 @@ const AgentCard = ({ item, editFunction }) => {
     params: { src: `${accountId}/agent/${name}` },
   });
   const detailsLink = href({
-    widgetSrc: `agiguild.near/widget/Agent.AgentDetails`,
-    params: { src: `${accountId}/agent/${name}` },
+      widgetSrc: `near/widget/Agent.AgentDetails`,
+      params: { src: `${accountId}/agent/${name}`, schemaFile, namespace, entityType },
   });
 
   const actionUrl = `https://near.org/${agentComponent}?src=${accountId}/agent/${item.name}`;
