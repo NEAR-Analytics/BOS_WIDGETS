@@ -122,12 +122,12 @@ const callout = (
 );
 
 return (
-  <OverlayTrigger
+  <DappletCallout
     show={isVisibleStep}
     delay={{ show: 250, hide: 300 }}
     placement="auto"
     overlay={callout}
   >
     <div>Target</div>
-  </OverlayTrigger>
+  </DappletCallout>
 );
