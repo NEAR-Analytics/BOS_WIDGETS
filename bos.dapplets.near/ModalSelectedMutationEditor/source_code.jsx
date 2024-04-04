@@ -192,7 +192,7 @@ const arrow = (
     />
   </svg>
 );
-
+console.log(props.apps);
 return (
   <div>
     <SelectedMutationEditorWrapper>
