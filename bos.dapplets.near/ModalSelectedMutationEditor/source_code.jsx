@@ -17,7 +17,7 @@ font-family: sans-serif;
 border: 1px solid #02193A;
 background: #F8F9FF;
 width: 400px;
-max-height: 546px;
+max-height: 446px;
 `;
 
 const HeaderEditor = styled.div`
@@ -52,6 +52,7 @@ font-size: 14px;
 font-weight: 400;
 line-height: 20.86px;
 text-align: center;
+cursor: pointer;
     `;
 const ButtonsSave = styled.div`
 display: flex;
@@ -67,7 +68,7 @@ font-weight: 400;
 line-height: 20.86px;
 text-align: center;
 position: relative;
-
+cursor: pointer;
     `;
 const TextSave = styled.div`
     display: inline-block;
@@ -119,6 +120,7 @@ display: flex;
     width: 159px;
 height:41px;
 border-radius: 4px ; 
+cursor: pointer;
 &:hover{
    background:rgba(217, 222, 225, 1); 
 }
