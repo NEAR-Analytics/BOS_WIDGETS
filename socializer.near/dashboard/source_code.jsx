@@ -386,14 +386,6 @@ return (
             >
               {"+ Create New Campaigns"}
             </Button>
-            <Button
-              className="btn btn-secondary"
-              onClick={() => {
-                console.log(state.rowList);
-              }}
-            >
-              {"..."}
-            </Button>
           </SelectContent>
         </FilterContent>
         <TitleContent>
