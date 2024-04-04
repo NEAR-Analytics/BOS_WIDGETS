@@ -204,10 +204,10 @@ return (
         {props.apps && props.apps.length
           ? props.apps.map((app, i) => (
               <Widget
-                key={app.id}
+                key={i}
                 src="bos.dapplets.near/widget/ApplicationCard"
                 props={{
-                  src: app.id,
+                  src: app,
                 }}
               />
             ))
