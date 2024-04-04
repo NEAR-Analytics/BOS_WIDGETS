@@ -125,7 +125,7 @@ return (
   <DappletCallout
     show={isVisibleStep}
     delay={{ show: 250, hide: 300 }}
-    placement="auto"
+    placement="right"
     overlay={callout}
   >
     <div>Target</div>
