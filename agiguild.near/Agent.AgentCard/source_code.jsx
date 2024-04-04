@@ -72,7 +72,7 @@ const AgentCard = ({ item, editFunction }) => {
     params: { src: `${accountId}/agent/${name}` },
   });
   const detailsLink = href({
-      widgetSrc: `near/widget/Agent.AgentDetails`,
+      widgetSrc: `agiguild.near/widget/Agent.AgentDetails`,
       params: { src: `${accountId}/agent/${name}`, schemaFile, namespace, entityType },
   });
 
