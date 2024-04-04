@@ -7,7 +7,7 @@ const metadata =
   props.metadata ??
   Social.get(`${accountId}/widget/${widgetName}/metadata/**`, "final") ??
   {};
-console.log(selectedApps, "selectedApps");
+console.log(props.selectedApps, "selectedApps");
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -177,7 +177,7 @@ return (
           @{accountId}
         </TextLink>
       </CardContent>
-      {!props.isSelect ? (
+      {!props.selectedApps ? (
         <ButtonLink onClick={props.onComponentSelect} primary>
           {plus}
         </ButtonLink>
