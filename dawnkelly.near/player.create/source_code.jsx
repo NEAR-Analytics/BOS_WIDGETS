@@ -146,6 +146,9 @@ const isValidPoints = totalPoints <= maxPoints;
 const handleSave = () => {
   Social.set({
     game: { player },
+    index: {
+      createPlayer: JSON.stringify({ key: "create", value: "player" }),
+    },
   });
 };
 
