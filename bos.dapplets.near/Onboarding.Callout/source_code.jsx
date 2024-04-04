@@ -75,14 +75,14 @@ const currentStepIndex = steps.indexOf(link.id);
 const isLastStep = currentStepIndex === steps.length - 1;
 const isFirstStep = currentStepIndex === 0;
 
-const storageStepIndex = Storage.get("step") ?? 0;
+const storageStepIndex = Math.abs(Storage.get("step") ?? 0);
 
 const handleBackClick = () => {
-  Storage.set("step", currentStepIndex + 1);
+  Storage.set("step", currentStepIndex - 1);
 };
 
 const handleNextClick = () => {
-  Storage.set("step", currentStepIndex - 1);
+  Storage.set("step", currentStepIndex + 1);
 };
 
 if (storageStepIndex !== currentStepIndex) {
