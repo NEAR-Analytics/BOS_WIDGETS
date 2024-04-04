@@ -222,7 +222,9 @@ return (
         : null}
     </div>
     <ButtonsBlock>
-      <ButtonsRevert>Revert changes</ButtonsRevert>
+      <ButtonsRevert onClick={props.handleResetMutation}>
+        Revert changes
+      </ButtonsRevert>
       <ButtonsSave>
         <TextSave>{state.textSave}</TextSave>
         <ArrowWrapper
