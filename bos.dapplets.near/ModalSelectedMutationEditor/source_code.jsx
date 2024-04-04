@@ -17,8 +17,6 @@ border: 1px solid #02193A;
 background: #F8F9FF;
 width: 400px;
 max-height: 546px;
-overflow:hidden;
-overflow-y: auto;
 `;
 
 const HeaderEditor = styled.div`
@@ -194,26 +192,26 @@ const arrow = (
     />
   </svg>
 );
-console.log(props.apps);
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
       {props.mutationName}
       {closeIcon}
     </HeaderEditor>
-
-    {props.apps && props.apps.length
-      ? props.apps.map((app, i) => (
-          <Widget
-            key={i}
-            src="bos.dapplets.near/widget/ApplicationCard"
-            props={{
-              src: app,
-            }}
-          />
-        ))
-      : null}
-
+    <div style={{ overflow: hidden, overflowY: auto, maxHeight: "400px" }}>
+      {props.apps && props.apps.length
+        ? props.apps.map((app, i) => (
+            <Widget
+              key={i}
+              src="bos.dapplets.near/widget/ApplicationCard"
+              props={{
+                src: app,
+              }}
+            />
+          ))
+        : null}
+    </div>
     <ButtonsBlock>
       <ButtonsRevert>Revert changes</ButtonsRevert>
       <ButtonsSave>
