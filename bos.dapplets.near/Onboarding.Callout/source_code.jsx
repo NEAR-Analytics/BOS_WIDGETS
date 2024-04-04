@@ -11,11 +11,11 @@ const Callout = styled.div`
   background: #fffffe;
   position: relative;
   left: 19px;
+  font-family: sans-serif;
 `;
 
 const CalloutTitle = styled.div`
   color: #02193a;
-  font-family: sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
@@ -25,7 +25,6 @@ const CalloutTitle = styled.div`
 const CalloutDescription = styled.div`
   color: #7a818b;
   text-align: center;
-  font-family: sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
