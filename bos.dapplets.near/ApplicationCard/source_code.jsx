@@ -7,7 +7,6 @@ const metadata =
   props.metadata ??
   Social.get(`${accountId}/widget/${widgetName}/metadata/**`, "final") ??
   {};
-console.log(props.selectedApps, "selectedApps");
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -15,6 +14,7 @@ const Card = styled.div`
   background: #fff;
   border: 1px solid #eceef0;
   box-sizing: border-box;
+  font-family: sans-serif;
   &:hover {
     background: rgba(24, 121, 206, 0.1);
   }
