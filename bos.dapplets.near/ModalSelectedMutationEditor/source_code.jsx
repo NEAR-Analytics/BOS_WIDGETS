@@ -215,7 +215,9 @@ return (
               key={i}
               src="bos.dapplets.near/widget/ApplicationCard"
               props={{
-                src: app,
+                src: app.id,
+                metadata: app.metadata,
+                hideButtons: !context.accountId,
               }}
             />
           ))
