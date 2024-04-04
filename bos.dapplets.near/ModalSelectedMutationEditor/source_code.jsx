@@ -201,8 +201,8 @@ return (
         {closeIcon}
       </HeaderEditor>
       <div>
-        {props.app && props.app.length
-          ? props.app.map((app, i) => (
+        {props.apps && props.apps.length
+          ? props.apps.map((app, i) => (
               <Widget
                 key={app.id}
                 src="bos.dapplets.near/widget/ApplicationCard"
