@@ -187,19 +187,19 @@ const handleDescriptionChange = (e) => {
   }));
 };
 
-const handleMoralsChange = (e) => {
-  const newMorals = e.target.value;
+const handleWeightChange = (e) => {
+  const newWeight = e.target.value;
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, morals: newMorals },
+    metadata: { ...prevWeapon.metadata, weight: newWeight },
   }));
 };
 
-const handleEthicsChange = (e) => {
-  const newEthics = e.target.value;
+const handleCostChange = (e) => {
+  const newCost = e.target.value;
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, ethics: newEthics },
+    metadata: { ...prevWeapon.metadata, cost: newCost },
   }));
 };
 
@@ -211,41 +211,36 @@ const handleTypeChange = (e) => {
   }));
 };
 
-const handleSizeChange = (e) => {
-  const newSize = e.target.value;
+const handleDamageChange = (e) => {
+  const newDamage = e.target.value;
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, size: newSize },
+    metadata: { ...prevWeapon.metadata, damage: newDamage },
   }));
 };
 
-const handleChallengeChange = (e) => {
-  const newChallenge = e.target.value;
+const handleClassChange = (e) => {
+  const newClass = e.target.value;
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, challenge: newChallenge },
+    metadata: { ...prevWeapon.metadata, class: newClass },
   }));
 };
 
-const handleArmorClassChange = (e) => {
-  const newArmorClass = e.target.value;
+const handleCategoryChange = (e) => {
+  const newCategory = e.target.value;
   setWeapon((prevWeapon) => ({
     ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, armorClass: newArmorClass },
-  }));
-};
-
-const handleHitPointsChange = (e) => {
-  const newHitPoints = e.target.value;
-  setWeapon((prevWeapon) => ({
-    ...prevWeapon,
-    metadata: { ...prevWeapon.metadata, hitPoints: newHitPoints },
+    metadata: { ...prevWeapon.metadata, category: newCategory },
   }));
 };
 
 const handleSave = () => {
   Social.set({
     game: { weapon },
+    index: {
+      createWeapon: JSON.stringify({ key: "create", value: "weapon" }),
+    },
   });
 };
 
@@ -349,7 +344,7 @@ return (
           placeholder="What is the weapon's weight in pounds?"
           value={weapon.metadata.weight}
           onChange={handleWeightChange}
-        ></input>
+        />
       </div>
 
       <div className="mb-3 p-1">
@@ -361,7 +356,7 @@ return (
           placeholder="Weapon cost (in gold pieces)"
           value={weapon.metadata.cost}
           onChange={handleCostChange}
-        ></input>
+        />
       </div>
 
       <div className="mb-3 p-1">
