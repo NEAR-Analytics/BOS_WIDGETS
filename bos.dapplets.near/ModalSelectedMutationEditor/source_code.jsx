@@ -13,6 +13,7 @@ flex-direction: column;
 padding: 20px;
 gap: 20px;
 border-radius: 10px;
+font-family: sans-serif;
 border: 1px solid #02193A;
 background: #F8F9FF;
 width: 400px;
@@ -24,7 +25,6 @@ display: flex;
     justify-content: space-between;
     align-items: center;
     color: rgba(2, 25, 58, 1);
-    font-family: Roboto;
     font-size: 18px;
     font-weight: 600;
     line-height: 21.09px;
@@ -48,7 +48,6 @@ display: flex;
     width: 175px;
     height:42px;
     border-radius: 10px;
-      font-family: Roboto;
 font-size: 14px;
 font-weight: 400;
 line-height: 20.86px;
@@ -63,7 +62,6 @@ display: flex;
     border-radius: 10px;
     background: rgba(56, 75, 255, 1);
     color:#fff;
-    font-family: Roboto;
 font-size: 14px;
 font-weight: 400;
 line-height: 20.86px;
@@ -106,7 +104,6 @@ padding: 10px;
 gap: 10px;
 border-radius: 10px;
 background:rgba(231, 236, 239, 1);
-font-family: Roboto;
 font-size: 14px;
 font-weight: 400;
 line-height: 20.86px;
@@ -192,13 +189,12 @@ const arrow = (
     />
   </svg>
 );
-console.log(selectedApps);
-console.log(apps);
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
       {props.mutationName}
-      {closeIcon}
+      <span onClick={props.onClose}> {closeIcon}</span>
     </HeaderEditor>
     <div
       style={{
