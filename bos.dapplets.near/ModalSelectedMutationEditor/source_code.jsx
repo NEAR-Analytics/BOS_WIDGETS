@@ -16,7 +16,9 @@ border-radius: 10px;
 border: 1px solid #02193A;
 background: #F8F9FF;
 width: 400px;
-max-height: 646px;
+max-height: 546px;
+overflow:hidden;
+overflow-y: auto;
 `;
 
 const HeaderEditor = styled.div`
@@ -194,62 +196,60 @@ const arrow = (
 );
 console.log(props.apps);
 return (
-  <div>
-    <SelectedMutationEditorWrapper>
-      <HeaderEditor>
-        {props.mutationName}
-        {closeIcon}
-      </HeaderEditor>
+  <SelectedMutationEditorWrapper>
+    <HeaderEditor>
+      {props.mutationName}
+      {closeIcon}
+    </HeaderEditor>
 
-      {props.apps && props.apps.length
-        ? props.apps.map((app, i) => (
-            <Widget
-              key={i}
-              src="bos.dapplets.near/widget/ApplicationCard"
-              props={{
-                src: app,
-              }}
-            />
-          ))
-        : null}
-
-      <ButtonsBlock>
-        <ButtonsRevert>Revert changes</ButtonsRevert>
-        <ButtonsSave>
-          <TextSave>{state.textSave}</TextSave>
-          <ArrowWrapper
-            style={{
-              transform: state.isOpenParametersSave
-                ? "rotate(180deg)"
-                : "rotate(0deg)",
+    {props.apps && props.apps.length
+      ? props.apps.map((app, i) => (
+          <Widget
+            key={i}
+            src="bos.dapplets.near/widget/ApplicationCard"
+            props={{
+              src: app,
             }}
-            onClick={() =>
-              State.update({
-                isOpenParametersSave: !state.isOpenParametersSave,
-              })
-            }
-          >
-            {arrow}
-          </ArrowWrapper>
-          {state.isOpenParametersSave ? (
-            <SaveChanges>
-              {state.parametersSave.map((x, i) => (
-                <SaveChangesItem
-                  onClick={() =>
-                    State.update({
-                      isOpenParametersSave: !state.isOpenParametersSave,
-                      textSave: x,
-                    })
-                  }
-                  key={i}
-                >
-                  {x}
-                </SaveChangesItem>
-              ))}
-            </SaveChanges>
-          ) : null}
-        </ButtonsSave>
-      </ButtonsBlock>
-    </SelectedMutationEditorWrapper>
-  </div>
+          />
+        ))
+      : null}
+
+    <ButtonsBlock>
+      <ButtonsRevert>Revert changes</ButtonsRevert>
+      <ButtonsSave>
+        <TextSave>{state.textSave}</TextSave>
+        <ArrowWrapper
+          style={{
+            transform: state.isOpenParametersSave
+              ? "rotate(180deg)"
+              : "rotate(0deg)",
+          }}
+          onClick={() =>
+            State.update({
+              isOpenParametersSave: !state.isOpenParametersSave,
+            })
+          }
+        >
+          {arrow}
+        </ArrowWrapper>
+        {state.isOpenParametersSave ? (
+          <SaveChanges>
+            {state.parametersSave.map((x, i) => (
+              <SaveChangesItem
+                onClick={() =>
+                  State.update({
+                    isOpenParametersSave: !state.isOpenParametersSave,
+                    textSave: x,
+                  })
+                }
+                key={i}
+              >
+                {x}
+              </SaveChangesItem>
+            ))}
+          </SaveChanges>
+        ) : null}
+      </ButtonsSave>
+    </ButtonsBlock>
+  </SelectedMutationEditorWrapper>
 );
