@@ -214,7 +214,7 @@ const changeAmount = (value) => {
   }`;
   if (amount < state.minimum)
     State.update({ error: "Amount must be greater than " + state.minimum });
-  else if (amount < state.balance)
+  else if (amount > state.balance)
     return State.update({ error: "You don't have enough balance." });
   else State.update({ error: "" });
   State.update({
