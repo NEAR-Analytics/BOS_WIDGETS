@@ -272,7 +272,7 @@ return (
       <h5 className="mb-2">Preview</h5>
       <p>If you are happy with your creation, be sure to click 'Save'</p>
       <Widget
-        src="dawnkelly.near/widget/weapon.inline"
+        src="dawnkelly.near/widget/monster.inline"
         props={{
           accountId,
           monster,
