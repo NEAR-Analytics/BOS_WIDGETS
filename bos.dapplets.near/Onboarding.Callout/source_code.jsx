@@ -123,7 +123,7 @@ const callout = (
 
 return (
   <DappletCallout
-    show={isVisibleStep}
+    show={true}
     delay={{ show: 250, hide: 300 }}
     placement="right"
     overlay={callout}
