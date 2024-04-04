@@ -1,4 +1,6 @@
 const config = {
+  btse_logo:
+    "https://gateway.pinata.cloud/ipfs/QmZK8WaTq5pBQWVBFm3dQBbHD6saqyRzwiNfNEfNm5ip9p",
   orderly_network:
     "https://bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44.ipfs.nftstorage.link/",
   lonk_bot:
@@ -92,7 +94,10 @@ return (
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  <img src={config.orderly_network} />
+                  <img
+                    src={config.btse_logo}
+                    style={{ filter: "brightness(0%)" }}
+                  />
                 </a>
                 <a
                   href="https://t.me/lonk_bot"
