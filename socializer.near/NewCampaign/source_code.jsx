@@ -208,6 +208,10 @@ const changeRequirement = (label) => {
 };
 
 const changeAmount = (value) => {
+  State.update({
+    amount: amount,
+    total_reward,
+  });
   const amount = Math.abs(value && Number(value));
   const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
     state.token
@@ -217,10 +221,6 @@ const changeAmount = (value) => {
   else if (amount > state.balance)
     return State.update({ error: "You don't have enough balance." });
   else State.update({ error: "" });
-  State.update({
-    amount: amount,
-    total_reward,
-  });
 };
 
 const changePostLink = (link) => {
