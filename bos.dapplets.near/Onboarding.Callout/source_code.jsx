@@ -96,11 +96,9 @@ const handleNextClick = () => {
   Storage.set("step", currentStepIndex + 1);
 };
 
-if (storageStepIndex !== currentStepIndex) {
-  return <></>;
-}
+const isVisibleStep = storageStepIndex === currentStepIndex;
 
-return (
+const callout = (
   <Callout>
     <CalloutTitle>It's a sandbox story first</CalloutTitle>
     <CalloutDescription>
@@ -121,4 +119,15 @@ return (
       </ActionButton>
     </ActionsGroup>
   </Callout>
+);
+
+return (
+  <OverlayTrigger
+    show={isVisibleStep}
+    delay={{ show: 250, hide: 300 }}
+    placement="auto"
+    overlay={callout}
+  >
+    <div>Target</div>
+  </OverlayTrigger>
 );
