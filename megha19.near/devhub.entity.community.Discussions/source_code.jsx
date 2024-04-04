@@ -71,7 +71,7 @@ const Tag = styled.div`
   font-weight: 800;
 `;
 
-const [sort, setSort] = useState("timedesc");
+const [sort, setSort] = useState("desc");
 const [isTransactionFinished, setIsTransactionFinished] = useState(false);
 
 const discussionsAccountId =
@@ -225,7 +225,7 @@ return (
                   setSort(e.target.value);
                 }}
               >
-                <option selected value="timedesc">
+                <option selected value="desc">
                   Latest
                 </option>
                 <option value="recentcommentdesc">Last Commented</option>
@@ -240,6 +240,7 @@ return (
               key="feed"
               src="megha19.near/widget/devhub.components.feed.SubscribedFeed"
               props={{
+                sort: sort,
                 accounts: [
                   `discussions.${handle}.community.devhub.near`,
                 ],
