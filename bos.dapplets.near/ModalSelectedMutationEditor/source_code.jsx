@@ -192,7 +192,8 @@ const arrow = (
     />
   </svg>
 );
-
+console.log(selectedApps);
+console.log(apps);
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
