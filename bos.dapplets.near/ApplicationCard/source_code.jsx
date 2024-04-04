@@ -1,4 +1,4 @@
-console.log(props.src);
+if (!props.src) return;
 const [accountId, unused, widgetName] = props.src.split("/");
 const detailsUrl = `/near/widget/ComponentDetailsPage?src=${accountId}/widget/${widgetName}`;
 const appUrl = `/${accountId}/widget/${widgetName}`;
