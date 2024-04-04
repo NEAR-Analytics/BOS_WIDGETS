@@ -126,7 +126,7 @@ const Wrapper = styled.div`
 
 const LanguageSelector = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 2rem;
   right: 1rem;
   display: flex;
   align-items: center;
