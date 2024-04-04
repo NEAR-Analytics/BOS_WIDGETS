@@ -199,7 +199,16 @@ return (
       {props.mutationName}
       {closeIcon}
     </HeaderEditor>
-    <div style={{ overflow: hidden, overflowY: auto, maxHeight: "400px" }}>
+    <div
+      style={{
+        overflow: "hidden",
+        overflowY: "auto",
+        maxHeight: "400px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "5px",
+      }}
+    >
       {props.apps && props.apps.length
         ? props.apps.map((app, i) => (
             <Widget
