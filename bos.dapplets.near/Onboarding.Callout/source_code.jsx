@@ -63,11 +63,31 @@ const ActionButton = styled.div`
     }
 `;
 
-const handleBackClick = () => {};
-
-const handleNextClick = () => {};
-
 const { link } = props;
+
+const steps = [
+  "289858ca4ee414d0961ec7f7646cf8a9",
+  "788496b50edf33bf7b44d5e5c89c3622",
+  "5e39302b56084cb7644e2b89ca6d36b8",
+];
+
+const currentStepIndex = steps.indexOf(link.id);
+const isLastStep = currentStepIndex === steps.length - 1;
+const isFirstStep = currentStepIndex === 0;
+
+const storageStepIndex = Storage.get("step") ?? 0;
+
+const handleBackClick = () => {
+  Storage.set("step", currentStepIndex + 1);
+};
+
+const handleNextClick = () => {
+  Storage.set("step", currentStepIndex - 1);
+};
+
+if (storageStepIndex !== currentStepIndex) {
+  return <></>;
+}
 
 return (
   <Callout>
@@ -78,8 +98,14 @@ return (
       aliquet vitae curabitur non. LinkId: {link.id}
     </CalloutDescription>
     <ActionsGroup>
-      <ActionButton onClick={handleBackClick}>Back</ActionButton>
-      <ActionButton $primary={true} onClick={handleNextClick}>
+      <ActionButton onClick={handleBackClick} disabled={isFirstStep}>
+        Back
+      </ActionButton>
+      <ActionButton
+        $primary={true}
+        onClick={handleNextClick}
+        disabled={isLastStep}
+      >
         Next
       </ActionButton>
     </ActionsGroup>
