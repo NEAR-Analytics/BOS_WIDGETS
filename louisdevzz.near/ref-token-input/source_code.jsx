@@ -131,6 +131,7 @@ const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 
 State.init({
   show: false,
+  balance: "",
   handleClose: () => {
     State.update({
       show: false,
@@ -142,6 +143,13 @@ State.init({
     });
   },
 });
+useEffect(() => {
+  const interval = setInterval(() => {
+    State.update({ balance: getBalance(props.token.id) });
+  }, 2000);
+
+  return () => clearInterval(interval);
+}, []);
 
 const BalanceWrapper = styled.div`
   color: #7c7f96;
@@ -206,7 +214,7 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {accountId ? getBalance(props.token.id) : "-"}</div>
+      <div>Balance: {accountId ? state.balance : "-"}</div>
     </BalanceWrapper>
 
     {SelectToken}
