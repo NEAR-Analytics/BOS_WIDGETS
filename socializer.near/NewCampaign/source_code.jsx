@@ -208,7 +208,7 @@ const changeRequirement = (label) => {
 };
 
 const changeAmount = (value) => {
-  const amount = value && Math.abs(value && Number(value));
+  const amount = value !== "" && Math.abs(value && Number(value));
   const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
     state.token
   }`;
