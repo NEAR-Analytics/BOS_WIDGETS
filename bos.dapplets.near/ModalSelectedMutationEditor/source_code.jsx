@@ -236,7 +236,10 @@ const arrow = (
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
-      <Input value={props.mutationName ? props.mutationName : ""} />
+      <Input
+        onChange={props.handleEditMutationName}
+        value={props.mutationName ? props.mutationName : ""}
+      />
       <span onClick={props.onClose}> {closeIcon}</span>
     </HeaderEditor>
     <div
