@@ -2,15 +2,13 @@ if (!props.selectedMutation) return <></>;
 const [accountId] = props.selectedMutation.id.split("/");
 State.init({
   textSave:
-    context.accountId && accountId === context.accountId
-      ? `Save`
-      : "Commit to origin",
+    context.accountId && accountId === context.accountId ? `Save` : "Fork",
   isOpenParametersSave: false,
 });
 const parametersSave =
   context.accountId && accountId === context.accountId
-    ? ["Publish", "Commit to origin"]
-    : ["Commit to origin"];
+    ? ["Publish", "Fork"]
+    : ["Fork"];
 const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
