@@ -2,7 +2,7 @@ if (!props.selectedMutation) return <></>;
 const [accountId] = props.selectedMutation.id.split("/");
 State.init({
   textSave:
-    context.accountId && accountId === context.accountId ? `Save` : "Fork",
+    context.accountId && accountId === context.accountId ? `Publish` : "Fork",
   isOpenParametersSave: false,
 });
 const parametersSave =
@@ -283,7 +283,7 @@ return (
       <ButtonsSave>
         <TextSave
           onClick={() =>
-            state.textSave === "Save" || state.textSave === "Publish"
+            state.textSave === "Publish"
               ? props.handleSaveMutation(props.selectedMutation, true)
               : props.handleSaveMutation(props.selectedMutation, false)
           }
