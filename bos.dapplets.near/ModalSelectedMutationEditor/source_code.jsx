@@ -125,6 +125,47 @@ cursor: pointer;
    background:rgba(217, 222, 225, 1); 
 }
 `;
+
+const Input = styled.input`
+  display: block;
+  flex-grow: 1;
+  border: none;
+  background: none;
+  margin: 0;
+  min-width: 150px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  color: var(--sand12);
+  font: var(--text-base);
+  outline: none !important;
+  text-align: left;
+  transition:
+    color 200ms,
+    opacity 200ms;
+
+  [data-textarea="true"] & {
+    line-height: 1.5;
+    padding: 8px 12px;
+    height: unset;
+    min-height: 5.5rem;
+  }
+
+  &::placeholder {
+    color: var(--sand10);
+    font: var(--text-base);
+    opacity: 1;
+  }
+
+  [data-disabled="true"] & {
+    opacity: 1;
+    color: var(--sand9);
+
+    &::placeholder {
+      color: var(--sand9);
+    }
+  }
+`;
 const closeIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
