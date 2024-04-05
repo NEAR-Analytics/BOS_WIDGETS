@@ -1,3 +1,5 @@
+const { data, key } = props;
+
 const Card = styled.div`
   background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
   width: 100%;
@@ -7,13 +9,11 @@ const Card = styled.div`
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const chartData = props.chartData ?? {
-  labels: props.data.labels.map(
-    (item) => new Date(item).toISOString().split("T")[0],
-  ),
+  labels: data.map((item) => item.day),
   datasets: [
     {
       backgroundColor: gradient,
-      data: props.data.data,
+      data: data.map((item) => item[key]),
     },
   ],
 };
