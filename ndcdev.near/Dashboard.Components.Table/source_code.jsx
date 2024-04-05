@@ -1,89 +1,123 @@
-const { daos, API, dateRange } = props;
-
-const Wrapper = styled.div`
+const ScrollableWrapper = styled.div`
   width: 100%;
+  min-height: 15rem;
+  @media screen and (max-width: 1341px) {
+    overflow-y: hidden;
+    overflow-x: scroll;
 
-  .selected-container {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 16px;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
-
-    i {
-      color: #b0afb1;
+    ::-webkit-scrollbar {
+      height: 15px;
     }
 
-    &.dao {
-      @media screen and (max-width: 768px) {
-        width: 100%;
-      }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #8799d2;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
     }
   }
+  -webkit-overflow-scrolling: touch;
 `;
 
-const DesktopFilters = styled.div`
-  display: flex;
-  width: 100%;
-  border-radius: 6px;
-  background: #f8f8f8;
-
-  @media screen and (max-width: 1000px) {
-    gap: 40px;
-  }
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const MobileFilters = styled.div`
-  display: none;
-  width: 100%;
-
-  @media screen and (max-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .filters {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-  }
-`;
-
+const { daos, API } = props;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const defaultDAOOption = "All DAOs";
+const CURRENCIES = {
+  NEAR: "Near",
+  "USDC.e": "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near",
+  "USDT.e": "dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near",
+};
+const RETENTIONS = ["1 month", "2 months", "3 months", "4 months"];
+const DAPPS_USED_PERIOD = ["All Time"];
 
 const FILTER_IDS = {
   dao: "dao",
-  userRetentions: "userRetentions",
-  dappsUsed: "dappsUsed",
-  acquisitionCost: "acquisitionCost",
-  socialEngagement: "socialEngagement",
+  userRetention: "userRetention",
+  dapUsed: "dapUsed",
+  aquisitionCost: "aquisitionCost",
 };
 
 const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => {
   return { [item]: false };
 });
 
-const [dataSet, setDataSet] = useState([]);
+const [dataSet, setDataSet] = useState({});
 const [loading, setLoading] = useState(false);
-const [selectedDAOs, setSelectedDAOs] = useState(daos.map((d) => d.title));
-const [filteredData, setFilteredData] = useState([]);
-const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
-const [mobileFilters, setMobileFilters] = useState(false);
-const [asc, setAsc] = useState(true);
+const [selectedDAOs, setSelectedDAOs] = useState([]);
+const [selectedRetention, setSelectedRetention] = useState(0);
+const [selectedCurrency, setSelectedCurrency] = useState(
+  Object.keys(CURRENCIES)[0],
+);
 
+const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
 const onFilterClick = (value) =>
   setFiltersIsOpen({ ...FILTER_OPENS, [value]: !filtersIsOpen[value] });
+
+const FILTERS = [
+  {
+    id: FILTER_IDS.dao,
+    text: "DAO",
+    hintText: "NDC grassroots DAOs",
+    options: [defaultDAOOption, ...daos.map((d) => d.title)],
+    values: selectedDAOs,
+    defaultValue: defaultDAOOption,
+    multiple: true,
+    filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
+    onFilterClick,
+    onChange: (value) => filterDAO(value),
+    onClear: () => {
+      setSelectedDAOs([]);
+    },
+  },
+  {
+    id: FILTER_IDS.userRetention,
+    text: "User Retention",
+    hintText:
+      "The percentage of accounts who continue interacting on chain recently: Accounts onboarded/Accounts left",
+    options: RETENTIONS,
+    values: [RETENTIONS[selectedRetention]],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.userRetention],
+    onFilterClick,
+    onChange: (value) => setSelectedRetention(RETENTIONS.indexOf(value)),
+  },
+  {
+    id: FILTER_IDS.dapUsed,
+    text: "DApp's Used",
+    hintText:
+      "Median number of dApps used by accounts retained for more then a week",
+    options: DAPPS_USED_PERIOD,
+    values: [DAPPS_USED_PERIOD[0]],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.dapUsed],
+    onFilterClick,
+    onChange: (value) => {},
+  },
+  {
+    id: FILTER_IDS.aquisitionCost,
+    text: "Acquisition Cost",
+    hintText:
+      "Budget divided by the number of accounts interacting  through the funded initiative",
+    options: Object.keys(CURRENCIES),
+    values: [selectedCurrency],
+    filterIsOpen: filtersIsOpen[FILTER_IDS.aquisitionCost],
+    onFilterClick,
+    onChange: (value) => setSelectedCurrency(value),
+  },
+];
+
+const sortByDAOName = (keys) =>
+  Object.keys(keys)
+    .sort()
+    .reduce((obj, key) => {
+      obj[key] = keys[key];
+      return obj;
+    }, {});
 
 const filterDAO = (value) => {
   let newSelection;
@@ -99,7 +133,7 @@ const filterDAO = (value) => {
   } else {
     newSelection = [...selectedDAOs, value];
   }
-
+  console.log("----", newSelection);
   setSelectedDAOs(newSelection);
 };
 
@@ -108,171 +142,49 @@ const fetchData = async (key) => {
   const filtredDAOs = selectedDAOs.length
     ? daos.filter((d) => selectedDAOs.includes(d.title))
     : daos;
-
   let newDataSet = dataSet;
 
   API[key](filtredDAOs).then((resp) => {
     if (!resp.body) return;
 
     const data = resp.body;
-    if (data)
-      Object.entries(data).map(([id, value]) => {
-        const targetData = newDataSet.find((d) => d.id === parseInt(id));
-        targetData[key] = parseInt(value);
+    if (data) {
+      Object.entries(data).map(([id, value], i) => {
+        newDataSet[id]
+          ? (newDataSet[id][key] = value)
+          : (newDataSet[id] = { [key]: value });
       });
+    }
 
     setDataSet(newDataSet);
-    setFilteredData(newDataSet);
     setLoading(false);
   });
 };
 
 useEffect(() => {
-  const filtredDAOs = selectedDAOs.length
-    ? daos.filter((d) => selectedDAOs.includes(d.title))
-    : daos;
-
-  if (dataSet.length === 0)
-    setDataSet(
-      filtredDAOs.map((dao) => {
-        return {
-          id: dao.id,
-          title: dao.title,
-          [FILTER_IDS.userRetentions]: 0,
-          [FILTER_IDS.dappsUsed]: 0,
-          [FILTER_IDS.acquisitionCost]: 0,
-          [FILTER_IDS.socialEngagement]: 0,
-        };
-      }),
-    );
-
-  setFilteredData(
-    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title)),
-  );
-}, [selectedDAOs]);
-
-useEffect(() => {
-  if (dataSet.length > 0 && dateRange) {
-    fetchData(FILTER_IDS.userRetentions);
-    fetchData(FILTER_IDS.dappsUsed);
-    fetchData(FILTER_IDS.acquisitionCost);
-    fetchData(FILTER_IDS.socialEngagement);
-  }
-}, [dataSet, dateRange]);
-
-const sortData = (field, asc) =>
-  setFilteredData(
-    filteredData.sort((a, b) =>
-      asc ? b[field] - a[field] : a[field] - b[field],
-    ),
-  );
-
-const SortingRow = ({ title, field }) => (
-  <div
-    role="button"
-    className="selected-container"
-    onClick={() => {
-      sortData(field, asc);
-      setAsc(!asc);
-    }}
-  >
-    <div className="d-flex align-items-end gap-2">
-      <i className="ph ph-info fs-5" />
-      <div>{title}</div>
-    </div>
-    <i role="button" className="ph ph-caret-up-down fs-5" />
-  </div>
-);
+  fetchData("userRetentions");
+  fetchData("dappsUsed");
+  fetchData("acquisitionCost");
+}, [selectedDAOs, selectedRetention, selectedCurrency, daos]);
 
 return (
-  <Wrapper>
-    <MobileFilters>
-      <div className="w-100 gap-3 d-flex justify-content-between align-items-center">
+  <ScrollableWrapper>
+    <div className="d-flex gap-2 w-100">
+      {FILTERS.map((filter) => (
         <Widget
-          src={`ndcdev.near/widget/dashboard.Components.Select`}
-          props={{
-            id: FILTER_IDS.dao,
-            text: "DAO",
-            hintText: "NDC grassroots DAOs",
-            options: daos.map((d) => d.title),
-            values: selectedDAOs,
-            defaultValue: defaultDAOOption,
-            multiple: true,
-            filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
-            onFilterClick,
-            onChange: filterDAO,
-            onClear: () => {
-              setSelectedDAOs(daos.map((d) => d.title));
-            },
-            isTooltipVisible: true,
-            noBorder: true,
-            containerClass: "selected-container dao",
-          }}
+          key={filter.id}
+          src={`ndcdev.near/widget/Dashboard.Components.Table.Filters`}
+          props={{ ...filter }}
         />
-        <div
-          role="button"
-          className="btn btn-secondary outlined btn-icon"
-          onClick={() => setMobileFilters(!mobileFilters)}
-        >
-          <i className="ph ph-funnel fs-5" />
-        </div>
-      </div>
-      {mobileFilters && (
-        <div className="filters">
-          <SortingRow
-            title="User Retention"
-            field={FILTER_IDS.userRetentions}
-          />
-          <SortingRow title="DApp's Used" field={FILTER_IDS.dappsUsed} />
-          <SortingRow
-            title="Acquisition Cost"
-            field={FILTER_IDS.acquisitionCost}
-          />
-          <SortingRow
-            title="Social Engagement"
-            field={FILTER_IDS.socialEngagement}
-          />
-        </div>
-      )}
-    </MobileFilters>
-    <DesktopFilters>
-      <div className="w-100 gap-5 d-flex justify-content-between align-items-center">
-        <Widget
-          src={`ndcdev.near/widget/dashboard.Components.Select`}
-          props={{
-            id: FILTER_IDS.dao,
-            text: "DAO",
-            hintText: "NDC grassroots DAOs",
-            options: daos.map((d) => d.title),
-            values: selectedDAOs,
-            defaultValue: defaultDAOOption,
-            multiple: true,
-            filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
-            onFilterClick,
-            onChange: (value) => filterDAO(value),
-            onClear: () => {
-              setSelectedDAOs([]);
-            },
-            isTooltipVisible: true,
-            noBorder: true,
-            containerClass: "selected-container dao",
-          }}
-        />
-        <SortingRow title="User Retention" field={FILTER_IDS.userRetentions} />
-        <SortingRow title="DApp's Used" field={FILTER_IDS.dappsUsed} />
-        <SortingRow
-          title="Acquisition Cost"
-          field={FILTER_IDS.acquisitionCost}
-        />
-        <SortingRow
-          title="Social Engagement"
-          field={FILTER_IDS.socialEngagement}
-        />
-      </div>
-    </DesktopFilters>
-    <Widget
-      src={`ndcdev.near/widget/dashboard.Components.Table.Cells`}
-      props={{ dataSet: filteredData, loading }}
-    />
-  </Wrapper>
+      ))}
+    </div>
+    {loading ? (
+      <Loading />
+    ) : (
+      <Widget
+        src={`ndcdev.near/widget/Dashboard.Components.Table.Cells`}
+        props={{ dataSet, daos }}
+      />
+    )}
+  </ScrollableWrapper>
 );
