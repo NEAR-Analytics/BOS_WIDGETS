@@ -335,7 +335,8 @@ const callTx = () => {
     });
   }
 
-  Near.call(tx);
+  const res = Near.call(tx);
+  console.log(res);
 };
 
 const inputOnChange = (e) => {
@@ -373,7 +374,7 @@ return (
 
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountIn,
           disableInput: false,
@@ -390,7 +391,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountOut,
           disableInput: true,
