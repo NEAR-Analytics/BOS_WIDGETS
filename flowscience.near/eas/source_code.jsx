@@ -2,35 +2,44 @@ const user = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!user) return <Web3Connect connectLabel="Connect" />;
 
-const easAbi = fetch(
+const chain = Ethers.provider()
+  .getNetwork()
+  .then((chainIdData) => {
+    console.log(chainIdData.chainId);
+  });
+
+const abi = fetch(
   "https://raw.githubusercontent.com/ethereum-attestation-service/eas-contracts/master/deployments/optimism/EAS.json"
 );
 
+const signer = Ethers.provider().getSigner();
 const contractAddress = "0x4200000000000000000000000000000000000021";
-const parsedAbi = JSON.parse(easAbi.body);
-const abi = parsedAbi.abi;
-
+const parsedAbi = JSON.parse(abi.body);
+const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
+console.log(contract);
 const [attestation, setAttestation] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
 
-const bytes32Uid = ethers.utils.formatBytes32String(uid).slice(0, 64); // '0x' + 64 hex characters
-const easContract = new ethers.Contract(
-  contractAddress,
-  abi,
-  Ethers.provider().getSigner()
-);
-
 function getAttestation() {
-  abi
-    .getAttestation(bytes32Uid)
+  // Ensure uid is a non-empty string
+  if (typeof uid !== "string" || uid.trim() === "") {
+    console.error("UID must be a non-empty string.");
+    setError("UID must be provided.");
+    return;
+  }
+
+  const bytesUid = ethers.utils.hexZeroPad(uid, 32);
+
+  contract
+    .getAttestation(uid)
     .then((result) => {
       setAttestation(result);
       setError("");
     })
     .catch((error) => {
       console.error("error fetching attestation:", error);
-      setError("Failed to retrieve data. Please try with a verified address.");
+      setError("Failed to retrieve data. Please try with a verified uid.");
     });
 }
 
