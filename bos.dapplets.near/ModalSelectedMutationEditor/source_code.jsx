@@ -235,7 +235,7 @@ const arrow = (
   </svg>
 );
 console.log(context.accountId, "context.accountId");
-const [accountId, unused, widgetName] = props.selectedMutation.id("/");
+const [accountId, unused, widgetName] = props.selectedMutation.id.split("/");
 console.log(accountId, "accountId");
 return (
   <SelectedMutationEditorWrapper>
