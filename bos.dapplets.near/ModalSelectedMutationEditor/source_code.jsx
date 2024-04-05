@@ -3,6 +3,7 @@ State.init({
   isOpenParametersSave: false,
   parametersSave: ["Publish", "Commit to origin"],
 });
+const [accountId] = props.selectedMutation.id.split("/");
 const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -234,9 +235,7 @@ const arrow = (
     />
   </svg>
 );
-console.log(context.accountId, "context.accountId");
-const [accountId, unused, widgetName] = props.selectedMutation.id.split("/");
-console.log(accountId, "accountId");
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -278,7 +277,11 @@ return (
       </ButtonsRevert>
       <ButtonsSave>
         <TextSave
-          onClick={() => props.handleSaveMutation(props.selectedMutation)}
+          onClick={() =>
+            context.accountId && accountId === context.accountId
+              ? props.handleSaveMutation(props.selectedMutation, true)
+              : props.handleSaveMutation(props.selectedMutation, false)
+          }
         >
           {state.textSave}
         </TextSave>
