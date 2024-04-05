@@ -49,27 +49,28 @@ const ChartContainer = styled.div`
   }
 `;
 
-const { ndcDAOs } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+const { contractName } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
 
-if (!ndcDAOs) return <Widget src="flashui.near/widget/Loading" />;
-
-const PERIODS = ["daily", "weekly", "monthly"];
+const PERIODS = [
+  { name: "daily", value: 1 },
+  { name: "weekly", value: 7 },
+  { name: "monthly", value: 30 },
+];
 const defaultDAOOption = "All DAOs";
 const dailyTotal = { labels: [], data: [] };
 const dailyTotalUsers = { labels: [], data: [] };
 
 const [loading, setLoading] = useState(false);
-const [period, setPeriod] = useState(PERIODS[0]);
+const [period, setPeriod] = useState(PERIODS[0].name);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
 const [dataState, setDataState] = useState({
   totalTx: 0,
   totalAccounts: 0,
   uniqueAccounts: 0,
-  dailyTotalTx: [],
-  uniqueActiveUsers: [],
+  dailyStats: [],
 });
 
-const baseUrl = "https://api.pikespeak.ai";
+const baseUrl = "https://dashboard.chatme.page";
 
 const get = async (url) => {
   try {
@@ -77,7 +78,6 @@ const get = async (url) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
       },
     });
   } catch (e) {
@@ -85,66 +85,63 @@ const get = async (url) => {
   }
 };
 
+const daos = Near.view(contractName, "get_dao_list");
+if (!daos) return <Widget src="flashui.near/widget/Loading" />;
+
+const formatDate = () => {
+  const diff = PERIODS.find((p) => p.name === period).value;
+  const dateNow = new Date();
+  const prevDate = new Date(new Date().setDate(new Date().getDate() - diff));
+
+  const fmt = (date) => date.toLocaleDateString().split("/");
+  return {
+    startDate: `${fmt(prevDate)[2]}-${fmt(prevDate)[1]}-${fmt(prevDate)[0]}`,
+    endDate: `${fmt(dateNow)[2]}-${fmt(dateNow)[1]}-${fmt(dateNow)[0]}`,
+  };
+};
+
+// /api/total - General Stats
+// /api/user-retention - User Retention
+// /api/dapps-used - Dapps Used
+// /api/social-engagement - Social Engagement
+const params = `start_date=${formatDate().startDate}&end_date=${formatDate().endDate}`;
+
 const API = {
-  get_accounts: (accountId) =>
-    get(`event-historic/account/relationships/${accountId}?search=${accountId}
-  `),
-  get_unique_accounts_by_period: (accountId) =>
-    get(`contract-analysis/unique-users-by-period/${accountId}`),
-  get_activity_by_period: (accountId) =>
-    get(`contract-analysis/metrics/${accountId}`),
-  get_retentions: (accountId) =>
-    get(`contract-analysis/retention/${accountId}`),
-  get_dapps_spends: (accountId) =>
-    get(`/contract-analysis/crossdapp-near-spending/${accountId}`),
-  get_aquisition_cost: (accountId) =>
-    get(`/contract-analysis/metrics/${accountId}`),
-  get_contract_relations: (accountId) =>
-    get(
-      `/event-historic/account/relationships/${accountId}?search=${accountId}`,
-    ),
-  get_balance: (accountId) => get(`/account/balance/${accountId}`),
-  get_dapps: () => get(`/contract-analysis/classification?isDapp=true`),
-  // get_dapps_categories: () => get(`/contract-analysis/classification-categories`),
+  getTotal: () =>
+    get(`api/total?${params}&&dao_list=[${daos.map((d) => d.id)}]`),
+  getDailyStats: () =>
+    get(`api/daily-stats?${params}&&dao_list=[${daos.map((d) => d.id)}]`),
+  userRetentions: (daos) =>
+    get(`api/user-retention?${params}&dao_list=[${daos.map((d) => d.id)}]`),
+  dappsUsed: (daos) =>
+    get(`api/dapps-used?${params}&dao_list=[${daos.map((d) => d.id)}]`),
+  acquisitionCost: (daos) =>
+    get(`api/acquisition-cost?${params}&dao_list=[${daos.map((d) => d.id)}]`),
+  socialEngagement: (daos) =>
+    get(`api/social-engagement?${params}&dao_list=[${daos.map((d) => d.id)}]`),
 };
 
 const fetchData = () => {
   setLoading(true);
-  let newState = {
-    totalTx: 0,
-    totalAccounts: 0,
-    uniqueAccounts: 0,
-    dailyTotalTx: [],
-    uniqueActiveUsers: [],
-  };
 
-  const daos = selectedDAOs.length ? selectedDAOs : ndcDAOs;
+  API.getTotal().then((resp) => {
+    if (!resp.body) return;
 
-  const promises = daos.flatMap((accountId) => [
-    API.get_accounts(accountId).then((resp) => {
-      if (!resp.body) return;
+    const data = resp.body.data;
+    const newState = dataState;
+    newState.totalTx = data.transactions;
+    newState.totalAccounts = data.accounts;
+    newState.uniqueAccounts = data.active_users;
+    setDataState(newState);
+    setLoading(false);
+  });
 
-      newState.totalAccounts += resp.body.length;
-    }),
-    API.get_unique_accounts_by_period(accountId).then((resp) => {
-      if (!resp.body) return;
+  API.getDailyStats().then((resp) => {
+    if (!resp.body) return;
 
-      newState.uniqueAccounts += parseInt(resp.body[period].data.length);
-      newState.uniqueActiveUsers.push(...resp.body[period].data);
-      newState.totalTx += resp.body[period].data.reduce(
-        (memo, current) => memo + parseInt(current.tx_count),
-        0,
-      );
-      newState.dailyTotalTx.push(
-        ...resp.body[period].data.map((item) => ({
-          date: item.day,
-          count: parseInt(item.tx_count),
-        })),
-      );
-    }),
-  ]);
-
-  Promise.all(promises).then(() => {
+    const data = resp.body.data;
+    const newState = dataState;
+    newState.dailyStats = data;
     setDataState(newState);
     setLoading(false);
   });
@@ -154,26 +151,12 @@ useEffect(() => {
   fetchData();
 }, [selectedDAOs, period]);
 
-dataState.dailyTotalTx
-  .sort((a, b) => new Date(a.date) - new Date(b.date))
-  .forEach((element) => {
-    dailyTotal.labels.push(element.date);
-    dailyTotal.data.push(element.count);
-  });
-
-dataState.uniqueActiveUsers
-  .sort((a, b) => new Date(a.day) - new Date(b.day))
-  .forEach((element) => {
-    dailyTotalUsers.labels.push(element.day);
-    dailyTotalUsers.data.push(element.unique_users);
-  });
-
 const onSelectChange = (value) => {
   const isDefaultOption = value === defaultDAOOption;
 
   const updateSelectedDAOs = () => {
     if (isDefaultOption) {
-      const all = [...ndcDAOs, defaultDAOOption];
+      const all = [...daos, defaultDAOOption];
       if (selectedDAOs.length === all.length) {
         return [];
       }
@@ -208,7 +191,7 @@ return (
           <Widget
             src={`ndcdev.near/widget/Dashboard.Components.Select`}
             props={{
-              options: ndcDAOs,
+              options: daos.map((d) => d.title),
               defaultValue: defaultDAOOption,
               multiple: true,
               values: selectedDAOs,
@@ -222,7 +205,7 @@ return (
           <Widget
             src={`ndcdev.near/widget/Dashboard.Components.Select`}
             props={{
-              options: PERIODS.map((v) => capitalizeFirstLetter(v)),
+              options: PERIODS.map((v) => capitalizeFirstLetter(v.name)),
               isOpen: selectOpen,
               values: period,
               onChange: (v) => setPeriod(v.toLowerCase()),
@@ -246,7 +229,8 @@ return (
         src={`ndcdev.near/widget/Dashboard.Components.Chart`}
         props={{
           title: "DAILY NUMBER OF TRANSACTIONS",
-          data: dailyTotal,
+          data: dataState.dailyStats,
+          key: "total_transactions",
           loading,
         }}
       />
@@ -254,7 +238,8 @@ return (
         src={`ndcdev.near/widget/Dashboard.Components.Chart`}
         props={{
           title: "UNIQUE ACTIVE USERS",
-          data: dailyTotalUsers,
+          data: dataState.dailyStats,
+          key: "unique_wallets",
           loading,
         }}
       />
@@ -262,7 +247,7 @@ return (
     <div className="section py-5 flex-column">
       <Widget
         src={`ndcdev.near/widget/Dashboard.Components.Table`}
-        props={{ ndcDAOs, API }}
+        props={{ daos, API }}
       />
     </div>
   </Container>
