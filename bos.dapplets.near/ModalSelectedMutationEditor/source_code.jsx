@@ -234,7 +234,9 @@ const arrow = (
     />
   </svg>
 );
-
+console.log(context.accountId, "context.accountId");
+const [accountId, unused, widgetName] = props.selectedMutation.id("/");
+console.log(accountId, "accountId");
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
