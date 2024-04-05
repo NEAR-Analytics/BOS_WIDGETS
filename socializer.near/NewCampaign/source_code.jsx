@@ -225,6 +225,22 @@ const changeAmount = (value) => {
   else State.update({ error: "" });
 };
 
+const changeWinners = (value) => {
+  const winners = Math.abs(value ? parseInt(value) : 0);
+  winners = winners > 20 ? 20 : winners;
+  const total_reward = `${Number((state.amount * winners).toFixed(4))} ${
+    state.token
+  }`;
+  State.update({
+    winners: winners ? winners : "",
+    total_reward,
+  });
+  if (amount.state.total_reward)
+    return State.update({
+      error: "Not enough Balance. Please recharge in Ledger",
+    });
+};
+
 const changePostLink = (link) => {
   State.update({ error: "", post_link: link, loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
@@ -492,17 +508,7 @@ return (
             step="1"
             value={state.winners}
             onChange={(e) => {
-              const winners = Math.abs(
-                e.target.value ? parseInt(e.target.value) : 0
-              );
-              winners = winners > 20 ? 20 : winners;
-              const total_reward = `${Number(
-                (state.amount * winners).toFixed(4)
-              )} ${state.token}`;
-              State.update({
-                winners: winners ? winners : "",
-                total_reward,
-              });
+              changeWinners(e.target.value);
             }}
             className="col-lg-12  form-input"
           />
