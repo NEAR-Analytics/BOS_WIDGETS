@@ -218,7 +218,7 @@ const changeAmount = (value) => {
   });
   if (amount < state.minimum)
     State.update({ error: "Amount must be greater than " + state.minimum });
-  else if (amount > state.balance || amount.state.total_reward)
+  else if (amount > state.balance)
     return State.update({
       error: "Not enough Balance. Please recharge in Ledger",
     });
@@ -235,7 +235,7 @@ const changeWinners = (value) => {
     winners: winners ? winners : "",
     total_reward,
   });
-  if (amount.state.total_reward)
+  if (amount > state.total_reward)
     return State.update({
       error: "Not enough Balance. Please recharge in Ledger",
     });
@@ -511,6 +511,11 @@ return (
               changeWinners(e.target.value);
             }}
             className="col-lg-12  form-input"
+            style={{
+              border: state.error.includes("Not enough Balance")
+                ? "1px solid var(--light_70,red)"
+                : "1px solid var(--light_70,black)",
+            }}
           />
         </div>
       </div>
