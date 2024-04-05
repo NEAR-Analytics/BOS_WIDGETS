@@ -61,7 +61,9 @@ display: flex;
       width: 175px;
     height:42px;
     border-radius: 10px;
-    background: rgba(56, 75, 255, 1);
+    background: ${
+      context.accountId ? rgba(56, 75, 255, 1) : rgba(56, 75, 255, 0.5)
+    } ;
     color:#fff;
 font-size: 14px;
 font-weight: 400;
@@ -285,9 +287,11 @@ return (
               : "rotate(0deg)",
           }}
           onClick={() =>
-            State.update({
-              isOpenParametersSave: !state.isOpenParametersSave,
-            })
+            context.accountId
+              ? State.update({
+                  isOpenParametersSave: !state.isOpenParametersSave,
+                })
+              : null
           }
         >
           {arrow}
