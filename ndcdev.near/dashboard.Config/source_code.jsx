@@ -1,4 +1,6 @@
 return {
+  contractName: "v3.test-dao.near",
+  prodContractName: "v3.test-dao.near",
   ndcDAOs: [
     "marketing.sputnik-dao.near",
     "gaming-dao.sputnik-dao.near",
