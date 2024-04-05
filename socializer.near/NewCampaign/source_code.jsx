@@ -235,7 +235,7 @@ const changeWinners = (value) => {
     winners: winners ? winners : "",
     total_reward,
   });
-  if (amount > state.total_reward)
+  if (total_reward > state.balance)
     return State.update({
       error: "Not enough Balance. Please recharge in Ledger",
     });
