@@ -211,7 +211,10 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {accountId ? getBalance(props.token.id) : "-"}</div>
+      <div>
+        Balance:{" "}
+        {accountId ? setInterval(getBalance(props.token.id), 10000) : "-"}
+      </div>
     </BalanceWrapper>
 
     {SelectToken}
