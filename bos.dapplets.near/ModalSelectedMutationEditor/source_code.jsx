@@ -285,7 +285,7 @@ return (
       <ButtonsSave>
         <TextSave
           onClick={() =>
-            (state.textSave === "Save") | (state.textSave === "Publish")
+            state.textSave === "Save" || state.textSave === "Publish"
               ? props.handleSaveMutation(props.selectedMutation, true)
               : props.handleSaveMutation(props.selectedMutation, false)
           }
