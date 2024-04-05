@@ -131,7 +131,7 @@ const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 
 State.init({
   show: false,
-  balance: "",
+  balance: getBalance(props.token.id),
   handleClose: () => {
     State.update({
       show: false,
