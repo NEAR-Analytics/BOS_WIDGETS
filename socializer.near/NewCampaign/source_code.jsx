@@ -208,7 +208,7 @@ const changeRequirement = (label) => {
 };
 
 const changeAmount = (value) => {
-  const amount = Math.abs(value && Number(value));
+  const amount = value && Math.abs(value && Number(value));
   const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
     state.token
   }`;
@@ -235,8 +235,7 @@ const changeWinners = (value) => {
     winners: winners ? winners : "",
     total_reward,
   });
-  console.log(total_reward > state.balance, total_reward, state.balance);
-  if (total_reward > state.balance)
+  if (state.amount * winners > state.balance)
     return State.update({
       error: "Not enough Balance. Please recharge in Ledger",
     });
