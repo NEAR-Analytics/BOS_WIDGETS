@@ -98,7 +98,7 @@ a, a:focus, a:visited, a:hover {
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: Pixter;
+    font-family: system-ui;
     background: white;
     color: black;
     ${css}
