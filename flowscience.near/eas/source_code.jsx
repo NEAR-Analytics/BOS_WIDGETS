@@ -8,11 +8,33 @@ const chain = Ethers.provider()
     console.log(chainIdData.chainId);
   });
 
+console.log("chain:", chain);
+
 const abi = fetch(
   "https://raw.githubusercontent.com/ethereum-attestation-service/eas-contracts/master/deployments/optimism/EAS.json"
 );
+const provider = new ethers.providers.JsonRpcProvider(
+  "https://optimism.drpc.org"
+);
+const signer = provider.getSigner();
+//const signer = Ethers.provider().getSigner();
+console.log("chain:", chain);
+console.log("signer:", signer);
 
-const signer = Ethers.provider().getSigner();
+{
+  /*}
+function getSigner() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  await provider.send("eth_requestAccounts", []); // Request account access
+  return provider.getSigner();
+}
+
+const signer = provider.getSigner().then(signer => {
+  console.log("signer:", signer);
+});
+*/
+}
+
 const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(abi.body);
 const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
