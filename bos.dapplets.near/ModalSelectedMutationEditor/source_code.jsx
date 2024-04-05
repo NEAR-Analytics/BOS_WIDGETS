@@ -1,9 +1,16 @@
-State.init({
-  textSave: `Save`,
-  isOpenParametersSave: false,
-  parametersSave: ["Publish", "Commit to origin"],
-});
+if (props.selectedMutation) return;
 const [accountId] = props.selectedMutation.id.split("/");
+State.init({
+  textSave:
+    context.accountId && accountId === context.accountId
+      ? `Save`
+      : "Commit to origin",
+  isOpenParametersSave: false,
+  parametersSave:
+    context.accountId && accountId === context.accountId
+      ? ["Publish", "Commit to origin"]
+      : ["Commit to origin"],
+});
 const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -278,7 +285,7 @@ return (
       <ButtonsSave>
         <TextSave
           onClick={() =>
-            context.accountId && accountId === context.accountId
+            (state.textSave === "Save") | (state.textSave === "Publish")
               ? props.handleSaveMutation(props.selectedMutation, true)
               : props.handleSaveMutation(props.selectedMutation, false)
           }
