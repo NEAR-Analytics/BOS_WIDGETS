@@ -344,7 +344,7 @@ return (
 
     {
       <Widget
-        src={`huunhanz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input`}
         props={{
           amount: state.amountIn,
           disableInput: false,
@@ -361,7 +361,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`huunhanz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input`}
         props={{
           amount: state.amountOut,
           disableInput: true,
