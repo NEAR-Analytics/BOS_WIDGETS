@@ -218,8 +218,10 @@ const changeAmount = (value) => {
   });
   if (amount < state.minimum)
     State.update({ error: "Amount must be greater than " + state.minimum });
-  else if (amount > state.balance)
-    return State.update({ error: "You don't have enough balance." });
+  else if (amount > state.balance || amount.state.total_reward)
+    return State.update({
+      error: "Not enough Balance. Please recharge in Ledger",
+    });
   else State.update({ error: "" });
 };
 
@@ -235,7 +237,8 @@ const changePostLink = (link) => {
     if (res.ok) {
       const { error, accountId } = res.body;
       console.log(res.body, "-==>data");
-      if (error) State.update({ ...state, error, loading: false });
+      if (error)
+        State.update({ ...state, error, post_link: "", loading: false });
       else if (accountId) {
         State.update({
           ...state,
@@ -244,7 +247,12 @@ const changePostLink = (link) => {
         });
       }
     } else {
-      State.update({ ...state, error: res.error, loading: false });
+      State.update({
+        ...state,
+        post_link: "",
+        error: res.error,
+        loading: false,
+      });
     }
   });
 };
@@ -422,9 +430,11 @@ return (
               className="form-input"
               type="number"
               style={{
-                border: state.error.includes("Amount must be")
-                  ? "1px solid var(--light_70,red)"
-                  : "1px solid var(--light_70,black)",
+                border:
+                  state.error.includes("Amount must be") ||
+                  state.error.includes("Not enough Balance")
+                    ? "1px solid var(--light_70,red)"
+                    : "1px solid var(--light_70,black)",
               }}
               onChange={(e) => {
                 changeAmount(e.target.value);
