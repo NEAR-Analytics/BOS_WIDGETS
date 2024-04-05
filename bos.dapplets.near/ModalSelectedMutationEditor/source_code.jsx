@@ -62,7 +62,7 @@ display: flex;
     height:42px;
     border-radius: 10px;
     background: ${
-      context.accountId ? rgba(56, 75, 255, 1) : rgba(56, 75, 255, 0.5)
+      context.accountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
     } ;
     color:#fff;
 font-size: 14px;
