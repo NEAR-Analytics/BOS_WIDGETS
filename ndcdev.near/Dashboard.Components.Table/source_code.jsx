@@ -25,7 +25,7 @@ const ScrollableWrapper = styled.div`
   -webkit-overflow-scrolling: touch;
 `;
 
-const { ndcDAOs, API } = props;
+const { daos, API } = props;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const defaultDAOOption = "All DAOs";
@@ -50,8 +50,6 @@ const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => {
 
 const [dataSet, setDataSet] = useState({});
 const [loading, setLoading] = useState(false);
-const [allDAOs, setAllDAOs] = useState([]);
-const [allDapps, setAllDapps] = useState([]);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
 const [selectedRetention, setSelectedRetention] = useState(0);
 const [selectedCurrency, setSelectedCurrency] = useState(
@@ -67,7 +65,7 @@ const FILTERS = [
     id: FILTER_IDS.dao,
     text: "DAO",
     hintText: "NDC grassroots DAOs",
-    options: [defaultDAOOption, ...ndcDAOs],
+    options: [defaultDAOOption, ...daos.map((d) => d.title)],
     values: selectedDAOs,
     defaultValue: defaultDAOOption,
     multiple: true,
@@ -125,7 +123,7 @@ const filterDAO = (value) => {
   let newSelection;
 
   if (value === defaultDAOOption) {
-    const all = [defaultDAOOption, ...ndcDAOs];
+    const all = [defaultDAOOption, ...daos.map((d) => d.title)];
     const isCurrentSelectionFull = selectedDAOs.length === all.length;
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
@@ -135,101 +133,39 @@ const filterDAO = (value) => {
   } else {
     newSelection = [...selectedDAOs, value];
   }
-
+  console.log("----", newSelection);
   setSelectedDAOs(newSelection);
 };
 
-const fetchDapps = () => {
+const fetchData = async (key) => {
   setLoading(true);
+  const filtredDAOs = selectedDAOs.length
+    ? daos.filter((d) => selectedDAOs.includes(d.title))
+    : daos;
+  let newDataSet = dataSet;
 
-  API.get_dapps().then((resp) => {
-    if (!resp.body) {
-      setLoading(false);
-      return;
+  API[key](filtredDAOs).then((resp) => {
+    if (!resp.body) return;
+
+    const data = resp.body;
+    if (data) {
+      Object.entries(data).map(([id, value], i) => {
+        newDataSet[id]
+          ? (newDataSet[id][key] = value)
+          : (newDataSet[id] = { [key]: value });
+      });
     }
 
-    const dapps = resp.body;
-    if (dapps)
-      setAllDapps(
-        Object.values(dapps)
-          .map((dapps) => dapps.map((d) => d.account_id))
-          .reduce((a, b) => [...a, ...b], []),
-      );
-  });
-};
-
-const fetchData = () => {
-  setLoading(true);
-  const filtredDAOs = selectedDAOs.length ? selectedDAOs : ndcDAOs;
-  let newDataSet = {};
-
-  const promises = filtredDAOs
-    .filter((v) => v !== defaultDAOOption)
-    .flatMap((daoId) => {
-      newDataSet[daoId] = {
-        balance: 0,
-        interactedAccounts: 0,
-        dappsUsed: 0,
-        retention: {
-          start: 0,
-          end: 0,
-        },
-      };
-
-      return [
-        API.get_retentions(daoId).then((resp) => {
-          if (!resp.body) return;
-
-          const data = resp.body;
-
-          if (data) {
-            const retentionIndex =
-              selectedRetention > data.length - 1
-                ? data.length - 1
-                : selectedRetention;
-            newDataSet[daoId].retention = {
-              start: parseInt(data[retentionIndex].unique_users_start),
-              end: parseInt(data[retentionIndex].unique_users_end),
-            };
-          }
-        }),
-        API.get_balance(daoId).then((resp) => {
-          if (!resp.body) return;
-
-          const data = resp.body;
-          if (data)
-            newDataSet[daoId].balance =
-              data.find((d) => d.contract === CURRENCIES[selectedCurrency])
-                ?.amount ?? 0;
-        }),
-        API.get_contract_relations(daoId).then((resp) => {
-          if (!resp.body) return;
-
-          const interactedAccounts = resp.body;
-          if (interactedAccounts) {
-            newDataSet[daoId].interactedAccounts = interactedAccounts.length;
-            newDataSet[daoId].dappsUsed = allDapps.filter((dapp) =>
-              interactedAccounts.includes(dapp),
-            ).length;
-          }
-        }),
-      ];
-    });
-
-  Promise.all(promises).then(() => {
-    const orderedByDAOState = sortByDAOName(newDataSet);
-    setDataSet(orderedByDAOState);
+    setDataSet(newDataSet);
     setLoading(false);
   });
 };
 
 useEffect(() => {
-  fetchDapps();
-}, []);
-
-useEffect(() => {
-  fetchData();
-}, [selectedDAOs, selectedRetention, selectedCurrency, allDapps]);
+  fetchData("userRetentions");
+  fetchData("dappsUsed");
+  fetchData("acquisitionCost");
+}, [selectedDAOs, selectedRetention, selectedCurrency, daos]);
 
 return (
   <ScrollableWrapper>
@@ -247,7 +183,7 @@ return (
     ) : (
       <Widget
         src={`ndcdev.near/widget/Dashboard.Components.Table.Cells`}
-        props={{ dataSet }}
+        props={{ dataSet, daos }}
       />
     )}
   </ScrollableWrapper>
