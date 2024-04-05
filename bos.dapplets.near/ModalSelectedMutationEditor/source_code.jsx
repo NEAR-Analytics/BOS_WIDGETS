@@ -195,7 +195,7 @@ const arrow = (
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
-      {props.mutationName}
+      <Input value={props.mutationName ? props.mutationName : ""} />
       <span onClick={props.onClose}> {closeIcon}</span>
     </HeaderEditor>
     <div
