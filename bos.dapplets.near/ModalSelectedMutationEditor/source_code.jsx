@@ -6,11 +6,11 @@ State.init({
       ? `Save`
       : "Commit to origin",
   isOpenParametersSave: false,
-  parametersSave:
-    context.accountId && accountId === context.accountId
-      ? ["Publish", "Commit to origin"]
-      : ["Commit to origin"],
 });
+const parametersSave =
+  context.accountId && accountId === context.accountId
+    ? ["Publish", "Commit to origin"]
+    : ["Commit to origin"];
 const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -310,7 +310,7 @@ return (
         </ArrowWrapper>
         {state.isOpenParametersSave ? (
           <SaveChanges>
-            {state.parametersSave.map((x, i) => (
+            {parametersSave.map((x, i) => (
               <SaveChangesItem
                 onClick={() =>
                   State.update({
