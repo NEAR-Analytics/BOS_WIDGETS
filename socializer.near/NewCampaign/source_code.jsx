@@ -208,14 +208,14 @@ const changeRequirement = (label) => {
 };
 
 const changeAmount = (value) => {
-  State.update({
-    amount: amount,
-    total_reward,
-  });
   const amount = Math.abs(value && Number(value));
   const total_reward = `${Number((amount * state.winners).toFixed(4))} ${
     state.token
   }`;
+  State.update({
+    amount: amount,
+    total_reward,
+  });
   if (amount < state.minimum)
     State.update({ error: "Amount must be greater than " + state.minimum });
   else if (amount > state.balance)
