@@ -262,7 +262,7 @@ return (
                 metadata: app.metadata,
                 hideButtons: !context.accountId,
                 selectedApps: props.selectedApps.filter((x) => x === app.id)[0],
-                handleEditMutationApps: props.handleEditMutationApps,
+                handleEditMutationApps: props.handleEditMutationApps(app.id),
               }}
             />
           ))
