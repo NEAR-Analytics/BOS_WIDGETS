@@ -1,6 +1,7 @@
 const REF_CONTRACT_ID = "v2.ref-finance.near";
 const CONTRACT_ID = "lock-lp.near";
 const RPC_URL = "https://rpc.mainnet.near.org";
+const BURN_ID = "0".repeat(64);
 
 const poolId = parseInt(props.poolId);
 
@@ -222,6 +223,12 @@ if (!poolId) {
       <ul>
         <li>
           <a href="?poolId=4663">INTEL-wNEAR</a>
+        </li>
+        <li>
+          <a href="?poolId=4769">TOUCH-wNEAR</a>
+        </li>
+        <li>
+          <a href="?poolId=4875">wojak-wNEAR</a>
         </li>
       </ul>
       <h2>
