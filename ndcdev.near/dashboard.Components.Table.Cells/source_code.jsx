@@ -70,15 +70,15 @@ const formatValue = (value) => {
   return val >= 1000000000
     ? `${parseFloat(val / 1000000000).toFixed(2)}B`
     : val >= 1000000
-    ? `${parseFloat(val / 1000000).toFixed(2)}M`
-    : val >= 1000
-    ? `${parseFloat(val / 1000).toFixed(2)}K`
-    : Number.isInteger(val)
-    ? val
-    : val.toFixed(2);
+      ? `${parseFloat(val / 1000000).toFixed(2)}M`
+      : val >= 1000
+        ? `${parseFloat(val / 1000).toFixed(2)}K`
+        : Number.isInteger(val)
+          ? val
+          : val.toFixed(2);
 };
 
-const { dataSet } = props;
+const { dataSet, daos } = props;
 
 const TooltipContent = ({ key, value }) => (
   <div className="justify-content-between w-100 d-flex gap-2">
@@ -95,71 +95,61 @@ const DaoName = styled.div`
 
 return (
   <Container>
-    {Object.entries(dataSet).map(
-      (
-        [daoId, { retention, dappsUsed, balance, interactedAccounts }],
-        index,
-      ) => (
-        <div key={index} className="w-100 d-flex align-items-center gap-2">
-          <Cell>
-            <DaoName className="dao-name">{daoId}</DaoName>
-          </Cell>
-          <Cell>
-            <Colored
-              width={getPercentage(retention.start, retention.end, 2)}
-              color={
-                getPercentage(retention.start, retention.end, 2) >= 50
-                  ? "#68D895"
-                  : "#EB9DBB"
-              }
-            />
-            <div className="position-relative">
-              <Widget
-                src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
-                props={{
-                  content: (
-                    <>
-                      <TooltipContent key="Start" value={retention.start} />
-                      <TooltipContent key="End" value={retention.end} />
-                    </>
-                  ),
-                  minWidth: "max-content",
-                  icon: <i>{formatValue(retention.end / retention.start)}</i>,
-                }}
+    {daos &&
+      daos.map((dao, index) => {
+        const { userRetentions, dappsUsed, acquisitionCost } = dataSet[dao.id];
+
+        return (
+          <div key={index} className="w-100 d-flex align-items-center gap-2">
+            <Cell>
+              <DaoName className="dao-name">{dao.title}</DaoName>
+            </Cell>
+            <Cell>
+              <Colored
+                width={getPercentage(userRetentions, 10, 2)}
+                color={userRetentions >= 1 ? "#68D895" : "#EB9DBB"}
               />
-            </div>
-          </Cell>
-          <Cell>{formatValue(dappsUsed)}</Cell>
-          <Cell>
-            <Colored
-              width={10}
-              color={
-                balance &&
-                interactedAccounts &&
-                (balance / interactedAccounts < 1 ? "#68D895" : "#EB9DBB")
-              }
-            />
-            <div className="position-relative">
-              <Widget
-                src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
-                props={{
-                  content: (
-                    <>
-                      <TooltipContent key="Balance" value={balance} />
-                      <TooltipContent
-                        key="Accounts"
-                        value={interactedAccounts}
-                      />
-                    </>
-                  ),
-                  minWidth: "max-content",
-                  icon: <i>{formatValue(balance / interactedAccounts)}</i>,
-                }}
+              <div className="position-relative">
+                <Widget
+                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
+                  props={{
+                    content: (
+                      <>
+                        <TooltipContent key="Start" value={userRetentions} />
+                      </>
+                    ),
+                    minWidth: "max-content",
+                    icon: <i>{formatValue(userRetentions)}</i>,
+                  }}
+                />
+              </div>
+            </Cell>
+            <Cell>{formatValue(dappsUsed)}</Cell>
+            <Cell>
+              <Colored
+                width={10}
+                color={acquisitionCost < 1 ? "#68D895" : "#EB9DBB"}
               />
-            </div>
-          </Cell>
-        </div>
-      ),
-    )}
+              <div className="position-relative">
+                <Widget
+                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
+                  props={{
+                    content: (
+                      <>
+                        <TooltipContent
+                          key="Accounts"
+                          value={acquisitionCost}
+                        />
+                      </>
+                    ),
+                    minWidth: "max-content",
+                    icon: <i>{formatValue(acquisitionCost)}</i>,
+                  }}
+                />
+              </div>
+            </Cell>
+          </div>
+        );
+      })}
   </Container>
 );
