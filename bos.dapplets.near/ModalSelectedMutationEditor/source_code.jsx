@@ -250,6 +250,13 @@ return (
       />
       <span onClick={props.onClose}> {closeIcon}</span>
     </HeaderEditor>
+    {state.textSave === "Fork" ? (
+      <Input
+        onChange={props.handleEditMutationId}
+        placeholder={"enter id mutation"}
+        value={props.selectedMutation.id ? props.selectedMutation.id : ""}
+      />
+    ) : null}
     <div
       style={{
         overflow: "hidden",
