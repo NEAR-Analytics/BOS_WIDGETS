@@ -20,13 +20,13 @@ const ArrowDown = (
 );
 
 const TokenAmount = styled.div`
-  background: #373a53;
-  border-radius: 12px;
   width: 430px;
   @media (max-width: 736px) {
     width: 100%;
   }
-  padding: 18px 16px;
+background:#3f3f3f;
+height:100px;
+padding:40px 20px;
   color: white;
   display: flex;
   align-items: center;
@@ -42,6 +42,7 @@ const Input = styled.input`
   ::placeholder {
     color: #7c7f96;
   }
+  text-align:end;
   color: white;
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {
@@ -55,6 +56,10 @@ const TokenWrapper = styled.div`
   align-items: center;
   color: white;
   cursor: pointer;
+  background-color:rgb(31, 31, 31);
+  padding: 10px 20px;
+  margin-left:-10px;
+  clip-path: polygon(0 0,100% 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
 `;
 
 const Icon = styled.img`
@@ -155,6 +160,7 @@ const BalanceWrapper = styled.div`
 const Wrapper = styled.div`
   position: relative;
   margin-top: 8px;
+
 `;
 
 const SelectToken = (
@@ -174,6 +180,15 @@ const SelectToken = (
 return (
   <Wrapper>
     <TokenAmount>
+      <TokenWrapper
+        onClick={() => {
+          state.handleOpen();
+        }}
+      >
+        <Icon src={props.token.icon} />
+        <Symbol>{props.token.symbol}</Symbol>
+        {ArrowDown}
+      </TokenWrapper>
       <Input
         class="ref-token-inut"
         placeholder="0.0"
@@ -187,16 +202,6 @@ return (
         }
         disabled={!!disableInput}
       />
-
-      <TokenWrapper
-        onClick={() => {
-          state.handleOpen();
-        }}
-      >
-        <Icon src={props.token.icon} />
-        <Symbol>{props.token.symbol}</Symbol>
-        {ArrowDown}
-      </TokenWrapper>
     </TokenAmount>
     <BalanceWrapper>
       <div>
@@ -207,6 +212,10 @@ return (
         )}
       </div>
       <div>Balance: {accountId ? getBalance(props.token.id) : "-"}</div>
+      <div>
+        Balance:{" "}
+        {accountId ? setInterval(getBalance(props.token.id), 10000) : "-"}
+      </div>
     </BalanceWrapper>
 
     {SelectToken}
