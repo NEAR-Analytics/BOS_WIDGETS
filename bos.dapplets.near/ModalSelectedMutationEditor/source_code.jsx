@@ -273,7 +273,11 @@ return (
         Revert changes
       </ButtonsRevert>
       <ButtonsSave>
-        <TextSave>{state.textSave}</TextSave>
+        <TextSave
+          onClick={() => props.handleSaveMutation(props.selectedMutation)}
+        >
+          {state.textSave}
+        </TextSave>
         <ArrowWrapper
           style={{
             transform: state.isOpenParametersSave
