@@ -178,17 +178,11 @@ return (
         </TextLink>
       </CardContent>
       {!props.selectedApps ? (
-        <ButtonLink
-          onClick={() => props.handleEditMutationApps(props.src)}
-          primary
-        >
+        <ButtonLink onClick={props.handleEditMutationApps} primary>
           {plus}
         </ButtonLink>
       ) : (
-        <ButtonLink
-          onClick={() => props.handleEditMutationApps(props.src)}
-          primary
-        >
+        <ButtonLink onClick={props.handleEditMutationApps} primary>
           {select}
         </ButtonLink>
       )}
