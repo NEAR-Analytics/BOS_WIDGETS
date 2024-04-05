@@ -214,7 +214,7 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {accountId ? state.balance : "-"}</div>
+      <div>Balance: {state.balance}</div>
     </BalanceWrapper>
 
     {SelectToken}
