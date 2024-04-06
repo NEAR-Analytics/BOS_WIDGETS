@@ -16,6 +16,7 @@ State.init({
   editDescription: "",
   ifAddStudent: true,
   studentArray: [],
+  originalStudentArray: [],
   arreyWhitIndexForAddStudent: [],
   heashForDeletnumb: {},
   flagForFindStdudentByID: false,
@@ -126,6 +127,7 @@ const TecherPossibilities = {
 
   addStudent: () => {
     const newStudent = state.addNewStudent;
+    const isValidStudent = validateStudentId(newStudent);
     const ifAlreadyHaveStudent = Social.get(
       `maierr.near/myStudentsForFind/${newStudent}`
     );
@@ -134,8 +136,11 @@ const TecherPossibilities = {
       newStudent.length
     );
 
-    if (sliceForVerification === ".near" && ifAlreadyHaveStudent !== `true`) {
-      // Перевіряємо, чи ідентифікатор має правильний формат та чи не додано студента раніше
+    if (
+      sliceForVerification === ".near" &&
+      !ifAlreadyHaveStudent &&
+      isValidStudent
+    ) {
       let indexForAddStudent = 0;
       if (
         state.studentArray.length > 0 &&
@@ -187,13 +192,15 @@ const TecherPossibilities = {
     }
   },
 
-  findStudentByID: (idaccound) => {
-    const isOurStudent = Social.get(
-      `maierr.near/myStudentsForFind/${idaccound}`
-    );
-    if (isOurStudent === `true`) {
+  findStudentByID: (accountId) => {
+    if (validateStudentId(accountId)) {
+      const filteredStudents = state.studentArray
+        .map((student) => (student === accountId ? student : null))
+        .filter(Boolean);
+
       State.update({
-        vrifyOurStudent: idaccound,
+        studentArray: filteredStudents,
+        vrifyOurStudent: filteredStudents.length > 0 ? accountId : "",
       });
     } else {
       State.update({
@@ -203,8 +210,12 @@ const TecherPossibilities = {
   },
 };
 
+function validateStudentId(studentId) {
+  return studentId.endsWith(".near");
+}
+
 TecherPossibilities.init();
-TecherPossibilities.getStudent(1, 10);
+TecherPossibilities.getStudent(1, 10, true);
 
 function descriptionForStudent(account_id) {
   const discriprionalIN = Social.getr(`${account_id}/profile`);
@@ -471,8 +482,8 @@ const routesNavigator = {
   myInfoPage: () => navigateToModule("myInfoPage"),
   studentsPage: () => navigateToModule("studentsPage"),
   myTeachersPage: () => navigateToModule("myTeachersPage"),
-  myEventsPage: () => navigateToModule("myEventsPage"),
-  myTasksPage: () => navigateToModule("myTasksPage"),
+  //myEventsPage: () => navigateToModule("myEventsPage"),
+  //myTasksPage: () => navigateToModule("myTasksPage"),
 };
 
 function getModuleDependencies(moduleRoute) {
@@ -482,11 +493,11 @@ function getModuleDependencies(moduleRoute) {
     return ["studentsPage"];
   } else if (moduleRoute === "myTeachersPage") {
     return ["myTeachersPage"];
-  } else if (moduleRoute === "myEventsPage") {
-    return ["myEventsPage"];
-  } else if (moduleRoute === "myTasksPage") {
-    return ["myTasksPage"];
-  }
+  } //else if (moduleRoute === "myEventsPage") {
+  //return ["myEventsPage"];
+  //} else if (moduleRoute === "myTasksPage") {
+  //return ["myTasksPage"];
+  //}
 }
 const dependencies = getModuleDependencies(state.currentRoute);
 
@@ -546,31 +557,6 @@ const pages = {
               src="near/widget/AccountProfile"
               props={{ accountId: state.vrifyOurStudent }}
             />
-          </div>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Edit description"
-            onBlur={(e) => State.update({ editDescription: e.target.value })}
-          />
-          <div>
-            <h4>{descriptionForStudent(state.vrifyOurStudent)}</h4>
-          </div>
-          <div>
-            <Button
-              onClick={() => {
-                TecherPossibilities.deleteStudent(state.vrifyOurStudent);
-              }}
-            >
-              Delete
-            </Button>
-            <Button
-              onClick={() => {
-                TecherPossibilities.updateDiscription(state.vrifyOurStudent);
-              }}
-            >
-              Edit
-            </Button>
           </div>
         </div>
       )}
@@ -649,16 +635,16 @@ const pages = {
       <h1>My Teachers</h1>
     </>
   ),
-  myEventsPage: (
-    <ProfileTab>
-      <h1>My Events</h1>
-    </ProfileTab>
-  ),
-  myTasksPage: (
-    <ProfileTab>
-      <h1>My Tasks</h1>
-    </ProfileTab>
-  ),
+  //myEventsPage: (
+  //<ProfileTab>
+  //  <h1>My Events</h1>
+  //</ProfileTab>
+  //),
+  //myTasksPage: (
+  //<ProfileTab>
+  // <h1>My Tasks</h1>
+  //</ProfileTab>
+  // ),
 };
 //
 
@@ -839,18 +825,6 @@ return (
           onClick={routesNavigator.myTeachersPage}
         >
           Teacher
-        </uiKitComponents.button>
-        <uiKitComponents.button
-          className={state.currentRoute === "myEventsPage" ? "active" : ""}
-          onClick={routesNavigator.myEventsPage}
-        >
-          Event
-        </uiKitComponents.button>
-        <uiKitComponents.button
-          className={state.currentRoute === "myTasksPage" ? "active" : ""}
-          onClick={routesNavigator.myTasksPage}
-        >
-          Task
         </uiKitComponents.button>
       </uiKitComponents.navigationBar>
 
