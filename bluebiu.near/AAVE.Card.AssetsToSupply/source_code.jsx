@@ -194,14 +194,28 @@ if (["zerolend", "AAVE V3"].includes(dexConfig.name)) {
       <div>{Number(row.balance).toFixed(7)}</div>
       <div>$ {row.balanceInUSD}</div>
     </div>,
-    `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+    <div>
+      <div>{`${(Number(row.supplyAPY) * 100).toFixed(2)} %`}</div>
 
+      <div>
+        {dexConfig.rewardToken
+          ? `${(Number(row.supplyRewardApy) * 100).toFixed(2)} %`
+          : ""}
+      </div>
+    </div>,
     <div>
       <div>{Number(row.availableBorrows).toFixed(7)}</div>
       <div>$ {row.availableBorrowsUSD}</div>
     </div>,
 
-    `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
+    <div>
+      <div>{`${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`}</div>
+      <div>
+        {dexConfig.rewardToken
+          ? `${(Number(row.borrowRewardApy) * 100).toFixed(2)} %`
+          : ""}
+      </div>
+    </div>,
     <div style={{ paddingLeft: "50px" }}>
       {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
         "—"}
