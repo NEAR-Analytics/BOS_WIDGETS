@@ -319,6 +319,8 @@ const GlobalContainer = styled.div`
 `;
 const Body = styled.div`
   display: flex;
+  width : 100%;
+  height : 100%;
   flex-direction: column;
   background-color: ${appTheme.colors().backgroundColor};
   align-items: center; 
@@ -396,7 +398,6 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -412,7 +413,6 @@ const ModalContent = styled.div`
   overflow: hidden;
   padding: 16px;
 `;
-
 const uiKitComponents = {
   button: Button,
   body: Body,
@@ -426,13 +426,11 @@ const routes = {
   moduleC: "vlmoon.near/widget/BOSModuleC",
   moduleD: "vlmoon.near/widget/BOSModuleD",
 };
-
 function navigateToModule(moduleRoute) {
   State.update({
     currentRoute: moduleRoute,
   });
 }
-
 const routesNavigator = {
   myInfoPage: () => navigateToModule("myInfoPage"),
   studentsPage: () => navigateToModule("studentsPage"),
