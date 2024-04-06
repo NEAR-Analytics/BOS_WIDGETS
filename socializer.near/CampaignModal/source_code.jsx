@@ -160,7 +160,11 @@ const verifyEnter = () => {
           human,
           loading: false,
         });
-        if (finished) onClose("Participation Successful");
+        if (finished) {
+          setTimeout(() => {
+            onClose("Participation Successful");
+          }, 3000);
+        }
       }
     }
   });
