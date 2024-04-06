@@ -1,6 +1,6 @@
 return (
   <div>
-    <h5>Ribit 🐸 </h5>
+    <h5>Rbit 🐸 </h5>
     <div className="mb-2 d-flex gap-2 flex-wrap">
       <a className="btn btn-outline-primary" href="https://rbit.near.social">
         📜 Docs
