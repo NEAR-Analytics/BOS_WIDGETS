@@ -1,5 +1,5 @@
 const Alert = styled.div`
-  background-color: rgba(199, 255, 24, 0.2);
+  background-color: rgb(7 165 46);
   padding: 20px;
   display: flex;
   border-radius: 8px;
@@ -15,7 +15,7 @@ const Alert = styled.div`
 const Label = styled.div`
   font-size: 16px;
   font-weight: 400;
-  color: #000;
+  color: #fff;
   margin-left: 10px;
   line-height: 19.2px;
   .fd {
@@ -27,9 +27,9 @@ const { text, button } = props;
 const [isVisible, setIsVisible] = useState(true);
 
 useEffect(() => {
-  const timer = setTimeout(() => {
-    setIsVisible(false);
-  }, 3000); // 2000 milliseconds = 2 seconds
+  // const timer = setTimeout(() => {
+  //   setIsVisible(false);
+  // }, 3000); // 2000 milliseconds = 2 seconds
 
   return () => clearTimeout(timer);
 }, []);
