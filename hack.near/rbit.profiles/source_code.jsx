@@ -1,4 +1,4 @@
-const data = Social.keys("*/identity", "final");
+const data = Social.keys("*/identity/eth", "final");
 
 const limit = props.limit || 21;
 
