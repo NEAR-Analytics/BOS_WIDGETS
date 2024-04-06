@@ -61,14 +61,6 @@ function Page() {
         />
       );
     }
-    case "announcements": {
-      return (
-        <Widget
-          src={"thomasguntenaar.near/widget/devhub.page.announcements"}
-          props={passProps}
-        />
-      );
-    }
 
     // ?page=community
     case "community": {
