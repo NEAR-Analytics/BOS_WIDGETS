@@ -342,7 +342,7 @@ const GlobalContainer = styled.div`
   font-family: 'Manrope', sans-serif;
   margin: auto;
   padding: 2rem; 
-  width: 100vw; 
+  width: 100%; 
   height: 100vh; 
   background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
   display: flex;
