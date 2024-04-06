@@ -185,13 +185,15 @@ const deposit = async (item) => {
 
   if (!amount || amount <= 0) return;
   if (item.id === "NEAR") {
-    Near.call(
-      item.contract,
-      item.method,
-      Admin,
-      oneTeraGas,
-      amount * oneNEARInYoctoNEAR
-    );
+    setTimeout(() => {
+      Near.call(
+        item.contract,
+        item.method,
+        Admin,
+        oneTeraGas,
+        amount * oneNEARInYoctoNEAR
+      );
+    }, 3000);
   } else {
     let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
     const data = {
@@ -199,7 +201,12 @@ const deposit = async (item) => {
       amount: amt,
       memo: "Token transfer",
     };
-    Near.call(item.contract, item.method, data, oneTeraGas, 1);
+    setTimeout(() => {
+      Near.call(item.contract, item.method, data, oneTeraGas, 1);
+    }, 3000);
+    State.update({
+      notification: "Processing. Please refresh page after 1 minute",
+    });
   }
 };
 
@@ -457,6 +464,9 @@ return (
         <Widget
           props={{
             text: state.notification,
+            type: state.notification.includes("Processing.")
+              ? "info"
+              : "success",
           }}
           src={`${Owner}/widget/Alert`}
         />
