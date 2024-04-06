@@ -204,10 +204,10 @@ const deposit = async (item) => {
     setTimeout(() => {
       Near.call(item.contract, item.method, data, oneTeraGas, 1);
     }, 3000);
-    State.update({
-      notification: "Processing. Please refresh page after 1 minute",
-    });
   }
+  State.update({
+    notification: "Processing. Please refresh page after 1 minute",
+  });
 };
 
 const withdraw = async (item) => {
