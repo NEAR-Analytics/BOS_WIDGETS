@@ -26,9 +26,9 @@ const { text, button, type } = props;
 const [isVisible, setIsVisible] = useState(true);
 
 useEffect(() => {
-  // const timer = setTimeout(() => {
-  //   setIsVisible(false);
-  // }, 3000); // 2000 milliseconds = 2 seconds
+  const timer = setTimeout(() => {
+    setIsVisible(false);
+  }, 3000); // 2000 milliseconds = 2 seconds
 
   return () => clearTimeout(timer);
 }, []);
