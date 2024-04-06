@@ -104,15 +104,26 @@ const TecherPossibilities = {
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
+
+    const updatedStudents = [...state.studentArray];
+    updatedStudents.splice(indexForDeleteNumb, 1);
+    const updatedHash = { ...state.heashForDeletnumb };
+    delete updatedHash[student];
+
     Social.set({
-      mystudents: {
-        [indexForDeleteNumb]: null,
-      },
+      mystudents: updatedStudents,
       myStudentsForFind: {
+        ...state.myStudentsForFind,
         [student]: false,
       },
     });
+
+    State.update({
+      studentArray: updatedStudents,
+      heashForDeletnumb: updatedHash,
+    });
   },
+
   addStudent: () => {
     const newStudent = state.addNewStudent;
     const ifAlreadyHaveStudent = Social.get(
@@ -122,7 +133,9 @@ const TecherPossibilities = {
       newStudent.length - 5,
       newStudent.length
     );
-    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
+
+    if (sliceForVerification === ".near" && ifAlreadyHaveStudent !== `true`) {
+      // Перевіряємо, чи ідентифікатор має правильний формат та чи не додано студента раніше
       let indexForAddStudent = 0;
       if (
         state.studentArray.length > 0 &&
@@ -131,36 +144,41 @@ const TecherPossibilities = {
         indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
       } else if (
         state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length == 0
+        state.arreyWhitIndexForAddStudent.length === 0
       ) {
-        while (state.arreyWhitIndexForAddStudent.length == 0) {
+        while (state.arreyWhitIndexForAddStudent.length === 0) {
           const student = Social.get(
             `maierr.near/mystudents/${indexForAddStudent}`
           );
           if (!student) {
             State.update({
-              arreyWhitIndexForAddStudent: student,
+              arreyWhitIndexForAddStudent: indexForAddStudent,
             });
             break;
           }
           indexForAddStudent++;
         }
       } else if (
-        state.studentArray.length == 0 &&
-        !state.arreyWhitIndexForAddStudent.length == 0
+        state.studentArray.length === 0 &&
+        !state.arreyWhitIndexForAddStudent.length === 0
       ) {
         indexForAddStudent = 0;
       }
+
+      const updatedStudents = [...state.studentArray];
+      updatedStudents[indexForAddStudent] = newStudent;
+
       Social.set({
-        mystudents: {
-          [indexForAddStudent]: state.addNewStudent,
-        },
+        mystudents: updatedStudents,
         myStudentsForFind: {
+          ...state.myStudentsForFind,
           [newStudent]: true,
         },
       });
+
       State.update({
         ifAddStudent: true,
+        studentArray: updatedStudents,
       });
     } else {
       State.update({
@@ -168,11 +186,12 @@ const TecherPossibilities = {
       });
     }
   },
+
   findStudentByID: (idaccound) => {
     const isOurStudent = Social.get(
       `maierr.near/myStudentsForFind/${idaccound}`
     );
-    if (isOurStudent == `true`) {
+    if (isOurStudent === `true`) {
       State.update({
         vrifyOurStudent: idaccound,
       });
@@ -217,7 +236,20 @@ const Modal = ({ closeModal }) => {
           placeholder="For add, input account_ID student"
           onBlur={(e) => State.update({ addNewStudent: e.target.value })}
         />
-        <Button onClick={TecherPossibilities.addStudent}>Add</Button>
+        <Button
+          onClick={() => {
+            TecherPossibilities.addStudent();
+            if (state.ifAddStudent) {
+              State.update({
+                addNewStudent: "",
+                isModalOpen: false,
+              });
+            }
+          }}
+        >
+          Add
+        </Button>
+
         {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
         <Button onClick={closeModal}>Close</Button>
       </ModalContent>
@@ -310,6 +342,8 @@ const GlobalContainer = styled.div`
   font-family: 'Manrope', sans-serif;
   margin: auto;
   padding: 2rem; 
+  width: 100vw; 
+  height: 100vh; 
   background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
   display: flex;
   flex-direction: column;
@@ -319,8 +353,6 @@ const GlobalContainer = styled.div`
 `;
 const Body = styled.div`
   display: flex;
-  width: 100vw; 
-  height: 100vh; 
   flex-direction: column;
   background-color: ${appTheme.colors().backgroundColor};
   align-items: center; 
@@ -398,6 +430,7 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -413,6 +446,7 @@ const ModalContent = styled.div`
   overflow: hidden;
   padding: 16px;
 `;
+
 const uiKitComponents = {
   button: Button,
   body: Body,
@@ -426,11 +460,13 @@ const routes = {
   moduleC: "vlmoon.near/widget/BOSModuleC",
   moduleD: "vlmoon.near/widget/BOSModuleD",
 };
+
 function navigateToModule(moduleRoute) {
   State.update({
     currentRoute: moduleRoute,
   });
 }
+
 const routesNavigator = {
   myInfoPage: () => navigateToModule("myInfoPage"),
   studentsPage: () => navigateToModule("studentsPage"),
@@ -480,6 +516,9 @@ const pages = {
         <Button
           onClick={() => {
             TecherPossibilities.findStudentByID(state.idFindStudent);
+            State.update({
+              vrifyOurStudent: state.idFindStudent,
+            });
           }}
         >
           Find
@@ -489,8 +528,17 @@ const pages = {
         <div
           style={{
             display: "flex",
-            margin: "15px",
-            justifyContent: "space-around",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "20px",
+            height: "100",
+            borderRadius: "12px",
+            background: "#fff",
+            border: "1px solid #eceef0",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            overflow: "hidden",
+            padding: "16px",
           }}
         >
           <div>
@@ -552,14 +600,22 @@ const pages = {
                   <div>
                     <Button
                       onClick={() => {
-                        TecherPossibilities.deleteStudent(student);
+                        TecherPossibilities.deleteStudent(
+                          state.vrifyOurStudent
+                        );
+                        State.update({
+                          vrifyOurStudent: "",
+                        });
                       }}
                     >
                       Delete
                     </Button>
+
                     <Button
                       onClick={() => {
-                        TecherPossibilities.updateDiscription(student);
+                        TecherPossibilities.updateDiscription(
+                          state.vrifyOurStudent
+                        );
                       }}
                     >
                       Edit
