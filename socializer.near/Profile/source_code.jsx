@@ -133,9 +133,9 @@ const Input = styled.input`
 `;
 
 const getTokenData = (e) => {
-  State.update({
-    loaded: false,
-  });
+  // State.update({
+  //   loaded: false,
+  // });
   return asyncFetch(
     API_URL + `/api/token?accountId=${accountId}&historyType=${e.text}`
   ).then((res) => {
