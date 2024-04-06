@@ -213,11 +213,11 @@ function getLiquidity() {
         const debtTotal = res.slice(l / 2);
 
         for (let i = 0; i < markets.length; i++) {
-          console.log("mm--", markets[i], prices[markets[i].symbol]);
+          // console.log("mm--", markets[i], prices[markets[i].symbol]);
           const liquidityAmount = Big(aTokenTotal[i] || 0)
             .minus(Big(debtTotal[i] || 0))
             .toFixed();
-          console.log("liquidityAmount--", liquidityAmount);
+          // console.log("liquidityAmount--", liquidityAmount);
           markets[i].availableLiquidity = liquidityAmount;
           markets[i].availableLiquidityUSD = Big(
             ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
@@ -225,6 +225,10 @@ function getLiquidity() {
             .mul(Big(prices[markets[i].symbol]) || 0)
             .toFixed();
         }
+        State.update({
+          aTokenTotal,
+          debtTotal,
+        });
       } catch (error) {
         console.log("catch getLiquidity", error);
       }
@@ -269,6 +273,9 @@ State.init({
   yourSupplyApy: 0,
   yourBorrowApy: 0,
   maxWithdrawBalanceUSD: 0,
+  emissionPerSeconds: [],
+  aTokenTotal: [],
+  debtTotal: [],
 });
 
 const loading =
@@ -405,12 +412,12 @@ function updateData(refresh) {
         )
           .times(ACTUAL_BORROW_AMOUNT_RATE)
           .toFixed();
-        console.log("availableBorrowsUSD--", availableBorrowsUSD);
+        // console.log("availableBorrowsUSD--", availableBorrowsUSD);
         const availableBorrows = calculateAvailableBorrows({
           availableBorrowsUSD,
           marketReferencePriceInUsd: market.marketReferencePriceInUsd,
         });
-        console.log("availableBorrows--", availableBorrows);
+        // console.log("availableBorrows--", availableBorrows);
 
         return {
           ...market,
@@ -662,12 +669,12 @@ function getPoolDataProviderTotalSupply() {
           prevAssetsToSupply[i].decimals
         );
         prevAssetsToSupply[i].totalSupply = _totalSupply;
-        console.log(
-          "_totalSupply--",
-          _totalSupply,
-          prevAssetsToSupply[i].symbol,
-          prices[prevAssetsToSupply[i].symbol]
-        );
+        // console.log(
+        //   "_totalSupply--",
+        //   _totalSupply,
+        //   prevAssetsToSupply[i].symbol,
+        //   prices[prevAssetsToSupply[i].symbol]
+        // );
         prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply || 0)
           .times(prices[prevAssetsToSupply[i].symbol])
           .toFixed();
@@ -1035,6 +1042,51 @@ function getUserDebts() {
     });
 }
 
+function fetchRewardsData() {
+  const _assetsToSupply = [...state.assetsToSupply];
+  const aTokenAddresss = _assetsToSupply?.map((item) => item.aTokenAddress);
+
+  const calls = aTokenAddresss?.map((addr) => ({
+    address: config.incentivesProxy,
+    name: "getRewardsData",
+    params: [addr, config.rewardAddress],
+  }));
+
+  multicall({
+    abi: [
+      {
+        inputs: [
+          { internalType: "address", name: "asset", type: "address" },
+          { internalType: "address", name: "reward", type: "address" },
+        ],
+        name: "getRewardsData",
+        outputs: [
+          { internalType: "uint256", name: "", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
+          { internalType: "uint256", name: "", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      console.log("--------------------fetchRewardsData_res", res);
+
+      State.update({
+        emissionPerSeconds: res,
+      });
+    })
+    .catch((err) => {
+      console.log("fetchRewardsData_err", err);
+    });
+}
+
 function getAllUserRewards() {
   console.log("getAllUserRewards--", markets);
   const arr = markets
@@ -1175,14 +1227,6 @@ useEffect(() => {
 }, [isChainSupported]);
 
 useEffect(() => {
-  if (!account) return;
-
-  if (dexConfig.rewardToken) {
-    getAllUserRewards();
-  }
-}, [dexConfig, fresh]);
-
-useEffect(() => {
   if (!isChainSupported || !state.assetsToSupply) return;
 
   getPoolDataProvider();
@@ -1214,6 +1258,81 @@ useEffect(() => {
   });
 }, [state.assetsToSupply]);
 
+useEffect(() => {
+  if (!account) return;
+
+  console.log("dexConfig--", dexConfig);
+  if (dexConfig.rewardToken) {
+    getAllUserRewards();
+    fetchRewardsData();
+  }
+}, [account, fresh]);
+
+useEffect(() => {
+  console.log(
+    "calc reward apy",
+    state.emissionPerSeconds,
+    state.aTokenTotal,
+    state.debtTotal
+  );
+  if (
+    !state.emissionPerSeconds.length ||
+    !state.aTokenTotal.length ||
+    !state.debtTotal.length
+  )
+    return;
+  const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
+  const SECONDS_PER_YEAR = 31536000;
+  const rewardTokenPrice = 0.00025055;
+
+  try {
+    const _assetsToSupply = [...state.assetsToSupply];
+    for (let i = 0; i < _assetsToSupply.length; i++) {
+      let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
+        state.aTokenTotal[i].toString(),
+        _assetsToSupply[i].decimals
+      );
+      let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
+        state.debtTotal[i].toString(),
+        _assetsToSupply[i].decimals
+      );
+      let normalizedEmissionPerSecond = Big(state.emissionPerSeconds[i][1]).div(
+        Big(RWARD_TOKEN_DECIMALS)
+      );
+
+      let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
+        Big(_assetsToSupply[i].marketReferencePriceInUsd)
+      );
+      let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
+        Big(_assetsToSupply[i].marketReferencePriceInUsd)
+      );
+
+      let supplyRewardApy = normalizedEmissionPerSecond
+        .times(Big(rewardTokenPrice))
+        .times(SECONDS_PER_YEAR)
+        .div(normalizedTotalTokenSupply)
+        .toFixed();
+      let borrowRewardApy = normalizedEmissionPerSecond
+        .times(Big(rewardTokenPrice))
+        .times(SECONDS_PER_YEAR)
+        .div(normalizedTotalTokenBorrow)
+        .toFixed();
+      _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
+      _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+
+      State.update({
+        assetsToSupply: _assetsToSupply,
+      });
+    }
+  } catch (error) {
+    console.log("CATCH:", error);
+  }
+}, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
+useEffect(() => {
+  if (state.selectTab === "YOURS") {
+    getCollateralStatus();
+  }
+}, [state.selectTab]);
 useEffect(() => {
   if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
 
@@ -1255,6 +1374,14 @@ useEffect(() => {
         .toFixed(),
     0
   );
+  const yourSupplyRewardAPY = state.yourSupplies.reduce(
+    (total, cur) =>
+      Big(total || 0)
+        .plus(Big(cur.supplyRewardApy || 0))
+        .toFixed(),
+    0
+  );
+
   console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
   const weightedAverageBorrowsAPY = state.yourBorrows.debts.reduce(
     (total, cur) =>
@@ -1304,17 +1431,12 @@ useEffect(() => {
     netWorthUSD: netWorth,
     yourTotalSupply,
     yourTotalBorrow,
-    //TODO + reward apy
-    yourSupplyApy: weightedAverageSupplyAPY,
+    yourSupplyApy: Big(weightedAverageSupplyAPY)
+      .plus(yourSupplyRewardAPY)
+      .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
   });
 }, [state.yourSupplies, state.yourBorrows]);
-
-useEffect(() => {
-  if (state.selectTab === "YOURS") {
-    getCollateralStatus();
-  }
-}, [state.selectTab]);
 
 function onSuccess() {
   State.update({
