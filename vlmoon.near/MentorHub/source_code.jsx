@@ -21,6 +21,7 @@ State.init({
   flagForFindStdudentByID: false,
   idFindStudent: "",
   vrifyOurStudent: "",
+  isModalOpen: false,
 });
 
 const TecherPossibilities = {
@@ -191,14 +192,18 @@ function descriptionForStudent(account_id) {
   return discriprionalIN.discription;
 }
 
-const [isModalOpen, setIsModalOpen] = useState(false);
-
-const openModal = () => {
-  setIsModalOpen(true);
+const FloatingActionButton = ({ onClick }) => {
+  return (
+    <FloatingButton onClick={onClick}>
+      <i className="fa fa-plus">+</i>
+    </FloatingButton>
+  );
 };
 
-const closeModal = () => {
-  setIsModalOpen(false);
+const openModal = () => {
+  State.update({
+    isModalOpen: true,
+  });
 };
 
 const Modal = ({ closeModal }) => {
@@ -352,7 +357,7 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  width: 50%;
+  width: 100%;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
@@ -360,6 +365,25 @@ const Card = styled.div`
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 16px;
+`;
+const FloatingButton = styled.button`
+  font-family: 'Inter', sans-serif;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 `;
 const ModalContainer = styled.div`
   position: fixed;
@@ -442,6 +466,7 @@ const pages = {
       </Card>
     </ProfileTab>
   ),
+
   studentsPage: (
     <>
       <h1>My Students</h1>
@@ -461,9 +486,6 @@ const pages = {
         >
           Find
         </Button>
-        <Button onClick={openModal}>Add Student</Button>
-        {}
-        {isModalOpen && <Modal closeModal={closeModal} />}
       </div>
       {state.vrifyOurStudent && (
         <div
@@ -506,98 +528,66 @@ const pages = {
           </div>
         </div>
       )}
-      <div
-        style={{
-          display: "flex",
-          margin: "15px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            margin: "15px",
-            justifyContent: "space-around",
-          }}
-        ></div>
-
+      <div style={{ display: "flex", margin: "15px", flexDirection: "column" }}>
         {state.studentArray.map((student) => (
-          <div
-            key={student}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              margin: "15px",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: "20px",
-              borderRadius: "12px",
-              background: "#fff",
-              border: "1px solid #eceef0",
-              boxShadow:
-                "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
-              overflow: "hidden",
-              padding: "16px",
-            }}
-          >
+          <Card key={student} style={{ marginBottom: "10px" }}>
             <div>
               <Widget
                 src="near/widget/AccountProfile"
                 props={{ accountId: student }}
               />
             </div>
-            {state.selectedStudent === student ? (
-              <div style={{ display: "none" }}>
-                {}
-                <Button onClick={() => State.update({ selectedStudent: null })}>
-                  Back
-                </Button>
-              </div>
-            ) : (
-              <Button
-                onClick={() => State.update({ selectedStudent: student })}
-              >
-                More Info
-              </Button>
-            )}
-
-            {}
-            {state.selectedStudent === student && (
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Edit description"
-                  onBlur={(e) =>
-                    State.update({ editDescription: e.target.value })
-                  }
-                />
+            <div>
+              {state.selectedStudent === student ? (
                 <div>
-                  <h4>{descriptionForStudent(student)}</h4>
-                </div>
-                <div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Edit description"
+                    onBlur={(e) =>
+                      State.update({ editDescription: e.target.value })
+                    }
+                  />
+                  <div>
+                    <h4>{descriptionForStudent(student)}</h4>
+                  </div>
+                  <div>
+                    <Button
+                      onClick={() => {
+                        TecherPossibilities.deleteStudent(student);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        TecherPossibilities.updateDiscription(student);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </div>
                   <Button
-                    onClick={() => {
-                      TecherPossibilities.deleteStudent(student);
-                    }}
+                    onClick={() => State.update({ selectedStudent: null })}
                   >
-                    Delete
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      TecherPossibilities.updateDiscription(student);
-                    }}
-                  >
-                    Edit
+                    Back
                   </Button>
                 </div>
-                <Button onClick={() => State.update({ selectedStudent: null })}>
-                  Back
+              ) : (
+                <Button
+                  onClick={() => State.update({ selectedStudent: student })}
+                >
+                  More Info
                 </Button>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          </Card>
         ))}
       </div>
+      <FloatingActionButton onClick={openModal} />
+      {state.isModalOpen && (
+        <Modal closeModal={() => State.update({ isModalOpen: false })} />
+      )}
     </>
   ),
   myTeachersPage: (
