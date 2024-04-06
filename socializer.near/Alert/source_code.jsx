@@ -22,14 +22,13 @@ const Label = styled.div`
     font-weight: 600;
   }
 `;
-
-const { text, button } = props;
+const { text, button, type } = props;
 const [isVisible, setIsVisible] = useState(true);
 
 useEffect(() => {
-  const timer = setTimeout(() => {
-    setIsVisible(false);
-  }, 3000); // 2000 milliseconds = 2 seconds
+  // const timer = setTimeout(() => {
+  //   setIsVisible(false);
+  // }, 3000); // 2000 milliseconds = 2 seconds
 
   return () => clearTimeout(timer);
 }, []);
@@ -37,7 +36,12 @@ useEffect(() => {
 return (
   <>
     {isVisible && (
-      <Alert>
+      <Alert
+        style={{
+          backgroundColor:
+            type === "info" ? "rgb(85 183 197)" : "rgb(7 165 46)",
+        }}
+      >
         <svg
           width="20px"
           height="20px"
