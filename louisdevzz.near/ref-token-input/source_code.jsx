@@ -146,7 +146,8 @@ State.init({
 let timerInterval;
 useEffect(() => {
   timerInterval = setInterval(() => {
-    State.update({ balance: Date.now() });
+    State.update({ balance: getBalance(props.token.id) });
+    console.log(getBalance(props.token.id));
   }, 3000);
   return () => clearInterval(timerInterval);
 }, []);
