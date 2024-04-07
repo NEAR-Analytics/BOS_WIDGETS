@@ -133,7 +133,6 @@ if (!state.timerIntervalSet) {
 
     State.update({
       timerIntervalSet: false,
-      tokenIn: state.tokenIn,
     });
 
     clearTimeout(timerInterval);
@@ -345,7 +344,7 @@ return (
 
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input-clone`}
         props={{
           amount: state.amountIn,
           disableInput: false,
@@ -362,7 +361,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input`}
+        src={`louisdevzz.near/widget/ref-token-input-clone`}
         props={{
           amount: state.amountOut,
           disableInput: true,
