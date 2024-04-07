@@ -159,7 +159,7 @@ const Wrapper = styled.div`
 
 const SelectToken = (
   <Widget
-    src={`weige.near/widget/selectToken`}
+    src={`huunhanz.near/widget/selectToken`}
     props={{
       show: state.show || false,
       handleClose: state.handleClose,
