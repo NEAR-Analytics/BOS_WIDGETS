@@ -99,7 +99,6 @@ const {
   inputOnChange,
   balance,
 } = props;
-console.log("balance", balance);
 
 State.init({
   show: false,
