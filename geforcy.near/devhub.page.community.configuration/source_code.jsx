@@ -2,6 +2,10 @@ const { Tile } =
   VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const {
   permissions,
   handle,
