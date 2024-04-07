@@ -150,7 +150,7 @@ return (
         class="ref-token-inut"
         placeholder="0.0"
         onChange={(e) => {
-          setTimeout(() => inputOnChange(e), 10);
+          setTimeout(() => inputOnChange(e), 300);
         }}
         value={
           !!disableInput
