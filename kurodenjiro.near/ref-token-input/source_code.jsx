@@ -149,7 +149,7 @@ return (
       <Input
         class="ref-token-inut"
         placeholder="0.0"
-        onBlur={inputOnChange}
+        onChange={inputOnChange}
         value={
           !!disableInput
             ? !!amount
