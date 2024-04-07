@@ -149,8 +149,8 @@ return (
       <Input
         class="ref-token-inut"
         placeholder="0.0"
-        onChange={() => {
-          setTimeout(() => inputOnChange, 300);
+        onChange={(e) => {
+          setTimeout(() => inputOnChange(e), 10);
         }}
         value={
           !!disableInput
