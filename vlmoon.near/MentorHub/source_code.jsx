@@ -23,6 +23,7 @@ State.init({
   idFindStudent: "",
   vrifyOurStudent: "",
   isModalOpen: false,
+  selectedStudent: null,
 });
 
 const TecherPossibilities = {
@@ -60,31 +61,33 @@ const TecherPossibilities = {
       },
     });
   },
-  getStudent: (pageNumber, pageSize) => {
-    // Рассчитываем начальный и конечный индексы для пагинации
-    const startIndex = (pageNumber - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    let studentArray = [];
-    let arreyWhitIndexForAddStudent = [];
-    let heashForDeletnumb = {};
 
-    for (let i = startIndex; i < endIndex; i++) {
-      const student = Social.get(`maierr.near/mystudents/${i}`);
-      if (student) {
-        studentArray.push(student);
-        heashForDeletnumb[student] = i;
-      } else {
-        arreyWhitIndexForAddStudent.push(i);
-      }
-    }
+  addStudent: () => {
+    const newStudent = state.addNewStudent;
 
+    const updatedStudentArray = [...state.studentArray, newStudent];
     State.update({
-      studentArray: studentArray,
-      arreyWhitIndexForAddStudent: arreyWhitIndexForAddStudent,
-      heashForDeletnumb: heashForDeletnumb,
+      studentArray: updatedStudentArray,
+    });
+
+    Social.set({
+      [`${state.accountId}/students/${newStudent}`]: {
+        name: newStudent,
+      },
     });
   },
+
+  getStudent: () => {
+    const myStudents = Social.get(`${state.accountId}/students`);
+
+    State.update({
+      studentArray: myStudents || [],
+    });
+  },
+
   updateDiscription: (student) => {
+    State.update({ updatingDescription: true });
+
     Near.call([
       {
         contractName: "social.near",
@@ -101,121 +104,47 @@ const TecherPossibilities = {
         deposit: 1,
         gas: Big(10).pow(12).mul(50),
       },
-    ]);
+    ])
+      .then(() => {
+        TecherPossibilities.getStudent(1, 10);
+        State.update({ updatingDescription: false });
+      })
+      .catch((error) => {
+        console.error("Error updating description:", error);
+
+        State.update({
+          updatingDescription: false,
+          errorUpdatingDescription: true,
+        });
+      });
   },
+
   deleteStudent: (student) => {
+    State.update({ deletingStudent: true });
+
     const indexForDeleteNumb = state.heashForDeletnumb[student];
-
-    const updatedStudents = [...state.studentArray];
-    updatedStudents.splice(indexForDeleteNumb, 1);
-    const updatedHash = { ...state.heashForDeletnumb };
-    delete updatedHash[student];
-
     Social.set({
-      mystudents: updatedStudents,
+      mystudents: {
+        [indexForDeleteNumb]: null,
+      },
       myStudentsForFind: {
-        ...state.myStudentsForFind,
         [student]: false,
       },
-    });
+    })
+      .then(() => {
+        TecherPossibilities.getStudent(1, 10);
+        State.update({ deletingStudent: false });
+      })
+      .catch((error) => {
+        console.error("Error deleting student:", error);
 
-    State.update({
-      studentArray: updatedStudents,
-      heashForDeletnumb: updatedHash,
-    });
-  },
-
-  addStudent: () => {
-    const newStudent = state.addNewStudent;
-    const isValidStudent = validateStudentId(newStudent);
-    const ifAlreadyHaveStudent = Social.get(
-      `maierr.near/myStudentsForFind/${newStudent}`
-    );
-    const sliceForVerification = newStudent.slice(
-      newStudent.length - 5,
-      newStudent.length
-    );
-
-    if (
-      sliceForVerification === ".near" &&
-      !ifAlreadyHaveStudent &&
-      isValidStudent
-    ) {
-      let indexForAddStudent = 0;
-      if (
-        state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length > 0
-      ) {
-        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
-      } else if (
-        state.studentArray.length > 0 &&
-        state.arreyWhitIndexForAddStudent.length === 0
-      ) {
-        while (state.arreyWhitIndexForAddStudent.length === 0) {
-          const student = Social.get(
-            `maierr.near/mystudents/${indexForAddStudent}`
-          );
-          if (!student) {
-            State.update({
-              arreyWhitIndexForAddStudent: indexForAddStudent,
-            });
-            break;
-          }
-          indexForAddStudent++;
-        }
-      } else if (
-        state.studentArray.length === 0 &&
-        !state.arreyWhitIndexForAddStudent.length === 0
-      ) {
-        indexForAddStudent = 0;
-      }
-
-      const updatedStudents = [...state.studentArray];
-      updatedStudents[indexForAddStudent] = newStudent;
-
-      Social.set({
-        mystudents: updatedStudents,
-        myStudentsForFind: {
-          ...state.myStudentsForFind,
-          [newStudent]: true,
-        },
+        State.update({ deletingStudent: false, errorDeletingStudent: true });
       });
-
-      State.update({
-        ifAddStudent: true,
-        studentArray: updatedStudents,
-      });
-    } else {
-      State.update({
-        ifAddStudent: false,
-      });
-    }
-  },
-
-  findStudentByID: (accountId) => {
-    if (validateStudentId(accountId)) {
-      const filteredStudents = state.studentArray
-        .map((student) => (student === accountId ? student : null))
-        .filter(Boolean);
-
-      State.update({
-        studentArray: filteredStudents,
-        vrifyOurStudent: filteredStudents.length > 0 ? accountId : "",
-      });
-    } else {
-      State.update({
-        vrifyOurStudent: "",
-      });
-    }
   },
 };
 
-function validateStudentId(studentId) {
-  return studentId.endsWith(".near");
-}
-
 TecherPossibilities.init();
-TecherPossibilities.getStudent(1, 10, true);
+TecherPossibilities.getStudent(1, 10);
 
 function descriptionForStudent(account_id) {
   const discriprionalIN = Social.getr(`${account_id}/profile`);
@@ -240,27 +169,13 @@ const Modal = ({ closeModal }) => {
   return (
     <ModalContainer>
       <ModalContent>
-        <h3>Add New Student</h3>
         <input
           type="text"
           className="form-control"
-          placeholder="For add, input account_ID student"
           onBlur={(e) => State.update({ addNewStudent: e.target.value })}
+          placeholder="Add student"
         />
-        <Button
-          onClick={() => {
-            TecherPossibilities.addStudent();
-            if (state.ifAddStudent) {
-              State.update({
-                addNewStudent: "",
-                isModalOpen: false,
-              });
-            }
-          }}
-        >
-          Add
-        </Button>
-
+        <Button onClick={TecherPossibilities.addStudent}>Add</Button>
         {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
         <Button onClick={closeModal}>Close</Button>
       </ModalContent>
@@ -353,8 +268,7 @@ const GlobalContainer = styled.div`
   font-family: 'Manrope', sans-serif;
   margin: auto;
   padding: 2rem; 
-  width: 100%; 
-  height: 100vh; 
+   
   background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
   display: flex;
   flex-direction: column;
@@ -414,8 +328,8 @@ const Card = styled.div`
 const FloatingButton = styled.button`
   font-family: 'Inter', sans-serif;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 50px;
+  right: 100px;
   background-color: #000;
   color: #fff;
   border: none;
@@ -501,6 +415,28 @@ function getModuleDependencies(moduleRoute) {
 }
 const dependencies = getModuleDependencies(state.currentRoute);
 
+function searchStudents(searchTerm, studentArray) {
+  const filteredStudents = studentArray.filter((student) => {
+    const studentProfile = Social.getr(`${student}/profile`);
+    const studentName = studentProfile.name.toLowerCase();
+    return studentName.includes(searchTerm.toLowerCase());
+  });
+
+  return filteredStudents;
+}
+
+const [searchTerm, setSearchTerm] = useState("");
+const [filteredStudents, setFilteredStudents] = useState([]);
+
+const handleInputChange = (e) => {
+  setSearchTerm(e.target.value);
+};
+
+useEffect(() => {
+  const filtered = searchStudents(searchTerm, state.studentArray);
+  setFilteredStudents(filtered);
+}, [searchTerm, state.studentArray]);
+
 //Pages
 const pages = {
   myInfoPage: (
@@ -511,63 +447,27 @@ const pages = {
       </Card>
     </ProfileTab>
   ),
-
   studentsPage: (
-    <>
+    <ProfileTab>
       <h1>My Students</h1>
-
       <div>
         <input
           type="text"
-          className="form-control"
-          placeholder="Find student"
-          onBlur={(e) => State.update({ idFindStudent: e.target.value })}
+          value={searchTerm}
+          onChange={handleInputChange}
+          placeholder="Search student"
         />
-
-        <Button
-          onClick={() => {
-            TecherPossibilities.findStudentByID(state.idFindStudent);
-            State.update({
-              vrifyOurStudent: state.idFindStudent,
-            });
-          }}
-        >
-          Find
-        </Button>
       </div>
-      {state.vrifyOurStudent && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "20px",
-            height: "100",
-            borderRadius: "12px",
-            background: "#fff",
-            border: "1px solid #eceef0",
-            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
-            overflow: "hidden",
-            padding: "16px",
-          }}
-        >
-          <div>
-            <Widget
-              src="near/widget/AccountProfile"
-              props={{ accountId: state.vrifyOurStudent }}
-            />
-          </div>
-        </div>
-      )}
+
       <div style={{ display: "flex", margin: "15px", flexDirection: "column" }}>
-        {state.studentArray.map((student) => (
+        {filteredStudents.map((student) => (
           <Card key={student} style={{ marginBottom: "10px" }}>
             <div>
               <Widget
                 src="near/widget/AccountProfile"
                 props={{ accountId: student }}
               />
+              <h4>{descriptionForStudent(student)}</h4>
             </div>
             <div>
               {state.selectedStudent === student ? (
@@ -580,31 +480,21 @@ const pages = {
                       State.update({ editDescription: e.target.value })
                     }
                   />
-                  <div>
-                    <h4>{descriptionForStudent(student)}</h4>
-                  </div>
-                  <div>
-                    <Button
-                      onClick={() => {
-                        TecherPossibilities.deleteStudent(
-                          state.vrifyOurStudent
-                        );
-                        State.update({
-                          vrifyOurStudent: "",
-                        });
-                      }}
-                    >
-                      Delete
-                    </Button>
 
+                  <div>
                     <Button
                       onClick={() => {
-                        TecherPossibilities.updateDiscription(
-                          state.vrifyOurStudent
-                        );
+                        TecherPossibilities.updateDiscription(student);
                       }}
                     >
                       Edit
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        TecherPossibilities.deleteStudent(student);
+                      }}
+                    >
+                      Delete
                     </Button>
                   </div>
                   <Button
@@ -628,7 +518,7 @@ const pages = {
       {state.isModalOpen && (
         <Modal closeModal={() => State.update({ isModalOpen: false })} />
       )}
-    </>
+    </ProfileTab>
   ),
   myTeachersPage: (
     <>
