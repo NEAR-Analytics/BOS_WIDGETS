@@ -8,7 +8,7 @@ const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
 
-const account = asyncFetch("https://rpc.mainnet.near.org", {
+const account = fetch("https://rpc.mainnet.near.org", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
