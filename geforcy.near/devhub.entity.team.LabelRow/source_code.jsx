@@ -3,9 +3,6 @@
  * by the prefix 'team:'; therefore, on the front end, we also employ 'team,'
  * with the user interface displaying 'group' for clarity.
  */
-const { Tile } =
-  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
-  (() => <></>);
 
 const { getAccessControlInfo, getRootMembers, removeMember } = VM.require(
   "geforcy.near/widget/core.adapter.devhub-contract"
@@ -97,7 +94,7 @@ function editTeam({
       if (!membersAndTeams.includes(member)) {
         // Contract panic member does not exist in the members_list yet.
         txn.push({
-          contractName: "devgovgigs.near",
+          contractName: "thomasguntenaar.near",
           methodName: "add_member",
           args: {
             member: member,
@@ -122,7 +119,7 @@ function editTeam({
   Near.call([
     ...txn,
     {
-      contractName: "devgovgigs.near",
+      contractName: "thomasguntenaar.near",
       methodName: "edit_member",
       args: {
         member: `team:${tmnm}`,
