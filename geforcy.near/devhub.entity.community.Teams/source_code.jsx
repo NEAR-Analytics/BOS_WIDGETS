@@ -4,6 +4,10 @@ const { Tile } =
   VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { getCommunity } = VM.require(
   "geforcy.near/widget/core.adapter.devhub-contract"
 );
@@ -29,7 +33,7 @@ const UserList = ({ name, users }) => (
             style={{ fontWeight: 500 }}
           >
             <Widget
-              src="neardevgov.near/widget/ProfileLine"
+              src="geforcy.near/widget/devhub.components.molecule.ProfileLine"
               props={{ accountId: user, hideAccountId: true, tooltip: true }}
             />
           </span>
@@ -40,7 +44,7 @@ const UserList = ({ name, users }) => (
 );
 
 return (
-  <div className="d-flex flex-column align-items-center gap-4 w-100">
+  <div className="d-flex flex-column align-items-center gap-4 w-100 px-2">
     <Tile className="p-3 w-100 bg-white mb-3" style={{ maxWidth: 960 }}>
       <div>
         <div
