@@ -152,7 +152,7 @@ return (
         onBlur={(e) => {
           inputOnChange(e);
         }}
-        value={
+        defaultValue={
           !!disableInput
             ? !!amount
               ? formatTokenBig(amount, props.token.decimals)
