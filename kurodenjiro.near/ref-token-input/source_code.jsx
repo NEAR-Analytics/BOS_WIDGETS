@@ -91,11 +91,18 @@ const formatTokenBig = (v, decimals) =>
   Math.floor(v * Math.pow(10, Math.min(decimals, 8))) /
   Math.pow(10, Math.min(decimals, 8));
 
-const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
+const {
+  amount,
+  setAmount,
+  handleSelect,
+  disableInput,
+  inputOnChange,
+  balance,
+} = props;
 
 State.init({
   show: false,
-  balance: props.balance,
+  balance: balance,
   handleClose: () => {
     State.update({
       show: false,
