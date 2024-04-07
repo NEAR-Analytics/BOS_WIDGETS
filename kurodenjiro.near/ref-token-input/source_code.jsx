@@ -109,7 +109,6 @@ const formatTokenBig = (v, decimals) =>
   Math.pow(10, Math.min(decimals, 8));
 
 const getBalance = (token_id) => {
-  console.log("hello123");
   let amount;
 
   if (!accountId) {
@@ -122,7 +121,7 @@ const getBalance = (token_id) => {
       account_id: accountId,
     });
   }
-
+  console.log("amount", amount);
   return !!amount
     ? formatToken(shrinkToken(amount, props.token.decimals))
     : "-";
