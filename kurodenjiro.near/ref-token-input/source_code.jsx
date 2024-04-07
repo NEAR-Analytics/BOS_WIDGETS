@@ -149,8 +149,8 @@ return (
       <Input
         class="ref-token-inut"
         placeholder="0.0"
-        onChange={(e) => {
-          setTimeout(() => inputOnChange(e), 300);
+        onBlur={(e) => {
+          inputOnChange(e);
         }}
         value={
           !!disableInput
