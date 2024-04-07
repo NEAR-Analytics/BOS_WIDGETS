@@ -157,13 +157,7 @@ return (
               : "0"
             : amount
         }
-        defaultValue={
-          !!disableInput
-            ? !!amount
-              ? formatTokenBig(amount, props.token.decimals)
-              : "0"
-            : amount
-        }
+        defaultValue={amount}
         disabled={!!disableInput}
       />
 
