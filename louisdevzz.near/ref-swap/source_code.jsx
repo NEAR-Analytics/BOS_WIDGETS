@@ -350,7 +350,7 @@ return (
 
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input-clone`}
+        src={`kurodenjiro.near/widget/ref-token-input`}
         props={{
           amount: state.amountIn,
           balance: state.balanceTokenIn,
@@ -368,7 +368,7 @@ return (
     {Exchange}
     {
       <Widget
-        src={`louisdevzz.near/widget/ref-token-input-clone`}
+        src={`kurodenjiro.near/widget/ref-token-input`}
         props={{
           amount: state.amountOut,
           balance: state.balanceTokenOut,
