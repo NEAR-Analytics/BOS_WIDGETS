@@ -39,7 +39,6 @@ const ExchangeIcon = (
         tokenIn: state.tokenOut,
         tokenOut: state.tokenIn,
       });
-      loadBalance();
     }}
   >
     <path
@@ -74,7 +73,6 @@ State.init({
   notEnough: "",
   timerIntervalSet: false,
   reloadPools: false,
-  count: 5,
   loadRes: (value) =>
     State.update({
       estimate: value,
@@ -85,54 +83,50 @@ const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
 const loadBalance = () => {
   asyncFetch(`https://api3.nearblocks.io/v1/account/${accountId}`).then(
     (res) => {
-      asyncFetch(`https://api.fastnear.com/v1/account/${accountId}/ft`).then(
-        (resFastNear) => {
-          let lonkBalance = "";
-          for (let token of resFastNear.body.tokens) {
-            if (token.contract_id == "token.lonkingnearbackto2024.near") {
-              lonkBalance = token.balance;
-            }
-          }
-          const getBalance = (token_id, tokenMeta) => {
-            let amount;
+      const getBalance = (token_id, tokenMeta) => {
+        let amount;
 
-            if (!accountId) {
-              return "0";
-            }
-            if (token_id === "NEAR") amount = res.body.account[0].amount;
-            else {
-              amount = lonkBalance;
-            }
-
-            return !amount
-              ? "0"
-              : shrinkToken(amount, tokenMeta.decimals).toFixed();
-          };
-          const balanceTokenIn = getBalance(state.tokenIn.id, state.tokenIn);
-          const balanceTokenOut = getBalance(state.tokenOut.id, state.tokenOut);
-
-          const notEnough = new Big(state.amountIn || 0).gt(
-            new Big(balanceTokenIn).minus(
-              state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
-            )
-          );
-
-          State.update({
-            notEnough: notEnough,
-            balanceTokenIn: formatToken(balanceTokenIn),
-            balanceTokenOut: formatToken(balanceTokenOut),
-            reloadPools: true,
-            tokenIn: state.tokenIn,
-            tokenOut: state.tokenOut,
+        if (!accountId) {
+          return "0";
+        }
+        if (token_id === "NEAR") amount = res.body.account[0].amount;
+        else {
+          amount = Near.view(token_id, "ft_balance_of", {
+            account_id: accountId,
           });
         }
+
+        return !amount
+          ? "0"
+          : shrinkToken(amount, tokenMeta.decimals).toFixed();
+      };
+      const balanceTokenIn = getBalance(state.tokenIn.id, state.tokenIn);
+      const balanceTokenOut = getBalance(state.tokenOut.id, state.tokenOut);
+
+      const notEnough = new Big(state.amountIn || 0).gt(
+        new Big(balanceTokenIn).minus(
+          state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
+        )
       );
+
+      State.update({
+        notEnough: notEnough,
+        balanceTokenIn: formatToken(balanceTokenIn),
+        balanceTokenOut: formatToken(balanceTokenOut),
+        reloadPools: true,
+        tokenIn: state.tokenIn,
+        tokenOut: state.tokenOut,
+      });
     }
   );
 };
 useEffect(() => {
   loadBalance();
 }, []);
+
+if (!Storage.get("count")) {
+  Storage.set("count", 5);
+}
 
 let timerInterval;
 
@@ -141,13 +135,14 @@ if (!state.timerIntervalSet) {
     timerIntervalSet: true,
   });
   timerInterval = setTimeout(() => {
-    const count = state.count;
+    const count = Storage.get("count");
 
     if (count === 1) {
       loadBalance();
     }
+    Storage.set("count", count === 1 ? 5 : count - 1);
+
     State.update({
-      count: count === 1 ? 5 : count - 1,
       timerIntervalSet: false,
     });
 
@@ -217,6 +212,14 @@ const canSwap =
   !state.loading &&
   Number(state.slippagetolerance) > 0;
 
+const register = Near.view(
+  state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
+  "storage_balance_of",
+  {
+    account_id: accountId,
+  }
+);
+
 const callTx = () => {
   const tx = [];
 
@@ -244,13 +247,7 @@ const callTx = () => {
 
     return Near.call(tx);
   }
-  const register = Near.view(
-    state.tokenOut.id === "NEAR" ? "wrap.near" : state.tokenOut.id,
-    "storage_balance_of",
-    {
-      account_id: accountId,
-    }
-  );
+
   if (register === null) {
     tx.push({
       contractName:
@@ -324,17 +321,31 @@ const inputOnChange = (e) => {
   }
 
   let amountIn = targetValue.replace(/^0+/, "0"); // remove prefix 0
-  setTimeout(() => {
-    State.update({
-      amountIn,
-    });
-  }, 30);
+
+  State.update({
+    amountIn,
+  });
 };
 
 return (
   <Container>
     <div className="swap-title">Swap</div>
-    {}
+    {
+      <Widget
+        src="weige.near/widget/ref-swap-getEstimate"
+        props={{
+          loadRes: state.loadRes,
+          tokenIn: state.tokenIn,
+          tokenOut: state.tokenOut,
+          amountIn: state.amountIn || 0,
+          reloadPools: state.reloadPools,
+          setReloadPools: (value) =>
+            State.update({
+              reloadPools: value,
+            }),
+        }}
+      />
+    }
 
     {
       <Widget
@@ -344,9 +355,7 @@ return (
           balance: state.balanceTokenIn,
           disableInput: false,
           inputOnChange: inputOnChange,
-          setAmount: (value) => {
-            State.update({ amountIn: value });
-          },
+          setAmount: (value) => State.update({ amountIn: value }),
           token: state.tokenIn,
           handleSelect: (metadata) =>
             State.update({
@@ -379,11 +388,11 @@ return (
           clearTimeout(timerInterval);
           State.update({
             reloadPools: true,
-            count: 5,
           });
+          Storage.set("count", 5);
         }}
       >
-        <Refresh>{state.count - 1}</Refresh>
+        <Refresh>{Storage.get("count") - 1}</Refresh>
         <RefreshText>Refresh</RefreshText>
       </RefreshWrapper>
 
@@ -396,13 +405,11 @@ return (
     <Widget
       src={`weige.near/widget/SlippageTolerance`}
       props={{
-        reloadPools: false,
         showSetting: state.showSetting,
         updateSetting: () =>
           State.update({
             showSetting: !state.showSetting,
           }),
-
         slippagetolerance: state.slippagetolerance,
         setSlippagetolerance: (value) => {
           if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
