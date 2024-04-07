@@ -150,6 +150,13 @@ return (
         class="ref-token-inut"
         placeholder="0.0"
         onBlur={inputOnChange}
+        value={
+          !!disableInput
+            ? !!amount
+              ? formatTokenBig(amount, props.token.decimals)
+              : "0"
+            : amount
+        }
         defaultValue={
           !!disableInput
             ? !!amount
