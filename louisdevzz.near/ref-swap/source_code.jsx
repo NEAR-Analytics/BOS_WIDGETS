@@ -133,6 +133,7 @@ if (!state.timerIntervalSet) {
 
     State.update({
       timerIntervalSet: false,
+      tokenIn: state.tokenIn,
     });
 
     clearTimeout(timerInterval);
