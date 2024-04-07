@@ -127,6 +127,8 @@ if (!state.timerIntervalSet) {
     if (count === 1) {
       State.update({
         reloadPools: true,
+        tokenIn: state.tokenIn,
+        tokenOut: state.tokenOut,
       });
     }
     Storage.set("count", count === 1 ? 21 : count - 1);
