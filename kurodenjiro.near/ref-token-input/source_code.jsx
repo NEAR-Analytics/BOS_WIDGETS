@@ -69,6 +69,23 @@ const Symbol = styled.span`
   font-size: 18px;
 `;
 
+const account = fetch("https://rpc.mainnet.near.org", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    id: "dontcare",
+    method: "query",
+    params: {
+      request_type: "view_account",
+      finality: "final",
+      account_id: accountId,
+    },
+  }),
+});
+
 // 新增接口
 const accountNum = JSON.parse(
   fetch("https://indexer.ref.finance/list-token-price").body
@@ -91,18 +108,31 @@ const formatTokenBig = (v, decimals) =>
   Math.floor(v * Math.pow(10, Math.min(decimals, 8))) /
   Math.pow(10, Math.min(decimals, 8));
 
-const {
-  amount,
-  setAmount,
-  handleSelect,
-  disableInput,
-  inputOnChange,
-  balance,
-} = props;
+const getBalance = (token_id) => {
+  console.log("hello123");
+  let amount;
+
+  if (!accountId) {
+    return "-";
+  }
+
+  if (token_id === "NEAR") amount = account.body.result.amount;
+  else {
+    amount = Near.view(token_id, "ft_balance_of", {
+      account_id: accountId,
+    });
+  }
+
+  return !!amount
+    ? formatToken(shrinkToken(amount, props.token.decimals))
+    : "-";
+};
+
+const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 
 State.init({
   show: false,
-  balance: balance,
+  balance: getBalance(props.token.id),
   handleClose: () => {
     State.update({
       show: false,
@@ -178,7 +208,7 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {accountId ? balance : "-"}</div>
+      <div>Balance: {state.balance}</div>
     </BalanceWrapper>
 
     {SelectToken}
