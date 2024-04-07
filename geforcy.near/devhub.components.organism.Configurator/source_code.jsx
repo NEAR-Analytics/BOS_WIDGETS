@@ -4,44 +4,6 @@ if (!Struct) {
   return <p>Loading modules...</p>;
 }
 
-const defaultFieldUpdate = ({
-  input,
-  lastKnownValue,
-  params: { arrayDelimiter },
-}) => {
-  switch (typeof input) {
-    case "boolean":
-      return input;
-
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
-
-    case "string":
-      return Array.isArray(lastKnownValue)
-        ? input.split(arrayDelimiter ?? ",").map((string) => string.trim())
-        : input;
-
-    default: {
-      if ((input ?? null) === null) {
-        switch (typeof lastKnownValue) {
-          case "boolean":
-            return !lastKnownValue;
-
-          default:
-            return lastKnownValue;
-        }
-      } else return input;
-    }
-  }
-};
-
 const useForm = ({ initialValues, onUpdate, stateKey }) => {
   const initialFormState = {
     hasUnsubmittedChanges: false,
@@ -68,7 +30,7 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
             params,
           });
         } else {
-          return defaultFieldUpdate({
+          return Struct.defaultFieldUpdate({
             input: fieldInput?.target?.value ?? fieldInput,
             lastKnownValue: node,
             params,
@@ -188,7 +150,10 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`geforcy.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`geforcy.near/widget/devhub.${
+                (fieldParamsByType[fieldType] ?? fieldParamsByType["string"])
+                  .name
+              }`}
               props={{
                 ...fieldProps,
                 className: [
@@ -245,6 +210,7 @@ const Configurator = ({
   schema,
   submitIcon,
   submitLabel,
+  hideSubmitBtn,
 }) => {
   const fieldsRender = customFieldsRender || defaultFieldsRender;
 
@@ -314,7 +280,7 @@ const Configurator = ({
           schema,
         })}
       </div>
-      {isActive && (
+      {isActive && !hideSubmitBtn && (
         <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
           {actionsAdditional ? (
             <div className="me-auto">{actionsAdditional}</div>
