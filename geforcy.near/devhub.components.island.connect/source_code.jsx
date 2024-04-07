@@ -1,3 +1,17 @@
+const { getFeaturedCommunities } = VM.require(
+  "geforcy.near/widget/core.adapter.devhub-contract"
+);
+
+if (!getFeaturedCommunities) {
+  return <p>Loading modules...</p>;
+}
+
+const communities = getFeaturedCommunities();
+
+if (!communities) {
+  return <p>Loading communities...</p>;
+}
+
 const [startIndex, setStartIndex] = useState(0);
 const [endIndex, setEndIndex] = useState(2);
 
@@ -88,33 +102,13 @@ const Card = ({ title, description, href }) => {
   );
 };
 
-const Cards = [
-  {
-    title: "DevHub Hacks",
-    description: "Host and support developer focused events around the globe.",
-    href: "/${REPL_DEVHUB}/widget/app?page=community&handle=hacks",
-  },
-  {
-    title: "NEAR Platform Fellowship",
-    description: "Improve the NEAR dev experience with guidance & funding.",
-    href: "/${REPL_DEVHUB}/widget/app?page=community&handle=fellowship",
-  },
-  {
-    title: "Protocol",
-    description: "Support the ongoing innovation of the NEAR protocol.",
-    href: "/${REPL_DEVHUB}/widget/app?page=community&handle=protocol",
-  },
-  {
-    title: "Zero Knowledge",
-    description: "Build a Zero Knowledge ecosystem on NEAR.",
-    href: "/${REPL_DEVHUB}/widget/app?page=community&handle=zero-knowledge",
-  },
-  {
-    title: "Contract Standards",
-    description: "Coordinate the contribution to the NEAR dapp standards.",
-    href: "/${REPL_DEVHUB}/widget/app?page=community&handle=contract-standards",
-  },
-];
+const Cards = communities.map((com) => {
+  return {
+    title: com.name,
+    description: com.description,
+    href: "/geforcy.near/widget/app?page=community&handle=" + com.handle,
+  };
+});
 
 const ForwardButton = styled.button`
   all: unset;
@@ -319,7 +313,7 @@ const Content = (
       ))}
     </MobileCards>
     <CTAContainer>
-      <CTA href="/${REPL_DEVHUB}/widget/app?page=communities">
+      <CTA href="/geforcy.near/widget/app?page=communities">
         Explore all communities →
       </CTA>
     </CTAContainer>
@@ -328,7 +322,7 @@ const Content = (
 
 return (
   <Widget
-    src="${REPL_DEVHUB}/widget/devhub.components.island.home-section"
+    src="geforcy.near/widget/devhub.components.island.home-section"
     props={{
       title: "/connect",
       children: Content,
