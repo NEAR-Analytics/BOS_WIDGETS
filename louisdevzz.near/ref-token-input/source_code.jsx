@@ -69,23 +69,6 @@ const Symbol = styled.span`
   font-size: 18px;
 `;
 
-const account = fetch("https://rpc.mainnet.near.org", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    jsonrpc: "2.0",
-    id: "dontcare",
-    method: "query",
-    params: {
-      request_type: "view_account",
-      finality: "final",
-      account_id: accountId,
-    },
-  }),
-});
-
 // 新增接口
 const accountNum = JSON.parse(
   fetch("https://indexer.ref.finance/list-token-price").body
@@ -108,6 +91,7 @@ const formatTokenBig = (v, decimals) =>
   Math.floor(v * Math.pow(10, Math.min(decimals, 8))) /
   Math.pow(10, Math.min(decimals, 8));
 
+const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
 const getBalance = (token_id) => {
   let amount;
 
@@ -115,7 +99,7 @@ const getBalance = (token_id) => {
     return "-";
   }
 
-  if (token_id === "NEAR") amount = account.body.result.amount;
+  if (token_id === "NEAR") amount = state.account;
   else {
     amount = Near.view(token_id, "ft_balance_of", {
       account_id: accountId,
@@ -127,10 +111,9 @@ const getBalance = (token_id) => {
     : "-";
 };
 
-const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
-
 State.init({
   show: false,
+  account: null,
   balance: getBalance(props.token.id),
   handleClose: () => {
     State.update({
@@ -143,6 +126,35 @@ State.init({
     });
   },
 });
+
+function loadData() {
+  asyncFetch("https://rpc.mainnet.near.org", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "query",
+      params: {
+        request_type: "view_account",
+        finality: "final",
+        account_id: accountId,
+      },
+    }),
+  }).then((res) => {
+    State.update({ account: res.body.result.amount });
+  });
+}
+loadData();
+let timerInterval;
+useEffect(() => {
+  timerInterval = setInterval(() => {
+    loadData();
+  }, 3000);
+  return () => clearInterval(timerInterval);
+}, []);
 
 const BalanceWrapper = styled.div`
   color: #7c7f96;
@@ -207,7 +219,12 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {state.balance}</div>
+      <div>
+        Balance:{" "}
+        {props.token.id == "NEAR"
+          ? formatToken(shrinkToken(state.account, props.token.decimals))
+          : state.balance}
+      </div>
     </BalanceWrapper>
 
     {SelectToken}
