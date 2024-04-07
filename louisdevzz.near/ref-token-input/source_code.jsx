@@ -122,14 +122,11 @@ const getBalance = (token_id) => {
     });
   }
 
-  return !!amount
-    ? formatToken(shrinkToken(amount, props.token.decimals))
-    : "-";
+  return !!amount ? formatToken(shrinkToken(amount, 24)) : "-";
 };
-
+const [balance, setBalance] = useState(getBalance("NEAR"));
 State.init({
   show: false,
-  balance: getBalance(props.token.id),
   handleClose: () => {
     State.update({
       show: false,
@@ -141,6 +138,14 @@ State.init({
     });
   },
 });
+
+useEffect(() => {
+  const timerInterval = setInterval(() => {
+    setBalance(getBalance("NEAR"));
+  }, 2000);
+  return () => clearInterval(timerInterval);
+}, []);
+console.log(balance);
 const BalanceWrapper = styled.div`
   color: #7c7f96;
   font-size: 12px;
@@ -204,7 +209,7 @@ return (
           props.token.decimals
         )}
       </div>
-      <div>Balance: {state.balance}</div>
+      <div>Balance: {balance}</div>
     </BalanceWrapper>
 
     {SelectToken}
