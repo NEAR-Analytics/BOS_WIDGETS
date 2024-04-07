@@ -1,4 +1,5 @@
 const user = Ethers.send("eth_requestAccounts", [])[0];
+console.log("User:", user);
 
 if (!user) return <Web3Connect connectLabel="Connect" />;
 
