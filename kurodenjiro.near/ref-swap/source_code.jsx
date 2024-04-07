@@ -39,6 +39,7 @@ const ExchangeIcon = (
         tokenIn: state.tokenOut,
         tokenOut: state.tokenIn,
       });
+      loadBalance();
     }}
   >
     <path
