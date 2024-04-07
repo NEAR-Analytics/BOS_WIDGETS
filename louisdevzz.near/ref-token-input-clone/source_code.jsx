@@ -128,7 +128,7 @@ const getBalance = (token_id) => {
 };
 
 const { amount, setAmount, handleSelect, disableInput, inputOnChange } = props;
-
+const [balance, setBalance] = useState(getBalance(props.token.id));
 State.init({
   show: false,
   handleClose: () => {
@@ -143,6 +143,13 @@ State.init({
   },
 });
 
+useEffect(() => {
+  const timerInterval = setInterval(() => {
+    setBalance(getBalance(props.token.id));
+  }, 2000);
+  return () => clearInterval(timerInterval);
+}, []);
+console.log(balance);
 const BalanceWrapper = styled.div`
   color: #7c7f96;
   font-size: 12px;
