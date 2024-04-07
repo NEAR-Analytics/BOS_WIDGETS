@@ -10,39 +10,6 @@ const expandToken = (value, decimals) => {
 const chakraFont = fetch(
   "https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
 ).body;
-const account = fetch("https://rpc.mainnet.near.org", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    jsonrpc: "2.0",
-    id: "dontcare",
-    method: "query",
-    params: {
-      request_type: "view_account",
-      finality: "final",
-      account_id: accountId,
-    },
-  }),
-});
-
-const getBalance = (token_id, tokenMeta) => {
-  let amount;
-
-  if (!accountId) {
-    return "0";
-  }
-
-  if (token_id === "NEAR") amount = account.body.result.amount;
-  else {
-    amount = Near.view(token_id, "ft_balance_of", {
-      account_id: accountId,
-    });
-  }
-
-  return !amount ? "0" : shrinkToken(amount, tokenMeta.decimals).toFixed();
-};
 
 const LONK_TOKEN_META = {
   decimals: 8,
@@ -104,6 +71,9 @@ State.init({
   showSetting: false,
   slippagetolerance: "0.5",
   estimate: {},
+  balanceTokenIn: "",
+  balanceTokenOut: "",
+  notEnough: "",
   timerIntervalSet: false,
   reloadPools: false,
   loadRes: (value) =>
@@ -114,9 +84,52 @@ State.init({
 });
 
 if (!Storage.get("count")) {
-  Storage.set("count", 21);
+  Storage.set("count", 5);
 }
+const formatToken = (v) => Math.floor(v * 10_000) / 10_000;
+const loadBalance = () => {
+  asyncFetch(`https://api3.nearblocks.io/v1/account/${accountId}`).then(
+    (res) => {
+      const getBalance = (token_id, tokenMeta) => {
+        let amount;
 
+        if (!accountId) {
+          return "0";
+        }
+        if (token_id === "NEAR") amount = res.body.account[0].amount;
+        else {
+          amount = Near.view(token_id, "ft_balance_of", {
+            account_id: accountId,
+          });
+        }
+
+        return !amount
+          ? "0"
+          : shrinkToken(amount, tokenMeta.decimals).toFixed();
+      };
+      const balanceTokenIn = getBalance(state.tokenIn.id, state.tokenIn);
+      const balanceTokenOut = getBalance(state.tokenOut.id, state.tokenOut);
+
+      const notEnough = new Big(state.amountIn || 0).gt(
+        new Big(balanceTokenIn).minus(
+          state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
+        )
+      );
+
+      State.update({
+        notEnough: notEnough,
+        balanceTokenIn: formatToken(balanceTokenIn),
+        balanceTokenOut: formatToken(balanceTokenOut),
+        reloadPools: true,
+        tokenIn: state.tokenIn,
+        tokenOut: state.tokenOut,
+      });
+    }
+  );
+};
+useEffect(() => {
+  loadBalance();
+}, []);
 let timerInterval;
 
 if (!state.timerIntervalSet) {
@@ -127,9 +140,7 @@ if (!state.timerIntervalSet) {
     const count = Storage.get("count");
 
     if (count === 1) {
-      State.update({
-        reloadPools: true,
-      });
+      loadBalance();
     }
     Storage.set("count", count === 1 ? 21 : count - 1);
 
@@ -197,12 +208,6 @@ const RateWrapper = styled.div`
   font-size: 12px;
   color: #7c7f96;
 `;
-
-const notEnough = new Big(state.amountIn || 0).gt(
-  new Big(getBalance(state.tokenIn.id, state.tokenIn)).minus(
-    state.tokenIn.id === "NEAR" ? new Big(0.5) : new Big(0)
-  )
-);
 
 const canSwap =
   Number(state.amountIn || 0) > 0 &&
@@ -377,6 +382,7 @@ return (
         src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountIn,
+          balance: state.balanceTokenIn,
           disableInput: false,
           inputOnChange: inputOnChange,
           setAmount: (value) => State.update({ amountIn: value }),
@@ -394,6 +400,7 @@ return (
         src={`louisdevzz.near/widget/veax-token-input`}
         props={{
           amount: state.amountOut,
+          balance: state.balanceTokenOut,
           disableInput: true,
           setAmount: (value) => State.update({ amountOut: value }),
           token: state.tokenOut,
@@ -412,7 +419,7 @@ return (
           State.update({
             reloadPools: true,
           });
-          Storage.set("count", 21);
+          Storage.set("count", 5);
         }}
       >
         <Refresh>{Storage.get("count") - 1}</Refresh>
