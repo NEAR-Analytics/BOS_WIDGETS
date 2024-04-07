@@ -140,7 +140,7 @@ const {
   inputOnChange,
   balance,
 } = props;
-
+console.log(balance);
 State.init({
   show: false,
   balance: balance,
