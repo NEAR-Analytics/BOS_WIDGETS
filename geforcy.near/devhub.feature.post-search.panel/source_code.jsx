@@ -51,63 +51,126 @@ const InputContainer = styled.div`
   }
 `;
 
+const DropdownContainer = styled.div`
+  width: 25%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const StyledDropdown = styled.div`
+  button {
+    width: 100%;
+    text-align: left;
+
+    &::after {
+      position: absolute;
+      right: 8px;
+      top: 45%;
+      transform: translateX(-50%);
+    }
+  }
+`;
+
+const BannerWrapper = styled.div`
+  background-color: #ffd2d2;
+  .text-sm {
+    font-size: 13px;
+  }
+`;
+
 return (
   <>
     {!props.hideHeader && (
       <Container>
         <div className="w-100">
+          <BannerWrapper className="d-flex gap-3 align-items-center mb-4 p-3 rounded-3">
+            <div>
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div>
+              <div className="fw-bold">This page is now archived! </div>
+              <div className="text-sm">
+                For submitting formal funding proposals from DevDAO, please
+                visit the new{" "}
+                <a
+                  href="https://near.org/devhub.near/widget/app?page=proposals"
+                  className="text-decoration-underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Proposal Feed
+                </a>
+                . To brainstorm and share ideas, please visit the relevant{" "}
+                <a
+                  href="https://near.org/devhub.near/widget/app?page=communities"
+                  className="text-decoration-underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  communities
+                </a>
+                .
+              </div>
+            </div>
+          </BannerWrapper>
           <PageTitle>Activity Feed</PageTitle>
           <div>
-            <div className="d-flex flex-column flex-lg-row gap-4">
+            <div className="d-flex flex-column flex-md-row gap-4">
               <InputContainer>
                 <div className="position-absolute d-flex ps-3 flex-column h-100 justify-center">
                   <i class="bi bi-search m-auto"></i>
                 </div>
                 <input
                   type="search"
-                  className="ps-5 form-control border border-0"
+                  className="ps-5 form-control border rounded-2"
                   value={state.term ?? ""}
                   onChange={(e) => updateInput(e.target.value)}
                   onKeyDown={(e) => e.key == "Enter" && search()}
                   placeholder={props.placeholder ?? `Search by content`}
                 />
               </InputContainer>
-              <div class="dropdown">
-                <button
-                  class="btn dropdown-toggle bg-white"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Sort{props.recency === "all" ? ": All replies" : ": Latest"}
-                </button>
-                <ul class="dropdown-menu px-2 shadow">
-                  <li>
-                    <a
-                      style={{ borderRadius: "5px" }}
-                      class="dropdown-item link-underline link-underline-opacity-0"
-                      href={href({
-                        widgetSrc: "geforcy.near/widget/app",
-                        params: { page: "feed" },
-                      })}
+              <DropdownContainer>
+                <div class="dropdown">
+                  <StyledDropdown>
+                    <button
+                      class="btn dropdown-toggle bg-white border rounded-2"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      Latest
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      style={{ borderRadius: "5px" }}
-                      class="dropdown-item link-underline link-underline-opacity-0"
-                      href={href({
-                        widgetSrc: "geforcy.near/widget/app",
-                        params: { page: "feed", recency: "all" },
-                      })}
-                    >
-                      All replies
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                      Sort: {props.recency === "all" ? "All replies" : "Latest"}{" "}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start px-2 shadow">
+                      <li>
+                        <a
+                          style={{ borderRadius: "5px" }}
+                          class="dropdown-item link-underline link-underline-opacity-0"
+                          href={href({
+                            widgetSrc: "geforcy.near/widget/app",
+                            params: { page: "feed" },
+                          })}
+                        >
+                          Latest
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          style={{ borderRadius: "5px" }}
+                          class="dropdown-item link-underline link-underline-opacity-0"
+                          href={href({
+                            widgetSrc: "geforcy.near/widget/app",
+                            params: { page: "feed", recency: "all" },
+                          })}
+                        >
+                          All replies
+                        </a>
+                      </li>
+                    </ul>
+                  </StyledDropdown>
+                </div>
+              </DropdownContainer>
               <div class="dropdown">
                 <Widget
                   src="geforcy.near/widget/devhub.feature.post-search.by-author"
