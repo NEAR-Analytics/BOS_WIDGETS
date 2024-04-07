@@ -4,6 +4,10 @@ const { Tile } =
   VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const [editModerators, setEditModerators] = useState(false);
 const [moderators, setModerators] = useState(
   accessControlInfo.members_list["team:moderators"].children || []
@@ -104,7 +108,7 @@ return (
                 moderators.map((child) => (
                   <Tile className="w-25 p-3 m-1" minHeight={10}>
                     <Widget
-                      src={`neardevgov.near/widget/ProfileLine`}
+                      src={`geforcy.near/widget/devhub.components.molecule.ProfileLine`}
                       props={{ accountId: child }}
                     />
                   </Tile>
