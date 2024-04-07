@@ -148,11 +148,14 @@ State.init({
     });
   },
 });
+let timerInterval;
 useEffect(() => {
-  setInterval(() => {
+  timerInterval = setInterval(() => {
     State.update({ balance: getBalance(props.token.id) });
-  }, 5000);
+  }, 3000);
+  return () => clearInterval(timerInterval);
 }, []);
+
 const BalanceWrapper = styled.div`
   color: #7c7f96;
   font-size: 12px;
