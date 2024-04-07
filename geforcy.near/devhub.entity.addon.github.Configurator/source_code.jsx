@@ -1,146 +1,27 @@
-// THIS IS A WORK IN PROGRESS.
-// The code for the configurator and viewer is very intertwined
-// and there is constant "negative affirmative" prop drilling happening, making it hard to follow
-const { data, onSubmit, permissions } = props;
-
 const Struct = VM.require("geforcy.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
+const { useQuery } = VM.require(
+  "geforcy.near/widget/core.adapter.devhub-contract"
+);
+const { uuid, withUUIDIndex } = VM.require(
+  "geforcy.near/widget/core.lib.uuid"
+);
 
-const defaultFieldUpdate = ({
-  input,
-  lastKnownValue,
-  params: { arrayDelimiter },
-}) => {
-  switch (typeof input) {
-    case "boolean":
-      return input;
+uuid || (uuid = () => {});
+withUUIDIndex || (withUUIDIndex = () => {});
+useQuery || (useQuery = () => {});
 
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
+const AttractableDiv = styled.div`
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: box-shadow 0.6s;
 
-    case "string":
-      return Array.isArray(lastKnownValue)
-        ? input.split(arrayDelimiter ?? ",").map((string) => string.trim())
-        : input;
-
-    default: {
-      if ((input ?? null) === null) {
-        switch (typeof lastKnownValue) {
-          case "boolean":
-            return !lastKnownValue;
-
-          default:
-            return lastKnownValue;
-        }
-      } else return input;
-    }
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
-};
-
-const useForm = ({ initialValues, onUpdate, stateKey, uninitialized }) => {
-  const initialFormState = {
-    hasUnsubmittedChanges: false,
-    values: initialValues ?? {},
-  };
-
-  const formState = state[stateKey] ?? null,
-    isSynced = Struct.isEqual(formState?.values ?? {}, initialFormState.values);
-
-  const formReset = () =>
-    State.update((lastKnownComponentState) => ({
-      ...lastKnownComponentState,
-      [stateKey]: initialFormState,
-      hasUnsubmittedChanges: false,
-    }));
-
-  const formUpdate =
-    ({ path, via: customFieldUpdate, ...params }) =>
-    (fieldInput) => {
-      const updatedValues = Struct.deepFieldUpdate(
-        formState?.values ?? {},
-        path, // Pass the path directly
-        (node) => {
-          return {
-            ...node,
-            // Update the last key in the path
-            [path[path.length - 1]]:
-              typeof customFieldUpdate === "function"
-                ? customFieldUpdate(
-                    fieldInput?.target?.value ?? fieldInput,
-                    node[path[path.length - 1]],
-                    params
-                  )
-                : defaultFieldUpdate(
-                    fieldInput?.target?.value ?? fieldInput,
-                    node[path[path.length - 1]],
-                    params
-                  ),
-          };
-        }
-      );
-
-      State.update((lastKnownComponentState) => ({
-        ...lastKnownComponentState,
-
-        [stateKey]: {
-          hasUnsubmittedChanges: !Struct.isEqual(
-            updatedValues,
-            initialFormState.values
-          ),
-
-          values: updatedValues,
-        },
-      }));
-
-      if (
-        typeof onUpdate === "function" &&
-        !Struct.isEqual(updatedValues, initialFormState.values)
-      ) {
-        onUpdate(updatedValues);
-      }
-    };
-
-  if (
-    !uninitialized &&
-    (formState === null || (!formState.hasUnsubmittedChanges && !isSynced))
-  ) {
-    formReset();
-  }
-
-  return {
-    ...(formState ?? initialFormState),
-    isSynced,
-    reset: formReset,
-    stateKey,
-    update: formUpdate,
-  };
-};
-
-const uuid = () =>
-  [Date.now().toString(16)]
-    .concat(
-      Array.from(
-        { length: 4 },
-        () => Math.floor(Math.random() * 0xffffffff) & 0xffffffff
-      ).map((value) => value.toString(16))
-    )
-    .join("-");
-
-const withUUIDIndex = (data) => {
-  const id = uuid();
-
-  return Object.fromEntries([[id, { ...data, id }]]);
-};
+`;
 
 const settings = {
   maxColumnsNumber: 20,
@@ -154,22 +35,20 @@ const GithubKanbanBoardTicketFeaturesSchema = {
 };
 
 const GithubKanbanBoardTicketTypesSchema = {
-  Issue: { label: "Issue" },
-  PullRequest: { label: "Pull Request" },
+  issue: { label: "Issue" },
+  pullRequest: { label: "Pull Request" },
 };
 
 const GithubKanbanBoardDefaults = {
   columns: {},
-  dataTypesIncluded: { Issue: false, PullRequest: true },
+  dataTypesIncluded: { issue: true, pullRequest: false },
   description: "",
   repoURL: "",
   ticketState: "all",
   title: "",
-
   metadata: {
     id: uuid(),
     type: "github.kanban_board",
-
     ticket: {
       type: "github.kanban_ticket",
       features: { id: true, author: true, labels: true, type: true },
@@ -178,144 +57,258 @@ const GithubKanbanBoardDefaults = {
 };
 
 const toMigrated = ({ metadata, id, ...restParams }) => ({
+  ...GithubKanbanBoardDefaults,
   metadata: {
     ...GithubKanbanBoardDefaults.metadata,
     ...metadata,
     id: id ?? metadata.id,
   },
-
   ...restParams,
 });
 
-const [editingMode, setEditingMode] = useState("form");
+function extractOwnerAndRepo(url) {
+  // Remove any leading or trailing slashes and split the URL by "/"
+  const parts = url
+    .trim()
+    .replace(/^\/+|\/+$/g, "")
+    .split("/");
 
-// This is a workaround because of how the data was decided to be saved.
-const dynamicKey = Object.keys(data).find((key) => key !== "metadata");
-data = data[dynamicKey];
+  // Check if the URL matches the GitHub repository format
+  if (parts.length === 5 && parts[2] === "github.com") {
+    const owner = parts[3];
+    const repo = parts[4];
+    return { owner, repo };
+  } else {
+    return null;
+  }
+}
 
-const form = useForm({
-  initialValues: Struct.typeMatch(data) ? toMigrated(data) : {},
-  stateKey: "view",
-  uninitialized: !Struct.typeMatch(data),
-});
+function isValidGitHubRepoLink(url) {
+  // Regular expression to match GitHub repository URLs
+  const githubRepoRegex =
+    /^(?:https?:\/\/)?(?:www\.)?github\.com\/([^\/]+)\/([^\/]+)\/?$/;
 
-const newViewInit = () =>
-  State.update((lastKnownState) => ({
-    ...lastKnownState,
+  // Check if the URL matches the GitHub repository format
+  return githubRepoRegex.test(url);
+}
 
-    board: {
-      hasUnsubmittedChanges: false,
-      values: GithubKanbanBoardDefaults,
-    },
-  }));
+const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
+  const data = kanbanBoards ? Object.values(kanbanBoards)?.[0] : {};
 
-const columnsCreateNew = ({ lastKnownValue }) =>
-  Object.keys(lastKnownValue || {}).length < settings.maxColumnsNumber
-    ? {
-        ...(lastKnownValue ?? {}),
-
-        ...withUUIDIndex({
-          description: "",
-          labelSearchTerms: [],
-          title: "New column",
-        }),
-      }
-    : lastKnownValue;
-
-const columnsDeleteById =
-  (id) =>
-  ({ lastKnownValue }) =>
-    Object.fromEntries(
-      Object.entries(lastKnownValue).filter(([columnId]) => columnId !== id)
+  if (!data) {
+    return (
+      <div class="alert alert-danger" role="alert">
+        Loading...
+      </div>
     );
+  }
 
-const onCancel = () => {
-  form.reset();
-};
+  const initialBoardState = Struct.typeMatch(data)
+    ? toMigrated(data)
+    : GithubKanbanBoardDefaults;
 
-const onSave = () =>
-  onSubmit({
-    kanbanBoards: { [form.values.metadata.id]: form.values },
-  });
+  const getColumnData = useCallback((state) => {
+    if (Object.keys(state).length > 0) {
+      return state?.columns ?? {};
+    }
+    return state;
+  }, []);
 
-function Form() {
-  return (
+  const getNonColumnData = useCallback((state) => {
+    if (Object.keys(state).length > 0) {
+      delete state.columns;
+      return state;
+    }
+    return state;
+  }, []);
+
+  // to improve the state update speed, decoupled columns and other configuration metadata
+  const [parentState, setParentState] = useState(initialBoardState);
+  const [metadataState, setMetadata] = useState(
+    getNonColumnData(initialBoardState)
+  );
+  const [showPreview, setPreview] = useState(false);
+  const [columnsState, setColumnsState] = useState(
+    getColumnData(initialBoardState)
+  );
+  const [repoLabels, setRepoLabels] = useState([]);
+
+  function fetchLabelsFromRepo(url) {
+    const data = extractOwnerAndRepo(url);
+    if (data) {
+      const { repo, owner } = data;
+      useCache(
+        () =>
+          asyncFetch(
+            `https://api.github.com/repos/${owner}/${repo}/labels`
+          ).then((res) => {
+            if (Array.isArray(res.body)) {
+              const labels = [];
+              res.body.map((item) => {
+                labels.push(item.name);
+              });
+              setRepoLabels(labels);
+            }
+          }),
+        owner + repo + "labels",
+        { subscribe: false }
+      );
+    }
+  }
+
+  useEffect(() => {
+    if (metadataState.repoURL && isValidGitHubRepoLink(metadataState.repoURL)) {
+      fetchLabelsFromRepo(metadataState.repoURL);
+    }
+  }, [metadataState]);
+
+  const formUpdate =
+    ({ path, via: customFieldUpdate, isColumnsUpdate, ...params }) =>
+    (fieldInput) => {
+      const transformFn = (node) => {
+        if (typeof customFieldUpdate === "function") {
+          return customFieldUpdate({
+            input: fieldInput?.target?.value ?? fieldInput,
+            lastKnownValue: node,
+            params,
+          });
+        } else {
+          return Struct.defaultFieldUpdate({
+            input: fieldInput?.target?.value ?? fieldInput,
+            lastKnownValue: node,
+            params,
+          });
+        }
+      };
+      const updatedValues = Struct.deepFieldUpdate(
+        (isColumnsUpdate ? { columns: columnsState } : metadataState) ?? {},
+        path,
+        (node) => transformFn(node)
+      );
+      if (isColumnsUpdate) {
+        setColumnsState(updatedValues?.columns);
+      } else {
+        setMetadata((prevFormState) => ({
+          ...prevFormState,
+          ...updatedValues,
+        }));
+      }
+    };
+
+  const formReset = () => {
+    setColumnsState(getColumnData(initialBoardState));
+    setMetadata(getNonColumnData(initialBoardState));
+    setParentState(initialBoardState);
+  };
+
+  const columnsCreateNew = ({ lastKnownValue }) =>
+    Object.keys(lastKnownValue).length < settings.maxColumnsNumber
+      ? {
+          ...(lastKnownValue ?? {}),
+          ...withUUIDIndex({
+            description: "",
+            labelSearchTerms: [],
+            title: "",
+          }),
+        }
+      : lastKnownValue;
+
+  const columnsDeleteById =
+    (id) =>
+    ({ lastKnownValue }) =>
+      Object.fromEntries(
+        Object.entries(lastKnownValue).filter(([columnId]) => columnId !== id)
+      );
+
+  const onCancel = () => {
+    formReset();
+  };
+
+  const updateParentState = () => {
+    const updatedState = { ...metadataState, columns: columnsState };
+    setParentState(updatedState);
+    return updatedState;
+  };
+
+  const onSave = () => onSubmit(updateParentState());
+
+  const formElement = (
     <>
       <div className="d-flex flex-column">
-        <div className="d-flex gap-1 flex-column flex-xl-row">
-          <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
-            props={{
-              className: "w-100",
-              key: `${form.values.metadata.id}-repoURL`,
-              label: "Repository URL",
-              onChange: form.update({ path: ["repoURL"] }),
-              placeholder: "https://github.com/example-org/example-repo",
-              value: form.values.repoURL,
-            }}
-          />
-          <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
-            props={{
-              className: "w-100",
-              key: `${form.values.metadata.id}-title`,
-              label: "Title",
-              onChange: form.update({ path: ["title"] }),
-              placeholder: "NEAR Protocol NEPs",
-              value: form.values.title,
-            }}
-          />
-        </div>
-
         <Widget
-          src="geforcy.near/widget/devhub.components.molecule.Input"
+          src={`geforcy.near/widget/devhub.components.molecule.Input`}
           props={{
             className: "w-100",
-            key: `${form.values.metadata.id}-description`,
+            key: `${metadataState.metadata.id}-repoURL`,
+            label: "Repository URL",
+            onChange: formUpdate({
+              path: ["repoURL"],
+              isColumnsUpdate: false,
+            }),
+            placeholder: "https://github.com/example-org/example-repo",
+            value: metadataState.repoURL ?? "",
+          }}
+        />
+        <Widget
+          src={`geforcy.near/widget/devhub.components.molecule.Input`}
+          props={{
+            className: "w-100",
+            key: `${metadataState.metadata.id}-title`,
+            label: "Title",
+            onChange: formUpdate({ path: ["title"], isColumnsUpdate: false }),
+            placeholder: "NEAR Protocol NEPs",
+            value: metadataState.title ?? "",
+          }}
+        />
+        <Widget
+          src={`geforcy.near/widget/devhub.components.molecule.Input`}
+          props={{
+            className: "w-100",
+            key: `${metadataState.metadata.id}-description`,
             label: "Description",
-            onChange: form.update({ path: ["description"] }),
+            onChange: formUpdate({
+              path: ["description"],
+              isColumnsUpdate: false,
+            }),
             placeholder: "Latest NEAR Enhancement Proposals by status.",
-            value: form.values.description,
+            value: metadataState.description ?? "",
           }}
         />
       </div>
-
-      <div className="d-flex gap-4 flex-row flex-wrap justify-content-between">
-        <Widget
-          src="geforcy.near/widget/devhub.components.molecule.Input"
-          props={{
-            heading: "Ticket types",
-            classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: form.values.dataTypesIncluded,
-            isActive: true,
-            isEmbedded: true,
-            isUnlocked: permissions.can_configure,
-            onChange: form.update({ path: ["dataTypesIncluded"] }),
-            schema: GithubKanbanBoardTicketTypesSchema,
-          }}
-        />
-
-        <div
-          className={[
-            "col-12 col-md-3",
-            "d-flex gap-3 flex-column justify-content-center p-4",
-          ].join(" ")}
-        >
-          <span
-            className="d-inline-flex gap-2"
-            id={`${form.values.metadata.id}-ticketState`}
-          >
-            <i class="bi bi-cone-striped" />
-            <span>Ticket state</span>
-          </span>
-
+      <div className="d-flex flex-column flex-1 align-items-start justify-content-evenly gap-1 p-2">
+        <label>Select which tasks you want to display:</label>
+        <div className="input-group">
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Switch"
+            src={`geforcy.near/widget/devhub.components.organism.Configurator`}
             props={{
-              currentValue: form.values.ticketState,
+              heading: "Ticket types",
+              classNames: { root: "col-12 col-md-4 h-auto" },
+              externalState: metadataState.dataTypesIncluded,
+              isActive: true,
+              isEmbedded: true,
+              isUnlocked: permissions.can_configure,
+              onChange: formUpdate({
+                path: ["dataTypesIncluded"],
+                isColumnsUpdate: false,
+              }),
+              schema: GithubKanbanBoardTicketTypesSchema,
+              hideSubmitBtn: true,
+            }}
+          />
+        </div>
+      </div>
+      <div className="d-flex flex-column flex-1 align-items-start justify-content-evenly gap-1 p-2">
+        <label>Select which state of tickets you want to display:</label>
+        <div className="input-group">
+          <Widget
+            src={`geforcy.near/widget/devhub.components.molecule.Switch`}
+            props={{
+              currentValue: metadataState.ticketState,
               key: "ticketState",
-              onChange: form.update({ path: ["ticketState"] }),
-
+              onChange: formUpdate({
+                path: ["ticketState"],
+                isColumnsUpdate: false,
+              }),
               options: [
                 { label: "All", value: "all" },
                 { label: "Open", value: "open" },
@@ -324,22 +317,33 @@ function Form() {
             }}
           />
         </div>
-        <Widget
-          src="geforcy.near/widget/devhub.components.organism.Configurator"
-          props={{
-            heading: "Card fields",
-            classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: form.values.metadata.ticket.features,
-            isActive: true,
-            isEmbedded: true,
-            isUnlocked: permissions.can_configure,
-            onChange: form.update({ path: ["metadata", "ticket", "features"] }),
-            schema: GithubKanbanBoardTicketFeaturesSchema,
-          }}
-        />
+      </div>
+      <div className="d-flex flex-column flex-1 align-items-start justify-content-evenly gap-1 p-2">
+        <label>
+          Select which items you want to display on each card in a column:
+        </label>
+        <div className="input-group">
+          <Widget
+            src={`geforcy.near/widget/devhub.components.organism.Configurator`}
+            props={{
+              heading: "Card fields",
+              classNames: { root: "col-12 col-md-4 h-auto" },
+              externalState: metadataState.metadata.ticket.features,
+              isActive: true,
+              isEmbedded: true,
+              isUnlocked: permissions.can_configure,
+              onChange: formUpdate({
+                path: ["metadata", "ticket", "features"],
+                isColumnsUpdate: false,
+              }),
+              schema: GithubKanbanBoardTicketFeaturesSchema,
+              hideSubmitBtn: true,
+            }}
+          />
+        </div>
       </div>
 
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-between mb-2">
         <span className="d-inline-flex gap-2 m-0">
           <i className="bi bi-list-task" />
           <span>{`Columns ( max. ${settings.maxColumnsNumber} )`}</span>
@@ -347,55 +351,63 @@ function Form() {
       </div>
 
       <div className="d-flex flex-column align-items-center gap-3 w-100">
-        {Object.values(form.values.columns ?? {}).map(
-          ({ id, description, labelSearchTerms, title }) => (
-            <div
-              className="d-flex gap-3 rounded-4 border p-3 w-100 attractable"
+        {Object.values(columnsState ?? {}).map(
+          ({ id, description, labelSearchTerms, title }, index) => (
+            <AttractableDiv
+              className="d-flex gap-3 rounded-4 border p-3 w-100"
               key={`column-${id}-configurator`}
             >
               <div className="d-flex flex-column gap-1 w-100">
                 <Widget
-                  src="geforcy.near/widget/devhub.components.molecule.Input"
+                  src={`geforcy.near/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
-                    key: `${form.values.metadata.id}-column-${id}-title`,
+                    key: `${metadataState.metadata.id}-column-${id}-title`,
                     label: "Title",
-                    onChange: form.update({ path: ["columns", id, "title"] }),
+                    onChange: formUpdate({
+                      path: ["columns", id, "title"],
+                      isColumnsUpdate: true,
+                    }),
                     placeholder: "👀 Review",
                     value: title,
                   }}
                 />
+                <div className="d-flex flex-column flex-1 align-items-start justify-content-evenly gap-1 p-2">
+                  <label>
+                    Search terms for all the labels MUST be presented in
+                    included tickets
+                  </label>
+                  <div className="input-group">
+                    <Typeahead
+                      id="hashtags"
+                      onChange={(data) => {
+                        const formUpdateFunc = formUpdate({
+                          path: ["columns", id, "labelSearchTerms"],
+                          isColumnsUpdate: true,
+                        });
+                        return formUpdateFunc(data.join(", "));
+                      }}
+                      selected={labelSearchTerms?.[0] ? labelSearchTerms : []}
+                      multiple
+                      labelKey="hashtags"
+                      emptyLabel="Find your unique label"
+                      placeholder="WG-, draft, review, proposal,"
+                      options={repoLabels}
+                    />
+                  </div>
+                </div>
                 <Widget
-                  src="geforcy.near/widget/devhub.components.molecule.Input"
-                  props={{
-                    format: "comma-separated",
-                    key: `${form.values.metadata.id}-column-${title}-labelSearchTerms`,
-
-                    label: `Search terms for all the labels
-											MUST be presented in included tickets`,
-
-                    onChange: form.update({
-                      path: ["columns", id, "labelSearchTerms"],
-                    }),
-
-                    placeholder: "WG-, draft, review, proposal, ...",
-                    value: labelSearchTerms.join(", "),
-                  }}
-                />
-                <Widget
-                  src="geforcy.near/widget/devhub.components.molecule.Input"
+                  src={`geforcy.near/widget/devhub.components.molecule.Input`}
                   props={{
                     className: "flex-grow-1",
-                    key: `${form.values.metadata.id}-column-${id}-description`,
+                    key: `${metadataState.metadata.id}-column-${id}-description`,
                     label: "Description",
-
-                    onChange: form.update({
+                    onChange: formUpdate({
                       path: ["columns", id, "description"],
+                      isColumnsUpdate: true,
                     }),
-
                     placeholder:
                       "NEPs that need a review by Subject Matter Experts.",
-
                     value: description,
                   }}
                 />
@@ -407,42 +419,44 @@ function Form() {
               >
                 <button
                   className="btn btn-outline-danger"
-                  onClick={form.update({
+                  onClick={formUpdate({
                     path: ["columns"],
                     via: columnsDeleteById(id),
+                    isColumnsUpdate: true,
                   })}
                   title="Delete column"
                 >
                   <i className="bi bi-trash-fill" />
                 </button>
               </div>
-            </div>
+            </AttractableDiv>
           )
         )}
 
         <div className="d-flex gap-3 justify-content-end w-100">
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Button"
+            src={`geforcy.near/widget/devhub.components.molecule.Button`}
             props={{
               classNames: {
                 root: "d-flex btn btn-outline-danger shadow-none border-0",
               },
+              isHidden: typeof onCancel !== "function",
               label: "Cancel",
               onClick: onCancel,
             }}
           />
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Button"
+            src={`geforcy.near/widget/devhub.components.molecule.Button`}
             props={{
               classNames: { root: "btn btn-success" },
               disabled: form.isSynced,
-
               icon: {
                 type: "svg_icon",
                 variant: "floppy_drive",
                 width: 14,
                 height: 14,
               },
+              isHidden: typeof onSave !== "function",
               label: "Save",
               onClick: onSave,
             }}
@@ -451,94 +465,102 @@ function Form() {
       </div>
     </>
   );
-}
 
-return (
-  <div
-    className="d-flex flex-column gap-4 w-100"
-    style={{ maxWidth: "100%", marginTop: "40px" }}
-  >
-    <div className={"d-flex flex-column gap-4 w-100"}>
-      <div className="d-flex align-items-center justify-content-between gap-3 w-100">
-        <h5 className="h5 d-inline-flex gap-2 m-0">
-          <i className="bi bi-gear-wide-connected" />
-          <span>GitHub board configuration</span>
-        </h5>
-        <Widget
-          src="geforcy.near/widget/devhub.components.molecule.Switch"
-          props={{
-            currentValue: editingMode,
-            key: "editingMode",
-            onChange: (e) => setEditingMode(e.target.value),
-
-            options: [
-              { label: "Form", value: "form" },
-              { label: "JSON", value: "JSON" },
-            ],
-
-            title: "Editing mode selection",
-          }}
-        />
-      </div>
-      {editingMode === "JSON" ? (
-        <div className="d-flex flex-column flex-grow-1 border-0 bg-transparent w-100">
-          <textarea
-            className="form-control"
-            rows="12"
-            type="text"
-            value={JSON.stringify(form.values ?? {}, null, "\t")}
+  return (
+    <div
+      className="d-flex flex-column gap-4 w-100"
+      style={{ maxWidth: "100%" }}
+    >
+      <ul className="nav nav-tabs" id="editPreviewTabs" role="tablist">
+        <li className="nav-item" role="presentation">
+          <button
+            className={`nav-link ${!showPreview ? "active" : ""}`}
+            id="edit-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#edit"
+            type="button"
+            role="tab"
+            aria-controls="edit"
+            aria-selected="true"
+            onClick={() => setPreview(false)}
+          >
+            Edit
+          </button>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button
+            className={`nav-link ${showPreview ? "active" : ""}`}
+            id="preview-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#preview"
+            type="button"
+            role="tab"
+            aria-controls="preview"
+            aria-selected="false"
+            onClick={() => {
+              updateParentState();
+              setPreview(true);
+            }}
+          >
+            Preview
+          </button>
+        </li>
+      </ul>
+      {showPreview ? (
+        <div>
+          <Widget
+            src={`geforcy.near/widget/devhub.entity.addon.github.Viewer`}
+            props={{
+              kanbanBoards: {
+                [parentState.metadata.id]: parentState,
+              },
+            }}
           />
         </div>
       ) : (
-        <Form />
+        <div className={"d-flex flex-column gap-4 w-100"}>
+          <div className={"d-flex flex-column gap-2 w-100"}>
+            <div className="d-flex align-items-center justify-content-between gap-3 w-100">
+              <h5 className="h5 d-inline-flex gap-2 m-0">
+                <i className="bi bi-gear-wide-connected" />
+                <span>GitHub board configuration</span>
+              </h5>
+            </div>
+            <div>
+              This configuration enables integration of your GitHub repository
+              as a Kanban board, facilitating issue and pull request tracking.
+              You can create distinct columns to organize various items, each
+              with unique labels.
+            </div>
+          </div>
+          {Object.keys(parentState).length > 0 && (
+            <div>
+              {formElement}
+              <Widget
+                src={`geforcy.near/widget/devhub.components.molecule.Button`}
+                props={{
+                  classNames: {
+                    root: "btn-sm btn-outline-secondary",
+                  },
+                  label: "New column",
+                  disabled:
+                    parentState.columns &&
+                    Object.keys(parentState.columns).length >=
+                      settings.maxColumnsNumber,
+                  icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
+                  onClick: formUpdate({
+                    path: ["columns"],
+                    via: columnsCreateNew,
+                    isColumnsUpdate: true,
+                  }),
+                }}
+              />
+            </div>
+          )}
+        </div>
       )}
     </div>
-    {form.values ? (
-      <Widget
-        src={`geforcy.near/widget/devhub.entity.addon.${form.values.metadata.type}`}
-        props={{
-          ...form.values,
+  );
+};
 
-          configurationControls: [
-            {
-              label: "New column",
-
-              disabled:
-                Object.keys(form.values.columns || {}).length >=
-                settings.maxColumnsNumber,
-
-              icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
-
-              onClick: form.update({
-                path: ["columns"],
-                via: columnsCreateNew,
-              }),
-            },
-          ],
-
-          isSynced: form.isSynced,
-          link,
-          permissions,
-        }}
-      />
-    ) : (
-      <div
-        className="d-flex flex-column align-items-center justify-content-center gap-4"
-        style={{ height: 384 }}
-      >
-        <h5 className="h5 d-inline-flex gap-2 m-0">
-          This community doesn't have a GitHub board
-        </h5>
-        <Widget
-          src="geforcy.near/widget/devhub.components.molecule.Button"
-          props={{
-            icon: { type: "bootstrap_icon", variant: "bi-github" },
-            isHidden: !permissions.can_configure,
-            label: "Create GitHub board",
-            onClick: newViewInit,
-          }}
-        />
-      </div>
-    )}
-  </div>
-);
+return GithubViewConfigurator(props);
