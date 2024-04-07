@@ -261,7 +261,7 @@ function Navbar(props) {
         <Right>
           {context.accountId ? (
             <Widget
-              src="buildhub.near/widget/components.buttons.UserDropdown"
+              src="abdullahi3000.near/widget/components.buttons.UserDropdown"
               loading=""
               props={props}
             />
