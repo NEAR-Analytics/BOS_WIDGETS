@@ -142,7 +142,7 @@ if (!state.timerIntervalSet) {
     if (count === 1) {
       loadBalance();
     }
-    Storage.set("count", count === 1 ? 21 : count - 1);
+    Storage.set("count", count === 1 ? 5 : count - 1);
 
     State.update({
       timerIntervalSet: false,
