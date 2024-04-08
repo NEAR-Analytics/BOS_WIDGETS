@@ -57,6 +57,9 @@ const HeaderEditor = styled.div`
   font-weight: 600;
   line-height: 21.09px;
   text-align: left;
+  svg:first-child {
+    margin-right: auto;
+  }
   svg:last-child {
     margin-left: auto;
   }
@@ -175,12 +178,12 @@ const SaveChangesItem = styled.div`
 `;
 
 const Input = styled.input`
-  display: block;
-  flex-grow: 1;
+  display: flex;
+  flex: 1;
   border: none;
   background: none;
   margin: 0;
-  max-width: 150px;
+  max-width: 250px;
   height: 40px;
   line-height: 40px;
   padding: 0;
