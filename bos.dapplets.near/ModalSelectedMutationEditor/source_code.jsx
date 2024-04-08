@@ -1,4 +1,3 @@
-if (!props.selectedMutation) return <></>;
 const [accountId] = props.selectedMutation.id.split("/");
 State.init({
   textSave:
