@@ -188,6 +188,7 @@ const Input = styled.input`
   height: 40px;
   line-height: 40px;
   padding: 0;
+  padding-right: 20px;
   color: var(--sand12);
   font: var(--text-base);
   outline: none !important;
@@ -317,14 +318,14 @@ return (
       </Close>
     </HeaderEditor>
     {!isUserOwner ? (
-      <>
+      <HeaderEditor>
         <Input
           onChange={(e) => onMutationIdChange(e.target.value)}
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
         <EditIcon />
-      </>
+      </HeaderEditor>
     ) : null}
     <AppsList>
       {allApps && allApps.length
