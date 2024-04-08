@@ -1,7 +1,8 @@
 const accountId = props.accountId ?? context.accountId;
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
-const identity = Social.index("*/identity/eth/*", "final");
+const identity = Social.index("identity", "eth");
+const data = Social.getr("*/identity/eth", "final");
 
 if (!identity) {
   return "";
