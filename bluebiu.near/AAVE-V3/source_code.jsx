@@ -195,7 +195,7 @@ State.init({
   fresh: 0, // fresh rewards
   yourSupplyApy: 0,
   yourBorrowApy: 0,
-  maxWithdrawBalanceUSD: 0,
+
   emissionPerSeconds: [],
   aTokenTotal: [],
   debtTotal: [],
@@ -1098,15 +1098,12 @@ function getCollateralStatus() {
               .toFixed(),
           0
         );
-      const maxWithdrawBalanceUSD = Big(yourTotalCollateral)
-        .minus(Big(state.yourTotalBorrow).times(Big(state.threshold)))
-        .toFixed();
 
-      State.update({
+      State.update((prev) => ({
+        ...prev,
         yourSupplies: _yourSupplies,
         yourTotalCollateral,
-        maxWithdrawBalanceUSD,
-      });
+      }));
     })
     .catch((err) => {
       console.log("getCollateralStatus-error:", err);
@@ -1385,7 +1382,8 @@ useEffect(() => {
   );
   console.log("yourTotalBorrow--", yourTotalBorrow);
 
-  State.update({
+  State.update((prev) => ({
+    ...prev,
     netAPY,
     netWorthUSD: netWorth,
     yourTotalSupply,
@@ -1394,7 +1392,7 @@ useEffect(() => {
       .plus(yourSupplyRewardAPY)
       .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
-  });
+  }));
 }, [state.yourSupplies, state.yourBorrows, state.step1]);
 
 function onSuccess() {
@@ -1521,7 +1519,7 @@ const body = isChainSupported ? (
                 account,
                 prices,
                 threshold: state.threshold,
-                maxWithdrawBalanceUSD: state.maxWithdrawBalanceUSD,
+
                 yourTotalCollateral: state.yourTotalCollateral,
                 yourTotalBorrow: state.yourTotalBorrow,
                 theme: dexConfig?.theme,
