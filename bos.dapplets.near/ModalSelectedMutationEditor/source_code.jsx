@@ -249,6 +249,7 @@ const EditIcon = () => (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
+    className="edit"
   >
     <path
       d="M12 18H19"
@@ -310,7 +311,7 @@ return (
         onChange={(e) => onMutationNameChange(e.target.value)}
         value={mutationName ? mutationName : ""}
       />
-      <EditIcon className="edit" />
+      <EditIcon />
       <Close onClick={onClose}>
         <CloseIcon />
       </Close>
@@ -322,25 +323,25 @@ return (
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
-        <EditIcon className="edit" />
+        <EditIcon />
       </>
     ) : null}
     <AppsList>
       {allApps && allApps.length
         ? allApps.map((app, i) => (
-            <Widget
-              key={i}
-              src="bos.dapplets.near/widget/ApplicationCard"
-              props={{
-                src: app.id,
-                metadata: app.metadata,
-                hideButtons: !loggedInAccountId,
-                selectedApps:
-                  selectedApps && selectedApps.filter((x) => x === app.id)[0],
-                handleEditMutationApps: onMutationAppsChange,
-              }}
-            />
-          ))
+          <Widget
+            key={i}
+            src="bos.dapplets.near/widget/ApplicationCard"
+            props={{
+              src: app.id,
+              metadata: app.metadata,
+              hideButtons: !loggedInAccountId,
+              selectedApps:
+                selectedApps && selectedApps.filter((x) => x === app.id)[0],
+              handleEditMutationApps: onMutationAppsChange,
+            }}
+          />
+        ))
         : null}
     </AppsList>
     <ButtonsBlock>
