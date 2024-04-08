@@ -16,9 +16,6 @@ const hasHF = config.heroData.includes("Health Factor");
 if (!data) {
   return <div />;
 }
-const walletBal = assetsToSupply.find(
-  (item) => item.symbol === data.symbol
-).balance;
 
 const ROUND_DOWN = 0;
 function isValid(a) {
@@ -32,14 +29,12 @@ const {
   symbol,
   tokenPrice,
   healthFactor,
-  availableBorrows,
-  availableBorrowsUSD,
   decimals,
   underlyingAsset,
-  balance: variableBorrows,
   name: tokenName,
-  balance,
   supportPermit,
+  debt,
+  debtInUSD,
 } = data;
 
 const disabled =
@@ -135,6 +130,9 @@ State.init({
   needApprove: false,
 });
 
+const walletBal = assetsToSupply.find(
+  (item) => item.symbol === data.symbol
+).balance;
 function updateGas() {
   if (symbol === config.nativeCurrency.symbol) {
     repayETHGas().then((value) => {
@@ -157,27 +155,24 @@ function bigMin(_a, _b) {
 
 function getAvailableBalance() {
   if (symbol === config.nativeCurrency.symbol) {
-    const newBalance = Number(balance) - 0.01;
+    const newBalance = Number(walletBal) - 0.01;
     if (newBalance <= 0) {
       return 0;
     } else {
       return newBalance;
     }
   } else {
-    return balance;
+    return walletBal;
   }
 }
 
 const actualMaxValue =
-  isValid(balance) && isValid(variableBorrows)
-    ? bigMin(
-        getAvailableBalance(),
-        Big(variableBorrows).times(1.01).toNumber()
-      ).toFixed()
+  isValid(walletBal) && isValid(debt)
+    ? bigMin(getAvailableBalance(), Big(debt).times(1.01).toNumber()).toFixed()
     : "0";
 const shownMaxValue =
-  isValid(balance) && isValid(variableBorrows)
-    ? bigMin(getAvailableBalance(), variableBorrows).toFixed(decimals)
+  isValid(walletBal) && isValid(debt)
+    ? bigMin(getAvailableBalance(), debt).toFixed(decimals)
     : Big("0").toFixed(decimals);
 
 /**
@@ -526,230 +521,215 @@ function repayETH(shownAmount, actualAmount) {
 }
 
 return (
-  <>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
-      props={{
-        title: `Repay ${symbol}`,
-        onRequestClose: onRequestClose,
-        children: (
-          <RepayContainer>
-            <Widget
-              src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
-              props={{
-                title: "Amount",
-                config,
-                children: (
-                  <>
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: (
-                          <TokenTexture>
-                            <Input
-                              type="number"
-                              value={state.amount}
-                              onChange={(e) => {
-                                changeValue(e.target.value);
-                              }}
-                              placeholder="0"
+  <Widget
+    src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
+    props={{
+      title: `Repay ${symbol}`,
+      onRequestClose: onRequestClose,
+      children: (
+        <RepayContainer>
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+            props={{
+              title: "Amount",
+              config,
+              children: (
+                <>
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: (
+                        <TokenTexture>
+                          <Input
+                            type="number"
+                            value={state.amount}
+                            onChange={(e) => {
+                              changeValue(e.target.value);
+                            }}
+                            placeholder="0"
+                          />
+                        </TokenTexture>
+                      ),
+                      right: (
+                        <TokenWrapper>
+                          <img width={26} height={26} src={data?.icon} />
+                          <TokenTexture>{symbol}</TokenTexture>
+                        </TokenWrapper>
+                      ),
+                    }}
+                  />
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
+                      right: (
+                        <GrayTexture>
+                          Wallet balance:
+                          {walletBal === "" || !isValid(walletBal)
+                            ? "-"
+                            : Number(walletBal).toFixed(7)}
+                          <Max
+                            onClick={() => {
+                              changeValue(shownMaxValue);
+                            }}
+                          >
+                            MAX
+                          </Max>
+                        </GrayTexture>
+                      ),
+                    }}
+                  />
+                </>
+              ),
+            }}
+          />
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+            props={{
+              title: "Transaction Overview",
+              config,
+              children: (
+                <TransactionOverviewContainer>
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Remaining Debt</PurpleTexture>,
+                      right: (
+                        <div style={{ textAlign: "right" }}>
+                          <WhiteTexture>
+                            {Number(debt).toFixed(7) + ` ${symbol}`}
+                            <img
+                              src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                              width={16}
+                              height={16}
+                            />{" "}
+                            {isValid(state.amount)
+                              ? Big(debt).minus(state.amount).toFixed(7) +
+                                ` ${symbol}`
+                              : `- ${symbol}`}
+                          </WhiteTexture>
+                          <WhiteTexture>
+                            ${debtInUSD}
+                            <img
+                              src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                              width={16}
+                              height={16}
                             />
-                          </TokenTexture>
-                        ),
-                        right: (
-                          <TokenWrapper>
-                            <img width={26} height={26} src={data?.icon} />
-                            <TokenTexture>{symbol}</TokenTexture>
-                          </TokenWrapper>
-                        ),
-                      }}
-                    />
+                            {isValid(state.amount) && isValid(tokenPrice)
+                              ? "$ " +
+                                Big(debt)
+                                  .minus(state.amount)
+                                  .times(tokenPrice)
+                                  .toFixed(2)
+                              : "$ -"}
+                          </WhiteTexture>
+                        </div>
+                      ),
+                    }}
+                  />
+                  {hasHF ? (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
-                        left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
-                        right: (
-                          <GrayTexture>
-                            Wallet balance:
-                            {walletBal === "" || !isValid(walletBal)
-                              ? "-"
-                              : Number(walletBal).toFixed(7)}
-                            {/* {balance === "" || !isValid(balance)
-                              ? "-"
-                              : Number(balance).toFixed(7)} */}
-                            <Max
-                              onClick={() => {
-                                // changeValue(shownMaxValue);
-                                changeValue(walletBal);
-                              }}
-                            >
-                              MAX
-                            </Max>
-                          </GrayTexture>
-                        ),
-                      }}
-                    />
-                  </>
-                ),
-              }}
-            />
-            <Widget
-              src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
-              props={{
-                title: "Transaction Overview",
-                config,
-                children: (
-                  <TransactionOverviewContainer>
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <PurpleTexture>Remaining Debt</PurpleTexture>,
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
                         right: (
                           <div style={{ textAlign: "right" }}>
-                            <WhiteTexture>
-                              {Number(variableBorrows).toFixed(7) +
-                                ` ${symbol}`}
+                            <GreenTexture>
+                              {healthFactor}
                               <img
                                 src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                                 width={16}
                                 height={16}
                               />{" "}
-                              {isValid(state.amount)
-                                ? Big(variableBorrows)
-                                    .minus(state.amount)
-                                    .toFixed(7) + ` ${symbol}`
-                                : `- ${symbol}`}
-                            </WhiteTexture>
+                              {state.newHealthFactor}
+                            </GreenTexture>
                             <WhiteTexture>
-                              {isValid(variableBorrows) && isValid(tokenPrice)
-                                ? "$ " +
-                                  Big(variableBorrows)
-                                    .times(tokenPrice)
-                                    .toFixed(2)
-                                : "$ -"}
-                              <img
-                                src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
-                                width={16}
-                                height={16}
-                              />{" "}
-                              {isValid(state.amount) &&
-                              isValid(state.amount) &&
-                              isValid(tokenPrice)
-                                ? "$ " +
-                                  Big(variableBorrows)
-                                    .minus(state.amount)
-                                    .times(tokenPrice)
-                                    .toFixed(2)
-                                : "$ -"}
+                              Liquidation at &lt;{" "}
+                              {config.FIXED_LIQUIDATION_VALUE}
                             </WhiteTexture>
                           </div>
                         ),
                       }}
                     />
-                    {hasHF ? (
-                      <Widget
-                        src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                        props={{
-                          left: <PurpleTexture>Health Factor</PurpleTexture>,
-                          right: (
-                            <div style={{ textAlign: "right" }}>
-                              <GreenTexture>
-                                {healthFactor}
-                                <img
-                                  src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
-                                  width={16}
-                                  height={16}
-                                />{" "}
-                                {state.newHealthFactor}
-                              </GreenTexture>
-                              <WhiteTexture>
-                                Liquidation at &lt;{" "}
-                                {config.FIXED_LIQUIDATION_VALUE}
-                              </WhiteTexture>
-                            </div>
-                          ),
-                        }}
-                      />
-                    ) : null}
-                  </TransactionOverviewContainer>
-                ),
+                  ) : null}
+                </TransactionOverviewContainer>
+              ),
+            }}
+          />
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.GasEstimation`}
+            props={{ gas: state.gas, config }}
+          />
+          {state.needApprove && (
+            <Widget
+              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+              props={{
+                config,
+                theme,
+                loading: state.loading,
+                children: `Approve ${symbol}`,
+                disabled,
+                onClick: () => {
+                  State.update({
+                    loading: true,
+                  });
+                  const amount = Big(state.amount)
+                    .mul(Big(10).pow(decimals))
+                    .toFixed(0);
+                  approve(amount)
+                    .then((tx) => {
+                      tx.wait()
+                        .then((res) => {
+                          const { status } = res;
+                          if (status === 1) {
+                            State.update({
+                              needApprove: false,
+                              loading: false,
+                            });
+                          } else {
+                            console.log("tx failed", res);
+                            State.update({
+                              loading: false,
+                            });
+                          }
+                        })
+                        .catch(() => State.update({ loading: false }));
+                    })
+                    .catch(() => State.update({ loading: false }));
+                },
               }}
             />
+          )}
+          {!state.needApprove && (
             <Widget
-              src={`${config.ownerId}/widget/AAVE.GasEstimation`}
-              props={{ gas: state.gas, config }}
+              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+              props={{
+                config,
+                theme,
+                children: `Repay ${symbol}`,
+                loading: state.loading,
+                disabled,
+                onClick: () => {
+                  const actualAmount = Big(
+                    state.amount === shownMaxValue
+                      ? actualMaxValue
+                      : state.amount
+                  )
+                    .mul(Big(10).pow(decimals))
+                    .toFixed(0);
+                  const shownAmount = state.amount;
+                  if (symbol === config.nativeCurrency.symbol) {
+                    repayETH(shownAmount, actualAmount);
+                  } else {
+                    repayERC20(shownAmount, actualAmount);
+                  }
+                },
+              }}
             />
-            {state.needApprove && (
-              <Widget
-                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                props={{
-                  config,
-                  theme,
-                  loading: state.loading,
-                  children: `Approve ${symbol}`,
-                  disabled,
-                  onClick: () => {
-                    State.update({
-                      loading: true,
-                    });
-                    const amount = Big(state.amount)
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    approve(amount)
-                      .then((tx) => {
-                        tx.wait()
-                          .then((res) => {
-                            const { status } = res;
-                            if (status === 1) {
-                              State.update({
-                                needApprove: false,
-                                loading: false,
-                              });
-                            } else {
-                              console.log("tx failed", res);
-                              State.update({
-                                loading: false,
-                              });
-                            }
-                          })
-                          .catch(() => State.update({ loading: false }));
-                      })
-                      .catch(() => State.update({ loading: false }));
-                  },
-                }}
-              />
-            )}
-            {!state.needApprove && (
-              <Widget
-                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                props={{
-                  config,
-                  theme,
-                  children: `Repay ${symbol}`,
-                  loading: state.loading,
-                  disabled,
-                  onClick: () => {
-                    const actualAmount = Big(
-                      state.amount === shownMaxValue
-                        ? actualMaxValue
-                        : state.amount
-                    )
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    const shownAmount = state.amount;
-                    if (symbol === config.nativeCurrency.symbol) {
-                      repayETH(shownAmount, actualAmount);
-                    } else {
-                      repayERC20(shownAmount, actualAmount);
-                    }
-                  },
-                }}
-              />
-            )}
-          </RepayContainer>
-        ),
-        config,
-      }}
-    />
-  </>
+          )}
+        </RepayContainer>
+      ),
+      config,
+    }}
+  />
 );
