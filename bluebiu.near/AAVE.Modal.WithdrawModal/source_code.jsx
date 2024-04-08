@@ -9,7 +9,6 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   account,
-  maxWithdrawBalanceUSD,
   yourTotalBorrow,
   yourTotalCollateral,
   threshold,
@@ -317,20 +316,6 @@ if (isCollaterale) {
 } else {
   shownMaxValue = underlyingBalance;
 }
-
-// if (symbol === config.nativeCurrency.symbol) {
-
-//   // shownMaxValue = bigMin(
-//   //   underlyingBalance,
-//   //   Big(maxWithdrawBalanceUSD)
-//   //     .div(Big(prices[config.nativeCurrency.symbol]))
-//   //     .toFixed()
-//   // ).toFixed(decimals);
-// } else {
-//   // shownMaxValue = bigMin(underlyingBalanceUSD, maxWithdrawBalanceUSD).toFixed(
-//   //   decimals
-//   // );
-// }
 
 function debounce(fn, wait) {
   let timer = state.timer;
