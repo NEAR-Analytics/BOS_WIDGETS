@@ -10,6 +10,9 @@ const {
   calcHealthFactor,
   account,
   maxWithdrawBalanceUSD,
+  yourTotalBorrow,
+  yourTotalCollateral,
+  threshold,
   prices,
   theme,
 } = props;
@@ -33,6 +36,7 @@ const {
   underlyingBalance,
   underlyingBalanceUSD,
   tokenPrice,
+  isCollaterale,
   aTokenAddress,
   availableLiquidity,
   healthFactor,
@@ -147,6 +151,7 @@ const remainingSupply = isNaN(_remainingSupply)
   : Big(_remainingSupply).toFixed(2);
 
 function withdrawErc20(asset, actualAmount, shownAmount) {
+  console.log("withdrawErc20--", asset, actualAmount, shownAmount);
   State.update({
     loading: true,
   });
@@ -194,6 +199,7 @@ function withdrawErc20(asset, actualAmount, shownAmount) {
 }
 
 function withdrawETH(actualAmount, shownAmount) {
+  console.log("withdrawETH--", actualAmount, shownAmount);
   State.update({
     loading: true,
   });
@@ -301,25 +307,30 @@ const actualMaxValue =
           .mul(Big(10).pow(decimals))
           .toFixed(0, ROUND_DOWN)
     : "0";
-// const shownMaxValue =
-//   isValid(underlyingBalance) && isValid(availableLiquidityAmount)
-//     ? bigMin(underlyingBalance, availableLiquidityAmount).toFixed(decimals)
-//     : Big("0").toFixed(decimals);
 
 let shownMaxValue;
-
-if (symbol === config.nativeCurrency.symbol) {
-  shownMaxValue = bigMin(
-    underlyingBalance,
-    Big(maxWithdrawBalanceUSD)
-      .div(Big(prices[config.nativeCurrency.symbol]))
-      .toFixed()
-  ).toFixed(decimals);
+if (isCollaterale) {
+  shownMaxValue = Big(yourTotalCollateral)
+    .minus(Big(yourTotalBorrow).times(1.01).div(Big(threshold)))
+    .div(tokenPrice)
+    .toFixed();
 } else {
-  shownMaxValue = bigMin(underlyingBalanceUSD, maxWithdrawBalanceUSD).toFixed(
-    decimals
-  );
+  shownMaxValue = underlyingBalance;
 }
+
+// if (symbol === config.nativeCurrency.symbol) {
+
+//   // shownMaxValue = bigMin(
+//   //   underlyingBalance,
+//   //   Big(maxWithdrawBalanceUSD)
+//   //     .div(Big(prices[config.nativeCurrency.symbol]))
+//   //     .toFixed()
+//   // ).toFixed(decimals);
+// } else {
+//   // shownMaxValue = bigMin(underlyingBalanceUSD, maxWithdrawBalanceUSD).toFixed(
+//   //   decimals
+//   // );
+// }
 
 function debounce(fn, wait) {
   let timer = state.timer;
@@ -333,16 +344,20 @@ function debounce(fn, wait) {
 }
 const updateNewHealthFactor = debounce(() => {
   State.update({ newHealthFactor: "-" });
-  const newHealthFactor = formatHealthFactor(
-    calcHealthFactor("WITHDRAW", symbol, state.amount)
-  );
-  console.log(
-    "withdraw updateNewHealthFactor",
-    symbol,
-    state.amount,
-    newHealthFactor
-  );
-  State.update({ newHealthFactor });
+  if (isCollaterale) {
+    const newHealthFactor = formatHealthFactor(
+      calcHealthFactor("WITHDRAW", symbol, state.amount)
+    );
+    console.log(
+      "withdraw updateNewHealthFactor",
+      symbol,
+      state.amount,
+      newHealthFactor
+    );
+    State.update({ newHealthFactor });
+  } else {
+    State.update({ newHealthFactor: healthFactor });
+  }
 }, 1000);
 
 const changeValue = (value) => {
@@ -425,9 +440,8 @@ return (
                       left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
                       right: (
                         <GrayTexture>
-                          Supply Balance:{" "}
+                          Supply Balance:
                           {Big(shownMaxValue).toFixed(3, ROUND_DOWN)}
-                          {/* {Big(underlyingBalance).toFixed(3, ROUND_DOWN)} */}
                           <Max
                             onClick={() => {
                               changeValue(shownMaxValue);
