@@ -60,6 +60,9 @@ font-weight: 400;
 line-height: 20.86px;
 text-align: center;
 cursor: pointer;
+&:hover{
+  opacity:0.5
+}
     `;
 const ButtonsSave = styled.div`
 display: flex;
@@ -78,6 +81,9 @@ line-height: 20.86px;
 text-align: center;
 position: relative;
 cursor: pointer;
+&:hover{
+  opacity:0.5
+}
     `;
 const TextSave = styled.div`
     display: inline-block;
@@ -131,7 +137,7 @@ height:41px;
 border-radius: 4px ; 
 cursor: pointer;
 &:hover{
-   background:rgba(217, 222, 225, 1); 
+  opacity:0.5
 }
 `;
 
