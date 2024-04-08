@@ -28,6 +28,7 @@ max-height: 446px;
 `;
 
 const Close = styled.span`
+cursor:pointer;
 &:hover{
   opacity:0.5
 }`;
@@ -258,7 +259,9 @@ return (
     <HeaderEditor>
       <Input
         onChange={props.handleEditMutationName}
-        value={props.mutationName ? props.mutationName : ""}
+        value={
+          props.mutationName ? props.mutationName + iconEdit : "" + iconEdit
+        }
       />
       <Close onClick={props.onClose}> {closeIcon}</Close>
     </HeaderEditor>
