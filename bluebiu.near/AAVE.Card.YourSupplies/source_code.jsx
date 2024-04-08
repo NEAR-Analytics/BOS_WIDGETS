@@ -2,6 +2,8 @@ const {
   config,
   chainId,
   yourSupplies,
+  yourTotalBorrow,
+  yourTotalCollateral,
   onActionSuccess,
   showWithdrawModal,
   setShowWithdrawModal,
@@ -12,6 +14,7 @@ const {
   calcHealthFactor,
   account,
   maxWithdrawBalanceUSD,
+  threshold,
   prices,
   theme,
 } = props;
@@ -122,6 +125,9 @@ return (
           account,
           prices,
           maxWithdrawBalanceUSD,
+          yourTotalBorrow,
+          yourTotalCollateral,
+          threshold,
           onRequestClose: () => setShowWithdrawModal(false),
         }}
       />
