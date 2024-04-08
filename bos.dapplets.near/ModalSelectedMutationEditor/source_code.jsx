@@ -332,7 +332,6 @@ return (
             onMutationIdChange(e.target.value, loggedInAccountId);
           }}
           placeholder={"Enter Mutation ID"}
-          value={""}
         />
         <EditIcon />
       </HeaderEditor>
