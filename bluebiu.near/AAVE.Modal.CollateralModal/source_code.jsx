@@ -6,6 +6,7 @@ const {
   chainId,
   flag,
   formatHealthFactor,
+  calcHealthFactor,
   account,
   theme,
 } = props;
@@ -22,6 +23,7 @@ function isValid(a) {
 }
 
 const {
+  icon,
   underlyingAsset,
   decimals,
   symbol,
@@ -111,6 +113,11 @@ const Icon = styled.img`
   height: 16px;
 `;
 
+const Tips = styled.div`
+  font-size: 14px;
+  color: rgba(188, 0, 0, 0.72);
+`;
+
 State.init({
   amount: "",
   amountInUSD: "0.00",
@@ -171,6 +178,15 @@ function setColl() {
     .catch(() => State.update({ loading: false }));
 }
 
+useEffect(() => {
+  let type = flag ? "INC_COLLATERAL" : "DEC_COLLATERAL";
+  const newHealthFactor = formatHealthFactor(
+    calcHealthFactor(type, symbol, underlyingBalance)
+  );
+  console.log(type, symbol, underlyingBalance, newHealthFactor);
+  State.update({ newHealthFactor });
+}, []);
+
 return (
   <Widget
     src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
@@ -192,9 +208,9 @@ return (
                       left: <PurpleTexture>Supply balance</PurpleTexture>,
                       right: (
                         <WhiteTexture>
-                          <Icon src={data.icon} alt="" />
-                          {Number(data.underlyingBalance).toFixed(7)}
-                          {data.symbol}
+                          <Icon src={icon} alt="" />
+                          {Number(underlyingBalance).toFixed(7)}
+                          {symbol}
                         </WhiteTexture>
                       ),
                     }}
@@ -211,7 +227,7 @@ return (
                               src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                               width={16}
                               height={16}
-                            />{" "}
+                            />
                             {state.newHealthFactor}
                           </GreenTexture>
                           <WhiteTexture>
@@ -225,6 +241,12 @@ return (
               ),
             }}
           />
+          {Big(state.newHealthFactor).lt(1) ? (
+            <Tips>
+              You can not switch usage as collateral mode for this currency,
+              because it will cause collateral call
+            </Tips>
+          ) : null}
 
           <Widget
             src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -235,8 +257,8 @@ return (
               children: `${flag ? "Enable" : "Disable"} ${
                 data.symbol
               } as Collateral`,
-              disabled,
-              onClick: () => {},
+              disabled: Big(state.newHealthFactor).lt(1),
+              onClick: setColl,
             }}
           />
         </WithdrawContainer>
