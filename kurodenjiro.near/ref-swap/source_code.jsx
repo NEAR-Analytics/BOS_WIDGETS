@@ -409,7 +409,7 @@ return (
       } ${state.tokenOut.symbol}`}</RateWrapper>
     </RateLine>
     <Widget
-      src={`weige.near/widget/SlippageTolerance`}
+      src={`kurodenjiro.near/widget/SlippageTolerance`}
       props={{
         showSetting: state.showSetting,
         updateSetting: () =>
