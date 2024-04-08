@@ -261,8 +261,7 @@ return (
         onChange={props.handleEditMutationName}
         value={props.mutationName ? props.mutationName : ""}
       >
-        {" "}
-        {iconEdit}
+        <span> {iconEdit}</span>
       </Input>
 
       <Close onClick={props.onClose}> {closeIcon}</Close>
@@ -273,7 +272,7 @@ return (
         placeholder={"enter id mutation"}
         value={props.selectedMutation.id ? props.selectedMutation.id : ""}
       >
-        {iconEdit}
+        <span> {iconEdit}</span>
       </Input>
     ) : null}
     <div
