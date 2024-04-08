@@ -62,19 +62,21 @@ const toggleSignature = () => {
   }
 };
 
+const networkId = props.network ?? "eth";
+
 const save = () => {
   const data = {
     identity: {
-      eth: {
+      [networkId]: {
         name: state.address,
         signature: state.signature,
       },
     },
     index: {
-      key: "eth",
-      value: {
-        type: "identity",
-      },
+      identity: JSON.stringify({
+        key: networkId,
+        value: state.address,
+      }),
     },
   };
 
