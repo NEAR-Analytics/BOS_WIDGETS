@@ -154,7 +154,7 @@ return (
       <div class="main">
         <Widget src="kurodenjiro.near/widget/lonk-hero" />
 
-        <Widget src="huunhanz.near/widget/Lonk.buy" />
+        <Widget src="kurodenjiro.near/widget/lonk-buy" />
         <div
           class="green-bg font-md-bigger py-4 py-lg-5 text-uppercase"
           id="token"
