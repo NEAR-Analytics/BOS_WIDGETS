@@ -57,10 +57,10 @@ const HeaderEditor = styled.div`
   font-weight: 600;
   line-height: 21.09px;
   text-align: left;
-  svg:first-child {
+  svg:first-of-type {
     margin-right: auto;
   }
-  svg:last-child {
+  svg:last-of-type {
     margin-left: auto;
   }
 `;
