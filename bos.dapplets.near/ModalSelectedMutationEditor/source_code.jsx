@@ -43,6 +43,9 @@ const SelectedMutationEditorWrapper = styled.div`
 
 const Close = styled.span`
   cursor: pointer;
+  svg {
+    margin: 0;
+  }
   &:hover {
     opacity: 0.5;
   }
@@ -59,9 +62,7 @@ const HeaderEditor = styled.div`
   text-align: left;
   svg:first-of-type {
     margin-right: auto;
-  }
-  svg:last-of-type {
-    margin-left: auto;
+    margin-bottom: 2px;
   }
 `;
 
