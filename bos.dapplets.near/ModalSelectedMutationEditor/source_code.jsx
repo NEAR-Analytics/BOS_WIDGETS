@@ -1,151 +1,176 @@
-const [accountId] = props.selectedMutation
-  ? props.selectedMutation.id.split("/")
-  : null;
+const {
+  mutationId,
+  mutationName,
+  allApps,
+  selectedApps,
+  onClose,
+  onMutationNameChange,
+  onMutationAppsChange,
+  onMutationReset,
+  onMutationCreate,
+  onMutationEdit,
+  onMutationIdChange,
+} = props;
+
+// ToDo: check null props
+
+const { accountId: loggedInAccountId } = context;
+
+const [mutationOwnerId] = mutationId ? mutationId.split("/") : null;
+
+const isUserOwner = mutationOwnerId === loggedInAccountId;
+
 State.init({
-  textSave:
-    context.accountId && accountId === context.accountId ? `Publish` : "Fork",
-  isOpenParametersSave: false,
+  isSaveDropdownOpened: false,
 });
-const parametersSave =
-  context.accountId && accountId === context.accountId
-    ? ["Publish", "Fork"]
-    : ["Fork"];
 
 const SelectedMutationEditorWrapper = styled.div`
-display: flex;
-flex-direction: column;
-    position: absolute;
-    top: 100px;
-    left: 50%;
- transform: translateX(-50%);
-padding: 20px;
-gap: 20px;
-border-radius: 10px;
-font-family: sans-serif;
-border: 1px solid #02193A;
-background: #F8F9FF;
-width: 400px;
-max-height: 446px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  font-family: sans-serif;
+  border: 1px solid #02193a;
+  background: #f8f9ff;
+  width: 400px;
+  max-height: 446px;
 `;
 
 const Close = styled.span`
-cursor:pointer;
-&:hover{
-  opacity:0.5
-}`;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
 
 const HeaderEditor = styled.div`
-display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(2, 25, 58, 1);
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 21.09px;
-    text-align: left;
-    svg{
-      margin-left: auto;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(2, 25, 58, 1);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21.09px;
+  text-align: left;
+  svg {
+    margin-left: auto;
+  }
 `;
+
+const AppsList = styled.div`
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
 const ButtonsBlock = styled.div`
-display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ButtonsRevert = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgba(226, 226, 229, 1);
-    color: rgba(2, 25, 58, 1);
-    width: 175px;
-    height:42px;
-    border-radius: 10px;
-font-size: 14px;
-font-weight: 400;
-line-height: 20.86px;
-text-align: center;
-cursor: pointer;
-&:hover{
-  opacity:0.5
-}
-    `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(226, 226, 229, 1);
+  color: rgba(2, 25, 58, 1);
+  width: 175px;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20.86px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
 const ButtonsSave = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-      width: 175px;
-    height:42px;
-    border-radius: 10px;
-    background: ${
-      context.accountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
-    } ;
-    color:#fff;
-font-size: 14px;
-font-weight: 400;
-line-height: 20.86px;
-text-align: center;
-position: relative;
-cursor: pointer;
-&:hover{
-  opacity:0.5
-}
-    `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  height: 42px;
+  border-radius: 10px;
+  background: ${
+    loggedInAccountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
+  };
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20.86px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
 const TextSave = styled.div`
-    display: inline-block;
-    overflow: hidden;
-    word-wrap: no-wrap;
-    text-overflow: ellipsis;
-    width: 100%;
-    padding: 0 10px;
-    text-align: center;
-    `;
+  display: inline-block;
+  overflow: hidden;
+  word-wrap: no-wrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 0 10px;
+  text-align: center;
+`;
+
 const ArrowWrapper = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 42px;
-    height: 42px;
-    margin-left: auto;
-    .rotateIcon{
-        transform: rotate(180deg);
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  margin-left: auto;
+  transform: ${(props) =>
+    props.$isOpened ? "rotate(180deg)" : "rotate(0deg)"};
 `;
 
 const SaveChanges = styled.div`
-position:absolute;
-display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-right: 0;
-top:52px;
-width: 179px;
-height: 112px;
-padding: 10px;
-gap: 10px;
-border-radius: 10px;
-background:rgba(231, 236, 239, 1);
-font-size: 14px;
-font-weight: 400;
-line-height: 20.86px;
-text-align: center;
-color: rgba(34, 34, 34, 1);
-
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  right: 0;
+  top: 52px;
+  width: 179px;
+  height: 112px;
+  padding: 10px;
+  gap: 10px;
+  border-radius: 10px;
+  background: rgba(231, 236, 239, 1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20.86px;
+  text-align: center;
+  color: rgba(34, 34, 34, 1);
 `;
 
 const SaveChangesItem = styled.div`
-display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 159px;
-height:41px;
-border-radius: 4px ; 
-cursor: pointer;
-&:hover{
-  opacity:0.5
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 159px;
+  height: 41px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const Input = styled.input`
@@ -162,9 +187,7 @@ const Input = styled.input`
   font: var(--text-base);
   outline: none !important;
   text-align: left;
-  transition:
-    color 200ms,
-    opacity 200ms;
+  transition: color 200ms, opacity 200ms;
 
   [data-textarea="true"] & {
     line-height: 1.5;
@@ -188,7 +211,8 @@ const Input = styled.input`
     }
   }
 `;
-const closeIcon = (
+
+const CloseIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="30"
@@ -212,7 +236,8 @@ const closeIcon = (
     />
   </svg>
 );
-const iconEdit = (
+
+const EditIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -237,7 +262,7 @@ const iconEdit = (
   </svg>
 );
 
-const arrow = (
+const ArrowIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="14"
@@ -254,97 +279,85 @@ const arrow = (
     />
   </svg>
 );
-const mutationId = `${context.accountId}/mutation/`;
+
+const handlePublishButtonClick = () => {
+  State.update({ isSaveDropdownOpened: false });
+  onMutationEdit();
+};
+
+const handleForkButtonClick = () => {
+  State.update({ isSaveDropdownOpened: false });
+  onMutationCreate();
+};
+
+const handleDropdownOpen = () => {
+  if (!loggedInAccountId) return;
+
+  State.update({
+    isSaveDropdownOpened: !state.isSaveDropdownOpened,
+  });
+};
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
       <Input
-        onChange={props.handleEditMutationName}
-        value={props.mutationName ? props.mutationName : ""}
+        onChange={(e) => onMutationNameChange(e.target.value)}
+        value={mutationName ? mutationName : ""}
       />
-
-      <Close onClick={props.onClose}> {closeIcon}</Close>
+      <Close onClick={onClose}>
+        <CloseIcon />
+      </Close>
     </HeaderEditor>
-    {state.textSave === "Fork" && context.accountId ? (
+    {state.textSave === "Fork" && loggedInAccountId ? (
       <Input
-        onChange={(e) => props.handleEditMutationId(e, mutationId)}
-        placeholder={"enter id mutation"}
-        value={props.selectedMutation.id ? props.selectedMutation.id : ""}
+        onChange={(e) => onMutationIdChange(e.target.value)}
+        placeholder={"Enter Mutation ID"}
+        value={mutationId ? mutationId : ""}
       />
     ) : null}
-    <div
-      style={{
-        overflow: "hidden",
-        overflowY: "auto",
-        maxHeight: "400px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "5px",
-      }}
-    >
-      {props.apps && props.apps.length
-        ? props.apps.map((app, i) => (
+    <AppsList>
+      {allApps && allApps.length
+        ? allApps.map((app, i) => (
             <Widget
               key={i}
               src="bos.dapplets.near/widget/ApplicationCard"
               props={{
                 src: app.id,
                 metadata: app.metadata,
-                hideButtons: !context.accountId,
+                hideButtons: !loggedInAccountId,
                 selectedApps:
-                  props.selectedApps &&
-                  props.selectedApps.filter((x) => x === app.id)[0],
-                handleEditMutationApps: props.handleEditMutationApps,
+                  selectedApps && selectedApps.filter((x) => x === app.id)[0],
+                handleEditMutationApps: onMutationAppsChange,
               }}
             />
           ))
         : null}
-    </div>
+    </AppsList>
     <ButtonsBlock>
-      <ButtonsRevert onClick={props.handleResetMutation}>
-        Revert changes
-      </ButtonsRevert>
+      <ButtonsRevert onClick={onMutationReset}>Revert changes</ButtonsRevert>
       <ButtonsSave>
-        <TextSave
-          onClick={() =>
-            state.textSave === "Publish"
-              ? props.handleSaveMutation(props.selectedMutation, true)
-              : props.handleSaveMutation(props.selectedMutation, false)
-          }
-        >
-          {state.textSave}
-        </TextSave>
+        {isUserOwner ? (
+          <TextSave onClick={onMutationEdit}>Publish</TextSave>
+        ) : (
+          <TextSave onClick={onMutationCreate}>Fork</TextSave>
+        )}
         <ArrowWrapper
-          style={{
-            transform: state.isOpenParametersSave
-              ? "rotate(180deg)"
-              : "rotate(0deg)",
-          }}
-          onClick={() =>
-            context.accountId
-              ? State.update({
-                  isOpenParametersSave: !state.isOpenParametersSave,
-                })
-              : null
-          }
+          $isOpened={state.isSaveDropdownOpened}
+          onClick={handleDropdownOpen}
         >
-          {arrow}
+          <ArrowIcon />
         </ArrowWrapper>
-        {state.isOpenParametersSave ? (
+        {state.isSaveDropdownOpened ? (
           <SaveChanges>
-            {parametersSave.map((x, i) => (
-              <SaveChangesItem
-                onClick={() =>
-                  State.update({
-                    isOpenParametersSave: !state.isOpenParametersSave,
-                    textSave: x,
-                  })
-                }
-                key={i}
-              >
-                {x}
+            {isUserOwner ? (
+              <SaveChangesItem onClick={handlePublishButtonClick}>
+                Publish
               </SaveChangesItem>
-            ))}
+            ) : null}
+            <SaveChangesItem onClick={handleForkButtonClick}>
+              Fork
+            </SaveChangesItem>
           </SaveChanges>
         ) : null}
       </ButtonsSave>
