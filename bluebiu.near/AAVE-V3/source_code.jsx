@@ -64,7 +64,7 @@ const {
   toast,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
-console.log("AAVE.V3: ", props);
+console.log("PROPS: ", props);
 
 function isValid(a) {
   if (!a) return false;
@@ -89,7 +89,7 @@ function gasEstimation(action) {
     return "-";
   }
 
-  const { marketReferencePriceInUsd, decimals } = baseAsset;
+  const { tokenPrice, decimals } = baseAsset;
   return getGasPrice()
     .then((gasPrice) => {
       const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
@@ -97,7 +97,7 @@ function gasEstimation(action) {
       return Big(gasPrice.toString())
         .mul(gasLimit)
         .div(Big(10).pow(decimals))
-        .mul(marketReferencePriceInUsd)
+        .mul(tokenPrice)
         .toFixed(2);
     })
     .catch((err) => {
@@ -163,110 +163,33 @@ function getConfig() {
 
 const config = getConfig();
 // console.log("CONFIG: ", config);
-console.log("markets--", dexConfig);
+
 const markets = dexConfig?.rawMarkets?.map((item) => ({
   ...item,
-  marketReferencePriceInUsd: prices[item.symbol],
+  tokenPrice: prices[item.symbol],
 }));
 const underlyingTokens = dexConfig?.rawMarkets?.map(
   (market) => market.underlyingAsset
 );
 
-function getLiquidity() {
-  const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
-  const variableDebtTokenAddresss = markets?.map(
-    (item) => item.variableDebtTokenAddress
-  );
-
-  const calls = aTokenAddresss
-    .map((addr) => ({
-      address: addr,
-      name: "totalSupply",
-    }))
-    .concat(
-      variableDebtTokenAddresss?.map((addr) => ({
-        address: addr,
-        name: "totalSupply",
-      }))
-    );
-
-  multicall({
-    abi: [
-      {
-        inputs: [],
-        name: "totalSupply",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    calls,
-    options: {},
-    multicallAddress,
-    provider: Ethers.provider(),
-  })
-    .then((res) => {
-      try {
-        console.log("getLiquidity_res", res);
-        const l = res.length;
-        const aTokenTotal = res.slice(0, l / 2);
-        const debtTotal = res.slice(l / 2);
-
-        for (let i = 0; i < markets.length; i++) {
-          // console.log("mm--", markets[i], prices[markets[i].symbol]);
-          const liquidityAmount = Big(aTokenTotal[i] || 0)
-            .minus(Big(debtTotal[i] || 0))
-            .toFixed();
-          // console.log("liquidityAmount--", liquidityAmount);
-          markets[i].availableLiquidity = liquidityAmount;
-          markets[i].availableLiquidityUSD = Big(
-            ethers.utils.formatUnits(liquidityAmount, markets[i].decimals)
-          )
-            .mul(Big(prices[markets[i].symbol]) || 0)
-            .toFixed();
-        }
-        State.update({
-          aTokenTotal,
-          debtTotal,
-        });
-      } catch (error) {
-        console.log("catch getLiquidity", error);
-      }
-    })
-    .catch((err) => {
-      console.log("getLiquidity_err", err);
-    });
-}
-getLiquidity();
-
-const marketsMapping = markets.reduce((prev, cur) => {
-  prev[cur.underlyingAsset] = cur;
-  return prev;
-}, {});
-
 // App states
 State.init({
   imports: {},
+
   showWithdrawModal: false,
   showSupplyModal: false,
   showRepayModal: false,
   showBorrowModal: false,
+
   threshold: 1,
-  assetsToSupply: undefined, //[{markets}]
-  yourSupplies: undefined, //[{markets}]
+  assetsToSupply: markets,
+  yourSupplies: undefined,
+  yourBorrows: undefined,
   netWorthUSD: "",
-  totalNetApy: "",
+  netApy: "",
   healthFactor: "",
-  assetsToBorrow: {
-    availableBorrowsUSD: "",
-    debts: markets,
-    // netApy: "",
-  },
-  yourBorrows: {
-    availableBorrowsUSD: "",
-    debts: [],
-    // netApy: '',
-  },
+  availableBorrowsUSD: "",
+
   baseAssetBalance: undefined,
   selectTab: "MARKET", // MARKET | YOURS
   fresh: 0, // fresh rewards
@@ -276,39 +199,21 @@ State.init({
   emissionPerSeconds: [],
   aTokenTotal: [],
   debtTotal: [],
+  poolData: [],
+
+  step1: false,
+  step2: false,
 });
 
-const loading =
-  !state.assetsToSupply || !state.yourSupplies || !state.assetsToBorrow;
+function calcAvailableBorrows(availableBorrowsUSD, tokenPrice) {
+  let r =
+    isValid(availableBorrowsUSD) && isValid(tokenPrice)
+      ? Big(availableBorrowsUSD || 0)
+          .div(tokenPrice)
+          .toFixed()
+      : Number(0).toFixed();
 
-// Import functions to state.imports
-function importFunctions(imports) {
-  if (loading) {
-    State.update({
-      imports,
-    });
-  }
-}
-
-// Define the modules you'd like to import
-const modules = {
-  number: `${config.ownerId}/widget/Utils.Number`,
-  date: `${config.ownerId}/widget/Utils.Date`,
-  data: `${config.ownerId}/widget/AAVE.Data`,
-};
-// Import functions
-// const { formatAmount } = state.imports.number;
-// const { formatDateTime } = state.imports.date;
-
-function calculateAvailableBorrows({
-  availableBorrowsUSD,
-  marketReferencePriceInUsd,
-}) {
-  return isValid(availableBorrowsUSD) && isValid(marketReferencePriceInUsd)
-    ? Big(availableBorrowsUSD || 0)
-        .div(marketReferencePriceInUsd)
-        .toFixed()
-    : Number(0).toFixed();
+  return r;
 }
 
 function bigMin(_a, _b) {
@@ -358,8 +263,97 @@ function batchBalanceOf(chainId, userAddress, tokenAddresses, abi) {
   return balanceProvider.batchBalanceOf([userAddress], tokenAddresses);
 }
 
+function getLiquidity() {
+  const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
+  const variableDebtTokenAddresss = markets?.map(
+    (item) => item.variableDebtTokenAddress
+  );
+
+  const calls = aTokenAddresss
+    .map((addr) => ({
+      address: addr,
+      name: "totalSupply",
+    }))
+    .concat(
+      variableDebtTokenAddresss?.map((addr) => ({
+        address: addr,
+        name: "totalSupply",
+      }))
+    );
+
+  multicall({
+    abi: [
+      {
+        inputs: [],
+        name: "totalSupply",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    options: {},
+    multicallAddress,
+    provider: Ethers.provider(),
+  })
+    .then((res) => {
+      try {
+        console.log("getLiquidity_res", res);
+        const l = res.length;
+        const aTokenTotal = res.slice(0, l / 2);
+        const debtTotal = res.slice(l / 2);
+
+        const _assetsToSupply = [...state.assetsToSupply];
+        for (let i = 0; i < _assetsToSupply.length; i++) {
+          const liquidityAmount = Big(aTokenTotal[i] || 0)
+            .minus(Big(debtTotal[i] || 0))
+            .toFixed();
+
+          _assetsToSupply[i].availableLiquidity = liquidityAmount;
+          _assetsToSupply[i].availableLiquidityUSD = Big(
+            ethers.utils.formatUnits(
+              liquidityAmount,
+              _assetsToSupply[i].decimals
+            )
+          )
+            .mul(Big(prices[_assetsToSupply[i].symbol]) || 0)
+            .toFixed();
+
+          const _availableBorrowsUSD = bigMin(
+            state.availableBorrowsUSD,
+            ethers.utils.formatUnits(
+              liquidityAmount,
+              _assetsToSupply[i].decimals
+            )
+          )
+            .times(ACTUAL_BORROW_AMOUNT_RATE)
+            .toFixed();
+
+          const availableBorrows = calcAvailableBorrows(
+            _availableBorrowsUSD,
+            _assetsToSupply[i].tokenPrice
+          );
+
+          _assetsToSupply[i].availableBorrowsUSD = _availableBorrowsUSD;
+          _assetsToSupply[i].availableBorrows = availableBorrows;
+        }
+        State.update({
+          assetsToSupply: _assetsToSupply,
+          aTokenTotal,
+          debtTotal,
+          step1: false,
+          step2: false,
+        });
+      } catch (error) {
+        console.log("catch getLiquidity", error);
+      }
+    })
+    .catch((err) => {
+      console.log("getLiquidity_err", err);
+    });
+}
 // update data in async manner
-function updateData(refresh) {
+function getUserBalance() {
   // check abi loaded
   if (
     Object.keys(CONTRACT_ABI)
@@ -385,51 +379,29 @@ function updateData(refresh) {
     config.walletBalanceProviderABI
   )
     .then((balances) => {
-      console.log(
-        "getBalance",
-        balances,
-        balances.map((balance) => balance.toString())
-      );
       return balances?.map((balance) => balance.toString());
     })
     .then((userBalances) => {
-      const assetsToSupply = markets?.map((market, idx) => {
+      const _assetsToSupply = [...state.assetsToSupply];
+      for (let index = 0; index < _assetsToSupply.length; index++) {
+        const item = _assetsToSupply[index];
         const _bal =
-          market.symbol === config.nativeCurrency.symbol
+          item.symbol === config.nativeCurrency.symbol
             ? state.baseAssetBalance
-            : userBalances[idx];
-        const balanceRaw = Big(_bal || 0).div(Big(10).pow(market.decimals));
+            : userBalances[index];
+        const balanceRaw = Big(_bal || 0).div(Big(10).pow(item.decimals));
+        const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
 
-        const balance = balanceRaw.toFixed(market.decimals, ROUND_DOWN);
-
-        const balanceInUSD = balanceRaw
-          .mul(market.marketReferencePriceInUsd || 0)
+        const _balanceInUSD = balanceRaw
+          .mul(item.tokenPrice || 0)
           .toFixed(3, ROUND_DOWN);
-
-        const availableBorrowsUSD = bigMin(
-          state.assetsToBorrow.availableBorrowsUSD,
-          market.availableLiquidityUSD
-        )
-          .times(ACTUAL_BORROW_AMOUNT_RATE)
-          .toFixed();
-        // console.log("availableBorrowsUSD--", availableBorrowsUSD);
-        const availableBorrows = calculateAvailableBorrows({
-          availableBorrowsUSD,
-          marketReferencePriceInUsd: market.marketReferencePriceInUsd,
-        });
-        // console.log("availableBorrows--", availableBorrows);
-
-        return {
-          ...market,
-          availableBorrowsUSD,
-          availableBorrows,
-          balance,
-          balanceInUSD,
-        };
-      });
+        item.aaaa = "aaa";
+        item.balance = _balance;
+        item.balanceInUSD = _balanceInUSD;
+      }
 
       State.update({
-        assetsToSupply,
+        assetsToSupply: _assetsToSupply,
       });
     })
     .catch((err) => {
@@ -437,38 +409,9 @@ function updateData(refresh) {
     });
 }
 
-function updateUserDebts(marketsMapping, assetsToSupply, refresh) {
-  if (!marketsMapping || !assetsToSupply) {
-    return;
-  }
-
-  const _assetsToSupply = [...state.assetsToSupply];
-
-  _assetsToSupply.forEach((item) => {
-    const availableBorrowsUSD = bigMin(
-      state.assetsToBorrow.availableBorrowsUSD,
-      item.availableLiquidityUSD
-    )
-      .times(ACTUAL_BORROW_AMOUNT_RATE)
-      .toFixed();
-
-    item.availableBorrowsUSD = availableBorrowsUSD;
-    const availableBorrows = calculateAvailableBorrows({
-      availableBorrowsUSD,
-      marketReferencePriceInUsd: item.marketReferencePriceInUsd,
-    });
-
-    item.availableBorrows = availableBorrows;
-  });
-
-  State.update({
-    assetsToSupply: _assetsToSupply,
-  });
-}
-
 function onActionSuccess({ msg, callback }) {
   // update data if action finishes
-  updateData(true);
+  getUserBalance();
   // update UI after data has almost loaded
   setTimeout(() => {
     if (callback) {
@@ -480,18 +423,7 @@ function onActionSuccess({ msg, callback }) {
   }, 5000);
 }
 
-if (chainId && isChainSupported && loading) {
-  updateData();
-}
-
 function getPoolDataProvider() {
-  const _debts = [...state.assetsToBorrow.debts];
-  const prevAssetsToSupply = [...state.assetsToSupply];
-  const prevAssetsToBorrow = { ...state.assetsToBorrow };
-  // const underlyingTokens = prevAssetsToSupply.map(
-  //   (item) => item.underlyingAsset
-  // );
-
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
@@ -569,62 +501,8 @@ function getPoolDataProvider() {
     .then((res) => {
       console.log("getPoolDataProvider_res", res);
 
-      for (let i = 0; i < res.length; i++) {
-        if (res[i]) {
-          const [
-            unbacked,
-            accruedToTreasuryScaled,
-            totalAToken,
-            totalStableDebt,
-            totalVariableDebt,
-            liquidityRate,
-            variableBorrowRate,
-            stableBorrowRate,
-            averageStableBorrowRate,
-            liquidityIndex,
-            variableBorrowIndex,
-            lastUpdateTimestamp,
-          ] = res[i];
-          const RAY = Big(10).pow(27);
-          const SECONDS_PER_YEAR = 31_536_000;
-          const depositAPR = Big(liquidityRate).div(RAY || 1);
-          const depositAPY0 = Big(1)
-            .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
-            .toNumber();
-          const depositAPY = Big(
-            Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
-          ).toFixed();
-          console.log("depositAPY--", depositAPY);
-
-          const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
-
-          const variableBorrowAPY0 = Big(1)
-            .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
-            .toNumber();
-
-          const variableBorrowAPYRaw = Big(
-            100 * (Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1)
-          );
-
-          const variableBorrowAPY = Big(
-            Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1
-          ).toFixed();
-          const netApy = Big(depositAPY0).minus(variableBorrowAPYRaw).toFixed();
-          prevAssetsToSupply[i].supplyAPY = depositAPY;
-          prevAssetsToSupply[i].variableBorrowAPY = variableBorrowAPY;
-          _debts[i].supplyAPY = depositAPY;
-          _debts[i].variableBorrowAPY = variableBorrowAPY;
-
-          // prevAssetsToBorrow.netApy = netApy;
-          prevAssetsToBorrow.variableBorrowAPY = variableBorrowAPY;
-        }
-      }
       State.update({
-        assetsToSupply: prevAssetsToSupply,
-        assetsToBorrow: {
-          ...state.assetsToBorrow,
-          debts: _debts,
-        },
+        poolData: res,
       });
     })
     .catch((err) => {
@@ -785,7 +663,7 @@ function getPoolDataProviderCaps() {
     });
 }
 
-function fetchUserAccountData() {
+function getUserAccountData() {
   const contract = new ethers.Contract(
     config.aavePoolV3Address,
     config.aavePoolV3ABI.body,
@@ -827,19 +705,15 @@ function fetchUserAccountData() {
         .toFixed();
 
       State.update({
+        step2: true,
         threshold,
         currentLiquidationThreshold,
         BorrowPowerUsed,
         healthFactor: !totalCollateralBase.toNumber()
           ? formatHealthFactor(0)
           : formatHealthFactor(ethers.utils.formatUnits(healthFactor)),
-        assetsToBorrow: {
-          ...state.assetsToBorrow,
-          availableBorrowsUSD: ethers.utils.formatUnits(
-            availableBorrowsBase,
-            8
-          ),
-        },
+
+        availableBorrowsUSD: ethers.utils.formatUnits(availableBorrowsBase, 8),
       });
     })
     .catch((err) => {
@@ -907,6 +781,7 @@ function getUserDeposits() {
     provider: Ethers.provider(),
   })
     .then((res) => {
+      console.log("=========", state.assetsToSupply);
       console.log("getUsetDeposits_res", res);
       let userDeposits = [];
       for (let index = 0; index < res.length; index++) {
@@ -956,9 +831,6 @@ function getUserDeposits() {
     })
     .catch((err) => {
       console.log("getUsetDeposits_err", err);
-    })
-    .finally(() => {
-      getUserDebts();
     });
 }
 
@@ -1003,38 +875,34 @@ function getUserDebts() {
     .then((res) => {
       console.log("getUserDebts_res", res);
       let userDebs = [];
-      const _debts = [...state.assetsToBorrow.debts];
+      const _assetsToSupply = [...state.assetsToSupply];
       for (let index = 0; index < res.length; index++) {
         if (res[index]) {
-          let market = _debts.find(
+          let market = _assetsToSupply.find(
             (item) =>
               item.variableDebtTokenAddress === variableDebtTokenAddresss[index]
           );
 
-          let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
-          console.log("_bal--", _bal);
-          market.balance = _bal;
-          market.balanceInUSD = Big(_bal || 0)
+          let _debt = ethers.utils.formatUnits(res[index][0], market.decimals);
+
+          market.debt = _debt;
+          market.debtInUSD = Big(_debt || 0)
             .mul(prices[market.symbol] || 1)
             .toFixed();
           userDebs.push(market);
         }
       }
       let hash = {};
-      let _userDebs = userDebs.reduce((accum, item) => {
+      let _yourBorrows = userDebs.reduce((accum, item) => {
         hash[item["aTokenAddress"]]
           ? ""
           : (hash[item["aTokenAddress"]] = true && accum.push(item));
         return accum;
       }, []);
 
-      console.log("yourBorrows:", state.yourBorrows);
-      console.log("userDebs:", _userDebs);
+      console.log("yourBorrows--", _yourBorrows);
       State.update({
-        yourBorrows: {
-          ...state.yourBorrows,
-          debts: _userDebs,
-        },
+        yourBorrows: _yourBorrows,
       });
     })
     .catch((err) => {
@@ -1221,24 +1089,84 @@ function getCollateralStatus() {
 }
 
 useEffect(() => {
-  if (!isChainSupported) return;
-
-  fetchUserAccountData();
-}, [isChainSupported]);
-
-useEffect(() => {
-  if (!isChainSupported || !state.assetsToSupply) return;
+  if (!account || !isChainSupported) return;
+  getUserBalance();
+  getUserAccountData();
 
   getPoolDataProvider();
-  getPoolDataProviderTotalSupply();
-  getPoolDataProviderTotalDebt();
   if (dexConfig.name === "Seamless Protocol") {
+    getPoolDataProviderTotalSupply();
+    getPoolDataProviderTotalDebt();
     getPoolDataProviderCaps();
   }
-  getUserDeposits();
-}, [state.assetsToSupply]);
+  if (state.step1) {
+    getUserDeposits();
+    getUserDebts();
+  }
+}, [account, isChainSupported, state.step1]);
 
 useEffect(() => {
+  if (state.step2) {
+    getLiquidity();
+  }
+}, [state.step2]);
+
+useEffect(() => {
+  console.log("CALC APY");
+  if (!Array.isArray(state.poolData) || !state.poolData.length) return;
+
+  const _assetsToSupply = [...state.assetsToSupply];
+
+  for (let i = 0; i < state.poolData.length; i++) {
+    if (state.poolData[i]) {
+      const [
+        unbacked,
+        accruedToTreasuryScaled,
+        totalAToken,
+        totalStableDebt,
+        totalVariableDebt,
+        liquidityRate,
+        variableBorrowRate,
+        stableBorrowRate,
+        averageStableBorrowRate,
+        liquidityIndex,
+        variableBorrowIndex,
+        lastUpdateTimestamp,
+      ] = state.poolData[i];
+      const RAY = Big(10).pow(27);
+      const SECONDS_PER_YEAR = 31_536_000;
+      const depositAPR = Big(liquidityRate).div(RAY || 1);
+      const depositAPY0 = Big(1)
+        .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
+        .toNumber();
+
+      const _supplyAPY = Big(
+        Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
+      ).toFixed();
+      console.log("_supplyAPY--", _supplyAPY);
+
+      const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
+
+      const variableBorrowAPY0 = Big(1)
+        .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
+        .toNumber();
+
+      const _borrowAPY = Big(
+        Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1
+      ).toFixed();
+
+      _assetsToSupply[i].supplyAPY = _supplyAPY;
+      _assetsToSupply[i].borrowAPY = _borrowAPY;
+    }
+  }
+  State.update({
+    assetsToSupply: _assetsToSupply,
+    step1: true,
+  });
+}, [state.poolData]);
+
+useEffect(() => {
+  if (!account || !isChainSupported) return;
   if (dexConfig.name !== "Seamless Protocol") return;
   if (!Array.isArray(state.assetsToSupply)) return;
   console.log("calc totalMarketSize");
@@ -1256,17 +1184,17 @@ useEffect(() => {
     totalAvailable,
     totalBorrows,
   });
-}, [state.assetsToSupply]);
+}, [account, isChainSupported, state.assetsToSupply]);
 
 useEffect(() => {
-  if (!account) return;
+  if (!account || !isChainSupported) return;
 
-  console.log("dexConfig--", dexConfig);
+  // console.log("dexConfig--", dexConfig);
   if (dexConfig.rewardToken) {
     getAllUserRewards();
     fetchRewardsData();
   }
-}, [account, fresh]);
+}, [account, isChainSupported, fresh]);
 
 useEffect(() => {
   console.log(
@@ -1301,10 +1229,10 @@ useEffect(() => {
       );
 
       let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
-        Big(_assetsToSupply[i].marketReferencePriceInUsd)
+        Big(_assetsToSupply[i].tokenPrice)
       );
       let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
-        Big(_assetsToSupply[i].marketReferencePriceInUsd)
+        Big(_assetsToSupply[i].tokenPrice)
       );
 
       let supplyRewardApy = normalizedEmissionPerSecond
@@ -1333,11 +1261,13 @@ useEffect(() => {
     getCollateralStatus();
   }
 }, [state.selectTab]);
+
 useEffect(() => {
+  if (!state.step1) return;
   if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
-  console.log("calc net apy");
+  console.log("calc net apy", state.yourSupplies, state.yourBorrows);
   //calc net worth
   const supplyBal = state.yourSupplies.reduce(
     (total, cur) =>
@@ -1347,10 +1277,10 @@ useEffect(() => {
     0
   );
   console.log("supplyBal--", supplyBal);
-  const debtsBal = state.yourBorrows.debts.reduce(
+  const debtsBal = state.yourBorrows.reduce(
     (total, cur) =>
       Big(total || 0)
-        .plus(cur.balanceInUSD)
+        .plus(cur.debtInUSD)
         .toFixed(),
     0
   );
@@ -1383,17 +1313,15 @@ useEffect(() => {
   );
 
   console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
-  const weightedAverageBorrowsAPY = state.yourBorrows.debts.reduce(
-    (total, cur) =>
-      Big(total || 0)
-        .plus(
-          Big(cur.balanceInUSD)
-            .times(Big(cur.variableBorrowAPY))
-            .div(debtsBal || 1)
-        )
-        .toFixed(),
-    0
-  );
+  const weightedAverageBorrowsAPY = state.yourBorrows.reduce((total, cur) => {
+    return Big(total || 0)
+      .plus(
+        Big(cur.debtInUSD)
+          .times(Big(cur.borrowAPY))
+          .div(debtsBal || 1)
+      )
+      .toFixed();
+  }, 0);
   console.log("weightedAverageBorrowsAPY--", weightedAverageBorrowsAPY);
 
   const a = Big(weightedAverageSupplyAPY || 0)
@@ -1406,8 +1334,8 @@ useEffect(() => {
     .div(netWorth || 1)
     .toFixed();
   console.log("b--", b);
-  const totalNetApy = Big(a).minus(Big(b)).toFixed();
-  console.log("totalNetApy--", totalNetApy);
+  const netApy = Big(a).minus(Big(b)).toFixed();
+  console.log("netApy--", netApy);
   const yourTotalSupply = state.yourSupplies.reduce(
     (prev, curr) =>
       Big(prev)
@@ -1417,17 +1345,17 @@ useEffect(() => {
   );
   console.log("yourTotalSupply--", yourTotalSupply);
 
-  const yourTotalBorrow = state.yourBorrows.debts.reduce(
+  const yourTotalBorrow = state.yourBorrows.reduce(
     (prev, curr) =>
       Big(prev)
-        .plus(Big(curr.balanceInUSD || 0))
+        .plus(Big(curr.debtInUSD || 0))
         .toFixed(),
     0
   );
   console.log("yourTotalBorrow--", yourTotalBorrow);
 
   State.update({
-    totalNetApy,
+    netApy,
     netWorthUSD: netWorth,
     yourTotalSupply,
     yourTotalBorrow,
@@ -1436,7 +1364,7 @@ useEffect(() => {
       .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
   });
-}, [state.yourSupplies, state.yourBorrows]);
+}, [state.yourSupplies, state.yourBorrows, state.step1]);
 
 function onSuccess() {
   State.update({
@@ -1473,9 +1401,9 @@ const body = isChainSupported ? (
             state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
           }`,
           netApy: `${
-            state.totalNetApy
+            state.netApy
               ? Number(
-                  Big(state.totalNetApy || 0)
+                  Big(state.netApy || 0)
                     .times(100)
                     .toFixed(2)
                 )
@@ -1501,7 +1429,7 @@ const body = isChainSupported ? (
     {state.selectTab === "MARKET" && (
       <>
         <Widget
-          src={`${config.ownerId}/widget/AAVE.Card.AssetsToSupply`}
+          src={`${config.ownerId}/widget/AAVE.Card.Markets`}
           props={{
             config,
             dexConfig,
@@ -1656,10 +1584,10 @@ const body = isChainSupported ? (
 return (
   <div>
     {/* Component Head */}
-    <Widget
+    {/* <Widget
       src={`${config.ownerId}/widget/Utils.Import`}
       props={{ modules, onLoad: importFunctions }}
-    />
+    /> */}
 
     {body}
   </div>
