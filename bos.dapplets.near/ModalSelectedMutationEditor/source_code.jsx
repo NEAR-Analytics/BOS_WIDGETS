@@ -27,6 +27,11 @@ width: 400px;
 max-height: 446px;
 `;
 
+const Close = styled.span`
+&:hover{
+  opacity:0.5
+}`;
+
 const HeaderEditor = styled.div`
 display: flex;
     justify-content: space-between;
@@ -255,7 +260,7 @@ return (
         onChange={props.handleEditMutationName}
         value={props.mutationName ? props.mutationName : ""}
       />
-      <span onClick={props.onClose}> {closeIcon}</span>
+      <Close onClick={props.onClose}> {closeIcon}</Close>
     </HeaderEditor>
     {state.textSave === "Fork" ? (
       <Input
