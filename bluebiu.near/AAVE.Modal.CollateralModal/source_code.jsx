@@ -27,7 +27,6 @@ const {
   symbol,
   underlyingBalance,
   underlyingBalanceUSD,
-  marketReferencePriceInUsd,
   aTokenAddress,
   availableLiquidity,
   healthFactor,
