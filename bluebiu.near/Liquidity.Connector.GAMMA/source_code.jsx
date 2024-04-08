@@ -30,6 +30,7 @@ const IconRight = (
 )
 const {
   toast,
+  isDapps,
   CHAIN_LIST,
   multicallAddress,
   dexConfig,
@@ -40,13 +41,7 @@ const {
   connectProps,
   prices,
 } = props
-// const CONNECT_PROPS = {
-//   ...props.connectProps,
-//   chainId: MAINNET_CHAIN_ID,
-//   chainName: CHAIN_CONFIG.chainName,
-//   noAccountTips: `${CHAIN_CONFIG.chainName} Liquidity`,
-//   wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_CONFIG.chainName} Chain.`,
-// };
+console.log('=multicallAddress', multicallAddress)
 
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
@@ -165,21 +160,74 @@ if (sender && state.userPositions === undefined) {
 }
 
 useEffect(() => {
-  const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
-  if (index > -1) {
-    State.update({
-      chainIndex: index,
-      allData: null,
-      dataList: [],
-      categoryIndex: 0,
-      userPositions: null
-    })
+  if (isDapps) {
     fetchAllData()
     fetchUserData()
+  } else {
+    const index = CHAIN_LIST.findIndex(chain => chain.id === curChain.id)
+    if (index > -1) {
+      State.update({
+        chainIndex: index,
+        allData: null,
+        dataList: [],
+        categoryIndex: 0,
+        userPositions: null
+      })
+      fetchAllData()
+      fetchUserData()
+    }
   }
 }, [curChain])
-const columnList = [{
-  width: '30%',
+const columnList = isDapps ? [{
+  width: '40%',
+  key: 'pool',
+  label: 'Position',
+  type: 'slot',
+  render: (data) => {
+    return (
+      <>
+        <StyledVaultImage>
+          <img style={{ marginRight: -6 }} src={ICON_VAULT_MAP[data.token0]} alt={data.token0} />
+          <img src={ICON_VAULT_MAP[data.token1]} alt={data.token1} />
+        </StyledVaultImage>
+        <TdTxt>{data.token0} - {data.token1}</TdTxt>
+      </>
+    )
+  }
+}, {
+  width: '20%',
+  key: 'strategy',
+  label: 'Strategy',
+  type: 'slot',
+  render: (data) => {
+    return (
+      <StrategyTxt>{data.strategy2 ? data.strategy2 : data.strategy}</StrategyTxt>
+    )
+  }
+}, {
+  width: '20%',
+  key: 'tvlUSD',
+  label: 'TVL',
+  type: 'slot',
+  render: (data) => {
+    return (
+      <TdTxt>{formatFiat(data.tvlUSD)}</TdTxt>
+    )
+  }
+}, {
+  width: '20%',
+  key: 'totalApr',
+  label: 'APR',
+  type: 'slot',
+  render: (data) => {
+    return (
+      <StyledDashedUndeline>
+        <TdTxt>{data.totalApr}</TdTxt>
+      </StyledDashedUndeline>
+    )
+  }
+}] : [{
+  width: '25%',
   key: 'pool',
   label: 'Pool',
   type: 'slot',
@@ -247,7 +295,7 @@ const columnList = [{
     )
   }
 }, {
-  width: '10%',
+  width: '15%',
   direction: 'column',
   key: 'liquidity',
   label: 'Your Liquidity',
@@ -259,8 +307,8 @@ const columnList = [{
       : undefined;
     return (
       <>
-        <TdTxt>{userBalance ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
-        {data.liquidity && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
+        <TdTxt>{Big(userBalance ?? 0).gt(0) ? `${formatFiat(userBalance)}` : "-"}</TdTxt>
+        {Big(data?.liquidity ?? 0).gt(0) && <TdTxt className="gray">{data.liquidity} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
@@ -291,18 +339,23 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         }}
       />
     )}
-    <Widget
-      src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
-      props={{
-        token: state.token,
-        chains: CHAIN_LIST,
-        categoryIndex: state.categoryIndex,
-        chainIndex: state.chainIndex,
-        onSearchInput: handleSearchInput,
-        onChangeCategoryIndex: handleChangeCategoryIndex,
-        onChangeChainIndex: handleChangeChainIndex,
-      }}
-    />
+    {
+      !isDapps && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.Filter"}
+          props={{
+            token: state.token,
+            chains: CHAIN_LIST,
+            categoryIndex: state.categoryIndex,
+            chainIndex: state.chainIndex,
+            onSearchInput: handleSearchInput,
+            onChangeCategoryIndex: handleChangeCategoryIndex,
+            onChangeChainIndex: handleChangeChainIndex,
+          }}
+        />
+      )
+    }
+
     <Widget
       src={"bluebiu.near/widget/Liquidity.Bridge.List"}
       props={{
@@ -321,7 +374,7 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
         ICON_VAULT_MAP,
       }}
     />
-    {!isChainSupported && (
+    {!isChainSupported && !isDapps && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
         props={{
