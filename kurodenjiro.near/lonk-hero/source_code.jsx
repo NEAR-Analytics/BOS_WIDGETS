@@ -1,4 +1,8 @@
 const config = {
+  btse_logo:
+    "https://gateway.pinata.cloud/ipfs/QmZK8WaTq5pBQWVBFm3dQBbHD6saqyRzwiNfNEfNm5ip9p",
+  orderly_network:
+    "https://bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44.ipfs.nftstorage.link/",
   lonk_bot:
     "https://bafkreidusllz2u36hgmbvidbrliwrmxxpts57tljecslc4qtb72rpj2dji.ipfs.nftstorage.link/",
   image4:
@@ -22,13 +26,16 @@ const fondKod = fetch(
   "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
 ).body;
 const Content = styled.div`
-    ${fondKod}
-    color:#fff;
-    font-family: Kodchasan,sans-serif;
-    font-size:1.2rem;
-`;
+      ${fondKod}
+      color:#fff;
+      font-family: Kodchasan,sans-serif;
+      font-size:1.2rem;
+  `;
 const accountId = context.accountId;
-State.init({ select: "" });
+State.init({
+  select: "",
+  isShow: false,
+});
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -45,7 +52,9 @@ return (
             <div class="button-swap">
               <div class="item">
                 <button
-                  onClick={() => State.update({ select: "ref" })}
+                  onClick={() => {
+                    State.update({ select: "ref", isShow: true });
+                  }}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -60,7 +69,9 @@ return (
                   <img src={config.image6} class="image" width="186" />
                 </button>
                 <button
-                  onClick={() => State.update({ select: "veax" })}
+                  onClick={() => {
+                    State.update({ select: "veax", isShow: true });
+                  }}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -77,7 +88,7 @@ return (
               </div>
               <div class="item">
                 <a
-                  href="https://orderly.network/docs/trade-on-orderly/trading-guis"
+                  href="https://dex.btse.com/trade/SPOT_LONK_USDC.e"
                   target="_blank"
                   style={{
                     padding: "10px 20px",
@@ -90,7 +101,10 @@ return (
                   }}
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
-                  Orderly Network
+                  <img
+                    src={config.btse_logo}
+                    style={{ filter: "brightness(0%)" }}
+                  />
                 </a>
                 <a
                   href="https://t.me/lonk_bot"
@@ -157,7 +171,7 @@ return (
         </div>
       </div>
     </div>
-
+    <Widget src="louisdevzz.near/widget/Lonk.stake" props={{ accountId }} />
     <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="about">
@@ -190,7 +204,7 @@ return (
         </div>
       </div>
     </div>
-    {accountId ? (
+    {accountId && state.isShow ? (
       state.select == "ref" ? (
         <div
           class="modal fade"
@@ -219,7 +233,9 @@ return (
               <div
                 style={{ background: "#182733" }}
                 class="modal-body d-flex justify-content-center align-items-center"
-              ></div>
+              >
+                <Widget src="louisdevzz.near/widget/ref-swap" />
+              </div>
             </div>
           </div>
         </div>
@@ -251,7 +267,9 @@ return (
               <div
                 style={{ background: "#282828" }}
                 class="d-flex justify-content-center align-items-center"
-              ></div>
+              >
+                <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
+              </div>
             </div>
           </div>
         </div>
