@@ -186,7 +186,7 @@ State.init({
   yourSupplies: undefined,
   yourBorrows: undefined,
   netWorthUSD: "",
-  netApy: "",
+  netAPY: "",
   healthFactor: "",
   availableBorrowsUSD: "",
 
@@ -341,8 +341,6 @@ function getLiquidity() {
           assetsToSupply: _assetsToSupply,
           aTokenTotal,
           debtTotal,
-          step1: false,
-          step2: false,
         });
       } catch (error) {
         console.log("catch getLiquidity", error);
@@ -1143,7 +1141,12 @@ useEffect(() => {
       const _supplyAPY = Big(
         Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
       ).toFixed();
-      console.log("_supplyAPY--", _supplyAPY);
+      console.log(
+        "_supplyAPY--",
+        _supplyAPY,
+        _assetsToSupply,
+        _assetsToSupply[i]
+      );
 
       const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
 
@@ -1263,6 +1266,11 @@ useEffect(() => {
 }, [state.selectTab]);
 
 useEffect(() => {
+  console.log(
+    11111,
+    state.step1,
+    ["zerolend", "AAVE V3"].includes(dexConfig.name)
+  );
   if (!state.step1) return;
   if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
 
@@ -1334,8 +1342,8 @@ useEffect(() => {
     .div(netWorth || 1)
     .toFixed();
   console.log("b--", b);
-  const netApy = Big(a).minus(Big(b)).toFixed();
-  console.log("netApy--", netApy);
+  const netAPY = Big(a).minus(Big(b)).toFixed();
+  console.log("netAPY--", netAPY);
   const yourTotalSupply = state.yourSupplies.reduce(
     (prev, curr) =>
       Big(prev)
@@ -1355,7 +1363,7 @@ useEffect(() => {
   console.log("yourTotalBorrow--", yourTotalBorrow);
 
   State.update({
-    netApy,
+    netAPY,
     netWorthUSD: netWorth,
     yourTotalSupply,
     yourTotalBorrow,
@@ -1400,10 +1408,10 @@ const body = isChainSupported ? (
           netWorth: `$ ${
             state.netWorthUSD ? Big(state.netWorthUSD || 0).toFixed(2) : "-"
           }`,
-          netApy: `${
-            state.netApy
+          netAPY: `${
+            state.netAPY
               ? Number(
-                  Big(state.netApy || 0)
+                  Big(state.netAPY || 0)
                     .times(100)
                     .toFixed(2)
                 )
