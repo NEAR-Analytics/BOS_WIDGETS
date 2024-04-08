@@ -230,24 +230,33 @@ function formatHealthFactor(healthFactor) {
 }
 
 function calcHealthFactor(type, symbol, amount) {
-  let newHealthFactor, deno;
+  let newHealthFactor;
+  let totalCollateral = Big(state.yourTotalCollateral);
+  let totalBorrows = Big(state.yourTotalBorrow);
   console.log("calcHealthFactor--", type, symbol, amount, prices[symbol]);
+
   const assetsUSD = Big(prices[symbol]).times(Big(amount));
   if (type === "SUPPLY") {
-    deno = Big(state.yourTotalCollateral).plus(assetsUSD);
+    totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
+  }
+  if (type === "INC_COLLATERAL") {
+    totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
   }
   if (type === "WITHDRAW") {
-    deno = Big(state.yourTotalCollateral).minus(assetsUSD);
+    totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
+  }
+  if (type === "DEC_COLLATERAL") {
+    totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
   }
   if (type === "BORROW") {
-    deno = Big(state.yourTotalBorrow).plus(assetsUSD);
+    totalBorrows = Big(state.yourTotalBorrow).plus(assetsUSD);
   }
   if (type === "REPAY") {
-    deno = Big(state.yourTotalBorrow).minus(assetsUSD);
+    totalBorrows = Big(state.yourTotalBorrow).minus(assetsUSD);
   }
-  newHealthFactor = deno
+  newHealthFactor = totalCollateral
     .times(Big(state.threshold))
-    .div(Big(state.yourTotalBorrow));
+    .div(totalBorrows);
 
   console.log("calcHealthFactor--", newHealthFactor);
   return newHealthFactor.toFixed(2);
@@ -1266,11 +1275,6 @@ useEffect(() => {
 }, [state.selectTab]);
 
 useEffect(() => {
-  console.log(
-    11111,
-    state.step1,
-    ["zerolend", "AAVE V3"].includes(dexConfig.name)
-  );
   if (!state.step1) return;
   if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
 
@@ -1538,6 +1542,7 @@ const body = isChainSupported ? (
                 repayERC20Gas,
                 borrowETHGas,
                 borrowERC20Gas,
+                healthFactor: formatHealthFactor(state.healthFactor),
                 theme: dexConfig?.theme,
               }}
             />
