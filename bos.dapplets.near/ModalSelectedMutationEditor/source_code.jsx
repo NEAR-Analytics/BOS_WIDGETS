@@ -325,7 +325,7 @@ return (
     {!isUserOwner ? (
       <HeaderEditor>
         <Input
-          onChange={(e) => onMutationIdChange(e.target.value)}
+          onChange={(e) => onMutationIdChange(e.target.value,loggedInAccountId)}
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
