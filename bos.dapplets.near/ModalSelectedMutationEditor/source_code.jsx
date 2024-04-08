@@ -309,7 +309,7 @@ return (
         <CloseIcon />
       </Close>
     </HeaderEditor>
-    {state.textSave === "Fork" && loggedInAccountId ? (
+    {!isUserOwner ? (
       <Input
         onChange={(e) => onMutationIdChange(e.target.value)}
         placeholder={"Enter Mutation ID"}
