@@ -254,7 +254,7 @@ const arrow = (
     />
   </svg>
 );
-console.log(context.accountId);
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -267,7 +267,7 @@ return (
     </HeaderEditor>
     {state.textSave === "Fork" && context.accountId ? (
       <Input
-        onChange={() => props.handleEditMutationId(e, context.accountId)}
+        onChange={(e) => props.handleEditMutationId(e, context.accountId)}
         placeholder={"enter id mutation"}
         value={props.selectedMutation.id ? props.selectedMutation.id : ""}
       />
