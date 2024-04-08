@@ -61,33 +61,31 @@ const TecherPossibilities = {
       },
     });
   },
+  getStudent: (pageNumber, pageSize) => {
+    // Рассчитываем начальный и конечный индексы для пагинации
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    let studentArray = [];
+    let arreyWhitIndexForAddStudent = [];
+    let heashForDeletnumb = {};
 
-  addStudent: () => {
-    const newStudent = state.addNewStudent;
+    for (let i = startIndex; i < endIndex; i++) {
+      const student = Social.get(`${state.accountId}/mystudents/${i}`);
+      if (student) {
+        studentArray.push(student);
+        heashForDeletnumb[student] = i;
+      } else {
+        arreyWhitIndexForAddStudent.push(i);
+      }
+    }
 
-    const updatedStudentArray = [...state.studentArray, newStudent];
     State.update({
-      studentArray: updatedStudentArray,
-    });
-
-    Social.set({
-      [`${state.accountId}/students/${newStudent}`]: {
-        name: newStudent,
-      },
+      studentArray: studentArray,
+      arreyWhitIndexForAddStudent: arreyWhitIndexForAddStudent,
+      heashForDeletnumb: heashForDeletnumb,
     });
   },
-
-  getStudent: () => {
-    const myStudents = Social.get(`${state.accountId}/students`);
-
-    State.update({
-      studentArray: myStudents || [],
-    });
-  },
-
   updateDiscription: (student) => {
-    State.update({ updatingDescription: true });
-
     Near.call([
       {
         contractName: "social.near",
@@ -104,24 +102,9 @@ const TecherPossibilities = {
         deposit: 1,
         gas: Big(10).pow(12).mul(50),
       },
-    ])
-      .then(() => {
-        TecherPossibilities.getStudent(1, 10);
-        State.update({ updatingDescription: false });
-      })
-      .catch((error) => {
-        console.error("Error updating description:", error);
-
-        State.update({
-          updatingDescription: false,
-          errorUpdatingDescription: true,
-        });
-      });
+    ]);
   },
-
   deleteStudent: (student) => {
-    State.update({ deletingStudent: true });
-
     const indexForDeleteNumb = state.heashForDeletnumb[student];
     Social.set({
       mystudents: {
@@ -130,16 +113,62 @@ const TecherPossibilities = {
       myStudentsForFind: {
         [student]: false,
       },
-    })
-      .then(() => {
-        TecherPossibilities.getStudent(1, 10);
-        State.update({ deletingStudent: false });
-      })
-      .catch((error) => {
-        console.error("Error deleting student:", error);
-
-        State.update({ deletingStudent: false, errorDeletingStudent: true });
+    });
+  },
+  addStudent: () => {
+    const newStudent = state.addNewStudent;
+    const ifAlreadyHaveStudent = Social.get(
+      `${state.accountId}/myStudentsForFind/${newStudent}`
+    );
+    const sliceForVerification = newStudent.slice(
+      newStudent.length - 5,
+      newStudent.length
+    );
+    if (sliceForVerification == ".near" && ifAlreadyHaveStudent != `true`) {
+      let indexForAddStudent = 0;
+      if (
+        state.studentArray.length > 0 &&
+        state.arreyWhitIndexForAddStudent.length > 0
+      ) {
+        indexForAddStudent = state.arreyWhitIndexForAddStudent[0];
+      } else if (
+        state.studentArray.length > 0 &&
+        state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        while (state.arreyWhitIndexForAddStudent.length == 0) {
+          const student = Social.get(
+            `${state.accountId}/mystudents/${indexForAddStudent}`
+          );
+          if (!student) {
+            State.update({
+              arreyWhitIndexForAddStudent: student,
+            });
+            break;
+          }
+          indexForAddStudent++;
+        }
+      } else if (
+        state.studentArray.length == 0 &&
+        !state.arreyWhitIndexForAddStudent.length == 0
+      ) {
+        indexForAddStudent = 0;
+      }
+      Social.set({
+        mystudents: {
+          [indexForAddStudent]: state.addNewStudent,
+        },
+        myStudentsForFind: {
+          [newStudent]: true,
+        },
       });
+      State.update({
+        ifAddStudent: true,
+      });
+    } else {
+      State.update({
+        ifAddStudent: false,
+      });
+    }
   },
 };
 
@@ -210,7 +239,7 @@ const appTheme = {
     return colors;
   },
   fontSizes: {
-    h1: "1.25em",
+    h1: "2em",
     h2: "2em",
     h3: "1.75em",
     h4: "1.5em",
@@ -268,7 +297,8 @@ const GlobalContainer = styled.div`
   font-family: 'Manrope', sans-serif;
   margin: auto;
   padding: 2rem; 
-   
+  height: 100vh;
+  width: 100%;
   background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
   display: flex;
   flex-direction: column;
@@ -329,7 +359,7 @@ const FloatingButton = styled.button`
   font-family: 'Inter', sans-serif;
   position: fixed;
   bottom: 50px;
-  right: 100px;
+  right: 150px;
   background-color: #000;
   color: #fff;
   border: none;
@@ -484,14 +514,18 @@ const pages = {
                   <div>
                     <Button
                       onClick={() => {
-                        TecherPossibilities.updateDiscription(student);
+                        TecherPossibilities.updateDiscription(
+                          state.vrifyOurStudent
+                        );
                       }}
                     >
                       Edit
                     </Button>
                     <Button
                       onClick={() => {
-                        TecherPossibilities.deleteStudent(student);
+                        TecherPossibilities.deleteStudent(
+                          state.vrifyOurStudent
+                        );
                       }}
                     >
                       Delete
