@@ -259,18 +259,20 @@ return (
     <HeaderEditor>
       <Input
         onChange={props.handleEditMutationName}
-        value={
-          props.mutationName ? props.mutationName + iconEdit : "" + iconEdit
-        }
+        value={props.mutationName ? props.mutationName : ""}
       />
+      {iconEdit}
       <Close onClick={props.onClose}> {closeIcon}</Close>
     </HeaderEditor>
     {state.textSave === "Fork" ? (
-      <Input
-        onChange={props.handleEditMutationId}
-        placeholder={"enter id mutation"}
-        value={props.selectedMutation.id ? props.selectedMutation.id : ""}
-      />
+      <>
+        <Input
+          onChange={props.handleEditMutationId}
+          placeholder={"enter id mutation"}
+          value={props.selectedMutation.id ? props.selectedMutation.id : ""}
+        />
+        {iconEdit}
+      </>
     ) : null}
     <div
       style={{
