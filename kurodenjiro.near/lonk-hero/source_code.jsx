@@ -157,7 +157,7 @@ return (
         </div>
       </div>
     </div>
-    <Widget src="louisdevzz.near/widget/Lonk.stake" props={{ accountId }} />
+
     <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="about">
