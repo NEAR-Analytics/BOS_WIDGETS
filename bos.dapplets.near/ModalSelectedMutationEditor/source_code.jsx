@@ -357,7 +357,7 @@ return (
         Revert changes
       </ButtonsRevert>
       <ButtonsSave>
-        {isUserOwner ? (
+        {isUserOwner && !isVisibleInputId ? (
           <TextSave onClick={onMutationEdit}>Publish</TextSave>
         ) : (
           <TextSave onClick={onMutationCreate}>Fork</TextSave>
@@ -370,7 +370,7 @@ return (
         </ArrowWrapper>
         {state.isSaveDropdownOpened ? (
           <SaveChanges>
-            {isUserOwner && !isVisibleInputId  ? (
+            {isUserOwner && !isVisibleInputId ? (
               <SaveChangesItem onClick={handlePublishButtonClick}>
                 Publish
               </SaveChangesItem>
