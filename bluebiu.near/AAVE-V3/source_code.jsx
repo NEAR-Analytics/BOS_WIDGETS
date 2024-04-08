@@ -93,7 +93,7 @@ function gasEstimation(action) {
   return getGasPrice()
     .then((gasPrice) => {
       const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
-      console.log("gasPrice--", gasPrice);
+      // console.log("gasPrice--", gasPrice);
       return Big(gasPrice.toString())
         .mul(gasLimit)
         .div(Big(10).pow(decimals))
@@ -230,10 +230,24 @@ function formatHealthFactor(healthFactor) {
 }
 
 function calcHealthFactor(type, symbol, amount) {
+  if (
+    !isValid(state.yourTotalCollateral) ||
+    !isValid(state.yourTotalBorrow) ||
+    !isValid(amount)
+  )
+    return "-";
   let newHealthFactor;
   let totalCollateral = Big(state.yourTotalCollateral);
   let totalBorrows = Big(state.yourTotalBorrow);
-  console.log("calcHealthFactor--", type, symbol, amount, prices[symbol]);
+  console.log(
+    "calcHealthFactor--",
+    totalCollateral.toString(),
+    totalBorrows.toString(),
+    type,
+    symbol,
+    amount,
+    prices[symbol]
+  );
 
   const assetsUSD = Big(prices[symbol]).times(Big(amount));
   if (type === "SUPPLY") {
@@ -1004,15 +1018,19 @@ function getAllUserRewards() {
   rewardsProvider
     .getAllUserRewards(addrs, account)
     .then((res) => {
-      console.log(
-        "getAllUserRewards_res:",
-        res,
-        ethers.utils.formatUnits(res[1][1])
-      );
-      const _amount = ethers.utils.formatUnits(res[1][1]);
-      State.update({
-        rewardsAmount: _amount,
-      });
+      try {
+        console.log(
+          "getAllUserRewards_res:",
+          res,
+          ethers.utils.formatUnits(res[1][1])
+        );
+        const _amount = ethers.utils.formatUnits(res[1][1]);
+        State.update({
+          rewardsAmount: _amount,
+        });
+      } catch (error) {
+        console.log("catch_getAllUserRewards_error", error);
+      }
     })
     .catch((err) => {
       console.log("getAllUserRewards_error:", err);
@@ -1154,6 +1172,7 @@ useEffect(() => {
         "_supplyAPY--",
         _supplyAPY,
         _assetsToSupply,
+        i,
         _assetsToSupply[i]
       );
 
@@ -1501,7 +1520,10 @@ const body = isChainSupported ? (
                 withdrawERC20Gas,
                 account,
                 prices,
+                threshold: state.threshold,
                 maxWithdrawBalanceUSD: state.maxWithdrawBalanceUSD,
+                yourTotalCollateral: state.yourTotalCollateral,
+                yourTotalBorrow: state.yourTotalBorrow,
                 theme: dexConfig?.theme,
               }}
             />
