@@ -10,6 +10,7 @@ const {
   onMutationCreate,
   onMutationEdit,
   onMutationIdChange,
+  isRevertDisable,
 } = props;
 
 // ToDo: check null props
@@ -81,7 +82,7 @@ const ButtonsBlock = styled.div`
   align-items: center;
 `;
 
-const ButtonsRevert = styled.div`
+const ButtonsRevert = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,6 +98,10 @@ const ButtonsRevert = styled.div`
   cursor: pointer;
   &:hover {
     opacity: 0.5;
+  }
+  &:disable {
+    cursor: auto;
+    opacity: 1;
   }
 `;
 
@@ -330,23 +335,25 @@ return (
     <AppsList>
       {allApps && allApps.length
         ? allApps.map((app, i) => (
-          <Widget
-            key={i}
-            src="bos.dapplets.near/widget/ApplicationCard"
-            props={{
-              src: app.id,
-              metadata: app.metadata,
-              hideButtons: !loggedInAccountId,
-              selectedApps:
-                selectedApps && selectedApps.filter((x) => x === app.id)[0],
-              handleEditMutationApps: onMutationAppsChange,
-            }}
-          />
-        ))
+            <Widget
+              key={i}
+              src="bos.dapplets.near/widget/ApplicationCard"
+              props={{
+                src: app.id,
+                metadata: app.metadata,
+                hideButtons: !loggedInAccountId,
+                selectedApps:
+                  selectedApps && selectedApps.filter((x) => x === app.id)[0],
+                handleEditMutationApps: onMutationAppsChange,
+              }}
+            />
+          ))
         : null}
     </AppsList>
     <ButtonsBlock>
-      <ButtonsRevert onClick={onMutationReset}>Revert changes</ButtonsRevert>
+      <ButtonsRevert disabled={isRevertDisable} onClick={onMutationReset}>
+        Revert changes
+      </ButtonsRevert>
       <ButtonsSave>
         {isUserOwner ? (
           <TextSave onClick={onMutationEdit}>Publish</TextSave>
