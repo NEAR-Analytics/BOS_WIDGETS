@@ -267,13 +267,9 @@ return (
     </HeaderEditor>
     {state.textSave === "Fork" && context.accountId ? (
       <Input
-        onChange={(e) => props.handleEditMutationId(e, context.accountId)}
+        onChange={(e) => props.handleEditMutationId(e, mutationId)}
         placeholder={"enter id mutation"}
-        value={
-          props.selectedMutation.id
-            ? props.selectedMutation.id
-            : mutationId + ""
-        }
+        value={props.selectedMutation.id ? props.selectedMutation.id : ""}
       />
     ) : null}
     <div
