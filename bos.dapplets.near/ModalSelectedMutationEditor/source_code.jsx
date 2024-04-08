@@ -99,7 +99,7 @@ const ButtonsRevert = styled.button`
   &:hover {
     opacity: 0.5;
   }
-  &:disable {
+  &:disabled {
     cursor: auto;
     opacity: 1;
   }
