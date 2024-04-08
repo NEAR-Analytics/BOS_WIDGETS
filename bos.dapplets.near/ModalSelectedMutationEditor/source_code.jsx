@@ -265,9 +265,9 @@ return (
 
       <Close onClick={props.onClose}> {closeIcon}</Close>
     </HeaderEditor>
-    {state.textSave === "Fork" ? (
+    {state.textSave === "Fork" && context.accountId ? (
       <Input
-        onChange={props.handleEditMutationId}
+        onChange={() => props.handleEditMutationId(e, context.accountId)}
         placeholder={"enter id mutation"}
         value={props.selectedMutation.id ? props.selectedMutation.id : ""}
       />
