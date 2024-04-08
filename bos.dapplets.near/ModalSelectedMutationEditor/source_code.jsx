@@ -326,9 +326,11 @@ return (
     {!isUserOwner || isVisibleInputId ? (
       <HeaderEditor>
         <Input
-          onChange={(e) =>
-            onMutationIdChange(e.target.value, loggedInAccountId)
-          }
+          onChange={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onMutationIdChange(e.target.value, loggedInAccountId);
+          }}
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
