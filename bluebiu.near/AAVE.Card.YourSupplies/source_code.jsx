@@ -13,7 +13,7 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   account,
-  maxWithdrawBalanceUSD,
+
   threshold,
   prices,
   theme,
@@ -124,7 +124,6 @@ return (
           calcHealthFactor,
           account,
           prices,
-          maxWithdrawBalanceUSD,
           yourTotalBorrow,
           yourTotalCollateral,
           threshold,
