@@ -490,200 +490,198 @@ const changeValue = (value) => {
 };
 
 return (
-  <>
-    <Widget
-      src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
-      props={{
-        title: `Supply ${symbol}`,
-        onRequestClose: onRequestClose,
-        children: (
-          <WithdrawContainer>
+  <Widget
+    src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
+    props={{
+      title: `Supply ${symbol}`,
+      onRequestClose: onRequestClose,
+      children: (
+        <WithdrawContainer>
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+            props={{
+              title: "Amount",
+              config,
+              children: (
+                <>
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: (
+                        <TokenTexture>
+                          <Input
+                            type="number"
+                            value={state.amount}
+                            onChange={(e) => {
+                              changeValue(e.target.value);
+                            }}
+                            placeholder="0"
+                          />
+                        </TokenTexture>
+                      ),
+                      right: (
+                        <TokenWrapper>
+                          <img width={26} height={26} src={data?.icon} />
+                          <TokenTexture>{symbol}</TokenTexture>
+                        </TokenWrapper>
+                      ),
+                    }}
+                  />
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
+                      right: (
+                        <GrayTexture>
+                          Wallet Balance:{" "}
+                          {isValid(balance) && balance !== "-"
+                            ? Big(balance).toFixed(7)
+                            : balance}
+                          <Max
+                            onClick={() => {
+                              changeValue(maxValue);
+                            }}
+                          >
+                            MAX
+                          </Max>
+                        </GrayTexture>
+                      ),
+                    }}
+                  />
+                </>
+              ),
+            }}
+          />
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+            props={{
+              title: "Transaction Overview",
+              config,
+              children: (
+                <TransactionOverviewContainer>
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Supply APY</PurpleTexture>,
+                      right: (
+                        <WhiteTexture>
+                          {(Number(supplyAPY) * 100).toFixed(2)}%
+                        </WhiteTexture>
+                      ),
+                    }}
+                  />
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Collateralization</PurpleTexture>,
+                      right: usageAsCollateralEnabled ? (
+                        <GreenTexture>Enabled</GreenTexture>
+                      ) : (
+                        <RedTexture>Disabled</RedTexture>
+                      ),
+                    }}
+                  />
+                  {hasHF ? (
+                    <Widget
+                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                      props={{
+                        left: <PurpleTexture>Health Factor</PurpleTexture>,
+                        right: (
+                          <div style={{ textAlign: "right" }}>
+                            <GreenTexture>
+                              {healthFactor}
+                              <img
+                                src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                                width={16}
+                                height={16}
+                              />{" "}
+                              {state.newHealthFactor}
+                            </GreenTexture>
+                            <WhiteTexture>
+                              Liquidation at &lt;{" "}
+                              {config.FIXED_LIQUIDATION_VALUE}
+                            </WhiteTexture>
+                          </div>
+                        ),
+                      }}
+                    />
+                  ) : null}
+                </TransactionOverviewContainer>
+              ),
+            }}
+          />
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.GasEstimation`}
+            props={{ gas: state.gas, config }}
+          />
+          {state.needApprove && (
             <Widget
-              src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
               props={{
-                title: "Amount",
                 config,
-                children: (
-                  <>
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: (
-                          <TokenTexture>
-                            <Input
-                              type="number"
-                              value={state.amount}
-                              onChange={(e) => {
-                                changeValue(e.target.value);
-                              }}
-                              placeholder="0"
-                            />
-                          </TokenTexture>
-                        ),
-                        right: (
-                          <TokenWrapper>
-                            <img width={26} height={26} src={data?.icon} />
-                            <TokenTexture>{symbol}</TokenTexture>
-                          </TokenWrapper>
-                        ),
-                      }}
-                    />
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <GrayTexture>${state.amountInUSD}</GrayTexture>,
-                        right: (
-                          <GrayTexture>
-                            Wallet Balance:{" "}
-                            {isValid(balance) && balance !== "-"
-                              ? Big(balance).toFixed(7)
-                              : balance}
-                            <Max
-                              onClick={() => {
-                                changeValue(maxValue);
-                              }}
-                            >
-                              MAX
-                            </Max>
-                          </GrayTexture>
-                        ),
-                      }}
-                    />
-                  </>
-                ),
+                theme,
+                loading: state.loading,
+                children: `Approve ${symbol}`,
+                disabled,
+                onClick: () => {
+                  State.update({
+                    loading: true,
+                  });
+                  const amount = Big(state.amount)
+                    .mul(Big(10).pow(decimals))
+                    .toFixed(0);
+                  approve(amount)
+                    .then((tx) => {
+                      tx.wait()
+                        .then((res) => {
+                          const { status } = res;
+                          if (status === 1) {
+                            console.log("tx succeeded", res);
+                            State.update({
+                              needApprove: false,
+                              loading: false,
+                            });
+                          } else {
+                            console.log("tx failed", res);
+                            State.update({
+                              loading: false,
+                            });
+                          }
+                        })
+                        .catch(() => State.update({ loading: false }));
+                    })
+                    .catch(() => State.update({ loading: false }));
+                },
               }}
             />
+          )}
+          {!state.needApprove && (
             <Widget
-              src={`${config.ownerId}/widget/AAVE.Modal.RoundedCard`}
+              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
               props={{
-                title: "Transaction Overview",
                 config,
-                children: (
-                  <TransactionOverviewContainer>
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <PurpleTexture>Supply APY</PurpleTexture>,
-                        right: (
-                          <WhiteTexture>
-                            {(Number(supplyAPY) * 100).toFixed(2)}%
-                          </WhiteTexture>
-                        ),
-                      }}
-                    />
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <PurpleTexture>Collateralization</PurpleTexture>,
-                        right: usageAsCollateralEnabled ? (
-                          <GreenTexture>Enabled</GreenTexture>
-                        ) : (
-                          <RedTexture>Disabled</RedTexture>
-                        ),
-                      }}
-                    />
-                    {hasHF ? (
-                      <Widget
-                        src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                        props={{
-                          left: <PurpleTexture>Health Factor</PurpleTexture>,
-                          right: (
-                            <div style={{ textAlign: "right" }}>
-                              <GreenTexture>
-                                {healthFactor}
-                                <img
-                                  src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
-                                  width={16}
-                                  height={16}
-                                />{" "}
-                                {state.newHealthFactor}
-                              </GreenTexture>
-                              <WhiteTexture>
-                                Liquidation at &lt;{" "}
-                                {config.FIXED_LIQUIDATION_VALUE}
-                              </WhiteTexture>
-                            </div>
-                          ),
-                        }}
-                      />
-                    ) : null}
-                  </TransactionOverviewContainer>
-                ),
+                theme,
+                children: `Supply ${symbol}`,
+                loading: state.loading,
+                disabled,
+                onClick: () => {
+                  const amount = Big(state.amount)
+                    .mul(Big(10).pow(decimals))
+                    .toFixed(0);
+                  if (symbol === config.nativeCurrency.symbol) {
+                    // supply eth
+                    depositETH(amount);
+                  } else {
+                    // supply common
+                    depositErc20(amount);
+                  }
+                },
               }}
             />
-            <Widget
-              src={`${config.ownerId}/widget/AAVE.GasEstimation`}
-              props={{ gas: state.gas, config }}
-            />
-            {state.needApprove && (
-              <Widget
-                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                props={{
-                  config,
-                  theme,
-                  loading: state.loading,
-                  children: `Approve ${symbol}`,
-                  disabled,
-                  onClick: () => {
-                    State.update({
-                      loading: true,
-                    });
-                    const amount = Big(state.amount)
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    approve(amount)
-                      .then((tx) => {
-                        tx.wait()
-                          .then((res) => {
-                            const { status } = res;
-                            if (status === 1) {
-                              console.log("tx succeeded", res);
-                              State.update({
-                                needApprove: false,
-                                loading: false,
-                              });
-                            } else {
-                              console.log("tx failed", res);
-                              State.update({
-                                loading: false,
-                              });
-                            }
-                          })
-                          .catch(() => State.update({ loading: false }));
-                      })
-                      .catch(() => State.update({ loading: false }));
-                  },
-                }}
-              />
-            )}
-            {!state.needApprove && (
-              <Widget
-                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-                props={{
-                  config,
-                  theme,
-                  children: `Supply ${symbol}`,
-                  loading: state.loading,
-                  disabled,
-                  onClick: () => {
-                    const amount = Big(state.amount)
-                      .mul(Big(10).pow(decimals))
-                      .toFixed(0);
-                    if (symbol === config.nativeCurrency.symbol) {
-                      // supply eth
-                      depositETH(amount);
-                    } else {
-                      // supply common
-                      depositErc20(amount);
-                    }
-                  },
-                }}
-              />
-            )}
-          </WithdrawContainer>
-        ),
-        config,
-      }}
-    />
-  </>
+          )}
+        </WithdrawContainer>
+      ),
+      config,
+    }}
+  />
 );
