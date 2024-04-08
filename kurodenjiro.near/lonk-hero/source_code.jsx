@@ -28,7 +28,7 @@ const Content = styled.div`
     font-size:1.2rem;
 `;
 const accountId = context.accountId;
-const [select, setSelect] = useState("");
+State.init({ select: "" });
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -45,7 +45,7 @@ return (
             <div class="button-swap">
               <div class="item">
                 <button
-                  onClick={() => setSelect("ref")}
+                  onClick={() => State.update({ select: "ref" })}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -60,7 +60,7 @@ return (
                   <img src={config.image6} class="image" width="186" />
                 </button>
                 <button
-                  onClick={() => setSelect("veax")}
+                  onClick={() => State.update({ select: "veax" })}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -191,7 +191,7 @@ return (
       </div>
     </div>
     {accountId ? (
-      select == "ref" ? (
+      state.select == "ref" ? (
         <div
           class="modal fade"
           id="exampleModal"
