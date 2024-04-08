@@ -10,6 +10,7 @@ const parametersSave =
   context.accountId && accountId === context.accountId
     ? ["Publish", "Fork"]
     : ["Fork"];
+
 const SelectedMutationEditorWrapper = styled.div`
 display: flex;
 flex-direction: column;
@@ -253,7 +254,7 @@ const arrow = (
     />
   </svg>
 );
-
+console.log(context.accountId);
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
