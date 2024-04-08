@@ -2,6 +2,8 @@ const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 const permissions = props.permissions;
 
+console.log({ accounts: props.accounts });
+
 const index = [
   {
     action: "post",
@@ -164,8 +166,10 @@ const renderRepost = (a) => {
   );
 };
 
-const renderItem = (item) =>
-  item.action === "post" ? renderPost(item) : renderRepost(item);
+const renderItem = (item) => {
+  console.log({ action: item.action });
+  return item.action === "post" ? renderPost(item) : renderRepost(item);
+};
 
 return (
   <Widget
