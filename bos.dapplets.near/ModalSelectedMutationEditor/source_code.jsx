@@ -370,7 +370,7 @@ return (
         </ArrowWrapper>
         {state.isSaveDropdownOpened ? (
           <SaveChanges>
-            {isUserOwner ? (
+            {isUserOwner && !isVisibleInputId  ? (
               <SaveChangesItem onClick={handlePublishButtonClick}>
                 Publish
               </SaveChangesItem>
