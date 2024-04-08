@@ -221,10 +221,9 @@ return (
                 Get some $LONK bruv
               </p>
               <p>
-                <button
+                <a
                   type="button"
-                  data-bs-toggle="modal"
-                  data-bs-target="#buyModal"
+                  href="https://app.ref.finance/#near|token.lonkingnearbackto2024.near"
                   style={{
                     padding: "10px 20px",
                     height: "60px",
@@ -234,7 +233,7 @@ return (
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img src={config.image6} width="186" />
-                </button>{" "}
+                </a>{" "}
               </p>
             </div>
           </Content>
