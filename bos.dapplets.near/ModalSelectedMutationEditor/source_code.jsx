@@ -156,7 +156,7 @@ const SaveChanges = styled.div`
   flex-direction: column;
   right: 0;
   top: 52px;
-  width: 179px;
+  width: 175px;
   max-height: 112px;
   padding: 10px;
   gap: 10px;
@@ -173,7 +173,7 @@ const SaveChangesItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 159px;
+  width: 100%;
   height: 41px;
   border-radius: 4px;
   cursor: pointer;
