@@ -254,7 +254,7 @@ const arrow = (
     />
   </svg>
 );
-const mutationId = `${accountId}/mutation/`;
+const mutationId = `${context.accountId}/mutation/`;
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
