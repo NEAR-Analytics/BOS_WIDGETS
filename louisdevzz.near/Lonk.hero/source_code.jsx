@@ -26,14 +26,16 @@ const fondKod = fetch(
   "https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
 ).body;
 const Content = styled.div`
-    ${fondKod}
-    color:#fff;
-    font-family: Kodchasan,sans-serif;
-    font-size:1.2rem;
-`;
+      ${fondKod}
+      color:#fff;
+      font-family: Kodchasan,sans-serif;
+      font-size:1.2rem;
+  `;
 const accountId = context.accountId;
-const [select, setSelect] = useState("");
-const [isShow, setIsShow] = useState(false);
+State.init({
+  select: "",
+  isShow: false,
+});
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -51,8 +53,7 @@ return (
               <div class="item">
                 <button
                   onClick={() => {
-                    setSelect("ref");
-                    setIsShow(true);
+                    State.update({ select: "ref", isShow: true });
                   }}
                   type="button"
                   data-bs-toggle="modal"
@@ -69,8 +70,7 @@ return (
                 </button>
                 <button
                   onClick={() => {
-                    setSelect("veax");
-                    setIsShow(true);
+                    State.update({ select: "veax", isShow: true });
                   }}
                   type="button"
                   data-bs-toggle="modal"
@@ -204,8 +204,8 @@ return (
         </div>
       </div>
     </div>
-    {accountId && isShow ? (
-      select == "ref" ? (
+    {accountId && state.isShow ? (
+      state.select == "ref" ? (
         <div
           class="modal fade"
           id="exampleModal"
