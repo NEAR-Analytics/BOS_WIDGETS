@@ -157,7 +157,7 @@ return (
         </div>
       </div>
     </div>
-
+    <Widget src="louisdevzz.near/widget/Lonk.stake" props={{ accountId }} />
     <div class="green-bg mt-2 font-md-bigger py-4 py-lg-5" id="about">
       <div class="container">
         <div class="about">
@@ -219,9 +219,7 @@ return (
               <div
                 style={{ background: "#182733" }}
                 class="modal-body d-flex justify-content-center align-items-center"
-              >
-                <Widget src="kurodenjiro.near/widget/ref-swap" />
-              </div>
+              ></div>
             </div>
           </div>
         </div>
@@ -253,9 +251,7 @@ return (
               <div
                 style={{ background: "#282828" }}
                 class="d-flex justify-content-center align-items-center"
-              >
-                <Widget src="louisdevzz.near/widget/Lonk.veax-swap" />
-              </div>
+              ></div>
             </div>
           </div>
         </div>
