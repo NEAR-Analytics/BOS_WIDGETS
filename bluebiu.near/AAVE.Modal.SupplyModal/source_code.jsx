@@ -29,7 +29,7 @@ function isValid(a) {
 const {
   symbol,
   balance,
-  marketReferencePriceInUsd,
+  tokenPrice,
   supplyAPY,
   usageAsCollateralEnabled,
   decimals,
@@ -473,9 +473,7 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    const amountInUSD = Big(value)
-      .mul(marketReferencePriceInUsd)
-      .toFixed(2, ROUND_DOWN);
+    const amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
     State.update({
       amountInUSD,
     });
