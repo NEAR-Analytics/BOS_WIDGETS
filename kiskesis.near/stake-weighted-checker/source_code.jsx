@@ -1,123 +1,73 @@
-const Input = styled.input`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.5em 0.75em;
-  gap: 0.5em;
-  background: #ffffff;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 4px;
-  width: 100%;
-`;
+const font = fetch(
+  "https://fonts.googleapis.com/css2?family=Kodchasan:wght@700&display=swap"
+).body;
 
-const LabelArea = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.25em;
-  margin-bottom: 0.5em;
-  flex-wrap: wrap;
-`;
-
-const Error = styled.small`
-  color: red;
-`;
-
-const CodeSnippet = styled.div`
-  font-family: monospace;
-  white-space: pre-wrap;
-  margin: 0;
-`;
-
-const CardContainer = styled.div`
-  background-color: #ffebee; /* Soft red color */
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  margin: 20px auto;
-`;
-
-const Message = styled.p`
-  color: #b71c1c; /* Darker red color for emphasis */
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
-const Link = styled.a`
-  color: #b71c1c; /* Darker red color for emphasis */
-  text-decoration: underline;
-  cursor: pointer;
-`;
+const Container = useMemo(
+  () => styled.div`
+  ${font}
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px;
+  padding-right: 15px;
+  padding-left: 15px;
+  
+  & * {
+    font-family: 'Kodchasan', sans-serif;
+  }
+`,
+  [font]
+);
 
 const wallet = props.wallet_id || context.accountId;
 
-State.init({
-  valid: true,
-  accountId: wallet,
-  errorMessage: <></>,
-  votingPower: null,
-  voterInfo: null,
-});
+const [accountId, setAccountId] = useState(wallet || "");
+const [valid, setValid] = useState(true);
+const [errorMessage, setErrorMessage] = useState("");
+const [votingPower, setVotingPower] = useState(null);
+const [voterInfo, setVoterInfo] = useState(null);
+const [totalUsers, setTotalUsers] = useState(null);
 
 const validate = (accountId) => {
+  console.log("accountId", accountId);
   const accountIdRegex =
     /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
+  setAccountId(accountId);
 
   if (typeof accountId !== "string") {
-    State.update({
-      accountId: "",
-      valid: false,
-      errorMessage: "Account ID must be a text value!",
-    });
+    setValid(false);
+    setErrorMessage("Account ID must be a text value!");
     return;
   }
 
   if (accountId.length < 2) {
-    State.update({
-      accountId: "",
-      valid: false,
-      errorMessage: "Account ID must be at least 2 characters long!",
-    });
+    setValid(false);
+    setErrorMessage("Account ID must be at least 2 characters long!");
+
     return;
   }
 
   if (accountId.length > 64) {
-    State.update({
-      accountId: "",
-      valid: false,
-      errorMessage: "Account ID must be at most 64 characters long!",
-    });
+    setValid(false);
+    setErrorMessage("Account ID must be at most 64 characters long!");
+
     return;
   }
 
   if (!accountIdRegex.test(accountId)) {
-    State.update({
-      accountId: "",
-      valid: false,
-      errorMessage: (
-        <>
-          Account ID must follow the rules specified{" "}
-          <a href="https://nomicon.io/DataStructures/Account#account-id-rules">
-            here
-          </a>
-          and ends on .near!
-        </>
-      ),
-    });
+    setValid(false);
+    setErrorMessage(
+      "Account ID must follow the specified rules and end with .near!"
+    );
+
     return;
   }
 
-  State.update({ valid: true, errorMessage: "", accountId });
+  setValid(true);
+  setErrorMessage("");
 };
 
-const accountId = props.accountId ?? "Login with NEAR Wallet";
-
-const getVotingPower = (accountId) => {
-  const votingPower = asyncFetch("https://rpc.testnet.near.org", {
+const fetchData = (method, params, callback) => {
+  return asyncFetch("https://rpc.testnet.near.org", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -127,56 +77,57 @@ const getVotingPower = (accountId) => {
       method: "query",
       jsonrpc: "2.0",
       params: {
-        request_type: "call_function",
-        finality: "final",
+        ...params,
+        request_type: method,
         account_id: "snapshot-test.testnet",
-        method_name: "get_vote_power",
-        args_base64: btoa(JSON.stringify({ voter: `${accountId}` })),
+        finality: "final",
       },
     }),
   }).then((res) => {
-    State.update({
-      votingPower: String.fromCharCode(...res.body.result.result),
-    });
-  });
-
-  const voterInfo = asyncFetch("https://rpc.testnet.near.org", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: "dontcare",
-      method: "query",
-      jsonrpc: "2.0",
-      params: {
-        request_type: "call_function",
-        finality: "final",
-        account_id: "snapshot-test.testnet",
-        method_name: "get_eligible_voter_info",
-        args_base64: btoa(JSON.stringify({ account_id: `${accountId}` })),
-      },
-    }),
-  }).then((res) => {
-    State.update({
-      voterInfo: JSON.parse(String.fromCharCode(...res.body.result.result)),
-    });
+    callback(res.body);
   });
 };
 
-const Card = ({ children, className }) => {
-  return (
-    <div
-      className={`card ${className}`}
-      style={{ maxWidth: "800px", padding: "2px" }}
-    >
-      <div className="card-body p-2">{children}</div>
-    </div>
+useEffect(() => {
+  fetchData(
+    "call_function",
+    {
+      method_name: "get_total_eligible_users",
+      args_base64: btoa({}),
+    },
+    (res) => {
+      setTotalUsers(JSON.parse(String.fromCharCode(...res.result.result)));
+    }
   );
-};
+}, []);
 
-const CardTitle = ({ children, className }) => {
-  return <p className={`card-title ${className}`}>{children}</p>;
+const getVotingPower = () => {
+  fetchData(
+    "call_function",
+    {
+      method_name: "get_vote_power",
+      args_base64: btoa(JSON.stringify({ voter: accountId })),
+    },
+    (res) => {
+      console.log("res", res);
+      console.log(
+        "String.fromCharCode(...res.result.result)",
+        String.fromCharCode(...res.result.result)
+      );
+      setVotingPower(String.fromCharCode(...res.result.result));
+    }
+  );
+
+  fetchData(
+    "call_function",
+    {
+      method_name: "get_eligible_voter_info",
+      args_base64: btoa(JSON.stringify({ account_id: accountId })),
+    },
+    (res) => {
+      setVoterInfo(JSON.parse(String.fromCharCode(...res.result.result)));
+    }
+  );
 };
 
 const codeSnippet = `stakepower = if stake > 1000 (configurable) 
@@ -189,94 +140,88 @@ activity_power = 20 * active_months
 result = stake_power + activity_power`;
 
 return (
-  <div className="d-flex flex-column align-items-center p-4">
-    <h1>Check your voting power for NDC Stake-Weighted mechanism</h1>
-    <CardContainer>
-      <Message>
+  <Container className="custom-container">
+    <h1 className="mb-4 text-center">
+      Check your voting power for the NDC Stake-Weighted mechanism
+    </h1>
+    <div className="card bg-light p-4 mb-4 text-center">
+      <p>
         Your vote matters! Please take a moment to cast your vote and help shape
         the future of our community.
-      </Message>
+      </p>
       <p>
         Don't forget to{" "}
-        <Link href="https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=voting-body-v1.ndc-gwg.near&proposalId=11">
+        <a
+          href="https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=voting-body-v1.ndc-gwg.near&proposalId=11"
+          className="text-primary"
+        >
           cast your vote
-        </Link>{" "}
-        to support this stake-weighted solution or reject it if you didn't like
+        </a>{" "}
+        to support this stake-weighted solution or reject it if you don't like
         it.
       </p>
-    </CardContainer>
-    <p>
-      Type the account which you want to validate: <br></br>'XXX.near', 'XXX.tg'
-      or hash(64 symbols)
-      <br></br>and click to see your voting power and related info
+    </div>
+    <p className="text-center">
+      Type the account which you want to validate: <br />
+      'XXX.near', 'XXX.tg' or hash(64 symbols)
+      <br />
+      and click to see your voting power and related info
     </p>
-    <LabelArea>
-      <div className="d-flex flex-column justify-content-center align-items-center">
-        <Input
-          id
-          type="text"
-          value={v}
-          placeholder={wallet}
-          onChange={(e) => validate(e.target.value)}
-          className="w-100"
-        />
-        <Error>{state.valid ? <></> : state.errorMessage}</Error>
-      </div>
-    </LabelArea>
-    <button onClick={() => getVotingPower(state.accountId)}>
+    <div className="input-group mb-4 w-100">
+      <input
+        type="text"
+        value={accountId}
+        placeholder={walletId}
+        onChange={(e) => validate(e.target.value)}
+        className="form-control w-100"
+      />
+      {!valid && <small className="text-danger">{errorMessage}</small>}
+    </div>
+    <button className="btn btn-primary mb-4" onClick={getVotingPower}>
       Get Voting Power
     </button>
     <div className="text-center">
-      {state.votingPower && (
+      {votingPower && (
         <div>
-          <b>Voting Power:</b> {state.votingPower}
+          <b>Voting Power:</b> {votingPower}
         </div>
       )}
-      {state.voterInfo && (
+      {voterInfo && (
         <div>
           <div>
-            <b>Active Months:</b> {state.voterInfo.active_months}
+            <b>Active Months:</b> {voterInfo.active_months}
           </div>
           <div>
             <b>Stake:</b>{" "}
-            {(parseFloat(state.voterInfo.stake) / Math.pow(10, 24)).toFixed(2)}{" "}
-            Near
+            {(parseFloat(voterInfo.stake) / Math.pow(10, 24)).toFixed(2)} Near
           </div>
         </div>
       )}
     </div>
-    <Card className="my-4">
-      <CardTitle>Calculation of Voting Power</CardTitle>
-      <pre
-        style={{
-          backgroundColor: "#f3f3f3",
-          padding: "10px",
-          borderRadius: "5px",
-          overflowX: "auto",
-        }}
-      >
-        <CodeSnippet>{codeSnippet}</CodeSnippet>
-      </pre>
-    </Card>
+    <div className="card bg-light p-4 my-4">
+      <p className="mb-0">
+        <b>Calculation of Voting Power</b>
+      </p>
+      <pre className="text-left bg-warning p-4 rounded">{codeSnippet}</pre>
+    </div>
     <div>
       <h4>Explanation of voting power: </h4>
-
-      <ol class="my-4 list-group list-group-numbered">
-        <li class="list-group-item">
-          After the treashold 1000 Near system use quadratic formula
+      <ol className="my-4 list-group list-group-numbered">
+        <li className="list-group-item">
+          After the threshold 1000 Near, the system uses a quadratic formula
         </li>
-        <li class="list-group-item">1000 staked Near - 1000 votes</li>
-        <li class="list-group-item">
-          1001000 (1mil) Near - 1000+sqrt(1000000) = 2000 votes
+        <li className="list-group-item">1000 staked Near - 1000 votes</li>
+        <li className="list-group-item">
+          1001000 (1mil) Near - 1000 + sqrt(1000000) = 2000 votes
         </li>
-        <li class="list-group-item">
-          Additionally, if you ever staked with your account, you can have
-          20*(active onchain months) voting power
+        <li className="list-group-item">
+          Additionally, if you ever staked with your account, you can have{" "}
+          <b>20*(active on-chain months, right now - 42 months)</b> voting power
         </li>
-        <li class="list-group-item">
-          Total is around 150k accounts that can potentially vote
+        <li className="list-group-item">
+          Total is <b>{totalUsers}</b> accounts that can potentially vote
         </li>
-        <li class="list-group-item">
+        <li className="list-group-item">
           Data made from a{" "}
           <a
             href="https://bafybeidy6aerzfcaytshbntccgq6oquopd4q3ftsuaz66bstjfc4vpuwku.ipfs.w3s.link/"
@@ -285,13 +230,13 @@ return (
           >
             snapshot
           </a>{" "}
-          that was made on 17.12.2023
+          that was made on <b>17.12.2023</b>
         </li>
       </ol>
     </div>
     <div>
       <p>
-        <span style={{ fontWeight: "bold" }}>
+        <b>
           Read more about the voting system and how it will be implemented{" "}
           <a
             href="https://hackmd.io/8YBpAi47QN2ceqPLjG68Iw"
@@ -299,7 +244,7 @@ return (
             rel="noopener noreferrer"
           >
             here
-          </a>
+          </a>{" "}
           if you have any questions please ask them{" "}
           <a
             href="https://t.me/ndcopstech"
@@ -308,12 +253,21 @@ return (
           >
             in Ops team telegram chat
           </a>
-        </span>
+        </b>
       </p>
     </div>
-
-    <h1>Some useful analytics:</h1>
-
+    <h1 className="mb-4">Some useful analytics</h1>
+    <div>
+      <h3>Legend:</h3>
+      <ol>
+        <li>0-1 - accounts with a stake from 0-1 Near</li>
+        <li>1-10 - accounts with a stake from 1-10 Near</li>
+        <li>10-100 - accounts with a stake from 10-100 Near</li>
+        <li>100-1000 - accounts with a stake from 100-1000 Near</li>
+        <li>1000-10000 - accounts with a stake from 1000-10000 Near</li>
+        <li>10000+ - accounts with stake more than 1000 Near</li>
+      </ol>
+    </div>
     <Widget
       src="lord1.near/widget/Pie-chart"
       props={{
@@ -343,7 +297,7 @@ return (
           ["10000+", 2886694],
         ],
         chartOption: {
-          title: "Staking Power",
+          title: "Voting Power by Stake distribution",
           type: "donut",
         },
       }}
@@ -360,7 +314,7 @@ return (
           ["10000+", 273968],
         ],
         chartOption: {
-          title: "Activity Power",
+          title: "Voting Power by Activity distribution",
           type: "donut",
         },
       }}
@@ -401,5 +355,21 @@ return (
         },
       }}
     />
-  </div>
+
+    <Widget
+      src="kiskesis.near/widget/my-socials"
+      props={{
+        twitterURL: "https://twitter.com/arugutavo",
+        textOptions: {
+          textColor: "black",
+          text: "Follow",
+        },
+        iconsOptions: {
+          telegram: "black",
+          twitter: "black",
+          nearSocial: "black",
+        },
+      }}
+    />
+  </Container>
 );
