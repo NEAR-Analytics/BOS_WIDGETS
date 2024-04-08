@@ -17,7 +17,7 @@ State.init({
 /* TODO added Wrapper container to reset font-family styles */
 const Wrapper = styled.div`
 * {
-  font-family: 'Inter', 'Space Grotesk' !important;
+  font-family: 'system-ui','Inter', 'Space Grotesk' !important;
 }
 `;
 
