@@ -33,6 +33,7 @@ const Content = styled.div`
 `;
 const accountId = context.accountId;
 const [select, setSelect] = useState("");
+const [isShow, setIsShow] = useState(false);
 return (
   <>
     <div class="intro font-md-bigger py-4 py-lg-5 dragon-background text-uppercase text-center">
@@ -49,7 +50,10 @@ return (
             <div class="button-swap">
               <div class="item">
                 <button
-                  onClick={() => setSelect("ref")}
+                  onClick={() => {
+                    setSelect("ref");
+                    setIsShow(true);
+                  }}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -64,7 +68,10 @@ return (
                   <img src={config.image6} class="image" width="186" />
                 </button>
                 <button
-                  onClick={() => setSelect("veax")}
+                  onClick={() => {
+                    setSelect("veax");
+                    setIsShow(true);
+                  }}
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
@@ -197,7 +204,7 @@ return (
         </div>
       </div>
     </div>
-    {accountId ? (
+    {accountId && isShow ? (
       select == "ref" ? (
         <div
           class="modal fade"
