@@ -339,7 +339,7 @@ return (
     <div className="swap-title">Swap</div>
     {
       <Widget
-        src="weige.near/widget/ref-swap-getEstimate"
+        src="louisdevzz.near/widget/ref-swap-getEstimate"
         props={{
           loadRes: state.loadRes,
           tokenIn: state.tokenIn,
