@@ -221,8 +221,8 @@ const columnList = [{
   render: (data, index) => {
     return (
       <>
-        <TdTxt>{data.liquidity ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
-        {data.balance && <TdTxt className="gray">{data.balance} LP</TdTxt>}
+        <TdTxt>{Big(data?.liquidity ?? 0).gt(0) ? `${formatFiat(data.liquidity)}` : "-"}</TdTxt>
+        {Big(data?.balance ?? 0).gt(0) && <TdTxt className="gray">{data.balance} LP</TdTxt>}
         <SvgIcon className={["icon-right", index === state.dataIndex ? "rotate" : ""]}>
           {IconRight}
         </SvgIcon>
