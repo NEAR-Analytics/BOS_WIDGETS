@@ -67,7 +67,7 @@ const TecherPossibilities = {
     let heashForDeletnumb = {};
 
     for (let i = startIndex; i < endIndex; i++) {
-      const student = Social.get(`maierr.near/mystudents/${i}`);
+      const student = Social.get(`${state.accountId}/mystudents/${i}`);
       if (student) {
         studentArray.push(student);
         heashForDeletnumb[student] = i;
@@ -115,7 +115,7 @@ const TecherPossibilities = {
   addStudent: () => {
     const newStudent = state.addNewStudent;
     const ifAlreadyHaveStudent = Social.get(
-      `maierr.near/myStudentsForFind/${newStudent}`
+      `${state.accountId}/myStudentsForFind/${newStudent}`
     );
     const sliceForVerification = newStudent.slice(
       newStudent.length - 5,
@@ -134,7 +134,7 @@ const TecherPossibilities = {
       ) {
         while (state.arreyWhitIndexForAddStudent.length == 0) {
           const student = Social.get(
-            `maierr.near/mystudents/${indexForAddStudent}`
+            `${state.accountId}/mystudents/${indexForAddStudent}`
           );
           if (!student) {
             State.update({
@@ -169,7 +169,7 @@ const TecherPossibilities = {
   },
   findStudentByID: (idaccound) => {
     const isOurStudent = Social.get(
-      `maierr.near/myStudentsForFind/${idaccound}`
+      `${state.accountId}/myStudentsForFind/${idaccound}`
     );
     if (isOurStudent == `true`) {
       State.update({
