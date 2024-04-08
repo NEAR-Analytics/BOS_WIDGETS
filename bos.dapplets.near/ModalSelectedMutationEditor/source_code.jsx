@@ -327,8 +327,6 @@ return (
       <HeaderEditor>
         <Input
           onChange={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
             onMutationIdChange(e.target.value, loggedInAccountId);
           }}
           placeholder={"Enter Mutation ID"}
