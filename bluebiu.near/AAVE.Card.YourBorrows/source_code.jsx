@@ -65,11 +65,9 @@ if (!yourBorrows) {
   return <div />;
 }
 
-const { debts, ...yourBorrowsCommonParams } = yourBorrows;
-
 return (
   <>
-    {!debts || debts.length === 0 ? (
+    {!yourBorrows || yourBorrows.length === 0 ? (
       <Widget
         src={`${config.ownerId}/widget/AAVE.Card.CardEmpty`}
         props={{
@@ -84,7 +82,7 @@ return (
           props={{
             config,
             headers: ["Asset", "Debt", "APY", ""],
-            data: debts.map((row) => {
+            data: yourBorrows.map((row) => {
               return [
                 <Widget
                   src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
@@ -99,24 +97,12 @@ return (
                   }}
                 />,
                 <div>
-                  <div>
-                    {Number(row.balance).toFixed(7)}
-                    {/* {Number(row.variableBorrows).toFixed(7)} */}
-                  </div>
-                  <div>
-                    $ {Number(row.balanceInUSD).toFixed(2)}
-                    {/* {Number(row.variableBorrowsUSD).toFixed(2)} */}
-                  </div>
+                  <div>{Number(row.debt).toFixed(7)}</div>
+                  <div>$ {Number(row.debtInUSD).toFixed(2)}</div>
                 </div>,
-                `${(Number(row.variableBorrowAPY) * 100).toFixed(2)} %`,
+                `${(Number(row.borrowAPY) * 100).toFixed(2)} %`,
                 <ButtonGroup>
-                  <RepayButton data={{ ...row, ...yourBorrowsCommonParams }} />
-                  {/* <BorrowButton
-                    data={{
-                      ...row,
-                      ...yourBorrowsCommonParams,
-                    }}
-                  /> */}
+                  <RepayButton data={{ ...row }} />
                 </ButtonGroup>,
               ];
             }),
@@ -133,7 +119,7 @@ return (
           onRequestClose: () => setShowRepayModal(false),
           data: state.data,
           onActionSuccess,
-          onlyOneBorrow: debts.length === 1,
+          onlyOneBorrow: yourBorrows.length === 1,
           chainId,
           repayETHGas,
           repayERC20Gas,
