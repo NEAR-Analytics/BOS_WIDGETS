@@ -96,7 +96,6 @@ const fetchUserData = () => {
 const fetchFusionsData = () => {
   asyncFetch("https://api.lynex.fi/api/v1/fusions").then((res) => {
     if (!res.ok) return;
-    console.log("===res1111", res);
     State.update({
       fusionsData: res?.body?.data,
       // isUserPositionsFetching: false,
