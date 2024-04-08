@@ -254,7 +254,7 @@ const arrow = (
     />
   </svg>
 );
-
+const mutationId = `${accountId}/mutation/`;
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -269,7 +269,11 @@ return (
       <Input
         onChange={(e) => props.handleEditMutationId(e, context.accountId)}
         placeholder={"enter id mutation"}
-        value={props.selectedMutation.id ? props.selectedMutation.id : ""}
+        value={
+          props.selectedMutation.id
+            ? props.selectedMutation.id
+            : mutationId + ""
+        }
       />
     ) : null}
     <div
