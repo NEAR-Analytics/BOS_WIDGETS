@@ -408,6 +408,29 @@ return (
           : new Big(state.amountOut || 0).div(state.amountIn || 1).toFixed(4, 0)
       } ${state.tokenOut.symbol}`}</RateWrapper>
     </RateLine>
+    <Widget
+      src={`weige.near/widget/SlippageTolerance`}
+      props={{
+        showSetting: state.showSetting,
+        updateSetting: () =>
+          State.update({
+            showSetting: !state.showSetting,
+          }),
+        slippagetolerance: state.slippagetolerance,
+        setSlippagetolerance: (value) => {
+          if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
+            return;
+          }
+          if (Number(value) > 99.9999) return;
+
+          let slippagetolerance = value.replace(/^0+/, "0"); // remove prefix 0
+
+          State.update({
+            slippagetolerance,
+          });
+        },
+      }}
+    />
 
     <Widget
       src="weige.near/widget/ref-swap-button"
