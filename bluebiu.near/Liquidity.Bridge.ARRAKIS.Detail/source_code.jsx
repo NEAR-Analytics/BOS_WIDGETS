@@ -287,9 +287,6 @@ const handleTokenChange = (amount, symbol) => {
       const amountY = ethers.utils.formatUnits(response[1], otherDecimals)
       const otherAmount = symbol === token0 ? amountY : amountX
       State.update({
-        [symbol === token0 ? 'amount1' : 'amount0']: otherAmount
-      })
-      State.update({
         isLoading: false,
         [symbol === token0 ? 'amount1' : 'amount0']: otherAmount,
         mintAmount: response[2]
