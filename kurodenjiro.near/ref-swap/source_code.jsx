@@ -334,22 +334,7 @@ const inputOnChange = (e) => {
 return (
   <Container>
     <div className="swap-title">Swap</div>
-    {
-      <Widget
-        src="weige.near/widget/ref-swap-getEstimate"
-        props={{
-          loadRes: state.loadRes,
-          tokenIn: state.tokenIn,
-          tokenOut: state.tokenOut,
-          amountIn: state.amountIn || 0,
-          reloadPools: state.reloadPools,
-          setReloadPools: (value) =>
-            State.update({
-              reloadPools: value,
-            }),
-        }}
-      />
-    }
+    {}
 
     {
       <Widget
@@ -409,13 +394,15 @@ return (
       } ${state.tokenOut.symbol}`}</RateWrapper>
     </RateLine>
     <Widget
-      src={`kurodenjiro.near/widget/lonk-SlippageTolerance`}
+      src={`weige.near/widget/SlippageTolerance`}
       props={{
+        reloadPools: false,
         showSetting: state.showSetting,
         updateSetting: () =>
           State.update({
             showSetting: !state.showSetting,
           }),
+
         slippagetolerance: state.slippagetolerance,
         setSlippagetolerance: (value) => {
           if (value !== "" && !value.match(/^\d*(\.\d*)?$/)) {
