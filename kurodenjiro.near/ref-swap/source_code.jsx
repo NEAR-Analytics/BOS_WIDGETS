@@ -74,6 +74,7 @@ State.init({
   notEnough: "",
   timerIntervalSet: false,
   reloadPools: false,
+  count: 5,
   loadRes: (value) =>
     State.update({
       estimate: value,
@@ -134,10 +135,6 @@ useEffect(() => {
   loadBalance();
 }, []);
 
-if (!Storage.get("count")) {
-  Storage.set("count", 5);
-}
-
 let timerInterval;
 
 if (!state.timerIntervalSet) {
@@ -145,14 +142,13 @@ if (!state.timerIntervalSet) {
     timerIntervalSet: true,
   });
   timerInterval = setTimeout(() => {
-    const count = Storage.get("count");
+    const count = state.count;
 
     if (count === 1) {
       loadBalance();
     }
-    Storage.set("count", count === 1 ? 5 : count - 1);
-
     State.update({
+      count: count === 1 ? 5 : count - 1,
       timerIntervalSet: false,
     });
 
@@ -401,11 +397,11 @@ return (
           clearTimeout(timerInterval);
           State.update({
             reloadPools: true,
+            count: 5,
           });
-          Storage.set("count", 5);
         }}
       >
-        <Refresh>{Storage.get("count") - 1}</Refresh>
+        <Refresh>{state.count - 1}</Refresh>
         <RefreshText>Refresh</RefreshText>
       </RefreshWrapper>
 
