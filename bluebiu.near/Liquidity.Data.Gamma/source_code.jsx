@@ -183,6 +183,7 @@ function formatedData() {
   })
 }
 function getDataList() {
+  console.log('===pairs', pairs)
   pairs.forEach(pair => {
     const vaultAddress = addresses[pair.id]
     const data = allData[vaultAddress]
@@ -251,17 +252,17 @@ function getTotalApr() {
   }
   if (chain_id === 56) {
     const calls = [];
-    const addressMap = {
-      'N ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
-      'N BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
-      'S USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
-      'N USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-      'P ankrBNB-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-      'P BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
-    }
+    // const addressMap = {
+    //   'N ETH-WBNB-0': '0xD777E84b0D29128351A35045D7AE728780dEf54D',
+    //   'N BTCB-WBNB-0': '0x65E40E779560199F5e68126Bc95bdc03083e5AA4',
+    //   'S USDT-USDC-0': '0x1011530830c914970CAa96a52B9DA1C709Ea48fb',
+    //   'N USDT-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+    //   'P ankrBNB-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+    //   'P BNBx-WBNB-0': '0xf50Af14BC4953Dcf9d27EbCA8BB3625855F5B42d',
+    // }
     dataList.forEach(data => {
-      addressMap[data.id] && calls.push({
-        address: addressMap[data.id],
+      data?.gaugeV2Address && calls.push({
+        address: data?.gaugeV2Address,
         name: "rewardRate",
       });
     })
