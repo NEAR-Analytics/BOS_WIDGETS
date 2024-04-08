@@ -1,6 +1,6 @@
 const {
   netWorth,
-  netApy,
+  netAPY,
   healthFactor,
   config,
   theme,
@@ -10,7 +10,7 @@ const {
   totalBorrows,
 } = props;
 
-if (!netWorth || !netApy || !healthFactor) {
+if (!netWorth || !netAPY || !healthFactor) {
   return <div />;
 }
 
@@ -45,7 +45,7 @@ const KVData = styled.div`
 const { heroData } = config;
 const heroDataMap = {
   "Net Worth": netWorth,
-  "Net APY": netApy,
+  "Net APY": netAPY,
   "Health Factor": healthFactor,
   "Total market size": (
     <Widget
