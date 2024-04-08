@@ -152,7 +152,7 @@ return (
   <>
     <Main>
       <div class="main">
-        <Widget src="kurodenjiro.near/widget/Lonk-hero" />
+        <Widget src="kurodenjiro.near/widget/lonk-hero" />
 
         <Widget src="huunhanz.near/widget/Lonk.buy" />
         <div
