@@ -87,23 +87,28 @@ const NavigationLinks = () => (
   <>
     <a href={`/ndcdev.near/widget/daos.App?page=supported_projects`}>Supported Projects</a>
     <a href={`/ndcdev.near/widget/daos.App?page=daos`}>DAOs</a>
-    <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
-    <div className="d-flex flex-wrap gap-3">
-      <a
-        className="post-btn d-flex align-items-center justify-content-center gap-2"
-        href={`/ndcdev.near/widget/daos.App?page=create_post`}
-      >
-        <i className="ph ph-plus fs-5" />
-        Submit Proposal
-      </a>
-      <a
-        className="post-btn d-flex align-items-center justify-content-center gap-2"
-        href="https://kyc.neardc.org/"
-      >
-        <i className="ph ph-identification-card fs-5" />
-        KYC
-      </a>
-    </div>
+    {accountId && (
+      <>
+        <a href={`/ndcdev.near/widget/daos.App?page=proposals`}>Proposals</a>
+        <div className="d-flex flex-wrap gap-3">
+          <a
+            className="post-btn d-flex align-items-center justify-content-center gap-2"
+            href={`/ndcdev.near/widget/daos.App?page=create_post`}
+          >
+            <i className="ph ph-plus fs-5" />
+            Submit Proposal
+          </a>
+          <a
+            className="post-btn d-flex align-items-center justify-content-center gap-2"
+            href="https://kyc.neardc.org/"
+            target="_blank"
+          >
+            <i className="ph ph-identification-card fs-5" />
+            KYC
+          </a>
+        </div>
+      </>
+    )}
   </>
 );
 
@@ -115,29 +120,32 @@ return (
         <span>NDC</span>
       </a>
       <div>
-        {accountId && (
-          <LinksContainer>
-            <div className="links gap-5">
-              <NavigationLinks />
-            </div>
-            <a className="menu-icon" href="#">
-              <i
-                className="bi bi-list fs-1"
-                onClick={() => setShowNav(!showNav)}
-              />
-            </a>
 
-            <a href={`/ndcdev.near/widget/daos.App?page=settings`}>
-              <i className="bi bi-gear-fill fs-3" />
-            </a>
+        <LinksContainer>
+          <div className="links gap-5">
+            <NavigationLinks />
+          </div>
+          <a className="menu-icon" href="#">
+            <i
+              className="bi bi-list fs-1"
+              onClick={() => setShowNav(!showNav)}
+            />
+          </a>
+          {accountId && (
+            <>
+              <a href={`/ndcdev.near/widget/daos.App?page=settings`}>
+                <i className="bi bi-gear-fill fs-3" />
+              </a>
 
-            <a
-              href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
-            >
-              <i className="bi bi-person-circle fs-3" />
-            </a>
-          </LinksContainer>
-        )}
+              <a
+                href={`/ndcdev.near/widget/daos.App?page=proposals&accountId=${context.accountId}`}
+              >
+                <i className="bi bi-person-circle fs-3" />
+              </a>
+            </>
+          )}
+        </LinksContainer>
+
       </div>
     </Navbar>
     {showNav && (
