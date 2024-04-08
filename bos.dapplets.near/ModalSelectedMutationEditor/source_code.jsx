@@ -60,7 +60,7 @@ const HeaderEditor = styled.div`
   font-weight: 600;
   line-height: 21.09px;
   text-align: left;
-  svg:first-of-type {
+  .edit {
     margin-right: auto;
     margin-bottom: 2px;
   }
@@ -310,7 +310,7 @@ return (
         onChange={(e) => onMutationNameChange(e.target.value)}
         value={mutationName ? mutationName : ""}
       />
-      <EditIcon />
+      <EditIcon className="edit" />
       <Close onClick={onClose}>
         <CloseIcon />
       </Close>
@@ -322,7 +322,7 @@ return (
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
-        <EditIcon />
+        <EditIcon className="edit" />
       </>
     ) : null}
     <AppsList>
