@@ -32,7 +32,7 @@ const {
   symbol,
   underlyingBalance,
   underlyingBalanceUSD,
-  marketReferencePriceInUsd,
+  tokenPrice,
   aTokenAddress,
   availableLiquidity,
   healthFactor,
@@ -353,9 +353,7 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    const amountInUSD = Big(value)
-      .mul(marketReferencePriceInUsd)
-      .toFixed(2, ROUND_DOWN);
+    const amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
 
     State.update({
       amountInUSD,
