@@ -11,6 +11,7 @@ const {
   onMutationEdit,
   onMutationIdChange,
   isRevertDisable,
+  isVisibleInputId,
 } = props;
 
 // ToDo: check null props
@@ -19,11 +20,10 @@ const { accountId: loggedInAccountId } = context;
 
 const [mutationOwnerId] = mutationId ? mutationId.split("/") : null;
 
-const isUserOwner = mutationOwnerId === loggedInAccountId && !isSaveIdValue;
+const isUserOwner = mutationOwnerId === loggedInAccountId;
 
 State.init({
   isSaveDropdownOpened: false,
-  isSaveIdValue: false
 });
 
 const SelectedMutationEditorWrapper = styled.div`
@@ -311,14 +311,6 @@ const handleDropdownOpen = () => {
   });
 };
 
-const handleChangeMutationId = (value,account) => {
-
-  onMutationIdChange(value,account)
-  State.update({
-    isSaveIdValue: true,
-  });
-};
-
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -331,10 +323,12 @@ return (
         <CloseIcon />
       </Close>
     </HeaderEditor>
-    {!isUserOwner ? (
+    {!isUserOwner || isVisibleInputId ? (
       <HeaderEditor>
         <Input
-          onChange={(e) => handleChangeMutationId(e.target.value,loggedInAccountId)}
+          onChange={(e) =>
+            onMutationIdChange(e.target.value, loggedInAccountId)
+          }
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
