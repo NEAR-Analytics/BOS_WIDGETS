@@ -19,10 +19,11 @@ const { accountId: loggedInAccountId } = context;
 
 const [mutationOwnerId] = mutationId ? mutationId.split("/") : null;
 
-const isUserOwner = mutationOwnerId === loggedInAccountId;
+const isUserOwner = mutationOwnerId === loggedInAccountId && !isSaveIdValue;
 
 State.init({
   isSaveDropdownOpened: false,
+  isSaveIdValue: false
 });
 
 const SelectedMutationEditorWrapper = styled.div`
@@ -310,6 +311,14 @@ const handleDropdownOpen = () => {
   });
 };
 
+const handleChangeMutationId = (value,account) => {
+
+  onMutationIdChange(value,account)
+  State.update({
+    isSaveIdValue: true,
+  });
+};
+
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -325,7 +334,7 @@ return (
     {!isUserOwner ? (
       <HeaderEditor>
         <Input
-          onChange={(e) => onMutationIdChange(e.target.value,loggedInAccountId)}
+          onChange={(e) => handleChangeMutationId(e.target.value,loggedInAccountId)}
           placeholder={"Enter Mutation ID"}
           value={mutationId ? mutationId : ""}
         />
