@@ -103,8 +103,9 @@ const ButtonsSave = styled.div`
   width: 175px;
   height: 42px;
   border-radius: 10px;
-  background: ${loggedInAccountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
-  };
+  background: ${loggedInAccountId
+    ? "rgba(56, 75, 255, 1)"
+    : "rgba(56, 75, 255, 0.5)"};
   color: #fff;
   font-size: 14px;
   font-weight: 400;
@@ -112,7 +113,6 @@ const ButtonsSave = styled.div`
   text-align: center;
   position: relative;
   cursor: pointer;
- 
 `;
 
 const TextSave = styled.div`
@@ -168,6 +168,10 @@ const SaveChangesItem = styled.div`
   height: 41px;
   border-radius: 4px;
   cursor: pointer;
+  &:hover {
+    background: rgba(217, 222, 225, 1);
+    color: rgba(56, 75, 255, 1);
+  }
 `;
 
 const Input = styled.input`
@@ -176,7 +180,7 @@ const Input = styled.input`
   border: none;
   background: none;
   margin: 0;
-  min-width: 150px;
+  max-width: 150px;
   height: 40px;
   line-height: 40px;
   padding: 0;
@@ -302,33 +306,37 @@ return (
         onChange={(e) => onMutationNameChange(e.target.value)}
         value={mutationName ? mutationName : ""}
       />
+      <EditIcon />
       <Close onClick={onClose}>
         <CloseIcon />
       </Close>
     </HeaderEditor>
     {!isUserOwner ? (
-      <Input
-        onChange={(e) => onMutationIdChange(e.target.value)}
-        placeholder={"Enter Mutation ID"}
-        value={mutationId ? mutationId : ""}
-      />
+      <>
+        <Input
+          onChange={(e) => onMutationIdChange(e.target.value)}
+          placeholder={"Enter Mutation ID"}
+          value={mutationId ? mutationId : ""}
+        />
+        <EditIcon />
+      </>
     ) : null}
     <AppsList>
       {allApps && allApps.length
         ? allApps.map((app, i) => (
-          <Widget
-            key={i}
-            src="bos.dapplets.near/widget/ApplicationCard"
-            props={{
-              src: app.id,
-              metadata: app.metadata,
-              hideButtons: !loggedInAccountId,
-              selectedApps:
-                selectedApps && selectedApps.filter((x) => x === app.id)[0],
-              handleEditMutationApps: onMutationAppsChange,
-            }}
-          />
-        ))
+            <Widget
+              key={i}
+              src="bos.dapplets.near/widget/ApplicationCard"
+              props={{
+                src: app.id,
+                metadata: app.metadata,
+                hideButtons: !loggedInAccountId,
+                selectedApps:
+                  selectedApps && selectedApps.filter((x) => x === app.id)[0],
+                handleEditMutationApps: onMutationAppsChange,
+              }}
+            />
+          ))
         : null}
     </AppsList>
     <ButtonsBlock>
@@ -351,10 +359,11 @@ return (
               <SaveChangesItem onClick={handlePublishButtonClick}>
                 Publish
               </SaveChangesItem>
-            ) : null}
-            <SaveChangesItem onClick={handleForkButtonClick}>
-              Fork
-            </SaveChangesItem>
+            ) : (
+              <SaveChangesItem onClick={handleForkButtonClick}>
+                Fork
+              </SaveChangesItem>
+            )}
           </SaveChanges>
         ) : null}
       </ButtonsSave>
