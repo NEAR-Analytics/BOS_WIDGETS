@@ -200,7 +200,7 @@ useEffect(() => {
   }
 }, [curChain])
 const columnList = [{
-  width: '40%',
+  width: '35%',
   key: 'pool',
   label: 'Pool',
   type: 'slot',
@@ -268,7 +268,7 @@ const columnList = [{
     )
   }
 }, {
-  width: '10%',
+  width: '15%',
   direction: 'column',
   key: 'liquidity',
   label: 'Your Liquidity',
