@@ -103,8 +103,7 @@ const ButtonsSave = styled.div`
   width: 175px;
   height: 42px;
   border-radius: 10px;
-  background: ${
-    loggedInAccountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
+  background: ${loggedInAccountId ? "rgba(56, 75, 255, 1)" : "rgba(56, 75, 255, 0.5)"
   };
   color: #fff;
   font-size: 14px;
@@ -113,9 +112,7 @@ const ButtonsSave = styled.div`
   text-align: center;
   position: relative;
   cursor: pointer;
-  &:hover {
-    opacity: 0.5;
-  }
+ 
 `;
 
 const TextSave = styled.div`
@@ -126,6 +123,9 @@ const TextSave = styled.div`
   width: 100%;
   padding: 0 10px;
   text-align: center;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 const ArrowWrapper = styled.div`
@@ -148,7 +148,7 @@ const SaveChanges = styled.div`
   right: 0;
   top: 52px;
   width: 179px;
-  height: 112px;
+  max-height: 112px;
   padding: 10px;
   gap: 10px;
   border-radius: 10px;
@@ -168,9 +168,6 @@ const SaveChangesItem = styled.div`
   height: 41px;
   border-radius: 4px;
   cursor: pointer;
-  &:hover {
-    opacity: 0.5;
-  }
 `;
 
 const Input = styled.input`
@@ -319,19 +316,19 @@ return (
     <AppsList>
       {allApps && allApps.length
         ? allApps.map((app, i) => (
-            <Widget
-              key={i}
-              src="bos.dapplets.near/widget/ApplicationCard"
-              props={{
-                src: app.id,
-                metadata: app.metadata,
-                hideButtons: !loggedInAccountId,
-                selectedApps:
-                  selectedApps && selectedApps.filter((x) => x === app.id)[0],
-                handleEditMutationApps: onMutationAppsChange,
-              }}
-            />
-          ))
+          <Widget
+            key={i}
+            src="bos.dapplets.near/widget/ApplicationCard"
+            props={{
+              src: app.id,
+              metadata: app.metadata,
+              hideButtons: !loggedInAccountId,
+              selectedApps:
+                selectedApps && selectedApps.filter((x) => x === app.id)[0],
+              handleEditMutationApps: onMutationAppsChange,
+            }}
+          />
+        ))
         : null}
     </AppsList>
     <ButtonsBlock>
