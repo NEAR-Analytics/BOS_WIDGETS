@@ -8,6 +8,7 @@ const {
   totalMarketSize,
   totalAvailable,
   totalBorrows,
+  yourBorrows,
 } = props;
 
 if (!netWorth || !netAPY || !healthFactor) {
@@ -46,7 +47,7 @@ const { heroData } = config;
 const heroDataMap = {
   "Net Worth": netWorth,
   "Net APY": netAPY,
-  "Health Factor": healthFactor,
+  "Health Factor": healthFactor > 10000 ? "∞" : healthFactor,
   "Total market size": (
     <Widget
       src={`${config.ownerId}/widget/Utils.FormatNumber`}
