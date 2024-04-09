@@ -62,10 +62,6 @@ const RepayButton = ({ data }) => (
   />
 );
 
-if (!yourBorrows) {
-  return <div />;
-}
-
 return (
   <>
     {!yourBorrows || yourBorrows.length === 0 ? (
