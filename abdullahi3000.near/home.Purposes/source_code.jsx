@@ -85,7 +85,7 @@ const Step = styled.div`
   }
 
   h4 {
-    color: var(--eca-227, #0A151D);
+    color: var(--eca-227, #2287C2);
     font-size: 52px;
     font-weight: 900;
     line-height: 140%; /* 89.6px */
