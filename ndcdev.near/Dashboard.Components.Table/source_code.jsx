@@ -53,7 +53,7 @@ const [loading, setLoading] = useState(false);
 const [selectedDAOs, setSelectedDAOs] = useState([]);
 const [selectedRetention, setSelectedRetention] = useState(0);
 const [selectedCurrency, setSelectedCurrency] = useState(
-  Object.keys(CURRENCIES)[0],
+  Object.keys(CURRENCIES)[0]
 );
 
 const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
@@ -128,12 +128,12 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption,
+      (daoId) => daoId !== value && daoId !== defaultDAOOption
     );
   } else {
     newSelection = [...selectedDAOs, value];
   }
-  console.log("----", newSelection);
+
   setSelectedDAOs(newSelection);
 };
 
@@ -173,7 +173,7 @@ return (
       {FILTERS.map((filter) => (
         <Widget
           key={filter.id}
-          src={`ndcdev.near/widget/Dashboard.Components.Table.Filters`}
+          src={`ndcdev.near/widget/dashboard.Components.Table.Filters`}
           props={{ ...filter }}
         />
       ))}
@@ -182,7 +182,7 @@ return (
       <Loading />
     ) : (
       <Widget
-        src={`ndcdev.near/widget/Dashboard.Components.Table.Cells`}
+        src={`ndcdev.near/widget/dashboard.Components.Table.Cells`}
         props={{ dataSet, daos }}
       />
     )}
