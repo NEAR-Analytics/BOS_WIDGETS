@@ -81,7 +81,7 @@ const Step = styled.div`
   background: var(--000000, #000);
 
   &.first {
-    border: 1px solid var(--Gradient-1, #4a21a5);
+    border: 1px solid var(--Gradient-1, #2287C2);
   }
 
   h4 {
