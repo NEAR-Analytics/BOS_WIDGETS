@@ -9,7 +9,7 @@ const PrimaryButton = styled.button`
     : "var(--button-color)"};
   border-radius: 5px;
 
-  height: 48px;
+  height: 40px;
   width: ${width ? width + "px" : "100%"};
 
   font-size: 16px;
