@@ -229,29 +229,41 @@ const Purposes = () => {
           builders, and fostering impactful projects collaboratively.
         </h3>
       </HeadingContainer>
-      {/*<StepContainer>
+      <StepContainer>
         <Step className="first">
           <h4>1</h4>
           <div>
-            <h5>To build a better future</h5>
-            <p>for the open web worldwide</p>
+            <h5>Democracy</h5>
+            <p>Our decisions are guided by our members.</p> <br />
+            <p>We{"’"}re building the next generation of the internet governed by its users and builders.</>
           </div>
         </Step>
         <Step>
           <h4>2</h4>
           <div>
-            <h5>To connect and empower </h5>
-            <p>communities of builders to create anything useful</p>
+            <h5>Transparency</h5>
+            <p>All our contracting and governance is totally open. Most of our code is open source.</p> <br />
+            <p>We{"’"}re building data transparency tech for the future of media and social media.</p>
           </div>
         </Step>
         <Step>
           <h4>3</h4>
           <div>
-            <h5>Helping each other to create</h5>
-            <p>successful projects with really positive impact</p>
+            <h5>Autonomy</h5>
+            <p>We are transparently owned by our members. Tokenization coming soon.</p> <br />
+            <p>Web3 is a paradigm shift in ownership. Own your IP. Own your data.</p>
           </div>
         </Step>
-      </StepContainer> */}
+        <Step>
+          <h4>4</h4>
+          <div>
+            <h5>Progressive Promotion</h5>
+            <p>We aim to financially empower our members with fair value capture.</p> <br />
+            <p>The economics of promotion and finance for tech and media are deeply broken. We{"’"}re
+building tech to create a revolution.</p>
+          </div>
+        </Step>
+      </StepContainer>
       {/* <Banner>
         <div className="container z-2">
           <h3>
