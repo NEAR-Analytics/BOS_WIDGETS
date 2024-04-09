@@ -32,7 +32,7 @@ const {
 return (
   <div className="d-flex flex-column gap-1 w-100">
     <Widget
-      src={`ndcdev.near/widget/Dashboard.Components.Select`}
+      src={`ndcdev.near/widget/dashboard.Components.Select`}
       props={{
         containerClass: "selected-container black",
         text,
