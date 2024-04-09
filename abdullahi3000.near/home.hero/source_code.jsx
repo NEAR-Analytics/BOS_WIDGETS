@@ -61,7 +61,7 @@ const Heading = styled.h1`
   margin: 0;
 
   span {
-    color: #0d50c1;
+    color: #2287C2;
     font-weight: 600;
   }
 
@@ -218,13 +218,12 @@ const Hero = (props) => {
         <Logo src={logoLink} />
         <HeadingContainer>
           <Heading>
-            Designed to connect and empower builders in a{" "}
-            <span>multi-chain ecosystem</span>
+            Welcome to the Harmonic Gateway! <span>See our code:</span>
           </Heading>
-          <Subheading>
+          {/*<Subheading>
             Empowering Builders: Strengthening Connections in Multi-Chain
             Systems
-          </Subheading>
+          </Subheading>*/}
         </HeadingContainer>
         <div className="d-flex align-items-center gap-4">
           {currentGateway && !signedIn ? (
@@ -233,7 +232,7 @@ const Hero = (props) => {
                 href={"https://nearbuilders.org/join?from=trial"}
                 style={{ textDecoration: "none" }}
               >
-                <Button style={{ background: "#4A21A5", color: "white" }}>
+                <Button style={{ background: "#2287C2", color: "white" }}>
                   Create Trial Account
                 </Button>
               </a>
@@ -249,12 +248,23 @@ const Hero = (props) => {
                 href={href({
                   widgetSrc: "abdullahi3000.near/widget/app",
                   params: {
-                    page: "feed",
+                    page: "governance",
                   },
                 })}
-                style={{ background: "#4A21A5", color: "white" }}
+                style={{ background: "#2287C2", color: "white" }}
               >
-                See Activity
+                Gateway Code
+              </Button>
+              <Button
+                href={href({
+                  widgetSrc: "abdullahi3000.near/widget/app",
+                  params: {
+                    page: "governance",
+                  },
+                })}
+                style={{ background: "#2287C2", color: "white" }}
+              >
+                Github Code
               </Button>
             </>
           )}
