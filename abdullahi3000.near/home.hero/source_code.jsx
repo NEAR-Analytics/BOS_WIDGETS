@@ -62,7 +62,7 @@ const Heading = styled.h1`
 
   span {
     color: #2287C2;
-    font-weight: 300;
+    font-weight: 100;
   }
 
   @media screen and (max-width: 768px) {
@@ -219,7 +219,7 @@ const Hero = (props) => {
         <HeadingContainer>
           <Heading>
             Welcome to the Harmonic Gateway! <br />
-            See our code:
+            <span>See our code:</span>
           </Heading>
           {/*<Subheading>
             Empowering Builders: Strengthening Connections in Multi-Chain
