@@ -218,7 +218,8 @@ const Hero = (props) => {
         <Logo src={logoLink} />
         <HeadingContainer>
           <Heading>
-            Welcome to the Harmonic Gateway! <span>See our code:</span>
+            Welcome to the Harmonic Gateway!
+            <span>See our code:</span>
           </Heading>
           {/*<Subheading>
             Empowering Builders: Strengthening Connections in Multi-Chain
