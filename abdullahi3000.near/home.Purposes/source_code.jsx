@@ -235,32 +235,53 @@ const Purposes = () => {
           <div>
             <h5>Democracy</h5>
             <p>Our decisions are guided by our members.</p> <br />
-            <p>We{"’"}re building the next generation of the internet governed by its users and builders.</>
+            <p>
+              We{"’"}re building the next generation of the internet governed by
+              its users and builders.
+            </p>
           </div>
         </Step>
         <Step>
           <h4>2</h4>
           <div>
             <h5>Transparency</h5>
-            <p>All our contracting and governance is totally open. Most of our code is open source.</p> <br />
-            <p>We{"’"}re building data transparency tech for the future of media and social media.</p>
+            <p>
+              All our contracting and governance is totally open. Most of our
+              code is open source.
+            </p>{" "}
+            <br />
+            <p>
+              We{"’"}re building data transparency tech for the future of media
+              and social media.
+            </p>
           </div>
         </Step>
         <Step>
           <h4>3</h4>
           <div>
             <h5>Autonomy</h5>
-            <p>We are transparently owned by our members. Tokenization coming soon.</p> <br />
-            <p>Web3 is a paradigm shift in ownership. Own your IP. Own your data.</p>
+            <p>
+              We are transparently owned by our members. Tokenization coming
+              soon.
+            </p>{" "}
+            <br />
+            <p>
+              Web3 is a paradigm shift in ownership. Own your IP. Own your data.
+            </p>
           </div>
         </Step>
         <Step>
           <h4>4</h4>
           <div>
             <h5>Progressive Promotion</h5>
-            <p>We aim to financially empower our members with fair value capture.</p> <br />
-            <p>The economics of promotion and finance for tech and media are deeply broken. We{"’"}re
-building tech to create a revolution.</p>
+            <p>
+              We aim to financially empower our members with fair value capture.
+            </p>{" "}
+            <br />
+            <p>
+              The economics of promotion and finance for tech and media are
+              deeply broken. We{"’"}re building tech to create a revolution.
+            </p>
           </div>
         </Step>
       </StepContainer>
