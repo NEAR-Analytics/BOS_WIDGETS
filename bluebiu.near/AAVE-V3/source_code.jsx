@@ -1602,15 +1602,32 @@ const body = isChainSupported ? (
     )}
   </Wrap>
 ) : (
-  <Widget
-    src="bluebiu.near/widget/Swap.ChainWarnigBox"
-    props={{
-      chain: curChain,
-      onSwitchChain: onSwitchChain,
-      switchingChain: switchingChain,
-      theme: dexConfig.theme,
-    }}
-  />
+  <>
+    <ChainsWrap>
+      <Widget
+        src="bluebiu.near/widget/Lending.Chains"
+        props={{
+          chains: CHAIN_LIST,
+          curChain,
+          onSwitchChain,
+          // onChange: (tab) => {
+          //   State.update({
+          //     tab: tab.key,
+          //   });
+          // },
+        }}
+      />
+    </ChainsWrap>
+    <Widget
+      src="bluebiu.near/widget/Swap.ChainWarnigBox"
+      props={{
+        chain: curChain,
+        onSwitchChain: onSwitchChain,
+        switchingChain: switchingChain,
+        theme: dexConfig.theme,
+      }}
+    />
+  </>
 );
 // );
 
