@@ -1,6 +1,8 @@
 const { joinBtnChildren, connectedChildren, showActivity, className } = props;
 
-const { Bullet, Button } = VM.require("buildhub.near/widget/components") || {
+const { Bullet, Button } = VM.require(
+  "abdullahi3000.near/widget/components"
+) || {
   Bullet: () => <></>,
   Button: () => <></>,
 };
