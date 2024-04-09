@@ -247,9 +247,7 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
               <HeaderCell>Tab Type</HeaderCell>
               <HeaderCell>Tab Name</HeaderCell>
               <HeaderCell style={{ width: "45px" }}>Enabled</HeaderCell>
-              {isActive && (
-                <HeaderCell style={{ width: "40px" }}>Actions</HeaderCell>
-              )}
+              <HeaderCell style={{ width: "40px" }}>Actions</HeaderCell>
             </Row>
           </Header>
           <tbody>
