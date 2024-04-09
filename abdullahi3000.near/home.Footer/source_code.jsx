@@ -132,7 +132,6 @@ const Footer = ({ noBanner }) => {
               joinBtnChildren: "Join Now",
               showActivity: true,
               className: "custom-button",
-              href: "https://near.social/abdullahi3000.near/widget/app?page=joinUs",
             }}
           />
         </Card>
