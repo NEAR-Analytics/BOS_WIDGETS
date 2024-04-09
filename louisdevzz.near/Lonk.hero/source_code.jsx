@@ -2,7 +2,7 @@ const config = {
   btse_logo:
     "https://ipfs.near.social/ipfs/bafkreieirh5eqtgcynyrmwu2a2hdhb4rh22r6ts6ynwdt3s6xvw44a75ty",
   orderly_network:
-    "https://bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44.ipfs.nftstorage.link/",
+    "https://ipfs.near.social/ipfs/bafkreibdjomcmeszaxw7u4mwmc7scmhbiekdj65ftyj53ochuehhi6rb44",
   lonk_bot:
     "https://bafkreidusllz2u36hgmbvidbrliwrmxxpts57tljecslc4qtb72rpj2dji.ipfs.nftstorage.link/",
   image4:
@@ -102,7 +102,7 @@ return (
                   class="button d-flex bg-light justify-content-center align-items-center text-decoration-none rounded-5"
                 >
                   <img
-                    src={config.btse_logo}
+                    src={config.orderly_network}
                     style={{ filter: "brightness(0%)" }}
                   />
                 </a>
