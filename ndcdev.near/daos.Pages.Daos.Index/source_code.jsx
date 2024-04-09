@@ -5,8 +5,6 @@ let { content, contractName } = VM.require(
 const { id } = props;
 const accountId = context.accountId;
 
-let isFollowed = false
-
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -150,19 +148,7 @@ if (!contractName || !content)
 const dao = Near.view(contractName, "get_dao_by_handle", { handle: id });
 const section = content.daos[id].sections;
 
-
-if (accountId) {
-  const followedDaos = Near.view(contractName, "get_follow_dao", {
-    account_id: accountId,
-  });
-
-
-if (!followedDaos) return <Widget src="flashui.near/widget/Loading" />;
-
-  isFollowed = followedDaos.find((d) => d.handle === dao.handle);
-}
-
-if (!dao ) return <Widget src="flashui.near/widget/Loading" />;
+if (!dao) return <Widget src="flashui.near/widget/Loading" />;
 
 const projects = Near.view(contractName, "get_dao_communities", {
   dao_id: dao.id,
@@ -178,7 +164,6 @@ const ProjectCard = ({ project }) => (
 );
 
 const handelOnFollow = () => {
-  if (isFollowed) return;
   if (dao.checkin_account_id) {
     const UserFollowDao_Payload = {
       contractName: contractName,
@@ -212,7 +197,7 @@ return (
     {accountId ?
       <div className="image-container">
         <img className="hero-img" src={dao.banner_url} alt="Banner Image" />
-        <a className="overlay-button btn" style={{cursor: isFollowed ? 'default': 'pointer'}} onClick={handelOnFollow}>{isFollowed ? "Following": "Follow"}</a>
+        <a className="overlay-button btn" onClick={handelOnFollow}>Follow</a>
       </div>
       : <img className="hero-img" src={dao.banner_url} alt="Banner Image" />
     }
