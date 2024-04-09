@@ -127,7 +127,7 @@ const Footer = ({ noBanner }) => {
           <div className="d-flex flex-column align-items-center">
             <img src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png" />
             <h3>
-              Let{"’"}s Make <span>Waves!</span>.
+              Let{"’"}s Make <span>Waves!</span>
             </h3>
           </div>
           <a
