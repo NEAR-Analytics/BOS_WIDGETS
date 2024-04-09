@@ -1,5 +1,4 @@
-const { joinBtnChildren, connectedChildren, showActivity, className, href } =
-  props;
+const { joinBtnChildren, connectedChildren, showActivity, className } = props;
 
 const { Bullet, Button } = VM.require("buildhub.near/widget/components") || {
   Bullet: () => <></>,
@@ -122,74 +121,17 @@ const Container = styled.div`
   }
 `;
 
-const { href: linkHref } = VM.require("buildhub.near/widget/lib.url") || {
-  href: () => {},
-};
-
 const Component = () => {
-  if (!context.accountId) {
-    return (
-      <a
-        href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
-        target="_blank"
-      >
-        <Button variant="primary" noLink={true}>
-          Join Now
-        </Button>
-      </a>
-    );
-  } else if (data.isDaoMember || isConnected) {
-    if (showActivity) {
-      return (
-        <div className="d-flex flex-column align-items-center gap-3">
-          <Bullet variant="light">
-            {data.isDaoMember ? "Joined" : "Pending application"}
-          </Bullet>
-          <Link
-            style={{ color: "#2287C2", fontWeight: 600 }}
-            to={linkHref({
-              widgetSrc: "abdullahi3000.near/widget/app",
-              params: {
-                page: "feed",
-              },
-            })}
-          >
-            View Activity{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="17"
-              viewBox="0 0 16 17"
-              fill="none"
-            >
-              <path
-                d="M10.7809 7.83327L7.2049 4.25726L8.1477 3.31445L13.3332 8.49993L8.1477 13.6853L7.2049 12.7425L10.7809 9.1666H2.6665V7.83327H10.7809Z"
-                fill="#df9731"
-              />
-            </svg>
-          </Link>
-        </div>
-      );
-    }
-    return <div>{connectedChildren}</div>;
-  } else {
-    if (href) {
-      return (
-        <a
-          href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
-          target="_blank"
-        >
-          <Link className={className}>{joinBtnChildren}</Link>
-        </a>
-      );
-    } else {
-      return (
-        <button className={className} onClick={handleJoin}>
-          {joinBtnChildren}
-        </button>
-      );
-    }
-  }
+  return (
+    <a
+      href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
+      target="_blank"
+    >
+      <Button variant="primary" noLink={true}>
+        Join Now
+      </Button>
+    </a>
+  );
 };
 
 return (
