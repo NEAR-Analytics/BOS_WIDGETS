@@ -1,4 +1,4 @@
-const { assets } = VM.require(`ndcdev.near/widget/Dashboard.Config`);
+const { assets } = VM.require(`ndcdev.near/widget/dashboard.Config`);
 
 if (!assets) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -183,7 +183,7 @@ return (
         {setTitle()}
         {isTooltipVisible && (
           <Widget
-            src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
+            src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
             props={{
               content: hintText,
               icon: <i className="bi bi-info-circle-fill" />,
