@@ -246,18 +246,25 @@ const Hero = (props) => {
             </>
           ) : (
             <>
-              <Button
+              <a
                 href="https://near.social/abdullahi3000.near/widget/app?page=home"
-                style={{ background: "#2287C2", color: "white" }}
+                className="d-flex align-items-center"
+                target="_blank"
               >
-                Gateway Code
-              </Button>
-              <Button
+                <Button style={{ background: "#2287C2", color: "white" }}>
+                  Gateway Code
+                </Button>
+              </a>
+
+              <a
                 href="https://github.com/Harmonic-Guild"
-                style={{ background: "#2287C2", color: "white" }}
+                className="d-flex align-items-center"
+                target="_blank"
               >
-                Github
-              </Button>
+                <Button style={{ background: "#2287C2", color: "white" }}>
+                  Github
+                </Button>
+              </a>
             </>
           )}
         </div>
