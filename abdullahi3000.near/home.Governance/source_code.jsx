@@ -88,7 +88,7 @@ const Governance = () => {
         <HeadingContainer>
           <Tag label="Governance" />
           <h2>
-            Our <span>Governance.</span>!
+            Our <span>Governance</span>!
           </h2>
           <h3>
             We{"’"}re building a decentralized democratic autonomous company
