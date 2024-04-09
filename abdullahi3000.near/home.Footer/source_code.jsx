@@ -1,3 +1,7 @@
+const { Button } = VM.require("abdullahi3000.near/widget/components") || {
+  Button: () => <></>,
+};
+
 const Container = styled.div`
   padding: 32px 50px;
   display: flex;
@@ -126,14 +130,14 @@ const Footer = ({ noBanner }) => {
               Let{"’"}s Make <span>Waves!</span>.
             </h3>
           </div>
-          <Widget
-            src="abdullahi3000.near/widget/components.buttons.Connect"
-            props={{
-              joinBtnChildren: "Join Now",
-              showActivity: true,
-              className: "custom-button",
-            }}
-          />
+          <a
+            href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
+            target="_blank"
+          >
+            <Button variant="primary" noLink={true}>
+              Join Now
+            </Button>
+          </a>
         </Card>
       )}
       <FooterContainer>
