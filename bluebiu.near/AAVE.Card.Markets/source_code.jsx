@@ -19,7 +19,7 @@ const {
 } = props;
 
 const CenterRow = styled.div`
-  text-align: center;
+  /* text-align: center; */
 `;
 
 State.init({
