@@ -2,8 +2,6 @@ const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 const permissions = props.permissions;
 
-console.log({ accounts: props.accounts });
-
 const index = [
   {
     action: "post",
@@ -166,14 +164,11 @@ const renderRepost = (a) => {
   );
 };
 
-const renderItem = (item) => {
-  console.log({ action: item.action });
-  return item.action === "post" ? renderPost(item) : renderRepost(item);
-};
-
+const renderItem = (item) =>
+  item.action === "post" ? renderPost(item) : renderRepost(item);
 return (
   <Widget
-    src="mob.near/widget/MergedIndexFeed"
+    src="thomasguntenaar.near/widget/devhub.feed.MergedIndexFeed"
     props={{ index, renderItem, filter: props.filter, threshold: 800 }}
   />
 );
