@@ -66,6 +66,7 @@ const Exchange = <ExchangeWrapper>{ExchangeIcon}</ExchangeWrapper>;
 State.init({
   tokenIn: NEAR_META,
   tokenOut: LONK_TOKEN_META,
+  count: 0,
   amountIn: "0.1",
   amountOut: "",
   showSetting: false,
@@ -400,11 +401,11 @@ return (
           clearTimeout(timerInterval);
           State.update({
             reloadPools: true,
+            count: 5,
           });
-          Storage.set("count", 5);
         }}
       >
-        <Refresh>{Storage.get("count") - 1}</Refresh>
+        <Refresh>{state.count - 1}</Refresh>
         <RefreshText>Refresh</RefreshText>
       </RefreshWrapper>
 
