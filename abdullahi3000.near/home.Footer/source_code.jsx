@@ -20,7 +20,7 @@ const Card = styled.div`
   width: 100%;
 
   border-radius: 16px;
-  border: 1px solid var(--Gradient-1, #4a21a5);
+  border: 1px solid var(--Gradient-1, #2287C2);
   background: #000000;
   box-shadow: 4px 24px 48px 0px rgba(249, 225, 122, 0.05);
 
@@ -123,15 +123,16 @@ const Footer = ({ noBanner }) => {
           <div className="d-flex flex-column align-items-center">
             <img src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png" />
             <h3>
-              Together, we can <span>build a better future</span>.
+              Let{"’"}s Make <span>Waves!</span>.
             </h3>
           </div>
           <Widget
-            src="buildhub.near/widget/components.buttons.Connect"
+            src="abdullahi3000.near/widget/components.buttons.Connect"
             props={{
               joinBtnChildren: "Join Now",
               showActivity: true,
               className: "custom-button",
+              href: "https://near.social/abdullahi3000.near/widget/app?page=joinUs",
             }}
           />
         </Card>
