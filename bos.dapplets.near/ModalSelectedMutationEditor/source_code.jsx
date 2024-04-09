@@ -120,6 +120,7 @@ const ButtonsSave = styled.button`
   width: 175px;
   height: 42px;
   border-radius: 10px;
+  border: none;
   background: ${loggedInAccountId
     ? "rgba(56, 75, 255, 1)"
     : "rgba(56, 75, 255, 0.5)"};
@@ -320,12 +321,35 @@ const handleDropdownOpen = () => {
     isSaveDropdownOpened: !state.isSaveDropdownOpened,
   });
 };
+
+const arraysAreEqual = (a, b) => {
+  if (a.length != b.length) return false;
+  for (var i = 0; i <= a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+  return true;
+};
 if (!loggedInAccountId) {
-  setSaveTooltype("Connect the Wallet");
   setSaveDisabled(true);
+  setSaveTooltype("Connect the Wallet");
+} else if (editingMutation.id === selectedMutation.id) {
+  setSaveDisabled(true);
+  setSaveTooltype("Change the mutation to create a new one");
+} else if (editingMutation.metadata.name === selectedMutation.metadata.name) {
+  setSaveDisabled(true);
+  setSaveTooltype("Mutation name has already been used");
+} else if (
+  editingMutation.metadata.name !== selectedMutation.metadata.name &&
+  editingMutation.id === selectedMutation.id
+) {
+  setSaveDisabled(true);
+  setSaveTooltype("Add mutation ID");
+} else if (!editingMutation.apps || !editingMutation.apps.length) {
+  setSaveDisabled(true);
+  setSaveTooltype("Select applications");
 } else {
-  setSaveTooltype(null);
   setSaveDisabled(false);
+  setSaveTooltype(null);
 }
 console.log(selectedMutation, "selectedMutation");
 console.log(editingMutation, "editingMutation");
