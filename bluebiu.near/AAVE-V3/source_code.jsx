@@ -1443,6 +1443,7 @@ const body = isChainSupported ? (
           totalAvailable: state.totalAvailable,
           totalBorrows: state.totalBorrows,
           theme: dexConfig?.theme,
+          yourBorrows: state.yourBorrows,
         }}
       />
     </FlexContainer>
