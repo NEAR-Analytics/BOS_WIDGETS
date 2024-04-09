@@ -13,7 +13,12 @@ const {
   isRevertDisable,
   isVisibleInputId,
   setVisibleInputId,
-  editingMutation
+  selectedMutation,
+  editingMutation,
+  isSaveDisabled,
+  saveTooltype,
+  setSaveDisabled,
+  setSaveTooltype,
 } = props;
 
 // ToDo: check null props
@@ -108,7 +113,7 @@ const ButtonsRevert = styled.button`
   }
 `;
 
-const ButtonsSave = styled.div`
+const ButtonsSave = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,6 +130,9 @@ const ButtonsSave = styled.div`
   text-align: center;
   position: relative;
   cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 const TextSave = styled.div`
@@ -312,7 +320,12 @@ const handleDropdownOpen = () => {
     isSaveDropdownOpened: !state.isSaveDropdownOpened,
   });
 };
-
+if (!loggedInAccountId) {
+  setSaveTooltype("Connect the Wallet");
+  setSaveDisabled(true);
+}
+console.log(selectedMutation, "selectedMutation");
+console.log(editingMutation, "editingMutation");
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
@@ -358,7 +371,7 @@ return (
       <ButtonsRevert disabled={isRevertDisable} onClick={onMutationReset}>
         Revert changes
       </ButtonsRevert>
-      <ButtonsSave>
+      <ButtonsSave title={saveTooltype} disabled={isSaveDisabled}>
         {isUserOwner && !isVisibleInputId ? (
           <TextSave onClick={onMutationEdit}>Publish</TextSave>
         ) : (
@@ -374,13 +387,13 @@ return (
         {state.isSaveDropdownOpened && isUserOwner ? (
           <SaveChanges>
             {/* {isUserOwner && !isVisibleInputId ? ( */}
-              <SaveChangesItem onClick={handlePublishButtonClick}>
-                Publish
-              </SaveChangesItem>
+            <SaveChangesItem onClick={handlePublishButtonClick}>
+              Publish
+            </SaveChangesItem>
             {/* ) : ( */}
-              <SaveChangesItem onClick={handleForkButtonClick}>
-                Fork
-              </SaveChangesItem>
+            <SaveChangesItem onClick={handleForkButtonClick}>
+              Fork
+            </SaveChangesItem>
             {/* )} */}
           </SaveChanges>
         ) : null}
