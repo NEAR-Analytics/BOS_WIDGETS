@@ -382,7 +382,13 @@ return (
       <HeaderEditor>
         <Input
           onChange={(e) => onMutationNameChange(e.target.value)}
-          value={mutationName ? mutationName : ""}
+          value={
+            editingMutation
+              ? editingMutation.name
+              : mutationName
+              ? mutationName
+              : ""
+          }
         />
         <Close onClick={onClose}>
           <CloseIcon />
@@ -390,8 +396,15 @@ return (
       </HeaderEditor>
     ) : (
       <HeaderEditor>
-        {mutationName ? mutationName : ""}
-        <EditIcon onClick={() => setVisibleInput(true)} />
+        {editingMutation
+          ? editingMutation.name
+          : mutationName
+          ? mutationName
+          : ""}
+        <span onClick={() => setVisibleInput(true)}>
+          <EditIcon />
+        </span>
+
         <Close onClick={onClose}>
           <CloseIcon />
         </Close>
@@ -411,7 +424,10 @@ return (
       ) : (
         <HeaderEditor>
           {loggedInAccountId}
-          <EditIcon onClick={() => setVisibleInput(true)} />
+
+          <span onClick={() => setVisibleInput(true)}>
+            <EditIcon />
+          </span>
         </HeaderEditor>
       )
     ) : null}
