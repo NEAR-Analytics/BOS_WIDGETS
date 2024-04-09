@@ -12,7 +12,8 @@ const {
   onMutationIdChange,
   isRevertDisable,
   isVisibleInputId,
-  setVisibleInputId
+  setVisibleInputId,
+  editingMutation
 } = props;
 
 // ToDo: check null props
