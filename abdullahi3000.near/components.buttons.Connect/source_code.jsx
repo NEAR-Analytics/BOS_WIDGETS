@@ -94,7 +94,7 @@ const Container = styled.div`
     gap: 4px;
 
     border-radius: 8px;
-    background: #eca227;
+    background: #2287C2;
 
     color: #fff;
     margin: 0;
@@ -113,7 +113,7 @@ const Container = styled.div`
     transition: all 300ms;
 
     &:hover {
-      background: #c98a40;
+      background: #1b73a7;
     }
   }
 
@@ -129,13 +129,14 @@ const { href: linkHref } = VM.require("buildhub.near/widget/lib.url") || {
 const Component = () => {
   if (!context.accountId) {
     return (
-      <Button
-        href={"https://near.social/abdullahi3000.near/widget/app?page=joinUs"}
-        variant="primary"
-        noLink={true}
+      <a
+        href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
+        target="_blank"
       >
-        Join Now
-      </Button>
+        <Button variant="primary" noLink={true}>
+          Join Now
+        </Button>
+      </a>
     );
   } else if (data.isDaoMember || isConnected) {
     if (showActivity) {
