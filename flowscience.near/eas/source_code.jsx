@@ -1,5 +1,4 @@
 const user = Ethers.send("eth_requestAccounts", [])[0];
-console.log("User:", user);
 
 if (!user) return <Web3Connect connectLabel="Connect" />;
 
@@ -18,8 +17,23 @@ const provider = new ethers.providers.JsonRpcProvider(
   "https://optimism.drpc.org"
 );
 const signer = provider.getSigner(user);
+//const signer = Ethers.provider().getSigner();
 console.log("chain:", chain);
 console.log("signer:", signer);
+
+{
+  /*}
+function getSigner() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  await provider.send("eth_requestAccounts", []); // Request account access
+  return provider.getSigner();
+}
+
+const signer = provider.getSigner().then(signer => {
+  console.log("signer:", signer);
+});
+*/
+}
 
 const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(abi.body);
@@ -36,6 +50,8 @@ function getAttestation() {
     setError("UID must be provided.");
     return;
   }
+
+  const bytesUid = ethers.utils.hexZeroPad(uid, 32);
 
   contract
     .getAttestation(uid)
