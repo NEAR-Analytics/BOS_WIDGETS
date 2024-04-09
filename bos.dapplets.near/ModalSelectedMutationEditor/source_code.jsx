@@ -315,7 +315,7 @@ const handleForkButtonClick = () => {
 };
 
 const handleDropdownOpen = () => {
-  if (!isUserOwner && !selectedMutation) return;
+  if (!isUserOwner) return;
 
   State.update({
     isSaveDropdownOpened: !state.isSaveDropdownOpened,
@@ -428,7 +428,7 @@ return (
 
         <ArrowWrapper
           $isOpened={state.isSaveDropdownOpened}
-          onClick={handleDropdownOpen}
+          onClick={() => selectedMutation && handleDropdownOpen}
         >
           <ArrowIcon />
         </ArrowWrapper>
