@@ -323,9 +323,13 @@ const handleDropdownOpen = () => {
 if (!loggedInAccountId) {
   setSaveTooltype("Connect the Wallet");
   setSaveDisabled(true);
+} else {
+  setSaveTooltype(null);
+  setSaveDisabled(false);
 }
 console.log(selectedMutation, "selectedMutation");
 console.log(editingMutation, "editingMutation");
+console.log(loggedInAccountId, "loggedInAccountId");
 return (
   <SelectedMutationEditorWrapper>
     <HeaderEditor>
