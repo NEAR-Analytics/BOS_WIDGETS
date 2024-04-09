@@ -145,7 +145,7 @@ const Component = () => {
             {data.isDaoMember ? "Joined" : "Pending application"}
           </Bullet>
           <Link
-            style={{ color: "#df9731", fontWeight: 600 }}
+            style={{ color: "#2287C2", fontWeight: 600 }}
             to={linkHref({
               widgetSrc: "abdullahi3000.near/widget/app",
               params: {
