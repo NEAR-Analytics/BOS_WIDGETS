@@ -55,7 +55,7 @@ const Logo = styled.img`
 const Heading = styled.h1`
   color: var(--text-color, #fff);
   font-family: "Poppins", sans-serif;
-  font-size: 38px;
+  font-size: 48px;
   line-height: 120%; /* 69.6px */
   text-wrap: balance;
   margin: 0;
