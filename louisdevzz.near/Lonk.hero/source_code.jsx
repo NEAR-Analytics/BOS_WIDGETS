@@ -235,7 +235,7 @@ return (
                 class="modal-body d-flex justify-content-center align-items-center"
               >
                 {state.isShow && (
-                  <Widget src="kurodenjiro.near/widget/ref-swap" />
+                  <Widget src="louisdevzz.near/widget/ref-swap" />
                 )}
               </div>
             </div>
