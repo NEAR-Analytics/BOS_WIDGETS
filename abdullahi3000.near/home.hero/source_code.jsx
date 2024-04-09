@@ -265,7 +265,7 @@ const Hero = (props) => {
                 })}
                 style={{ background: "#2287C2", color: "white" }}
               >
-                Github Code
+                Github
               </Button>
             </>
           )}
