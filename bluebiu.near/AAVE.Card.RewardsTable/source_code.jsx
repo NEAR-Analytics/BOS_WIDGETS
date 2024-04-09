@@ -35,6 +35,7 @@ const {
   markets,
   rewardAddress,
   config,
+  theme,
 } = props;
 
 const columns = [
@@ -75,6 +76,7 @@ return (
                   props={{
                     config,
                     theme,
+                    width: 80,
                     loading:
                       row.symbol === state.dapp.symbol && state.loading
                         ? true
