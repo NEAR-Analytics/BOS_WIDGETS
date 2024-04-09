@@ -7,7 +7,7 @@ const { Goals } = VM.require("buildhub.near/widget/home.Goals") || {
 const { Join } = VM.require("buildhub.near/widget/home.Join") || {
   Join: () => <></>,
 };
-const { Purposes } = VM.require("buildhub.near/widget/home.Purposes") || {
+const { Purposes } = VM.require("abdullahi3000.near/widget/home.Purposes") || {
   Purposes: () => <></>,
 };
 const { AboutUs } = VM.require("buildhub.near/widget/home.AboutUs") || {
