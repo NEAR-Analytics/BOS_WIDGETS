@@ -57,7 +57,7 @@ return (
     <RewardsTable>
       <Title>Your Earns</Title>
 
-      {data && data.length ? (
+      {data && data.length && data.find((item) => item.unclaimed) ? (
         <Widget
           src={`${config.ownerId}/widget/AAVE.Card.CardsTable`}
           props={{
