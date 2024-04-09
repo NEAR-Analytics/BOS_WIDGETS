@@ -1584,6 +1584,7 @@ const body = isChainSupported ? (
               markets,
               rewardAddress: config.incentivesProxy,
               toast,
+              theme: dexConfig?.theme,
             }}
           />
         ) : null}
