@@ -407,12 +407,11 @@ return (
             }}
             placeholder={"Enter Mutation ID"}
           />
-          <EditIcon />
         </HeaderEditor>
       ) : (
         <HeaderEditor>
           {loggedInAccountId}
-          <EditIcon />
+          <EditIcon onClick={() => setVisibleInput(true)} />
         </HeaderEditor>
       )
     ) : null}
