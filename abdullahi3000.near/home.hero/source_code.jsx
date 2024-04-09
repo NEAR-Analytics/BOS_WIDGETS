@@ -247,23 +247,15 @@ const Hero = (props) => {
           ) : (
             <>
               <Button
-                href={href({
-                  widgetSrc: "abdullahi3000.near/widget/app",
-                  params: {
-                    page: "governance",
-                  },
-                })}
+                href={href(
+                  "https://near.social/abdullahi3000.near/widget/app?page=home"
+                )}
                 style={{ background: "#2287C2", color: "white" }}
               >
                 Gateway Code
               </Button>
               <Button
-                href={href({
-                  widgetSrc: "abdullahi3000.near/widget/app",
-                  params: {
-                    page: "governance",
-                  },
-                })}
+                href={href("https://github.com/Harmonic-Guild")}
                 style={{ background: "#2287C2", color: "white" }}
               >
                 Github
