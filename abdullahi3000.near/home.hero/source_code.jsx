@@ -218,7 +218,7 @@ const Hero = (props) => {
         <Logo src={logoLink} />
         <HeadingContainer>
           <Heading>
-            Welcome to the Harmonic Gateway!{"  "}
+            Welcome to the Harmonic Gateway! <br />
             <span>See our code:</span>
           </Heading>
           {/*<Subheading>
