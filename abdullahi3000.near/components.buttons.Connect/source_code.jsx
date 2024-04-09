@@ -175,9 +175,12 @@ const Component = () => {
   } else {
     if (href) {
       return (
-        <Link href={href} className={className}>
-          {joinBtnChildren}
-        </Link>
+        <a
+          href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
+          target="_blank"
+        >
+          <Link className={className}>{joinBtnChildren}</Link>
+        </a>
       );
     } else {
       return (
