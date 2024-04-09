@@ -19,6 +19,8 @@ const {
   saveTooltype,
   setSaveDisabled,
   setSaveTooltype,
+  setVisibleInput,
+  isVisibleInput,
 } = props;
 
 // ToDo: check null props
@@ -376,26 +378,43 @@ console.log(editingMutation, "editingMutation");
 console.log(loggedInAccountId, "loggedInAccountId");
 return (
   <SelectedMutationEditorWrapper>
-    <HeaderEditor>
-      <Input
-        onChange={(e) => onMutationNameChange(e.target.value)}
-        value={mutationName ? mutationName : ""}
-      />
-      <EditIcon />
-      <Close onClick={onClose}>
-        <CloseIcon />
-      </Close>
-    </HeaderEditor>
-    {!isUserOwner || isVisibleInputId ? (
+    {isVisibleInput ? (
       <HeaderEditor>
         <Input
-          onChange={(e) => {
-            onMutationIdChange(e.target.value, loggedInAccountId);
-          }}
-          placeholder={"Enter Mutation ID"}
+          onChange={(e) => onMutationNameChange(e.target.value)}
+          value={mutationName ? mutationName : ""}
         />
-        <EditIcon />
+        <Close onClick={onClose}>
+          <CloseIcon />
+        </Close>
       </HeaderEditor>
+    ) : (
+      <HeaderEditor>
+        {mutationName ? mutationName : ""}
+        <EditIcon onClick={() => setVisibleInput(true)} />
+        <Close onClick={onClose}>
+          <CloseIcon />
+        </Close>
+      </HeaderEditor>
+    )}
+
+    {!isUserOwner || isVisibleInputId ? (
+      isVisibleInput ? (
+        <HeaderEditor>
+          <Input
+            onChange={(e) => {
+              onMutationIdChange(e.target.value, loggedInAccountId);
+            }}
+            placeholder={"Enter Mutation ID"}
+          />
+          <EditIcon />
+        </HeaderEditor>
+      ) : (
+        <HeaderEditor>
+          {loggedInAccountId}
+          <EditIcon />
+        </HeaderEditor>
+      )
     ) : null}
     <AppsList>
       {allApps && allApps.length
@@ -428,7 +447,7 @@ return (
 
         <ArrowWrapper
           $isOpened={state.isSaveDropdownOpened}
-          onClick={() => selectedMutation && handleDropdownOpen}
+          onClick={handleDropdownOpen}
         >
           <ArrowIcon />
         </ArrowWrapper>
