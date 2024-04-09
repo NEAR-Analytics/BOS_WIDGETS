@@ -416,7 +416,7 @@ return (
                           right: (
                             <div style={{ textAlign: "right" }}>
                               <GreenTexture>
-                                {healthFactor}
+                                {healthFactor > 10000 ? "∞" : healthFactor}
                                 <img
                                   src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                                   width={16}
