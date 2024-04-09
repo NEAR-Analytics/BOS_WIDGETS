@@ -581,7 +581,7 @@ return (
                       ),
                     }}
                   />
-                  {hasHF ? (
+                  {hasHF && healthFactor < 10000 ? (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
