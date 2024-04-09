@@ -137,14 +137,13 @@ if (!state.timerIntervalSet) {
     timerIntervalSet: true,
   });
   timerInterval = setTimeout(() => {
-    const count = Storage.get("count");
+    const count = state.count;
 
     if (count === 1) {
       loadBalance();
     }
-    Storage.set("count", count === 1 ? 5 : count - 1);
-
     State.update({
+      count: count === 1 ? 5 : count - 1,
       timerIntervalSet: false,
     });
 
@@ -349,7 +348,6 @@ const inputOnChange = (e) => {
   if (targetValue !== "" && !targetValue.match(/^\d*(\.\d*)?$/)) {
     return;
   }
-
   let amountIn = targetValue.replace(/^0+/, "0"); // remove prefix 0
 
   State.update({
@@ -360,23 +358,7 @@ const inputOnChange = (e) => {
 return (
   <Container>
     <div className="swap-title">Trade tokens</div>
-    {
-      <Widget
-        src="weige.near/widget/ref-swap-getEstimate"
-        props={{
-          loadRes: state.loadRes,
-          tokenIn: state.tokenIn,
-          tokenOut: state.tokenOut,
-          amountIn: state.amountIn || 0,
-          reloadPools: state.reloadPools,
-          setReloadPools: (value) =>
-            State.update({
-              reloadPools: value,
-            }),
-        }}
-      />
-    }
-
+    {}
     {
       <Widget
         src={`louisdevzz.near/widget/veax-token-input`}
