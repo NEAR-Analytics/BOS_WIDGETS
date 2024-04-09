@@ -47,7 +47,7 @@ const { totalTx, totalAccounts, uniqueAccounts, loading } = props;
 const Item = ({ value, text, color }) => {
   return (
     <Widget
-      src={`ndcdev.near/widget/Dashboard.Components.Aggregators.Item`}
+      src={`ndcdev.near/widget/dashboard.Components.Aggregators.Item`}
       props={{ value, text, color }}
     />
   );
