@@ -111,7 +111,7 @@ return (
               />
               <div className="position-relative">
                 <Widget
-                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
+                  src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
                   props={{
                     content: (
                       <>
@@ -132,7 +132,7 @@ return (
               />
               <div className="position-relative">
                 <Widget
-                  src={`ndcdev.near/widget/Dashboard.Components.Tooltip`}
+                  src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
                   props={{
                     content: (
                       <>
