@@ -32,74 +32,89 @@ const GithubKanbanBoard = ({
   metadata,
 }) => {
   State.init({
-    ticketsLastPage: false,
-    fetchedTicketsCount: {},
+    fetchedIssuesCount: {},
+    fetchedPullsCount: {},
     ticketsByColumn: {},
     cachedItems: {},
     displayCount: 40,
-    noTicketsFound: false,
-    error: null,
+    issuesLastPage: false,
+    pullRequestsLastPage: false,
   });
 
   const ticketStateFilter = ticketState ?? "all";
 
-  function fetchTickets(columnId, labelSearchTerms, allLabelsMust) {
-    const pageNumber = !state.fetchedTicketsCount[columnId]
+  function fetchPullRequests(columnId, labelSearchTerms) {
+    const pageNumber = !state.fetchedPullsCount[columnId]
       ? 1
-      : state.fetchedTicketsCount[columnId] / resPerPage + 1;
+      : state.fetchedPullsCount[columnId] / resPerPage + 1;
     const { repo, owner } = extractOwnerAndRepo(repoURL);
-    const type =
-      dataTypesIncluded.issue && dataTypesIncluded.pullRequest
-        ? ""
-        : dataTypesIncluded.issue
-        ? "type:issue"
-        : "type:pr";
-    const labels = allLabelsMust
-      ? (labelSearchTerms ?? []).map((item) => `label:${item}`).join(" ")
-      : `label:${(labelSearchTerms ?? []).join(",")}`;
-    const state =
-      ticketStateFilter === "all" ? "" : `state:${ticketStateFilter}`;
-    const q = encodeURIComponent(
-      `${labels} repo:${owner}/${repo} ${state} ${type}`
-    );
+    // labels query doesn't exists for pull requests
     const res = fetch(
-      `https://api.github.com/search/issues?per_page=${resPerPage}&page=${pageNumber}&q=${q}`
+      `https://api.github.com/repos/${owner}/${repo}/pulls?state=${ticketStateFilter}&per_page=${resPerPage}&page=${pageNumber}`
     );
-
     if (res !== null) {
-      if (res.status !== 200) {
+      res.body = res.body.filter((ticket) =>
+        (labelSearchTerms ?? []).every((searchTerm) =>
+          searchTerm.length > 0
+            ? ticket.labels.some((label) =>
+                label.name.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+            : false
+        )
+      );
+
+      if (!res.body.length || res.body.length < resPerPage) {
         State.update({
-          error:
-            "The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.",
+          pullRequestsLastPage: true,
         });
-      } else {
-        if (!res.body.incomplete_results) {
-          State.update({
-            ticketsLastPage: true,
-          });
-        }
-        if (res.body.total_count === 0) {
-          State.update({
-            noTicketsFound: true,
-          });
-        } else {
-          State.update((lastKnownState) => ({
-            ...lastKnownState,
-            fetchedTicketsCount: {
-              ...lastKnownState.fetchedTicketsCount,
-              [columnId]:
-                lastKnownState.fetchedTicketsCount[columnId] ?? 0 + resPerPage,
-            },
-            ticketsByColumn: {
-              ...lastKnownState.ticketsByColumn,
-              [columnId]: [
-                ...(lastKnownState?.ticketsByColumn?.[columnId] ?? []),
-                ...res.body.items,
-              ],
-            },
-          }));
-        }
       }
+      State.update((lastKnownState) => ({
+        ...lastKnownState,
+        fetchedPullsCount: {
+          ...lastKnownState.fetchedPullsCount,
+          [columnId]:
+            lastKnownState.fetchedPullsCount[columnId] ?? 0 + resPerPage,
+        },
+        ticketsByColumn: {
+          ...lastKnownState.ticketsByColumn,
+          [columnId]: [
+            ...(lastKnownState?.ticketsByColumn?.[columnId] ?? []),
+            ...res.body,
+          ],
+        },
+      }));
+    }
+  }
+
+  function fetchIssues(columnId, labels) {
+    const pageNumber = !state.fetchedIssuesCount[columnId]
+      ? 1
+      : state.fetchedIssuesCount[columnId] / resPerPage + 1;
+    const { repo, owner } = extractOwnerAndRepo(repoURL);
+    const res = fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues?state=${ticketStateFilter}&per_page=${resPerPage}&page=${pageNumber}&labels=${labels}`
+    );
+    if (res !== null) {
+      if (!res.body.length || res.body.length < resPerPage) {
+        State.update({
+          issuesLastPage: true,
+        });
+      }
+      State.update((lastKnownState) => ({
+        ...lastKnownState,
+        fetchedIssuesCount: {
+          ...lastKnownState.fetchedIssuesCount,
+          [columnId]:
+            lastKnownState.fetchedIssuesCount[columnId] ?? 0 + resPerPage,
+        },
+        ticketsByColumn: {
+          ...lastKnownState.ticketsByColumn,
+          [columnId]: [
+            ...(lastKnownState?.ticketsByColumn?.[columnId] ?? []),
+            ...res.body,
+          ],
+        },
+      }));
     }
   }
 
@@ -110,11 +125,10 @@ const GithubKanbanBoard = ({
     Object.keys(columns).map((item) => {
       const columnId = item;
       const columnData = columns[columnId];
-      fetchTickets(
-        columnId,
-        columnData?.labelSearchTerms,
-        columnData.allLabelsMust
-      );
+      const labels = (columnData?.labelSearchTerms ?? []).join(",");
+      dataTypesIncluded.issue && fetchIssues(columnId, labels);
+      dataTypesIncluded.pullRequest &&
+        fetchPullRequests(columnId, columnData?.labelSearchTerms);
     });
   }
 
@@ -136,14 +150,24 @@ const GithubKanbanBoard = ({
     return state.cachedItems[key];
   };
 
-  const makeMoreItems = (columnId, labelSearchTerms, allLabelsMust) => {
+  const makeMoreItems = (columnId, labelSearchTerms) => {
     const addDisplayCount = 20;
     const newDisplayCount = state.displayCount + addDisplayCount;
     State.update({
       displayCount: newDisplayCount,
     });
-    if (state.fetchedTicketsCount[columnId] < 2 * newDisplayCount) {
-      fetchTickets(columnId, labelSearchTerms, allLabelsMust);
+    const labels = (labelSearchTerms ?? []).join(",");
+    if (
+      dataTypesIncluded.issue &&
+      state.fetchedIssuesCount[columnId] < 2 * newDisplayCount
+    ) {
+      fetchIssues(columnId, labels);
+    }
+    if (
+      dataTypesIncluded.pullRequest &&
+      state.fetchedPullsCount[columnId] < 2 * newDisplayCount
+    ) {
+      fetchPullRequests(columnId, labelSearchTerms);
     }
   };
 
@@ -194,22 +218,18 @@ const GithubKanbanBoard = ({
                     <h6 className="card-title h6 m-0">{column.title}</h6>
                     <p class="text-secondary m-0">{column.description}</p>
                   </span>
-                  {state.error && (
-                    <div className="alert alert-danger">
-                      Error: {state.error}
-                    </div>
-                  )}
-                  {state.noTicketsFound && <p>No tickets found</p>}
-                  {state.fetchedTicketsCount[column.id] > 0 && (
+
+                  {(state.fetchedIssuesCount[column.id] > 0 ||
+                    state.fetchedPullsCount[column.id] > 0) && (
                     <InfiniteScroll
                       loadMore={() =>
-                        makeMoreItems(
-                          column.id,
-                          column?.labelSearchTerms,
-                          column.allLabelsMust
-                        )
+                        makeMoreItems(column.id, column?.labelSearchTerms)
                       }
-                      hasMore={!state.ticketsLastPage}
+                      hasMore={
+                        (dataTypesIncluded.issue && !state.issuesLastPage) ||
+                        (dataTypesIncluded.pullRequest &&
+                          !state.pullRequestsLastPage)
+                      }
                       loader={<>Loading...</>}
                       useWindow={false}
                       threshold={80}
