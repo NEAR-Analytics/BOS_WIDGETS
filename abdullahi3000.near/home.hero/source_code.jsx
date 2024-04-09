@@ -62,11 +62,11 @@ const Heading = styled.h1`
 
   span {
     color: #2287C2;
-    font-weight: 100;
+    font-weight: 600;
   }
 
-  @media screen and (max-width: 768px) {
-    font-size: 40px;
+  @media screen and (max-width: 668px) {
+    font-size: 30px;
   }
 `;
 
