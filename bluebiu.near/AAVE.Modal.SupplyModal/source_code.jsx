@@ -38,7 +38,7 @@ const {
   healthFactor,
   supportPermit,
 } = data;
-
+console.log("supplyModal---", data);
 const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
