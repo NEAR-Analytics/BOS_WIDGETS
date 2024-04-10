@@ -228,31 +228,32 @@ function formatHealthFactor(hf) {
 
   if (!hf || !isValid(hf)) return "-";
 
-  if (Big(hf).gt(1000)) return "∞";
+  if (Big(hf).gt(10000)) return "∞";
   if (Number(hf) === -1) return "∞";
   return Big(hf).toFixed(2, ROUND_DOWN);
 }
 
 function calcHealthFactor(type, symbol, amount) {
+  // console.log(
+  //   "calcHealthFactor",
+  //   type,
+  //   symbol,
+  //   amount,
+  //   isValid(state.yourTotalCollateral),
+  //   isValid(state.yourTotalBorrow),
+  //   isValid(amount)
+  // );
   if (
-    !isValid(state.yourTotalCollateral) ||
-    !isValid(state.yourTotalBorrow) ||
+    // !isValid(state.yourTotalCollateral) ||
+    // !isValid(state.yourTotalBorrow) ||
+    isNaN(Number(state.yourTotalCollateral)) ||
+    isNaN(Number(state.yourTotalBorrow)) ||
     !isValid(amount)
   )
     return "-";
   let newHealthFactor;
   let totalCollateral = Big(state.yourTotalCollateral);
   let totalBorrows = Big(state.yourTotalBorrow);
-  console.log(
-    "calcHealthFactor1--",
-    totalCollateral.toString(),
-    totalBorrows.toString(),
-    type,
-    symbol,
-    amount,
-    prices[symbol],
-    prices
-  );
 
   const assetsUSD = Big(prices[symbol]).times(Big(amount));
   if (type === "SUPPLY") {
@@ -273,6 +274,7 @@ function calcHealthFactor(type, symbol, amount) {
   if (type === "REPAY") {
     totalBorrows = Big(state.yourTotalBorrow).minus(assetsUSD);
   }
+  if (totalBorrows.eq(0)) return "∞";
   newHealthFactor = totalCollateral
     .times(Big(state.threshold))
     .div(totalBorrows);
@@ -774,9 +776,8 @@ function calculateHealthFactorFromBalances({
     .div(borrowBalanceMarketReferenceCurrency || 1);
 }
 
-function getUserDeposits() {
+function getYourSupplies() {
   const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
-  console.log("getUserDeposits--", markets);
 
   const calls = aTokenAddresss?.map((addr) => ({
     address: addr,
@@ -855,9 +856,67 @@ function getUserDeposits() {
         return prev;
       }, []);
       console.log("yourSupplies:", yourSupplies);
-      State.update({
-        yourSupplies,
-      });
+      // State.update({
+      //   yourSupplies,
+      // });
+      return yourSupplies;
+    })
+    .then((_yourSupplies) => {
+      const calls = [
+        {
+          address: config.aavePoolV3Address,
+          name: "getUserConfiguration",
+          params: [account],
+        },
+        {
+          address: config.aavePoolV3Address,
+          name: "getReservesList",
+        },
+      ];
+
+      multicall({
+        abi: config.aavePoolV3ABI.body,
+        calls,
+        options: {},
+        multicallAddress,
+        provider: Ethers.provider(),
+      })
+        .then((res) => {
+          console.log("getCollateralStatus-res:", res);
+          const [[rawStatus], [addrs]] = res;
+          const _status = parseInt(rawStatus.toString()).toString(2).split("");
+          console.log("_status--", _status);
+          const _statusArray = chunk(_status, 2);
+          console.log("_status--", _statusArray, addrs);
+
+          for (let i = 0; i < _yourSupplies.length; i++) {
+            const item = _yourSupplies[i];
+            const index = addrs.findIndex(
+              (addr) => addr === item.underlyingAsset
+            );
+
+            _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
+          }
+
+          const yourTotalCollateral = _yourSupplies
+            .filter((item) => item.isCollateraled === 1)
+            .reduce(
+              (prev, curr) =>
+                Big(prev)
+                  .plus(Big(curr.underlyingBalanceUSD || 0))
+                  .toFixed(),
+              0
+            );
+
+          State.update((prev) => ({
+            ...prev,
+            yourSupplies: _yourSupplies,
+            yourTotalCollateral,
+          }));
+        })
+        .catch((err) => {
+          console.log("getCollateralStatus-error:", err);
+        });
     })
     .catch((err) => {
       console.log("getUsetDeposits_err", err);
@@ -1062,63 +1121,6 @@ function chunk(arr, size) {
   return result;
 }
 
-// to get collateral status
-function getCollateralStatus() {
-  const calls = [
-    {
-      address: config.aavePoolV3Address,
-      name: "getUserConfiguration",
-      params: [account],
-    },
-    {
-      address: config.aavePoolV3Address,
-      name: "getReservesList",
-    },
-  ];
-
-  multicall({
-    abi: config.aavePoolV3ABI.body,
-    calls,
-    options: {},
-    multicallAddress,
-    provider: Ethers.provider(),
-  })
-    .then((res) => {
-      console.log("getCollateralStatus-res:", res);
-      const [[rawStatus], [addrs]] = res;
-      const _status = parseInt(rawStatus.toString()).toString(2).split("");
-      console.log("_status--", _status);
-      const _statusArray = chunk(_status, 2);
-      console.log("_status--", _statusArray, addrs);
-      const _yourSupplies = [...state.yourSupplies];
-      for (let i = 0; i < _yourSupplies.length; i++) {
-        const item = _yourSupplies[i];
-        const index = addrs.findIndex((addr) => addr === item.underlyingAsset);
-
-        _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
-      }
-
-      const yourTotalCollateral = _yourSupplies
-        .filter((item) => item.isCollateraled === 1)
-        .reduce(
-          (prev, curr) =>
-            Big(prev)
-              .plus(Big(curr.underlyingBalanceUSD || 0))
-              .toFixed(),
-          0
-        );
-
-      State.update((prev) => ({
-        ...prev,
-        yourSupplies: _yourSupplies,
-        yourTotalCollateral,
-      }));
-    })
-    .catch((err) => {
-      console.log("getCollateralStatus-error:", err);
-    });
-}
-
 useEffect(() => {
   if (!account || !isChainSupported) return;
   getUserBalance();
@@ -1131,7 +1133,7 @@ useEffect(() => {
     getPoolDataProviderCaps();
   }
   if (state.step1) {
-    getUserDeposits();
+    getYourSupplies();
     getUserDebts();
   }
 }, [account, isChainSupported, state.step1]);
@@ -1293,11 +1295,6 @@ useEffect(() => {
     console.log("CATCH:", error);
   }
 }, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
-useEffect(() => {
-  if (state.selectTab === "YOURS") {
-    getCollateralStatus();
-  }
-}, [state.selectTab]);
 
 useEffect(() => {
   if (!state.step1) return;
