@@ -95,10 +95,7 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path
-        fill="currentColor"
-        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
-      />
+      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
@@ -164,44 +161,10 @@ const Question = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 const initialSorting = {
   sort: 'onchain_market_cap',
@@ -374,9 +337,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'pl-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'pl-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>{t ? t('token:fts.top.token') : 'TOKEN'}</span>,
@@ -394,7 +357,7 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
               href={`/token/${row?.contract}`}
               className="hover:no-underline"
             >
-              <a className=" text-green-500 dark:text-green-250 hover:no-underline flex items-center">
+              <a className=" text-green-500 hover:no-underline flex items-center">
                 <span className="inline-block truncate max-w-[200px] mr-1">
                   {row?.name}
                 </span>
@@ -407,9 +370,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-80  align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 w-80  align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>{t ? t('token:fts.top.price') : 'PRICE'}</span>,
@@ -424,9 +387,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
@@ -452,9 +415,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>{t ? t('token:fts.top.volume') : 'VOLUME'} (24H)</span>,
@@ -469,9 +432,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
@@ -500,8 +463,7 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
       key: 'market_cap',
       cell: (row) => (
         <span>
-          {row?.market_cap === null ||
-          dollarNonCentFormat(row?.market_cap) === '0' ? (
+          {row?.market_cap === null ? (
             <span className="text-xs">N/A</span>
           ) : (
             `$${dollarNonCentFormat(row?.market_cap)}`
@@ -509,9 +471,9 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 tracking-wider',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 tracking-wider',
     },
     {
       header: (
@@ -520,10 +482,10 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
           <button
             type="button"
             onClick={() => onOrder('onchain_market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 dark:text-green-250 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting?.sort === 'onchain_market_cap' && (
-              <div className="text-nearblue-600 dark:text-neargray-10 font-semibold">
+              <div className="text-nearblue-600 font-semibold">
                 <SortIcon order={sorting?.order} />
               </div>
             )}
@@ -564,7 +526,7 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 align-top',
     },
     // {
     //   header: (
@@ -593,24 +555,21 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
   ];
 
   return (
-    <div className=" bg-white  dark:bg-black-600 dark:border-black-200 border soft-shadow rounded-xl pb-1 ">
-      <div className="flex flex-row items-center justify-between text-left text-sm text-nearblue-600 dark:text-neargray-10 px-3 py-2">
+    <div className=" bg-white border soft-shadow rounded-xl pb-1 ">
+      <div className="flex flex-row items-center justify-between text-left text-sm text-nearblue-600 px-3 py-2">
         {isLoading ? (
           <div className="max-w-lg w-full pl-3">
             <Skeleton className="h-4" />
           </div>
         ) : (
           <p className="pl-3">
-            {Object.keys(tokens).length > 0 &&
-              `${
-                t
-                  ? t('token:fts.top.listing', {
-                      count: localFormat && localFormat(totalCount),
-                    })
-                  : `A total of ${
-                      localFormat && localFormat(totalCount)
-                    } Token Contracts found`
-              }`}
+            {t
+              ? t('token:fts.top.listing', {
+                  count: localFormat && localFormat(totalCount),
+                })
+              : `A total of ${
+                  localFormat && localFormat(totalCount)
+                } Token Contracts found`}
           </p>
         )}
         <div className={`flex w-full h-10 sm:w-80 mr-2`}>
@@ -620,13 +579,13 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
                 name="search"
                 autoComplete="off"
                 placeholder="Search"
-                className="search ml-2 pl-8 token-search bg-white dark:bg-black-600 dark:border-black-200 w-full h-full text-sm py-2 outline-none border rounded-xl"
+                className="search ml-2 pl-8 token-search bg-white w-full h-full text-sm py-2 outline-none border rounded-xl"
                 onChange={onChange}
               />
             </label>
             {searchResults?.length > 0 && (
               <div className="z-50 relative">
-                <div className="text-xs rounded-b-md -mr-2 ml-2 -mt-1 bg-white dark:bg-black-600 py-2 shadow">
+                <div className="text-xs rounded-b-md -mr-2 ml-2 -mt-1 bg-white py-2 shadow">
                   {searchResults.map((token) => (
                     <div
                       key={token?.contract}
@@ -673,13 +632,7 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
           limit: 50,
           pageLimit: 200,
           setPage: setPage,
-          Error: (
-            <ErrorMessage
-              icons={<FaInbox />}
-              message={errorMessage || ''}
-              mutedText="Please try again later"
-            />
-          ),
+          Error: errorMessage,
         }}
       />
     </div>
