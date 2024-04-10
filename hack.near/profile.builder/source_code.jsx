@@ -33,7 +33,7 @@ return (
         <div className="text-truncate">
           <div className="text-truncate">
             <span className="fw-bold me-1">{name}</span>
-            <Widget src="james.near/widget/BuilderHat" props={{ accountId }} />
+            <Widget src="hack.near/widget/BuilderHat" props={{ accountId }} />
           </div>
           <div className="text-truncate text-muted">
             <small>
