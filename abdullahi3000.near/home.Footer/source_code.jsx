@@ -137,9 +137,8 @@ const Footer = ({ noBanner }) => {
     <Container className="container-xl">
       {!noBanner && (
         <Card>
-          <div className="align-items-center">
-            <Logo src={logoLink} />
-            <h3 className="d-flex flex-column">
+          <div className="d-flex flex-column align-items-center">
+            <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
           </div>
