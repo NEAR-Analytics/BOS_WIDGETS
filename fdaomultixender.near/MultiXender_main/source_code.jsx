@@ -6,7 +6,7 @@ const Mainpage = styled.div`
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
 `;
 
 // used for the first text
@@ -345,7 +345,13 @@ margin-top: 20px;
 justify-content: center;
 `;
 const DeleteButton = styled.button``;
+
 const InputAddress = styled.input`
+height: 40px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 border-radius: 10px;
  @media screen and (max-width: 500px) {
     margin-bottom: 5px; /* Adjust margin bottom for better alignment */
@@ -375,6 +381,23 @@ const Content3 = ({ distributeInput }) => (
   </div>
 );
 
+// Config for Bos app
+function getConfig(network) {
+  switch (network) {
+    case "mainnet":
+      return {
+        nodeUrl: "https://rpc.mainnet.near.org",
+      };
+    case "testnet":
+      return {
+        nodeUrl: "https://rpc.testnet.near.org",
+      };
+    default:
+      throw Error(`Unconfigured environment '${network}'.`);
+  }
+}
+const config = getConfig("mainnet");
+
 // Main component working
 const Main = () => {
   const [isSimplePopupVisible, setSimplePopupVisibility] = useState(false);
@@ -395,7 +418,6 @@ const Main = () => {
     setSimplePopupVisibility(false);
   };
 
-  // list json handling
   // list json handling
   const handleStoreList = () => {
     const newList = handleSubmit();
@@ -492,7 +514,7 @@ const Main = () => {
     // Set simple popup visibility to false
     setSimplePopupVisibility(false);
 
-    const Contract = "multi.fdaomultixender.near";
+    const Contract = "fdaomultixender.near";
     const Method = "transfer";
     const transferAccountId = "";
     const Gas = 100000000000000;
@@ -577,6 +599,19 @@ const Main = () => {
     }
   };
 
+  const initialValidationStates = inputs.map(() => undefined);
+  const [validationStates, setValidationStates] = useState(
+    initialValidationStates
+  );
+
+  const updateValidationState = (index, isValid) => {
+    setValidationStates((prevStates) => {
+      const newValidationStates = [...prevStates];
+      newValidationStates[index] = isValid;
+      return newValidationStates;
+    });
+  };
+
   return (
     <Container>
       <InputLabel>
@@ -587,13 +622,54 @@ const Main = () => {
         {inputs.map((input, index) => (
           <div key={input.key} className="flex justify-between mb-2">
             <InputAddress
-              type="text"
-              className="m-2 p-2 w-1/2 amount"
-              placeholder="ACCOUNT ID"
-              name="Address"
               value={input.address}
-              onChange={(event) => handleInputChange(event, index, "address")}
+              name="address"
+              placeholder="Enter account ID"
+              onChange={(event) => {
+                handleInputChange(event, index, "address");
+
+                const value = event.target.value;
+
+                // debounce
+                clearTimeout(state.timer);
+                State.update({
+                  timer: setTimeout(() => {
+                    if (value !== "") {
+                      asyncFetch(config.nodeUrl, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          jsonrpc: "2.0",
+                          id: "dontcare",
+                          method: "query",
+                          params: {
+                            request_type: "view_account",
+                            finality: "final",
+                            account_id: value,
+                          },
+                        }),
+                      }).then((response) => {
+                        if (response.body.error) {
+                          State.update({ [`validAccount_${index}`]: false });
+                        } else {
+                          State.update({ [`validAccount_${index}`]: true });
+                        }
+                      });
+                    } else {
+                      State.update({
+                        [`validAccount_${index}`]: undefined,
+                      });
+                    }
+                  }, 300),
+                });
+              }}
             />
+            {state[`validAccount_${index}`] === false && (
+              <div style={{ color: "red" }}>Account does not exist</div>
+            )}
+
             <InputAmount
               type="Number"
               className="m-2 p-2 w-1/2 amount"
