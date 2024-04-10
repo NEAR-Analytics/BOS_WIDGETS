@@ -31,13 +31,6 @@ const Card = styled.div`
   background: #000000;
   box-shadow: 4px 24px 48px 0px rgba(249, 225, 122, 0.05);
 
-  img {
-    width: 90px;
-    object-fit: cover;
-    height: 100px;
-    border-radius: 20px;
-  }
-
   h3 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
