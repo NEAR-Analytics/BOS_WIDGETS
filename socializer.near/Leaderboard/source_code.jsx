@@ -131,8 +131,8 @@ const getListData = () => {
       const { error, data } = res.body;
       const listData = data.map((obj) => {
         if (obj.accountId.length > 30) {
-          const firstPart = obj.accountId.substring(0, 5);
-          const remainingPart = obj.accountId.substring(5);
+          const firstPart = obj.accountId.slice(0, 5);
+          const remainingPart = obj.accountId.slice(-5);
           obj.accountId = `${firstPart} ... ${remainingPart}`;
         }
         return obj;
