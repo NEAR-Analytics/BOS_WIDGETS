@@ -81,73 +81,81 @@ function Item({ accountId, name, type, metadata }) {
     "https://ipfs.near.social/ipfs/bafkreihi3qh72njb3ejg7t2mbxuho2vk447kzkvpjtmulsb2njd6m2cfgi";
 
   return (
-    <div
-      className="card"
-      style={{
-        maxWidth: "100%",
-        height: "200px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        overflow: "hidden",
-      }}
+    <a
+      style={{ textDecoration: "none" }}
+      href={`https://draw.everything.dev/${accountId}`}
     >
       <div
-        className="card-img-top"
+        className="card"
         style={{
-          backgroundImage: `url(${metadata.backgroundImage || defaultImage})`,
-          height: "80px",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          maxWidth: "100%",
+          height: "200px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden",
         }}
-      />
+      >
+        <div
+          className="card-img-top"
+          style={{
+            backgroundImage: `url(${metadata.backgroundImage || defaultImage})`,
+            height: "80px",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
 
-      <div className="card-body">
-        <Widget src="hack.near/widget/profile.builder" props={{ accountId }} />
-        {metadata.description && (
-          <p
-            className="card-text"
-            style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-          >
-            {metadata.description}
-          </p>
-        )}
-      </div>
-      <div className="d-flex flex-row justify-content-between">
-        <div className="p-3">
-          <a
-            href={`https://draw.everything.dev/${accountId}`}
-            style={{ color: "#333", textDecoration: "none" }}
-          >
-            {displayName}
-          </a>
+        <div className="card-body">
+          <Widget
+            src="hack.near/widget/profile.builder"
+            props={{ accountId }}
+          />
+          {metadata.description && (
+            <p
+              className="card-text"
+              style={{ overflow: "hidden", textOverflow: "ellipsis" }}
+            >
+              {metadata.description}
+            </p>
+          )}
         </div>
-        {context.accountId && (
+        <div className="d-flex flex-row justify-content-between">
           <div className="p-3">
-            <Widget
-              src="mob.near/widget/N.StarButton"
-              props={{
-                notifyAccountId: accountId,
-                item: {
-                  type: "social",
-                  path: `${accountId}/${type}/${name}`,
-                },
-              }}
-            />
-            <Widget
-              src="mob.near/widget/N.LikeButton"
-              props={{
-                notifyAccountId: accountId,
-                item: {
-                  type: "social",
-                  path: `${accountId}/${type}/${name}`,
-                },
-              }}
-            />
+            <a
+              href={`https://draw.everything.dev/${accountId}`}
+              style={{ color: "#333", textDecoration: "none" }}
+            >
+              {displayName}
+            </a>
           </div>
-        )}
+          {context.accountId && (
+            <div className="p-3">
+              <Widget
+                src="mob.near/widget/N.StarButton"
+                props={{
+                  notifyAccountId: accountId,
+                  item: {
+                    type: "social",
+                    path: `${accountId}/${type}/${name}`,
+                  },
+                }}
+              />
+              <Widget
+                src="mob.near/widget/N.LikeButton"
+                props={{
+                  notifyAccountId: accountId,
+                  item: {
+                    type: "social",
+                    path: `${accountId}/${type}/${name}`,
+                  },
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </a>
   );
 }
 
