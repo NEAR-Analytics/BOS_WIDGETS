@@ -5,6 +5,18 @@ const { Button } = VM.require("abdullahi3000.near/widget/components") || {
 const logoLink =
   "https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png";
 
+const Container = styled.div`
+  padding: 32px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+
+  @media screen and (max-width: 768px) {
+    padding: 32px 20px;
+    gap: 40px;
+  }
+`;
+
 const Card = styled.div`
   display: flex;
   padding: 56px;
@@ -52,20 +64,6 @@ const Card = styled.div`
     h3 {
       font-size: 28px;
     }
-  }
-`;
-
-const Container = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-
-  padding: 48px;
-
-  @media screen and (max-width: 768px) {
-    padding: 32px 20px;
-    gap: 20px;
   }
 `;
 
@@ -139,10 +137,8 @@ const Footer = ({ noBanner }) => {
     <Container className="container-xl">
       {!noBanner && (
         <Card>
-          <Container className="container-xl mt-md-3 z-3">
-            <Logo src={logoLink} />
-          </Container>
           <div className="d-flex flex-column align-items-center">
+            <Logo src={logoLink} />
             <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
