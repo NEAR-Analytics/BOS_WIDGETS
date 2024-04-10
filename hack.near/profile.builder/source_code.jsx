@@ -14,7 +14,7 @@ return (
     <div className="me-2">
       <a
         style={{ color: "#000", textDecoration: "none" }}
-        href="https://nearbuilders.org"
+        href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${accountId}`}
       >
         <Widget
           src="mob.near/widget/ProfileImage"
@@ -22,7 +22,7 @@ return (
           props={{
             fast,
             profile,
-            accountId: "build.sputnik-dao.near",
+            accountId,
             widgetName,
             style: imgWrapperStyle,
             imageClassName: "rounded-circle w-100 h-100",
@@ -35,7 +35,7 @@ return (
         <span className="fw-bold me-1">
           <a
             style={{ color: "#000", textDecoration: "none" }}
-            href="https://nearbuilders.org"
+            href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${accountId}`}
           >
             {name}
           </a>
@@ -47,9 +47,9 @@ return (
           <span className="font-monospace">
             <a
               style={{ color: "#333", textDecoration: "none" }}
-              href="https://devs.near.social"
+              href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${accountId}`}
             >
-              @devs.near
+              @{accountId}
             </a>
           </span>
         </small>
