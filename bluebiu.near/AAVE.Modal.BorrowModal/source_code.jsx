@@ -218,6 +218,21 @@ const changeValue = (value) => {
   }
 };
 
+function formatAddAction(_amount, status, transactionHash) {
+  addAction?.({
+    type: "Lending",
+    action: "Borrow",
+    token: {
+      symbol,
+    },
+    amount: _amount,
+    template: dexConfig.name,
+    add: false,
+    status,
+    transactionHash,
+  });
+}
+
 function borrowERC20(amount) {
   State.update({ loading: true });
   const pool = new ethers.Contract(
@@ -241,8 +256,14 @@ function borrowERC20(amount) {
     .then((tx) => {
       tx.wait()
         .then((res) => {
-          const { status } = res;
+          const { status, transactionHash } = res;
+          console.log("SUCCESS--", status, transactionHash);
           if (status === 1) {
+            formatAddAction(
+              Big(amount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
             onActionSuccess({
               msg: `You borrowed ${Big(amount)
                 .div(Big(10).pow(decimals))
@@ -284,8 +305,13 @@ function borrowETH(amount) {
     .then((tx) => {
       tx.wait()
         .then((res) => {
-          const { status } = res;
+          const { status, transactionHash } = res;
           if (status === 1) {
+            formatAddAction(
+              Big(amount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
             onActionSuccess({
               msg: `You borrowed ${Big(amount)
                 .div(Big(10).pow(decimals))
