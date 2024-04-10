@@ -98,10 +98,10 @@ const Governance = () => {
         </HeadingContainer>
         <img
           className="desktop"
-          src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1712740891/m4wlpvgcxbsii51g02bg.jpg"
+          src="https://ipfs.near.social/ipfs/bafkreibm7jdr25xkk27jo2x6dyt6y2zgvxmixbgfvdkifhalntzd6qwqzq"
         />
       </Container>
-      <MobileImage src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1712740919/rjgzjhsnhr17uor49vir.jpg" />
+      <MobileImage src="https://ipfs.near.social/ipfs/bafkreid6skww2tq5fb2f2gtnqyvpwep43y46a6qmh32ukkvkzd3tflz7de" />
     </>
   );
 };
