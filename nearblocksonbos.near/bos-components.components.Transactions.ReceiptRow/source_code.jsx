@@ -299,7 +299,7 @@ const ReceiptStatus = (props) => {
         readOnly
         rows={4}
         defaultValue={displayArgs(SuccessValue)}
-        className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 dark:bg-black-200 dark:border-black-200 p-3 mt-3 resize-y"
+        className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
       ></textarea>
     );
   }
@@ -310,7 +310,7 @@ const ReceiptStatus = (props) => {
         readOnly
         rows={4}
         defaultValue={JSON.stringify(status.Failure, null, 2)}
-        className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 dark:bg-black-200 dark:border-black-200 p-3 mt-3 resize-y"
+        className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
       ></textarea>
     );
   }
@@ -365,7 +365,7 @@ const AddKey = (props) => {
         <span className="font-bold">{shortenHex(props.args.public_key)}</span>){' '}
         {props.t ? props.t('txns:txn.actions.addKey.2') : 'added for'}
         <a href={`/address/${props.receiver}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+          <a className="text-green-500 font-bold hover:no-underline">
             {shortenAddress(props.receiver)}
           </a>
         </a>{' '}
@@ -378,12 +378,12 @@ const AddKey = (props) => {
   if (props.args.access_key.permission.permission_kind) {
     return (
       <div className="py-1">
-        <FaKey className="inline-flex text-gray-400 dark:text-neargray-10 mr-1" />{' '}
+        <FaKey className="inline-flex text-gray-400 mr-1" />{' '}
         {props.t ? props.t('txns:txn.actions.addKey.0') : 'New key'} (
         <span className="font-bold">{shortenHex(props.args.public_key)}</span>)
         {props.t ? props.t('txns:txn.actions.addKey.2') : 'added for'}{' '}
         <a href={`/address/${props.receiver}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+          <a className="text-green-500 font-bold hover:no-underline">
             {shortenAddress(props.receiver)}
           </a>
         </a>{' '}
@@ -397,7 +397,7 @@ const AddKey = (props) => {
 
   return (
     <div className="py-1">
-      <FaKey className="inline-flex text-gray-400 dark:text-neargray-10 mr-1" />{' '}
+      <FaKey className="inline-flex text-gray-400 mr-1" />{' '}
       {props.t ? props.t('txns:txn.actions.addKey.1') : 'Access key'} (
       <span className="font-bold">{shortenHex(props.args.public_key)}</span>){' '}
       {props.t ? props.t('txns:txn.actions.addKey.2') : 'added for'}
@@ -406,7 +406,7 @@ const AddKey = (props) => {
         href={`/address/${props.args.access_key.permission.FunctionCall.receiver_id}`}
         className="hover:no-underline"
       >
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(
             props.args.access_key.permission.FunctionCall.receiver_id,
           )}
@@ -461,7 +461,7 @@ const CreateAccount = (props) => {
       <FaUser className="inline-flex text-emerald-400 mr-1" />{' '}
       {props.t ? props.t('txns:txn.actions.createAccount.0') : 'New account'} (
       <a href={`/address/${props.receiver}`} className="hover:no-underline">
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(props.receiver)}
         </a>
       </a>
@@ -469,11 +469,6 @@ const CreateAccount = (props) => {
     </div>
   );
 };
-
-
-
-
-
 
 const DeleteAccount = (props) => {
   const { shortenAddress } = VM.require(
@@ -487,7 +482,7 @@ const DeleteAccount = (props) => {
         : 'Delete account'}{' '}
       (
       <a href={`/address/${props.receiver}`} className="hover:no-underline">
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(props.receiver)}
         </a>
       </a>
@@ -499,7 +494,7 @@ const DeleteAccount = (props) => {
         href={`/address/${props.args.beneficiary_id}`}
         className="hover:no-underline"
       >
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(props.args.beneficiary_id)}
         </a>
       </a>
@@ -559,7 +554,7 @@ const DeployContract = (props) => {
       <FaCode className="inline-flex text-emerald-400 mr-1" />{' '}
       {t ? t('txns:txn.actions.deployContract.0') : 'Contract'} (
       <a href={`/address/${receiver}`} className="hover:no-underline">
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(receiver)}
         </a>
       </a>
@@ -816,26 +811,16 @@ const FunctionCall = (props) => {
       <span className="font-bold">{args?.method_name}</span>{' '}
       {t ? t('txns:txn.actions.functionCall.1') : 'in contract'}
       <a href={`/address/${receiver}`} className="hover:no-underline">
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(receiver)}
         </a>
       </a>
-      {args?.method_name === 'rlp_execute' ? (
-        <Widget
-          src={`${props.ownerId}/widget/includes.Common.Receipts.RlpTransaction`}
-          props={{
-            ownerId: props.ownerId,
-            pretty: args.args_base64 || args.args,
-          }}
-        />
-      ) : (
-        <textarea
-          readOnly
-          rows={4}
-          defaultValue={displayArgs(args.args_base64 || args.args)}
-          className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 dark:bg-black-200 dark:border-black-200  p-3 mt-3 resize-y"
-        ></textarea>
-      )}
+      <textarea
+        readOnly
+        rows={4}
+        defaultValue={displayArgs(args?.args_base64 || args?.args)}
+        className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
+      ></textarea>
     </div>
   );
 };
@@ -931,7 +916,7 @@ const Transfer = (props) => {
       </span>{' '}
       {t ? t('txns:txn.actions.transfer.1') : 'to'}
       <a href={`/address/${receiver}`} className="hover:no-underline">
-        <a className="text-green-500 dark:text-green-250 font-bold hover:no-underline">
+        <a className="text-green-500 font-bold hover:no-underline">
           {shortenAddress(receiver)}
         </a>
       </a>
@@ -941,9 +926,6 @@ const Transfer = (props) => {
 
 const TransactionActions = (props) => {
   const { action, receiver, t, ownerId } = props;
-  const { mapRpcActionToAction } = VM.require(
-    `${ownerId}/widget/includes.Utils.near`,
-  );
 
   switch (action.action_kind) {
     case 'ADD_KEY':
@@ -1021,30 +1003,6 @@ const TransactionActions = (props) => {
           ownerId={ownerId}
         />
       );
-    case 'Delegate':
-    case 'DELEGATE':
-      const delegateAction =
-        action?.args?.delegate_action?.actions &&
-        action?.args?.delegate_action?.actions?.map((txn) =>
-          mapRpcActionToAction(txn),
-        );
-      return (
-        delegateAction &&
-        delegateAction.map((subAction, i) => (
-          <div className="flex flex-col" key={i}>
-            <p className="text-sm font-semibold">
-              Actions delegated for {receiver}
-            </p>
-            <TransactionActions
-              key={i}
-              action={subAction}
-              receiver={action?.args?.delegate_action?.receiver_id}
-              t={t}
-              ownerId={ownerId}
-            />
-          </div>
-        ))
-      );
 
     default:
       return <div>{action.action_kind}</div>;
@@ -1110,37 +1068,36 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 dark:bg-black-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
+        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
       ></div>
     );
   };
 
   return (
-    <div className="divide-solid divide-gray-200 dark:divide-black-200 divide-y">
+    <div className="divide-solid divide-gray-200 divide-y">
       <div
-        className={
-          borderFlag
-            ? ''
-            : 'border-l-4 border-green-400 dark:border-green-250 ml-8 my-2'
-        }
+        className={borderFlag ? '' : 'border-l-4 border-green-400 ml-8 my-2'}
       >
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   {t
                     ? t('txns:txn.receipts.receipt.tooltip')
                     : 'Unique identifier (hash) of this receipt.'}
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t ? t('txns:txn.receipts.receipt.text.0') : 'Receipt'}
           </div>
           {!receipt || loading ? (
@@ -1155,19 +1112,22 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   Block height
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t ? t('txns:txn.receipts.block.text.0') : 'Block'}
           </div>
           {!receipt || loading ? (
@@ -1180,7 +1140,7 @@ function MainComponent(props) {
                 href={`/blocks/${receipt.block_hash}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                <a className="text-green-500 hover:no-underline">
                   {localFormat(block?.block_height)}
                 </a>
               </Link>
@@ -1192,21 +1152,24 @@ function MainComponent(props) {
         <div>
           <div className="flex flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-              <OverlayTrigger
-                placement="bottom-start"
-                delay={{ show: 500, hide: 0 }}
-                overlay={
-                  <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <div>
+                      <Question className="w-4 h-4 fill-current mr-1" />
+                    </div>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content
+                    className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                    align="start"
+                    side="bottom"
+                  >
                     {t
                       ? t('txns:txn.receipts.from.tooltip')
                       : 'The account which issued a receipt.'}
-                  </Tooltip>
-                }
-              >
-                <div>
-                  <Question className="w-4 h-4 fill-current mr-1" />
-                </div>
-              </OverlayTrigger>
+                  </Tooltip.Content>
+                </Tooltip.Root>
+              </Tooltip.Provider>
               {t ? t('txns:txn.receipts.from.text.0') : 'From'}
             </div>
             {!receipt || loading ? (
@@ -1219,7 +1182,7 @@ function MainComponent(props) {
                   href={`/address/${receipt?.predecessor_id}`}
                   className="hover:no-underline"
                 >
-                  <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                  <a className="text-green-500 hover:no-underline">
                     {receipt?.predecessor_id}
                   </a>
                 </Link>
@@ -1230,21 +1193,24 @@ function MainComponent(props) {
           </div>
           <div className="flex flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-              <OverlayTrigger
-                placement="bottom-start"
-                delay={{ show: 500, hide: 0 }}
-                overlay={
-                  <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <div>
+                      <Question className="w-4 h-4 fill-current mr-1" />
+                    </div>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content
+                    className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                    align="start"
+                    side="bottom"
+                  >
                     {t
                       ? t('txns:txn.receipts.to.tooltip')
                       : 'The destination account of the receipt.'}
-                  </Tooltip>
-                }
-              >
-                <div>
-                  <Question className="w-4 h-4 fill-current mr-1" />
-                </div>
-              </OverlayTrigger>
+                  </Tooltip.Content>
+                </Tooltip.Root>
+              </Tooltip.Provider>
               {t ? t('txns:txn.receipts.to.text.0') : 'To'}
             </div>
             {!receipt || loading ? (
@@ -1257,7 +1223,7 @@ function MainComponent(props) {
                   href={`/address/${receipt?.receiver_id}`}
                   className="hover:no-underline"
                 >
-                  <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                  <a className="text-green-500 hover:no-underline">
                     {receipt?.receiver_id}
                   </a>
                 </Link>
@@ -1269,21 +1235,24 @@ function MainComponent(props) {
         </div>
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   {t
                     ? t('txns:txn.receipts.burnt.tooltip')
                     : 'Total amount of Gas & Token burnt from this receipt.'}
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t
               ? t('txns:txn.receipts.burnt.text.0')
               : 'Burnt Gas & Tokens by Receipt'}
@@ -1294,7 +1263,7 @@ function MainComponent(props) {
             </div>
           ) : receipt?.outcome?.gas_burnt ? (
             <div className="w-full items-center text-xs flex md:w-3/4 break-words">
-              <div className="bg-orange-50  dark:bg-black-200 rounded-md px-2 py-1">
+              <div className="bg-orange-50 rounded-md px-2 py-1">
                 <span className="text-xs mr-2">🔥 </span>
                 {receipt?.outcome?.gas_burnt
                   ? convertToMetricPrefix(receipt?.outcome?.gas_burnt) + 'gas'
@@ -1312,21 +1281,24 @@ function MainComponent(props) {
         </div>
         <div className="flex items-start flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   {t
                     ? t('txns:txn.receipts.actions.tooltip')
                     : 'The actions performed during receipt processing.'}
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t ? t('txns:txn.receipts.actions.text.0') : 'Actions'}
           </div>
           {!receipt || loading ? (
@@ -1355,21 +1327,24 @@ function MainComponent(props) {
         </div>
         <div className="flex items-start flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   {t
                     ? t('txns:txn.receipts.result.tooltip')
                     : 'The result of the receipt execution.'}
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t ? t('txns:txn.receipts.result.text.0') : 'Result'}
           </div>
           {!receipt || loading ? (
@@ -1386,21 +1361,24 @@ function MainComponent(props) {
         </div>
         <div className="flex items-start flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <div>
+                    <Question className="w-4 h-4 fill-current mr-1" />
+                  </div>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                  align="start"
+                  side="bottom"
+                >
                   {t
                     ? t('txns:txn.receipts.logs.tooltip')
                     : 'Logs included in the receipt.'}
-                </Tooltip>
-              }
-            >
-              <div>
-                <Question className="w-4 h-4 fill-current mr-1" />
-              </div>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
             {t ? t('txns:txn.receipts.logs.text.0') : 'Logs'}
           </div>
           {!receipt || loading ? (
@@ -1416,7 +1394,7 @@ function MainComponent(props) {
                   readOnly
                   rows={4}
                   defaultValue={receipt?.outcome?.logs?.join('\n')}
-                  className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 dark:bg-black-200 dark:border-black-200 p-3 mt-3 resize-y"
+                  className="block appearance-none outline-none w-full border rounded-lg bg-gray-100 p-3 mt-3 resize-y"
                 ></textarea>
               ) : (
                 'No Logs'
@@ -1439,7 +1417,6 @@ function MainComponent(props) {
                       network: network,
                       Link,
                       ownerId,
-                      t,
                     }}
                   />
                 }
