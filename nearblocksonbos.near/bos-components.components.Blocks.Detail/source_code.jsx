@@ -20,24 +20,6 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-1 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -51,27 +33,10 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FileSlash.jsx" */
-const FileSlash = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      data-name="Layer 1"
-      viewBox="0 0 24 24"
-      height="24"
-      width="24"
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-    >
-      <path d="M21.71,20.29l-18-18A1,1,0,0,0,2.29,3.71L4,5.41V19a3,3,0,0,0,3,3H17a3,3,0,0,0,2.39-1.2l.9.91a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM17,20H7a1,1,0,0,1-1-1V7.41L17.93,19.34A1,1,0,0,1,17,20ZM8.66,4H12V7a3,3,0,0,0,3,3h3v3.34a1,1,0,1,0,2,0V9s0,0,0-.06a1.31,1.31,0,0,0-.06-.27l0-.09a1.07,1.07,0,0,0-.19-.28h0l-6-6h0a1.07,1.07,0,0,0-.28-.19l-.09,0L13.06,2H8.66a1,1,0,0,0,0,2ZM14,5.41,16.59,8H15a1,1,0,0,1-1-1Z" />
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FileSlash.jsx" */
 
 
 function MainComponent(props) {
@@ -103,7 +68,7 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 dark:bg-black-200 h-4 rounded shadow-sm animate-pulse ${props.className}`}
+        className={`bg-gray-200 h-4 rounded shadow-sm animate-pulse ${props.className}`}
       ></div>
     );
   };
@@ -115,7 +80,7 @@ function MainComponent(props) {
 
   const LinkWrapper = (props) => (
     <Link href={props.href} className="hover:no-underline">
-      <a className="bg-green-500 dark:bg-black-200 bg-opacity-10 hover:bg-opacity-100 text-green-500 dark:text-green-250 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
+      <a className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 text-green-500 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
         {props.children}
       </a>
     </Link>
@@ -214,7 +179,7 @@ function MainComponent(props) {
             <Skeleton className="h-7" />
           </div>
         ) : (
-          <h1 className="text-xl text-nearblue-600 dark:text-neargray-10 px-2 py-5">
+          <h1 className="text-xl text-nearblue-600 px-2 py-5">
             {t ? (
               <>
                 {t('blocks:block.heading.0')}
@@ -239,19 +204,11 @@ function MainComponent(props) {
       </div>
       {error || (!isLoading && !block) ? (
         <div className="text-nearblue-700 text-xs px-2 mb-5">
-          <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
-            <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 dark:divide-black-200 divide-y">
-              <ErrorMessage
-                icons={<FileSlash />}
-                message="Sorry, We are unable to locate this BlockHash"
-                mutedText={hash}
-              />
-            </div>
-          </div>
+          {t ? t('blocks:blockError') : 'Block Error'}
         </div>
       ) : (
         <>
-          <div className="bg-white text-sm text-nearblue-600 dark:text-neargray-10 dark:bg-black-600 dark:divide-black-200 divide-solid divide-gray-200 divide-y soft-shadow rounded-xl">
+          <div className="bg-white text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y soft-shadow rounded-xl">
             {network === 'testnet' && (
               <div className="flex flex-wrap p-4 text-red-500">
                 {t
@@ -371,7 +328,7 @@ function MainComponent(props) {
                     href={`/address/${block?.author_account_id}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                    <a className="text-green-500 hover:no-underline">
                       {block?.author_account_id}
                     </a>
                   </Link>
@@ -452,7 +409,7 @@ function MainComponent(props) {
                     href={`/blocks/${block?.prev_block_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                    <a className="text-green-500 hover:no-underline">
                       {block?.prev_block_hash}
                     </a>
                   </Link>
