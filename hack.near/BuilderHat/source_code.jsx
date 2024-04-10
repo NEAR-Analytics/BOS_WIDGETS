@@ -8,7 +8,7 @@ let isBuilder =
 
 let isActive = props.isActive ?? false;
 
-const color = isActive ? "yellow" : "gray";
+const color = props.color ?? isActive ? "yellow" : "gray";
 
 const colorOptions = {
   yellow: { fill: "#ffd046", stroke: "#f0a957" },
