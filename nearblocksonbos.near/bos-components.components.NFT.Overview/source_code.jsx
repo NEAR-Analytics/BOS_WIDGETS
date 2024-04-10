@@ -7,9 +7,7 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} ownerId - The identifier of the owner of the component.
- * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  */
-
 
 
 
@@ -52,7 +50,7 @@ const Links = (props) => {
                 <img
                   width="16"
                   height="16"
-                  className="w-4 h-4 dark:invert dark:filter"
+                  className="w-4 h-4"
                   src="/images/twitter_icon.svg"
                   alt="Twitter"
                 />
@@ -137,7 +135,7 @@ const Links = (props) => {
           <Tooltip.Root>
             <Tooltip.Trigger asChild>
               <a
-                href={`https://www.coingecko.com/en/coins/${meta.coingecko_id}?utm_campaign=partnership&utm_source=nearblocks&utm_medium=referral`}
+                href={`https://www.coingecko.com/en/coins/${meta.coingecko_id}`}
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 className="flex"
@@ -177,7 +175,7 @@ const Links = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -262,7 +260,7 @@ const WarningIcon = (props) => {
 
 const tabs = ['Transfers', 'Holders', 'Inventory', 'Comments'];
 
-function MainComponent({ network, id, ownerId, t }) {
+function MainComponent({ network, id, ownerId }) {
   const { localFormat, getTimeAgoString } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
@@ -389,12 +387,12 @@ function MainComponent({ network, id, ownerId, t }) {
   return (
     <>
       <div className="flex items-center justify-between flex-wrap pt-4">
-        {isLoading ? (
+        {!token ? (
           <div className="w-80 max-w-xs px-3 py-5">
             <Skeleton className="h-7" />
           </div>
         ) : (
-          <h1 className="break-all space-x-2 text-xl text-nearblue-600 dark:text-neargray-10 leading-8 py-4 px-2">
+          <h1 className="break-all space-x-2 text-xl text-nearblue-600 leading-8 py-4 px-2">
             <span className="inline-flex align-middle h-7 w-7">
               <TokenImage
                 src={token?.icon}
@@ -413,12 +411,12 @@ function MainComponent({ network, id, ownerId, t }) {
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="w-full">
-            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl">
-              <h2 className="border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+            <div className="h-full bg-white soft-shadow rounded-xl">
+              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
                 Overview
               </h2>
 
-              <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+              <div className="px-3 divide-y text-sm text-nearblue-600">
                 <div className="flex flex-wrap py-4">
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">
                     Total Supply:
@@ -484,11 +482,11 @@ function MainComponent({ network, id, ownerId, t }) {
             </div>
           </div>
           <div className="w-full">
-            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+            <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
+              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
                 Profile Summary
               </h2>
-              <div className="px-3 divide-y  dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+              <div className="px-3 divide-y text-sm text-nearblue-600">
                 <div className="flex flex-wrap items-center justify-between py-4">
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">Contract:</div>
                   {isLoading ? (
@@ -496,12 +494,12 @@ function MainComponent({ network, id, ownerId, t }) {
                       <Skeleton className="h-4 w-32" />
                     </div>
                   ) : (
-                    <div className="w-full text-green-500 dark:text-green-250 md:w-3/4 break-words">
+                    <div className="w-full text-green-500 md:w-3/4 break-words">
                       <Link
                         href={`/address/${token?.contract}`}
                         className="hover:no-underline"
                       >
-                        <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                        <a className="text-green-500 hover:no-underline">
                           {token?.contract}
                         </a>
                       </Link>
@@ -512,7 +510,7 @@ function MainComponent({ network, id, ownerId, t }) {
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">
                     Official Site:
                   </div>
-                  <div className="w-full md:w-3/4 text-green-500 dark:text-green-250 break-words">
+                  <div className="w-full md:w-3/4 text-green-500 break-words">
                     {isLoading ? (
                       <Skeleton className="h-4 w-32" />
                     ) : (
@@ -551,10 +549,10 @@ function MainComponent({ network, id, ownerId, t }) {
                   <button
                     key={index}
                     onClick={() => onTab(index)}
-                    className={`  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
+                    className={`text-nearblue-600 text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                       pageTab === tab
-                        ? 'rounded-lg bg-green-600 dark:bg-green-250  text-white'
-                        : 'hover:bg-neargray-800 bg-neargray-700 dark:bg-black-200 rounded-lg hover:text-nearblue-600 text-nearblue-600 dark:text-neargray-10'
+                        ? 'rounded-lg bg-green-600 text-white'
+                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
                     }`}
                     value={tab}
                   >
@@ -562,7 +560,7 @@ function MainComponent({ network, id, ownerId, t }) {
                   </button>
                 ))}
             </div>
-            <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+            <div className="bg-white soft-shadow rounded-xl pb-1">
               <div className={`${pageTab === 'Transfers' ? '' : 'hidden'} `}>
                 {
                   <Widget
@@ -570,7 +568,6 @@ function MainComponent({ network, id, ownerId, t }) {
                     props={{
                       network: network,
                       id: id,
-                      t: t,
                       ownerId,
                     }}
                   />
