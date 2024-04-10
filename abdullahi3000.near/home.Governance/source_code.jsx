@@ -98,7 +98,7 @@ const Governance = () => {
         </HeadingContainer>
         <img
           className="desktop"
-          src="https://ipfs.near.social/ipfs/bafkreibm7jdr25xkk27jo2x6dyt6y2zgvxmixbgfvdkifhalntzd6qwqzq"
+          src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1712740891/m4wlpvgcxbsii51g02bg.jpg"
         />
       </Container>
       <MobileImage src="https://ipfs.near.social/ipfs/bafkreid6skww2tq5fb2f2gtnqyvpwep43y46a6qmh32ukkvkzd3tflz7de" />
