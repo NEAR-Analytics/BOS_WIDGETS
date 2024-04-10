@@ -35,15 +35,9 @@ const QRCodeIcon = (props) => {
 
 
 
-
 const QrCode = (props) => {
-  const colorDark = props.theme === 'dark' ? '#ffffff' : '#000000';
-  const colorLight = props.theme === 'dark' ? '#000000' : '#ffffff';
-
   const srcData = `
-    <html style="background-color: ${
-      props.theme === 'dark' ? '#0d0d0d' : '#fffff'
-    };">
+    <html>
     <body>
       <div id="qrcode" style="display: flex; flex-direction: column; justify-content: center; align-items: center;"></div>
     
@@ -53,8 +47,8 @@ const QrCode = (props) => {
         text: "${props.value}",
         width: ${props.width},
         height: ${props.height},
-        colorDark:"${colorDark}",
-        colorLight: "${colorLight}",
+        colorDark: "#000000",
+        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H, // L, M, Q, H
         logoBackgroundTransparent: true,
         logoWidth: 150, 
@@ -69,7 +63,7 @@ const QrCode = (props) => {
     `;
 
   return (
-    <div className="">
+    <div>
       <iframe
         srcDoc={srcData}
         style={{
@@ -78,7 +72,6 @@ const QrCode = (props) => {
           height: 320,
           minHeight: 320,
           marginTop: 30,
-          backgroundColor: 'transparent',
         }}
       />
     </div>
@@ -139,7 +132,6 @@ const CloseCircle = (props) => {
 
 
 
-
 function MainComponent(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const onCopyClick = () => {
@@ -158,9 +150,9 @@ function MainComponent(props) {
               <button
                 type="button"
                 onClick={onCopyClick}
-                className="bg-green-500 dark:bg-black-200 bg-opacity-10 hover:bg-opacity-100 group rounded-full p-1.5 w-7 h-7"
+                className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 group rounded-full p-1.5 w-7 h-7"
               >
-                <CopyIcon className="fill-current -z-50 text-green-500 dark:text-green-250 group-hover:text-white h-4 w-4" />
+                <CopyIcon className="fill-current -z-50 text-green-500 group-hover:text-white h-4 w-4" />
               </button>
             </Tooltip.Trigger>
             <Tooltip.Content
@@ -175,11 +167,11 @@ function MainComponent(props) {
         </Tooltip.Provider>
         <Dialog.Root>
           <Dialog.Trigger asChild>
-            <button className="bg-green-500 dark:bg-black-200 items-center bg-opacity-10 hover:bg-opacity-100 group rounded-full p-1.5 w-7 h-7">
+            <button className="bg-green-500 items-center bg-opacity-10 hover:bg-opacity-100 group rounded-full p-1.5 w-7 h-7">
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <QRCodeIcon className="fill-current text-green-500 dark:text-green-250 group-hover:text-white h-4 w-4" />
+                    <QRCodeIcon className="fill-current text-green-500 group-hover:text-white h-4 w-4" />
                   </Tooltip.Trigger>
                   <Tooltip.Content
                     className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
@@ -193,9 +185,9 @@ function MainComponent(props) {
             </button>
           </Dialog.Trigger>
           <Dialog.Overlay className="bg-green-500 bg-opacity-10 data-[state=open]:animate-overlayShow fixed inset-0" />
-          <Dialog.Content className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] overflow-clip bg-white dark:bg-black-600 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] w-96 h-96 ">
+          <Dialog.Content className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] w-96 h-96 ">
             <Dialog.Title>
-              <div className="flex items-center justify-between bg-gray-100 dark:bg-black-200 dark:text-neargray-10 px-3 py-4">
+              <div className="flex items-center justify-between bg-gray-100 px-3 py-4">
                 <h4 className="flex items-center text-xs break-all">
                   {props.id}
                 </h4>
@@ -210,12 +202,7 @@ function MainComponent(props) {
               </div>
             </Dialog.Title>
             <div className="p-4">
-              <QrCode
-                value={props.id}
-                width={160}
-                height={160}
-                theme={props.theme}
-              />
+              <QrCode value={props.id} width={160} height={160} />
             </div>
           </Dialog.Content>
         </Dialog.Root>
