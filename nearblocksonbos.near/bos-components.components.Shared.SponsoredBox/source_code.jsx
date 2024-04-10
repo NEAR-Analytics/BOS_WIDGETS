@@ -34,7 +34,7 @@ const Trade = (props) => {
             target="_blank"
             rel="noopener noreferrer nofollow"
           >
-            <span className="flex items-center text-green-500 dark:text-green-250 text-sm mb-2">
+            <span className="flex items-center text-green-500 text-sm mb-2">
               <img
                 src={`${props.appUrl}sponsored/ref-finance-icon.svg`}
                 alt="1inch - #1 DeFi aggregator"
@@ -45,9 +45,7 @@ const Trade = (props) => {
               <h3 className="ml-2"> {sponsore.title}</h3>
             </span>
           </a>
-          <p className="text-xs text-gray-500 dark:text-neargray-10">
-            {sponsore.description}
-          </p>
+          <p className="text-xs text-gray-500">{sponsore.description}</p>
         </div>
       ))}
     </div>
@@ -70,7 +68,7 @@ const Earn = (props) => {
       target="_blank"
       rel="noopener noreferrer nofollow"
     >
-      <span className="flex items-center text-green-500 dark:text-green-250 text-sm mb-2">
+      <span className="flex items-center text-green-500 text-sm mb-2">
         <img
           alt="Stader Labs"
           width={15}
@@ -124,7 +122,7 @@ const Store = (props) => {
             target="_blank"
             rel="noopener noreferrer nofollow"
           >
-            <span className="flex items-center text-green-500 dark:text-green-250 text-sm mb-2">
+            <span className="flex items-center text-green-500 text-sm mb-2">
               <img
                 alt="1inch - #1 DeFi aggregator"
                 width={20}
@@ -135,9 +133,7 @@ const Store = (props) => {
               <h3 className="ml-2"> {sponsore.title}</h3>
             </span>
           </a>
-          <p className="text-xs text-gray-500 dark:text-neargray-10">
-            {sponsore.description}
-          </p>
+          <p className="text-xs text-gray-500">{sponsore.description}</p>
         </div>
       ))}
     </div>
@@ -162,10 +158,7 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path
-        fill="currentColor"
-        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
-      />
+      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
