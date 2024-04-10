@@ -2,6 +2,9 @@ const easRenderAttestation = ({ attestation }) => {
   return (
     <div className="attestation">
       <h2>Attestation Details</h2>
+      <p className="m-2">
+        <b>Raw JSON:</b> {JSON.stringify(attestation)}
+      </p>
       <strong>UID:</strong> {attestation.uid}
       <br />
       <strong>Schema:</strong> {attestation.schema}
