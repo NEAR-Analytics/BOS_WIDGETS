@@ -163,14 +163,14 @@ return (
   <Container>
     <div className="d-flex justify-content-between align-items-center m-1">
       <h3 className="mb-3">every {type}</h3>
-      {/* <div>
-        <button className="classic me-2">
-          <i className="bi bi-upload" />
-        </button>
-        <button className="classic">
-          <i className="bi bi-gear" />
-        </button>
-      </div> */}
+      <div className="mb-2">
+        <a
+          href="https://draw.everything.dev"
+          className="btn btn-sm btn-warning"
+        >
+          <i className="bi bi-stars" /> <b>ideate</b>
+        </a>
+      </div>
     </div>
     <Widget
       src="everycanvas.near/widget/ItemFeed"
