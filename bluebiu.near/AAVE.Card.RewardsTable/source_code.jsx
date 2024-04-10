@@ -53,6 +53,7 @@ const columns = [
   { type: "button", width: "20%" },
 ];
 
+console.log("reward_table--", data);
 return (
   <>
     <RewardsTable>
