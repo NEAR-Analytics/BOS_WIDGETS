@@ -8,7 +8,7 @@ const Container = styled.div`
 
   border-radius: 100px;
   border: 1px solid var(--eca-227, #2287C2);
-  background: rgba(236, 162, 39, 0.2);
+  background: #7dc6f0;
 
   span {
     color: var(--eca-227, #2287C2);
