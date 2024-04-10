@@ -67,6 +67,20 @@ const Card = styled.div`
   }
 `;
 
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  padding: 48px;
+
+  @media screen and (max-width: 768px) {
+    padding: 32px 20px;
+    gap: 20px;
+  }
+`;
+
 const Logo = styled.img`
   height: 128px;
   width: max-content;
@@ -137,8 +151,10 @@ const Footer = ({ noBanner }) => {
     <Container className="container-xl">
       {!noBanner && (
         <Card>
-          <div className="container-xl mt-md-3 z-3 align-items-center">
+          <Container className="container-xl mt-md-3 z-3">
             <Logo src={logoLink} />
+          </Container>
+          <div className="d-flex flex-column align-items-center">
             <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
