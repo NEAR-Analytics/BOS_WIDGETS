@@ -1,4 +1,4 @@
-const ownerId = context.accountId;
+const ownerId = "hack.near";
 
 State.init({
   signature: true,
