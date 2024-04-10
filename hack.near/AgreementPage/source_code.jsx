@@ -346,7 +346,7 @@ return (
               href={`https://www.nearbuilders.org/buildhub.near/widget/app?page=profile&accountId=${context.accountId}`}
             >
               <Widget
-                src="hack.near/widget/profile.image"
+                src="hack.near/widget/profile.builder"
                 props={{ accountId: context.accountId }}
               />
             </a>
