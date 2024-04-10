@@ -11,7 +11,7 @@ const Container = styled.div`
   background: #7dc6f059;
 
   span {
-    color: var(--eca-227, #0A151D);
+    color: var(--eca-227, #2287C2);
     text-align: center;
     font-family: "Zen Kaku Gothic Antique", sans-serif;
     font-size: 16px;
