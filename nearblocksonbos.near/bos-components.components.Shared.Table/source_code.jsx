@@ -1,78 +1,3 @@
-/* INCLUDE COMPONENT: "includes/Common/CursorPaginator.jsx" */
-const CursorPaginator = (props) => {
-  const [disabled, setDisabled] = useState(true);
-  const initialPage = 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
-
-  const { formatWithCommas } = VM.require(
-    `${props.ownerId}/widget/includes.Utils.formats`,
-  );
-
-  function constructURL(params) {
-    let url = props.apiUrl;
-    if (params) {
-      return `${url}cursor=${params}&`;
-    }
-    return url;
-  }
-
-  const handleNextPage = () => {
-    props.setUrl(constructURL(props.cursor));
-    setCurrentPage((prev) => prev + 1);
-    setDisabled(false);
-  };
-  const onFirst = () => {
-    props.setUrl(props.apiUrl);
-    setDisabled(true);
-    setCurrentPage(initialPage);
-  };
-
-  return (
-    <>
-      <div className="bg-white dark:bg-black-600 px-2 py-3 flex items-center justify-between border-t dark:border-black-200 md:px-4 rounded-b-xl">
-        <div className="flex-1 flex items-center justify-between">
-          <div></div>
-          <div
-            className="relative z-0 inline-flex rounded-md"
-            aria-label="Pagination"
-          >
-            <button
-              type="button"
-              disabled={disabled || props.isLoading}
-              onClick={onFirst}
-              className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                disabled || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:bg-green-400 dark:hover:bg-green-250 hover:text-white dark:hover:text-black'
-              } bg-gray-100 dark:bg-black-200 dark:text-green-250`}
-            >
-              First
-            </button>
-            <button
-              type="button"
-              disabled
-              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500  rounded-md  bg-gray-100 dark:bg-black-200 dark:text-neargray-10"
-            >
-              {`Page ${formatWithCommas(currentPage)}`}
-            </button>
-            <button
-              type="button"
-              disabled={props.isLoading || !props.cursor}
-              onClick={handleNextPage}
-              className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium text-xs ${
-                props.isLoading || !props.cursor
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/CursorPaginator.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
 const FaChevronLeft = () => {
   return (
@@ -116,10 +41,9 @@ const FaChevronRight = () => {
 
 
 
-
 const Paginator = (props) => {
   let pages;
-  if (props.count > 0) {
+  if (props.count) {
     pages = Math.ceil(props.count / props.limit);
   } else {
     pages = 1;
@@ -143,7 +67,7 @@ const Paginator = (props) => {
   const onLast = () => props.setPage(pages);
 
   return (
-    <div className="bg-white dark:bg-black-600 px-2 py-3 flex items-center justify-between border-t dark:border-black-200 md:px-4 rounded-b-xl">
+    <div className="bg-white px-2 py-3 flex items-center justify-between border-t md:px-4">
       <div className="flex-1 flex items-center justify-between">
         <div></div>
 
@@ -154,56 +78,56 @@ const Paginator = (props) => {
           >
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1 || props.isLoading}
+              disabled={props.page <= 1 || pages === 1}
               onClick={onFirst}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                props.page <= 1 || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:bg-green-400 dark:hover:bg-green-250 hover:text-white dark:hover:text-black'
-              } bg-gray-100 dark:bg-black-200 dark:text-green-250`}
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:bg-green-400 hover:text-white'
+              } bg-gray-100`}
             >
               First
             </button>
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1 || props.isLoading}
+              disabled={props.page <= 1 || pages === 1}
               onClick={onPrev}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
-                props.page <= 1 || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              } rounded-md  bg-gray-100 dark:bg-black-200`}
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              } rounded-md  bg-gray-100`}
             >
               <FaChevronLeft />
             </button>
             <button
               type="button"
               disabled
-              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500  rounded-md  bg-gray-100 dark:bg-black-200 dark:text-neargray-10"
+              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
             >
               Page {props.page} of {pages}
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1 || props.isLoading}
+              disabled={props.page >= pages || pages === 1}
               onClick={onNext}
               className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
-                props.page >= pages || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100`}
             >
               <FaChevronRight />
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1 || props.isLoading}
+              disabled={props.page >= pages || pages === 1}
               onClick={onLast}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
-                props.page >= pages || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100 `}
             >
               Last
             </button>
@@ -226,7 +150,7 @@ const Paginator = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -244,17 +168,7 @@ const Skeleton = (props) => {
  * @param {function} renderRowSubComponent - A function is used to render a sub-component for each row in the table.
  * @param {Array} expanded - An array of numbers representing the indices of rows that are expanded.
  * @param {boolean} isExpanded -  Flag for compact table display.
- * @param {boolean} cursorPagination - Indicates if cursor pagination is enabled for the table
- * @param {string} cursor - Cursor to be set when pagination is applied.
- * @param {string} apiUrl - URL used for attaching cursor during pagination.
- * @param {function} setUrl - A function used to set the URL on the current table.
- * @param {string} ownerId - The identifier of the owner of the component.
  */
-
-
-
-
-
 
 
 
@@ -284,8 +198,8 @@ function MainComponent(props) {
     return (
       <>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y dark:divide-black-200 dark:border-black-200 border-t">
-            <thead className="bg-gray-100 dark:bg-black-300 h-[51px]">
+          <table className="min-w-full divide-y border-t">
+            <thead className="bg-gray-100 h-[51px]">
               <tr>
                 {props.columns.map((column, index) => (
                   <th key={index} scope="col" className={column.thClassName}>
@@ -294,7 +208,7 @@ function MainComponent(props) {
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-black-600 dark:divide-black-200 divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200">
               {[...Array(props.limit)].map((_, index) => (
                 <tr key={index} className=" hover:bg-blue-900/5 h-[57px]">
                   {props.columns.map((column, colIndex) => (
@@ -311,21 +225,9 @@ function MainComponent(props) {
           <Paginator
             count={props.count}
             page={props.page}
-            isLoading={props.isLoading}
             limit={props.limit}
             pageLimit={props.pageLimit}
             setPage={props.setPage}
-          />
-        ) : null}
-        {props.cursorPagination ? (
-          <CursorPaginator
-            apiUrl={props.apiUrl}
-            count={props.count}
-            limit={props.limit}
-            setUrl={props.setUrl}
-            cursor={props.cursor}
-            isLoading={props.isLoading}
-            ownerId={props.ownerId}
           />
         ) : null}
       </>
@@ -334,12 +236,8 @@ function MainComponent(props) {
   return (
     <>
       {props.isExpanded ? (
-        <div className={`bg-gray-50 dark:bg-black-600 overflow-x-auto`}>
-          <table
-            className={
-              'min-w-full divide-y dark:divide-black-200 dark:border-black border-separate '
-            }
-          >
+        <div className={`bg-gray-50 overflow-x-auto`}>
+          <table className={'min-w-full divide-y border-separate '}>
             <thead>
               <tr>
                 {props?.columns.map((column, index) => (
@@ -360,6 +258,21 @@ function MainComponent(props) {
               {props.data &&
                 props.data.map((row, rowIndex) => (
                   <Fragment key={rowIndex}>
+                    <tr
+                      key={`expandRow-${rowIndex}`}
+                      className=" hover:bg-blue-900/5 h-[57px]"
+                    >
+                      {props.columns.map((column, colIndex) => (
+                        <td
+                          key={`expandCol-${colIndex}`}
+                          className={column.tdClassName}
+                        >
+                          {column.cell
+                            ? column.cell(row, rowIndex)
+                            : row[column.key]}
+                        </td>
+                      ))}
+                    </tr>
                     {row?.showWarning && (
                       <tr
                         key={`expandWarning-${rowIndex}`}
@@ -373,18 +286,6 @@ function MainComponent(props) {
                         </td>
                       </tr>
                     )}
-                    <tr key={`expandRow-${rowIndex}`} className="h-[57px]">
-                      {props.columns.map((column, colIndex) => (
-                        <td
-                          key={`expandCol-${colIndex}`}
-                          className={column.tdClassName}
-                        >
-                          {column.cell
-                            ? column.cell(row, rowIndex)
-                            : row[column.key]}
-                        </td>
-                      ))}
-                    </tr>
                   </Fragment>
                 ))}
             </tbody>
@@ -392,8 +293,8 @@ function MainComponent(props) {
         </div>
       ) : (
         <div className="overflow-x-auto ">
-          <table className="min-w-full divide-y dark:divide-black-200 dark:border-black-200 border-t">
-            <thead className="bg-gray-100 dark:bg-black-300 h-[51px]">
+          <table className="min-w-full divide-y border-t">
+            <thead className="bg-gray-100 h-[51px]">
               <tr>
                 {props?.columns.map((column, index) => (
                   <th key={index} scope="col" className={column.thClassName}>
@@ -402,7 +303,7 @@ function MainComponent(props) {
                 ))}
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-black-600 divide-y dark:divide-black-200 divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200">
               {!props.isLoading && props.data === undefined && (
                 <tr className="h-[57px]">
                   <td colSpan={100} className="px-6 py-4 text-gray-400 text-xs">
@@ -413,6 +314,21 @@ function MainComponent(props) {
               {props.data &&
                 props.data.map((row, rowIndex) => (
                   <Fragment key={rowIndex}>
+                    <tr
+                      key={`row-${rowIndex}`}
+                      className=" hover:bg-blue-900/5 h-[57px]"
+                    >
+                      {props.columns.map((column, colIndex) => (
+                        <td
+                          key={`col-${colIndex}`}
+                          className={column.tdClassName}
+                        >
+                          {column.cell
+                            ? column.cell(row, rowIndex)
+                            : row[column.key]}
+                        </td>
+                      ))}
+                    </tr>
                     {row?.showWarning && (
                       <tr
                         key={`warning-${rowIndex}`}
@@ -426,21 +342,6 @@ function MainComponent(props) {
                         </td>
                       </tr>
                     )}
-                    <tr
-                      key={`row-${rowIndex}`}
-                      className="hover:bg-blue-900/5 h-[57px]"
-                    >
-                      {props.columns.map((column, colIndex) => (
-                        <td
-                          key={`col-${colIndex}`}
-                          className={column.tdClassName}
-                        >
-                          {column.cell
-                            ? column.cell(row, rowIndex)
-                            : row[column.key]}
-                        </td>
-                      ))}
-                    </tr>
                     {row.isExpanded ||
                     (props.expanded.length > 0 &&
                       props.expanded.includes(row.index))
@@ -452,25 +353,13 @@ function MainComponent(props) {
           </table>
         </div>
       )}
-      {props.isPagination && props.data ? (
+      {props.isPagination ? (
         <Paginator
           count={props.count}
-          isLoading={props.isLoading}
           page={props.page}
           limit={props.limit}
           pageLimit={props.pageLimit}
           setPage={props.setPage}
-        />
-      ) : null}
-      {props.cursorPagination && props.data ? (
-        <CursorPaginator
-          apiUrl={props.apiUrl}
-          count={props.count}
-          limit={props.limit}
-          setUrl={props.setUrl}
-          cursor={props.cursor}
-          isLoading={props.isLoading}
-          ownerId={props.ownerId}
         />
       ) : null}
     </>
