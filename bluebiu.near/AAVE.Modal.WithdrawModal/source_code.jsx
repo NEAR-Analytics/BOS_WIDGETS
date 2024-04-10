@@ -173,6 +173,7 @@ function withdrawErc20(asset, actualAmount, shownAmount) {
     .then((tx) => {
       tx.wait()
         .then((res) => {
+          console.log("withdrawErc20", res);
           const { status } = res;
           if (status === 1) {
             onActionSuccess({
@@ -192,9 +193,15 @@ function withdrawErc20(asset, actualAmount, shownAmount) {
             });
           }
         })
-        .catch(() => State.update({ loading: false }));
+        .catch((err) => {
+          console.log("catch_tx:", err);
+          State.update({ loading: false });
+        });
     })
-    .catch(() => State.update({ loading: false }));
+    .catch((err) => {
+      console.log("catch_tx:", err);
+      State.update({ loading: false });
+    });
 }
 
 function withdrawETH(actualAmount, shownAmount) {
@@ -309,10 +316,11 @@ const actualMaxValue =
 
 let shownMaxValue;
 if (isCollateraled) {
-  shownMaxValue = Big(yourTotalCollateral)
+  const maxWithdraw = Big(yourTotalCollateral)
     .minus(Big(yourTotalBorrow).times(1.01).div(Big(threshold)))
     .div(tokenPrice)
     .toFixed();
+  shownMaxValue = bigMin(maxWithdraw, underlyingBalance);
 } else {
   shownMaxValue = underlyingBalance;
 }
@@ -429,7 +437,7 @@ return (
                           {Big(shownMaxValue).toFixed(3, ROUND_DOWN)}
                           <Max
                             onClick={() => {
-                              changeValue(shownMaxValue);
+                              changeValue(shownMaxValue.toFixed());
                             }}
                           >
                             MAX
@@ -550,7 +558,16 @@ return (
                       : Big(state.amount)
                           .mul(Big(10).pow(decimals))
                           .toFixed(0, ROUND_DOWN);
+
                   const shownAmount = state.amount;
+                  console.log(
+                    2222,
+                    actualAmount,
+                    shownAmount,
+                    state.amount,
+                    shownMaxValue,
+                    symbol
+                  );
                   if (symbol === config.nativeCurrency.symbol) {
                     // supply weth
                     withdrawETH(actualAmount, shownAmount);
