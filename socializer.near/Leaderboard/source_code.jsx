@@ -129,6 +129,14 @@ const getListData = () => {
   ).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
+      const listData = data.map((obj) => {
+        if (obj.accountId.length > 30) {
+          const firstPart = obj.accountId.substring(0, 5);
+          const remainingPart = obj.text.substring(5);
+          obj.accountId = `${firstPart} ... ${remainingPart}`;
+        }
+        return obj;
+      });
       if (error) return State.update({ error, loaded: true });
       State.update({
         list: data,
