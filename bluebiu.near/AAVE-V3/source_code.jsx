@@ -195,6 +195,7 @@ State.init({
   fresh: 0, // fresh rewards
   yourSupplyApy: 0,
   yourBorrowApy: 0,
+  yourTotalCollateral: 0,
 
   emissionPerSeconds: [],
   aTokenTotal: [],
@@ -222,11 +223,14 @@ function bigMin(_a, _b) {
   return a.gt(b) ? b : a;
 }
 
-function formatHealthFactor(healthFactor) {
-  if (healthFactor === "∞") return healthFactor;
-  if (!healthFactor || !isValid(healthFactor)) return "-";
-  if (Number(healthFactor) === -1) return "∞";
-  return Big(healthFactor).toFixed(2, ROUND_DOWN);
+function formatHealthFactor(hf) {
+  if (hf === "∞") return hf;
+
+  if (!hf || !isValid(hf)) return "-";
+
+  if (Big(hf).gt(1000)) return "∞";
+  if (Number(hf) === -1) return "∞";
+  return Big(hf).toFixed(2, ROUND_DOWN);
 }
 
 function calcHealthFactor(type, symbol, amount) {
@@ -240,13 +244,14 @@ function calcHealthFactor(type, symbol, amount) {
   let totalCollateral = Big(state.yourTotalCollateral);
   let totalBorrows = Big(state.yourTotalBorrow);
   console.log(
-    "calcHealthFactor--",
+    "calcHealthFactor1--",
     totalCollateral.toString(),
     totalBorrows.toString(),
     type,
     symbol,
     amount,
-    prices[symbol]
+    prices[symbol],
+    prices
   );
 
   const assetsUSD = Big(prices[symbol]).times(Big(amount));
@@ -724,7 +729,11 @@ function getUserAccountData() {
         .div(_totalCollateralBaseUSD.eq(0) ? 1 : _totalCollateralBaseUSD)
         .times(100)
         .toFixed();
-
+      // console.log(
+      //   "HF--",
+      //   ethers.utils.formatUnits(healthFactor),
+      //   formatHealthFactor(ethers.utils.formatUnits(healthFactor))
+      // );
       State.update({
         step2: true,
         threshold,
