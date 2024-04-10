@@ -885,14 +885,16 @@ function getYourSupplies() {
           console.log("getCollateralStatus-res:", res);
           const [[rawStatus], [addrs]] = res;
           const _status = parseInt(rawStatus.toString()).toString(2).split("");
-          console.log("_status--", _status);
+          // console.log("_status--", _status);
           const _statusArray = chunk(_status, 2);
-          console.log("_status--", _statusArray, addrs);
+          // console.log("_status--", _statusArray, addrs, _yourSupplies);
 
           for (let i = 0; i < _yourSupplies.length; i++) {
             const item = _yourSupplies[i];
+
             const index = addrs.findIndex(
-              (addr) => addr === item.underlyingAsset
+              (addr) =>
+                addr.toLowerCase() === item.underlyingAsset.toLowerCase()
             );
 
             _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
