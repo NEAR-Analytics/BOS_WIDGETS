@@ -41,7 +41,6 @@ const Container = styled.div`
 
 return (
   <>
-    <Widget src="louisdevzz.near/widget/headerSwap" />
     <Container>
       <div class="py-4 container">
         <div class="title">Bridge From Ethereum to NEAR</div>
