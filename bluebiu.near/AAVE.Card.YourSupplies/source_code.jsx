@@ -146,6 +146,7 @@ return (
           onActionSuccess,
           formatHealthFactor,
           calcHealthFactor,
+          yourTotalBorrow,
           account,
           onRequestClose: () => {
             State.update({
