@@ -1,3 +1,9 @@
+//const { getAttestation } = VM.require("flowscience.near/widget/generateUID");
+// Example attestation UID: 0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd
+const { easRenderAttestation } = VM.require(
+  "flowscience.near/widget/easRenderAttestation"
+);
+
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!user) return <Web3Connect connectLabel="Connect" />;
@@ -17,23 +23,8 @@ const provider = new ethers.providers.JsonRpcProvider(
   "https://optimism.drpc.org"
 );
 const signer = provider.getSigner(user);
-//const signer = Ethers.provider().getSigner();
 console.log("chain:", chain);
 console.log("signer:", signer);
-
-{
-  /*}
-function getSigner() {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  await provider.send("eth_requestAccounts", []); // Request account access
-  return provider.getSigner();
-}
-
-const signer = provider.getSigner().then(signer => {
-  console.log("signer:", signer);
-});
-*/
-}
 
 const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(abi.body);
@@ -42,21 +33,41 @@ console.log(contract);
 const [attestation, setAttestation] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
-
 function getAttestation() {
-  // Ensure uid is a non-empty string
   if (typeof uid !== "string" || uid.trim() === "") {
     console.error("UID must be a non-empty string.");
     setError("UID must be provided.");
     return;
   }
 
-  const bytesUid = ethers.utils.hexZeroPad(uid, 32);
-
   contract
     .getAttestation(uid)
     .then((result) => {
-      setAttestation(result);
+      const [
+        uid,
+        schema,
+        time,
+        expirationTime,
+        revocationTime,
+        refUID,
+        recipient,
+        attester,
+        revocable,
+        data,
+      ] = result;
+      const mappedAttestation = {
+        uid,
+        schema,
+        time: time.toNumber(),
+        expirationTime: expirationTime.toNumber(),
+        revocationTime: revocationTime.toNumber(),
+        refUID,
+        recipient,
+        attester,
+        revocable,
+        data,
+      };
+      setAttestation(mappedAttestation);
       setError("");
     })
     .catch((error) => {
@@ -64,6 +75,21 @@ function getAttestation() {
       setError("Failed to retrieve data. Please try with a verified uid.");
     });
 }
+
+const App = () => {
+  const attestationDetails = {
+    uid: attestation.uid,
+    schema: state.attestation.schema,
+    time: attestation.timestamp, // Example Unix timestamp = 1633036800
+    expirationTime: props.expiration, // Example Unix timestamp
+    revocationTime: props.revocation, // 0 indicates not revoked
+    refUID: props.refUID,
+    recipient: props.recipient, // Blockchain account, if self = {context.accountId}
+    attester: props.attester, // Blockchain account, if self = {context.accountId}
+    revocable: props.revocable, // Boolean
+    data: props.data, // Example hex data = "0xdeadbeef"
+  };
+};
 
 return (
   <>
@@ -82,11 +108,11 @@ return (
       </button>
       <p className="m-1">{error}</p>
     </div>
-    <div className="m-2">
+    <div>
       {attestation && (
-        <p className="m-2">
-          <b>View Attestation:</b> {JSON.stringify(attestation)}
-        </p>
+        <div className="App">
+          <easRenderAttestation attestation={attestation} />
+        </div>
       )}
     </div>
   </>
