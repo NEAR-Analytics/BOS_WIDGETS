@@ -147,7 +147,20 @@ function updateGas() {
 }
 
 updateGas();
-
+function formatAddAction(_amount, status, transactionHash) {
+  addAction?.({
+    type: "Lending",
+    action: "Repay",
+    token: {
+      symbol,
+    },
+    amount: _amount,
+    template: dexConfig.name,
+    add: false,
+    status,
+    transactionHash,
+  });
+}
 function bigMin(_a, _b) {
   const a = Big(_a);
   const b = Big(_b);
@@ -388,7 +401,7 @@ function repayERC20(shownAmount, actualAmount) {
           .then((tx) => {
             tx.wait()
               .then((res) => {
-                const { status } = res;
+                const { status, transactionHash } = res;
                 if (status === 1) {
                   onActionSuccess({
                     msg: `You repaid ${Big(shownAmount).toFixed(8)} ${symbol}`,
@@ -440,8 +453,13 @@ function repayERC20(shownAmount, actualAmount) {
             ).then((tx) => {
               tx.wait()
                 .then((res) => {
-                  const { status } = res;
+                  const { status, transactionHash } = res;
                   if (status === 1) {
+                    formatAddAction(
+                      Big(actualAmount).div(Big(10).pow(decimals)).toFixed(8),
+                      status,
+                      transactionHash
+                    );
                     onActionSuccess({
                       msg: `You repaid ${Big(shownAmount).toFixed(
                         8
@@ -495,8 +513,13 @@ function repayETH(shownAmount, actualAmount) {
         .then((tx) => {
           tx.wait()
             .then((res) => {
-              const { status } = res;
+              const { status, transactionHash } = res;
               if (status === 1) {
+                formatAddAction(
+                  Big(shownAmount).div(Big(10).pow(decimals)).toFixed(8),
+                  status,
+                  transactionHash
+                );
                 onActionSuccess({
                   msg: `You repaid ${Big(shownAmount).toFixed(8)} ${symbol}`,
                   callback: () => {
