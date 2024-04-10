@@ -140,7 +140,7 @@ const Footer = ({ noBanner }) => {
           <div className="d-flex flex-column align-items-center">
             <img
               className="object-fit-cover"
-              style={{ height: 46 }}
+              style={{ height: 80, width: 80 }}
               src={logoLink}
             />
             <h3>
