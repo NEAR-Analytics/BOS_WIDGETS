@@ -31,24 +31,6 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Links.jsx" */
 const Links = (props) => {
   const networkAccountId =
@@ -84,7 +66,7 @@ const Links = (props) => {
                 <img
                   width="16"
                   height="16"
-                  className="w-4 h-4 dark:invert dark:filter"
+                  className="w-4 h-4"
                   src="/images/twitter_icon.svg"
                   alt="Twitter"
                 />
@@ -169,7 +151,7 @@ const Links = (props) => {
           <Tooltip.Root>
             <Tooltip.Trigger asChild>
               <a
-                href={`https://www.coingecko.com/en/coins/${meta.coingecko_id}?utm_campaign=partnership&utm_source=nearblocks&utm_medium=referral`}
+                href={`https://www.coingecko.com/en/coins/${meta.coingecko_id}`}
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 className="flex"
@@ -209,26 +191,10 @@ const Links = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/Question.jsx" */
 /**
  * @interface Props
@@ -386,7 +352,7 @@ function MainComponent({
 ) => {
             const resp = data?.body?.contracts?.[0];
             if (data.status === 200) {
-              setToken(resp || {});
+              setToken(resp);
               setIsLoading(false);
             } else {
               handleRateLimit(data, fetchFTData, () => setIsLoading(false));
@@ -494,7 +460,6 @@ function MainComponent({
   };
 
   const onToggle = () => setShowMarketCap((o) => !o);
-
   return (
     <>
       <div className="flex items-center justify-between flex-wrap pt-4">
@@ -503,32 +468,34 @@ function MainComponent({
             <Skeleton className="h-7" />
           </div>
         ) : (
-          <h1 className="break-all text-xl text-gray-700 dark:text-neargray-10 leading-8 py-4 px-2">
-            <span className="inline-flex align-middle h-7 w-7">
-              <TokenImage
-                src={token?.icon}
-                alt={token?.name}
-                appUrl={config?.appUrl}
-                className="w-7 h-7"
-              />
-            </span>
-            <span className="inline-flex align-middle mx-1">Token:</span>
-            <span className="inline-flex align-middle font-semibold">
-              {token?.name}
-            </span>
-          </h1>
+          token && (
+            <h1 className="break-all space-x-2 text-xl text-gray-700 leading-8 py-4 px-2">
+              <span className="inline-flex align-middle h-7 w-7">
+                <TokenImage
+                  src={token?.icon}
+                  alt={token?.name}
+                  appUrl={config?.appUrl}
+                  className="w-7 h-7"
+                />
+              </span>
+              <span className="inline-flex align-middle ">Token: </span>
+              <span className="inline-flex align-middle font-semibold">
+                {token?.name}
+              </span>
+            </h1>
+          )
         )}
       </div>
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-2 md:mb-2">
           <div className="w-full">
-            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+            <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
+              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
                 Overview
               </h2>
 
-              <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
-                <div className="flex divide-x dark:divide-black-200  my-2">
+              <div className="px-3 divide-y text-sm text-nearblue-600">
+                <div className="flex divide-x my-2">
                   <div className="flex-col flex-1 flex-wrap py-1">
                     <div className="w-full text-nearblue-700 text-xs uppercase mb-1  text-[80%]">
                       Price
@@ -584,7 +551,7 @@ function MainComponent({
                               <Question className="w-4 h-4 fill-current ml-1" />
                             </Tooltip.Trigger>
                             <Tooltip.Content
-                              className="h-auto max-w-xs bg-black  bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                              className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
                               align="start"
                               side="bottom"
                             >
@@ -613,7 +580,7 @@ function MainComponent({
                             <Tooltip.Root>
                               <Tooltip.Trigger asChild>
                                 <p
-                                  className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200"
+                                  className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100"
                                   onClick={onToggle}
                                 >
                                   {showMarketCap
@@ -637,7 +604,7 @@ function MainComponent({
                             </Tooltip.Root>
                           </Tooltip.Provider>
                         ) : (
-                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200">
+                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100">
                             {'$' +
                               dollarNonCentFormat(
                                 Number(token?.market_cap)
@@ -650,7 +617,7 @@ function MainComponent({
                     ) : (
                       <div className="w-full break-words flex flex-wrap text-sm">
                         {token?.onchain_market_cap ? (
-                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200">
+                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100">
                             ${dollarNonCentFormat(token?.onchain_market_cap)}
                           </p>
                         ) : (
@@ -733,11 +700,11 @@ function MainComponent({
             </div>
           </div>
           <div className="w-full">
-            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border dark:border-black-200 -b p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+            <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
+              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
                 Profile Summary
               </h2>
-              <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+              <div className="px-3 divide-y text-sm text-nearblue-600">
                 <div className="flex flex-wrap items-center justify-between py-4">
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">Contract:</div>
                   {isLoading ? (
@@ -747,11 +714,9 @@ function MainComponent({
                       </div>
                     </div>
                   ) : (
-                    <div className="w-full text-green-500 dark:text-green-250 md:w-3/4 break-words">
+                    <div className="w-full text-green-500 md:w-3/4 break-words">
                       <Link href={`/address/${token?.contract}`}>
-                        <a className="text-green-500 dark:text-green-250">
-                          {token?.contract}
-                        </a>
+                        <a className="text-green-500">{token?.contract}</a>
                       </Link>
                     </div>
                   )}
@@ -772,7 +737,7 @@ function MainComponent({
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">
                     Official Site:
                   </div>
-                  <div className="w-full md:w-3/4 text-green-500 dark:text-green-250 break-words">
+                  <div className="w-full md:w-3/4 text-green-500 break-words">
                     {isLoading ? (
                       <div className="w-32">
                         <Skeleton className="h-4" />
@@ -828,8 +793,8 @@ function MainComponent({
                     onClick={() => onTab(index)}
                     className={`text-nearblue-600 text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                       pageTab === tab
-                        ? 'rounded-lg bg-green-600 dark:bg-green-250  text-white'
-                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600 dark:text-white dark:hover:text-neargray-25  dark:bg-black-200'
+                        ? 'rounded-lg bg-green-600 text-white'
+                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
                     }`}
                     value={tab}
                   >
@@ -837,7 +802,7 @@ function MainComponent({
                   </button>
                 ))}
             </div>
-            <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+            <div className="bg-white soft-shadow rounded-xl pb-1">
               <div className={`${pageTab === 'Transfers' ? '' : 'hidden'} `}>
                 {
                   <Widget
@@ -879,9 +844,9 @@ function MainComponent({
                   />
                 }
               </div>
-              <div className={`${pageTab === 'FAQ' ? '' : 'hidden'} `}>
-                {!isLoading &&
-                  (Object.keys(token).length > 0 ? (
+              {token && (
+                <div className={`${pageTab === 'FAQ' ? '' : 'hidden'} `}>
+                  {
                     <Widget
                       src={`${ownerId}/widget/bos-components.components.FT.FAQ`}
                       props={{
@@ -891,16 +856,9 @@ function MainComponent({
                         ownerId,
                       }}
                     />
-                  ) : (
-                    <div className="px-6 py-4 dark:text-gray-400 text-nearblue-700 text-xs">
-                      <ErrorMessage
-                        icons={<FaInbox />}
-                        message="There are no matching entries"
-                        mutedText="Please try again later"
-                      />
-                    </div>
-                  ))}
-              </div>{' '}
+                  }
+                </div>
+              )}{' '}
               <div className={`${pageTab === 'Comments' ? '' : 'hidden'} `}>
                 <div className="py-3">
                   {
