@@ -2,6 +2,9 @@ const { Button } = VM.require("abdullahi3000.near/widget/components") || {
   Button: () => <></>,
 };
 
+const logoLink =
+  "https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png";
+
 const Container = styled.div`
   padding: 32px 50px;
   display: flex;
@@ -61,6 +64,16 @@ const Card = styled.div`
     h3 {
       font-size: 28px;
     }
+  }
+`;
+
+const Logo = styled.img`
+  height: 128px;
+  width: max-content;
+  object-fit: cover;
+
+  @media screen and (max-width: 768px) {
+    height: 78px;
   }
 `;
 
@@ -125,7 +138,7 @@ const Footer = ({ noBanner }) => {
       {!noBanner && (
         <Card>
           <div className="d-flex flex-column align-items-center">
-            <img src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png" />
+            <Logo src={logoLink} />
             <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
