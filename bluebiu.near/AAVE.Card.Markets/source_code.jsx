@@ -1,5 +1,6 @@
 const {
   config,
+  addAction,
   dexConfig,
   assetsToSupply,
   showSupplyModal,
@@ -89,7 +90,7 @@ const BorrowButton = ({ data }) => {
 let headers;
 let tableData;
 
-if (["zerolend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
+if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
   headers = [
     "Asset",
     "Wallet Balance",
@@ -216,6 +217,8 @@ return (
           depositERC20Gas,
           formatHealthFactor,
           calcHealthFactor,
+          addAction,
+          dexConfig,
         }}
       />
     )}
@@ -241,6 +244,8 @@ return (
           borrowERC20Gas,
           formatHealthFactor,
           calcHealthFactor,
+          addAction,
+          dexConfig,
         }}
       />
     )}
