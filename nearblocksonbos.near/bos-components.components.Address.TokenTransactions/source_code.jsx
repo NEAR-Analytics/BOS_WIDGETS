@@ -25,24 +25,6 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-1 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Filter.jsx" */
 const Filter = (props) => {
   return (
@@ -71,7 +53,7 @@ const Filter = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -96,14 +78,9 @@ const FaTimesCircle = () => {
     </svg>
   );
 };
-const FaHourglassStart = (props) => {
+const FaHourglassStart = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      height="1em"
-      viewBox="0 0 384 512"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
       <path
         d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64V75c0 42.4 16.9 83.1 46.9 113.1L146.7 256 78.9 323.9C48.9 353.9 32 394.6 32 437v11c-17.7 0-32 14.3-32 32s14.3 32 32 32H64 320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V437c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1V64c17.7 0 32-14.3 32-32s-14.3-32-32-32H320 64 32zM288 437v11H96V437c0-25.5 10.1-49.9 28.1-67.9L192 301.3l67.9 67.9c18 18 28.1 42.4 28.1 67.9z"
         fill="#FFEB3B"
@@ -116,14 +93,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50 dark:bg-black',
+        bg: 'bg-yellow-50',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50 dark:bg-black',
+        bg: 'bg-red-50',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -131,7 +108,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50 dark:bg-black',
+        bg: 'bg-emerald-50',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -221,22 +198,6 @@ const Download = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/Download.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/SortIcon.jsx" */
 const ArrowUp = (props) => {
   return (
@@ -343,9 +304,10 @@ function MainComponent({
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
   const [tokens, setTokens] = useState(
-    undefined,
+    {},
   );
   const [sorting, setSorting] = useState('desc');
   const [address, setAddress] = useState('');
@@ -353,10 +315,9 @@ function MainComponent({
 
   const config = getConfig && getConfig(network);
 
-  const apiUrl = `account/${id}/ft-txns?`;
-
-  const [url, setUrl] = useState(apiUrl);
-  const [cursor, setCursor] = useState(undefined);
+  const setPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     function fetchTotalTokens(qs) {
@@ -388,37 +349,37 @@ function MainComponent({
         .catch(() => {});
     }
 
-    function fetchTokens(qs, sqs) {
+    function fetchTokens(qs, sqs, page) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
-      asyncFetch(`${config?.backendUrl}${url}${queryParams}order=${sqs}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      asyncFetch(
+        `${config?.backendUrl}account/${id}/ft-txns?${queryParams}order=${sqs}&page=${page}&per_page=25`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
         .then(
           (data
 
 
 
 
-
 ) => {
             const resp = data?.body?.txns;
-            let cursor = data?.body?.cursor;
             if (data.status === 200) {
-              setCursor(cursor);
               if (Array.isArray(resp) && resp.length > 0) {
-                setTokens(resp);
+                setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
               } else if (resp.length === 0) {
-                setTokens(undefined);
+                setTokens({});
               }
               setIsLoading(false);
             } else {
               handleRateLimit(
                 data,
-                () => fetchTokens(qs, sorting),
+                () => fetchTokens(qs, sorting, page),
                 () => setIsLoading(false),
               );
             }
@@ -437,14 +398,14 @@ function MainComponent({
     }
     if (urlString && sorting) {
       fetchTotalTokens(urlString);
-      fetchTokens(urlString, sorting);
+      fetchTokens(urlString, sorting, currentPage);
     } else if (sorting && (!filters || Object.keys(filters).length === 0)) {
       fetchTotalTokens();
-      fetchTokens('', sorting);
+      fetchTokens('', sorting, currentPage);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config?.backendUrl, id, filters, sorting, url]);
+  }, [config?.backendUrl, id, currentPage, filters, sorting]);
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -500,8 +461,7 @@ function MainComponent({
           <TxnStatus status={row.outcomes.status} showLabel={false} />
         </>
       ),
-      tdClassName:
-        'pl-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
     },
     {
       header: <>{t ? t('txns:hash') : 'TXN HASH'}</>,
@@ -511,12 +471,12 @@ function MainComponent({
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                   <Link
                     href={`/txns/${row.transaction_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
+                    <a className="text-green-500 font-medium hover:no-underline">
                       {row.transaction_hash}
                     </a>
                   </Link>
@@ -533,9 +493,9 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600 ',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
@@ -544,7 +504,7 @@ function MainComponent({
           <Popover.Root>
             <Popover.Trigger
               asChild
-              className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+              className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
             >
               <button className="IconButton" aria-label="Update dimensions">
                 {t ? t('txns:type') : 'METHOD'}
@@ -552,7 +512,7 @@ function MainComponent({
               </button>
             </Popover.Trigger>
             <Popover.Content
-              className="z-50 bg-white dark:bg-black-600 shadow-lg border dark:border-black-200 rounded-b-lg p-2"
+              className="z-50 bg-white shadow-lg border rounded-b-lg p-2"
               sideOffset={5}
             >
               <div className="flex flex-col">
@@ -561,13 +521,13 @@ function MainComponent({
                   value={filterValue['event']}
                   onChange={(e) => onInputChange(e, 'event')}
                   placeholder="Search by method"
-                  className="border dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
+                  className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
                 />
                 <div className="flex">
                   <button
                     type="submit"
                     onClick={(e) => onFilter(e, 'event')}
-                    className="flex items-center justify-center flex-1 rounded bg-green-500 dark:bg-green-250 dark:text-black h-7 text-white text-xs mr-2"
+                    className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
                   >
                     <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                     {t ? t('txns:filter.filter') : 'Filter'}
@@ -576,7 +536,7 @@ function MainComponent({
                     name="type"
                     type="button"
                     onClick={() => onClear('event')}
-                    className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7 "
+                    className="flex-1 rounded bg-gray-300 text-xs h-7"
                   >
                     {t ? t('txns:filter.clear') : 'Clear'}
                   </button>
@@ -589,23 +549,25 @@ function MainComponent({
       key: 'cause',
       cell: (row) => (
         <span>
-          <OverlayTrigger
-            placement="bottom"
-            delay={{ show: 500, hide: 0 }}
-            overlay={
-              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <span className="bg-blue-900/10 text-xs text-nearblue-600  rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                  <span className="block truncate">{row?.cause}</span>
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="center"
+                side="bottom"
+              >
                 {row?.cause}
-              </Tooltip>
-            }
-          >
-            <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
-              <span className="block truncate">{row?.cause}</span>
-            </span>
-          </OverlayTrigger>
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
     },
     {
       header: <>Affected</>,
@@ -617,10 +579,10 @@ function MainComponent({
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span
-                    className={` inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 rounded-md border ${
+                    className={` inline-block align-bottom text-green-500 whitespace-nowrap ${
                       row?.affected_account_id === address
-                        ? ' bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                        : 'text-green-500 dark:text-green-250 border-transparent'
+                        ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                        : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
                     <Link
@@ -628,7 +590,7 @@ function MainComponent({
                       className="hover:no-underline"
                     >
                       <a
-                        className="text-green-500 dark:text-green-250 hover:no-underline"
+                        className="text-green-500 hover:no-underline"
                         onMouseOver={(e) =>
                           onHandleMouseOver(e, row?.affected_account_id)
                         }
@@ -653,10 +615,9 @@ function MainComponent({
           )}
         </span>
       ),
-      tdClassName:
-        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600  font-medium',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: '',
@@ -664,15 +625,15 @@ function MainComponent({
       cell: (row) => (
         <>
           {row.involved_account_id === row.affected_account_id ? (
-            <span className="uppercase rounded w-10 py-2 h-6 flex items-center justify-center bg-green-200 dark:bg-nearblue-650/[0.15] dark:text-neargray-650 dark:border dark:border-nearblue-650/[0.25] text-white text-xs font-semibold">
+            <span className="uppercase rounded w-10 py-2 h-6 flex items-center justify-center bg-green-200 text-white text-xs font-semibold">
               {t ? t('txns:txnSelf') : 'SELF'}
             </span>
           ) : Number(row?.delta_amount) < 0 ? (
-            <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-yellow-100 dark:bg-yellow-400/[0.10] dark:text-nearyellow-400 dark:border dark:border-yellow-400/60 text-yellow-700 text-xs font-semibold">
+            <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-yellow-100 text-yellow-700 text-xs font-semibold">
               {t ? t('txns:txnOut') : 'OUT'}
             </span>
           ) : (
-            <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-neargreen dark:bg-green-500/[0.15] dark:text-neargreen-300 dark:border dark:border-green-400/75 text-white text-xs font-semibold">
+            <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-neargreen text-white text-xs font-semibold">
               {t ? t('txns:txnIn') : 'IN'}
             </span>
           )}
@@ -685,7 +646,7 @@ function MainComponent({
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               Involved
@@ -693,7 +654,7 @@ function MainComponent({
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="bg-white dark:bg-black-600  shadow-lg border dark:border-black-200 rounded-b-lg p-2"
+            className="bg-white shadow-lg border rounded-b-lg p-2"
             sideOffset={5}
           >
             <input
@@ -703,13 +664,13 @@ function MainComponent({
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
+              className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
             />
             <div className="flex">
               <button
                 type="submit"
                 onClick={(e) => onFilter(e, 'involved')}
-                className="flex items-center justify-center flex-1 rounded bg-green-500 dark:bg-green-250 dark:text-black h-7 text-white text-xs mr-2"
+                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
               >
                 <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                 {t ? t('txns:filter.filter') : 'Filter'}
@@ -718,7 +679,7 @@ function MainComponent({
                 name="involved"
                 type="button"
                 onClick={() => onClear('involved')}
-                className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
+                className="flex-1 rounded bg-gray-300 text-xs h-7"
               >
                 {t ? t('txns:filter.clear') : 'Clear'}
               </button>
@@ -734,10 +695,10 @@ function MainComponent({
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span
-                    className={`inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                    className={`inline-block align-bottom text-green-500 whitespace-nowrap ${
                       row?.involved_account_id === address
-                        ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                        : 'text-green-500 dark:text-green-250 border-transparent'
+                        ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                        : 'text-green-500 p-0.5 px-1'
                     }`}
                   >
                     <Link
@@ -745,7 +706,7 @@ function MainComponent({
                       className="hover:no-underline"
                     >
                       <a
-                        className="text-green-500 dark:text-green-250 hover:no-underline"
+                        className="text-green-500 hover:no-underline"
                         onMouseOver={(e) =>
                           onHandleMouseOver(e, row?.involved_account_id)
                         }
@@ -770,8 +731,7 @@ function MainComponent({
           )}
         </span>
       ),
-      tdClassName:
-        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600  font-medium',
     },
     {
       header: <>Quantity</>,
@@ -797,9 +757,9 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600  font-medium',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <>Token</>,
@@ -819,12 +779,12 @@ function MainComponent({
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <div className="text-sm text-nearblue-600 dark:text-neargray-10  max-w-[110px] inline-block truncate whitespace-nowrap">
+                    <div className="text-sm text-nearblue-600  max-w-[110px] inline-block truncate whitespace-nowrap">
                       <Link
                         href={`/token/${row?.ft?.contract}`}
                         className="hover:no-underline"
                       >
-                        <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
+                        <a className="text-green-500 font-medium hover:no-underline">
                           {row?.ft?.name}
                         </a>
                       </Link>
@@ -840,63 +800,65 @@ function MainComponent({
                 </Tooltip.Root>
               </Tooltip.Provider>
               {row?.ft?.symbol && (
-                <OverlayTrigger
-                  placement="bottom-start"
-                  delay={{ show: 500, hide: 0 }}
-                  overlay={
-                    <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
+                <Tooltip.Provider>
+                  <Tooltip.Root>
+                    <Tooltip.Trigger asChild>
+                      <div className="text-sm text-nearblue-700 max-w-[80px] inline-block truncate">
+                        &nbsp; {row?.ft.symbol}
+                      </div>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content
+                      className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                      align="start"
+                      side="bottom"
+                    >
                       {row?.ft.symbol}
-                    </Tooltip>
-                  }
-                >
-                  <div className="text-sm text-nearblue-700 max-w-[80px] inline-block truncate">
-                    &nbsp; {row?.ft.symbol}
-                  </div>
-                </OverlayTrigger>
+                    </Tooltip.Content>
+                  </Tooltip.Root>
+                </Tooltip.Provider>
               )}
             </div>
           )
         );
       },
-      tdClassName:
-        'px-4 py-3 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600  font-medium',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider',
     },
     {
       header: (
         <div className="w-full inline-flex px-4 py-4">
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 500, hide: 0 }}
-            overlay={
-              <Tooltip className="fixed h-auto max-w-[10rem] sm:max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button
+                  type="button"
+                  onClick={toggleShowAge}
+                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 focus:outline-none whitespace-nowrap"
+                >
+                  {showAge
+                    ? t
+                      ? t('txns:age')
+                      : 'AGE'
+                    : t
+                    ? t('txns:ageDT')
+                    : 'DATE TIME (UTC)'}
+                  {showAge && <Clock className="text-green-500 ml-2" />}
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="center"
+                side="top"
+              >
                 {showAge
                   ? 'Click to show Datetime Format'
                   : 'Click to show Age Format'}
-              </Tooltip>
-            }
-          >
-            <button
-              type="button"
-              onClick={toggleShowAge}
-              className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 dark:text-green-250 focus:outline-none whitespace-nowrap"
-            >
-              {showAge
-                ? t
-                  ? t('txns:age')
-                  : 'AGE'
-                : t
-                ? t('txns:ageDT')
-                : 'DATE TIME (UTC)'}
-              {showAge && (
-                <Clock className="text-green-500 dark:text-green-250 ml-2" />
-              )}
-            </button>
-          </OverlayTrigger>
-
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
           <button type="button" onClick={onOrder} className="px-2">
-            <div className="text-nearblue-600 dark:text-neargray-10 font-semibold">
+            <div className="text-nearblue-600  font-semibold">
               <SortIcon order={sorting} />
             </div>
           </button>
@@ -905,11 +867,26 @@ function MainComponent({
       key: 'block_timestamp',
       cell: (row) => (
         <span>
-          <OverlayTrigger
-            placement="bottom-start"
-            delay={{ show: 500, hide: 0 }}
-            overlay={
-              <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words">
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <span>
+                  {!showAge
+                    ? row?.block_timestamp
+                      ? formatTimestampToString(
+                          nanoToMilli(row?.block_timestamp),
+                        )
+                      : ''
+                    : row?.block_timestamp
+                    ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
+                    : ''}
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Content
+                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                align="start"
+                side="bottom"
+              >
                 {showAge
                   ? row?.block_timestamp
                     ? formatTimestampToString(nanoToMilli(row?.block_timestamp))
@@ -917,29 +894,18 @@ function MainComponent({
                   : row?.block_timestamp
                   ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
                   : ''}
-              </Tooltip>
-            }
-          >
-            <span>
-              {!showAge
-                ? row?.block_timestamp
-                  ? formatTimestampToString(nanoToMilli(row?.block_timestamp))
-                  : ''
-                : row?.block_timestamp
-                ? getTimeAgoString(nanoToMilli(row?.block_timestamp))
-                : ''}
-            </span>
-          </OverlayTrigger>
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-48',
+      tdClassName: 'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName: 'whitespace-nowrap',
     },
   ];
 
   return (
-    <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+    <div className="bg-white soft-shadow rounded-xl pb-1">
       {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
@@ -947,20 +913,16 @@ function MainComponent({
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {tokens &&
-                tokens.length > 0 &&
-                `A total of ${
-                  localFormat && localFormat(totalCount.toString())
-                }${' '}
-              transactions found`}
+            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 ">
+              A total of {localFormat && localFormat(totalCount.toString())}{' '}
+              transactions found
             </p>
           </div>
-          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 dark:text-neargray-10 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
+          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
             {filters && Object.keys(filters).length > 0 && (
               <div className="flex  px-2 items-center text-sm text-gray-500 mb-2 lg:mb-0">
                 <span className="mr-1 lg:mr-2">Filtered By:</span>
-                <span className="flex flex-wrap items-center justify-center bg-gray-100 dark:bg-black-200 rounded-full px-3 py-1 space-x-2">
+                <span className="flex flex-wrap items-center justify-center bg-gray-100 rounded-full px-3 py-1 space-x-2">
                   {Object.keys(filters).map((key) => (
                     <span
                       className="flex items-center max-sm:mb-1 truncate max-w-[120px]"
@@ -979,20 +941,18 @@ function MainComponent({
                 </span>
               </div>
             )}
-            <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
-              {tokens && tokens.length > 0 && (
-                <button className="hover:no-underline ">
-                  <Link
-                    href={`/token/exportdata?address=${id}`}
-                    className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border border-neargray-700 dark:border-black-200 px-4 rounded-md bg-white dark:bg-black-600 hover:bg-neargray-800"
-                  >
-                    <p>CSV Export</p>
-                    <span className="ml-2">
-                      <Download />
-                    </span>
-                  </Link>
-                </button>
-              )}
+            <span className="text-xs text-nearblue-600 self-stretch lg:self-auto px-2">
+              <button className="hover:no-underline ">
+                <Link
+                  href={`/token/exportdata?address=${id}`}
+                  className="flex items-center text-nearblue-600 font-medium py-2 border border-neargray-700 px-4 rounded-md bg-white hover:bg-neargray-800"
+                >
+                  <p>CSV Export</p>
+                  <span className="ml-2">
+                    <Download />
+                  </span>
+                </Link>
+              </button>
             </span>
           </div>
         </div>
@@ -1001,22 +961,15 @@ function MainComponent({
         src={`${ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: tokens,
+          data: tokens[currentPage],
           isLoading: isLoading,
+          isPagination: true,
           count: totalCount,
+          page: currentPage,
           limit: 25,
-          cursorPagination: true,
-          cursor: cursor,
-          apiUrl: apiUrl,
-          setUrl: setUrl,
-          ownerId: ownerId,
-          Error: (
-            <ErrorMessage
-              icons={<FaInbox />}
-              message={errorMessage}
-              mutedText="Please try again later"
-            />
-          ),
+          pageLimit: 200,
+          setPage: setPage,
+          Error: errorMessage,
         }}
       />
     </div>
