@@ -19,13 +19,19 @@ if (dao_id) {
     page: 0,
     limit: 100,
   });
-} else if (accountId)
+} else if (accountId) {
   items = Near.view(contractName, "get_posts_by_author", {
     author: accountId,
     page: 0,
     limit: 100,
   });
-else items = Near.view(contractName, "get_all_posts", { page: 0, limit: 100 });
+
+  if (items.length === 0) {
+    items = Near.view(contractName, "get_all_posts", { page: 0, limit: 100 });
+    accountId = null;
+  }
+} else
+  items = Near.view(contractName, "get_all_posts", { page: 0, limit: 100 });
 
 if (!items) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -79,28 +85,36 @@ const Mobile = styled.div`
 
 return (
   <>
-    <Table>
-      <TableHeader>
-        <TableHeaderCell flex={0.7}>Status</TableHeaderCell>
-        <TableHeaderCell flex={2.3}>DAO</TableHeaderCell>
-        <TableHeaderCell> Modified </TableHeaderCell>
-        <TableHeaderCell flex={3}>Proposals states</TableHeaderCell>
-        <TableHeaderCell></TableHeaderCell>
-      </TableHeader>
-      {items.map((row, index) => (
-        <Widget
-          src="ndcdev.near/widget/daos-staging.Components.Post"
-          props={{ item: row, index, type, id: row.id }}
-        />
-      ))}
-    </Table>
-    <Mobile>
-      {items.map((row, index) => (
-        <Widget
-          src="ndcdev.near/widget/daos-staging.Components.Post"
-          props={{ item: row, index, type, id: row.id, isMobile: true }}
-        />
-      ))}
-    </Mobile>
+    {items.length === 0 ? (
+      <div className="w-100 my-5 d-flex justify-content-center align-tems-center">
+        <h1>No active Reports</h1>
+      </div>
+    ) : (
+      <>
+        <Table>
+          <TableHeader>
+            <TableHeaderCell flex={0.7}>Status</TableHeaderCell>
+            <TableHeaderCell flex={2.3}>DAO</TableHeaderCell>
+            <TableHeaderCell> Modified </TableHeaderCell>
+            <TableHeaderCell flex={3}>Proposals states</TableHeaderCell>
+            <TableHeaderCell></TableHeaderCell>
+          </TableHeader>
+          {items.map((row, index) => (
+            <Widget
+              src="ndcdev.near/widget/daos-staging.Components.Post"
+              props={{ item: row, index, type, rowId: row.id }}
+            />
+          ))}
+        </Table>
+        <Mobile>
+          {items.map((row, index) => (
+            <Widget
+              src="ndcdev.near/widget/daos-staging.Components.Post"
+              props={{ item: row, index, type, rowId: row.id, isMobile: true }}
+            />
+          ))}
+        </Mobile>
+      </>
+    )}
   </>
 );
