@@ -13,24 +13,6 @@
  * @param {string} ownerId - The identifier of the owner of the component.
  */
 
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -44,7 +26,7 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -73,22 +55,6 @@ const Clock = (props) => (
     <path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"></path>
   </svg>
 );/* END_INCLUDE COMPONENT: "includes/icons/Clock.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 
 
@@ -115,7 +81,6 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
     VM.require(`${ownerId}/widget/includes.Utils.libs`);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [countLoading, setCountLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
   const [blocks, setBlocks] = useState({});
@@ -126,7 +91,6 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
 
   useEffect(() => {
     function fetchTotalBlocks() {
-      setCountLoading(true);
       asyncFetch(`${config?.backendUrl}blocks/count`, {
         method: 'GET',
         headers: {
@@ -143,11 +107,8 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             const resp = data?.body?.blocks?.[0];
             if (data.status === 200) {
               setTotalCount(resp?.count ?? 0);
-              setCountLoading(false);
             } else {
-              handleRateLimit(data, fetchTotalBlocks, () =>
-                setCountLoading(false),
-              );
+              handleRateLimit(data, fetchTotalBlocks);
             }
           },
         )
@@ -216,7 +177,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             href={`/blocks/${row?.block_hash}`}
             className="hover:no-underline"
           >
-            <a className="text-green-500 dark:text-green-250 hover:no-underline">
+            <a className="text-green-500 hover:no-underline">
               {row?.block_height
                 ? localFormat(row?.block_height)
                 : row?.block_height ?? ''}
@@ -225,9 +186,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600  dark:text-neargray-10 font-medium',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
@@ -238,12 +199,12 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="w-full flex items-center px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 dark:text-green-250 focus:outline-none flex-row"
+                  className="w-full flex items-center px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex-row"
                 >
                   {showAge ? (
                     <>
                       {t ? t('blocks:age') : 'AGE'}
-                      <Clock className="text-green-500 dark:text-green-250 ml-2" />
+                      <Clock className="text-green-500 ml-2" />
                     </>
                   ) : (
                     'DATE TIME (UTC)'
@@ -298,30 +259,21 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
     },
     {
       header: <span>{t ? t('blocks:txn') : 'TXN'}</span>,
       key: 'count',
       cell: (row) => (
         <span>
-          <Link
-            href={`/txns?block=${row?.block_hash}`}
-            className="hover:no-underline"
-          >
-            <a className="text-green-500 dark:text-green-250  hover:no-underline font-medium">
-              {row?.transactions_agg?.count
-                ? localFormat(row?.transactions_agg?.count)
-                : row?.transactions_agg?.count ?? ''}
-            </a>
-          </Link>
+          {row?.transactions_agg?.count
+            ? localFormat(row?.transactions_agg?.count)
+            : row?.transactions_agg?.count ?? ''}
         </span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.receipt') : 'RECEIPT'}</span>,
@@ -333,10 +285,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             : row?.receipts_agg?.count ?? ''}
         </span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:miner') : 'AUTHOR'}</span>,
@@ -348,10 +299,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             className={`hover:no-underline`}
           >
             <a
-              className={`text-green-500 dark:text-green-250 hover:no-underline p-1 border rounded-md ${
+              className={`text-green-500 hover:no-underline ${
                 row?.author_account_id === address
-                  ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                  : 'text-green-500 dark:text-green-250 border-transparent'
+                  ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
+                  : 'text-green-500 p-1'
               }`}
               onMouseOver={(e) => onHandleMouseOver(e, row?.author_account_id)}
               onMouseLeave={handleMouseLeave}
@@ -362,9 +313,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasUsed') : 'GAS USED'}</span>,
@@ -376,10 +327,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             : ''}
         </span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasLimit') : 'GAS LIMIT'}</span>,
@@ -387,10 +337,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
       cell: (row) => (
         <span>{convertToMetricPrefix(row?.chunks_agg?.gas_limit ?? 0)}gas</span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasFee') : 'GAS FEE'}</span>,
@@ -403,47 +352,42 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
           Ⓝ
         </span>
       ),
-      tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
   ];
 
   return (
-    <div className="bg-white dark:bg-black-600 drak:border-black-200 border soft-shadow rounded-xl pb-1 ">
-      {countLoading ? (
+    <div className="bg-white border soft-shadow rounded-xl pb-1 ">
+      {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
         </div>
       ) : (
-        <div className="leading-7 pl-6 text-sm py-4 text-nearblue-600 dark:text-neargray-10">
-          {Object.keys(blocks).length > 0 && (
-            <p className="sm:w-full w-65">
-              {t
-                ? t('blocks:listing', {
-                    from: start?.block_height
-                      ? localFormat && localFormat(start?.block_height)
-                      : start?.block_height ?? '',
-                    to: end?.block_height
-                      ? localFormat && localFormat(end?.block_height)
-                      : end?.block_height ?? '',
-                    count: localFormat && localFormat(totalCount.toString()),
-                  })
-                : `Block #${
-                    start?.block_height
-                      ? localFormat && localFormat(start?.block_height)
-                      : start?.block_height ?? ''
-                  } to ${
-                    '#' + end?.block_height
-                      ? localFormat && localFormat(end?.block_height)
-                      : end?.block_height ?? ''
-                  } (Total of ${
-                    localFormat && localFormat(totalCount.toString())
-                  } blocks)`}{' '}
-            </p>
-          )}
-        </div>
+        <p className="leading-7 pl-6 text-sm py-4 text-nearblue-600">
+          {t
+            ? t('blocks:listing', {
+                from: start?.block_height
+                  ? localFormat && localFormat(start?.block_height)
+                  : start?.block_height ?? '',
+                to: end?.block_height
+                  ? localFormat && localFormat(end?.block_height)
+                  : end?.block_height ?? '',
+                count: localFormat && localFormat(totalCount.toString()),
+              })
+            : `Block #${
+                start?.block_height
+                  ? localFormat && localFormat(start?.block_height)
+                  : start?.block_height ?? ''
+              } to ${
+                '#' + end?.block_height
+                  ? localFormat && localFormat(end?.block_height)
+                  : end?.block_height ?? ''
+              } (Total of ${
+                localFormat && localFormat(totalCount.toString())
+              } blocks)`}{' '}
+        </p>
       )}
       {
         <Widget
@@ -458,13 +402,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             limit: 25,
             pageLimit: 200,
             setPage: setPage,
-            Error: (
-              <ErrorMessage
-                icons={<FaInbox />}
-                message={errorMessage || ''}
-                mutedText="Please try again later"
-              />
-            ),
+            Error: errorMessage,
           }}
         />
       }
