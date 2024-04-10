@@ -14,6 +14,7 @@ const {
   threshold,
   prices,
   theme,
+  addAction,
 } = props;
 
 const hasHF = config.heroData.includes("Health Factor");
