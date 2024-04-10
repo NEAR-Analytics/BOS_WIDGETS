@@ -34,7 +34,7 @@ const Card = styled.div`
   img {
     width: 120px;
     height: 130px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 20px;
   }
 
@@ -70,7 +70,7 @@ const Card = styled.div`
 const Logo = styled.img`
   height: 150px;
   width: max-content;
-  object-fit: cover;
+  object-fit: contain;
 
   @media screen and (max-width: 768px) {
     height: 100px;
