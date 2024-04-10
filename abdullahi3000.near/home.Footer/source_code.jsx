@@ -32,9 +32,9 @@ const Card = styled.div`
   box-shadow: 4px 24px 48px 0px rgba(249, 225, 122, 0.05);
 
   img {
-    width: 90px;
+    width: 120px;
+    height: 130px;
     object-fit: cover;
-    height: 100px;
     border-radius: 20px;
   }
 
@@ -68,12 +68,12 @@ const Card = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 128px;
+  height: 150px;
   width: max-content;
   object-fit: cover;
 
   @media screen and (max-width: 768px) {
-    height: 78px;
+    height: 100px;
   }
 `;
 
