@@ -1,5 +1,4 @@
 /**
- * This is the index
  * We can get some data from the project itself
  * metadata, name, description, tags, etc.
  * We want the document paths... We want to be able to add or remove them...
@@ -13,14 +12,15 @@
  */
 const config = {
   theme: {
-    "--main-color": "white",
-    "--secondary-color": "black",
-    background: "var(--main-color)",
-    color: "var(--secondary-color)",
+    // add key values to define colors
+    // "--main-color": "blue",
+    // "--secondary-color": "red",
+    // background: "var(--main-color)",
+    // color: "var(--secondary-color)",
   },
   layout: {
     src: "devs.near/widget/Layout",
-    initialProps: {
+    props: {
       variant: "sidebar",
     },
   },
@@ -62,13 +62,6 @@ const config = {
         },
       },
       {
-        path: "/edit/:path*",
-        element: {
-          src: "docs.bos-workspace.near/widget/edit",
-          initialProps: {},
-        },
-      },
-      {
         path: "/settings",
         element: {
           src: "docs.bos-workspace.near/widget/settings",
@@ -84,7 +77,7 @@ const config = {
     ],
   },
 };
-const CSS = styled.div`
+const Root = styled.div`
   * {
     box-sizing: border-box;
     font-weight: 400;
@@ -155,7 +148,7 @@ const CSS = styled.div`
     border-top: 2px solid #ededed;
     border-right: 2px solid #404040;
     border-bottom: 2px solid #404040;
-    background: black;
+    background: navy;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -200,10 +193,10 @@ const CSS = styled.div`
   }
 `;
 return (
-  <CSS>
+  <Root>
     <Widget
       src="docs.bos-workspace.near/widget/PR.App"
       props={{ config, ...props }}
     />
-  </CSS>
+  </Root>
 );
