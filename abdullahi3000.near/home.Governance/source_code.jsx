@@ -86,7 +86,7 @@ const Governance = () => {
     <>
       <Container className="container-xl">
         <HeadingContainer>
-          <Tag label="Governance" />
+          <Tag label="Democracy" />
           <h2>
             Our <span>Governance</span>!
           </h2>
