@@ -183,18 +183,13 @@ function MainComponent(props) {
 
     try {
       const args = mapFeilds(fields) ?? {};
-      Near.asyncView(id, toSnakeCase(method), args)
-        .then((resp) => {
-          setError(null);
-          setTxn(resp?.transaction_outcome?.id);
-          setResult(JSON.stringify(resp, null, 2));
-        })
-        .catch((error) => {
-          console.log(error);
-          setTxn(null);
-          setError(error?.message);
-          setResult(null);
-        });
+      const res =
+        Near.view(id, toSnakeCase(method), args);
+      if (res !== null) {
+        setError(null);
+        setTxn(res?.transaction_outcome?.id);
+        setResult(JSON.stringify(res, null, 2));
+      }
     } catch (error) {
       setTxn(null);
       setError(error);
@@ -215,9 +210,12 @@ function MainComponent(props) {
       const args = mapFeilds(fields) ?? {};
       const res =
         Near.call(id, toSnakeCase(method), args);
-      setError(null);
-      setTxn(res?.transaction_outcome?.id);
-      setResult(JSON.stringify(res, null, 2));
+
+      if (res !== null) {
+        setError(null);
+        setTxn(res?.transaction_outcome?.id);
+        setResult(JSON.stringify(res, null, 2));
+      }
     } catch (error) {
       setTxn(null);
       setError(error);
@@ -302,7 +300,7 @@ function MainComponent(props) {
       key={index}
     >
       <Accordion.Header>
-        <Accordion.Trigger className="bg-gray-50 dark:bg-black-200/50 dark:border-black-200 border rounded flex items-center justify-between px-4 py-2 w-full">
+        <Accordion.Trigger className="bg-gray-50 border rounded flex items-center justify-between px-4 py-2 w-full">
           <span>
             <span className="text-gray-400">{index + 1}.</span>{' '}
             {toSnakeCase(method ?? '')}
@@ -310,27 +308,30 @@ function MainComponent(props) {
           <ArrowRight className="contract-icon fill-gray-600" />
         </Accordion.Trigger>
       </Accordion.Header>
-      <Accordion.Content className="border dark:border-black-200 p-4 rounded slide-up slide-down">
+      <Accordion.Content className="border p-4 rounded slide-up slide-down">
         <div className="flex max-w-xl justify-between mb-3">
           <div className="flex items-center">
             Arguments
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <span>
+                    <Question className="w-4 h-4 fill-current ml-1" />
+                  </span>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2"
+                  align="start"
+                  side="bottom"
+                >
                   Specify an arguments schema.
-                </Tooltip>
-              }
-            >
-              <span>
-                <Question className="w-4 h-4 fill-current ml-1" />
-              </span>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
           </div>
           <button
             onClick={onAdd}
-            className="mx-3 px-3 mr-1 bg-green dark:bg-green-250 dark:text-neargray-10 py-1 text-xs font-medium rounded-md text-white"
+            className="mx-3 px-3 mr-1 bg-green py-1 text-xs font-medium rounded-md text-white"
           >
             Add
           </button>
@@ -338,24 +339,27 @@ function MainComponent(props) {
             type="submit"
             onClick={(e) => onDetect(e)}
             disabled={loading}
-            className="flex ml-2 mr-1 bg-green-500 dark:bg-green-250 dark:text-neargray-10 hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex ml-2 mr-1 bg-green-500 hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Auto detect
-            <OverlayTrigger
-              placement="bottom"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-[10rem] sm:max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <span>
+                    <Question className="w-4 h-4 fill-current ml-1" />
+                  </span>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2"
+                  align="start"
+                  side="bottom"
+                >
                   Scan the blockchain to find successful method calls and copy
                   the parameter schema. Auto-detect might not work on every
                   method.
-                </Tooltip>
-              }
-            >
-              <span>
-                <Question className="w-4 h-4 fill-current ml-1" />
-              </span>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
           </button>
         </div>
         {fields.map((field) => (
@@ -366,13 +370,13 @@ function MainComponent(props) {
                 value={field.name}
                 onChange={(e) => onChange(e, 'name', field.id)}
                 placeholder="Argument name"
-                className="col-span-3 block border dark:border-black-200 rounded mb-3 h-9 px-3 w-full outline-none"
+                className="col-span-3 block border rounded mb-3 h-9 px-3 w-full outline-none"
               />
               <select
                 name="type"
                 value={field.type}
                 onChange={(e) => onChange(e, 'type', field.id)}
-                className="col-span-2 bg-white dark:bg-black-600 dark:text-neargray-10 block border dark:border-black-200 rounded mb-3 h-9 px-3 w-full outline-none"
+                className="col-span-2 bg-white block border rounded mb-3 h-9 px-3 w-full outline-none"
               >
                 <option value="" disabled>
                   Type
@@ -388,7 +392,7 @@ function MainComponent(props) {
                 value={field.value}
                 onChange={(e) => onChange(e, 'value', field.id)}
                 placeholder={field.placeholder || 'Argument value'}
-                className="col-span-4 block border dark:border-black-200 rounded mb-3 h-9 px-3 w-full outline-none"
+                className="col-span-4 block border rounded mb-3 h-9 px-3 w-full outline-none"
               />
             </div>
             <button
@@ -402,19 +406,22 @@ function MainComponent(props) {
         <div className="flex max-w-xl justify-between mb-3">
           <div className="flex items-center">
             Options
-            <OverlayTrigger
-              placement="bottom-start"
-              delay={{ show: 500, hide: 0 }}
-              overlay={
-                <Tooltip className="fixed h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2">
+            <Tooltip.Provider>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <span>
+                    <Question className="w-4 h-4 fill-current ml-1" />
+                  </span>
+                </Tooltip.Trigger>
+                <Tooltip.Content
+                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2"
+                  align="start"
+                  side="bottom"
+                >
                   Optional arguments for write operations.
-                </Tooltip>
-              }
-            >
-              <span>
-                <Question className="w-4 h-4 fill-current ml-1" />
-              </span>
-            </OverlayTrigger>
+                </Tooltip.Content>
+              </Tooltip.Root>
+            </Tooltip.Provider>
           </div>
         </div>
         <div className="slide-down disclosure">
@@ -426,7 +433,7 @@ function MainComponent(props) {
                 value={options.attachedDeposit}
                 onChange={onOptionChange('attachedDeposit')}
                 placeholder="Attached Deposit"
-                className="block border dark:border-black-200 rounded my-1 h-9 px-3 w-full outline-none"
+                className="block border rounded my-1 h-9 px-3 w-full outline-none"
               />
             </label>
             <label>
@@ -436,7 +443,7 @@ function MainComponent(props) {
                 value={options.gas}
                 onChange={onOptionChange('gas')}
                 placeholder="Gas"
-                className="block border dark:border-black-200 rounded my-1 h-9 px-3 w-full outline-none"
+                className="block border rounded my-1 h-9 px-3 w-full outline-none"
               />
             </label>
           </div>
@@ -447,7 +454,7 @@ function MainComponent(props) {
               type="submit"
               onClick={(e) => onRead(e)}
               disabled={loading}
-              className="bg-green-500 dark:bg-green-250 hover:bg-green-400 text-white dark:text-neargray-10 text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+              className="bg-green-500 hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
             >
               Query
             </button>
@@ -455,27 +462,30 @@ function MainComponent(props) {
           {!hideQuery && (
             <div className="flex items-center mx-4 text-gray-400">
               OR{' '}
-              <OverlayTrigger
-                placement="bottom-start"
-                delay={{ show: 500, hide: 0 }}
-                overlay={
-                  <Tooltip className="fixed h-auto max-w-[12rem] sm:max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2">
+              <Tooltip.Provider>
+                <Tooltip.Root>
+                  <Tooltip.Trigger asChild>
+                    <span>
+                      <Question className="w-4 h-4 fill-current ml-1" />
+                    </span>
+                  </Tooltip.Trigger>
+                  <Tooltip.Content
+                    className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 ml-2"
+                    align="start"
+                    side="bottom"
+                  >
                     We cant differentiate read/write methods for this contract,
                     so you should choose the appropriate action
-                  </Tooltip>
-                }
-              >
-                <span>
-                  <Question className="w-4 h-4 fill-current ml-1" />
-                </span>
-              </OverlayTrigger>
+                  </Tooltip.Content>
+                </Tooltip.Root>
+              </Tooltip.Provider>
             </div>
           )}
           <button
             type="submit"
             onClick={(e) => onWrite(e)}
             disabled={loading || !connected}
-            className="bg-green-500 hover:bg-green-400 text-white dark:text-neargray-10 text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+            className="bg-green-500 hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Write
           </button>
@@ -484,7 +494,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg bg-red-50 dark:bg-red-200 dark:text-black-200 dark:border-red-400 border-red-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg bg-red-50 border-red-100 p-3 mt-3 resize-y"
             value={error}
           />
         )}
@@ -515,7 +525,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg dark:bg-green-100 dark:border-green-200 bg-green-50 border-green-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg bg-green-50 border-green-100 p-3 mt-3 resize-y"
             value={result}
           />
         )}
