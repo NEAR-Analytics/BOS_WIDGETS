@@ -13,7 +13,8 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   account,
-
+  addAction,
+  dexConfig,
   threshold,
   prices,
   theme,
@@ -122,6 +123,7 @@ return (
             ...state.data,
             healthFactor,
           },
+          dexConfig,
           onActionSuccess,
           withdrawETHGas,
           withdrawERC20Gas,
@@ -132,6 +134,7 @@ return (
           yourTotalBorrow,
           yourTotalCollateral,
           threshold,
+          addAction,
           onRequestClose: () => setShowWithdrawModal(false),
         }}
       />
