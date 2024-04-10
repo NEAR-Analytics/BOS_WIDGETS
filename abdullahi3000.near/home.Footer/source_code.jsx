@@ -138,7 +138,7 @@ const Footer = ({ noBanner }) => {
       {!noBanner && (
         <Card>
           <div className="d-flex flex-column align-items-center">
-            <img src={logoLink} />
+            <img src={logoLink} style={{ height: 80, width: 80 }} />
             <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
