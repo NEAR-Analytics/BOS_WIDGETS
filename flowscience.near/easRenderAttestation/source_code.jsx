@@ -2,9 +2,6 @@ const easRenderAttestation = ({ attestation }) => {
   return (
     <div className="attestation">
       <h2>Attestation Details</h2>
-      <p className="m-2">
-        <b>Raw JSON:</b> {JSON.stringify(attestation)}
-      </p>
       <strong>UID:</strong> {attestation.uid}
       <br />
       <strong>Schema:</strong> {attestation.schema}
@@ -30,10 +27,9 @@ const easRenderAttestation = ({ attestation }) => {
       <br />
       <strong>Data:</strong>{" "}
       {attestation.data ? attestation.data.toString("hex") : "No data"}
+      <hr />
+      <b>Raw JSON:</b> {JSON.stringify(attestation)}
     </div>
   );
 };
-
-//export default easRenderAttestation;
-
 return { easRenderAttestation };
