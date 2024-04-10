@@ -26,24 +26,6 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
-
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Filter.jsx" */
 const Filter = (props) => {
   return (
@@ -72,7 +54,7 @@ const Filter = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -112,14 +94,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50 dark:bg-black',
+        bg: 'bg-yellow-50',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50 dark:bg-black',
+        bg: 'bg-red-50',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -127,7 +109,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50 dark:bg-black',
+        bg: 'bg-emerald-50',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -217,46 +199,6 @@ const Download = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/Download.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/Question.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-
-const Question = (props) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={16}
-      height={16}
-      {...props}
-    >
-      <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 011-1 1.5 1.5 0 10-1.471-1.794l-1.962-.393A3.501 3.501 0 1113 13.355z" />
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/Question.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/SortIcon.jsx" */
 const ArrowUp = (props) => {
   return (
@@ -320,7 +262,6 @@ function MainComponent({
   const [filterValue, setFilterValue] = useState({});
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
   const [address, setAddress] = useState('');
-  const [showAllRows, setShowAllRows] = useState(false);
 
   const config = getConfig && getConfig(network);
 
@@ -447,17 +388,12 @@ function MainComponent({
     }
   };
 
-  const handleToggle = () => {
-    setShowAllRows((prevState) => !prevState);
-  };
-
   const onOrder = () => {
     setSorting((state) => (state === 'asc' ? 'desc' : 'asc'));
   };
 
   const setPage = (pageNumber) => {
     setCurrentPage(pageNumber);
-    setShowAllRows(false);
   };
 
   const onHandleMouseOver = (e, id) => {
@@ -477,8 +413,7 @@ function MainComponent({
           <TxnStatus status={row.outcomes.status} showLabel={false} />
         </>
       ),
-      tdClassName:
-        'pl-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
     },
     {
       header: <span>{t ? t('txns:hash') : 'TXN HASH'}</span>,
@@ -488,12 +423,12 @@ function MainComponent({
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500  dark:text-green-250 whitespace-nowrap">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                   <Link
                     href={`/txns/${row.transaction_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
+                    <a className="text-green-500 font-medium hover:no-underline">
                       {row.transaction_hash}
                     </a>
                   </Link>
@@ -510,16 +445,16 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600',
       thClassName:
-        'px-4 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:type') : 'METHOD'}
@@ -527,7 +462,7 @@ function MainComponent({
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="z-50 bg-white dark:bg-black-600 shadow-lg border dark:border-black-200 rounded-b-lg p-2"
+            className="z-50 bg-white shadow-lg border rounded-b-lg p-2"
             sideOffset={5}
           >
             <div className="flex flex-col">
@@ -536,13 +471,13 @@ function MainComponent({
                 value={filterValue['type']}
                 onChange={(e) => onInputChange(e, 'type')}
                 placeholder="Search by method"
-                className="border dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
+                className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
               />
               <div className="flex">
                 <button
                   type="submit"
                   onClick={(e) => onFilter(e, 'type')}
-                  className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white dark:text-black text-xs mr-2"
+                  className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
                 >
                   <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                   {t ? t('txns:filter.filter') : 'Filter'}
@@ -551,7 +486,7 @@ function MainComponent({
                   name="type"
                   type="button"
                   onClick={() => onClear('type')}
-                  className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
+                  className="flex-1 rounded bg-gray-300 text-xs h-7"
                 >
                   {t ? t('txns:filter.clear') : 'Clear'}
                 </button>
@@ -566,7 +501,7 @@ function MainComponent({
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">
                     {txnMethod(row.actions, t)}
                   </span>
@@ -583,8 +518,7 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600',
     },
     {
       header: <span>{t ? t('txns:depositValue') : 'DEPOSIT VALUE'}</span>,
@@ -597,10 +531,9 @@ function MainComponent({
           Ⓝ
         </span>
       ),
-      tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('txns:txnFee') : 'TXN FEE'}</span>,
@@ -613,17 +546,16 @@ function MainComponent({
           Ⓝ
         </span>
       ),
-      tdClassName:
-        'px-6 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName:
-        'px-4 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: (
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:from') : 'FROM'}
@@ -631,7 +563,7 @@ function MainComponent({
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="z-50 bg-white dark:bg-black-600 shadow-lg dark:border-black-200 border rounded-b-lg p-2"
+            className="z-50 bg-white shadow-lg border rounded-b-lg p-2"
             sideOffset={5}
           >
             <input
@@ -641,13 +573,13 @@ function MainComponent({
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border  dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
+              className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
             />
             <div className="flex">
               <button
                 type="submit"
                 onClick={(e) => onFilter(e, 'from')}
-                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white dark:text-black text-xs mr-2"
+                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
               >
                 <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                 {t ? t('txns:filter.filter') : 'Filter'}
@@ -656,7 +588,7 @@ function MainComponent({
                 name="from"
                 type="button"
                 onClick={() => onClear('from')}
-                className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
+                className="flex-1 rounded bg-gray-300 text-xs h-7"
               >
                 {t ? t('txns:filter.clear') : 'Clear'}
               </button>
@@ -671,10 +603,10 @@ function MainComponent({
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span
-                  className={`align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                  className={`align-bottom text-green-500 whitespace-nowrap ${
                     row?.predecessor_account_id === address
-                      ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                      : 'text-green-500 dark:text-green-250 border-transparent'
+                      ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                      : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
                   <Link
@@ -682,7 +614,7 @@ function MainComponent({
                     className="hover:no-underline"
                   >
                     <a
-                      className="text-green-500 dark:text-green-250 hover:no-underline"
+                      className="text-green-500 hover:no-underline"
                       onMouseOver={(e) =>
                         onHandleMouseOver(e, row?.predecessor_account_id)
                       }
@@ -704,23 +636,22 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600 font-medium',
     },
     {
       header: <span></span>,
       key: '',
       cell: (row) => {
         return row.predecessor_account_id === row.receiver_account_id ? (
-          <span className="uppercase rounded w-10 py-2 h-6 flex items-center justify-center bg-green-200 dark:bg-nearblue-650/[0.15] dark:text-neargray-650 dark:border dark:border-nearblue-650/[0.25] text-white text-xs font-semibold">
+          <span className="uppercase rounded w-10 py-2 h-6 flex items-center justify-center bg-green-200 text-white text-xs font-semibold">
             {t ? t('txns:txnSelf') : 'SELF'}
           </span>
         ) : id === row.predecessor_account_id ? (
-          <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-yellow-100 dark:bg-yellow-400/[0.10] dark:text-nearyellow-400 dark:border dark:border-yellow-400/60 text-yellow-700 text-xs font-semibold">
+          <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-yellow-100 text-yellow-700 text-xs font-semibold">
             {t ? t('txns:txnOut') : 'OUT'}
           </span>
         ) : (
-          <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-neargreen dark:bg-green-500/[0.15] dark:text-neargreen-300 dark:border dark:border-green-400/75 text-white text-xs font-semibold">
+          <span className="uppercase rounded w-10 h-6 flex items-center justify-center bg-neargreen text-white text-xs font-semibold">
             {t ? t('txns:txnIn') : 'IN'}
           </span>
         );
@@ -731,7 +662,7 @@ function MainComponent({
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:to') : 'To'}
@@ -739,7 +670,7 @@ function MainComponent({
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="z-50 bg-white dark:bg-black-600 shadow-lg border dark:border-black-200 rounded-b-lg p-2"
+            className="z-50 bg-white shadow-lg border rounded-b-lg p-2"
             sideOffset={5}
           >
             <input
@@ -749,13 +680,13 @@ function MainComponent({
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
+              className="border rounded h-8 mb-2 px-2 text-nearblue-600 text-xs"
             />
             <div className="flex">
               <button
                 type="submit"
                 onClick={(e) => onFilter(e, 'to')}
-                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white dark:text-black text-xs mr-2"
+                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
               >
                 <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                 {t ? t('txns:filter.filter') : 'Filter'}
@@ -764,7 +695,7 @@ function MainComponent({
                 name="to"
                 type="button"
                 onClick={() => onClear('to')}
-                className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
+                className="flex-1 rounded bg-gray-300 text-xs h-7"
               >
                 {t ? t('txns:filter.clear') : 'Clear'}
               </button>
@@ -779,10 +710,10 @@ function MainComponent({
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span
-                  className={`align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                  className={`align-bottom text-green-500 whitespace-nowrap ${
                     row?.receiver_account_id === address
-                      ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                      : 'text-green-500 dark:text-green-250 border-transparent'
+                      ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                      : 'text-green-500 p-0.5 px-1'
                   }`}
                 >
                   <Link
@@ -790,7 +721,7 @@ function MainComponent({
                     className="hover:no-underline"
                   >
                     <a
-                      className="text-green-500 dark:text-green-250 hover:no-underline"
+                      className="text-green-500 hover:no-underline"
                       onMouseOver={(e) =>
                         onHandleMouseOver(e, row?.receiver_account_id)
                       }
@@ -812,8 +743,7 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600 font-medium',
     },
     {
       header: <span>{t ? t('txns:blockHeight') : ' BLOCK HEIGHT'}</span>,
@@ -824,7 +754,7 @@ function MainComponent({
             href={`/blocks/${row.included_in_block_hash}`}
             className="hover:no-underline"
           >
-            <a className="text-green-500  dark:text-green-250 hover:no-underline">
+            <a className="text-green-500 hover:no-underline">
               {row.block?.block_height
                 ? localFormat(row.block?.block_height)
                 : ''}
@@ -833,9 +763,9 @@ function MainComponent({
         </span>
       ),
       tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
@@ -846,7 +776,7 @@ function MainComponent({
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider text-green-500 dark:text-green-250 focus:outline-none whitespace-nowrap"
+                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider text-green-500 focus:outline-none whitespace-nowrap"
                 >
                   {showAge
                     ? t
@@ -855,9 +785,7 @@ function MainComponent({
                     : t
                     ? t('txns:ageDT')
                     : 'DATE TIME (UTC)'}
-                  {showAge && (
-                    <Clock className="text-green-500 dark:text-green-250 ml-2" />
-                  )}
+                  {showAge && <Clock className="text-green-500 ml-2" />}
                 </button>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -872,7 +800,7 @@ function MainComponent({
             </Tooltip.Root>
           </Tooltip.Provider>
           <button type="button" onClick={onOrder} className="px-2">
-            <div className="text-nearblue-600 dark:text-neargray-10 font-semibold">
+            <div className="text-nearblue-600 font-semibold">
               <SortIcon order={sorting} />
             </div>
           </button>
@@ -913,31 +841,13 @@ function MainComponent({
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName: 'whitespace-nowrap',
     },
   ];
 
-  const uniqueIds = txns[currentPage] !== undefined && [
-    ...new Set(
-      txns[currentPage].map((transaction) => transaction.transaction_hash),
-    ),
-  ];
-
-  const filterTxns = showAllRows
-    ? txns[currentPage]
-    : txns[currentPage] !== undefined &&
-      uniqueIds.map((id) => {
-        const filteredTransactions = txns[currentPage].filter(
-          (transaction) => transaction.transaction_hash === id,
-        );
-        const lastRow = filteredTransactions[filteredTransactions.length - 1];
-        return lastRow;
-      });
-
   return (
-    <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+    <div className="bg-white soft-shadow rounded-xl pb-1">
       {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
@@ -945,22 +855,19 @@ function MainComponent({
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {Object.keys(txns).length > 0 &&
-                `A total of${' '}
-              ${
-                totalCount
-                  ? localFormat && localFormat(totalCount.toString())
-                  : 0
-              }${' '}
-              transactions found`}
+            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600">
+              A total of{' '}
+              {totalCount
+                ? localFormat && localFormat(totalCount.toString())
+                : 0}{' '}
+              transactions found
             </p>
           </div>
-          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 dark:text-neargray-10 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
+          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
             {filters && Object.keys(filters).length > 0 && (
-              <div className="flex  px-2 items-center text-sm text-gray-500 dark:text-neargray-10 mb-2 lg:mb-0">
+              <div className="flex  px-2 items-center text-sm text-gray-500 mb-2 lg:mb-0">
                 <span className="mr-1 lg:mr-2">Filtered By:</span>
-                <span className="flex flex-wrap items-center justify-center bg-gray-100 dark:bg-black-200 rounded-full px-3 py-1 space-x-2">
+                <span className="flex flex-wrap items-center justify-center bg-gray-100 rounded-full px-3 py-1 space-x-2">
                   {Object.keys(filters).map((key) => (
                     <span
                       className="flex items-center max-sm:mb-1 truncate max-w-[120px]"
@@ -979,54 +886,19 @@ function MainComponent({
                 </span>
               </div>
             )}
-            <div className="flex items-center">
-              <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
-                {Object.keys(txns).length > 0 && (
-                  <button className="hover:no-underline ">
-                    <Link
-                      href={`/exportdata?address=${id}`}
-                      className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border border-neargray-700 dark:border-black-200 px-4 rounded-md bg-white dark:bg-black-600 hover:bg-neargray-800"
-                    >
-                      <p>CSV Export</p>
-                      <span className="ml-2">
-                        <Download />
-                      </span>
-                    </Link>
-                  </button>
-                )}
-              </span>
-              {Object.keys(txns).length > 0 && (
-                <div className="flex items-center">
-                  <Tooltip.Provider>
-                    <Tooltip.Root>
-                      <Tooltip.Trigger asChild>
-                        <Question className="w-4 h-4 fill-current mr-1" />
-                      </Tooltip.Trigger>
-                      <Tooltip.Content
-                        className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                        align="start"
-                        side="top"
-                      >
-                        {`Toggle between Receipts Mode and All Receipts. The 'All Receipts' view shows all receipts, while the 'Receipts Mode' view only shows the last receipt of each transaction.`}
-                      </Tooltip.Content>
-                    </Tooltip.Root>
-                  </Tooltip.Provider>
-                  <Switch.Root
-                    className="w-[24px] h-[14px] bg-neargray-50 dark:bg-neargray-600 rounded-full relative data-[state=checked]:bg-teal-800 dark:data-[state=checked]:bg-green-250 outline-none cursor-default"
-                    id="airplane-mode"
-                    style={{
-                      '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
-                    }}
-                    onCheckedChange={handleToggle}
-                  >
-                    <Switch.Thumb className="block w-[10px] h-[10px] bg-neargray-10 dark:bg-neargray-10 rounded-full transition-transform duration-100 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[13px]" />
-                  </Switch.Root>
-                  <label className="text-nearblue-600 dark:text-neargray-10 text-[15px] leading-none pr-[15px] px-2">
-                    ALL RECEIPTS
-                  </label>
-                </div>
-              )}
-            </div>
+            <span className="text-xs text-nearblue-600 self-stretch lg:self-auto px-2">
+              <button className="hover:no-underline ">
+                <Link
+                  href={`/exportdata?address=${id}`}
+                  className="flex items-center text-nearblue-600 font-medium py-2 border border-neargray-700 px-4 rounded-md bg-white hover:bg-neargray-800"
+                >
+                  <p>CSV Export</p>
+                  <span className="ml-2">
+                    <Download />
+                  </span>
+                </Link>
+              </button>
+            </span>
           </div>
         </div>
       )}
@@ -1035,7 +907,7 @@ function MainComponent({
           src={`${ownerId}/widget/bos-components.components.Shared.Table`}
           props={{
             columns: columns,
-            data: filterTxns,
+            data: txns[currentPage],
             isLoading: isLoading,
             isPagination: true,
             count: totalCount,
@@ -1043,13 +915,7 @@ function MainComponent({
             limit: 25,
             pageLimit: 200,
             setPage: setPage,
-            Error: (
-              <ErrorMessage
-                icons={<FaInbox />}
-                message={errorMessage}
-                mutedText="Please try again later"
-              />
-            ),
+            Error: errorMessage,
           }}
         />
       }
