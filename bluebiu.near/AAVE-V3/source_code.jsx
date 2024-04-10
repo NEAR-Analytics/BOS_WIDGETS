@@ -1098,12 +1098,11 @@ function getAllUserRewards() {
     .getAllUserRewards(addrs, account)
     .then((res) => {
       try {
-        console.log(
-          "getAllUserRewards_res:",
-          res,
-          ethers.utils.formatUnits(res[1][1])
-        );
-        const _amount = ethers.utils.formatUnits(res[1][1]);
+        console.log("getAllUserRewards_res:", res);
+        const _amount = res[1].reduce((total, cur) => {
+          return Big(total).plus(ethers.utils.formatUnits(cur)).toFixed();
+        }, 0);
+
         State.update({
           rewardsAmount: _amount,
         });
