@@ -224,10 +224,10 @@ const Purposes = () => {
       <HeadingContainer>
         <Tag label="Purposes" />
         <h2>Harmonic aims to live our values in everything we do.</h2>
-        <h3>
+        {/*<h3>
           Unite in purpose at Build DAO: crafting a global future, empowering
           builders, and fostering impactful projects collaboratively.
-        </h3>
+        </h3>*/}
       </HeadingContainer>
       <StepContainer>
         <Step className="first">
