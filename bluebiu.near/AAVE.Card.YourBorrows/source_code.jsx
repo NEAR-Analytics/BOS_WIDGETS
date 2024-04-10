@@ -16,6 +16,8 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   theme,
+  dexConfig,
+  addAction,
 } = props;
 
 State.init({
@@ -128,6 +130,8 @@ return (
           formatHealthFactor,
           calcHealthFactor,
           assetsToSupply,
+          addAction,
+          dexConfig,
         }}
       />
     )}
