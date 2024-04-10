@@ -1,22 +1,11 @@
 const ROUTER_ABI = [
   {
     inputs: [
-      { internalType: "address", name: "base", type: "address" },
-      { internalType: "address", name: "quote", type: "address" },
-      { internalType: "uint256", name: "poolIdx", type: "uint256" },
-      { internalType: "bool", name: "isBuy", type: "bool" },
-      { internalType: "bool", name: "inBaseQty", type: "bool" },
-      { internalType: "uint128", name: "qty", type: "uint128" },
-      { internalType: "uint16", name: "tip", type: "uint16" },
-      { internalType: "uint128", name: "limitPrice", type: "uint128" },
-      { internalType: "uint128", name: "minOut", type: "uint128" },
-      { internalType: "uint8", name: "reserveFlags", type: "uint8" },
+      { internalType: "uint16", name: "callpath", type: "uint16" },
+      { internalType: "bytes", name: "cmd", type: "bytes" },
     ],
-    name: "swap",
-    outputs: [
-      { internalType: "int128", name: "baseQuote", type: "int128" },
-      { internalType: "int128", name: "quoteFlow", type: "int128" },
-    ],
+    name: "userCmd",
+    outputs: [{ internalType: "bytes", name: "", type: "bytes" }],
     stateMutability: "payable",
     type: "function",
   },
@@ -143,7 +132,7 @@ useEffect(() => {
       isReverse ? 65538 : "21267430153580247136652501917186561137"
     )
       .then((res) => {
-        getTransaction(res[1].abs());
+        getTransaction(isReverse ? res[0].abs() : res[1].abs());
       })
       .catch((err) => {
         onLoad({
@@ -180,17 +169,34 @@ useEffect(() => {
       .mul(1 - (slippage || 0.005))
       .toFixed(0);
 
-    const params = [
-      ..._path,
-      420,
-      !isReverse,
-      !isReverse,
-      amount,
-      0,
-      isReverse ? 65538 : "21267430153580247136652501917186561137",
-      _amountOut,
-      0,
-    ];
+    const abi = new ethers.utils.AbiCoder();
+
+    const cmd = abi.encode(
+      [
+        "address",
+        "address",
+        "uint256",
+        "bool",
+        "bool",
+        "uint128",
+        "uint16",
+        "uint128",
+        "uint128",
+        "uint8",
+      ],
+      [
+        ..._path,
+        420,
+        !isReverse,
+        !isReverse,
+        amount,
+        0,
+        isReverse ? 65538 : "21267430153580247136652501917186561137",
+        _amountOut,
+        0,
+      ]
+    );
+
     const returnData = {
       inputCurrency,
       inputCurrencyAmount,
@@ -204,7 +210,7 @@ useEffect(() => {
 
     const getTx = (_gas) => {
       RouterContract.populateTransaction
-        .swap(...params, {
+        .userCmd(1, cmd, {
           ...options,
           gasLimit: _gas,
         })
@@ -227,7 +233,7 @@ useEffect(() => {
 
     const estimateGas = () => {
       RouterContract.estimateGas
-        .swap(...params, options)
+        .userCmd(1, cmd, options)
         .then((_gas) => {
           getTx(_gas);
         })
