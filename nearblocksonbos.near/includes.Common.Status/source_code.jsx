@@ -10,14 +10,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50 dark:bg-black',
+        bg: 'bg-yellow-50',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50 dark:bg-black',
+        bg: 'bg-red-50',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -25,7 +25,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50 dark:bg-black',
+        bg: 'bg-emerald-50',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
