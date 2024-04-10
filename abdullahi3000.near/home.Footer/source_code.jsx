@@ -31,6 +31,13 @@ const Card = styled.div`
   background: #000000;
   box-shadow: 4px 24px 48px 0px rgba(249, 225, 122, 0.05);
 
+  img {
+    width: 90px;
+    object-fit: cover;
+    height: 100px;
+    border-radius: 20px;
+  }
+
   h3 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
@@ -131,11 +138,7 @@ const Footer = ({ noBanner }) => {
       {!noBanner && (
         <Card>
           <div className="d-flex flex-column align-items-center">
-            <img
-              className="object-fit-cover"
-              style={{ height: 80, width: 80 }}
-              src={logoLink}
-            />
+            <img src={logoLink} />
             <h3>
               Let{"’"}s Make <span>Waves!</span>
             </h3>
