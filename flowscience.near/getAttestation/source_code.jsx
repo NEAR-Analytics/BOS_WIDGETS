@@ -36,6 +36,8 @@ const [uid, setUid] =
 */
 }
 function getAttestation() {
+  const [error, setError] = useState("");
+
   if (typeof uid !== "string" || uid.trim() === "") {
     console.error("UID must be a non-empty string.");
     setError("UID must be provided.");
