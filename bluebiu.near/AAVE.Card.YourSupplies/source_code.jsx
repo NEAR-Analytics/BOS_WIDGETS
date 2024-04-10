@@ -24,6 +24,11 @@ State.init({
   showCollateralModal,
 });
 
+const CenterItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const WithdrawButton = ({ data }) => {
   return (
     <Widget
@@ -85,10 +90,10 @@ return (
                   props={{
                     children: [
                       <img width={64} height={64} src={row?.icon} />,
-                      <div>
+                      <CenterItem>
                         <div className="token-title">{row.symbol}</div>
-                        <div className="token-chain">{row.name}</div>
-                      </div>,
+                        {/* <div className="token-chain">{row.name}</div> */}
+                      </CenterItem>,
                     ],
                   }}
                 />,
