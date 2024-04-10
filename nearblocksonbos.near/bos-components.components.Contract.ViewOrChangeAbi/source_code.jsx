@@ -157,18 +157,15 @@ function MainComponent(props) {
 
     try {
       const args = mapFeilds(fields) ?? {};
-      Near.asyncView(id, toSnakeCase(method?.name), args)
-        .then((resp) => {
-          setError(null);
-          setTxn(resp?.transaction_outcome?.id);
-          setResult(JSON.stringify(resp, null, 2));
-        })
-        .catch((error) => {
-          console.log(error);
-          setTxn(null);
-          setError(error?.message);
-          setResult(null);
-        });
+      const res =
+        Near.view(id, toSnakeCase(method?.name), args);
+
+      if (res !== null) {
+        setError(null);
+        setTxn(res?.transaction_outcome?.id);
+
+        setResult(JSON.stringify(res, null, 2));
+      }
     } catch (error) {
       setTxn(null);
       setError(error);
@@ -188,9 +185,12 @@ function MainComponent(props) {
       const args = mapFeilds(fields) ?? {};
       const res =
         Near.call(id, toSnakeCase(method?.name), args);
-      setError(null);
-      setTxn(res?.transaction_outcome?.id);
-      setResult(JSON.stringify(res, null, 2));
+
+      if (res !== null) {
+        setError(null);
+        setTxn(res?.transaction_outcome?.id);
+        setResult(JSON.stringify(res, null, 2));
+      }
     } catch (error) {
       setTxn(null);
       setError(error);
@@ -240,7 +240,7 @@ function MainComponent(props) {
       key={index}
     >
       <Accordion.Header>
-        <Accordion.Trigger className="bg-gray-50 dark:bg-black-200/50 border dark:border-black-200 rounded flex items-center justify-between px-4 py-2 w-full">
+        <Accordion.Trigger className="bg-gray-50 border rounded flex items-center justify-between px-4 py-2 w-full">
           <span>
             <span className="text-gray-400">{index + 1}.</span>{' '}
             {toSnakeCase(method.name ?? '')}
@@ -286,7 +286,7 @@ function MainComponent(props) {
                 name="type"
                 value={field.type}
                 onChange={(e) => onChange(e, 'type', field.id)}
-                className="col-span-2 bg-white dark:bg-black-600 block border dark:border-black-200 dark:text-neargray-10 rounded mb-3 h-9 px-3 w-full outline-none"
+                className="col-span-2 bg-white block border rounded mb-3 h-9 px-3 w-full outline-none"
               >
                 <option value="" disabled>
                   Type
@@ -384,7 +384,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg dark:bg-red-200 dark:text-black-200 dark:border-red-400 bg-red-50 border-red-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg bg-red-50 border-red-100 p-3 mt-3 resize-y"
             value={error}
           />
         )}
@@ -415,7 +415,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg bg-green-50 dark:bg-green-100 dark:border-green-200 border-green-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg bg-green-50 border-green-100 p-3 mt-3 resize-y"
             value={result}
           />
         )}
