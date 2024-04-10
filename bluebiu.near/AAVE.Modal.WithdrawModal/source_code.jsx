@@ -35,12 +35,12 @@ const {
   underlyingBalance,
   underlyingBalanceUSD,
   tokenPrice,
-  isCollaterale,
+  isCollateraled,
   aTokenAddress,
   availableLiquidity,
   healthFactor,
 } = data;
-console.log("withdraw-props--", props);
+console.log("withdraw-props--", props, isCollateraled);
 const availableLiquidityAmount = Big(availableLiquidity)
   .div(Big(10).pow(decimals))
   .toFixed();
@@ -308,7 +308,7 @@ const actualMaxValue =
     : "0";
 
 let shownMaxValue;
-if (isCollaterale) {
+if (isCollateraled) {
   shownMaxValue = Big(yourTotalCollateral)
     .minus(Big(yourTotalBorrow).times(1.01).div(Big(threshold)))
     .div(tokenPrice)
@@ -329,7 +329,7 @@ function debounce(fn, wait) {
 }
 const updateNewHealthFactor = debounce(() => {
   State.update({ newHealthFactor: "-" });
-  if (isCollaterale) {
+  if (isCollateraled) {
     const newHealthFactor = formatHealthFactor(
       calcHealthFactor("WITHDRAW", symbol, state.amount)
     );
