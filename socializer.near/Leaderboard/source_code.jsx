@@ -139,7 +139,7 @@ const getListData = () => {
       });
       if (error) return State.update({ error, loaded: true });
       State.update({
-        list: data,
+        list: listData,
         loaded: true,
       });
     } else {
