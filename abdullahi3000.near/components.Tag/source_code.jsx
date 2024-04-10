@@ -7,11 +7,11 @@ const Container = styled.div`
   width: max-content;
 
   border-radius: 100px;
-  border: 1px solid var(--eca-227, #eca227);
+  border: 1px solid var(--eca-227, #2287C2);
   background: rgba(236, 162, 39, 0.2);
 
   span {
-    color: var(--eca-227, #eca227);
+    color: var(--eca-227, #2287C2);
     text-align: center;
     font-family: "Zen Kaku Gothic Antique", sans-serif;
     font-size: 16px;
