@@ -7,9 +7,7 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} ownerId - The identifier of the owner of the component.
- * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  */
-
 
 
 
@@ -30,7 +28,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -70,14 +68,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50 dark:bg-black',
+        bg: 'bg-yellow-50',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50 dark:bg-black',
+        bg: 'bg-red-50',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -85,7 +83,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50 dark:bg-black',
+        bg: 'bg-emerald-50',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -147,42 +145,8 @@ const FaLongArrowAltRight = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
-/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-const ErrorMessage = ({ icons, message, mutedText }) => {
-  return (
-    <div className="text-center py-24">
-      <div className="mb-4 flex justify-center">
-        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
-          {icons}
-        </span>
-      </div>
 
-      <h3 className="font-bold text-lg text-black dark:text-neargray-10">
-        {message}
-      </h3>
-
-      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
-    </div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-const FaInbox = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      stroke-width="0"
-      viewBox="0 0 576 512"
-      height="24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
-
-function MainComponent({ network, id, ownerId, t }) {
+function MainComponent({ network, id, ownerId }) {
   const { formatTimestampToString, getTimeAgoString, localFormat } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
@@ -193,21 +157,26 @@ function MainComponent({ network, id, ownerId, t }) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [countLoading, setcountLoading] = useState(false);
+  const initialPage = 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
-  const [txns, setTxns] = useState(undefined);
-  const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
+  const [txns, setTxns] = useState({});
 
   const config = getConfig && getConfig(network);
 
-  const apiUrl = `nfts/${id}/txns?`;
-
-  const [url, setUrl] = useState(apiUrl);
-  const [cursor, setCursor] = useState(undefined);
-
   const [showAge, setShowAge] = useState(true);
+  const errorMessage = 'No transactions found!';
   const [address, setAddress] = useState('');
 
   const toggleShowAge = () => setShowAge((s) => !s);
+
+  const setPage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    setCurrentPage(currentPage);
+  }, [currentPage]);
 
   useEffect(() => {
     function fetchTotalTxns() {
@@ -238,48 +207,40 @@ function MainComponent({ network, id, ownerId, t }) {
         .finally(() => {});
     }
 
-    function fetchTxnsData() {
+    function fetchTxnsData(page) {
       setIsLoading(true);
 
-      asyncFetch(`${config?.backendUrl}${url}order=desc`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(
-          (data
-
-
-) => {
-            const resp = data?.body?.txns;
-            let cursor = data?.body?.cursor;
-            if (data.status === 200) {
-              setCursor(cursor);
-              if (Array.isArray(resp) && resp.length > 0) {
-                setTxns(resp);
-              } else if (resp.length === 0) {
-                setTxns(undefined);
-              }
-              setIsLoading(false);
-            } else {
-              handleRateLimit(
-                data,
-                () => fetchTxnsData(),
-                () => setIsLoading(false),
-              );
-            }
+      asyncFetch(
+        `${config?.backendUrl}nfts/${id}/txns?order=desc&page=${page}&per_page=25`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        )
+        },
+      )
+        .then((data) => {
+          const resp = data?.body?.txns;
+          if (data.status === 200 && Array.isArray(resp) && resp.length > 0) {
+            setTxns((prevData) => ({ ...prevData, [page]: resp }));
+            setIsLoading(false);
+          } else {
+            handleRateLimit(
+              data,
+              () => fetchTxnsData(page),
+              () => setIsLoading(false),
+            );
+          }
+        })
         .catch(() => {});
     }
     if (config?.backendUrl) {
       fetchTotalTxns();
-      fetchTxnsData();
+      fetchTxnsData(currentPage);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config?.backendUrl, id, url]);
+  }, [config?.backendUrl, currentPage, id]);
 
   const onHandleMouseOver = (e, id) => {
     e.preventDefault();
@@ -308,12 +269,12 @@ function MainComponent({ network, id, ownerId, t }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250  whitespace-nowrap">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
                   <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
+                    <a className="text-green-500 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
                   </Link>
@@ -330,9 +291,9 @@ function MainComponent({ network, id, ownerId, t }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-3 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-5 py-4 text-sm text-nearblue-600',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>METHOD</span>,
@@ -342,7 +303,7 @@ function MainComponent({ network, id, ownerId, t }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">{row?.cause}</span>
                 </span>
               </Tooltip.Trigger>
@@ -358,9 +319,9 @@ function MainComponent({ network, id, ownerId, t }) {
         </span>
       ),
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>From</span>,
@@ -373,10 +334,10 @@ function MainComponent({ network, id, ownerId, t }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
                         row?.affected_account_id === address
-                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 border-transparent'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          : 'text-green-500 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -384,7 +345,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 dark:text-green-250 hover:no-underline"
+                          className="text-green-500 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.affected_account_id)
                           }
@@ -415,10 +376,10 @@ function MainComponent({ network, id, ownerId, t }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
                         row?.involved_account_id === address
-                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 border-transparent'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          : 'text-green-500 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -426,7 +387,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 dark:text-green-250 hover:no-underline"
+                          className="text-green-500 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.involved_account_id)
                           }
@@ -453,9 +414,9 @@ function MainComponent({ network, id, ownerId, t }) {
         );
       },
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span></span>,
@@ -484,10 +445,10 @@ function MainComponent({ network, id, ownerId, t }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
                         row?.involved_account_id === address
-                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 border-transparent'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          : 'text-green-500 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -495,7 +456,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 dark:text-green-250 hover:no-underline"
+                          className="text-green-500 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.involved_account_id)
                           }
@@ -526,10 +487,10 @@ function MainComponent({ network, id, ownerId, t }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
                         row?.affected_account_id === address
-                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 border-transparent'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          : 'text-green-500 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -537,7 +498,7 @@ function MainComponent({ network, id, ownerId, t }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 dark:text-green-250 hover:no-underline"
+                          className="text-green-500 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.affected_account_id)
                           }
@@ -564,9 +525,9 @@ function MainComponent({ network, id, ownerId, t }) {
         );
       },
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
     },
     {
       header: <span>TOKEN ID</span>,
@@ -591,10 +552,9 @@ function MainComponent({ network, id, ownerId, t }) {
           </Tooltip.Provider>
         </>
       ),
-      tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 ',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
@@ -605,12 +565,12 @@ function MainComponent({ network, id, ownerId, t }) {
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="text-left text-xs px-5 py-4 w-full flex items-center font-semibold uppercase tracking-wider text-green-500 dark:text-green-250 focus:outline-none flex-row whitespace-nowrap"
+                  className="text-left text-xs px-5 py-4 w-full flex items-center font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex-row whitespace-nowrap"
                 >
                   {showAge ? (
                     <>
                       {'AGE'}
-                      <Clock className="text-green-500 dark:text-green-250 ml-2" />
+                      <Clock className="text-green-500 ml-2" />
                     </>
                   ) : (
                     <> {'DATE TIME (UTC)'}</>
@@ -665,8 +625,7 @@ function MainComponent({ network, id, ownerId, t }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
       thClassName: 'inline-flex',
     },
     {
@@ -678,16 +637,16 @@ function MainComponent({ network, id, ownerId, t }) {
             href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
             className="hover:no-underline"
           >
-            <a className="bg-gray-100 dark:bg-black-200 hover:bg-gray-200 px-2 py-1 rounded hover:no-underline">
+            <a className="bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded hover:no-underline">
               View NFT &gt;
             </a>
           </Link>
         </span>
       ),
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
   ];
   return (
@@ -699,12 +658,9 @@ function MainComponent({ network, id, ownerId, t }) {
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              {txns &&
-                txns.length > 0 &&
-                `A total of ${
-                  localFormat && localFormat(totalCount.toString())
-                } transactions found`}
+            <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
+              A total of {localFormat && localFormat(totalCount.toString())}{' '}
+              transactions found
             </p>
           </div>
         </div>
@@ -713,22 +669,15 @@ function MainComponent({ network, id, ownerId, t }) {
         src={`${ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: txns,
+          data: txns[currentPage],
           isLoading: isLoading,
+          isPagination: true,
           count: totalCount,
+          page: currentPage,
           limit: 25,
-          cursorPagination: true,
-          cursor: cursor,
-          apiUrl: apiUrl,
-          setUrl: setUrl,
-          ownerId: ownerId,
-          Error: (
-            <ErrorMessage
-              icons={<FaInbox />}
-              message={errorMessage || ''}
-              mutedText="Please try again later"
-            />
-          ),
+          pageLimit: 200,
+          setPage: setPage,
+          Error: errorMessage,
         }}
       />
     </>
