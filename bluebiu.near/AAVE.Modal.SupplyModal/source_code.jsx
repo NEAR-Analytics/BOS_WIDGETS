@@ -250,8 +250,13 @@ function depositETH(amount) {
     .then((tx) => {
       tx.wait()
         .then((res) => {
-          const { status } = res;
+          const { status, transactionHash } = res;
           if (status === 1) {
+            formatAddAction(
+              Big(amount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
             onActionSuccess({
               msg: `You supplied ${Big(amount)
                 .div(Big(10).pow(decimals))
@@ -322,7 +327,20 @@ function depositFromApproval(amount) {
       );
     });
 }
-
+function formatAddAction(_amount, status, transactionHash) {
+  addAction?.({
+    type: "Lending",
+    action: "Supply",
+    token: {
+      symbol,
+    },
+    amount: _amount,
+    template: dexConfig.name,
+    add: false,
+    status,
+    transactionHash,
+  });
+}
 function approve(amount) {
   const tokenAddress = underlyingAsset;
   const token = new ethers.Contract(
@@ -366,8 +384,13 @@ function depositErc20(amount) {
           .then((tx) => {
             tx.wait()
               .then((res) => {
-                const { status } = res;
+                const { status, transactionHash } = res;
                 if (status === 1) {
+                  formatAddAction(
+                    Big(amount).div(Big(10).pow(decimals)).toFixed(8),
+                    status,
+                    transactionHash
+                  );
                   onActionSuccess({
                     msg: `You supplied ${Big(amount)
                       .div(Big(10).pow(decimals))
@@ -408,18 +431,11 @@ function depositErc20(amount) {
                 const { status, transactionHash } = res;
                 console.log("SUCCESS--", status, transactionHash);
                 if (status === 1) {
-                  addAction?.({
-                    type: "Lending",
-                    action: "Supply",
-                    token: {
-                      symbol,
-                    },
-                    amount,
-                    template: dexConfig.name,
-                    add: false,
+                  formatAddAction(
+                    Big(amount).div(Big(10).pow(decimals)).toFixed(8),
                     status,
-                    transactionHash,
-                  });
+                    transactionHash
+                  );
                   onActionSuccess({
                     msg: `You supplied ${Big(amount)
                       .div(Big(10).pow(decimals))
