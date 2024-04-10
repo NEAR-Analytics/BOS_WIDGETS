@@ -106,8 +106,16 @@ const getWinners = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data && data.length) {
+        const listData = data.map((obj) => {
+          if (obj.accountId.length > 30) {
+            const firstPart = obj.accountId.slice(0, 5);
+            const remainingPart = obj.accountId.slice(-5);
+            obj.accountId = `${firstPart} ... ${remainingPart}`;
+          }
+          return obj;
+        });
         State.update({
-          winners: data,
+          winners: listData,
           loaded: true,
           loading: false,
         });
