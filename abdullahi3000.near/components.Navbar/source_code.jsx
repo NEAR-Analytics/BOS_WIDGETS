@@ -227,7 +227,7 @@ function Navbar(props) {
           >
             <img
               className="object-fit-cover"
-              style={{ height: 46 }}
+              style={{ height: 50 }}
               src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1711122280/cafg8h33bpq15uugd8ta.png"
             />
           </Link>
