@@ -7,10 +7,6 @@ export function search(
   url,
 ) {
   try {
-    if (keyword.includes('.')) {
-      keyword = keyword.toLowerCase();
-    }
-
     const route = getRoute(filter);
 
     return asyncFetch(`${url}search/${route}?keyword=${keyword}`, {
