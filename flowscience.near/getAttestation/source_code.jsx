@@ -1,40 +1,22 @@
 // This function returns JSON formatted attestation data for an input UID
 // Example inputs for retrieving attestation data from Optimism are included here.
 
-{
-  /*}
-const user = Ethers.send("eth_requestAccounts", [])[0];
-if (!user) return <Web3Connect connectLabel="Connect" />;
-
-const chain = Ethers.provider()
-  .getNetwork()
-  .then((chainIdData) => {
-    console.log(chainIdData.chainId);
-  });
-
-console.log("chain:", chain);
-
 const abi = fetch(
   "https://raw.githubusercontent.com/ethereum-attestation-service/eas-contracts/master/deployments/optimism/EAS.json"
 );
 const provider = new ethers.providers.JsonRpcProvider(
   "https://optimism.drpc.org"
 );
-const signer = provider.getSigner(user);
-console.log("chain:", chain);
-console.log("signer:", signer);
 
 const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(abi.body);
 const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
-console.log(contract);
 const [attestation, setAttestation] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] =
   useState("") ||
   "0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd";
-*/
-}
+
 function getAttestation() {
   const [error, setError] = useState("");
 
