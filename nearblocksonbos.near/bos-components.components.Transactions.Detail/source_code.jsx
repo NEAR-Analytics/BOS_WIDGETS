@@ -45,7 +45,7 @@ const WrapDeposit = (props) => {
   if (log?.length !== 3) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Mint </span>
       {
@@ -85,7 +85,7 @@ const Withdraw = (props) => {
   if (log?.length !== 3) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Burn </span>
       {
@@ -157,7 +157,7 @@ const Swap = (props) => {
   if (log?.length === 0) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Swap </span>
       {
@@ -185,7 +185,7 @@ const Swap = (props) => {
       <span className="font-bold text-gray px-1">
         On{' '}
         <a href="/address/v2.ref-finance.near" className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Ref Finance
           </a>
         </a>
@@ -226,8 +226,8 @@ const DepositToReserve = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Deposit To Reserve </span>
       {
         <Widget
@@ -235,16 +235,14 @@ const DepositToReserve = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         From{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -255,7 +253,7 @@ const DepositToReserve = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -288,8 +286,8 @@ const Deposit = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Deposit </span>
       {
         <Widget
@@ -297,16 +295,14 @@ const Deposit = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         From{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -317,7 +313,7 @@ const Deposit = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -350,7 +346,7 @@ const WithdrawSucceeded = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Withdraw </span>
       {
@@ -359,16 +355,14 @@ const WithdrawSucceeded = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
             network: props.network,
-            decimals: 18,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         To{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -412,8 +406,8 @@ const IncreaseCollateral = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Increase Collateral </span>
       {
         <Widget
@@ -421,16 +415,14 @@ const IncreaseCollateral = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         From{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -441,7 +433,7 @@ const IncreaseCollateral = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -475,25 +467,23 @@ const DescreaseCollateral = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
-      <span className="font-bold px-1">Decrease Collateral </span>
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
+      <span className="font-bold px-1">Descrease Collateral </span>
       {
         <Widget
           src={`${props.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         From{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -504,7 +494,7 @@ const DescreaseCollateral = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -539,7 +529,7 @@ const Borrow = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Borrow </span>
       {
@@ -548,16 +538,14 @@ const Borrow = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         To{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -568,7 +556,7 @@ const Borrow = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -601,8 +589,8 @@ const Repay = (props) => {
   if (!log?.token_id || !log?.account_id || !log?.amount) return null;
 
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">Repay </span>
       {
         <Widget
@@ -610,16 +598,14 @@ const Repay = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            ownerId: props.ownerId,
-            network: props.network,
-            decimals: 18,
+            networK: props.network,
           }}
         />
       }
       <span className="font-bold text-gray px-1">
         From{' '}
         <a href={`/address/${log.account_id}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(log.account_id)}
           </a>
         </a>
@@ -630,7 +616,7 @@ const Repay = (props) => {
           href="/address/contract.main.burrow.near"
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal hover:no-underline">
+          <a className="text-green-500 font-normal hover:no-underline">
             Burrow
           </a>
         </a>
@@ -721,40 +707,36 @@ const BurrowContract = (props) => {
 };
 
 const EventLogs = (props) => {
-  const showContract = () => {
-    switch (props.event.contract) {
-      case 'wrap.near':
-      case 'wrap.testnet':
-        return (
-          <WrapContract
-            event={props.event}
-            network={props.network}
-            ownerId={props.ownerId}
-          />
-        );
-      case 'v2.ref-finance.near':
-        return (
-          <RefContract
-            event={props.event}
-            network={props.network}
-            ownerId={props.ownerId}
-          />
-        );
-      case 'contract.main.burrow.near':
-      case 'contract.1638481328.burrow.testnet':
-        return (
-          <BurrowContract
-            event={props.event}
-            network={props.network}
-            ownerId={props.ownerId}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  return <>{showContract()}</>;
+  switch (props.event.contract) {
+    case 'wrap.near':
+    case 'wrap.testnet':
+      return (
+        <WrapContract
+          event={props.event}
+          network={props.network}
+          ownerId={props.ownerId}
+        />
+      );
+    case 'v2.ref-finance.near':
+      return (
+        <RefContract
+          event={props.event}
+          network={props.network}
+          ownerId={props.ownerId}
+        />
+      );
+    case 'contract.main.burrow.near':
+    case 'contract.1638481328.burrow.testnet':
+      return (
+        <BurrowContract
+          event={props.event}
+          network={props.network}
+          ownerId={props.ownerId}
+        />
+      );
+    default:
+      return null;
+  }
 };/* END_INCLUDE COMPONENT: "includes/Common/Action/index.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Actions.jsx" */
 const CreateAccount = (props) => {
@@ -778,12 +760,12 @@ const CreateAccount = (props) => {
     );
   };
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">
         Create Account{' '}
         <a href={`/address/${props.action.to}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(props.action.to)}
           </a>
         </a>
@@ -812,12 +794,12 @@ const DeleteAccount = (props) => {
     );
   };
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">
         Delete Account{' '}
         <a href={`/address/${props.action.to}`}>
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1">
+          <a className="text-green-500 font-normal pl-1">
             {shortenAddress(props.action.to)}
           </a>
         </a>
@@ -846,81 +828,12 @@ const DeployContract = (props) => {
     );
   };
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">
         Deploy Contract{' '}
         <a href={`/address/${props.action.to}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
-            {shortenAddress(props.action.to)}
-          </a>
-        </a>
-      </span>
-    </div>
-  );
-};
-const FunctionCall = (props) => {
-  const { shortenAddress } = VM.require(
-    `${props.ownerId}/widget/includes.Utils.libs`,
-  );
-
-  const FaRight = (props) => {
-    return (
-      <svg
-        stroke="currentColor"
-        fill="currentColor"
-        stroke-width="0"
-        viewBox="0 0 192 512"
-        className={props.className}
-        height="1em"
-        width="1em"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 384.662V127.338c0-17.818 21.543-26.741 34.142-14.142l128.662 128.662c7.81 7.81 7.81 20.474 0 28.284L34.142 398.804C21.543 411.404 0 402.48 0 384.662z"></path>
-      </svg>
-    );
-  };
-  return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
-      <span className="font-bold px-1">
-        Call{' '}
-        <span className="font-normal pl-1">
-          <Tooltip.Provider>
-            <Tooltip.Root>
-              <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[240px] inline-flex truncate">
-                  <span className="block truncate">
-                    {props.action.args.method_name}
-                  </span>
-                </span>
-              </Tooltip.Trigger>
-              <Tooltip.Content
-                className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                align="center"
-                side="bottom"
-              >
-                {props.action.args.method_name}
-              </Tooltip.Content>
-            </Tooltip.Root>
-          </Tooltip.Provider>
-        </span>
-      </span>
-      <span className="font-bold text-gray px-1">
-        By{' '}
-        <a
-          href={`/address/${props.action.from}`}
-          className="hover:no-underline"
-        >
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
-            {shortenAddress(props.action.from)}
-          </a>
-        </a>
-      </span>
-      <span className="font-bold text-gray px-1">
-        On{' '}
-        <a href={`/address/${props.action.to}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(props.action.to)}
           </a>
         </a>
@@ -950,7 +863,7 @@ const Stake = (props) => {
     );
   };
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
+    <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">
         Stake{' '}
@@ -983,8 +896,8 @@ const Transfer = (props) => {
     );
   };
   return (
-    <div className="action flex flex-wrap items-center break-all leading-7">
-      <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
+    <div className="flex flex-wrap items-center break-all leading-7">
+      <FaRight className="inline-flex text-gray-400 text-xs" />
       <span className="font-bold px-1">
         Transfer{' '}
         <span className="font-normal pl-1">
@@ -997,7 +910,7 @@ const Transfer = (props) => {
           href={`/address/${props.action.from}`}
           className="hover:no-underline"
         >
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(props.action.from)}
           </a>
         </a>
@@ -1005,7 +918,7 @@ const Transfer = (props) => {
       <span className="font-bold text-gray px-1">
         To{' '}
         <a href={`/address/${props.action.to}`} className="hover:no-underline">
-          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+          <a className="text-green-500 font-normal pl-1 hover:no-underline">
             {shortenAddress(props.action.to)}
           </a>
         </a>
@@ -1015,26 +928,20 @@ const Transfer = (props) => {
 };
 
 const Actions = (props) => {
-  const showAction = () => {
-    switch (props.action.action_kind) {
-      case 'CreateAccount':
-        return <CreateAccount action={props.action} ownerId={props.ownerId} />;
-      case 'DeleteAccount':
-        return <DeleteAccount action={props.action} ownerId={props.ownerId} />;
-      case 'DeployContract':
-        return <DeployContract action={props.action} ownerId={props.ownerId} />;
-      case 'FunctionCall':
-        return <FunctionCall action={props.action} ownerId={props.ownerId} />;
-      case 'Stake':
-        return <Stake action={props.action} ownerId={props.ownerId} />;
-      case 'Transfer':
-        return <Transfer action={props.action} ownerId={props.ownerId} />;
-      default:
-        return null;
-    }
-  };
-
-  return <>{showAction()}</>;
+  switch (props.action.action_kind) {
+    case 'CreateAccount':
+      return <CreateAccount action={props.action} ownerId={props.ownerId} />;
+    case 'DeleteAccount':
+      return <DeleteAccount action={props.action} ownerId={props.ownerId} />;
+    case 'DeployContract':
+      return <DeployContract action={props.action} ownerId={props.ownerId} />;
+    case 'Stake':
+      return <Stake action={props.action} ownerId={props.ownerId} />;
+    case 'Transfer':
+      return <Transfer action={props.action} ownerId={props.ownerId} />;
+    default:
+      return null;
+  }
 };/* END_INCLUDE COMPONENT: "includes/Common/Actions.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Question.jsx" */
 const Question = (props) => {
@@ -1087,14 +994,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50 dark:bg-black',
+        bg: 'bg-yellow-50',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50 dark:bg-black',
+        bg: 'bg-red-50',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -1102,7 +1009,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50 dark:bg-black',
+        bg: 'bg-emerald-50',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -1146,10 +1053,7 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path
-        fill="currentColor"
-        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
-      />
+      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
@@ -1448,7 +1352,7 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 dark:bg-black-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
+        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
       ></div>
     );
   };
@@ -1470,8 +1374,8 @@ function MainComponent(props) {
   }, [txn, config.backendUrl]);
 
   return (
-    <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 dark:divide-black-200 divide-y">
-      <div className="text-sm text-nearblue-600 dark:text-neargray-10">
+    <div className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y">
+      <div className="text-sm text-nearblue-600">
         {network === 'testnet' && (
           <div className="flex flex-wrap p-4 text-red-500">
             {t
@@ -1583,7 +1487,7 @@ function MainComponent(props) {
                 href={`/blocks/${txn?.included_in_block_hash}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                <a className="text-green-500 hover:no-underline">
                   {txn?.block?.block_height
                     ? localFormat(txn?.block?.block_height)
                     : txn?.block?.block_height ?? ''}
@@ -1664,11 +1568,26 @@ function MainComponent(props) {
           )}
         </div>
       </div>
-      {(actions?.length > 0 || logs?.length > 0) && (
-        <div
-          id="action-row"
-          className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10"
-        >
+      {((actions?.length > 0 &&
+        actions.some((item) =>
+          [
+            'CreateAccount',
+            'DeleteAccount',
+            'DeployContract',
+            'Stake',
+            'Transfer',
+          ].includes(item?.action_kind),
+        )) ||
+        (logs.length > 0 &&
+          logs.some((item, i) => (
+            <EventLogs
+              key={i}
+              event={item}
+              network={network}
+              ownerId={ownerId}
+            />
+          )))) && (
+        <div id="action-row" className="bg-white text-sm text-nearblue-600">
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
               <Tooltip.Provider>
@@ -1695,7 +1614,7 @@ function MainComponent(props) {
               </div>
             ) : (
               <div className="w-full md:w-3/4">
-                <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white dark:bg-black-600">
+                <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white">
                   <ScrollArea.Viewport className="w-full h-full rounded">
                     <div
                       id="action-column"
@@ -1715,16 +1634,16 @@ function MainComponent(props) {
                     </div>
                   </ScrollArea.Viewport>
                   <ScrollArea.Scrollbar
-                    className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                    className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
                     orientation="vertical"
                   >
-                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                   </ScrollArea.Scrollbar>
                   <ScrollArea.Scrollbar
-                    className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                    className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
                     orientation="horizontal"
                   >
-                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-600 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+                    <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                   </ScrollArea.Scrollbar>
                   <ScrollArea.Corner className="bg-neargray-50" />
                 </ScrollArea.Root>
@@ -1733,7 +1652,7 @@ function MainComponent(props) {
           </div>
         </div>
       )}
-      <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
+      <div className="bg-white text-sm text-nearblue-600">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
             <Tooltip.Provider>
@@ -1766,7 +1685,7 @@ function MainComponent(props) {
                 href={`/address/${txn?.signer_account_id}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500  dark:text-green-250 hover:no-underline">
+                <a className="text-green-500 hover:no-underline">
                   {txn?.signer_account_id}
                 </a>
               </Link>
@@ -1809,7 +1728,7 @@ function MainComponent(props) {
                 href={`/address/${txn?.receiver_account_id}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                <a className="text-green-500 hover:no-underline">
                   {txn?.receiver_account_id}
                 </a>
               </Link>
@@ -1844,7 +1763,7 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="relative w-full md:w-3/4">
-              <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white dark:bg-black-600">
+              <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white">
                 <ScrollArea.Viewport className="w-full h-full rounded">
                   <div className="max-h-[302px] break-words space-y-3">
                     {fts?.map((ft) => (
@@ -1862,7 +1781,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.involved_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                     {shortenAddress(
                                       ft?.involved_account_id ?? '',
                                     )}
@@ -1879,7 +1798,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.affected_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1">
+                                  <a className="text-green-500 font-normal pl-1">
                                     {shortenAddress(
                                       ft?.affected_account_id ?? '',
                                     )}
@@ -1899,7 +1818,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.affected_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                     {shortenAddress(
                                       ft?.affected_account_id ?? '',
                                     )}
@@ -1916,7 +1835,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.involved_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1">
+                                  <a className="text-green-500 font-normal pl-1">
                                     {shortenAddress(
                                       ft?.involved_account_id ?? '',
                                     )}
@@ -1946,7 +1865,7 @@ function MainComponent(props) {
                           href={`/token/${ft?.ft_meta?.contract}`}
                           className="hover:no-underline"
                         >
-                          <a className="text-green dark:text-green-250 flex items-center hover:no-underline">
+                          <a className="text-green flex items-center hover:no-underline">
                             <TokenImage
                               src={ft?.ft_meta?.icon}
                               alt={ft?.ft_meta?.name}
@@ -1955,9 +1874,8 @@ function MainComponent(props) {
                             />
                             {shortenToken(ft?.ft_meta?.name ?? '')}
                             <span>
-                              {`(${shortenTokenSymbol(
-                                ft?.ft_meta?.symbol ?? '',
-                              )})`}
+                              &nbsp;(
+                              {shortenTokenSymbol(ft?.ft_meta?.symbol ?? '')})
                             </span>
                           </a>
                         </Link>
@@ -1979,7 +1897,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.involved_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.involved_account_id ?? '',
                                             )}
@@ -1998,7 +1916,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.affected_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.affected_account_id ?? '',
                                             )}
@@ -2020,7 +1938,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.affected_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.affected_account_id ?? '',
                                             )}
@@ -2039,7 +1957,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.involved_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.involved_account_id ?? '',
                                             )}
@@ -2063,7 +1981,7 @@ function MainComponent(props) {
                                       href={`/nft-token/${nft?.nft_meta?.contract}/${nft?.token_id}`}
                                       className="hover:no-underline"
                                     >
-                                      <a className="text-green hover:no-underline dark:text-green-250">
+                                      <a className="text-green hover:no-underline">
                                         {shortenToken(nft?.token_id ?? '')}
                                       </a>
                                     </Link>
@@ -2074,7 +1992,7 @@ function MainComponent(props) {
                                   href={`/nft-token/${nft?.nft_meta?.contract}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green flex items-center hover:no-underline dark:text-green-250">
+                                  <a className="text-green flex items-center hover:no-underline">
                                     <TokenImage
                                       src={nft?.nft_meta?.icon}
                                       alt={nft?.nft_meta?.name}
@@ -2124,16 +2042,16 @@ function MainComponent(props) {
                   </div>
                 </ScrollArea.Viewport>
                 <ScrollArea.Scrollbar
-                  className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                  className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
                   orientation="vertical"
                 >
-                  <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+                  <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                 </ScrollArea.Scrollbar>
                 <ScrollArea.Scrollbar
-                  className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+                  className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
                   orientation="horizontal"
                 >
-                  <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-600 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+                  <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
                 </ScrollArea.Scrollbar>
                 <ScrollArea.Corner className="bg-neargray-50" />
               </ScrollArea.Root>
@@ -2141,7 +2059,7 @@ function MainComponent(props) {
           )}
         </div>
       )}
-      <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
+      <div className="bg-white text-sm text-nearblue-600">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
             <Tooltip.Provider>
@@ -2275,7 +2193,7 @@ function MainComponent(props) {
 
       <Accordion.Root
         type="single"
-        className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 divide-y border-b"
+        className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y border-b"
         defaultValue={more ? 'item-1' : undefined}
         collapsible
       >
@@ -2284,11 +2202,11 @@ function MainComponent(props) {
             <div className="flex flex-wrap p-4">
               <Accordion.Trigger asChild onClick={toggleContent}>
                 {!more ? (
-                  <span className="text-green-500 dark:text-green-250 flex items-center cursor-pointer">
+                  <span className="text-green-500 flex items-center cursor-pointer">
                     Click to see more <ArrowDown className="fill-current" />
                   </span>
                 ) : (
-                  <span className="text-green-500 dark:text-green-250 flex items-center cursor-pointer">
+                  <span className="text-green-500 flex items-center cursor-pointer">
                     Click to see less <ArrowUp className="fill-current" />
                   </span>
                 )}
@@ -2328,10 +2246,12 @@ function MainComponent(props) {
                     ) + 'gas'}
                     <span className="text-gray-300 px-1">|</span>
                     {convertToMetricPrefix(txn?.outcomes_agg?.gas_used ?? 0)}gas
-                    {`(${gasPercentage(
+                    (
+                    {gasPercentage(
                       txn?.outcomes_agg?.gas_used ?? 0,
                       txn?.actions_agg?.gas_attached ?? 0,
-                    )})`}
+                    )}
+                    )
                   </div>
                 )}
               </div>
@@ -2361,14 +2281,12 @@ function MainComponent(props) {
                   </div>
                 ) : (
                   <div className="w-full  text-xs items-center flex md:w-3/4 break-words">
-                    <div className="bg-orange-50 dark:bg-black-200 rounded-md px-2 py-1">
+                    <div className="bg-orange-50 rounded-md px-2 py-1">
                       <span className="text-xs mr-2">🔥</span>
                       {convertToMetricPrefix(
                         txn.receipt_conversion_gas_burnt ?? 0,
                       ) + 'gas'}
-                      <span className="text-gray-300 dark:text-neargray-10 px-1">
-                        |
-                      </span>{' '}
+                      <span className="text-gray-300 px-1">|</span>{' '}
                       {txn.receipt_conversion_tokens_burnt
                         ? yoctoToNear(txn.receipt_conversion_tokens_burnt, true)
                         : txn.receipt_conversion_tokens_burnt ?? ''}{' '}
