@@ -182,7 +182,7 @@ return (
           borderColor: "white",
           color: "black",
         }}
-        onClick={onClose("")}
+        onClick={() => onClose("")}
       >
         X
       </button>
