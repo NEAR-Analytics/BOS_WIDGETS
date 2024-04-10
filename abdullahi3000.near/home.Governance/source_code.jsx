@@ -101,7 +101,7 @@ const Governance = () => {
           src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1712740891/m4wlpvgcxbsii51g02bg.jpg"
         />
       </Container>
-      <MobileImage src="https://ipfs.near.social/ipfs/bafkreid6skww2tq5fb2f2gtnqyvpwep43y46a6qmh32ukkvkzd3tflz7de" />
+      <MobileImage src="https://res.cloudinary.com/dtt0cjt51/image/upload/v1712740919/rjgzjhsnhr17uor49vir.jpg" />
     </>
   );
 };
