@@ -204,6 +204,8 @@ State.init({
 
   step1: false,
   step2: false,
+
+  updater: 0,
 });
 
 function calcAvailableBorrows(availableBorrowsUSD, tokenPrice) {
@@ -438,8 +440,15 @@ function getUserBalance() {
 }
 
 function onActionSuccess({ msg, callback }) {
+  console.log("onActionSuccess--");
   // update data if action finishes
   getUserBalance();
+
+  State.update({
+    step1: false,
+    step2: false,
+    updater: state.updater + 1,
+  });
   // update UI after data has almost loaded
   setTimeout(() => {
     if (callback) {
@@ -1138,7 +1147,7 @@ useEffect(() => {
     getYourSupplies();
     getUserDebts();
   }
-}, [account, isChainSupported, state.step1]);
+}, [account, isChainSupported, state.step1, updater]);
 
 useEffect(() => {
   if (state.step2) {
