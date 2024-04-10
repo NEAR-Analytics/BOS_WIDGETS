@@ -62,6 +62,7 @@ const {
   dexConfig,
   theme,
   toast,
+  addAction,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("PROPS: ", props);
@@ -1308,7 +1309,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!state.step1) return;
-  if (!["zerolend", "AAVE V3"].includes(dexConfig.name)) return;
+  if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
   console.log("calc net apy", state.yourSupplies, state.yourBorrows);
@@ -1495,6 +1496,8 @@ const body = isChainSupported ? (
             yourSupplies: state.yourSupplies,
             yourTotalSupply: state.yourTotalSupply,
             theme: dexConfig?.theme,
+            addAction,
+            dexConfig,
           }}
         />
       </>
@@ -1536,7 +1539,8 @@ const body = isChainSupported ? (
                 account,
                 prices,
                 threshold: state.threshold,
-
+                addAction,
+                dexConfig,
                 yourTotalCollateral: state.yourTotalCollateral,
                 yourTotalBorrow: state.yourTotalBorrow,
                 theme: dexConfig?.theme,
@@ -1579,6 +1583,8 @@ const body = isChainSupported ? (
                 repayERC20Gas,
                 borrowETHGas,
                 borrowERC20Gas,
+                addAction,
+                dexConfig,
                 healthFactor: formatHealthFactor(state.healthFactor),
                 theme: dexConfig?.theme,
               }}
