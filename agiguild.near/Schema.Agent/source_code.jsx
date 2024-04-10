@@ -2,7 +2,7 @@ const {genSchema: genericGenSchema} = VM.require("near/widget/Entities.Template.
 
 
 const genSchema = (ignored) => {
-    const namespace = "agiguild";
+    const namespace = "near";
     const entityType = "agent";
     const entityTitle = "Agent";
 
