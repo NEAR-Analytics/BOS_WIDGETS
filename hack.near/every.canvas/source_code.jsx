@@ -103,15 +103,7 @@ function Item({ accountId, name, type, metadata }) {
       />
 
       <div className="card-body">
-        <a
-          href={`https://draw.everything.dev/${accountId}`}
-          style={{ textDecoration: "none" }}
-        >
-          <Widget
-            src="hack.near/widget/profile.builder"
-            props={{ accountId }}
-          />
-        </a>
+        <Widget src="hack.near/widget/profile.builder" props={{ accountId }} />
         {metadata.description && (
           <p
             className="card-text"
@@ -122,7 +114,14 @@ function Item({ accountId, name, type, metadata }) {
         )}
       </div>
       <div className="d-flex flex-row justify-content-between">
-        <div className="p-3">{displayName}</div>
+        <div className="p-3">
+          <a
+            href={`https://draw.everything.dev/${accountId}`}
+            style={{ color: "#333", textDecoration: "none" }}
+          >
+            {displayName}
+          </a>
+        </div>
         {context.accountId && (
           <div className="p-3">
             <Widget
@@ -155,7 +154,7 @@ function Item({ accountId, name, type, metadata }) {
 return (
   <Container>
     <div className="d-flex justify-content-between align-items-center m-1">
-      <h3>every {type}</h3>
+      <h3 className="mb-3">every {type}</h3>
       {/* <div>
         <button className="classic me-2">
           <i className="bi bi-upload" />
