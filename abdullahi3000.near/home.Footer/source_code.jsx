@@ -143,10 +143,7 @@ const Footer = ({ noBanner }) => {
               Let{"’"}s Make <span>Waves!</span>
             </h3>
           </div>
-          <a
-            href="https://near.social/abdullahi3000.near/widget/app?page=joinUs"
-            target="_blank"
-          >
+          <a href="https://near.social/abdullahi3000.near/widget/app?page=joinUs">
             <Button variant="primary" noLink={true}>
               Join Now
             </Button>
