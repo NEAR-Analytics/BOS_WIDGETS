@@ -149,7 +149,20 @@ const _remainingSupply = Number(underlyingBalance) - Number(state.amount);
 const remainingSupply = isNaN(_remainingSupply)
   ? underlyingBalance
   : Big(_remainingSupply).toFixed(2);
-
+function formatAddAction(_amount, status, transactionHash) {
+  addAction?.({
+    type: "Lending",
+    action: "Withdraw",
+    token: {
+      symbol,
+    },
+    amount: _amount,
+    template: dexConfig.name,
+    add: false,
+    status,
+    transactionHash,
+  });
+}
 function withdrawErc20(asset, actualAmount, shownAmount) {
   console.log("withdrawErc20--", asset, actualAmount, shownAmount);
   State.update({
@@ -175,8 +188,13 @@ function withdrawErc20(asset, actualAmount, shownAmount) {
       tx.wait()
         .then((res) => {
           console.log("withdrawErc20", res);
-          const { status } = res;
+          const { status, transactionHash } = res;
           if (status === 1) {
+            formatAddAction(
+              Big(actualAmount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
             onActionSuccess({
               msg: `You withdraw ${Big(shownAmount).toFixed(8)} ${symbol}`,
               callback: () => {
@@ -229,8 +247,13 @@ function withdrawETH(actualAmount, shownAmount) {
     .then((tx) => {
       tx.wait()
         .then((res) => {
-          const { status } = res;
+          const { status, transactionHash } = res;
           if (status === 1) {
+            formatAddAction(
+              Big(actualAmount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
             onActionSuccess({
               msg: `You withdraw ${Big(shownAmount).toFixed(8)} ${symbol}`,
               callback: () => {
