@@ -12,11 +12,7 @@
  * @param {string} [accountId] - The account ID of the signed-in user, passed as a string.
  * @param {Function} [logOut] - Function to log out.
  * @param {string} ownerId - The identifier of the owner of the component.
- * @param {Function} handleToggle - Function to toggle between showing all and unique receipts.
- * @param {boolean} showAllReceipts - Boolean indicating whether to show all receipts or not.
  */
-
-
 
 
 
@@ -123,14 +119,10 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path
-        fill="currentColor"
-        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
-      />
+      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
     </svg>
   );
 };
-
 
 
 
@@ -158,7 +150,7 @@ const TokenHoldings = (props) => {
   const Loading = (props) => {
     return (
       <div
-        className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+        className={`bg-gray-200 rounded shadow-sm animate-pulse ${props.className}`}
       ></div>
     );
   };
@@ -169,30 +161,20 @@ const TokenHoldings = (props) => {
 
   if (!props.ft?.tokens?.length && !nfts?.length) {
     return (
-      <select className="appearance-none w-full h-8 text-xs px-2 outline-none rounded bg-white dark:bg-black-600 border dark:border-black-200">
+      <select className="appearance-none w-full h-8 text-xs px-2 outline-none rounded bg-white border">
         <option>N/A</option>
       </select>
     );
   }
+
   const ftAmount = props.ft?.amount ?? 0;
 
-  function isTokenSpam(tokenName) {
-    if (props.spamTokens) {
-      for (const spamToken of props.spamTokens) {
-        const cleanedToken = spamToken.replace(/^\*/, '');
-        if (tokenName.endsWith(cleanedToken)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
   return (
     <Select.Root>
-      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border dark:border-black-200 outline-none flex items-center justify-between cursor-pointer">
+      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
         <span>
           {ftAmount ? '$' + dollarFormat(ftAmount) : ''}
-          <span className="bg-green-500 dark:bg-green-250 text-xs text-white rounded ml-2 px-1 p-0.5">
+          <span className="bg-green-500 text-xs text-white rounded ml-2 px-1 p-0.5">
             {(props.ft?.tokens?.length || 0) + (nfts?.length || 0)}
           </span>
         </span>
@@ -203,32 +185,33 @@ const TokenHoldings = (props) => {
         sideOffset={5}
         className="SelectContent"
       >
-        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white dark:bg-black-600">
-          <ScrollArea.Viewport className="border dark:border-black-200 z-50 pb-2">
+        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white">
+          <ScrollArea.Viewport className="border z-50 pb-2">
             <div className="max-h-60">
               {props.ft?.tokens?.length > 0 && (
                 <>
-                  <div className="bg-gray-50 dark:bg-black-200 font-semibold px-3 py-2">
+                  <div className="bg-gray-50 font-semibold px-3 py-2">
                     Tokens{' '}
                     <span className="font-normal">
                       ({props.ft?.tokens?.length})
                     </span>
                   </div>
-                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y dark:divide-black-200 outline-none">
+                  <div className="text-gray-600 text-xs divide-y outline-none">
                     {props.ft?.tokens?.map((token, index) => (
                       <div key={token?.contract}>
                         <Link
                           href={`/token/${token?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
-                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-black-200 truncate hover:no-underline">
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
                             <div key={index}>
                               <div className="flex items-center">
                                 <div className="flex mr-1">
                                   <img
                                     src={
-                                      token?.ft_meta?.icon ??
-                                      '/images/tokenplaceholder.svg'
+                                      token?.ft_meta?.icon || props.appUrl
+                                        ? `${props.appUrl}images/tokenplaceholder.svg`
+                                        : '/images/tokenplaceholder.svg'
                                     }
                                     alt={token.ft_meta?.name}
                                     className="w-4 h-4"
@@ -251,25 +234,20 @@ const TokenHoldings = (props) => {
                                   : token?.rpcAmount ?? ''}
                               </div>
                             </div>
-
-                            {!isTokenSpam(token?.contract) ? (
-                              token?.ft_meta?.price && (
-                                <div className="text-right">
-                                  <div>
-                                    {token?.amountUsd
-                                      ? '$' + dollarFormat(token?.amountUsd)
-                                      : '$' + (token.amountUsd ?? '')}
-                                  </div>
-                                  <div className="text-gray-400">
-                                    {token?.ft_meta?.price
-                                      ? '@' +
-                                        Big(token?.ft_meta?.price).toString()
-                                      : '@' + (token?.ft_meta?.price ?? '')}
-                                  </div>
+                            {token?.ft_meta?.price && (
+                              <div className="text-right">
+                                <div>
+                                  {token?.amountUsd
+                                    ? '$' + dollarFormat(token?.amountUsd)
+                                    : '$' + (token.amountUsd ?? '')}
                                 </div>
-                              )
-                            ) : (
-                              <div className="text-gray-400">[Spam]</div>
+                                <div className="text-gray-400">
+                                  {token?.ft_meta?.price
+                                    ? '@' +
+                                      Big(token?.ft_meta?.price).toString()
+                                    : '@' + (token?.ft_meta?.price ?? '')}
+                                </div>
+                              </div>
                             )}
                           </a>
                         </Link>
@@ -280,25 +258,26 @@ const TokenHoldings = (props) => {
               )}
               {nfts?.length > 0 && (
                 <>
-                  <div className="bg-gray-50 dark:bg-black-200 font-semibold px-3 py-2">
+                  <div className="bg-gray-50 font-semibold px-3 py-2">
                     NFT Tokens{' '}
                     <span className="font-normal">({nfts?.length})</span>
                   </div>
-                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y dark:divide-black-200 outline-none">
+                  <div className="text-gray-600 text-xs divide-y outline-none">
                     {nfts.map((nft) => (
                       <div key={nft?.contract}>
                         <Link
                           href={`/nft-token/${nft?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
-                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-black-200 truncate hover:no-underline">
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
                             <div>
                               <div className="flex items-center">
                                 <div className="flex mr-1">
                                   <img
                                     src={
-                                      nft?.nft_meta?.icon ??
-                                      `/images/tokenplaceholder.svg`
+                                      nft?.nft_meta?.icon || props.appUrl
+                                        ? `${props.appUrl}images/tokenplaceholder.svg`
+                                        : `/images/tokenplaceholder.svg`
                                     }
                                     alt={nft?.nft_meta?.name}
                                     className="w-4 h-4"
@@ -321,9 +300,6 @@ const TokenHoldings = (props) => {
                                   : nft?.quantity ?? ''}
                               </div>
                             </div>
-                            {isTokenSpam(nft?.contract) && (
-                              <div className="text-gray-400">[Spam]</div>
-                            )}
                           </a>
                         </Link>
                       </div>
@@ -334,16 +310,16 @@ const TokenHoldings = (props) => {
             </div>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 dark:hover:bg-black-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="vertical"
           >
-            <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 dark:hover:bg-black-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="horizontal"
           >
-            <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Corner className="bg-neargray-50" />
         </ScrollArea.Root>
@@ -351,7 +327,6 @@ const TokenHoldings = (props) => {
     </Select.Root>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/TokenHoldings.jsx" */
-
 
 
 
@@ -380,32 +355,10 @@ const TokenHoldings = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
-/* INCLUDE COMPONENT: "includes/icons/WarningIcon.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-const WarningIcon = (props) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 -960 960 960"
-      width={16}
-      height={16}
-      {...props}
-    >
-      <path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z" />
-    </svg>
-  );
-};/* END_INCLUDE COMPONENT: "includes/icons/WarningIcon.jsx" */
 
 const tabs = [
   'Transactions',
@@ -426,8 +379,6 @@ function MainComponent(props) {
     accountId,
     logOut,
     ownerId,
-    handleToggle,
-    showAllReceipts,
   } = props;
 
   const { dollarFormat, localFormat, weight, convertToUTC } = VM.require(
@@ -441,7 +392,6 @@ function MainComponent(props) {
     shortenAddress,
     getConfig,
     handleRateLimit,
-    fetchData,
   } = VM.require(`${ownerId}/widget/includes.Utils.libs`);
 
   const { encodeArgs, decodeArgs } = VM.require(
@@ -461,21 +411,17 @@ function MainComponent(props) {
     {} ,
   );
   const [tokenData, setTokenData] = useState({} );
-  const [nftTokenData, setNftTokenData] = useState({} );
   const [inventoryData, setInventoryData] = useState(
     {} ,
   );
-  const [contract, setContract] = useState(null);
+  const [contract, setContract] = useState({} );
   const [ft, setFT] = useState({} );
-  const [isLocked, setIsLocked] = useState(false);
-  const [isContractLoading, setIsContractLoading] = useState(false);
-  const [isAccountLoading, setIsAccountLoading] = useState(false);
+  const [code, setCode] = useState({} );
+  const [key, setKey] = useState({} );
   const [schema, setSchema] = useState({} );
   const [contractInfo, setContractInfo] = useState(
     {} ,
   );
-  const [accountView, setAccountView] = useState(null);
-  const [spamTokens, setSpamTokens] = useState({ blacklist: [] });
 
   const config = getConfig && getConfig(network);
 
@@ -483,174 +429,6 @@ function MainComponent(props) {
     setPageTab(tabs[index]);
     onFilterClear('');
   };
-
-  useEffect(() => {
-    function contractCode(address) {
-      setIsContractLoading(true);
-      asyncFetch(`${config?.rpcUrl}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 'dontcare',
-          method: 'query',
-          params: {
-            request_type: 'view_code',
-            finality: 'final',
-            account_id: address,
-            prefix_base64: '',
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(
-          (res
-
-
-
-
-
-) => {
-            const resp = res?.body?.result;
-            if (res.status === 200 && resp) {
-              if (resp?.code_base64) {
-                setContract({
-                  block_hash: resp.block_hash,
-                  block_height: resp.block_height,
-                  code_base64: resp.code_base64,
-                  hash: resp.hash,
-                });
-                asyncFetch(
-                  `${config?.backendUrl}account/${id}/contract/parse`,
-                  {
-                    method: 'GET',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  },
-                )
-                  .then(
-                    (res
-
-
-
-
-
-
-
-) => {
-                      const resp = res.body.contract;
-                      if (res.status === 200 && resp && resp.length > 0) {
-                        const [{ contract, schema }] = resp;
-                        setContractInfo(contract);
-                        setSchema(schema);
-                      }
-                    },
-                  )
-                  .catch(() => {});
-              }
-              setIsContractLoading(false);
-            } else if (res?.status === 200 && res?.body?.error) {
-              setIsContractLoading(false);
-            }
-          },
-        )
-        .catch(() => {
-          setIsContractLoading(false);
-        });
-    }
-
-    function viewAccessKeys(address) {
-      asyncFetch(`${config?.rpcUrl}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 'dontcare',
-          method: 'query',
-          params: {
-            request_type: 'view_access_key_list',
-            finality: 'final',
-            account_id: address,
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(
-          (res
-
-
-
-
-) => {
-            const resp = res?.body?.result;
-            if (res.status === 200 && resp) {
-              const locked = (resp.keys || []).every(
-                (key
-
-
-
-
-
-) => key.access_key.permission !== 'FullAccess',
-              );
-              setIsLocked(locked);
-            }
-          },
-        )
-        .catch(() => {});
-    }
-
-    function viewAccount(address) {
-      setIsAccountLoading(true);
-      asyncFetch(`${config?.rpcUrl}`, {
-        method: 'POST',
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          id: 'dontcare',
-          method: 'query',
-          params: {
-            request_type: 'view_account',
-            finality: 'final',
-            account_id: address,
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(
-          (res
-
-
-
-
-
-) => {
-            const resp = res?.body?.result;
-            if (res.status === 200 && resp) {
-              setAccountView(resp);
-              setIsAccountLoading(false);
-            } else if (res?.status === 200 && res?.body?.error) {
-              setIsAccountLoading(false);
-            }
-          },
-        )
-        .catch(() => {
-          setIsAccountLoading(false);
-        });
-    }
-
-    function loadSchema() {
-      if (!id) return;
-
-      Promise.all([contractCode(id), viewAccessKeys(id), viewAccount(id)]);
-    }
-
-    loadSchema();
-  }, [id, config?.rpcUrl, config?.backendUrl]);
 
   useEffect(() => {
     function fetchStatsData() {
@@ -770,31 +548,6 @@ function MainComponent(props) {
         .catch(() => {});
     }
 
-    function fetchNftTokenData() {
-      asyncFetch(`${config?.backendUrl}nfts/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then(
-          (data
-
-
-
-
-) => {
-            const tokenResp = data?.body?.contracts?.[0];
-            if (data.status === 200) {
-              setNftTokenData(tokenResp);
-            } else {
-              handleRateLimit(data, fetchNftTokenData);
-            }
-          },
-        )
-        .catch(() => {});
-    }
-
     function fetchInventoryData() {
       setInventoryLoading(true);
       asyncFetch(`${config?.backendUrl}account/${id}/inventory`, {
@@ -826,20 +579,11 @@ function MainComponent(props) {
         )
         .catch(() => {});
     }
-    fetchData &&
-      fetchData(
-        'https://raw.githubusercontent.com/Nearblocks/spam-token-list/main/tokens.json',
-        (response) => {
-          const data = JSON.parse(response);
-          setSpamTokens(data);
-        },
-      );
     if (config?.backendUrl) {
       fetchStatsData();
       fetchAccountData();
       fetchContractData();
       fetchTokenData();
-      fetchNftTokenData();
       fetchInventoryData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -908,7 +652,7 @@ function MainComponent(props) {
       ).then((results) => {
         results.forEach((rslt) => {
           const ftrslt = rslt;
-          const amount = typeof rslt?.amount === 'string' ? rslt.amount : 0;
+          const amount = rslt?.amount ?? 0;
 
           let sum = Big(0);
 
@@ -972,6 +716,130 @@ function MainComponent(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inventoryData?.fts, id, config?.rpcUrl]);
 
+  useEffect(() => {
+    function contractCode(address) {
+      asyncFetch(`${config?.rpcUrl}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 'dontcare',
+          method: 'query',
+          params: {
+            request_type: 'view_code',
+            finality: 'final',
+            account_id: address,
+            prefix_base64: '',
+          },
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(
+          (res
+
+
+
+) => {
+            const resp = res?.body?.result;
+            setCode({
+              block_hash: resp.block_hash,
+              block_height: resp.block_height,
+              code_base64: resp.code_base64,
+              hash: resp.hash,
+            });
+          },
+        )
+        .catch(() => {});
+    }
+
+    function viewAccessKeys(address) {
+      asyncFetch(`${config?.rpcUrl}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 'dontcare',
+          method: 'query',
+          params: {
+            request_type: 'view_access_key_list',
+            finality: 'final',
+            account_id: address,
+          },
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(
+          (res
+
+
+
+) => {
+            const resp = res?.body?.result;
+            setKey({
+              block_hash: resp.block_hash,
+              block_height: resp.block_height,
+              keys: resp?.keys,
+              hash: resp?.hash,
+            });
+          },
+        )
+        .catch(() => {});
+    }
+
+    function loadSchema() {
+      if (!id) return;
+
+      Promise.all([contractCode(id), viewAccessKeys(id)]);
+    }
+    loadSchema();
+  }, [id, config?.rpcUrl]);
+
+  useEffect(() => {
+    if (code?.code_base64) {
+      const locked = (key.keys || []).every(
+        (key
+
+
+
+
+
+) => key.access_key.permission !== 'FullAccess',
+      );
+
+      function fetchContractInfo() {
+        asyncFetch(`${config?.backendUrl}account/${id}/contract/parse`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(
+            (res
+
+
+
+
+) => {
+              const resp = res.body.contract;
+              if (res.status === 200 && resp && resp.length > 0) {
+                const [{ contract, schema }] = resp;
+                setContractInfo(contract);
+                setSchema(schema);
+              }
+            },
+          )
+          .catch(() => {});
+      }
+
+      fetchContractInfo();
+
+      setContract({ ...code, locked });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code, key, config?.backendUrl, id]);
+
   const handleFilter = (name, value) => {
     const updatedFilters = { ...filters, [name]: value };
     setFilters(updatedFilters);
@@ -990,64 +858,42 @@ function MainComponent(props) {
 
   const balance = accountData?.amount ?? '';
   const nearPrice = statsData?.near_price ?? '';
-
   return (
     <>
-      {accountView !== null &&
-        accountView?.block_hash === undefined &&
-        accountData?.deleted?.transaction_hash &&
-        !isAccountLoading && (
-          <>
-            <div className="block lg:flex lg:space-x-2">
-              <div className="w-full ">
-                <div className="h-full w-full inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-600 rounded-lg p-4 text-sm dark:bg-yellow-400/[0.10] dark:text-nearyellow-400 dark:border dark:border-yellow-400/60">
-                  <p className="mb-0 items-center break-words">
-                    <WarningIcon className="w-5 h-5 fill-current mx-1 inline-block text-red-600" />
-                    {`This account was deleted on ${
-                      accountData?.deleted?.transaction_hash
-                        ? convertToUTC(
-                            nanoToMilli(accountData.deleted.block_timestamp),
-                            false,
-                          )
-                        : ''
-                    }`}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="py-2"></div>
-          </>
+      <div className="flex items-center justify-between flex-wrap pt-4 ">
+        {!id ? (
+          <div className="w-80 max-w-xs px-3 py-5">
+            <Skeleton className="h-7" />
+          </div>
+        ) : (
+          <div className="flex md:flex-wrap">
+            <h1 className="py-4 break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
+              Near Account: @
+              {id && (
+                <span className="font-semibold text-green-500 ">{id}</span>
+              )}
+              {
+                <Widget
+                  src={`${ownerId}/widget/bos-components.components.Shared.Buttons`}
+                  props={{
+                    id: id,
+                    config: config,
+                  }}
+                />
+              }
+            </h1>
+          </div>
         )}
-      {accountView !== null &&
-        accountView?.block_hash !== undefined &&
-        isLocked &&
-        accountData &&
-        accountData?.deleted?.transaction_hash === null &&
-        contract === null &&
-        !isContractLoading && (
-          <>
-            <div className="block lg:flex lg:space-x-2">
-              <div className="w-full ">
-                <div className="h-full w-full inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-600 rounded-lg p-4 text-sm dark:bg-yellow-400/[0.10] dark:text-nearyellow-400 dark:border dark:border-yellow-400/60">
-                  <p className="mb-0 items-center">
-                    <WarningIcon className="w-5 h-5 fill-current mx-1 inline-block text-red-600" />
-                    This account has no full access keys
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="py-2"></div>
-          </>
-        )}
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="w-full">
-          <div className="h-full bg-white soft-shadow rounded-xl dark:bg-black-600">
-            <div className="flex justify-between border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10">
+          <div className="h-full bg-white soft-shadow rounded-xl">
+            <div className="flex justify-between border-b p-3 text-nearblue-600">
               <h2 className="leading-6 text-sm font-semibold">
                 {t ? t('address:overview') : 'Overview'}
               </h2>
               {tokenData?.name && (
-                <div className="flex items-center text-xs bg-gray-100 dark:bg-black-200 dark:text-neargray-10 rounded-md px-2 py-1">
+                <div className="flex items-center text-xs bg-gray-100 rounded-md px-2 py-1">
                   <div className="truncate max-w-[110px]">
                     {tokenData?.name}
                   </div>
@@ -1064,7 +910,7 @@ function MainComponent(props) {
                 </div>
               )}
             </div>
-            <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+            <div className="px-3 divide-y text-sm text-nearblue-600">
               <div className="flex flex-wrap py-4">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0">
                   {t ? t('address:balance') : 'Balance'}:
@@ -1082,7 +928,7 @@ function MainComponent(props) {
               {network === 'mainnet' &&
                 accountData?.amount &&
                 statsData?.near_price && (
-                  <div className="flex flex-wrap py-4 text-sm text-nearblue-600 dark:text-neargray-10">
+                  <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
                     <div className="w-full md:w-1/4 mb-2 md:mb-0">
                       {t ? t('address:value') : 'Value:'}
                     </div>
@@ -1111,7 +957,7 @@ function MainComponent(props) {
                     )}
                   </div>
                 )}
-              <div className="flex flex-wrap py-4 text-sm text-nearblue-600 dark:text-neargray-10">
+              <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0">
                   {t ? t('address:tokens') : 'Tokens:'}
                 </div>
@@ -1124,7 +970,6 @@ function MainComponent(props) {
                     id={id}
                     appUrl={config?.appUrl}
                     ownerId={ownerId}
-                    spamTokens={spamTokens.blacklist}
                   />
                 </div>
               </div>
@@ -1132,11 +977,11 @@ function MainComponent(props) {
           </div>
         </div>
         <div className="w-full">
-          <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
-            <h2 className="leading-6 border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
+          <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
+            <h2 className="leading-6 border-b p-3 text-nearblue-600 text-sm font-semibold">
               {t ? t('address:moreInfo') : 'Account information'}
             </h2>
-            <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+            <div className="px-3 divide-y text-sm text-nearblue-600">
               <div className="flex justify-between">
                 <div className="flex xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
                   <div className="w-full mb-2 md:mb-0">
@@ -1155,9 +1000,7 @@ function MainComponent(props) {
                   )}
                 </div>
                 <div className="flex ml-4  xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
-                  <div className="w-full mb-2 md:mb-0">
-                    {t ? t('address:storageUsed') : 'Storage Used'}:
-                  </div>
+                  <div className="w-full mb-2 md:mb-0">Storage Used:</div>
                   {loading ? (
                     <div className="w-full break-words">
                       <Skeleton className="h-4 w-28" />
@@ -1179,10 +1022,7 @@ function MainComponent(props) {
                     </div>
                   ) : (
                     <div className="w-full mb-2 md:mb-0">
-                      {accountView !== null &&
-                      accountView?.block_hash === undefined &&
-                      accountData?.deleted?.transaction_hash &&
-                      !isAccountLoading
+                      {accountData?.deleted?.transaction_hash
                         ? 'Deleted At:'
                         : 'Created At:'}
                     </div>
@@ -1193,10 +1033,7 @@ function MainComponent(props) {
                     </div>
                   ) : (
                     <div className="w-full break-words xl:mt-0 mt-2">
-                      {accountView !== null &&
-                      accountView?.block_hash === undefined &&
-                      accountData?.deleted?.transaction_hash &&
-                      !isAccountLoading
+                      {accountData?.deleted?.transaction_hash
                         ? convertToUTC(
                             nanoToMilli(accountData.deleted.block_timestamp),
                             false,
@@ -1212,11 +1049,11 @@ function MainComponent(props) {
                     </div>
                   )}
                 </div>
-                {contract && contract?.hash && !loading ? (
+                {contract?.hash && !loading ? (
                   <div className="flex ml-4 xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
                     <div className="w-full mb-2 md:mb-0">Contract Locked:</div>
                     <div className="w-full break-words xl:mt-0 mt-2">
-                      {contract?.code_base64 && isLocked ? 'Yes' : 'No'}
+                      {contract?.locked ? 'Yes' : 'No'}
                     </div>
                   </div>
                 ) : (
@@ -1233,7 +1070,7 @@ function MainComponent(props) {
                       href={`/address/${deploymentData.receipt_predecessor_account_id}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                      <a className="text-green-500 hover:no-underline">
                         {shortenAddress(
                           deploymentData.receipt_predecessor_account_id ?? '',
                         )}
@@ -1244,7 +1081,7 @@ function MainComponent(props) {
                       href={`/txns/${deploymentData.transaction_hash}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 dark:text-green-250 hover:no-underline">
+                      <a className="text-green-500 hover:no-underline">
                         {shortenAddress(deploymentData.transaction_hash ?? '')}
                       </a>
                     </Link>
@@ -1268,7 +1105,7 @@ function MainComponent(props) {
                         href={`/token/${id}`}
                         className="hover:no-underline"
                       >
-                        <a className="flex text-green-500 dark:text-green-250 hover:no-underline">
+                        <a className="flex text-green-500 hover:no-underline">
                           <span className="inline-block truncate max-w-[110px] mr-1">
                             {tokenData.name}
                           </span>
@@ -1280,42 +1117,10 @@ function MainComponent(props) {
                         </a>
                       </Link>
                       {tokenData.price && (
-                        <div className="text-nearblue-600 dark:text-neargray-10 ml-1">
+                        <div className="text-nearblue-600 ml-1">
                           (@ ${localFormat(tokenData.price)})
                         </div>
                       )}
-                    </div>
-                  </div>
-                </div>
-              )}
-              {nftTokenData?.name && (
-                <div className="flex flex-wrap items-center justify-between py-4">
-                  <div className="w-full md:w-1/4 mb-2 md:mb-0">
-                    NFT Token Tracker:
-                  </div>
-                  <div className="w-full md:w-3/4 break-words">
-                    <div className="flex items-center">
-                      <TokenImage
-                        src={nftTokenData?.icon}
-                        alt={nftTokenData?.name}
-                        appUrl={config.appUrl}
-                        className="w-4 h-4 mr-2"
-                      />
-                      <Link
-                        href={`/nft-token/${id}`}
-                        className="hover:no-underline"
-                      >
-                        <a className="flex text-green-500 dark:text-green-250 hover:no-underline">
-                          <span className="inline-block truncate max-w-[110px] mr-1">
-                            {nftTokenData.name}
-                          </span>
-                          (
-                          <span className="inline-block truncate max-w-[80px]">
-                            {nftTokenData.symbol}
-                          </span>
-                          )
-                        </a>
-                      </Link>
                     </div>
                   </div>
                 </div>
@@ -1343,10 +1148,10 @@ function MainComponent(props) {
                       onClick={() => {
                         onTab(index);
                       }}
-                      className={`  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
+                      className={`text-nearblue-600 text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                         pageTab === tab
-                          ? 'rounded-lg bg-green-600 dark:bg-green-250 text-white'
-                          : 'hover:bg-neargray-800 bg-neargray-700 dark:bg-black-200 rounded-lg hover:text-nearblue-600 text-nearblue-600 dark:text-neargray-10'
+                          ? 'rounded-lg bg-green-600 text-white'
+                          : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
                       }`}
                       value={tab}
                     >
@@ -1357,16 +1162,12 @@ function MainComponent(props) {
                       ) : tab === 'Contract' ? (
                         <div className="flex h-full">
                           <h2>{tab}</h2>
-                          <div className="absolute text-white dark:text-black bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
+                          <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
                             NEW
                           </div>
                         </div>
                       ) : tab === 'Comments' ? (
                         <h2>{t ? t('address:comments') : tab}</h2>
-                      ) : tab === 'NFT Token Txns' ? (
-                        <h2>{t ? t('address:nftTokenTxns') : tab}</h2>
-                      ) : tab === 'Access Keys' ? (
-                        <h2>{t ? t('address:accessKeys') : tab}</h2>
                       ) : (
                         <h2>{tab}</h2>
                       )}
@@ -1387,8 +1188,6 @@ function MainComponent(props) {
                       handleFilter: handleFilter,
                       onFilterClear: onFilterClear,
                       ownerId,
-                      handleToggle,
-                      showAllReceipts,
                     }}
                   />
                 }
@@ -1451,7 +1250,6 @@ function MainComponent(props) {
                           t: t,
                           id: id,
                           contract: contract,
-                          isLocked: isLocked,
                           schema: schema,
                           contractInfo: contractInfo,
                           requestSignInWithWallet: requestSignInWithWallet,
@@ -1467,7 +1265,7 @@ function MainComponent(props) {
               )}
               <div className={`${pageTab === 'Comments' ? '' : 'hidden'} `}>
                 {
-                  <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+                  <div className="bg-white soft-shadow rounded-xl pb-1">
                     <div className="py-3">
                       <Widget
                         src={`${ownerId}/widget/bos-components.components.Comments.Feed`}
@@ -1476,7 +1274,6 @@ function MainComponent(props) {
                           path: `nearblocks.io/address/${id}`,
                           ownerId,
                           limit: 10,
-                          requestSignInWithWallet,
                         }}
                       />
                     </div>
