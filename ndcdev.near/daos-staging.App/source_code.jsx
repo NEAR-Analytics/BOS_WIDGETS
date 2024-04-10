@@ -6,6 +6,14 @@ if (!page) page = "home";
 
 function Page() {
   switch (page) {
+    case "dashboard": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos-staging.Pages.Dashboard`}
+          props={props}
+        />
+      );
+    }
     case "settings": {
       return (
         <Widget
@@ -132,6 +140,14 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/daos-staging.Pages.Proposals.Create`}
+          props={props}
+        />
+      );
+    }
+    case "projects": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/daos-staging.Pages.Projects`}
           props={props}
         />
       );
