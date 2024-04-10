@@ -26,6 +26,10 @@ State.init({
   data: undefined,
   showBorrowModal: false,
 });
+const CenterItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const SupplyButton = ({ data, ...rest }) => {
   let disabled;
@@ -101,10 +105,10 @@ if (["zerolend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
       props={{
         children: [
           <img width={64} height={64} src={row.icon} />,
-          <div>
+          <CenterItem>
             <div className="token-title">{row.symbol}</div>
-            <div className="token-chain">{row.name}</div>
-          </div>,
+            {/* <div className="token-chain">{row.name}</div> */}
+          </CenterItem>,
         ],
       }}
     />,
