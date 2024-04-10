@@ -15,7 +15,7 @@ const [loading, setLoading] = useState(false);
 //       method: "GET",
 //       headers: {
 //         "Content-Type": "application/json",
-//         "x-api-key": "/*__@replace:apiKey__*/",
+//         "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5",
 //       },
 //     });
 //   } catch (e) {
