@@ -1,4 +1,5 @@
 const {
+  dexConfig,
   config,
   data,
   onRequestClose,
@@ -9,6 +10,7 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   theme,
+  addAction,
 } = props;
 
 const hasHF = config.heroData.includes("Health Factor");
@@ -403,8 +405,21 @@ function depositErc20(amount) {
           .then((tx) => {
             tx.wait()
               .then((res) => {
-                const { status } = res;
+                const { status, transactionHash } = res;
+                console.log("SUCCESS--", status, transactionHash);
                 if (status === 1) {
+                  addAction?.({
+                    type: "Lending",
+                    action: "Supply",
+                    token: {
+                      symbol,
+                    },
+                    amount,
+                    template: dexConfig.name,
+                    add: false,
+                    status,
+                    transactionHash,
+                  });
                   onActionSuccess({
                     msg: `You supplied ${Big(amount)
                       .div(Big(10).pow(decimals))
