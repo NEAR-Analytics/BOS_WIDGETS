@@ -581,7 +581,7 @@ return (
                       ),
                     }}
                   />
-                  {hasHF && healthFactor < 10000 ? (
+                  {hasHF ? (
                     <Widget
                       src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                       props={{
@@ -589,12 +589,13 @@ return (
                         right: (
                           <div style={{ textAlign: "right" }}>
                             <GreenTexture>
-                              {healthFactor}
+                              {formatHealthFactor(healthFactor)}
+
                               <img
                                 src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                                 width={16}
                                 height={16}
-                              />{" "}
+                              />
                               {state.newHealthFactor}
                             </GreenTexture>
                             <WhiteTexture>
