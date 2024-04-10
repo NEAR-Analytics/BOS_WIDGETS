@@ -8,10 +8,9 @@ import FaChevronRight from '@/includes/icons/FaChevronRight';
 
 
 
-
 const Paginator = (props) => {
   let pages;
-  if (props.count > 0) {
+  if (props.count) {
     pages = Math.ceil(props.count / props.limit);
   } else {
     pages = 1;
@@ -35,7 +34,7 @@ const Paginator = (props) => {
   const onLast = () => props.setPage(pages);
 
   return (
-    <div className="bg-white dark:bg-black-600 px-2 py-3 flex items-center justify-between border-t dark:border-black-200 md:px-4 rounded-b-xl">
+    <div className="bg-white px-2 py-3 flex items-center justify-between border-t md:px-4">
       <div className="flex-1 flex items-center justify-between">
         <div></div>
 
@@ -46,56 +45,56 @@ const Paginator = (props) => {
           >
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1 || props.isLoading}
+              disabled={props.page <= 1 || pages === 1}
               onClick={onFirst}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                props.page <= 1 || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:bg-green-400 dark:hover:bg-green-250 hover:text-white dark:hover:text-black'
-              } bg-gray-100 dark:bg-black-200 dark:text-green-250`}
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:bg-green-400 hover:text-white'
+              } bg-gray-100`}
             >
               First
             </button>
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1 || props.isLoading}
+              disabled={props.page <= 1 || pages === 1}
               onClick={onPrev}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
-                props.page <= 1 || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              } rounded-md  bg-gray-100 dark:bg-black-200`}
+                props.page <= 1
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              } rounded-md  bg-gray-100`}
             >
               <FaChevronLeft />
             </button>
             <button
               type="button"
               disabled
-              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500  rounded-md  bg-gray-100 dark:bg-black-200 dark:text-neargray-10"
+              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
             >
               Page {props.page} of {pages}
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1 || props.isLoading}
+              disabled={props.page >= pages || pages === 1}
               onClick={onNext}
               className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
-                props.page >= pages || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100`}
             >
               <FaChevronRight />
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1 || props.isLoading}
+              disabled={props.page >= pages || pages === 1}
               onClick={onLast}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
-                props.page >= pages || props.isLoading
-                  ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
-              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
+                props.page >= pages
+                  ? 'text-gray-500'
+                  : 'text-green-400 hover:text-white hover:bg-green-400'
+              }  bg-gray-100 `}
             >
               Last
             </button>
