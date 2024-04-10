@@ -7,6 +7,7 @@ const {
   flag,
   formatHealthFactor,
   calcHealthFactor,
+  yourTotalBorrow,
   account,
   theme,
 } = props;
@@ -183,9 +184,13 @@ useEffect(() => {
   const newHealthFactor = formatHealthFactor(
     calcHealthFactor(type, symbol, underlyingBalance)
   );
-  console.log(type, symbol, underlyingBalance, newHealthFactor);
+
   State.update({ newHealthFactor });
 }, []);
+const refuseClose =
+  yourTotalBorrow &&
+  !isNaN(Number(state.newHealthFactor)) &&
+  Big(state.newHealthFactor).lt(1);
 
 return (
   <Widget
@@ -222,7 +227,8 @@ return (
                       right: (
                         <div style={{ textAlign: "right" }}>
                           <GreenTexture>
-                            {healthFactor}
+                            {formatHealthFactor(healthFactor)}
+
                             <img
                               src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                               width={16}
@@ -241,7 +247,7 @@ return (
               ),
             }}
           />
-          {Big(state.newHealthFactor).lt(1) ? (
+          {refuseClose ? (
             <Tips>
               You can not switch usage as collateral mode for this currency,
               because it will cause collateral call
@@ -257,7 +263,7 @@ return (
               children: `${flag ? "Enable" : "Disable"} ${
                 data.symbol
               } as Collateral`,
-              disabled: Big(state.newHealthFactor).lt(1),
+              disabled: refuseClose,
               onClick: setColl,
             }}
           />
