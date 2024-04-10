@@ -1,4 +1,5 @@
 const {
+  dexConfig,
   config,
   data,
   onRequestClose,
@@ -9,6 +10,7 @@ const {
   formatHealthFactor,
   calcHealthFactor,
   theme,
+  addAction,
 } = props;
 const hasHF = config.heroData.includes("Health Factor");
 if (!data) {
