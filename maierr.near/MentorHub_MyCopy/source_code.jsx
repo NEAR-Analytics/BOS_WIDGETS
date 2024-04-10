@@ -83,23 +83,13 @@ const TecherPossibilities = {
     });
   },
   updateDiscription: (student) => {
-    Near.call([
-      {
-        contractName: "social.near",
-        methodName: "set",
-        args: {
-          data: {
-            [student]: {
-              profile: {
-                discription: state.editDescription,
-              },
-            },
-          },
+    Social.set({
+      profile: {
+        discriptionsStudent: {
+          [student]: state.editDescription,
         },
-        deposit: 1,
-        gas: Big(10).pow(12).mul(50),
       },
-    ]);
+    });
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
@@ -187,8 +177,18 @@ TecherPossibilities.init();
 TecherPossibilities.getStudent(1, 10);
 
 function descriptionForStudent(account_id) {
-  const discriprionalIN = Social.getr(`${account_id}/profile`);
-  return discriprionalIN.discription;
+  const discriprionalIN = Social.get(`${account_id}/profile/discription`);
+  return discriprionalIN;
+}
+
+function ourDescriptionForStudent(account_id) {
+  const discriprionalIN = Social.get(
+    `${state.accountId}/profile/discriptionsStudent/${account_id}`
+  );
+  if (discriprionalIN == null) {
+    return "no info";
+  }
+  return discriprionalIN;
 }
 
 //UI Kit Theme
@@ -495,6 +495,9 @@ const pages = {
             />
             <div>
               <h4>{descriptionForStudent(student)}</h4>
+            </div>
+            <div>
+              <h4>{ourDescriptionForStudent(student)}</h4>
             </div>
             <div>
               <Button
