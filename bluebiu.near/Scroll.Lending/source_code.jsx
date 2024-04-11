@@ -1,7 +1,7 @@
 const Theme = styled.div`
-  --button-text-color: #0f1126;
-  --button-color: #00ffe0;
-  --primary-color: #13a69d;
+  --button-text-color: #fff;
+  --button-color: #ff684b;
+  --primary-color: #ff684b;
   --border-color: #292c42;
   --supply-bg-color: rgba(39, 197, 187, 0.2);
   --borrow-bg-color: rgba(202, 85, 85, 0.2);
