@@ -1093,6 +1093,7 @@ useEffect(() => {
         _assetsToSupply[i]
       );
 
+      if (!_assetsToSupply[i]) return;
       const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
 
       const variableBorrowAPY0 = Big(1)
@@ -1198,7 +1199,6 @@ useEffect(() => {
       _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
 
       State.update({
-        step3: true,
         assetsToSupply: _assetsToSupply,
       });
     }
@@ -1208,7 +1208,7 @@ useEffect(() => {
 }, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
 
 useEffect(() => {
-  if (!state.step1 || !state.step3) return;
+  if (!state.step1) return;
   // if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
@@ -1308,7 +1308,7 @@ useEffect(() => {
       .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
   }));
-}, [state.yourSupplies, state.yourBorrows, state.step1, state.step3]);
+}, [state.yourSupplies, state.yourBorrows, state.step1]);
 
 function onSuccess() {
   State.update({
