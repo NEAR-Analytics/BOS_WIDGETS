@@ -9,19 +9,20 @@ function get(filePath) {
       Accept: "application/vnd.github.v3.raw", // Set Accept header to get raw content of the file
       Authorization: "token YOUR_GITHUB_TOKEN", // Authorization header with your GitHub token
     },
-  })
-    .then((response) => response.json()) // Parse the JSON response
-    .then((data) => data.content); // Return the content field from the response
+  }).then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return response.text(); // Use .text() for raw content, not .json()
+  });
 }
 
 // Function to create and upload data to GitHub, returning a promise with the URL of the uploaded content
-function create(data) {
+function create(filePath, data) {
+  // Added filePath to the parameters
   return new Promise((resolve, reject) => {
-    // Check if data is provided
     if (data.length) {
-      // Convert data to Base64 for GitHub API
-      const content = btoa(data);
-      // Asynchronously fetch to upload the data to GitHub
+      const content = btoa(data); // Convert data to Base64 for GitHub API
       fetch(githubUrl(filePath), {
         method: "PUT",
         headers: {
@@ -36,7 +37,11 @@ function create(data) {
       })
         .then((response) => response.json()) // Parse the JSON response
         .then((data) => {
-          resolve({ url: data.content.html_url }); // Resolve the promise with the HTML URL of the new content
+          if (data.content && data.content.html_url) {
+            resolve({ url: data.content.html_url }); // Resolve the promise with the HTML URL of the new content
+          } else {
+            throw new Error("Invalid response from GitHub");
+          }
         })
         .catch((error) => {
           console.error("Error in create function:", error);
