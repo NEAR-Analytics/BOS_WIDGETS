@@ -53,6 +53,12 @@ const columns = [
   { type: "button", width: "20%" },
 ];
 
+function formatValue(value, digits) {
+  return Big(value || 0).lt(0.01)
+    ? "< 0.01"
+    : `${Number(value).toFixed(digits || 2)}`;
+}
+
 console.log("reward_table--", data);
 return (
   <>
@@ -68,10 +74,7 @@ return (
             data: data.map((row) => {
               return [
                 `${row.symbol}`,
-                <div>
-                  {" "}
-                  {row.unclaimed ? Number(row.unclaimed).toFixed(2) : "-"}
-                </div>,
+                <div>{row.unclaimed ? formatValue(row.unclaimed) : "-"}</div>,
                 <Widget
                   src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
                   props={{
