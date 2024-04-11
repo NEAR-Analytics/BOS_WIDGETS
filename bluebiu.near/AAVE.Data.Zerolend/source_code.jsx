@@ -5,6 +5,7 @@ const {
   multicallAddress,
   assetsToSupply,
   markets,
+  rewardToken,
   onLoad,
 } = props;
 
@@ -102,8 +103,9 @@ useEffect(() => {
             return Big(total).plus(ethers.utils.formatUnits(cur)).toFixed();
           }, 0);
 
+          rewardToken[0].unclaimed = _amount;
           onLoad({
-            rewardsAmount: _amount,
+            rewardData: rewardToken,
           });
         } catch (error) {
           console.log("catch_getAllUserRewards_error", error);
