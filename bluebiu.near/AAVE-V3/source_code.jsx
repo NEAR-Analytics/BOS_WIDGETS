@@ -1195,6 +1195,7 @@ useEffect(() => {
         .times(SECONDS_PER_YEAR)
         .div(normalizedTotalTokenBorrow)
         .toFixed();
+      console.log("supplyRewardApy---", supplyRewardApy);
       _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
       _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
 
