@@ -426,7 +426,6 @@ function getUserBalance() {
         const _balanceInUSD = balanceRaw
           .mul(item.tokenPrice || 0)
           .toFixed(3, ROUND_DOWN);
-        item.aaaa = "aaa";
         item.balance = _balance;
         item.balanceInUSD = _balanceInUSD;
       }
@@ -1061,7 +1060,6 @@ function fetchRewardsData() {
 }
 
 function getAllUserRewards() {
-  console.log("getAllUserRewards--", markets);
   const arr = markets
     ?.map((item) => [
       item.aTokenAddress,
@@ -1103,11 +1101,7 @@ function getAllUserRewards() {
     .getAllUserRewards(addrs, account)
     .then((res) => {
       try {
-        console.log(
-          "getAllUserRewards_res:",
-          res,
-          ethers.utils.formatUnits(res[1][2])
-        );
+        console.log("getAllUserRewards_res:", res);
         const _amount = res[1].reduce((total, cur) => {
           return Big(total).plus(ethers.utils.formatUnits(cur)).toFixed();
         }, 0);
@@ -1269,7 +1263,7 @@ useEffect(() => {
     return;
   const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
   const SECONDS_PER_YEAR = 31536000;
-  const rewardTokenPrice = 0.00025055;
+  const rewardTokenPrice = 5.31;
 
   try {
     const _assetsToSupply = [...state.assetsToSupply];
