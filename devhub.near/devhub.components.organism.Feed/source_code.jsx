@@ -118,11 +118,10 @@ return (
         src={`devhub.near/widget/devhub.components.organism.Feed.NearQueryApi`}
         props={{
           GRAPHQL_ENDPOINT,
-          showFlagAccountFeature: true,
           filteredAccountIds: filteredAccountIds,
-          setPostExists: setPostExists,
           showFlagAccountFeature: showFlagAccountFeature,
           onNewUnseenPosts: props.onNewUnseenPosts,
+          setPostExists: setPostExists,
           sort: props.sort,
         }}
       />
