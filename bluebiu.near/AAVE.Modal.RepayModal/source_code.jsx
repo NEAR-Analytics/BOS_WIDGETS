@@ -13,7 +13,7 @@ const {
   theme,
   addAction,
 } = props;
-const hasHF = config.heroData.includes("Health Factor");
+
 if (!data) {
   return <div />;
 }
@@ -240,9 +240,8 @@ const changeValue = (value) => {
     amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
   }
   State.update({ amount: value, amountInUSD });
-  if (hasHF) {
-    updateNewHealthFactor();
-  }
+
+  updateNewHealthFactor();
 };
 
 function getNonce(tokenAddress, userAddress) {
@@ -633,7 +632,7 @@ return (
                               : `- ${symbol}`}
                           </WhiteTexture>
                           <WhiteTexture>
-                            ${debtInUSD}
+                            ${Number(debtInUSD).toFixed(2)}
                             <img
                               src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
                               width={16}
@@ -651,32 +650,30 @@ return (
                       ),
                     }}
                   />
-                  {hasHF ? (
-                    <Widget
-                      src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                      props={{
-                        left: <PurpleTexture>Health Factor</PurpleTexture>,
-                        right: (
-                          <div style={{ textAlign: "right" }}>
-                            <GreenTexture>
-                              {formatHealthFactor(healthFactor)}
 
-                              <img
-                                src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
-                                width={16}
-                                height={16}
-                              />
-                              {state.newHealthFactor}
-                            </GreenTexture>
-                            <WhiteTexture>
-                              Liquidation at &lt;{" "}
-                              {config.FIXED_LIQUIDATION_VALUE}
-                            </WhiteTexture>
-                          </div>
-                        ),
-                      }}
-                    />
-                  ) : null}
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Health Factor</PurpleTexture>,
+                      right: (
+                        <div style={{ textAlign: "right" }}>
+                          <GreenTexture>
+                            {formatHealthFactor(healthFactor)}
+
+                            <img
+                              src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
+                              width={16}
+                              height={16}
+                            />
+                            {state.newHealthFactor}
+                          </GreenTexture>
+                          <WhiteTexture>
+                            Liquidation at &lt; {config.FIXED_LIQUIDATION_VALUE}
+                          </WhiteTexture>
+                        </div>
+                      ),
+                    }}
+                  />
                 </TransactionOverviewContainer>
               ),
             }}
