@@ -36,8 +36,9 @@ const SupplyButton = ({ data, ...rest }) => {
   let disabled;
 
   if (dexConfig.name === "Seamless Protocol") {
-    const { totalSupplyUSD, supplyCap } = data;
-    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCap || 0));
+    const { totalSupplyUSD, supplyCapUSD } = data;
+    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
+
     disabled = Number(data.balanceInUSD) === 0 || isFull;
   } else {
     disabled = Number(data.balanceInUSD) === 0;
