@@ -13,7 +13,15 @@ const Panel = styled.div`
   padding: 20px;
 `;
 
-const { connectProps, chain, mainnet, account, prices, currentChainId } = props;
+const BridgeImg = styled.img`
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  border-radius: 100%;
+  display: block;
+`
+
+const { connectProps, chain, mainnet, account, prices, currentChainId, bridgeImg } = props;
 
 if (!account) {
   return (
@@ -51,7 +59,7 @@ useEffect(() => {
   });
 }, []);
 
-const { tokens, amountOutFn, handlerSwap } = props;
+const { tokens, amountOutFn, handlerSwap, handlerClaim } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   const txs = Storage.privateGet("stargate_txs") || {};
@@ -71,9 +79,15 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   Storage.privateSet("stargate_txs", txs);
 };
 
+console.log('111', props)
+
 return (
   <Wrapper>
     <Panel>
+      {
+        bridgeImg && <BridgeImg src={bridgeImg} />
+      }
+      
       <Widget
         src="bluebiu.near/widget/Base.Bridge.Swap"
         props={{
@@ -113,6 +127,21 @@ return (
         }}
       />
     </Panel>
+
+    {
+      handlerClaim ? <Panel>
+        <Widget
+          src={handlerClaim}
+          props={{
+            currentChainId,
+            mainnet,
+            toast: props.toast,
+            account
+          }}
+        />
+      </Panel> : null
+    }
+
     <Widget
       src="bluebiu.near/widget/Base.Bridge.NetwrokDialog"
       props={{
