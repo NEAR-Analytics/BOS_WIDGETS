@@ -1,4 +1,5 @@
 const {
+  formatNumber,
   config,
   chainId,
   yourSupplies,
@@ -100,7 +101,7 @@ return (
                 />,
                 <div>
                   <div>{Number(row.underlyingBalance).toFixed(7)}</div>
-                  <div>$ {Number(row.underlyingBalanceUSD).toFixed(2)}</div>
+                  <div>{formatNumber(row.underlyingBalanceUSD, 2)}</div>
                 </div>,
                 `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
                 renderCollateral(row),
