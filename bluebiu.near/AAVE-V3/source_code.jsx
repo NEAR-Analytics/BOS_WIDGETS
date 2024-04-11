@@ -1169,7 +1169,13 @@ useEffect(() => {
     return;
   const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
   const SECONDS_PER_YEAR = 31536000;
-  const rewardTokenPrice = 0.00025055;
+  let rewardTokenPrice = 0;
+  if (dexConfig.name === "ZeroLend") {
+    rewardTokenPrice = 0.00025055;
+  }
+  if (dexConfig.name === "Seamless Protocol") {
+    rewardTokenPrice = prices["SEAM"];
+  }
 
   try {
     const _assetsToSupply = [...state.assetsToSupply];
@@ -1187,10 +1193,10 @@ useEffect(() => {
       );
 
       let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
-        Big(_assetsToSupply[i].tokenPrice)
+        Big(prices[_assetsToSupply[i].symbol])
       );
       let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
-        Big(_assetsToSupply[i].tokenPrice)
+        Big(prices[_assetsToSupply[i].symbol])
       );
 
       let supplyRewardApy = normalizedEmissionPerSecond
@@ -1206,7 +1212,9 @@ useEffect(() => {
         .toFixed();
       console.log("supplyRewardApy---", supplyRewardApy);
       _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
-      _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+      if (dexConfig.name === "ZeroLend") {
+        _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+      }
 
       State.update({
         assetsToSupply: _assetsToSupply,
