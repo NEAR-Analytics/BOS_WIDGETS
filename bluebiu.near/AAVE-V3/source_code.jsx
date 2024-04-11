@@ -695,6 +695,9 @@ function getPoolDataProviderCaps() {
         const [borrowCap, supplyCap] = res[i];
 
         prevAssetsToSupply[i].borrowCap = borrowCap.toNumber();
+        prevAssetsToSupply[i].borrowCapUSD = Big(borrowCap)
+          .times(prices[prevAssetsToSupply[i].symbol])
+          .toFixed();
         prevAssetsToSupply[i].supplyCap = supplyCap.toNumber();
         prevAssetsToSupply[i].supplyCapUSD = Big(supplyCap)
           .times(prices[prevAssetsToSupply[i].symbol])
