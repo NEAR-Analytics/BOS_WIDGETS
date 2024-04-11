@@ -64,8 +64,9 @@ const SupplyButton = ({ data, ...rest }) => {
 const BorrowButton = ({ data }) => {
   let disabled;
   if (dexConfig.name === "Seamless Protocol") {
-    const { totalDebtsUSD, borrowCap } = data;
-    const isFull = Big(totalDebtsUSD || 0).gte(Big(borrowCap || 0));
+    const { totalDebtsUSD, borrowCapUSD } = data;
+    const isFull = Big(totalDebtsUSD || 0).gte(Big(borrowCapUSD || 0));
+
     disabled =
       isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply) || isFull;
   } else {
