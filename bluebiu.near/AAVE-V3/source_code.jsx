@@ -137,6 +137,11 @@ function repayETHGas() {
 function repayERC20Gas() {
   return gasEstimation("repayWithPermit");
 }
+function formatNumber(value, digits) {
+  return Big(value || 0).lt(0.01)
+    ? "< $0.01"
+    : `$ ${Number(value).toFixed(digits || 2)}`;
+}
 
 // App config
 function getConfig() {
@@ -833,6 +838,7 @@ function getYourSupplies() {
           let market = state.assetsToSupply.find(
             (item) => item.aTokenAddress === aTokenAddresss[index]
           );
+          if (!market) return;
 
           let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
           market.underlyingBalance = _bal;
@@ -1377,6 +1383,7 @@ const body = isChainSupported ? (
         <Widget
           src={`${config.ownerId}/widget/AAVE.Card.Markets`}
           props={{
+            formatUSD,
             config,
             dexConfig,
             chainId: chainId,
@@ -1427,6 +1434,7 @@ const body = isChainSupported ? (
             <Widget
               src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
               props={{
+                formatNumber,
                 config,
                 chainId: chainId,
                 yourSupplies: state.yourSupplies,
