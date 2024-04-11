@@ -174,6 +174,8 @@ useEffect(() => {
   });
 }, []);
 
+console.log('state: ', state)
+
 return (
   <>
     <Chains
@@ -333,6 +335,10 @@ return (
         target: {
           dstId: state.to?.dstId,
           address: state.currency?.targetAddress,
+        },
+        source: {
+          decimals: state.currency.decimals,
+          address: state.currency?.address,
         },
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
