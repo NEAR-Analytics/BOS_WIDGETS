@@ -15,7 +15,7 @@ function get(filePath) {
 }
 
 // Function to create and upload data to GitHub, returning a promise with the URL of the uploaded content
-function create(filePath, data) {
+function create(data) {
   return new Promise((resolve, reject) => {
     // Check if data is provided
     if (data.length) {
