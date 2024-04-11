@@ -69,9 +69,9 @@ const Title = styled.div`
 `;
 const ListWrapper = styled.div`
   border-radius: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #373a53;
   padding: 10px 4px 10px 10px;
-  background-color: #181a27;
+  background-color: #262836;
 `;
 const List = styled.div`
   width: 230px;
