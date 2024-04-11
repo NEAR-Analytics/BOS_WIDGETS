@@ -20,7 +20,7 @@ const Label = styled.div`
   font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
-  color: var(--label-color);
+  color: #979abe;
 `;
 const ChainLogo = styled.img`
   width: 44px;
@@ -34,7 +34,7 @@ const ChainName = styled.div`
   color: var(--chain-name-color);
 `;
 const ExchangeIcon = styled.div`
-  color: var(--label-color);
+  color: #979abe;
   transform: rotate(90deg);
   margin-right: 30px;
   margin-top: 20px;
@@ -342,7 +342,7 @@ return (
         },
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
-          console.log('data:', data);
+          console.log("data:", data);
           State.update({
             loading: false,
             ...data,
