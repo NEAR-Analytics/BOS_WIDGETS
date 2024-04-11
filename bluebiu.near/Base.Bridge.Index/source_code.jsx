@@ -7,9 +7,9 @@ const Wrapper = styled.div`
 `;
 const Panel = styled.div`
   width: 100%;
-  border: 1px solid var(--border-color);
+  border: 1px solid #373a53;
   border-radius: 16px;
-  background-color: var(--bg-color);
+  background-color: #262836;
   padding: 20px;
 `;
 
