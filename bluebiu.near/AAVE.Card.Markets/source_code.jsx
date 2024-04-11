@@ -71,6 +71,9 @@ const BorrowButton = ({ data }) => {
   } else {
     disabled = isNaN(Number(yourTotalSupply)) || !Number(yourTotalSupply);
   }
+  if (!data.supportBorrow) {
+    disabled = true;
+  }
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
