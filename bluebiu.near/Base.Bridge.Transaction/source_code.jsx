@@ -2,7 +2,7 @@ const Row = styled.div`
   display: flex;
   padding: 4px 0px;
   &:not(:first-child) {
-    border-bottom: 1px solid var(--input-border-color);
+    border-bottom: 1px solid #373a53;
   }
 `;
 const TokenWrapper = styled.div`
@@ -72,46 +72,50 @@ const getStargateStatus = () => {
     loading: true,
   });
   if (
-    (tx.fromChainId === 1 && tx.toChainId === 324) || (tx.fromChainId === 324 && tx.toChainId === 1)
-    || (tx.fromChainId === 1 && tx.toChainId === 534352) || (tx.fromChainId === 534352 && tx.toChainId === 1)
-    ) {
-    asyncFetch(`https://api.orbiter.finance/sdk/transaction/cross-chain/${tx.hash}`)
-    .then(res => {
-      if (res.body.status === 'success') {
+    (tx.fromChainId === 1 && tx.toChainId === 324) ||
+    (tx.fromChainId === 324 && tx.toChainId === 1) ||
+    (tx.fromChainId === 1 && tx.toChainId === 534352) ||
+    (tx.fromChainId === 534352 && tx.toChainId === 1)
+  ) {
+    asyncFetch(
+      `https://api.orbiter.finance/sdk/transaction/cross-chain/${tx.hash}`
+    )
+      .then((res) => {
+        if (res.body.status === "success") {
+          State.update({
+            status: "success",
+            loading: false,
+          });
+          onUpdate();
+          onDelete(tx.hash);
+        }
+      })
+      .catch((e) => {
         State.update({
-          status: 'success',
+          loading: false,
+        });
+      });
+  } else {
+    asyncFetch(`https://api-mainnet.layerzero-scan.com/tx/${tx.hash}`)
+      .then((res) => {
+        const result = res.body || {};
+        const status =
+          result.messages[0].status === "DELIVERED" ? "success" : "pending";
+        State.update({
+          status,
           loading: false,
         });
         onUpdate();
-        onDelete(tx.hash);
-      }
-    }).catch(e => {
-      State.update({
-        loading: false,
+        if (status === "success") {
+          onDelete(tx.hash);
+        }
+      })
+      .catch((err) => {
+        State.update({
+          loading: false,
+        });
       });
-    })
-  } else {
-    asyncFetch(`https://api-mainnet.layerzero-scan.com/tx/${tx.hash}`)
-    .then((res) => {
-      const result = res.body || {};
-      const status =
-        result.messages[0].status === "DELIVERED" ? "success" : "pending";
-      State.update({
-        status,
-        loading: false,
-      });
-      onUpdate();
-      if (status === "success") {
-        onDelete(tx.hash);
-      }
-    })
-    .catch((err) => {
-      State.update({
-        loading: false,
-      });
-    });
   }
-  
 };
 
 useEffect(() => {
