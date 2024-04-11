@@ -1,0 +1,92 @@
+const Theme = styled.div`
+  --bg-color: #181a27;
+  --border-color: rgb(44, 74, 75);
+  --label-color: rgb(0, 255, 224);
+  --chain-name-color: #fff;
+  --input-border-color: #2c394b;
+  --button-color: #00ffe0;
+  --button-text-color: #000;
+  --thirdary-text-color: #5a7e93;
+  --arrow-color: #00ffe0;
+  --swap-icon-color: #82a7ff;
+  --tx-button-color: #3b6bdc;
+  --processing-color: #5a7e93;
+  --success-color: #1abd00;
+  --dialog-bg-color: #373a53;
+  --dialog-info-color: #ff61d3;
+  --token-list-hover-color: rgba(24, 26, 39, 0.3);
+`;
+
+const CHAIN_ID = 534352;
+const CHAIN_NAME = "scroll";
+const Tokens = [
+  {
+    address: "native",
+    name: "ETH",
+    symbol: "ETH",
+    icon: "https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628",
+    decimals: 18,
+    poolId: 13,
+    targetPoolId: 13,
+    targetDecimals: 18,
+    targetAddress: "native",
+    isNative: true,
+  },
+  {
+    address: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
+    name: "USDC",
+    symbol: "USDC",
+    icon: "https://scroll-tech.github.io/token-list/data/USDC/logo.svg",
+    decimals: 6,
+    poolId: 13,
+    targetPoolId: 13,
+    targetDecimals: 6,
+    targetAddress: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
+    isNative: false,
+  },
+];
+
+return (
+  <Theme>
+    <Widget
+      src="bluebiu.near/widget/Base.Bridge.Index"
+      props={{
+        connectProps: {
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
+          //   style: {
+          //     width: "437px",
+          //     height: "310px",
+          //     marginTop: "80px",
+          //   },
+          // },
+          noAccountTips: `${CHAIN_NAME} Bridge`,
+          wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_NAME} Chain.`,
+        },
+        chain: {
+          id: CHAIN_ID,
+          dstId: CHAIN_ID,
+          name: CHAIN_NAME,
+          logo: "https://www.dapdap.net/images/chains/scroll_white.svg",
+          explorer: "https://scrollscan.com",
+          routerEthAddress: "0x4C0926FF5252A435FD19e10ED15e5a249Ba19d79",
+          routerAddress: "0x4C0926FF5252A435FD19e10ED15e5a249Ba19d79",
+        },
+        mainnet: {
+          id: 1,
+          dstId: 1,
+          name: "Ethereum",
+          logo: "https://ipfs.near.social/ipfs/bafkreiashn3iawpvw66ejmyo3asdn4m5x25haijwyhubxjuzw7g7c7qq7a",
+          explorer: "https://etherscan.io",
+          routerEthAddress: "0xF8B1378579659D8F7EE5f3C929c2f3E332E41Fd6",
+          routerAddress: "0xF8B1378579659D8F7EE5f3C929c2f3E332E41Fd6",
+        },
+        tokens: Tokens,
+        amountOutFn: "bluebiu.near/widget/Scroll.BridgeAuthority.AmountOut",
+        handlerSwap: "bluebiu.near/widget/Scroll.BridgeAuthority.HandlerSwap",
+        handlerClaim: 'bluebiu.near/widget/Scroll.BridgeAuthority.HandlerClaim',
+        ...props,
+      }}
+    />
+  </Theme>
+);
