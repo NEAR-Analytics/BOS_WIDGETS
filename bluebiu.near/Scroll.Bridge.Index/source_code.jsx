@@ -1,20 +1,6 @@
 const Theme = styled.div`
-  --bg-color: #181a27;
-  --border-color: rgb(44, 74, 75);
-  --label-color: rgb(0, 255, 224);
-  --chain-name-color: #fff;
-  --input-border-color: #2c394b;
-  --button-color: #00ffe0;
-  --button-text-color: #000;
-  --thirdary-text-color: #5a7e93;
-  --arrow-color: #00ffe0;
-  --swap-icon-color: #82a7ff;
-  --tx-button-color: #3b6bdc;
-  --processing-color: #5a7e93;
-  --success-color: #1abd00;
-  --dialog-bg-color: #373a53;
-  --dialog-info-color: #ff61d3;
-  --token-list-hover-color: rgba(24, 26, 39, 0.3);
+  --button-color: #ff684b;
+  --button-text-color: #fff;
 `;
 
 const CHAIN_ID = 534352;
