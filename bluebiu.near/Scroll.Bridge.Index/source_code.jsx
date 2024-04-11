@@ -73,6 +73,7 @@ return (
         amountOutFn: "bluebiu.near/widget/Scroll.Bridge.AmountOut",
         handlerSwap: "bluebiu.near/widget/Scroll.Bridge.HandlerSwap",
         ...props,
+        bridgeImg: 'https://docs.orbiter.finance/~gitbook/image?url=https:%2F%2F1544475235-files.gitbook.io%2F%7E%2Ffiles%2Fv0%2Fb%2Fgitbook-x-prod.appspot.com%2Fo%2Fspaces%252F-MY5Qy9GjDHXTy9ppyql%252Fuploads%252Fgit-blob-b16af9e363681b512ac66b1252db42b4bf5e1d27%252Ficon-2.png%3Falt=media&width=768&dpr=1&quality=100&sign=f310d82dfe92acd8c780bdb140c1e5c4b5dbaaa842016dbc028bfa76e408fa31'
       }}
     />
   </Theme>
