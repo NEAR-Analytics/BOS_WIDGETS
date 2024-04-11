@@ -1517,6 +1517,8 @@ const body = isChainSupported ? (
               dapps: dexConfig,
               onSuccess,
               markets,
+              prices,
+              formatNumber,
               rewardAddress: config.incentivesProxy,
               toast,
               theme: dexConfig?.theme,
