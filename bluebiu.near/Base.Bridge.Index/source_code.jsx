@@ -13,12 +13,24 @@ const Panel = styled.div`
   padding: 20px;
 `;
 
+const BridgeNameWapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px;
+  gap: 10px;
+`
+
 const BridgeImg = styled.img`
   width: 50px;
   height: 50px;
-  margin: 0 auto 20px;
   border-radius: 100%;
   display: block;
+`
+
+const BridgeName = styled.div`
+  color: var(--chain-name-color);
+  font-size: 20px;
 `
 
 const { connectProps, chain, mainnet, account, prices, currentChainId, bridgeImg } = props;
@@ -79,13 +91,15 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   Storage.privateSet("stargate_txs", txs);
 };
 
-console.log('111', props)
 
 return (
   <Wrapper>
     <Panel>
       {
-        bridgeImg && <BridgeImg src={bridgeImg} />
+        bridgeImg && <BridgeNameWapper>
+        <BridgeImg src={bridgeImg} />
+        <BridgeName>Orbiter Finance</BridgeName>
+        </BridgeNameWapper>
       }
       
       <Widget
