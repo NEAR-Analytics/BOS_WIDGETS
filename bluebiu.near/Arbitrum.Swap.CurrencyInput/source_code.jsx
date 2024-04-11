@@ -13,7 +13,7 @@ const InputField = styled.div`
 `;
 const InputWarpper = styled.div`
   height: 46px;
-  border-bottom: 1px solid var(--input-border-color);
+  border-bottom: 1px solid #373a53;
   padding: 10px 0px;
   @media (max-width: 900px) {
     height: 40px;
@@ -51,7 +51,7 @@ const CurrencySelect = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid #373a53;
   border-radius: 24px;
   padding: 6px 12px 6px 6px;
   cursor: pointer;
