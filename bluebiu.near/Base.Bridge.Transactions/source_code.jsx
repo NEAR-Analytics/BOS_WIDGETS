@@ -13,12 +13,12 @@ const TxAmount = styled.span`
 `;
 const Title = styled.span`
   font-weight: 500;
-  color: var(--label-color);
+  color: #979abe;
 `;
 const RefreshWrapper = styled.div`
   display: flex;
   gap: 4px;
-  color: var(--label-color);
+  color: #979abe;
 `;
 const RefreshText = styled.div`
   text-decoration: underline;
