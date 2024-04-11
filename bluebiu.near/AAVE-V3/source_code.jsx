@@ -196,7 +196,6 @@ State.init({
   healthFactor: "",
   availableBorrowsUSD: "",
 
-  baseAssetBalance: undefined,
   selectTab: "MARKET", // MARKET | YOURS
   fresh: 0, // fresh rewards
   yourSupplyApy: 0,
@@ -402,45 +401,46 @@ function getUserBalance() {
   provider
     .getSigner()
     ?.getBalance()
-    .then((balance) => State.update({ baseAssetBalance: balance }));
-  if (!account || !state.baseAssetBalance) {
-    return;
-  }
-
-  // get user balances
-  batchBalanceOf(
-    chainId,
-    account,
-    markets?.map((market) => market.underlyingAsset),
-    config.walletBalanceProviderABI
-  )
-    .then((balances) => {
-      return balances?.map((balance) => balance.toString());
+    .then((balance) => {
+      return balance;
     })
-    .then((userBalances) => {
-      const _assetsToSupply = [...state.assetsToSupply];
-      for (let index = 0; index < _assetsToSupply.length; index++) {
-        const item = _assetsToSupply[index];
-        const _bal =
-          item.symbol === config.nativeCurrency.symbol
-            ? state.baseAssetBalance
-            : userBalances[index];
-        const balanceRaw = Big(_bal || 0).div(Big(10).pow(item.decimals));
-        const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
+    .then((baseAssetBalance) => {
+      // get user balances
+      batchBalanceOf(
+        chainId,
+        account,
+        markets?.map((market) => market.underlyingAsset),
+        config.walletBalanceProviderABI
+      )
+        .then((balances) => {
+          return balances?.map((balance) => balance.toString());
+        })
+        .then((userBalances) => {
+          console.log("getUserBalance--", userBalances);
+          const _assetsToSupply = [...state.assetsToSupply];
+          for (let index = 0; index < _assetsToSupply.length; index++) {
+            const item = _assetsToSupply[index];
+            const _bal =
+              item.symbol === config.nativeCurrency.symbol
+                ? baseAssetBalance
+                : userBalances[index];
+            const balanceRaw = Big(_bal || 0).div(Big(10).pow(item.decimals));
+            const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
 
-        const _balanceInUSD = balanceRaw
-          .mul(item.tokenPrice || 0)
-          .toFixed(3, ROUND_DOWN);
-        item.balance = _balance;
-        item.balanceInUSD = _balanceInUSD;
-      }
+            const _balanceInUSD = balanceRaw
+              .mul(item.tokenPrice || 0)
+              .toFixed(3, ROUND_DOWN);
+            item.balance = _balance;
+            item.balanceInUSD = _balanceInUSD;
+          }
 
-      State.update({
-        assetsToSupply: _assetsToSupply,
-      });
-    })
-    .catch((err) => {
-      console.log("batchBalanceOfERROR:", err);
+          State.update({
+            assetsToSupply: _assetsToSupply,
+          });
+        })
+        .catch((err) => {
+          console.log("batchBalanceOfERROR:", err);
+        });
     });
 }
 
@@ -1119,7 +1119,6 @@ useEffect(() => {
   }
   State.update({
     assetsToSupply: _assetsToSupply,
-    step1: true,
   });
 }, [state.poolData]);
 
@@ -1218,6 +1217,7 @@ useEffect(() => {
 
       State.update({
         assetsToSupply: _assetsToSupply,
+        step1: true,
       });
     }
   } catch (error) {
