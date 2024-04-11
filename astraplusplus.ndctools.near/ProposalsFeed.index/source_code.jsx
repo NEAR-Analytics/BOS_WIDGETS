@@ -169,6 +169,7 @@ function fetchProposals() {
       offset: state.page * resPerPage,
       limit: resPerPage,
       status: state.filters.proposal_status,
+      proposal_types: state.filters.proposal_types,
       time_start: state.filters.time_start,
       time_end: state.filters.time_end
     }),
