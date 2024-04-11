@@ -16,9 +16,9 @@ const Title = styled.div`
 const Panel = styled.div`
   width: 100%;
   border-radius: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #373a53;
   padding: 30px;
-  background-color: #181a27;
+  background-color: #262836;
 `;
 const ExchangeIcon = styled.div`
   width: 60px;
