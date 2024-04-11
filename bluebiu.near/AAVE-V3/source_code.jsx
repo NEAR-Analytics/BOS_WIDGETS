@@ -465,7 +465,7 @@ function getPoolDataProvider() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-  console.log("getPoolDataProvider--", underlyingTokens);
+  // console.log("getPoolDataProvider--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getReserveData",
@@ -554,7 +554,7 @@ function getPoolDataProviderTotalSupply() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-  console.log("getPoolDataProviderTotalSupply--", underlyingTokens);
+  // console.log("getPoolDataProviderTotalSupply--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getATokenTotalSupply",
@@ -610,7 +610,7 @@ function getPoolDataProviderTotalDebt() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-  console.log("getPoolDataProviderTotalDebt--", underlyingTokens);
+  // console.log("getPoolDataProviderTotalDebt--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getTotalDebt",
@@ -659,7 +659,7 @@ function getPoolDataProviderCaps() {
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-  console.log("getPoolDataProviderCaps--", underlyingTokens);
+  // console.log("getPoolDataProviderCaps--", underlyingTokens);
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getReserveCaps",
@@ -689,8 +689,12 @@ function getPoolDataProviderCaps() {
 
       for (let i = 0; i < res.length; i++) {
         const [borrowCap, supplyCap] = res[i];
+
         prevAssetsToSupply[i].borrowCap = borrowCap.toNumber();
         prevAssetsToSupply[i].supplyCap = supplyCap.toNumber();
+        prevAssetsToSupply[i].supplyCapUSD = Big(supplyCap)
+          .times(prices[prevAssetsToSupply[i].symbol])
+          .toFixed();
       }
       State.update({
         assetsToSupply: prevAssetsToSupply,
@@ -822,7 +826,6 @@ function getYourSupplies() {
     provider: Ethers.provider(),
   })
     .then((res) => {
-      console.log("=========", state.assetsToSupply);
       console.log("getUsetDeposits_res", res);
       let userDeposits = [];
       for (let index = 0; index < res.length; index++) {
@@ -872,6 +875,7 @@ function getYourSupplies() {
       return yourSupplies;
     })
     .then((_yourSupplies) => {
+      if (!_yourSupplies || !_yourSupplies.length) return;
       const calls = [
         {
           address: config.aavePoolV3Address,
@@ -1099,7 +1103,11 @@ function getAllUserRewards() {
     .getAllUserRewards(addrs, account)
     .then((res) => {
       try {
-        console.log("getAllUserRewards_res:", res);
+        console.log(
+          "getAllUserRewards_res:",
+          res,
+          ethers.utils.formatUnits(res[1][2])
+        );
         const _amount = res[1].reduce((total, cur) => {
           return Big(total).plus(ethers.utils.formatUnits(cur)).toFixed();
         }, 0);
@@ -1309,7 +1317,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!state.step1) return;
-  if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
+  // if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
   console.log("calc net apy", state.yourSupplies, state.yourBorrows);
@@ -1508,18 +1516,22 @@ const body = isChainSupported ? (
           <YoursTableWrapper>
             <Title>
               You Supplies
-              <SubTitle>
-                <Label>Balance:</Label>
-                <Value>$ {Number(state.yourTotalSupply).toFixed(2)}</Value>
+              {state.yourSupplies && state.yourSupplies.length ? (
+                <SubTitle>
+                  <Label>Balance:</Label>
+                  <Value>$ {Number(state.yourTotalSupply).toFixed(2)}</Value>
 
-                <Label>APY:</Label>
-                <Value>
-                  {Big(state.yourSupplyApy).times(100).toFixed(2)} %
-                </Value>
+                  <Label>APY:</Label>
+                  <Value>
+                    {Big(state.yourSupplyApy).times(100).toFixed(2)} %
+                  </Value>
 
-                <Label>Collateral:</Label>
-                <Value>$ {Number(state.yourTotalCollateral).toFixed(2)}</Value>
-              </SubTitle>
+                  <Label>Collateral:</Label>
+                  <Value>
+                    $ {Number(state.yourTotalCollateral).toFixed(2)}
+                  </Value>
+                </SubTitle>
+              ) : null}
             </Title>
             <Widget
               src={`${config.ownerId}/widget/AAVE.Card.YourSupplies`}
@@ -1550,18 +1562,20 @@ const body = isChainSupported ? (
           <YoursTableWrapper>
             <Title>
               You Borrows
-              <SubTitle>
-                <Label>Balance:</Label>
-                <Value>$ {Number(state.yourTotalBorrow).toFixed(2)}</Value>
+              {state.yourBorrows && state.yourBorrows.length ? (
+                <SubTitle>
+                  <Label>Balance:</Label>
+                  <Value>$ {Number(state.yourTotalBorrow).toFixed(2)}</Value>
 
-                <Label>APY:</Label>
-                <Value>
-                  {Big(state.yourBorrowApy).times(100).toFixed(2)} %
-                </Value>
+                  <Label>APY:</Label>
+                  <Value>
+                    {Big(state.yourBorrowApy).times(100).toFixed(2)} %
+                  </Value>
 
-                <Label>Borrow power used:</Label>
-                <Value>{Number(state.BorrowPowerUsed).toFixed(2)}%</Value>
-              </SubTitle>
+                  <Label>Borrow power used:</Label>
+                  <Value>{Number(state.BorrowPowerUsed).toFixed(2)}%</Value>
+                </SubTitle>
+              ) : null}
             </Title>
             <Widget
               src={`${config.ownerId}/widget/AAVE.Card.YourBorrows`}
