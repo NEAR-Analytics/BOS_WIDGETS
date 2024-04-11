@@ -61,6 +61,14 @@ function Page() {
         />
       );
     }
+    case "announcements": {
+      return (
+        <Widget
+          src={"devhub.near/widget/devhub.page.announcements"}
+          props={passProps}
+        />
+      );
+    }
 
     // ?page=community
     case "community": {
