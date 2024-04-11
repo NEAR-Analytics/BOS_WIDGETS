@@ -43,7 +43,7 @@ const handleCopyText = () => {
 };
 
 return (
-  <>
+  <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
     <h1> Repo To Text </h1>
     <p>
       1. Input your
@@ -122,5 +122,5 @@ return (
         }}
       />
     </div>
-  </>
+  </div>
 );
