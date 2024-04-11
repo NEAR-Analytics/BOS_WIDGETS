@@ -116,7 +116,7 @@ const Icon = styled.img`
 
 const Tips = styled.div`
   font-size: 14px;
-  color: rgba(188, 0, 0, 0.72);
+  color: rgba(188, 0, 0, 1);
 `;
 
 State.init({
