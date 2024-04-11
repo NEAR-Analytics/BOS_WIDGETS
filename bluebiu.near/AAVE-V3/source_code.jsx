@@ -1188,6 +1188,7 @@ useEffect(() => {
         .times(SECONDS_PER_YEAR)
         .div(normalizedTotalTokenSupply)
         .toFixed();
+
       let borrowRewardApy = normalizedEmissionPerSecond
         .times(Big(rewardTokenPrice))
         .times(SECONDS_PER_YEAR)
@@ -1197,6 +1198,7 @@ useEffect(() => {
       _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
 
       State.update({
+        step3: true,
         assetsToSupply: _assetsToSupply,
       });
     }
@@ -1206,7 +1208,7 @@ useEffect(() => {
 }, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
 
 useEffect(() => {
-  if (!state.step1) return;
+  if (!state.step1 || !state.step3) return;
   // if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
@@ -1247,13 +1249,11 @@ useEffect(() => {
         .toFixed(),
     0
   );
-  const yourSupplyRewardAPY = state.yourSupplies.reduce(
-    (total, cur) =>
-      Big(total || 0)
-        .plus(Big(cur.supplyRewardApy || 0))
-        .toFixed(),
-    0
-  );
+  const yourSupplyRewardAPY = state.yourSupplies.reduce((total, cur) => {
+    return Big(total || 0)
+      .plus(Big(cur.supplyRewardApy || 0))
+      .toFixed();
+  }, 0);
 
   console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
   const weightedAverageBorrowsAPY = state.yourBorrows.reduce((total, cur) => {
@@ -1308,7 +1308,7 @@ useEffect(() => {
       .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
   }));
-}, [state.yourSupplies, state.yourBorrows, state.step1]);
+}, [state.yourSupplies, state.yourBorrows, state.step1, state.step3]);
 
 function onSuccess() {
   State.update({
@@ -1501,10 +1501,7 @@ const body = isChainSupported ? (
             props={{
               account,
               config,
-              data: [].concat({
-                ...dexConfig.rewardToken,
-                unclaimed: state.rewardsAmount,
-              }),
+              data: state.rewardData,
               dapps: dexConfig,
               onSuccess,
               markets,
@@ -1534,6 +1531,7 @@ const body = isChainSupported ? (
         props={{
           // update: state.loading,
           account,
+          rewardToken: dexConfig.rewardToken,
           config,
           wethAddress,
           multicallAddress,
