@@ -799,6 +799,7 @@ function calculateHealthFactorFromBalances({
 }
 
 function getYourSupplies() {
+  console.log(111111);
   const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
 
   const calls = aTokenAddresss?.map((addr) => ({
@@ -1161,12 +1162,7 @@ useEffect(() => {
     state.aTokenTotal,
     state.debtTotal
   );
-  if (
-    !state.emissionPerSeconds.length ||
-    !state.aTokenTotal.length ||
-    !state.debtTotal.length
-  )
-    return;
+
   const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
   const SECONDS_PER_YEAR = 31536000;
   let rewardTokenPrice = 0;
@@ -1178,46 +1174,59 @@ useEffect(() => {
   }
 
   try {
-    const _assetsToSupply = [...state.assetsToSupply];
-    for (let i = 0; i < _assetsToSupply.length; i++) {
-      let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
-        state.aTokenTotal[i].toString(),
-        _assetsToSupply[i].decimals
-      );
-      let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
-        state.debtTotal[i].toString(),
-        _assetsToSupply[i].decimals
-      );
-      let normalizedEmissionPerSecond = Big(state.emissionPerSeconds[i][1]).div(
-        Big(RWARD_TOKEN_DECIMALS)
-      );
+    if (dexConfig.rewardToken) {
+      if (
+        !state.emissionPerSeconds.length ||
+        !state.aTokenTotal.length ||
+        !state.debtTotal.length
+      )
+        return;
+      const _assetsToSupply = [...state.assetsToSupply];
+      for (let i = 0; i < _assetsToSupply.length; i++) {
+        let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
+          state.aTokenTotal[i].toString(),
+          _assetsToSupply[i].decimals
+        );
+        let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
+          state.debtTotal[i].toString(),
+          _assetsToSupply[i].decimals
+        );
+        let normalizedEmissionPerSecond = Big(
+          state.emissionPerSeconds[i][1]
+        ).div(Big(RWARD_TOKEN_DECIMALS));
 
-      let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
-        Big(prices[_assetsToSupply[i].symbol])
-      );
-      let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
-        Big(prices[_assetsToSupply[i].symbol])
-      );
+        let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
+          Big(prices[_assetsToSupply[i].symbol])
+        );
+        let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
+          Big(prices[_assetsToSupply[i].symbol])
+        );
 
-      let supplyRewardApy = normalizedEmissionPerSecond
-        .times(Big(rewardTokenPrice))
-        .times(SECONDS_PER_YEAR)
-        .div(normalizedTotalTokenSupply)
-        .toFixed();
+        let supplyRewardApy = normalizedEmissionPerSecond
+          .times(Big(rewardTokenPrice))
+          .times(SECONDS_PER_YEAR)
+          .div(normalizedTotalTokenSupply)
+          .toFixed();
 
-      let borrowRewardApy = normalizedEmissionPerSecond
-        .times(Big(rewardTokenPrice))
-        .times(SECONDS_PER_YEAR)
-        .div(normalizedTotalTokenBorrow)
-        .toFixed();
-      console.log("supplyRewardApy---", supplyRewardApy);
-      _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
-      if (dexConfig.name === "ZeroLend") {
-        _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+        let borrowRewardApy = normalizedEmissionPerSecond
+          .times(Big(rewardTokenPrice))
+          .times(SECONDS_PER_YEAR)
+          .div(normalizedTotalTokenBorrow)
+          .toFixed();
+
+        console.log("supplyRewardApy---", supplyRewardApy);
+        _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
+        if (dexConfig.name === "ZeroLend") {
+          _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+        }
+
+        State.update({
+          assetsToSupply: _assetsToSupply,
+          step1: true,
+        });
       }
-
+    } else {
       State.update({
-        assetsToSupply: _assetsToSupply,
         step1: true,
       });
     }
@@ -1279,7 +1288,7 @@ useEffect(() => {
     return Big(total || 0)
       .plus(
         Big(cur.debtInUSD)
-          .times(Big(cur.borrowAPY))
+          .times(Big(cur.borrowAPY || 1))
           .div(debtsBal || 1)
       )
       .toFixed();
