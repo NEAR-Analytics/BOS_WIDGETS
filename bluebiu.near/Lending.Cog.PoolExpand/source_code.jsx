@@ -323,7 +323,7 @@ return (
             </StyledGasBox>
             <div style={{ flexGrow: 1 }}>
               <Widget
-                src="bluebiu.near/widget/Lending.LiquityPoolButton"
+                src="bluebiu.near/widget/Lending.Cog.PoolButton"
                 props={{
                   disabled: !state.buttonClickable,
                   actionText: state.tab,
