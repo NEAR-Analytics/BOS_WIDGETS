@@ -30,7 +30,7 @@ const Tokens = [
     poolId: 13,
     targetPoolId: 13,
     targetDecimals: 6,
-    targetAddress: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
+    targetAddress: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
     isNative: false,
   },
 ];
