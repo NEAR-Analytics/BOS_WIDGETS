@@ -457,13 +457,15 @@ useEffect(() => {
     baseAmount = baseAmount.add(inputCurrencyAmount || 0);
   }
   State.update({ swapping: true });
-  const _gas = Big(ethers.utils.formatUnits(gas || 0, 18));
-  provider.getBalance(account).then((rawBalance) => {
-    const _rawBalance = Big(ethers.utils.formatUnits(rawBalance, 18));
-    State.update({
-      isGasEnough: _rawBalance.minus(baseAmount).gt(_gas),
-      gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
-      swapping: false,
+  provider.getGasPrice().then((gasPrice) => {
+    provider.getBalance(account).then((rawBalance) => {
+      const _gas = Big(ethers.utils.formatUnits(gas || 0, 18)).mul(gasPrice);
+      const _rawBalance = Big(ethers.utils.formatUnits(rawBalance, 18));
+      State.update({
+        isGasEnough: _rawBalance.minus(baseAmount).gt(_gas),
+        gas: _gas.lt(0.01) ? "<0.01" : _gas.toFixed(2),
+        swapping: false,
+      });
     });
   });
 }, [account, gas]);
