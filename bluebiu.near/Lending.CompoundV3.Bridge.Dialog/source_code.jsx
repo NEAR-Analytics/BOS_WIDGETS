@@ -93,6 +93,7 @@ const {
   borrowApr,
   supplyApr,
   account,
+  toast,
   onAmountChange,
   onAddAction,
   onClose,
@@ -222,7 +223,7 @@ return (
             <Widget
               src="bluebiu.near/widget/Utils.FormatAmount"
               props={{
-                amount: asset.walletBalanceUsd,
+                amount: Big(state.amount || 0).mul(asset.price),
                 prev: "$",
               }}
             />
