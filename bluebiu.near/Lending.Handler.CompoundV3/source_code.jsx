@@ -100,11 +100,15 @@ useEffect(() => {
         .then((res) => {
           onLoad({
             gas: _gas,
-            unsignedTx: res,
+            unsignedTx: {
+              ...res,
+              gasLimit: gas,
+            },
             isError: false,
           });
         })
         .catch((err) => {
+          console.log(err);
           onLoad({});
         });
     };
