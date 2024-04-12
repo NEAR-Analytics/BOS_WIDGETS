@@ -403,6 +403,11 @@ function repayERC20(shownAmount, actualAmount) {
               .then((res) => {
                 const { status, transactionHash } = res;
                 if (status === 1) {
+                  formatAddAction(
+                    Big(actualAmount).div(Big(10).pow(decimals)).toFixed(8),
+                    status,
+                    transactionHash
+                  );
                   onActionSuccess({
                     msg: `You repaid ${Big(shownAmount).toFixed(8)} ${symbol}`,
                     callback: () => {
