@@ -35,11 +35,7 @@ const Transactions = styled.div`
       justify-content: space-between;
       align-items: center;
       padding: 5px 0;
-      .btn {
-        cursor: pointer;
-        background-color: var(--button-color);
-        color: var(--button-text-color);
-      }
+      
     }
 
   }
@@ -62,6 +58,22 @@ const Transactions = styled.div`
         height: 22px;
       }
     }
+    .btn {
+        cursor: pointer;
+        background-color: #EBF479;
+        color: #000;
+        width: 90px;
+        height: 32px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 8px;
+      }
+    .complete {
+      color: #979ABE;
+    }
+    .proccessing {
+      color: #00D1FF;
+    }
   }
   .time {
     display: flex;
@@ -75,6 +87,9 @@ const Transactions = styled.div`
       display: flex;
       align-items: center;
       gap: 10px;
+      a {
+        color: #64B5FF;
+      }
     }
   }
 `
@@ -146,7 +161,13 @@ const L1MessageBridgeAbi = [
   },
 ];
 
-console.log('txs: ', txs)
+State.init({
+  isFold: false,
+  proccessSum: 0,
+  txsUpdated: [],
+  filteredTxs: [],
+  isLoading: false,
+})
 
 const L1MessageBridgeContract = new ethers.Contract(
   '0x6774Bcbd5ceCeF1336b5300fb5186a12DDD8b367',
@@ -229,7 +250,6 @@ function getAllClaimTx() {
 
   return asyncFetch(`https://mainnet-api-bridge-v2.scroll.io/api/l2/unclaimed/withdrawals?address=${account}&page=1&page_size=100`)
     .then(res => {
-      console.log('res2:', res)
       State.update({
         isLoading: false,
         filteredTxs: res.body.data.results
@@ -244,25 +264,78 @@ function formatHash(hash) {
 }
 
 useEffect(() => {
-  getAllClaimTx()
+  const inter = setInterval(() => {
+    getAllClaimTx()
+  }, 5000)
+
+  return () => {
+    clearInterval(inter)
+  }
 }, [])
 
-State.init({
-  filteredTxs: [],
-  isLoading: false
-})
+useEffect(() => {
+  console.log(1111)
+  if (state.filteredTxs && txs) {
+    const pArray = []
+    let needFold = true
+    let proccessSum = 0
+    pArray = Object.keys(txs).map(key => {
+      const currentTx = txs[key]
+      return asyncFetch(
+        `https://api.orbiter.finance/sdk/transaction/cross-chain/${key}`
+      )
+        .then((res) => {
+          if (res.body.status === "success") {
+            state.filteredTxs.forEach(item => {
+              if (item.hash === key) {
+                needFold = true
+                proccessSum += 1
+                if (item.claim_info) {
+                  currentTx.status = 1
+                  currentTx.claim_info = item.claim_info
+                } else {
+                  currentTx.status = 3
+                }
+              }
+            })
 
-// if (!state.filteredTxs || state.filteredTxs.length === 0) {
-//   return ''
-// }
+            if (!currentTx.status) {
+              currentTx.status = 2
+            }
+
+          } else {
+            needFold = true
+            proccessSum += 1
+            currentTx.status = 3
+          }
+        })
+    })
+
+    Promise.all(pArray).then((res) => {
+      State.update({
+        txsUpdated: Object.values(txs),
+        isFold: needFold,
+        proccessSum
+      })
+    })
+  }
+}, [state.filteredTxs, txs])
+
+
+console.log(state)
 
 return <Transactions>
   <div className="header">
     <div className="title">
       <span>Transaction History</span>
-      <span>3 Processing</span>
+      <span>{state.proccessSum} Processing</span>
     </div>
-    <div className="fresh" onClick={getAllClaimTx}>
+    <div className="fresh" onClick={() => {
+      getAllClaimTx()
+      // State.update({
+      //   isFold: !state.isFold
+      // })
+    }}>
       <RefreshText>
         {state.isLoading && (
           <Widget
@@ -282,8 +355,9 @@ return <Transactions>
       </ArrowIcon>
     </div>
   </div>
-  <div className="list">
-    {
+  {
+    state.isFold ? <div className="list">
+      {/* {
       (state.filteredTxs || []).map(item => {
         return <div className="claim-line">
           {formatHash(item.hash)}
@@ -292,40 +366,55 @@ return <Transactions>
           }}>Claim</div>
         </div>
       })
-    }
-    {/* {
-      Object.values(txs).map(tx => {
-        return <div key={tx.hash}>
-          <div className="chain-token-status">
-            <div className="chain-token">
-              <img src={tx.fromLogo} />
-              <Widget src="bluebiu.near/widget/Base.Bridge.SwapRightIcon" />
-              <img src={tx.toLogo} />
-              <img src={tx.tokenLogo} />
-              <div>{tx.amount} {tx.symbol}</div>
-              <Widget src="bluebiu.near/widget/Base.Bridge.SwapRightIcon" />
-              <img src={tx.tokenLogo} />
-              <div>{tx.amount} {tx.symbol}</div>
+    } */}
+
+      {
+        (state.txsUpdated || []).map(tx => {
+          return <div key={tx.hash}>
+            <div className="chain-token-status">
+              <div className="chain-token">
+                <img src={tx.fromLogo} />
+                <Widget src="bluebiu.near/widget/Base.Bridge.SwapRightIcon" />
+                <img src={tx.toLogo} />
+                <img src={tx.tokenLogo} />
+                <div>{tx.amount} {tx.symbol}</div>
+                <Widget src="bluebiu.near/widget/Base.Bridge.SwapRightIcon" />
+                <img src={tx.tokenLogo} />
+                <div>{tx.amount} {tx.symbol}</div>
+              </div>
+              <div>
+                {
+                  tx.status === 1 && <div className="btn" onClick={() => {
+                    handleClaim(tx.claim_info)
+                  }}>Claim</div>
+                }
+                {
+                  tx.status === 2 && <div className="complete">Complete</div>
+                }
+                {
+                  tx.status === 3 && <div className="processing">Processing</div>
+                }
+              </div>
             </div>
-            <div>Processing</div>
-          </div>
-          <div className="time">
-            <div className="format-time-link">
-              <div className="format-time">
+            <div className="time">
+              <div className="format-time-link">
+                <div className="format-time">
                   <Widget
                     src="bluebiu.near/widget/Base.Bridge.FormateTxDate"
                     props={{
                       date: tx.time,
                     }}
                   />
+                </div>
+                <a target="_blank" className="tx-link" href={tx.link}>Tx</a>
               </div>
-              <a target="_blank" className="tx-link" src={tx.link}>Tx</a>
+              <div>~1 hour</div>
             </div>
-            <div>~1 hour</div>
           </div>
-        </div>
-      })
-    } */}
-  </div>
+        })
+      }
+    </div> : null
+  }
+
 
 </Transactions>;
