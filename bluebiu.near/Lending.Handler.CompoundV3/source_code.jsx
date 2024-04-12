@@ -62,6 +62,7 @@ const {
   wethAddress,
   account,
   onLoad,
+  onCancel,
 } = props;
 
 const TYPE_MAP = {
@@ -140,17 +141,24 @@ useEffect(() => {
         } else {
           CometContract.allow(bulkerAddress, true)
             .then((tx) => {
-              tx.wait().then((res) => {
-                if (res.status === 1) {
-                  cb?.();
-                }
-              });
+              tx.wait()
+                .then((res) => {
+                  if (res.status === 1) {
+                    cb?.();
+                  }
+                })
+                .catch(() => {
+                  onCancel?.();
+                });
             })
-            .catch((err) => {});
+            .catch((err) => {
+              onCancel?.();
+            });
         }
       })
       .catch((err) => {
         console.log("check allowed err", err);
+        onCancel?.();
       });
   };
 
