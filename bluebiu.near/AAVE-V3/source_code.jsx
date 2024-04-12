@@ -799,7 +799,6 @@ function calculateHealthFactorFromBalances({
 }
 
 function getYourSupplies() {
-  console.log(111111);
   const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
 
   const calls = aTokenAddresss?.map((addr) => ({
@@ -997,14 +996,18 @@ function getUserDebts() {
             (item) =>
               item.variableDebtTokenAddress === variableDebtTokenAddresss[index]
           );
+          if (market) {
+            let _debt = ethers.utils.formatUnits(
+              res[index][0],
+              market.decimals
+            );
 
-          let _debt = ethers.utils.formatUnits(res[index][0], market.decimals);
-
-          market.debt = _debt;
-          market.debtInUSD = Big(_debt || 0)
-            .mul(prices[market.symbol] || 1)
-            .toFixed();
-          userDebs.push(market);
+            market.debt = _debt;
+            market.debtInUSD = Big(_debt || 0)
+              .mul(prices[market.symbol] || 1)
+              .toFixed();
+            userDebs.push(market);
+          }
         }
       }
       let hash = {};
@@ -1184,15 +1187,15 @@ useEffect(() => {
       const _assetsToSupply = [...state.assetsToSupply];
       for (let i = 0; i < _assetsToSupply.length; i++) {
         let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
-          state.aTokenTotal[i].toString(),
+          state.aTokenTotal[i]?.toString() || 0,
           _assetsToSupply[i].decimals
         );
         let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
-          state.debtTotal[i].toString(),
+          state.debtTotal[i]?.toString() || 0,
           _assetsToSupply[i].decimals
         );
         let normalizedEmissionPerSecond = Big(
-          state.emissionPerSeconds[i][1]
+          state.emissionPerSeconds[i][1] || 0
         ).div(Big(RWARD_TOKEN_DECIMALS));
 
         let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
