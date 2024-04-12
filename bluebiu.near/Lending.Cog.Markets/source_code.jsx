@@ -1,8 +1,7 @@
 const StyledContainer = styled.div``;
 
 const {
-  // totalCollateralUsd,
-  // userTotalBorrowUsd,
+  markets,
   addAction,
   toast,
   chainId,
@@ -15,61 +14,44 @@ const {
   IS_GRAVITA_DAPP,
   IS_PREON_DAPP,
 } = props;
-const data = Object.values(dexConfig.markets || {});
-console.log("LiquityMarkets:", props);
+
+console.log("Markets--", props, markets);
 
 const COLUMNS = [
   {
-    key: "DEPOSIT",
-    label: "DEPOSIT",
+    key: "POOL_NAME",
+    label: "Pools",
     width: "15%",
   },
   {
-    key: "BORROW",
-    label: "BORROW",
+    key: "AvailableBorrow",
+    label: "Available Borrow",
     width: "15%",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
-    ? {
-        key: "MAX_LTV",
-        label: "MAX LTV",
-        width: "15%",
-        // type: "apy",
-      }
-    : null,
-  IS_ETHOS_DAPP
-    ? {
-        key: "MCR",
-        label: "Min Collateral Ratio",
-        width: "15%",
-        // type: "apy",
-      }
-    : null,
+
   {
-    key: "ONE_TIME_FEE",
-    label: "ONE-TIME FEE",
+    key: "TotalCollateral",
+    label: "Total Collateral",
     width: "15%",
     // type: "amount",
   },
   {
-    key: "MIN_DEBT",
-    label: "MIN DEBT",
+    key: "Utilization",
+    label: "Utilization",
     width: "15%",
-    // type: "apy",
     // type: "amount",
   },
-  IS_GRAVITA_DAPP || IS_PREON_DAPP
-    ? {
-        key: "MINTED_CAP",
-        label: "MINTED/CAP",
-        width: "15%",
-        // type: "amount",
-      }
-    : null,
+
   {
-    key: "LOAN_STATUS",
-    label: "LOAN STATUS",
+    key: "Debt",
+    label: "Debt",
+    width: "8%",
+    // type: "amount",
+  },
+  {
+    key: "Rate",
+    label: "Rate",
     width: "8%",
     // type: "amount",
   },
@@ -87,17 +69,17 @@ return (
         columns: COLUMNS,
       }}
     />
-    {data &&
-      data.map((record, index) => (
-        <Widget
-          key={index}
-          src="bluebiu.near/widget/Lending.LiquityMarketRow"
-          props={{
-            ...props,
-            columns: COLUMNS,
-            data: record,
-          }}
-        />
-      ))}
+    {markets.map((record, index) => (
+      <Widget
+        key={index}
+        src="bluebiu.near/widget/Lending.Cog.MarketRow"
+        props={{
+          ...props,
+          columns: COLUMNS,
+          data: record,
+          from: "MARKETS",
+        }}
+      />
+    ))}
   </StyledContainer>
 );
