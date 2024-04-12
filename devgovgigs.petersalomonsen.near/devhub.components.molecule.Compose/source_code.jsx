@@ -1,8 +1,3 @@
-const AutoComplete = styled.div`
-  width: 100%;
-  margin-top: 0.5rem;
-`;
-
 const EmbeddCSS = `
   .CodeMirror {
    margin-inline:10px;
@@ -53,18 +48,9 @@ const Compose = ({
   }, [data]);
 
   function textareaInputHandler(value) {
-    const words = value.split(/\s+/);
-    const allMentiones = words
-      .filter((word) => word.startsWith("@"))
-      .map((mention) => mention.slice(1));
-    const newMentiones = allMentiones.filter(
-      (item) => !state.mentionsArray.includes(item)
-    );
-
     State.update((lastKnownState) => ({
       ...lastKnownState,
       data: value,
-      showAccountAutocomplete: newMentiones?.length > 0,
       mentionsArray: allMentiones,
       mentionInput: newMentiones?.[0] ?? "",
     }));
@@ -151,6 +137,7 @@ const Compose = ({
                 placeholder: placeholder,
                 height,
                 embeddCSS: embeddCSS || EmbeddCSS,
+                showAutoComplete: autocompleteEnabled,
               }}
             />
             {autocompleteEnabled && state.showAccountAutocomplete && (
