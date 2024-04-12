@@ -1,4 +1,4 @@
-const StyledContainer = styled.div`
+const Wrap = styled.div`
   padding-top: 18px;
 `;
 
@@ -17,41 +17,29 @@ const {
   tab,
 } = props;
 
-const { markets, VesselManagerOperations } = dexConfig;
-
 State.init({
-  newMarkets: "",
-  tvl: "",
-  deposits: "",
-  tokenBal: "",
+  markets: dexConfig.rawMarkets,
+  // tvl: "",
+  // deposits: "",
+  // tokenBal: "",
 });
-
-const IS_ETHOS_DAPP = dexConfig.name === "Ethos Finance" ? true : false;
-const IS_PREON_DAPP = dexConfig.name === "Preon Finance" ? true : false;
-const IS_GRAVITA_DAPP = dexConfig.name === "Gravita Protocol" ? true : false;
 
 useEffect(() => {
   State.update({
     loading: !chainIdNotSupport,
   });
 }, []);
-
+console.log("PROPS:", props);
 return (
-  <StyledContainer>
-    {tab === "market" && (
+  <Wrap>
+    {tab === "BORROW" && (
       <Widget
-        src="bluebiu.near/widget/Lending.LiquityMarkets"
+        src="bluebiu.near/widget/Lending.Cog.Markets"
         props={{
           ...props,
-          IS_ETHOS_DAPP,
-          IS_PREON_DAPP,
-          IS_GRAVITA_DAPP,
-          dexConfig: {
-            ...dexConfig,
-            markets: state.newMarkets,
-          },
-          tokenBal: state.tokenBal,
-          deposits: state.deposits,
+          markets: state.markets,
+          // tokenBal: state.tokenBal,
+          // deposits: state.deposits,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -60,20 +48,13 @@ return (
         }}
       />
     )}
-    {tab === "yours" && (
+    {tab === "EARN" && (
       <Widget
-        src="bluebiu.near/widget/Lending.LiquityYours"
+        src="bluebiu.near/widget/Lending.Cog.Earn"
         props={{
           ...props,
-          tvl: state.tvl,
-          deposits: state.deposits,
-          tokenBal: state.tokenBal,
-          dexConfig: {
-            ...dexConfig,
-            markets: state.newMarkets,
-          },
+          markets: state.markets,
           onSuccess: () => {
-            // fresh balance..
             State.update({
               loading: true,
             });
@@ -81,14 +62,12 @@ return (
         }}
       />
     )}
+
     <Widget
       src={dexConfig.data}
       props={{
         update: state.loading,
         ...props,
-        IS_ETHOS_DAPP,
-        IS_PREON_DAPP,
-        IS_GRAVITA_DAPP,
         onLoad: (data) => {
           State.update({
             loading: false,
@@ -98,26 +77,5 @@ return (
         },
       }}
     />
-    {/* <Widget
-      src="bluebiu.near/widget/Avalanche.Lending.Dialog"
-      props={{
-        display: state.showDialog,
-        data: state.tableButtonClickData,
-        chainId,
-        addAction,
-        toast,
-        source: "dapp",
-        onClose: () => {
-          State.update({
-            showDialog: false,
-          });
-        },
-        onSuccess: () => {
-          State.update({
-            loading: true,
-          });
-        },
-      }}
-    /> */}
-  </StyledContainer>
+  </Wrap>
 );
