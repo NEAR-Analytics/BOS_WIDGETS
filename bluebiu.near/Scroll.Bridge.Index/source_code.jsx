@@ -1,6 +1,7 @@
 const Theme = styled.div`
   --button-color: #ff684b;
   --button-text-color: #fff;
+  --dialog-bg-color: #373a53;
 `;
 
 const CHAIN_ID = 534352;
