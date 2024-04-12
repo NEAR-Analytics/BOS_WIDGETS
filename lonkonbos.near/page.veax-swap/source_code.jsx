@@ -378,7 +378,7 @@ return (
 
     {
       <Widget
-        src={`lonkonbos.near/widget/veax-token-input`}
+        src={`lonkonbos.near/widget/page.veax-token-input`}
         props={{
           amount: state.amountIn,
           balance: state.balanceTokenIn,
