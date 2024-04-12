@@ -72,6 +72,9 @@ const Transactions = styled.div`
         line-height: 16px;
         text-align: center;
         border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     .complete {
       color: #979ABE;
@@ -169,6 +172,7 @@ const L1MessageBridgeAbi = [
 
 State.init({
   isFold: false,
+  isLoadingTx: {},
   proccessSum: 0,
   txsUpdated: [],
   filteredTxs: [],
@@ -181,7 +185,7 @@ const L1MessageBridgeContract = new ethers.Contract(
   Ethers.provider().getSigner()
 )
 
-function handleClaim(claimInfo) {
+function handleClaim(claimInfo, hash) {
   if (!claimInfo) {
     return
   }
@@ -220,7 +224,10 @@ function handleClaim(claimInfo) {
           getAllClaimTx()
 
           toast?.dismiss(toastId);
-
+          delete state.isLoadingTx[hash]
+          State.update({
+            isLoadingTx: state.isLoadingTx
+          })
           toast?.success({
             title: "Claim Successfully!",
             text: `Claim Successfully`,
@@ -230,6 +237,10 @@ function handleClaim(claimInfo) {
         })
         .catch((err) => {
           console.log(err)
+          delete state.isLoadingTx[hash]
+          State.update({
+            isLoadingTx: state.isLoadingTx
+          })
           toast?.fail({
             title: "Claim Failed!",
             text: "Claim Failed",
@@ -246,6 +257,10 @@ function handleClaim(claimInfo) {
         tx: '',
         chainId: currentChainId,
       });
+      delete state.isLoadingTx[hash]
+          State.update({
+            isLoadingTx: state.isLoadingTx
+          })
     });
 }
 
@@ -363,17 +378,6 @@ return <Transactions>
   </div>
   {
     state.isFold ? <div className="list">
-      {/* {
-      (state.filteredTxs || []).map(item => {
-        return <div className="claim-line">
-          {formatHash(item.hash)}
-          <div className="btn" style={{ opacity: item.claim_info ? 1 : 0.2 }} onClick={() => {
-            handleClaim(item.claim_info)
-          }}>Claim</div>
-        </div>
-      })
-    } */}
-
       {
         (state.txsUpdated || []).map(tx => {
           return <div className="tx-line" key={tx.hash}>
@@ -390,9 +394,26 @@ return <Transactions>
               </div>
               <div>
                 {
-                  tx.status === 1 && <div className="btn" onClick={() => {
-                    handleClaim(tx.claim_info)
-                  }}>Claim</div>
+                  tx.status === 2 && <div className="btn" onClick={() => {
+                    if (state.isLoadingTx[tx.hash]) {
+                      return
+                    }
+                    handleClaim(tx.claim_info, tx.hash)
+                    state.isLoadingTx[tx.hash] = true
+                    State.update({
+                      isLoadingTx: state.isLoadingTx
+                    })
+                  }}>
+                    {state.isLoadingTx[tx.hash] && (
+                      <Widget
+                        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                        props={{
+                          size: 16,
+                        }}
+                      />
+                    )}
+                    Claim
+                  </div>
                 }
                 {
                   tx.status === 2 && <div className="complete">Complete</div>
