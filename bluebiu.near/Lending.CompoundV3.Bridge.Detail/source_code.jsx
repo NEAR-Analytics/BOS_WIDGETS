@@ -160,9 +160,13 @@ const updateInfo = () => {
       availableToBorrow: Big(res.userBorrowCapacityUsd)
         .minus(res.borrowedBalanceUsd)
         .toString(),
-      liquidationPoint: Big(res.borrowedBalanceUsd)
-        .div(Big(res.userLiquidationUsd).div(res.userCollateralUsd))
-        .toString(),
+      liquidationPoint:
+        Big(res.userLiquidationUsd || 0).eq(0) ||
+        Big(res.userCollateralUsd || 0).eq(0)
+          ? "0"
+          : Big(res.borrowedBalanceUsd)
+              .div(Big(res.userLiquidationUsd).div(res.userCollateralUsd))
+              .toString(),
       borrowedBalance: res.borrowedBalanceUsd,
       userLiquidationUsd: res.userLiquidationUsd,
     });
@@ -188,7 +192,7 @@ useEffect(() => {
 useEffect(() => {
   if (!state.balanceUsd) return;
   State.update({
-    balanceArr: Big(state.balanceUsd).toFixed(4).split("."),
+    balanceArr: Big(state.balance).toFixed(4).split("."),
   });
 }, [state.balanceUsd]);
 
@@ -212,9 +216,13 @@ const onAmountChange = ({ amount, type, cb }) => {
         availableToBorrow: Big(state.borrowCapacity || 0)
           .minus(_borrowedBalance)
           .toString(),
-        liquidationPoint: Big(_borrowedBalance)
-          .div(Big(state.userLiquidationUsd).div(state.collaterValue))
-          .toString(),
+        liquidationPoint:
+          Big(state.userLiquidationUsd || 0).eq(0) ||
+          Big(state.collaterValue || 0).eq(0)
+            ? "0"
+            : Big(_borrowedBalance)
+                .div(Big(state.userLiquidationUsd).div(state.collaterValue))
+                .toString(),
       });
     }
     cb({});
@@ -256,16 +264,10 @@ const onAddAction = ({ amount, type }) => {
     type,
     asset: state.asset,
   });
-  onAmountChange({
-    amount,
-    type,
-    cb: (res) => {
-      State.update({
-        actions: _actions,
-        showDialog: false,
-        ...res,
-      });
-    },
+
+  State.update({
+    actions: _actions,
+    showDialog: false,
   });
 };
 
@@ -309,9 +311,9 @@ return (
                 <StyledFont
                   style={{ color: "#FFF", fontSize: 22, fontWeight: 700 }}
                 >
-                  {balanceArr[0] || 0}.
+                  {state.balanceArr[0] || 0}.
                   <span style={{ color: "#979ABE" }}>
-                    {balanceArr[1] || "0000"}
+                    {state.balanceArr[1] || "0000"}
                   </span>
                 </StyledFont>
                 <StyledFont
@@ -334,76 +336,78 @@ return (
         </StyledFlex>
 
         <StyledFlex style={{ gap: 20 }}>
-          {Big(state.borrowedBalanceUsd || 0).gt(0) ? (
-            <StyledFlex
-              style={{
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: 5,
-              }}
-            >
-              <StyledFont style={{ color: "#7945FF", fontSize: 16 }}>
-                Borrowing
-              </StyledFont>
-              <StyledFont
-                style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
-              >
-                {state.borrowApr} Net APR
-              </StyledFont>
-            </StyledFlex>
-          ) : (
-            <StyledFlex
-              style={{
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: 5,
-              }}
-            >
-              <StyledFont style={{ color: "#00D395", fontSize: 16 }}>
-                Supplying
-              </StyledFont>
-              <StyledFont
-                style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
-              >
-                {state.supplyApr} Net APR
-              </StyledFont>
-            </StyledFlex>
-          )}
-
           {Big(state.balance || 0).gt(0) && (
-            <StyledWithraw
-              onClick={() => {
-                State.update({
-                  showDialog: true,
-                  type: "Withraw",
-                  asset: {
-                    ...data.baseToken,
-                    walletBalance: state.balance,
-                    walletBalanceUsd: state.balanceUsd,
-                  },
-                });
-              }}
-            >
-              Withraw
-            </StyledWithraw>
+            <>
+              {" "}
+              <StyledFlex
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: 5,
+                }}
+              >
+                <StyledFont style={{ color: "#00D395", fontSize: 16 }}>
+                  Supplying
+                </StyledFont>
+                <StyledFont
+                  style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
+                >
+                  {state.supplyApr} Net APR
+                </StyledFont>
+              </StyledFlex>{" "}
+              <StyledWithraw
+                onClick={() => {
+                  State.update({
+                    showDialog: true,
+                    type: "Withraw",
+                    asset: {
+                      ...data.baseToken,
+                      walletBalance: state.balance,
+                      walletBalanceUsd: state.balanceUsd,
+                    },
+                  });
+                }}
+              >
+                Withraw
+              </StyledWithraw>
+            </>
           )}
           {Big(state.borrowedBalanceUsd || 0).gt(0) && (
-            <StyledWithraw
-              style={{ borderColor: "#7945FF", color: "#7945FF" }}
-              onClick={() => {
-                State.update({
-                  showDialog: true,
-                  type: "Repay",
-                  asset: {
-                    ...data.baseToken,
-                    walletBalance: state.borrowedBalance,
-                    walletBalanceUsd: state.borrowedBalanceUsd,
-                  },
-                });
-              }}
-            >
-              Repay
-            </StyledWithraw>
+            <>
+              {" "}
+              <StyledFlex
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: 5,
+                }}
+              >
+                <StyledFont style={{ color: "#7945FF", fontSize: 16 }}>
+                  Borrowing
+                </StyledFont>
+                <StyledFont
+                  style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
+                >
+                  {state.borrowApr} Net APR
+                </StyledFont>
+              </StyledFlex>{" "}
+              <StyledWithraw
+                style={{ borderColor: "#7945FF", color: "#7945FF" }}
+                onClick={() => {
+                  State.update({
+                    showDialog: true,
+                    type: "Repay",
+                    asset: {
+                      ...data.baseToken,
+                      walletBalance: state.borrowedBalance,
+                      walletBalanceUsd: state.borrowedBalanceUsd,
+                    },
+                  });
+                }}
+              >
+                Repay
+              </StyledWithraw>
+            </>
           )}
         </StyledFlex>
       </StyledFlex>
@@ -551,13 +555,22 @@ return (
           </StyledButton>
           <StyledButton
             style={{
-              backgroundColor: Big(state.balance || 0).gt(0)
-                ? "rgba(151, 154, 190, 0.2)"
-                : "#5D36C3",
+              backgroundColor:
+                Big(state.balance || 0).gt(0) ||
+                Big(state.borrowCapacity || 0).eq(0)
+                  ? "rgba(151, 154, 190, 0.2)"
+                  : "#5D36C3",
             }}
-            disabled={Big(state.balance || 0).gt(0)}
+            disabled={
+              Big(state.balance || 0).gt(0) ||
+              Big(state.borrowCapacity || 0).eq(0)
+            }
             onClick={() => {
-              if (Big(state.balance || 0).gt(0)) return;
+              if (
+                Big(state.balance || 0).gt(0) ||
+                Big(state.borrowCapacity || 0).eq(0)
+              )
+                return;
               State.update({
                 showDialog: true,
                 type: "Borrow",
@@ -741,10 +754,12 @@ return (
         <Widget
           src="bluebiu.near/widget/Lending.CompoundV3.Bridge.Range"
           props={{
-            value: Big(state.liquidationPoint || 0)
-              .div(state.collaterValue || 1)
-              .mul(100)
-              .toFixed(0),
+            value: Big(state.collaterValue || 0).eq(0)
+              ? 0
+              : Big(state.liquidationPoint || 0)
+                  .div(state.collaterValue)
+                  .mul(100)
+                  .toFixed(0),
           }}
         />
       </StyledFlex>
@@ -889,8 +904,14 @@ return (
             Position Summary
           </StyledFont>
           <StyledFont
-            style={{ color: "#FF51AF", fontSize: 14, cursor: "pointer" }}
+            style={{
+              color: "#FF51AF",
+              fontSize: 14,
+              cursor: state.loading ? "not-allowed" : "pointer",
+              opacity: state.loading ? 0.6 : 1,
+            }}
             onClick={() => {
+              if (state.loading) return;
               State.update({
                 actions: [],
               });
@@ -953,8 +974,9 @@ return (
                   </StyledFont>
                 </StyledFlex>
                 <StyledSvg
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: state.loading ? "not-allowed" : "pointer" }}
                   onClick={() => {
+                    if (state.loading) return;
                     const _actions = state.actions;
                     _actions.splice(i, 1);
                     State.update({
@@ -1037,7 +1059,13 @@ return (
         comet: data,
         wethAddress,
         account,
+        onCancel: () => {
+          State.update({
+            loading: false,
+          });
+        },
         onLoad: (data) => {
+          console.log("estimate gas", data);
           if (!data.gas) {
             State.update({
               loading: false,
@@ -1098,7 +1126,6 @@ return (
                 });
             })
             .catch((err) => {
-              State.update({ loading: false });
               toast?.dismiss(toastId);
               toast?.fail({
                 title: "Request Failed!",
@@ -1106,6 +1133,7 @@ return (
                   ? "User rejected transaction"
                   : "",
               });
+              State.update({ loading: false });
             });
         },
       }}
