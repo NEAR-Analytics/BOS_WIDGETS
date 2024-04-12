@@ -15,6 +15,7 @@ const {
   prices,
   theme,
   addAction,
+  dexConfig,
 } = props;
 
 const hasHF = config.heroData.includes("Health Factor");
@@ -40,7 +41,6 @@ const {
   aTokenAddress,
   availableLiquidity,
   healthFactor,
-  dexConfig,
 } = data;
 console.log("withdraw-props--", props, isCollateraled);
 const availableLiquidityAmount = Big(availableLiquidity)
@@ -151,6 +151,7 @@ const remainingSupply = isNaN(_remainingSupply)
   ? underlyingBalance
   : Big(_remainingSupply).toFixed(2);
 function formatAddAction(_amount, status, transactionHash) {
+  console.log("formatAddAction--", dexConfig, dexConfig.name);
   addAction?.({
     type: "Lending",
     action: "Withdraw",
