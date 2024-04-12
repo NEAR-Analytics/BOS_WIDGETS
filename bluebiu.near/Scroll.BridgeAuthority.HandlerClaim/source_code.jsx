@@ -14,7 +14,6 @@ const {
   toast,
 } = props;
 
-
 const Transactions = styled.div`
   display: flex;
   justify-content: space-between;
@@ -134,15 +133,6 @@ function handleClaim(claimInfo) {
     title: `Claim From ETH`,
   });
 
-  console.log('111',claimInfo.from,
-    claimInfo.to,
-    claimInfo.value,
-    claimInfo.nonce,
-    claimInfo.message,
-    {
-      batchIndex: claimInfo.proof.batch_index,
-      merkleProof: claimInfo.proof.merkle_proof,
-    },)
 
   L1MessageBridgeContract.relayMessageWithProof(
     claimInfo.from,
@@ -198,15 +188,8 @@ function getAllClaimTx() {
     isLoading: true,
   })
 
-  asyncFetch(`https://mainnet-api-bridge.scroll.io/api/claimable?address=${account}&page_size=100&page=1`)
-    .then(res => {
-      console.log('res:', res)
-      if (res.body.data.result) {
-        const fromAccount = res.body.data.result[0].claimInfo.from
-        return asyncFetch(`https://mainnet-api-bridge-v2.scroll.io/api/l2/unclaimed/withdrawals?address=${fromAccount}&page=1&page_size=100`)
-      }
-
-    }).then(res => {
+  return asyncFetch(`https://mainnet-api-bridge-v2.scroll.io/api/l2/unclaimed/withdrawals?address=${account}&page=1&page_size=100`)
+  .then(res => {
       console.log('res2:', res)
       State.update({
         isLoading: false,
