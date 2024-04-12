@@ -232,13 +232,17 @@ function bigMin(_a, _b) {
 }
 
 function formatHealthFactor(hf) {
-  if (hf === "∞") return hf;
+  try {
+    if (hf === "∞") return hf;
 
-  if (!hf || !isValid(hf)) return "-";
+    if (!hf || !isValid(hf)) return "-";
 
-  if (Big(hf).gt(10000)) return "∞";
-  if (Number(hf) === -1) return "∞";
-  return Big(hf).toFixed(2, ROUND_DOWN);
+    if (Big(hf).gt(10000)) return "∞";
+    if (Number(hf) === -1) return "∞";
+    return Big(hf).toFixed(2, ROUND_DOWN);
+  } catch (error) {
+    console.log("CATCH_formatHealthFactor:", error);
+  }
 }
 
 function calcHealthFactor(type, symbol, amount) {
@@ -763,8 +767,8 @@ function getUserAccountData() {
         threshold,
         currentLiquidationThreshold,
         BorrowPowerUsed,
-        healthFactor: !totalCollateralBase.toNumber()
-          ? formatHealthFactor(0)
+        healthFactor: !totalDebtBase.toNumber()
+          ? formatHealthFactor("∞")
           : formatHealthFactor(ethers.utils.formatUnits(healthFactor)),
 
         availableBorrowsUSD: ethers.utils.formatUnits(availableBorrowsBase, 8),
@@ -907,37 +911,46 @@ function getYourSupplies() {
         .then((res) => {
           console.log("getCollateralStatus-res:", res);
           const [[rawStatus], [addrs]] = res;
-          const _status = parseInt(rawStatus.toString()).toString(2).split("");
-          // console.log("_status--", _status);
-          const _statusArray = chunk(_status, 2);
-          // console.log("_status--", _statusArray, addrs, _yourSupplies);
+          if (rawStatus) {
+            const _status = parseInt(rawStatus.toString())
+              .toString(2)
+              .split("");
+            // console.log("_status--", _status);
+            const _statusArray = chunk(_status, 2);
+            // console.log("_status--", _statusArray, addrs, _yourSupplies);
 
-          for (let i = 0; i < _yourSupplies.length; i++) {
-            const item = _yourSupplies[i];
+            for (let i = 0; i < _yourSupplies.length; i++) {
+              const item = _yourSupplies[i];
 
-            const index = addrs.findIndex(
-              (addr) =>
-                addr.toLowerCase() === item.underlyingAsset.toLowerCase()
-            );
+              const index = addrs.findIndex(
+                (addr) =>
+                  addr.toLowerCase() === item.underlyingAsset.toLowerCase()
+              );
 
-            _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
+              _yourSupplies[i].isCollateraled = Number(_statusArray[index][0]);
+            }
+
+            let yourTotalCollateral = _yourSupplies
+              .filter((item) => item.isCollateraled === 1)
+              .reduce(
+                (prev, curr) =>
+                  Big(prev)
+                    .plus(Big(curr.underlyingBalanceUSD || 0))
+                    .toFixed(),
+                0
+              );
+
+            State.update((prev) => ({
+              ...prev,
+              yourSupplies: _yourSupplies,
+              yourTotalCollateral,
+            }));
+          } else {
+            State.update((prev) => ({
+              ...prev,
+              yourSupplies: _yourSupplies,
+            }));
           }
-
-          const yourTotalCollateral = _yourSupplies
-            .filter((item) => item.isCollateraled === 1)
-            .reduce(
-              (prev, curr) =>
-                Big(prev)
-                  .plus(Big(curr.underlyingBalanceUSD || 0))
-                  .toFixed(),
-              0
-            );
-
-          State.update((prev) => ({
-            ...prev,
-            yourSupplies: _yourSupplies,
-            yourTotalCollateral,
-          }));
         })
         .catch((err) => {
           console.log("getCollateralStatus-error:", err);
