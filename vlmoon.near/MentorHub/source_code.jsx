@@ -16,7 +16,6 @@ State.init({
   editDescription: "",
   ifAddStudent: true,
   studentArray: [],
-  originalStudentArray: [],
   arreyWhitIndexForAddStudent: [],
   heashForDeletnumb: {},
   flagForFindStdudentByID: false,
@@ -86,23 +85,13 @@ const TecherPossibilities = {
     });
   },
   updateDiscription: (student) => {
-    Near.call([
-      {
-        contractName: "social.near",
-        methodName: "set",
-        args: {
-          data: {
-            [student]: {
-              profile: {
-                discription: state.editDescription,
-              },
-            },
-          },
+    Social.set({
+      profile: {
+        discriptionsStudent: {
+          [student]: state.editDescription,
         },
-        deposit: 1,
-        gas: Big(10).pow(12).mul(50),
       },
-    ]);
+    });
   },
   deleteStudent: (student) => {
     const indexForDeleteNumb = state.heashForDeletnumb[student];
@@ -170,14 +159,38 @@ const TecherPossibilities = {
       });
     }
   },
+  findStudentByID: (idaccound) => {
+    const isOurStudent = Social.get(
+      `${state.accountId}/myStudentsForFind/${idaccound}`
+    );
+    if (isOurStudent == `true`) {
+      State.update({
+        vrifyOurStudent: idaccound,
+      });
+    } else {
+      State.update({
+        vrifyOurStudent: "",
+      });
+    }
+  },
 };
 
 TecherPossibilities.init();
 TecherPossibilities.getStudent(1, 10);
 
 function descriptionForStudent(account_id) {
-  const discriprionalIN = Social.getr(`${account_id}/profile`);
-  return discriprionalIN.discription;
+  const discriprionalIN = Social.get(`${account_id}/profile/discription`);
+  return discriprionalIN;
+}
+
+function ourDescriptionForStudent(account_id) {
+  const discriprionalIN = Social.get(
+    `${state.accountId}/profile/discriptionsStudent/${account_id}`
+  );
+  if (discriprionalIN == null) {
+    return "no info";
+  }
+  return discriprionalIN;
 }
 
 const FloatingActionButton = ({ onClick }) => {
@@ -195,18 +208,31 @@ const openModal = () => {
 };
 
 const Modal = ({ closeModal }) => {
+  const addStudentAndCloseModal = () => {
+    TecherPossibilities.addStudent();
+    closeModal();
+  };
+
   return (
     <ModalContainer>
       <ModalContent>
+        <h5 style={{ textTransform: "uppercase" }}>Add new student</h5>
+        <h6 style={{ textTransform: "uppercase" }}>
+          write account_id you want add
+        </h6>
         <input
           type="text"
           className="form-control"
           onBlur={(e) => State.update({ addNewStudent: e.target.value })}
-          placeholder="Add student"
+          placeholder="Input for add student"
         />
-        <Button onClick={TecherPossibilities.addStudent}>Add</Button>
+        <Button style={{ width: "100px" }} onClick={addStudentAndCloseModal}>
+          Add
+        </Button>
         {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
-        <Button onClick={closeModal}>Close</Button>
+        <Button style={{ width: "100px" }} onClick={closeModal}>
+          Close
+        </Button>
       </ModalContent>
     </ModalContainer>
   );
@@ -297,7 +323,7 @@ const GlobalContainer = styled.div`
   font-family: 'Manrope', sans-serif;
   margin: auto;
   padding: 2rem; 
-  height: 100vh;
+  height: 100%;
   width: 100%;
   background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
   display: flex;
@@ -346,7 +372,6 @@ const Card = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  width: 100%;
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
@@ -356,10 +381,7 @@ const Card = styled.div`
   padding: 16px;
 `;
 const FloatingButton = styled.button`
-  font-family: 'Inter', sans-serif;
-  position: fixed;
-  bottom: 50px;
-  right: 150px;
+  font-family: 'Inter', sans-serif; 
   background-color: #000;
   color: #fff;
   border: none;
@@ -425,7 +447,7 @@ function navigateToModule(moduleRoute) {
 const routesNavigator = {
   myInfoPage: () => navigateToModule("myInfoPage"),
   studentsPage: () => navigateToModule("studentsPage"),
-  myTeachersPage: () => navigateToModule("myTeachersPage"),
+  //myTeachersPage: () => navigateToModule("myTeachersPage"),
   //myEventsPage: () => navigateToModule("myEventsPage"),
   //myTasksPage: () => navigateToModule("myTasksPage"),
 };
@@ -435,141 +457,191 @@ function getModuleDependencies(moduleRoute) {
     return ["myInfoPage"];
   } else if (moduleRoute === "studentsPage") {
     return ["studentsPage"];
-  } else if (moduleRoute === "myTeachersPage") {
-    return ["myTeachersPage"];
-  } //else if (moduleRoute === "myEventsPage") {
+  } //else if (moduleRoute === "myTeachersPage") {
+  // return ["myTeachersPage"];
+  //} else if (moduleRoute === "myEventsPage") {
   //return ["myEventsPage"];
   //} else if (moduleRoute === "myTasksPage") {
   //return ["myTasksPage"];
   //}
 }
 const dependencies = getModuleDependencies(state.currentRoute);
-
-function searchStudents(searchTerm, studentArray) {
-  const filteredStudents = studentArray.filter((student) => {
-    const studentProfile = Social.getr(`${student}/profile`);
-    const studentName = studentProfile.name.toLowerCase();
-    return studentName.includes(searchTerm.toLowerCase());
-  });
-
-  return filteredStudents;
-}
-
-const [searchTerm, setSearchTerm] = useState("");
-const [filteredStudents, setFilteredStudents] = useState([]);
-
-const handleInputChange = (e) => {
-  setSearchTerm(e.target.value);
-};
-
-useEffect(() => {
-  const filtered = searchStudents(searchTerm, state.studentArray);
-  setFilteredStudents(filtered);
-}, [searchTerm, state.studentArray]);
+const [currentRoute, setCurrentRoute] = useState("myInfoPage");
 
 //Pages
-const pages = {
-  myInfoPage: (
-    <ProfileTab>
-      <h1>My Information</h1>
-      <Card>
-        <Widget src="near/widget/AccountProfile" />
-      </Card>
-    </ProfileTab>
-  ),
-  studentsPage: (
-    <ProfileTab>
-      <h1>My Students</h1>
-      <div>
+const MyInfoPage = () => (
+  <uiKitComponents.body>
+    <h3>My Information</h3>
+    <Card>
+      <Widget src="near/widget/AccountProfile" />
+    </Card>
+  </uiKitComponents.body>
+);
+
+const StudentsPage = () => (
+  <uiKitComponents.body>
+    <h5>Find Student By Account_ID</h5>
+    <div
+      style={{
+        display: "flex",
+        height: "3em",
+        width: "29em",
+      }}
+    >
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Input for find my student"
+        onBlur={(e) => State.update({ idFindStudent: e.target.value })}
+      />
+      <Button
+        style={{ width: "100px" }}
+        onClick={() => {
+          TecherPossibilities.findStudentByID(state.idFindStudent);
+        }}
+      >
+        Find
+      </Button>
+    </div>
+    {state.vrifyOurStudent && (
+      <Card
+        style={{ display: "flex", margin: "15px", flexDirection: "column" }}
+      >
+        <div>
+          <Widget
+            src="near/widget/AccountProfile"
+            props={{ accountId: state.vrifyOurStudent }}
+          />
+        </div>
         <input
           type="text"
-          value={searchTerm}
-          onChange={handleInputChange}
-          placeholder="Search student"
+          className="form-control"
+          style={{
+            height: "3em",
+          }}
+          placeholder="Input for edit description"
+          onBlur={(e) => State.update({ editDescription: e.target.value })}
         />
-      </div>
+        <div>
+          <h4>{descriptionForStudent(state.vrifyOurStudent)}</h4>
+        </div>
+        <div>
+          <Button
+            style={{ width: "100px" }}
+            onClick={() => {
+              TecherPossibilities.updateDiscription(state.vrifyOurStudent);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            style={{ width: "100px" }}
+            onClick={() => {
+              TecherPossibilities.deleteStudent(state.vrifyOurStudent);
+            }}
+          >
+            Delete
+          </Button>
+          <Button
+            style={{ width: "100px" }}
+            onClick={() => {
+              State.update({ vrifyOurStudent: null });
+            }}
+          >
+            Close
+          </Button>
+        </div>
+      </Card>
+    )}
+    <div
+      style={{
+        margin: "15px",
+      }}
+    >
+      <h3>My Students</h3>
+    </div>
 
-      <div style={{ display: "flex", margin: "15px", flexDirection: "column" }}>
-        {filteredStudents.map((student) => (
-          <Card key={student} style={{ marginBottom: "10px" }}>
+    <div
+      style={{
+        display: "flex",
+        margin: "15px",
+        flexDirection: "column",
+      }}
+    >
+      {state.studentArray.map((student) => (
+        <Card key={student} style={{ marginBottom: "10px" }}>
+          <div>
+            <Widget
+              src="near/widget/AccountProfile"
+              props={{ accountId: student }}
+            />
+
             <div>
-              <Widget
-                src="near/widget/AccountProfile"
-                props={{ accountId: student }}
-              />
               <h4>{descriptionForStudent(student)}</h4>
             </div>
             <div>
-              {state.selectedStudent === student ? (
-                <div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Edit description"
-                    onBlur={(e) =>
-                      State.update({ editDescription: e.target.value })
-                    }
-                  />
-
-                  <div>
-                    <Button
-                      onClick={() => {
-                        TecherPossibilities.updateDiscription(
-                          state.vrifyOurStudent
-                        );
-                      }}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        TecherPossibilities.deleteStudent(
-                          state.vrifyOurStudent
-                        );
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                  <Button
-                    onClick={() => State.update({ selectedStudent: null })}
-                  >
-                    Back
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => State.update({ selectedStudent: student })}
-                >
-                  More Info
-                </Button>
-              )}
+              <h4>{ourDescriptionForStudent(student)}</h4>
             </div>
-          </Card>
-        ))}
-      </div>
+          </div>
+          {state.selectedStudent === student ? (
+            <div>
+              <input
+                type="text"
+                className="form-control"
+                style={{
+                  height: "3em",
+                }}
+                placeholder="Input for edit description"
+                onBlur={(e) =>
+                  State.update({ editDescription: e.target.value })
+                }
+              />
+              <div>
+                <Button
+                  style={{ width: "100px" }}
+                  onClick={() => {
+                    TecherPossibilities.updateDiscription(student);
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  style={{ width: "100px" }}
+                  onClick={() => {
+                    TecherPossibilities.deleteStudent(student);
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
+              <Button
+                style={{ width: "100px" }}
+                onClick={() => State.update({ selectedStudent: null })}
+              >
+                Close
+              </Button>
+            </div>
+          ) : (
+            <Button
+              style={{ width: "100px" }}
+              onClick={() => State.update({ selectedStudent: student })}
+            >
+              More Info
+            </Button>
+          )}
+        </Card>
+      ))}
+    </div>
+    <div style={{ alignSelf: "end" }}>
       <FloatingActionButton onClick={openModal} />
+
       {state.isModalOpen && (
         <Modal closeModal={() => State.update({ isModalOpen: false })} />
       )}
-    </ProfileTab>
-  ),
-  myTeachersPage: (
-    <>
-      <h1>My Teachers</h1>
-    </>
-  ),
-  //myEventsPage: (
-  //<ProfileTab>
-  //  <h1>My Events</h1>
-  //</ProfileTab>
-  //),
-  //myTasksPage: (
-  //<ProfileTab>
-  // <h1>My Tasks</h1>
-  //</ProfileTab>
-  // ),
-};
+    </div>
+  </uiKitComponents.body>
+);
+
 //
 
 if (!state.profileName && !state.profileDiscription) {
@@ -582,10 +654,18 @@ if (!state.profileName && !state.profileDiscription) {
           a profile
         </h2>
         <h3>Input your name:</h3>
-        <div>
+        <div
+          style={{
+            marginRight: "30em",
+          }}
+        >
           <input
             type="text"
             className="form-control"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+            }}
             onBlur={(e) => State.update({ creatProfileName: e.target.value })}
           />
         </div>
@@ -594,6 +674,12 @@ if (!state.profileName && !state.profileDiscription) {
         <input
           type="text"
           className="form-control"
+          style={{
+            backgroundColor: "black",
+            color: "white",
+            marginRight: "100em",
+            paddingsRight: "100px",
+          }}
           onBlur={(e) =>
             State.update({ creatProfileDiscription: e.target.value })
           }
@@ -606,7 +692,14 @@ if (!state.profileName && !state.profileDiscription) {
             alignItems: center,
           }}
         >
-          <Button onClick={TecherPossibilities.initProfile}>Save change</Button>
+          <Button
+            style={{
+              backgroundColor: "green",
+            }}
+            onClick={TecherPossibilities.initProfile}
+          >
+            Save change
+          </Button>
         </div>
       </uiKitComponents.body>
     </>
@@ -623,10 +716,18 @@ if (!state.profileName) {
           create a name.
         </h2>
         <h3>Input your name:</h3>
-        <div>
+        <div
+          style={{
+            marginRight: "30em",
+          }}
+        >
           <input
             type="text"
             className="form-control"
+            style={{
+              backgroundColor: "black",
+              color: "white",
+            }}
             onBlur={(e) => State.update({ creatProfileName: e.target.value })}
           />
         </div>
@@ -638,7 +739,12 @@ if (!state.profileName) {
             alignItems: center,
           }}
         >
-          <Button onClick={TecherPossibilities.initNameProfile}>
+          <Button
+            style={{
+              backgroundColor: "green",
+            }}
+            onClick={TecherPossibilities.initNameProfile}
+          >
             Save change
           </Button>
         </div>
@@ -646,6 +752,7 @@ if (!state.profileName) {
     </>
   );
 }
+
 if (!state.profileDiscription) {
   return (
     <>
@@ -655,19 +762,21 @@ if (!state.profileDiscription) {
           You don't have a description, if you want to continue, you have to
           create a description
         </h2>
-        <h3>Write your description</h3>
-        <br />
-
+        <h3>Input your discription</h3>
         <input
           type="text"
           className="form-control"
-          placeholder="Description"
+          style={{
+            backgroundColor: "black",
+            color: "white",
+            marginRight: "100em",
+            paddingsRight: "100px",
+          }}
           onBlur={(e) =>
             State.update({ creatProfileDiscription: e.target.value })
           }
         />
-        <br />
-        <h2>Description: {state.creatProfileDiscription}</h2>
+        <h2>Your discriprional: {state.creatProfileDiscription}</h2>
         <div
           style={{
             display: flex,
@@ -677,46 +786,30 @@ if (!state.profileDiscription) {
         >
           <Button
             style={{
-              backgroundColor: "black",
+              backgroundColor: "green",
             }}
             onClick={TecherPossibilities.initDiscriptionProfile}
           >
-            Confirm
+            Save change
           </Button>
         </div>
       </uiKitComponents.body>
     </>
   );
 }
-//if (!state.TecherPossibilities.addStudent) {
-//return (
-// <>
-// <uiKitComponents.body>
-//  <h1>Mentor HUB</h1>
-//<h2>
-//    You have been added to the list of students
-//    Please confirm your registration for the training on MentorHub
-//</h2>
-//  <h3>If you agree, click approve</h3>
-//  <br />
-//    <Button
-//     style={{
-//      backgroundColor: "black",
-//    }}
-//    onClick={}
-//   >
-//    Approve
-//  </Button>
-//</uiKitComponents.body>
-//</>
-//);
-//}
+
 return (
   <GlobalContainer>
     <uiKitComponents.profileTab>
-      <h3>Mentor HUB</h3>
+      <h1
+        props={{
+          style: { fontWeight: "bold" },
+        }}
+      >
+        Mentor HUB
+      </h1>
 
-      <h4>Make the world around you the better place</h4>
+      <h3>Make the world around you the better place</h3>
       <Widget
         src="mob.near/widget/ProfileImage"
         props={{
@@ -733,26 +826,24 @@ return (
     <uiKitComponents.body>
       <uiKitComponents.navigationBar>
         <uiKitComponents.button
-          className={state.currentRoute === "myInfoPage" ? "active" : ""}
-          onClick={routesNavigator.myInfoPage}
+          className={currentRoute === "myInfoPage" ? "active" : ""}
+          onClick={() => setCurrentRoute("myInfoPage")}
         >
-          My&Info
+          My Info
         </uiKitComponents.button>
         <uiKitComponents.button
-          className={state.currentRoute === "studentsPage" ? "active" : ""}
-          onClick={routesNavigator.studentsPage}
+          className={currentRoute === "studentsPage" ? "active" : ""}
+          onClick={() => setCurrentRoute("studentsPage")}
         >
-          Student
-        </uiKitComponents.button>
-        <uiKitComponents.button
-          className={state.currentRoute === "myTeachersPage" ? "active" : ""}
-          onClick={routesNavigator.myTeachersPage}
-        >
-          Teacher
+          Students
         </uiKitComponents.button>
       </uiKitComponents.navigationBar>
 
-      {pages[state.currentRoute]}
+      {currentRoute === "myInfoPage" ? (
+        <MyInfoPage />
+      ) : currentRoute === "studentsPage" ? (
+        <StudentsPage />
+      ) : null}
     </uiKitComponents.body>
   </GlobalContainer>
 );
