@@ -164,6 +164,7 @@ const {
   priceImpact,
   gas,
   nativeCurrency,
+  routerStr,
 } = props;
 
 const WarningIcon = (
@@ -346,7 +347,9 @@ return (
         <StyledItem>
           <div>Route</div>
           <div>
-            {inputCurrency.symbol} &gt; {outputCurrency.symbol}
+            {routerStr
+              ? routerStr
+              : ` ${inputCurrency.symbol} > ${outputCurrency.symbol}`}
           </div>
         </StyledItem>
       </StyledPanel>
