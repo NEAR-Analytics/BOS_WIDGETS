@@ -224,23 +224,33 @@ useEffect(() => {
 
 useEffect(() => {
   if (!gas || !nativeCurrency?.symbol) return;
-  const price = props.prices[nativeCurrency.symbol];
-  let _value = Big(0);
-  let isValue = false;
-  if (!price) {
-    _value = Big(ethers.utils.formatUnits(gas || 0, nativeCurrency.decimals));
-    isValue = false;
-  } else {
-    _value = Big(
-      ethers.utils.formatUnits(gas || 0, nativeCurrency.decimals)
-    ).mul(price);
-    isValue = true;
-  }
-  const _res = Big(_value).lt(0.000001) ? "<0.000001" : Big(_value).toFixed(6);
+  Ethers.provider()
+    .getGasPrice()
+    .then((gasPrice) => {
+      const price = props.prices[nativeCurrency.symbol];
+      let _value = Big(0);
+      let isValue = false;
+      if (!price) {
+        _value = Big(
+          ethers.utils.formatUnits(gas || 0, nativeCurrency.decimals)
+        ).mul(gasPrice);
+        isValue = false;
+      } else {
+        _value = Big(
+          ethers.utils.formatUnits(gas || 0, nativeCurrency.decimals)
+        )
+          .mul(price)
+          .mul(gasPrice);
+        isValue = true;
+      }
+      const _res = Big(_value).lt(0.000001)
+        ? "<0.000001"
+        : Big(_value).toFixed(6);
 
-  State.update({
-    gas_usd: isValue ? `$${_res}` : `${_res}${nativeCurrency.symbol}`,
-  });
+      State.update({
+        gas_usd: isValue ? `$${_res}` : `${_res}${nativeCurrency.symbol}`,
+      });
+    });
 }, [gas, props.prices]);
 
 return (
