@@ -24,6 +24,7 @@ State.init({
   loading: false,
   dapp: null,
   record: null,
+  curIndex: -1,
 });
 
 const {
@@ -93,7 +94,7 @@ function renderUSD(symbol, amount) {
 
   return formatNumber(Big(prices[symbol]).times(Big(amount)).toFixed());
 }
-console.log("reward_table--", data);
+
 return (
   <>
     <RewardsTable>
@@ -105,7 +106,7 @@ return (
           props={{
             config,
             headers: ["Reward Asset", "Rewards", ""],
-            data: data.map((row) => {
+            data: data.map((row, index) => {
               return [
                 <TokenAsset>
                   {row.icon ? <TokenIcon src={row.icon} /> : null}
@@ -125,7 +126,7 @@ return (
                     theme,
                     disabled: !Number(row.unclaimed),
                     width: 80,
-                    loading: state.loading,
+                    loading: state.loading && index === state.curIndex,
                     children: "Claim",
                     onClick: (record) => {
                       const toastId = toast?.loading({
@@ -135,6 +136,7 @@ return (
                         dapp: dapps,
                         loading: true,
                         toastId,
+                        curIndex: index,
                       });
                     },
                   }}
@@ -166,13 +168,13 @@ return (
           account,
           onSuccess: (res) => {
             toast?.dismiss(state.toastId);
-            State.update({ loading: false });
+            State.update({ loading: false, curIndex: -1 });
             toast?.success({ title: "Claimed successfully!" });
             onSuccess?.();
           },
           onError: (err) => {
             toast?.dismiss(state.toastId);
-            State.update({ loading: false });
+            State.update({ loading: false, curIndex: -1 });
             toast?.fail({
               title: err?.message?.includes("user rejected transaction")
                 ? "User rejected transaction"
