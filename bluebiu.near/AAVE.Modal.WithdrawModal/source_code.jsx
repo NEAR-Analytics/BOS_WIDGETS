@@ -462,7 +462,7 @@ return (
                           {Big(shownMaxValue).toFixed(3, ROUND_DOWN)}
                           <Max
                             onClick={() => {
-                              changeValue(shownMaxValue.toFixed());
+                              changeValue(Big(shownMaxValue).toFixed());
                             }}
                           >
                             MAX
