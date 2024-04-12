@@ -23,12 +23,14 @@ const handleSubmit = async (e) => {
       body: JSON.stringify({
         repoUrl,
         docUrl,
-        githubApiKey: GITHUB_API_KEY,
+        // Pass the GitHub API Key from the State object
+        githubApiKey: State.get("GITHUB_API_KEY"),
       }),
     });
 
     const data = await response.json();
-    response(data.response);
+    // Update the response variable with the data from the backend
+    response = data.response;
   } catch (error) {
     console.error(error);
   }
@@ -44,7 +46,7 @@ const handleCopyText = () => {
 
 return (
   <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-    <h1> Repo To Text </h1>
+    <h1> GitHub Scraper </h1>
     <p>
       1. Input your
       <a href="https://github.com/settings/tokens?type=beta">
@@ -61,9 +63,9 @@ return (
     <p>2. Input the GitHub repository URL you want to scrape :</p>
     <input
       type="text"
-      onChange={(e) => State.update({ githubUrl: e.target.value })}
+      onChange={(e) => State.update({ repoUrl: e.target.value })}
     />
-    <p>{state.githubUrl}</p>
+    <p>{state.repoUrl}</p>
 
     <p>3. (optional) Input the documentation URL :</p>
     <input
