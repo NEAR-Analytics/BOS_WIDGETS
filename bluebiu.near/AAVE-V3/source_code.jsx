@@ -138,6 +138,7 @@ function repayERC20Gas() {
   return gasEstimation("repayWithPermit");
 }
 function formatNumber(value, digits) {
+  if (Big(value).eq(0)) return `$ 0`;
   return Big(value || 0).lt(0.01)
     ? "< $0.01"
     : `$ ${Number(value).toFixed(digits || 2)}`;
