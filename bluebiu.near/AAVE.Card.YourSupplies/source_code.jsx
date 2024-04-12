@@ -103,7 +103,16 @@ return (
                   <div>{Number(row.underlyingBalance).toFixed(7)}</div>
                   <div>{formatNumber(row.underlyingBalanceUSD, 2)}</div>
                 </div>,
-                `${(Number(row.supplyAPY) * 100).toFixed(2)} %`,
+
+                <div>
+                  <div>{`${(Number(row.supplyAPY) * 100).toFixed(2)} %`}</div>
+
+                  <div>
+                    {dexConfig.rewardToken && row.supplyRewardApy
+                      ? `${(Number(row.supplyRewardApy) * 100).toFixed(2)} %`
+                      : ""}
+                  </div>
+                </div>,
                 renderCollateral(row),
 
                 <WithdrawButton data={row} />,
