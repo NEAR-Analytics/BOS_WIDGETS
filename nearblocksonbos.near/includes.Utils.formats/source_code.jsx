@@ -1,13 +1,17 @@
 function MainComponent() {
-  const networkAccountId =
-    context.networkId === 'mainnet'
-      ? 'nearblocksonbos.near'
-      : 'nearblocks.testnet';
+  function yoctoToNear(yocto, format) {
+    const YOCTO_PER_NEAR = Big(10).pow(24).toString();
 
-  const { yoctoToNear, truncateString } = VM.require(
-    `${networkAccountId}/widget/includes.Utils.libs`,
-  );
+    const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
+    return format ? localFormat(near) : near;
+  }
+  function truncateString(str, maxLength, suffix) {
+    if (str.length <= maxLength) {
+      return str;
+    }
+    return str.substring(0, maxLength) + suffix;
+  }
   function currency(number) {
     let absNumber = new Big(number).abs();
 
