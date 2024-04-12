@@ -353,7 +353,7 @@ return (
 
     {
       <Widget
-        src={`lonkonbos.near/widget/ref-token-input`}
+        src={`lonkonbos.near/widget/page.ref-token-input`}
         props={{
           amount: state.amountIn,
           balance: state.balanceTokenIn,
