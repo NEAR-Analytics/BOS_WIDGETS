@@ -368,6 +368,7 @@ return (
           gas: state.gas,
           nativeCurrency: props.nativeCurrency,
           prices,
+          routerStr: props.routerStr,
         }}
       />
       <Widget
