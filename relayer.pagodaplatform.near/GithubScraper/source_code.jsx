@@ -24,8 +24,8 @@ const handleSubmit = async (e) => {
         // Pass the GitHub API Key from the State object
         githubApiKey: State.get("githubApiKey"),
       }),
+      credentials: "include",
     });
-
     const data = await response.json();
     // Update the response variable with the data from the backend
     response = data.response;
