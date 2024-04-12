@@ -1113,7 +1113,11 @@ return (
                             label={<div className="fw-bold">Approved</div>}
                             isChecked={
                               updatedProposalStatus.value.status ===
-                              TIMELINE_STATUS.APPROVED
+                                TIMELINE_STATUS.APPROVED ||
+                              updatedProposalStatus.value.status ===
+                                TIMELINE_STATUS.PAYMENT_PROCESSING ||
+                              updatedProposalStatus.value.status ===
+                                TIMELINE_STATUS.FUNDED
                             }
                           />
                           <RadioButton
