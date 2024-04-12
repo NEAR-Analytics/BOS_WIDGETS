@@ -394,7 +394,7 @@ return <Transactions>
               </div>
               <div>
                 {
-                  tx.status === 2 && <div className="btn" onClick={() => {
+                  tx.status === 1 && <div className="btn" onClick={() => {
                     if (state.isLoadingTx[tx.hash]) {
                       return
                     }
