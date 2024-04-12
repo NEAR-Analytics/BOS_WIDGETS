@@ -97,11 +97,11 @@ return (
     <Panel>
       {
         bridgeImg && <BridgeNameWapper>
-        <BridgeImg src={bridgeImg} />
-        <BridgeName>Orbiter Finance</BridgeName>
+          <BridgeImg src={bridgeImg} />
+          <BridgeName>Orbiter Finance</BridgeName>
         </BridgeNameWapper>
       }
-      
+
       <Widget
         src="bluebiu.near/widget/Base.Bridge.Swap"
         props={{
@@ -125,22 +125,6 @@ return (
         }}
       />
     </Panel>
-    <Panel>
-      <Widget
-        src="bluebiu.near/widget/Base.Bridge.Transactions"
-        props={{
-          txs: Storage.privateGet("stargate_txs"),
-          chainId: currentChainId,
-          onDelete: (hash) => {
-            setTimeout(() => {
-              const txs = Storage.privateGet("stargate_txs") || {};
-              delete txs[hash];
-              Storage.privateSet("stargate_txs", txs);
-            }, 10000);
-          },
-        }}
-      />
-    </Panel>
 
     {
       handlerClaim ? <Panel>
@@ -150,10 +134,27 @@ return (
             currentChainId,
             mainnet,
             toast: props.toast,
-            account
+            account,
+            txs: Storage.privateGet("stargate_txs"),
           }}
         />
-      </Panel> : null
+      </Panel> :
+        <Panel>
+          <Widget
+            src="bluebiu.near/widget/Base.Bridge.Transactions"
+            props={{
+              txs: Storage.privateGet("stargate_txs"),
+              chainId: currentChainId,
+              onDelete: (hash) => {
+                setTimeout(() => {
+                  const txs = Storage.privateGet("stargate_txs") || {};
+                  delete txs[hash];
+                  Storage.privateSet("stargate_txs", txs);
+                }, 10000);
+              },
+            }}
+          />
+        </Panel>
     }
 
     <Widget
