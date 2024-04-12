@@ -105,7 +105,7 @@ const StyledButton = styled.div`
   font-style: normal;
   font-weight: 500;
   cursor: pointer;
-  &:hover {
+  &:not(:disabled):hover {
     opacity: 0.8;
     ${StyledTips} {
       display: block;
@@ -113,6 +113,7 @@ const StyledButton = styled.div`
   }
   &[disabled] {
     background: rgba(151, 154, 190, 0.2);
+    cursor: not-allowed;
   }
 `;
 const StyledWithraw = styled.div`
@@ -236,7 +237,7 @@ const onAmountChange = ({ amount, type, cb }) => {
   _borrowCapacity = _collaterValue.mul(
     state.asset.borrowCollateralFactor / 100
   );
-  _availableToBorrow = Big(_borrowCapacity).minus(state.borrowBalance);
+  _availableToBorrow = Big(_borrowCapacity).minus(state.borrowBalance || 0);
 
   cb({
     collaterValue: _collaterValue.toString(),
@@ -509,6 +510,7 @@ return (
           <StyledButton
             disabled={Big(state.borrowedBalanceUsd || 0).gt(0)}
             onClick={() => {
+              if (Big(state.borrowedBalanceUsd || 0).gt(0)) return;
               State.update({
                 showDialog: true,
                 type: "Supply",
@@ -555,6 +557,7 @@ return (
             }}
             disabled={Big(state.balance || 0).gt(0)}
             onClick={() => {
+              if (Big(state.balance || 0).gt(0)) return;
               State.update({
                 showDialog: true,
                 type: "Borrow",
@@ -979,6 +982,7 @@ return (
             <StyledButton
               disabled={!state.actions.length || state.loading}
               onClick={() => {
+                if (!state.actions.length || state.loading) return;
                 State.update({
                   loading: true,
                 });
@@ -1055,22 +1059,24 @@ return (
               tx.wait()
                 .then((res) => {
                   const { status, transactionHash } = res;
-                  let action_title = "";
-                  let tokens = [];
+                  const _actions = [];
                   state.actions.forEach((action, i) => {
                     if (i > 0) action_title += ",";
-                    action_title += `${action.type} ${action.amount} ${action.asset.symbol}`;
-                    tokens.push(data.asset.symbol);
+                    _actions.push({
+                      amount: action.amount,
+                      type: action.type,
+                      tokenSymbol: action.asset.symbol,
+                      tokenAddress: action.asset.address,
+                      tokenPriceKey: action.asset.priceKey || "",
+                    });
                   });
                   addAction?.({
                     type: "Lending",
-                    action: state.type,
-                    action_tokens: JSON.stringify(tokens),
-                    action_title: action_title + "on" + dexConfig.name,
                     template: dexConfig.name,
                     add: false,
                     status,
                     transactionHash,
+                    extra_data: JSON.stringify({ lending_actions: _actions }),
                   });
                   toast?.dismiss(toastId);
                   toast?.success({
