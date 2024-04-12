@@ -40,6 +40,7 @@ const {
   aTokenAddress,
   availableLiquidity,
   healthFactor,
+  dexConfig,
 } = data;
 console.log("withdraw-props--", props, isCollateraled);
 const availableLiquidityAmount = Big(availableLiquidity)
@@ -584,14 +585,7 @@ return (
                           .toFixed(0, ROUND_DOWN);
 
                   const shownAmount = state.amount;
-                  console.log(
-                    2222,
-                    actualAmount,
-                    shownAmount,
-                    state.amount,
-                    shownMaxValue,
-                    symbol
-                  );
+
                   if (symbol === config.nativeCurrency.symbol) {
                     // supply weth
                     withdrawETH(actualAmount, shownAmount);
