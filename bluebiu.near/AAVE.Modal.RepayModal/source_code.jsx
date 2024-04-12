@@ -12,6 +12,7 @@ const {
   calcHealthFactor,
   theme,
   addAction,
+  dexConfig,
 } = props;
 
 if (!data) {
