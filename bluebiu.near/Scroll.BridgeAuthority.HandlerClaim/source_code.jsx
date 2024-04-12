@@ -30,6 +30,11 @@ const Transactions = styled.div`
   }
   .list {
     flex: 1;
+    .tx-line {
+      &:not(:last-child) {
+        border-bottom: 1px solid #343838;
+      } 
+    }
     .claim-line {
       display: flex;
       justify-content: space-between;
@@ -82,7 +87,7 @@ const Transactions = styled.div`
     gap: 10px;
     padding-bottom: 20px;
     margin-top: 10px;
-    border-bottom: 1px solid #343838;
+    
     .format-time-link {
       display: flex;
       align-items: center;
@@ -106,6 +111,7 @@ const RefreshText = styled.div`
 
 const ArrowIcon = styled.div`
   transform: rotate(180deg);
+  cursor: pointer;
 `;
 
 const L1MessageBridgeAbi = [
@@ -266,7 +272,7 @@ function formatHash(hash) {
 useEffect(() => {
   const inter = setInterval(() => {
     getAllClaimTx()
-  }, 5000)
+  }, 10000)
 
   return () => {
     clearInterval(inter)
@@ -274,7 +280,6 @@ useEffect(() => {
 }, [])
 
 useEffect(() => {
-  console.log(1111)
   if (state.filteredTxs && txs) {
     const pArray = []
     let needFold = true
@@ -330,13 +335,10 @@ return <Transactions>
       <span>Transaction History</span>
       <span>{state.proccessSum} Processing</span>
     </div>
-    <div className="fresh" onClick={() => {
-      getAllClaimTx()
-      // State.update({
-      //   isFold: !state.isFold
-      // })
-    }}>
-      <RefreshText>
+    <div className="fresh">
+      <RefreshText onClick={() => {
+        getAllClaimTx()
+      }}>
         {state.isLoading && (
           <Widget
             src="bluebiu.near/widget/0vix.LendingLoadingIcon"
@@ -347,7 +349,11 @@ return <Transactions>
         )}
         Refresh
       </RefreshText>
-      <ArrowIcon>
+      <ArrowIcon onClick={() => {
+        State.update({
+          isFold: !state.isFold
+        })
+      }}>
         <Widget
           src="bluebiu.near/widget/Arbitrum.Swap.ArrowIcon"
           props={{ size: 12 }}
@@ -370,7 +376,7 @@ return <Transactions>
 
       {
         (state.txsUpdated || []).map(tx => {
-          return <div key={tx.hash}>
+          return <div className="tx-line" key={tx.hash}>
             <div className="chain-token-status">
               <div className="chain-token">
                 <img src={tx.fromLogo} />
