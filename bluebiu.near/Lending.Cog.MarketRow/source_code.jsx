@@ -45,7 +45,7 @@ const {
 State.init({
   expand: false,
 });
-
+console.log("MarketsRow--", columns);
 return (
   <StyledRow>
     <StyledRowHeader
@@ -59,7 +59,7 @@ return (
       {columns.map((column) => (
         <StyledRowItem key={column.key} style={{ width: column.width }}>
           <Widget
-            src="bluebiu.near/widget/Lending.LiquityMarketCol"
+            src="bluebiu.near/widget/Lending.Cog.MarketCol"
             props={{
               key: column.key,
               data,
@@ -72,9 +72,9 @@ return (
         </StyledRowItem>
       ))}
     </StyledRowHeader>
-    {from === "YOURS" ? (
+    {from === "EARN" ? (
       <Widget
-        src="bluebiu.near/widget/Lending.LiquityPoolExpand"
+        src="bluebiu.near/widget/Lending.Cog.PoolExpand"
         props={{
           expand: state.expand,
           ...props,
@@ -82,7 +82,7 @@ return (
       />
     ) : (
       <Widget
-        src="bluebiu.near/widget/Lending.LiquityMarketExpand"
+        src="bluebiu.near/widget/Lending.Cog.MarketExpand"
         props={{
           expand: state.expand,
           ...props,
