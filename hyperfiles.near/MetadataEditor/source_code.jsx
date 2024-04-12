@@ -202,7 +202,7 @@ return (
     {options.schema && (
       <div className="mb-2">
         <Widget
-          src="hyperfiles.near/widget/schema.array"
+          src="hyperfiles.near/widget/schema.edit"
           props={{
             initialSchemaObject: state.metadata.schema,
             schemaPattern: options.schema.pattern,
