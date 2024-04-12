@@ -372,6 +372,7 @@ useEffect(() => {
           },
         ];
       }
+
       onLoad({
         markets,
         rewards,
@@ -423,7 +424,7 @@ useEffect(() => {
               );
               break;
             case 1:
-              _userMerberShip[oTokens[index].address] = res[i][0];
+              _userMerberShip[oTokens[index].address] = res[i][0] || false;
               break;
             default:
           }
