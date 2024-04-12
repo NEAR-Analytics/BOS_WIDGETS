@@ -733,7 +733,7 @@ return (
                 }}
               />
               <Widget
-                src="bluebiu.near/widget/Lending.LiquityMarketInput"
+                src="bluebiu.near/widget/Lending.Cog.MarketInput"
                 props={{
                   icon: data.BORROW_URL,
                   symbol: data.BORROW_TOKEN,
@@ -763,7 +763,7 @@ return (
                 }}
               />
               <Widget
-                src="bluebiu.near/widget/Lending.LiquityMarketInput"
+                src="bluebiu.near/widget/Lending.Cog.MarketInput"
                 props={{
                   icon: data.BORROW_URL,
                   symbol: data.BORROW_TOKEN,
@@ -804,7 +804,7 @@ return (
             {state.tab === "Borrow" || state.tab === "Close" ? (
               <div style={{ flexGrow: 1 }}>
                 <Widget
-                  src="bluebiu.near/widget/Lending.LiquityMarketButton"
+                  src="bluebiu.near/widget/Lending.Cog.MarketButton"
                   props={{
                     actionText: state.tab,
                     ...props,
@@ -844,7 +844,7 @@ return (
             {state.tab === "Adjust" ? (
               <div style={{ flexGrow: 1 }}>
                 <Widget
-                  src="bluebiu.near/widget/Lending.LiquityAdjustButton"
+                  src="bluebiu.near/widget/Lending.Cog.AdjustButton"
                   props={{
                     actionText: state.tab,
                     ...props,
