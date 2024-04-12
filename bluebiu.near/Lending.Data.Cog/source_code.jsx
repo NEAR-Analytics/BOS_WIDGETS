@@ -361,12 +361,12 @@ useEffect(() => {
       });
   }
 
-  getStableDeposit();
-  getMarketDeposit();
-  getInfo();
-  getDebt();
+  // getStableDeposit();
+  // getMarketDeposit();
+  // getInfo();
+  // getDebt();
   getWalletBalance();
-  if (!IS_ETHOS_DAPP) {
-    getMinted();
-  }
+  // if (!IS_ETHOS_DAPP) {
+  //   getMinted();
+  // }
 }, [account, update]);
