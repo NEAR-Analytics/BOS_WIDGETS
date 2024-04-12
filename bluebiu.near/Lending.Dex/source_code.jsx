@@ -85,25 +85,6 @@ return (
         }}
       />
     </StyledHeader>
-    {type === "Cog" ? (
-      <Widget
-        src="bluebiu.near/widget/Lending.Cog.Content"
-        props={{
-          dexConfig,
-          wethAddress,
-          multicallAddress,
-          multicall,
-          prices,
-          chainIdNotSupport: !isChainSupported,
-          account,
-          addAction,
-          toast,
-          chainId,
-          nativeCurrency,
-          tab: state.tab,
-        }}
-      />
-    ) : null}
     {type === "liquity" ? (
       <Widget
         src="bluebiu.near/widget/Lending.LiquityContent"
