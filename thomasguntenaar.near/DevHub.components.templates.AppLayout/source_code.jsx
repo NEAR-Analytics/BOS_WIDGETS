@@ -1,19 +1,7 @@
-const data = fetch(`https://httpbin.org/headers`);
-const gatewayURL = data?.body?.headers?.Origin ?? "";
-
-// we need fixed positioning for near social and not for org
-const ParentContainer = gatewayURL.includes("near.org")
-  ? styled.div`
-      width: 100%;
-    `
-  : styled.div`
-      position: fixed;
-      inset: 73px 0px 0px;
-      width: 100%;
-      overflow-y: scroll;
-    `;
-
 const Theme = styled.div`
+  position: fixed;
+  inset: 73px 0px 0px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding-top: calc(-1 * var(--body-top-padding));
@@ -58,15 +46,16 @@ const Footer = (props) => {
 
 function AppLayout({ page, children }) {
   return (
-    <ParentContainer>
-      <Theme>
-        <Container className="container-xl">
-          <AppHeader page={page} />
-          <ContentContainer>{children}</ContentContainer>
-          <Footer page={page} />
-        </Container>
-      </Theme>
-    </ParentContainer>
+    <Theme>
+      <Container
+        className="container-xl"
+        style={{ overflowY: page === "announcements" ? "visible" : "scroll" }}
+      >
+        <AppHeader page={page} />
+        <ContentContainer>{children}</ContentContainer>
+        <Footer page={page} />
+      </Container>
+    </Theme>
   );
 }
 
