@@ -846,14 +846,14 @@ function getYourSupplies() {
           let market = state.assetsToSupply.find(
             (item) => item.aTokenAddress === aTokenAddresss[index]
           );
-          if (!market) return;
-
-          let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
-          market.underlyingBalance = _bal;
-          market.underlyingBalanceUSD = Big(_bal)
-            .mul(prices[market.symbol])
-            .toFixed();
-          userDeposits.push(market);
+          if (market) {
+            let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
+            market.underlyingBalance = _bal;
+            market.underlyingBalanceUSD = Big(_bal)
+              .mul(prices[market.symbol])
+              .toFixed();
+            userDeposits.push(market);
+          }
         }
       }
       const mm = state.assetsToSupply.reduce((prev, cur) => {
