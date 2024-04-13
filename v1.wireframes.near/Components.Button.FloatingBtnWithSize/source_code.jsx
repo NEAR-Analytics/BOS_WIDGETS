@@ -16,6 +16,33 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+
+const icon = props.icon ?? "";
+const iconSize = props.iconSize ?? "20px";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+const iconColor = props.iconColor ?? "#0d6efd";
+
+const width = props.style.width;
+const height = props.style.height;
+const minHeight = props.style.minHeight;
+const minWidth = props.style.minWidth;
+const border = props.style.border;
+const padding = props.style.padding;
+const borderRadius = props.style.borderRadius;
+const lineHeight = props.style.lineHeight;
+const boxshadow = props.style.boxshadow;
+const backgroundColor = props.style.backgroundColor;
+const activeBoxShadow = props.style.activeBoxShadow;
+const hoverBoxShadow = props.style.hoverBoxShadow;
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+const isLoading = props.isLoading ?? false;
+
 const FloatingBtnWithSize = styled.button`
   align-items: center;
   background-clip: padding-box;
@@ -52,30 +79,6 @@ const FloatingBtnWithSize = styled.button`
   }
 `;
 
-const icon = props.icon ?? "";
-const iconSize = props.iconSize ?? "20px";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
-const iconColor = props.iconColor ?? "#0d6efd";
-
-const width = props.style.width;
-const height = props.style.height;
-const minHeight = props.style.minHeight;
-const minWidth = props.style.minWidth;
-const border = props.style.border;
-const padding = props.style.padding;
-const borderRadius = props.style.borderRadius;
-const lineHeight = props.style.lineHeight;
-const boxshadow = props.style.boxshadow;
-const backgroundColor = props.style.backgroundColor;
-const activeBoxShadow = props.style.activeBoxShadow;
-const hoverBoxShadow = props.style.hoverBoxShadow;
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "0px",
   height: props.style.loaderHeight ?? "21px",
@@ -117,13 +120,13 @@ return (
         ) : (
           <>
             <Widget
-                src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
-                props={{
-                  iconName: icon,
-                  iconSize: iconSize,
-                  iconColor: iconColor,
-                }}
-              />
+              src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+              props={{
+                iconName: icon,
+                iconSize: iconSize,
+                iconColor: iconColor,
+              }}
+            />
           </>
         )}
       </FloatingBtnWithSize>
@@ -162,14 +165,14 @@ return (
           </>
         ) : (
           <>
-             <Widget
-                src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
-                props={{
-                  iconName: icon,
-                  iconSize: iconSize,
-                  iconColor: iconColor,
-                }}
-              />
+            <Widget
+              src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+              props={{
+                iconName: icon,
+                iconSize: iconSize,
+                iconColor: iconColor,
+              }}
+            />
           </>
         )}
       </FloatingBtnWithSize>
