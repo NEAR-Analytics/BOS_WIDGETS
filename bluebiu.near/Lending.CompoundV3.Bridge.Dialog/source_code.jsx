@@ -71,7 +71,6 @@ const StyledButton = styled.button`
   flex: 1;
   height: 48px;
   border-radius: 8px;
-  background-color: #00ad79;
   text-align: center;
   line-height: 48px;
   color: #fff;
@@ -201,8 +200,9 @@ return (
               });
             }}
           />
-          <StyledFlex>
+          <StyledFlex style={{ gap: 6 }}>
             {/* <StyledChain></StyledChain> */}
+            <img src={asset.icon} style={{ width: 20, height: 20 }} />
             <StyledFont
               style={{
                 fontSize: 14,
@@ -482,6 +482,11 @@ return (
       <StyledFlex>
         <StyledButton
           disabled={!state.amount || state.loading}
+          style={{
+            backgroundColor: ["Borrow", "Repay"].includes(type)
+              ? "#5D36C3"
+              : "#00ad79",
+          }}
           onClick={() => {
             if (!state.isApproved) {
               State.update({
