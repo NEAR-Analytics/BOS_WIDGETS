@@ -16,6 +16,42 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+const label = props.buttonTitle ?? "Title";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+
+const width = props.style.width;
+const border = props.style.border;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const borderRadius = props.style.borderRadius;
+const beforeBorderRadius = props.style.beforeBorderRadius;
+const height = props.style.height;
+const outline = props.style.outline;
+const backgroundColor = props.style.backgroundColor;
+const backgroundSize = props.style.backgroundSize;
+const filter = props.style.filter;
+const afterFontColor = props.style.afterFontColor;
+const afterBackgroundColor = props.style.afterBackgroundColor;
+const beforeBackgroundColor = props.style.beforeBackgroundColor;
+const beforeWidth = props.style.beforeWidth;
+const beforeHeight = props.style.beforeHeight;
+
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+
+const lableDisplay = props.style.lableDisplay;
+const lableAlignItems = props.style.lableAlignItems;
+const lableHeight = props.style.lableHeight;
+const lableJustifyContent = props.style.lableJustifyContent;
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+const isLoading = props.isLoading ?? false;
+
 const GlowButton = styled.button`
   height: ${(props) => props.height || "3em"};
   width: ${(props) => props.width || "8em"};
@@ -97,40 +133,6 @@ const Label = styled.div`
   text-decoration: "none";
 `;
 
-const label = props.buttonTitle ?? "Title";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
-
-const width = props.style.width;
-const border = props.style.border;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const borderRadius = props.style.borderRadius;
-const beforeBorderRadius = props.style.beforeBorderRadius;
-const height = props.style.height;
-const outline = props.style.outline;
-const backgroundColor = props.style.backgroundColor;
-const backgroundSize = props.style.backgroundSize;
-const filter = props.style.filter;
-const afterFontColor = props.style.afterFontColor;
-const afterBackgroundColor = props.style.afterBackgroundColor;
-const beforeBackgroundColor = props.style.beforeBackgroundColor;
-const beforeWidth = props.style.beforeWidth;
-const beforeHeight = props.style.beforeHeight;
-
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-
-const lableDisplay = props.style.lableDisplay;
-const lableAlignItems = props.style.lableAlignItems;
-const lableHeight = props.style.lableHeight;
-const lableJustifyContent = props.style.lableJustifyContent;
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "30px",
