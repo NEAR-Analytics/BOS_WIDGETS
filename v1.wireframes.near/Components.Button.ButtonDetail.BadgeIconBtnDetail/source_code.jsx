@@ -17,6 +17,7 @@
 
 /* -------------------------------------------------------------------------- */
 const hyperlink = "https://wireframes.design";
+
 const messageIconProps = {
   icon: "envelope-fill",
   iconSize: "30px",
@@ -26,8 +27,8 @@ const messageIconProps = {
       top: "40%",
     },
   },
-  buttonHref:hyperlink,
   type: "button",
+  buttonHref: hyperlink,
 };
 
 const maxValueIconProps = {
@@ -42,15 +43,15 @@ const maxValueIconProps = {
   type: "button",
 };
 
-const detail = `const buttonProps ={
+const detail = `
+const buttonProps ={
+  icon: "envelope-fill",
   iconColor: "#000",
-  icon: "bi bi-envelope-fill",
   badge:{ 
-    backgroundColor:"#0d6efd",
-    activeColor: "#0451c2",
-    hoverColor: "#408cfd",
-    border: "1px solid #0d6efd",
-    fontColor: "#0d6efd",
+    badgeCount: "1",
+    style: {
+      top: "40%",
+    },
   },
   type:"button",
   buttonHref: "${hyperlink}",
@@ -68,8 +69,8 @@ const propsExplanation = [
     content:
       "The icon prop can accept an icon name or identifier, allowing the component to dynamically select and render the appropriate icon based on the provided name. e.g.",
     code: `const buttonProps = { 
-      icon: "bi bi-envelope-fill",
-    }`,
+      icon: "envelope-fill",
+    };`,
   },
   {
     title: "iconColor",
@@ -77,7 +78,7 @@ const propsExplanation = [
       "The iconColor prop is used to dynamically set the fill color of the representing icon. e.g.",
     code: `const buttonProps = { 
       iconColor: "#0d6efd",
-    }`,
+    };`,
   },
   {
     title: "iconSize",
@@ -85,16 +86,16 @@ const propsExplanation = [
       "The iconSize prop is passed to the icon component, to set the size of the icon. e.g.",
     code: `const inputProps = { 
       iconSize: "30px",
-    }`,
+    };`,
   },
   {
     title: "buttonHref",
     required: "false",
     content:
-      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. e.g.",
+      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       buttonHref: "${hyperlink}",
-    }`,
+    };`,
   },
   {
     title: "badge",
@@ -102,14 +103,14 @@ const propsExplanation = [
     content: "You can use the badge attribute to apply styles to badge. e.g.",
     code: `const buttonProps = {
       badge:{ 
-        icon: "bi bi-envelope-fill",
+        icon: "envelope-fill",
         iconColor: "#000",
         iconSize: "30px",
         badgeCount: "99+",
         style:{
           top: "40%",
         },
-      } 
+      }, 
     };`,
     children: [
       {
@@ -120,8 +121,8 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               fontColor: '#fff',
-            } 
-          } 
+            }, 
+          }, 
         };`,
       },
       {
@@ -132,8 +133,8 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               background: '#dc3545',
-            } 
-          } 
+            }, 
+          }, 
         };`,
       },
       {
@@ -144,8 +145,8 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               border: 'none',
-            } 
-          } 
+            }, 
+          }, 
         };`,
       },
       {
@@ -156,11 +157,10 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               minWidth: '20px',
-            } 
-          }
+            }, 
+          },
         };`,
       },
-
       {
         title: "minHeight",
         content:
@@ -169,8 +169,8 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               minHeight: '20px',
-            }  
-          }
+            },  
+          },
         };`,
       },
       {
@@ -181,8 +181,8 @@ const propsExplanation = [
           badge:{ 
             style:{ 
               badgeTop: '40%',
-            } 
-          }
+            }, 
+          },
         };`,
       },
     ],
@@ -192,19 +192,21 @@ const propsExplanation = [
     content: "You will be able to add your Inline style here. e.g.",
     code: `const buttonProps = { 
       inlineStyle: { 
-      fontSize: '0.5em',
-    } 
-  };`,
+        fontSize: '0.5em',
+      }, 
+    };`,
   },
   {
     title: "onClick",
-    content: "You can add your onClick method here. e.g.",
+    content:
+      "You can add your onClick method here. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       onClick: () => {
         State.update({ show: !state.show, 
-          showProp: false });
-        }
-    }`,
+          showProp: false 
+        });
+      },
+    };`,
   },
 ];
 
