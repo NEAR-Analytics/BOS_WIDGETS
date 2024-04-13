@@ -16,9 +16,32 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+const label = props.buttonTitle ?? "Title";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+const padding = props.style.padding;
+const fontSize = props.style.fontSize;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const inlineStyle = props.inlineStyle;
+const backgroundColor = props.style.backgroundColor;
+const border = props.style.border;
+const fontColor = props.style.fontColor;
+const borderRadius = props.style.borderRadius;
+const onClick = props.onClick ?? (() => {});
+const activeColor = props.style.activeColor;
+const hoverColor = props.style.hoverColor;
+const width = props.style.width;
+const minWidth = props.style.minWidth;
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+
+const isLoading = props.isLoading ?? false;
+
 const SimpleButton = styled.button`
-  background-color: ${(props) =>
-    props.backgroundColor || "#4CAF50;"};
+  background-color: ${(props) => props.backgroundColor || "#4CAF50;"};
   border: ${(props) => props.border || "none"};
   color: ${(props) => props.fontColor || "white"};
   padding: ${(props) => props.padding || "10px 20px"};
@@ -44,28 +67,6 @@ const SimpleButton = styled.button`
   }
 `;
 
-const label = props.buttonTitle ?? "Title";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
-const padding = props.style.padding;
-const fontSize = props.style.fontSize;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const inlineStyle = props.inlineStyle;
-const backgroundColor = props.style.backgroundColor;
-const border = props.style.border;
-const fontColor = props.style.fontColor;
-const borderRadius = props.style.borderRadius;
-const onClick = props.onClick ?? (() => {});
-const activeColor = props.style.activeColor;
-const hoverColor = props.style.hoverColor;
-const width = props.style.width;
-const minWidth = props.style.minWidth;
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "0px",
   height: props.style.loaderHeight ?? "20px",
