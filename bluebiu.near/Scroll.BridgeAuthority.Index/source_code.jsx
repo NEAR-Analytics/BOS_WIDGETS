@@ -79,6 +79,7 @@ return (
           props.addAction({
             ...params,
             template: "Scroll Bridge",
+            source: 'dapp'
           })
         }
       }}
