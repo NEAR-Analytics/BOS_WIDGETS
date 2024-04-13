@@ -75,7 +75,7 @@ const disabledProps = {
     hoverColor: "#9292a0",
     fontColor: "#fff",
   },
-  type: "button", 
+  type: "button",
 };
 const linkBtnProps = {
   buttonTitle: "Simple",
@@ -122,10 +122,10 @@ const propsExplanation = [
     title: "buttonHref",
     required: "false",
     content:
-      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. e.g.",
+      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       buttonHref: "${hyperlink}",
-    }`,
+    };`,
   },
   {
     title: "isDisable",
@@ -133,7 +133,7 @@ const propsExplanation = [
       "The isDisable prop is used to make an element non-interactive, meaning it cannot be clicked or modified by the user. e.g.",
     code: `const buttonProps = { 
       isDisable: true,
-    }`,
+    };`,
   },
   {
     title: "isLoading",
@@ -141,19 +141,18 @@ const propsExplanation = [
       "The isLoading prop is used to conditionally render loading spinners, placeholders, or other UI elements to indicate to the user that content is being loaded. e.g.",
     code: `const buttonProps = { 
       isLoading: false,
-    }`,
+    };`,
   },
   {
     title: "style",
-    required: "true",
     content:
       "You can use the style attribute to apply styles to components. e.g.",
     code: `const buttonProps = {
-       style:{ 
+        style:{ 
           fontSize: '0.5em', 
           fontWeight: '600', 
-          border: '1px solid' 
-        } 
+          border: '1px solid',
+        }, 
       };`,
     children: [
       {
@@ -161,10 +160,10 @@ const propsExplanation = [
         content:
           "You can use color names, hex codes, or RGB values to change background color. e.g.",
         code: `const buttonProps = {
-        style:{ 
-          backgroundColor: '#4CAF50'
-        } 
-      };`,
+          style:{ 
+            backgroundColor: '#4CAF50',
+          }, 
+        };`,
       },
       {
         title: "fontColor",
@@ -172,8 +171,8 @@ const propsExplanation = [
           "You can use fontColor props to set the text color of an element. It can accept color values in various formats, such as color names, hex codes, RGB, or HSL values. e.g.",
         code: `const buttonProps = {
           style:{ 
-            fontColor: '#fff'
-           } 
+            fontColor: '#fff',
+          }, 
         };`,
       },
       {
@@ -183,7 +182,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             activeColor: '#367b36',
-          } 
+          }, 
         };`,
       },
       {
@@ -193,7 +192,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             hoverColor: '#45a049',
-          } 
+          }, 
         };`,
       },
       {
@@ -203,7 +202,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             padding: '10px 20px',
-          } 
+          }, 
         };`,
       },
       {
@@ -213,7 +212,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontSize: '16px',
-          } 
+          }, 
         };`,
       },
       {
@@ -223,7 +222,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontFamily: 'system-ui,-apple-system,system-ui,Helvetica Neue,Helvetica,Arial,sans-serif',
-          } 
+          }, 
         };`,
       },
       {
@@ -233,7 +232,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontWeight: '600',
-          } 
+          }, 
         };`,
       },
       {
@@ -243,7 +242,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             width: '100%',
-          } 
+          }, 
         };`,
       },
       {
@@ -253,7 +252,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             minWidth: '70%',
-          } 
+          }, 
         };`,
       },
       {
@@ -263,7 +262,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             border: 'none',
-          } 
+          }, 
         };`,
       },
       {
@@ -273,7 +272,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             borderRadius: '5px',
-           } 
+          }, 
         };`,
       },
       {
@@ -283,7 +282,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderHeight: '30px',
-          } 
+          }, 
         };`,
       },
       {
@@ -293,7 +292,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderWidth: '30px',
-          } 
+          }, 
         };`,
       },
       {
@@ -303,7 +302,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderMarginRight: '10px',
-          } 
+          }, 
         };`,
       },
     ],
@@ -313,20 +312,21 @@ const propsExplanation = [
     content: "You will be able to add your Inline style here. e.g.",
     code: `const buttonProps = { 
       inlineStyle: { 
-      fontSize: '0.5em',
-    } 
-  };`,
+        fontSize: '0.5em',
+      }, 
+    };`,
   },
   {
     title: "onClick",
-    content: "You can add your onClick method here. e.g.",
+    content:
+      "You can add your onClick method here. For navigation you can use either 'onClick' method, or 'buttonHref' props. e.g.",
     code: `const buttonProps = { 
       onClick: () => {
         State.update({ show: !state.show, 
           showProp: false 
         });
-      }
-    }`,
+      },
+    };`,
   },
   {
     title: "type",
@@ -335,7 +335,7 @@ const propsExplanation = [
       "Buttons can have different types, such as submit, reset, or button, each with its specific behavior. e.g.",
     code: `const buttonProps = { 
       type: "button",
-    }`,
+    };`,
   },
 ];
 
