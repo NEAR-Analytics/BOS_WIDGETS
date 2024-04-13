@@ -1,3 +1,5 @@
+const clearNotification = props?.clearNotification || ((param) => {});
+
 const Alert = styled.div`
   background-color: rgb(7 165 46);
   padding: 20px;
@@ -23,7 +25,7 @@ const Label = styled.div`
     font-weight: 600;
   }
 `;
-const { text, button, type, clearNotification } = props;
+const { text, button, type } = props;
 // const [isVisible, setIsVisible] = useState(true);
 
 return (
@@ -60,7 +62,6 @@ return (
           cursor: "pointer",
         }}
         onClick={() => {
-          // setIsVisible(false);
           clearNotification();
         }}
       >
