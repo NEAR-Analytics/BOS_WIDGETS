@@ -74,7 +74,6 @@ const social = (
   </SocialLinks>
 );
 
-
 const Legal = styled.div`
   display: flex;
   align-items: center;
