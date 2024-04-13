@@ -16,6 +16,32 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+const label = props.buttonTitle ?? "Title";
+const type = props.style.type ?? "button";
+const isLoading = props.isLoading ?? false;
+const isDisable = props.isDisable ?? false;
+
+const width = props.style.width;
+const border = props.style.border;
+const padding = props.style.padding;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const borderRadius = props.style.borderRadius;
+const minHeight = props.style.minHeight;
+const display = props.style.display;
+const backgroundColor = props.style.backgroundColor;
+const alignItems = props.style.alignItems;
+const hoverColor = props.style.hoverColor;
+const activeColor = props.style.activeColor;
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+
 const LoadingButton = styled.button`
   background-color: ${(props) =>
     props.backgroundColor || "#4CAF50;"}; /* Green */
@@ -51,31 +77,8 @@ const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "30px",
   width: props.style.loaderWidth ?? "30px",
-}
-const label = props.buttonTitle ?? "Title";
-const type = props.style.type ?? "button";
-const isLoading = props.isLoading ?? false;
-const isDisable = props.isDisable ?? false;
+};
 
-const width = props.style.width;
-const border = props.style.border;
-const padding = props.style.padding;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const borderRadius = props.style.borderRadius;
-const minHeight = props.style.minHeight;
-const display = props.style.display;
-const backgroundColor = props.style.backgroundColor;
-const alignItems = props.style.alignItems;
-const hoverColor = props.style.hoverColor;
-const activeColor = props.style.activeColor;
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
 return (
   <>
     {buttonHref == "" ? (
