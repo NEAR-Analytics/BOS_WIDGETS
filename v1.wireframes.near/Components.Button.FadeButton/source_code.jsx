@@ -16,6 +16,33 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+const label = props.buttonTitle ?? "Title";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+
+const width = props.style.width;
+const border = props.style.border;
+const padding = props.style.padding;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const borderRadius = props.style.borderRadius;
+const lineHeight = props.style.lineHeight;
+const backgroundColor = props.style.backgroundColor;
+const boxshadow = props.style.boxshadow;
+const activeColor = props.style.activeColor;
+const activeBoxShadow = props.style.activeBoxShadow;
+const hoverColor = props.style.hoverColor;
+const hoverBoxShadow = props.style.hoverBoxShadow;
+
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+const isLoading = props.isLoading ?? false;
+
 const FadeButton = styled.button`
   align-items: center;
   background-clip: padding-box;
@@ -65,37 +92,12 @@ const FadeButton = styled.button`
   }
 `;
 
-const label = props.buttonTitle ?? "Title";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
 
-const width = props.style.width;
-const border = props.style.border;
-const padding = props.style.padding;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const borderRadius = props.style.borderRadius;
-const lineHeight = props.style.lineHeight;
-const backgroundColor = props.style.backgroundColor;
-const boxshadow = props.style.boxshadow;
-const activeColor = props.style.activeColor;
-const activeBoxShadow = props.style.activeBoxShadow;
-const hoverColor = props.style.hoverColor;
-const hoverBoxShadow = props.style.hoverBoxShadow;
-
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "30px",
   width: props.style.loaderWidth ?? "30px",
-}
+};
 return (
   <>
     {buttonHref == "" ? (
