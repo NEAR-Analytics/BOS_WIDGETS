@@ -221,6 +221,9 @@ function handleClaim(claimInfo, hash) {
       tx.wait()
         .then((res) => {
           console.log(res)
+
+          txs[hash].status = 2
+          Storage.privateSet("claim_txs", txs);
           getAllClaimTx()
 
           toast?.dismiss(toastId);
@@ -301,6 +304,9 @@ useEffect(() => {
     let proccessSum = 0
     pArray = Object.keys(txs).map(key => {
       const currentTx = txs[key]
+      if (currentTx.status === 2) {
+        return
+      }
       return asyncFetch(
         `https://api.orbiter.finance/sdk/transaction/cross-chain/${key}`
       )
@@ -328,6 +334,8 @@ useEffect(() => {
             proccessSum += 1
             currentTx.status = 3
           }
+
+          Storage.privateSet("claim_txs", txs);
         })
     })
 
