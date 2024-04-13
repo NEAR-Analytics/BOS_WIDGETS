@@ -1,3 +1,20 @@
+/* -------------------------------------------------------------------------- */
+/*
+ __        ___           __                               
+ \ \      / (_)_ __ ___ / _|_ __ __ _ _ __ ___   ___  ___ 
+  \ \ /\ / /| | '__/ _ \ |_| '__/ _` | '_ ` _ \ / _ \/ __|
+   \ V  V / | | | |  __/  _| | | (_| | | | | | |  __/\__ \
+    \_/\_/  |_|_|  \___|_| |_|  \__,_|_| |_| |_|\___||___/
+
+  =========================================================
+  * Wireframes - v1.0.0
+  =========================================================
+  * Product Page: https://wireframes.design
+  =========================================================
+  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+                                                                                 */
+/* -------------------------------------------------------------------------- */
 const StyledPre = styled.pre`
   page-break-inside: avoid;
   font-family: monospace;
@@ -37,12 +54,11 @@ const StyleContainer = styled.div`
 `;
 
 const PreComponent = ({ children }) => {
-    return <StyledPre>{children}</StyledPre>;
-  };
-  const explanation = props;
-  const componentType = props.componentType;
-  const Explanation = 
-  `<!DOCTYPE html>
+  return <StyledPre>{children}</StyledPre>;
+};
+const explanation = props;
+const componentType = props.componentType;
+const Explanation = `<!DOCTYPE html>
 
   <html>
     <head>
@@ -253,28 +269,23 @@ const PreComponent = ({ children }) => {
     </body>
   </html>
   
-  ` ;
-
+  `;
 
 return (
-    <>
-     <div className="card">
-            <StyleContainer>
-          <PreComponent>
-         
-             
-              <iframe
-                srcDoc={Explanation}
-                style={{
-                  width: "100vw",
-                  top: "0",
-                  zIndex: 1,
-                }}
-              />   
-           
-          
-          </PreComponent>
-          </StyleContainer>
-        </div>
-    </>
+  <>
+    <div className="card">
+      <StyleContainer>
+        <PreComponent>
+          <iframe
+            srcDoc={Explanation}
+            style={{
+              width: "100vw",
+              top: "0",
+              zIndex: 1,
+            }}
+          />
+        </PreComponent>
+      </StyleContainer>
+    </div>
+  </>
 );
