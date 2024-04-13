@@ -42,14 +42,13 @@ const propsExplanation = [
   },
   {
     title: "style",
-    required: "false",
     content:
       "You can use the style attribute to apply styles to components. e.g.",
     code: `const data = {
       style:{ 
         margin: '0 auto',
         padding: '0 20px',
-      } 
+      }, 
     };`,
     children: [
       {
@@ -59,7 +58,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             width: '100%',
-          } 
+          }, 
         };`,
       },
       {
@@ -69,7 +68,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             maxWidth: '1200px',
-          } 
+          }, 
         };`,
       },
       {
@@ -79,7 +78,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             margin: '0 auto',
-          } 
+          }, 
         };`,
       },
       {
@@ -89,7 +88,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             padding: '0 20px',
-         } 
+          }, 
         };`,
       },
       {
@@ -99,7 +98,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             textWrap: 'wrap',
-         } 
+          }, 
         };`,
       },
       {
@@ -109,7 +108,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             desktopPadding: '0 15px',
-          } 
+          }, 
         };`,
       },
       {
@@ -119,7 +118,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             laptopPadding: '0 10px',
-          } 
+          }, 
         };`,
       },
       {
@@ -129,10 +128,29 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             tabletPadding: '0 5px',
-          } 
+          }, 
+        };`,
+      },
+      {
+        title: "backgroundColor",
+        content:
+          "You can use color names, hex codes, or RGB values to change background color. e.g.",
+        code: `const data = {
+          style:{ 
+            backgroundColor: '#eee',
+          }, 
         };`,
       },
     ],
+  },
+  {
+    title: "inlineStyle",
+    content: "You will be able to add your Inline style here. e.g.",
+    code: `const data = { 
+      inlineStyle: { 
+        color: '#000',
+      }, 
+    };`,
   },
 ];
 
