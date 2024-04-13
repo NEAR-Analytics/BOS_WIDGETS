@@ -33,7 +33,11 @@ const _value = value > 94 ? 94 : value;
 return (
   <StyledRange>
     <StyledSegment
-      style={{ width: _value + "%", backgroundColor: "#00AD79" }}
+      style={{
+        width: _value + "%",
+        backgroundColor:
+          _value >= 80 ? "#F54E59" : _value >= 60 ? "#FFA947" : "#00AD79",
+      }}
     />
     <StyledPercent>{value}%</StyledPercent>
     <StyledSegment style={{ width: 94 - _value + "%" }} />
