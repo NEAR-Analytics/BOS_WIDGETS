@@ -74,7 +74,7 @@ const propsExplanation = [
           <h1>Card Header</h1>
         </>
       ),
-    }`,
+    };`,
   },
   {
     title: "cardHeaderStyle",
@@ -84,7 +84,7 @@ const propsExplanation = [
       cardHeaderStyle: {
         color: "white",
       },
-    }`,
+    };`,
   },
   {
     title: "cardBody",
@@ -97,7 +97,7 @@ const propsExplanation = [
           <h1>Card Body Sample Text</h1>
         </>
       ),
-    }`,
+    };`,
   },
   {
     title: "cardBodyStyle",
@@ -107,7 +107,7 @@ const propsExplanation = [
       cardBodyStyle: {
         color: "white",
       },
-    }`,
+    };`,
   },
 ];
 
