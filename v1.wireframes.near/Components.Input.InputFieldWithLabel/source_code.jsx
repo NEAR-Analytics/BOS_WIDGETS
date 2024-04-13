@@ -16,6 +16,46 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+const name = props.name ?? "inputField";
+const label = props.inputTitle ?? "";
+const type = props.type ?? "text";
+const value = props.value ?? "";
+const onChange = props.onChange ?? (() => {});
+const validate = props.validate ?? (() => {});
+const autofocus = props.autofocus ?? false;
+const placeholder = props.placeholder;
+const required = props.required ?? false;
+const isDisable = props.isDisable ?? false;
+const error = props.error ?? "";
+
+const width = props.style.width;
+const padding = props.style.padding;
+const border = props.style.border;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const borderRadius = props.style.borderRadius;
+const borderShadow = props.style.borderShadow;
+
+const inlineStyle = props.inlineStyle;
+
+const errorFontWeight = props.style.errorFontWeight;
+const errorFontSize = props.style.errorFontSize;
+const errorLineHeight = props.style.errorLineHeight;
+const errorFontColor = props.style.errorFontColor;
+const errorHeight = props.style.errorHeight;
+const errorShowHeight = props.style.errorShowHeight;
+
+const labelFontSize = props.style.labelFontSize;
+const labelFontWeight = props.style.labelFontWeight;
+const labelLineHeight = props.style.labelLineHeight;
+const labelMinWidth = props.style.labelMinWidth;
+const labelFontColor = props.style.labelFontColor;
+
+const labelSide = props.labelSide ?? "";
+
+const style = props.style ?? Input;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -59,50 +99,11 @@ const Error = styled.span`
   }
 `;
 
-const name = props.name ?? "inputField";
-const label = props.inputTitle ?? "";
-const type = props.type ?? "text";
-const value = props.value ?? "";
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
-const autofocus = props.autofocus ?? false;
-const placeholder = props.placeholder;
-const required = props.required ?? false;
-const isDisable = props.isDisable ?? false;
-const error = props.error ?? "";
-
-const width = props.style.width;
-const padding = props.style.padding;
-const border = props.style.border;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const borderRadius = props.style.borderRadius;
-const borderShadow = props.style.borderShadow;
-
-const inlineStyle = props.inlineStyle;
-
-const errorFontWeight = props.style.errorFontWeight;
-const errorFontSize = props.style.errorFontSize;
-const errorLineHeight = props.style.errorLineHeight;
-const errorFontColor = props.style.errorFontColor;
-const errorHeight = props.style.errorHeight;
-const errorShowHeight = props.style.errorShowHeight;
-
-const labelFontSize = props.style.labelFontSize;
-const labelFontWeight = props.style.labelFontWeight;
-const labelLineHeight = props.style.labelLineHeight;
-const labelMinWidth = props.style.labelMinWidth;
-const labelFontColor = props.style.labelFontColor;
-
-const labelSide = props.labelSide ?? "";
-
-const style = props.style ?? Input;
-
-if(props.type == "number"){
+if (props.type == "number") {
   const min = props.min;
   const max = props.max;
   const pattern = props.pattern;
-}else{
+} else {
   const min = props.min ?? "";
   const max = props.max ?? "";
   const pattern = props.pattern ?? "";
@@ -142,44 +143,43 @@ return (
   <div>
     {labelSide == "start" ? (
       <>
-      <MainContainer>
-        <Label
-          labelFontSize={labelFontSize}
-          labelFontColor={labelFontColor}
-          labelFontWeight={labelFontWeight}
-          labelLineHeight={labelLineHeight}
-          labelMinWidth={labelMinWidth}
-        >
-          {label} {required && <Error className="show">*Required</Error>}
-        </Label>
-        <div className="row">
-        <input
-          type={type}
-          name={name}
-          autoComplete="off"
-          autofocus={autofocus}
-          placeholder={placeholder}
-          onBlur={() => validate()}
-          value={inputValue}
-          onChange={handleInputChange}
-          required={required}
-          readOnly={isDisable}
-          style={style}
-        />
-          <Error
-            className={error ? "show" : ""}
-            errorFontSize={errorFontSize}
-            errorFontWeight={errorFontWeight}
-            errorFontColor={errorFontColor}
-            errorLineHeight={errorLineHeight}
-            errorHeight={errorHeight}
-            errorShowHeight={errorShowHeight}
+        <MainContainer>
+          <Label
+            labelFontSize={labelFontSize}
+            labelFontColor={labelFontColor}
+            labelFontWeight={labelFontWeight}
+            labelLineHeight={labelLineHeight}
+            labelMinWidth={labelMinWidth}
           >
-            {error}
-          </Error>
-        </div>
-      </MainContainer>
-      
+            {label} {required && <Error className="show">*Required</Error>}
+          </Label>
+          <div className="row">
+            <input
+              type={type}
+              name={name}
+              autoComplete="off"
+              autofocus={autofocus}
+              placeholder={placeholder}
+              onBlur={() => validate()}
+              value={inputValue}
+              onChange={handleInputChange}
+              required={required}
+              readOnly={isDisable}
+              style={style}
+            />
+            <Error
+              className={error ? "show" : ""}
+              errorFontSize={errorFontSize}
+              errorFontWeight={errorFontWeight}
+              errorFontColor={errorFontColor}
+              errorLineHeight={errorLineHeight}
+              errorHeight={errorHeight}
+              errorShowHeight={errorShowHeight}
+            >
+              {error}
+            </Error>
+          </div>
+        </MainContainer>
       </>
     ) : (
       <Container>
