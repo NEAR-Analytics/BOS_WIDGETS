@@ -153,47 +153,10 @@ let proposals = Near.view(contractName, "get_all_posts", {
   limit: 100,
 });
 
-let projects = [];
+const projects = Near.view(contractName, "get_dao_communities");
 
-// NDC
-let projectsDaoId1 = Near.view(contractName, "get_dao_communities", {
-  dao_id: parseInt(1),
-});
-
-let projectsDaoId2 = Near.view(contractName, "get_dao_communities", {
-  dao_id: parseInt(2),
-});
-
-// Marketing DAO
-let projectsDaoId4 = Near.view(contractName, "get_dao_communities", {
-  dao_id: parseInt(4),
-});
-
-// Gaming DAO
-let projectsDaoId3 = Near.view(contractName, "get_dao_communities", {
-  dao_id: parseInt(3),
-});
-
-if (
-  !daos ||
-  !contractName ||
-  !content ||
-  !assets ||
-  !proposals ||
-  !projects ||
-  !projectsDaoId1 ||
-  !projectsDaoId2 ||
-  !projectsDaoId4 ||
-  !projectsDaoId3
-)
+if (!daos || !contractName || !content || !assets || !proposals || !projects)
   return <Widget src="flashui.near/widget/Loading" />;
-
-projects = [
-  ...projectsDaoId1,
-  ...projectsDaoId2,
-  ...projectsDaoId4,
-  ...projectsDaoId3,
-];
 
 let groupedDaos = daos
   .map((element) => {
@@ -217,7 +180,9 @@ proposals = proposals.map((proposal) => {
 });
 
 let types = new Set();
-groupedDaos.forEach((item) => types.add(...Object.keys(item)));
+groupedDaos.forEach((item) => {
+  Object.keys(item).forEach((i) => types.add(i));
+});
 
 const typeOfProject = Array.from(types).map((item) => {
   return {
