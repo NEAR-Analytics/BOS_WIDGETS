@@ -114,10 +114,8 @@ const Title = styled.span`
 
 const MobileNavigation = () => (
   <div className="w-100 pt-4 pb-2 d-flex flex-column justify-content-center align-items-center gap-3">
+    <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>Dashboard</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=daos`}>DAOs</a>
-    <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>
-      NDC Dashboard
-    </a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=projects`}>Projects</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>Proposals</a>
     {items.map((i) => (
@@ -128,10 +126,8 @@ const MobileNavigation = () => (
 
 const Navigation = () => (
   <div className="d-flex align-items-center gap-5">
+    <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>Dashboard</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=daos`}>DAOs</a>
-    <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>
-      NDC Dashboard
-    </a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=projects`}>Projects</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>Proposals</a>
     <a
