@@ -170,6 +170,8 @@ const L1MessageBridgeAbi = [
   },
 ];
 
+console.log('txs:', txs)
+
 State.init({
   isFold: false,
   isLoadingTx: {},
@@ -295,7 +297,7 @@ useEffect(() => {
 }, [])
 
 useEffect(() => {
-  if (state.filteredTxs && txs) {
+  if (state.filteredTxs && txs && !state.loading) {
     const pArray = []
     let needFold = true
     let proccessSum = 0
@@ -309,6 +311,7 @@ useEffect(() => {
       )
         .then((res) => {
           if (res.body.status === "success") {
+            
             state.filteredTxs.forEach(item => {
               if (item.hash === key) {
                 needFold = true
@@ -321,6 +324,7 @@ useEffect(() => {
                 }
               }
             })
+
 
             if (!currentTx.status) {
               currentTx.status = 2
@@ -344,7 +348,7 @@ useEffect(() => {
       })
     })
   }
-}, [state.filteredTxs, txs])
+}, [state.filteredTxs, txs, state.loading])
 
 
 return <Transactions>
