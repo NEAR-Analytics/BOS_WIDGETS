@@ -217,11 +217,8 @@ function handleClaim(claimInfo, hash) {
     {
       gasLimit: 162000,
     }).then((tx) => {
-      console.log(tx)
       tx.wait()
         .then((res) => {
-          console.log(res)
-
           txs[hash].status = 2
           Storage.privateSet("claim_txs", txs);
           getAllClaimTx()
@@ -349,8 +346,6 @@ useEffect(() => {
   }
 }, [state.filteredTxs, txs])
 
-
-console.log(state)
 
 return <Transactions>
   <div className="header">
