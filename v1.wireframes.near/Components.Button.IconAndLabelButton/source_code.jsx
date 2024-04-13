@@ -16,6 +16,36 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+const label = props.buttonTitle ?? "Title";
+const icon = props.icon ?? "";
+const iconSize = props.iconSize ?? "16px";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+const iconColor = props.iconColor ?? "#0d6efd";
+
+const width = props.style.width;
+const border = props.style.border;
+const padding = props.style.padding;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const borderRadius = props.style.borderRadius;
+const lineHeight = props.style.lineHeight;
+const boxshadow = props.style.boxshadow;
+const backgroundColor = props.style.backgroundColor;
+const activeBoxShadow = props.style.activeBoxShadow;
+const hoverBoxShadow = props.style.hoverBoxShadow;
+
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+const iconSide = props.iconSide;
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+const isLoading = props.isLoading ?? false;
+
 const IconAndLabelButton = styled.button`
   align-items: center;
   background-clip: padding-box;
@@ -62,34 +92,6 @@ const IconAndLabelButton = styled.button`
   }
 `;
 
-const label = props.buttonTitle ?? "Title";
-const icon = props.icon ?? "";
-const iconSize = props.iconSize ?? "16px";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
-const iconColor = props.iconColor ?? "#0d6efd";
-
-const width = props.style.width;
-const border = props.style.border;
-const padding = props.style.padding;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const borderRadius = props.style.borderRadius;
-const lineHeight = props.style.lineHeight;
-const boxshadow = props.style.boxshadow;
-const backgroundColor = props.style.backgroundColor;
-const activeBoxShadow = props.style.activeBoxShadow;
-const hoverBoxShadow = props.style.hoverBoxShadow;
-
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-const iconSide = props.iconSide;
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "20px",
@@ -129,19 +131,27 @@ return (
           <>
             {iconSide == "left" ? (
               <>
-                <i
-                  class={icon}
-                  style={{ fontSize: iconSize, color: iconColor }}
-                ></i>
+                <Widget
+                  src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+                  props={{
+                    iconName: icon,
+                    iconSize: iconSize,
+                    iconColor: iconColor,
+                  }}
+                />
                 {label}
               </>
             ) : (
               <>
                 {label}
-                <i
-                  class={icon}
-                  style={{ fontSize: iconSize, color: iconColor }}
-                ></i>
+                <Widget
+                  src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+                  props={{
+                    iconName: icon,
+                    iconSize: iconSize,
+                    iconColor: iconColor,
+                  }}
+                />
               </>
             )}
           </>
@@ -184,27 +194,27 @@ return (
           <>
             {iconSide == "left" ? (
               <>
-                  <Widget
-                src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
-                props={{
-                  iconName: icon,
-                  iconSize: iconSize,
-                  iconColor: iconColor,
-                }}
-              />
+                <Widget
+                  src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+                  props={{
+                    iconName: icon,
+                    iconSize: iconSize,
+                    iconColor: iconColor,
+                  }}
+                />
                 {label}
               </>
             ) : (
               <>
                 {label}
                 <Widget
-                src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
-                props={{
-                  iconName: icon,
-                  iconSize: iconSize,
-                  iconColor: iconColor,
-                }}
-              />
+                  src={`v1.wireframes.near/widget/Components.Icon.BootstrapIcons`}
+                  props={{
+                    iconName: icon,
+                    iconSize: iconSize,
+                    iconColor: iconColor,
+                  }}
+                />
               </>
             )}
           </>
