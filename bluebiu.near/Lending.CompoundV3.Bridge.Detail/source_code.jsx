@@ -112,11 +112,11 @@ const StyledButton = styled.div`
     }
   }
   &[disabled] {
-    background: rgba(151, 154, 190, 0.2);
     cursor: not-allowed;
+    background-color: rgba(0, 173, 121, 0.3);
   }
 `;
-const StyledWithraw = styled.div`
+const StyledWithraw = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -126,12 +126,18 @@ const StyledWithraw = styled.div`
   border-radius: 8px;
   border: 1px solid #00ad79;
   color: #00ad79;
+  background-color: transparent;
   text-align: center;
   font-family: Gantari;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 const {
@@ -196,23 +202,22 @@ useEffect(() => {
   });
 }, [state.balanceUsd]);
 
+useEffect(() => {
+  if (!state.borrowedBalance) return;
+  State.update({
+    borrowArr: Big(state.borrowedBalance).toFixed(4).split("."),
+  });
+}, [state.borrowedBalance]);
+
 const onAmountChange = ({ amount, type, cb }) => {
   if (state.asset.address === data.baseToken.address) {
     if (type === "Repay") {
-      State.update({
-        balanceUsd: Big(amount)
-          .mul(state.asset.price)
-          .add(state.balanceUsd || 0)
-          .toString(),
-      });
-    }
-    if (type === "Borrow") {
-      const _borrowedBalance = Big(amount)
-        .mul(state.asset.price)
-        .add(state.borrowBalance || 0);
+      const _borrowedBalance = Big(state.borrowedBalanceUsd).minus(
+        Big(amount).mul(state.asset.price)
+      );
 
       cb({
-        borrowedBalance: _borrowedBalance.toString(),
+        borrowedBalanceUsd: _borrowedBalance.toString(),
         availableToBorrow: Big(state.borrowCapacity || 0)
           .minus(_borrowedBalance)
           .toString(),
@@ -224,6 +229,27 @@ const onAmountChange = ({ amount, type, cb }) => {
                 .div(Big(state.userLiquidationUsd).div(state.collaterValue))
                 .toString(),
       });
+      return;
+    }
+    if (type === "Borrow") {
+      const _borrowedBalance = Big(amount)
+        .mul(state.asset.price)
+        .add(state.borrowedBalanceUsd || 0);
+
+      cb({
+        borrowedBalanceUsd: _borrowedBalance.toString(),
+        availableToBorrow: Big(state.borrowCapacity || 0)
+          .minus(_borrowedBalance)
+          .toString(),
+        liquidationPoint:
+          Big(state.userLiquidationUsd || 0).eq(0) ||
+          Big(state.collaterValue || 0).eq(0)
+            ? "0"
+            : Big(_borrowedBalance)
+                .div(Big(state.userLiquidationUsd).div(state.collaterValue))
+                .toString(),
+      });
+      return;
     }
     cb({});
     return;
@@ -245,7 +271,9 @@ const onAmountChange = ({ amount, type, cb }) => {
   _borrowCapacity = _collaterValue.mul(
     state.asset.borrowCollateralFactor / 100
   );
-  _availableToBorrow = Big(_borrowCapacity).minus(state.borrowBalance || 0);
+  _availableToBorrow = Big(_borrowCapacity).minus(
+    state.borrowedBalanceUsd || 0
+  );
 
   cb({
     collaterValue: _collaterValue.toString(),
@@ -311,10 +339,21 @@ return (
                 <StyledFont
                   style={{ color: "#FFF", fontSize: 22, fontWeight: 700 }}
                 >
-                  {state.balanceArr[0] || 0}.
-                  <span style={{ color: "#979ABE" }}>
-                    {state.balanceArr[1] || "0000"}
-                  </span>
+                  {Big(state.borrowedBalanceUsd || 0).gt(0) ? (
+                    <>
+                      {state.borrowArr[0] || 0}.
+                      <span style={{ color: "#979ABE" }}>
+                        {state.borrowArr[1] || "0000"}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {state.balanceArr[0] || 0}.
+                      <span style={{ color: "#979ABE" }}>
+                        {state.balanceArr[1] || "0000"}
+                      </span>
+                    </>
+                  )}
                 </StyledFont>
                 <StyledFont
                   style={{ color: "#FFF", fontSize: 22, fontWeight: 700 }}
@@ -326,7 +365,9 @@ return (
                 <Widget
                   src="bluebiu.near/widget/Utils.FormatAmount"
                   props={{
-                    amount: state.balanceUsd,
+                    amount: Big(state.borrowedBalanceUsd || 0).gt(0)
+                      ? state.borrowedBalanceUsd
+                      : state.balanceUsd,
                     prev: "$",
                   }}
                 />
@@ -352,11 +393,13 @@ return (
                 <StyledFont
                   style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
                 >
-                  {state.supplyApr} Net APR
+                  {state.supplyApr}% Net APR
                 </StyledFont>
               </StyledFlex>{" "}
               <StyledWithraw
+                disabled={state.loading}
                 onClick={() => {
+                  if (state.loading) return;
                   State.update({
                     showDialog: true,
                     type: "Withraw",
@@ -388,12 +431,14 @@ return (
                 <StyledFont
                   style={{ color: "#FFF", fontSize: 16, fontWeight: 700 }}
                 >
-                  {state.borrowApr} Net APR
+                  {state.borrowApr}% Net APR
                 </StyledFont>
               </StyledFlex>{" "}
               <StyledWithraw
+                disabled={state.loading}
                 style={{ borderColor: "#7945FF", color: "#7945FF" }}
                 onClick={() => {
+                  if (state.loading) return;
                   State.update({
                     showDialog: true,
                     type: "Repay",
@@ -512,9 +557,10 @@ return (
           }}
         >
           <StyledButton
-            disabled={Big(state.borrowedBalanceUsd || 0).gt(0)}
+            disabled={Big(state.borrowedBalanceUsd || 0).gt(0) || state.loading}
             onClick={() => {
-              if (Big(state.borrowedBalanceUsd || 0).gt(0)) return;
+              if (Big(state.borrowedBalanceUsd || 0).gt(0) || state.loading)
+                return;
               State.update({
                 showDialog: true,
                 type: "Supply",
@@ -557,18 +603,21 @@ return (
             style={{
               backgroundColor:
                 Big(state.balance || 0).gt(0) ||
-                Big(state.borrowCapacity || 0).eq(0)
+                Big(state.borrowCapacity || 0).eq(0) ||
+                state.loading
                   ? "rgba(151, 154, 190, 0.2)"
                   : "#5D36C3",
             }}
             disabled={
               Big(state.balance || 0).gt(0) ||
-              Big(state.borrowCapacity || 0).eq(0)
+              Big(state.borrowCapacity || 0).eq(0) ||
+              state.loading
             }
             onClick={() => {
               if (
                 Big(state.balance || 0).gt(0) ||
-                Big(state.borrowCapacity || 0).eq(0)
+                Big(state.borrowCapacity || 0).eq(0) ||
+                state.loading
               )
                 return;
               State.update({
@@ -586,7 +635,9 @@ return (
           >
             {Big(state.balance || 0).gt(0) && (
               <>
-                <StyledTips>Must collateral asset below first</StyledTips>
+                <StyledTips>
+                  Must Withdraw Full {data.baseToken.symbol} Balance
+                </StyledTips>
                 <StyledSvg>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -636,7 +687,14 @@ return (
         <StyledFlex style={{ flexDirection: "column", gap: 20, width: "100%" }}>
           {data.collateralAssets?.map((asset) => (
             <StyledFlex style={{ gap: 14, width: "100%" }} key={asset.address}>
-              <StyledSvg></StyledSvg>
+              <Widget
+                src="bluebiu.near/widget/Lending.CompoundV3.Bridge.Asset"
+                props={{
+                  size: "medium",
+                  icon: asset.icon,
+                  curChain,
+                }}
+              />
               <StyledWrapper style={{ flex: 1 }}>
                 <StyledFlex
                   style={{ justifyContent: "space-between", gap: 10 }}
@@ -685,10 +743,20 @@ return (
               </StyledWrapper>
               <StyledFlex style={{ gap: 10 }}>
                 <StyledOperationButton
-                  disabled={Big(
-                    state.collateralBalances[asset.address].walletBalance || 0
-                  ).eq(0)}
+                  disabled={
+                    Big(
+                      state.collateralBalances[asset.address].walletBalance || 0
+                    ).eq(0) || state.loading
+                  }
                   onClick={() => {
+                    if (
+                      Big(
+                        state.collateralBalances[asset.address].walletBalance ||
+                          0
+                      ).eq(0) ||
+                      state.loading
+                    )
+                      return;
                     State.update({
                       showDialog: true,
                       type: "Collateral",
@@ -715,19 +783,52 @@ return (
                   </svg>
                 </StyledOperationButton>
                 <StyledOperationButton
-                  disabled={Big(
-                    state.collateralBalances[asset.address].balance || 0
-                  ).eq(0)}
+                  disabled={
+                    Big(
+                      state.collateralBalances[asset.address].balance || 0
+                    ).eq(0) || state.loading
+                  }
                   onClick={() => {
+                    if (
+                      Big(
+                        state.collateralBalances[asset.address].balance || 0
+                      ).eq(0) ||
+                      state.loading
+                    )
+                      return;
+                    console.log(
+                      757,
+                      state.collateralBalances[asset.address].balanceUsd
+                    );
+                    const _collaterBalanceUsd =
+                      state.collateralBalances[asset.address].balanceUsd;
+
+                    let _balanceUsd = Big(0);
+                    if (Big(state.borrowedBalanceUsd).eq(0)) {
+                      _balanceUsd = _collaterBalanceUsd;
+                    } else {
+                      const _capacity = Big(_collaterBalanceUsd).mul(
+                        asset.borrowCollateralFactor / 100
+                      );
+                      const _otherCapacity = Big(
+                        state.userBorrowCapacityUsd
+                      ).minus(_capacity);
+                      const _diff = Big(state.borrowedBalanceUsd).minus(
+                        _otherCapacity
+                      );
+
+                      _balanceUsd = Big(_collaterBalanceUsd).minus(
+                        _diff.div(asset.borrowCollateralFactor / 100)
+                      );
+                    }
+                    console.log("_balanceUsd", _balanceUsd.toString());
                     State.update({
                       showDialog: true,
                       type: "Withdraw",
                       asset: {
                         ...asset,
-                        walletBalance:
-                          state.collateralBalances[asset.address].balance,
-                        walletBalanceUsd:
-                          state.collateralBalances[asset.address].balanceUsd,
+                        walletBalance: _balanceUsd.div(asset.price).toString(),
+                        walletBalanceUsd: _balanceUsd.toString(),
                       },
                     });
                   }}
@@ -943,7 +1044,14 @@ return (
                 }}
               >
                 <StyledFlex style={{ gap: 14 }}>
-                  <StyledSvg></StyledSvg>
+                  <Widget
+                    src="bluebiu.near/widget/Lending.CompoundV3.Bridge.Asset"
+                    props={{
+                      size: "small",
+                      icon: action.asset.icon,
+                      curChain,
+                    }}
+                  />
                   <StyledFont style={{ color: "#FFF" }}>
                     {action.type} {action.asset.symbol}
                   </StyledFont>
@@ -1015,16 +1123,19 @@ return (
                   });
                 }}
               >
-                {state.loading ? (
-                  <Widget
-                    src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-                    props={{
-                      size: 16,
-                    }}
-                  />
-                ) : (
-                  "Submit Transactions"
+                {state.loading && (
+                  <div>
+                    <Widget
+                      src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                      props={{
+                        size: 16,
+                      }}
+                    />
+                  </div>
                 )}
+                {state.loading
+                  ? `${state.actions.length} Pending Transactions`
+                  : " Submit Transactions"}
               </StyledButton>
             </StyledFlex>
           </StyledFlex>
@@ -1092,6 +1203,7 @@ return (
               });
               tx.wait()
                 .then((res) => {
+                  updateInfo();
                   const { status, transactionHash } = res;
                   const _actions = [];
                   state.actions.forEach((action, i) => {
@@ -1109,7 +1221,7 @@ return (
                     add: false,
                     status,
                     transactionHash,
-                    extra_data: JSON.stringify({ lending_actions: _actions }),
+                    extra_data: { lending_actions: _actions },
                   });
                   toast?.dismiss(toastId);
                   toast?.success({
@@ -1121,7 +1233,6 @@ return (
                     loading: false,
                     actions: [],
                   });
-                  updateInfo();
                 })
                 .catch((err) => {
                   toast?.dismiss(toastId);
