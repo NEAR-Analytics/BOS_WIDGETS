@@ -174,9 +174,22 @@ const handleChange = (el, value) => {
 };
 
 if (daos) {
-  daos = daos.map((dao) => {
-    return { name: dao.title, id: dao.id };
-  });
+  daos = daos
+    .sort((a, b) => {
+      const daoTypeA = a.dao_type.toUpperCase();
+      const daoTypeB = b.dao_type.toUpperCase();
+
+      if (daoTypeA < daoTypeB) {
+        return 1;
+      }
+      if (daoTypeA > daoTypeB) {
+        return -1;
+      }
+      return 0;
+    })
+    .map((dao) => {
+      return { name: dao.title, id: dao.id };
+    });
 }
 
 if (!daos) return <Widget src="flashui.near/widget/Loading" />;
