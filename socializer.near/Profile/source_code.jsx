@@ -231,7 +231,11 @@ const withdraw = async (item) => {
     token: item._id,
   };
 
-  State.update({ error: "", loading: true });
+  State.update({
+    error: "",
+    loading: true,
+    notification: "Withdrawal will be processed in 1 minute",
+  });
   asyncFetch(API_URL + `/api/base/withdraw`, {
     method: "POST",
     headers: {
