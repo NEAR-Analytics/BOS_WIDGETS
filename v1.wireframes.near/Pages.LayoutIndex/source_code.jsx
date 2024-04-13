@@ -17,47 +17,52 @@
 
 /* -------------------------------------------------------------------------- */
 
-                                                         
-
-
-const Container = ({ children }) => {
-    return (
-        <Widget
-        src={`v1.wireframes.near/widget/Components.Layout.Container`}
-        props={children}
-      />
-    );
-  };
-
- 
-
-  const data ={children : (<>
-    <div className="p-4 d-flex justify-content-center">
-        <div className="row d-flex justify-content-center" style={{ paddingTop:"inherit" }}>
-           
-        <h1 className="pt-4">Container</h1>
-    <Widget src={`v1.wireframes.near/widget/Components.Layout.LayoutDetail.ContainerDetail`}/>  
-  <h1 className="pt-4">Container Fluid</h1>  
-    <Widget src={`v1.wireframes.near/widget/Components.Layout.LayoutDetail.ContainerFluidDetail`}/>
- 
-
-    </div>    
-    </div>
-
-    </>)} ;
-
-return(
+const data = {
+  children: (
     <>
-     <Widget src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`} props={{
-        activeLink:"Buttons"
-     }}/>
+      <div className="p-4 d-flex justify-content-center">
+        <div
+          className="row d-flex justify-content-center"
+          style={{ paddingTop: "8%",width:"85vw" }}
+        >
+          <h1 className="pt-4">Container</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Layout.LayoutDetail.ContainerDetail`}
+          />
+          <h1 className="pt-5">Container Fluid</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Layout.LayoutDetail.ContainerFluidDetail`}
+          />
+
+          <h1 className="pt-5">Container Full</h1>
+
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Layout.LayoutDetail.ContainerFullDetail`}
+          />
+        </div>
+      </div>
+    </>
+  ),
+};
+
+return (
+  <>
     <Widget
+      src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`}
+      props={{
+        activeLink: "Buttons",
+      }}
+    />
+    <div className="row">
+      <Widget
         src={`v1.wireframes.near/widget/Components.Layout.Container`}
         props={data}
       />
-<Widget
+    </div>
+    <div className="row">
+      <Widget
         src={`v1.wireframes.near/widget/Components.Navigations.Footer`}
       />
-
-    </>
+    </div>
+  </>
 );
