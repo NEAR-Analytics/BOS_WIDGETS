@@ -33,6 +33,7 @@ const navHeight = props.style.navHeight;
 const navMinHeight = props.style.navMinHeight;
 const navBoxShadow = props.style.navBoxShadow;
 const navBackdropFilter = props.style.navBackdropFilter;
+const navBackgroungColor = props.style.navBackgroungColor ?? "#fff";
 /* --------------------------------- Navbar --------------------------------- */
 
 /* -------------------------------- LogoArea -------------------------------- */
@@ -60,7 +61,7 @@ const actionAreaGap = props.style.actionAreaGap;
 const labelDisplay = props.style.labelDisplay ?? "flex";
 const labelAlignItems = props.style.labelAlignItems ?? "center";
 const labelPadding = props.style.labelPadding ?? "0px";
-const labelGap  = props.style.labelGap ?? "0.5em";
+const labelGap = props.style.labelGap ?? "0.5em";
 const labelFlex = props.style.labelFlex ?? "none";
 const labelOrder = props.style.labelOrder ?? "0";
 const labelAlignSelf = props.style.labelAlignSelf ?? "stretch";
@@ -77,7 +78,7 @@ const labelFontColor = props.style.labelFontColor ?? "#011340";
 const infoDisplay = props.style.infoDisplay ?? "flex";
 const infoAlignItems = props.style.infoAlignItems ?? "center";
 const infoPadding = props.style.infoPadding ?? "0px";
-const infoGap  = props.style.infoGap ?? "0.5em";
+const infoGap = props.style.infoGap ?? "0.5em";
 const infoFlex = props.style.infoFlex ?? "none";
 const infoOrder = props.style.infoOrder ?? "0";
 const infoAlignSelf = props.style.infoAlignSelf ?? "stretch";
@@ -104,6 +105,32 @@ const accLogoHoverFontColor = props.style.accLogoHoverFontColor ?? "#11181c";
 
 const mobileDisplay = props.style.mobileDisplay;
 
+
+const accountId = props.accountId || "";
+const info = props.info ?? "";
+const logoHref = props.logoHref ?? "#";
+const logoHeight = props.logoHeight ?? "29px";
+const logoWidth = props.logoWidth ?? "152px";
+const logoAlt = props.logoAlt ?? "company logo";
+const logoSrc =
+  props.logoSrc ??
+  `https://www.gravatar.com/avatar/wireframe?s=150&d=identicon`;
+const logoInlineStyle = props.logoInlineStyle;
+
+const hideLocation = props.hideLocation ?? false;
+const logoutUrl = props.logoutUrl ?? "#";
+
+const secretKey = props.secretKey;
+const uid = props.uid;
+const label = props.label;
+const isAdmin = props.isAdmin;
+const isSuper = props.isSuper;
+const inAdminPage = props.inAdminPage;
+const adminUrl = props.adminUrl ?? "";
+const userUrl = props.userUrl ?? "";
+
+const eventId = props.eventId ?? "";
+
 const Navbar = styled.div`
   z-index: ${(props) => props.navZIndex || "10"};
   display: ${(props) => props.navDisplay || "flex"};
@@ -121,7 +148,7 @@ const Navbar = styled.div`
   min-height: ${(props) => props.navMinHeight || "10vh"};
   box-shadow: ${(props) =>
     props.navBoxShadow || "rgba(0, 0, 0, 0.35) 0px 5px 15px"};
-  background-color: ${props.collapsible ? "transparent" : "#FFFFFF"};
+  background-color: ${props.collapsible ? "transparent" : navBackgroungColor};
   backdrop-filter: ${(props) => props.navBackdropFilter || "blur(8px)"};
 `;
 
@@ -215,27 +242,6 @@ const AccountLogoArea = styled.a`
   }
 `;
 
-const accountId = props.accountId || context.accountId;
-const info = props.info ?? "";
-const logoHref = props.logoHref ?? "#";
-const logoHeight = props.logoHeight ?? "29px";
-const logoWidth = props.logoWidth ?? "152px";
-const logoAlt = props.logoAlt ?? "company logo";
-const logoSrc = props.logoSrc ?? `https://www.gravatar.com/avatar/wireframe?s=150&d=identicon`;
-const logoInlineStyle = props.logoInlineStyle;
-
-const hideLocation = props.hideLocation ?? false;
-const logoutUrl = props.logoutUrl ?? "#";
-
-const secretKey = props.secretKey;
-const uid = props.uid;
-const label = props.label;
-const isAdmin = props.isAdmin;
-const isSuper = props.isSuper;
-const inAdminPage = props.inAdminPage;
-
-const eventId = props.eventId ?? "";
-
 const Image = styled.img`
   width: ${logoWidth};
   height: ${logoHeight};
@@ -255,7 +261,7 @@ const companyName = props.companyName ?? "";
 const registerButton = props.registerButton ?? <></>;
 
 const inlineStyle = props.inlineStyle;
-
+const linksData = props.linksData;
 const url = `https://www.gravatar.com/avatar/${accountId}?s=150&d=identicon`;
 
 State.init({ img: null });
@@ -279,15 +285,14 @@ const logo = (
   >
     {logoSrc != null || logoSrc != undefined ? (
       <Image
-      className="mb-3"
-      style={logoInlineStyle}
-      src={logoSrc}
-      alt={logoAlt}
-    />
-    ):(
-      {companyName}
+        className="mb-3"
+        style={logoInlineStyle}
+        src={logoSrc}
+        alt={logoAlt}
+      />
+    ) : (
+      { companyName }
     )}
-    
   </LogoArea>
 );
 
@@ -318,38 +323,65 @@ const actions = (
 
     <div class="dropdown">
       <div id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-        {accountLogo}
+        {accountId != null || accountId != "" ? (
+          <> {accountLogo}</>
+        ) : (
+          <>
+            <Widget
+              src="v1.wireframes.near/widget/Components.Button.IconButton"
+              props={{
+                label: "Code",
+                icon: "list",
+                style: {
+                  border: "none",
+                  borderRadius: "none",
+                  fontColor: navMode == "dark" ? "white" : "black",
+                  backgroundColor: "transparent",
+                },
+                iconSize: "15px",
+                type: "button",
+              }}
+            />
+          </>
+        )}
       </div>
-      {accountId && (
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-          {(isAdmin || isSuper) && (
+      {/* {accountId && ( */}
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        {(isAdmin || isSuper) && (
+          <li>
+            {" "}
+            <Link
+              to={inAdminPage ? userUrl : adminUrl}
+              style={{ color: "currentColor" }}
+            >
+              <button class="dropdown-item" type="button">
+                {inAdminPage ? "UserPanel" : "Admin Panel"}
+              </button>
+            </Link>
+          </li>
+        )}
+        {linksData?.map((link) => (
+          <li>
+            <Link to={link.menuHref}>
+              <button class="dropdown-item" type="button">
+                {link.menuName}
+              </button>
+            </Link>
+          </li>
+        ))}
+        {accountId && (
+          <>
             <li>
-              {" "}
-              <Link
-                to={inAdminPage ? "/user" : "/admin"}
-                style={{ color: "currentColor" }}
-              >
+              <Link to={logoutUrl}>
                 <button class="dropdown-item" type="button">
-                  {inAdminPage ? "UserPanel" : "Admin Panel"}
+                  Logout
                 </button>
               </Link>
             </li>
-          )}
-          {accountId && (
-            <>
-              <li>
-                <Link to={logoutUrl}>
-                  <button class="dropdown-item" type="button">
-                    Logout
-                  </button>
-                </Link>
-              </li>
-            </>
-          )}
-        </ul>
-      )}
+          </>
+        )}
+      </ul>
     </div>
-
     {accountId ? <></> : <>{registerButton}</>}
   </ActionArea>
 );
@@ -371,6 +403,7 @@ return (
     navMinHeight={navMinHeight}
     navBoxShadow={navBoxShadow}
     navBackdropFilter={navBackdropFilter}
+    style={inlineStyle}
   >
     <div
       style={{
