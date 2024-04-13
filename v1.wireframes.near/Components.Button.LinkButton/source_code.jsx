@@ -16,41 +16,6 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
-const LinkButton = styled.button`
-  width: ${(props) => props.width || "100%"};
-  background-color: ${(props) => props.backgroundColor || "#0d6efd"};
-  border: ${(props) => props.border || "none"};
-  border-radius: ${(props) => props.borderRadius || "5px"};
-  border-style: ${(props) => props.borderStyle || "none"};
-  color: ${(props) => props.fontColor || "#fff"};
-  cursor: pointer;
-  flex-shrink: 0;
-  font-family: ${(props) =>
-    props.fontFamily ||
-    "system-ui,-apple-system,system-ui,Helvetica Neue,Helvetica,Arial,sans-serif"};
-  font-size: ${(props) => props.fontSize || "16px"};
-  font-weight: ${(props) => props.fontWeight || "600"};
-  height: ${(props) => props.height || "3rem"};
-  padding: ${(props) => props.padding || "10px 20px"};
-  text-align: center;
-  text-shadow: ${(props) =>
-    props.textShadow || "rgba(0, 0, 0, 0.25) 0 3px 8px"};
-  transition: all 0.5s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-
-  &:hover {
-    transition-duration: 0.1s;
-    background-color: ${(props) =>
-      props.hoverColor || "#0451c2"};
-  }
-
-  &:active {
-    background-color: ${(props) =>
-      props.activeColor || "#0451c2"};
-  }
-`;
 
 const label = props.buttonTitle ?? "Title";
 const type = props.style.type ?? "button";
@@ -77,11 +42,46 @@ const onClick = props.onClick ?? (() => {});
 const buttonHref = props.buttonHref ?? "";
 const buttonAnchor = props.buttonAnchor ?? "a";
 const isLoading = props.isLoading ?? false;
+
+const LinkButton = styled.button`
+  width: ${(props) => props.width || "100%"};
+  background-color: ${(props) => props.backgroundColor || "#0d6efd"};
+  border: ${(props) => props.border || "none"};
+  border-radius: ${(props) => props.borderRadius || "5px"};
+  border-style: ${(props) => props.borderStyle || "none"};
+  color: ${(props) => props.fontColor || "#fff"};
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: ${(props) =>
+    props.fontFamily ||
+    "system-ui,-apple-system,system-ui,Helvetica Neue,Helvetica,Arial,sans-serif"};
+  font-size: ${(props) => props.fontSize || "16px"};
+  font-weight: ${(props) => props.fontWeight || "600"};
+  height: ${(props) => props.height || "3rem"};
+  padding: ${(props) => props.padding || "10px 20px"};
+  text-align: center;
+  text-shadow: ${(props) =>
+    props.textShadow || "rgba(0, 0, 0, 0.25) 0 3px 8px"};
+  transition: all 0.5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  &:hover {
+    transition-duration: 0.1s;
+    background-color: ${(props) => props.hoverColor || "#0451c2"};
+  }
+
+  &:active {
+    background-color: ${(props) => props.activeColor || "#0451c2"};
+  }
+`;
+
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "30px",
   width: props.style.loaderWidth ?? "30px",
-}
+};
 return (
   <>
     {buttonHref == "" ? (
