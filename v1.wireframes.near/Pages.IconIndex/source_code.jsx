@@ -17,46 +17,45 @@
 
 /* -------------------------------------------------------------------------- */
 
-                                                         
 
 
-const Container = ({ children }) => {
-    return (
-        <Widget
-        src={`v1.wireframes.near/widget/Components.Layout.Container`}
-        props={children}
-      />
-    );
-  };
-
- 
-
-  const data ={children : (<>
-    <div className="p-4 d-flex justify-content-center">
-        <div className="row d-flex justify-content-center" style={{ paddingTop:"inherit" }}>
-           
-        <h1 className="pt-4">Bootstrap Icons</h1>
-    <Widget src={`v1.wireframes.near/widget/Components.Icon.IconDetail.BootstrapIconsDetail`}/>  
-  
-    <h5 className="pt-4">You can also refer <a href="https://icons.getbootstrap.com/" target="_blank" >Bootstrap icon</a> for more icons.</h5>
-   
-    </div>    
-    </div>
-
-    </>)} ;
-
-return(
+const data = {
+  children: (
     <>
-     <Widget src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`}/>
-     <div style={{ height:"100vh" }}>
-    <Widget
+      <div className="p-4 d-flex justify-content-center">
+        <div
+          className="row d-flex justify-content-center"
+          style={{ paddingTop: "8%" }}
+        >
+          <h1 className="pt-4">Bootstrap Icons</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Icon.IconDetail.BootstrapIconsDetail`}
+          />
+
+          <h5 className="pt-5">
+            You can also refer{" "}
+            <a href="https://icons.getbootstrap.com/" target="_blank">
+              Bootstrap icon
+            </a>{" "}
+            for more icons.
+          </h5>
+        </div>
+      </div>
+    </>
+  ),
+};
+
+return (
+  <>
+    <Widget src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`} />
+    <div className="row">
+      <Widget
         src={`v1.wireframes.near/widget/Components.Layout.Container`}
         props={data}
       />
-      </div>
-<Widget
-        src={`v1.wireframes.near/widget/Components.Navigations.Footer`}
-      />
-
-    </>
+    </div>
+    <div className="row">
+      <Widget src={`v1.wireframes.near/widget/Components.Navigations.Footer`} />
+    </div>
+  </>
 );
