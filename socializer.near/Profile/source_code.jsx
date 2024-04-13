@@ -132,7 +132,7 @@ const Input = styled.input`
   width: 80px;
 `;
 
-clearNotification = () => {
+const clearNotification = () => {
   State.update({
     notification: "",
   });
