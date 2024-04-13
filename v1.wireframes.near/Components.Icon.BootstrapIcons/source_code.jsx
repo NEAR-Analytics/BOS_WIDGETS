@@ -17,13 +17,24 @@
 
 /* -------------------------------------------------------------------------- */
 
-                          
 const iconName = props.iconName ?? "home";
 const iconSize = props.iconSize ?? "";
 const iconColor = props.iconColor ?? "";
+const iconMargin = props.iconMargin ?? "";
+const iconPadding = props.iconPadding ?? "";
 
 const icon = `bi bi-${iconName}`;
 
-return(<>
-    <i className={icon} style={{ fontSize:iconSize , color:iconColor }}/>
-</>);
+return (
+  <>
+    <i
+      className={icon}
+      style={{
+        fontSize: iconSize,
+        color: iconColor,
+        margin: iconMargin,
+        padding: iconPadding,
+      }}
+    />
+  </>
+);
