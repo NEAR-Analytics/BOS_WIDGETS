@@ -63,7 +63,7 @@ const iconArrowUpThirdProps = {
 };
 
 const detail = `const buttonProps ={
-  icon: "bi bi-arrow-up",
+  icon: "arrow-up",
   iconColor: "#fff",
   iconSize: "20px",
   style:{ 
@@ -89,10 +89,10 @@ const propsExplanation = [
     title: "buttonHref",
     required: "false",
     content:
-      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. e.g.",
+      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       buttonHref: "${hyperlink}",
-    }`,
+    };`,
   },
   {
     title: "isDisable",
@@ -100,7 +100,7 @@ const propsExplanation = [
       "The isDisable prop is used to make an element non-interactive, meaning it cannot be clicked or modified by the user. e.g.",
     code: `const buttonProps = { 
       isDisable: false,
-    }`,
+    };`,
   },
   {
     title: "icon",
@@ -108,8 +108,8 @@ const propsExplanation = [
     content:
       "The icon prop can accept an icon name or identifier, allowing the component to dynamically select and render the appropriate icon based on the provided name. e.g.",
     code: `const buttonProps = { 
-      icon: "bi bi-arrow-up",
-    }`,
+      icon: "arrow-up",
+    };`,
   },
   {
     title: "iconColor",
@@ -117,7 +117,7 @@ const propsExplanation = [
       "The iconColor prop is used to dynamically set the fill color of the representing icon. e.g.",
     code: `const buttonProps = { 
       iconColor: "#0d6efd",
-    }`,
+    };`,
   },
   {
     title: "iconSize",
@@ -125,19 +125,18 @@ const propsExplanation = [
       "The iconSize prop is passed to the icon component, to set the size of the icon. e.g.",
     code: `const buttonProps = { 
       iconSize: "20px",
-    }`,
+    };`,
   },
   {
     title: "style",
-    required: "true",
     content:
       "You can use the style attribute to apply styles to components. e.g.",
     code: `const buttonProps = {
       style:{ 
         fontSize: '0.5em', 
         fontWeight: '600', 
-        border: '1px solid' 
-      } 
+        border: '1px solid', 
+      }, 
     };`,
     children: [
       {
@@ -147,7 +146,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             width: 'auto',
-          } 
+          }, 
         };`,
       },
       {
@@ -157,7 +156,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             height: 'auto',
-          } 
+          }, 
         };`,
       },
       {
@@ -167,7 +166,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             minHeight: '39px',
-          } 
+          }, 
         };`,
       },
       {
@@ -177,7 +176,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             minWidth: '40px',
-          } 
+          }, 
         };`,
       },
       {
@@ -187,7 +186,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             border: '1px solid transparent',
-         } 
+          }, 
         };`,
       },
       {
@@ -197,7 +196,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             padding: '5px 3px',
-         } 
+          }, 
         };`,
       },
       {
@@ -207,7 +206,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             borderRadius: '100%',
-          } 
+          }, 
         };`,
       },
       {
@@ -217,7 +216,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             lineHeight: '1.25',
-         } 
+          }, 
         };`,
       },
       {
@@ -227,7 +226,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             boxShadow: 'rgba(0, 0, 0, 0.02) 0 1px 3px 0',
-          } 
+          }, 
         };`,
       },
       {
@@ -237,7 +236,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             backgroundColor: 'transparent',
-          } 
+          }, 
         };`,
       },
       {
@@ -247,7 +246,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             activeBoxShadow: 'rgba(0, 0, 0, .06) 0 2px 4px',
-          } 
+          }, 
         };`,
       },
       {
@@ -257,7 +256,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             hoverBoxShadow: 'rgba(0, 0, 0, 0.1) 0 4px 12px',
-          } 
+          }, 
         };`,
       },
       {
@@ -267,7 +266,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderHeight: '21px',
-          } 
+          }, 
         };`,
       },
       {
@@ -277,7 +276,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderWidth: '21px',
-          } 
+          }, 
         };`,
       },
       {
@@ -287,7 +286,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderMarginRight: '0px',
-          } 
+          }, 
         };`,
       },
     ],
@@ -297,19 +296,21 @@ const propsExplanation = [
     content: "You will be able to add your Inline style here. e.g.",
     code: `const buttonProps = { 
       inlineStyle: { 
-      fontSize: '0.5em',
-    } 
-  };`,
+        fontSize: '0.5em',
+      }, 
+    };`,
   },
   {
     title: "onClick",
-    content: "You can add your onClick method here. e.g.",
+    content:
+      "You can add your onClick method here. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       onClick: () => {
         State.update({ show: !state.show, 
-          showProp: false });
-        }
-    }`,
+          showProp: false 
+        });
+      },
+    };`,
   },
   {
     title: "type",
@@ -318,7 +319,7 @@ const propsExplanation = [
       "Buttons can have different types, such as submit, reset, or button, each with its specific behavior. e.g.",
     code: `const buttonProps = { 
       type: "button",
-    }`,
+    };`,
   },
 ];
 
