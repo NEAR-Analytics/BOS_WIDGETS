@@ -16,6 +16,19 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+const width = props.style.width;
+const maxWidth = props.style.maxWidth;
+const margin = props.style.margin;
+const padding = props.style.padding;
+const textWrap = props.style.textWrap;
+
+const tabletPadding = props.tabletPadding;
+const laptopPadding = props.laptopPadding;
+const desktopPadding = props.desktopPadding;
+
+const backgroundColor = props.style.backgroundColor ?? "transparent";
+
+const inlineStyle = props.inlineStyle;
 
 const StyleContainer = styled.div`
   width: ${(props) => props.width || "100%"};
@@ -23,6 +36,8 @@ const StyleContainer = styled.div`
   margin: ${(props) => props.margin || "0 auto"};
   padding: ${(props) => props.padding || "0 20px"};
   text-wrap: ${(props) => props.textWrap || "wrap"};
+  background-color: ${backgroundColor};
+
   @media screen and (max-width: 1200px) {
     padding: ${(props) => props.desktopPadding || "0 15px"};
   }
@@ -36,17 +51,6 @@ const StyleContainer = styled.div`
   }
 `;
 
-
-const width = props.style.width;
-const maxWidth = props.style.maxWidth;
-const margin = props.style.margin;
-const padding = props.style.padding;
-const textWrap = props.style.textWrap;
-
-const tabletPadding = props.tabletPadding;
-const laptopPadding = props.laptopPadding;
-const desktopPadding = props.desktopPadding;
-
 const Container = ({ children }) => {
   return (
     <StyleContainer
@@ -58,6 +62,7 @@ const Container = ({ children }) => {
       tabletPadding={tabletPadding}
       laptopPadding={laptopPadding}
       desktopPadding={desktopPadding}
+      style={inlineStyle}
     >
       {children}
     </StyleContainer>
@@ -75,6 +80,7 @@ return (
     tabletPadding={tabletPadding}
     laptopPadding={laptopPadding}
     desktopPadding={desktopPadding}
+    style={inlineStyle}
   >
     {children}
   </StyleContainer>
