@@ -74,7 +74,7 @@ useEffect(() => {
 const { tokens, amountOutFn, handlerSwap, handlerClaim } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
-  const txs = Storage.privateGet("stargate_txs") || {};
+  const txs =  (handlerClaim ? Storage.privateGet("claim_txs") : Storage.privateGet("stargate_txs")) || {};
   txs[hash] = {
     amount,
     symbol: currency.symbol,
