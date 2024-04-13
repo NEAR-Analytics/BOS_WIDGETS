@@ -43,9 +43,10 @@ const StyledOperationButton = styled.button`
   cursor: pointer;
   &:not(:disabled):hover {
     opacity: 0.8;
+    background: #393c51;
   }
   &:disabled {
-    opacity: 0.8;
+    background: #393c51;
     cursor: not-allowed;
   }
 `;
@@ -111,8 +112,19 @@ const StyledButton = styled.div`
       display: block;
     }
   }
+  &.borrow {
+    background-color: #5d36c3;
+  }
   &[disabled] {
     cursor: not-allowed;
+  }
+  &[disabled].supply {
+    background-color: rgba(151, 154, 190, 0.2);
+  }
+  &[disabled].borrow {
+    background-color: rgba(151, 154, 190, 0.2);
+  }
+  &[disabled].pending {
     background-color: rgba(0, 173, 121, 0.3);
   }
 `;
@@ -159,13 +171,16 @@ State.init({
 
 const updateInfo = () => {
   getAccountInfo(data, (res) => {
+    const _availableToBorrow = Big(res.userBorrowCapacityUsd).minus(
+      res.borrowedBalanceUsd
+    );
     State.update({
       ...res,
       collaterValue: res.userCollateralUsd,
       borrowCapacity: res.userBorrowCapacityUsd,
-      availableToBorrow: Big(res.userBorrowCapacityUsd)
-        .minus(res.borrowedBalanceUsd)
-        .toString(),
+      availableToBorrow: Big(_availableToBorrow).lt(0)
+        ? "0"
+        : _availableToBorrow.toString(),
       liquidationPoint:
         Big(res.userLiquidationUsd || 0).eq(0) ||
         Big(res.userCollateralUsd || 0).eq(0)
@@ -557,6 +572,7 @@ return (
           }}
         >
           <StyledButton
+            className="supply"
             disabled={Big(state.borrowedBalanceUsd || 0).gt(0) || state.loading}
             onClick={() => {
               if (Big(state.borrowedBalanceUsd || 0).gt(0) || state.loading)
@@ -600,14 +616,7 @@ return (
             Supply
           </StyledButton>
           <StyledButton
-            style={{
-              backgroundColor:
-                Big(state.balance || 0).gt(0) ||
-                Big(state.borrowCapacity || 0).eq(0) ||
-                state.loading
-                  ? "rgba(151, 154, 190, 0.2)"
-                  : "#5D36C3",
-            }}
+            className="borrow"
             disabled={
               Big(state.balance || 0).gt(0) ||
               Big(state.borrowCapacity || 0).eq(0) ||
@@ -796,16 +805,12 @@ return (
                       state.loading
                     )
                       return;
-                    console.log(
-                      757,
-                      state.collateralBalances[asset.address].balanceUsd
-                    );
                     const _collaterBalanceUsd =
                       state.collateralBalances[asset.address].balanceUsd;
 
                     let _balanceUsd = Big(0);
                     if (Big(state.borrowedBalanceUsd).eq(0)) {
-                      _balanceUsd = _collaterBalanceUsd;
+                      _balanceUsd = Big(_collaterBalanceUsd);
                     } else {
                       const _capacity = Big(_collaterBalanceUsd).mul(
                         asset.borrowCollateralFactor / 100
@@ -813,6 +818,7 @@ return (
                       const _otherCapacity = Big(
                         state.userBorrowCapacityUsd
                       ).minus(_capacity);
+
                       const _diff = Big(state.borrowedBalanceUsd).minus(
                         _otherCapacity
                       );
@@ -821,7 +827,8 @@ return (
                         _diff.div(asset.borrowCollateralFactor / 100)
                       );
                     }
-                    console.log("_balanceUsd", _balanceUsd.toString());
+                    _balanceUsd = _balanceUsd.lt(0) ? Big(0) : _balanceUsd;
+
                     State.update({
                       showDialog: true,
                       type: "Withdraw",
@@ -1122,6 +1129,7 @@ return (
                     loading: true,
                   });
                 }}
+                className="pending"
               >
                 {state.loading && (
                   <div>
@@ -1203,7 +1211,6 @@ return (
               });
               tx.wait()
                 .then((res) => {
-                  updateInfo();
                   const { status, transactionHash } = res;
                   const _actions = [];
                   state.actions.forEach((action, i) => {
@@ -1223,21 +1230,29 @@ return (
                     transactionHash,
                     extra_data: { lending_actions: _actions },
                   });
-                  toast?.dismiss(toastId);
-                  toast?.success({
-                    title: `Request successed!`,
-                    tx: transactionHash,
-                    chainId: curChain.chainId,
-                  });
-                  State.update({
-                    loading: false,
-                    actions: [],
-                  });
+                  if (status === 1) {
+                    updateInfo();
+                    toast?.dismiss(toastId);
+                    toast?.success({
+                      title: `Request successed!`,
+                      tx: transactionHash,
+                      chainId: curChain.chainId,
+                    });
+                    State.update({
+                      loading: false,
+                      actions: [],
+                    });
+                  } else {
+                    throw new Error();
+                  }
                 })
                 .catch((err) => {
                   toast?.dismiss(toastId);
                   toast?.fail({
                     title: "Request Failed!",
+                  });
+                  State.update({
+                    loading: false,
                   });
                 });
             })
