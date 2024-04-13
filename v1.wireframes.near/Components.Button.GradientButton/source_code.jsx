@@ -16,6 +16,33 @@
                                                                                  */
 
 /* -------------------------------------------------------------------------- */
+
+
+const label = props.buttonTitle ?? "Title";
+const type = props.style.type ?? "button";
+const isDisable = props.isDisable ?? false;
+
+const width = props.style.width;
+const border = props.style.border;
+const padding = props.style.padding;
+const fontSize = props.style.fontSize;
+const fontColor = props.style.fontColor;
+const fontFamily = props.style.fontFamily;
+const fontWeight = props.style.fontWeight;
+const borderRadius = props.style.borderRadius;
+const height = props.style.height;
+const borderStyle = props.style.borderStyle;
+const backgroundColor = props.style.backgroundColor;
+const boxShadow = props.style.boxShadow;
+const textShadow = props.style.textShadow;
+
+const inlineStyle = props.inlineStyle;
+const onClick = props.onClick ?? (() => {});
+
+const buttonHref = props.buttonHref ?? "";
+const buttonAnchor = props.buttonAnchor ?? "a";
+const isLoading = props.isLoading ?? false;
+
 const GradientButton = styled.button`
   width: ${(props) => props.width || "100%"};
   background-image: ${(props) =>
@@ -49,35 +76,11 @@ const GradientButton = styled.button`
   }
 `;
 
-const label = props.buttonTitle ?? "Title";
-const type = props.style.type ?? "button";
-const isDisable = props.isDisable ?? false;
-
-const width = props.style.width;
-const border = props.style.border;
-const padding = props.style.padding;
-const fontSize = props.style.fontSize;
-const fontColor = props.style.fontColor;
-const fontFamily = props.style.fontFamily;
-const fontWeight = props.style.fontWeight;
-const borderRadius = props.style.borderRadius;
-const height = props.style.height;
-const borderStyle = props.style.borderStyle;
-const backgroundColor = props.style.backgroundColor;
-const boxShadow = props.style.boxShadow;
-const textShadow = props.style.textShadow;
-
-const inlineStyle = props.inlineStyle;
-const onClick = props.onClick ?? (() => {});
-
-const buttonHref = props.buttonHref ?? "";
-const buttonAnchor = props.buttonAnchor ?? "a";
-const isLoading = props.isLoading ?? false;
 const loaderStyle = {
   marginRight: props.style.loaderMarginRight ?? "10px",
   height: props.style.loaderHeight ?? "30px",
   width: props.style.loaderWidth ?? "30px",
-}
+};
 return (
   <>
     {buttonHref == "" ? (
@@ -100,7 +103,7 @@ return (
         type={type}
         disabled={isDisable}
       >
-            {isLoading ? (
+        {isLoading ? (
           <>
             <div
               className="spinner-border text-light"
@@ -109,7 +112,6 @@ return (
             >
               <span className="visually-hidden">Loading...</span>
             </div>
-            
           </>
         ) : (
           <>{label}</>
@@ -137,7 +139,7 @@ return (
         as={buttonAnchor}
         href={buttonHref}
       >
-            {isLoading ? (
+        {isLoading ? (
           <>
             <div
               className="spinner-border text-light"
@@ -146,7 +148,6 @@ return (
             >
               <span className="visually-hidden">Loading...</span>
             </div>
-            
           </>
         ) : (
           <>{label}</>
