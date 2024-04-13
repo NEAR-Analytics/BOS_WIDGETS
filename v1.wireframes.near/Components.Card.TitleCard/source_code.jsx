@@ -22,17 +22,17 @@ const cardStyle = props.cardStyle;
 const cardHeaderStyle = props.cardHeaderStyle;
 
 const cardBodyStyle = props.cardBodyStyle;
-return(
-    <>
+return (
+  <>
     <div className="card" style={cardStyle}>
-        {cardHeader &&
+      {cardHeader && (
         <div className="card-header" style={cardHeaderStyle}>
-            {cardHeader}
+          {cardHeader}
         </div>
-        }
-        <div className="card-body" style={cardBodyStyle}>
-            {cardBody}
-        </div>
-        </div>
-    </>
+      )}
+      <div className="card-body" style={cardBodyStyle}>
+        {cardBody}
+      </div>
+    </div>
+  </>
 );
