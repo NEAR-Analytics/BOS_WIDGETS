@@ -191,7 +191,13 @@ return (
         >
           <StyledInput
             placeholder="0.00"
-            value={state.amount || ""}
+            value={
+              state.amount
+                ? Big(state.amount || 0).lt(0.000001)
+                  ? Big(state.amount).toFixed(state.amount.length)
+                  : state.amount
+                : ""
+            }
             onChange={(ev) => {
               if (isNaN(Number(ev.target.value))) return;
               if (Big(ev.target.value || 0).gt(asset.walletBalance)) return;
@@ -488,6 +494,7 @@ return (
               : "#00ad79",
           }}
           onClick={() => {
+            if (!Big(state.amount || 0).gt(0)) return;
             if (!state.isApproved) {
               State.update({
                 loading: true,
