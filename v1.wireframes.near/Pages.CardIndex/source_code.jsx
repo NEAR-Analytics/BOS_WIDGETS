@@ -17,44 +17,45 @@
 
 /* -------------------------------------------------------------------------- */
 
-                                                         
-
-
-const Container = ({ children }) => {
-    return (
-        <Widget
-        src={`v1.wireframes.near/widget/Components.Layout.Container`}
-        props={children}
-      />
-    );
-  };
-
- 
-
-  const data ={children : (<>
-    <div className="p-4 d-flex justify-content-center">
-        <div className="row d-flex justify-content-center" style={{ paddingTop:"inherit" }}>
-           
-        <h1 className="pt-4">Simple Card</h1>
-    <Widget src={`v1.wireframes.near/widget/Components.Card.CardDetail.CardDetail`}/>  
-  
-    </div>    
-    </div>
-
-    </>)} ;
-
-return(
+const data = {
+  children: (
     <>
-     <Widget src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`}/>
-     <div style={{ height:"200vh" }}>
-    <Widget
+      <div className="p-4 d-flex justify-content-center">
+        <div
+          className="row d-flex justify-content-center"
+          style={{ paddingTop: "8%", height: "100%" }}
+        >
+          <h1 className="pt-4">Simple Card</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Card.CardDetail.CardDetail`}
+          />
+
+          <h1 className="pt-5">Transaction Card</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Card.CardDetail.TransactionCardDetail`}
+          />
+
+          <h1 className="pt-5">Image Card</h1>
+          <Widget
+            src={`v1.wireframes.near/widget/Components.Card.CardDetail.ImageCardDetail`}
+          />
+        </div>
+      </div>
+    </>
+  ),
+};
+
+return (
+  <>
+    <Widget src={`v1.wireframes.near/widget/Pages.Navigation.Navbar`} />
+    <div className="row">
+      <Widget
         src={`v1.wireframes.near/widget/Components.Layout.Container`}
         props={data}
       />
-      </div>
-<Widget
-        src={`v1.wireframes.near/widget/Components.Navigations.Footer`}
-      />
-
-    </>
+    </div>
+    <div className="row">
+      <Widget src={`v1.wireframes.near/widget/Components.Navigations.Footer`} />
+    </div>
+  </>
 );
