@@ -14,12 +14,7 @@
   * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
                                                                                  */
-
 /* -------------------------------------------------------------------------- */
-
-const Text = styled.p`
-  font-size: ${(props) => props.fontSize || "10px"};
-`;
 
 const fontSize = props.style.fontSize;
 
@@ -37,25 +32,25 @@ const explanation =
 const propsExplanation = [
   {
     title: "children",
-    required: "false",
+    required: "true",
     content:
       "The children typically refers to the elements or components nested within a parent element or component. You must have to add or pass the code inside children to do changes. e.g.",
     code: `const data = {
-      children:(<>
+      children:(
+      <>
         <p>This is a simple example of using a container styled component.</p>
       </>)
     };`,
   },
   {
     title: "style",
-    required: "false",
     content:
       "You can use the style attribute to apply styles to components. e.g.",
     code: `const data = {
       style:{ 
         margin-right: 'auto',
         padding-right: '2%',
-      } 
+      }, 
     };`,
     children: [
       {
@@ -65,7 +60,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             width: '96%',
-          } 
+          }, 
         };`,
       },
       {
@@ -75,7 +70,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             marginRight: 'auto',
-          } 
+          }, 
         };`,
       },
       {
@@ -85,7 +80,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             marginLeft: 'auto',
-          } 
+          }, 
         };`,
       },
       {
@@ -95,7 +90,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             paddingRight: '2%',
-         } 
+          }, 
         };`,
       },
       {
@@ -105,7 +100,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             paddingLeft: '2%',
-         } 
+          }, 
         };`,
       },
       {
@@ -115,7 +110,7 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             textWrap: 'wrap',
-         } 
+          }, 
         };`,
       },
       {
@@ -125,7 +120,17 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             mobileWidth: '94%',
-          } 
+          }, 
+        };`,
+      },
+      {
+        title: "mobileHeight",
+        content:
+          "The mobileHeight property is used to set the height of an element. It determines the vertical size of the content box within the element's box model. You can set the height using various units, such as pixels (px), percentages (%), em units (em), (vh) or other length units. e.g.",
+        code: `const data = {
+          style:{ 
+            mobileHeight: '100%',
+          }, 
         };`,
       },
       {
@@ -135,7 +140,17 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             tabletWidth: '92%',
-          } 
+          }, 
+        };`,
+      },
+      {
+        title: "tabletHeight",
+        content:
+          "The tabletHeight property is used to set the height of an element. It determines the vertical size of the content box within the element's box model. You can set the height using various units, such as pixels (px), percentages (%), em units (em), (vh) or other length units. e.g.",
+        code: `const data = {
+          style:{ 
+            tabletHeight: '100%',
+          }, 
         };`,
       },
       {
@@ -145,7 +160,17 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             laptopWidth: '90%',
-          } 
+          },
+        };`,
+      },
+      {
+        title: "laptopHeight",
+        content:
+          "The laptopHeight property is used to set the height of an element. It determines the vertical size of the content box within the element's box model. You can set the height using various units, such as pixels (px), percentages (%), em units (em), (vh) or other length units. e.g.",
+        code: `const data = {
+          style:{ 
+            laptopHeight: '100%',
+          }, 
         };`,
       },
       {
@@ -155,10 +180,49 @@ const propsExplanation = [
         code: `const data = {
           style:{ 
             desktopWidth: '88%',
-          } 
+          }, 
+        };`,
+      },
+      {
+        title: "desktopHeight",
+        content:
+          "The desktopHeight property is used to set the height of an element. It determines the vertical size of the content box within the element's box model. You can set the height using various units, such as pixels (px), percentages (%), em units (em), (vh) or other length units. e.g.",
+        code: `const data = {
+          style:{ 
+            desktopHeight: '100%',
+          }, 
+        };`,
+      },
+      {
+        title: "fontSize",
+        content:
+          "The fontSize props is used to set the size of the text content within an element. It specifies the height of the font in pixels, em units, percentages, or other length units. e.g.",
+        code: `const data = {
+          style:{ 
+            fontSize: '10px',
+          }, 
+        };`,
+      },
+      {
+        title: "backgroundColor",
+        content:
+          "You can use color names, hex codes, or RGB values to change background color. e.g.",
+        code: `const data = {
+          style:{ 
+            backgroundColor: '#eee',
+          }, 
         };`,
       },
     ],
+  },
+  {
+    title: "inlineStyle",
+    content: "You will be able to add your Inline style here. e.g.",
+    code: `const data = { 
+      inlineStyle: { 
+        marginRight: '0px',
+      }, 
+    };`,
   },
 ];
 
