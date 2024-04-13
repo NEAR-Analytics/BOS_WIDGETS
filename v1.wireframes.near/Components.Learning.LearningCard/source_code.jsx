@@ -1,3 +1,20 @@
+/* -------------------------------------------------------------------------- */
+/*
+ __        ___           __                               
+ \ \      / (_)_ __ ___ / _|_ __ __ _ _ __ ___   ___  ___ 
+  \ \ /\ / /| | '__/ _ \ |_| '__/ _` | '_ ` _ \ / _ \/ __|
+   \ V  V / | | | |  __/  _| | | (_| | | | | | |  __/\__ \
+    \_/\_/  |_|_|  \___|_| |_|  \__,_|_| |_| |_|\___||___/
+
+  =========================================================
+  * Wireframes - v1.0.0
+  =========================================================
+  * Product Page: https://wireframes.design
+  =========================================================
+  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+                                                                                 */
+/* -------------------------------------------------------------------------- */
 const CardStyle = {
   height: "100%",
   width: "100vw",
@@ -54,7 +71,6 @@ const TerminalProps = {
 };
 
 const StyledPre = styled.pre`
-
   page-break-inside: avoid;
   font-family: monospace;
   font-size: 12px;
@@ -225,24 +241,26 @@ return (
                 <>
                   {props.copiedIcon ?? (
                     <Widget
-                    src="v1.wireframes.near/widget/Components.Button.IconButton"
-                    props={{
-                      icon: "clipboard2-check-fill",
-                      iconColor:"black"
-                    }}
-                  />
+                      src="v1.wireframes.near/widget/Components.Button.IconButton"
+                      props={{
+                        icon: "clipboard2-check-fill",
+                        iconColor: "black",
+                      }}
+                    />
                   )}{" "}
                   {props.copiedLabel ?? props.label}
                 </>
               ) : (
                 <>
-                  {props.clipboardIcon ?? <Widget
-                    src="v1.wireframes.near/widget/Components.Button.IconButton"
-                    props={{
-                      icon: "clipboard",
-                      iconColor:"black"
-                    }}
-                  />}{" "}
+                  {props.clipboardIcon ?? (
+                    <Widget
+                      src="v1.wireframes.near/widget/Components.Button.IconButton"
+                      props={{
+                        icon: "clipboard",
+                        iconColor: "black",
+                      }}
+                    />
+                  )}{" "}
                   {props.label}
                 </>
               )}
