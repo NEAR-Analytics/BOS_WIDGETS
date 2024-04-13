@@ -75,6 +75,12 @@ return (
         handlerSwap: "bluebiu.near/widget/Scroll.BridgeAuthority.HandlerSwap",
         handlerClaim: 'bluebiu.near/widget/Scroll.BridgeAuthority.HandlerClaim',
         ...props,
+        addAction: (params) => {
+          props.addAction({
+            ...params,
+            template: "Scroll Bridge",
+          })
+        }
       }}
     />
   </Theme>
