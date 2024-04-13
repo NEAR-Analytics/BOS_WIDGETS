@@ -1,12 +1,13 @@
+const c = `
 const [warning, setWarning] = useState(true);
-return (
-  <div
-    className="container"
-    onMouseEnter={() => setWarning(false)}
-    onMouseLeave={() => setWarning(true)}
-  >
-    <h1 style={{ color: warning ? "goldenrod" : "green" }}>
+return <h1
+      onMouseEnter={() => setWarning(false)}
+      onMouseLeave={() => setWarning(true)}
+      style={{ color: warning ? "goldenrod" : "green" }}
+    >
       Please hover over the container{" "}
-    </h1>
-  </div>
-);
+    </h1>`;
+
+console.log(a);
+
+return <Widget code={c} />;
