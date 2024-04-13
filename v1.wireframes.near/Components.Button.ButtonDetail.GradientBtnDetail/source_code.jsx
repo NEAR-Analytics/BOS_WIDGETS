@@ -116,10 +116,10 @@ const propsExplanation = [
     title: "buttonHref",
     required: "false",
     content:
-      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. e.g.",
+      "You can use buttonHref as the anchor element, which acts as a hyperlink, and clicking it will navigate to the specified URL. For navigation you can use either 'onClick' method, or 'buttonHref' props. If you're using 'buttonHref' then 'onClick' method won't work. e.g.",
     code: `const buttonProps = { 
       buttonHref: "${hyperlink}",
-    }`,
+    };`,
   },
   {
     title: "isDisable",
@@ -127,7 +127,7 @@ const propsExplanation = [
       "The isDisable prop is used to make an element non-interactive, meaning it cannot be clicked or modified by the user. e.g.",
     code: `const buttonProps = { 
       isDisable: true,
-    }`,
+    };`,
   },
   {
     title: "isLoading",
@@ -135,19 +135,18 @@ const propsExplanation = [
       "The isLoading prop is used to conditionally render loading spinners, placeholders, or other UI elements to indicate to the user that content is being loaded. e.g.",
     code: `const buttonProps = { 
       isLoading: false,
-    }`,
+    };`,
   },
   {
     title: "style",
-    required: "true",
     content:
       "You can use the style attribute to apply styles to components. e.g.",
     code: `const buttonProps = {
       style:{ 
         fontSize: '0.5em', 
         fontWeight: '600', 
-        border: '1px solid' 
-      } 
+        border: '1px solid', 
+      }, 
     };`,
     children: [
       {
@@ -157,7 +156,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             width: '100%',
-          } 
+          }, 
         };`,
       },
       {
@@ -167,7 +166,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             border: 'none',
-         } 
+          }, 
         };`,
       },
       {
@@ -177,7 +176,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             padding: '10px 20px',
-         } 
+          }, 
         };`,
       },
       {
@@ -187,7 +186,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontSize: '16px',
-         } 
+          }, 
         };`,
       },
       {
@@ -197,7 +196,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontColor: '#fff',
-         } 
+          }, 
         };`,
       },
       {
@@ -207,7 +206,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontFamily: 'system-ui,-apple-system,system-ui,Helvetica Neue,Helvetica,Arial,sans-serif',
-          } 
+          }, 
         };`,
       },
       {
@@ -217,7 +216,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             fontWeight: '600',
-          } 
+          }, 
         };`,
       },
       {
@@ -227,7 +226,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             borderRadius: '5px',
-          } 
+          }, 
         };`,
       },
       {
@@ -237,7 +236,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             height: '3rem',
-          } 
+          }, 
         };`,
       },
       {
@@ -247,7 +246,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             borderStyle: 'none',
-          } 
+          }, 
         };`,
       },
       {
@@ -257,7 +256,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             backgroundColor: 'transparent',
-          } 
+          }, 
         };`,
       },
       {
@@ -267,7 +266,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             textShadow: 'rgba(0, 0, 0, 0.25) 0 3px 8px',
-          } 
+          }, 
         };`,
       },
       {
@@ -277,7 +276,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             boxShadow: 'rgb(0,57,115) 0 1px 30px',
-          } 
+          }, 
         };`,
       },
       {
@@ -287,7 +286,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderHeight: '30px',
-          } 
+          }, 
         };`,
       },
       {
@@ -297,7 +296,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderWidth: '30px',
-          } 
+          }, 
         };`,
       },
       {
@@ -307,7 +306,7 @@ const propsExplanation = [
         code: `const buttonProps = {
           style:{ 
             loaderMarginRight: '10px',
-          } 
+          }, 
         };`,
       },
     ],
@@ -318,18 +317,20 @@ const propsExplanation = [
     code: `const buttonProps = { 
       inlineStyle: { 
       fontSize: '0.5em',
-    } 
+    }, 
   };`,
   },
   {
     title: "onClick",
-    content: "You can add your onClick method here. e.g.",
+    content:
+      "You can add your onClick method here. For navigation you can use either 'onClick' method, or 'buttonHref' props. e.g.",
     code: `const buttonProps = { 
       onClick: () => {
         State.update({ show: !state.show, 
-          showProp: false });
-        }
-    }`,
+          showProp: false 
+        });
+      },
+    };`,
   },
   {
     title: "type",
@@ -338,7 +339,7 @@ const propsExplanation = [
       "Buttons can have different types, such as submit, reset, or button, each with its specific behavior. e.g.",
     code: `const buttonProps = { 
       type: "button",
-    }`,
+    };`,
   },
 ];
 
