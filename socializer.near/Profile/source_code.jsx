@@ -132,6 +132,12 @@ const Input = styled.input`
   width: 80px;
 `;
 
+clearNotification = () => {
+  State.update({
+    notification: "",
+  });
+};
+
 const getTokenData = (e) => {
   // State.update({
   //   loaded: false,
@@ -467,8 +473,9 @@ return (
             type: state.notification.includes("Processing.")
               ? "info"
               : "success",
+            clearNotification,
           }}
-          src={`${Owner}/widget/Alert`}
+          src={`${Owner}/widget/Alert_2`}
         />
       </div>
     )}
