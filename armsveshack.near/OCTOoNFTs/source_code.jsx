@@ -616,13 +616,14 @@ useEffect(() => {
 }, []);
 
 const checkAddress = (a, b) => {
-  if (a.toString() === b.toString()) {
+  if (a === b) {
     console.log("cuenta con nfts");
     return true;
   } else {
     console.log(a);
     console.log(b);
     console.log("cuenta sin nfts");
+    return false;
   }
 };
 
@@ -793,7 +794,8 @@ return (
       >
         <div>
           <h1>My list of NFT's</h1>
-          {checkAddress(sender, address2) ? (
+          {ethers.utils.getAddress(sender) ===
+          ethers.utils.getAddress(address2) ? (
             <div
               style={{
                 display: "flex",
