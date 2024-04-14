@@ -19,6 +19,7 @@ const {
 
 State.init({
   markets: dexConfig.rawMarkets,
+  TOKENS: null,
   // tvl: "",
   // deposits: "",
   // tokenBal: "",
@@ -30,6 +31,7 @@ useEffect(() => {
   });
 }, []);
 console.log("PROPS:", props);
+console.log("STATE:", state);
 return (
   <Wrap>
     {tab === "BORROW" && (
@@ -38,8 +40,7 @@ return (
         props={{
           ...props,
           markets: state.markets,
-          // tokenBal: state.tokenBal,
-          // deposits: state.deposits,
+          TOKENS: state.TOKENS,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -54,6 +55,7 @@ return (
         props={{
           ...props,
           markets: state.markets,
+          TOKENS: state.TOKENS,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -71,7 +73,7 @@ return (
         onLoad: (data) => {
           State.update({
             loading: false,
-            timestamp: Date.now(),
+            // timestamp: Date.now(),
             ...data,
           });
         },
