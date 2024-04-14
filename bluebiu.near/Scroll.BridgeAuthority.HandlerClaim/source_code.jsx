@@ -326,7 +326,7 @@ useEffect(() => {
             })
 
 
-            if (!currentTx.status) {
+            if (!currentTx.status && currentTx.fromChainId === 1) {
               currentTx.status = 2
             }
 
