@@ -50,13 +50,13 @@ const StyledWrapper = styled.div`
 
 const StyledHeader = styled.div`
   height: 50px;
-  padding-left: 520px;
   border-bottom: 1px solid #373a53;
 `;
 
 const StyledTabs = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const StyledTab = styled.div`
@@ -73,14 +73,9 @@ const StyledTab = styled.div`
   cursor: pointer;
   position: relative;
   transition: 0.3s;
-  &::after {
-    content: "";
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    background-color: #373a53;
-    right: 0px;
-    top: 0px;
+  border-right: 1px solid #373a53;
+  &:last-child {
+    border-right: none;
   }
   &.active {
     border-bottom-color: #fff;
@@ -90,7 +85,13 @@ const StyledTab = styled.div`
 
 const StyledContent = styled.div`
   display: flex;
+  justify-content: center;
+  gap: 16px;
   padding-top: 16px;
+  .disabled {
+    opacity: 0.2;
+    pointer-events: none;
+  }
 `;
 const StyledInfo = styled.div`
   width: 520px;
@@ -206,17 +207,16 @@ const StyledButtonWrapper = styled.div`
   margin-top: 12px;
   height: 46px;
 `;
-const StyledGasBox = styled.div`
+const InfoWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
-  color: #979abe;
-  font-family: Gantari;
+  justify-content: space-between;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  /* display: none; */
+  color: white;
+  margin-bottom: 15px;
+`;
+const InfoKey = styled.div`
+  color: #979abe;
 `;
 
 const {
@@ -229,282 +229,80 @@ const {
   dexConfig,
   account,
   prices,
-  tokenBal,
-  IS_ETHOS_DAPP,
-  IS_PREON_DAPP,
-  IS_GRAVITA_DAPP,
   multicall,
   multicallAddress,
+  TOKENS,
 } = props;
 
 const data = props.data || {};
-const vesselStatus = data.vesselStatus; //ACTIVE INACTIVE
-let TABS = [];
-switch (vesselStatus) {
-  case "ACTIVE":
-    TABS = ["Adjust", "Close"];
-    break;
-  case "INACTIVE":
-    TABS = ["Borrow"];
-    break;
-}
+console.log("DATA--", data);
+let TABS = ["Borrow", "Repay", "Add Collateral", "Remove Collateral"];
 
 State.init({
   tab: TABS[0],
-  yourLTV: 0,
-  borrowingFee: 0,
-  liquidationPrice: 0,
-  totalDebt: 0,
-  _maxFeePercentage: 0, //ethos need
-  maxBorrowAmount: 0, // adjust need
+  infos: [],
+  contentStatus: "",
 });
 
 useEffect(() => {
-  State.update({
-    tab: TABS[0],
-  });
-}, [TABS]);
+  let _infos;
+  switch (state.tab) {
+    case "Borrow":
+      _infos = [
+        "Your Collateral",
+        "Your Borrow",
+        "Current/Liquidation LTV",
+        "Interest Rate",
+      ];
+      State.update({ contentStatus: "" });
+      break;
+    case "Repay":
+      _infos = [
+        "Your Collateral",
+        "Your Borrow",
+        "Current/Liquidation LTV",
+        "Interest Rate",
+      ];
+      if (!Number(data.yourBorrowed)) {
+        State.update({ contentStatus: "disabled" });
+      }
+      break;
+    case "Add Collateral":
+      _infos = [
+        "Your Collateral",
+        "Your Borrow",
+        "Current/Liquidation LTV",
+        "Health Factor",
+        "Interest Rate",
+      ];
+      State.update({ contentStatus: "" });
+      break;
+    case "Remove Collateral":
+      _infos = [
+        "Your Collateral",
+        "Your Borrow",
+        "Current/Liquidation LTV",
+        "Health Factor",
+        "Interest Rate",
+      ];
+      if (!Number(data.yourCollateraled) || Big(data.yourBorrowed).gt(0)) {
+        State.update({ contentStatus: "disabled" });
+      }
+      break;
+    default:
+      break;
+  }
+  State.update({ infos: _infos });
+}, [state.tab]);
 
-useEffect(() => {
-  const debounce = (fn, wait) => {
-    let timer;
-    return () => {
-      clearTimeout(timer);
-      timer = setTimeout(fn, wait);
-    };
-  };
-
-  const getTrade = () => {
-    State.update({
-      loading: true,
-    });
-  };
-
-  const debouncedGetTrade = debounce(getTrade, 500);
-
-  State.update({
-    debouncedGetTrade,
-    getTrade,
-  });
-}, []);
-
-//ethos
-function getVesselManager(_amount) {
-  const abi = [
-    {
-      inputs: [{ internalType: "uint256", name: "_LUSDDebt", type: "uint256" }],
-      name: "getBorrowingFee",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getBorrowingRateWithDecay",
-      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
-  const _LUSDDebt = ethers.utils.parseUnits(_amount);
-
-  const calls = [
-    {
-      address: dexConfig.VesselManager,
-      name: "getBorrowingRateWithDecay",
-      params: [],
-    },
-    {
-      address: dexConfig.VesselManager,
-      name: "getBorrowingFee",
-      params: [_LUSDDebt],
-    },
-  ];
-
-  multicall({
-    abi,
-    calls,
-    options: {},
-    multicallAddress,
-    provider: Ethers.provider(),
-  })
-    .then((res) => {
-      const [[_maxFeePercentageRaw], [_borrowingFeeRaw]] = res;
-
-      let borrowingFee;
-
-      borrowingFee = ethers.utils.formatUnits(_borrowingFeeRaw);
-
-      State.update({
-        _maxFeePercentage: _maxFeePercentageRaw,
-        borrowingFee,
-      });
-    })
-    .catch((err) => {
-      console.log("error:", err);
-    });
+if (!state.tab) return null;
+function formatValue(value, digits) {
+  if (isNaN(Number(value))) return "";
+  if (Number(value) === 0) return "0";
+  return Big(value || 0).lt(0.01)
+    ? "< 0.01"
+    : `${Number(value).toFixed(digits || 2)}`;
 }
-
-useEffect(() => {
-  if (state.tab === "Close") return;
-  if (
-    (IS_GRAVITA_DAPP || IS_PREON_DAPP) &&
-    state.isAssetBigerThanBalance &&
-    state.isDebtBigerThanBalance
-  )
-    return;
-  const price = prices[data.underlyingToken.symbol];
-
-  if (IS_GRAVITA_DAPP) {
-    let assetInUSD,
-      totalDebt,
-      _yourLTV,
-      borrowingFee,
-      liquidationPrice,
-      maxBorrowAmount,
-      borrowTokenBal;
-    if (state.tab === "Borrow") {
-      if (Big(state.borrowAmount || 0).gt(Big(state.borrowTokenBal || 0)))
-        return;
-      if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
-      assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
-      if (state.borrowAmount) {
-        _yourLTV = Big(state.borrowAmount).div(assetInUSD);
-      }
-      if (_yourLTV) {
-        totalDebt = Big(state.amount).mul(price).mul(_yourLTV);
-      }
-      if (assetInUSD) {
-        borrowTokenBal = assetInUSD
-          .minus(20)
-          .minus(assetInUSD.minus(20).mul(0.02))
-          .toFixed(2);
-      }
-      if (totalDebt) {
-        borrowingFee = totalDebt.minus(20).mul(0.02).toFixed(2);
-
-        liquidationPrice = totalDebt
-          .div(state.amount)
-          .div(Big(data["MAX_LTV"]))
-          .toFixed(2);
-      }
-    }
-    if (state.tab === "Adjust") {
-      // if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
-      assetInUSD = Big(state.amount || 0)
-        .plus(data.vesselDeposit)
-        .mul(price);
-      _yourLTV = Big(state.borrowAmount || 0)
-        .plus(data.vesselDebt)
-        .div(assetInUSD);
-
-      maxBorrowAmount = Big(assetInUSD)
-        .mul(Big(data["MAX_LTV"]))
-        .minus(data.vesselDebt)
-        .minus(assetInUSD.minus(20).mul(0.02))
-        .toFixed();
-
-      if (_yourLTV) {
-        totalDebt = Big(state.borrowAmount || 0).plus(data.vesselDebt);
-      }
-
-      if (totalDebt) {
-        borrowingFee = Big(state.borrowAmount || 0)
-          .mul(0.02)
-          .toFixed(2);
-        liquidationPrice = totalDebt
-          .div(Big(data.vesselDeposit).plus(state.amount || 0))
-          .div(Big(data["MAX_LTV"]))
-          .toFixed(2);
-      }
-    }
-
-    State.update({
-      totalDebt: Big(totalDebt || 0).toFixed(2),
-      yourLTV: Big(_yourLTV || 0).toFixed(2),
-      borrowingFee,
-      liquidationPrice,
-      borrowTokenBal,
-      maxBorrowAmount,
-    });
-  }
-  if (IS_PREON_DAPP) {
-    if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
-    let assetInUSD,
-      totalDebt,
-      yourLTV,
-      borrowingFee,
-      liquidationPrice,
-      borrowTokenBal;
-    const liquidationFee = 20;
-
-    if (state.tab === "Borrow") {
-      assetInUSD = Big(state.amount).mul(price).mul(Big(data["MAX_LTV"]));
-    }
-    if (state.tab === "Adjust") {
-      assetInUSD = Big(state.amount || 0)
-        .plus(data.vesselDeposit)
-        .mul(price)
-        .mul(Big(data["MAX_LTV"]));
-    }
-
-    if (assetInUSD) {
-      borrowTokenBal = assetInUSD
-        .minus(20)
-        .minus(assetInUSD.minus(20).mul(0.02))
-        .toFixed();
-    }
-
-    if (Big(state.borrowAmount || 0).gt(Big(borrowTokenBal || 0))) return;
-    borrowingFee = Big(state.borrowAmount || 0)
-      .mul(0.005)
-      .toFixed();
-    totalDebt = Big(state.borrowAmount || 0)
-      .plus(Big(borrowingFee))
-      .plus(liquidationFee)
-      .toFixed();
-    yourLTV = Big(totalDebt)
-      .div(Big(state.amount).mul(prices[data.underlyingToken.symbol]))
-      .toFixed();
-    liquidationPrice = Big(totalDebt)
-      .div(Big(state.amount).mul(Big(data["MAX_LTV"])))
-      .toFixed();
-    State.update({
-      totalDebt,
-      yourLTV,
-      borrowingFee,
-      liquidationPrice,
-      borrowTokenBal,
-    });
-  }
-
-  if (IS_ETHOS_DAPP) {
-    if (isNaN(Number(state.amount)) || !Number(state.amount)) return;
-    if (!Number(state.borrowAmount)) return;
-    let totalDebt,
-      collateralRatio, //  like _yourLTV
-      liquidationPrice;
-
-    totalDebt = Big(state.borrowAmount || 0)
-      .plus(10)
-      .plus(state.borrowingFee)
-      .toFixed();
-    collateralRatio = Big(state.amount || 0)
-      .mul(prices[data.underlyingToken.symbol])
-      .div(totalDebt)
-      .toFixed();
-
-    liquidationPrice = Big(totalDebt)
-      .div(Big(state.amount).mul(data.MCR))
-      .toFixed();
-    State.update({
-      totalDebt,
-      collateralRatio,
-      liquidationPrice,
-    });
-  }
-}, [state.borrowAmount, state.amount]);
-
 const onAmountChange = (amount) => {
   if (isNaN(Number(amount))) return;
   const isZero = Big(amount || 0).eq(0);
@@ -520,39 +318,56 @@ const onAmountChange = (amount) => {
   );
 
   State.update(params);
-
-  state.debouncedGetTrade();
 };
 
-const onBorrowAmountChange = (amount) => {
-  if (isNaN(Number(amount))) return;
-  const isZero = Big(amount || 0).eq(0);
-  if (isZero) {
-    State.update({
-      borrowAmount: amount,
-    });
-    return;
-  }
-  if (IS_ETHOS_DAPP) {
-    getVesselManager(amount);
-  }
-  const params = { borrowAmount: amount };
-  if (state.tab === "Borrow") {
-    params.isDebtBigerThanBalance = Big(amount || 0).gt(
-      Big(state.borrowTokenBal || 0)
-    );
-  }
-  if (state.tab === "Adjust") {
-    params.isDebtBigerThanBalance = Big(amount || 0).gt(
-      Big(state.maxBorrowAmount || 0)
-    );
-  }
-  State.update(params);
-  state.debouncedGetTrade();
-};
+function renderInfo() {
+  return state.infos.map((item) => {
+    switch (item) {
+      case "Your Collateral":
+        return (
+          <InfoWrap>
+            <InfoKey>{item}:</InfoKey>
+            {formatValue(data.yourCollateraled, 2)} {data.collateralSymbol}
+          </InfoWrap>
+        );
+      case "Your Borrow":
+        return (
+          <InfoWrap>
+            <InfoKey>{item}:</InfoKey>
+            {formatValue(data.yourBorrowed, 2)} {data.borrowSymbol}
+          </InfoWrap>
+        );
+      case "Current/Liquidation LTV":
+        return (
+          <InfoWrap>
+            <InfoKey>{item}:</InfoKey>
+            {/* {formatValue(data.yourDeposited, 2)} {data.depositSymbol} */}
+          </InfoWrap>
+        );
+      case "Health Factor":
+        return (
+          <InfoWrap>
+            <InfoKey>{item}:</InfoKey> 0.00 %
+          </InfoWrap>
+        );
+      case "Interest Rate":
+        return (
+          <InfoWrap>
+            <InfoKey>{item}:</InfoKey>
+            {Big(data.Rate).times(100).toFixed(2)}%
+          </InfoWrap>
+        );
 
-if (!state.tab) return null;
-
+      default:
+        break;
+    }
+  });
+}
+function bigMin(_a, _b) {
+  const a = Big(_a || 0);
+  const b = Big(_b || 0);
+  return a.gt(b) ? b : a;
+}
 return (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
@@ -572,309 +387,103 @@ return (
         </StyledTabs>
       </StyledHeader>
       <StyledContent>
-        <StyledInfo>
-          <StyledInfoContent>
-            {state.tab === "Borrow" && (
-              <StyledInfoTitle>
-                Borrowing from
-                <img src={data.underlyingToken.icon} className="icon" alt="" />
-                {data.underlyingToken.symbol}
-              </StyledInfoTitle>
-            )}
-            {state.tab === "Adjust" && (
-              <StyledInfoTitle>Adjust Your Position</StyledInfoTitle>
-            )}
-            {(state.tab === "Borrow" || state.tab === "Adjust") &&
-            (IS_GRAVITA_DAPP || IS_PREON_DAPP) ? (
-              <StyledInfoItem>
-                <div>Your LTV</div>
-                <div className="white">
-                  {Big(state.yourLTV || 0)
-                    .mul(100)
-                    .toFixed(2)}
-                  %
-                </div>
-              </StyledInfoItem>
-            ) : null}
-
-            {IS_ETHOS_DAPP && (
-              <StyledInfoItem>
-                <div>Collateral Ratio</div>
-                <div className="white">
-                  {Big(state.collateralRatio || 0)
-                    .mul(100)
-                    .toFixed(2)}
-                  %
-                </div>
-              </StyledInfoItem>
-            )}
-            {state.tab === "Adjust" && (
-              <StyledInfoItem>
-                <div>Your Collateral</div>
-                <div className="white">
-                  {data.vesselDeposit}
-                  {data.underlyingToken?.symbol}
-                </div>
-              </StyledInfoItem>
-            )}
-            {state.tab === "Borrow" || state.tab === "Adjust" ? (
-              <>
-                <StyledInfoItem>
-                  <div>Liquidation Price</div>
-                  <div className="white">
-                    {Number(state.liquidationPrice).toFixed(2)} USD
-                  </div>
-                </StyledInfoItem>
-                <StyledInfoItem>
-                  <div>Borrowing Fee</div>
-                  <div className="white">
-                    {Number(state.borrowingFee).toFixed(2)}
-                    {data.BORROW_TOKEN}
-                  </div>
-                </StyledInfoItem>
-
-                <StyledInfoItem>
-                  <div>Total Debt</div>
-                  <div className="white">
-                    {Number(state.totalDebt).toFixed(2)}
-                    {data.BORROW_TOKEN}
-                  </div>
-                </StyledInfoItem>
-              </>
-            ) : null}
-
-            {state.tab === "Borrow" && (
-              <StyledInfoTips>
-                <img
-                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
-                  alt=""
-                />
-                <div className="txt">
-                  Deposit collateral and/or borrow more
-                  <img src={data.BORROW_URL} className="icon" alt="" />{" "}
-                  {data.BORROW_TOKEN}.
-                </div>
-              </StyledInfoTips>
-            )}
-            {state.tab === "Adjust" && (
-              <StyledInfoTips>
-                <img
-                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
-                  alt=""
-                />
-                <div>Manage the collateral health of your vault.</div>
-              </StyledInfoTips>
-            )}
-          </StyledInfoContent>
-          {state.tab === "Close" && (
-            <StyledInfoContent>
-              <StyledInfoTitle>Close Your Position</StyledInfoTitle>
-              <StyledInfoItem>
-                <div>You will repay</div>
-                <div className="right">
-                  <img src={data.BORROW_URL} className="icon" alt="" />
-                  <span className="white">{data.vesselDebt}</span>
-                  <span className="symbol">{data.BORROW_TOKEN}</span>
-                </div>
-              </StyledInfoItem>
-              <StyledInfoItem>
-                <div>You have</div>
-                <div className="right">
-                  <img src={data.BORROW_URL} className="icon" alt="" />
-                  <span className="white">{tokenBal}</span>
-                  <span className="symbol">{data.BORROW_TOKEN}</span>
-                </div>
-              </StyledInfoItem>
-              {/* <StyledInfoItem>
-                <div>You will receive</div>
-                <div className="right">
-                  <img
-                    src={data.underlyingToken.icon}
-                    className="icon"
-                    alt=""
-                  />
-                  <span className="white">{deposits}</span>
-                  <span className="symbol">{data.underlyingToken.symbol}</span>
-                </div>
-              </StyledInfoItem> */}
-              {Big(tokenBal || 0).lt(Big(data.vesselDebt || 0)) ? (
-                <StyledInfoTips>
-                  More GRAI must be acquired in order to close the Vessel.
-                </StyledInfoTips>
-              ) : null}
-
-              <StyledInfoTips>
-                <img
-                  src="https://ipfs.near.social/ipfs/bafkreia4fvn2zeymgsn57arq2u6mytztrcedil6og7ujbinvpvt3n3bmrm"
-                  alt=""
-                />
-                <div>
-                  By closing your position, you receive your collateral from the
-                  Nebula Vault.
-                </div>
-              </StyledInfoTips>
-            </StyledInfoContent>
-          )}
-        </StyledInfo>
-        <div>
+        <div className={state.contentStatus}>
           {state.tab === "Borrow" ? (
-            <>
-              <Widget
-                src="bluebiu.near/widget/Lending.MarketInput"
-                props={{
-                  icon: data.underlyingToken?.icon,
-                  symbol: data.underlyingToken?.symbol,
-                  balance: data?.userUnderlyingBalance,
-                  price: prices[data.underlyingToken.symbol],
-                  amount: state.amount,
-                  onChange: (val) => {
-                    onAmountChange(val);
-                  },
-                }}
-              />
-              <Widget
-                src="bluebiu.near/widget/Lending.Cog.MarketInput"
-                props={{
-                  icon: data.BORROW_URL,
-                  symbol: data.BORROW_TOKEN,
-                  balance: state.borrowTokenBal,
-                  price: prices[data.BORROW_TOKEN] || 0,
-                  amount: state.borrowAmount,
-                  onChange: (val) => {
-                    onBorrowAmountChange(val);
-                  },
-                }}
-              />
-            </>
+            <Widget
+              src="bluebiu.near/widget/Lending.MarketInput"
+              props={{
+                icon: data.TOKEN_A.icon,
+                symbol: data.TOKEN_A.symbol,
+                //TODO MAX BORROW
+                //  balance: bigMin(
+                //    TOKENS.find((item) => item.symbol === data.TOKEN_A.symbol)
+                //      .balance,
+                //    data.yourBorrowed
+                //  ),
+                price: prices[data.TOKEN_A.symbol],
+                amount: state.amount,
+                onChange: (val) => {
+                  onAmountChange(val);
+                },
+              }}
+            />
           ) : null}
-          {state.tab === "Adjust" ? (
-            <>
-              <Widget
-                src="bluebiu.near/widget/Lending.MarketInput"
-                props={{
-                  icon: data.underlyingToken?.icon,
-                  symbol: data.underlyingToken?.symbol,
-                  balance: data?.userUnderlyingBalance,
-                  price: prices[data.underlyingToken.symbol],
-                  amount: state.amount,
-                  onChange: (val) => {
-                    onAmountChange(val);
-                  },
-                }}
-              />
-              <Widget
-                src="bluebiu.near/widget/Lending.Cog.MarketInput"
-                props={{
-                  icon: data.BORROW_URL,
-                  symbol: data.BORROW_TOKEN,
-                  balance: state.maxBorrowAmount,
-                  price: prices[data.BORROW_TOKEN] || 0,
-                  amount: state.borrowAmount,
-                  onChange: (val) => {
-                    onBorrowAmountChange(val);
-                  },
-                }}
-              />
-            </>
+          {state.tab === "Repay" ? (
+            <Widget
+              src="bluebiu.near/widget/Lending.MarketInput"
+              props={{
+                icon: data.TOKEN_A.icon,
+                symbol: data.TOKEN_A.symbol,
+                balance: bigMin(
+                  TOKENS.find((item) => item.symbol === data.TOKEN_A.symbol)
+                    .balance,
+                  data.yourBorrowed
+                ),
+                price: prices[data.TOKEN_A.symbol],
+                amount: state.amount,
+                onChange: (val) => {
+                  onAmountChange(val);
+                },
+              }}
+            />
+          ) : null}
+          {state.tab === "Add Collateral" ? (
+            <Widget
+              src="bluebiu.near/widget/Lending.MarketInput"
+              props={{
+                icon: data.TOKEN_B.icon,
+                symbol: data.TOKEN_B.symbol,
+                balance: TOKENS.find(
+                  (item) => item.symbol === data.TOKEN_B.symbol
+                ).balance,
+                price: prices[data.TOKEN_B.symbol],
+                amount: state.amount,
+                onChange: (val) => {
+                  onAmountChange(val);
+                },
+              }}
+            />
+          ) : null}
+          {state.tab === "Remove Collateral" ? (
+            <Widget
+              src="bluebiu.near/widget/Lending.MarketInput"
+              props={{
+                icon: data.TOKEN_B.icon,
+                symbol: data.TOKEN_B.symbol,
+                balance: data.yourCollateraled,
+                price: prices[data.TOKEN_B.symbol],
+                amount: state.amount,
+                onChange: (val) => {
+                  onAmountChange(val);
+                },
+              }}
+            />
           ) : null}
 
           <StyledButtonWrapper>
-            <StyledGasBox>
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-              >
-                <path
-                  d="M11.3496 14.1934V8.67643H11.7636C11.9886 8.67643 12.1776 8.84743 12.1776 9.05443V12.5644C12.1776 13.4644 12.9696 14.1934 13.9506 14.1934C14.9316 14.1934 15.7236 13.4644 15.7236 12.5644V5.81443C15.7236 5.46343 15.5616 5.13943 15.3096 4.91443L13.8606 3.59143C13.5996 3.34843 13.1766 3.34843 12.9156 3.59143C12.6546 3.83443 12.6546 4.22143 12.9156 4.46443L13.8516 5.32843L13.1586 5.99443C12.9336 6.21043 12.9336 6.55243 13.1586 6.76843C13.2666 6.87643 13.4196 6.93043 13.5726 6.93043H14.3556V12.5734C14.3556 12.7804 14.1756 12.9514 13.9416 12.9514C13.7166 12.9514 13.5276 12.7804 13.5276 12.5734V9.06343C13.5276 8.16343 12.7356 7.43443 11.7546 7.43443H11.3496V4.42843C11.3496 3.87043 10.8636 3.42943 10.2516 3.42943H4.51856C3.91556 3.42943 3.42056 3.87943 3.42056 4.42843V14.1934H3.28556C2.90756 14.1934 2.60156 14.4724 2.60156 14.8234C2.60156 15.1744 2.90756 15.4534 3.28556 15.4534H11.4846C11.8626 15.4534 12.1686 15.1744 12.1686 14.8234C12.1686 14.4724 11.8626 14.1934 11.4846 14.1934H11.3496ZM5.39156 4.67143H9.37856C9.71156 4.67143 9.98156 4.91443 9.98156 5.22043V7.87543C9.98156 8.18143 9.71156 8.42443 9.37856 8.42443H5.39156C5.05856 8.42443 4.78856 8.18143 4.78856 7.87543V5.22043C4.78856 4.91443 5.05856 4.67143 5.39156 4.67143Z"
-                  fill="#979ABE"
-                />
-              </svg>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                ~
-                {props.prices[nativeCurrency?.symbol]
-                  ? `$${Big(state.gas || 0)
-                      .div(Big(10).pow(nativeCurrency.decimals || 18))
-                      .toFixed(2)}`
-                  : "-"}
-              </div> */}
-            </StyledGasBox>
-            {state.tab === "Borrow" || state.tab === "Close" ? (
-              <div style={{ flexGrow: 1 }}>
-                <Widget
-                  src="bluebiu.near/widget/Lending.Cog.MarketButton"
-                  props={{
-                    actionText: state.tab,
-                    ...props,
-                    data: {
-                      ...data,
-                      config: dexConfig,
-                    },
-                    isAssetBigerThanBalance: state.isAssetBigerThanBalance,
-                    isDebtBigerThanBalance: state.isDebtBigerThanBalance,
-                    addAction,
-                    toast,
-                    chainId,
-                    unsignedTx: state.unsignedTx,
-                    isError: state.isError,
-                    // loading: state.loading,
-                    // gas: state.gas,
-                    yourLTV: state.yourLTV,
-                    _assetAmount: state.amount,
-                    _debtTokenAmount: state.borrowAmount,
-                    _maxFeePercentage: state._maxFeePercentage,
-                    collateralRatio: state.collateralRatio,
-                    onApprovedSuccess: () => {
-                      if (!state.gas) state.getTrade();
-                    },
-                    onSuccess: () => {
-                      onSuccess?.();
-                    },
-                    isCloseDisabled: Big(tokenBal || 0).lt(
-                      Big(data.vesselDebt || 0)
-                    )
-                      ? true
-                      : false,
-                  }}
-                />
-              </div>
-            ) : null}
-            {state.tab === "Adjust" ? (
-              <div style={{ flexGrow: 1 }}>
-                <Widget
-                  src="bluebiu.near/widget/Lending.Cog.AdjustButton"
-                  props={{
-                    actionText: state.tab,
-                    ...props,
-                    data: {
-                      ...data,
-                      config: dexConfig,
-                    },
-                    isAssetBigerThanBalance: state.isAssetBigerThanBalance,
-                    isDebtBigerThanBalance: state.isDebtBigerThanBalance,
-                    _maxFeePercentage: state._maxFeePercentage,
-                    unsignedTx: state.unsignedTx,
-                    isError: state.isError,
-                    // loading: state.loading,
-                    // gas: state.gas,
-                    yourLTV: state.yourLTV,
-                    _assetAmount: state.amount,
-                    _debtTokenAmount: state.borrowAmount,
-                    collateralRatio: state.collateralRatio,
-                    onApprovedSuccess: () => {
-                      if (!state.gas) state.getTrade();
-                    },
-                    onSuccess: () => {
-                      onSuccess?.();
-                    },
-                  }}
-                />
-              </div>
-            ) : null}
+            <div style={{ flexGrow: 1 }}>
+              <Widget
+                src="bluebiu.near/widget/Lending.Cog.PoolButton"
+                props={{
+                  ...props,
+                  actionText: state.tab,
+                  amount: state.amount,
+                  isAssetBigerThanBalance: state.isAssetBigerThanBalance,
+                  // isDebtBigerThanBalance: state.isDebtBigerThanBalance,
+                  addAction,
+                  toast,
+                  chainId,
+                  onSuccess: () => {
+                    onSuccess?.();
+                  },
+                }}
+              />
+            </div>
           </StyledButtonWrapper>
         </div>
+        <StyledInfo>
+          <StyledInfoContent>{renderInfo()}</StyledInfoContent>
+        </StyledInfo>
       </StyledContent>
     </StyledWrapper>
   </StyledBox>
