@@ -44,27 +44,26 @@ const COLUMNS = [
   {
     key: "POOL_NAME",
     label: "Pools",
-    width: "20%",
+    width: "24%",
   },
   {
-    key: "YourDeposits",
+    key: "YourDeposited",
     label: "Your Deposits",
-    width: "14%",
-    // type: "amount",
+    width: "24%",
   },
   {
     key: "TotalDeposits",
     label: "Total Deposits",
-    width: "20%",
+    width: "24%",
   },
   {
     key: "APY",
     label: "APY",
-    width: "12%",
+    width: "24%",
   },
   {
     key: "handler",
-    width: "2%",
+    width: "4%",
   },
 ];
 
