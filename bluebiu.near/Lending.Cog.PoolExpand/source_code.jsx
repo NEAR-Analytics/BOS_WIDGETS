@@ -50,7 +50,8 @@ const StyledWrapper = styled.div`
 
 const StyledHeader = styled.div`
   height: 50px;
-  padding-left: 520px;
+  display: flex;
+  justify-content: center;
   border-bottom: 1px solid #373a53;
 `;
 
@@ -73,27 +74,23 @@ const StyledTab = styled.div`
   cursor: pointer;
   position: relative;
   transition: 0.3s;
-  &::after {
-    content: "";
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    background-color: #373a53;
-    right: 0px;
-    top: 0px;
-  }
+  border-right: 1px solid #373a53;
   &.active {
     border-bottom-color: #fff;
     color: #ffffff;
+  }
+  &:last-child {
+    border-right: none;
   }
 `;
 
 const StyledContent = styled.div`
   display: flex;
   padding-top: 16px;
+  justify-content: center;
+  gap: 16px;
 `;
 const StyledInfo = styled.div`
-  width: 520px;
   display: flex;
   justify-content: center;
   padding-bottom: 16px;
@@ -173,23 +170,20 @@ const StyledBorrowLimit = styled.div`
   gap: 12px;
 `;
 const StyledButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  margin-top: 12px;
+  margin-top: 15px;
   height: 46px;
 `;
-const StyledGasBox = styled.div`
+
+const InfoWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
-  color: #979abe;
-  font-family: Gantari;
+  justify-content: space-between;
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  display: none;
+  color: white;
+  margin-bottom: 15px;
+`;
+const InfoKey = styled.div`
+  color: #979abe;
 `;
 
 const TABS = ["Deposit", "Withdraw"];
@@ -204,20 +198,20 @@ const {
   dexConfig,
   account,
   prices,
-  deposits,
   multicall,
   multicallAddress,
-  tokenBal,
+  TOKENS,
 } = props;
 
 const data = props.data || {};
+const tokenBal = TOKENS.find(
+  (item) => item.symbol === data.TOKEN_A.symbol
+).balance;
 
 State.init({
   tab: "Deposit",
   buttonClickable: true,
 });
-
-const { BORROW_TOKEN, BORROW_URL } = dexConfig;
 
 useEffect(() => {
   const debounce = (fn, wait) => {
@@ -261,7 +255,13 @@ const onAmountChange = (amount) => {
 
   state.debouncedGetTrade();
 };
-
+function formatValue(value, digits) {
+  if (isNaN(Number(value))) return "";
+  if (Number(value) === 0) return "0";
+  return Big(value || 0).lt(0.01)
+    ? "< 0.01"
+    : `${Number(value).toFixed(digits || 2)}`;
+}
 return (
   <StyledBox className={expand ? "expand" : ""}>
     <StyledWrapper className={expand ? "expand" : ""}>
@@ -281,17 +281,14 @@ return (
         </StyledTabs>
       </StyledHeader>
       <StyledContent>
-        <StyledInfo>
-          <StyledInfoContent></StyledInfoContent>
-        </StyledInfo>
         <div>
           <Widget
             src="bluebiu.near/widget/Lending.MarketInput"
             props={{
-              icon: BORROW_URL,
-              symbol: BORROW_TOKEN,
-              balance: state.tab === "Deposit" ? tokenBal : deposits,
-              price: prices[data.underlyingToken.symbol],
+              icon: data.TOKEN_A.icon,
+              symbol: data.TOKEN_A.symbol,
+              balance: state.tab === "Deposit" ? tokenBal : data.yourDeposited,
+              price: prices[data.TOKEN_A.symbol],
               amount: state.amount,
               onChange: (val) => {
                 onAmountChange(val);
@@ -299,49 +296,15 @@ return (
             }}
           />
           <StyledButtonWrapper>
-            <StyledGasBox>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-              >
-                <path
-                  d="M11.3496 14.1934V8.67643H11.7636C11.9886 8.67643 12.1776 8.84743 12.1776 9.05443V12.5644C12.1776 13.4644 12.9696 14.1934 13.9506 14.1934C14.9316 14.1934 15.7236 13.4644 15.7236 12.5644V5.81443C15.7236 5.46343 15.5616 5.13943 15.3096 4.91443L13.8606 3.59143C13.5996 3.34843 13.1766 3.34843 12.9156 3.59143C12.6546 3.83443 12.6546 4.22143 12.9156 4.46443L13.8516 5.32843L13.1586 5.99443C12.9336 6.21043 12.9336 6.55243 13.1586 6.76843C13.2666 6.87643 13.4196 6.93043 13.5726 6.93043H14.3556V12.5734C14.3556 12.7804 14.1756 12.9514 13.9416 12.9514C13.7166 12.9514 13.5276 12.7804 13.5276 12.5734V9.06343C13.5276 8.16343 12.7356 7.43443 11.7546 7.43443H11.3496V4.42843C11.3496 3.87043 10.8636 3.42943 10.2516 3.42943H4.51856C3.91556 3.42943 3.42056 3.87943 3.42056 4.42843V14.1934H3.28556C2.90756 14.1934 2.60156 14.4724 2.60156 14.8234C2.60156 15.1744 2.90756 15.4534 3.28556 15.4534H11.4846C11.8626 15.4534 12.1686 15.1744 12.1686 14.8234C12.1686 14.4724 11.8626 14.1934 11.4846 14.1934H11.3496ZM5.39156 4.67143H9.37856C9.71156 4.67143 9.98156 4.91443 9.98156 5.22043V7.87543C9.98156 8.18143 9.71156 8.42443 9.37856 8.42443H5.39156C5.05856 8.42443 4.78856 8.18143 4.78856 7.87543V5.22043C4.78856 4.91443 5.05856 4.67143 5.39156 4.67143Z"
-                  fill="#979ABE"
-                />
-              </svg>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                ~
-                {props.prices[nativeCurrency?.symbol]
-                  ? `$${Big(state.gas || 0)
-                      .div(Big(10).pow(nativeCurrency.decimals || 18))
-                      .toFixed(2)}`
-                  : "-"}
-              </div>
-            </StyledGasBox>
-            <div style={{ flexGrow: 1 }}>
+            <div>
               <Widget
                 src="bluebiu.near/widget/Lending.Cog.PoolButton"
                 props={{
+                  ...props,
                   disabled: !state.buttonClickable,
                   actionText: state.tab,
                   amount: state.amount,
-                  data: {
-                    ...data,
-                    config: dexConfig,
-                  },
-                  addAction,
-                  toast,
-                  chainId,
-                  isError: state.isError,
-                  // loading: state.loading,
-                  gas: state.gas,
                   isBigerThanBalance: state.isBigerThanBalance,
-                  onApprovedSuccess: () => {
-                    if (!state.gas) state.getTrade();
-                  },
                   onSuccess: () => {
                     onSuccess?.();
                   },
@@ -350,6 +313,25 @@ return (
             </div>
           </StyledButtonWrapper>
         </div>
+        <StyledInfo>
+          <StyledInfoContent>
+            <InfoWrap>
+              <InfoKey>Your Collateral:</InfoKey>
+              {formatValue(data.yourCollateraled, 2)} {data.collateralSymbol}
+            </InfoWrap>
+            <InfoWrap>
+              <InfoKey>Your Deposited:</InfoKey>{" "}
+              {formatValue(data.yourDeposited, 2)} {data.depositSymbol}
+            </InfoWrap>
+            <InfoWrap>
+              <InfoKey>Health Factor:</InfoKey> 0.00 %
+            </InfoWrap>
+            <InfoWrap>
+              <InfoKey>Interest Rate:</InfoKey>
+              {Big(data.Rate).times(100).toFixed(2)}%
+            </InfoWrap>
+          </StyledInfoContent>
+        </StyledInfo>
       </StyledContent>
     </StyledWrapper>
   </StyledBox>
