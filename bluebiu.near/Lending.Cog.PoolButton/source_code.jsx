@@ -79,6 +79,7 @@ const Button = styled.button`
 `;
 
 const {
+  account,
   actionText,
   amount,
   data,
@@ -88,34 +89,24 @@ const {
   addAction,
   loading: estimating,
   gas,
-  onApprovedSuccess,
   isBigerThanBalance,
 } = props;
-// for Yours
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
-const tokenSymbol = data.underlyingToken.symbol;
+const { parseUnits, formatUnits } = ethers.utils;
+
+let curToken;
+if (["Deposit", "Withdraw", "Repay"].includes(actionText)) {
+  curToken = "TOKEN_A";
+}
+if (["Borrow", "Add Collateral", "Remove Collateral"].includes(actionText)) {
+  curToken = "TOKEN_B";
+}
+const tokenSymbol = data[curToken].symbol;
+const tokenDecimals = data[curToken].decimals;
+const tokenAddr = data[curToken].address;
+const spender = data.POOL_MANAGER;
+
 if (!actionText) return;
-
-useEffect(() => {
-  State.update({
-    approving: false,
-    isApproved: true,
-    isGasEnough: true,
-  });
-}, []);
-
-useEffect(() => {
-  if (!account || !gas) return;
-  const provider = Ethers.provider();
-  provider.getBalance(account).then((rawBalance) => {
-    State.update({
-      gasBalance: rawBalance.toString(),
-      isGasEnough: !Big(rawBalance.toString()).lt(gas.toString()),
-      gas: ethers.utils.formatUnits(gas, 18),
-    });
-  });
-}, [account, gas]);
 
 if (!amount) {
   return (
@@ -132,37 +123,50 @@ if (isBigerThanBalance) {
     </Button>
   );
 }
-
-const tokenAddr = data.config.borrowTokenAddress;
-const spender = data.config.BorrowerOperations;
-
-console.log("APPROVE: ", tokenAddr, spender, props);
-
-const getAllowance = () => {
+useEffect(() => {
+  State.update({
+    approving: false,
+    isApproved: false,
+  });
+}, []);
+function getAllowance() {
+  State.update({
+    pending: true,
+  });
   const TokenContract = new ethers.Contract(
     tokenAddr,
     ERC20_ABI,
     Ethers.provider().getSigner()
   );
-  TokenContract.allowance(account, spender).then((allowanceRaw) => {
-    console.log("ALLOWANCE:", allowanceRaw.toString());
-    State.update({
-      isApproved: !Big(
-        ethers.utils.formatUnits(
-          allowanceRaw._hex,
-          data.underlyingToken.decimals
-        )
-      ).lt(amount || "0"),
+  TokenContract.allowance(account, spender)
+    .then((allowanceRaw) => {
+      console.log("ALLOWANCE:", allowanceRaw.toString());
+      State.update({
+        pending: false,
+        isApproved: !Big(formatUnits(allowanceRaw, tokenDecimals)).lt(
+          amount || "0"
+        ),
+      });
+    })
+    .catch((err) => {
+      console.log("getAllowance-error:", err);
+      State.update({
+        pending: false,
+      });
     });
-  });
-};
-
-if (["Deposit"].includes(actionText)) {
-  getAllowance();
 }
+useEffect(() => {
+  if (["Deposit", "Repay", "Add Collateral"].includes(actionText)) {
+    getAllowance();
+  } else {
+    State.update({
+      isApproved: true,
+    });
+  }
+}, [amount, actionText]);
 
 if (!state.isApproved) {
-  const handleApprove = () => {
+  function handleApprove() {
     const toastId = toast?.loading({
       title: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
     });
@@ -177,7 +181,7 @@ if (!state.isApproved) {
     );
     TokenContract.approve(
       spender,
-      ethers.utils.parseUnits(amount, data.underlyingToken.decimals)
+      parseUnits(Big(amount).times(1.1).toFixed(10).toString(), tokenDecimals)
     )
       .then((tx) => {
         tx.wait()
@@ -195,7 +199,6 @@ if (!state.isApproved) {
               tx: transactionHash,
               chainId,
             });
-            onApprovedSuccess();
           })
           .catch((err) => {
             State.update({
@@ -218,7 +221,7 @@ if (!state.isApproved) {
         });
         onLoad?.(false);
       });
-  };
+  }
   return (
     <Button onClick={handleApprove} disabled={state.approving}>
       {state.approving ? (
@@ -235,208 +238,399 @@ if (!state.isApproved) {
   );
 }
 
-function handleClick() {
+function handleWithdraw() {
   State.update({
     pending: true,
   });
-  console.log("click:", actionText, data);
-  let abi;
-  if (data.BORROW_TOKEN === "GRAI") {
-    abi = [
-      {
-        inputs: [
-          { internalType: "uint256", name: "_amount", type: "uint256" },
-          { internalType: "address[]", name: "_assets", type: "address[]" },
-        ],
-        name: "provideToSP",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "uint256", name: "_amount", type: "uint256" },
-          { internalType: "address[]", name: "_assets", type: "address[]" },
-        ],
-        name: "withdrawFromSP",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ];
-  }
-  if (data.BORROW_TOKEN === "STAR" || data.BORROW_TOKEN === "ERN") {
-    abi = [
-      {
-        inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
-        name: "provideToSP",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "uint256", name: "_amount", type: "uint256" }],
-        name: "withdrawFromSP",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ];
-  }
   const contract = new ethers.Contract(
-    data.config.StabilityPool,
-    abi,
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "withdraw",
+        inputs: [
+          { name: "assets", type: "uint256" },
+          { name: "receiver", type: "address" },
+          { name: "owner", type: "address" },
+        ],
+        outputs: [{ name: "", type: "uint256" }],
+      },
+    ],
     Ethers.provider().getSigner()
   );
-
-  const tokenArray = Object.keys(data.config.markets);
-
-  const _amount = ethers.utils.parseUnits(amount);
-  let params = {};
-  if (data.BORROW_TOKEN === "GRAI") {
-    params = [_amount, tokenArray];
-  }
-  if (data.BORROW_TOKEN === "STAR" || data.BORROW_TOKEN === "ERN") {
-    params = [_amount];
-  }
-  console.log("dw_params:", params);
-  if (actionText === "Deposit") {
-    contract
-      .provideToSP(...params, {
-        gasLimit: 700000,
-      })
-      .then((tx) => {
-        tx.wait()
-          .then((res) => {
-            const { status, transactionHash } = res;
-            toast?.dismiss(toastId);
-            State.update({
-              pending: false,
-            });
-            // addAction?.({
-            //   type: "Lending",
-            //   action: actionText,
-            //   token: data.underlyingToken,
-            //   amount,
-            //   template: data.dappName,
-            //   add: false,
-            //   status,
-            //   transactionHash,
-            // });
-            if (status === 1) {
-              onSuccess?.(data.dapp);
-              toast?.success({
-                title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
-                tx: transactionHash,
-                chainId,
-              });
-            } else {
-              toast?.fail({
-                title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-                tx: transactionHash,
-                chainId,
-              });
-            }
-          })
-          .catch((err) => {
-            State.update({
-              pending: false,
-            });
+  contract
+    .withdraw(parseUnits(amount, tokenDecimals), account, account)
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
           });
-      })
-      .catch((err) => {
-        State.update({
-          pending: false,
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleWithdraw-error:", err);
+          State.update({
+            pending: false,
+          });
         });
-
-        toast?.dismiss(toastId);
-        toast?.fail({
-          title: err?.message?.includes("user rejected transaction")
-            ? "User rejected transaction"
-            : `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-          tx: err ? err.hash : "",
-          chainId,
-        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
       });
-  }
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+function handleDeposit() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "deposit",
+        inputs: [
+          { name: "assets", type: "uint256" },
+          { name: "receiver", type: "address" },
+        ],
+        outputs: [{ name: "", type: "uint256" }],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .deposit(parseUnits(amount, tokenDecimals), account)
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleDeposit-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+function handleAddCollateral() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "add_collateral",
+        inputs: [
+          { name: "to", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
+        outputs: [],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .add_collateral(account, parseUnits(amount, tokenDecimals))
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleAddCollateral-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+function handleRemoveCollateral() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "remove_collateral",
+        inputs: [
+          { name: "to", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
+        outputs: [],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .remove_collateral(account, parseUnits(amount, tokenDecimals))
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleRemoveCollateral-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+function handleRepay() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "repay",
+        inputs: [{ name: "payment", type: "uint256" }],
+        outputs: [{ name: "", type: "uint256" }],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .repay(parseUnits(amount, tokenDecimals))
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleRepay-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+function handleBorrow() {
+  State.update({
+    pending: true,
+  });
+  const contract = new ethers.Contract(
+    data.POOL_MANAGER,
+    [
+      {
+        stateMutability: "nonpayable",
+        type: "function",
+        name: "borrow",
+        inputs: [
+          { name: "amount", type: "uint256" },
+          { name: "_from", type: "address" },
+          { name: "to", type: "address" },
+        ],
+        outputs: [{ name: "", type: "uint256" }],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  contract
+    .borrow(parseUnits(amount, tokenDecimals), account, account)
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
+          State.update({
+            pending: false,
+          });
+          onSuccess();
+          toast?.success({
+            title: `${actionText} Successfully!`,
+            text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          console.log("handleRepay-error:", err);
+          State.update({
+            pending: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        pending: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: `${actionText} Failed!`,
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : ``,
+      });
+    });
+}
+
+function handleClick() {
   if (actionText === "Withdraw") {
-    contract
-      .withdrawFromSP(...params, {
-        gasLimit: 700000,
-      })
-      .then((tx) => {
-        tx.wait()
-          .then((res) => {
-            const { status, transactionHash } = res;
-            toast?.dismiss(toastId);
-            State.update({
-              pending: false,
-            });
-            // addAction?.({
-            //   type: "Lending",
-            //   action: actionText,
-            //   token: data.underlyingToken,
-            //   amount,
-            //   template: data.dappName,
-            //   add: false,
-            //   status,
-            //   transactionHash,
-            // });
-            if (status === 1) {
-              onSuccess?.(data.dapp);
-              toast?.success({
-                title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
-                tx: transactionHash,
-                chainId,
-              });
-            } else {
-              toast?.fail({
-                title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-                tx: transactionHash,
-                chainId,
-              });
-            }
-          })
-          .catch((err) => {
-            State.update({
-              pending: false,
-            });
-          });
-      })
-      .catch((err) => {
-        State.update({
-          pending: false,
-        });
-
-        toast?.dismiss(toastId);
-        toast?.fail({
-          title: err?.message?.includes("user rejected transaction")
-            ? "User rejected transaction"
-            : `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
-          tx: err ? err.hash : "",
-          chainId,
-        });
-      });
+    handleWithdraw();
+  }
+  if (actionText === "Deposit") {
+    handleDeposit();
+  }
+  if (actionText === "Add Collateral") {
+    handleAddCollateral();
+  }
+  if (actionText === "Remove Collateral") {
+    handleRemoveCollateral();
+  }
+  if (actionText === "Repay") {
+    handleRepay();
+  }
+  if (actionText === "Borrow") {
+    handleBorrow();
   }
 }
 
 return (
-  <>
-    <Button
-      disabled={state.pending}
-      className={actionText.toLowerCase()}
-      onClick={handleClick}
-    >
-      {state.pending ? (
-        <Widget
-          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
-          props={{
-            size: 16,
-          }}
-        />
-      ) : (
-        actionText
-      )}
-    </Button>
-  </>
+  <Button
+    disabled={state.pending}
+    className={actionText.toLowerCase()}
+    onClick={handleClick}
+  >
+    {state.pending ? (
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+    ) : (
+      actionText
+    )}
+  </Button>
 );
