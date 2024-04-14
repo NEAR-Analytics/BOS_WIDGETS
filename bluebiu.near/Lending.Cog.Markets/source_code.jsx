@@ -10,9 +10,6 @@ const {
   onSuccess,
   account,
   prices,
-  IS_ETHOS_DAPP,
-  IS_GRAVITA_DAPP,
-  IS_PREON_DAPP,
 } = props;
 
 console.log("Markets--", props, markets);
@@ -21,43 +18,36 @@ const COLUMNS = [
   {
     key: "POOL_NAME",
     label: "Pools",
-    width: "15%",
+    width: "16%",
   },
   {
     key: "AvailableBorrow",
     label: "Available Borrow",
-    width: "15%",
-    // type: "amount",
+    width: "16%",
   },
-
   {
     key: "TotalCollateral",
     label: "Total Collateral",
-    width: "15%",
-    // type: "amount",
+    width: "16%",
   },
   {
     key: "Utilization",
     label: "Utilization",
-    width: "15%",
-    // type: "amount",
+    width: "16%",
   },
-
   {
     key: "Debt",
     label: "Debt",
-    width: "8%",
-    // type: "amount",
+    width: "16%",
   },
   {
     key: "Rate",
     label: "Rate",
-    width: "8%",
-    // type: "amount",
+    width: "16%",
   },
   {
     key: "handler",
-    width: "2%",
+    width: "4%",
   },
 ];
 
