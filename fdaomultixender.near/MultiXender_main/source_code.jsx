@@ -1,6 +1,6 @@
 // used for the mainpage
 const Mainpage = styled.div` 
-  background-color: #22252a;
+  background-color: #edf0f4;
   height: auto;
   margin: 0;
   padding: 0;
@@ -11,7 +11,8 @@ const Mainpage = styled.div`
 
 // used for the first text
 const Text_style = styled.div`
-color: #fff;
+font-family: 'Lato', sans-serif;
+color: #072754;
 margin-top: 100px; 
 font-weight: bold;
 display: flex;
@@ -27,13 +28,14 @@ font-size: 3rem;
 
 //used for the second text
 const Second_p = styled.div`
+  font-family: 'Lato', sans-serif;
+  // font-weight: bold;
   display: flex;
   justify-content: center;
-  color: #fff;
+  color: #072754;
   font-size: 2rem;
   margin-top : 10px;
   text-align: center;
-  font-weight: normal;
   @media screen and (max-width: 500px) {
   font-size: 1.5rem;
   display: flex;
@@ -45,9 +47,11 @@ const Second_p = styled.div`
 `;
 
 const Third_p = styled.p`
-  color: #fff;
+  color: #072754;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
   margin-top : 50px;
-  font-weight : 500;
+  // font-weight : 500;
   display: flex;
   justify-content: center;
   font-size: 2.5rem;
@@ -123,13 +127,14 @@ const Popup = ({ onClose }) => {
 
 // next button stles
 const NextUpper = styled.button`
+  font-family: 'Lato', sans-serif;
   height: 60px; /* Increase height for a bigger button */
   width: 200px; /* Adjust width as needed */
   margin-top: 20px; /* Increase top margin */
   border: none; /* Remove border */
   border-radius: 30px; /* Adjust border radius */
-  background-color: #22252a;
-  color: #fff;
+  background-color: #f8931f;
+  color: #000;
   font-weight: bold;
   font-size: 18px; /* Increase font size */
   cursor: pointer;
@@ -157,8 +162,8 @@ const NextUpper = styled.button`
   }
 
   &:hover {
-    color: #04041b;
-    background-color: #fff;
+    color: #000;
+    background-color: #df841c;
   }
 
   &:active {
@@ -175,14 +180,15 @@ const NextUpper = styled.button`
 `;
 
 const NextLower = styled.button`
+  font-family: 'Lato', sans-serif;
   height: 60px; /* Increase height for a bigger button */
   width: 200px; /* Adjust width as needed */
   margin-top: 20px; /* Increase top margin */
   margin-right: 10px; /* Add margin between buttons */
   border: none; /* Remove border */
   border-radius: 30px; /* Adjust border radius */
-  background-color: #22252a;
-  color: #fff;
+  background-color: #f8931f;
+  color: #000;
   font-weight: bold;
   font-size: 18px; /* Increase font size */
   cursor: pointer;
@@ -210,8 +216,8 @@ const NextLower = styled.button`
   }
 
   &:hover {
-    color: #04041b;
-    background-color: #fff;
+    color: #000;
+    background-color: #df841c;
   }
 
   &:active {
@@ -231,13 +237,18 @@ const NextLower = styled.button`
 // styling of simple popup
 const SimplePopup = styled.div`
   position: fixed;
-  top: 50%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 20px;
+  padding: 8px;
   border-radius: 10px;
   z-index: 1000;
+   @media screen and (max-width: 500px) {
+    top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+   }
 `;
 
 const InputLabel = styled.label`
@@ -257,7 +268,8 @@ const InputLabel = styled.label`
 const Label1 = styled.label`
   display: flex;
   justify-content: center;
-  color: white;
+  font-family: 'Lato', sans-serif;
+  color: #072754;
   font-size: 1.5rem;
   margin: 20px;
 
@@ -270,7 +282,8 @@ const Label1 = styled.label`
 
 const Label2 = styled.label`
   display: flex;
-  color: white;
+  color: #072754;
+  font-family: 'Lato', sans-serif;
   font-size: 1.5rem;
   margin-right: 40px;
   align-items: center;
@@ -284,12 +297,15 @@ const Label2 = styled.label`
 
 // close button
 const CloseButton = styled.button`
-  margin-top: 10px;
-  padding: 10px;
+  margin-top: 5px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background: #f1f1f1;
   cursor: pointer;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 `;
 
 const Container = styled.div`
@@ -314,8 +330,8 @@ const Inputdiv = styled.div`
 
 const Plus = styled.div`
   background-color: white;
-  color: red;
-  padding: 15px; /* Increased padding for better touch area */
+  color: black;
+  padding: 10px; /* Increased padding for better touch area */
   width: 50%;
   border-radius: 8px; /* Increased border-radius for a smoother look */
   margin-left: 23%;
@@ -328,11 +344,16 @@ const Plus = styled.div`
   transition: background-color 0.3s, border-color 0.3s; /* Transition border color along with background color */
 
   &:hover {
-    background-color: #2980b9;
-    border-color: #2980b9; 
+    background-color: #072754;
+    border-color: #072754; 
   }
   .plus-icon {
     color: red; /* Change the color of the plus icon */
+  }
+  @media screen and (max-width: 500px) {
+  margin: auto;
+  display: flex;
+  justify-content: center;
   }
   
 `;
@@ -344,7 +365,23 @@ width: 100%;
 margin-top: 20px;
 justify-content: center;
 `;
-const DeleteButton = styled.button``;
+const DeleteButton = styled.button`
+  width: 50px; /* Set the initial width of the button */
+  display: inline-block;
+  transition: width 0.3s ease; /* Smooth transition effect for width */
+
+  &:hover {
+    width: 50px; /* Adjust the width when hovered */
+    transform: scale(1.1); /* Scale up the content by 10% on hover */
+  }
+
+  @media screen and (max-width: 500px) {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  }
+
+`;
 
 const InputAddress = styled.input`
 height: 40px;
@@ -354,21 +391,24 @@ height: 40px;
   font-size: 16px;
 border-radius: 10px;
  @media screen and (max-width: 500px) {
-    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
+   margin: auto;
+  display: flex;
+  justify-content: center;
   }
 	
 `;
 const InputAmount = styled.input`
-	border-radius: 10px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 100px; 
      @media screen and (max-width: 500px) {
-    margin-bottom: 5px; /* Adjust margin bottom for better alignment */
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: center;
+    margin: auto;
+  display: flex;
+  justify-content: center;
   }
 `;
 const User = "fdaomultixender.near";
@@ -499,8 +539,22 @@ const Main = () => {
   };
 
   const handleMethod = () => {
+    // Check if the account ID is not valid
+    for (let index = 0; index < inputs.length; index++) {
+      if (state[`validAccount_${index}`] === false) {
+        setPopupContent("Enter valid Account id");
+        setSimplePopupVisibility(true);
+        return;
+      } else if (inputs[index].address.trim() === "") {
+        setPopupContent("Account id should not blank");
+        setSimplePopupVisibility(true);
+        return;
+      }
+    }
     // Destructure the result of handleStoreList
     const { calculatedTotalAmount, distributeInput } = handleStoreList();
+
+    // Check if calculatedTotalAmount or distributeInput is not valid
     if (!calculatedTotalAmount || !distributeInput || distributeInput === "") {
       // Set disp to true if any of the conditions are met
       State.update({
@@ -621,10 +675,29 @@ const Main = () => {
       <Inputdiv>
         {inputs.map((input, index) => (
           <div key={input.key} className="flex justify-between mb-2">
+            {state[`validAccount_${index}`] === false && (
+              <div
+                style={{
+                  color: "red",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                Account does not exist
+              </div>
+            )}
             <InputAddress
               value={input.address}
               name="address"
               placeholder="Enter account ID"
+              style={{
+                border:
+                  state[`validAccount_${index}`] === false
+                    ? "2px solid red"
+                    : state[`validAccount_${index}`]
+                    ? "2px solid green"
+                    : "none",
+              }}
               onChange={(event) => {
                 handleInputChange(event, index, "address");
 
@@ -666,10 +739,6 @@ const Main = () => {
                 });
               }}
             />
-            {state[`validAccount_${index}`] === false && (
-              <div style={{ color: "red" }}>Account does not exist</div>
-            )}
-
             <InputAmount
               type="Number"
               className="m-2 p-2 w-1/2 amount"
@@ -677,6 +746,7 @@ const Main = () => {
               name="Amount"
               value={input.amount}
               onChange={(event) => handleInputChange(event, index, "amount")}
+              style={{ textAlign: "centre" }}
             />
             <DeleteButton onClick={() => handleDeleteInput(index)}>
               ❌
@@ -684,19 +754,23 @@ const Main = () => {
           </div>
         ))}
       </Inputdiv>
+
       <Plus onClick={handleAdd}>
         <span role="img" aria-label="Add Icon" className="plus-icon">
           ➕
         </span>
       </Plus>
+
       <Divbutton>
-        <NextUpper onClick={handleStoreList}>Show fees</NextUpper>
+        <NextUpper onClick={handleStoreList} style={{ marginRight: "20px" }}>
+          Show fees
+        </NextUpper>
         <NextLower onClick={handleMethod}>Multisend</NextLower>
       </Divbutton>
       {isSimplePopupVisible && (
         <SimplePopup>
           <div>{popupContent}</div>
-          <CloseButton onClick={handleCloseSimplePopup}>Close</CloseButton>
+          <CloseButton onClick={handleCloseSimplePopup}>❌</CloseButton>
         </SimplePopup>
       )}
       {isSubmitClicked && <Content3 distributeInput={distributeInput} />}
@@ -707,8 +781,8 @@ const Main = () => {
 const FooterContainer = styled.div`
   height: 80px;
   margin-top: 200px;
-  color: #fff;
-  background-color: #22252a; /* Dark background color */
+  color: #000;
+  background-color: #edf0f4; /* Dark background color */
   display: flex;
   align-items: center;
   justify-content: center;
