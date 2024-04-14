@@ -2,7 +2,7 @@ const Mainpage = styled.div`
   height: 2000px;
   margin: 0;
   padding: 0;
-  background-color: #22252a;
+  background-color: #edf0f4;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -32,9 +32,11 @@ const NewsItem = styled.div`
 `;
 
 const NewsHeadline = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
   margin-bottom: 0.5rem;
-  color: #22252a;
+  color: #122644;
 `;
 
 const NewsInfo = styled.p`
