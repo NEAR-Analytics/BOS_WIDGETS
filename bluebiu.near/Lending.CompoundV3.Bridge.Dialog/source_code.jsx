@@ -191,13 +191,7 @@ return (
         >
           <StyledInput
             placeholder="0.00"
-            value={
-              state.amount
-                ? Big(state.amount || 0).lt(0.000001)
-                  ? Big(state.amount).toFixed(state.amount.length)
-                  : state.amount
-                : ""
-            }
+            value={state.amount || ""}
             onChange={(ev) => {
               if (isNaN(Number(ev.target.value))) return;
               if (Big(ev.target.value || 0).gt(asset.walletBalance)) return;
@@ -246,8 +240,13 @@ return (
             <StyledFlex
               style={{ gap: "8px", cursor: "pointer" }}
               onClick={() => {
+                const _balance = Big(asset.walletBalance || 0);
+                const splits = _balance.toFixed(18).split(".");
+                const _amount = _balance.lt(0.000001)
+                  ? _balance.toFixed(splits[1].length)
+                  : asset.walletBalance;
                 State.update({
-                  amount: asset.walletBalance,
+                  amount: _amount.replace(/\.?0+$/, ""),
                 });
               }}
             >
