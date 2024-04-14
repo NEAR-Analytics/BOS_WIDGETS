@@ -45,7 +45,7 @@ const {
 State.init({
   expand: false,
 });
-console.log("MarketsRow--", columns);
+// console.log("MarketsRow--", props);
 return (
   <StyledRow>
     <StyledRowHeader
