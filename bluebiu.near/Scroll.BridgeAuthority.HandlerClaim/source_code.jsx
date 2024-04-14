@@ -442,7 +442,9 @@ return <Transactions>
                 </div>
                 <a target="_blank" className="tx-link" href={tx.link}>Tx</a>
               </div>
-              <div>~1 hour</div>
+              {
+                tx.status === 3 ? <div>~1 hour</div> : null
+              }
             </div>
           </div>
         })
