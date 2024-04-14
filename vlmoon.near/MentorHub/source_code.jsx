@@ -7,7 +7,7 @@ State.init({
   students: [],
   studentRequests: [],
   currentAppThemeMode: "lightMode",
-  currentRoute: "myInfoPage",
+  currentRoute: "studentsPage",
   profileName: "",
   profileDiscription: "",
   creatProfileName: "",
@@ -21,8 +21,6 @@ State.init({
   flagForFindStdudentByID: false,
   idFindStudent: "",
   vrifyOurStudent: "",
-  isModalOpen: false,
-  selectedStudent: null,
 });
 
 const TecherPossibilities = {
@@ -159,7 +157,8 @@ const TecherPossibilities = {
       });
     }
   },
-  findStudentByID: (idaccound) => {
+  findStudentByID: () => {
+    const idaccound = state.idFindStudent;
     const isOurStudent = Social.get(
       `${state.accountId}/myStudentsForFind/${idaccound}`
     );
@@ -193,51 +192,6 @@ function ourDescriptionForStudent(account_id) {
   return discriprionalIN;
 }
 
-const FloatingActionButton = ({ onClick }) => {
-  return (
-    <FloatingButton onClick={onClick}>
-      <i className="fa fa-plus">+</i>
-    </FloatingButton>
-  );
-};
-
-const openModal = () => {
-  State.update({
-    isModalOpen: true,
-  });
-};
-
-const Modal = ({ closeModal }) => {
-  const addStudentAndCloseModal = () => {
-    TecherPossibilities.addStudent();
-    closeModal();
-  };
-
-  return (
-    <ModalContainer>
-      <ModalContent>
-        <h5 style={{ textTransform: "uppercase" }}>Add new student</h5>
-        <h6 style={{ textTransform: "uppercase" }}>
-          write account_id you want add
-        </h6>
-        <input
-          type="text"
-          className="form-control"
-          onBlur={(e) => State.update({ addNewStudent: e.target.value })}
-          placeholder="Input for add student"
-        />
-        <Button style={{ width: "100px" }} onClick={addStudentAndCloseModal}>
-          Add
-        </Button>
-        {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
-        <Button style={{ width: "100px" }} onClick={closeModal}>
-          Close
-        </Button>
-      </ModalContent>
-    </ModalContainer>
-  );
-};
-
 //UI Kit Theme
 const appTheme = {
   colors: () => {
@@ -246,8 +200,7 @@ const appTheme = {
       currentThemeMode === "lightMode"
         ? {
             standartText: "#000000",
-            backgroundColor:
-              "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+            backgroundColor: "#FFFFFF",
             primary: "#000000",
             secondary: "rgba(255, 0, 0, 0)",
             textBlack: "#000000",
@@ -265,7 +218,7 @@ const appTheme = {
     return colors;
   },
   fontSizes: {
-    h1: "2em",
+    h1: "2.5em",
     h2: "2em",
     h3: "1.75em",
     h4: "1.5em",
@@ -317,27 +270,14 @@ const Button = styled.button`
   border: none;
   border-radius: ${appTheme.borderRadius.large};
   align-self: center;
-  
 `;
-const GlobalContainer = styled.div`
-  font-family: 'Manrope', sans-serif;
-  margin: auto;
-  padding: 2rem; 
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0); /* Лінійний градієнт */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  padding: ${appTheme.margins.xlarge};
-`;
+
 const Body = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${appTheme.colors().backgroundColor};
   align-items: center; 
-`;
+  `;
 const NavigationBar = styled.div`
   display: flex;
   flex-direction: row;
@@ -345,19 +285,6 @@ const NavigationBar = styled.div`
   padding : ${appTheme.paddings.large};
   background-color: ${appTheme.colors().backgroundColor};
   justify-content: center;
-
-  button {  
-    background: ${appTheme.colors().secondary};
-    color: ${appTheme.colors().primary};
-    font-size: ${appTheme.fontSizes.h5};
-    text-transform: uppercase;
-  }
-
-  .active {
-    background-color: ${appTheme.colors().secondary};
-    color: ${appTheme.colors().primary};
-    font-weight: bold;
-  }
 `;
 
 const ProfileTab = styled.div`
@@ -366,62 +293,6 @@ const ProfileTab = styled.div`
   background-color: ${appTheme.colors().backgroundColor};
   justify-content: center;
   align-items: center; 
-`;
-const Card = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-    0px 1px 2px rgba(16, 24, 40, 0.06);
-  overflow: hidden;
-  padding: 16px;
-`;
-const FloatingButton = styled.button`
-  font-family: 'Inter', sans-serif; 
-  background-color: #000;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 15px;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border-radius: 12px;
-  background: #fff;
-  border: 1px solid #eceef0;
-  boxShadow:
-    0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
-  overflow: hidden;
-  padding: 16px;
 `;
 
 const uiKitComponents = {
@@ -445,209 +316,53 @@ function navigateToModule(moduleRoute) {
 }
 
 const routesNavigator = {
-  myInfoPage: () => navigateToModule("myInfoPage"),
   studentsPage: () => navigateToModule("studentsPage"),
-  //myTeachersPage: () => navigateToModule("myTeachersPage"),
-  //myEventsPage: () => navigateToModule("myEventsPage"),
-  //myTasksPage: () => navigateToModule("myTasksPage"),
+  myTeachersPage: () => navigateToModule("myTeachersPage"),
+  myEventsPage: () => navigateToModule("myEventsPage"),
+  myTasksPage: () => navigateToModule("myTasksPage"),
 };
 
 function getModuleDependencies(moduleRoute) {
-  if (moduleRoute === "myInfoPage") {
-    return ["myInfoPage"];
-  } else if (moduleRoute === "studentsPage") {
+  if (moduleRoute === "studentsPage") {
     return ["studentsPage"];
-  } //else if (moduleRoute === "myTeachersPage") {
-  // return ["myTeachersPage"];
-  //} else if (moduleRoute === "myEventsPage") {
-  //return ["myEventsPage"];
-  //} else if (moduleRoute === "myTasksPage") {
-  //return ["myTasksPage"];
-  //}
+  } else if (moduleRoute === "myTeachersPage") {
+    return ["myTeachersPage"];
+  } else if (moduleRoute === "myEventsPage") {
+    return ["myEventsPage"];
+  } else if (moduleRoute === "myTasksPage") {
+    return ["myTasksPage"];
+  }
 }
 const dependencies = getModuleDependencies(state.currentRoute);
-const [currentRoute, setCurrentRoute] = useState("myInfoPage");
 
 //Pages
-const MyInfoPage = () => (
-  <uiKitComponents.body>
-    <h3>My Information</h3>
-    <Card>
-      <Widget src="near/widget/AccountProfile" />
-    </Card>
-  </uiKitComponents.body>
-);
-
-const StudentsPage = () => (
-  <uiKitComponents.body>
-    <h5>Find Student By Account_ID</h5>
-    <div
-      style={{
-        display: "flex",
-        height: "3em",
-        width: "29em",
-      }}
-    >
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Input for find my student"
-        onBlur={(e) => State.update({ idFindStudent: e.target.value })}
-      />
-      <Button
-        style={{ width: "100px" }}
-        onClick={() => {
-          TecherPossibilities.findStudentByID(state.idFindStudent);
-        }}
-      >
-        Find
-      </Button>
-    </div>
-    {state.vrifyOurStudent && (
-      <Card
-        style={{ display: "flex", margin: "15px", flexDirection: "column" }}
-      >
-        <div>
-          <Widget
-            src="near/widget/AccountProfile"
-            props={{ accountId: state.vrifyOurStudent }}
-          />
-        </div>
-        <input
-          type="text"
-          className="form-control"
-          style={{
-            height: "3em",
-          }}
-          placeholder="Input for edit description"
-          onBlur={(e) => State.update({ editDescription: e.target.value })}
-        />
-        <div>
-          <h4>{descriptionForStudent(state.vrifyOurStudent)}</h4>
-        </div>
-        <div>
-          <Button
-            style={{ width: "100px" }}
-            onClick={() => {
-              TecherPossibilities.updateDiscription(state.vrifyOurStudent);
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            style={{ width: "100px" }}
-            onClick={() => {
-              TecherPossibilities.deleteStudent(state.vrifyOurStudent);
-            }}
-          >
-            Delete
-          </Button>
-          <Button
-            style={{ width: "100px" }}
-            onClick={() => {
-              State.update({ vrifyOurStudent: null });
-            }}
-          >
-            Close
-          </Button>
-        </div>
-      </Card>
-    )}
-    <div
-      style={{
-        margin: "15px",
-      }}
-    >
-      <h3>My Students</h3>
-    </div>
-
-    <div
-      style={{
-        display: "flex",
-        margin: "15px",
-        flexDirection: "column",
-      }}
-    >
-      {state.studentArray.map((student) => (
-        <Card key={student} style={{ marginBottom: "10px" }}>
-          <div>
-            <Widget
-              src="near/widget/AccountProfile"
-              props={{ accountId: student }}
-            />
-
-            <div>
-              <h4>{descriptionForStudent(student)}</h4>
-            </div>
-            <div>
-              <h4>{ourDescriptionForStudent(student)}</h4>
-            </div>
-          </div>
-          {state.selectedStudent === student ? (
-            <div>
-              <input
-                type="text"
-                className="form-control"
-                style={{
-                  height: "3em",
-                }}
-                placeholder="Input for edit description"
-                onBlur={(e) =>
-                  State.update({ editDescription: e.target.value })
-                }
-              />
-              <div>
-                <Button
-                  style={{ width: "100px" }}
-                  onClick={() => {
-                    TecherPossibilities.updateDiscription(student);
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  style={{ width: "100px" }}
-                  onClick={() => {
-                    TecherPossibilities.deleteStudent(student);
-                  }}
-                >
-                  Delete
-                </Button>
-              </div>
-              <Button
-                style={{ width: "100px" }}
-                onClick={() => State.update({ selectedStudent: null })}
-              >
-                Close
-              </Button>
-            </div>
-          ) : (
-            <Button
-              style={{ width: "100px" }}
-              onClick={() => State.update({ selectedStudent: student })}
-            >
-              More Info
-            </Button>
-          )}
-        </Card>
-      ))}
-    </div>
-    <div style={{ alignSelf: "end" }}>
-      <FloatingActionButton onClick={openModal} />
-
-      {state.isModalOpen && (
-        <Modal closeModal={() => State.update({ isModalOpen: false })} />
-      )}
-    </div>
-  </uiKitComponents.body>
-);
-
+const pages = {
+  studentsPage: <></>,
+  myTeachersPage: (
+    <>
+      <h1>My Teachers</h1>
+    </>
+  ),
+};
 //
 
 if (!state.profileName && !state.profileDiscription) {
   return (
-    <>
-      <uiKitComponents.body>
+    <div
+      style={{
+        background:
+          "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "'Manrope', sans-serif",
+          margin: "2rem",
+        }}
+      >
         <h1>Mentor HUB</h1>
         <h2>
           You don't have a profile, if you want to continue, you have to create
@@ -666,7 +381,7 @@ if (!state.profileName && !state.profileDiscription) {
               backgroundColor: "black",
               color: "white",
             }}
-            onBlur={(e) => State.update({ creatProfileName: e.target.value })}
+            onChange={(e) => State.update({ creatProfileName: e.target.value })}
           />
         </div>
         <h2>Hello, {state.creatProfileName}</h2>
@@ -680,7 +395,7 @@ if (!state.profileName && !state.profileDiscription) {
             marginRight: "100em",
             paddingsRight: "100px",
           }}
-          onBlur={(e) =>
+          onChange={(e) =>
             State.update({ creatProfileDiscription: e.target.value })
           }
         />
@@ -693,23 +408,34 @@ if (!state.profileName && !state.profileDiscription) {
           }}
         >
           <Button
-            style={{
-              backgroundColor: "green",
-            }}
+            style={{ width: "100px" }}
             onClick={TecherPossibilities.initProfile}
           >
             Save change
           </Button>
         </div>
-      </uiKitComponents.body>
-    </>
+      </div>
+    </div>
   );
 }
 
 if (!state.profileName) {
   return (
-    <>
-      <uiKitComponents.body>
+    <div
+      style={{
+        background:
+          "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "'Manrope', sans-serif",
+          margin: "2rem",
+        }}
+      >
         <h1>Mentor HUB</h1>
         <h2>
           You don't have a name of profile, if you want to continue, you have to
@@ -728,7 +454,7 @@ if (!state.profileName) {
               backgroundColor: "black",
               color: "white",
             }}
-            onBlur={(e) => State.update({ creatProfileName: e.target.value })}
+            onChange={(e) => State.update({ creatProfileName: e.target.value })}
           />
         </div>
         <h2>Hello, {state.creatProfileName}</h2>
@@ -740,23 +466,34 @@ if (!state.profileName) {
           }}
         >
           <Button
-            style={{
-              backgroundColor: "green",
-            }}
+            style={{ width: "100px" }}
             onClick={TecherPossibilities.initNameProfile}
           >
             Save change
           </Button>
         </div>
-      </uiKitComponents.body>
-    </>
+      </div>
+    </div>
   );
 }
 
 if (!state.profileDiscription) {
   return (
-    <>
-      <uiKitComponents.body>
+    <div
+      style={{
+        background:
+          "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          fontFamily: "'Manrope', sans-serif",
+          margin: "2rem",
+        }}
+      >
         <h1>Mentor HUB</h1>
         <h2>
           You don't have a description, if you want to continue, you have to
@@ -766,13 +503,7 @@ if (!state.profileDiscription) {
         <input
           type="text"
           className="form-control"
-          style={{
-            backgroundColor: "black",
-            color: "white",
-            marginRight: "100em",
-            paddingsRight: "100px",
-          }}
-          onBlur={(e) =>
+          onChange={(e) =>
             State.update({ creatProfileDiscription: e.target.value })
           }
         />
@@ -785,30 +516,35 @@ if (!state.profileDiscription) {
           }}
         >
           <Button
-            style={{
-              backgroundColor: "green",
-            }}
+            style={{ width: "100px" }}
             onClick={TecherPossibilities.initDiscriptionProfile}
           >
             Save change
           </Button>
         </div>
-      </uiKitComponents.body>
-    </>
+      </div>
+    </div>
   );
 }
 
 return (
-  <GlobalContainer>
-    <uiKitComponents.profileTab>
-      <h1
-        props={{
-          style: { fontWeight: "bold" },
-        }}
-      >
-        Mentor HUB
-      </h1>
-
+  <div
+    style={{
+      background:
+        "linear-gradient(-45deg, #5F8AFA, #FFFFFF, #FFFFFF, #FFFFFF, #A463B0)",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        fontFamily: "'Manrope', sans-serif",
+        margin: "2rem",
+      }}
+    >
+      <h1 style={{ fontWeight: "bold" }}>Mentor HUB</h1>
       <h3>Make the world around you the better place</h3>
       <Widget
         src="mob.near/widget/ProfileImage"
@@ -821,29 +557,260 @@ return (
         }}
       />
       <h4>Hey, {state.profileName}</h4>
-    </uiKitComponents.profileTab>
 
-    <uiKitComponents.body>
-      <uiKitComponents.navigationBar>
-        <uiKitComponents.button
-          className={currentRoute === "myInfoPage" ? "active" : ""}
-          onClick={() => setCurrentRoute("myInfoPage")}
+      <h5
+        style={{
+          marginTop: "20px",
+        }}
+      >
+        Find student by account_ID
+      </h5>
+      <div
+        style={{
+          display: "flex",
+          height: "3em",
+        }}
+      >
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Input for find my student"
+          value={state.idFindStudent}
+          onChange={(e) => State.update({ idFindStudent: e.target.value })}
+        />
+        <Button
+          style={{
+            width: "100px",
+          }}
+          onClick={TecherPossibilities.findStudentByID}
         >
-          My Info
-        </uiKitComponents.button>
-        <uiKitComponents.button
-          className={currentRoute === "studentsPage" ? "active" : ""}
-          onClick={() => setCurrentRoute("studentsPage")}
+          Find
+        </Button>
+      </div>
+      {state.vrifyOurStudent && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "10px",
+            margin: "20px",
+            borderRadius: "12px",
+            background: "#fff",
+            border: "1px solid #eceef0",
+            boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+            overflow: "hidden",
+            padding: "16px",
+          }}
         >
-          Students
-        </uiKitComponents.button>
-      </uiKitComponents.navigationBar>
+          <div>
+            <Widget
+              src="near/widget/AccountProfile"
+              props={{ accountId: state.vrifyOurStudent }}
+            />
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            style={{
+              height: "3em",
+            }}
+            placeholder="Input for edit description"
+            onBlur={(e) => State.update({ editDescription: e.target.value })}
+          />
+          <div>
+            <h4>{descriptionForStudent(state.vrifyOurStudent)}</h4>
+          </div>
+          <div>
+            <Button
+              style={{ width: "100px" }}
+              onClick={() => {
+                TecherPossibilities.updateDiscription(state.vrifyOurStudent);
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              style={{ width: "100px" }}
+              onClick={() => {
+                TecherPossibilities.deleteStudent(state.vrifyOurStudent);
+              }}
+            >
+              Delete
+            </Button>
+            <Button
+              style={{ width: "100px" }}
+              onClick={() => {
+                State.update({ vrifyOurStudent: null });
+              }}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      )}
+      <h3
+        style={{
+          marginTop: "20px",
+        }}
+      >
+        My Students
+      </h3>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          margin: "15px",
+        }}
+      >
+        {state.studentArray.map((student) => (
+          <div
+            key={student}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "20px",
+              margin: "10px",
+              borderRadius: "12px",
+              background: "#fff",
+              border: "1px solid #eceef0",
+              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+              overflow: "hidden",
+              padding: "16px",
+            }}
+          >
+            {state.showHiddenContent === student && (
+              <div>
+                <input
+                  type="text"
+                  className="form-control"
+                  style={{ height: "3em" }}
+                  placeholder="Input for edit description"
+                  onChange={(e) => {
+                    State.update({ editDescription: e.target.value });
+                  }}
+                />
+                <Button
+                  onClick={() => {
+                    TecherPossibilities.deleteStudent(student);
+                  }}
+                  style={{ width: "100px" }}
+                >
+                  Delete
+                </Button>
+                <Button
+                  style={{ width: "100px" }}
+                  onClick={() => {
+                    TecherPossibilities.updateDiscription(student);
+                  }}
+                >
+                  Edit
+                </Button>
+                {/* Button to close hidden content for the student */}
+                <Button
+                  style={{ width: "100px" }}
+                  onClick={() => State.update({ showHiddenContent: null })}
+                >
+                  Hide Info
+                </Button>
+              </div>
+            )}
+            {/* Common elements for each student */}
+            <div>
+              <Widget
+                src="near/widget/AccountProfile"
+                props={{ accountId: student }}
+              />
 
-      {currentRoute === "myInfoPage" ? (
-        <MyInfoPage />
-      ) : currentRoute === "studentsPage" ? (
-        <StudentsPage />
-      ) : null}
-    </uiKitComponents.body>
-  </GlobalContainer>
+              <div>
+                <h4>{descriptionForStudent(student)}</h4>
+              </div>
+              <div>
+                <h4>{ourDescriptionForStudent(student)}</h4>
+              </div>
+            </div>
+            {/* Button to open hidden content for the student */}
+            {state.showHiddenContent !== student && (
+              <Button
+                style={{ width: "100px" }}
+                onClick={() => State.update({ showHiddenContent: student })}
+              >
+                More Info
+              </Button>
+            )}
+          </div>
+        ))}
+      </div>
+      {/* Modal for adding a new student */}
+      {state.showAddStudentModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "8px",
+            }}
+          >
+            <h3>Add New Student</h3>
+            <input
+              type="text"
+              className="form-control"
+              style={{ marginTop: "10px" }}
+              placeholder="Input for add student"
+              value={state.addNewStudent}
+              onChange={(e) => State.update({ addNewStudent: e.target.value })}
+            />
+            {!state.ifAddStudent && <h3>Some gone wrong. Not add</h3>}
+            <Button
+              onClick={() => {
+                TecherPossibilities.addStudent(state.addNewStudent);
+                State.update({ showAddStudentModal: false });
+              }}
+              style={{
+                width: "100px",
+                marginTop: "10px",
+              }}
+            >
+              Add
+            </Button>
+
+            <Button
+              onClick={() => State.update({ showAddStudentModal: false })}
+              style={{
+                width: "100px",
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+      {/* Button to trigger the modal */}
+      <Button
+        onClick={() => State.update({ showAddStudentModal: true })}
+        style={{
+          alignSelf: "end",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+        }}
+      >
+        +
+      </Button>
+    </div>
+  </div>
 );
