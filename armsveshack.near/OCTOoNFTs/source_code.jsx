@@ -615,18 +615,6 @@ useEffect(() => {
   };
 }, []);
 
-const checkAddress = (a, b) => {
-  if (a === b) {
-    console.log("cuenta con nfts");
-    return true;
-  } else {
-    console.log(a);
-    console.log(b);
-    console.log("cuenta sin nfts");
-    return false;
-  }
-};
-
 function Modal({ onClose, show, children }) {
   if (!show) {
     return <></>;
@@ -794,7 +782,7 @@ return (
       >
         <div>
           <h1>My list of NFT's</h1>
-          {ethers.utils.getAddress(sender) ===
+          {sender && ethers.utils.getAddress(sender) ===
           ethers.utils.getAddress(address2) ? (
             <div
               style={{
