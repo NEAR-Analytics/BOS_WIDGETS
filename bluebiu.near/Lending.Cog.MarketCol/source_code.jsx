@@ -2,11 +2,20 @@ const Asset = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  color: white;
+`;
+const IconWrap = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 44px;
 `;
 const Icon = styled.img`
+  position: absolute;
   width: 26px;
   height: 26px;
   border-radius: 50%;
+  left: 0;
 `;
 const Symbol = styled.div`
   font-size: 16px;
@@ -61,24 +70,68 @@ function formatAmount(number) {
     return Number(str_num).toFixed(2);
   }
 }
-
+function formatValue(value, digits) {
+  if (isNaN(Number(value))) return "";
+  if (Number(value) === 0) return "0";
+  return Big(value || 0).lt(0.01)
+    ? "< 0.01"
+    : `${Number(value).toFixed(digits || 2)}`;
+}
 function renderDom() {
   switch (key) {
-    case "DEPOSIT":
-      if (from === "YOURS") {
-        return (
-          <Asset>
-            <Icon src={data.BORROW_URL} />
-            <Symbol>{data.BORROW_TOKEN}</Symbol>
-          </Asset>
-        );
-      }
+    case "POOL_NAME":
       return (
         <Asset>
-          <Icon src={data.underlyingToken.icon} />
-          <Symbol>{data.underlyingToken.symbol}</Symbol>
+          <IconWrap>
+            <Icon src={data.TOKEN_A.icon} />
+            <Icon src={data.TOKEN_B.icon} style={{ left: 14 }} />
+          </IconWrap>
+          <Symbol>{data.POOL_NAME}</Symbol>
         </Asset>
       );
+    case "YourDeposited":
+      return (
+        <Asset>
+          {formatValue(data.yourDeposited, 2)}
+          {data.depositSymbol}
+        </Asset>
+      );
+    case "TotalDeposits":
+      return (
+        <Asset>
+          {formatValue(data.totalAssets, 2)}
+          {data.depositSymbol}
+        </Asset>
+      );
+
+    case "Debt":
+      return (
+        <Asset>
+          {formatValue(data.yourBorrowed, 2)}
+          {data.borrowSymbol}
+        </Asset>
+      );
+    case "Rate":
+      return <Asset>{Big(data.Rate).times(100).toFixed(2)}%</Asset>;
+    case "APY":
+      return <Asset>{Big(data.Rate).times(100).toFixed(2)}%</Asset>;
+    case "AvailableBorrow":
+      return (
+        <Asset>
+          {formatValue(data.availableBorrow, 2)}
+          {data.borrowSymbol}
+        </Asset>
+      );
+
+    case "TotalCollateral":
+      return (
+        <Asset>
+          {formatValue(data.totalCollateral, 2)}
+          {data.collateralSymbol}
+        </Asset>
+      );
+    //
+    ///
     case "BORROW":
       return (
         <Asset>
