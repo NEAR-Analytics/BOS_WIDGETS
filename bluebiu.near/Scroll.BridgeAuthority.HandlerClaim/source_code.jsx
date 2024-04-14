@@ -325,9 +325,10 @@ useEffect(() => {
               }
             })
 
-
             if (!currentTx.status && currentTx.fromChainId === 1) {
               currentTx.status = 2
+            } else if (!currentTx.status && currentTx.fromChainId === 534352) {
+              currentTx.status = 3
             }
 
           } else {
