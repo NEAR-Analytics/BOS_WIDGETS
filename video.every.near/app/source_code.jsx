@@ -62,13 +62,11 @@ const config = {
     },
   },
 };
-
 const Root = styled.div`
   .container {
     border: none !important;
   }
 `;
-
 return (
   <Root>
     <Widget src="every.near/widget/app.view" props={{ config, ...props }} />
