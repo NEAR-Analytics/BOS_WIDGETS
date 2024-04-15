@@ -1,17 +1,12 @@
 const ROOT_ACCOUNT = "efiz.near";
-
 State.init({
   widget: state.widget ?? props.widget ?? "Library.Overview",
 });
-
 const data = Social.keys(`${ROOT_ACCOUNT}/widget/*`, "final", {
   return_type: "BlockHeight",
 });
-
 const RouterLink = props.RouterLink;
-
 if (!data) return "";
-
 function convertToNestedObject(obj) {
   const result = {};
   Object.keys(obj)
@@ -31,17 +26,14 @@ function convertToNestedObject(obj) {
     });
   return result;
 }
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   font-family: sans-serif;
-
   @media (max-width: 800px) {
     flex-wrap: wrap;
   }
 `;
-
 const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
@@ -56,11 +48,9 @@ const Sidebar = styled.div`
   bottom: 0;
   margin-bottom: 40px;
   height: fit-content;
-
   @media (max-width: 800px) {
     width: 100%;
   }
-
   h3 {
     margin: 0;
     font-size: 14px;
@@ -68,7 +58,6 @@ const Sidebar = styled.div`
     color: #999;
     padding: 6px 21px;
   }
-
   a {
     display: block;
     font-size: 14px;
@@ -81,30 +70,25 @@ const Sidebar = styled.div`
     text-decoration: none;
     text-transform: capitalize;
   }
-
   a.active {
     background: #edf4fc !important;
     color: #4498e0 !important;
   }
-
   a:hover {
     color: #4498e0 !important;
   }
 `;
-
 const Content = styled.div`
   flex: 1;
   margin-left: 20px;
   min-height: 70vh;
   margin-bottom: auto;
-
   @media (max-width: 800px) {
     width: 100%;
     padding: 0;
     margin: 0;
   }
 `;
-
 const widgets = {
   index: 0,
   "Livepeer.Creator": 0,
@@ -114,7 +98,6 @@ const widgets = {
   "Library.Overview": 0,
 };
 const widgetsObj = convertToNestedObject(widgets);
-
 const tabContent = () => {
   const hasDemo = widgets[`${state.widget}.demo`] !== undefined;
   return (
@@ -132,7 +115,6 @@ const tabContent = () => {
     </Content>
   );
 };
-
 const widgetsKeys = Object.keys(widgetsObj)
   .sort((a, b) => {
     if (a.toLowerCase() > b.toLowerCase()) return 1;
