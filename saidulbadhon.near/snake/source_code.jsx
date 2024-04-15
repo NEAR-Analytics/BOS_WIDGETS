@@ -212,4 +212,4 @@ const srcDoc = `<!DOCTYPE html>
 </body>
 </html>`;
 
-return <iframe style={{ width: "100%", height: "100%" }} srcDoc={srcDoc} />;
+return <iframe style={{ width: "100%", height: "100%", minHeight:760 }} srcDoc={srcDoc} />;
