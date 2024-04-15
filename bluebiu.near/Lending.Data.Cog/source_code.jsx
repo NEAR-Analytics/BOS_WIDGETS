@@ -6,6 +6,7 @@ const {
   dexConfig,
   update,
   onLoad,
+  isChainSupported,
 } = props;
 const { rawMarkets, TOKENS } = dexConfig;
 
@@ -124,6 +125,22 @@ const ABI = [
   {
     stateMutability: "view",
     type: "function",
+    name: "total_borrow",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        components: [
+          { name: "elastic", type: "uint128" },
+          { name: "base", type: "uint128" },
+        ],
+      },
+    ],
+  },
+  {
+    stateMutability: "view",
+    type: "function",
     name: "total_collateral_share",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
@@ -131,7 +148,7 @@ const ABI = [
 ];
 const { formatUnits } = ethers.utils;
 useEffect(() => {
-  if (!account || !update || !multicallAddress) return;
+  if (!isChainSupported || !account || !update || !multicallAddress) return;
   // console.log("rawMarkets--", rawMarkets);
   function getDebt() {
     const _contract = dexConfig.VesselManager;
@@ -248,16 +265,60 @@ useEffect(() => {
       multicallAddress,
       provider: Ethers.provider(),
     })
-      .then((res) => {
-        console.log("getAvailableBorrow_res", res);
-        for (let i = 0; i < res.length; i++) {
-          rawMarkets[i].availableBorrow = formatUnits(
-            res[i][0][0],
-            rawMarkets[i].TOKEN_A.decimals
-          );
-        }
-        onLoad({
-          markets: rawMarkets,
+      .then((_totalAsset) => {
+        console.log("getAvailableBorrow_res", _totalAsset);
+        // for (let i = 0; i < _totalAsset.length; i++) {
+        //   rawMarkets[i].availableBorrow = formatUnits(
+        //     _totalAsset[i][0][0],
+        //     rawMarkets[i].TOKEN_A.decimals
+        //   );
+        // }
+        // onLoad({
+        //   markets: rawMarkets,
+        // });
+        return _totalAsset;
+      })
+      .then((_totalAsset) => {
+        const calls = rawMarkets.map((item) => ({
+          address: item.POOL_MANAGER,
+          name: "total_borrow",
+        }));
+
+        multicall({
+          abi: ABI,
+          calls,
+          options: {},
+          multicallAddress,
+          provider: Ethers.provider(),
+        }).then((_totalBorrow) => {
+          for (let i = 0; i < _totalAsset.length; i++) {
+            const _availableBorrow = formatUnits(
+              _totalAsset[i][0][0],
+              rawMarkets[i].TOKEN_A.decimals
+            );
+
+            const _totalBorrow = formatUnits(
+              _totalBorrow[i][0][0],
+              rawMarkets[i].TOKEN_A.decimals
+            );
+
+            const full_asset_amount = Big(_availableBorrow).plus(
+              Big(_totalBorrow)
+            );
+            const utilization_rate = Big(_totalBorrow)
+              .times(Math.pow(1, 18))
+              .div(full_asset_amount);
+            const utilization_rate_percent = utilization_rate
+              .div(Big(Math.pow(1, 18)))
+              .times(100)
+              .toFixed();
+            rawMarkets[i].availableBorrow = _availableBorrow;
+            rawMarkets[i].totalBorrow = _totalBorrow;
+            rawMarkets[i].utilization = utilization_rate_percent;
+          }
+          onLoad({
+            markets: rawMarkets,
+          });
         });
       })
       .catch((err) => {
