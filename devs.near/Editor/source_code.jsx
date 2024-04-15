@@ -1,70 +1,66 @@
-const { Router } = VM.require("devs.near/widget/Router") || {
-  Router: () => <></>,
+const { MarkdownViewer } = VM.require("devs.near/widget/markdown.view") || {
+  MarkdownViewer: () => null,
 };
-const { href } = VM.require("buildhub.near/widget/lib.url") || {
-  href: () => "/",
-};
-const Root = styled.div``;
-const Container = styled.div`
+const PageContainer = styled.div`
   display: flex;
-  height: 100%;
+  flex-direction: column;
+  height: 100vh;
 `;
-const Content = styled.div`
+const Header = styled.div`
+  background-color: #333;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+const EditorWrapper = styled.div`
+  flex: 1;
+  padding: 96px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+`;
+const EditorTextarea = styled.textarea`
   width: 100%;
   height: 100%;
+  border: none;
+  font-size: 16px;
+  resize: none;
+  outline: none;
 `;
-const App = ({
-  routes,
-  Layout,
-  basePath,
-  page,
-  defaultPage,
-  debug,
-  depth,
-  env,
-  routerParam,
-  ...passProps
-}) => {
-  if (!page) page = Object.keys(routes)[0] || defaultPage;
-  function navigate({ param, to }) {
-    if (!param) param = routerParam ?? "page";
-    if (to === "/") to = defaultPage;
-    return href({
-      widgetSrc: basePath,
-      params: {
-        [param]: to,
-        env: env ?? undefined,
-      },
-    });
-  }
-  return (
-    <Root key={basePath}>
-      <Container>
-        <Layout
-          page={page}
-          routes={routes}
-          navigate={navigate}
-          {...routerProps}
-          {...props}
-          Outlet={(p) => (
-            <Router
-              debug={debug}
-              basePath={basePath}
-              active={passProps[routerParam ?? "page"] ?? page}
-              routes={routes}
-              passProps={p}
-              routerParam={routerParam}
-              depth={depth ?? 1}
-              PageNotFound={() => <p>404 Not Found</p>} // routes[404]
-            />
-          )}
-        />
-      </Container>
-    </Root>
-  );
+const PreviewContent = styled.div`
+  color: #333;
+  font-size: 16px;
+`;
+const Select = styled.select``;
+const Option = styled.option``;
+const Label = styled.label`
+  margin-right: 10px;
+`;
+const Button = styled.button`
+  // this could take in theme
+  padding: 10px 20px;
+`;
+const ModalBox = styled.div`
+  background-color: white;
+  min-width: 400px;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1003;
+`;
+const draftKey = "draft";
+const set = (k, v) => {
+  Storage.privateSet(k, v);
 };
-return { App };
-path");
+const get = (k) => {
+  return Storage.privateGet(k);
+};
+const draft = get(draftKey);
+const defaultViewMode = get("viewMode");
+const defaultPreview = get("preview");
+const defaultEditor = get("editor");
+const defaultLanguage = get("language");
+const defaultType = get("type");
+const defaultPath = get("path");
 if (
   draft === null ||
   viewMode === null ||
@@ -199,10 +195,7 @@ return (
               });
             },
             toggle: (
-              <Button
-                className="classic"
-                disabled={!path}
-              >
+              <Button className="classic" disabled={!path}>
                 <>
                   <i className={"bi bi-send"} />
                   post
