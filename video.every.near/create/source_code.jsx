@@ -10,23 +10,17 @@ const UUID = {
     });
   },
 };
-
-
-
 function handleVideoChange(e) {
   State.update(e.target.files[0]);
 }
-
 function handleAssets(assets) {
   console.log("assets", assets);
   State.update({ uploadedVideo: assets[0] });
 }
-
 function handleStatus(status) {
   console.log(status);
   State.update({ uploadStatus: status });
 }
-
 State.init({
   title: "",
   description: "",
@@ -34,11 +28,9 @@ State.init({
   playbackId: "",
   view: "BROWSE",
 });
-
 function handleOnChange(video) {
   State.update({ currentUpload: video });
 }
-
 function handleCreateVideo() {
   const { playbackId, storage, size, videoSpec, downloadUrl, name, source } =
     state.uploadedVideo;
@@ -80,11 +72,9 @@ function handleCreateVideo() {
     }
   );
 }
-
 function handleImageUpload(image) {
   State.update({ image });
 }
-
 const ImageUploaderContainer = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -94,13 +84,11 @@ const ImageUploaderContainer = styled.div`
   padding: 1em;
   background: #ffffff;
   border: 1px solid #eceef0;
-  box-shadow:
-    0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   border-radius: 8px;
   width: 100%;
 `;
-
 const ProcessingOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -114,27 +102,22 @@ const ProcessingOverlay = styled.div`
   align-items: center;
   z-index: 9999;
 `;
-
 const Main = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-
   .left,
   .right {
     width: 50%;
     padding: 20px;
     box-sizing: border-box;
   }
-
   input,
   button {
     margin-top: 10px;
   }
 `;
-
 const Button = styled.button``;
-
 return (
   <Main className="container">
     <div className="left" style={{ position: "relative" }}>
@@ -144,7 +127,6 @@ return (
         </ProcessingOverlay>
       )}
       <h2>Upload to Livepeer</h2>
-
       <Widget
         src={"efiz.near/widget/Inputs.File"}
         props={{
