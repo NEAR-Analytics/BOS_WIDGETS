@@ -15,7 +15,8 @@ return (
       </Link> */}
     </div>
     <div className="end">
-      {context.accountId === `docs.bos-workspace.near` && (
+      {/* {context.accountId === `docs.bos-workspace.near` && ( */}
+      {true && (
         <>
           {/* <Link
             to={
