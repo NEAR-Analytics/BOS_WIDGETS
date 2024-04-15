@@ -235,7 +235,7 @@ const {
 } = props;
 
 const data = props.data || {};
-console.log("DATA--", data);
+// console.log("DATA--", data);
 let TABS = ["Borrow", "Repay", "Add Collateral", "Remove Collateral"];
 
 State.init({
