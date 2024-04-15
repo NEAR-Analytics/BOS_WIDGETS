@@ -1,51 +1,38 @@
 const { handleClose } = props;
-
 const creatorId = props.creatorId ?? context.accountId;
-
 if (!creatorId) {
   return "Please connect your NEAR account :)";
 }
-
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
-
 const groupData =
   props.group ?? Social.get(`${creatorId}/thing/${groupId}/**`, "final");
-
 if (!groupData) {
   return "";
 }
-
 const groupKey = Object.keys(groupData)[0];
-
 const initMembers =
   props.members ?? Social.get(`${creatorId}/graph/${groupId}/**`, "final");
-
 if (!initMembers) {
   return "";
 }
-
 State.init({
   group: groupData,
   members: initMembers,
   newMember: "",
   isDao: false,
 });
-
 function addMember(newMember) {
   State.update({
     members: { ...state.members, [newMember]: "" },
   });
 }
-
 function removeMember(memberKey) {
   const updatedMembers = { ...state.members };
   delete updatedMembers[memberKey];
-
   State.update({
     members: updatedMembers,
   });
 }
-
 function isNearAddress(address) {
   if (typeof address !== "string") {
     return false;
@@ -65,11 +52,8 @@ function isNearAddress(address) {
   }
   return true;
 }
-
 const memberId = props.memberId ?? state.newMember;
-
 const isValid = isNearAddress(memberId);
-
 const handleSave = () => {
   Social.set({
     thing: {
@@ -86,7 +70,6 @@ const handleSave = () => {
         },
       },
     },
-
     graph: {
       [groupId]: {
         ...state.members,
@@ -121,7 +104,6 @@ const handleSave = () => {
     },
   });
 };
-
 return (
   <>
     <p>{JSON.stringify(group)}</p>
