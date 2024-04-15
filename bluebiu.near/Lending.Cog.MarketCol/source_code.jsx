@@ -130,6 +130,13 @@ function renderDom() {
           {data.collateralSymbol}
         </Asset>
       );
+
+    case "Utilization":
+      return (
+        <Asset>
+          {data.utilization ? `${Big(data.utilization).toFixed(2)}%` : ""}
+        </Asset>
+      );
     //
     ///
     case "BORROW":
