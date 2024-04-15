@@ -411,7 +411,7 @@ const InputAmount = styled.input`
   justify-content: center;
   }
 `;
-const User = "fdaomultixender.near";
+const User = "multi.fdaomultixender.near";
 const Content3 = ({ distributeInput }) => (
   <div>
     <Widget
