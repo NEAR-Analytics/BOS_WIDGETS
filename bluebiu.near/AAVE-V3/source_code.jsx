@@ -175,6 +175,7 @@ const markets = dexConfig?.rawMarkets?.map((item) => ({
   ...item,
   tokenPrice: prices[item.symbol],
 }));
+
 const underlyingTokens = dexConfig?.rawMarkets?.map(
   (market) => market.underlyingAsset
 );
@@ -1162,16 +1163,6 @@ useEffect(() => {
 }, [account, isChainSupported, state.assetsToSupply]);
 
 useEffect(() => {
-  if (!account || !isChainSupported) return;
-
-  // console.log("dexConfig--", dexConfig);
-  // if (dexConfig.rewardToken) {
-  //   getAllUserRewards();
-  //   fetchRewardsData();
-  // }
-}, [account, isChainSupported, fresh]);
-
-useEffect(() => {
   console.log(
     "calc reward apy",
     state.emissionPerSeconds,
@@ -1599,21 +1590,6 @@ const body = isChainSupported ? (
   </Wrap>
 ) : (
   <>
-    <ChainsWrap>
-      <Widget
-        src="bluebiu.near/widget/Lending.Chains"
-        props={{
-          chains: CHAIN_LIST,
-          curChain,
-          onSwitchChain,
-          // onChange: (tab) => {
-          //   State.update({
-          //     tab: tab.key,
-          //   });
-          // },
-        }}
-      />
-    </ChainsWrap>
     <Widget
       src="bluebiu.near/widget/Swap.ChainWarnigBox"
       props={{
