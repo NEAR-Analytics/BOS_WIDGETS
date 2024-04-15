@@ -1,7 +1,27 @@
 const Wrap = styled.div`
   padding-top: 18px;
+  font-family: Gantari;
 `;
-
+const Summary = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 50px 0;
+`;
+const Item = styled.div``;
+const Title = styled.div`
+  color: #979abe;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+const Value = styled.div`
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+`;
 const {
   dexConfig,
   wethAddress,
@@ -20,9 +40,9 @@ const {
 State.init({
   markets: dexConfig.rawMarkets,
   TOKENS: null,
-  // tvl: "",
-  // deposits: "",
-  // tokenBal: "",
+  yourTotalCollateraledUSD: 0,
+  yourTotalBorrowUSD: 0,
+  yourTotalDepositUSD: 0,
 });
 
 useEffect(() => {
@@ -34,6 +54,20 @@ console.log("PROPS:", props);
 console.log("STATE:", state);
 return (
   <Wrap>
+    <Summary>
+      <Item>
+        <Title>Your collateral</Title>
+        <Value>$ {Number(state.yourTotalCollateraledUSD).toFixed(2)}</Value>
+      </Item>
+      <Item>
+        <Title>Your borrow</Title>
+        <Value>$ {Number(state.yourTotalBorrowUSD).toFixed(2)}</Value>
+      </Item>
+      <Item>
+        <Title>Your deposits</Title>
+        <Value>$ {Number(state.yourTotalDepositUSD).toFixed(2)}</Value>
+      </Item>
+    </Summary>
     {tab === "BORROW" && (
       <Widget
         src="bluebiu.near/widget/Lending.Cog.Markets"
