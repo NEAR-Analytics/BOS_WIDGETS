@@ -1,6 +1,4 @@
-const { Router } = VM.require("docs.bos-workspace.near/widget/PR.Router") || {
-  Router: () => <></>,
-};
+const { Router } = VM.require("docs.bos-workspace.near/widget/PR.Router");
 const { config, ...passProps } = props;
 if (!config) {
   // TODO: get from settings (or default)
@@ -29,7 +27,6 @@ if (!config) {
     config = VM.require(config) || {};
   }
 }
-console.log("config", config);
 if (!config) {
   return (
     <p>
@@ -38,48 +35,20 @@ if (!config) {
     </p>
   );
 }
-const Layout =
-  VM.require(config.layout?.src ?? "devs.near/widget/Layout") || (() => <></>);
-// While something like Theme should be in the parent...
-const CSS = styled.div`
-  .container {
-    /* border: 1px solid red; */
-  }
-  .button {
-  }
-  .input {
-  }
-  .layout {
-    /* border: 4px solid var(--main-color); */
-  }
-  .header {
-    /* border: 1px solid blue; */
-  }
-  .content {
-  }
-  .footer {
-  }
-`;
-const Container = styled.div`
-  display: flex;
-  height: 100%;
-`;
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-// const Template = config.Template ?? (({children}) => <>{children}</>);
+const Template = VM.require("docs.bos-workspace.near/widget/PR.Template");
 return (
-  <CSS style={config.theme}>
-    <Container className="window">
-      <Layout
-        {...(config.layout?.props ?? { variant: "standard" })}
-        blocks={config.blocks}
-      >
-        <Content>
-          <Router config={config.router} {...passProps} />
-        </Content>
-      </Layout>
-    </Container>
-  </CSS>
+  <Template
+    theme={config.theme}
+    layout={{
+      ...(config.layout ?? {
+        src: "devs.near/widget/Layout",
+        props: {
+          variant: "sidebar",
+        },
+      }),
+    }}
+    blocks={config.blocks}
+  >
+    <Router config={config.router} {...passProps} />
+  </Template>
 );
