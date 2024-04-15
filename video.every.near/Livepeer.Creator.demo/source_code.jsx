@@ -1,7 +1,5 @@
 const ROOT_ACCOUNT = props.ROOT_ACCOUNT ?? "efiz.near";
-
 const propsTable = `
-
 | Prop Name       | Type/Values     | Default Value  | Description                                        |
 |-----------------|-----------------|----------------|----------------------------------------------------|
 | ${"`video`"}         | File            | ${"`N/A`"}            | The video file to upload.                          |
@@ -14,7 +12,6 @@ const propsTable = `
 | ${"`debug`"}         | Boolean         | ${"`false`"}        | Whether to log debug messages or not.              |
 | ${"`...props`"} | any    | ${"`N/A`"}| Any other props will be passed to the underlying [Livepeer Asset Creator](https://docs.livepeer.org/reference/livepeer-js/asset/useCreateAsset). |
 `;
-
 const widgetCode = `
 \`\`\`jsx
 // Use Files if you need the user to upload a video asset from file system
@@ -32,7 +29,6 @@ const widgetCode = `
   >
   Stage Video
 </Files>
-
 <Widget
   src={\"${ROOT_ACCOUNT}/widget/Livepeer.Creator\"}
   props={{
@@ -51,7 +47,6 @@ const widgetCode = `
 />
 \`\`\`
 `;
-
 return (
   <div className="d-flex flex-column gap-1 pb-4">
     <Widget
