@@ -5,9 +5,7 @@ const indices = JSON.parse(
   JSON.stringify(Array.isArray(props.index) ? props.index : [props.index])
 );
 const requiredIndices = indices.filter((index) => index.required);
-
 const filter = props.filter;
-
 const renderItem =
   props.renderItem ??
   ((item) => (
@@ -17,18 +15,15 @@ const renderItem =
   ));
 const cachedRenderItem = (item, i) => {
   const key = JSON.stringify(item);
-
   if (!(key in state.cachedItems)) {
     state.cachedItems[key] = renderItem(item, i);
     State.update();
   }
   return state.cachedItems[key];
 };
-
 const initialRenderLimit = props.initialRenderLimit ?? 10;
 const addDisplayCount = props.nextLimit ?? initialRenderLimit;
 const reverse = !!props.reverse;
-
 const computeFetchFrom = (items, limit, desc) => {
   if (!items || items.length < limit) {
     return false;
@@ -36,21 +31,17 @@ const computeFetchFrom = (items, limit, desc) => {
   const blockHeight = items[items.length - 1].blockHeight;
   return desc ? blockHeight - 1 : blockHeight + 1;
 };
-
 function mergeItems(iIndex, oldItems, newItems, desc) {
   const itemMap = new Map();
-
   const generateKey = (item) => ({
     accountId: item.accountId,
     blockHeight: item.blockHeight,
   });
-
   // Add old items to the map
   oldItems.forEach((item) => {
     const key = generateKey(item);
     itemMap.set(key, item);
   });
-
   newItems.forEach((item) => {
     const key = generateKey(item);
     if (!itemMap.has(key)) {
@@ -60,18 +51,14 @@ function mergeItems(iIndex, oldItems, newItems, desc) {
       });
     }
   });
-
   // Convert the Map values to an array
   let mergedItems = Array.from(itemMap.values());
-
   // Sort items by blockHeight, ascending or descending based on the `desc` flag
   mergedItems.sort((a, b) =>
     desc ? b.blockHeight - a.blockHeight : a.blockHeight - b.blockHeight
   );
-
   return mergedItems;
 }
-
 const jIndices = JSON.stringify(indices);
 if (jIndices !== state.jIndices) {
   State.update({
@@ -82,7 +69,6 @@ if (jIndices !== state.jIndices) {
     cachedItems: {},
   });
 }
-
 let stateChanged = false;
 for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const index = indices[iIndex];
@@ -94,7 +80,6 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
     100
   );
   const desc = index.options.order === "desc";
-
   const initialItems = Social.index(
     index.action,
     index.key,
@@ -104,7 +89,6 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   if (initialItems === null) {
     continue;
   }
-
   const jInitialItems = JSON.stringify(initialItems);
   const nextFetchFrom = computeFetchFrom(
     initialItems,
@@ -123,18 +107,14 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
       feed.items = mergeItems(iIndex, feed.items, initialItems, desc);
     }
   }
-
   feed.usedCount = 0;
-
   if (feedChanged) {
     state.feeds[iIndex] = feed;
     stateChanged = true;
   }
 }
-
 let itemsByRequiredIndex = [];
 let commonUniqueIdentifiers = [];
-
 // If there are required indices, filter mergedItems to include only items that appear in all required feeds
 if (requiredIndices.length > 0) {
   for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
@@ -162,9 +142,7 @@ if (requiredIndices.length > 0) {
     itemsByRequiredIndex.length &&
     itemsByRequiredIndex.reduce((a, b) => a.filter((c) => b.includes(c)));
 }
-
 // Construct merged feed and compute usage per feed.
-
 const filteredItems = [];
 while (filteredItems.length < state.displayCount) {
   let bestItem = null;
@@ -199,13 +177,11 @@ while (filteredItems.length < state.displayCount) {
       }
     }
   }
-
   if (requiredIndices.length > 0) {
     const uniqueIdentifier = JSON.stringify({
       blockHeight: bestItem.blockHeight,
       accountId: bestItem.accountId,
     });
-
     if (!commonUniqueIdentifiers.includes(uniqueIdentifier)) {
       continue;
     }
@@ -216,19 +192,16 @@ while (filteredItems.length < state.displayCount) {
       item.blockHeight === bestItem.blockHeight &&
       item.accountId === bestItem.accountId
   );
-
   if (existingItemIndex === -1) {
     filteredItems.push(bestItem);
   }
 }
-
 // Fetch new items for feeds that don't have enough items.
 for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
   const index = indices[iIndex];
   const feed = state.feeds[iIndex];
   const desc = index.options.order === "desc";
   let feedChanged = false;
-
   if (
     (feed.items.length || 0) - feed.usedCount < addDisplayCount * 2 &&
     !feed.fetchFrom &&
@@ -238,7 +211,6 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
     feed.fetchFrom = feed.nextFetchFrom;
     feedChanged = true;
   }
-
   if (feed.fetchFrom) {
     const limit = addDisplayCount;
     const newItems = Social.index(
@@ -257,23 +229,19 @@ for (let iIndex = 0; iIndex < indices.length; ++iIndex) {
       feedChanged = true;
     }
   }
-
   if (feedChanged) {
     state.feeds[iIndex] = feed;
     stateChanged = true;
   }
 }
-
 if (stateChanged) {
   State.update();
 }
-
 const makeMoreItems = () => {
   State.update({
     displayCount: state.displayCount + addDisplayCount,
   });
 };
-
 const loader = (
   <div className="loader" key={"loader"}>
     <span
@@ -284,7 +252,6 @@ const loader = (
     Loading ...
   </div>
 );
-
 const fetchMore =
   props.manual &&
   (state.feeds.some((f) => !!f.fetchFrom) &&
@@ -297,15 +264,12 @@ const fetchMore =
           </a>
         </div>
       ));
-
 const items = filteredItems ? filteredItems.slice(0, state.displayCount) : [];
 if (reverse) {
   items.reverse();
 }
-
 const renderedItems = items.map(cachedRenderItem);
 const Layout = props.Layout;
-
 return props.manual ? (
   <>
     {reverse && fetchMore}
