@@ -8,7 +8,6 @@ State.init({
   title: "",
   hasChanges: false,
 });
-
 const handleAddTab = () => {
   const newTab = {
     iconClass: iconClass,
@@ -20,13 +19,11 @@ const handleAddTab = () => {
   };
   State.update({ tabs: [...tabs, newTab], hasChanges: true });
 };
-
 const handleRemoveTab = (index) => {
   const newTabs = [...tabs];
   newTabs.splice(index, 1);
   State.update({ tabs: newTabs, hasChanges: true });
 };
-
 const handleSave = () => {
   Social.set({
     thing: {
@@ -37,7 +34,6 @@ const handleSave = () => {
   });
   setHasChanges(false);
 };
-
 return (
   <div>
     <div>
@@ -64,7 +60,7 @@ return (
       <button onClick={handleAddTab}>Add Tab</button>
     </div>
     <ul>
-      {tabs.map((tab, index) => (
+      {(tabs || []).map((tab, index) => (
         <li key={index}>
           {tab.module.src} - {tab.module.blockHeight}
           <button onClick={() => handleRemoveTab(index)}>Remove</button>
