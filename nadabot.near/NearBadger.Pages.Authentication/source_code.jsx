@@ -28,7 +28,7 @@ const REGISTRY_CONTRACT = "checks.integrations.near";
 const NADABOT_CONTRACT = "v1.nadabot.near";
 const TWITTER_AUTH_URL = `https://twitter.com/i/oauth2/authorize?state=twitter.${
   context.accountId + "." + Math.floor(Math.random() * 10000000)
-}&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fnadabot.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
+}&code_challenge_method=plain&code_challenge=nearbadger&client_id=MjJLQ1U4aTdJWjgwMTZyb0o3YUg6MTpjaQ&response_type=code&redirect_uri=https%3A%2F%2Fnear.social%2Fmattb.near%2Fwidget%2FNearBadger.Pages.Authentication&scope=users.read%20tweet.read`;
 const GOOGLE_AUTH_URL = "";
 
 const [platform, setPlatform] = useState("");
@@ -436,7 +436,7 @@ const verifyProof = (platform, registryContract) => {
             proof,
             max_block_height: expirationBlockHeight,
           },
-          gas: 300000000000000,
+          gas: null,
           deposit: 0.01 * Math.pow(10, 24),
         };
         const nadabotVerifyTx = {
@@ -445,7 +445,7 @@ const verifyProof = (platform, registryContract) => {
           args: {
             provider_id: `checks.integrations.near:connected_to_${provider}`,
           },
-          gas: 300000000000000,
+          gas: null,
           deposit: 0.02 * Math.pow(10, 24),
         };
         Near.call([registryTx, nadabotVerifyTx]);
