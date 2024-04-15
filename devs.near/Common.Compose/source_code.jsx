@@ -1,19 +1,15 @@
 const { User } = VM.require("buildhub.near/widget/components") || {
   User: () => <></>,
 };
-
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
 const onPreview = props.onPreview;
-
 const [editorKey, setEditorKey] = useState(0);
 const memoizedEditorKey = useMemo(() => editorKey, [editorKey]);
-
 if (state.image === undefined) {
   State.init({
     image: {},
     text: props.initialText || "",
   });
-
   if (props.onHelper) {
     const extractMentions = (text) => {
       const mentionRegex =
@@ -32,7 +28,6 @@ if (state.image === undefined) {
       }
       return [...accountIds];
     };
-
     const extractHashtags = (text) => {
       const hashtagRegex = /#(\w+)/gi;
       hashtagRegex.lastIndex = 0;
@@ -47,7 +42,6 @@ if (state.image === undefined) {
       }
       return [...hashtags];
     };
-
     const extractMentionNotifications = (text, item) =>
       extractMentions(text || "")
         .filter((accountId) => accountId !== context.accountId)
@@ -58,7 +52,6 @@ if (state.image === undefined) {
             item,
           },
         }));
-
     props.onHelper({
       extractHashtags,
       extractMentions,
@@ -67,7 +60,6 @@ if (state.image === undefined) {
     });
   }
 }
-
 const content = (state.text || state.image.cid || state.image.url) && {
   type: "md",
   text: state.text,
@@ -77,23 +69,19 @@ const content = (state.text || state.image.cid || state.image.url) && {
     ? { ipfs_cid: state.image.cid }
     : undefined,
 };
-
 if (content && props.extraContent) {
   Object.assign(content, props.extraContent);
 }
-
 function autoCompleteAccountId(id) {
   let text = state.text.replace(/[\s]{0,1}@[^\s]*$/, "");
   text = `${text} @${id}`.trim() + " ";
   State.update({ text, showAccountAutocomplete: false });
   setEditorKey((prev) => prev + 1);
 }
-
 const onChange = (text) => {
   const showAccountAutocomplete = /@[\w][^\s]*$/.test(text);
   State.update({ text, showAccountAutocomplete });
 };
-
 const jContent = JSON.stringify(content);
 if (props.onChange && jContent !== state.jContent) {
   State.update({
@@ -101,39 +89,32 @@ if (props.onChange && jContent !== state.jContent) {
   });
   props.onChange({ content });
 }
-
 const onCompose = () => {
   State.update({
     image: {},
     text: "",
   });
 };
-
 const [gifSearch, setGifSearch] = useState(false);
-
 const TextareaWrapper = styled.div`
   display: grid;
   vertical-align: top;
   align-items: center;
   position: relative;
   align-items: stretch;
-
   textarea {
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
   }
-
   textarea::placeholder {
     padding-top: 4px;
     font-size: 20px;
   }
-
   textarea:focus::placeholder {
     font-size: inherit;
     padding-top: 0px;
   }
-
   &::after,
   textarea,
   iframe {
@@ -152,17 +133,14 @@ const TextareaWrapper = styled.div`
     overflow: hidden;
     outline: none;
   }
-
   iframe {
     padding: 0;
   }
-
   textarea:focus,
   textarea:not(:empty) {
     border-bottom: 1px solid #eee;
     min-height: 5em;
   }
-
   &::after {
     content: attr(data-value) " ";
     visibility: hidden;
@@ -174,24 +152,20 @@ const TextareaWrapper = styled.div`
     font-size: 14px;
   }
 `;
-
 const Wrapper = styled.div`
   line-height: normal;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
-
   .right {
     flex-grow: 1;
     min-width: 0;
   }
-
   .up-buttons {
     margin-top: 12px;
   }
 `;
-
 const embedCss = `
 .rc-md-editor {
   border: 0;
@@ -204,63 +178,50 @@ const embedCss = `
   padding: 8px 0 !important;
   line-height: normal;
 }
-
 html {
   background: #23242b;
 }
-
 * {
   border: none !important;
 }
-
 .rc-md-editor {
   background: #4f5055;
   border-top: 1px solid #4f5055 !important;
   border-radius: 8px;
 }
-
 .editor-container {
   background: #4f5055;
 }
-
 .drop-wrap {
   
   border-radius: 0.5rem !important;
 }
-
 .header-list {
   display: flex;
   align-items: center;
 }
-
 textarea {
   background: #23242b !important;
   color: #fff !important;
-
   font-family: sans-serif !important;
   font-size: 1rem;
-
   border: 1px solid #4f5055 !important;
   border-top: 0 !important;
   border-radius: 0 0 8px 8px;
 }
-
 .rc-md-navigation {
   background: #23242b !important;
   border: 1px solid #4f5055 !important;
   border-top: 0 !important;
   border-bottom: 0 !important;
   border-radius: 8px 8px 0 0;
-
   i {
     color: #cdd0d5;
   }
 }
-
 .editor-container {
   border-radius: 0 0 8px 8px;
 }
-
 .rc-md-editor .editor-container .sec-md .input {
   overflow-y: auto;
   padding: 8px !important;
@@ -268,7 +229,6 @@ textarea {
   border-radius: 0 0 8px 8px;
 }
 `;
-
 const gifSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -289,7 +249,6 @@ const gifSvg = (
     </text>
   </svg>
 );
-
 const gifSearchWidget = useMemo(
   () =>
     gifSearch ? (
@@ -308,18 +267,15 @@ const gifSearchWidget = useMemo(
     ) : undefined,
   [gifSearch]
 );
-
 const MemoizedAvatar = useMemo(
   () => <User accountId={context.accountId} />,
   [context.accountId]
 );
-
 useEffect(() => {
   if (state.text === "") {
     setEditorKey((prev) => prev + 1);
   }
 }, [state.text]);
-
 return (
   <Wrapper>
     <div className="left">{MemoizedAvatar}</div>
