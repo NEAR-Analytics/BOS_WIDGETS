@@ -1,12 +1,10 @@
 const Wrapper = styled.div`
   p {
     white-space: pre-line; // This ensures text breaks to new line
-
     span {
       white-space: normal; // and this ensures profile links look normal
     }
   }
-
   blockquote {
     margin: 1em 0;
     padding-left: 1.5em;
@@ -15,7 +13,6 @@ const Wrapper = styled.div`
     font-style: italic;
     font-size: inherit;
   }
-
   pre {
     background-color: #f4f4f4;
     border: 1px solid #ddd;
@@ -25,15 +22,12 @@ const Wrapper = styled.div`
     font-family: "Courier New", Courier, monospace;
   }
 `;
-
 const Embedded = styled.span`
   white-space: normal;
-
   p {
     white-space: normal;
   }
 `;
-
 function MarkdownViewer(props) {
   const renderMention =
     props.renderMention ??
@@ -53,12 +47,10 @@ function MarkdownViewer(props) {
         />
       </span>
     ));
-
   return (
     <Wrapper>
       <Markdown text={props.value} onMention={renderMention} />
     </Wrapper>
   );
 }
-
 return { MarkdownViewer };
