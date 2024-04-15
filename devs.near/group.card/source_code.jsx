@@ -1,17 +1,13 @@
 const creatorId = props.creatorId;
 const groupId = props.groupId;
-
 const groupInfo = Social.get(
   `${creatorId}/thing/${groupId}/metadata/**`,
   "final"
 );
-
 if (!groupInfo) {
   return "group details not found";
 }
-
 const canJoin = props.canJoin ?? true;
-
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
@@ -21,20 +17,17 @@ const Card = styled.div`
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
-  box-shadow:
-    0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
   padding: 16px;
 `;
-
 const Bell = styled.div`
   .bell {
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
-
   .bell-icon {
     font-size: 23px;
     color: #000;
@@ -42,35 +35,28 @@ const Bell = styled.div`
     text-decoration: none;
     transition: color 0.3s ease-in-out;
   }
-
   .bell-icon:hover {
     color: #000;
   }
-
   .bell-icon .bi-bell {
     display: inline;
   }
-
   .bell-icon .bi-bell-fill {
     display: none;
   }
-
   .bell-icon:hover .bi-bell {
     display: none;
   }
-
   .bell-icon:hover .bi-bell-fill {
     display: inline;
   }
 `;
-
 const CardLeft = styled.div`
   display: flex;
   gap: 16px;
   align-items: center;
   width: 100%;
   min-width: 0;
-
   > div {
     display: flex;
     flex-direction: column;
@@ -78,7 +64,6 @@ const CardLeft = styled.div`
     min-width: 0;
   }
 `;
-
 const TextLink = styled.a`
   display: block;
   margin: 0;
@@ -91,17 +76,14 @@ const TextLink = styled.a`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
   white-space: nowrap;
   outline: none;
-
   &:focus,
   &:hover {
     text-decoration: underline;
   }
 `;
-
 const TagsWrapper = styled.div`
   padding-top: 4px;
 `;
-
 return (
   <Card>
     <a
