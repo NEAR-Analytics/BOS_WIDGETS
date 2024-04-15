@@ -1,7 +1,7 @@
 const { Router } = VM.require("devs.near/widget/Router") || {
   Router: () => <></>,
 };
-const { href } = VM.require("devs.near/widget/lib.url") || {
+const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => "/",
 };
 const Root = styled.div``;
