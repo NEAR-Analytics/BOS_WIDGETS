@@ -1,7 +1,5 @@
 const creatorId = props.creatorId ?? context.accountId;
-
 const { handleClose } = props;
-
 function generateUID() {
   return (
     Math.random().toString(16).slice(2) +
@@ -9,31 +7,25 @@ function generateUID() {
     Math.random().toString(16).slice(2)
   );
 }
-
 const groupId = props.groupId ?? generateUID();
-
 State.init({
   group,
   members: { [creatorId]: "" },
   newMember: "",
   isDao: false,
 });
-
 function addMember(newMember) {
   State.update({
     members: { ...state.members, [newMember]: "" },
   });
 }
-
 function removeMember(memberKey) {
   const updatedMembers = { ...state.members };
   delete updatedMembers[memberKey];
-
   State.update({
     members: updatedMembers,
   });
 }
-
 function isNearAddress(address) {
   if (typeof address !== "string") {
     return false;
@@ -53,11 +45,8 @@ function isNearAddress(address) {
   }
   return true;
 }
-
 const memberId = props.memberId ?? state.newMember;
-
 const isValid = isNearAddress(memberId);
-
 const CardStyled = styled.div`
   width: 100%;
   height: 100%;
@@ -68,21 +57,18 @@ const CardStyled = styled.div`
   border-radius: 10px;
   overflow-y: scroll;
 `;
-
 const CardForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
 `;
-
 const H1 = styled.h1`
   margin-bottom: 10px;
   font-style: normal;
   font-weight: 555;
   font-size: 23px;
 `;
-
 const Submitcontainer = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -93,7 +79,6 @@ const Submitcontainer = styled.div`
     margin-top: 10px;
   }
 `;
-
 const Modal = styled.div`
   position: fixed;
   z-index: 1;
@@ -106,7 +91,6 @@ const Modal = styled.div`
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
 `;
-
 const ComponentWrapper = styled.div`
   display: flex;
   width: 80%;
@@ -121,18 +105,15 @@ const ComponentWrapper = styled.div`
     width: 90%;
   }
 `;
-
 const Hr = styled.div`
   height: 1px;
   margin: 15px 0;
   width: 100%;
   background: rgba(208, 214, 217, 0.4);
 `;
-
 const Section = styled.div`
   margin: 12px 0;
 `;
-
 const handleCreate = () => {
   const data = {
     thing: {
@@ -187,7 +168,6 @@ const handleCreate = () => {
   }
   Social.set(data);
 };
-
 return (
   <Modal>
     <ComponentWrapper>
