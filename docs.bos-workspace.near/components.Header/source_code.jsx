@@ -3,7 +3,7 @@ return (
   <div className="header">
     <div className="branding">
       <Link to={`/${basePath}`} className="link">
-        <h3>bos-workspace</h3>
+        <h3>everything.dev</h3>
       </Link>
     </div>
     <div className="nav">
