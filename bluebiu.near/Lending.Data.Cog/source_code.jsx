@@ -389,13 +389,24 @@ useEffect(() => {
           provider: Ethers.provider(),
         }).then((res) => {
           for (let i = 0; i < res.length; i++) {
-            rawMarkets[i].yourDeposited = formatUnits(
+            const _yourDeposited = formatUnits(
               res[i] ? res[i][0] : 0,
               rawMarkets[i].TOKEN_A.decimals
             );
-            rawMarkets[i].depositSymbol = rawMarkets[i].TOKEN_A.symbol;
+            rawMarkets[i].yourDeposited = _yourDeposited;
+            const _depositSymbol = rawMarkets[i].TOKEN_A.symbol;
+            rawMarkets[i].depositSymbol = _depositSymbol;
+
+            rawMarkets[i].yourDepositUSD = Big(Number(_yourDeposited) || 0)
+              .times(prices[_depositSymbol] || 0)
+              .toFixed();
           }
+
+          const yourTotalDepositUSD = rawMarkets.reduce((total, curr) => {
+            return Big(total).plus(curr.yourDepositUSD).toFixed();
+          }, 0);
           onLoad({
+            yourTotalDepositUSD,
             markets: rawMarkets,
           });
         });
@@ -421,13 +432,22 @@ useEffect(() => {
       .then((res) => {
         console.log("getYourBorrowed_res", res);
         for (let i = 0; i < res.length; i++) {
-          rawMarkets[i].yourBorrowed = formatUnits(
+          const _yourBorrowed = formatUnits(
             res[i] ? res[i][0] : 0,
             rawMarkets[i].TOKEN_A.decimals
           );
-          rawMarkets[i].borrowSymbol = rawMarkets[i].TOKEN_A.symbol;
+          rawMarkets[i].yourBorrowed = _yourBorrowed;
+          const _borrowSymbol = rawMarkets[i].TOKEN_A.symbol;
+          rawMarkets[i].borrowSymbol = _borrowSymbol;
+          rawMarkets[i].yourBorrowUSD = Big(Number(_yourBorrowed) || 0)
+            .times(prices[_borrowSymbol] || 0)
+            .toFixed();
         }
+        const yourTotalBorrowUSD = rawMarkets.reduce((total, curr) => {
+          return Big(total).plus(curr.yourBorrowUSD).toFixed();
+        }, 0);
         onLoad({
+          yourTotalBorrowUSD,
           markets: rawMarkets,
         });
       })
@@ -453,13 +473,25 @@ useEffect(() => {
       .then((res) => {
         console.log("getYourCollateraled_res", res);
         for (let i = 0; i < res.length; i++) {
-          rawMarkets[i].yourCollateraled = formatUnits(
+          const _yourCollateraled = formatUnits(
             res[i] ? res[i][0] : 0,
             rawMarkets[i].TOKEN_B.decimals
           );
-          rawMarkets[i].collateralSymbol = rawMarkets[i].TOKEN_B.symbol;
+          const _collateralSymbol = rawMarkets[i].TOKEN_B.symbol;
+          rawMarkets[i].yourCollateraled = _yourCollateraled;
+          rawMarkets[i].collateralSymbol = _collateralSymbol;
+
+          rawMarkets[i].yourCollateraledUSD = Big(
+            Number(_yourCollateraled) || 0
+          )
+            .times(prices[_collateralSymbol] || 0)
+            .toFixed();
         }
+        const yourTotalCollateraledUSD = rawMarkets.reduce((total, curr) => {
+          return Big(total).plus(curr.yourCollateraledUSD).toFixed();
+        }, 0);
         onLoad({
+          yourTotalCollateraledUSD,
           markets: rawMarkets,
         });
       })
