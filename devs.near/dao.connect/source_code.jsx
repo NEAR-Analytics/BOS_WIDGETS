@@ -1,14 +1,10 @@
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "multi.sputnik-dao.near";
-
 const policy = Near.view(daoId, "get_policy");
-
 if (policy === null) {
   return "";
 }
-
 const deposit = policy.proposal_bond;
-
 const followEdge = Social.keys(
   `${accountId}/graph/follow/${daoId}`,
   undefined,
@@ -16,7 +12,6 @@ const followEdge = Social.keys(
     values_only: true,
   }
 );
-
 const inverseEdge = Social.keys(
   `${daoId}/graph/follow/${accountId}`,
   undefined,
@@ -24,13 +19,10 @@ const inverseEdge = Social.keys(
     values_only: true,
   }
 );
-
 const loading = followEdge === null || inverseEdge === null;
 const isFollowing = Object.keys(followEdge || {}).length > 0;
 const isInverse = Object.keys(inverseEdge || {}).length > 0;
-
 const type = follow ? "unfollow" : "follow";
-
 const follow_args = JSON.stringify({
   data: {
     [daoId]: {
@@ -57,9 +49,7 @@ const follow_args = JSON.stringify({
     },
   },
 });
-
 const proposal_args = Buffer.from(follow_args, "utf-8").toString("base64");
-
 const handleProposal = () => {
   Near.call([
     {
@@ -88,7 +78,6 @@ const handleProposal = () => {
     },
   ]);
 };
-
 return (
   <button className="btn btn-outline-success" onClick={handleProposal}>
     {isFollowing && <i className="bi-16 bi bi-check"></i>}
