@@ -62,6 +62,13 @@ const config = {
         },
       },
       {
+        path: "/edit/:path*",
+        element: {
+          src: "docs.bos-workspace.near/widget/edit",
+          initialProps: {},
+        },
+      },
+      {
         path: "/settings",
         element: {
           src: "docs.bos-workspace.near/widget/settings",
