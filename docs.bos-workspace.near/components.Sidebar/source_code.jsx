@@ -1,5 +1,5 @@
 const { basePath, param } = props;
-const { get } = VM.require("docs.bos-workspace.near/widget/utils.adapter");
+const { get } = VM.require("docs.bos-workspace.near/widget/utils.db");
 const documents = get();
 // Preprocess documents to group paths by their parent sections
 const groupedSections = {};
