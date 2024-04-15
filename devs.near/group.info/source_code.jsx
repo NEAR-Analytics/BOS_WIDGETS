@@ -1,13 +1,10 @@
 const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 const creatorId = props.creatorId ?? "devs.near";
-
 const groupData =
   props.groupData ?? Social.get(`${accountId}/thing/${groupId}/metadata/**`);
-
 const groupName = groupData["name"];
 const image = group.image;
-
 return (
   <div className="group d-inline-block">
     <a
