@@ -4,12 +4,11 @@ const Wrapper = styled.div`
   flex-wrap: nowrap;
   justify-content: space-between;
   padding: 5px 0px;
+  gap: 8px;
 `;
 const InputField = styled.div`
-  margin-right: 8px;
-  @media (max-width: 768px) {
-    width: calc(100% - 115px);
-  }
+  flex-shrink: 1;
+  flex-grow: 1;
 `;
 const InputWarpper = styled.div`
   height: 46px;
@@ -27,6 +26,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   height: 40px;
+  width: 100%;
   vertical-align: bottom;
   @media (max-width: 900px) {
     font-size: 20px;
@@ -39,17 +39,11 @@ const Value = styled.div`
   font-size: 14px;
   line-height: 16px;
 `;
-const CurrencyField = styled.div`
-  min-width: 160px;
-  flex-shrink: 0;
-  flex-grow: 1;
-  @media (max-width: 768px) {
-    min-width: 115px;
-  }
-`;
+const CurrencyField = styled.div``;
 const CurrencySelect = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   align-items: center;
   border: 1px solid #373a53;
   border-radius: 24px;
@@ -70,9 +64,6 @@ const CurrencyWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 32px;
-  @media (max-width: 768px) {
-    width: calc(100% - 12px);
-  }
 `;
 const CurrencyIcon = styled.img`
   width: 32px;
