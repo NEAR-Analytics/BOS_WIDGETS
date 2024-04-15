@@ -9,14 +9,12 @@ const Wrapper = styled.div`
   border: 1px solid #e8e8eb;
   background-color: #fff;
   gap: 1px;
-
   .menu__item {
     padding: 3px;
     display: flex;
     color: #000;
     border-radius: 6px;
     cursor: pointer;
-
     &:hover {
       background-color: #eff2f5;
     }
@@ -35,7 +33,6 @@ const Wrapper = styled.div`
     align-items: center;
   }
 `;
-
 function ContextMenu({ Item, passProps, handlers, items }) {
   return (
     <ContextMenu.Root>
@@ -62,5 +59,4 @@ function ContextMenu({ Item, passProps, handlers, items }) {
     </ContextMenu.Root>
   );
 }
-
 return { ContextMenu };
