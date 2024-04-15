@@ -1,26 +1,21 @@
 const accountId = props.accountId ?? context.accountId;
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 const creatorId = props.creatorId ?? "devs.near";
-
 if (!accountId) {
   return "";
 }
-
 const contributors = Social.keys(`${creatorId}/graph/${groupId}/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const community = Social.keys(`*/graph/${groupId}/${accountId}`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const numContributors = contributors
   ? Object.keys(contributors[accountId].graph[groupId] || {}).length
   : null;
 const numCommunity = community ? Object.keys(community || {}).length : null;
-
 return (
   <div>
     <div className="d-flex flex-row">
