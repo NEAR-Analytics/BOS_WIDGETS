@@ -3,17 +3,14 @@
  */
 const accountId = context.accountId || "root.near";
 const authorId = "mob.near";
-
 const itemDescription =
   'The identifier item. It will be used as a unique identifier of the entity that receives the action. It\'s also used as a key of the action in the index.\nThe item should be an object with the following keys: `type`, `path` and optional `blockHeight`.\n- `type`: If the data is stored in the social DB, then the type is likely `"social"`, other types can be defined in the standards.\n- `path`: The path to the item. For a `"social"` type, it\'s absolute path within SocialDB, e.g. `alice.near/post/main`.\n- `blockHeight`: An optional paremeter to indicate the block when the data was stored. Since SocialDB data can be overwritten to save storage, the exact data should be referenced by the block height (e.g. for a given post). But if the latest data should be used, then `blockHeight` should be ommited.\n\nExamples of `item`:\n- `{type: "social", path: "mob.near/widget/N.Library"}`\n- `{type: "social", path: "mob.near/post/main", blockHeight: 81101335}`\n';
-
 const components = [
   {
     title: "Feed",
     // category: "Profile",
     widgetName: "Feed",
-    description:
-      "",
+    description: "",
     // demoProps: { accountId },
     // requiredProps: {
     //   accountId: "The account ID of the profile",
@@ -28,8 +25,7 @@ const components = [
     title: "Context Menu",
     // category: "Profile",
     widgetName: "ContextMenu",
-    description:
-      "",
+    description: "",
     // demoProps: { accountId, tooltip: true },
     // requiredProps: {
     //   accountId: "The account ID of the profile",
@@ -45,8 +41,7 @@ const components = [
     title: "Router",
     // category: "Profile",
     widgetName: "Router",
-    description:
-      "",
+    description: "",
     // demoProps: { accountId, tooltip: true },
     // requiredProps: {
     //   accountId: "The account ID of the profile",
@@ -66,7 +61,6 @@ const components = [
     // },
   },
 ];
-
 const renderProps = (props, optional) => {
   return Object.entries(props || {}).map(([key, desc]) => {
     return (
@@ -83,7 +77,6 @@ const renderProps = (props, optional) => {
     );
   });
 };
-
 const renderComponent = (c, i) => {
   const widgetSrc = `${authorId}/widget/${c.widgetName}`;
   const embedCode = `<Widget\n  src="${widgetSrc}"\n  props={{${JSON.stringify(
@@ -154,7 +147,6 @@ const renderComponent = (c, i) => {
     </div>
   );
 };
-
 const renderMenuItem = (c, i) => {
   const prev = i ? components[i - 1] : null;
   const res = [];
@@ -173,89 +165,80 @@ const renderMenuItem = (c, i) => {
   );
   return res;
 };
-
 const Wrapper = styled.div`
-@media(min-width: 992px) {
-  .b-s {
-    border-left: 1px solid #eee;
-  }
-  .b-e {
-    border-right: 1px solid #eee;
-  }
-}
-.category:not(:first-child) {
-  margin-top: 1em;
-}
-.component {
-  padding: 0.5em 12px;
-  padding-bottom: 0;
-  margin-bottom: 3em;
-  margin: 0 -12px 3em;
-  position: relative;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.03);
-  }
-
-  .anchor {
-    position: absolute;
-    top: -70px;
-  }
-
-  table {
-    background: white;
-  }
-
-  label {
-    font-size: 20px;
-  }
-
-  .code {
-    display: inline-flex;
-    line-height: normal;
-    border-radius: 0.3em;
-    padding: 0 4px;
-    border: 1px solid #ddd;
-    background: rgba(0, 0, 0, 0.03);
-    font-family: var(--bs-font-monospace);
-  }
-  .path {
-
-  }
-  .preview {
-    background-color: white;
-    padding: 12px;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    pre {
-      margin-bottom: 0;
+  @media (min-width: 992px) {
+    .b-s {
+      border-left: 1px solid #eee;
+    }
+    .b-e {
+      border-right: 1px solid #eee;
     }
   }
-  .props {
-    .prop-key {
-      font-weight: 600;
-      &.optional {
-        font-weight: normal;
-      }
+  .category:not(:first-child) {
+    margin-top: 1em;
+  }
+  .component {
+    padding: 0.5em 12px;
+    padding-bottom: 0;
+    margin-bottom: 3em;
+    margin: 0 -12px 3em;
+    position: relative;
+    &:hover {
+      background: rgba(0, 0, 0, 0.03);
     }
-    .prop-desc {
-      p {
+    .anchor {
+      position: absolute;
+      top: -70px;
+    }
+    table {
+      background: white;
+    }
+    label {
+      font-size: 20px;
+    }
+    .code {
+      display: inline-flex;
+      line-height: normal;
+      border-radius: 0.3em;
+      padding: 0 4px;
+      border: 1px solid #ddd;
+      background: rgba(0, 0, 0, 0.03);
+      font-family: var(--bs-font-monospace);
+    }
+    .path {
+    }
+    .preview {
+      background-color: white;
+      padding: 12px;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      pre {
         margin-bottom: 0;
       }
     }
-  }
-  .embed-code {
-    position: relative;
-
-    .embed-copy {
-      position: absolute;
-      top: 18px;
-      right: 10px;
+    .props {
+      .prop-key {
+        font-weight: 600;
+        &.optional {
+          font-weight: normal;
+        }
+      }
+      .prop-desc {
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .embed-code {
+      position: relative;
+      .embed-copy {
+        position: absolute;
+        top: 18px;
+        right: 10px;
+      }
     }
   }
-}
 `;
-
 return (
   <Wrapper>
     <h3>Social Components Library</h3>
