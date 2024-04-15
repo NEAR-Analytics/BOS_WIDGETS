@@ -440,8 +440,9 @@ function getUserBalance() {
             const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
 
             const _balanceInUSD = balanceRaw
-              .mul(item.tokenPrice || 0)
-              .toFixed(3, ROUND_DOWN);
+              .times(Big(item.tokenPrice || 0))
+              .toFixed();
+
             item.balance = _balance;
             item.balanceInUSD = _balanceInUSD;
           }
