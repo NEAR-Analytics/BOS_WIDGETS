@@ -1,20 +1,3 @@
-/**
- * Livepeer Creator
- *
- * Widget for uploading a video to Livepeer
- * (https://docs.livepeer.org/reference/livepeer-js/asset/useCreateAsset)
- *
- * Props:
- * @prop {File} video - the video file to upload
- * @prop {Object} metadata - the metadata for the video
- * @prop {Function} handleStatus - a callback for status updates
- * @prop {Function} handleProgress - a callback for progress updates
- * @prop {Function} handleError - a callback for error updates
- * @prop {Function} handleAssets - a callback for asset updates
- * @prop {Function} Button - a component to render the button
- * @prop {Boolean} debug - whether to log debug messages
- */
-
 function handleStatus(status) {
   if (props.debug) {
     console.log("status", status);
@@ -23,7 +6,6 @@ function handleStatus(status) {
     props.handleStatus(status);
   }
 }
-
 function handleProgress(progress) {
   if (props.debug) {
     console.log("progress", progress);
@@ -32,7 +14,6 @@ function handleProgress(progress) {
     props.handleProgress(progress);
   }
 }
-
 function handleAssets(assets) {
   if (props.debug) {
     console.log("assets", assets);
@@ -42,7 +23,6 @@ function handleAssets(assets) {
     props.handleAssets(assets);
   }
 }
-
 function handleError(error) {
   if (props.debug) {
     console.log("error", error);
@@ -51,7 +31,6 @@ function handleError(error) {
     props.handleError(error);
   }
 }
-
 const UploadButton = styled.button`
   box-sizing: border-box;
   margin: 0 4px;
@@ -75,7 +54,6 @@ const UploadButton = styled.button`
   font-weight: 600;
   transition: opacity 0.15s;
   cursor: pointer;
-
   svg {
     width: 1em;
     height: auto;
@@ -84,7 +62,6 @@ const UploadButton = styled.button`
     margin-right: 8px;
   }
 `;
-
 function Button({ disabled, onClick }) {
   return (
     <UploadButton disabled={disabled} onClick={onClick}>
@@ -150,7 +127,6 @@ function Button({ disabled, onClick }) {
     </UploadButton>
   );
 }
-
 return (
   <LivepeerCreator
     video={props.video}
