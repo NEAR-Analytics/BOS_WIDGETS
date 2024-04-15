@@ -1,46 +1,36 @@
 const accountId = props.accountId ?? context.accountId;
-const contractId = props.contractId ?? "ndcconstellationnft.sharddog.near";
-
-const nftData = Near.view(contractId, "nft_supply_for_owner", {
-  account_id: accountId,
-});
-
-const isOwner = nftData > 0;
-
-const Wrapper = styled.div`
-  --section-gap: 30px;
-  padding-top: 30px;
-
-  @media (max-width: 1200px) {
-    .line-rounded-corners {
-      display: none !important;
-    }
-  }
-
-  @media (max-width: 900px) {
-    padding-top: 0;
-  }
-`;
-
-const H1 = styled.h1`
-  font-family: "FK Grotesk", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 93px;
-  line-height: 1;
-  text-align: center;
-  letter-spacing: -0.03em;
-  color: #000;
-  margin: 0;
-  max-width: 500px;
-
-  span {
-    display: inline-block;
+const creatorId = props.creatorId ?? "hack.near";
+const pageId = props.pageId ?? "community.page";
+return (
+  <>
+    <Widget
+      src={`${creatorId}/widget/${pageId}`}
+      props={{
+        accountId,
+        communityId: "every.near",
+        contractId: "mint.sharddog.near",
+        h1: "EVERY",
+        h2: "ONE",
+        tagline: "Build Community Pages",
+        taglineFont: "Courier",
+        h1Color: "#000",
+        h1Font: "Courier",
+        h1FontSize: "89px",
+        h2Color: "#fff",
+        h2Font: "Courier",
+        h2FontSize: "89px",
+        bgColor: "#000",
+        buttonText: "View Template",
+        link: "#/hack.near/widget/community.page",
+      }}
+    />
+  </>
+);
+ine-block;
     background: #efa9ca;
     border-radius: 20px;
     position: relative;
     padding: 0.1em 0.2em 0;
-
     svg {
       position: absolute;
       bottom: -8px;
@@ -48,10 +38,8 @@ const H1 = styled.h1`
       width: 24px;
     }
   }
-
   @media (max-width: 900px) {
     font-size: 50px;
-
     span {
       border-radius: 12px;
       svg {
@@ -63,7 +51,6 @@ const H1 = styled.h1`
     }
   }
 `;
-
 const Text = styled.p`
   font-family: "FK Grotesk", sans-serif;
   font-size: ${(p) => p.size ?? "18px"};
@@ -72,7 +59,6 @@ const Text = styled.p`
   color: ${(p) => p.color ?? "#000"};
   margin: 0;
 `;
-
 const Flex = styled.div`
   display: flex;
   gap: ${(p) => p.gap};
@@ -80,7 +66,6 @@ const Flex = styled.div`
   justify-content: ${(p) => p.justifyContent};
   flex-direction: ${(p) => p.direction ?? "row"};
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
-
   ${(p) =>
     p.mobileStack &&
     `
@@ -90,14 +75,12 @@ const Flex = styled.div`
     }
   `}
 `;
-
 const Content = styled.div`
   @media (max-width: 1200px) {
     > div:first-child {
     }
   }
 `;
-
 const Container = styled.div`
   display: flex;
   max-width: 1060px;
@@ -109,7 +92,6 @@ const Container = styled.div`
   text-align: ${(p) => (p.center ? "center" : undefined)};
   padding: var(--section-gap) 23px;
 `;
-
 return (
   <Wrapper>
     {!isOwner && (
@@ -130,7 +112,6 @@ return (
         </Flex>
       </Container>
     )}
-
     <Container>
       {!isOwner ? (
         <Flex gap="23px" direction="column" alignItems="center">
