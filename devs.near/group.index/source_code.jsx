@@ -1,11 +1,9 @@
 const groupId = props.groupId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
-
 const updates = Social.index("graph", `${groupId}`, {
   limit: 10,
   order: "desc",
   subscribe: true,
 });
-
 const index = {
   action: "graph",
   key: groupId,
@@ -14,15 +12,12 @@ const index = {
     order: "desc",
   },
 };
-
 const ItemWrapper = styled.div`
   margin-bottom: 12px;
 `;
-
 State.init({
   showDetails: false,
 });
-
 const renderItem = (item) => {
   function NotificationButton({ item }) {
     switch (item.value.type) {
@@ -66,7 +61,6 @@ const renderItem = (item) => {
       }
     }
   }
-
   return (
     <ItemWrapper>
       <div className="d-flex justify-content-between row text-truncate text-muted">
@@ -98,7 +92,6 @@ const renderItem = (item) => {
     </ItemWrapper>
   );
 };
-
 return (
   <div className="m-2">
     <Widget
