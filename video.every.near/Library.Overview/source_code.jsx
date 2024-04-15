@@ -8,7 +8,6 @@ const BG = styled.div`
   bottom: 0;
   z-index: -2;
 `;
-
 const Circle1 = styled.div`
   width: 500px;
   height: 500px;
@@ -33,9 +32,7 @@ const Circle2 = styled.div`
   z-index: 0;
   opacity: 0.8;
   filter: blur(100px);
-
   animation: move 3s ease infinite;
-
   @keyframes move {
     0% {
       transform: translate(0, 0);
@@ -48,7 +45,6 @@ const Circle2 = styled.div`
     }
   }
 `;
-
 const Card = styled.div`
   max-width: 900px;
   padding: 8rem 6rem;
@@ -62,13 +58,11 @@ const Card = styled.div`
   z-index: 1;
   margin: 40px auto;
   width: 100%;
-
   @media (max-width: 800px) {
     width: 100%;
     margin: 0;
     padding: 6rem 4rem;
   }
-
   h1 {
     font-size: 48px;
     font-weight: 800;
@@ -78,7 +72,6 @@ const Card = styled.div`
     display: block;
     margin-right: auto;
     text-align: center;
-
     background: linear-gradient(
       120deg,
       #1a1a1a 0%,
@@ -94,13 +87,11 @@ const Card = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shine 50s ease infinite;
-
     svg {
       width: 1em;
       height: auto;
     }
   }
-
   @keyframes shine {
     0% {
       background-position: -1000px;
@@ -109,14 +100,12 @@ const Card = styled.div`
       background-position: 1000px;
     }
   }
-
   p {
     font-size: 16px;
     font-weight: 500;
     max-width: 500px;
   }
 `;
-
 return (
   <div className="position-relative h-100 w-100 p-1">
     <BG />
