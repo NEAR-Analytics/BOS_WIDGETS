@@ -1,7 +1,6 @@
 if (!context.accountId) {
   return "";
 }
-
 const index = props.index || {
   post: JSON.stringify({
     key: "main",
@@ -10,7 +9,6 @@ const index = props.index || {
     },
   }),
 };
-
 const composeData = () => {
   if (props.appendHashtags) {
     state.content.text = props.appendHashtags(state.content.text);
@@ -21,25 +19,20 @@ const composeData = () => {
     },
     index,
   };
-
   const item = {
     type: "social",
     path: `${context.accountId}/post/main`,
   };
-
   const notifications = state.extractMentionNotifications(
     state.content.text,
     item
   );
-
   if (notifications.length) {
     data.index.notify = JSON.stringify(
       notifications.length > 1 ? notifications : notifications[0]
     );
   }
-
   const hashtags = state.extractHashtags(state.content.text);
-
   if (hashtags.length) {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
@@ -48,16 +41,13 @@ const composeData = () => {
       }))
     );
   }
-
   return data;
 };
-
 State.init({
   onChange: ({ content }) => {
     State.update({ content });
   },
 });
-
 return (
   <>
     <div style={{ margin: "0 -12px" }}>
