@@ -1,7 +1,6 @@
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
-
 State.init({
   initialMetadata,
   metadata: initialMetadata,
@@ -11,10 +10,8 @@ State.init({
   backgroundImage: initialMetadata.backgroundImage,
   screenshots: initialMetadata.screenshots ?? {},
 });
-
 const metadata = {
   name: options.name ? state.metadata.name : undefined,
-  gizmo: options.gizmo ? state.metadata.gizmo : undefined,
   description: options.name ? state.metadata.description : undefined,
   linktree:
     options.linktree && Object.keys(state.linktree).length > 0
@@ -33,7 +30,6 @@ const metadata = {
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 };
-
 if (
   onChange &&
   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
@@ -43,20 +39,12 @@ if (
   });
   onChange(metadata);
 }
-
 return (
   <>
     {options.name && (
       <div className="mb-2">
         {options.name.label ?? "Name"}
         <input type="text" value={state.metadata.name} />
-      </div>
-    )}
-    {options.gizmo && (
-      <div className="mb-2">
-        {options.gizmo.label ?? "Sprocket"}
-        <span className="text-secondary"> example.near/widget/WidgetName</span>
-        <input type="text" value={state.metadata.gizmo} />
       </div>
     )}
     {options.image && (
@@ -100,7 +88,9 @@ return (
     )}
     {options.tags && (
       <div className="mb-2">
-        {options.tags.label ?? "Tags"}
+        <p className="mb-1">
+          {options.tags.label ?? "Give Context with Tags:"}
+        </p>
         <Widget
           src="mob.near/widget/TagsEditor"
           props={{
