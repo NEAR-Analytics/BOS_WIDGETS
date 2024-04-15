@@ -91,7 +91,18 @@ const BorrowButton = ({ data }) => {
     />
   );
 };
-
+function formatNumber(value, digits) {
+  if (Big(value || 0).eq(0)) return `$ 0`;
+  return Big(value || 0).lt(0.01)
+    ? "< $0.01"
+    : `$ ${Number(value).toFixed(digits || 2)}`;
+}
+function formatValue(value, digits) {
+  if (Number(value) === 0) return "0";
+  return Big(value || 0).lt(0.01)
+    ? "< 0.01"
+    : `${Number(value).toFixed(digits || 2)}`;
+}
 let headers;
 let tableData;
 
@@ -119,8 +130,14 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
       }}
     />,
     <div>
-      <div>{Number(row.balance).toFixed(7)}</div>
-      <div>$ {Number(row.balanceInUSD).toFixed(2)}</div>
+      <div>
+        {formatValue(row.balance, 7)}
+        {/* {Number(row.balance).toFixed(7)} */}
+      </div>
+      <div>
+        {formatNumber(row.balanceInUSD)}
+        {/* $ {Number(row.balanceInUSD).toFixed(2)} */}
+      </div>
     </div>,
     <div>
       <div>{`${(Number(row.supplyAPY) * 100).toFixed(2)} %`}</div>
