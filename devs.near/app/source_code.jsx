@@ -1,23 +1,18 @@
 const { Router } = VM.require("devs.near/widget/Router") || {
   Router: () => <></>,
 };
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => "/",
 };
-
 const Root = styled.div``;
-
 const Container = styled.div`
   display: flex;
   height: 100%;
 `;
-
 const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-
 const App = ({
   routes,
   Layout,
@@ -31,11 +26,9 @@ const App = ({
   ...passProps
 }) => {
   if (!page) page = Object.keys(routes)[0] || defaultPage;
-
   function navigate({ param, to }) {
     if (!param) param = routerParam ?? "page";
     if (to === "/") to = defaultPage;
-
     return href({
       widgetSrc: basePath,
       params: {
@@ -44,7 +37,6 @@ const App = ({
       },
     });
   }
-
   return (
     <Root key={basePath}>
       <Container>
@@ -71,5 +63,4 @@ const App = ({
     </Root>
   );
 };
-
 return { App };
