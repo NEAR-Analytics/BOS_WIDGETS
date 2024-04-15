@@ -215,6 +215,12 @@ State.init({
   updater: 0,
 });
 
+useEffect(() => {
+  State.update({
+    assetsToSupply: markets,
+  });
+}, [markets]);
+
 function calcAvailableBorrows(availableBorrowsUSD, tokenPrice) {
   let r =
     isValid(availableBorrowsUSD) && isValid(tokenPrice)
@@ -1079,9 +1085,10 @@ useEffect(() => {
   if (state.step2) {
     getLiquidity();
   }
-}, [state.step2]);
+}, [state.step2, markets]);
 
 useEffect(() => {
+  if (!account || !isChainSupported) return;
   console.log("CALC APY");
   if (!Array.isArray(state.poolData) || !state.poolData.length) return;
 
@@ -1163,13 +1170,13 @@ useEffect(() => {
 }, [account, isChainSupported, state.assetsToSupply]);
 
 useEffect(() => {
+  if (!account || !isChainSupported) return;
   console.log(
     "calc reward apy",
     state.emissionPerSeconds,
     state.aTokenTotal,
     state.debtTotal
   );
-
   const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
   const SECONDS_PER_YEAR = 31536000;
   let rewardTokenPrice = 0;
@@ -1243,6 +1250,7 @@ useEffect(() => {
 }, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
 
 useEffect(() => {
+  if (!account || !isChainSupported) return;
   if (!state.step1) return;
   // if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
