@@ -1,17 +1,13 @@
 // Sourced from
 // https://github.com/petersalomonsen/near-openai/blob/main/boswidgets/askchatgpt/main.js
-
 const NETWORK_ID = "mainnet";
-
 // what does near-api-js use these for?
 // and how can people discover other options
 const NODE_URL = "https://rpc.mainnet.near.org";
 const WALLET_URL = `https://wallet.${NETWORK_ID}.near.org`; // what should this be defaulting to?
 const HELPER_URL = `https://helper.${NETWORK_ID}.near.org`;
 const EXPLORER_URL = `https://explorer.${NETWORK_ID}.near.org`; // and this?
-
 const API_URL = "https://near-openai.vercel.app/api/openai";
-
 const code = `
 <!DOCTYPE html>
 <html>
@@ -22,14 +18,11 @@ const code = `
     <body>
     </body>
     <script type="module">
-
 import 'https://cdn.jsdelivr.net/npm/near-api-js@2.1.3/dist/near-api-js.min.js';
 import 'https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/src/sha256.min.js';
-
 const keyStore = new nearApi.keyStores.InMemoryKeyStore();
 let account;
 const networkId = "mainnet";
-
 const config = {
     keyStore, // instance of UnencryptedFileSystemKeyStore
     networkId: networkId,
@@ -38,8 +31,6 @@ const config = {
     helperUrl: "https://helper.mainnet.near.org",
     explorerUrl: "https://explorer.mainnet.near.org"
 };
-
-
 async function createAccount() {
     const keypair = nearApi.utils.KeyPairEd25519.fromRandom();
     const accountId = Buffer.from(keypair.publicKey.data).toString('hex');
@@ -48,7 +39,6 @@ async function createAccount() {
     account = await near.account(accountId);
     return { secretKey: keypair.secretKey, accountId };
 }
-
 async function useAccount(secretKey) {
     const keypair = nearApi.utils.KeyPair.fromString(secretKey);
     const accountId = Buffer.from(keypair.publicKey.data).toString('hex');
@@ -57,20 +47,15 @@ async function useAccount(secretKey) {
     account = await near.account(accountId);
     return accountId;
 }
-
 async function create_ask_ai_request_body(messages, model) {
     const accountId = account.accountId;
-
     const messagesStringified = JSON.stringify(messages);
     const deposit = 50_00000_00000_00000_00000n;
-
     const message_hash = sha256(messagesStringified);
-
     const receiverId = 'jsinrust.near';
     const method_name = 'ask_ai';
     const gas = '30000000000000';
     const publicKey = await account.connection.signer.getPublicKey(account.accountId, account.connection.networkId);
-
     let accessKey;
     
     try {
@@ -78,12 +63,10 @@ async function create_ask_ai_request_body(messages, model) {
     } catch (e) {
       throw new Error(JSON.stringify("Balance is empty.", null, 1));
     }
-
     const nonce = ++accessKey.nonce;
     const recentBlockHash = nearApi.utils.serialize.base_decode(
         accessKey.block_hash
     );
-
     const transaction = nearApi.transactions.createTransaction(
         account.accountId,
         publicKey,
@@ -95,7 +78,6 @@ async function create_ask_ai_request_body(messages, model) {
         recentBlockHash
     );
     const [txHash, signedTx] = await nearApi.transactions.signTransaction(transaction, account.connection.signer, account.accountId, account.connection.networkId);
-
     return JSON.stringify({
         signed_transaction: Buffer.from(signedTx.encode()).toString('base64'),
         transaction_hash: nearApi.utils.serialize.base_encode(txHash),
@@ -104,7 +86,6 @@ async function create_ask_ai_request_body(messages, model) {
         model: model
     });
 }
-
 async function create_and_send_ask_ai_request(messages, model) {
     console.log("model", model);
     try {
@@ -124,10 +105,8 @@ async function create_and_send_ask_ai_request(messages, model) {
         window.parent.postMessage({ command: "error", error: e.message }, '*');
     }
 }
-
 window.onmessage = async (msg) => {
     globalThis.parentOrigin = msg.origin;
-
     console.log('iframe got message', msg.data);
     switch (msg.data.command) {
         case 'createaccount':
@@ -143,15 +122,12 @@ window.onmessage = async (msg) => {
             break;
     }
 };
-
 window.parent.postMessage({ command: 'ready' }, '*');
     </script>
 </html>
 `;
-
 const SECRET_KEY_STORAGE_KEY = "secretKey";
 Storage.privateGet(SECRET_KEY_STORAGE_KEY);
-
 State.init({
   secretKey: null,
   airesponse: "",
@@ -160,10 +136,8 @@ State.init({
   iframeMessage: null,
   usingAccount: false,
 });
-
 function init_iframe() {
   const secretKey = Storage.privateGet(SECRET_KEY_STORAGE_KEY);
-
   State.update({
     secretKey,
     iframeMessage: secretKey
@@ -176,7 +150,6 @@ function init_iframe() {
         },
   });
 }
-
 function ask_ai() {
   State.update({
     iframeMessage: {
@@ -189,13 +162,11 @@ function ask_ai() {
   });
   console.log("state updated", state.iframeMessage);
 }
-
 function changeSecretKey(secretKey) {
   State.update({ secretKey });
   Storage.privateSet(SECRET_KEY_STORAGE_KEY, secretKey);
   init_iframe();
 }
-
 function handleMessage(msg) {
   switch (msg.command) {
     case "accountcreated":
@@ -220,7 +191,6 @@ function handleMessage(msg) {
       break;
   }
 }
-
 const iframe = (
   <iframe
     message={state.iframeMessage}
@@ -229,7 +199,6 @@ const iframe = (
     style={{ width: "0px", height: "0px", border: "none" }}
   ></iframe>
 );
-
 const secretKeyToggle = state.showSecretKey ? (
   <>
     <button onClick={() => State.update({ showSecretKey: false })}>Hide</button>
@@ -242,7 +211,6 @@ const secretKeyToggle = state.showSecretKey ? (
 ) : (
   <button onClick={() => State.update({ showSecretKey: true })}>Show</button>
 );
-
 return (
   <>
     <p>
@@ -264,17 +232,14 @@ return (
     ) : (
       <button onClick={ask_ai}>Ask ChatGPT</button>
     )}
-
     <div
       style={{ marginTop: "20px", padding: "20px", backgroundColor: "#f5f5f5" }}
     >
       <Markdown text={state.airesponse} />
     </div>
-
     <p>
       <br />
     </p>
-
     <p></p>
     <p>
       Spending account ID: <pre>{state.accountId}</pre>
