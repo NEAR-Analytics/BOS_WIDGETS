@@ -9,16 +9,12 @@ const call = ({ daoId, methodName, args, deposit }) => {
     },
   ]);
 };
-
 const addProposal = ({ daoId, proposal }) => {
   const policy = Near.view(daoId, "get_policy");
-
   if (policy === null) {
     return "Loading..."; // lol what does this do...
   }
-
   const deposit = policy.proposal_bond;
-
   call({
     daoId,
     methodName: "add_proposal",
@@ -28,14 +24,15 @@ const addProposal = ({ daoId, proposal }) => {
     deposit,
   });
 };
-
 const createFunctionCallProposal = ({
   daoId,
   receiver_id,
   method_name,
   args,
 }) => {
-  const proposal_args = Buffer.from(JSON.stringify(args), "utf-8").toString("base64");
+  const proposal_args = Buffer.from(JSON.stringify(args), "utf-8").toString(
+    "base64"
+  );
   addProposal({
     daoId,
     proposal: {
@@ -56,7 +53,6 @@ const createFunctionCallProposal = ({
     },
   });
 };
-
 const create = (v) => {
   createFunctionCallProposal({
     daoId: "build.sputnik-dao.near",
@@ -79,7 +75,6 @@ const create = (v) => {
         },
       },
     },
-  })
+  });
 };
-
 return { createFunctionCallProposal, create };
