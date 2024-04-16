@@ -463,7 +463,8 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
       key: 'market_cap',
       cell: (row) => (
         <span>
-          {row?.market_cap === null ? (
+          {row?.market_cap === null ||
+          dollarNonCentFormat(row?.market_cap) === '0' ? (
             <span className="text-xs">N/A</span>
           ) : (
             `$${dollarNonCentFormat(row?.market_cap)}`
