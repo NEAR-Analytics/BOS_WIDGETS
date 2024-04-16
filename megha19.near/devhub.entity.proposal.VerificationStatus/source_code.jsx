@@ -179,7 +179,7 @@ const VerificationBtn = () => {
         onBlur={() => {
           setTimeout(() => {
             setKycOptions(false);
-          }, 100);
+          }, 0);
         }}
       >
         <div
@@ -210,6 +210,7 @@ const VerificationBtn = () => {
                   className={`option ${
                     selectedOption.value === option.value ? "selected" : ""
                   }`}
+                  onClick={() => setKycOptions(false)}
                 >
                   <div className={`d-flex gap-2 align-items-center`}>
                     <img src={option.src} height={30} />
