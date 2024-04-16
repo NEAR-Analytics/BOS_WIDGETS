@@ -30,7 +30,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -195,9 +195,9 @@ function MainComponent({ network, id, token, ownerId }) {
         <span>{serialNumber(index, currentPage, 25)}</span>
       ),
       tdClassName:
-        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600 w-[50px]',
+        'pl-5 pr-2 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 w-[50px]',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider w-[50px]',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-[50px]',
     },
     {
       header: <span> Address</span>,
@@ -207,12 +207,12 @@ function MainComponent({ network, id, token, ownerId }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[200px] inline-block align-bottom text-green-500 whitespace-nowrap">
+                <span className="truncate max-w-[200px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap">
                   <Link
                     href={`/address/${row?.account}`}
                     className="hover:no-undeline"
                   >
-                    <a className="text-green-500 font-medium hover:no-undeline">
+                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-undeline">
                       {row?.account}
                     </a>
                   </Link>
@@ -229,17 +229,19 @@ function MainComponent({ network, id, token, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 text-sm text-nearblue-600',
+      tdClassName:
+        'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span>Quantity</span>,
       key: 'quantity',
       cell: (row) => <span>{row?.quantity}</span>,
-      tdClassName: 'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider w-[200px]',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-[200px]',
     },
     {
       header: <span> Percentage</span>,
@@ -264,9 +266,9 @@ function MainComponent({ network, id, token, ownerId }) {
         );
       },
       tdClassName:
-        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+        'px-5 py-3 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider w-[300px] ',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider w-[300px] ',
     },
   ];
 
@@ -291,7 +293,7 @@ function MainComponent({ network, id, token, ownerId }) {
           )}
           <div className={`flex flex-col lg:flex-row pt-4`}>
             <div className="flex flex-col">
-              <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
+              <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
                 A total of {localFormat && localFormat(totalCount.toString())}{' '}
                 token holders found
               </p>
