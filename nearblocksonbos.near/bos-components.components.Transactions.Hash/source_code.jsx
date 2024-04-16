@@ -32,7 +32,9 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
           {icons}
         </span>
       </div>
-      <h3 className="h-5 font-bold text-lg text-black">{message}</h3>
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
       <p className="mb-0 py-4 font-bold">{mutedText}</p>
     </div>
   );
@@ -56,7 +58,10 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+      <path
+        fill="currentColor"
+        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
+      />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
@@ -197,7 +202,7 @@ function MainComponent(props) {
                   className={`text-nearblue-600  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer mb-3 mr-3 focus:outline-none ${
                     pageTab === hash
                       ? 'rounded-lg bg-green-600 dark:bg-green-250 dark:text-black text-white'
-                      : 'hover:bg-neargray-800 bg-neargray-700 dark:text-neargray-10 dark:bg-black-600  rounded-lg hover:text-nearblue-600'
+                      : 'hover:bg-neargray-800 bg-neargray-700 dark:text-neargray-10 dark:bg-black-200  rounded-lg hover:text-nearblue-600'
                   }`}
                   value={hash}
                 >
