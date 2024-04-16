@@ -24,7 +24,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -212,7 +212,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
     <>
       <div className="grid md:grid-cols-12 pt-4 mb-2">
         <div className="md:col-span-5 lg:col-span-4 pt-4">
-          <div className="bg-white border rounded-xl soft-shadow p-3 aspect-square">
+          <div className="bg-white dark:bg-black-600 dark:border-black-200 border rounded-xl soft-shadow p-3 aspect-square">
             {
               <Widget
                 src={`${ownerId}/widget/bos-components.components.Shared.NFTImage`}
@@ -229,7 +229,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
           </div>
         </div>
         <div className="md:col-span-7 lg:col-span-8 md:px-4 lg:pl-8 pt-4">
-          <h1 className="break-all space-x-2 text-xl text-gray-700 leading-8 font-semibold">
+          <h1 className="break-all space-x-2 text-xl text-gray-700 dark:text-neargray-10 leading-8 font-semibold">
             {loading ? (
               <div className="w-80 max-w-xs">
                 <Skeleton className="h-6" />
@@ -239,7 +239,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
             )}
           </h1>
           <Link href={`/nft-token/${id}`} className="hover:no-underline">
-            <a className="break-all text-green leading-6 text-sm hover:no-underline">
+            <a className="break-all text-green dark:text-green-250 leading-6 text-sm hover:no-underline">
               {loading ? (
                 <div className="w-60 max-w-xs py-2">
                   <Skeleton className="h-4" />
@@ -261,7 +261,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
           </Link>
           <Accordion.Root
             type="multiple"
-            className="bg-white border rounded-xl  soft-shadow mt-4"
+            className="bg-white dark:bg-black-600 dark:border-black-200 border rounded-xl  soft-shadow mt-4"
             defaultValue={indices}
             collapsible
           >
@@ -269,7 +269,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
               <Accordion.Header>
                 <Accordion.Trigger
                   onClick={() => toggleItem(1)}
-                  className="w-full flex justify-between items-center text-sm font-semibold text-gray-600 border-b focus:outline-none p-3"
+                  className="w-full flex justify-between items-center text-sm font-semibold text-gray-600 dark:text-neargray-10 border-b dark:border-black-200 focus:outline-none p-3"
                 >
                   <h2>Details</h2>
                   {indices?.includes(1) ? (
@@ -279,8 +279,8 @@ function MainComponent({ network, t, id, tid, ownerId }) {
                   )}
                 </Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Content className="text-sm text-nearblue-600">
-                <div className="divide-solid divide-gray-200 divide-y">
+              <Accordion.Content className="text-sm text-nearblue-600 dark:text-neargray-10">
+                <div className="divide-solid divide-gray-200 dark:divide-black-200 divide-y">
                   {token?.asset && (
                     <div className="flex p-4">
                       <div className="flex items-center w-full xl:w-1/4 mb-2 xl:mb-0">
@@ -307,7 +307,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
                           href={`/address/${token?.asset?.owner}`}
                           className="hover:no-underline"
                         >
-                          <a className="text-green hover:no-underline">
+                          <a className="text-green dark:text-green-250 hover:no-underline">
                             {shortenAddress &&
                               shortenAddress(token?.asset?.owner ?? '')}
                           </a>
@@ -340,7 +340,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
                         href={`/address/${id}`}
                         className="hover:no-underline"
                       >
-                        <a className="text-green hover:no-underline">
+                        <a className="text-green  dark:text-green-250 hover:no-underline">
                           {shortenAddress && shortenAddress(id ?? '')}
                         </a>
                       </Link>
@@ -397,7 +397,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
               <Accordion.Item value={2}>
                 <Accordion.Trigger
                   onClick={() => toggleItem(2)}
-                  className="w-full flex justify-between items-center text-sm font-semibold text-gray-600 border-b focus:outline-none p-3"
+                  className="w-full flex justify-between items-center text-sm font-semibold text-gray-600 dark:text-neargray-10 border-b dark:border-black-200 focus:outline-none p-3"
                 >
                   <h2>Description</h2>
                   {indices.includes(2) ? (
@@ -406,7 +406,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
                     <ArrowDown className="fill-current" />
                   )}
                 </Accordion.Trigger>
-                <Accordion.Content className="text-sm text-nearblue-600 border-b p-3">
+                <Accordion.Content className="text-sm text-nearblue-600 dark:text-neargray-10 border-b dark:border-black-200 p-3">
                   {token.description}
                 </Accordion.Content>
               </Accordion.Item>
@@ -417,7 +417,7 @@ function MainComponent({ network, t, id, tid, ownerId }) {
       <div className="py-6"></div>
       <div className="block lg:flex lg:space-x-2 mb-10">
         <div className="w-full ">
-          <div className="bg-white soft-shadow rounded-xl pb-1">
+          <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
             {
               <Widget
                 src={`${ownerId}/widget/bos-components.components.NFT.TokenTransfers`}
