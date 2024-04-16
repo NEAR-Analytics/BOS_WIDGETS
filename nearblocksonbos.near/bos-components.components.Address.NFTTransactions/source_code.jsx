@@ -62,14 +62,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50',
+        bg: 'bg-yellow-50 dark:bg-black',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50',
+        bg: 'bg-red-50 dark:bg-black',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -77,7 +77,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50',
+        bg: 'bg-emerald-50 dark:bg-black',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -177,7 +177,7 @@ const CloseCircle = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -446,7 +446,8 @@ function MainComponent(props) {
           <TxnStatus status={row?.outcomes?.status} showLabel={false} />
         </>
       ),
-      tdClassName: 'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <>{t ? t('txns:hash') : 'TXN HASH'}</>,
@@ -456,12 +457,12 @@ function MainComponent(props) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap">
                   <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 font-medium hover:no-underline">
+                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
                   </Link>
@@ -478,16 +479,16 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 ',
+      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:type') : 'METHOD'}
@@ -495,7 +496,7 @@ function MainComponent(props) {
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="z-50 bg-white shadow-lg border rounded-b-lg p-2"
+            className="z-50 bg-white dark:bg-black-600  shadow-lg border dark:border-black-200 rounded-b-lg p-2"
             sideOffset={5}
           >
             <div className="flex flex-col">
@@ -504,13 +505,13 @@ function MainComponent(props) {
                 value={filterValue['event']}
                 onChange={(e) => onInputChange(e, 'event')}
                 placeholder="Search by method"
-                className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
+                className="border dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10  text-xs"
               />
               <div className="flex">
                 <button
                   type="submit"
                   onClick={(e) => onFilter(e, 'event')}
-                  className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
+                  className="flex items-center justify-center flex-1 rounded bg-green-500 dark:bg-green-250 dark:text-black h-7 text-white text-xs mr-2"
                 >
                   <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                   {t ? t('txns:filter.filter') : 'Filter'}
@@ -519,7 +520,7 @@ function MainComponent(props) {
                   name="type"
                   type="button"
                   onClick={() => onClear('event')}
-                  className="flex-1 rounded bg-gray-300 text-xs h-7"
+                  className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
                 >
                   {t ? t('txns:filter.clear') : 'Clear'}
                 </button>
@@ -534,7 +535,7 @@ function MainComponent(props) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-nearblue-600  rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">{row?.cause}</span>
                 </span>
               </Tooltip.Trigger>
@@ -549,7 +550,8 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 ',
+      tdClassName:
+        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <>Affected</>,
@@ -561,10 +563,10 @@ function MainComponent(props) {
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span
-                    className={`inline-block align-bottom text-green-500 whitespace-nowrap ${
+                    className={`inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                       row?.affected_account_id === address
                         ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                        : 'text-green-500 p-0.5 px-1'
+                        : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                     }`}
                   >
                     <Link
@@ -572,7 +574,7 @@ function MainComponent(props) {
                       className="hover:no-underline"
                     >
                       <a
-                        className="text-green-500 hover:no-underline"
+                        className="text-green-500 dark:text-green-250 hover:no-underline"
                         onMouseOver={(e) =>
                           onHandleMouseOver(e, row?.affected_account_id)
                         }
@@ -597,9 +599,10 @@ function MainComponent(props) {
           )}
         </>
       ),
-      tdClassName: 'px-4 py-2 text-sm text-nearblue-600  font-medium',
+      tdClassName:
+        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10  font-medium',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: '',
@@ -628,7 +631,7 @@ function MainComponent(props) {
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               Involved
@@ -636,7 +639,7 @@ function MainComponent(props) {
             </button>
           </Popover.Trigger>
           <Popover.Content
-            className="bg-white shadow-lg border rounded-b-lg p-2"
+            className="bg-white dark:bg-black-600 shadow-lg border dark:border-black-200 rounded-b-lg p-2"
             sideOffset={5}
           >
             <input
@@ -646,13 +649,13 @@ function MainComponent(props) {
               placeholder={
                 t ? t('txns:filter.placeholder') : 'Search by address e.g. Ⓝ..'
               }
-              className="border rounded h-8 mb-2 px-2 text-nearblue-600  text-xs"
+              className="border dark:border-black-200 rounded h-8 mb-2 px-2 text-nearblue-600 dark:text-neargray-10 text-xs"
             />
             <div className="flex">
               <button
                 type="submit"
                 onClick={(e) => onFilter(e, 'involved')}
-                className="flex items-center justify-center flex-1 rounded bg-green-500 h-7 text-white text-xs mr-2"
+                className="flex items-center justify-center flex-1 rounded bg-green-500 dark:bg-green-250  h-7 text-white dark:text-black text-xs mr-2"
               >
                 <Filter className="h-3 w-3 fill-current mr-2" />{' '}
                 {t ? t('txns:filter.filter') : 'Filter'}
@@ -661,7 +664,7 @@ function MainComponent(props) {
                 name="involved"
                 type="button"
                 onClick={() => onClear('involved')}
-                className="flex-1 rounded bg-gray-300 text-xs h-7"
+                className="flex-1 rounded bg-gray-300 dark:bg-black-200 dark:text-white text-xs h-7"
               >
                 {t ? t('txns:filter.clear') : 'Clear'}
               </button>
@@ -682,10 +685,10 @@ function MainComponent(props) {
                       className="hover:no-underline truncate inline-block"
                     >
                       <a
-                        className={`text-green-500 hover:no-underline ${
+                        className={`text-green-500 dark:text-green-250 hover:no-underline ${
                           row?.involved_account_id === address
                             ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
-                            : 'text-green-500 p-1'
+                            : 'text-green-500  dark:text-green-250 p-1'
                         }`}
                         onMouseOver={(e) =>
                           onHandleMouseOver(e, row?.involved_account_id)
@@ -712,7 +715,7 @@ function MainComponent(props) {
         </>
       ),
       tdClassName:
-        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600  font-medium',
+        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600  font-medium dark:text-neargray-10',
     },
     {
       header: <>Token ID</>,
@@ -726,7 +729,7 @@ function MainComponent(props) {
                   href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
                   className="hover:no-underline"
                 >
-                  <a className="text-green-500 font-medium hover:no-underline">
+                  <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                     {row?.token_id}
                   </a>
                 </Link>
@@ -743,9 +746,9 @@ function MainComponent(props) {
         </Tooltip.Provider>
       ),
       tdClassName:
-        'px-4 py-2 text-sm text-nearblue-600  max-w-[110px] inline-block truncate',
+        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10  max-w-[110px] inline-block truncate',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider',
     },
     {
       header: <>Token</>,
@@ -765,12 +768,12 @@ function MainComponent(props) {
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <div className="text-sm text-nearblue-600  max-w-[110px] inline-block truncate whitespace-nowrap">
+                    <div className="text-sm text-nearblue-600 dark:text-neargray-10 max-w-[110px] inline-block truncate whitespace-nowrap">
                       <Link
                         href={`/nft-token/${row?.nft?.contract}`}
                         className="hover:no-underline"
                       >
-                        <a className="text-green-500 font-medium hover:no-underline">
+                        <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                           {row?.nft?.name}
                         </a>
                       </Link>
@@ -807,9 +810,9 @@ function MainComponent(props) {
           )
         );
       },
-      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 ',
+      tdClassName: 'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider',
     },
     {
       header: (
@@ -820,7 +823,7 @@ function MainComponent(props) {
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 focus:outline-none whitespace-nowrap"
+                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 dark:text-green-250 focus:outline-none whitespace-nowrap"
                 >
                   {showAge
                     ? t
@@ -829,7 +832,9 @@ function MainComponent(props) {
                     : t
                     ? t('txns:ageDT')
                     : 'DATE TIME (UTC)'}
-                  {showAge && <Clock className="text-green-500 ml-2" />}
+                  {showAge && (
+                    <Clock className="text-green-500 dark:text-green-250 ml-2" />
+                  )}
                 </button>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -844,7 +849,7 @@ function MainComponent(props) {
             </Tooltip.Root>
           </Tooltip.Provider>
           <button type="button" onClick={onOrder} className="px-2">
-            <div className="text-nearblue-600  font-semibold">
+            <div className="text-nearblue-600 dark:text-neargray-10 font-semibold">
               <SortIcon order={sorting} />
             </div>
           </button>
@@ -885,13 +890,14 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 ',
+      tdClassName:
+        'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName: 'whitespace-nowrap',
     },
   ];
 
   return (
-    <div className="bg-white soft-shadow rounded-xl pb-1">
+    <div className="bg-white dark:bg-black-600  soft-shadow rounded-xl pb-1">
       {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
@@ -899,12 +905,12 @@ function MainComponent(props) {
       ) : (
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
-            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 ">
+            <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
               A total of {localFormat && localFormat(totalCount.toString())}{' '}
               transactions found
             </p>
           </div>
-          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
+          <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 dark:text-neargray-10 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
             {filters && Object.keys(filters).length > 0 && (
               <div className="flex  px-2 items-center text-sm text-gray-500 mb-2 lg:mb-0">
                 <span className="mr-1 lg:mr-2">Filtered By:</span>
@@ -927,11 +933,11 @@ function MainComponent(props) {
                 </span>
               </div>
             )}
-            <span className="text-xs text-nearblue-600 self-stretch lg:self-auto px-2">
+            <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
               <button className="hover:no-underline ">
                 <Link
                   href={`/nft-token/exportdata?address=${id}`}
-                  className="flex items-center text-nearblue-600 font-medium py-2 border border-neargray-700 px-4 rounded-md bg-white hover:bg-neargray-800"
+                  className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border dark:border-black-200 border-neargray-700 px-4 rounded-md bg-white dark:bg-black-600  hover:bg-neargray-800"
                 >
                   <p>CSV Export</p>
                   <span className="ml-2">
