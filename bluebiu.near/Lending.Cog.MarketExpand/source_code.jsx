@@ -415,7 +415,7 @@ return (
                 icon: data.TOKEN_A.icon,
                 symbol: data.TOKEN_A.symbol,
                 balance: bigMin(
-                  TOKENS.find((item) => item.symbol === data.TOKEN_A.symbol)
+                  TOKENS?.find((item) => item.symbol === data.TOKEN_A.symbol)
                     .balance,
                   data.yourBorrowed
                 ),
@@ -433,7 +433,7 @@ return (
               props={{
                 icon: data.TOKEN_B.icon,
                 symbol: data.TOKEN_B.symbol,
-                balance: TOKENS.find(
+                balance: TOKENS?.find(
                   (item) => item.symbol === data.TOKEN_B.symbol
                 ).balance,
                 price: prices[data.TOKEN_B.symbol],
