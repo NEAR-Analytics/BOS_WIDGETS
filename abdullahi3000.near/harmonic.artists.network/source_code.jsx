@@ -21,7 +21,7 @@ return (
         Join our Network of Artists
       </h3>
       <div className="mb-5">
-        <Widget src="harmonic1.near/widget/artist.feed" />
+        <Widget src="abdullahi3000.near/widget/artist.feed" />
       </div>
     </div>
   </>
