@@ -29,7 +29,9 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
           {icons}
         </span>
       </div>
-      <h3 className="h-5 font-bold text-lg text-black">{message}</h3>
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
       <p className="mb-0 py-4 font-bold">{mutedText}</p>
     </div>
   );
@@ -111,7 +113,7 @@ function MainComponent(props) {
 
   const LinkWrapper = (props) => (
     <Link href={props.href} className="hover:no-underline">
-      <a className="bg-green-500 bg-opacity-10 hover:bg-opacity-100 text-green-500 dark:text-green-250 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
+      <a className="bg-green-500 dark:bg-black-200 bg-opacity-10 hover:bg-opacity-100 text-green-500 dark:text-green-250 hover:text-white text-xs px-2 py-1 rounded-xl hover:no-underline">
         {props.children}
       </a>
     </Link>
