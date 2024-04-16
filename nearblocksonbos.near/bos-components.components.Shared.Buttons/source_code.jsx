@@ -35,9 +35,15 @@ const QRCodeIcon = (props) => {
 
 
 
+
 const QrCode = (props) => {
+  const colorDark = props.theme === 'dark' ? '#ffffff' : '#000000';
+  const colorLight = props.theme === 'dark' ? '#000000' : '#ffffff';
+
   const srcData = `
-    <html>
+    <html style="background-color: ${
+      props.theme === 'dark' ? '#0d0d0d' : '#fffff'
+    };">
     <body>
       <div id="qrcode" style="display: flex; flex-direction: column; justify-content: center; align-items: center;"></div>
     
@@ -47,8 +53,8 @@ const QrCode = (props) => {
         text: "${props.value}",
         width: ${props.width},
         height: ${props.height},
-        colorDark: "#000000",
-        colorLight: "#ffffff",
+        colorDark:"${colorDark}",
+        colorLight: "${colorLight}",
         correctLevel: QRCode.CorrectLevel.H, // L, M, Q, H
         logoBackgroundTransparent: true,
         logoWidth: 150, 
@@ -63,7 +69,7 @@ const QrCode = (props) => {
     `;
 
   return (
-    <div>
+    <div className="">
       <iframe
         srcDoc={srcData}
         style={{
@@ -72,6 +78,7 @@ const QrCode = (props) => {
           height: 320,
           minHeight: 320,
           marginTop: 30,
+          backgroundColor: 'transparent',
         }}
       />
     </div>
@@ -132,6 +139,7 @@ const CloseCircle = (props) => {
 
 
 
+
 function MainComponent(props) {
   const [showTooltip, setShowTooltip] = useState(false);
   const onCopyClick = () => {
@@ -185,9 +193,9 @@ function MainComponent(props) {
             </button>
           </Dialog.Trigger>
           <Dialog.Overlay className="bg-green-500 bg-opacity-10 data-[state=open]:animate-overlayShow fixed inset-0" />
-          <Dialog.Content className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] w-96 h-96 ">
+          <Dialog.Content className="z-50 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] overflow-clip bg-white dark:bg-black-600 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] w-96 h-96 ">
             <Dialog.Title>
-              <div className="flex items-center justify-between bg-gray-100 px-3 py-4">
+              <div className="flex items-center justify-between bg-gray-100 dark:bg-black-200 dark:text-neargray-10 px-3 py-4">
                 <h4 className="flex items-center text-xs break-all">
                   {props.id}
                 </h4>
@@ -202,7 +210,12 @@ function MainComponent(props) {
               </div>
             </Dialog.Title>
             <div className="p-4">
-              <QrCode value={props.id} width={160} height={160} />
+              <QrCode
+                value={props.id}
+                width={160}
+                height={160}
+                theme={props.theme}
+              />
             </div>
           </Dialog.Content>
         </Dialog.Root>
