@@ -56,7 +56,7 @@ const SortIcon = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -129,7 +129,7 @@ const Paginator = (props) => {
   const onLast = () => props.setPage(pages);
 
   return (
-    <div className="bg-white px-2 py-3 flex items-center justify-between border-t md:px-4">
+    <div className="bg-white dark:bg-black-600 px-2 py-3 flex items-center justify-between border-t dark:border-black-200 md:px-4">
       <div className="flex-1 flex items-center justify-between">
         <div></div>
 
@@ -146,7 +146,7 @@ const Paginator = (props) => {
                 props.page <= 1
                   ? 'text-gray-500'
                   : 'text-green-400 hover:bg-green-400 hover:text-white'
-              } bg-gray-100`}
+              } bg-gray-100 dark:bg-black-200`}
             >
               First
             </button>
@@ -165,7 +165,7 @@ const Paginator = (props) => {
             <button
               type="button"
               disabled
-              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100"
+              className="relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium text-gray-500 rounded-md  bg-gray-100 dark:bg-black-200"
             >
               Page {props.page} of {pages}
             </button>
@@ -177,7 +177,7 @@ const Paginator = (props) => {
                 props.page >= pages
                   ? 'text-gray-500'
                   : 'text-green-400 hover:text-white hover:bg-green-400'
-              }  bg-gray-100`}
+              }  bg-gray-100 dark:bg-black-200`}
             >
               <FaChevronRight />
             </button>
@@ -189,7 +189,7 @@ const Paginator = (props) => {
                 props.page >= pages
                   ? 'text-gray-500'
                   : 'text-green-400 hover:text-white hover:bg-green-400'
-              }  bg-gray-100 `}
+              }  bg-gray-100 dark:bg-black-200`}
             >
               Last
             </button>
@@ -286,49 +286,49 @@ function MainComponent({ network, t, id, ownerId }) {
 
   return (
     <>
-      <div className="bg-white soft-shadow rounded-xl overflow-x-auto ">
-        <table className="min-w-full divide-y border-t">
-          <thead className="bg-gray-100">
+      <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-x-auto ">
+        <table className="min-w-full divide-y divide-black-200 border-black-200 border-t">
+          <thead className="bg-gray-100 dark:bg-black-300">
             <tr>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  dark:text-neargray-10 uppercase tracking-wider"
               >
                 Txn Hash
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  dark:text-neargray-10 uppercase tracking-wider"
               >
                 Public key
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider"
               >
                 Access
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider"
               >
                 Contract
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider"
               >
                 Method
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider"
               >
                 Allowance
               </th>
               <th
                 scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600  uppercase tracking-wider"
+                className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider"
               >
                 Action
               </th>
@@ -337,12 +337,12 @@ function MainComponent({ network, t, id, ownerId }) {
                   <button
                     type="button"
                     onClick={toggleShowWhen}
-                    className="text-left text-xs w-full font-semibold uppercase tracking-wider text-nearblue-600 focus:outline-none"
+                    className="text-left text-xs w-full font-semibold uppercase tracking-wider text-nearblue-600 dark:text-neargray-10 focus:outline-none"
                   >
                     {showWhen ? 'When' : 'Date Time (UTC)'}
                   </button>
                   <button type="button" onClick={onOrder} className="px-2">
-                    <div className="text-nearblue-600  font-semibold">
+                    <div className="text-nearblue-600  dark:text-neargray-10 font-semibold">
                       <SortIcon order={sorting} />
                     </div>
                   </button>
@@ -350,29 +350,29 @@ function MainComponent({ network, t, id, ownerId }) {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white dark:bg-black-600 dark:divide-black-200 divide-y divide-gray-200">
             {isLoading &&
               [...Array(25)].map((_, i) => (
                 <tr key={i} className="hover:bg-blue-900/5 h-[57px]">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-tiny ">
                     <Skeleton />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 ">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                     <Skeleton />
                   </td>
                 </tr>
@@ -381,7 +381,7 @@ function MainComponent({ network, t, id, ownerId }) {
               <tr className="h-[57px]">
                 <td
                   colSpan={100}
-                  className="px-6 py-4 text-nearblue-700 text-xs"
+                  className="px-6 py-4 text-nearblue-700 dark:text-neargray-10 text-xs"
                 >
                   No access keys
                 </td>
@@ -400,7 +400,7 @@ function MainComponent({ network, t, id, ownerId }) {
                     ownerId,
                   }}
                   loading={
-                    <div className=" whitespace-nowrap text-sm text-nearblue-600 ">
+                    <div className=" whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10">
                       <Skeleton />
                     </div>
                   }
