@@ -28,7 +28,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -108,7 +108,7 @@ function MainComponent({ t, network, ownerId }) {
               </div>
             )}
             {isLoading && txns?.length === 0 && (
-              <div className="px-3 divide-y h-80">
+              <div className="px-3 dark:divide-black-200 divide-y h-80">
                 {[...Array(5)].map((_, i) => (
                   <div
                     className="grid grid-cols-2 md:grid-cols-3 gap-3 py-3"
@@ -119,7 +119,7 @@ function MainComponent({ t, network, ownerId }) {
                         TX
                       </div>
                       <div className="px-2">
-                        <div className="text-green-500 text-sm">
+                        <div className="text-green-500 dark:text-green-250 text-sm">
                           <div className="h-5 w-14">
                             <Skeleton className="h-4" />
                           </div>
@@ -151,7 +151,7 @@ function MainComponent({ t, network, ownerId }) {
               </div>
             )}
             {txns?.length > 0 && (
-              <div className="px-3 divide-y h-80">
+              <div className="px-3 divide-y dark:divide-black-200 h-80">
                 {txns?.map((txn) => {
                   return (
                     <div
@@ -159,16 +159,16 @@ function MainComponent({ t, network, ownerId }) {
                       key={txn?.transaction_hash}
                     >
                       <div className=" flex items-center">
-                        <div className="flex-shrink-0 rounded-full h-10 w-10 bg-blue-900/10 flex items-center justify-center text-sm">
+                        <div className="flex-shrink-0 rounded-full h-10 w-10 bg-blue-900/10 flex items-center justify-center text-sm dark:text-white">
                           TX
                         </div>
                         <div className="overflow-hidden pl-2">
-                          <div className="text-green-500 text-sm  ">
+                          <div className="text-green-500 dark:text-green-250 text-sm  ">
                             <Link
                               href={`/txns/${txn?.transaction_hash}`}
                               className="hover:no-underline"
                             >
-                              <a className="text-green-500 font-medium hover:no-underline">
+                              <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                                 {shortenHex(txn?.transaction_hash ?? '')}
                               </a>
                             </Link>
@@ -183,24 +183,24 @@ function MainComponent({ t, network, ownerId }) {
                         </div>
                       </div>
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm">
-                        <div className="whitespace-nowrap truncate">
+                        <div className="whitespace-nowrap truncate dark:text-white">
                           {t ? t('home:txnFrom') : 'From'}{' '}
                           <Link
                             href={`/address/${txn?.signer_account_id}`}
                             className="hover:no-underline"
                           >
-                            <a className="text-green-500  font-medium hover:no-underline">
+                            <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                               {shortenAddress(txn?.signer_account_id ?? '')}
                             </a>
                           </Link>
                         </div>
-                        <div className="whitespace-nowrap truncate">
+                        <div className="whitespace-nowrap truncate dark:text-white">
                           {t ? t('home:txnTo') : 'To'}{' '}
                           <Link
                             href={`/address/${txn?.receiver_account_id}`}
                             className="hover:no-underline"
                           >
-                            <a className="text-green-500 font-medium hover:no-underline">
+                            <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                               {shortenAddress(txn?.receiver_account_id ?? '')}
                             </a>
                           </Link>
@@ -248,14 +248,14 @@ function MainComponent({ t, network, ownerId }) {
         </ScrollArea.Root>
       </div>
       {isLoading && txns.length === 0 && (
-        <div className="border-t px-2 py-3 text-nearblue-600">
+        <div className="border-t dark:border-black-200 px-2 py-3 text-nearblue-600">
           <Skeleton className="h-10" />
         </div>
       )}
       {txns && txns?.length > 0 && (
-        <div className="border-t px-2 py-3 text-nearblue-600">
+        <div className="border-t dark:border-black-200 px-2 py-3 text-nearblue-600">
           <Link href="/txns">
-            <a className="block text-center border border-green-900/10 font-thin bg-green-500 hover:bg-green-400 text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
+            <a className="block text-center dark:text-black  border border-green-900/10 font-thin bg-green-500 dark:bg-green-250 hover:bg-green-400 text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
               View all transactions
             </a>
           </Link>
