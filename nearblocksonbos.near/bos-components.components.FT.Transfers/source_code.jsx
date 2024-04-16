@@ -24,6 +24,20 @@
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+const ErrorMessage = ({ icons, message, mutedText }) => {
+  return (
+    <div className="text-center py-24">
+      <div className="mb-4 flex justify-center">
+        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
+          {icons}
+        </span>
+      </div>
+      <h3 className="h-5 font-bold text-lg text-black">{message}</h3>
+      <p className="mb-0 py-4 font-bold">{mutedText}</p>
+    </div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -163,6 +177,22 @@ const CloseCircle = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/CloseCircle.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
+const FaInbox = () => {
+  return (
+    <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 576 512"
+      height="24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/FaLongArrowAltRight.jsx" */
 const FaLongArrowAltRight = () => {
   return (
@@ -207,8 +237,6 @@ function MainComponent({
   const [address, setAddress] = useState('');
 
   const config = getConfig && getConfig(network);
-
-  const errorMessage = 'No transactions found!';
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -264,11 +292,17 @@ function MainComponent({
       )
         .then((data) => {
           const resp = data?.body?.txns;
-          if (data.status === 200 && Array.isArray(resp) && resp.length > 0) {
-            setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
+          if (data.status === 200 && Array.isArray(resp)) {
+            if (resp.length > 0) {
+              setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
+            }
             setIsLoading(false);
           } else {
-            handleRateLimit(data, () => fetchTxnsData(page, qs));
+            handleRateLimit(
+              data,
+              () => fetchTxnsData(page, qs),
+              () => setIsLoading(false),
+            );
           }
         })
         .catch(() => {});
@@ -295,9 +329,11 @@ function MainComponent({
 
     setAddress(id);
   };
+
   const handleMouseLeave = () => {
     setAddress('');
   };
+
   const columns = [
     {
       header: '',
@@ -698,8 +734,10 @@ function MainComponent({
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
-              A total of {localFormat && localFormat(totalCount.toString())}{' '}
-              transactions found
+              {Object.keys(txns).length > 0 &&
+                `A total of ${
+                  localFormat && localFormat(totalCount.toString())
+                } transactions found`}
             </p>
           </div>
 
@@ -739,7 +777,13 @@ function MainComponent({
           limit: 25,
           pageLimit: 200,
           setPage: setPage,
-          Error: errorMessage,
+          Error: (
+            <ErrorMessage
+              icons={<FaInbox />}
+              message="There are no matching entries"
+              mutedText="Please try again later"
+            />
+          ),
         }}
       />
     </>
