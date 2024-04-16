@@ -10,9 +10,15 @@
 
 
 
+
 const QrCode = (props) => {
+  const colorDark = props.theme === 'dark' ? '#ffffff' : '#000000';
+  const colorLight = props.theme === 'dark' ? '#000000' : '#ffffff';
+
   const srcData = `
-    <html>
+    <html style="background-color: ${
+      props.theme === 'dark' ? '#0d0d0d' : '#fffff'
+    };">
     <body>
       <div id="qrcode" style="display: flex; flex-direction: column; justify-content: center; align-items: center;"></div>
     
@@ -22,8 +28,8 @@ const QrCode = (props) => {
         text: "${props.value}",
         width: ${props.width},
         height: ${props.height},
-        colorDark: "#000000",
-        colorLight: "#ffffff",
+        colorDark:"${colorDark}",
+        colorLight: "${colorLight}",
         correctLevel: QRCode.CorrectLevel.H, // L, M, Q, H
         logoBackgroundTransparent: true,
         logoWidth: 150, 
@@ -38,7 +44,7 @@ const QrCode = (props) => {
     `;
 
   return (
-    <div>
+    <div className="">
       <iframe
         srcDoc={srcData}
         style={{
@@ -47,6 +53,7 @@ const QrCode = (props) => {
           height: 320,
           minHeight: 320,
           marginTop: 30,
+          backgroundColor: 'transparent',
         }}
       />
     </div>
