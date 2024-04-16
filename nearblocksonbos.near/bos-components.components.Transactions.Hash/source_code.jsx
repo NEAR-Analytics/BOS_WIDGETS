@@ -23,6 +23,20 @@
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+const ErrorMessage = ({ icons, message, mutedText }) => {
+  return (
+    <div className="text-center py-24">
+      <div className="mb-4 flex justify-center">
+        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
+          {icons}
+        </span>
+      </div>
+      <h3 className="h-5 font-bold text-lg text-black">{message}</h3>
+      <p className="mb-0 py-4 font-bold">{mutedText}</p>
+    </div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
 /**
  * @interface Props
@@ -46,6 +60,23 @@ const ArrowDown = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FileSlash.jsx" */
+const FileSlash = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      data-name="Layer 1"
+      viewBox="0 0 24 24"
+      height="24"
+      width="24"
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+    >
+      <path d="M21.71,20.29l-18-18A1,1,0,0,0,2.29,3.71L4,5.41V19a3,3,0,0,0,3,3H17a3,3,0,0,0,2.39-1.2l.9.91a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM17,20H7a1,1,0,0,1-1-1V7.41L17.93,19.34A1,1,0,0,1,17,20ZM8.66,4H12V7a3,3,0,0,0,3,3h3v3.34a1,1,0,1,0,2,0V9s0,0,0-.06a1.31,1.31,0,0,0-.06-.27l0-.09a1.07,1.07,0,0,0-.19-.28h0l-6-6h0a1.07,1.07,0,0,0-.28-.19l-.09,0L13.06,2H8.66a1,1,0,0,0,0,2ZM14,5.41,16.59,8H15a1,1,0,0,1-1-1Z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FileSlash.jsx" */
 
 
 const hashes = ['overview', 'execution', 'comments'];
@@ -146,8 +177,14 @@ function MainComponent(props) {
   return (
     <>
       {error || (!isLoading && !txn) ? (
-        <div className="text-nearblue-700 text-xs px-2 mb-4">
-          {t ? t('txns:txnError') : 'Transaction Error'}
+        <div className="bg-white soft-shadow rounded-xl pb-1">
+          <div className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y">
+            <ErrorMessage
+              icons={<FileSlash />}
+              message="Sorry, We are unable to locate this TxnHash"
+              mutedText={hash}
+            />
+          </div>
         </div>
       ) : (
         <>
