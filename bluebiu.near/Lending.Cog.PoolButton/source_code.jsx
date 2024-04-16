@@ -238,6 +238,21 @@ if (!state.isApproved) {
   );
 }
 
+function formatAddAction(actionText, _amount, status, transactionHash) {
+  addAction?.({
+    type: "Lending",
+    action: actionText,
+    token: {
+      symbol,
+    },
+    amount: _amount,
+    template: dexConfig.name,
+    add: false,
+    status,
+    transactionHash,
+  });
+}
+
 function handleWithdraw() {
   State.update({
     pending: true,
@@ -271,6 +286,7 @@ function handleWithdraw() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
@@ -330,6 +346,7 @@ function handleDeposit() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
@@ -506,6 +523,7 @@ function handleRepay() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
@@ -567,6 +585,7 @@ function handleBorrow() {
             pending: false,
           });
           onSuccess();
+          formatAddAction(actionText, amount, status, transactionHash);
           toast?.success({
             title: `${actionText} Successfully!`,
             text: `${actionText} ${Big(amount).toFixed(2)} ${tokenSymbol}`,
