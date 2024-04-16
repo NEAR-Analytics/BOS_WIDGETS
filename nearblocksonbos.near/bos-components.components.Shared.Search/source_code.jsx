@@ -57,7 +57,10 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+      <path
+        fill="currentColor"
+        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
+      />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
@@ -243,9 +246,9 @@ function MainComponent({
             <select
               className={`h-full block text-sm text-nearblue-600 ${
                 isHeader
-                  ? 'bg-blue-900/[0.05] dark:bg-black'
-                  : 'bg-gray-100 dark:bg-black-500'
-              }  pl-4 pr-9  cursor-pointer focus:outline-none appearance-none rounded-none rounded-l-lg border  dark:border-black-200	`}
+                  ? 'bg-blue-900/[0.05] dark:bg-black dark:text-neargray-10'
+                  : 'bg-gray-100 dark:bg-black-500 dark:text-neargray-10'
+              }  pl-4 pr-9  cursor-pointer focus:outline-none appearance-none rounded-none rounded-l-lg border  dark:border-black-200 dark:text-neargray-10	`}
               value={filter}
               onChange={onFilter}
             >
@@ -262,7 +265,7 @@ function MainComponent({
                 {t ? t('common:search.filters.addresses') : 'Addresses'}
               </option>
             </select>
-            <ArrowDown className="absolute right-3 top-3.5 w-4 h-4 fill-current text-nearblue-600 pointer-events-none" />
+            <ArrowDown className="absolute right-3 top-3.5 w-4 h-4 fill-current text-nearblue-600 dark:text-neargray-10 pointer-events-none" />
           </label>
           <div className="flex-grow">
             <input
