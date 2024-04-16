@@ -243,14 +243,6 @@ const Avatar = styled.div`
   }
 `;
 
-const LinkProfile = ({ account, children }) => {
-  return (
-    <Link href={`/near/widget/ProfilePage?accountId=${account}`}>
-      {children}
-    </Link>
-  );
-};
-
 const stepsArray = [1, 2, 3, 4, 5];
 
 const { id, timestamp } = props;
@@ -414,9 +406,7 @@ const LinkedProposals = () => {
                 }}
               />
               <div className="d-flex flex-column" style={{ maxWidth: 250 }}>
-                <LinkProfile account={item.snapshot.name}>
-                  <b className="text-truncate">{item.snapshot.name}</b>
-                </LinkProfile>
+                <b className="text-truncate">{item.snapshot.name}</b>
                 <div className="text-sm text-muted">
                   created on {readableDate(item.snapshot.timestamp / 1000000)}
                 </div>
@@ -595,10 +585,6 @@ const link = href({
   },
 });
 
-const createdDate =
-  proposal.snapshot_history?.[proposal.snapshot_history.length - 1]
-    ?.timestamp ?? snapshot.timestamp;
-
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
     <Widget
@@ -660,10 +646,8 @@ return (
         }}
       />
       <div className="w-100 d-flex flex-wrap flex-md-nowrap gap-1 align-items-center">
-        <div className="fw-bold text-truncate">
-          <LinkProfile account={authorId}>{authorId}</LinkProfile>
-        </div>
-        <div>created on {readableDate(createdDate / 1000000)}</div>
+        <div className="fw-bold text-truncate">{authorId} </div>
+        <div>created on {readableDate(snapshot.timestamp / 1000000)}</div>
       </div>
     </div>
     <div className="card no-border rounded-0 full-width-div px-3 px-lg-0">
@@ -758,7 +742,7 @@ return (
                       className="fw-bold text-truncate"
                       style={{ maxWidth: "60%" }}
                     >
-                      <LinkProfile account={authorId}>{authorId}</LinkProfile>
+                      {authorId}
                     </div>
                     <div
                       className="text-muted"
@@ -769,7 +753,7 @@ return (
                         src="near/widget/TimeAgo"
                         props={{
                           blockHeight,
-                          blockTimestamp: createdDate,
+                          blockTimestamp: snapshot.timestamp,
                         }}
                       />
                       {context.accountId && (
@@ -1125,11 +1109,7 @@ return (
                             label={<div className="fw-bold">Approved</div>}
                             isChecked={
                               updatedProposalStatus.value.status ===
-                                TIMELINE_STATUS.APPROVED ||
-                              updatedProposalStatus.value.status ===
-                                TIMELINE_STATUS.PAYMENT_PROCESSING ||
-                              updatedProposalStatus.value.status ===
-                                TIMELINE_STATUS.FUNDED
+                              TIMELINE_STATUS.APPROVED
                             }
                           />
                           <RadioButton
@@ -1140,8 +1120,7 @@ return (
                                   Approved - Conditional{" "}
                                 </div>
                                 <span>
-                                  Requires follow up from recipient. Moderators
-                                  will provide further details.
+                                  Require follow up from recipient after payment
                                 </span>
                               </>
                             }
