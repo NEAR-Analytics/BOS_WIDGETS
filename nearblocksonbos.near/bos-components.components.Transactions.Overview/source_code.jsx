@@ -15,6 +15,7 @@
 
 
 
+
 /* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
@@ -28,7 +29,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -39,7 +40,7 @@ const Skeleton = (props) => {
 
 
 
-function MainComponent({ network, t, ownerId }) {
+function MainComponent({ network, t, ownerId, theme }) {
   const { currency, dollarFormat, formatCustomDate, localFormat } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
@@ -166,6 +167,7 @@ function MainComponent({ network, t, ownerId }) {
           spacingBottom: 0,
           spacingLeft: 0,
           spacingRight: 10,
+          backgroundColor: 'transparent',
         },
         title: {
           text: null,
@@ -224,6 +226,11 @@ function MainComponent({ network, t, ownerId }) {
   const iframeSrc = `
       <html>
         <head>
+        <style>
+        body, html{
+          background-color: ${theme === 'dark' ? '#0D0D0D' : '#ffff'};
+        }
+        </style>
           <script src="https://code.highcharts.com/highcharts.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.4"></script>
           <script src="https://cdn.jsdelivr.net/npm/numeral@2.0.6/numeral.min.js"></script>
@@ -256,21 +263,25 @@ function MainComponent({ network, t, ownerId }) {
   const change24 = stats?.change_24 ?? '';
   return (
     <div className="container mx-auto px-3">
-      <div className="bg-white soft-shadow rounded-xl overflow-hidden px-5 md:py lg:px-0">
+      <div className="bg-white soft-shadow rounded-xl overflow-hidden px-5 md:py lg:px-0  dark:bg-black-600">
         <div
           className={`grid grid-flow-col grid-cols-1 ${
             network === 'mainnet'
               ? 'grid-rows-3 lg:grid-cols-3'
               : 'grid-rows-2 lg:grid-cols-2'
-          } lg:grid-rows-1 divide-y lg:divide-y-0 lg:divide-x lg:py-3`}
+          } lg:grid-rows-1 divide-y lg:divide-y-0 lg:divide-x lg:py-3 dark:divide-black-200`}
         >
           {network === 'mainnet' && (
             <>
-              <div className="flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 md:pt-0 md:pb-0 md:px-5">
+              <div className="flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y  lg:divide-x-0 dark:divide-black-200 md:pt-0 md:pb-0 md:px-5">
                 <div className="flex flex-row py-5 lg:pb-5 lg:px-0">
                   <div className="items-center flex justify-left mr-3 ">
                     <img
-                      src={`${config?.appUrl}images/near price.svg`}
+                      src={`${'http://localhost:3002/'}images/${
+                        theme === 'dark'
+                          ? 'near price_dark.svg'
+                          : 'near price.svg'
+                      }`}
                       alt={t ? t('home:nearPrice') : 'nearPrice'}
                       width="24"
                       height="24"
@@ -321,7 +332,9 @@ function MainComponent({ network, t, ownerId }) {
                 <div className="flex flex-row py-5 lg:pt-5 lg:px-0">
                   <div className="items-center flex justify-left mr-3 ">
                     <img
-                      src={`${config.appUrl}images/market.svg`}
+                      src={`${'http://localhost:3002/'}images/${
+                        theme === 'dark' ? 'market_dark.svg' : 'market.svg'
+                      }`}
                       alt={t ? t('home:marketCap') : 'marketCap'}
                       width="24"
                       height="24"
@@ -352,12 +365,16 @@ function MainComponent({ network, t, ownerId }) {
               </div>
             </>
           )}
-          <div className="flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 md:pt-0 md:pb-0 md:px-5">
+          <div className="flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 dark:divide-black-200 md:pt-0 md:pb-0 md:px-5">
             <div className="flex flex-row justify-between py-5 lg:pb-5 lg:px-0">
               <div className="flex flex-row ">
                 <div className="items-center flex justify-left mr-3 ">
                   <img
-                    src={`${config?.appUrl}images/transactions.svg`}
+                    src={`${'http://localhost:3002/'}images/${
+                      theme === 'dark'
+                        ? 'transactions_dark.svg'
+                        : 'transactions.svg'
+                    }`}
                     alt={t ? t('home:transactions') : 'transactions'}
                     width="24"
                     height="24"
@@ -398,7 +415,9 @@ function MainComponent({ network, t, ownerId }) {
               <div className="flex flex-row ">
                 <div className="items-center flex justify-left mr-3 ">
                   <img
-                    src={`${config.appUrl}images/pickaxe.svg`}
+                    src={`${'http://localhost:3002/'}images/${
+                      theme === 'dark' ? 'pickaxe_dark.svg' : 'pickaxe.svg'
+                    }`}
                     alt={t ? t('home:activeValidator') : 'activeValidator'}
                     width="24"
                     height="24"
@@ -442,7 +461,7 @@ function MainComponent({ network, t, ownerId }) {
               </div>
             </div>
           </div>
-          <div className="md:col-span-2 lg:col-span-1 flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 md:pt-0 md:px-5">
+          <div className="md:col-span-2 lg:col-span-1 flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 dark:divide-black-200 md:pt-0 md:px-5">
             <div className="flex-1 py-5 lg:px-0">
               <p className="uppercase font-semibold text-nearblue-600 text-sm">
                 {' '}
@@ -450,13 +469,16 @@ function MainComponent({ network, t, ownerId }) {
                   ? t('home:transactionHistory', { days: 14 })
                   : 'NEAR TRANSACTION HISTORY IN 14 DAYS'}
               </p>
-              <div className="mt-1 h-28">
+              <div className="mt-1 h-28 dark:bg-black-600">
                 {chartData ? (
                   <iframe
+                    allowTransparency={true}
                     srcDoc={iframeSrc}
                     style={{
                       width: '100%',
                       border: 'none',
+                      backgroundColor: theme === 'dark' ? '#0D0D0D' : '#ffff',
+                      paddingRight: '20px',
                     }}
                   />
                 ) : (
