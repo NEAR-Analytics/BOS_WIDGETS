@@ -28,7 +28,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -97,18 +97,18 @@ function MainComponent({ network, t, ownerId }) {
               </div>
             )}
             {isLoading && blocks?.length === 0 && (
-              <div className="px-3 divide-y h-80">
+              <div className="px-3 divide-y dark:divide-black-200 h-80">
                 {[...Array(5)].map((_, i) => (
                   <div
                     className="grid grid-cols-2 md:grid-cols-3 gap-3 py-3"
                     key={i}
                   >
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 rounded-xl h-10 w-10 bg-blue-900/10 flex items-center justify-center text-sm">
+                      <div className="flex-shrink-0 rounded-xl h-10 w-10 bg-blue-900/10 dark:text-white flex items-center justify-center text-sm">
                         BK
                       </div>
                       <div className="px-2">
-                        <div className="text-green-500 text-sm">
+                        <div className="text-green-500 dark:text-green-250 text-sm">
                           <div className="h-5 w-14">
                             <Skeleton className="h-4" />
                           </div>
@@ -140,7 +140,7 @@ function MainComponent({ network, t, ownerId }) {
               </div>
             )}
             {blocks?.length > 0 && (
-              <div className="px-3 divide-y h-80">
+              <div className="px-3 divide-y dark:divide-black-200 h-80">
                 {blocks?.map((block) => {
                   return (
                     <div
@@ -148,16 +148,16 @@ function MainComponent({ network, t, ownerId }) {
                       key={block?.block_hash}
                     >
                       <div className=" flex items-center">
-                        <div className="flex-shrink-0 rounded-xl h-10 w-10 bg-blue-900/10 flex items-center justify-center text-sm">
+                        <div className="flex-shrink-0 rounded-xl h-10 w-10 bg-blue-900/10 dark:text-white  flex items-center justify-center text-sm">
                           BK
                         </div>
                         <div className="overflow-hidden pl-2">
-                          <div className="text-green-500 text-sm font-medium ">
+                          <div className="text-green-500 dark:text-green-250 text-sm font-medium ">
                             <Link
                               href={`/blocks/${block?.block_hash}`}
                               className="hover:no-underline"
                             >
-                              <a className="text-green-500 hover:no-underline">
+                              <a className="text-green-500 dark:text-green-250 hover:no-underline">
                                 {block?.block_height
                                   ? localFormat(block?.block_height)
                                   : block?.block_height ?? ''}
@@ -173,13 +173,13 @@ function MainComponent({ network, t, ownerId }) {
                           </div>
                         </div>
                       </div>
-                      <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm whitespace-nowrap truncate">
+                      <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 dark:text-white text-sm whitespace-nowrap truncate">
                         {t ? t('home:blockMiner') : 'Author'}{' '}
                         <Link
                           href={`/address/${block?.author_account_id}`}
                           className="hover:no-underline"
                         >
-                          <a className="text-green-500 font-medium hover:no-underline">
+                          <a className="text-green-500  dark:text-green-250 font-medium hover:no-underline">
                             {block?.author_account_id}
                           </a>
                         </Link>
@@ -233,14 +233,14 @@ function MainComponent({ network, t, ownerId }) {
         </ScrollArea.Root>
       </div>
       {isLoading && blocks?.length === 0 && (
-        <div className="border-t px-2 py-3 text-nearblue-600">
+        <div className="border-t dark:border-black-200 px-2 py-3 text-nearblue-600">
           <Skeleton className="h-10" />
         </div>
       )}
       {blocks && blocks?.length > 0 && (
-        <div className="border-t px-2 py-3 text-nearblue-600">
+        <div className="border-t dark:border-black-200 px-2 py-3 text-nearblue-600">
           <Link href="/blocks">
-            <a className="block text-center border border-green-900/10 bg-green-500 hover:bg-green-400 font-thin text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
+            <a className="block  dark:text-black text-center border border-green-900/10 bg-green-500 dark:bg-green-250 hover:bg-green-400 font-thin text-white text-xs py-3 rounded w-full focus:outline-none hover:no-underline">
               View all blocks
             </a>
           </Link>
