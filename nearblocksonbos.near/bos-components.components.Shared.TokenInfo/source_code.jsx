@@ -74,7 +74,7 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props?.wrapperClassName}`}
+        className={`bg-gray-200 dark:bg-black-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props?.wrapperClassName}`}
       ></div>
     );
   };
