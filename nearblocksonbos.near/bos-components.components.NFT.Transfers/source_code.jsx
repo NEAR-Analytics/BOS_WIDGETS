@@ -154,7 +154,9 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
           {icons}
         </span>
       </div>
-      <h3 className="h-5 font-bold text-lg text-black">{message}</h3>
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
       <p className="mb-0 py-4 font-bold">{mutedText}</p>
     </div>
   );
@@ -365,7 +367,7 @@ function MainComponent({ network, id, ownerId }) {
                     <span
                       className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.affected_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
                           : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
@@ -407,7 +409,7 @@ function MainComponent({ network, id, ownerId }) {
                     <span
                       className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.involved_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
                           : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
@@ -476,7 +478,7 @@ function MainComponent({ network, id, ownerId }) {
                     <span
                       className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.involved_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
                           : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
@@ -518,7 +520,7 @@ function MainComponent({ network, id, ownerId }) {
                     <span
                       className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.affected_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
+                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
                           : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
