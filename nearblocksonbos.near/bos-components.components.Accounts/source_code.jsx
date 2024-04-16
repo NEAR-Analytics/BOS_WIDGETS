@@ -150,7 +150,7 @@ const TokenHoldings = (props) => {
   const Loading = (props) => {
     return (
       <div
-        className={`bg-gray-200 rounded shadow-sm animate-pulse ${props.className}`}
+        className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
       ></div>
     );
   };
@@ -161,7 +161,7 @@ const TokenHoldings = (props) => {
 
   if (!props.ft?.tokens?.length && !nfts?.length) {
     return (
-      <select className="appearance-none w-full h-8 text-xs px-2 outline-none rounded bg-white border">
+      <select className="appearance-none w-full h-8 text-xs px-2 outline-none rounded bg-white dark:bg-black-600 border dark:border-black-200">
         <option>N/A</option>
       </select>
     );
@@ -171,7 +171,7 @@ const TokenHoldings = (props) => {
 
   return (
     <Select.Root>
-      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border outline-none flex items-center justify-between cursor-pointer">
+      <Select.Trigger className="w-full h-8 text-sm px-2 rounded border dark:border-black-200 outline-none flex items-center justify-between cursor-pointer">
         <span>
           {ftAmount ? '$' + dollarFormat(ftAmount) : ''}
           <span className="bg-green-500 text-xs text-white rounded ml-2 px-1 p-0.5">
@@ -185,25 +185,25 @@ const TokenHoldings = (props) => {
         sideOffset={5}
         className="SelectContent"
       >
-        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white">
-          <ScrollArea.Viewport className="border z-50 pb-2">
+        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white dark:bg-black">
+          <ScrollArea.Viewport className="border dark:border-black-200 z-50 pb-2">
             <div className="max-h-60">
               {props.ft?.tokens?.length > 0 && (
                 <>
-                  <div className="bg-gray-50 font-semibold px-3 py-2">
+                  <div className="bg-gray-50 dark:bg-black-200 font-semibold px-3 py-2">
                     Tokens{' '}
                     <span className="font-normal">
                       ({props.ft?.tokens?.length})
                     </span>
                   </div>
-                  <div className="text-gray-600 text-xs divide-y outline-none">
+                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y dark:divide-black-200 outline-none">
                     {props.ft?.tokens?.map((token, index) => (
                       <div key={token?.contract}>
                         <Link
                           href={`/token/${token?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
-                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-black-200 truncate hover:no-underline">
                             <div key={index}>
                               <div className="flex items-center">
                                 <div className="flex mr-1">
@@ -257,18 +257,18 @@ const TokenHoldings = (props) => {
               )}
               {nfts?.length > 0 && (
                 <>
-                  <div className="bg-gray-50 font-semibold px-3 py-2">
+                  <div className="bg-gray-50 dark:bg-black-200 font-semibold px-3 py-2">
                     NFT Tokens{' '}
                     <span className="font-normal">({nfts?.length})</span>
                   </div>
-                  <div className="text-gray-600 text-xs divide-y outline-none">
+                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y divide-black-200 outline-none">
                     {nfts.map((nft) => (
                       <div key={nft?.contract}>
                         <Link
                           href={`/nft-token/${nft?.contract}?a=${props.id}`}
                           className="hover:no-underline"
                         >
-                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 truncate hover:no-underline">
+                          <a className="flex justify-between items-center px-3 py-2 hover:bg-gray-100 dark:hover:bg-black-200 truncate hover:no-underline">
                             <div>
                               <div className="flex items-center">
                                 <div className="flex mr-1">
@@ -308,7 +308,7 @@ const TokenHoldings = (props) => {
             </div>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 dark:hover:bg-black-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="vertical"
           >
             <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
@@ -353,7 +353,7 @@ const TokenHoldings = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -868,7 +868,9 @@ function MainComponent(props) {
             <h1 className="py-4 break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
               Near Account: @
               {id && (
-                <span className="font-semibold text-green-500 ">{id}</span>
+                <span className="font-semibold text-green-500 dark:text-green-250">
+                  {id}
+                </span>
               )}
               {
                 <Widget
@@ -885,13 +887,13 @@ function MainComponent(props) {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="w-full">
-          <div className="h-full bg-white soft-shadow rounded-xl">
-            <div className="flex justify-between border-b p-3 text-nearblue-600">
+          <div className="h-full bg-white soft-shadow rounded-xl dark:bg-black-600">
+            <div className="flex justify-between border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10">
               <h2 className="leading-6 text-sm font-semibold">
                 {t ? t('address:overview') : 'Overview'}
               </h2>
               {tokenData?.name && (
-                <div className="flex items-center text-xs bg-gray-100 rounded-md px-2 py-1">
+                <div className="flex items-center text-xs bg-gray-100 dark:bg-black-200 dark:text-neargray-10 rounded-md px-2 py-1">
                   <div className="truncate max-w-[110px]">
                     {tokenData?.name}
                   </div>
@@ -908,7 +910,7 @@ function MainComponent(props) {
                 </div>
               )}
             </div>
-            <div className="px-3 divide-y text-sm text-nearblue-600">
+            <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
               <div className="flex flex-wrap py-4">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0">
                   {t ? t('address:balance') : 'Balance'}:
@@ -926,7 +928,7 @@ function MainComponent(props) {
               {network === 'mainnet' &&
                 accountData?.amount &&
                 statsData?.near_price && (
-                  <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
+                  <div className="flex flex-wrap py-4 text-sm text-nearblue-600 dark:text-neargray-10">
                     <div className="w-full md:w-1/4 mb-2 md:mb-0">
                       {t ? t('address:value') : 'Value:'}
                     </div>
@@ -955,7 +957,7 @@ function MainComponent(props) {
                     )}
                   </div>
                 )}
-              <div className="flex flex-wrap py-4 text-sm text-nearblue-600">
+              <div className="flex flex-wrap py-4 text-sm text-nearblue-600 dark:text-neargray-10">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0">
                   {t ? t('address:tokens') : 'Tokens:'}
                 </div>
@@ -975,11 +977,11 @@ function MainComponent(props) {
           </div>
         </div>
         <div className="w-full">
-          <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
-            <h2 className="leading-6 border-b p-3 text-nearblue-600 text-sm font-semibold">
+          <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
+            <h2 className="leading-6 border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
               {t ? t('address:moreInfo') : 'Account information'}
             </h2>
-            <div className="px-3 divide-y text-sm text-nearblue-600">
+            <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
               <div className="flex justify-between">
                 <div className="flex xl:flex-nowrap flex-wrap items-center justify-between py-4 w-full">
                   <div className="w-full mb-2 md:mb-0">
@@ -1117,7 +1119,7 @@ function MainComponent(props) {
                         </a>
                       </Link>
                       {tokenData.price && (
-                        <div className="text-nearblue-600 ml-1">
+                        <div className="text-nearblue-600 dark:text-neargray-10 ml-1">
                           (@ ${localFormat(tokenData.price)})
                         </div>
                       )}
@@ -1148,10 +1150,10 @@ function MainComponent(props) {
                       onClick={() => {
                         onTab(index);
                       }}
-                      className={`text-nearblue-600 text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
+                      className={`  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                         pageTab === tab
-                          ? 'rounded-lg bg-green-600 text-white'
-                          : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
+                          ? 'rounded-lg bg-green-600 dark:bg-green-250 text-white dark:text-black'
+                          : 'hover:bg-neargray-800 bg-neargray-700 dark:bg-black-200 rounded-lg hover:text-nearblue-600 text-nearblue-600 dark:text-neargray-10'
                       }`}
                       value={tab}
                     >
@@ -1162,7 +1164,7 @@ function MainComponent(props) {
                       ) : tab === 'Contract' ? (
                         <div className="flex h-full">
                           <h2>{tab}</h2>
-                          <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
+                          <div className="absolute text-white dark:text-black bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-11 -mt-3 px-1 ">
                             NEW
                           </div>
                         </div>
@@ -1269,7 +1271,7 @@ function MainComponent(props) {
               )}
               <div className={`${pageTab === 'Comments' ? '' : 'hidden'} `}>
                 {
-                  <div className="bg-white soft-shadow rounded-xl pb-1">
+                  <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
                     <div className="py-3">
                       <Widget
                         src={`${ownerId}/widget/bos-components.components.Comments.Feed`}
