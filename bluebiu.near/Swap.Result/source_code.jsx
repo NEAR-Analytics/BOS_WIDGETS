@@ -370,7 +370,7 @@ return (
       >
         <StyledFlex style={{ gap: "5px" }}>
           {state.priceImpactWarningType === 2 && WarningIcon}
-          <div>Pirce impact warning</div>
+          <div>Price impact warning</div>
         </StyledFlex>
         <div>{state.priceImpact}%</div>
       </StyledPriceWarning>
