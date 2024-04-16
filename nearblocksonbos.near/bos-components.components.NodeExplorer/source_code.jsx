@@ -55,7 +55,10 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+      <path
+        fill="currentColor"
+        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
+      />
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
@@ -273,7 +276,8 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
       case 'active':
         return {
           textColor: 'text-emerald-500',
-          bgColor: 'bg-emerald-50 text-emerald-500',
+          bgColor:
+            'bg-emerald-50 dark:text-green-250 dark:bg-black-200 text-emerald-500',
         };
       case 'joining':
         return {
@@ -540,7 +544,7 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
     return (
       <>
         <tr>
-          <td colSpan={9} className="bg-gray-50">
+          <td colSpan={9} className="bg-gray-50 dark:bg-black-200">
             {telemetry && (
               <Widget
                 src={`${ownerId}/widget/bos-components.components.Shared.Table`}
