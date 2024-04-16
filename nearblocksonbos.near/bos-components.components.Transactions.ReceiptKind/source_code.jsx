@@ -99,7 +99,7 @@ function MainComponent(props) {
             )}
           </div>
         ) : action?.kind === 'delegateAction' ? (
-          <div className="py-2 ml-6">
+          <div className="py-2">
             <span className="font-semibold">
               {action?.args?.senderId
                 ? `Actions delegated for ${action?.args?.senderId}:`
