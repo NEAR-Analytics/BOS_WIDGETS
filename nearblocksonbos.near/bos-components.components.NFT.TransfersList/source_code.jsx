@@ -33,7 +33,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -73,14 +73,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50',
+        bg: 'bg-yellow-50 dark:bg-black',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50',
+        bg: 'bg-red-50 dark:bg-black',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -88,7 +88,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50',
+        bg: 'bg-emerald-50 dark:bg-black',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -365,7 +365,8 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           <TxnStatus status={row?.outcomes?.status} showLabel={false} />
         </>
       ),
-      tdClassName: 'pl-5 py-2 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'pl-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <span>{t ? t('hash') : 'HASH'}</span>,
@@ -375,12 +376,12 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap">
+                <span className="truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap">
                   <Link
                     href={`/txns/${row?.transaction_hash}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 font-medium hover:no-underline">
+                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                       {row?.transaction_hash}
                     </a>
                   </Link>
@@ -397,9 +398,9 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-2 text-sm text-nearblue-600',
+      tdClassName: 'px-5 py-2 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span> {t ? t('type') : 'TYPE'}</span>,
@@ -409,7 +410,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
-                <span className="bg-blue-900/10 text-xs text-nearblue-600 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
+                <span className="bg-blue-900/10 text-xs text-nearblue-600 dark:text-neargray-10 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">{row?.cause}</span>
                 </span>
               </Tooltip.Trigger>
@@ -424,9 +425,10 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span>From</span>,
@@ -439,10 +441,10 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.affected_account_id === address
                           ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 p-0.5 px-1'
+                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -450,7 +452,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 hover:no-underline"
+                          className="text-green-500 dark:text-green-250 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.affected_account_id)
                           }
@@ -481,10 +483,10 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.involved_account_id === address
                           ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 p-0.5 px-1'
+                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -492,7 +494,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 hover:no-underline"
+                          className="text-green-500 dark:text-green-250 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.involved_account_id)
                           }
@@ -519,9 +521,9 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
         );
       },
       tdClassName:
-        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span></span>,
@@ -550,10 +552,10 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.involved_account_id === address
                           ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 p-0.5 px-1'
+                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -561,7 +563,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 hover:no-underline"
+                          className="text-green-500 dark:text-green-250 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.involved_account_id)
                           }
@@ -592,10 +594,10 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
                         row?.affected_account_id === address
                           ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 p-0.5 px-1'
+                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
                       }`}
                     >
                       <Link
@@ -603,7 +605,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                         className="hover:no-underline"
                       >
                         <a
-                          className="text-green-500 hover:no-underline"
+                          className="text-green-500 dark:text-green-250 hover:no-underline"
                           onMouseOver={(e) =>
                             onHandleMouseOver(e, row?.affected_account_id)
                           }
@@ -629,15 +631,16 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           </span>
         );
       },
-      tdClassName: 'px-5 py-2 text-sm text-nearblue-600 font-medium',
+      tdClassName:
+        'px-5 py-2 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span>Token ID</span>,
       key: 'block_height',
       cell: (row) => (
-        <div className="whitespace-nowrap text-sm text-nearblue-600 max-w-[110px] inline-block truncate">
+        <div className="whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 max-w-[110px] inline-block truncate">
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
@@ -646,7 +649,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                     href={`/nft-token/${row?.nft?.contract}/${row?.token_id}`}
                     className="hover:no-underline"
                   >
-                    <a className="text-green-500 font-medium hover:no-underline">
+                    <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                       {row?.token_id}
                     </a>
                   </Link>
@@ -665,7 +668,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
       ),
       tdClassName: 'px-5 py-2',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <span>Token</span>,
@@ -685,12 +688,12 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
               <Tooltip.Provider>
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
-                    <div className="text-sm text-nearblue-600 max-w-[110px] inline-block truncate">
+                    <div className="text-sm text-nearblue-600 dark:text-neargray-10 max-w-[110px] inline-block truncate">
                       <Link
                         href={`/nft-token/${row?.nft?.contract}`}
                         className="hover:no-underline"
                       >
-                        <a className="text-green-500 font-medium hover:no-underline">
+                        <a className="text-green-500 dark:text-green-250 font-medium hover:no-underline">
                           {row?.nft?.name}
                         </a>
                       </Link>
@@ -728,9 +731,9 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
         );
       },
       tdClassName:
-        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider',
+        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: (
@@ -741,10 +744,12 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 focus:outline-none whitespace-nowrap"
+                  className="text-left text-xs w-full flex items-center font-semibold uppercase tracking-wider  text-green-500 dark:text-green-250 focus:outline-none whitespace-nowrap"
                 >
                   {showAge ? 'AGE' : 'DATE TIME (UTC)'}
-                  {showAge && <Clock className="text-green-500 ml-2" />}
+                  {showAge && (
+                    <Clock className="text-green-500 dark:text-green-250 ml-2" />
+                  )}
                 </button>
               </Tooltip.Trigger>
               <Tooltip.Content
@@ -795,14 +800,15 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-5 py-2 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
 
   return (
     <>
-      <div className="bg-white border soft-shadow rounded-xl pb-1">
+      <div className="bg-white dark:bg-black-600 dark:border-black-200 border soft-shadow rounded-xl pb-1">
         {isLoading ? (
           <div className="max-w-lg w-full pl-3 py-5">
             <Skeleton className="h-4" />
@@ -822,7 +828,7 @@ function MainComponent({ network, t, currentPage, setPage, ownerId }) {
             )}
             <div className={`flex flex-col lg:flex-row pt-4`}>
               <div className="flex flex-col">
-                <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600">
+                <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
                   A total of {localFormat && localFormat(totalCount.toString())}{' '}
                   transactions found
                 </p>
