@@ -7,7 +7,7 @@ const Theme = styled.div`
 `;
 
 const CHAIN_ID = 534352;
-const CHAIN_NAME = "scroll";
+const CHAIN_NAME = "Scroll";
 const Tokens = [
   {
     address: "native",
