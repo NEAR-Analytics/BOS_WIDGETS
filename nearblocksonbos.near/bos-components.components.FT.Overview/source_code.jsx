@@ -191,7 +191,7 @@ const Links = (props) => {
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -469,7 +469,7 @@ function MainComponent({
             <Skeleton className="h-7" />
           </div>
         ) : (
-          <h1 className="break-all space-x-2 text-xl text-gray-700 leading-8 py-4 px-2">
+          <h1 className="break-all space-x-2 text-xl text-gray-700 dark:text-neargray-10 leading-8 py-4 px-2">
             <span className="inline-flex align-middle h-7 w-7">
               <TokenImage
                 src={token?.icon}
@@ -488,13 +488,13 @@ function MainComponent({
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-2 md:mb-2">
           <div className="w-full">
-            <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
+            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
+              <h2 className="border-b dark:border-black-200 p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
                 Overview
               </h2>
 
-              <div className="px-3 divide-y text-sm text-nearblue-600">
-                <div className="flex divide-x my-2">
+              <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
+                <div className="flex divide-x dark:divide-black-200  my-2">
                   <div className="flex-col flex-1 flex-wrap py-1">
                     <div className="w-full text-nearblue-700 text-xs uppercase mb-1  text-[80%]">
                       Price
@@ -550,7 +550,7 @@ function MainComponent({
                               <Question className="w-4 h-4 fill-current ml-1" />
                             </Tooltip.Trigger>
                             <Tooltip.Content
-                              className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
+                              className="h-auto max-w-xs bg-black  bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
                               align="start"
                               side="bottom"
                             >
@@ -579,7 +579,7 @@ function MainComponent({
                             <Tooltip.Root>
                               <Tooltip.Trigger asChild>
                                 <p
-                                  className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100"
+                                  className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200"
                                   onClick={onToggle}
                                 >
                                   {showMarketCap
@@ -603,7 +603,7 @@ function MainComponent({
                             </Tooltip.Root>
                           </Tooltip.Provider>
                         ) : (
-                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100">
+                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200">
                             {'$' +
                               dollarNonCentFormat(
                                 Number(token?.market_cap)
@@ -616,7 +616,7 @@ function MainComponent({
                     ) : (
                       <div className="w-full break-words flex flex-wrap text-sm">
                         {token?.onchain_market_cap ? (
-                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100">
+                          <p className="px-1 py-1 text-xs cursor-pointer rounded bg-gray-100 dark:bg-black-200">
                             ${dollarNonCentFormat(token?.onchain_market_cap)}
                           </p>
                         ) : (
@@ -699,11 +699,11 @@ function MainComponent({
             </div>
           </div>
           <div className="w-full">
-            <div className="h-full bg-white soft-shadow rounded-xl overflow-hidden">
-              <h2 className="border-b p-3 text-nearblue-600 text-sm font-semibold">
+            <div className="h-full bg-white dark:bg-black-600 soft-shadow rounded-xl overflow-hidden">
+              <h2 className="border dark:border-black-200 -b p-3 text-nearblue-600 dark:text-neargray-10 text-sm font-semibold">
                 Profile Summary
               </h2>
-              <div className="px-3 divide-y text-sm text-nearblue-600">
+              <div className="px-3 divide-y dark:divide-black-200 text-sm text-nearblue-600 dark:text-neargray-10">
                 <div className="flex flex-wrap items-center justify-between py-4">
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">Contract:</div>
                   {isLoading ? (
@@ -713,9 +713,11 @@ function MainComponent({
                       </div>
                     </div>
                   ) : (
-                    <div className="w-full text-green-500 md:w-3/4 break-words">
+                    <div className="w-full text-green-500 dark:text-green-250 md:w-3/4 break-words">
                       <Link href={`/address/${token?.contract}`}>
-                        <a className="text-green-500">{token?.contract}</a>
+                        <a className="text-green-500 dark:text-green-250">
+                          {token?.contract}
+                        </a>
                       </Link>
                     </div>
                   )}
@@ -736,7 +738,7 @@ function MainComponent({
                   <div className="w-full md:w-1/4 mb-2 md:mb-0 ">
                     Official Site:
                   </div>
-                  <div className="w-full md:w-3/4 text-green-500 break-words">
+                  <div className="w-full md:w-3/4 text-green-500 dark:text-green-250 break-words">
                     {isLoading ? (
                       <div className="w-32">
                         <Skeleton className="h-4" />
@@ -792,8 +794,8 @@ function MainComponent({
                     onClick={() => onTab(index)}
                     className={`text-nearblue-600 text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                       pageTab === tab
-                        ? 'rounded-lg bg-green-600 text-white'
-                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600'
+                        ? 'rounded-lg bg-green-600 dark:bg-green-250 dark:text-black text-white'
+                        : 'hover:bg-neargray-800 bg-neargray-700 rounded-lg hover:text-nearblue-600 dark:text-neargray-25 dark:bg-black-200'
                     }`}
                     value={tab}
                   >
@@ -801,7 +803,7 @@ function MainComponent({
                   </button>
                 ))}
             </div>
-            <div className="bg-white soft-shadow rounded-xl pb-1">
+            <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
               <div className={`${pageTab === 'Transfers' ? '' : 'hidden'} `}>
                 {
                   <Widget
