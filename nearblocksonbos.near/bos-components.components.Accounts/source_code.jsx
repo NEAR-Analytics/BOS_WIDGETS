@@ -25,6 +25,7 @@
 
 
 
+
 /* INCLUDE COMPONENT: "includes/icons/FaExternalLinkAlt.jsx" */
 const FaExternalLinkAlt = () => {
   return (
@@ -119,7 +120,10 @@ const ArrowDown = (props) => {
       {...props}
     >
       <path fill="none" d="M0 0h24v24H0z" />
-      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+      <path
+        fill="currentColor"
+        d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"
+      />
     </svg>
   );
 };
@@ -185,7 +189,7 @@ const TokenHoldings = (props) => {
         sideOffset={5}
         className="SelectContent"
       >
-        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white dark:bg-black">
+        <ScrollArea.Root className="overflow-hidden rounded-b-xl soft-shadow bg-white dark:bg-black-600">
           <ScrollArea.Viewport className="border dark:border-black-200 z-50 pb-2">
             <div className="max-h-60">
               {props.ft?.tokens?.length > 0 && (
@@ -311,13 +315,13 @@ const TokenHoldings = (props) => {
             className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 dark:hover:bg-black-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="vertical"
           >
-            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Scrollbar
-            className="flex select-none touch-none p-0.5 bg-neargray-25 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
+            className="flex select-none touch-none p-0.5 bg-neargray-25 dark:bg-black-600 transition-colors duration-[160ms] ease-out hover:bg-neargray-25 dark:hover:bg-black-200 data-[orientation=vertical]:w-2.5 data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-2.5"
             orientation="horizontal"
           >
-            <ScrollArea.Thumb className="flex-1 bg-neargray-50 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+            <ScrollArea.Thumb className="flex-1 bg-neargray-50 dark:bg-black-200 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
           </ScrollArea.Scrollbar>
           <ScrollArea.Corner className="bg-neargray-50" />
         </ScrollArea.Root>
@@ -377,6 +381,7 @@ function MainComponent(props) {
     accountId,
     logOut,
     ownerId,
+    theme,
   } = props;
 
   const { dollarFormat, localFormat, weight, convertToUTC } = VM.require(
@@ -865,7 +870,7 @@ function MainComponent(props) {
           </div>
         ) : (
           <div className="flex md:flex-wrap">
-            <h1 className="py-4 break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
+            <h1 className="py-4 break-all space-x-2 text-xl text-gray-700 leading-8 px-2 dark:text-neargray-10">
               Near Account: @
               {id && (
                 <span className="font-semibold text-green-500 dark:text-green-250">
@@ -878,6 +883,7 @@ function MainComponent(props) {
                   props={{
                     id: id,
                     config: config,
+                    theme: theme,
                   }}
                 />
               }
