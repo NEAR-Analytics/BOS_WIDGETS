@@ -43,7 +43,7 @@ const FaChevronRight = () => {
 
 const Paginator = (props) => {
   let pages;
-  if (props.count) {
+  if (props.count > 0) {
     pages = Math.ceil(props.count / props.limit);
   } else {
     pages = 1;
@@ -353,7 +353,7 @@ function MainComponent(props) {
           </table>
         </div>
       )}
-      {props.isPagination ? (
+      {props.isPagination && props.data !== undefined ? (
         <Paginator
           count={props.count}
           page={props.page}
