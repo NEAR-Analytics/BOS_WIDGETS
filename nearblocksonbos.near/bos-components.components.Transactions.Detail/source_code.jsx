@@ -994,14 +994,14 @@ const getOptions = (status) => {
   switch (status) {
     case null:
       return {
-        bg: 'bg-yellow-50',
+        bg: 'bg-yellow-50 dark:bg-black',
         text: 'text-yellow-500',
         icon: FaHourglassStart,
         label: 'Pending',
       };
     case false:
       return {
-        bg: 'bg-red-50',
+        bg: 'bg-red-50 dark:bg-black',
         text: 'text-red-500',
         icon: FaTimesCircle,
         label: 'Failure',
@@ -1009,7 +1009,7 @@ const getOptions = (status) => {
 
     default:
       return {
-        bg: 'bg-emerald-50',
+        bg: 'bg-emerald-50 dark:bg-black',
         text: 'text-emerald-500',
         icon: FaCheckCircle,
         label: 'Success',
@@ -1352,7 +1352,7 @@ function MainComponent(props) {
   const Loader = (props) => {
     return (
       <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
+        className={`bg-gray-200 dark:bg-black-200 h-5 rounded shadow-sm animate-pulse ${props.className} ${props.wrapperClassName}`}
       ></div>
     );
   };
@@ -1374,8 +1374,8 @@ function MainComponent(props) {
   }, [txn, config.backendUrl]);
 
   return (
-    <div className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y">
-      <div className="text-sm text-nearblue-600">
+    <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 dark:divide-black-200 divide-y">
+      <div className="text-sm text-nearblue-600 dark:text-neargray-10">
         {network === 'testnet' && (
           <div className="flex flex-wrap p-4 text-red-500">
             {t
@@ -1487,7 +1487,7 @@ function MainComponent(props) {
                 href={`/blocks/${txn?.included_in_block_hash}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 hover:no-underline">
+                <a className="text-green-500 dark:text-green-250 hover:no-underline">
                   {txn?.block?.block_height
                     ? localFormat(txn?.block?.block_height)
                     : txn?.block?.block_height ?? ''}
@@ -1587,7 +1587,10 @@ function MainComponent(props) {
               ownerId={ownerId}
             />
           )))) && (
-        <div id="action-row" className="bg-white text-sm text-nearblue-600">
+        <div
+          id="action-row"
+          className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10"
+        >
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
               <Tooltip.Provider>
@@ -1614,7 +1617,7 @@ function MainComponent(props) {
               </div>
             ) : (
               <div className="w-full md:w-3/4">
-                <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white">
+                <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white dark:bg-black-600">
                   <ScrollArea.Viewport className="w-full h-full rounded">
                     <div
                       id="action-column"
@@ -1652,7 +1655,7 @@ function MainComponent(props) {
           </div>
         </div>
       )}
-      <div className="bg-white text-sm text-nearblue-600">
+      <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
             <Tooltip.Provider>
@@ -1685,7 +1688,7 @@ function MainComponent(props) {
                 href={`/address/${txn?.signer_account_id}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 hover:no-underline">
+                <a className="text-green-500  dark:text-green-250 hover:no-underline">
                   {txn?.signer_account_id}
                 </a>
               </Link>
@@ -1728,7 +1731,7 @@ function MainComponent(props) {
                 href={`/address/${txn?.receiver_account_id}`}
                 className="hover:no-underline"
               >
-                <a className="text-green-500 hover:no-underline">
+                <a className="text-green-500 dark:text-green-250 hover:no-underline">
                   {txn?.receiver_account_id}
                 </a>
               </Link>
@@ -1763,7 +1766,7 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="relative w-full md:w-3/4">
-              <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white">
+              <ScrollArea.Root className="w-full h-full rounded overflow-hidden bg-white dark:bg-black">
                 <ScrollArea.Viewport className="w-full h-full rounded">
                   <div className="max-h-[302px] break-words space-y-3">
                     {fts?.map((ft) => (
@@ -1781,7 +1784,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.involved_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                     {shortenAddress(
                                       ft?.involved_account_id ?? '',
                                     )}
@@ -1798,7 +1801,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.affected_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 font-normal pl-1">
+                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1">
                                     {shortenAddress(
                                       ft?.affected_account_id ?? '',
                                     )}
@@ -1818,7 +1821,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.affected_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                     {shortenAddress(
                                       ft?.affected_account_id ?? '',
                                     )}
@@ -1835,7 +1838,7 @@ function MainComponent(props) {
                                   href={`/address/${ft?.involved_account_id}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green-500 font-normal pl-1">
+                                  <a className="text-green-500 dark:text-green-250 font-normal pl-1">
                                     {shortenAddress(
                                       ft?.involved_account_id ?? '',
                                     )}
@@ -1865,7 +1868,7 @@ function MainComponent(props) {
                           href={`/token/${ft?.ft_meta?.contract}`}
                           className="hover:no-underline"
                         >
-                          <a className="text-green flex items-center hover:no-underline">
+                          <a className="text-green dark:text-green-250 flex items-center hover:no-underline">
                             <TokenImage
                               src={ft?.ft_meta?.icon}
                               alt={ft?.ft_meta?.name}
@@ -1898,7 +1901,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.involved_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.involved_account_id ?? '',
                                             )}
@@ -1917,7 +1920,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.affected_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.affected_account_id ?? '',
                                             )}
@@ -1939,7 +1942,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.affected_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.affected_account_id ?? '',
                                             )}
@@ -1958,7 +1961,7 @@ function MainComponent(props) {
                                           href={`/address/${nft?.involved_account_id}`}
                                           className="hover:no-underline"
                                         >
-                                          <a className="text-green-500 font-normal pl-1 hover:no-underline">
+                                          <a className="text-green-500 dark:text-green-250 font-normal pl-1 hover:no-underline">
                                             {shortenAddress(
                                               nft?.involved_account_id ?? '',
                                             )}
@@ -2060,7 +2063,7 @@ function MainComponent(props) {
           )}
         </div>
       )}
-      <div className="bg-white text-sm text-nearblue-600">
+      <div className="bg-white dark:bg-black-600 text-sm text-nearblue-600 dark:text-neargray-10">
         <div className="flex flex-wrap p-4">
           <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0">
             <Tooltip.Provider>
@@ -2194,7 +2197,7 @@ function MainComponent(props) {
 
       <Accordion.Root
         type="single"
-        className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y border-b"
+        className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 divide-y border-b"
         defaultValue={more ? 'item-1' : undefined}
         collapsible
       >
@@ -2203,11 +2206,11 @@ function MainComponent(props) {
             <div className="flex flex-wrap p-4">
               <Accordion.Trigger asChild onClick={toggleContent}>
                 {!more ? (
-                  <span className="text-green-500 flex items-center cursor-pointer">
+                  <span className="text-green-500 dark:text-green-250 flex items-center cursor-pointer">
                     Click to see more <ArrowDown className="fill-current" />
                   </span>
                 ) : (
-                  <span className="text-green-500 flex items-center cursor-pointer">
+                  <span className="text-green-500 dark:text-green-250 flex items-center cursor-pointer">
                     Click to see less <ArrowUp className="fill-current" />
                   </span>
                 )}
@@ -2280,12 +2283,14 @@ function MainComponent(props) {
                   </div>
                 ) : (
                   <div className="w-full  text-xs items-center flex md:w-3/4 break-words">
-                    <div className="bg-orange-50 rounded-md px-2 py-1">
+                    <div className="bg-orange-50 dark:bg-black-200 rounded-md px-2 py-1">
                       <span className="text-xs mr-2">🔥</span>
                       {convertToMetricPrefix(
                         txn.receipt_conversion_gas_burnt ?? 0,
                       ) + 'gas'}
-                      <span className="text-gray-300 px-1">|</span>{' '}
+                      <span className="text-gray-300 dark:text-neargray-10 px-1">
+                        |
+                      </span>{' '}
                       {txn.receipt_conversion_tokens_burnt
                         ? yoctoToNear(txn.receipt_conversion_tokens_burnt, true)
                         : txn.receipt_conversion_tokens_burnt ?? ''}{' '}
