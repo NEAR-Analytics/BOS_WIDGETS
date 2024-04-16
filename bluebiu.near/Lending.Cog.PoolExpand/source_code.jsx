@@ -204,7 +204,8 @@ const {
 } = props;
 
 const data = props.data || {};
-const tokenBal = TOKENS.find(
+console.log("TOKENS--", TOKENS);
+const tokenBal = TOKENS?.find(
   (item) => item.symbol === data.TOKEN_A.symbol
 ).balance;
 
