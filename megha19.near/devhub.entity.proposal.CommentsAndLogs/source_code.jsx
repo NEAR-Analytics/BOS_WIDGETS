@@ -161,10 +161,8 @@ const Comment = ({ commentItem }) => {
         >
           <Header className="d-flex gap-3 align-items-center p-2 px-3">
             <div className="text-muted">
-              <Link href={`/near/widget/ProfilePage?accountId=${accountId}`}>
-                <span className="fw-bold text-black">{accountId}</span>
-              </Link>
-              commented ･{" "}
+              <span className="fw-bold text-black">{accountId}</span> commented
+              ･{" "}
               <Widget
                 src="near/widget/TimeAgo"
                 props={{
@@ -279,9 +277,9 @@ const AccountProfile = ({ accountId }) => {
         props={{
           accountId: accountId,
           size: "sm",
-          showAccountId: true,
         }}
       />
+      {accountId}
     </span>
   );
 };
@@ -414,7 +412,16 @@ const Log = ({ timestamp }) => {
             }
           >
             <span className="inline-flex fw-bold text-black">
-              <AccountProfile accountId={editorId} showAccountId={true} />
+              <Widget
+                src={"megha19.near/widget/devhub.entity.proposal.Profile"}
+                props={{
+                  accountId: editorId,
+                  size: "sm",
+                }}
+              />
+
+              {(editorId ?? "").substring(0, 15)}
+              {(editorId ?? "").length > 15 ? "..." : ""}
             </span>
             {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
             on
