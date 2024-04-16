@@ -26,7 +26,7 @@
 const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200 dark:bg-black-200 rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
@@ -177,7 +177,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             href={`/blocks/${row?.block_hash}`}
             className="hover:no-underline"
           >
-            <a className="text-green-500 hover:no-underline">
+            <a className="text-green-500 dark:text-green-250 hover:no-underline">
               {row?.block_height
                 ? localFormat(row?.block_height)
                 : row?.block_height ?? ''}
@@ -186,9 +186,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600  dark:text-neargray-10 font-medium',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
@@ -199,12 +199,12 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
                 <button
                   type="button"
                   onClick={toggleShowAge}
-                  className="w-full flex items-center px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex-row"
+                  className="w-full flex items-center px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 dark:text-green-250 focus:outline-none flex-row"
                 >
                   {showAge ? (
                     <>
                       {t ? t('blocks:age') : 'AGE'}
-                      <Clock className="text-green-500 ml-2" />
+                      <Clock className="text-green-500 dark:text-green-250 ml-2" />
                     </>
                   ) : (
                     'DATE TIME (UTC)'
@@ -259,7 +259,8 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <span>{t ? t('blocks:txn') : 'TXN'}</span>,
@@ -271,9 +272,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             : row?.transactions_agg?.count ?? ''}
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.receipt') : 'RECEIPT'}</span>,
@@ -285,9 +287,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             : row?.receipts_agg?.count ?? ''}
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:miner') : 'AUTHOR'}</span>,
@@ -299,10 +302,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             className={`hover:no-underline`}
           >
             <a
-              className={`text-green-500 hover:no-underline ${
+              className={`text-green-500 dark:text-green-250 hover:no-underline ${
                 row?.author_account_id === address
                   ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
-                  : 'text-green-500 p-1'
+                  : 'text-green-500 dark:text-green-250 p-1'
               }`}
               onMouseOver={(e) => onHandleMouseOver(e, row?.author_account_id)}
               onMouseLeave={handleMouseLeave}
@@ -313,9 +316,9 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 font-medium',
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasUsed') : 'GAS USED'}</span>,
@@ -327,9 +330,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             : ''}
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasLimit') : 'GAS LIMIT'}</span>,
@@ -337,9 +341,10 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
       cell: (row) => (
         <span>{convertToMetricPrefix(row?.chunks_agg?.gas_limit ?? 0)}gas</span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('blocks:block.gasFee') : 'GAS FEE'}</span>,
@@ -352,20 +357,21 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
           Ⓝ
         </span>
       ),
-      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600',
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
   ];
 
   return (
-    <div className="bg-white border soft-shadow rounded-xl pb-1 ">
+    <div className="bg-white dark:bg-black-600 drak:border-black-200 border soft-shadow rounded-xl pb-1 ">
       {isLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
         </div>
       ) : (
-        <p className="leading-7 pl-6 text-sm py-4 text-nearblue-600">
+        <p className="leading-7 pl-6 text-sm py-4 text-nearblue-600 dark:text-neargray-10">
           {t
             ? t('blocks:listing', {
                 from: start?.block_height
