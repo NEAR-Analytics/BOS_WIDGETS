@@ -10,7 +10,7 @@ import FaChevronRight from '@/includes/icons/FaChevronRight';
 
 const Paginator = (props) => {
   let pages;
-  if (props.count) {
+  if (props.count > 0) {
     pages = Math.ceil(props.count / props.limit);
   } else {
     pages = 1;
