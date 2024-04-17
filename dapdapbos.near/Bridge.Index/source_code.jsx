@@ -1,4 +1,23 @@
-const { bridge, chainFrom, chainTo, getLifi } = props
+const { 
+    bridge, 
+    icon, 
+    name,
+    color,
+    tool, 
+    account,
+    chainList, 
+    toggleDocClickHandler, 
+    getQuote, 
+    getAllToken, 
+    getChainScan,
+    getStatus,
+    prices,
+    currentChainId,
+    setChain,
+    setToChain,
+    toChainId,
+    execute,
+} = props
 
 const BridgePanel = styled.div`
   width: 478px;
@@ -11,9 +30,12 @@ const Header = styled.div`
     align-items: center;
 `;
 
-const BridgeIcon = styled.img`
-    width: 28px;
+const BridgeIcon = styled.div`
     height: 28px;
+    overflow: hidden;
+    img {
+        height: 100%;
+    }
 `
 
 const BridgeName = styled.div`
@@ -45,33 +67,12 @@ const ChainPairs = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 16px 0;
+    gap: 10px;
 `
 
-const ChainItem = styled.div`
-    display: flex;
-    align-items: center;
-    flex: 1;
-    &.right {
-        padding-left: 30px;
-    }
-`
-const ChainIcon = styled.img`
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    &.ml30 {
-        margin-left: 30px;
-    }
-`
-const ChainName = styled.div`
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    color: #fff;
-    margin-left: 7px;
-`
+
 const ChainArrow = styled.div`
-    /* margin-right: 30px; */
+    cursor: pointer;
 `
 
 const TokenSpace = styled.div`
@@ -95,6 +96,7 @@ const TransformArrow = styled.div`
     justify-content: center;
     align-items: center;
 `
+
 const {
     getAllPossibleConnections,
     getBalance,
@@ -104,11 +106,15 @@ const {
     balanceFormated,
     checkAndSetAllowance,
     getTransaction,
+    saveTransaction,
 } = VM.require('dapdapbos.near/widget/Bridge.Utils');
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
+
 
 State.init({
+    chainFrom: chainList[0],
+    chainTo: chainList[1],
+    allTokens: {},
     otherAddressChecked: false,
     inputTokens: [],
     _inputTokens: [],
@@ -119,7 +125,9 @@ State.init({
     sendAmount: '',
     receiveAmount: '',
     inputBalance: '',
+    inputBalanceLoading: false,
     outputBalance: '',
+    outputBalanceLoading: false,
     duration: '',
     gasCostUSD: '',
     fromUSD: '',
@@ -135,118 +143,179 @@ State.init({
     sendingDisabeld: false,
     btnText: 'Send',
     transactionList: [],
+    signer: null,
+    transitionUpdate: Date.now(),
+    timeOut: null
 })
 
 function refreshTransactionList() {
-    const transactionList = getTransaction()
+    const transactionObj = getTransaction(`bridge-${account}-${tool}`)
+
     State.update({
-        transactionList,
+        transactionList: transactionObj.transactionList,
     })
 }
 
 function validateInput() {
     const { sendAmount, selectInputToken, selectOutputToken, toAddress, otherAddressChecked, isValidAddress } = state
-    const canRoute = sendAmount && selectInputToken && selectOutputToken
+    const canRoute = sendAmount && Number(sendAmount) > 0 && selectInputToken && selectOutputToken
         && ((otherAddressChecked && toAddress && isValidAddress) || !otherAddressChecked)
 
     return canRoute
 }
 
 function getTokenBalance(chain, token) {
-    const address = chain.nativeToken.address === token.address ? 'native' : token.address
-    return getBalance(address, account, chain.metamask.rpcUrls[0], token.decimals)
-    //                 .then(balance => {
-    //                     console.log('balance: ', balance)
-    //                     State.update({
-    //                         inputBalance: balance,
-    //                     })
-    //                 })
+    const address = chain.nativeCurrency.symbol === token.symbol ? 'native' : token.address
+    return getBalance(address, account, chain.rpcUrls[0], token.decimals)
+}
+
+function debounce(fn, wait) {
+    let timer;
+    return () => {
+        clearTimeout(timer);
+        timer = setTimeout(fn, wait);
+    };
+}
+
+function getTrade() {
+    const { sendAmount, selectInputToken, selectOutputToken, toAddress, otherAddressChecked, isValidAddress } = state
+
+    const canRoute = validateInput()
+
+    if (canRoute) {
+        State.update({
+            loading: true,
+            duration: '',
+            gasCostUSD: '',
+            receiveAmount: '',
+            toUSD: '',
+            route: null
+        })
+
+        getQuote({
+            fromChainId: state.chainFrom.chainId,
+            toChainId: state.chainTo.chainId,
+            fromToken: {
+                address: selectInputToken.address,
+                symbol: selectInputToken.symbol,
+                decimals: selectInputToken.decimals,
+            },
+            toToken: {
+                address: selectOutputToken.address,
+                symbol: selectOutputToken.symbol,
+                decimals: selectOutputToken.decimals,
+            },
+            fromAddress: account,
+            destAddress: otherAddressChecked ? toAddress : account,
+            amount: new Big(sendAmount).times(Math.pow(10, selectInputToken.decimals)),
+            engine: [tool]
+        }, Ethers.provider().getSigner()).then(res => {
+            console.log('route: ', res)
+            if (res && res.length) {
+                let maxReceiveAmount = 0
+                let maxRoute
+                res.forEach(route => {
+                    if (Number(route.receiveAmount) > maxReceiveAmount) {
+                        maxReceiveAmount = Number(route.receiveAmount)
+                        maxRoute = route
+                    }
+                })
+
+                console.log('maxRoute: ', maxRoute)
+
+                State.update({
+                    duration: maxRoute.duration,
+                    gasCostUSD: maxRoute.feeType === 1 ? prices['ETH'] * maxRoute.gas : maxRoute.gas,
+                    receiveAmount: new Big(maxRoute.receiveAmount).div(Math.pow(10, selectOutputToken.decimals)).toString(),
+                    route: maxRoute,
+                    loading: false,
+                })
+
+            } else {
+                State.update({
+                    loading: false,
+                })
+            }
+        })
+    }
 }
 
 useEffect(() => {
-    const tokensP = asyncFetch("https://li.quest/v1/tokens")
+    const chainFrom = chainList.filter(chain => chain.chainId === parseInt(currentChainId))[0]
+    const chainTo = chainList.filter(chain => chain.chainId === parseInt(toChainId))[0]
+    
+    
+    State.update({
+        chainFrom,
+        chainTo,
+        // signer: provider.getSigner(),
+    })
+}, [])
 
-    tokensP.then(res => {
-        const { tokens } = res.body
-        const inputTokens = tokens[chainFrom.id].filter(item => !!item.logoURI)
-        // const outputTokens = tokens[chainTo.id].filter(item => !!item.logoURI)
-
+useEffect(() => {
+    getAllToken().then(res => {
         State.update({
-            // _inputTokens: inputTokens,
-            // _outputTokens: outputTokens,
-            inputTokens: inputTokens.slice(0, 20),
-            outputTokens: [],
+            allTokens: res
         })
     })
 }, [])
 
+useEffect(() => {
+    if (state.allTokens[1]) {
+        State.update({
+            inputTokens: state.allTokens[state.chainFrom.chainId],
+            selectInputToken: null,
+            inputBalance: '0.0',
+        })
+        setToChain(state.chainTo.chainId)
+        setChain({ chainId: `0x${state.chainFrom.chainId.toString(16)}` })
+    }
+}, [state.chainFrom, state.allTokens])
 
 useEffect(() => {
-    refreshTransactionList()
+    if (state.allTokens[1]) {
+        State.update({
+            outputTokens: state.allTokens[state.chainTo.chainId],
+            selectOutputToken: null,
+            outputBalance: '0.0',
+        })
+    }
+}, [state.chainTo, state.allTokens])
+
+
+useEffect(() => {
+    const inter = setInterval(() => {
+        State.update({
+            transitionUpdate: Date.now()
+        })
+    }, 10000)
+    
+    return () => {
+        clearInterval(inter)
+    }
 }, [])
 
 
+
 useEffect(() => {
-    const timer = setTimeout(() => {
-        const { sendAmount, selectInputToken, selectOutputToken, toAddress, otherAddressChecked, isValidAddress } = state
+    if (state.timeOut) {
+        clearTimeout(state.timeOut)
+    }
+    const timeOut = setTimeout(() => {
+        getTrade(sendAmount, selectInputToken, selectOutputToken, toAddress, otherAddressChecked)
+    }, 500)
 
-        const canRoute = validateInput()
-
-        if (canRoute) {
-            State.update({
-                loading: true,
-                duration: '',
-                gasCostUSD: '',
-                receiveAmount: '',
-                toUSD: '',
-                route: null
-            })
-
-            getRoute({
-                fromChainId: chainFrom.id,
-                toChainId: chainTo.id,
-                fromTokenAddress: selectInputToken.address,
-                toTokenAddress: selectOutputToken.address,
-                fromAmount: new Big(sendAmount).times(Math.pow(10, selectInputToken.decimals)).toString(),
-                fromAddress: account,
-                toAddress: otherAddressChecked ? toAddress : account,
-            }, bridge.key).then(route => {
-                if (route) {
-                    const duration = computeDuration(route)
-                    const gasCostUSD = route.gasCostUSD
-                    const fromUSD = route.fromAmountUSD
-                    const toUSD = route.toAmountUSD
-                    const receiveAmount = new Big(route.toAmount).div(Math.pow(10, selectOutputToken.decimals)).toString()
-                    State.update({
-                        duration,
-                        gasCostUSD,
-                        receiveAmount,
-                        fromUSD,
-                        toUSD,
-                        route,
-                    })
-                }
-
-                State.update({
-                    loading: false
-                })
-            })
-        } else {
-            State.update({
-                canRoute: false,
-            })
-        }
-    }, 1000);
-
+    State.update({
+        timeOut
+    })
     return () => {
-        clearTimeout(timer);
-    };
+        clearTimeout(timeOut)
+    }
 }, [state.sendAmount, state.selectInputToken, state.selectOutputToken, state.toAddress])
 
 useEffect(() => {
     if (state.sendAmount && state.inputBalance) {
         const canRoute = validateInput()
-        console.log('canRoute: ', canRoute)
         if (!canRoute) {
             State.update({
                 btnText: 'Send',
@@ -270,6 +339,14 @@ useEffect(() => {
             return
         }
 
+        if (currentChainId !== state.chainFrom.chainId) {
+            State.update({
+                btnText: 'Switch Chain',
+                canRoute: true,
+            })
+            return
+        }
+
         State.update({
             btnText: 'Send',
             canRoute: true,
@@ -277,27 +354,50 @@ useEffect(() => {
     }
 }, [state.sendAmount, state.inputBalance, state.route])
 
+
 return <BridgePanel>
     <Header>
-        <BridgeIcon src={bridge.logoURI} />
-        <BridgeName>{bridge.name}</BridgeName>
+        <BridgeIcon>
+            <img src={icon} />
+        </BridgeIcon>
+        <BridgeName>{name}</BridgeName>
     </Header>
     <Content>
         <MainTitle>Bridge</MainTitle>
         <ChainPairs>
-            <ChainItem>
-                <ChainIcon src={chainFrom.logoURI} />
-                <ChainName>{chainFrom.name}</ChainName>
-            </ChainItem>
-            <ChainArrow>
+            <Widget props={{
+                chain: state.chainFrom,
+                chainList,
+                toggleDocClickHandler,
+                onChainChange: (chain) => {
+                    State.update({
+                        chainFrom: chain
+                    })
+                },
+            }} src="dapdapbos.near/widget/Bridge.ChainSelector" />
+
+            <ChainArrow onClick={() => {
+                const chainTo = state.chainFrom
+                const chainFrom = state.chainTo
+                State.update({
+                    chainFrom,
+                    chainTo,
+                })
+            }}>
                 <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 6L13.7273 6M13.7273 6L8.87869 11.0002M13.7273 6L8.87869 1" stroke="#979ABE" stroke-width="2" stroke-linecap="round" />
                 </svg>
             </ChainArrow>
-            <ChainItem>
-                <ChainIcon className="ml30" src={chainTo.logoURI} />
-                <ChainName>{chainTo.name}</ChainName>
-            </ChainItem>
+            <Widget props={{
+                chain: state.chainTo,
+                chainList,
+                toggleDocClickHandler,
+                onChainChange: (chain) => {
+                    State.update({
+                        chainTo: chain
+                    })
+                },
+            }} src="dapdapbos.near/widget/Bridge.ChainSelector" />
         </ChainPairs>
 
         <Widget
@@ -308,33 +408,24 @@ return <BridgePanel>
                 tokens: state.inputTokens,
                 amount: state.sendAmount,
                 balance: state.inputBalance,
+                loadingBalance: state.inputBalanceLoading,
                 disabled: false,
+                prices,
                 amountUSD: state.fromUSD,
                 onTokenChange: (token) => {
-
                     State.update({
                         selectInputToken: token,
                         sendAmount: '',
                         receiveAmount: '',
                         inputBalance: '0',
                         outputBalance: '0',
+                        inputBalanceLoading: true,
                     })
 
-                    getAllPossibleConnections({
-                        fromChain: chainFrom.id,
-                        toChain: chainTo.id,
-                        fromToken: token.address
-                    })
-                        .then((tokens) => {
-                            State.update({
-                                outputTokens: tokens.filter(item => !!item.logoURI).slice(0, 10)
-                            })
-                        })
-
-                    getTokenBalance(chainFrom, token).then(balance => {
-                        console.log('balance: ', balance)
+                    getTokenBalance(state.chainFrom, token).then(balance => {
                         State.update({
                             inputBalance: balance,
+                            inputBalanceLoading: false,
                         })
                     })
                 },
@@ -361,19 +452,21 @@ return <BridgePanel>
                 selectToken: null,
                 disabled: true,
                 balance: state.outputBalance,
+                loadingBalance: state.outputBalanceLoading,
                 selectToken: state.selectOutputToken,
                 tokens: state.outputTokens,
                 amount: state.receiveAmount,
                 amountUSD: state.toUSD,
+                prices,
                 onTokenChange: (token) => {
                     State.update({
-                        selectOutputToken: token
+                        selectOutputToken: token,
+                        outputBalanceLoading: true,
                     })
-
-                    getTokenBalance(chainTo, token).then(balance => {
-                        console.log('balance: ', balance)
+                    getTokenBalance(state.chainTo, token).then(balance => {
                         State.update({
                             outputBalance: balance,
+                            outputBalanceLoading: false,
                         })
                     })
                 },
@@ -410,7 +503,7 @@ return <BridgePanel>
             src="dapdapbos.near/widget/Bridge.FeeMsg"
             props={{
                 duration: state.duration,
-                gasCostUSD: state.gasCostUSD,
+                gasCostUSD: state.gasCostUSD ? balanceFormated(state.gasCostUSD) : '',
             }}
         />
 
@@ -434,7 +527,12 @@ return <BridgePanel>
                 className: 'pink',
                 disabled: !state.canRoute,
                 loading: state.loading,
+                style: { backgroundColor: color },
                 onClick: () => {
+                    if (state.btnText === 'Switch Chain') {
+                        setChain({ chainId: `0x${state.chainFrom.chainId.toString(16)}` })
+                        return
+                    }
                     State.update({
                         showConfirm: true
                     })
@@ -449,8 +547,9 @@ return <BridgePanel>
         state.showConfirm ? <Widget
             src="dapdapbos.near/widget/Bridge.Confirm"
             props={{
-                chainFrom: chainFrom,
-                chainTo: chainTo,
+                color: color,
+                chainFrom: state.chainFrom,
+                chainTo: state.chainTo,
                 loading: state.isSending,
                 disabled: state.isSendingDisabled,
                 toAddress: addressFormated(state.otherAddressChecked ? state.toAddress : account),
@@ -468,28 +567,27 @@ return <BridgePanel>
                 onSend: () => {
                     const { route } = state
 
-                    console.log('route', route)
-
                     State.update({
                         isSending: true,
                         isSendingDisabled: true,
                     })
 
-                    checkAndSetAllowance(
-                        chainFrom.metamask.rpcUrls[0],
-                        route,
-                        getLifi,
-                    ).then(res => {
-                        console.log(res)
+                    console.log('route: ', route, props)
 
-                        getTokenBalance(chainFrom, state.selectInputToken)
+                    execute(route, Ethers.provider().getSigner()).then(txHash => {
+                        console.log('txHash: ', txHash)
+                        if (!txHash) {
+                            return
+                        }
+
+                        getTokenBalance(state.chainFrom, state.selectInputToken)
                             .then(balance => {
                                 State.update({
                                     inputBalance: balance,
                                 })
                             })
 
-                        getTokenBalance(chainTo, state.selectOutputToken)
+                        getTokenBalance(state.chainTo, state.selectOutputToken)
                             .then(balance => {
                                 State.update({
                                     outputBalance: balance,
@@ -502,17 +600,41 @@ return <BridgePanel>
                             isSendingDisabled: false,
                         })
 
-                        refreshTransactionList()
+                        saveTransaction(`bridge-${account}-${tool}`, {
+                            hash: txHash, 
+                            link: getChainScan(state.chainFrom.chainId), 
+                            duration: route.duration,
+                            fromChainId: state.chainFrom.chainId,
+                            fromChainLogo: state.chainFrom.icon,
+                            fromTokenLogo: state.selectInputToken.logoURI,
+                            fromAmount: state.sendAmount,
+                            fromTokenSymbol: state.selectInputToken.symbol,
+                            toChainId: state.chainTo.chainId,
+                            toChainLogo: state.chainTo.icon,
+                            toTokenLogo: state.selectOutputToken.logoURI,
+                            toAmout: state.receiveAmount,
+                            toToenSymbol: state.selectOutputToken.symbol,
+                            time: Date.now(),
+                        })
 
                         props.toast.success({
                             title: 'Transaction success',
                             text: '',
                         })
 
+                        refreshTransactionList()
+
                     }).catch(err => {
+
                         props.toast.fail({
                             title: 'Transaction failed',
-                            text: err,
+                            text: err.toString(),
+                        })
+   
+                        State.update({
+                            // showConfirm: false,
+                            isSending: false,
+                            isSendingDisabled: false,
                         })
                     })
                 }
@@ -524,14 +646,22 @@ return <BridgePanel>
         src="dapdapbos.near/widget/Bridge.Transaction"
         props={{
             transactionList: state.transactionList,
+            updater: state.transitionUpdate,
+            storageKey: `bridge-${account}-${tool}`,
+            getStatus,
+            tool,
+            account,
             onRefresh: () => {
                 refreshTransactionList()
             }
         }}
     />
 
-    <div style={{ display: none }}>
+    <div style={{ display: 'none' }}>
         <Widget
             src="dapdapbos.near/widget/Bridge.Utils" />
     </div>
+
+
+
 </BridgePanel>
