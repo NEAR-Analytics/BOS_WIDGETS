@@ -333,7 +333,7 @@ function MainComponent(props) {
           </div>
           <button
             onClick={onAdd}
-            className="mx-3 px-3 mr-1 bg-green dark:bg-green-250 dark:text-black py-1 text-xs font-medium rounded-md text-white"
+            className="mx-3 px-3 mr-1 bg-green dark:bg-green-250 dark:text-neargray-10 py-1 text-xs font-medium rounded-md text-white"
           >
             Add
           </button>
@@ -341,7 +341,7 @@ function MainComponent(props) {
             type="submit"
             onClick={(e) => onDetect(e)}
             disabled={loading}
-            className="flex ml-2 mr-1 bg-green-500 dark:bg-green-250 dark:text-black hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex ml-2 mr-1 bg-green-500 dark:bg-green-250 dark:text-neargray-10 hover:bg-green-400 text-white text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Auto detect
             <Tooltip.Provider>
@@ -378,7 +378,7 @@ function MainComponent(props) {
                 name="type"
                 value={field.type}
                 onChange={(e) => onChange(e, 'type', field.id)}
-                className="col-span-2 bg-white block border  dark:border-black-200 rounded mb-3 h-9 px-3 w-full outline-none"
+                className="col-span-2 bg-white dark:bg-black-600 dark:text-neargray-10 block border dark:border-black-200 rounded mb-3 h-9 px-3 w-full outline-none"
               >
                 <option value="" disabled>
                   Type
@@ -456,7 +456,7 @@ function MainComponent(props) {
               type="submit"
               onClick={(e) => onRead(e)}
               disabled={loading}
-              className="bg-green-500 dark:bg-green-250 hover:bg-green-400 text-white dark:text-black text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+              className="bg-green-500 dark:bg-green-250 hover:bg-green-400 text-white dark:text-neargray-10 text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
             >
               Query
             </button>
@@ -487,7 +487,7 @@ function MainComponent(props) {
             type="submit"
             onClick={(e) => onWrite(e)}
             disabled={loading || !connected}
-            className="bg-green-500 hover:bg-green-400 text-white dark:text-black text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+            className="bg-green-500 hover:bg-green-400 text-white dark:text-neargray-10 text-xs px-3 py-1.5 rounded focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Write
           </button>
@@ -496,7 +496,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg bg-red-50 border-red-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg bg-red-50 dark:bg-red-200 dark:text-black-200 dark:border-red-400 border-red-100 p-3 mt-3 resize-y"
             value={error}
           />
         )}
@@ -527,7 +527,7 @@ function MainComponent(props) {
           <textarea
             readOnly
             rows={6}
-            className="block appearance-none outline-none w-full border rounded-lg bg-green-50 border-green-100 p-3 mt-3 resize-y"
+            className="block appearance-none outline-none w-full border rounded-lg dark:bg-green-100 dark:border-green-200 bg-green-50 border-green-100 p-3 mt-3 resize-y"
             value={result}
           />
         )}
