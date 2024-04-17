@@ -97,14 +97,15 @@ const {
     onClose,
     loading,
     disabled,
+    color,
 } = props
 
 return <ConfirmBox>
     <PopWapper>
         <Header>
             <HeaderItem>
-                <ChainIcon src={chainFrom.logoURI} />
-                <ChainName>{chainFrom.name}</ChainName>
+                <ChainIcon src={chainFrom.icon} />
+                <ChainName>{chainFrom.chainName}</ChainName>
             </HeaderItem>
             <ArrowWapper>
                 <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,8 +113,8 @@ return <ConfirmBox>
                 </svg>
             </ArrowWapper>
             <HeaderItem>
-                <ChainIcon src={chainTo.logoURI} />
-                <ChainName>{chainTo.name}</ChainName>
+                <ChainIcon src={chainTo.icon} />
+                <ChainName>{chainTo.chainName}</ChainName>
             </HeaderItem>
         </Header>
 
@@ -138,7 +139,7 @@ return <ConfirmBox>
             </ListItem>
             <ListItem>
                 <ListItemTitle>Est. Arrival</ListItemTitle>
-                <ListItemContent>{duration}</ListItemContent>
+                <ListItemContent>~{duration}min</ListItemContent>
             </ListItem>
             <ListItem>
                 <ListItemTitle>Fee</ListItemTitle>
@@ -159,6 +160,7 @@ return <ConfirmBox>
                     block: true,
                     className: 'pink',
                     loading,
+                    style: { backgroundColor: color },
                     disabled,
                     onClick: () => {
                         !disabled && props.onSend()
