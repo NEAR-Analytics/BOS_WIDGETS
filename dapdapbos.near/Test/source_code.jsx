@@ -1,3 +1,5 @@
 console.log('hahah')
 
-return <div>222</div>
+return  <div onClick={() => {
+    Storage.set('abc', Date.now())
+}}>{ Storage.get('abc') } 3333</div>
