@@ -15,6 +15,7 @@
 
 
 
+
 /* INCLUDE COMPONENT: "includes/icons/SearchIcon.jsx" */
 /**
  * @interface Props
@@ -143,6 +144,54 @@ function getRoute(filter) {
 }
 /* END_INCLUDE: "includes/search.jsx" */
 
+/* INCLUDE COMPONENT: "includes/icons/ErrorIcon.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const ErrorIcon = (props) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 -960 960 960"
+      width={16}
+      height={16}
+      {...props}
+    >
+      <path
+        fill="#ef4444"
+        d="M479.579-257Q505-257 519.5-270.579t14.5-39Q534-335 519.921-350t-39.5-15Q455-365 440.5-350.193T426-309.965q0 25.421 14.079 39.193Q454.158-257 479.579-257ZM437-432h91v-269h-91v269Zm42.945 373q-87.053 0-164.146-32.604-77.094-32.603-134.343-89.852-57.249-57.249-89.852-134.41Q59-393.028 59-480.362q0-87.228 32.662-163.934 32.663-76.706 90.203-134.253 57.54-57.547 134.252-90.499Q392.829-902 479.836-902q87.369 0 164.544 32.858 77.175 32.858 134.401 90.257 57.225 57.399 90.222 134.514Q902-567.257 902-479.724q0 87.468-32.952 163.882t-90.499 133.781q-57.547 57.367-134.421 90.214Q567.255-59 479.945-59Z"
+      />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/ErrorIcon.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/ToastMessage.jsx" */
+const ToastMessage = (props) => {
+  const [open, setOpen] = useState(true);
+  return (
+    <Toast.Provider swipeDirection="right">
+      <Toast.Root
+        className="flex gap-4 p-4 max-w-sm w-full items-center justify-between bg-white dark:bg-black-200 rounded-lg shadow drop-shadow-md z-50 outline-none"
+        open={open}
+        onOpenChange={setOpen}
+      >
+        {props.content}
+        <Toast.Action className="" asChild altText="Goto schedule to undo">
+          <button className="inline-flex h-fit w-fit items-center justify-center rounded-md font-medium text-red-500 focus:ring-red-500 focus:ring-offset-red-200 focus:ring-2 focus:outline-none focus:ring-offset-2 transition ease-in-out duration-150 text-xs lg:text-sm">
+            x
+          </button>
+        </Toast.Action>
+      </Toast.Root>
+
+      <Toast.Viewport className="fixed top-0 right-0 gap-4 p-4 max-w-sm w-full rounded-lg z-50" />
+    </Toast.Provider>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ToastMessage.jsx" */
 
 function MainComponent({
   isHeader,
@@ -150,6 +199,7 @@ function MainComponent({
   network,
   router,
   ownerId,
+  networkUrl,
 }) {
   const { localFormat, shortenHex } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
@@ -163,7 +213,7 @@ function MainComponent({
   const [result, setResult] = useState({} );
   const [filter, setFilter] = useState('all');
   const [isResultsVisible, setIsResultsVisible] = useState(false);
-
+  const [showToast, setShowToast] = useState(false);
   const config = getConfig && getConfig(network);
 
   // Determine whether to show search results
@@ -186,19 +236,46 @@ function MainComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-
+  const SearchToast = () => {
+    return (
+      <div className="flex items-center">
+        <div className="text-red-500 ">
+          <ErrorIcon className=" mr-2 h-5 w-5" />
+        </div>
+        <Toast.Title className="text-nearblue-700">
+          No results. Try on
+        </Toast.Title>
+        <Toast.Description asChild>
+          <a
+            href={networkUrl}
+            className="text-green-500 dark:text-green-250 ml-2"
+          >
+            {network === 'mainnet' ? 'Testnet' : 'Mainnet'}
+          </a>
+        </Toast.Description>
+      </div>
+    );
+  };
+  useEffect(() => {
+    const time = setTimeout(() => {
+      if (showToast) {
+        setShowToast(false);
+      }
+    }, 3000);
+    return () => clearTimeout(time);
+  }, [showToast]);
   const redirect = (route) => {
     switch (route?.type) {
       case 'block':
-        return router.push(`/blocks/${route?.path}`);
+        return `/blocks/${route?.path}`;
       case 'txn':
-        return router.push(`/txns/${route?.path}`);
+        return `/txns/${route?.path}`;
       case 'receipt':
-        return router.push(`/txns/${route?.path}`);
+        return `/txns/${route?.path}`;
       case 'address':
-        return router.push(`/address/${route?.path}`);
+        return `/address/${route?.path}`;
       default:
-        return;
+        return null;
     }
   };
   // Handle input change
@@ -213,7 +290,12 @@ function MainComponent({
     if (filter && query && config.backendUrl) {
       search(query, filter, true, config.backendUrl).then((data) => {
         hideSearchResults();
-        redirect(data);
+        const redirectPath = redirect(data);
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          setShowToast(true);
+        }
       });
     }
   };
@@ -240,6 +322,7 @@ function MainComponent({
 
   return (
     <>
+      {showToast && <ToastMessage content={<SearchToast />} />}
       <div className="flex flex-grow">
         <div className={`flex w-full ${isHeader ? 'h-11' : 'h-12'}`}>
           <label className="relative hidden md:flex">
@@ -283,11 +366,11 @@ function MainComponent({
               }}
             />
             {isResultsVisible && showResults && (
-              <div className="z-50 relative dark:bg-black">
-                <div className="text-xs rounded-b-lg  bg-gray-50 py-2 shadow border dark:bg-black">
+              <div className="z-50 relative dark:bg-black-600">
+                <div className="text-xs rounded-b-lg  bg-gray-50 py-2 shadow border dark:border-black-200 dark:bg-black-600">
                   {result?.accounts && result.accounts.length > 0 && (
                     <>
-                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 rounded">
+                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 dark:text-neargray-10 dark:bg-black-200 rounded">
                         {t ? t('common:search.list.address') : 'Account'}
                       </h3>
                       {result.accounts.map((address) => (
@@ -297,7 +380,7 @@ function MainComponent({
                           key={address.account_id}
                         >
                           <div
-                            className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate"
+                            className="mx-2 px-2 py-2 hover:bg-gray-100 dark:hover:bg-black-200 dark:text-neargray-10 cursor-pointer rounded hover:border-gray-500 truncate"
                             onClick={onSelect}
                           >
                             {shortenAddress(address.account_id)}
@@ -308,7 +391,7 @@ function MainComponent({
                   )}
                   {result?.txns && result.txns.length > 0 && (
                     <>
-                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 rounded">
+                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 dark:text-neargray-10 dark:bg-black-200 rounded">
                         {t ? t('common:search.list.txns') : 'Txns'}
                       </h3>
                       {result.txns.map((txn) => (
@@ -318,7 +401,7 @@ function MainComponent({
                           key={txn.transaction_hash}
                         >
                           <div
-                            className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate"
+                            className="mx-2 px-2 py-2 hover:bg-gray-100 dark:hover:bg-black-200 dark:text-neargray-10 rounded cursor-pointer hover:border-gray-500 truncate"
                             onClick={onSelect}
                           >
                             {shortenHex(txn.transaction_hash)}
@@ -329,7 +412,7 @@ function MainComponent({
                   )}
                   {result?.receipts && result.receipts.length > 0 && (
                     <>
-                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 rounded">
+                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 dark:text-neargray-10 dark:bg-black-200 rounded">
                         Receipts
                       </h3>
                       {result.receipts.map((receipt) => (
@@ -339,7 +422,7 @@ function MainComponent({
                           key={receipt.receipt_id}
                         >
                           <div
-                            className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate"
+                            className="mx-2 px-2 py-2 hover:bg-gray-100 dark:hover:bg-black-200 dark:text-neargray-10 rounded cursor-pointer hover:border-gray-500 truncate"
                             onClick={onSelect}
                           >
                             {shortenHex(receipt.receipt_id)}
@@ -350,7 +433,7 @@ function MainComponent({
                   )}
                   {result?.blocks && result.blocks.length > 0 && (
                     <>
-                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 rounded">
+                      <h3 className=" mx-2 my-2 px-2 py-2 text-sm bg-gray-100 dark:text-neargray-10 dark:bg-black-200 rounded">
                         {t ? t('common:search.list.blocks') : 'Blocks'}
                       </h3>
                       {result.blocks.map((block) => (
@@ -360,7 +443,7 @@ function MainComponent({
                           key={block.block_hash}
                         >
                           <div
-                            className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate"
+                            className="mx-2 px-2 py-2 hover:bg-gray-100 dark:hover:bg-black-200 dark:text-neargray-10 rounded cursor-pointer hover:border-gray-500 truncate"
                             onClick={onSelect}
                           >
                             #
