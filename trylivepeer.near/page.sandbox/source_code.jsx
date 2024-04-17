@@ -18,6 +18,10 @@ return (
         <div>
           <h1>Broadcast</h1>
           <Widget
+            src="trylivepeer.near/widget/GenerateStream"
+            props={broadcastData}
+          />
+          <Widget
             src="trylivepeer.near/widget/Broadcast"
             props={broadcastData}
           />
