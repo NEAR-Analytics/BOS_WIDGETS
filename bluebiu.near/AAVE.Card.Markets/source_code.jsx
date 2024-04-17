@@ -121,13 +121,16 @@ const BorrowButton = ({ data }) => {
 const LoopButton = ({ data }) => {
   //TODO
   let disabled;
-  if (dexConfig.name === "Seamless Protocol") {
-    const { totalSupplyUSD, supplyCapUSD } = data;
-    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
+  // if (dexConfig.name === "Seamless Protocol") {
+  //   const { totalSupplyUSD, supplyCapUSD } = data;
+  //   const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
 
-    disabled = Number(data.balanceInUSD) === 0 || isFull;
-  } else {
-    disabled = Number(data.balanceInUSD) === 0;
+  //   disabled = Number(data.balanceInUSD) === 0 || isFull;
+  // } else {
+  //   disabled = Number(data.balanceInUSD) === 0;
+  // }
+  if (!data.supportLoop) {
+    disabled = true;
   }
   return (
     <Widget
@@ -309,7 +312,7 @@ if (["Pac Finance"].includes(dexConfig.name)) {
           ...row,
         }}
       />
-      <LoopButton data={row} />
+      {dexConfig.name === "Pac Finance" ? <LoopButton data={row} /> : null}
     </div>,
   ]);
 }
