@@ -212,7 +212,7 @@ State.init({
   debtTotal: [],
   poolData: [],
 
-  step1: false,
+  // step1: false,
   step2: false,
 
   updater: 0,
@@ -360,16 +360,22 @@ function getLiquidity() {
           const liquidityAmount = Big(aTokenTotal[i] || 0)
             .minus(Big(debtTotal[i] || 0))
             .toFixed();
-
+          console.log(
+            liquidityAmount,
+            prices[_assetsToSupply[i].symbol],
+            _assetsToSupply[i]
+          );
           _assetsToSupply[i].availableLiquidity = liquidityAmount;
-          _assetsToSupply[i].availableLiquidityUSD = Big(
+          const _availableLiquidityUSD = Big(
             ethers.utils.formatUnits(
               liquidityAmount,
               _assetsToSupply[i].decimals
             )
           )
-            .mul(Big(prices[_assetsToSupply[i].symbol]) || 0)
+            .mul(Big(prices[_assetsToSupply[i].symbol] || 0))
             .toFixed();
+          console.log(_availableLiquidityUSD);
+          _assetsToSupply[i].availableLiquidityUSD = _availableLiquidityUSD;
 
           const _availableBorrowsUSD = bigMin(
             state.availableBorrowsUSD,
@@ -380,12 +386,12 @@ function getLiquidity() {
           )
             .times(ACTUAL_BORROW_AMOUNT_RATE)
             .toFixed();
-
+          console.log(_availableBorrowsUSD);
           const availableBorrows = calcAvailableBorrows(
             _availableBorrowsUSD,
             _assetsToSupply[i].tokenPrice
           );
-
+          console.log(availableBorrows);
           _assetsToSupply[i].availableBorrowsUSD = _availableBorrowsUSD;
           _assetsToSupply[i].availableBorrows = availableBorrows;
         }
@@ -497,7 +503,7 @@ function onActionSuccess({ msg, callback }) {
   getUserBalance();
 
   State.update({
-    step1: false,
+    // step1: false,
     step2: false,
     updater: state.updater + 1,
   });
@@ -889,11 +895,16 @@ function getYourSupplies() {
             (item) => item.aTokenAddress === aTokenAddresss[index]
           );
           if (market) {
-            let _bal = ethers.utils.formatUnits(res[index][0], market.decimals);
+            let _bal = res[index]
+              ? ethers.utils.formatUnits(res[index][0], market.decimals)
+              : 0;
+
             market.underlyingBalance = _bal;
-            market.underlyingBalanceUSD = Big(_bal)
-              .mul(prices[market.symbol])
+            const _balUSD = Big(_bal)
+              .mul(prices[market.symbol] || 0)
               .toFixed();
+            market.underlyingBalanceUSD = _balUSD;
+
             userDeposits.push(market);
           }
         }
@@ -1111,11 +1122,11 @@ useEffect(() => {
     getPoolDataProviderTotalDebt();
     getPoolDataProviderCaps();
   }
-  if (state.step1) {
-    getYourSupplies();
-    getUserDebts();
-  }
-}, [account, isChainSupported, state.step1, updater]);
+  // if (state.step1) {
+  getYourSupplies();
+  getUserDebts();
+  // }
+}, [account, isChainSupported, updater]);
 
 useEffect(() => {
   if (state.step2) {
@@ -1205,89 +1216,89 @@ useEffect(() => {
   });
 }, [account, isChainSupported, state.assetsToSupply]);
 
+// useEffect(() => {
+//   if (!account || !isChainSupported) return;
+//   console.log(
+//     "calc reward apy",
+//     state.emissionPerSeconds,
+//     state.aTokenTotal,
+//     state.debtTotal
+//   );
+//   const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
+//   const SECONDS_PER_YEAR = 31536000;
+//   let rewardTokenPrice = 0;
+//   if (dexConfig.name === "ZeroLend") {
+//     rewardTokenPrice = 0.00025055;
+//   }
+//   if (dexConfig.name === "Seamless Protocol") {
+//     rewardTokenPrice = prices["SEAM"];
+//   }
+
+//   try {
+//     if (dexConfig.rewardToken) {
+//       if (
+//         !state.emissionPerSeconds.length ||
+//         !state.aTokenTotal.length ||
+//         !state.debtTotal.length
+//       )
+//         return;
+//       const _assetsToSupply = [...state.assetsToSupply];
+//       for (let i = 0; i < _assetsToSupply.length; i++) {
+//         let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
+//           state.aTokenTotal[i]?.toString() || 0,
+//           _assetsToSupply[i].decimals
+//         );
+//         let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
+//           state.debtTotal[i]?.toString() || 0,
+//           _assetsToSupply[i].decimals
+//         );
+//         let normalizedEmissionPerSecond = Big(
+//           state.emissionPerSeconds[i][1] || 0
+//         ).div(Big(RWARD_TOKEN_DECIMALS));
+
+//         let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
+//           Big(prices[_assetsToSupply[i].symbol])
+//         );
+//         let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
+//           Big(prices[_assetsToSupply[i].symbol])
+//         );
+
+//         let supplyRewardApy = normalizedEmissionPerSecond
+//           .times(Big(rewardTokenPrice))
+//           .times(SECONDS_PER_YEAR)
+//           .div(normalizedTotalTokenSupply)
+//           .toFixed();
+
+//         let borrowRewardApy = normalizedEmissionPerSecond
+//           .times(Big(rewardTokenPrice))
+//           .times(SECONDS_PER_YEAR)
+//           .div(normalizedTotalTokenBorrow)
+//           .toFixed();
+
+//         console.log("supplyRewardApy---", supplyRewardApy);
+//         _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
+//         if (dexConfig.name === "ZeroLend") {
+//           _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
+//         }
+
+//         State.update({
+//           assetsToSupply: _assetsToSupply,
+//           step1: true,
+//         });
+//       }
+//     } else {
+//       State.update({
+//         step1: true,
+//       });
+//     }
+//   } catch (error) {
+//     console.log("CATCH:", error);
+//   }
+// }, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
+
 useEffect(() => {
   if (!account || !isChainSupported) return;
-  console.log(
-    "calc reward apy",
-    state.emissionPerSeconds,
-    state.aTokenTotal,
-    state.debtTotal
-  );
-  const RWARD_TOKEN_DECIMALS = Math.pow(10, 18);
-  const SECONDS_PER_YEAR = 31536000;
-  let rewardTokenPrice = 0;
-  if (dexConfig.name === "ZeroLend") {
-    rewardTokenPrice = 0.00025055;
-  }
-  if (dexConfig.name === "Seamless Protocol") {
-    rewardTokenPrice = prices["SEAM"];
-  }
-
-  try {
-    if (dexConfig.rewardToken) {
-      if (
-        !state.emissionPerSeconds.length ||
-        !state.aTokenTotal.length ||
-        !state.debtTotal.length
-      )
-        return;
-      const _assetsToSupply = [...state.assetsToSupply];
-      for (let i = 0; i < _assetsToSupply.length; i++) {
-        let tokenTotalSupplyNormalized = ethers.utils.formatUnits(
-          state.aTokenTotal[i]?.toString() || 0,
-          _assetsToSupply[i].decimals
-        );
-        let tokenTotalBorrowNormalized = ethers.utils.formatUnits(
-          state.debtTotal[i]?.toString() || 0,
-          _assetsToSupply[i].decimals
-        );
-        let normalizedEmissionPerSecond = Big(
-          state.emissionPerSeconds[i][1] || 0
-        ).div(Big(RWARD_TOKEN_DECIMALS));
-
-        let normalizedTotalTokenSupply = Big(tokenTotalSupplyNormalized).times(
-          Big(prices[_assetsToSupply[i].symbol])
-        );
-        let normalizedTotalTokenBorrow = Big(tokenTotalBorrowNormalized).times(
-          Big(prices[_assetsToSupply[i].symbol])
-        );
-
-        let supplyRewardApy = normalizedEmissionPerSecond
-          .times(Big(rewardTokenPrice))
-          .times(SECONDS_PER_YEAR)
-          .div(normalizedTotalTokenSupply)
-          .toFixed();
-
-        let borrowRewardApy = normalizedEmissionPerSecond
-          .times(Big(rewardTokenPrice))
-          .times(SECONDS_PER_YEAR)
-          .div(normalizedTotalTokenBorrow)
-          .toFixed();
-
-        console.log("supplyRewardApy---", supplyRewardApy);
-        _assetsToSupply[i].supplyRewardApy = supplyRewardApy;
-        if (dexConfig.name === "ZeroLend") {
-          _assetsToSupply[i].borrowRewardApy = borrowRewardApy;
-        }
-
-        State.update({
-          assetsToSupply: _assetsToSupply,
-          step1: true,
-        });
-      }
-    } else {
-      State.update({
-        step1: true,
-      });
-    }
-  } catch (error) {
-    console.log("CATCH:", error);
-  }
-}, [state.emissionPerSeconds, state.aTokenTotal, state.debtTotal]);
-
-useEffect(() => {
-  if (!account || !isChainSupported) return;
-  if (!state.step1) return;
+  // if (!state.step1) return;
   // if (!["ZeroLend", "AAVE V3"].includes(dexConfig.name)) return;
 
   if (!state.yourSupplies || !state.yourBorrows) return;
@@ -1387,7 +1398,7 @@ useEffect(() => {
       .toFixed(),
     yourBorrowApy: weightedAverageBorrowsAPY,
   }));
-}, [state.yourSupplies, state.yourBorrows, state.step1]);
+}, [state.yourSupplies, state.yourBorrows]);
 
 function onSuccess() {
   State.update({
