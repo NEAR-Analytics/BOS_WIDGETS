@@ -29,10 +29,12 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
           {icons}
         </span>
       </div>
+
       <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
         {message}
       </h3>
-      <p className="mb-0 py-4 font-bold">{mutedText}</p>
+
+      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
@@ -237,8 +239,8 @@ function MainComponent(props) {
       </div>
       {error || (!isLoading && !block) ? (
         <div className="text-nearblue-700 text-xs px-2 mb-5">
-          <div className="bg-white soft-shadow rounded-xl pb-1">
-            <div className="text-sm text-nearblue-600 divide-solid divide-gray-200 divide-y">
+          <div className="bg-white dark:bg-black-600 soft-shadow rounded-xl pb-1">
+            <div className="text-sm text-nearblue-600 dark:text-neargray-10 divide-solid divide-gray-200 dark:divide-black-200 divide-y">
               <ErrorMessage
                 icons={<FileSlash />}
                 message="Sorry, We are unable to locate this BlockHash"
