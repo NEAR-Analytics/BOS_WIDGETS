@@ -258,7 +258,7 @@ function MainComponent({ network, id, token, ownerId }) {
               <div className="h-0.5 mt-1 w-full bg-gray-100">
                 <div
                   style={{ width: `${percentage}%` }}
-                  className="h-0.5 bg-green-500"
+                  className="h-0.5 bg-green-500 dark:bg-green-250"
                 />
               </div>
             )}
