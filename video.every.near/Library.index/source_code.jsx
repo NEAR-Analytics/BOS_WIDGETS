@@ -3,20 +3,63 @@ const { HeroBanner } = VM.require(
 ) || {
   HeroBanner: () => <></>,
 };
-const { Button } = VM.require("video.every.near/widget/Components.button") || {
+const { Button } = VM.require("UI.near/widget/atoms.Button") || {
   Button: () => <></>,
 };
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
+// TODO: React objects shouldn't be dereferenced
+// const { Draggable } = VM.require(
+//   "video.every.near/widget/Library.Draggable"
+// ) || {
+//   href: () => <p>Draggable not present</p>,
+// };
+// TODO: why this is not working?
+//const { Debugger } = VM.require("video.every.near/widget/Player.Debug") || {
+//  href: () => <span>Debugger not present</span>,
+//};
 const { tab } = props;
 const tabs = {
   library: [
     { label: "overview", widget: "video.every.near/widget/Library.Overview" },
   ],
-  livepeer: [
-    { label: "player", widget: "video.every.near/widget/Library.Player" },
-    { label: "creator", widget: "video.every.near/widget/Library.Creator" },
+  // livepeer: [
+  // subaccounts video -> every -> near
+  // / widget namespace
+  // / name of the widget
+  // . designated file structure
+  //   { label: "player", widget: "video.every.near/widget/Library.Player" },
+  //   { label: "creator", widget: "video.every.near/widget/Library.Creator" },
+  // ],
+  player: [
+    { label: "player", widget: "video.every.near/widget/Player.Player" },
+    {
+      label: "get upload url",
+      widget: "video.every.near/widget/Player.GetUploadUrl",
+    },
+    {
+      label: "direct upload",
+      widget: "video.every.near/widget/Player.DirectUploadAsset",
+    },
+    {
+      label: "resumable upload",
+      widget: "video.every.near/widget/Player.ResumableUploadAsset",
+    },
+    {
+      label: "debug",
+      widget: "video.every.near/widget/Player.Debug",
+    },
+  ],
+  broadcast: [
+    {
+      label: "broadcast",
+      widget: "video.every.near/widget/Broadcast.Broadcast",
+    },
+    {
+      label: "generate stream",
+      widget: "video.every.near/widget/Broadcast.GenerateStream",
+    },
   ],
 };
 const LibraryWrapper = styled.div`
@@ -73,7 +116,7 @@ const SideBar = styled.div`
   }
 `;
 const Content = styled.div`
-  grid-column: span 9 / span 9;
+  grid-column: span 6 / span 6;
   border-radius: 24px;
   border: 1px solid #c7c7c7;
   padding: 4rem;
@@ -84,6 +127,17 @@ const Content = styled.div`
   @media screen and (max-width: 768px) {
     padding: 1rem;
   }
+`;
+const RightBar = styled.div`
+  grid-column: span 3 / span 3;
+  height: 100%;
+  display: flex;
+  padding: 24px 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  border-radius: 24px;
+  border: 1px solid #c7c7c7;
 `;
 const labelToFind = props.tab;
 const activeTab =
@@ -100,6 +154,7 @@ const StyledLink = styled.div`
     }
   }
 `;
+const [activateDebug, setActivateDebug] = useState(false);
 return (
   <LibraryWrapper>
     <HeroBanner />
@@ -108,6 +163,18 @@ return (
         {Object.keys(tabs).map((tab) => {
           return (
             <div className="title">
+              {tab === "player" && (
+                <>
+                  <label>
+                    Show debug component:
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => setActivateDebug(!activateDebug)}
+                    />
+                  </label>
+                </>
+              )}
               <p>{tab}</p>
               <div
                 className="d-flex flex-md-column"
@@ -146,6 +213,9 @@ return (
       <Content>
         <Widget src={activeTab.widget} loading="" />
       </Content>
+      <RightBar>
+        <Widget src={"video.every.near/widget/Player.Debug"} loading="" />
+      </RightBar>
     </GridContainer>
   </LibraryWrapper>
 );
