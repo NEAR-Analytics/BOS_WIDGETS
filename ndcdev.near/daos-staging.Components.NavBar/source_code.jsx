@@ -117,10 +117,16 @@ const MobileNavigation = () => (
     <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>Dashboard</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=daos`}>DAOs</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=projects`}>Projects</a>
-    <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>Proposals</a>
-    {items.map((i) => (
-      <a href={i.href}>{i.name}</a>
-    ))}
+    {accountId && (
+      <>
+        <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>
+          Proposals
+        </a>
+        {items.map((i) => (
+          <a href={i.href}>{i.name}</a>
+        ))}
+      </>
+    )}
   </div>
 );
 
@@ -129,14 +135,20 @@ const Navigation = () => (
     <a href={`/ndcdev.near/widget/daos-staging.App?page=dashboard`}>Dashboard</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=daos`}>DAOs</a>
     <a href={`/ndcdev.near/widget/daos-staging.App?page=projects`}>Projects</a>
-    <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>Proposals</a>
-    <a
-      className="btn-primary"
-      href={`/ndcdev.near/widget/daos-staging.App?page=create_post`}
-    >
-      <i className="ph ph-plus fs-6" />
-      Create Post
-    </a>
+    {accountId && (
+      <>
+        <a href={`/ndcdev.near/widget/daos-staging.App?page=proposals`}>
+          Proposals
+        </a>
+        <a
+          className="btn-primary"
+          href={`/ndcdev.near/widget/daos-staging.App?page=create_post`}
+        >
+          <i className="ph ph-plus fs-6" />
+          Create Post
+        </a>
+      </>
+    )}
   </div>
 );
 
@@ -151,11 +163,10 @@ return (
         <Title>NDC</Title>
       </a>
       <div className="d-flex align-items-center">
-        {accountId && (
-          <LinksContainer>
-            <div className="desktop">
-              <Navigation />
-
+        <LinksContainer>
+          <div className="desktop">
+            <Navigation />
+            {accountId && (
               <div className="account">
                 <Widget
                   src="near/widget/DIG.DropdownMenu"
@@ -173,10 +184,12 @@ return (
                   }}
                 />
               </div>
-            </div>
+            )}
+          </div>
 
-            <div className="mobile">
-              <div className="d-flex gap-3">
+          <div className="mobile">
+            <div className="d-flex gap-3">
+              {accountId && (
                 <a
                   className="btn-primary btn-create-post"
                   href={`/ndcdev.near/widget/daos-staging.App?page=create_post`}
@@ -184,16 +197,16 @@ return (
                   <i className="ph ph-plus fs-6" />
                   Create Post
                 </a>
-                <a href="#">
-                  <i
-                    className="btn-icon btn-secondary outlined ph ph-list fs-5"
-                    onClick={() => setShowNav(!showNav)}
-                  />
-                </a>
-              </div>
+              )}
+              <a href="#">
+                <i
+                  className="btn-icon btn-secondary outlined ph ph-list fs-5"
+                  onClick={() => setShowNav(!showNav)}
+                />
+              </a>
             </div>
-          </LinksContainer>
-        )}
+          </div>
+        </LinksContainer>
       </div>
     </Navbar>
 
