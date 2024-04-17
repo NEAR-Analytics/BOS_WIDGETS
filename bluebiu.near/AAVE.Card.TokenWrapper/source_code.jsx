@@ -18,8 +18,8 @@ const TokenWrapper = styled.div`
 
   @media (min-width: 640px) {
     img {
-      width: 48px;
-      height: 48px;
+      width: 26px;
+      height: 26px;
     }
     .token-title {
       font-size: 20px;
