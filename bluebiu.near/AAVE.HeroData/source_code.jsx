@@ -9,6 +9,8 @@ const {
   totalAvailable,
   totalBorrows,
   yourBorrows,
+  BlastPoints,
+  BlastGold,
 } = props;
 
 if (!netWorth || !netAPY || !healthFactor) {
@@ -72,6 +74,8 @@ const heroDataMap = {
       }}
     />
   ),
+  "Blast Points": BlastPoints,
+  "Blast Gold": BlastGold,
 };
 
 const heroDataTitle = heroData.map((item) => ({
