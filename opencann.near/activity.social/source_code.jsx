@@ -1140,7 +1140,7 @@ const SocialGraph = (
     >
       <Widget
         key={state.data}
-        src="efiz.near/widget/SocialGraph"
+        src="lord1.near/widget/SocialGraph"
         props={{
           accountIds: [state.data, ""],
           spinnerColors: themeColor.spinnerColors,
