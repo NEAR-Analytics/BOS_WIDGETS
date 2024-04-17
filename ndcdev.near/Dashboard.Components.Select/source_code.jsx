@@ -1,14 +1,27 @@
-const { assets } = VM.require(`ndcdev.near/widget/dashboard.Config`);
-
-if (!assets) return <Widget src="flashui.near/widget/Loading" />;
+const {
+  values,
+  multiple,
+  options,
+  onChange,
+  defaultValue,
+  isOpen,
+  onClear,
+  containerClass,
+  text,
+  isTooltipVisible,
+  hintText,
+  onFilterClick,
+  filterIsOpen,
+  id,
+  noBorder,
+} = props;
 
 const Select = styled.div`
   position: relative;
   width: 100%;
   cursor: pointer;
   border-radius: 100px;
-  border: 1px solid #e3e3e0;
-  background: var(--NEAR-Primary-Colors-White, #fff);
+  border: ${(props) => (props.noBorder ? "0" : "1px solid #e3e3e0")};
   font-size: 14px;
   font-style: normal;
 
@@ -19,6 +32,18 @@ const Select = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 5px 16px;
+  }
+
+  .selected {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+
+    i {
+      color: #b0afb1;
+    }
   }
 
   ul {
@@ -123,23 +148,6 @@ const TooltipText = styled.span`
   }
 `;
 
-const {
-  values,
-  multiple,
-  options,
-  onChange,
-  defaultValue,
-  isOpen,
-  onClear,
-  containerClass,
-  text,
-  isTooltipVisible,
-  hintText,
-  onFilterClick,
-  filterIsOpen,
-  id,
-} = props;
-
 const [open, setOpen] = useState(false);
 const selectOptions = defaultValue ? [defaultValue, ...options] : options;
 const isOpenDropdown = !!filterIsOpen ? filterIsOpen : open;
@@ -163,19 +171,19 @@ const handleOpen = () => {
 };
 
 return (
-  <Select onClick={() => !multiple && handleOpen()}>
+  <Select onClick={() => !multiple && handleOpen()} noBorder={noBorder}>
     <div className={containerClass}>
       <div className="selected" onClick={handleOpen}>
-        {setTitle()}
         {isTooltipVisible && (
           <Widget
             src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
             props={{
               content: hintText,
-              icon: <i className="bi bi-info-circle-fill" />,
+              icon: <i className="ph ph-info fs-5" />,
             }}
           />
         )}
+        {setTitle()}
       </div>
       <div className="d-flex gap-2">
         {multiple && values.length > 0 && (
@@ -186,9 +194,7 @@ return (
         )}
         <i
           onClick={handleOpen}
-          className={`bi bi-chevron-${
-            isOpenDropdown ? "up" : "down"
-          } fs-5 mt-1`}
+          className={`ph ph-caret-${isOpenDropdown ? "up" : "down"} fs-5`}
         />
       </div>
     </div>
