@@ -7,7 +7,7 @@ const Content = styled.div`
   height: 100%;
 `;
 const Template = ({ layout, theme, blocks, children }) => {
-  const Layout =
+  const { Layout } =
     VM.require(layout?.src ?? "devs.near/widget/Layout") || (() => <></>);
   return (
     <Container style={theme}>
