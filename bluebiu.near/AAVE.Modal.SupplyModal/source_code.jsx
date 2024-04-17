@@ -279,6 +279,62 @@ function depositETH(amount) {
     .catch(() => State.update({ loading: false }));
 }
 
+function depositPacETH(amount) {
+  State.update({
+    loading: true,
+  });
+  return Ethers.provider()
+    .getSigner()
+    .getAddress()
+    .then((address) => {
+      const wrappedTokenGateway = new ethers.Contract(
+        config.wrappedTokenGatewayV3Address,
+        config.wrappedTokenGatewayV3ABI.body,
+        Ethers.provider().getSigner()
+      );
+      return wrappedTokenGateway.depositETH(
+        config.aavePoolV3Address,
+        address,
+        0,
+        {
+          value: amount,
+        }
+      );
+    })
+    .then((tx) => {
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          if (status === 1) {
+            formatAddAction(
+              Big(amount).div(Big(10).pow(decimals)).toFixed(8),
+              status,
+              transactionHash
+            );
+            onActionSuccess({
+              msg: `You supplied ${Big(amount)
+                .div(Big(10).pow(decimals))
+                .toFixed(8)} ${symbol}`,
+              callback: () => {
+                onRequestClose();
+                State.update({
+                  loading: false,
+                });
+              },
+            });
+            console.log("tx succeeded", res);
+          } else {
+            console.log("tx failed", res);
+            State.update({
+              loading: false,
+            });
+          }
+        })
+        .catch(() => State.update({ loading: false }));
+    })
+    .catch(() => State.update({ loading: false }));
+}
+
 function getAllowance() {
   const tokenAddress = underlyingAsset;
   Ethers.provider()
@@ -309,7 +365,20 @@ function depositFromApproval(amount) {
   const tokenAddress = underlyingAsset;
   const pool = new ethers.Contract(
     config.aavePoolV3Address,
-    config.aavePoolV3ABI.body,
+    [
+      {
+        inputs: [
+          { internalType: "address", name: "asset", type: "address" },
+          { internalType: "uint256", name: "amount", type: "uint256" },
+          { internalType: "address", name: "onBehalfOf", type: "address" },
+          { internalType: "uint16", name: "referralCode", type: "uint16" },
+        ],
+        name: "supply",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
     Ethers.provider().getSigner()
   );
 
@@ -325,6 +394,7 @@ function depositFromApproval(amount) {
       );
     });
 }
+
 function formatAddAction(_amount, status, transactionHash) {
   addAction?.({
     type: "Lending",
@@ -696,11 +766,30 @@ return (
                     .mul(Big(10).pow(decimals))
                     .toFixed(0);
                   if (symbol === config.nativeCurrency.symbol) {
-                    // supply eth
-                    depositETH(amount);
+                    if (
+                      ["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(
+                        dexConfig.name
+                      )
+                    ) {
+                      // supply eth
+                      depositETH(amount);
+                    }
+                    if (["Pac Finance"].includes(dexConfig.name)) {
+                      depositPacETH(amount);
+                    }
                   } else {
                     // supply common
                     depositErc20(amount);
+                    // if (
+                    //   ["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(
+                    //     dexConfig.name
+                    //   )
+                    // ) {
+
+                    // }
+                    // if (["Pac Finance"].includes(dexConfig.name)) {
+                    //   depositPacErc20(amount);
+                    // }
                   }
                 },
               }}
