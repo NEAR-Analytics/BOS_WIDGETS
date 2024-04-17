@@ -85,6 +85,7 @@ function MainComponent({ network, t, ownerId, theme }) {
               total_supply: resp.total_supply,
               total_txns: resp.total_txns,
               volume: resp.volume,
+              tps: resp.tps,
             });
             if (isLoading) setIsLoading(false);
           } else {
@@ -178,6 +179,9 @@ function MainComponent({ network, t, ownerId, theme }) {
           tickLength: 0,
           labels: {
             step: 7,
+            style: {
+              color: theme === 'dark' ? '#e0e0e0' : '#333333',
+            },
           },
           categories: chartData.categories,
         },
@@ -185,6 +189,11 @@ function MainComponent({ network, t, ownerId, theme }) {
           gridLineWidth: 0,
           title: {
             text: null,
+          },
+          labels: {
+            style: {
+              color: theme === 'dark' ? '#e0e0e0' : '#333333',
+            },
           },
         },
         legend: {
@@ -221,7 +230,7 @@ function MainComponent({ network, t, ownerId, theme }) {
     }
 
     fetchData();
-  }, [chartData]);
+  }, [chartData, theme]);
 
   const iframeSrc = `
       <html>
@@ -261,6 +270,7 @@ function MainComponent({ network, t, ownerId, theme }) {
   const nearPrice = stats?.near_price ?? '';
   const nearBtcPrice = stats?.near_btc_price ?? '';
   const change24 = stats?.change_24 ?? '';
+  const totalTxns = stats?.total_txns ?? 0;
   return (
     <div className="container mx-auto px-3">
       <div className="bg-white soft-shadow rounded-xl overflow-hidden px-5 md:py lg:px-0  dark:bg-black-600">
@@ -387,11 +397,27 @@ function MainComponent({ network, t, ownerId, theme }) {
                   {isLoading ? (
                     <Skeleton className="my-1 h-4" />
                   ) : (
-                    <p className="leading-6 text-nearblue-700">
-                      {stats?.total_txns
-                        ? currency(stats?.total_txns)
-                        : stats?.total_txns ?? ''}
-                    </p>
+                    <div className="flex flex-row">
+                      <p className="leading-6 text-nearblue-600 dark:text-neargray-10 mr-0.5">
+                        {totalTxns ? currency(stats?.total_txns) : ''}
+                      </p>
+                      <p className="leading-6 text-nearblue-700">
+                        <Tooltip.Provider>
+                          <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                              <div>({stats?.tps ? stats?.tps : ''} TPS)</div>
+                            </Tooltip.Trigger>
+                            <Tooltip.Content
+                              className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
+                              align="start"
+                              side="bottom"
+                            >
+                              Transaction per Seconds
+                            </Tooltip.Content>
+                          </Tooltip.Root>
+                        </Tooltip.Provider>
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
