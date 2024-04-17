@@ -81,6 +81,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
     VM.require(`${ownerId}/widget/includes.Utils.libs`);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [countLoading, setCountLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [showAge, setShowAge] = useState(true);
   const [blocks, setBlocks] = useState({});
@@ -91,6 +92,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
 
   useEffect(() => {
     function fetchTotalBlocks() {
+      setCountLoading(true);
       asyncFetch(`${config?.backendUrl}blocks/count`, {
         method: 'GET',
         headers: {
@@ -107,8 +109,11 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
             const resp = data?.body?.blocks?.[0];
             if (data.status === 200) {
               setTotalCount(resp?.count ?? 0);
+              setCountLoading(false);
             } else {
-              handleRateLimit(data, fetchTotalBlocks);
+              handleRateLimit(data, fetchTotalBlocks, () =>
+                setCountLoading(false),
+              );
             }
           },
         )
@@ -373,7 +378,7 @@ function MainComponent({ currentPage, setPage, t, network, ownerId }) {
 
   return (
     <div className="bg-white dark:bg-black-600 drak:border-black-200 border soft-shadow rounded-xl pb-1 ">
-      {isLoading ? (
+      {countLoading ? (
         <div className="pl-6 max-w-lg w-full py-5 ">
           <Skeleton className="h-4" />
         </div>
