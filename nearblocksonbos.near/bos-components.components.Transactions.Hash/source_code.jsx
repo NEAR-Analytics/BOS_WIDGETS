@@ -32,10 +32,12 @@ const ErrorMessage = ({ icons, message, mutedText }) => {
           {icons}
         </span>
       </div>
+
       <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
         {message}
       </h3>
-      <p className="mb-0 py-4 font-bold">{mutedText}</p>
+
+      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
@@ -201,7 +203,7 @@ function MainComponent(props) {
                   onClick={() => onTab(index)}
                   className={`text-nearblue-600  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer mb-3 mr-3 focus:outline-none ${
                     pageTab === hash
-                      ? 'rounded-lg bg-green-600 dark:bg-green-250 dark:text-black text-white'
+                      ? 'rounded-lg bg-green-600 dark:bg-green-250 text-white'
                       : 'hover:bg-neargray-800 bg-neargray-700 dark:text-neargray-10 dark:bg-black-200  rounded-lg hover:text-nearblue-600'
                   }`}
                   value={hash}
