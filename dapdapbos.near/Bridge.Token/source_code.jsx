@@ -50,8 +50,16 @@ const BalanceWapper = styled.div`
     margin-top: 14px;
 `
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+`;
+
 const BalanceText = styled.div`
     color: #979ABE;
+    display: flex;
     &.balance-in {
         cursor: pointer;
         text-decoration: underline;
@@ -129,7 +137,19 @@ const CurrencySymbol = styled.div`
   }
 `;
 
-const { title, tokens, selectToken, amount, onInputChange, disabled, onTokenChange, balance, amountUSD } = props
+const {
+    title,
+    tokens,
+    selectToken,
+    amount,
+    onInputChange,
+    disabled,
+    onTokenChange,
+    balance,
+    prices,
+    amountUSD,
+    loadingBalance,
+} = props
 
 const { balanceFormated } = VM.require('dapdapbos.near/widget/Bridge.Utils');
 
@@ -227,11 +247,21 @@ return <Wrapper className={state.isFocus && !disabled ? 'focus' : ''}>
     </InputWapper>
 
     <BalanceWapper>
-        <BalanceText>${amountUSD || 0}</BalanceText>
+        <BalanceText>${
+            selectToken && prices[selectToken.symbol] && amount
+                ? balanceFormated(new Big(amount).times(prices[selectToken.symbol]).toString())
+                : 0}</BalanceText>
         <BalanceText
             onClick={() => {
                 onInputChange && onInputChange(balance)
             }}
-            className={disabled ? '' : 'balance-in'}>balance: {balanceFormated(balance)}</BalanceText>
+            className={disabled ? '' : 'balance-in'}>balance: {loadingBalance ? <LoadingWrapper>
+                <Widget
+                    src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                    props={{
+                        size: 12,
+                    }}
+                />
+            </LoadingWrapper> : balanceFormated(balance)}</BalanceText>
     </BalanceWapper>
 </Wrapper>
