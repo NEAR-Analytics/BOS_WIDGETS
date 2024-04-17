@@ -22,7 +22,7 @@ const LineWapper = styled.div`
 return <FeeWapper>
     <LineWapper>
         <div>Est. Arrival</div>
-        <div>~{props.duration}</div>
+        <div>~{props.duration} min</div>
     </LineWapper>
     <LineWapper>
         <div>Fees</div>
