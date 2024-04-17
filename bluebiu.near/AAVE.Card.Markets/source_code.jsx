@@ -23,14 +23,40 @@ const CenterRow = styled.div`
   /* text-align: center; */
 `;
 
+const CenterItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ItemPrimary = styled.div`
+  font-size: 16px;
+
+  &.apy {
+    color: rgb(34, 160, 107);
+  }
+`;
+const ItemSub = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(162, 166, 149);
+  &.radio {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+    color: rgb(178, 232, 16);
+  }
+`;
+
+const IconMouth = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+
 State.init({
   data: undefined,
   showBorrowModal: false,
+  showLoopModal: false,
 });
-const CenterItem = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const SupplyButton = ({ data, ...rest }) => {
   let disabled;
@@ -91,6 +117,34 @@ const BorrowButton = ({ data }) => {
     />
   );
 };
+
+const LoopButton = ({ data }) => {
+  //TODO
+  let disabled;
+  if (dexConfig.name === "Seamless Protocol") {
+    const { totalSupplyUSD, supplyCapUSD } = data;
+    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
+
+    disabled = Number(data.balanceInUSD) === 0 || isFull;
+  } else {
+    disabled = Number(data.balanceInUSD) === 0;
+  }
+  return (
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+      props={{
+        config,
+        disabled,
+        children: "Loop",
+        theme,
+        onClick: () => {
+          State.update({ data, showLoopModal: true });
+        },
+      }}
+    />
+  );
+};
+
 function formatNumber(value, digits) {
   if (isNaN(Number(value))) return "";
   if (Big(value || 0).eq(0)) return `$ 0`;
@@ -187,7 +241,78 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
     </div>,
   ]);
 }
-
+if (["Pac Finance"].includes(dexConfig.name)) {
+  headers = [
+    "Assets",
+    "Your Balance",
+    "Estimated Blast Points",
+    "Supply APY",
+    "Borrow APY",
+    "Pool Liquidity",
+    // "Can be Collateral",
+    "",
+  ];
+  tableData = assetsToSupply.map((row) => [
+    <Widget
+      src={`${config.ownerId}/widget/AAVE.Card.TokenWrapper`}
+      props={{
+        children: [
+          <img width={64} height={64} src={row.icon} />,
+          <CenterItem>
+            <ItemPrimary style={{ fontWeight: 700 }}>{row.symbol}</ItemPrimary>
+            <ItemSub>LTV: {Big(row.LTV).times(100).toFixed()}%</ItemSub>
+          </CenterItem>,
+        ],
+      }}
+    />,
+    <CenterItem>
+      <ItemPrimary>{formatValue(row.balance, 7)}</ItemPrimary>
+      <ItemSub>{formatNumber(row.balanceInUSD)}</ItemSub>
+    </CenterItem>,
+    <CenterItem>
+      <ItemPrimary>{}</ItemPrimary>
+      <ItemSub>{`Pts/day/${row.symbol}`}</ItemSub>
+    </CenterItem>,
+    <CenterItem>
+      <ItemPrimary className="apy">{`${(Number(row.supplyAPY) * 100).toFixed(
+        2
+      )} %`}</ItemPrimary>
+      <ItemSub className="radio">
+        <IconMouth src="https://ipfs.near.social/ipfs/bafkreiffqyfmusnew73zt6slkeoryvevuw7ojcgvfdirgf3oqdsll5yyga" />
+        {Number(row.EXTRA_RADIO) * 100}%
+      </ItemSub>
+    </CenterItem>,
+    <CenterItem>
+      <ItemPrimary className="apy">{`${(Number(row.borrowAPY) * 100).toFixed(
+        2
+      )} %`}</ItemPrimary>
+    </CenterItem>,
+    <CenterItem>
+      <ItemPrimary></ItemPrimary>
+      <ItemSub>utilized</ItemSub>
+    </CenterItem>,
+    // <CenterItem style={{ paddingLeft: "50px" }}>
+    //   {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
+    //     "—"}
+    //   {!row.isIsolated && row.usageAsCollateralEnabled && (
+    //     <img
+    //       src={`${config.ipfsPrefix}/bafkreibsy5fzn67veowyalveo6t34rnqvktmok2zutdsp4f5slem3grc3i`}
+    //       width={16}
+    //       height={16}
+    //     />
+    //   )}
+    // </CenterItem>,
+    <div style={{ display: "flex", gap: 10 }}>
+      <SupplyButton data={row} />
+      <BorrowButton
+        data={{
+          ...row,
+        }}
+      />
+      <LoopButton data={row} />
+    </div>,
+  ]);
+}
 return (
   <>
     <Widget
@@ -263,6 +388,33 @@ return (
           chainId,
           borrowETHGas,
           borrowERC20Gas,
+          formatHealthFactor,
+          calcHealthFactor,
+          addAction,
+          dexConfig,
+        }}
+      />
+    )}
+    {state.showLoopModal && (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Modal.LoopModal`}
+        props={{
+          config,
+          theme,
+          // onRequestClose: () => setShowSupplyModal(false),
+          onRequestClose: () => {
+            State.update({
+              showLoopModal: false,
+            });
+          },
+          data: {
+            ...state.data,
+            healthFactor,
+          },
+          onActionSuccess,
+          chainId,
+          depositETHGas,
+          depositERC20Gas,
           formatHealthFactor,
           calcHealthFactor,
           addAction,
