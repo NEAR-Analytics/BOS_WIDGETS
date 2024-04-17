@@ -25,7 +25,6 @@
 
 
 
-
 /* INCLUDE COMPONENT: "includes/icons/FaExternalLinkAlt.jsx" */
 const FaExternalLinkAlt = () => {
   return (
@@ -381,7 +380,6 @@ function MainComponent(props) {
     accountId,
     logOut,
     ownerId,
-    theme,
   } = props;
 
   const { dollarFormat, localFormat, weight, convertToUTC } = VM.require(
@@ -863,34 +861,6 @@ function MainComponent(props) {
   const nearPrice = statsData?.near_price ?? '';
   return (
     <>
-      <div className="flex items-center justify-between flex-wrap pt-4 ">
-        {!id ? (
-          <div className="w-80 max-w-xs px-3 py-5">
-            <Skeleton className="h-7" />
-          </div>
-        ) : (
-          <div className="flex md:flex-wrap">
-            <h1 className="py-4 break-all space-x-2 text-xl text-gray-700 leading-8 px-2 dark:text-neargray-10">
-              Near Account: @
-              {id && (
-                <span className="font-semibold text-green-500 dark:text-green-250">
-                  {id}
-                </span>
-              )}
-              {
-                <Widget
-                  src={`${ownerId}/widget/bos-components.components.Shared.Buttons`}
-                  props={{
-                    id: id,
-                    config: config,
-                    theme: theme,
-                  }}
-                />
-              }
-            </h1>
-          </div>
-        )}
-      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="w-full">
           <div className="h-full bg-white soft-shadow rounded-xl dark:bg-black-600">
