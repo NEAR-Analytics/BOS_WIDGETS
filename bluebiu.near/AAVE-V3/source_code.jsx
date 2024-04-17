@@ -207,10 +207,8 @@ State.init({
   emissionPerSeconds: [],
   aTokenTotal: [],
   debtTotal: [],
-  poolData: [],
 
   step1: false,
-  step2: false,
 
   updater: 0,
 });
@@ -464,7 +462,6 @@ function onActionSuccess({ msg, callback }) {
 
   State.update({
     step1: false,
-    step2: false,
     updater: state.updater + 1,
   });
   // update UI after data has almost loaded
@@ -556,8 +553,59 @@ function getPoolDataProvider() {
     .then((res) => {
       console.log("getPoolDataProvider_res", res);
 
+      return res;
+    })
+    .then((poolData) => {
+      console.log("CALC APY");
+      if (!Array.isArray(poolData) || !poolData.length) return;
+
+      const _assetsToSupply = [...state.assetsToSupply];
+
+      for (let i = 0; i < poolData.length; i++) {
+        if (poolData[i]) {
+          const [
+            unbacked,
+            accruedToTreasuryScaled,
+            totalAToken,
+            totalStableDebt,
+            totalVariableDebt,
+            liquidityRate,
+            variableBorrowRate,
+            stableBorrowRate,
+            averageStableBorrowRate,
+            liquidityIndex,
+            variableBorrowIndex,
+            lastUpdateTimestamp,
+          ] = poolData[i];
+          const RAY = Big(10).pow(27);
+          const SECONDS_PER_YEAR = 31_536_000;
+          const depositAPR = Big(liquidityRate).div(RAY || 1);
+          const depositAPY0 = Big(1)
+            .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
+            .toNumber();
+
+          const _supplyAPY = Big(
+            Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
+          ).toFixed();
+          console.log("_supplyAPY--", _supplyAPY);
+
+          if (!_assetsToSupply[i]) return;
+          const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
+
+          const variableBorrowAPY0 = Big(1)
+            .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
+            .toNumber();
+
+          const _borrowAPY = Big(
+            Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1
+          ).toFixed();
+
+          _assetsToSupply[i].supplyAPY = _supplyAPY;
+          _assetsToSupply[i].borrowAPY = _borrowAPY;
+        }
+      }
       State.update({
-        poolData: res,
+        assetsToSupply: _assetsToSupply,
       });
     })
     .catch((err) => {
@@ -771,7 +819,6 @@ function getUserAccountData() {
       //   formatHealthFactor(ethers.utils.formatUnits(healthFactor))
       // );
       State.update({
-        step2: true,
         threshold,
         currentLiquidationThreshold,
         BorrowPowerUsed,
@@ -781,6 +828,9 @@ function getUserAccountData() {
 
         availableBorrowsUSD: ethers.utils.formatUnits(availableBorrowsBase, 8),
       });
+    })
+    .then(() => {
+      getLiquidity();
     })
     .catch((err) => {
       console.log("getUserAccountData_error", err);
@@ -1081,73 +1131,6 @@ useEffect(() => {
     getUserDebts();
   }
 }, [account, isChainSupported, state.step1, updater]);
-
-useEffect(() => {
-  if (state.step2) {
-    getLiquidity();
-  }
-}, [state.step2, markets]);
-
-useEffect(() => {
-  if (!account || !isChainSupported) return;
-  console.log("CALC APY");
-  if (!Array.isArray(state.poolData) || !state.poolData.length) return;
-
-  const _assetsToSupply = [...state.assetsToSupply];
-
-  for (let i = 0; i < state.poolData.length; i++) {
-    if (state.poolData[i]) {
-      const [
-        unbacked,
-        accruedToTreasuryScaled,
-        totalAToken,
-        totalStableDebt,
-        totalVariableDebt,
-        liquidityRate,
-        variableBorrowRate,
-        stableBorrowRate,
-        averageStableBorrowRate,
-        liquidityIndex,
-        variableBorrowIndex,
-        lastUpdateTimestamp,
-      ] = state.poolData[i];
-      const RAY = Big(10).pow(27);
-      const SECONDS_PER_YEAR = 31_536_000;
-      const depositAPR = Big(liquidityRate).div(RAY || 1);
-      const depositAPY0 = Big(1)
-        .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
-        .toNumber();
-
-      const _supplyAPY = Big(
-        Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1
-      ).toFixed();
-      console.log(
-        "_supplyAPY--",
-        _supplyAPY,
-        _assetsToSupply,
-        i,
-        _assetsToSupply[i]
-      );
-
-      if (!_assetsToSupply[i]) return;
-      const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
-
-      const variableBorrowAPY0 = Big(1)
-        .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
-        .toNumber();
-
-      const _borrowAPY = Big(
-        Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1
-      ).toFixed();
-
-      _assetsToSupply[i].supplyAPY = _supplyAPY;
-      _assetsToSupply[i].borrowAPY = _borrowAPY;
-    }
-  }
-  State.update({
-    assetsToSupply: _assetsToSupply,
-  });
-}, [state.poolData]);
 
 useEffect(() => {
   if (!account || !isChainSupported) return;
