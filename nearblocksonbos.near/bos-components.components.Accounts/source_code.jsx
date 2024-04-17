@@ -264,7 +264,7 @@ const TokenHoldings = (props) => {
                     NFT Tokens{' '}
                     <span className="font-normal">({nfts?.length})</span>
                   </div>
-                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y divide-black-200 outline-none">
+                  <div className="text-gray-600 dark:text-neargray-10 text-xs divide-y dark:divide-black-200 outline-none">
                     {nfts.map((nft) => (
                       <div key={nft?.contract}>
                         <Link
@@ -1128,7 +1128,7 @@ function MainComponent(props) {
                       }}
                       className={`  text-xs leading-4 font-medium overflow-hidden inline-block cursor-pointer p-2 mb-3 mr-2 focus:outline-none ${
                         pageTab === tab
-                          ? 'rounded-lg bg-green-600 dark:bg-green-250 text-white dark:text-black'
+                          ? 'rounded-lg bg-green-600 dark:bg-green-250 text-white'
                           : 'hover:bg-neargray-800 bg-neargray-700 dark:bg-black-200 rounded-lg hover:text-nearblue-600 text-nearblue-600 dark:text-neargray-10'
                       }`}
                       value={tab}
