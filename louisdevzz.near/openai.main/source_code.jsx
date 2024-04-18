@@ -7,8 +7,6 @@ State.init({
 
 const tailwindCss = fetch(tailwindCssUrl).body;
 
-if (!tailwindCss) return "Can't load CSS 😔.";
-
 if (!state.theme) {
   State.update({
     theme: styled.div`
@@ -22,7 +20,10 @@ return (
   <Theme>
     <div class="code-preview-wrapper">
       <div class="code-preview flex border-x bg-background bg-gradient-to-r p-0">
-        <div class="code-responsive-wrapper h-[80vh] w-full overflow-auto">
+        <div
+          class="code-responsive-wrapper w-full overflow-auto"
+          style={{ height: "60vh" }}
+        >
           <div
             class="flex h-full items-center bg-background"
             role="button"
