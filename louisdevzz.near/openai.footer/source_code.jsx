@@ -93,7 +93,10 @@ return (
             </button>
           </div>
         </div>
-        <div class="relative bg-zinc-50 dark:bg-zinc-900">
+        <div
+          class="bg-zinc-50 dark:bg-zinc-900"
+          style={{ position: "relative" }}
+        >
           <div
             class="max-h-[24vh] overflow-scroll pb-8 text-sm"
             tabindex="-1"
@@ -165,11 +168,13 @@ return (
       </button>
     </div>
     {state.isShow && (
-      <div class="flex items-center justify-center">
+      <div
+        class="absolute w-full left-[calc(50%)] -translate-x-1/2 flex items-center justify-center"
+        style={{ bottom: "60px" }}
+      >
         <div
           id="llm-input"
-          class="absolute left-[calc(50%)] z-0 flex w-11/12 -translate-x-1/2 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
-          style={{ bottom: "60px" }}
+          class="z-0 flex w-11/12 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
         >
           <input
             class="flex w-full border-none px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 min-h-[41px] min-w-0 flex-1 resize-none rounded-none border-none text-base focus-visible:ring-0 focus-visible:ring-offset-0"
