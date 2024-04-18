@@ -170,8 +170,6 @@ const L1MessageBridgeAbi = [
   },
 ];
 
-console.log('txs:', txs)
-
 State.init({
   isFold: false,
   isLoadingTx: {},
