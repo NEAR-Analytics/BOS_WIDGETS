@@ -4,9 +4,9 @@ return (
       Child Div
       <p>
         Child Div {`>`} P
-        <Button>
+        <button>
           Child Div {`>`} P {`>`} Button
-        </Button>
+        </button>
       </p>
     </div>
 
@@ -14,9 +14,9 @@ return (
       Sibling Div
       <p>
         Sibling Child Div {`>`} P
-        <Button>
+        <button>
           Sibling Child Div {`>`} P {`>`} Button
-        </Button>
+        </button>
       </p>
     </div>
   </>
