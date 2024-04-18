@@ -18,7 +18,7 @@ const Theme = state.theme;
 
 return (
   <Theme>
-    <div class="p-2">
+    <div class="pt-2 px-2">
       <div class="w-full rounded-t-xl border bg-background p-4">
         <div class="grid grid-cols-3">
           <div class="col-span-2 items-center justify-center space-x-2 sm:col-span-1">
