@@ -174,7 +174,7 @@ return (
       >
         <div
           id="llm-input"
-          class="z-0 flex w-11/12 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
+          class="flex w-11/12 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
         >
           <input
             class="flex w-full border-none px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 min-h-[41px] min-w-0 flex-1 resize-none rounded-none border-none text-base focus-visible:ring-0 focus-visible:ring-offset-0"
