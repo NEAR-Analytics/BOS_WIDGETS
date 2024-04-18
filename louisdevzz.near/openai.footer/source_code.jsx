@@ -81,8 +81,8 @@ return (
       </div>
     </div>
     <div
-      class="absolute left-[calc(20%)] w-11/12 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 transition-all duration-500"
-      style={{ bottom: "130px" }}
+      class="w-11/12 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 transition-all duration-500"
+      style={{ position: "absolute" }}
     >
       <button
         type="button"
