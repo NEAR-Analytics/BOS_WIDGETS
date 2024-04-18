@@ -13,7 +13,6 @@ return (
       <Widget src="louisdevzz.near/widget/openai.sidetab" />
     </div>
     <div class="right">
-      <Widget src="louisdevzz.near/widget/openai.header" />
       <Widget src="louisdevzz.near/widget/openai.main" />
     </div>
   </Container>
