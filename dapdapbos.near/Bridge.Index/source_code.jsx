@@ -473,7 +473,7 @@ return <BridgePanel>
             }}
         />
 
-        <Widget
+        {/* <Widget
             src="dapdapbos.near/widget/Bridge.AddressInput"
             props={{
                 checked: state.otherAddressChecked,
@@ -497,7 +497,7 @@ return <BridgePanel>
 
                 }
             }}
-        />
+        /> */}
 
         <Widget
             src="dapdapbos.near/widget/Bridge.FeeMsg"
