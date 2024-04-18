@@ -197,14 +197,14 @@ const deposit = async (item) => {
         item.method,
         Admin,
         oneTeraGas,
-        amount * oneNEARInYoctoNEAR
+        `${amount * oneNEARInYoctoNEAR}`
       );
     }, 3000);
   } else {
     let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
     const data = {
       receiver_id: Admin,
-      amount: amt,
+      amount: `${amt}`,
       memo: "Token transfer",
     };
     setTimeout(() => {
