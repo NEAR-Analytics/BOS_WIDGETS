@@ -594,7 +594,7 @@ function getPoolDataProvider() {
           const variableBorrowAPR = Big(variableBorrowRate).div(RAY || 1);
 
           const variableBorrowAPY0 = Big(1)
-            .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
+            .plus(Big(variableBorrowAPR || 0).div(Big(SECONDS_PER_YEAR)))
             .toNumber();
 
           const _borrowAPY = Big(
