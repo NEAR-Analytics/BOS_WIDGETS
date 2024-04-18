@@ -636,8 +636,13 @@ function getPoolDataProvider() {
           ).toFixed();
           console.log("APY--", _supplyAPY, _borrowAPY);
 
+          let _utilized = Big(totalVariableDebt || 0)
+            .div(Big(totalAToken || 1))
+            .toFixed();
+
           _assetsToSupply[i].supplyAPY = _supplyAPY;
           _assetsToSupply[i].borrowAPY = _borrowAPY;
+          _assetsToSupply[i].utilized = _utilized;
         }
       }
       State.update({
@@ -648,14 +653,15 @@ function getPoolDataProvider() {
       console.log("getPoolDataProvider_err", err);
     });
 }
-// seamless use
+
+// Pool Liquidity
 function getPoolDataProviderTotalSupply() {
   const prevAssetsToSupply = [...state.assetsToSupply];
 
   const underlyingTokens = dexConfig?.rawMarkets?.map(
     (market) => market.underlyingAsset
   );
-  // console.log("getPoolDataProviderTotalSupply--", underlyingTokens);
+
   const calls = underlyingTokens?.map((addr) => ({
     address: config.PoolDataProvider,
     name: "getATokenTotalSupply",
@@ -692,9 +698,9 @@ function getPoolDataProviderTotalSupply() {
         //   prevAssetsToSupply[i].symbol,
         //   prices[prevAssetsToSupply[i].symbol]
         // );
-        prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply || 0)
-          .times(prices[prevAssetsToSupply[i].symbol])
-          .toFixed();
+        // prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply || 0)
+        //   .times(prices[prevAssetsToSupply[i].symbol])
+        //   .toFixed();
       }
       State.update({
         assetsToSupply: prevAssetsToSupply,
@@ -1163,8 +1169,8 @@ useEffect(() => {
   getUserAccountData();
   getPoolDataProvider();
 
+  getPoolDataProviderTotalSupply();
   // if (dexConfig.name === "Seamless Protocol") {
-  //   getPoolDataProviderTotalSupply();
   //   getPoolDataProviderTotalDebt();
   //   getPoolDataProviderCaps();
   // }
