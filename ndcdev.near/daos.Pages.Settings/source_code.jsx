@@ -1,5 +1,5 @@
 let { contractName, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`
+  `ndcdev.near/widget/daos.Config`,
 );
 if (!contractName) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -55,13 +55,16 @@ if (myDAOs.length === 0)
   );
 
 const [selectedDao, setSelectedDao] = useState(
-  props.dao ? myDAOs.find((dao) => dao.handle === props.dao) : myDAOs[0]
+  props.dao ? myDAOs.find((dao) => dao.handle === props.dao) : myDAOs[0],
 );
 
 return (
   <Container>
     <Wrapper>
-      <h2>{selectedDao.title} Settings</h2>
+      <Widget
+        src="ndcdev.near/widget/daos.Components.PageTitle"
+        props={{ text: `${selectedDao.title} Settings` }}
+      />
 
       <div className="form-element">
         <label className="form-label">Select DAO</label>
