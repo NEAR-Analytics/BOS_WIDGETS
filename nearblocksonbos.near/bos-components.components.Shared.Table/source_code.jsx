@@ -126,8 +126,8 @@ const Paginator = (props) => {
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
                 props.page >= pages
                   ? 'text-gray-500 dark:text-neargray-10'
-                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black dark:hover:bg-green-250'
-              }  bg-gray-100 dark:bg-black-200`}
+                  : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
+              }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
             >
               Last
             </button>
@@ -236,7 +236,7 @@ function MainComponent(props) {
   return (
     <>
       {props.isExpanded ? (
-        <div className={`bg-gray-50 dark:bg-black-200 overflow-x-auto`}>
+        <div className={`bg-gray-50 dark:bg-black-600 overflow-x-auto`}>
           <table
             className={
               'min-w-full divide-y dark:divide-black-200 dark:border-black border-separate '
@@ -262,10 +262,7 @@ function MainComponent(props) {
               {props.data &&
                 props.data.map((row, rowIndex) => (
                   <Fragment key={rowIndex}>
-                    <tr
-                      key={`expandRow-${rowIndex}`}
-                      className=" hover:bg-blue-900/5 h-[57px]"
-                    >
+                    <tr key={`expandRow-${rowIndex}`} className="h-[57px]">
                       {props.columns.map((column, colIndex) => (
                         <td
                           key={`expandCol-${colIndex}`}
