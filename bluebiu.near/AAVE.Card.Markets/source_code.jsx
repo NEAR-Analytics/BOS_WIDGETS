@@ -198,7 +198,9 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
       <div>{formatNumber(row.balanceInUSD)}</div>
     </div>,
     <div>
-      <div>{`${(Number(row.supplyAPY) * 100).toFixed(2)} %`}</div>
+      <div>
+        {row.supplyAPY ? `${(Number(row.supplyAPY) * 100).toFixed(2)} %` : ""}
+      </div>
 
       <div>
         {dexConfig.rewardToken && row.supplyRewardApy
@@ -221,7 +223,9 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
     </div>,
 
     <div>
-      <div>{`${(Number(row.borrowAPY) * 100).toFixed(2)} %`}</div>
+      <div>
+        {row.borrowAPY ? `${(Number(row.borrowAPY) * 100).toFixed(2)} %` : ""}
+      </div>
       <div>
         {dexConfig.rewardToken && row.borrowRewardApy
           ? `${(Number(row.borrowRewardApy) * 100).toFixed(2)} %`
