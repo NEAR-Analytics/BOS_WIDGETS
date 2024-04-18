@@ -1,12 +1,9 @@
 const Container = styled.div`
   height:120vh;
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  .left{
-    grid-column: span 1 / span 1;
-  }
+  display:flex;
+  flex-direction:row;
   .right{
-    grid-column: span 2 / span 2;
+    width:100%;
   }
 `;
 
