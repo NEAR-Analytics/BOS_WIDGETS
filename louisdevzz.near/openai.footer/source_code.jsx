@@ -20,7 +20,7 @@ const Theme = state.theme;
 
 return (
   <Theme>
-    <div class="code-syntax-wrapper">
+    <div class="code-syntax-wrapper px-2">
       <div class="code-syntax relative border">
         <div class="grid w-full grid-cols-2 rounded-t-md border-b">
           <ul class="flex text-center text-sm font-medium text-gray-500 dark:text-gray-400">
