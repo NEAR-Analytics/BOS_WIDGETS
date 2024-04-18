@@ -22,8 +22,8 @@ const Theme = state.theme;
 return (
   <Theme>
     <div
-      class="w-[300px] flex h-screen flex-none flex-col border-r border-input bg-zinc-300 transition-all duration-300 ease-in-out dark:bg-zinc-900"
-      style={{ background: "#c0bfbc" }}
+      class="flex h-screen flex-none flex-col border-r border-input bg-zinc-300 transition-all duration-300 ease-in-out dark:bg-zinc-900"
+      style={{ background: "#c0bfbc", width: "300px" }}
     >
       <div class="flex items-center pb-2 pl-4">
         <h2 class="opacity-100 text-sm text-secondary-foreground transition-all duration-300">
