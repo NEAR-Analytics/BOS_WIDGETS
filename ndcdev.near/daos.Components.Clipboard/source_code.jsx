@@ -1,3 +1,18 @@
+const CopyButton = styled.div`
+  display: flex;
+  height: 30px;
+  padding: 6px 14px 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  border: 1px solid #f0efe7;
+  background: #fff;
+  .copyText {
+    font-size: 10px;
+  }
+`;
+
 return (
   <OverlayTrigger
     placement="auto"
@@ -5,8 +20,10 @@ return (
       <Tooltip>{state.copied ? "Copied!" : "Copy to clipboard"}</Tooltip>
     }
   >
-    <span
-      role="button"
+    <CopyButton
+      style={{
+        cursor: "pointer",
+      }}
       onClick={() => {
         clipboard.writeText(props.text).then(() => {
           State.update({ copied: true });
@@ -16,17 +33,14 @@ return (
         });
       }}
     >
+      <i class="ph ph-link"></i>
+      <span className="copyText">Copy</span>
+
       {state.copied ? (
-        <>
-          {props.copiedIcon ?? <i className="bi blue bi-check-lg" />}
-          {props.copiedLabel ?? props.label}
-        </>
+        <>{props.copiedLabel ?? props.label}</>
       ) : (
-        <>
-          {props.clipboardIcon ?? <i className="bi blue bi-share" />}{" "}
-          {props.label}
-        </>
+        <>{props.label}</>
       )}
-    </span>
+    </CopyButton>
   </OverlayTrigger>
 );
