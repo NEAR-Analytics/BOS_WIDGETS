@@ -7,8 +7,6 @@ State.init({
 
 const tailwindCss = fetch(tailwindCssUrl).body;
 
-if (!tailwindCss) return "Can't load CSS 😔.";
-
 if (!state.theme) {
   State.update({
     theme: styled.div`
