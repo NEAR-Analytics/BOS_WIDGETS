@@ -19,7 +19,7 @@ const Theme = state.theme;
 
 return (
   <Theme>
-    <div class="flex overflow-hidden">
+    <div class="flex overflow-hidden" style={{ height: "120vh" }}>
       <Widget src="louisdevzz.near/widget/openai.sidetab" />
       <div class="relative flex-1 overflow-hidden">
         <Widget src="louisdevzz.near/widget/openai.header" />
