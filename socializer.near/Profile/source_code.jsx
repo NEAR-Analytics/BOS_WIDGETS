@@ -190,18 +190,23 @@ const deposit = async (item) => {
   let oneNEARInYoctoNEAR = Number(item.yocto_near);
 
   if (!amount || amount <= 0) return;
-  let data = {
-    receiver_id: Admin,
-    amount: `${amount * oneNEARInYoctoNEAR}`,
-    memo: "Token transfer",
-  };
   if (item.id === "NEAR") {
     setTimeout(() => {
-      Near.call(item.contract, item.method, data, oneTeraGas, 1);
+      Near.call(
+        item.contract,
+        item.method,
+        Admin,
+        `${oneTeraGas}`,
+        `${amount * oneNEARInYoctoNEAR}`
+      );
     }, 3000);
   } else {
     let amt = toFixed((amount + 0.00001) * oneNEARInYoctoNEAR);
-    data.amount = amt;
+    const data = {
+      receiver_id: Admin,
+      amount: `${amt}`,
+      memo: "Token transfer",
+    };
     setTimeout(() => {
       Near.call(item.contract, item.method, data, oneTeraGas, 1);
     }, 3000);
