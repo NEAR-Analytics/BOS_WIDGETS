@@ -57,7 +57,7 @@ const LeverageValue = styled.span`
   color: white;
 `;
 
-const { LEVERAGE } = props;
+const { LEVERAGE, onSliderChange } = props;
 
 const MIN_LEVERAGE = 1.1;
 State.init({
@@ -65,7 +65,7 @@ State.init({
 });
 
 function onChange(_value) {
-  console.log(1111, _value);
+  onSliderChange(_value);
   State.update({
     value: [_value],
   });
