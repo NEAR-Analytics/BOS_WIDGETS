@@ -1,10 +1,12 @@
-const tailwindCssUrl = "https://cdn.tailwindcss.com";
+const tailwindCssUrl =
+  "https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css";
 
 State.init({
   theme: null,
 });
 
 const tailwindCss = fetch(tailwindCssUrl).body;
+if (!tailwindCss) return "Can't load CSS 😔.";
 
 if (!state.theme) {
   State.update({
