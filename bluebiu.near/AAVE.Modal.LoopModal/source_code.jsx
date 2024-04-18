@@ -75,7 +75,7 @@ const PurpleTexture = styled.div`
 const GreenTexture = styled.div`
   font-size: 14px;
   font-weight: bold;
-  color: #2cffa7;
+  color: rgb(178, 232, 16);
 `;
 
 const RedTexture = styled.div`
@@ -129,6 +129,8 @@ State.init({
   gas: "-",
   allowanceAmount: "0",
   needApprove: false,
+  pointsRewards: "1.65",
+  leverage: 1.1,
 });
 
 function updateGas() {
@@ -338,13 +340,12 @@ function depositPacETH(amount) {
 }
 
 function getAllowance() {
-  const tokenAddress = underlyingAsset;
   Ethers.provider()
     .getSigner()
     .getAddress()
     .then((userAddress) => {
       const token = new ethers.Contract(
-        tokenAddress,
+        underlyingAsset,
         config.erc20Abi.body,
         Ethers.provider().getSigner()
       );
@@ -400,7 +401,7 @@ function depositFromApproval(amount) {
 function formatAddAction(_amount, status, transactionHash) {
   addAction?.({
     type: "Lending",
-    action: "Supply",
+    action: "Loop",
     token: {
       symbol,
     },
@@ -589,11 +590,19 @@ const changeValue = (value) => {
   State.update({ amount: value });
 };
 
+const onSliderChange = (_value) => {
+  console.log(222, _value);
+  State.update({
+    leverage: _value,
+    pointsRewards: (_value[0] * 1.5).toFixed(2),
+  });
+};
+
 return (
   <Widget
     src={`${config.ownerId}/widget/AAVE.Modal.BaseModal`}
     props={{
-      title: `Supply ${symbol}`,
+      title: `Loop ${symbol}`,
       onRequestClose: onRequestClose,
       children: (
         <WithdrawContainer>
@@ -663,31 +672,20 @@ return (
                     src={`${config.ownerId}/widget/Utils.Slider`}
                     props={{
                       ...data,
+                      onSliderChange,
                     }}
                   />
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
-                      left: <PurpleTexture>Supply APY</PurpleTexture>,
+                      left: <PurpleTexture>LTV</PurpleTexture>,
                       right: (
                         <WhiteTexture>
-                          {(Number(supplyAPY) * 100).toFixed(2)}%
+                          {(Number(data.LTV) * 100).toFixed()}%
                         </WhiteTexture>
                       ),
                     }}
                   />
-                  <Widget
-                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
-                    props={{
-                      left: <PurpleTexture>Collateralization</PurpleTexture>,
-                      right: usageAsCollateralEnabled ? (
-                        <GreenTexture>Enabled</GreenTexture>
-                      ) : (
-                        <RedTexture>Disabled</RedTexture>
-                      ),
-                    }}
-                  />
-
                   <Widget
                     src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
                     props={{
@@ -704,10 +702,48 @@ return (
                             />
                             {state.newHealthFactor}
                           </GreenTexture>
-                          <WhiteTexture>
+                          {/* <WhiteTexture>
                             Liquidation at &lt; {config.FIXED_LIQUIDATION_VALUE}
-                          </WhiteTexture>
+                          </WhiteTexture> */}
                         </div>
+                      ),
+                    }}
+                  />
+                  {/* <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>APY</PurpleTexture>,
+                      right: (
+                        <WhiteTexture>
+                          {(Number(supplyAPY) * 100).toFixed(2)}%
+                        </WhiteTexture>
+                      ),
+                    }}
+                  /> */}
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Points Rewards</PurpleTexture>,
+                      right: (
+                        <GreenTexture>{`${state.pointsRewards} x`}</GreenTexture>
+                      ),
+                    }}
+                  />
+
+                  <Widget
+                    src={`${config.ownerId}/widget/AAVE.Modal.FlexBetween`}
+                    props={{
+                      left: <PurpleTexture>Flash loan fee</PurpleTexture>,
+                      right: (
+                        <GreenTexture>
+                          0.01% (${" "}
+                          {`${Big(state.amount || 0)
+                            .times(Big(state.leverage))
+                            .minus(Big(state.amount || 0))
+                            .times(0.000001)
+                            .toFixed(6)} `}
+                          )
+                        </GreenTexture>
                       ),
                     }}
                   />
@@ -715,10 +751,10 @@ return (
               ),
             }}
           />
-          <Widget
+          {/* <Widget
             src={`${config.ownerId}/widget/AAVE.GasEstimation`}
             props={{ gas: state.gas, config }}
-          />
+          /> */}
           {state.needApprove && (
             <Widget
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -766,7 +802,7 @@ return (
               props={{
                 config,
                 theme,
-                children: `Supply ${symbol}`,
+                children: `Loop ${symbol}`,
                 loading: state.loading,
                 disabled,
                 onClick: () => {
