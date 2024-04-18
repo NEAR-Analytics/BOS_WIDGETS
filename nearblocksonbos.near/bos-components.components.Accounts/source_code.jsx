@@ -177,7 +177,7 @@ const TokenHoldings = (props) => {
       <Select.Trigger className="w-full h-8 text-sm px-2 rounded border dark:border-black-200 outline-none flex items-center justify-between cursor-pointer">
         <span>
           {ftAmount ? '$' + dollarFormat(ftAmount) : ''}
-          <span className="bg-green-500 text-xs text-white rounded ml-2 px-1 p-0.5">
+          <span className="bg-green-500 dark:bg-green-250 text-xs text-white rounded ml-2 px-1 p-0.5">
             {(props.ft?.tokens?.length || 0) + (nfts?.length || 0)}
           </span>
         </span>
@@ -1048,7 +1048,7 @@ function MainComponent(props) {
                       href={`/address/${deploymentData.receipt_predecessor_account_id}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 hover:no-underline">
+                      <a className="text-green-500 dark:text-green-250 hover:no-underline">
                         {shortenAddress(
                           deploymentData.receipt_predecessor_account_id ?? '',
                         )}
@@ -1059,7 +1059,7 @@ function MainComponent(props) {
                       href={`/txns/${deploymentData.transaction_hash}`}
                       className="hover:no-underline"
                     >
-                      <a className="text-green-500 hover:no-underline">
+                      <a className="text-green-500 dark:text-green-250 hover:no-underline">
                         {shortenAddress(deploymentData.transaction_hash ?? '')}
                       </a>
                     </Link>
@@ -1083,7 +1083,7 @@ function MainComponent(props) {
                         href={`/token/${id}`}
                         className="hover:no-underline"
                       >
-                        <a className="flex text-green-500 hover:no-underline">
+                        <a className="flex text-green-500 dark:text-green-250 hover:no-underline">
                           <span className="inline-block truncate max-w-[110px] mr-1">
                             {tokenData.name}
                           </span>
