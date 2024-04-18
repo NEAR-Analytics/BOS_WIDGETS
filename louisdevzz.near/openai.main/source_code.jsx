@@ -18,8 +18,8 @@ const Theme = state.theme;
 
 return (
   <Theme>
-    <div class="code-preview-wrapper">
-      <div class="code-preview flex border-x bg-background bg-gradient-to-r p-0">
+    <div class="code-preview-wrapper px-2">
+      <div class="code-preview flex border-l border-r border-gray-300">
         <div
           class="code-responsive-wrapper w-full overflow-auto"
           style={{ height: "60vh" }}
