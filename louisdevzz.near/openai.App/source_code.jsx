@@ -3,7 +3,7 @@ const Container = styled.div`
 `;
 
 return (
-  <Container style={{ height: "120vh" }}>
+  <Container>
     <Widget src="louisdevzz.near/widget/openai.main" />
   </Container>
 );
