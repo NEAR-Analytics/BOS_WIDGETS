@@ -412,7 +412,7 @@ function MainComponent({ network, t, ownerId, theme }) {
                               align="start"
                               side="bottom"
                             >
-                              Transaction per Seconds
+                              Transactions per second
                             </Tooltip.Content>
                           </Tooltip.Root>
                         </Tooltip.Provider>
