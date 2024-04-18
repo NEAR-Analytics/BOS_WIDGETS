@@ -141,7 +141,7 @@ function formatNumber(value, digits) {
   if (Big(value).eq(0)) return `$ 0`;
   return Big(value || 0).lt(0.01)
     ? "< $0.01"
-    : `$ ${Number(value).toFixed(digits || 2)}`;
+    : `$ ${Number(value || 0).toFixed(digits || 2)}`;
 }
 
 // App config
@@ -297,6 +297,7 @@ function calcHealthFactor(type, symbol, amount) {
     .div(totalBorrows);
 
   console.log("calcHealthFactor--", newHealthFactor);
+
   return newHealthFactor.toFixed(2);
 }
 
@@ -1240,101 +1241,105 @@ useEffect(() => {
 
   if (!state.yourSupplies || !state.yourBorrows) return;
   console.log("calc net apy", state.yourSupplies, state.yourBorrows);
-  //calc net worth
-  const supplyBal = state.yourSupplies.reduce(
-    (total, cur) =>
-      Big(total || 0)
-        .plus(cur.underlyingBalanceUSD)
-        .toFixed(),
-    0
-  );
-  console.log("supplyBal--", supplyBal);
-  const debtsBal = state.yourBorrows.reduce(
-    (total, cur) =>
-      Big(total || 0)
-        .plus(cur.debtInUSD)
-        .toFixed(),
-    0
-  );
-  console.log("debtsBal--", debtsBal, supplyBal);
-  const netWorth = Big(supplyBal || 0)
-    .minus(debtsBal)
-    .toFixed(2, ROUND_DOWN);
-  console.log("netWorth--", netWorth, state.yourSupplies);
-  if (!Number(netWorth)) return;
+  try {
+    //calc net worth
+    const supplyBal = state.yourSupplies.reduce(
+      (total, cur) =>
+        Big(total || 0)
+          .plus(cur.underlyingBalanceUSD)
+          .toFixed(),
+      0
+    );
+    console.log("supplyBal--", supplyBal);
+    const debtsBal = state.yourBorrows.reduce(
+      (total, cur) =>
+        Big(total || 0)
+          .plus(cur.debtInUSD)
+          .toFixed(),
+      0
+    );
+    console.log("debtsBal--", debtsBal, supplyBal);
+    const netWorth = Big(supplyBal || 0)
+      .minus(debtsBal)
+      .toFixed(2, ROUND_DOWN);
+    console.log("netWorth--", netWorth, state.yourSupplies);
+    if (!Number(netWorth)) return;
 
-  //calc net apy
+    //calc net apy
 
-  const weightedAverageSupplyAPY = state.yourSupplies.reduce(
-    (total, cur) =>
-      Big(total || 0)
+    const weightedAverageSupplyAPY = state.yourSupplies.reduce(
+      (total, cur) =>
+        Big(total || 0)
+          .plus(
+            Big(cur.underlyingBalanceUSD || 0)
+              .times(Big(cur.supplyAPY || 0))
+              .div(supplyBal || 1)
+          )
+          .toFixed(),
+      0
+    );
+    const yourSupplyRewardAPY = state.yourSupplies.reduce((total, cur) => {
+      return Big(total || 0)
+        .plus(Big(cur.supplyRewardApy || 0))
+        .toFixed();
+    }, 0);
+
+    console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
+    const weightedAverageBorrowsAPY = state.yourBorrows.reduce((total, cur) => {
+      return Big(total || 0)
         .plus(
-          Big(cur.underlyingBalanceUSD || 0)
-            .times(Big(cur.supplyAPY || 0))
-            .div(supplyBal || 1)
+          Big(cur.debtInUSD)
+            .times(Big(cur.borrowAPY || 1))
+            .div(debtsBal || 1)
         )
-        .toFixed(),
-    0
-  );
-  const yourSupplyRewardAPY = state.yourSupplies.reduce((total, cur) => {
-    return Big(total || 0)
-      .plus(Big(cur.supplyRewardApy || 0))
+        .toFixed();
+    }, 0);
+    console.log("weightedAverageBorrowsAPY--", weightedAverageBorrowsAPY);
+
+    const a = Big(weightedAverageSupplyAPY || 0)
+      .times(supplyBal)
+      .div(netWorth || 1)
       .toFixed();
-  }, 0);
-
-  console.log("weightedAverageSupplyAPY--", weightedAverageSupplyAPY);
-  const weightedAverageBorrowsAPY = state.yourBorrows.reduce((total, cur) => {
-    return Big(total || 0)
-      .plus(
-        Big(cur.debtInUSD)
-          .times(Big(cur.borrowAPY || 1))
-          .div(debtsBal || 1)
-      )
+    console.log("a--", a);
+    const b = Big(weightedAverageBorrowsAPY || 0)
+      .times(debtsBal)
+      .div(netWorth || 1)
       .toFixed();
-  }, 0);
-  console.log("weightedAverageBorrowsAPY--", weightedAverageBorrowsAPY);
+    console.log("b--", b);
+    const netAPY = Big(a).minus(Big(b)).toFixed();
+    console.log("netAPY--", netAPY);
+    const yourTotalSupply = state.yourSupplies.reduce(
+      (prev, curr) =>
+        Big(prev)
+          .plus(Big(curr.underlyingBalanceUSD || 0))
+          .toFixed(),
+      0
+    );
+    console.log("yourTotalSupply--", yourTotalSupply);
 
-  const a = Big(weightedAverageSupplyAPY || 0)
-    .times(supplyBal)
-    .div(netWorth || 1)
-    .toFixed();
-  console.log("a--", a);
-  const b = Big(weightedAverageBorrowsAPY || 0)
-    .times(debtsBal)
-    .div(netWorth || 1)
-    .toFixed();
-  console.log("b--", b);
-  const netAPY = Big(a).minus(Big(b)).toFixed();
-  console.log("netAPY--", netAPY);
-  const yourTotalSupply = state.yourSupplies.reduce(
-    (prev, curr) =>
-      Big(prev)
-        .plus(Big(curr.underlyingBalanceUSD || 0))
+    const yourTotalBorrow = state.yourBorrows.reduce(
+      (prev, curr) =>
+        Big(prev)
+          .plus(Big(curr.debtInUSD || 0))
+          .toFixed(),
+      0
+    );
+    console.log("yourTotalBorrow--", yourTotalBorrow);
+
+    State.update((prev) => ({
+      ...prev,
+      netAPY,
+      netWorthUSD: netWorth,
+      yourTotalSupply,
+      yourTotalBorrow,
+      yourSupplyApy: Big(weightedAverageSupplyAPY)
+        .plus(yourSupplyRewardAPY)
         .toFixed(),
-    0
-  );
-  console.log("yourTotalSupply--", yourTotalSupply);
-
-  const yourTotalBorrow = state.yourBorrows.reduce(
-    (prev, curr) =>
-      Big(prev)
-        .plus(Big(curr.debtInUSD || 0))
-        .toFixed(),
-    0
-  );
-  console.log("yourTotalBorrow--", yourTotalBorrow);
-
-  State.update((prev) => ({
-    ...prev,
-    netAPY,
-    netWorthUSD: netWorth,
-    yourTotalSupply,
-    yourTotalBorrow,
-    yourSupplyApy: Big(weightedAverageSupplyAPY)
-      .plus(yourSupplyRewardAPY)
-      .toFixed(),
-    yourBorrowApy: weightedAverageBorrowsAPY,
-  }));
+      yourBorrowApy: weightedAverageBorrowsAPY,
+    }));
+  } catch (error) {
+    console.log("CATCH_CALC_NET_APY_ERROR:", error);
+  }
 }, [state.yourSupplies, state.yourBorrows, state.step1]);
 
 function onSuccess() {
@@ -1484,15 +1489,22 @@ const body = isChainSupported ? (
               {state.yourBorrows && state.yourBorrows.length ? (
                 <SubTitle>
                   <Label>Balance:</Label>
-                  <Value>$ {Number(state.yourTotalBorrow).toFixed(2)}</Value>
+                  <Value>
+                    $ {Number(state.yourTotalBorrow || 0).toFixed(2)}
+                  </Value>
 
                   <Label>APY:</Label>
                   <Value>
-                    {Big(state.yourBorrowApy).times(100).toFixed(2)} %
+                    {Big(state.yourBorrowApy || 0)
+                      .times(100)
+                      .toFixed(2)}{" "}
+                    %
                   </Value>
 
                   <Label>Borrow power used:</Label>
-                  <Value>{Number(state.BorrowPowerUsed).toFixed(2)}%</Value>
+                  <Value>
+                    {Number(state.BorrowPowerUsed || 0).toFixed(2)}%
+                  </Value>
                 </SubTitle>
               ) : null}
             </Title>
