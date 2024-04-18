@@ -3,6 +3,7 @@ const tailwindCssUrl =
 
 State.init({
   theme: null,
+  isShow: true,
 });
 
 const tailwindCss = fetch(tailwindCssUrl).body;
@@ -33,6 +34,10 @@ const Prompt = styled.div`
   transition-duration: 500ms;
   bottom:180px;
 `;
+
+const handleClick = () => {
+  State.update({ isShow: !state.isShow });
+};
 
 return (
   <Theme>
@@ -96,46 +101,49 @@ return (
         </div>
       </div>
     </div>
-    <Prompt>
-      <button
-        type="button"
-        class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-green-400 to-green-700  px-4 py-2 text-white transition-all hover:from-teal-500 hover:to-blue-600"
-      >
-        <span
-          class="transition-all hover:-ml-96 hover:mr-36"
-          style={{ transitionDuration: "3000ms" }}
+    {state.isShow && (
+      <Prompt>
+        <button
+          type="button"
+          class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-green-400 to-green-700  px-4 py-2 text-white transition-all hover:from-teal-500 hover:to-blue-600"
         >
-          Design a carousel slider for featured articles with previous and next
-          controls, using a sleek, modern look.
-        </span>
-      </button>
-      <button
-        type="button"
-        class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-purple-400 to-pink-500 px-4 py-2 text-white transition-all hover:from-purple-500 hover:to-pink-600"
-      >
-        <span
-          class="transition-all hover:-ml-96 hover:mr-36"
-          style={{ transitionDuration: "3000ms" }}
+          <span
+            class="transition-all hover:-ml-96 hover:mr-36"
+            style={{ transitionDuration: "3000ms" }}
+          >
+            Design a carousel slider for featured articles with previous and
+            next controls, using a sleek, modern look.
+          </span>
+        </button>
+        <button
+          type="button"
+          class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-purple-400 to-pink-500 px-4 py-2 text-white transition-all hover:from-purple-500 hover:to-pink-600"
         >
-          Design a to-do list app interface with tasks, checkboxes, and an add
-          task form.
-        </span>
-      </button>
-      <button
-        type="button"
-        class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-yellow-400 to-yellow-700 px-4 py-2 text-white transition-all hover:from-yellow-500 hover:to-orange-600"
-      >
-        <span
-          class="transition-all hover:-ml-96 hover:mr-36"
-          style={{ transitionDuration: "3000ms" }}
+          <span
+            class="transition-all hover:-ml-96 hover:mr-36"
+            style={{ transitionDuration: "3000ms" }}
+          >
+            Design a to-do list app interface with tasks, checkboxes, and an add
+            task form.
+          </span>
+        </button>
+        <button
+          type="button"
+          class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-yellow-400 to-yellow-700 px-4 py-2 text-white transition-all hover:from-yellow-500 hover:to-orange-600"
         >
-          Generate a contact form with name, email, message fields, and a send
-          button, with validation styles.
-        </span>
-      </button>
-    </Prompt>
+          <span
+            class="transition-all hover:-ml-96 hover:mr-36"
+            style={{ transitionDuration: "3000ms" }}
+          >
+            Generate a contact form with name, email, message fields, and a send
+            button, with validation styles.
+          </span>
+        </button>
+      </Prompt>
+    )}
     <div class="flex items-center justify-center">
       <button
+        onClick={handleClick}
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background  transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 absolute left-[calc(50%-1.25rem)] z-10 hover:scale-125 hover:animate-pulse hover:bg-transparent"
         style={{ bottom: "10px" }}
       >
@@ -156,41 +164,43 @@ return (
         </svg>
       </button>
     </div>
-    <div class="flex items-center justify-center">
-      <div
-        id="llm-input"
-        class="absolute left-[calc(50%)] z-0 flex w-11/12 -translate-x-1/2 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
-        style={{ bottom: "60px" }}
-      >
-        <input
-          class="flex w-full border-none px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 min-h-[41px] min-w-0 flex-1 resize-none rounded-none border-none text-base focus-visible:ring-0 focus-visible:ring-offset-0"
-          name="query"
-          rows="1"
-          placeholder="Describe a UI you desire"
-        />
-        <div class="flex items-center">
-          <button
-            class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 flex-none rounded-full"
-            type="submit"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
+    {state.isShow && (
+      <div class="flex items-center justify-center">
+        <div
+          id="llm-input"
+          class="absolute left-[calc(50%)] z-0 flex w-11/12 -translate-x-1/2 justify-center rounded-full bg-background px-8 py-4 border border-gray-300 align-middle transition-all duration-500 lg:max-w-full"
+          style={{ bottom: "60px" }}
+        >
+          <input
+            class="flex w-full border-none px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus:outline-none  disabled:cursor-not-allowed disabled:opacity-50 min-h-[41px] min-w-0 flex-1 resize-none rounded-none border-none text-base focus-visible:ring-0 focus-visible:ring-offset-0"
+            name="query"
+            rows="1"
+            placeholder="Describe a UI you desire"
+          />
+          <div class="flex items-center">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 w-8 flex-none rounded-full"
+              type="submit"
             >
-              <path
-                d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
-                fill="currentColor"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+              >
+                <path
+                  d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    )}
   </Theme>
 );
