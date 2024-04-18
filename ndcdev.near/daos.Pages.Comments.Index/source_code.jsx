@@ -23,12 +23,10 @@ const post = Near.view(contractName, "get_post_by_id", {
 
 return (
   <div className="w-100 d-flex flex-column justify-content-start">
-    <h2>
-      Comments for {post.post_type}:{" "}
-      <a href={`/ndcdev.near/widget/daos.App?page=proposal&id=${post.id}`}>
-        {post.title}
-      </a>
-    </h2>
+    <Widget
+      src="ndcdev.near/widget/daos.Components.PageTitle"
+      props={{ text: "Comments" }}
+    />
     <Container>
       <Widget
         src="ndcdev.near/widget/daos.Components.Comments"
