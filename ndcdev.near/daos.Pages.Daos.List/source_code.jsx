@@ -41,13 +41,9 @@ if (!daos) return <Widget src="flashui.near/widget/Loading" />;
 return (
   <Container>
     <Widget
-      src={`ndcdev.near/widget/daos.Components.Title`}
-      props={{
-        imgUrl: content.whatisGrassrootDAO.image,
-        title: content.whatisGrassrootDAO.title,
-      }}
+      src="ndcdev.near/widget/daos.Components.PageTitle"
+      props={{ text: "DAOs" }}
     />
-    <Description>{content.whatisGrassrootDAO.text}</Description>
 
     <div className="d-flex flex-wrap justify-content-center gap-4">
       {daos
