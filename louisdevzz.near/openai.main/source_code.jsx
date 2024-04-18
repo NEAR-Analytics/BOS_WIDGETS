@@ -44,5 +44,6 @@ return (
         </div>
       </div>
     </div>
+    <Widget src="louisdevzz.near/widget/openai.footer" />
   </Theme>
 );
