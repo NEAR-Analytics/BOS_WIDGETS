@@ -15,7 +15,6 @@ return (
     <div class="right">
       <Widget src="louisdevzz.near/widget/openai.header" />
       <Widget src="louisdevzz.near/widget/openai.main" />
-      <Widget src="louisdevzz.near/widget/openai.footer" />
     </div>
   </Container>
 );
