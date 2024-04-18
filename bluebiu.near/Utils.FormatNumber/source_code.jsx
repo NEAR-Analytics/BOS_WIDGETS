@@ -12,6 +12,12 @@ function formatAmount(number) {
   } else if (number >= 1e6) {
     str_num = number / 1e6;
     return str_num.toFixed(2) + "m";
+  } else if (number >= 1e9) {
+    str_num = number / 1e9;
+    return str_num.toFixed(2) + "b";
+  } else if (number >= 1e12) {
+    str_num = number / 1e12;
+    return str_num.toFixed(2) + "t";
   } else {
     return Number(number).toFixed(2);
   }
