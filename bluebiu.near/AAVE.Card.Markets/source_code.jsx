@@ -119,7 +119,6 @@ const BorrowButton = ({ data }) => {
 };
 
 const LoopButton = ({ data }) => {
-  //TODO
   let disabled;
   // if (dexConfig.name === "Seamless Protocol") {
   //   const { totalSupplyUSD, supplyCapUSD } = data;
@@ -147,6 +146,12 @@ const LoopButton = ({ data }) => {
     />
   );
 };
+
+function formatRate(_value) {
+  if (isNaN(Number(_value))) return "";
+  let value = (Number(_value) * 100).toFixed();
+  return Big(value || 0).lt(0.01) ? "<0.01%" : `${Number(value).toFixed(2)}%`;
+}
 
 function formatNumber(value, digits) {
   if (isNaN(Number(value))) return "";
@@ -248,7 +253,7 @@ if (["Pac Finance"].includes(dexConfig.name)) {
   headers = [
     "Assets",
     "Your Balance",
-    "Estimated Blast Points",
+    // "Estimated Blast Points",
     "Supply APY",
     "Borrow APY",
     "Pool Liquidity",
@@ -272,14 +277,15 @@ if (["Pac Finance"].includes(dexConfig.name)) {
       <ItemPrimary>{formatValue(row.balance, 7)}</ItemPrimary>
       <ItemSub>{formatNumber(row.balanceInUSD)}</ItemSub>
     </CenterItem>,
+    // <CenterItem>
+    //   <ItemPrimary>{}</ItemPrimary>
+    //   <ItemSub>{`Pts/day/${row.symbol}`}</ItemSub>
+    // </CenterItem>,
     <CenterItem>
-      <ItemPrimary>{}</ItemPrimary>
-      <ItemSub>{`Pts/day/${row.symbol}`}</ItemSub>
-    </CenterItem>,
-    <CenterItem>
-      <ItemPrimary className="apy">{`${(Number(row.supplyAPY) * 100).toFixed(
-        2
-      )} %`}</ItemPrimary>
+      <ItemPrimary className="apy">{`${(
+        (Number(row.supplyAPY) + Number(row.NATIVE_YIELD || 0)) *
+        100
+      ).toFixed(2)} %`}</ItemPrimary>
       <ItemSub className="radio">
         <IconMouth src="https://ipfs.near.social/ipfs/bafkreiffqyfmusnew73zt6slkeoryvevuw7ojcgvfdirgf3oqdsll5yyga" />
         {Number(row.EXTRA_RADIO) * 100}%
@@ -291,8 +297,13 @@ if (["Pac Finance"].includes(dexConfig.name)) {
       )} %`}</ItemPrimary>
     </CenterItem>,
     <CenterItem>
-      <ItemPrimary></ItemPrimary>
-      <ItemSub>utilized</ItemSub>
+      <ItemPrimary>
+        <Widget
+          src={`${config.ownerId}/widget/Utils.FormatNumber`}
+          props={{ number: row.totalSupply }}
+        />
+      </ItemPrimary>
+      <ItemSub>{formatRate(row.utilized)} utilized</ItemSub>
     </CenterItem>,
     // <CenterItem style={{ paddingLeft: "50px" }}>
     //   {(row.isIsolated || (!row.isIsolated && !row.usageAsCollateralEnabled)) &&
