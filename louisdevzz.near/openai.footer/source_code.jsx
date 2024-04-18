@@ -18,6 +18,22 @@ if (!state.theme) {
 
 const Theme = state.theme;
 
+const Prompt = styled.div`
+  position:absolute;
+  width: 91.666667%;
+  transform: translateX(-50%);
+  left:50%;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+  bottom:180px;
+`;
+
 return (
   <Theme>
     <div class="code-syntax-wrapper px-2">
@@ -80,10 +96,7 @@ return (
         </div>
       </div>
     </div>
-    <div
-      class="w-11/12 -translate-x-1/2 flex flex-wrap items-center justify-center gap-2 transition-all duration-500"
-      style={{ position: "absolute", bottom: "180px" }}
-    >
+    <Prompt>
       <button
         type="button"
         class="w-xs min-w-xs max-w-xs cursor-pointer truncate rounded-full bg-gradient-to-r from-green-400 to-green-700  px-4 py-2 text-white transition-all hover:from-teal-500 hover:to-blue-600"
@@ -120,7 +133,7 @@ return (
           button, with validation styles.
         </span>
       </button>
-    </div>
+    </Prompt>
     <div class="flex items-center justify-center">
       <button
         class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background  transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 absolute left-[calc(50%-1.25rem)] z-10 hover:scale-125 hover:animate-pulse hover:bg-transparent"
