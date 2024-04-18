@@ -126,7 +126,7 @@ function refreshTransactionList() {
     const transactionList = []
     let proccessSum = 0
 
-    console.log('transactionObj: ', transactionObj)
+    // console.log('transactionObj: ', transactionObj)
 
     const pList = transactionObj.transactionList.map(item => {
         if (item.status === 2) {
