@@ -318,7 +318,7 @@ function getLiquidity() {
   );
 
   const calls = aTokenAddresss
-    .map((addr) => ({
+    ?.map((addr) => ({
       address: addr,
       name: "totalSupply",
     }))
