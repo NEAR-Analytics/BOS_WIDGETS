@@ -237,7 +237,6 @@ const Main = styled.div`
   top: 0;
   border-radius: 10px;
 }
-
 `;
 
 return (
