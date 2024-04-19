@@ -1,5 +1,5 @@
 let { assets, content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 
 assets = assets.home;
@@ -201,27 +201,6 @@ return (
       <Widget
         src={`ndcdev.near/widget/daos.Components.Title`}
         props={{
-          imgUrl: content.communityTreasury.image,
-          title: content.communityTreasury.title,
-        }}
-      />
-
-      <Widget
-        src={`ndcdev.near/widget/daos.Components.Metrics.index`}
-        props={{
-          daos,
-          totalTreasury: 3893275,
-          deliverTreasury: 362253,
-          typeOfProject,
-          loading,
-          text: content.communityTreasury.metrics,
-        }}
-      />
-    </Wrapper>
-    <Wrapper>
-      <Widget
-        src={`ndcdev.near/widget/daos.Components.Title`}
-        props={{
           imgUrl: content.whatIsNDC.image,
           title: content.whatIsNDC.title,
         }}
@@ -261,7 +240,7 @@ return (
           props={{
             title: content.featuredProducts.title,
             projects: content.featuredProducts.projects.map((title) =>
-              projects.find((p) => p.title === title),
+              projects.find((p) => p.title === title)
             ),
           }}
         />
