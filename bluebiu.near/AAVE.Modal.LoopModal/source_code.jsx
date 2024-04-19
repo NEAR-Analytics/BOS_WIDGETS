@@ -127,7 +127,7 @@ State.init({
   loading: false,
   newHealthFactor: "-",
   gas: "-",
-  allowanceAmount: "0",
+
   needApprove: false,
   pointsRewards: "1.65",
   leverage: 1.1,
@@ -227,62 +227,6 @@ function supplyWithPermit(user, reserve, amount, deadline, rawSig) {
   ](reserve, amount, user, 0, deadline, sig.v, sig.r, sig.s);
 }
 
-function depositETH(amount) {
-  State.update({
-    loading: true,
-  });
-  return Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((address) => {
-      const wrappedTokenGateway = new ethers.Contract(
-        config.wrappedTokenGatewayV3Address,
-        config.wrappedTokenGatewayV3ABI.body,
-        Ethers.provider().getSigner()
-      );
-      return wrappedTokenGateway.depositETH(
-        config.aavePoolV3Address,
-        address,
-        0,
-        {
-          value: amount,
-        }
-      );
-    })
-    .then((tx) => {
-      tx.wait()
-        .then((res) => {
-          const { status, transactionHash } = res;
-          if (status === 1) {
-            formatAddAction(
-              Big(amount).div(Big(10).pow(decimals)).toFixed(8),
-              status,
-              transactionHash
-            );
-            onActionSuccess({
-              msg: `You supplied ${Big(amount)
-                .div(Big(10).pow(decimals))
-                .toFixed(8)} ${symbol}`,
-              callback: () => {
-                onRequestClose();
-                State.update({
-                  loading: false,
-                });
-              },
-            });
-            console.log("tx succeeded", res);
-          } else {
-            console.log("tx failed", res);
-            State.update({
-              loading: false,
-            });
-          }
-        })
-        .catch(() => State.update({ loading: false }));
-    })
-    .catch(() => State.update({ loading: false }));
-}
-
 function depositPacETH(amount) {
   State.update({
     loading: true,
@@ -338,31 +282,6 @@ function depositPacETH(amount) {
     })
     .catch(() => State.update({ loading: false }));
 }
-
-function getAllowance() {
-  Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((userAddress) => {
-      const token = new ethers.Contract(
-        underlyingAsset,
-        config.erc20Abi.body,
-        Ethers.provider().getSigner()
-      );
-      token
-        .allowance(userAddress, config.aavePoolV3Address)
-        .then((allowanceAmount) => allowanceAmount.toString())
-        .then((allowanceAmount) => {
-          State.update({
-            allowanceAmount: Big(allowanceAmount)
-              .div(Big(10).pow(decimals))
-              .toFixed(),
-          });
-        });
-    });
-}
-
-getAllowance();
 
 function depositFromApproval(amount) {
   const tokenAddress = underlyingAsset;
@@ -422,23 +341,23 @@ function approve(amount) {
   return token["approve(address,uint256)"](config.aavePoolV3Address, amount);
 }
 
-function update() {
-  if (supportPermit) {
-    return;
-  }
-  if (
-    !isValid(state.amount) ||
-    !isValid(state.allowanceAmount) ||
-    Number(state.allowanceAmount) < Number(state.amount) ||
-    Number(state.amount) === 0
-  ) {
-    State.update({ needApprove: true });
-  } else {
-    State.update({ needApprove: false });
-  }
-}
+// function update() {
+//   if (supportPermit) {
+//     return;
+//   }
+//   if (
+//     !isValid(state.amount) ||
+//     !isValid(state.allowanceAmount) ||
+//     Number(state.allowanceAmount) < Number(state.amount) ||
+//     Number(state.amount) === 0
+//   ) {
+//     State.update({ needApprove: true });
+//   } else {
+//     State.update({ needApprove: false });
+//   }
+// }
 
-update();
+// update();
 
 function depositErc20(amount) {
   State.update({
@@ -591,12 +510,250 @@ const changeValue = (value) => {
 };
 
 const onSliderChange = (_value) => {
-  console.log(222, _value);
   State.update({
     leverage: _value,
     pointsRewards: (_value[0] * 1.5).toFixed(2),
   });
 };
+
+function getAccount() {
+  return Ethers.provider()
+    .getSigner()
+    .getAddress()
+    .then((userAddress) => {
+      return userAddress;
+    })
+    .catch((err) => {
+      console.log("catch_getAccount:", err);
+    });
+}
+function getTokenAllowance(userAddress) {
+  return new ethers.Contract(
+    underlyingAsset,
+    config.erc20Abi.body,
+    Ethers.provider().getSigner()
+  )
+    .allowance(userAddress, config.LoopDelegateeAddress)
+    .then((_allowance) => {
+      console.log(
+        "tokenAllowance--",
+        _allowance?.toString(),
+        decimals,
+        Number(amount),
+        Number(allowanceAmount) < Number(amount)
+      );
+      if (!_allowance) return false;
+      const allowanceAmount = _allowance;
+
+      if (Number(allowanceAmount) < Number(amount)) {
+        new ethers.Contract(
+          data.underlyingAsset,
+          config.erc20Abi.body,
+          Ethers.provider().getSigner()
+        )
+          .approve(config.LoopDelegateeAddress, amount)
+          .then((tx) => {
+            tx.wait()
+              .then((res) => {
+                const { status } = res;
+                if (status === 1) {
+                  console.log("approve succeeded", res);
+                  return true;
+                } else {
+                  console.log("approve failed", res);
+                  State.update({
+                    loading: false,
+                  });
+                }
+              })
+              .catch(() => State.update({ loading: false }));
+          })
+          .catch(() => State.update({ loading: false }));
+      } else {
+        return true;
+      }
+    });
+}
+
+function loop(userAddress) {
+  new ethers.Contract(
+    data.variableDebtTokenAddress,
+    [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "fromUser",
+            type: "address",
+          },
+          { internalType: "address", name: "toUser", type: "address" },
+        ],
+        name: "borrowAllowance",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  )
+    .borrowAllowance(userAddress, config.LoopDelegateeAddress)
+    .then((_debtAllowance) => {
+      const _borrowAmount = Big(state.leverage)
+        .times(Big(state.amount))
+        .minus(Big(state.amount))
+        .toString();
+      const borrowAmount = ethers.utils.parseUnits(_borrowAmount, decimals);
+      console.log("borrowAmount--", borrowAmount.toString());
+      console.log(
+        "debtAllowance--",
+        _debtAllowance,
+        _debtAllowance.toString(),
+        Big(_debtAllowance).lt(Big(borrowAmount))
+      );
+      if (!_debtAllowance) return false;
+
+      if (Big(_debtAllowance).lt(Big(borrowAmount))) {
+        new ethers.Contract(
+          data.variableDebtTokenAddress,
+          [
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "delegatee",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "amount",
+                  type: "uint256",
+                },
+              ],
+              name: "approveDelegation",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+          ],
+          Ethers.provider().getSigner()
+        )
+          .approveDelegation(config.LoopDelegateeAddress, borrowAmount)
+          .then((tx) => {
+            tx.wait()
+              .then((res) => {
+                const { status } = res;
+                if (status === 1) {
+                  console.log("approveDelegation succeeded", res);
+                  return { step2: true, borrowAmount };
+                } else {
+                  console.log("approveDelegation failed", res);
+                  State.update({
+                    loading: false,
+                  });
+                }
+              })
+              .catch(() => State.update({ loading: false }));
+          });
+      } else {
+        return { step2: true, borrowAmount };
+      }
+    })
+    .then(({ step2, borrowAmount }) => {
+      if (!step2) return;
+
+      new ethers.Contract(
+        config.LoopDelegateeAddress,
+        [
+          {
+            inputs: [
+              { internalType: "address", name: "asset", type: "address" },
+              {
+                internalType: "uint256",
+                name: "cashAmount",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "borrowAmount",
+                type: "uint256",
+              },
+            ],
+            name: "leverageDeposit",
+            outputs: [],
+            stateMutability: "payable",
+            type: "function",
+          },
+        ],
+        Ethers.provider().getSigner()
+      )
+        .leverageDeposit(
+          data.underlyingAsset,
+          ethers.utils.parseUnits(state.amount, decimals),
+          borrowAmount,
+          {
+            gasLimit: 4000000,
+          }
+        )
+        .then((tx) => {
+          tx.wait()
+            .then((res) => {
+              console.log("loop_res--", res);
+              const { status } = res;
+              if (status === 1) {
+                formatAddAction(
+                  Number(state.amount).toFixed(6),
+                  status,
+                  transactionHash
+                );
+                onActionSuccess({
+                  msg: `You looped ${Number(state.amount).toFixed(
+                    6
+                  )} ${symbol}`,
+                  callback: () => {
+                    onRequestClose();
+                    State.update({
+                      loading: false,
+                    });
+                  },
+                });
+                console.log("loop succeeded", res);
+                State.update({
+                  loading: false,
+                });
+              } else {
+                console.log("loop failed", res);
+                State.update({
+                  loading: false,
+                });
+              }
+            })
+            .catch(() => State.update({ loading: false }));
+        });
+    });
+}
+
+function handleLoop() {
+  State.update({
+    loading: true,
+  });
+
+  if (data.symbol === "ETH") {
+    getAccount().then((userAddress) => {
+      loop(userAddress);
+    });
+  } else {
+    getAccount().then((userAddress) => {
+      getTokenAllowance(userAddress)
+        .then((step1) => {
+          if (!step1) return;
+          loop(userAddress);
+        })
+        .catch((err) => {
+          console.log("handleLoop_error:", err);
+        });
+    });
+  }
+}
 
 return (
   <Widget
@@ -755,48 +912,20 @@ return (
             src={`${config.ownerId}/widget/AAVE.GasEstimation`}
             props={{ gas: state.gas, config }}
           /> */}
-          {state.needApprove && (
-            <Widget
-              src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
-              props={{
-                config,
-                theme,
-                loading: state.loading,
-                children: `Approve ${symbol}`,
-                disabled,
-                onClick: () => {
-                  State.update({
-                    loading: true,
-                  });
-                  const amount = Big(state.amount)
-                    .mul(Big(10).pow(decimals))
-                    .toFixed(0);
-                  approve(amount)
-                    .then((tx) => {
-                      tx.wait()
-                        .then((res) => {
-                          const { status } = res;
-                          if (status === 1) {
-                            console.log("tx succeeded", res);
-                            State.update({
-                              needApprove: false,
-                              loading: false,
-                            });
-                          } else {
-                            console.log("tx failed", res);
-                            State.update({
-                              loading: false,
-                            });
-                          }
-                        })
-                        .catch(() => State.update({ loading: false }));
-                    })
-                    .catch(() => State.update({ loading: false }));
-                },
-              }}
-            />
-          )}
-          {!state.needApprove && (
+
+          <Widget
+            src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+            props={{
+              config,
+              theme,
+              loading: state.loading,
+              children: `Loop`,
+              disabled,
+              onClick: handleLoop,
+            }}
+          />
+
+          {/* {!state.needApprove && (
             <Widget
               src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
               props={{
@@ -810,17 +939,7 @@ return (
                     .mul(Big(10).pow(decimals))
                     .toFixed(0);
                   if (symbol === config.nativeCurrency.symbol) {
-                    if (
-                      ["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(
-                        dexConfig.name
-                      )
-                    ) {
-                      // supply eth
-                      depositETH(amount);
-                    }
-                    if (["Pac Finance"].includes(dexConfig.name)) {
-                      depositPacETH(amount);
-                    }
+                    depositPacETH(amount);
                   } else {
                     // supply common
                     depositErc20(amount);
@@ -828,7 +947,7 @@ return (
                 },
               }}
             />
-          )}
+          )} */}
         </WithdrawContainer>
       ),
       config,
