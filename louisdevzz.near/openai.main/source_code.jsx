@@ -26,6 +26,7 @@ const Main = styled.div`
     flex-direction:column;
   }
   .button-54 {
+    margin-bottom: 2.5rem;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   letter-spacing: 2px;
@@ -262,7 +263,7 @@ return (
               <div class="flex h-full items-center bg-background" tabindex="0">
                 <div class="relative mx-auto h-64 w-96  rounded-lg bg-white p-4 text-center text-zinc-600 shadow-lg dark:bg-zinc-800">
                   <Main>
-                    <div class="mb-5">
+                    <div>
                       <button class="button-54" role="button">
                         Button
                       </button>
