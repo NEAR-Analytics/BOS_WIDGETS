@@ -3,6 +3,7 @@ const tailwindCssUrl =
 
 State.init({
   theme: null,
+  isShow: false,
 });
 
 const tailwindCss = fetch(tailwindCssUrl).body;
@@ -16,6 +17,10 @@ if (!state.theme) {
 }
 
 const Theme = state.theme;
+
+const handleClick = () => {
+  State.update({ isShow: true });
+};
 
 return (
   <Theme>
@@ -137,10 +142,7 @@ return (
             <button
               class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10 ml-2"
               type="button"
-              aria-haspopup="dialog"
-              aria-expanded="false"
-              aria-controls="radix-:rl:"
-              data-state="closed"
+              onClick={handleClick}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,5 +166,14 @@ return (
         </div>
       </div>
     </div>
+    <Widget
+      src="louisdevzz.near/widget/openai.chat"
+      props={{
+        isShow: state.isShow,
+        handleClick: () => {
+          State.update({ isShow: false });
+        },
+      }}
+    />
   </Theme>
 );
