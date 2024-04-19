@@ -89,6 +89,7 @@ return (
             tx,
             onDelete,
             update: state.update,
+            getTxStatus: props.getTxStatus,
             onUpdate: () => {
               count++;
             },
