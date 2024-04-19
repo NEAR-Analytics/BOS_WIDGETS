@@ -27,7 +27,7 @@ return (
   <Theme>
     {state.isShow ? (
       <div
-        class="flex h-screen flex-none flex-col border-r border-input bg-zinc-300 transition-all duration-300 ease-in-out dark:bg-zinc-900"
+        class="flex h-screen absolute z-50 flex-none flex-col border-r border-input bg-zinc-300 transition-all duration-300 ease-in-out dark:bg-zinc-900"
         style={{ background: "#c0bfbc", width: "300px", height: "120vh" }}
       >
         <div class="flex items-center pb-2 pl-4">
