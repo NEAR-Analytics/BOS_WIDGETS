@@ -3,7 +3,7 @@ const tailwindCssUrl =
 
 State.init({
   theme: null,
-  isShow: true,
+  isShow: props.isShow || false,
 });
 
 const tailwindCss = fetch(tailwindCssUrl).body;
