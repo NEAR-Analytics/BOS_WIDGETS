@@ -302,10 +302,21 @@ function calcHealthFactor(type, symbol, amount) {
   return newHealthFactor.toFixed(2);
 }
 
-function batchBalanceOf(chainId, userAddress, tokenAddresses, abi) {
+function batchBalanceOf(userAddress, tokenAddresses) {
   const balanceProvider = new ethers.Contract(
     config.balanceProviderAddress,
-    abi.body,
+    [
+      {
+        inputs: [
+          { internalType: "address[]", name: "users", type: "address[]" },
+          { internalType: "address[]", name: "tokens", type: "address[]" },
+        ],
+        name: "batchBalanceOf",
+        outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
     Ethers.provider().getSigner()
   );
 
@@ -419,10 +430,8 @@ function getUserBalance() {
     .then((baseAssetBalance) => {
       // get user balances
       batchBalanceOf(
-        chainId,
         account,
-        markets?.map((market) => market.underlyingAsset),
-        config.walletBalanceProviderABI
+        markets?.map((market) => market.underlyingAsset)
       )
         .then((balances) => {
           return balances?.map((balance) => balance.toString());
@@ -1013,7 +1022,47 @@ function getYourSupplies() {
       ];
 
       multicall({
-        abi: config.aavePoolV3ABI.body,
+        abi: [
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "user",
+                type: "address",
+              },
+            ],
+            name: "getUserConfiguration",
+            outputs: [
+              {
+                components: [
+                  {
+                    internalType: "uint256",
+                    name: "data",
+                    type: "uint256",
+                  },
+                ],
+                internalType: "struct DataTypes.UserConfigurationMap",
+                name: "",
+                type: "tuple",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "getReservesList",
+            outputs: [
+              {
+                internalType: "address[]",
+                name: "",
+                type: "address[]",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+        ],
         calls,
         options: {},
         multicallAddress,
