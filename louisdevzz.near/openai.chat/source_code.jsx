@@ -29,18 +29,12 @@ return (
       <div>
         <div
           data-state="open"
-          class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+          class="flex absolute inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
           style={{ pointerEvents: "auto" }}
-          data-aria-hidden="true"
-          aria-hidden="true"
         ></div>
         <div
           role="dialog"
-          id="radix-:rp:"
-          aria-describedby="radix-:rr:"
-          aria-labelledby="radix-:rq:"
-          data-state="open"
-          class="fixed z-50 gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 right-0 h-full border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm w-[100%] overflow-scroll sm:max-lg:max-w-[75%] md:max-w-[50%]"
+          class="flex z-50 absolute gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 right-0 h-full border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm w-[100%] overflow-scroll sm:max-lg:max-w-[75%] md:max-w-[50%]"
           tabindex="-1"
           style={{ pointerEvents: "auto", width: "100%" }}
         >
