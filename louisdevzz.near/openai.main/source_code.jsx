@@ -263,7 +263,6 @@ return (
                     <div class="mb-5">
                       <div class="checkbox-wrapper-14">
                         <input id="s1-14" type="checkbox" class="switch" />
-                        <label for="s1-14">Switch</label>
                       </div>
                     </div>
                     <div class="mb-5">
