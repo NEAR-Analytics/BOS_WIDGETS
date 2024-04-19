@@ -65,9 +65,9 @@ const SupplyButton = ({ data, ...rest }) => {
     const { totalSupplyUSD, supplyCapUSD } = data;
     const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
 
-    disabled = Number(data.balanceInUSD) === 0 || isFull;
+    disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0 || isFull;
   } else {
-    disabled = Number(data.balanceInUSD) === 0;
+    disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0;
   }
   return (
     <Widget
@@ -128,9 +128,8 @@ const LoopButton = ({ data }) => {
   // } else {
   //   disabled = Number(data.balanceInUSD) === 0;
   // }
-  if (!data.supportLoop) {
-    disabled = true;
-  }
+  disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0;
+
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -244,7 +243,7 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
       )}
     </div>,
     <div style={{ display: "flex", gap: 10 }}>
-      {row.balance ? <SupplyButton data={row} /> : null}
+      <SupplyButton data={row} />
 
       <BorrowButton
         data={{
@@ -322,13 +321,22 @@ if (["Pac Finance"].includes(dexConfig.name)) {
     //   )}
     // </CenterItem>,
     <div style={{ display: "flex", gap: 10 }}>
-      {row.balance ? <SupplyButton data={row} /> : null}
-      <BorrowButton
-        data={{
-          ...row,
-        }}
-      />
-      {row.balance ? <LoopButton data={row} /> : null}
+      <SupplyButton data={row} />
+      {row.supportBorrow ? (
+        <BorrowButton
+          data={{
+            ...row,
+          }}
+        />
+      ) : (
+        <div style={{ width: "100%" }}></div>
+      )}
+
+      {row.supportLoop ? (
+        <LoopButton data={row} />
+      ) : (
+        <div style={{ width: "100%" }}></div>
+      )}
     </div>,
   ]);
 }
