@@ -487,6 +487,7 @@ function getUserBalance() {
             assetsToSupply: _assetsToSupply,
           });
         })
+
         .catch((err) => {
           console.log("batchBalanceOfERROR:", err);
         });
@@ -1236,7 +1237,7 @@ useEffect(() => {
         .plus(
           Big(cur.underlyingBalanceUSD || 0)
             .times(Big(cur.supplyAPY || 0))
-            .div(supplyBal || 1)
+            .div(Number(supplyBal) || 1)
         )
         .toFixed(),
     0
