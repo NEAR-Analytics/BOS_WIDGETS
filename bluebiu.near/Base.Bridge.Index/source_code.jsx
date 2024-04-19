@@ -71,7 +71,7 @@ useEffect(() => {
   });
 }, []);
 
-const { tokens, amountOutFn, handlerSwap, handlerClaim } = props;
+const { tokens, amountOutFn, handlerSwap, handlerClaim, getTxStatus } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   const txs =  (handlerClaim ? Storage.privateGet("claim_txs") : Storage.privateGet("stargate_txs")) || {};
@@ -145,6 +145,7 @@ return (
             src="bluebiu.near/widget/Base.Bridge.Transactions"
             props={{
               txs: Storage.privateGet("stargate_txs"),
+              getTxStatus,
               chainId: currentChainId,
               onDelete: (hash) => {
                 setTimeout(() => {
