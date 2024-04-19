@@ -1,8 +1,11 @@
 if (!props.widgets || props.widgets.length === 0) return <></>;
 
+const [isWaiting, setIsWaiting] = useState(false)
+
 const handleRemoveWidget = (linkId) => {
-  props.deleteUserLink(linkId);
-};
+  setIsWaiting(true)
+  props.deleteUserLink(linkId).then(() => setIsWaiting(false)).catch(() => setIsWaiting(false))
+}
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +46,9 @@ return (
                 opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
               }}
             >
-              {widget.linkAuthorId === context.accountId ? (
+              {widget.linkAuthorId === context.accountId ? isWaiting ? (
+                <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
+              ) : (
                 <Widget
                   src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
                   props={{
