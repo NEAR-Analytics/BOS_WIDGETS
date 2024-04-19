@@ -174,8 +174,6 @@ useEffect(() => {
   });
 }, []);
 
-console.log('state: ', state)
-
 return (
   <>
     <Chains
@@ -340,6 +338,9 @@ return (
           decimals: state.currency.decimals,
           address: state.currency?.address,
         },
+        currency: state.currency,
+        from: state.from,
+        to: state.to,
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
           console.log("data:", data);
