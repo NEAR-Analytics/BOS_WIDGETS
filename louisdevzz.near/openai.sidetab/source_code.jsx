@@ -128,7 +128,7 @@ return (
     ) : (
       <button
         onClick={handleClick}
-        class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 ml-auto inline-flex p-2 hover:scale-110 hover:bg-secondary absolute -left-2 top-[90px] z-50 bg-secondary"
+        class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-10 w-10 ml-auto mt-24 inline-flex p-2 hover:scale-110 hover:bg-secondary absolute -left-2 top-[90px] z-50 bg-secondary"
       >
         <svg
           width="15"
