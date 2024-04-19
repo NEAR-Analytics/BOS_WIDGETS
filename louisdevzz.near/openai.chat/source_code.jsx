@@ -3,7 +3,6 @@ const tailwindCssUrl =
 
 State.init({
   theme: null,
-  isShow: props.isShow || false,
 });
 
 const tailwindCss = fetch(tailwindCssUrl).body;
@@ -20,7 +19,7 @@ if (!state.theme) {
 const Theme = state.theme;
 
 const handleClick = () => {
-  State.update({ isShow: false });
+  props.handleClick();
 };
 
 return (
