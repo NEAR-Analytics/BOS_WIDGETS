@@ -171,9 +171,20 @@ function getConfig() {
 const config = getConfig();
 // console.log("CONFIG: ", config);
 
+function getPrice(symbol) {
+  if (["fwWETH", "oETH"].includes(symbol)) {
+    return prices["ETH"];
+  }
+  if (["oUSDB", "fwUSDB"].includes(symbol)) {
+    return prices["USDB"];
+  }
+  return prices[symbol] || 0;
+}
+
 const markets = dexConfig?.rawMarkets?.map((item) => ({
   ...item,
-  tokenPrice: prices[item.symbol],
+  tokenPrice: getPrice(item.symbol),
+  // tokenPrice: prices[item.symbol],
 }));
 
 const underlyingTokens = dexConfig?.rawMarkets?.map(
@@ -393,12 +404,12 @@ function getLiquidity() {
           )
             .times(ACTUAL_BORROW_AMOUNT_RATE)
             .toFixed();
-          console.log(_availableBorrowsUSD);
+          // console.log(_availableBorrowsUSD);
           const availableBorrows = calcAvailableBorrows(
             _availableBorrowsUSD,
             _assetsToSupply[i].tokenPrice
           );
-          console.log(availableBorrows);
+          // console.log(availableBorrows);
           _assetsToSupply[i].availableBorrowsUSD = _availableBorrowsUSD;
           _assetsToSupply[i].availableBorrows = availableBorrows;
         }
@@ -470,7 +481,6 @@ function getUserBalance() {
         markets?.map((market) => market.underlyingAsset)
       )
         .then((balances) => {
-          console.log(11111, balances);
           return balances?.map((balance) => balance.toString());
         })
         .then((userBalances) => {
@@ -1178,6 +1188,7 @@ useEffect(() => {
   if (!account || !isChainSupported) return;
   getUserPoints();
   getUserBalance();
+
   getUserAccountData();
   getPoolDataProvider();
 
