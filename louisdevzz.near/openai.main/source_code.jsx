@@ -76,6 +76,9 @@ const Main = styled.div`
       border: 1px solid var(--bc, var(--border));
       background: var(--b, var(--background));
       transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+      @media screen and (max-width:768px){
+        display:none;
+      }
     }
     .checkbox-wrapper-14 input[type=checkbox]:after {
       content: "";
@@ -184,6 +187,9 @@ const Main = styled.div`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  @media screen and (max-width:768px){
+    display:none;
+  }
 }
 
 .button-85:before {
