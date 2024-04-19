@@ -65,7 +65,7 @@ const {
   addAction,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
-console.log("PROPS: ", props);
+// console.log("PROPS: ", props);
 
 function isValid(a) {
   if (!a) return false;
@@ -1134,24 +1134,32 @@ useEffect(() => {
 }, [account, isChainSupported, state.step1, updater]);
 
 useEffect(() => {
-  if (!account || !isChainSupported) return;
-  if (dexConfig.name !== "Seamless Protocol") return;
-  if (!Array.isArray(state.assetsToSupply)) return;
-  console.log("calc totalMarketSize");
-  const totalMarketSize = state.assetsToSupply.reduce((prev, curr) => {
-    return Big(prev).plus(Big(curr.totalSupplyUSD)).toFixed();
-  }, 0);
-  const totalBorrows = state.assetsToSupply.reduce((prev, curr) => {
-    return Big(prev).plus(Big(curr.totalDebtsUSD)).toFixed();
-  }, 0);
-  const totalAvailable = Big(totalMarketSize)
-    .minus(Big(totalBorrows))
-    .toFixed();
-  State.update({
-    totalMarketSize,
-    totalAvailable,
-    totalBorrows,
-  });
+  try {
+    if (!account || !isChainSupported) return;
+    if (dexConfig.name !== "Seamless Protocol") return;
+    if (!Array.isArray(state.assetsToSupply)) return;
+    console.log("calc totalMarketSize");
+    const totalMarketSize = state.assetsToSupply.reduce((prev, curr) => {
+      return Big(prev || 0)
+        .plus(Big(curr.totalSupplyUSD || 0))
+        .toFixed();
+    }, 0);
+    const totalBorrows = state.assetsToSupply.reduce((prev, curr) => {
+      return Big(prev || 0)
+        .plus(Big(curr.totalDebtsUSD || 0))
+        .toFixed();
+    }, 0);
+    const totalAvailable = Big(totalMarketSize || 0)
+      .minus(Big(totalBorrows || 0))
+      .toFixed();
+    State.update({
+      totalMarketSize,
+      totalAvailable,
+      totalBorrows,
+    });
+  } catch (error) {
+    console.log("CATCH_calc:", error);
+  }
 }, [account, isChainSupported, state.assetsToSupply]);
 
 useEffect(() => {
@@ -1349,7 +1357,7 @@ function onSuccess() {
   });
 }
 
-console.log("STATE: ", state);
+// console.log("STATE: ", state);
 
 const body = isChainSupported ? (
   <Wrap>
