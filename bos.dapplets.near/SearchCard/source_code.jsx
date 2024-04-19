@@ -157,8 +157,10 @@ return (
         </TextLink>
       </CardContent>
       {!props.hideButtons && (
-        <ButtonLink onClick={props.onComponentSelect} primary>
-          {plus}
+        <ButtonLink onClick={props.onComponentSelect} primary disabled={props.isWaiting}>
+          {props.isWaiting
+            ? <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
+            : plus}
         </ButtonLink>
       )}
     </CardBody>
