@@ -41,6 +41,9 @@ const Main = styled.div`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  @media screen and (max-width:768px){
+    margin-bottom:10px;
+  }
 }
 
 .button-54:active {
