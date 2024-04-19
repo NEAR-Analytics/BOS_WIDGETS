@@ -47,8 +47,9 @@ const ROUND_DOWN = 0;
 const NATIVE_SYMBOL_ADDRESS_MAP_KEY = "0x0";
 const ACTUAL_BORROW_AMOUNT_RATE = 0.99;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
+// const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
+  account,
   CHAIN_LIST,
   curChain,
   onSwitchChain,
@@ -65,7 +66,7 @@ const {
   addAction,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
-// console.log("PROPS: ", props);
+console.log("PROPS: ", props);
 
 function isValid(a) {
   if (!a) return false;
@@ -775,67 +776,118 @@ function getPoolDataProviderCaps() {
 }
 
 function getUserAccountData() {
-  const contract = new ethers.Contract(
-    config.aavePoolV3Address,
-    config.aavePoolV3ABI.body,
-    Ethers.provider()
-  );
-  contract
-    .getUserAccountData(account)
-    .then((res) => {
-      console.log("getUserAccountData_res:", res);
-      const [
-        totalCollateralBase,
-        totalDebtBase,
-        availableBorrowsBase,
-        currentLiquidationThreshold,
-        ltv,
-        healthFactor,
-      ] = res;
+  try {
+    const contract = new ethers.Contract(
+      config.aavePoolV3Address,
+      [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "getUserAccountData",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "totalCollateralBase",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "totalDebtBase",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "availableBorrowsBase",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "currentLiquidationThreshold",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "ltv",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "healthFactor",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      Ethers.provider()
+    );
+    contract
+      .getUserAccountData(account)
+      .then((res) => {
+        console.log("getUserAccountData_res:", res);
+        const [
+          totalCollateralBase,
+          totalDebtBase,
+          availableBorrowsBase,
+          currentLiquidationThreshold,
+          ltv,
+          healthFactor,
+        ] = res;
 
-      const totalDebtBaseUSD = ethers.utils.formatUnits(
-        totalDebtBase.toString(),
-        8
-      );
+        const totalDebtBaseUSD = ethers.utils.formatUnits(
+          totalDebtBase.toString(),
+          8
+        );
 
-      const totalCollateralBaseUSD = ethers.utils.formatUnits(
-        totalCollateralBase.toString(),
-        8
-      );
-      const threshold = ethers.utils.formatUnits(
-        currentLiquidationThreshold.toString(),
-        4
-      );
+        const totalCollateralBaseUSD = ethers.utils.formatUnits(
+          totalCollateralBase.toString(),
+          8
+        );
 
-      const _totalCollateralBaseUSD = Big(totalCollateralBaseUSD).times(
-        Big(threshold)
-      );
-      const BorrowPowerUsed = Big(totalDebtBaseUSD || 0)
-        .div(_totalCollateralBaseUSD.eq(0) ? 1 : _totalCollateralBaseUSD)
-        .times(100)
-        .toFixed();
-      // console.log(
-      //   "HF--",
-      //   ethers.utils.formatUnits(healthFactor),
-      //   formatHealthFactor(ethers.utils.formatUnits(healthFactor))
-      // );
-      State.update({
-        threshold,
-        currentLiquidationThreshold,
-        BorrowPowerUsed,
-        healthFactor: !totalDebtBase.toNumber()
+        const threshold = ethers.utils.formatUnits(
+          currentLiquidationThreshold.toString(),
+          4
+        );
+
+        const _totalCollateralBaseUSD = Big(totalCollateralBaseUSD).times(
+          Big(threshold)
+        );
+
+        const BorrowPowerUsed = Big(totalDebtBaseUSD || 0)
+          .div(_totalCollateralBaseUSD.eq(0) ? 1 : _totalCollateralBaseUSD)
+          .times(100)
+          .toFixed();
+
+        const hf = Big(totalDebtBase).eq(0)
           ? formatHealthFactor("∞")
-          : formatHealthFactor(ethers.utils.formatUnits(healthFactor)),
+          : formatHealthFactor(ethers.utils.formatUnits(healthFactor));
 
-        availableBorrowsUSD: ethers.utils.formatUnits(availableBorrowsBase, 8),
+        State.update({
+          threshold,
+          currentLiquidationThreshold,
+          BorrowPowerUsed,
+          healthFactor: hf,
+          availableBorrowsUSD: ethers.utils.formatUnits(
+            availableBorrowsBase,
+            8
+          ),
+        });
+      })
+      .then(() => {
+        getLiquidity();
+      })
+      .catch((err) => {
+        console.log("getUserAccountData_error", err);
       });
-    })
-    .then(() => {
-      getLiquidity();
-    })
-    .catch((err) => {
-      console.log("getUserAccountData_error", err);
-    });
+  } catch (error) {
+    console.log("CATCH_ACCOUNT_DATA", error);
+  }
 }
 function valueToBigNumber(amount) {
   if (amount instanceof BigNumber) {
