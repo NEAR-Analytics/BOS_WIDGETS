@@ -1,5 +1,12 @@
 const { widget, deleteUserLink } = props
 
+const [isWaiting, setIsWaiting] = useState(false)
+
+const handleRemoveWidget = (linkId) => {
+  setIsWaiting(true)
+  deleteUserLink(linkId).then(() => setIsWaiting(false)).catch(() => setIsWaiting(false));
+};
+
 const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
@@ -32,11 +39,13 @@ return (
         widget.linkAuthorId === context.accountId ? "1" : "0",
     }}
   >
-    {widget.linkAuthorId === context.accountId ? (
+    {widget.linkAuthorId === context.accountId ? isWaiting ? (
+      <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
+    ) : (
       <Widget
         src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
         props={{
-          onClick: () => deleteUserLink(widget.linkId),
+          onClick: () => handleRemoveWidget(widget.linkId),
         }}
       />
     ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
