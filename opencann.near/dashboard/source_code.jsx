@@ -288,7 +288,10 @@ return (
 
         {state.selectedTab === "feed" && (
           <>
-            <Widget src="opencann.near/widget/feed" props={{ accountId }} />
+            <Widget
+              src="buildhub.near/widget/page.feed"
+              props={{ accountId }}
+            />
           </>
         )}
 
