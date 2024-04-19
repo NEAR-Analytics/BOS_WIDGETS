@@ -25,7 +25,7 @@ const handleClick = () => {
 
 return (
   <Theme>
-    {state.isShow && (
+    {props.isShow && (
       <div>
         <div
           data-state="open"
