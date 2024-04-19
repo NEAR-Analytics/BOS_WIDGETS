@@ -244,7 +244,8 @@ if (["ZeroLend", "AAVE V3", "Seamless Protocol"].includes(dexConfig.name)) {
       )}
     </div>,
     <div style={{ display: "flex", gap: 10 }}>
-      <SupplyButton data={row} />
+      {row.balance ? <SupplyButton data={row} /> : null}
+
       <BorrowButton
         data={{
           ...row,
@@ -321,13 +322,13 @@ if (["Pac Finance"].includes(dexConfig.name)) {
     //   )}
     // </CenterItem>,
     <div style={{ display: "flex", gap: 10 }}>
-      <SupplyButton data={row} />
+      {row.balance ? <SupplyButton data={row} /> : null}
       <BorrowButton
         data={{
           ...row,
         }}
       />
-      {dexConfig.name === "Pac Finance" ? <LoopButton data={row} /> : null}
+      {row.balance ? <LoopButton data={row} /> : null}
     </div>,
   ]);
 }
