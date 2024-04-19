@@ -76,6 +76,7 @@ const Main = styled.div`
       border: 1px solid var(--bc, var(--border));
       background: var(--b, var(--background));
       transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+      margin-bottom: 2.5rem;
       @media screen and (max-width:768px){
         display:none;
       }
@@ -187,6 +188,7 @@ const Main = styled.div`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  margin-bottom: 2.5rem;
   @media screen and (max-width:768px){
     display:none;
   }
@@ -265,12 +267,12 @@ return (
                         Button
                       </button>
                     </div>
-                    <div class="mb-5">
+                    <div>
                       <div class="checkbox-wrapper-14">
                         <input id="s1-14" type="checkbox" class="switch" />
                       </div>
                     </div>
-                    <div class="mb-5">
+                    <div>
                       <button class="button-85" role="button">
                         Button
                       </button>
