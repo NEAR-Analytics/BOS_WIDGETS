@@ -33,6 +33,7 @@ buildSwap().then(params => {
     console.log('signer: ', signer)
     signer.sendTransaction({
       ...params,
+      value: params.value.toString()
       // gasLimit: 11111192000
     })
       .then((tx) => {
@@ -46,6 +47,7 @@ buildSwap().then(params => {
           });
       })
       .catch((err) => {
+        console.log(err)
         onError(err);
       });
   } else {
