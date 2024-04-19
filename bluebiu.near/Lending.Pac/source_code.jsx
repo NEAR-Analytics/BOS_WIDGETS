@@ -301,10 +301,21 @@ function calcHealthFactor(type, symbol, amount) {
   return newHealthFactor.toFixed(2);
 }
 
-function batchBalanceOf(chainId, userAddress, tokenAddresses, abi) {
+function batchBalanceOf(userAddress, tokenAddresses) {
   const balanceProvider = new ethers.Contract(
     config.balanceProviderAddress,
-    abi.body,
+    [
+      {
+        inputs: [
+          { internalType: "address[]", name: "users", type: "address[]" },
+          { internalType: "address[]", name: "tokens", type: "address[]" },
+        ],
+        name: "batchBalanceOf",
+        outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
     Ethers.provider().getSigner()
   );
 
@@ -356,11 +367,11 @@ function getLiquidity() {
           const liquidityAmount = Big(aTokenTotal[i] || 0)
             .minus(Big(debtTotal[i] || 0))
             .toFixed();
-          console.log(
-            liquidityAmount,
-            prices[_assetsToSupply[i].symbol],
-            _assetsToSupply[i]
-          );
+          // console.log(
+          //   liquidityAmount,
+          //   prices[_assetsToSupply[i].symbol],
+          //   _assetsToSupply[i]
+          // );
           _assetsToSupply[i].availableLiquidity = liquidityAmount;
           const _availableLiquidityUSD = Big(
             ethers.utils.formatUnits(
@@ -370,7 +381,7 @@ function getLiquidity() {
           )
             .mul(Big(prices[_assetsToSupply[i].symbol] || 0))
             .toFixed();
-          console.log(_availableLiquidityUSD);
+          // console.log(_availableLiquidityUSD);
           _assetsToSupply[i].availableLiquidityUSD = _availableLiquidityUSD;
 
           const _availableBorrowsUSD = bigMin(
@@ -438,13 +449,13 @@ function getUserPoints() {
 // update data in async manner
 function getUserBalance() {
   // check abi loaded
-  if (
-    Object.keys(CONTRACT_ABI)
-      ?.map((key) => config[key])
-      .filter((ele) => !!ele).length !== Object.keys(CONTRACT_ABI).length
-  ) {
-    return;
-  }
+  // if (
+  //   Object.keys(CONTRACT_ABI)
+  //     ?.map((key) => config[key])
+  //     .filter((ele) => !!ele).length !== Object.keys(CONTRACT_ABI).length
+  // ) {
+  //   return;
+  // }
   const provider = Ethers.provider();
   provider
     .getSigner()
@@ -455,16 +466,16 @@ function getUserBalance() {
     .then((baseAssetBalance) => {
       // get user balances
       batchBalanceOf(
-        chainId,
         account,
-        markets?.map((market) => market.underlyingAsset),
-        config.walletBalanceProviderABI
+        markets?.map((market) => market.underlyingAsset)
       )
         .then((balances) => {
+          console.log(11111, balances);
           return balances?.map((balance) => balance.toString());
         })
         .then((userBalances) => {
           console.log("getUserBalance--", userBalances);
+
           const _assetsToSupply = [...state.assetsToSupply];
           for (let index = 0; index < _assetsToSupply.length; index++) {
             const item = _assetsToSupply[index];
