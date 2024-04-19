@@ -65,12 +65,29 @@ const HandlerSuccess = styled.div`
   color: var(--success-color);
 `;
 
-const { tx, onDelete, update, onUpdate } = props;
+const { tx, onDelete, update, onUpdate, getTxStatus } = props;
 
 const getStargateStatus = () => {
   State.update({
     loading: true,
   });
+  if (getTxStatus) {
+    getTxStatus(tx).then(isComplete => {
+      if (isComplete) {
+        State.update({
+          status: "success",
+          loading: false,
+        });
+        onUpdate();
+        onDelete(tx.hash);
+      } else {
+        State.update({
+          loading: false,
+        });
+      }
+    })
+    return 
+  }
   if (
     (tx.fromChainId === 1 && tx.toChainId === 324) ||
     (tx.fromChainId === 324 && tx.toChainId === 1) ||
