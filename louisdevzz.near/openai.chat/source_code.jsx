@@ -40,9 +40,9 @@ return (
           aria-describedby="radix-:rr:"
           aria-labelledby="radix-:rq:"
           data-state="open"
-          class="fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 right-0 h-full border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm w-[100%] overflow-scroll sm:max-lg:max-w-[75%] md:max-w-[50%]"
+          class="fixed z-50 gap-4 bg-white p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500 inset-y-0 right-0 h-full border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm w-[100%] overflow-scroll sm:max-lg:max-w-[75%] md:max-w-[50%]"
           tabindex="-1"
-          style={{ pointerEvents: "auto" }}
+          style={{ pointerEvents: "auto", width: "100%" }}
         >
           <div class="flex flex-col space-y-2 text-center sm:text-left">
             <h2 id="radix-:rq:" class="text-lg font-semibold text-foreground">
