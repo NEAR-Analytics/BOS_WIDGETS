@@ -87,44 +87,6 @@ function text3() {
   );
 }
 
-//container of popup sample
-const PopupContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-// popup  content
-const PopupContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  z-index: 1000;
-`;
-
-// handling popup
-const Popup = ({ onClose }) => {
-  return (
-    <PopupContainer>
-      <PopupContent>
-        <img
-          src="https://i.postimg.cc/J7YBFNhM/Screenshot-2024-01-07-225153.png"
-          alt="Popup Image"
-          style={{ maxWidth: "100%", maxHeight: "200px", margin: "15px 0" }}
-        />
-        <SampleButton onClick={onClose}>Close</SampleButton>
-      </PopupContent>
-    </PopupContainer>
-  );
-};
-
 // next button stles
 const NextUpper = styled.button`
   font-family: 'Lato', sans-serif;
@@ -358,7 +320,7 @@ const Plus = styled.div`
   
 `;
 
-const Submit = styled.div``;
+// const Submit = styled.div``;
 const Divbutton = styled.div`
 display: flex;
 width: 100%;
@@ -411,15 +373,6 @@ const InputAmount = styled.input`
   justify-content: center;
   }
 `;
-const User = "fdaomultixender.near";
-const Content3 = ({ distributeInput }) => (
-  <div>
-    <Widget
-      src={`${user}/widget/MultiXender_distribute`}
-      distributeInput={distributeInput}
-    />
-  </div>
-);
 
 // Config for Bos app
 function getConfig(network) {
@@ -446,12 +399,12 @@ const Main = () => {
   const [popupContent, setPopupContent] = useState("");
   const [distributeInput, setDistributeInput] = useState("");
   const [isTransferCompleted, setTransferCompleted] = useState(false);
-  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
+  // this one is for future reference if popup needed
   //used to open simple popup gas one
-  const handleOpenSimplePopup = () => {
-    setSimplePopupVisibility(true);
-  };
+  // const handleOpenSimplePopup = () => {
+  //   setSimplePopupVisibility(true);
+  // };
 
   //used to close simple popup
   const handleCloseSimplePopup = () => {
@@ -494,18 +447,7 @@ const Main = () => {
       return {}; // Return empty object as there's no valid distribution
     } else {
       // Calculate the percentage based on the number of keys
-      let platformAmount = 0;
-      if (newList.length >= 1 && newList.length <= 10) {
-        platformAmount = sumOfAmounts * 0.01;
-      } else if (newList.length >= 11 && newList.length <= 25) {
-        platformAmount = sumOfAmounts * 0.02;
-      } else if (newList.length >= 26 && newList.length <= 50) {
-        platformAmount = sumOfAmounts * 0.03;
-      } else if (newList.length >= 50 && newList.length <= 100) {
-        platformAmount = sumOfAmounts * 0.04;
-      } else {
-        platformAmount = sumOfAmounts * 0.06;
-      }
+      let platformAmount = newList.length * 0.004 + sumOfAmounts * 0.005;
 
       const calculatedTotalAmount = sumOfAmounts + platformAmount;
 
@@ -612,12 +554,19 @@ const Main = () => {
     setAddressList(getAddressList());
   }, [textAreaContent]);
 
-  const [inputs, setInputs] = useState([{ key: 1, address: "", amount: "" }]);
+  const [inputs, setInputs] = useState([
+    { key: 1, address: "", amount: "", usdAmount: "" },
+  ]);
 
   const handleAdd = () => {
     setInputs((prevInputs) => [
       ...prevInputs,
-      { key: prevInputs.length + 1, address: "", amount: "" },
+      {
+        key: prevInputs.length + 1,
+        address: "",
+        amount: "",
+        usdAmount: "",
+      },
     ]);
   };
 
@@ -633,24 +582,58 @@ const Main = () => {
 
   const handleInputChange = (event, index, field) => {
     const { value } = event.target;
+    let updatedInputs = [...inputs];
+    let input = updatedInputs[index];
 
-    // Check if the field is 'amount' and the value is empty
-    if (field === "amount" && value === "") {
-      // In this case, set the amount to 0 to avoid any NaN issues
-      setInputs((prevInputs) =>
-        prevInputs.map((input, i) =>
-          i === index ? { ...input, [field]: 0 } : input
-        )
-      );
-    } else {
-      // Otherwise, proceed normally
-      const parsedValue = field === "amount" ? parseFloat(value) : value;
-      setInputs((prevInputs) =>
-        prevInputs.map((input, i) =>
-          i === index ? { ...input, [field]: parsedValue } : input
-        )
-      );
+    // Early exit for address field to skip numeric checks
+    if (field === "address") {
+      input.address = value;
+      setInputs(updatedInputs);
+      return;
     }
+
+    // Handling empty string case to avoid NaN
+    if (value === "") {
+      input[field] = "";
+      if (field === "amount") {
+        input.usdAmount = "";
+      } else if (field === "usdAmount") {
+        input.amount = "";
+      }
+      setInputs(updatedInputs);
+      return;
+    }
+
+    // Numeric validation only for amount fields
+    if (!value.match(/^\d*\.?\d*$/)) {
+      // Regex to allow only numbers and decimal points
+      setPopupContent("Field must consist of numbers only.");
+      setSimplePopupVisibility(true);
+      return;
+    }
+
+    const numValue = parseFloat(value);
+    if (numValue < 0) {
+      setPopupContent("The field can only be positive.");
+      setSimplePopupVisibility(true);
+      return;
+    }
+    if (numValue === 0) {
+      setPopupContent("The field cannot be zero.");
+      setSimplePopupVisibility(true);
+      return;
+    }
+
+    // Update the amounts and convert as necessary
+    if (field === "amount") {
+      input.amount = value;
+      input.usdAmount = (numValue * res).toFixed(2); // Convert and format to USD
+    } else if (field === "usdAmount") {
+      input.usdAmount = value;
+      input.amount = (numValue / res).toFixed(2); // Convert and format to NEAR
+    }
+
+    setInputs(updatedInputs);
   };
 
   const initialValidationStates = inputs.map(() => undefined);
@@ -666,6 +649,17 @@ const Main = () => {
     });
   };
 
+  const data = fetch("https://api.coingecko.com/api/v3/coins/near", {
+    subscribe: true,
+    method: "GET",
+    headers: {
+      Accept: "*/*",
+    },
+  });
+
+  const main_price = data.body.market_data.current_price.usd;
+
+  const res = main_price;
   return (
     <Container>
       <InputLabel>
@@ -740,7 +734,7 @@ const Main = () => {
               }}
             />
             <InputAmount
-              type="Number"
+              type="text"
               className="m-2 p-2 w-1/2 amount"
               placeholder="NEAR"
               name="Amount"
@@ -748,6 +742,16 @@ const Main = () => {
               onChange={(event) => handleInputChange(event, index, "amount")}
               style={{ textAlign: "centre" }}
             />
+            <InputAmount
+              type="text"
+              className="m-2 p-2 w-1/2 amount"
+              placeholder="USD"
+              name="Amount"
+              value={input.usdAmount}
+              onChange={(event) => handleInputChange(event, index, "usdAmount")}
+              style={{ textAlign: "centre" }}
+            />
+
             <DeleteButton onClick={() => handleDeleteInput(index)}>
               ❌
             </DeleteButton>
@@ -799,7 +803,7 @@ const FooterContainer = styled.div`
     padding: 20px; /* Add padding for better spacing */
     text-align: center; /* Center text on smaller screens */
     p{
-    font-size: 1.1rem;
+    font-size: 1.1rem; 
     }
   }
 `;
