@@ -1,10 +1,17 @@
 if (!props.widgets || props.widgets.length === 0) return <></>;
 
-const [isWaiting, setIsWaiting] = useState(false)
+const [waitingAppIdsSet, changeWaitingAppIdsSet] = useState(new Set())
 
 const handleRemoveWidget = (linkId) => {
-  setIsWaiting(true)
-  props.deleteUserLink(linkId).then(() => setIsWaiting(false)).catch(() => setIsWaiting(false))
+  changeWaitingAppIdsSet((val) => val.add(linkId));
+  const callback = () => {
+    waitingAppIdsSet.delete(linkId)
+    changeWaitingAppIdsSet((val) => {
+      val.delete(linkId)
+      return val
+    });
+  }
+  props.deleteUserLink(linkId).then(callback).catch(callback);
 }
 
 const Container = styled.div`
@@ -46,7 +53,7 @@ return (
                 opacity: widget.linkAuthorId === context.accountId ? "1" : "0",
               }}
             >
-              {widget.linkAuthorId === context.accountId ? isWaiting ? (
+              {widget.linkAuthorId === context.accountId ? waitingAppIdsSet.has(widget.linkId) ? (
                 <span role="status" aria-hidden="true" class="spinner-grow spinner-grow-sm" />
               ) : (
                 <Widget
@@ -55,8 +62,7 @@ return (
                     onClick: () => handleRemoveWidget(widget.linkId),
                   }}
                 />
-              ) : // <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
-              null}
+              ) : null}
             </WidgetBadgeWrapper>
           ) : null}
 
