@@ -5,9 +5,8 @@ const onUpdate = props.onUpdate;
 const [account, setAccount] = useState(value);
 const [showAccountAutocomplete, setAutoComplete] = useState(false);
 const [isValidAccount, setValidAccount] = useState(true);
-const maxWidth = props.maxWidth;
 const AutoComplete = styled.div`
-  max-width: ${maxWidth ?? "400px"};
+  max-width: 400px;
   margin-top: 1rem;
 `;
 
