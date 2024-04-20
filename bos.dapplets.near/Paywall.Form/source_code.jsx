@@ -171,6 +171,17 @@ const InputsBlock = styled.div`
   padding: 10px;
   margin-bottom: 14px;
   box-sizing: border-box;
+  position: relative;
+`;
+
+const UploadBlocker = styled.div`
+  position: absolute;
+  width: calc(100% - 16px);
+  height: 50px;
+  background: white;
+  opacity: .5;
+  top: 8px;
+  left: 8px;
 `;
 
 const UploadBlock = styled.div`
@@ -236,6 +247,9 @@ const InputAmount = styled.input`
   outline: none;
   height: 16px;
   box-sizing: border-box;
+  &:disabled {
+    color: #919191;
+  }
 `;
 
 const WrongAmountMessage = styled.div`
@@ -346,6 +360,7 @@ return (
   <WrapperWidget>
     <Title>Configure your content</Title>
     <InputsBlock>
+      <UploadBlocker style={{ display: state.loading ? 'block' : 'none'}} />
       <UploadBlock>
         <FileInput readOnly value={state.img.cid ? state.img.cid : ""} />
 
@@ -368,6 +383,7 @@ return (
           <InputAmount
             value={state.amount || ""}
             onChange={amountOnChange}
+            disabled={state.loading}
           />
         </div>
       </BlockAmount>
