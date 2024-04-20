@@ -62,6 +62,9 @@ const CSS = styled.div`
   }
   .footer {
   }
+  img {
+    width: 100%;
+  }
 `;
 const Container = styled.div`
   display: flex;
@@ -71,6 +74,8 @@ const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
+// const GlobalStyle = createGlobalStyle`
+// `;
 // const Template = config.Template ?? (({children}) => <>{children}</>);
 return (
   <CSS style={config.theme}>
