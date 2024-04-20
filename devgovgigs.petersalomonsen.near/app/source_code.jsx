@@ -42,11 +42,14 @@ if (!page) {
 
 // Track visits
 
-if ("phc_es19zuLOCXpiyOGqBDkBrH7MaL77ggqJMjy8mpR1623".length === 47) {
+if ("${REPL_POSTHOG_API_KEY}".length === 47) {
   useEffect(() => {
-    const hashedUserId = Array.from(nacl.hash(Buffer.from(context.accountId)))
-      .map((b) => ("00" + b.toString(16)).slice(-2))
-      .join("");
+    const hashedUserId = context.accountId
+      ? Array.from(nacl.hash(Buffer.from(context.accountId)))
+          .map((b) => ("00" + b.toString(16)).slice(-2))
+          .join("")
+      : "unauthenticated";
+
     fetch("https://eu.posthog.com/capture/", {
       method: "POST",
       headers: {
@@ -54,7 +57,7 @@ if ("phc_es19zuLOCXpiyOGqBDkBrH7MaL77ggqJMjy8mpR1623".length === 47) {
       },
 
       body: JSON.stringify({
-        api_key: "phc_es19zuLOCXpiyOGqBDkBrH7MaL77ggqJMjy8mpR1623",
+        api_key: "${REPL_POSTHOG_API_KEY}",
         event: "devhub_pageview",
         properties: {
           distinct_id: hashedUserId,
