@@ -40,6 +40,24 @@ if (!page) {
   page = "home";
 }
 
+// Track visits
+
+useEffect(() => {
+  fetch("https://eu.posthog.com/capture/", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+
+    body: JSON.stringify({
+      api_key: "phc_es19zuLOCXpiyOGqBDkBrH7MaL77ggqJMjy8mpR1623",
+      event: "devhub_pageview",
+      properties: props,
+      timestamp: new Date().toISOString(),
+    }),
+  });
+}, []);
+
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
