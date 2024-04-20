@@ -6,7 +6,6 @@ const TextInput = ({
   label,
   multiline,
   onChange,
-  debounceTimeout,
   placeholder,
   type,
   value,
@@ -15,37 +14,29 @@ const TextInput = ({
   error,
   ...otherProps
 }) => {
-  onChange = typeof onChange === "function" ? onChange : () => {};
   State.init({
     data: value,
     error: error,
   });
 
-  function convertToString(value) {
-    return typeof value === "number" ? value.toFixed() : value ?? "";
-  }
-
   useEffect(() => {
     const inputError = "";
     if (value !== state.data) {
-      const isNumeric = inputProps.inputmode === "numeric";
-      let inputValue = state.data;
       // check for input number error (since type: number doesn't work on firefox/safari)
-      if (isNumeric) {
+      if (inputProps.inputmode === "numeric") {
+        const inputValue = state.data;
         if (!inputValue) {
           return;
         }
-        inputValue = convertToString(state.data).replace(/,/g, "");
         let isValidInteger = /^[1-9][0-9]*$/.test(inputValue);
         if (!isValidInteger) {
           inputError = "Please enter the nearest positive whole number.";
         }
-
         State.update({ error: inputError });
       }
       const handler = setTimeout(() => {
-        onChange({ target: { value: inputValue }, error: inputError });
-      }, debounceTimeout || 30);
+        onChange({ target: { value: state.data }, error: inputError });
+      }, 30);
 
       return () => {
         clearTimeout(handler);
@@ -130,17 +121,6 @@ const TextInput = ({
 
   const onKeyDown = props.onKeyDown ?? (() => {});
 
-  const getFormattedData = useCallback(() => {
-    if (inputProps.inputmode === "numeric") {
-      const number = parseFloat(convertToString(state.data).replace(/,/g, ""));
-      if (!isNaN(number)) {
-        // Format the number for display
-        return number.toLocaleString("en-US");
-      }
-    }
-    return state.data;
-  }, [state.data]);
-
   return (
     <div
       className={[
@@ -172,18 +152,17 @@ const TextInput = ({
               aria-describedby={key}
               data-testid={key}
               aria-label={label}
-              className={
-                inputClassName ||
-                `form-control border ${
-                  inputProps.prefix ? "border-start-0" : ""
-                }`
-              }
+              className={[
+                "form-control border",
+                inputClassName,
+                inputProps.prefix ? "border-start-0" : "",
+              ].join(" ")}
               type={typeAttribute}
               maxLength={inputProps.max}
-              value={getFormattedData()}
+              value={state.data}
               onChange={(e) => State.update({ data: e.target.value })}
               onBlur={(e) => {
-                if (typeof onBlur === "function") {
+                if (props.onBlur) {
                   onBlur({ target: { value: e.target.value } });
                 }
               }}
@@ -212,7 +191,7 @@ const TextInput = ({
           value={state.data}
           onChange={(e) => State.update({ data: e.target.value })}
           onBlur={(e) => {
-            if (typeof onBlur === "function") {
+            if (props.onBlur) {
               onBlur({ target: { value: e.target.value } });
             }
           }}
