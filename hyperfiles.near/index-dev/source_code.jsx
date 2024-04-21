@@ -363,6 +363,24 @@ return (
           </div>
         )}
       </TabContent>
+      <TabContent>
+        {defaultView === "ATTESTATION" && (
+          <Widget src="flowscience.near/widget/attestWithTypes" props={{}} />
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "SCHEMA" && (
+          <Widget src="flowscience.near/widget/JSON-Schema.editor" props={{}} />
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "TYPE" && (
+          <Widget src="efiz.near/widget/every.type.create" props={{}} />
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "JOB" && <Widget src="" props={{}} />}
+      </TabContent>
     </div>
   </div>
 );
