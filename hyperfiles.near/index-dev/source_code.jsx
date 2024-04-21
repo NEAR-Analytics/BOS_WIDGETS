@@ -195,6 +195,9 @@ return (
         <option value="JOB">Job</option>
       </Select>
     </Row>
+    <div>
+      <Widget src="hyperfiles.near/widget/query.search" props={{}} />
+    </div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
