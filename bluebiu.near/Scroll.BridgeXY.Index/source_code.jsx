@@ -81,6 +81,13 @@ return (
           })
         },
         ...props,
+        addAction: (params) => {
+          props.addAction({
+            ...params,
+            template: "XY Bridge",
+            source: 'dapp'
+          })
+        }
       }}
     />
   </Theme>
