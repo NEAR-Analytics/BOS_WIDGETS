@@ -31,6 +31,8 @@ const FormGroup = styled.div`
   flex-direction: column;
 `;
 
+const Button = styled.button``;
+
 const adapters = [
   // these can come from the user (or app) settings
   // {
@@ -142,51 +144,75 @@ const handleCreate = () => {
 };
 
 return (
-  <Wrapper>
-    <h3>{context.accountId === creatorId ? "create" : "request merge"}</h3>
-    <ul className="nav nav-tabs">
-      <li className="nav-item">
-        <a
-          className={`nav-link ${activeTab === "data" ? "active" : ""}`}
-          onClick={() => setActiveTab("data")}
-        >
-          Data
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          className={`nav-link ${activeTab === "metadata" ? "active" : ""}`}
-          onClick={() => setActiveTab("metadata")}
-        >
-          Metadata
-        </a>
-      </li>
-    </ul>
-
-    <TabContent>
-      {activeTab === "data" && (
+  <div className="row">
+    <div className="col">
+      <div className="p-3 border bg-light">
         <Form>
+          <h3>Data</h3>
           <FormGroup>
-            <Label>source</Label>
-            <Input
-              type="text"
-              value={source}
-              onChange={(e) => onChangeSource(e.target.value)}
-              disabled={props.source} // disable if source is passed in
+            <Label>Source</Label>
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Source:", newValue);
+                  setSource(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, source: newValue }, // Update external state
+                  });
+                },
+                value: source,
+                options: {
+                  source: {
+                    sourcePattern: "*/profile/source/*",
+                    placeholder: "Select a source",
+                  },
+                },
+              }}
             />
           </FormGroup>
-          {/* <Widget
-            src="bozon.near/widget/CodeDiff"
-            props={{ currentCode: update, prevCode: src, ...props }}
-          /> */}
-          <textarea
-            className="form-control mb-3"
-            rows={5}
-            value={json}
-            onChange={(e) => setJson(e.target.value)}
-          />
           <FormGroup>
-            <Label>adapter</Label>
+            <Label>Schema</Label>
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Schema:", newValue);
+                  setSchema(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, schema: newValue }, // Update external state
+                  });
+                },
+                value: schema,
+                options: {
+                  source: {
+                    schemaPattern: "*/profile/schema/*",
+                    placeholder: "Select a schema",
+                  },
+                },
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Raw Data</Label>
+            <textarea
+              className="form-control"
+              style={{ width: "100%", height: "400px" }}
+              value={rawData}
+              onChange={(e) => setRawData(e.target.value)}
+            />
+          </FormGroup>
+        </Form>
+      </div>
+    </div>
+    <div className="col">
+      <div className="p-3 border bg-light">
+        <Form>
+          <h3>Storage</h3>
+          <FormGroup>
+            <Label>Adapter</Label>
             <Select
               value={adapter}
               onChange={(e) => setAdapter(e.target.value)}
@@ -196,36 +222,48 @@ return (
               ))}
             </Select>
           </FormGroup>
+          {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
+          {adapter === "hyperfiles.near/widget/adapter.github" && (
+            <Widget
+              src="flowscience.near/widget/GitHubSearchSelect"
+              onSelectRepository={handleSelectRepository}
+            ></Widget>
+          )}
         </Form>
-      )}
-    </TabContent>
-    <TabContent>
-      {activeTab === "metadata" && (
+      </div>
+    </div>
+    <div className="col">
+      <div className="p-3 border bg-light">
         <Form>
-          <FormGroup>
-            <Label>name</Label>
-            <Input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>description</Label>
-            <textarea
-              className="form-control mb-3"
-              rows={5}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </FormGroup>
+          <Button
+            onClick={handleCreate}
+            disabled={!adapter || !schema || !source || !rawData}
+          >
+            create reference
+          </Button>
+          {hyperfile !== "" && (
+            <>
+              <FormGroup>
+                <textarea
+                  className="form-control"
+                  value={hyperfile}
+                  disabled
+                  style={{ width: "100%", height: "400px" }}
+                />
+              </FormGroup>
+              <Button
+                onClick={() =>
+                  Social.set(JSON.parse(hyperfile), {
+                    force: true,
+                  })
+                }
+              >
+                save
+              </Button>
+            </>
+          )}
         </Form>
-      )}
-    </TabContent>
-    <FormGroup>
-      <button className="btn btn-success mb-1" onClick={handleCreate}>
-        Create
-      </button>
-    </FormGroup>
-  </Wrapper>
+      </div>
+    </div>
+  </div>
 );
