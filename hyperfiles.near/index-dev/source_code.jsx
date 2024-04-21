@@ -187,12 +187,10 @@ return (
       <Select
         value={state.defaultView}
         onChange={(e) => setDefaultView(e.target.value)}
-        //onChange={(e) => State.update({ view: e.target.value })}
       >
         <option value="HYPERFILE">Data Object</option>
         <option value="ATTESTATION">Attestation</option>
         <option value="SCHEMA">Schema</option>
-
         <option value="TYPE">Type</option>
         <option value="JOB">Job</option>
       </Select>
@@ -224,123 +222,10 @@ return (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
-                      <Form>
-                        <h3>Data</h3>
-                        <FormGroup>
-                          <Label>Source</Label>
-                          <Widget
-                            src="hyperfiles.near/widget/MetadataEditor"
-                            props={{
-                              initialMetadata: profile,
-                              onChange: (newValue) => {
-                                console.log("New Source:", newValue);
-                                setSource(newValue); // Update local state
-                                State.update({
-                                  profile: { ...profile, source: newValue }, // Update external state
-                                });
-                              },
-                              value: source,
-                              options: {
-                                source: {
-                                  sourcePattern: "*/profile/source/*",
-                                  placeholder: "Select a source",
-                                },
-                              },
-                            }}
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Schema</Label>
-                          <Widget
-                            src="hyperfiles.near/widget/MetadataEditor"
-                            props={{
-                              initialMetadata: profile,
-                              onChange: (newValue) => {
-                                console.log("New Schema:", newValue);
-                                setSchema(newValue); // Update local state
-                                State.update({
-                                  profile: { ...profile, schema: newValue }, // Update external state
-                                });
-                              },
-                              value: schema,
-                              options: {
-                                source: {
-                                  schemaPattern: "*/profile/schema/*",
-                                  placeholder: "Select a schema",
-                                },
-                              },
-                            }}
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label>Raw Data</Label>
-                          <textarea
-                            className="form-control"
-                            style={{ width: "100%", height: "400px" }}
-                            value={rawData}
-                            onChange={(e) => setRawData(e.target.value)}
-                          />
-                        </FormGroup>
-                      </Form>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="p-3 border bg-light">
-                      <Form>
-                        <h3>Storage</h3>
-                        <FormGroup>
-                          <Label>Adapter</Label>
-                          <Select
-                            value={adapter}
-                            onChange={(e) => setAdapter(e.target.value)}
-                          >
-                            {adapters.map((o) => (
-                              <option value={o.value}>{o.title}</option>
-                            ))}
-                          </Select>
-                        </FormGroup>
-                        {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
-                        {adapter ===
-                          "hyperfiles.near/widget/adapter.github" && (
-                          <Widget
-                            src="flowscience.near/widget/GitHubSearchSelect"
-                            onSelectRepository={handleSelectRepository}
-                          ></Widget>
-                        )}
-                      </Form>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="p-3 border bg-light">
-                      <Form>
-                        <Button
-                          onClick={handleCreate}
-                          disabled={!adapter || !schema || !source || !rawData}
-                        >
-                          create reference
-                        </Button>
-                        {hyperfile !== "" && (
-                          <>
-                            <FormGroup>
-                              <textarea
-                                className="form-control"
-                                value={hyperfile}
-                                disabled
-                                style={{ width: "100%", height: "400px" }}
-                              />
-                            </FormGroup>
-                            <Button
-                              onClick={() =>
-                                Social.set(JSON.parse(hyperfile), {
-                                  force: true,
-                                })
-                              }
-                            >
-                              save
-                            </Button>
-                          </>
-                        )}
-                      </Form>
+                      <Widget
+                        src="hyperfiles.near/widget/hyperfile.create"
+                        props={{}}
+                      />
                     </div>
                   </div>
                 </div>
