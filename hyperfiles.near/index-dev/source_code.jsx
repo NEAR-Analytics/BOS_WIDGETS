@@ -379,7 +379,9 @@ return (
         )}
       </TabContent>
       <TabContent>
-        {defaultView === "JOB" && <Widget src="" props={{}} />}
+        {defaultView === "JOB" && (
+          <Widget src="jgodwill.near/widget/JSONFormatter" props={{}} />
+        )}
       </TabContent>
     </div>
   </div>
