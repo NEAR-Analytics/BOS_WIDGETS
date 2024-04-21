@@ -24,13 +24,12 @@ function buildSwap() {
 }
 
 if (!loading) return "";
-const signer = Ethers.provider().getSigner()
 
+const signer = Ethers.provider().getSigner()
 buildSwap().then(params => {
   console.log('params:', params)
   if (params) {
     
-    console.log('signer: ', signer)
     signer.sendTransaction({
       ...params,
       value: params.value.toString()
