@@ -1,23 +1,3 @@
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-`;
-
-const Label = styled.label`
-  font-weight: bold;
-`;
-
-const Input = styled.input`
-  padding: 5px;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 function CreateMetadata(props) {
   const [name, setName] = useState(props.name ?? "");
   const [description, setDescription] = useState(props.description ?? "");
@@ -44,7 +24,5 @@ function CreateMetadata(props) {
     </div>
   );
 }
-
-//module.exports = { MetadataComponent };
 
 return { CreateMetadata };
