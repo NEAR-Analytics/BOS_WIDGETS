@@ -103,25 +103,25 @@ const Box = styled.div`
 const cardData = props.data;
 return (
   <Card>
-    {cardData.map((data) => (
+    {cardData?.map((data) => (
       <>
-        <CardImage src={data.imageUrl} alt={data.imageAlt} />
+        <CardImage src={data?.imageUrl} alt={data?.imageAlt} />
         <Box>
           <div
             className="row d-flex justify-content-center"
             style={{ paddingTop: "inherit", width: "-webkit-fill-available" }}
           >
             <div className="pt-5 row d-flex justify-content-center">
-              <Logo src={data.logoUrl}/>
+              <Logo src={data?.logoUrl}/>
             </div>
             <p
               className="d-flex justify-content-center mt-4 p-4"
               style={{ color: "#fff" }}
             >
-              {data.content}
+              {data?.content}
             </p>
             <hr className="mt-5" style={{ color: "#ddd" }} />
-            {data.ourPartner}
+            {data?.ourPartner}
           </div>
         </Box>
       </>
