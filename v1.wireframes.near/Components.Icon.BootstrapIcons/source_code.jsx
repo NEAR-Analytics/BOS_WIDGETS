@@ -18,8 +18,8 @@
 /* -------------------------------------------------------------------------- */
 
 const iconName = props.iconName ?? "home";
-const iconSize = props.iconSize ?? "";
-const iconColor = props.iconColor ?? "";
+const iconSize = props.iconSize ?? "1em";
+const iconColor = props.iconColor ?? "black";
 const iconMargin = props.iconMargin ?? "";
 const iconPadding = props.iconPadding ?? "";
 
