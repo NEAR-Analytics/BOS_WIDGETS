@@ -169,8 +169,16 @@ console.log("schema: ", schema);
 
 return (
   <div className="container mt-3">
-    <div className="row p-3">
+    <div className="row">
       <h1>Hyperfile Creator</h1>
+      <p>
+        View the{" "}
+        <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
+          docs
+        </a>{" "}
+        to learn how the different data structures work together.
+      </p>
+      <hr />
     </div>
     <Row style={{ gap: "8px", marginBottom: "16px" }}>
       <h2>Create</h2>{" "}
@@ -179,7 +187,7 @@ return (
         onChange={(e) => setDefaultView(e.target.value)}
         //onChange={(e) => State.update({ view: e.target.value })}
       >
-        <option value="HYPERFILE">Hyperfile</option>
+        <option value="HYPERFILE">Data Object</option>
         <option value="ATTESTATION">Attestation</option>
         <option value="SCHEMA">Schema</option>
 
