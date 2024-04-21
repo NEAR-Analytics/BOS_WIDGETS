@@ -1,7 +1,7 @@
 /**
  * Takes in a rootPath and rootType
  */
-const rootPath = props.rootPath || context.accountId || "evrything.near";
+const rootPath = props.rootPath || context.accountId || "hyperfiles.near";
 const rootType = props.rootType || "account";
 const rootNode = props.rootNode || {};
 const [inputValue, setInputValue] = useState("");
