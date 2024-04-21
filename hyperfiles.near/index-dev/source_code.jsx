@@ -72,7 +72,9 @@ const adapters = [
 ];
 
 //const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
-
+const { MetadataComponent } = VM.require(
+  "hyperfiles.near/widget/CreateMetadata"
+);
 const [rawData, setRawData] = useState("");
 const [source, setSource] = useState("");
 const [schema, setSchema] = useState("");
@@ -201,7 +203,7 @@ return (
           className={`nav-link ${activeTab === "data" ? "active" : ""}`}
           onClick={() => setActiveTab("data")}
         >
-          Data
+          Content
         </a>
       </li>
       <li className="nav-item">
@@ -223,7 +225,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Form>
-                        <h3>Content</h3>
+                        <h3>Data</h3>
                         <FormGroup>
                           <Label>Source</Label>
                           <Widget
@@ -373,22 +375,178 @@ return (
       </TabContent>
       <TabContent>
         {defaultView === "ATTESTATION" && (
-          <Widget src="flowscience.near/widget/attestWithTypes" props={{}} />
+          <div className="row">
+            <TabContent>
+              {activeTab === "data" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="flowscience.near/widget/attestWithTypes"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <Form>
+                  <h3>metadata</h3>
+                  <FormGroup>
+                    <Label>name</Label>
+                    <Input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>description</Label>
+                    <textarea
+                      className="form-control mb-3"
+                      rows={5}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+              )}
+            </TabContent>
+          </div>
         )}
       </TabContent>
       <TabContent>
         {defaultView === "SCHEMA" && (
-          <Widget src="flowscience.near/widget/JSON-Schema.editor" props={{}} />
+          <div className="row">
+            <TabContent>
+              {activeTab === "data" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="flowscience.near/widget/JSON-Schema.editor"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <Form>
+                  <h3>metadata</h3>
+                  <FormGroup>
+                    <Label>name</Label>
+                    <Input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>description</Label>
+                    <textarea
+                      className="form-control mb-3"
+                      rows={5}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+              )}
+            </TabContent>
+          </div>
         )}
       </TabContent>
       <TabContent>
         {defaultView === "TYPE" && (
-          <Widget src="efiz.near/widget/every.type.create" props={{}} />
+          <div className="row">
+            <TabContent>
+              {activeTab === "data" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="efiz.near/widget/every.type.create"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <Form>
+                  <h3>metadata</h3>
+                  <FormGroup>
+                    <Label>name</Label>
+                    <Input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>description</Label>
+                    <textarea
+                      className="form-control mb-3"
+                      rows={5}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+              )}
+            </TabContent>
+          </div>
         )}
       </TabContent>
       <TabContent>
         {defaultView === "JOB" && (
-          <Widget src="jgodwill.near/widget/JSONFormatter" props={{}} />
+          <div className="row">
+            <TabContent>
+              {activeTab === "data" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="jgodwill.near/widget/JSONFormatter"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <Form>
+                  <h3>metadata</h3>
+                  <FormGroup>
+                    <Label>name</Label>
+                    <Input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>description</Label>
+                    <textarea
+                      className="form-control mb-3"
+                      rows={5}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+              )}
+            </TabContent>
+          </div>
         )}
       </TabContent>
     </div>
