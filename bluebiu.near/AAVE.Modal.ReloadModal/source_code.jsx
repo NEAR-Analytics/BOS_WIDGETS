@@ -32,7 +32,7 @@ const Title = styled.div`
 `;
 
 const ModalBody = styled.div`
-  padding: 0 33px 20px;
+  padding: 0 33px 10px;
   color: white;
 `;
 return (
