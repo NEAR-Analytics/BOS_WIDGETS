@@ -1,6 +1,5 @@
 const src = props.src;
 const code = props.code ?? Social.get(src);
-
 const dependencyMatch =
   code && code.matchAll(/<Widget[\s\S]*?src=.*?"(.+)"[\s\S]*?\/>/g);
 let dependencySources = [...(dependencyMatch || [])]
@@ -12,11 +11,9 @@ dependencySources = dependencySources
     const parts = src.split("/");
     return { src, accountId: parts[0], widgetName: parts[2] };
   });
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 return (
   <>
     {dependencySources.map((c, i) => (
