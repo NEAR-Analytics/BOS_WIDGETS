@@ -104,7 +104,7 @@ const handleSubmit = async (e) => {
         method: "POST",
         body: fileData,
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "multipart/form-data",
           "x-auth-token": TOKEN,
         },
       });
