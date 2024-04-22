@@ -164,7 +164,7 @@ return (
           className="dropdown-item"
           type="button"
           to={href({
-            widgetSrc: "builddao.near/widget/Index",
+            widgetSrc: "buildhub.near/widget/app",
             params: {
               page: "profile",
               accountId: context.accountId,
@@ -175,12 +175,18 @@ return (
           My Profile
         </Link>
       </li>
-      <li>
-        <Link className="dropdown-item" type="button" to={"/logout"}>
-          <LogOut />
-          Sign Out
-        </Link>
-      </li>
+      {props.logOut && (
+        <li>
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={() => props.logOut()}
+          >
+            <LogOut />
+            Sign Out
+          </button>
+        </li>
+      )}
     </ul>
   </StyledDropdown>
 );
