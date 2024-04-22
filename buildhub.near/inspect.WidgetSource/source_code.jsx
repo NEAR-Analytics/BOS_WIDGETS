@@ -1,15 +1,12 @@
 const src = props.src ?? "mob.near/widget/WidgetSource";
 const blockHeight = props.blockHeight;
 const [accountId, widget, widgetName] = src.split("/");
-
 const code = Social.get(src, blockHeight);
-
 const text = `
 \`\`\`jsx
 ${code}
 \`\`\`
 `;
-
 return (
   <>
     <Widget
