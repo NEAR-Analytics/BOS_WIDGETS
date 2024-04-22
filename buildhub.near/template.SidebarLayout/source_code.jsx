@@ -1,18 +1,15 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
-
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
   }
 `;
-
 const SidebarContainer = styled.div`
   border-radius: 16px;
   border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
@@ -25,7 +22,6 @@ const SidebarContainer = styled.div`
   align-items: flex-start;
   gap: 16px;
   margin-bottom: 1rem;
-
   @media screen and (max-width: 768px) {
     border: 0px;
     flex-direction: row;
@@ -33,11 +29,9 @@ const SidebarContainer = styled.div`
     min-height: auto;
   }
 `;
-
 const ContentContainer = styled.div`
   grid-column: span 4 / span 4;
 `;
-
 const Sidebar = ({ currentPath, page, routes }) => (
   <>
     {routes &&
@@ -71,7 +65,6 @@ const Sidebar = ({ currentPath, page, routes }) => (
       })}
   </>
 );
-
 // Define the new component that follows the SidebarLayout pattern
 function SidebarLayout({ currentPath, routes, page, children }) {
   return (
@@ -83,5 +76,4 @@ function SidebarLayout({ currentPath, routes, page, children }) {
     </Container>
   );
 }
-
 return { SidebarLayout };
