@@ -1,16 +1,13 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const bootstrapTheme = props.bootstrapTheme;
-
 const [from, setFrom] = useState(props.filters.from || "");
 const [to, setTo] = useState(props.filters.to || "");
 const [title, setTitle] = useState(props.filters.title || "");
 const [location, setLocation] = useState(props.filters.location || "");
 const [organizers, setOrganizers] = useState(props.filters.organizers || []);
 const [tags, setTags] = useState(props.filters.tags || []);
-
 return (
   <div data-bs-theme={bootstrapTheme}>
     <div className="d-flex align-items-center mb-3" style={{ gap: 24 }}>
