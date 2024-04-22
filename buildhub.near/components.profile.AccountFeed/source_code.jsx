@@ -1,11 +1,9 @@
 const { Post } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
 };
-
 const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 const permissions = props.permissions;
-
 const index = [
   {
     action: "post",
@@ -32,17 +30,14 @@ const index = [
     },
   },
 ];
-
 const isPremiumFeed = props.isPremiumFeed;
 const commentAccounts = props.commentAccounts;
 const renderedPosts = {};
-
 const makePostItem = (a) => ({
   type: "social",
   path: `${a.accountId}/post/main`,
   blockHeight: a.blockHeight,
 });
-
 const renderPost = (a) => {
   if (a.value.type !== "md") {
     return false;
@@ -52,7 +47,6 @@ const renderPost = (a) => {
     return false;
   }
   renderedPosts[item] = true;
-
   return (
     <div key={JSON.stringify(a)}>
       <Post
@@ -69,7 +63,6 @@ const renderPost = (a) => {
     </div>
   );
 };
-
 const repostSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +85,6 @@ const repostSvg = (
     />
   </svg>
 );
-
 const extractParentPost = (item) => {
   if (!item || item.type !== "social" || !item.path || !item.blockHeight) {
     return undefined;
@@ -102,7 +94,6 @@ const extractParentPost = (item) => {
     ? { accountId, blockHeight: item.blockHeight }
     : undefined;
 };
-
 const renderRepost = (a) => {
   if (a.value.type !== "repost") {
     return false;
@@ -116,7 +107,6 @@ const renderRepost = (a) => {
     return false;
   }
   renderedPosts[item] = true;
-
   return (
     <div key={JSON.stringify(a)}>
       <div
@@ -161,10 +151,8 @@ const renderRepost = (a) => {
     </div>
   );
 };
-
 const renderItem = (item) =>
   item.action === "post" ? renderPost(item) : renderRepost(item);
-
 return (
   <Widget
     src="mob.near/widget/MergedIndexFeed"
