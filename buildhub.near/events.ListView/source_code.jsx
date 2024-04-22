@@ -2,14 +2,11 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
   Hashtag: () => <></>,
 };
-
 const events = props.events ?? [];
 const currentDate = props.currentDate;
-
 if (!events || !currentDate) {
   return "";
 }
-
 const currentMonthEvents = events.filter((event) => {
   const eventStartDate = new Date(event.start);
   const eventEndDate = new Date(event.end);
@@ -31,15 +28,12 @@ const currentMonthEvents = events.filter((event) => {
     return eventStartDate.getMonth() === currentDate.getMonth();
   }
 });
-
 function getTimeStamp(date) {
   return new Date(date).getTime();
 }
-
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
-
 function formatDate(date) {
   return new Date(parseInt(date))
     .toLocaleDateString("en-us", {
@@ -50,14 +44,13 @@ function formatDate(date) {
     .reverse()
     .join(" ");
 }
-
 function scheduleEventsWeekly(
   result,
   year,
   month,
   event,
   interval,
-  daysOfWeek,
+  daysOfWeek
 ) {
   const daysInMonth = getDaysInMonth(year, month);
   for (let day = 1; day <= daysInMonth; day++) {
@@ -68,21 +61,18 @@ function scheduleEventsWeekly(
       result[formattedDate] = result[formattedDate] || [];
       result[formattedDate].push(event);
     }
-
     if (day % 7 === 0 && interval > 1) {
       day += interval * 7 - 1;
     }
   }
   return result;
 }
-
 function getDayOfYear(date) {
   const start = new Date(date.getFullYear(), 0, 0);
   const diff = date - start;
   const oneDay = 1000 * 60 * 60 * 24;
   return Math.floor(diff / oneDay);
 }
-
 const categorizedEvents = currentMonthEvents.reduce((result, event) => {
   const eventTimestamp = getTimeStamp(event.start); // Format date as a string
   if (event.recurrence) {
@@ -97,7 +87,7 @@ const categorizedEvents = currentMonthEvents.reduce((result, event) => {
       case "daily": {
         for (let day = 1; day <= daysInMonth; day++) {
           const formattedDate = getTimeStamp(
-            new Date(currentYear, currentMonth, day),
+            new Date(currentYear, currentMonth, day)
           );
           result[formattedDate] = result[formattedDate] || [];
           result[formattedDate].push(event);
@@ -111,7 +101,7 @@ const categorizedEvents = currentMonthEvents.reduce((result, event) => {
           currentMonth,
           event,
           interval,
-          daysOfWeek,
+          daysOfWeek
         );
         break;
       }
@@ -123,8 +113,8 @@ const categorizedEvents = currentMonthEvents.reduce((result, event) => {
             new Date(
               currentDate.getFullYear(),
               eventMonth + 1,
-              new Date(event.start).getDate(),
-            ),
+              new Date(event.start).getDate()
+            )
           );
           if (
             (daysOfWeek && daysOfWeek.includes(currentDate.getDay())) ||
@@ -144,13 +134,11 @@ const categorizedEvents = currentMonthEvents.reduce((result, event) => {
   }
   return result;
 }, {});
-
 const EventsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
 `;
-
 const StyledEvent = styled.div`
   border-radius: 16px;
   background: #23242b;
@@ -160,14 +148,11 @@ const StyledEvent = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   gap: 24px;
-
   color: var(--font-color, #fff);
-
   h4,
   p {
     margin: 0;
   }
-
   h4 {
     /* H4/Large */
     font-size: 18px;
@@ -175,7 +160,6 @@ const StyledEvent = styled.div`
     font-weight: 500;
     line-height: 160%; /* 28.8px */
   }
-
   p {
     /* Body/16px */
     font-size: 16px;
@@ -183,7 +167,6 @@ const StyledEvent = styled.div`
     font-weight: 400;
     line-height: 170%; /* 27.2px */
   }
-
   .cover-image {
     img {
       width: 40px;
@@ -193,7 +176,6 @@ const StyledEvent = styled.div`
     }
   }
 `;
-
 const formatStartTime = (time) => {
   const date = new Date(time);
   const options = {
@@ -201,43 +183,33 @@ const formatStartTime = (time) => {
     minute: "2-digit",
     timeZoneName: "short",
   };
-
   return date.toLocaleString("en-US", options);
 };
-
 const dateKeys = Object.keys(categorizedEvents);
-
 const today = new Date().getTime();
-
 const futureEvents =
   dateKeys.filter((date) => {
     return categorizedEvents[date].some((event) => {
       return date >= today;
     });
   }) || [];
-
 const pastEvents =
   dateKeys.filter((date) => !futureEvents.includes(date)) || [];
-
 const sortEvents = (events) => {
   return events.sort((a, b) => parseInt(a) - parseInt(b));
 };
-
 futureEvents.sort();
 pastEvents.sort();
-
 const EventGroup = ({ date }) => {
   const Container = styled.div`
     display: flex;
     flex-direction: row;
     gap: 32px;
-
     @media screen and (max-width: 768px) {
       flex-direction: column;
       gap: 24px;
     }
   `;
-
   return (
     <Container>
       <h3 className="flex-shrink-0 text-white" style={{ minWidth: 65 }}>
@@ -278,17 +250,13 @@ const EventGroup = ({ date }) => {
                   return it;
                 })
               : [];
-
             const organizer = organizers[0];
             const organizerProfile = Social.getr(`${organizer}/profile`);
-
             const startTime = formatStartTime(event.start);
-
             const eventAuthor = (event?.key ?? "")?.split("/")[0] ?? "";
             const eventApp = (event?.key ?? "")?.split("/")[1] ?? "";
             const eventType = (event?.key ?? "")?.split("/")[2] ?? "";
             const eventKey = (event?.key ?? "")?.split("/")[3] ?? "";
-
             const handleDelete = () => {
               Social.set({
                 [eventApp]: {
@@ -300,7 +268,6 @@ const EventGroup = ({ date }) => {
                 },
               });
             };
-
             return (
               <StyledEvent key={`event-${i}`}>
                 <div className="d-flex align-items-center justify-content-between w-100">
@@ -352,7 +319,6 @@ const EventGroup = ({ date }) => {
                     <i className="bi bi-geo-alt"></i>
                     {event?.extendedProps?.location}
                   </span>
-
                   <span className="d-flex align-items-center gap-1">
                     <i className="bi bi-calendar"></i>
                     Last Date:{" "}
@@ -388,7 +354,6 @@ const EventGroup = ({ date }) => {
     </Container>
   );
 };
-
 const PastEvents = () => {
   return (
     <>
@@ -401,9 +366,7 @@ const PastEvents = () => {
     </>
   );
 };
-
 const [showPastEvents, setShowPastEvents] = useState(false);
-
 return (
   <EventsContainer>
     <Button onClick={() => setShowPastEvents((prev) => !prev)}>
