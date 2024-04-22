@@ -237,6 +237,7 @@ const DepositToReserve = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -298,6 +299,7 @@ const Deposit = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -359,6 +361,7 @@ const WithdrawSucceeded = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -420,6 +423,7 @@ const IncreaseCollateral = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -482,6 +486,7 @@ const DescreaseCollateral = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -545,6 +550,7 @@ const Borrow = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
@@ -606,6 +612,7 @@ const Repay = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
