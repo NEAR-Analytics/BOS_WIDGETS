@@ -1,15 +1,14 @@
-const { daos } = VM.require("buildhub.near/widget/fetch.daos") || { daos: [] };
-
+const { daos } = VM.require("buildhub.near/widget/fetch.daos") || {
+  daos: [],
+};
 if (!daos) {
   return "";
 }
 const options = daos.map((dao) => dao.contract_id);
-
 const { Modal, Button } = VM.require("buildhub.near/widget/components") || {
   Modal: () => <></>,
   Button: () => <></>,
 };
-
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
@@ -17,14 +16,11 @@ const bootstrapTheme = props.bootstrapTheme || "dark";
 const parentSelectedTypes = props.parentSelectedTypes ?? [];
 const parentSelectedStatus = props.parentSelectedStatus ?? [];
 const applyFilters = props.applyFilters ?? (() => {});
-
 if (!showModal) {
   return "";
 }
-
 const [selectedTypes, setSelectedTypes] = useState(parentSelectedTypes);
 const [selectedStatus, setSelectedStatus] = useState(parentSelectedStatus);
-
 const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
@@ -33,22 +29,18 @@ const ThemeContainer =
       color: var(--label-color, #fff);
     }
   `;
-
 const Wrapper = styled.div`
   .checked > span:first-child {
     background: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
   }
-
   .cbx:hover span:first-child {
     border-color: var(--primary-color) !important;
   }
-
   button[type="checkbox"]:hover {
     background: none !important;
   }
 `;
-
 const proposalTypeOptions = {
   Operations: [
     {
@@ -129,7 +121,6 @@ const proposalTypeOptions = {
     },
   ],
 };
-
 const proposalStatusOptions = [
   {
     title: "Approved",
@@ -156,7 +147,6 @@ const proposalStatusOptions = [
     value: "Executed",
   },
 ];
-
 return (
   <ThemeContainer>
     <Modal
@@ -182,7 +172,7 @@ return (
                           setSelectedTypes(
                             checked
                               ? [...selectedTypes, item.value]
-                              : selectedTypes.filter((x) => x !== item.value),
+                              : selectedTypes.filter((x) => x !== item.value)
                           );
                         },
                         label: item.title,
@@ -207,7 +197,7 @@ return (
                     setSelectedStatus(
                       checked
                         ? [...selectedStatus, item.value]
-                        : selectedStatus.filter((x) => x !== item.value),
+                        : selectedStatus.filter((x) => x !== item.value)
                     );
                   },
                   label: item.title,
