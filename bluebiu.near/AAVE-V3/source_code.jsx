@@ -304,6 +304,12 @@ function calcHealthFactor(type, symbol, amount) {
   return newHealthFactor.toFixed(2);
 }
 
+function showReload() {
+  State.update({
+    isShowReloadModal: true,
+  });
+}
+
 function batchBalanceOf(userAddress, tokenAddresses) {
   const balanceProvider = new ethers.Contract(
     config.balanceProviderAddress,
@@ -411,6 +417,7 @@ function getLiquidity() {
     })
     .catch((err) => {
       console.log("getLiquidity_err", err);
+      showReload();
     });
 }
 // update data in async manner
@@ -463,6 +470,7 @@ function getUserBalance() {
         })
         .catch((err) => {
           console.log("batchBalanceOfERROR:", err);
+          showReload();
         });
     });
 }
@@ -621,6 +629,7 @@ function getPoolDataProvider() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getPoolDataProvider_err", err);
     });
 }
@@ -678,6 +687,7 @@ function getPoolDataProviderTotalSupply() {
     })
     .catch((err) => {
       console.log("getPoolDataProviderTotal_err", err);
+      showReload();
     });
 }
 // seamless use
@@ -728,6 +738,7 @@ function getPoolDataProviderTotalDebt() {
     })
     .catch((err) => {
       console.log("getPoolDataProviderTotal_err", err);
+      showReload();
     });
 }
 function getPoolDataProviderCaps() {
@@ -782,6 +793,7 @@ function getPoolDataProviderCaps() {
     })
     .catch((err) => {
       console.log("getPoolDataProviderCaps_err", err);
+      showReload();
     });
 }
 
@@ -894,6 +906,7 @@ function getUserAccountData() {
       })
       .catch((err) => {
         console.log("getUserAccountData_error", err);
+        showReload();
       });
   } catch (error) {
     console.log("CATCH_ACCOUNT_DATA", error);
@@ -1115,6 +1128,7 @@ function getYourSupplies() {
         })
         .catch((err) => {
           console.log("getCollateralStatus-error:", err);
+          showReload();
         });
     })
     .catch((err) => {
@@ -1198,6 +1212,7 @@ function getUserDebts() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getUserDebts_err", err);
     });
 }
@@ -1223,7 +1238,6 @@ useEffect(() => {
 
   getUserBalance();
   getUserAccountData();
-
   getPoolDataProvider();
   if (dexConfig.name === "Seamless Protocol") {
     getPoolDataProviderTotalSupply();
