@@ -13,7 +13,6 @@ const {
 } = props.proposalData;
 const { daoId, isAllowedToVote, handleVote, comments, proposalData } = props;
 const accountId = context.accountId;
-
 const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
@@ -39,11 +38,9 @@ const ThemeContainer =
     --black-badge-bg-color: #ffffff1a;
     --black-badge-text-color: #fff;
   `;
-
 function checkVotes(value) {
   return votes[accountId] === value;
 }
-
 const Wrapper = styled.div`
   margin: 16px auto;
   border-radius: 16px;
@@ -54,147 +51,119 @@ const Wrapper = styled.div`
   min-height: 500px;
   width: 100%;
   border: 1px solid var(--primary-border-color);
-
   b {
     font-weight: 600;
   }
-
   .font-monospace {
     color: var(--secondary-text-color) !important;
   }
-
   .secondary-bg {
     background: var(--secondary-bg-color) !important;
   }
-
   .secondary-text {
     color: var(--secondary-text-color) !important;
   }
-
   a {
     background: var(--secondary-bg-color) !important;
     color: var(--primary-text-color) !important;
   }
-
   .social_url {
     background: var(--secondary-bg-color) !important;
   }
-
   .btn-primary {
     background-color: var(--primary-btn-bg-color) !important;
     color: var(--primary-btn-text-color) !important;
     border: none;
   }
-
   ul {
     background-color: var(--primary-bg-color);
   }
-
   .Approve {
     background: none !important;
     .vote {
       color: #38c793 !important;
     }
   }
-
   .Reject {
     background: none !important;
     .vote {
       color: #bf2c37 !important;
     }
   }
-
   .Remove {
     background: none !important;
     .vote {
       color: #73692d !important;
     }
   }
-
   .success {
     border: 1px solid var(--success-badge-bg-color) !important;
     background: var(--success-badge-bg-color) !important;
     color: var(--success-badge-text-color) !important;
   }
-
   .primary {
     border: 1px solid var(--primary-badge-bg-color) !important;
     background: var(--primary-badge-bg-color) !important;
     color: var(--primary-badge-text-color) !important;
   }
-
   .info {
     border: 1px solid var(--info-badge-bg-color) !important;
     background: var(--info-badge-bg-color) !important;
     color: var(--info-badge-text-color) !important;
   }
-
   .danger {
     border: 1px solid var(--danger-badge-bg-color) !important;
     background: var(--danger-badge-bg-color) !important;
     color: var(--danger-badge-text-color) !important;
   }
-
   .black {
     border: 1px solid var(--black-badge-bg-color) !important;
     background: var(--black-badge-bg-color) !important;
     color: var(--black-badge-text-color) !important;
   }
-
   .word-wrap {
     word-wrap: break-word;
   }
-
   ${({ status }) =>
     status === "Approved" &&
     `
     border-color: var(--approve-bg-color);
   `}
-
   ${({ status }) =>
     status === "In Progress" &&
     `
     border-color: #fff;
   `}
-
   ${({ status }) =>
     (status === "Failed" || status === "Rejected") &&
     `
     border-color: var(--reject-bg-color);
   `}
-
   .text-sm {
     font-size: 14px;
   }
-
   .counter-text {
     font-size: 14px;
     margin-right: 5px;
     border-width: 2px;
     animation-duration: 8s;
   }
-
   .text-center {
     text-align: center;
   }
-
   .info_section {
     border-right: 1px solid #dee2e6;
     padding-right: 15px;
     margin: 10px 15px 10px 0;
-
     &.no-border {
       border: 0;
     }
-
     @media (max-width: 768px) {
       border: 0;
     }
   }
 `;
-
 const cls = (c) => c.join(" ");
-
 const YouVotedBadge = () => {
   return (
     <Widget
@@ -207,7 +176,6 @@ const YouVotedBadge = () => {
     />
   );
 };
-
 function renderPermission({ isAllowedToVote }) {
   return (
     <div className={"text-center p-2 rounded-pill secondary-text secondary-bg"}>
@@ -217,15 +185,12 @@ function renderPermission({ isAllowedToVote }) {
     </div>
   );
 }
-
 const execProposal = ({ daoId, id }) =>
   Near.call(daoId, "execute", { id }, 50000000000000);
-
 function renderHeader({ typeName, id, status }) {
   let statusicon;
   let statustext;
   let statusvariant;
-
   switch (status) {
     case "Approved":
     case "Accepted":
@@ -259,7 +224,6 @@ function renderHeader({ typeName, id, status }) {
       statusvariant = "danger";
       break;
   }
-
   return (
     <div className="card__header">
       <div className="d-flex flex-column gap-2">
@@ -276,7 +240,6 @@ function renderHeader({ typeName, id, status }) {
               size: "lg",
             }}
           />
-
           <Widget
             src="nearui.near/widget/Element.Badge"
             props={{
@@ -298,7 +261,6 @@ function renderHeader({ typeName, id, status }) {
               size: "lg",
             }}
           />
-
           {status === "InProgress" &&
             parseInt(Big(expirationTime).div(1000000)) > Date.now() && (
               <Widget
@@ -310,7 +272,7 @@ function renderHeader({ typeName, id, status }) {
                         src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
                         props={{
                           timeToCheck: parseInt(
-                            Big(expirationTime).div(1000000),
+                            Big(expirationTime).div(1000000)
                           ),
                         }}
                       />
@@ -326,7 +288,6 @@ function renderHeader({ typeName, id, status }) {
     </div>
   );
 }
-
 function renderData({
   proposer,
   description,
@@ -354,12 +315,10 @@ function renderData({
           <Markdown text={description} />
         </div>
       </div>
-
       <Widget
         src="astraplusplus.ndctools.near/widget/Common.Modals.ProposalArguments"
         props={{ daoId, proposal: proposalData }}
       />
-
       <div className="d-flex flex-wrap">
         {submission_time && (
           <div className="info_section">
@@ -367,24 +326,22 @@ function renderData({
             <div>
               <small className="secondary-text">
                 {new Date(
-                  parseInt(Big(submission_time).div(1000000)),
+                  parseInt(Big(submission_time).div(1000000))
                 ).toLocaleString()}
               </small>
             </div>
           </div>
         )}
-
         <div className="info_section">
           <b>Expired at</b>
           <div>
             <small className="secondary-text">
               {new Date(
-                parseInt(Big(expirationTime).div(1000000)),
+                parseInt(Big(expirationTime).div(1000000))
               ).toLocaleString()}
             </small>
           </div>
         </div>
-
         <div className="info_section no-border">
           <b>Required Votes</b>
           <div>
@@ -395,7 +352,6 @@ function renderData({
     </div>
   );
 }
-
 function renderVoteButtons({
   totalVotes,
   status,
@@ -420,7 +376,6 @@ function renderVoteButtons({
     &.no {
       --vote-button-bg: var(--reject-bg-color);
     }
-
     &.no > div:last-child {
       transition: all 0.4s ease-in-out;
     }
@@ -441,11 +396,9 @@ function renderVoteButtons({
         `;
       }
     }}}
-
     &.spam {
       --vote-button-bg: var(--spam-bg-color);
     }
-
     &:before {
       content: "";
       position: absolute;
@@ -460,7 +413,6 @@ function renderVoteButtons({
         min-width: ${percentage && percentage > 5 ? `${percentage}%` : "5px"};
       `}
     }
-
     &:after {
       content: "";
       position: absolute;
@@ -471,10 +423,8 @@ function renderVoteButtons({
       transition: all 0.4s ease-in-out;
       z-index: 1;
       background-color: var(--vote-button-bg);
-
       min-width: ${({ percentage }) =>
         percentage && percentage > 5 ? `${percentage}%` : "5px"};
-
       ${({ finished, wins }) =>
         finished &&
         wins &&
@@ -482,7 +432,6 @@ function renderVoteButtons({
         display: none;
       `}
     }
-
     ${({ disabled }) =>
       !disabled &&
       `
@@ -492,50 +441,41 @@ function renderVoteButtons({
       }
     }
   `}
-
     & > div {
       z-index: 2;
     }
-
     & > div:last-child span {
       display: block;
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
-
       &:last-child {
         font-size: 12px;
         font-weight: 400;
       }
     }
   `;
-
   const getPercentage = (vote) => {
     const percentage = Math.round((vote / totalVotesNeeded) * 100);
     return percentage || 0;
   };
-
   const percentages = {
     yes: getPercentage(totalVotes.yes),
     no: getPercentage(totalVotes.no),
     spam: getPercentage(totalVotes.spam),
     abstain: getPercentage(totalVotes.abstain),
   };
-
   const wins = {
     yes: status === "Approved",
     no: status === "Rejected",
     spam: status === "Failed" || status === "Spam",
   };
-
   const voted = {
     yes: checkVotes("Approve"),
     no: checkVotes("Reject"),
     spam: checkVotes("Remove"),
   };
-
   const alreadyVoted = voted.yes || voted.no || voted.spam || voted.abstain;
-
   const VotePercentage = ({ vote }) => (
     <div>
       <span>
@@ -547,7 +487,6 @@ function renderVoteButtons({
       </span>
     </div>
   );
-
   return (
     <div
       className="d-lg-grid d-flex flex-wrap gap-2 align-items-end"
@@ -599,7 +538,6 @@ function renderVoteButtons({
           <VotePercentage vote="no" />
         </VoteButton>
       </div>
-
       <div className="w-100">
         {voted.spam && <YouVotedBadge />}
         <VoteButton
@@ -620,7 +558,6 @@ function renderVoteButtons({
     </div>
   );
 }
-
 function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
   const items = [
     {
@@ -664,7 +601,6 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
       },
     },
   ];
-
   if (proposal.typeName !== "Text") {
     items.push({
       title: "More details",
@@ -677,7 +613,6 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
       },
     });
   }
-
   const renderModal = (item, index) => {
     return (
       <Widget
@@ -709,26 +644,21 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
       />
     );
   };
-
   return (
     <div className="d-flex gap-3 justify-content-between mt-2 border-top pt-4 flex-wrap">
       {items.map(renderModal)}
     </div>
   );
 }
-
 const voted = {
   yes: checkVotes("Approve"),
   no: checkVotes("Reject"),
   spam: checkVotes("Remove"),
   abstain: checkVotes("Abstain"),
 };
-
 const alreadyVoted = voted.yes || voted.no || voted.spam;
-
 const canVote =
   isAllowedToVote.every((v) => v) && status === "In Progress" && !alreadyVoted;
-
 return (
   <ThemeContainer>
     <Wrapper className="ndc-card" status={status}>
