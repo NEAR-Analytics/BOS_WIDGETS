@@ -135,6 +135,7 @@ const AccountWrapper = styled.div`
   font-size: 14px;
   .balance {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
@@ -1118,7 +1119,13 @@ return (
           <span>~ ${calcPrice()}</span>
           <span>
             Balance:
-            <span className="balance">
+            <span className="balance" onClick={() => {
+              if (balances[selectedToken]) {
+                State.update({
+                  amount: balances[selectedToken]
+                })
+              }
+            }}>
               {balances[selectedToken]
                 ? Big(balances[selectedToken]).toFixed(4)
                 : 0}
