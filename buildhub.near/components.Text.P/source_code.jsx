@@ -1,9 +1,7 @@
 /**
  * We need to
  */
-
 // We're going to save a list to create.near, just for creating things and list
-
 // create thing, list
 const StyledParagraph = styled.p`
   font-family: "Aekonik", sans-serif;
@@ -35,18 +33,15 @@ const StyledParagraph = styled.p`
     }
   }};
 `;
-
 function P({ children, pType, textColor }) {
   const defaults = {
     pType: pType ?? "p1",
     textColor: textColor ?? "#000000",
   };
-
   return (
     <StyledParagraph pType={defaults.pType} textColor={defaults.textColor}>
       {children}
     </StyledParagraph>
   );
 }
-
 return { P };
