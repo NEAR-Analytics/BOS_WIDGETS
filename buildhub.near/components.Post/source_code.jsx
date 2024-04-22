@@ -1,7 +1,6 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const StyledPost = styled.div`
   margin-bottom: 1rem;
   .post {
@@ -11,7 +10,6 @@ const StyledPost = styled.div`
     padding: 24px !important;
     background-color: var(--post-bg, #23242b);
     transition: all 300ms;
-
     &:hover {
       background-color: var(--post-bg-hover, #17181c) !important;
       .expand-post {
@@ -22,19 +20,16 @@ const StyledPost = styled.div`
         ) !important;
       }
     }
-
     .post-header {
       span,
       .text-muted {
         color: var(--font-color, #fff) !important;
       }
     }
-
     .buttons {
       border-top: 1px solid #3c3d43;
       padding: 0.5rem;
     }
-
     .expand-post {
       background-image: linear-gradient(
         to bottom,
@@ -43,11 +38,9 @@ const StyledPost = styled.div`
       ) !important;
     }
   }
-
   .dropdown-menu {
     background-color: var(--post-bg, #000000) !important;
     color: var(--font-color, #fff) !important;
-
     li.dropdown-item {
       color: var(--font-color, #fff) !important;
       &:hover {
@@ -56,30 +49,24 @@ const StyledPost = styled.div`
         }
       }
     }
-
     .link-dark,
     .dropdown-item {
       color: var(--font-color, #fff) !important;
-
       &:hover {
         color: var(--post-bg, #000000) !important;
-
         span {
           color: var(--post-bg, #000000) !important;
         }
       }
     }
   }
-
   textarea {
     color: #b6b6b8 !important;
   }
 `;
-
 const Wrapper = styled.div`
   margin: 0 -12px;
   line-height: normal;
-
   .post {
     position: relative;
     padding: 12px;
@@ -104,7 +91,6 @@ const Wrapper = styled.div`
         font-size: 15px !important;
       }
     }
-
     h1,
     h2,
     h3,
@@ -134,11 +120,9 @@ const Wrapper = styled.div`
     th {
       min-width: 5em;
     }
-
     .table > :not(caption) > * > * {
       padding: 0.3rem;
     }
-
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
       .expand-post {
@@ -149,12 +133,10 @@ const Wrapper = styled.div`
         );
       }
     }
-
     .post-header {
       margin: 4px 0;
     }
   }
-
   .post:not(:last-child):before {
     content: "";
     position: absolute;
@@ -165,7 +147,6 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .post:not(:first-child):after {
     content: "";
     position: absolute;
@@ -176,7 +157,6 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .left {
     margin-right: 12px;
     width: auto;
@@ -187,29 +167,24 @@ const Wrapper = styled.div`
     flex-grow: 1;
     min-width: 0;
   }
-
   .buttons-placeholder {
     padding-bottom: 10px;
   }
-
   .buttons {
     margin-top: 10px;
     margin-bottom: 6px;
     column-gap: 4px;
     color: #888;
   }
-
   .reposted {
     padding-top: 30px;
   }
 `;
-
 const RepostWidgetDesktop = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const RepostWidgetMobile = styled.div`
   display: none;
   @media screen and (max-width: 768px) {
@@ -237,18 +212,14 @@ const indexKey = props.indexKey;
 const permissions = props.permissions;
 const fullPostLink = props.fullPostLink;
 const customActions = props.customActions;
-
 const notifyAccountId = accountId;
 const item = {
   type: "social",
   path: `${accountId}/post/main`,
   blockHeight,
 };
-
 const modifications = Social.index("modify", item, { limit: 1, order: "desc" });
-
 const [isEdited, setIsEdited] = useState(false);
-
 if (modifications.length) {
   const modification = modifications[0].value;
   if (modification.type === "edit") {
@@ -258,12 +229,10 @@ if (modifications.length) {
     return <></>;
   }
 }
-
 const link =
   props.link ??
   props.fullPostLink ??
   `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-
 const contentWidget = (
   <>
     <Widget
@@ -299,7 +268,6 @@ const contentWidget = (
     </RepostWidgetMobile>
   </>
 );
-
 return (
   <>
     <StyledPost
