@@ -12,9 +12,6 @@ const colors = {
   success: "#38C793",
   warning: "#F17B2C",
 };
-
 Storage.set("theme", { colors });
-
 const theme = Storage.get("theme");
-
 return { theme };
