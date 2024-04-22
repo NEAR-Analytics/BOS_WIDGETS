@@ -1,17 +1,14 @@
 const [view, setView] = useState("selection");
 const [selection, setSelection] = useState(0);
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-
   background: #000000;
   color: #fff;
 `;
-
 const Card = styled.div`
   display: flex;
   padding: 80px 24px;
@@ -20,43 +17,34 @@ const Card = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
-
   h1 {
     color: var(--white-100, #fff);
     text-align: center;
-
     /* H1/small */
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
     line-height: 100%; /* 32px */
   }
-
   span.disabled {
     cursor: not-allowed !important;
   }
-
   input {
     border-radius: 4px;
     border: 1px solid var(--Stroke-color, rgba(255, 255, 255, 0.2));
-
     padding: 12px;
-
     color: var(--white-50, rgba(255, 255, 255, 0.7));
     /* Body/Small */
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 170%; /* 23.8px */
-
     background-color: #000000;
   }
-
   .form-control:focus {
     color: var(--white-50, rgba(255, 255, 255, 0.7));
     background-color: #000000;
   }
-
   input::placeholder {
     color: var(--white-50, rgba(255, 255, 255, 0.7));
     /* Body/Small */
@@ -65,33 +53,26 @@ const Card = styled.div`
     font-weight: 400;
     line-height: 170%; /* 23.8px */
   }
-
   a {
     display: flex;
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
     gap: 4px;
-
     border-radius: 8px;
     background: var(--Yellow, #eca227);
-
     color: var(--black-100, #000) !important;
-
     ${selection === 0 && "pointer-events: none;"}
-
     /* Other/Button_text */
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-
     &:hover {
       text-decoration: none;
     }
   }
 `;
-
 const Box = styled.div`
   display: flex;
   width: 200px;
@@ -99,15 +80,11 @@ const Box = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-
   border-radius: 16px;
   background: var(--bg-2, #23242b);
-
   cursor: pointer;
-
   h3 {
     color: var(--white-100, #fff);
-
     /* H3/Small */
     font-size: 20px;
     font-style: normal;
@@ -115,7 +92,6 @@ const Box = styled.div`
     line-height: 140%; /* 28px */
   }
 `;
-
 const SelectionBox = ({ title, selected, value }) => {
   return (
     <Box onClick={() => setSelection(value)}>
@@ -150,7 +126,6 @@ const SelectionBox = ({ title, selected, value }) => {
     </Box>
   );
 };
-
 return (
   <Container>
     <Card>
