@@ -85,25 +85,31 @@ const DropBoxText2 = styled.h4`
 
 const [file, setFile] = useState(null);
 
-const handleFileChange = (e) => {
-  setFile(e.target.files[0]);
+const handleFileChange = (files) => {
+  console.log(files);
+  setFile(files[0]);
 };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("file", file);
+  const reader = new FileReader();
 
-  try {
-    const response = await fetch("http://localhost:4000/upload", {
-      method: "POST",
-      body: formData,
-    });
-    console.log(response);
-  } catch (error) {
-    console.error(error);
-  }
+  reader.onload = () => {
+    const fileData = reader.result;
+    // Send fileData to the server using fetch or any other AJAX library
+    try {
+      const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
+        method: "POST",
+        body: fileData,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+    console.log("File data:", fileData);
+  };
+  reader.readAsArrayBuffer(file);
 };
 
 return (
@@ -112,22 +118,15 @@ return (
       <CardText>Upload Files</CardText>
       <DropBox>
         <DropBoxText1>Select File here</DropBoxText1>
-        <DropBoxText2>Files Supported: PDF, TEXT, DOC , DOCX</DropBoxText2>
-        <Files onSubmit={handleSubmit}>
-          <input
-            type="file"
-            accept=".xlsx, .xls"
-            id="fileID"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
+        <DropBoxText2>Files Supported: .xls, .xlsx</DropBoxText2>
+        <Files onChange={handleFileChange} clickable multiple={false}>
           {file && (
             <div id="fileName" className="px-3 py-1 mt-3 rounded-pill">
-              {file?.name}asdfsdfasdf
+              {file?.name}
             </div>
           )}
-          <UploadButton type="submit">Upload</UploadButton>
         </Files>
+        <UploadButton onClick={handleSubmit}>Upload</UploadButton>
       </DropBox>
     </Card>
   </Wrapper>
