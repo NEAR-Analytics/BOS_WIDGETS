@@ -72,7 +72,6 @@ return (
         amountOutFn: "bluebiu.near/widget/Scroll.BridgeXY.AmountOut",
         handlerSwap: "bluebiu.near/widget/Scroll.BridgeXY.HandlerSwap",
         getTxStatus: (tx) => {
-          console.log('tx: ', tx)
           const BASE_API = 'https://open-api.xy.finance/v1'
           return asyncFetch(`${BASE_API}/crossChainStatus?srcChainId=${tx.fromChainId}&transactionHash=${tx.hash}`)
           .then(res => {
@@ -84,7 +83,7 @@ return (
         addAction: (params) => {
           props.addAction({
             ...params,
-            template: "XY Bridge",
+            template: "dApp Bridge",
             source: 'dapp'
           })
         }
