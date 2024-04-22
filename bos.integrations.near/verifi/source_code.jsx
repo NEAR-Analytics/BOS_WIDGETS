@@ -4,7 +4,8 @@ if (!accountId) {
 }
 let { src } = props;
 
-let contract = "checks.integrations.near";
+const contract = "checks.integrations.near";
+const NADABOT_CONTRACT = "v1.nadabot.near";
 
 const [verificationItems, setVerificationItems] = useState([
   {
@@ -138,21 +139,30 @@ const handleVerify = async (index) => {
   })
     .then((response) => {
       let res = response.body.signature;
-      Near.call(
-        contract,
-        action.changeMethod,
-        {
+      const verificationTx = {
+        contractName: contract,
+        methodName: action.changeMethod,
+        args: {
           signature: res.signature,
           account_info: res.accountInfo,
           max_block_height: res.expirationBlockHeight,
         },
-        "300000000000000",
-        "10000000000000000000000"
-      );
+        gas: "300000000000000",
+        deposti: "10000000000000000000000",
+      };
+      const nadabotVerifyTx = {
+        contractName: NADABOT_CONTRACT,
+        methodName: "add_stamp",
+        args: {
+          provider_id: `checks.integrations.near:${action.viewMethod}`,
+        },
+        gas: 300000000000000,
+        deposit: 0.02 * Math.pow(10, 24),
+      };
+      Near.call([verificationTx, nadabotVerifyTx]);
     })
     .catch((err) => console.log(err));
 };
-
 const handleSelection = (index, fromQ) => {
   if (selectedIndex !== index || fromQ) {
     const newItems = [...verificationItems];
