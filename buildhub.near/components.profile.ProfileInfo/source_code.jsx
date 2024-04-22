@@ -2,11 +2,8 @@ const { Button, Hashtag } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
   Hashtag: () => <></>,
 };
-
 const accountId = props.accountId || context.accountId;
-
 const profile = Social.getr(`${accountId}/profile`);
-
 const CopyIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -21,18 +18,15 @@ const CopyIcon = () => (
     />
   </svg>
 );
-
 const Container = styled.div`
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-
   .profile-image-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     img {
       width: 4rem !important;
       height: 4rem !important;
@@ -40,7 +34,6 @@ const Container = styled.div`
       object-fit: cover;
     }
   }
-
   .account-info-section {
     h3 {
       color: var(--White-100, #fff);
@@ -51,31 +44,25 @@ const Container = styled.div`
       line-height: 140%; /* 33.6px */
       margin: 0;
     }
-
     span {
       display: flex;
       align-items: center;
       gap: 4px;
       max-width: max-content;
-
       color: var(--White-50, #b0b0b0);
-
       /* Body/14px */
       font-size: 14px;
       font-style: normal;
       font-weight: 400;
       line-height: 170%; /* 23.8px */
       margin: 0;
-
       cursor: pointer;
     }
   }
-
   .bio-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
     h3 {
       color: var(--White-100, #fff);
       /* Body/10px */
@@ -85,10 +72,8 @@ const Container = styled.div`
       line-height: normal;
       margin: 0;
     }
-
     p {
       color: var(--White-50, #b0b0b0);
-
       /* Body/14px */
       font-size: 14px;
       font-style: normal;
@@ -97,12 +82,10 @@ const Container = styled.div`
       margin: 0;
     }
   }
-
   .link-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
     h3 {
       color: var(--White-100, #fff);
       /* Body/10px */
@@ -117,7 +100,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-
     h3 {
       color: var(--White-100, #fff);
       /* Body/10px */
@@ -128,15 +110,12 @@ const Container = styled.div`
       margin: 0;
     }
   }
-
   .location-section {
     span {
       display: flex;
       align-items: center;
       gap: 4px;
-
       color: var(--White-50, #b0b0b0);
-
       /* Body/14px */
       font-size: 14px;
       font-style: normal;
@@ -145,20 +124,6 @@ const Container = styled.div`
     }
   }
 `;
-
-const TwitterIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    fill="currentColor"
-    class="bi bi-twitter-x"
-    viewBox="0 0 16 16"
-  >
-    <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z" />
-  </svg>
-);
-
 const MapIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -180,74 +145,11 @@ const MapIcon = () => (
     </defs>
   </svg>
 );
-
-const LinkTree = ({ profile }) => {
-  const { twitter, github, telegram, website } = profile.linktree;
-
-  if (!twitter || !github || !telegram || !website) {
-    return null;
-  }
-
-  return (
-    <>
-      <h3>LINKS</h3>
-      <div className="d-flex align-items-center flex-wrap" style={{ gap: 10 }}>
-        {twitter && (
-          <a
-            href={`https://x.com/${twitter}`}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <Button variant="outline" type="icon" style={{ fontSize: 16 }}>
-              <TwitterIcon />
-            </Button>
-          </a>
-        )}
-        {github && (
-          <a
-            href={`https://github.com/${github}`}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <Button variant="outline" type="icon" style={{ fontSize: 16 }}>
-              <i className="bi bi-github"></i>
-            </Button>
-          </a>
-        )}
-        {telegram && (
-          <a
-            href={`https://t.me/${github}`}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <Button variant="outline" type="icon" style={{ fontSize: 16 }}>
-              <i className="bi bi-telegram"></i>
-            </Button>
-          </a>
-        )}
-        {website && (
-          <a
-            href={`https://${website}`}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <Button variant="outline" type="icon" style={{ fontSize: 16 }}>
-              <i className="bi bi-globe"></i>
-            </Button>
-          </a>
-        )}
-      </div>
-    </>
-  );
-};
-
 const Badges = ({ tags }) => {
   if (!tags) {
     return null;
   }
-
   tags = Object.keys(tags);
-
   return (
     <>
       <h3>BADGE</h3>
@@ -259,9 +161,7 @@ const Badges = ({ tags }) => {
     </>
   );
 };
-
 const [editMode, setEditMode] = useState(false);
-
 const InfoSection = () => {
   return (
     <>
@@ -275,7 +175,6 @@ const InfoSection = () => {
               "https://ipfs.near.social/ipfs/bafkreig5wfjcbvhoipnylbe2rh2tirt5zi3n3iu55aq5phbd5m2zcc6ppu",
           }}
         />
-
         {context.accountId === accountId && (
           <Button variant="outline" onClick={() => setEditMode(true)}>
             Edit Profile
@@ -311,15 +210,22 @@ const InfoSection = () => {
           </span>
         </div>
       )}
-      {profile.linktree && (
-        <div className="link-section">
-          <LinkTree profile={profile} />
-        </div>
-      )}
+      <div className="link-section">
+        <h3>LINKS</h3>
+        {profile.linktree && (
+          <div className="link-section">
+            <Widget
+              src="buildhub.near/widget/components.profile.Linktree"
+              props={{
+                profile,
+              }}
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };
-
 const EditSection = () => {
   return (
     <Widget
@@ -329,5 +235,4 @@ const EditSection = () => {
     />
   );
 };
-
 return <Container>{!editMode ? <InfoSection /> : <EditSection />}</Container>;
