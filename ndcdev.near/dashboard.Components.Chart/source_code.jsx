@@ -1,4 +1,4 @@
-const { data, key } = props;
+const { data, key, color } = props;
 
 const Card = styled.div`
   background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
@@ -12,7 +12,7 @@ const chartData = props.chartData ?? {
   labels: data.map((item) => item.day),
   datasets: [
     {
-      backgroundColor: gradient,
+      backgroundColor: color,
       data: data.map((item) => item[key]),
     },
   ],
@@ -29,9 +29,6 @@ const code = `
 </body>
 <script>
   const ctx = document.getElementById('myChart').getContext('2d');
-  var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-  gradient.addColorStop(0.7, '#A39ACD');
-  gradient.addColorStop(0, '#5398DD');
 
  var formatNumber = (num)  => {
      if (num >= 1e9) { // For billions
@@ -52,7 +49,7 @@ const code = `
                   labels: data.labels,
                   datasets: [{
                         data: data.datasets[0].data,
-                        backgroundColor: gradient,
+                        backgroundColor: data.datasets[0].backgroundColor,
                         borderWidth: 0
                     }]      
             },
@@ -107,7 +104,7 @@ const code = `
 `;
 
 return (
-  <div className="section py-5">
+  <div className="section py-5 w-100">
     <Card>
       <div>{props.title}</div>
       {props.loading ? (
