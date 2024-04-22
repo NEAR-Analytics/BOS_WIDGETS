@@ -235,7 +235,8 @@ const DepositToReserve = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
@@ -295,7 +296,8 @@ const Deposit = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
@@ -355,6 +357,7 @@ const WithdrawSucceeded = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
+            ownerId: props.ownerId,
             network: props.network,
           }}
         />
@@ -415,7 +418,8 @@ const IncreaseCollateral = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
@@ -469,14 +473,15 @@ const DescreaseCollateral = (props) => {
   return (
     <div className="flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
-      <span className="font-bold px-1">Descrease Collateral </span>
+      <span className="font-bold px-1">Decrease Collateral </span>
       {
         <Widget
           src={`${props.ownerId}/widget/bos-components.components.Shared.TokenInfo`}
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
@@ -538,7 +543,8 @@ const Borrow = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
@@ -598,7 +604,8 @@ const Repay = (props) => {
           props={{
             contract: log.token_id,
             amount: log.amount,
-            networK: props.network,
+            ownerId: props.ownerId,
+            network: props.network,
           }}
         />
       }
