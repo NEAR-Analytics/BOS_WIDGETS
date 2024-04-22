@@ -1,11 +1,12 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
+if (!Button) {
+  return "";
+}
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const NavContainer = styled.div`
   display: flex;
   padding: 24px 48px;
@@ -15,50 +16,40 @@ const NavContainer = styled.div`
   gap: 10px;
   align-self: stretch;
   font-family: "Poppins", sans-serif;
-
   background-color: var(--bg, #000);
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
 `;
-
 const MainContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   gap: 50px;
-
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
 `;
-
 const Left = styled.div`
   display: flex;
   align-items: center;
   gap: 50px;
-
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
-
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const MobileView = styled.div`
   display: none;
-
   @media screen and (max-width: 768px) {
     display: flex;
     align-items: center;
@@ -74,10 +65,8 @@ const MobileView = styled.div`
     width: 100%;
   }
 `;
-
 const MobileNavigation = styled.div`
   display: none;
-
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: row;
@@ -86,25 +75,20 @@ const MobileNavigation = styled.div`
     width: 100%;
   }
 `;
-
 const NavLinks = styled.div`
   display: flex;
   align-items: center;
   gap: 36px;
-
   span {
     color: var(--text-white, #fff);
   }
-
   .active {
     color: var(--eca-227, #eca227);
     font-weight: 700;
   }
-
   @media screen and (max-width: 960px) {
     gap: 16px;
   }
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     margin-top: 38px;
@@ -113,7 +97,6 @@ const NavLinks = styled.div`
     }
   }
 `;
-
 const StyledDropdown = styled.div`
   .dropdown-toggle {
     display: flex;
@@ -126,18 +109,15 @@ const StyledDropdown = styled.div`
     border: 0;
     width: 40px;
     height: 40px;
-
     &:after {
       display: none;
     }
-
     .menu {
       width: 18px;
       height: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-
       div {
         background-color: var(--slate-dark-11);
         height: 2px;
@@ -145,7 +125,6 @@ const StyledDropdown = styled.div`
         border-radius: 30px;
       }
     }
-
     :hover {
       .menu {
         div {
@@ -154,15 +133,12 @@ const StyledDropdown = styled.div`
       }
     }
   }
-
   ul {
     background-color: #23242b;
     width: 100%;
-
     li {
       padding: 0 6px;
     }
-
     button,
     a {
       color: var(--slate-dark-11);
@@ -170,20 +146,17 @@ const StyledDropdown = styled.div`
       align-items: center;
       border-radius: 8px;
       padding: 12px;
-
       :hover,
       :focus {
         text-decoration: none;
         background-color: var(--slate-dark-1);
         color: white;
-
         svg {
           path {
             stroke: white;
           }
         }
       }
-
       svg {
         margin-right: 7px;
         path {
@@ -193,25 +166,20 @@ const StyledDropdown = styled.div`
     }
   }
 `;
-
 const MobileContent = styled.div`
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
 `;
-
 function Navbar(props) {
   const { page, routes } = props;
   const [dropdown, setDropdown] = useState(false);
-
   const toggleDropdown = () => {
     setDropdown((prev) => !prev);
   };
-
   return (
     <NavContainer>
       <MainContent className="container-xl">
@@ -357,7 +325,6 @@ function Navbar(props) {
           </Button>
         </MobileNavigation>
       </MainContent>
-
       {dropdown && (
         <MobileView>
           <MobileNavigation>
@@ -468,5 +435,4 @@ function Navbar(props) {
     </NavContainer>
   );
 }
-
 return <Navbar {...props} />;
