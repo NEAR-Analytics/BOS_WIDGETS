@@ -46,7 +46,7 @@ useEffect(() => {
   getTokens();
 }, []);
 
-const mint = () => {
+const createToken = () => {
   const contract = new ethers.Contract(
     factoryContract,
     factoryAbi.body,
@@ -326,7 +326,7 @@ return (
                         <div class="mb-3">
                           <ItemMintButton
                             onClick={async () => {
-                              mint();
+                              createToken();
                             }}
                           >
                             Create Token
