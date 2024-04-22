@@ -344,10 +344,12 @@ return (
         routerAddress: state.from?.routerAddress,
         onLoad: (data) => {
           console.log("data:", data);
-          State.update({
-            loading: false,
-            ...data,
-          });
+          if (typeof data.amount === 'undefined' || data.amount === state.amount) {
+            State.update({
+              loading: false,
+              ...data,
+            });
+          }
           checkGas(data.gasCost);
         },
       }}
