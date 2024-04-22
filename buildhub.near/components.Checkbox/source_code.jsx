@@ -1,20 +1,17 @@
 const CheckboxInput = styled.input`
   display: none;
 `;
-
 const CheckboxLabel = styled.label`
   display: inline-flex;
   padding: 12px;
   align-items: center;
   gap: 8px;
-
   color: var(--label-color, #fff);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 170%; /* 27.2px */
 `;
-
 function Checkbox({ value, onChange, label }) {
   return (
     <div key={`Checkbox-${label ?? "No-label"}`}>
@@ -30,5 +27,4 @@ function Checkbox({ value, onChange, label }) {
     </div>
   );
 }
-
 return { Checkbox };
