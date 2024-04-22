@@ -6,7 +6,6 @@ const Progress = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
-
   border-radius: 50%;
   border: ${(props) => {
     switch (props.status) {
@@ -20,7 +19,6 @@ const Progress = styled.div`
         return "1px solid var(--stroke-color, rgba(255, 255, 255, 0.20))";
     }
   }};
-
   background: ${(props) => {
     switch (props.status) {
       case "focused":
@@ -33,7 +31,6 @@ const Progress = styled.div`
         return "#23242B";
     }
   }};
-
   color: ${(props) => {
     switch (props.status) {
       case "focused":
@@ -47,7 +44,6 @@ const Progress = styled.div`
     }
   }};
 `;
-
 function ProgressState({ children, status }) {
   return (
     <Progress
@@ -64,5 +60,4 @@ function ProgressState({ children, status }) {
     </Progress>
   );
 }
-
 return { ProgressState };
