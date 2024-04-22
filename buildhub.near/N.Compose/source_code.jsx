@@ -1,20 +1,16 @@
 if (!context.accountId) {
   return "";
 }
-
 const indexKey = props.indexKey ?? "main";
 const draftKey = props.draftKey ?? "draft";
 const template = props.template || "";
 const feed = props.feed;
 const draft = Storage.privateGet(draftKey);
 const groupId = props.groupId;
-
 if (draft === null) {
   return "";
 }
-
 const [initialText] = useState(draft || template);
-
 function checkAndAppendHashtag(input, target) {
   if (input.toLowerCase().includes(`#${target.toLowerCase()}`)) {
     return input;
@@ -22,17 +18,14 @@ function checkAndAppendHashtag(input, target) {
     return input + ` #${target}`;
   }
 }
-
 const composeData = () => {
   const text = state.content.text;
-
   const requiredHashtags = props.requiredHashtags || ["build"];
   if (feed.hashtag) requiredHashtags.push(feed.hashtag.toLowerCase());
   text = text + `\n\n`;
   requiredHashtags.forEach((hashtag) => {
     text = checkAndAppendHashtag(text, hashtag);
   });
-
   const data = {
     post: {
       main: JSON.stringify({ ...state.content, text }),
@@ -46,34 +39,27 @@ const composeData = () => {
       }),
     },
   };
-
   const item = {
     type: "social",
     path: `${context.accountId}/post/main`,
   };
-
   const notifications = state.extractMentionNotifications(text, item);
-
   if (notifications.length) {
     data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0],
+      notifications.length > 1 ? notifications : notifications[0]
     );
   }
-
   const hashtags = state.extractHashtags(text);
-
   if (hashtags.length) {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
         value: item,
-      })),
+      }))
     );
   }
-
   return data;
 };
-
 State.init({
   showPreview: false,
   onChange: ({ content }) => {
@@ -81,7 +67,6 @@ State.init({
     Storage.privateSet(draftKey, content.text || "");
   },
 });
-
 return (
   <div
     data-bs-theme="dark"
