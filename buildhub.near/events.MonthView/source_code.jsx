@@ -1,16 +1,13 @@
 const { Modal, Hashtag, Button } = VM.require(
-  "buildhub.near/widget/components",
+  "buildhub.near/widget/components"
 ) || {
   Modal: () => <></>,
   Hashtag: () => <></>,
   Button: () => <></>,
 };
-
 const currentDate = props.currentDate || new Date();
 const events = props.events || [];
-
 const [parsedEvents, setParsedEvents] = useState(events);
-
 // update events recurring data according to calender library requirements (ref: https://fullcalendar.io/docs/recurring-events)
 useEffect(() => {
   if (Array.isArray(events)) {
@@ -39,24 +36,20 @@ useEffect(() => {
     setParsedEvents(updatedEvent);
   }
 }, [events]);
-
 const customCSS = `
   :root {
     --fc-page-bg-color: var(--bg-color, #000000);
     --fc-border-color: var(--stroke-color, rgba(255, 255, 255, 0.20));
     --fc-today-bg-color: #424451;
   }
-
   body {
     margin: 0;
   }
-
   html {
     background-color: var(--fc-page-bg-color);
     color: var(--text-color, #fff);
     font-family: sans-serif;
   }
-
   /* FC Header */
   .fc-col-header-cell {
     background: var(--bg-2, #23242B);
@@ -70,26 +63,22 @@ const customCSS = `
       padding: 10px;
     }
   }
-
   /* FC Day */
   .fc-day-today {
     .fc-daygrid-day-frame {
       background: var(--fc-today-bg-color, #424451);
     }
   }
-
   .fc .fc-daygrid-event-harness {
     a {
       color: var(--text-color, #fff);
     }
   }
-
   .fc-day-other {
     .fc-daygrid-day-frame {
       background: var(--bg-1, #000000);
     }
   }
-
   .fc-daygrid-day-frame {
     padding: 10px;
     background: var(--bg-2, #23242B);
@@ -104,20 +93,15 @@ const customCSS = `
     }
   }
 `;
-
 const embedCss = props.embedCss || customCSS;
-
 const code = `
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.js'></script>
 <!-- iframe-resizer -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.js"></script> -->
-
 <style>
   ${embedCss}
 </style>
-
 <div id="calendar"></div>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -136,14 +120,11 @@ const code = `
   });
 </script>
 `;
-
 const [data, setData] = useState(null);
 const [showModal, setShowModal] = useState(false);
-
 const toggleModal = () => {
   setShowModal((prev) => !prev);
 };
-
 const organizers =
   (data?.extendedProps?.organizers || []).map((it) => {
     if (it.customOption) {
@@ -151,7 +132,6 @@ const organizers =
     }
     return it;
   }) ?? [];
-
 const hashtags =
   (data?.extendedProps?.hashtags || []).map((it) => {
     if (it.customOption) {
@@ -159,7 +139,6 @@ const hashtags =
     }
     return it;
   }) ?? [];
-
 let eventAuthor;
 let eventApp;
 let eventType;
@@ -170,7 +149,6 @@ if (data) {
   eventType = data?.extendedProps?.key?.split("/")[2] ?? "";
   eventKey = data?.extendedProps?.key?.split("/")[3] ?? "";
 }
-
 const handleDelete = () => {
   Social.set({
     [eventApp]: {
@@ -182,7 +160,6 @@ const handleDelete = () => {
     },
   });
 };
-
 return (
   <>
     <iframe
