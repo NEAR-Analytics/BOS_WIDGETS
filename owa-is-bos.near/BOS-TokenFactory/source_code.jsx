@@ -1,5 +1,7 @@
+// Address of the token factory smart contract.
 const factoryContract = "0xAc9221060455f60dfFF8bf8C4f601E500AC095D7";
 
+// URL to the JSON file containing the ABI of the factory contract.
 const factoryAbi = fetch(
   "https://raw.githubusercontent.com/open-web-academy/BOS-TokenFactory/main/TokenFactoryABI.txt"
 );
@@ -8,6 +10,7 @@ if (!factoryAbi.ok) {
   return "Loading";
 }
 
+// These lines use the useState hook to create state variables for assigning information.
 const [sender, setSender] = useState(null);
 const [tokens, setTokens] = useState([]);
 
@@ -17,11 +20,13 @@ const [initialSupply, setInitialSupply] = useState(10000);
 const [minting, setMinting] = useState(false);
 const [tabSelected, setTabSelected] = useState("factory");
 
+//We define the navigation tabs of the component
 const pills = [
   { id: "factory", title: "Factory" },
   { id: "tokenlist", title: "Token List" },
 ];
 
+// Validation to obtain the account we are connected to the component with
 if (!sender) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -29,6 +34,7 @@ if (!sender) {
   }
 }
 
+// Method to obtain the tokens created in the smart contract of token factory.
 const getTokens = () => {
   const factory = new ethers.Contract(
     factoryContract,
@@ -48,6 +54,7 @@ useEffect(() => {
   }
 }, []);
 
+// Method to crate a new tokens in the smart contract of token factory.
 const createToken = () => {
   const contract = new ethers.Contract(
     factoryContract,
@@ -69,6 +76,7 @@ const createToken = () => {
   });
 };
 
+// We define all the necessary styles for our component by using styled components.
 const Wrapper = styled.div`
 * {
   font-family: 'system-ui','Inter', 'Space Grotesk' !important;
@@ -214,6 +222,7 @@ if (!state.theme) {
 }
 const Theme = state.theme;
 
+// Finally we render the component where we call the necessary methods to interact with the smart contract.
 return (
   <Theme>
     <Wrapper>
