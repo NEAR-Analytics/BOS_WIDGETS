@@ -238,7 +238,7 @@ return (
           props={{ API_URL, USER, TOKEN, Logout }}
         />
       )}
-      {state.page === "aridrop" && (
+      {state.page === "airdrop" && (
         <Widget
           src={`${Owner}/widget/airdrop`}
           props={{ API_URL, USER, TOKEN, Logout }}
