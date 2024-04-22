@@ -96,7 +96,7 @@ const handleSubmit = async (e) => {
   const reader = new FileReader();
 
   reader.onload = () => {
-    console.log(TOKEN);
+    console.log("TOKEN", TOKEN);
     const fileData = reader.result;
     // Send fileData to the server using fetch or any other AJAX library
     try {
