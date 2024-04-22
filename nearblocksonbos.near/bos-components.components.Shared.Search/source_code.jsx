@@ -205,11 +205,10 @@ function MainComponent({
     `${ownerId}/widget/includes.Utils.formats`,
   );
 
-  const { debounce, getConfig, shortenAddress } = VM.require(
+  const { getConfig, shortenAddress } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
   );
   const [keyword, setKeyword] = useState('');
-  const [query, setQuery] = useState('');
   const [result, setResult] = useState({} );
   const [filter, setFilter] = useState('all');
   const [isResultsVisible, setIsResultsVisible] = useState(false);
@@ -229,13 +228,7 @@ function MainComponent({
   const hideSearchResults = () => {
     setIsResultsVisible(false);
   };
-  // Debounced keyword update
-  const debouncedSetKeyword = useMemo(
-    () => debounce && debounce(500, (value) => setKeyword(value)),
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
   const SearchToast = () => {
     return (
       <div className="flex items-center">
@@ -281,14 +274,13 @@ function MainComponent({
   // Handle input change
   const handleChange = (event) => {
     const newNextValue = event.target.value.replace(/[\s,]/g, '') ;
-    setQuery(newNextValue);
-    debouncedSetKeyword && debouncedSetKeyword(newNextValue);
+    setKeyword(newNextValue);
     showSearchResults();
   };
 
   const onSubmit = () => {
-    if (filter && query && config.backendUrl) {
-      search(query, filter, true, config.backendUrl).then((data) => {
+    if (filter && keyword && config.backendUrl) {
+      search(keyword, filter, true, config.backendUrl).then((data) => {
         hideSearchResults();
         const redirectPath = redirect(data);
         if (redirectPath) {
@@ -319,7 +311,6 @@ function MainComponent({
   // Handle filter change
   const onFilter = (event) =>
     setFilter(event.target.value);
-
   return (
     <>
       {showToast && <ToastMessage content={<SearchToast />} />}
