@@ -223,14 +223,19 @@ State.init({
   debtTotal: [],
 
   updater: 0,
+  isShowReloadModal: false,
 });
 
 useEffect(() => {
   State.update({
     assetsToSupply: markets,
   });
-}, [markets]);
-
+}, []);
+function showReload() {
+  State.update({
+    isShowReloadModal: true,
+  });
+}
 function calcAvailableBorrows(availableBorrowsUSD, tokenPrice) {
   let r =
     isValid(availableBorrowsUSD) && isValid(tokenPrice)
@@ -510,6 +515,7 @@ function getUserBalance() {
         })
 
         .catch((err) => {
+          showReload();
           console.log("batchBalanceOfERROR:", err);
         });
     });
@@ -672,6 +678,7 @@ function getPoolDataProvider() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getPoolDataProvider_err", err);
     });
 }
@@ -729,6 +736,7 @@ function getPoolDataProviderTotalSupply() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getPoolDataProviderTotal_err", err);
     });
 }
@@ -779,6 +787,7 @@ function getPoolDataProviderTotalDebt() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getPoolDataProviderTotal_err", err);
     });
 }
@@ -833,6 +842,7 @@ function getPoolDataProviderCaps() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getPoolDataProviderCaps_err", err);
     });
 }
@@ -942,6 +952,7 @@ function getUserAccountData() {
       getLiquidity();
     })
     .catch((err) => {
+      showReload();
       console.log("getUserAccountData_error", err);
     });
 }
@@ -1169,6 +1180,7 @@ function getYourSupplies() {
         });
     })
     .catch((err) => {
+      showReload();
       console.log("getUsetDeposits_err", err);
     });
 }
@@ -1249,6 +1261,7 @@ function getUserDebts() {
       });
     })
     .catch((err) => {
+      showReload();
       console.log("getUserDebts_err", err);
     });
 }
@@ -1628,6 +1641,48 @@ const body = isChainSupported ? (
         }}
       />
     )}
+    {state.isShowReloadModal ? (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Modal.ReloadModal`}
+        props={{
+          title:
+            "You are temporarily unable to access the data, please try to reload.",
+          theme: dexConfig.theme,
+          config,
+          children: (
+            <div>
+              <Widget
+                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+                props={{
+                  config,
+                  theme: dexConfig.theme,
+                  children: "Reload",
+                  onClick: () => {
+                    refresh && refresh();
+                  },
+                }}
+              />
+              <Widget
+                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+                props={{
+                  config,
+                  // theme: dexConfig.theme,
+                  style: {
+                    color: "#979ABE",
+                    marginTop: 5,
+                    fontWeight: "normal",
+                  },
+                  children: "Close",
+                  onClick: () => {
+                    State.update({ isShowReloadModal: false });
+                  },
+                }}
+              />
+            </div>
+          ),
+        }}
+      />
+    ) : null}
   </Wrap>
 ) : (
   <>
@@ -1644,14 +1699,4 @@ const body = isChainSupported ? (
 );
 // );
 
-return (
-  <div>
-    {/* Component Head */}
-    {/* <Widget
-      src={`${config.ownerId}/widget/Utils.Import`}
-      props={{ modules, onLoad: importFunctions }}
-    /> */}
-
-    {body}
-  </div>
-);
+return <div>{body}</div>;
