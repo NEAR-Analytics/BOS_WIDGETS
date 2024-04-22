@@ -10,9 +10,7 @@ const StyledButton = styled.button`
   font-weight: 600;
   line-height: normal;
   font-family: "Poppins", sans-serif;
-
   transition: all 300ms;
-
   ${(props) =>
     props.type === "icon" &&
     `
@@ -24,7 +22,6 @@ const StyledButton = styled.button`
     font-size: 16px;
     border-radius: 50%;
   `}
-
   /* Colors based on variant prop */
   background: ${(props) => {
     switch (props.variant) {
@@ -38,7 +35,6 @@ const StyledButton = styled.button`
         return "var(--button-default-bg, #23242B)";
     }
   }};
-
   color: ${(props) => {
     switch (props.variant) {
       case "primary":
@@ -51,12 +47,10 @@ const StyledButton = styled.button`
         return "var(--button-default-color, #CDD0D5)";
     }
   }};
-
   border: ${(props) =>
     props.variant === "outline"
       ? "1px solid var(--stroke-color, rgba(255, 255, 255, 0.20))"
       : ""};
-
   /* Hover states */
   &:hover:not(:disabled) {
     background: ${(props) => {
@@ -70,13 +64,11 @@ const StyledButton = styled.button`
       }
     }};
   }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed !important;
   }
 `;
-
 function Button({
   id,
   disabled,
@@ -116,7 +108,6 @@ function Button({
       </a>
     );
   }
-
   if (href) {
     return (
       <Link
@@ -140,7 +131,6 @@ function Button({
       </Link>
     );
   }
-
   return (
     <StyledButton
       id={id}
@@ -163,5 +153,4 @@ function Button({
     </StyledButton>
   );
 }
-
 return { Button };
