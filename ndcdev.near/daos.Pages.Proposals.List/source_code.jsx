@@ -105,7 +105,7 @@ return (
         <Table>
           <TableHeader>
             <TableHeaderCell flex={0.7}>Status</TableHeaderCell>
-            <TableHeaderCell flex={2.3}>DAO</TableHeaderCell>
+            <TableHeaderCell flex={1.5}>DAO</TableHeaderCell>
             <TableHeaderCell> Modified </TableHeaderCell>
             <TableHeaderCell flex={3}>Proposals states</TableHeaderCell>
             <TableHeaderCell></TableHeaderCell>
