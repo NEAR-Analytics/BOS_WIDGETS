@@ -78,13 +78,13 @@ const getStargateStatus = () => {
           status: "success",
           loading: false,
         });
-        onUpdate();
         onDelete(tx.hash);
       } else {
         State.update({
           loading: false,
         });
       }
+      onUpdate();
     })
     return 
   }
