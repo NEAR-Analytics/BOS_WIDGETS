@@ -436,6 +436,15 @@ return (
             </TabContent>
           </div>
         )}
+        <div>
+          <Widget
+            src="efiz.near/widget/Every.Thing.History"
+            props={{
+              path: props.path,
+              count: (count) => console.log("Number of changes:", count),
+            }}
+          />
+        </div>
       </TabContent>
     </div>
   </div>
