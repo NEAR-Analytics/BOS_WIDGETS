@@ -1,15 +1,12 @@
 const accountId = props.accountId;
-
 if (!accountId) {
   return "";
 }
-
 Near.asyncView("v1.nadabot.near", "is_human", { account_id: accountId }).then(
   (result) => {
     State.update({ human: result });
-  },
+  }
 );
-
 const VerifiedHuman = state.human ? (
   <span style={{ verticalAlign: center }}>
     <span className="ms-1 text-primary">
@@ -19,7 +16,6 @@ const VerifiedHuman = state.human ? (
 ) : (
   ""
 );
-
 return (
   <Widget
     loading={VerifiedHuman}
