@@ -1,27 +1,21 @@
 const { Modal, Button, ProgressState } = VM.require(
-  "buildhub.near/widget/components",
+  "buildhub.near/widget/components"
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
   ProgressState: () => <></>,
 };
-
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
-
 const stepsArray = [1, 2, 3];
-
 if (!DaoSDK) {
   return <></>;
 }
 const daoID = "build.sputnik-dao.near";
 const sdk = DaoSDK(daoID);
-
 const groupMembers = sdk.getMembersByGroupId({ groupId: "community" }) ?? [];
-
 const StorageKey = {
   userCompletedOnboarding: "userCompletedOnboarding",
 };
-
 function onFollow(accountId) {
   const data = {
     graph: { follow: { [accountId]: "" } },
@@ -41,31 +35,26 @@ function onFollow(accountId) {
       }),
     },
   };
-
   Social.set(data, {
     force: true,
   });
 }
-
 const PostTemplate = `👋 Hey BuildDAO community! Thrilled to join this innovative space. Looking forward to connecting with like-minded individuals. What's your favorite aspect of BuildDAO?`;
-
 function OnboardingFlow() {
   const userCompletedOnboarding = Storage.privateGet(
-    StorageKey.userCompletedOnboarding,
+    StorageKey.userCompletedOnboarding
   );
   const [showModal, setShowModal] = useState(false);
   const [step, setStep] = useState(1);
-
   const daofollowEdge = Social.keys(
     `${context.accountId}/graph/follow/${daoID}`,
     undefined,
     {
       values_only: true,
-    },
+    }
   );
   const userAlreadyFollowDao =
     daofollowEdge && Object.keys(daofollowEdge).length > 0;
-
   useEffect(() => {
     if (context.accountId && !userCompletedOnboarding) {
       setShowModal(true);
@@ -73,14 +62,12 @@ function OnboardingFlow() {
       setShowModal(false);
     }
   }, [userCompletedOnboarding]);
-
   useEffect(() => {
     if (step > 3) {
       setShowModal(false);
       Storage.privateSet(StorageKey.userCompletedOnboarding, true);
     }
   }, [step]);
-
   const Wrapper = styled.div`
     .pb-4 {
       padding-bottom: 0px !important;
@@ -96,16 +83,13 @@ function OnboardingFlow() {
       width: 40px;
     }
   `;
-
   const Container = styled.div`
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-
     .fw-bold {
       color: #fff !important;
     }
   `;
-
   const FollowBtn = ({ isFollowing, accountId }) => {
     return (
       <Button
@@ -117,7 +101,6 @@ function OnboardingFlow() {
       </Button>
     );
   };
-
   const accountsNotFollowed =
     Array.isArray(groupMembers) &&
     groupMembers.filter((account) => {
@@ -126,19 +109,17 @@ function OnboardingFlow() {
         undefined,
         {
           values_only: true,
-        },
+        }
       );
       if (accountfollowEdge && Object.keys(accountfollowEdge).length > 0) {
         return false;
       }
       return true;
     });
-
   function getRandomAccounts() {
     const shuffled = [...accountsNotFollowed].sort(() => 0.5 - Math.random());
     return shuffled;
   }
-
   const StepsComponent = () => {
     switch (step) {
       case 1:
@@ -172,7 +153,6 @@ function OnboardingFlow() {
                 community.
               </p>
               <p>People you might want to follow</p>
-
               {getRandomAccounts()
                 .slice(0, 4)
                 ?.map((account) => (
@@ -221,7 +201,6 @@ function OnboardingFlow() {
         );
     }
   };
-
   return (
     <Wrapper>
       <Modal
@@ -243,7 +222,6 @@ function OnboardingFlow() {
               </div>
             ))}
           </div>
-
           <div className="text-center mb-4">
             <img
               src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
@@ -272,5 +250,4 @@ function OnboardingFlow() {
     </Wrapper>
   );
 }
-
 return OnboardingFlow(props);
