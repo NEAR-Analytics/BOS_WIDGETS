@@ -1,17 +1,15 @@
 if (!context.accountId || !props.term) return <></>;
-
 let results = [];
 const filterAccounts = props.filterAccounts ?? []; //  hide certain accounts from the list
 const profilesData = Social.get("*/profile/name", "final") || {};
 const followingData = Social.get(
   `${context.accountId}/graph/follow/**`,
-  "final",
+  "final"
 );
 if (!profilesData) return <></>;
 const profiles = Object.entries(profilesData);
 const term = (props.term || "").replace(/\W/g, "").toLowerCase();
 const limit = 5;
-
 for (let i = 0; i < profiles.length; i++) {
   let score = 0;
   const accountId = profiles[i][0];
@@ -21,10 +19,8 @@ for (let i = 0; i < profiles.length; i++) {
     .toLowerCase();
   const accountIdSearchIndex = accountIdSearch.indexOf(term);
   const nameSearchIndex = nameSearch.indexOf(term);
-
   if (accountIdSearchIndex > -1 || nameSearchIndex > -1) {
     score += 10;
-
     if (accountIdSearchIndex === 0) {
       score += 10;
     }
@@ -34,24 +30,20 @@ for (let i = 0; i < profiles.length; i++) {
     if (followingData[accountId] === "") {
       score += 30;
     }
-
     results.push({
       accountId,
       score,
     });
   }
 }
-
 results.sort((a, b) => b.score - a.score);
 results = results.slice(0, limit);
 if (filterAccounts?.length > 0) {
   results = results.filter((item) => !filterAccounts?.includes(item.accountId));
 }
-
 function onResultClick(id) {
   props.onSelect && props.onSelect(id);
 }
-
 const Wrapper = styled.div`
   position: relative;
   &::before {
@@ -64,7 +56,6 @@ const Wrapper = styled.div`
     z-index: 10;
   }
 `;
-
 const Scroller = styled.div`
   position: relative;
   display: flex;
@@ -95,7 +86,6 @@ const Scroller = styled.div`
     }
   }
 `;
-
 const CloseButton = styled.button`
   background: none;
   border: none;
@@ -107,20 +97,16 @@ const CloseButton = styled.button`
     transform: scale(1.2);
   }
 `;
-
 const ProfileCardWrapper = styled.div`
   opacity: 0.8;
 `;
-
 if (results.length === 0) return <></>;
-
 return (
   <Wrapper>
     <Scroller>
       <CloseButton tabIndex={-1} type="button" onClick={props.onClose}>
         <i className="bi bi-x-circle" />
       </CloseButton>
-
       {results.map((result) => {
         return (
           <ProfileCardWrapper>
