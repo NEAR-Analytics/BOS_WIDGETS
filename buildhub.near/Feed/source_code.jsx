@@ -8,37 +8,29 @@ const { Post, Button } = VM.require("buildhub.near/widget/components") || {
 const { Header } = VM.require("buildhub.near/widget/components.Header") || {
   Header: () => <></>,
 };
-
 const LoginContainer = styled.div`
   background-color: #23242b;
   color: #fff;
-
   width: 100%;
   height: 16rem;
   border-radius: 1rem;
-
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-
   margin-bottom: 1rem;
 `;
-
-const { name: feedName, template, requiredHashtags, customActions } = props;
-
+const { feedName, template, requiredHashtags, customActions } = props;
 // for modals
 const [item, setItem] = useState(null);
 const [showProposeModal, setShowProposeModal] = useState(false);
 const toggleProposeModal = () => {
   setShowProposeModal(!showProposeModal);
 };
-
 const modalToggles = {
   propose: toggleProposeModal,
 };
-
 customActions = [
   {
     type: "modal",
@@ -50,7 +42,6 @@ customActions = [
     },
   },
 ];
-
 return (
   <div key={feedName}>
     <Header>{feedName} Feed</Header>
