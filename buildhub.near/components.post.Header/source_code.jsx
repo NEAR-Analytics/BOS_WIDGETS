@@ -2,7 +2,6 @@ const { Avatar, Modal } = VM.require("buildhub.near/widget/components") || {
   Modal: () => <></>,
   Avatar: () => <></>,
 };
-
 const Button = styled.div`
   line-height: 20px;
   min-height: 20px;
@@ -25,47 +24,38 @@ const Button = styled.div`
       border-radius: 50%;
     }
   }
-
   &:not([disabled]) {
     cursor: pointer;
   }
-
   &:not([disabled]):hover {
     opacity: 1 !important;
     color: DeepSkyBlue;
-
     .icon:before {
       background: rgba(0, 191, 255, 0.1);
     }
   }
 `;
-
 const Wrapper = styled.div`
   color: #fff;
-
   p {
     color: #fff;
     color: var(--White-100, #fff);
-
     font-size: ${(props) => (props.variant === "mobile" ? "13px" : "14px")};
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     margin: 0;
   }
-
   p.username {
     color: var(--White-50, #cdd0d5);
     font-size: ${(props) => (props.variant === "mobile" ? "10px" : "13px")};
     margin: 0;
   }
-
   p.time {
     color: var(--White-100, #fff);
     font-size: ${(props) => (props.variant === "mobile" ? "10px" : "13px")};
     margin: 0;
   }
-
   @media screen and (max-width: 768px) {
     ${(props) =>
       !props.variant &&
@@ -73,24 +63,20 @@ const Wrapper = styled.div`
       p {
         font-size: 13px !important;
       }
-
       p.username {
         font-size: 10px !important;
       }
-
       p.time {
         font-size: 10px !important;
       }
     `}
   }
 `;
-
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
 const name = props.name || Social.get(`${accountId}/profile/name`);
-
 const postType = props.postType ?? "post";
 const link = props.link;
 const isPremium = !!props.isPremium;
@@ -100,11 +86,9 @@ const showTime = props.showTime ?? true;
 const modalToggles = props.modalToggles;
 const setItem = props.setItem;
 const content = props.content;
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const Overlay = (props) => (
   <Link
     className="link-dark text-truncate d-inline-flex mw-100"
@@ -127,48 +111,40 @@ const Overlay = (props) => (
     />
   </Link>
 );
-
 const [dropdown, setDropdown] = useState(false);
 const toggleDropdown = () => {
   setDropdown(!dropdown);
 };
-
 const Dropdown = styled.div`
   border-radius: 8px;
   border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   background: var(--bg-2, #23242b);
   z-index: 20;
-
   display: flex;
   padding: 10px 0px;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-
   .dropdown-item {
     color: #fff;
-
     /* Body/10px */
     font-family: InterVariable, sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-
     display: flex;
     padding: 10px;
     align-items: center;
     gap: 4px;
     align-self: stretch;
   }
-
   .dropdown-item:hover {
     transition: all 300ms;
     color: #000 !important;
     background: #fff;
   }
 `;
-
 const MemoizedOverlay = useMemo(
   () => (
     <Overlay>
@@ -218,9 +194,8 @@ const MemoizedOverlay = useMemo(
       </div>
     </Overlay>
   ),
-  [props.variant, accountId, name, isPremium, blockHeight, link, pinned],
+  [props.variant, accountId, name, isPremium, blockHeight, link, pinned]
 );
-
 const [showModal, setShowModal] = useState(false);
 const toggleModal = () => {
   setShowModal(!showModal);
@@ -230,7 +205,6 @@ const closeModal = () => {
   setShowModal(false);
   setModalType("");
 };
-
 const plugins = {
   edit: {
     path: "buildhub.near/widget/components.modals.EditPost",
@@ -262,7 +236,6 @@ const plugins = {
     },
   },
 };
-
 return (
   <div className="d-flex align-items-center">
     <Modal
@@ -336,7 +309,6 @@ return (
             >
               <i className="bi bi-filetype-raw" /> Markdown Source
             </Link>
-
             <Widget
               src="mob.near/widget/MainPage.Common.HideAccount"
               loading=""
