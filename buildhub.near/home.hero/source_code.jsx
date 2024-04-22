@@ -1,11 +1,9 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const gridLink =
   "https://ipfs.near.social/ipfs/bafkreiay3ytllrxhtyunppqxcazpistttwdzlz3jefdbsq5tosxuryauu4";
 const logoLink =
@@ -16,7 +14,6 @@ const rightBlur =
   "https://ipfs.near.social/ipfs/bafkreigxwshevkyp6rt2l6gjxeap4b6yetxhusyn6swfhh4rtwvp3kkgqu";
 const mobileBlur =
   "https://ipfs.near.social/ipfs/bafkreid6k74swyhmqmq6vedpafumz6cywbok72zckkgemzg6jec7sk5fpm";
-
 const Grid = styled.img`
   position: absolute;
   top: 0;
@@ -27,31 +24,25 @@ const Grid = styled.img`
   height: 100%;
   pointer-events: none;
 `;
-
 const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 40px;
-
   padding: 48px;
-
   @media screen and (max-width: 768px) {
     padding: 32px 20px;
     gap: 20px;
   }
 `;
-
 const Logo = styled.img`
   height: 128px;
   width: max-content;
   object-fit: cover;
-
   @media screen and (max-width: 768px) {
     height: 78px;
   }
 `;
-
 const Heading = styled.h1`
   color: var(--text-color, #fff);
   font-family: "Poppins", sans-serif;
@@ -59,17 +50,14 @@ const Heading = styled.h1`
   line-height: 120%; /* 69.6px */
   text-wrap: balance;
   margin: 0;
-
   span {
     color: var(--eca-227, #eca227);
     font-weight: 600;
   }
-
   @media screen and (max-width: 768px) {
     font-size: 40px;
   }
 `;
-
 const Subheading = styled.h2`
   color: var(--white-50, #b0b0b0);
   font-size: 24px;
@@ -77,36 +65,30 @@ const Subheading = styled.h2`
   font-family: InterVariable;
   line-height: 140%; /* 33.6px */
   margin: 0;
-
   @media screen and (max-width: 768px) {
     font-size: 12px;
   }
 `;
-
 const Phrase = styled.p`
   color: #7f7f7f;
   font-size: 14px;
   font-family: InterVariable, sans-serif;
   margin: 0;
-
   @media screen and (max-width: 768px) {
     font-size: 10px;
   }
 `;
-
 const Stats = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 40px;
-
   @media screen and (max-width: 768px) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     place-items: center;
   }
 `;
-
 const InfoStat = ({ amount, label }) => {
   return (
     <div className="d-flex gap-2 align-items-center">
@@ -162,44 +144,36 @@ const InfoStat = ({ amount, label }) => {
     </div>
   );
 };
-
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-
   @media screen and (max-width: 768px) {
     gap: 12px;
   }
 `;
-
 const RightBlur = styled.img`
   position: absolute;
   right: 0;
   bottom: -316px;
   opacity: 0.5;
   pointer-events: none;
-
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const LeftBlur = styled.img`
   position: absolute;
   left: 0;
   top: -316px;
   opacity: 0.5;
   pointer-events: none;
-
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const MobileBlur = styled.img`
   display: none;
-
   @media screen and (max-width: 768px) {
     position: absolute;
     right: 0;
@@ -209,7 +183,6 @@ const MobileBlur = styled.img`
     pointer-events: none;
   }
 `;
-
 const Hero = (props) => {
   const { signedIn, currentGateway } = props;
   return (
@@ -273,5 +246,4 @@ const Hero = (props) => {
     </div>
   );
 };
-
 return { Hero };
