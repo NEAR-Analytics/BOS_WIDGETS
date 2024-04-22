@@ -165,6 +165,7 @@ const {
   gas,
   nativeCurrency,
   routerStr,
+  routes,
 } = props;
 
 const WarningIcon = (
@@ -321,7 +322,7 @@ return (
             {Big(outputCurrencyAmount || 0).toFixed(8)} {outputCurrency.symbol}
           </div>
         </StyledItem>
-        {priceImpact && (
+        {!!priceImpact && (
           <StyledItem>
             <div>Price Impact</div>
             <div
@@ -357,9 +358,18 @@ return (
         <StyledItem>
           <div>Route</div>
           <div>
-            {routerStr
-              ? routerStr
-              : ` ${inputCurrency.symbol} > ${outputCurrency.symbol}`}
+            {routerStr ? (
+              routerStr
+            ) : routes ? (
+              <Widget
+                src="bluebiu.near/widget/Swap.Routes"
+                props={{
+                  routes,
+                }}
+              />
+            ) : (
+              ` ${inputCurrency.symbol} > ${outputCurrency.symbol}`
+            )}
           </div>
         </StyledItem>
       </StyledPanel>
