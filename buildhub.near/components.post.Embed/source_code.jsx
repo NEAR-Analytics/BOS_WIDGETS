@@ -1,5 +1,4 @@
 // This widget is used for embedding whitelisted set of widgets into a post body.
-
 const EmbedMap = new Map([
   [
     "mob.near/widget/MainPage.N.Post.Page",
@@ -10,9 +9,7 @@ const EmbedMap = new Map([
     "mob.near/widget/MainPage.N.Post.Embed",
   ],
 ]);
-
 const href = props.href;
-
 const parseUrl = (url) => {
   if (typeof url !== "string") {
     return null;
@@ -26,7 +23,6 @@ const parseUrl = (url) => {
     return null;
   }
 };
-
 const parsed = useMemo(() => {
   const url = parseUrl(href);
   if (!url) {
@@ -37,13 +33,10 @@ const parsed = useMemo(() => {
     props: Object.fromEntries([...url.searchParams.entries()]),
   };
 }, [href]);
-
 if (!parsed || !EmbedMap.has(parsed.widgetSrc)) {
   return <Link href={href}>{props.children}</Link>;
 }
-
 const widgetSrc = EmbedMap.get(parsed.widgetSrc);
-
 const Wrapper = styled.div`
   border-radius: 1rem;
   width: 100%;
@@ -52,7 +45,6 @@ const Wrapper = styled.div`
   white-space: normal;
   margin-top: 12px;
 `;
-
 return (
   <Wrapper>
     <Widget loading="" src={widgetSrc} props={parsed.props} />
