@@ -20,5 +20,12 @@ return (
       />
     </div>
     <Markdown text={text} />
+    <Widget
+      src="efiz.near/widget/Every.Thing.History"
+      props={{
+        path: state.path,
+        count: (count) => console.log("Number of changes:", count),
+      }}
+    />
   </div>
 );
