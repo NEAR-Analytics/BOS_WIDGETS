@@ -1,15 +1,12 @@
 const content = props.content;
 const noEmbed = !!props.noEmbed;
-
 const [truncated, setTruncated] = useState(props.truncateContent ?? true);
-
 const Wrapper = styled.div`
   overflow: hidden;
   .truncated-content {
     max-height: 38em;
     position: relative;
     overflow: hidden;
-
     .expand-post {
       position: absolute;
       z-index: 1;
@@ -22,7 +19,6 @@ const Wrapper = styled.div`
       );
       width: 100%;
       height: 3em;
-
       > div {
         position: relative;
         width: 100%;
@@ -37,7 +33,6 @@ const Wrapper = styled.div`
         }
       }
     }
-
     @media (max-width: 991px) {
       max-height: 30em;
       .expand-post {
@@ -45,16 +40,13 @@ const Wrapper = styled.div`
       }
     }
   }
-
   .full-content {
     .expand-post {
       display: none;
     }
   }
 `;
-
 const currentPath = props.currentPath ?? "/buildhub.near/widget/app?page=feed";
-
 const [onHashtag] = useState(() => (hashtag) => (
   <span
     key={hashtag}
@@ -64,9 +56,7 @@ const [onHashtag] = useState(() => (hashtag) => (
     <Link href={`${currentPath}&hashtag=${hashtag}`}>#{hashtag}</Link>
   </span>
 ));
-
 const [showLightbox, setShowLightbox] = useState(false);
-
 const [onImage] = useState(
   () => (props) =>
     props.src && (
@@ -81,9 +71,8 @@ const [onImage] = useState(
           alt: props.alt ?? "inline image",
         }}
       />
-    ),
+    )
 );
-
 const onLink = useCallback((props) => {
   if (props.children[0] === "EMBED") {
     // EMBED
@@ -98,7 +87,6 @@ const onLink = useCallback((props) => {
     return <a {...props} />;
   }
 }, []);
-
 return (
   <Wrapper>
     <div className={truncated ? "truncated-content" : "full-content"}>
