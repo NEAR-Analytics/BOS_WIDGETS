@@ -13,28 +13,23 @@ const StyledDropdown = styled.div`
     outline: none;
     border: 0;
     padding: 4px 8px;
-
     &:after {
       margin: 0 15px;
       border-top-color: #9ba1a6;
     }
-
     img {
       border-radius: 50% !important;
     }
-
     .profile-info {
       margin: 5px 10px;
       margin-right: 0;
       line-height: normal;
       max-width: 100px;
-
       .profile-name,
       .profile-username {
         text-overflow: ellipsis;
         overflow: hidden;
       }
-
       .profile-name {
         color: #ecedee;
       }
@@ -43,16 +38,13 @@ const StyledDropdown = styled.div`
       }
     }
   }
-
   ul {
     background-color: #23242b;
     width: 100%;
     width: 210px;
-
     li {
       padding: 0 6px;
     }
-
     button,
     a {
       color: #9ba1a6;
@@ -60,20 +52,17 @@ const StyledDropdown = styled.div`
       align-items: center;
       border-radius: 8px;
       padding: 12px;
-
       :hover,
       :focus {
         text-decoration: none;
         background-color: #151718;
         color: white;
-
         svg {
           path {
             stroke: white;
           }
         }
       }
-
       svg {
         margin-right: 7px;
         min-width: 24px;
@@ -84,7 +73,6 @@ const StyledDropdown = styled.div`
     }
   }
 `;
-
 function User() {
   return (
     <svg
@@ -111,7 +99,6 @@ function User() {
     </svg>
   );
 }
-
 function LogOut() {
   return (
     <svg
@@ -145,11 +132,9 @@ function LogOut() {
     </svg>
   );
 }
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 return (
   <StyledDropdown className="dropdown">
     <button
