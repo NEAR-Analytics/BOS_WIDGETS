@@ -10,7 +10,6 @@ const raw = !!props.raw;
 const groupId = props.groupId;
 const groupIdLinkPart = groupId ? `&groupId=${groupId}` : "";
 const permissions = props.permissions;
-
 const extractNotifyAccountId = (item) => {
   if (!item || item.type !== "social" || !item.path) {
     return undefined;
@@ -18,15 +17,12 @@ const extractNotifyAccountId = (item) => {
   const accountId = item.path.split("/")[0];
   return `${accountId}/post/main` === item.path ? accountId : undefined;
 };
-
 const link = `/mob.near/widget/MainPage.N.Comment.Page?accountId=${accountId}&blockHeight=${blockHeight}${groupIdLinkPart}`;
-
 const item = {
   type: "social",
   path: `${accountId}/post/comment`,
   blockHeight,
 };
-
 const StyledPost = styled.div`
   margin-bottom: 1rem;
   .post {
@@ -36,7 +32,6 @@ const StyledPost = styled.div`
     padding: 24px !important;
     background-color: var(--post-bg, #23242b);
     transition: all 300ms;
-
     &:hover {
       background-color: var(--post-bg-hover, #17181c) !important;
       .expand-post {
@@ -47,19 +42,16 @@ const StyledPost = styled.div`
         ) !important;
       }
     }
-
     .post-header {
       span,
       .text-muted {
         color: var(--font-color, #fff) !important;
       }
     }
-
     .buttons {
       border-top: 1px solid #3c3d43;
       padding: 0.5rem;
     }
-
     .expand-post {
       background-image: linear-gradient(
         to bottom,
@@ -68,11 +60,9 @@ const StyledPost = styled.div`
       ) !important;
     }
   }
-
   .dropdown-menu {
     background-color: var(--post-bg, #000000) !important;
     color: var(--font-color, #fff) !important;
-
     li.dropdown-item {
       color: var(--font-color, #fff) !important;
       &:hover {
@@ -81,30 +71,24 @@ const StyledPost = styled.div`
         }
       }
     }
-
     .link-dark,
     .dropdown-item {
       color: var(--font-color, #fff) !important;
-
       &:hover {
         color: var(--post-bg, #000000) !important;
-
         span {
           color: var(--post-bg, #000000) !important;
         }
       }
     }
   }
-
   textarea {
     color: #b6b6b8 !important;
   }
 `;
-
 const Wrapper = styled.div`
   margin: 0 -12px;
   line-height: normal;
-
   .post {
     position: relative;
     padding: 12px;
@@ -129,7 +113,6 @@ const Wrapper = styled.div`
         font-size: 15px !important;
       }
     }
-
     h1,
     h2,
     h3,
@@ -159,11 +142,9 @@ const Wrapper = styled.div`
     th {
       min-width: 5em;
     }
-
     .table > :not(caption) > * > * {
       padding: 0.3rem;
     }
-
     &:hover {
       background-color: rgba(0, 0, 0, 0.03);
       .expand-post {
@@ -174,12 +155,10 @@ const Wrapper = styled.div`
         );
       }
     }
-
     .post-header {
       margin: 4px 0;
     }
   }
-
   .post:not(:last-child):before {
     content: "";
     position: absolute;
@@ -190,7 +169,6 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .post:not(:first-child):after {
     content: "";
     position: absolute;
@@ -201,28 +179,23 @@ const Wrapper = styled.div`
     background-color: #ddd;
     z-index: -1;
   }
-
   .right {
     flex-grow: 1;
     min-width: 0;
   }
-
   .buttons-placeholder {
     padding-bottom: 10px;
   }
-
   .buttons {
     margin-top: 10px;
     margin-bottom: 6px;
     column-gap: 4px;
     color: #888;
   }
-
   .reposted {
     padding-top: 30px;
   }
 `;
-
 return (
   <>
     <StyledPost
