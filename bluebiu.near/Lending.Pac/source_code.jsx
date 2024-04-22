@@ -63,6 +63,7 @@ const {
   theme,
   toast,
   addAction,
+  refresh,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("PROPS: ", props);
