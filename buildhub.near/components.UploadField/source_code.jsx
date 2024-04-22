@@ -1,7 +1,6 @@
 const { Button } = VM.require("buildhub.near/widget/components.Button") || {
   Button: () => <></>,
 };
-
 const UploadContainer = styled.div`
   display: flex;
   max-width: 390px;
@@ -13,16 +12,13 @@ const UploadContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 24px;
-
   border-radius: 16px;
   border: 1px dashed var(--stroke-color, rgba(255, 255, 255, 0.2));
   background: ${(props) =>
     props.background ? "var(--bg-2, #23242B)" : "var(--bg-1, #000000)"};
-
   p {
     color: var(--font-color, #fff);
     text-align: center;
-
     /* Body/Medium-16px */
     font-size: 16px;
     font-style: normal;
@@ -30,7 +26,6 @@ const UploadContainer = styled.div`
     line-height: normal;
     margin: 0;
   }
-
   p.secondary {
     color: var(--font-muted-color, #cdd0d5);
     text-align: center;
@@ -39,13 +34,11 @@ const UploadContainer = styled.div`
     font-weight: 400;
     line-height: 16px; /* 133.333% */
   }
-
   i {
     color: var(--font-color, #fff);
     font-size: 2rem;
   }
 `;
-
 function UploadField({ background }) {
   return (
     <UploadContainer background={background}>
@@ -65,5 +58,4 @@ function UploadField({ background }) {
     </UploadContainer>
   );
 }
-
 return { UploadField };
