@@ -43,7 +43,9 @@ const getTokens = () => {
 };
 
 useEffect(() => {
-  getTokens();
+  if (sender) {
+    getTokens();
+  }
 }, []);
 
 const createToken = () => {
@@ -70,6 +72,19 @@ const createToken = () => {
 const Wrapper = styled.div`
 * {
   font-family: 'system-ui','Inter', 'Space Grotesk' !important;
+}
+
+.connectB {
+    background: #ECA227;
+        color: #1E1E1E;
+        font-weight: 700;
+        padding: 15px 20px;
+        border-radius: 1rem;
+        border: none;
+        &:hover {
+            background: #4A21A5;
+            color: white;
+        }: 
 }
 `;
 
@@ -362,7 +377,7 @@ return (
                 ) : (
                   <div style={{ "text-align": "center" }}>
                     <Web3Connect
-                      className="ConnectButton"
+                      className="connectB"
                       connectLabel="Connect with Web3"
                     />
                   </div>
