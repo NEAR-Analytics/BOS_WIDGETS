@@ -2,13 +2,10 @@ const LoginContainer = styled.div`
   background-color: #000000;
   color: #fff;
   height: 100%;
-
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   img {
     width: 100%;
     max-height: 100vh;
@@ -19,7 +16,6 @@ const LoginContainer = styled.div`
     left: 50%;
     transform: translateX(-50%);
   }
-
   .card {
     z-index: 5;
     background: transparent;
@@ -32,24 +28,20 @@ const LoginContainer = styled.div`
     justify-content: center;
     align-items: center;
     gap: 40px;
-
     img {
       width: auto;
       height: 54px;
       object-fit: cover;
     }
-
     h1 {
       color: var(--white-100, #fff);
       text-align: center;
-
       /* H1/small */
       font-size: 2rem;
       font-style: normal;
       font-weight: 500;
       line-height: 100%; /* 32px */
     }
-
     button {
       all: unset;
       cursor: pointer;
@@ -59,16 +51,12 @@ const LoginContainer = styled.div`
       align-items: center;
       gap: 4px;
       align-self: stretch;
-
       border-radius: 8px;
       background: #eca227;
-
       &:hover {
         background: #e49b48;
       }
-
       color: var(--black-100, #000);
-
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
@@ -76,7 +64,6 @@ const LoginContainer = styled.div`
     }
   }
 `;
-
 const LoginView = () => {
   return (
     <LoginContainer>
@@ -97,5 +84,4 @@ const LoginView = () => {
     </LoginContainer>
   );
 };
-
 return <LoginView />;
