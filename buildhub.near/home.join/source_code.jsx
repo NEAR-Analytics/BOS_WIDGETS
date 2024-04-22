@@ -1,25 +1,21 @@
 const { Tag, Button } = VM.require("buildhub.near/widget/components") || {
   Tag: () => <></>,
 };
-
 const Container = styled.div`
   display: flex;
   padding: 80px 48px;
   flex-direction: column;
   align-items: center;
   gap: 72px;
-
   @media screen and (max-width: 768px) {
     padding: 32px 20px;
   }
 `;
-
 const HeadingContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 24px;
-
   h2 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
@@ -27,12 +23,10 @@ const HeadingContainer = styled.div`
     line-height: 56px; /* 116.667% */
     font-family: "Poppins", sans-serif;
     margin: 0;
-
     span {
       font-weight: 700;
     }
   }
-
   h3 {
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     text-align: center;
@@ -42,30 +36,25 @@ const HeadingContainer = styled.div`
     line-height: 140%; /* 33.6px */
     margin: 0;
   }
-
   @media screen and (max-width: 768px) {
     h2 {
       font-size: 24px;
       line-height: 130%;
     }
-
     h3 {
       font-size: 14px;
     }
   }
 `;
-
 const BenefitContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   place-items: center;
   gap: 32px;
-
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
-
 const GlobeIcon = () => {
   return (
     <>
@@ -100,19 +89,16 @@ const GlobeIcon = () => {
     </>
   );
 };
-
 const Benefit = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
-
   &.first {
     svg {
       filter: invert(60%) sepia(100%) saturate(392%) hue-rotate(352deg)
         brightness(97%) contrast(90%);
     }
   }
-
   .heading {
     color: var(--paleta-escolhida-ffffff, #fff);
     font-size: 24px;
@@ -120,7 +106,6 @@ const Benefit = styled.div`
     font-family: "Poppins", sans-serif;
     margin-bottom: 8px;
   }
-
   .content {
     color: var(--6-e-6-e-6-e, var(--Black-50, #6e6e6e));
     font-size: 16px;
@@ -129,38 +114,30 @@ const Benefit = styled.div`
     line-height: 120%; /* 24px */
     margin: 0;
   }
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     gap: 8px;
-
     .heading {
       text-align: center;
       font-size: 20px;
     }
-
     .content {
       text-align: center;
       font-size: 14px;
     }
   }
 `;
-
 const gridLink =
   "https://ipfs.near.social/ipfs/bafkreiay3ytllrxhtyunppqxcazpistttwdzlz3jefdbsq5tosxuryauu4";
-
 const Banner = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   padding: 40px 60px;
-
   position: relative;
-
   border-radius: 16px;
   background: linear-gradient(104deg, #4a21a5 33.65%, #eca227 99.99%);
   box-shadow: 4px 24px 48px 0px rgba(81, 255, 234, 0.1);
-
   .left {
     display: flex;
     flex-direction: column;
@@ -172,25 +149,21 @@ const Banner = styled.div`
       font-weight: 700;
     }
   }
-
   .right {
     display: flex;
     gap: 16px;
     align-items: center;
   }
-
   @media screen and (max-width: 960px) {
     flex-direction: column;
     padding: 30px;
     gap: 40px;
-
     .right {
       flex-direction: column;
       align-items: center;
     }
   }
 `;
-
 const GridImage = styled.img`
   position: absolute;
   top: 0;
@@ -201,32 +174,27 @@ const GridImage = styled.img`
   opacity: 0.05;
   pointer-events: none;
 `;
-
 const Step = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   font-family: "Poppins", sans-serif;
-
   span.leading {
     color: var(--ffffff, #fff);
     font-size: 18px;
     font-weight: 700;
     line-height: 100%; /* 28px */
   }
-
   span.content {
     color: var(--d-1-d-1-d-1, #d1d1d1);
     font-size: 14px;
     line-height: 120%; /* 24px */
   }
-
   @media screen and (max-width: 960px) {
     flex-direction: row;
     align-items: center;
   }
 `;
-
 const Join = () => {
   return (
     <Container className="container-xl">
@@ -300,5 +268,4 @@ const Join = () => {
     </Container>
   );
 };
-
 return { Join };
