@@ -1,10 +1,8 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const item = props.item;
 const closeModal = props.closeModal;
-
 const handleDelete = () => {
   Social.set({
     index: {
@@ -17,7 +15,6 @@ const handleDelete = () => {
     },
   });
 };
-
 return (
   <>
     <div className="mb-3">
