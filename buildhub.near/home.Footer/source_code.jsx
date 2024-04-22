@@ -3,13 +3,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 80px;
-
   @media screen and (max-width: 768px) {
     padding: 32px 20px;
     gap: 40px;
   }
 `;
-
 const Card = styled.div`
   display: flex;
   padding: 56px;
@@ -18,19 +16,16 @@ const Card = styled.div`
   align-items: center;
   gap: 40px;
   width: 100%;
-
   border-radius: 16px;
   border: 1px solid var(--Gradient-1, #4a21a5);
   background: #000000;
   box-shadow: 4px 24px 48px 0px rgba(249, 225, 122, 0.05);
-
   img {
     width: 90px;
     object-fit: cover;
     height: 100px;
     border-radius: 20px;
   }
-
   h3 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
@@ -39,34 +34,28 @@ const Card = styled.div`
     line-height: normal;
     text-wrap: balance;
     margin: 0;
-
     span {
       font-weight: 700;
     }
   }
-
   @media screen and (max-width: 768px) {
     padding: 24px 20px;
     gap: 30px;
-
     img {
       width: 71.272px;
       height: 80px;
     }
-
     h3 {
       font-size: 28px;
     }
   }
 `;
-
 const FooterContainer = styled.div`
   padding: 32px 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-
   p {
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     text-align: center;
@@ -75,31 +64,26 @@ const FooterContainer = styled.div`
     line-height: 170%; /* 27.2px */
     margin: 0;
   }
-
   @media screen and (max-width: 768px) {
     p {
       font-size: 14px;
     }
   }
 `;
-
 const LinksContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-
   a {
     font-size: 24px;
     color: #fff;
     text-decoration: none;
     transition: all 300ms;
-
     &:hover {
       opacity: 0.8;
     }
   }
 `;
-
 const XIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +98,6 @@ const XIcon = () => (
     />
   </svg>
 );
-
 const Footer = ({ noBanner }) => {
   return (
     <Container className="container-xl">
@@ -160,5 +143,4 @@ const Footer = ({ noBanner }) => {
     </Container>
   );
 };
-
 return { Footer };
