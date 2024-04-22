@@ -236,6 +236,8 @@ function getTrade() {
                     loading: false,
                 })
             }
+        }).catch(e => {
+            console.log(e)
         })
     }
 }
@@ -625,10 +627,11 @@ return <BridgePanel>
                         refreshTransactionList()
 
                     }).catch(err => {
+                        console.log(err)
 
                         props.toast.fail({
                             title: 'Transaction failed',
-                            text: err.toString(),
+                            text: err.message ? err.message : '',
                         })
    
                         State.update({
