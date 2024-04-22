@@ -1,67 +1,57 @@
-const { daos } = VM.require("buildhub.near/widget/fetch.daos") || { daos: [] };
-
+const { daos } = VM.require("buildhub.near/widget/fetch.daos") || {
+  daos: [],
+};
 if (!daos) {
   return "";
 }
 const options = daos.map((dao) => dao.contract_id);
-
 const { Modal, Button, User } = VM.require(
-  "buildhub.near/widget/components",
+  "buildhub.near/widget/components"
 ) || {
   Modal: () => <></>,
   Button: () => <></>,
   User: () => <></>,
 };
-
 const showModal = props.showModal;
 const toggleModal = props.toggleModal;
 const toggle = props.toggle;
 const bootstrapTheme = props.bootstrapTheme || "dark";
 const editorCSS = props.editorCSS;
-
 if (!showModal) {
   return "";
 }
-
 const [selectedDAO, setSelectedDAO] = useState(
-  props.daoId || "build.sputnik-dao.near",
+  props.daoId || "build.sputnik-dao.near"
 );
 const [daoName, setDAOName] = useState("");
 const [selectedOption, setSelectedOption] = useState("");
-
 useEffect(() => {
   const name = Social.get(`${selectedDAO}/profile/name`);
   setDAOName(name);
 }, [selectedDAO]);
-
 const policy = Near.view(selectedDAO, "get_policy") || { roles: [] };
 const roles = policy.roles.map((item) => item.name) || [];
-
 const StyledTypeahead = styled.div`
   input,
   input:focus,
   .rbt-input-hint {
     background: #212529;
     color: #fff;
-
     &::placeholder {
       color: #fff;
       opacity: 1; /* Firefox */
     }
     border: 1px solid #434950;
   }
-
   .rbt-input-hint {
     color: rgba(255, 255, 255, 0.2) !important;
   }
-
   .rbt-menu,
   .dropdown-item {
     background: #212529;
     color: #fff;
   }
 `;
-
 return (
   <Modal
     open={showModal}
@@ -85,7 +75,6 @@ return (
         <User accountId={context.accountId} showTime={false} hideMenu={true} />
       </div>
     </div>
-
     <StyledTypeahead className="mb-3">
       <label htmlFor="dao-selector">DAO Contract ID</label>
       <Typeahead
@@ -100,7 +89,6 @@ return (
         defaultSelected={[selectedDAO]}
       />
     </StyledTypeahead>
-
     <div className="mb-3">
       <label htmlFor="proposal-type">Proposal Type</label>
       <select
@@ -121,7 +109,6 @@ return (
         <option value="removeMember">Remove Member From Role</option>
       </select>
     </div>
-
     <div className="mb-3">
       {selectedOption === "text" && (
         <>
