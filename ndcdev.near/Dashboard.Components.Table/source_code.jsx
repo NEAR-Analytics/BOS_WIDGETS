@@ -51,7 +51,7 @@ const FiltersContainer = styled.div`
   }
 `;
 
-const { daos, API, period } = props;
+const { daos, API, dateRange } = props;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const defaultDAOOption = "All DAOs";
@@ -69,7 +69,7 @@ const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => {
 
 const [dataSet, setDataSet] = useState([]);
 const [loading, setLoading] = useState(false);
-const [selectedDAOs, setSelectedDAOs] = useState([]);
+const [selectedDAOs, setSelectedDAOs] = useState(daos.map((d) => d.title));
 const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
 
 const onFilterClick = (value) =>
@@ -84,7 +84,7 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption,
+      (daoId) => daoId !== value && daoId !== defaultDAOOption
     );
   } else {
     newSelection = [...selectedDAOs, value];
@@ -121,11 +121,7 @@ useEffect(() => {
     ? daos.filter((d) => selectedDAOs.includes(d.title))
     : daos;
 
-  if (dataSet.length > 0) {
-    fetchData(FILTER_IDS.userRetentions);
-    fetchData(FILTER_IDS.dappsUsed);
-    fetchData(FILTER_IDS.acquisitionCost);
-  } else
+  if (dataSet.length === 0)
     setDataSet(
       filtredDAOs.map((dao) => {
         return {
@@ -135,9 +131,17 @@ useEffect(() => {
           [FILTER_IDS.dappsUsed]: 0,
           [FILTER_IDS.acquisitionCost]: 0,
         };
-      }),
+      })
     );
-}, [daos, selectedDAOs, period]);
+}, [selectedDAOs]);
+
+useEffect(() => {
+  if (dataSet.length > 0) {
+    fetchData(FILTER_IDS.userRetentions);
+    fetchData(FILTER_IDS.dappsUsed);
+    fetchData(FILTER_IDS.acquisitionCost);
+  }
+}, [dataSet, dateRange]);
 
 const sortData = (field) =>
   setDataSet(dataSet.sort((a, b) => b[field] - a[field]));
