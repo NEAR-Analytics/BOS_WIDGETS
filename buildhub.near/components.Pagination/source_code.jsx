@@ -1,13 +1,10 @@
 const totalPages = props.totalPages ?? 12; // Assume you have 12 pages
 const maxVisiblePages = props.maxVisiblePages ?? 4;
-const onPageClick = props.onPageClick
-  ? props.onPageClick
-  : () => console.log("clicked");
+const onPageClick = props.onPageClick ? props.onPageClick : () => {};
 const pagesToShow = Math.min(totalPages, maxVisiblePages);
 const selectedPage = props.selectedPage === 0 ? 1 : props.selectedPage;
 const totalPageSets = Math.ceil(totalPages / maxVisiblePages);
 const [currentPageSet, setCurrentPageSet] = useState(1);
-
 const ThemeContainer =
   props.ThemeContainer ||
   styled.div`
@@ -16,11 +13,9 @@ const ThemeContainer =
     --selected-bg-color: #23242b;
     --arrow-stroke-color: #ffffff1a;
   `;
-
 const Pagination = styled.div`
   display: flex;
   gap: 12px;
-
   div {
     display: flex;
     height: 40px;
@@ -34,45 +29,37 @@ const Pagination = styled.div`
     transition: all 300ms;
     cursor: pointer;
     background-color: var(--bg-color);
-
     /* Other/Button_text */
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-
     &.selected,
     &:hover {
       background-color: var(--selected-bg-color);
     }
-
     &.arrow {
       border: 1px solid var(--arrow-stroke-color);
     }
-
     &.disabled {
       cursor: not-allowed;
     }
   }
 `;
-
 const handlePageClick = (pageNumber) => {
   onPageClick(pageNumber);
 };
-
 const handleArrowClick = (direction) => {
   if (direction === "left") {
     setCurrentPageSet(Math.max(currentPageSet - 1, 1));
   } else {
     setCurrentPageSet(
-      Math.min(currentPageSet + 1, Math.ceil(totalPages / maxVisiblePages)),
+      Math.min(currentPageSet + 1, Math.ceil(totalPages / maxVisiblePages))
     );
   }
 };
-
 const getPageNumber = (index) =>
   (currentPageSet - 1) * maxVisiblePages + index + 1;
-
 return (
   <ThemeContainer>
     <Pagination>
