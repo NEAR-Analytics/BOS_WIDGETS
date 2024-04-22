@@ -102,6 +102,7 @@ const handleSubmit = async (e) => {
       const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
         method: "POST",
         body: fileData,
+        "x-auth-token": TOKEN,
       });
       console.log(response);
     } catch (error) {
