@@ -36,6 +36,7 @@ const IncreaseCollateral = (props) => {
             amount: log.amount,
             ownerId: props.ownerId,
             network: props.network,
+            decimals: 18,
           }}
         />
       }
