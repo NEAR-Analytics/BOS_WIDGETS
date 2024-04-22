@@ -440,7 +440,7 @@ return (
           <Widget
             src="efiz.near/widget/Every.Thing.History"
             props={{
-              path: props.path,
+              path: state.path,
               count: (count) => console.log("Number of changes:", count),
             }}
           />
