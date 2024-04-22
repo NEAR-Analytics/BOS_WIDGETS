@@ -64,6 +64,7 @@ const {
   theme,
   toast,
   addAction,
+  refresh,
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("PROPS: ", props);
@@ -152,7 +153,7 @@ function getConfig() {
     erc20Abi: fetch(CONTRACT_ABI.erc20Abi),
     aavePoolV3ABI: fetch(CONTRACT_ABI.aavePoolV3ABI),
     variableDebtTokenABI: fetch(CONTRACT_ABI.variableDebtTokenABI),
-    walletBalanceProviderABI: fetch(CONTRACT_ABI.walletBalanceProviderABI),
+    // walletBalanceProviderABI: fetch(CONTRACT_ABI.walletBalanceProviderABI),
   };
 
   const constants = {
@@ -432,27 +433,33 @@ function getUserBalance() {
         })
         .then((userBalances) => {
           console.log("getUserBalance--", userBalances);
-          const _assetsToSupply = [...state.assetsToSupply];
-          for (let index = 0; index < _assetsToSupply.length; index++) {
-            const item = _assetsToSupply[index];
-            const _bal =
-              item.symbol === config.nativeCurrency.symbol
-                ? baseAssetBalance
-                : userBalances[index];
-            const balanceRaw = Big(_bal || 0).div(Big(10).pow(item.decimals));
-            const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
+          if (userBalances.every((item) => item === null)) {
+            State.update({
+              isShowReloadModal: true,
+            });
+          } else {
+            const _assetsToSupply = [...state.assetsToSupply];
+            for (let index = 0; index < _assetsToSupply.length; index++) {
+              const item = _assetsToSupply[index];
+              const _bal =
+                item.symbol === config.nativeCurrency.symbol
+                  ? baseAssetBalance
+                  : userBalances[index];
+              const balanceRaw = Big(_bal || 0).div(Big(10).pow(item.decimals));
+              const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
 
-            const _balanceInUSD = balanceRaw
-              .times(Big(item.tokenPrice || 0))
-              .toFixed();
+              const _balanceInUSD = balanceRaw
+                .times(Big(item.tokenPrice || 0))
+                .toFixed();
 
-            item.balance = _balance;
-            item.balanceInUSD = _balanceInUSD;
+              item.balance = _balance;
+              item.balanceInUSD = _balanceInUSD;
+            }
+
+            State.update({
+              assetsToSupply: _assetsToSupply,
+            });
           }
-
-          State.update({
-            assetsToSupply: _assetsToSupply,
-          });
         })
         .catch((err) => {
           console.log("batchBalanceOfERROR:", err);
@@ -1711,7 +1718,9 @@ const body = isChainSupported ? (
                   config,
                   theme: dexConfig.theme,
                   children: "Reload",
-                  onClick: () => {},
+                  onClick: () => {
+                    refresh && refresh();
+                  },
                 }}
               />
               <Widget
@@ -1719,6 +1728,11 @@ const body = isChainSupported ? (
                 props={{
                   config,
                   // theme: dexConfig.theme,
+                  style: {
+                    color: "#979ABE",
+                    marginTop: 5,
+                    fontWeight: "normal",
+                  },
                   children: "Close",
                   onClick: () => {
                     State.update({ isShowReloadModal: false });
