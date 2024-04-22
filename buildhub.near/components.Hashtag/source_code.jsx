@@ -6,18 +6,14 @@ const StyledHashtag = styled.span`
   align-content: center;
   gap: 4px;
   flex-wrap: wrap;
-
   border-radius: 2px;
   border: 1px solid var(--Yellow, #eca227);
-
   color: var(--White-100, #fff);
-
   /* Body/10px */
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-
   .tag {
     color: var(--Yellow, #eca227);
   }
@@ -29,5 +25,4 @@ const Hashtag = ({ children }) => {
     </StyledHashtag>
   );
 };
-
 return { Hashtag };
