@@ -1,26 +1,20 @@
 const { Post } = VM.require("buildhub.near/widget/components") || {
   Post: () => <></>,
 };
-
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
 if (profile === null) {
   return "Loading";
 }
-
 const description = profile.description;
-
 const pills = [
   { id: "posts", title: "Posts" },
   { id: "nfts", title: "NFTs" },
   { id: "widget", title: "Widgets" },
 ];
-
 const Nav = styled.div`
   .nav-pills {
     background: var(--bg-1, #000000);
@@ -36,30 +30,25 @@ const Nav = styled.div`
   .nav-link.active {
     border-bottom: 2px solid var(--Yellow, #eca227);
   }
-
   .nav-item:not(:has(> .disabled)):hover {
     background: rgba(13, 110, 253, 0.15);
   }
 `;
-
 const StyledContent = styled.div`
   #pills-nfts {
     .nft-card {
       background: var(--bg-1, #000000);
       border-radius: 1rem;
       border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
-
       .nft-title,
       nft-description {
         color: var(--font-color, #fff);
       }
     }
   }
-
   #pills-widget {
   }
 `;
-
 return (
   <>
     <Nav>
