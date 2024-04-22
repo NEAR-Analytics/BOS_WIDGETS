@@ -397,7 +397,7 @@ function MainComponent(props) {
         </>
       ),
       tdClassName:
-        'pl-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'pl-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <span>{t ? t('txns:hash') : 'TXN HASH'}</span>,
@@ -429,16 +429,16 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
-      tdClassName: 'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10',
+      tdClassName: 'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left whitespace-nowrap  text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-4 text-left whitespace-nowrap  text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: (
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:type') : 'METHOD'}
@@ -503,7 +503,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
     },
     {
       header: <span>{t ? t('txns:depositValue') : 'DEPOSIT VALUE'}</span>,
@@ -517,9 +517,9 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <span>{t ? t('txns:txnFee') : 'TXN FEE'}</span>,
@@ -533,16 +533,16 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-5 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
+        'px-4 py-4 text-left whitespace-nowrap text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: (
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-6 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:from') : 'FROM'}
@@ -624,7 +624,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
     },
     {
       header: <span></span>,
@@ -640,7 +640,7 @@ function MainComponent(props) {
         <Popover.Root>
           <Popover.Trigger
             asChild
-            className="flex items-center px-6 py-4 text-left text-xs font-semibold text-nearblue-600  dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
+            className="flex items-center px-4 py-4 text-left text-xs font-semibold text-nearblue-600  dark:text-neargray-10 uppercase tracking-wider focus:outline-none"
           >
             <button className="IconButton" aria-label="Update dimensions">
               {t ? t('txns:to') : 'To'}
@@ -720,7 +720,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-4 text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
     },
     {
       header: <span>{t ? t('txns:blockHeight') : ' BLOCK HEIGHT'}</span>,
@@ -740,13 +740,13 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10 font-medium',
       thClassName:
-        'px-5 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
-        <div className="w-full inline-flex px-5 py-4">
+        <div className="w-full inline-flex px-4 py-4">
           <Tooltip.Provider>
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
@@ -821,7 +821,7 @@ function MainComponent(props) {
         </span>
       ),
       tdClassName:
-        'px-5 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
+        'px-4 py-4 whitespace-nowrap text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName: 'inline-flex whitespace-nowrap',
     },
   ];
