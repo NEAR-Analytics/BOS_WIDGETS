@@ -1,26 +1,22 @@
 const { Tag } = VM.require("buildhub.near/widget/components") || {
   Tag: () => <></>,
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 80px 48px;
   align-items: center;
   gap: 80px;
-
   @media screen and (max-width: 768px) {
     padding: 32px 20px;
     gap: 50px;
   }
 `;
-
 const HeadingSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-
   h2 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
@@ -29,19 +25,16 @@ const HeadingSection = styled.div`
     line-height: 120%; /* 57.6px */
     text-wrap: balance;
     margin: 0;
-
     span {
       color: var(--545454, #545454);
       font-size: 40px;
       font-weight: 300;
     }
   }
-
   h3 {
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     text-align: center;
     margin: 0;
-
     /* H3/Large */
     max-width: 930px;
     font-family: InterVariable, sans-serif;
@@ -50,45 +43,37 @@ const HeadingSection = styled.div`
     font-weight: 500;
     line-height: 140%; /* 33.6px */
   }
-
   @media screen and (max-width: 768px) {
     h2 {
       font-size: 24px;
       line-height: 130%; /* 31.2px */
-
       span {
         font-size: 20px;
       }
     }
-
     h3 {
       font-size: 14px;
     }
   }
 `;
-
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-
   .first-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 40px;
     align-items: stretch;
   }
-
   .second-row {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px;
     align-items: stretch;
   }
-
   @media screen and (max-width: 768px) {
     gap: 20px;
-
     .first-row,
     .second-row {
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -96,7 +81,6 @@ const CardContainer = styled.div`
     }
   }
 `;
-
 const Card = styled.div`
   display: flex;
   padding: 32px 40px;
@@ -105,17 +89,13 @@ const Card = styled.div`
   gap: 16px;
   flex: 1 0 0;
   z-index: 1;
-
   border-radius: 16px;
   border: 1px solid var(--White-50, #b0b0b0);
   background: var(--000000, #000);
-
   overflow: hidden;
-
   &.first {
     border: 1px solid var(--Gradient-1, #4a21a5);
   }
-
   h6 {
     color: var(--eca-227, #eca227);
     font-family: "Poppins", sans-serif;
@@ -125,19 +105,16 @@ const Card = styled.div`
     text-transform: uppercase;
     margin: 0;
   }
-
   h4 {
     color: var(--paleta-escolhida-ffffff, #fff);
     font-family: "Poppins", sans-serif;
     font-size: 28px;
     line-height: 120%; /* 33.6px */
     margin: 0;
-
     span {
       color: var(--b-0-b-0-b-0, #b0b0b0);
     }
   }
-
   p {
     color: var(--6-e-6-e-6-e, var(--Black-50, #6e6e6e));
     font-family: "InterVariable", sans-serif;
@@ -145,10 +122,8 @@ const Card = styled.div`
     line-height: 120%; /* 19.2px */
     margin: 0;
   }
-
   @media screen and (max-width: 768px) {
     padding: 24px 16px;
-
     h6 {
       font-size: 10px;
     }
@@ -160,7 +135,6 @@ const Card = styled.div`
     }
   }
 `;
-
 const BlurImage = styled.img`
   position: absolute;
   left: 0;
@@ -168,12 +142,10 @@ const BlurImage = styled.img`
   object-fit: cover;
   pointer-events: none;
   z-index: 0;
-
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
-
 const AboutUs = () => {
   return (
     <Container className="container-xl position-relative" key="purposes">
@@ -249,5 +221,4 @@ const AboutUs = () => {
     </Container>
   );
 };
-
 return { AboutUs };
