@@ -151,7 +151,7 @@ function getConfig() {
     erc20Abi: fetch(CONTRACT_ABI.erc20Abi),
     aavePoolV3ABI: fetch(CONTRACT_ABI.aavePoolV3ABI),
     variableDebtTokenABI: fetch(CONTRACT_ABI.variableDebtTokenABI),
-    walletBalanceProviderABI: fetch(CONTRACT_ABI.walletBalanceProviderABI),
+    // walletBalanceProviderABI: fetch(CONTRACT_ABI.walletBalanceProviderABI),
   };
 
   const constants = {
