@@ -212,6 +212,7 @@ State.init({
   step1: false,
 
   updater: 0,
+  isShowReloadModal: false,
 });
 
 useEffect(() => {
@@ -370,14 +371,15 @@ function getLiquidity() {
             .toFixed();
 
           _assetsToSupply[i].availableLiquidity = liquidityAmount;
-          _assetsToSupply[i].availableLiquidityUSD = Big(
+          const _availableLiquidityUSD = Big(
             ethers.utils.formatUnits(
               liquidityAmount,
               _assetsToSupply[i].decimals
             )
           )
-            .mul(Big(prices[_assetsToSupply[i].symbol]) || 0)
+            .mul(Big(prices[_assetsToSupply[i].symbol] || 0))
             .toFixed();
+          _assetsToSupply[i].availableLiquidityUSD = _availableLiquidityUSD;
 
           const _availableBorrowsUSD = bigMin(
             state.availableBorrowsUSD,
@@ -389,13 +391,13 @@ function getLiquidity() {
             .times(ACTUAL_BORROW_AMOUNT_RATE)
             .toFixed();
 
-          const availableBorrows = calcAvailableBorrows(
+          const _availableBorrows = calcAvailableBorrows(
             _availableBorrowsUSD,
             _assetsToSupply[i].tokenPrice
           );
 
           _assetsToSupply[i].availableBorrowsUSD = _availableBorrowsUSD;
-          _assetsToSupply[i].availableBorrows = availableBorrows;
+          _assetsToSupply[i].availableBorrows = _availableBorrows;
         }
         State.update({
           assetsToSupply: _assetsToSupply,
@@ -412,14 +414,6 @@ function getLiquidity() {
 }
 // update data in async manner
 function getUserBalance() {
-  // check abi loaded
-  if (
-    Object.keys(CONTRACT_ABI)
-      ?.map((key) => config[key])
-      .filter((ele) => !!ele).length !== Object.keys(CONTRACT_ABI).length
-  ) {
-    return;
-  }
   const provider = Ethers.provider();
   provider
     .getSigner()
@@ -1219,6 +1213,7 @@ function chunk(arr, size) {
 
 useEffect(() => {
   if (!account || !isChainSupported) return;
+
   getUserBalance();
   getUserAccountData();
 
@@ -1700,6 +1695,41 @@ const body = isChainSupported ? (
         }}
       />
     ) : null}
+    {state.isShowReloadModal ? (
+      <Widget
+        src={`${config.ownerId}/widget/AAVE.Modal.ReloadModal`}
+        props={{
+          title:
+            "You are temporarily unable to access the data, please try to reload.",
+          theme: dexConfig.theme,
+          config,
+          children: (
+            <div>
+              <Widget
+                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+                props={{
+                  config,
+                  theme: dexConfig.theme,
+                  children: "Reload",
+                  onClick: () => {},
+                }}
+              />
+              <Widget
+                src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
+                props={{
+                  config,
+                  // theme: dexConfig.theme,
+                  children: "Close",
+                  onClick: () => {
+                    State.update({ isShowReloadModal: false });
+                  },
+                }}
+              />
+            </div>
+          ),
+        }}
+      />
+    ) : null}
   </Wrap>
 ) : (
   <>
@@ -1716,14 +1746,4 @@ const body = isChainSupported ? (
 );
 // );
 
-return (
-  <div>
-    {/* Component Head */}
-    {/* <Widget
-      src={`${config.ownerId}/widget/Utils.Import`}
-      props={{ modules, onLoad: importFunctions }}
-    /> */}
-
-    {body}
-  </div>
-);
+return <div>{body}</div>;
