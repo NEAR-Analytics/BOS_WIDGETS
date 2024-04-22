@@ -369,6 +369,7 @@ return (
           nativeCurrency: props.nativeCurrency,
           prices,
           routerStr: props.routerStr,
+          routes: state.routes,
         }}
       />
       <Widget
