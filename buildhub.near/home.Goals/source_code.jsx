@@ -1,40 +1,33 @@
 const { Tag } = VM.require("buildhub.near/widget/components") || {
   Tag: () => <></>,
 };
-
 const Container = styled.div`
   padding: 32px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
-
   @media screen and (max-width: 768px) {
     padding: 32px 20px;
   }
 `;
-
 const HeadingContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-
   h2 {
     color: var(--paleta-escolhida-ffffff, #fff);
     text-align: center;
     font-family: "Poppins", sans-serif;
-
     font-size: 48px;
     line-height: 56px; /* 116.667% */
     text-wrap: balance;
-
     span {
       color: var(--paleta-escolhida-ffffff, #fff);
       font-weight: 600;
     }
   }
-
   h3 {
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
     font-size: 24px;
@@ -44,31 +37,25 @@ const HeadingContainer = styled.div`
     margin: 0;
     text-align: center;
   }
-
   @media screen and (max-width: 768px) {
     h2 {
       font-size: 24px;
       line-height: 130%; /* 31.2px */
     }
-
     h3 {
       font-size: 14px;
     }
   }
 `;
-
 const GoalsContainer = styled.div`
   display: grid;
   gap: 32px;
-
   grid-template-columns: repeat(2, minmax(0, 1fr));
-
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 20px;
   }
 `;
-
 const GridItem = styled.div`
   display: flex;
   grid-column: span 1 / span 2;
@@ -76,27 +63,21 @@ const GridItem = styled.div`
   flex-direction: column;
   gap: 12px;
   flex: 1 0 0;
-
   border-radius: 16px;
   border: 1px solid var(--White-50, #b0b0b0);
   background: var(--000000, #000);
-
   &.first {
     display: flex;
     grid-column: span 2 / span 2;
     padding: 32px 56px;
-
     border-radius: 16px;
     border: 1px solid var(--Gradient-1, #4a21a5);
     background: var(--000000, #000);
-
     .heading {
       font-size: 40px;
     }
-
     overflow: hidden;
   }
-
   .category {
     color: var(--eca-227, #eca227);
     font-size: 14px;
@@ -106,7 +87,6 @@ const GridItem = styled.div`
     text-transform: uppercase;
     margin: 0;
   }
-
   .heading {
     color: var(--paleta-escolhida-ffffff, #fff);
     font-size: 32px;
@@ -114,12 +94,10 @@ const GridItem = styled.div`
     font-family: "Poppins", sans-serif;
     margin: 0%;
     z-index: 2;
-
     span {
       color: var(--b-0-b-0-b-0, #b0b0b0);
     }
   }
-
   .content {
     margin: 0;
     color: var(--b-0-b-0-b-0, var(--White-50, #b0b0b0));
@@ -130,15 +108,12 @@ const GridItem = styled.div`
     line-height: 140%; /* 22.4px */
     z-index: 2;
   }
-
   @media screen and (max-width: 768px) {
     padding: 24px 16px;
     gap: 8px;
-
     &.first {
       grid-column: span 1 / span 2;
       padding: 24px 16px;
-
       img {
         height: 50%;
         width: 50%;
@@ -146,22 +121,18 @@ const GridItem = styled.div`
         z-index: 1;
       }
     }
-
     .category {
       font-size: 10px;
     }
-
     .heading {
       font-size: 22px !important;
     }
-
     .content {
       font-size: 12px;
       line-height: 140%;
     }
   }
 `;
-
 const Goals = () => {
   return (
     <Container className="container-xl">
@@ -214,5 +185,4 @@ const Goals = () => {
     </Container>
   );
 };
-
 return { Goals };
