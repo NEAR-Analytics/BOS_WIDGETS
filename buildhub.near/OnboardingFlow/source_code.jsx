@@ -5,14 +5,13 @@ const { Modal, Button, ProgressState } = VM.require(
   Button: () => <></>,
   ProgressState: () => <></>,
 };
-const DaoSDK =
-  VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => <></>);
+const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK");
 const stepsArray = [1, 2, 3];
-const daoID = "build.sputnik-dao.near";
-const sdk = DaoSDK(daoID);
-if (!sdk) {
+if (!DaoSDK) {
   return <></>;
 }
+const daoID = "build.sputnik-dao.near";
+const sdk = DaoSDK(daoID);
 const groupMembers = sdk.getMembersByGroupId({ groupId: "community" }) ?? [];
 const StorageKey = {
   userCompletedOnboarding: "userCompletedOnboarding",
