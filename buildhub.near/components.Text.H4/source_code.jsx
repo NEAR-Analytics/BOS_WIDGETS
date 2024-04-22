@@ -6,9 +6,7 @@ const StyledH4 = styled.h4`
   letter-spacing: 0;
   color: ${(props) => `${props.textColor}`};
 `;
-
 function H4({ children, textColor }) {
   return <StyledH4 textColor={textColor ?? "#FFFFFF"}>{children}</StyledH4>;
 }
-
 return { H4 };
