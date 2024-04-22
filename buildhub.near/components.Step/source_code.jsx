@@ -1,12 +1,10 @@
 const { ProgressState } = VM.require(
-  "buildhub.near/widget/components.ProgressState",
+  "buildhub.near/widget/components.ProgressState"
 ) || {
   ProgressState: () => <></>,
 };
-
 const StepContainer = styled.div`
   position: relative;
-
   &::before {
     content: "";
     position: absolute;
@@ -26,12 +24,10 @@ const StepContainer = styled.div`
     z-index: -1;
   }
 `;
-
 function Step(props) {
   const totalSteps = props.totalSteps ?? 5;
   const currentStep = props.currentStep ?? 3;
   const currentStatus = props.currentStatus ? props.currentStatus : "focused";
-
   return (
     <StepContainer
       className="d-flex align-items-center justify-content-between"
@@ -45,8 +41,8 @@ function Step(props) {
             i + 1 === currentStep
               ? currentStatus
               : currentStep > i + 1
-                ? "completed"
-                : "default"
+              ? "completed"
+              : "default"
           }
         >
           {i + 1}
@@ -55,5 +51,4 @@ function Step(props) {
     </StepContainer>
   );
 }
-
 return { Step };
