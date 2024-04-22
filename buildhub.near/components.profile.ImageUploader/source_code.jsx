@@ -1,9 +1,7 @@
 const [img, setImg] = useState(null);
 const [msg, setMsg] = useState("Replace");
-
 const uploadFile = (files) => {
   setMsg("Uploading...");
-
   asyncFetch("https://ipfs.near.social/add", {
     method: "POST",
     headers: { Accept: "application/json" },
@@ -21,7 +19,6 @@ const uploadFile = (files) => {
       });
     });
 };
-
 return (
   <>
     {img ? (
