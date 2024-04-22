@@ -63,6 +63,21 @@ const TableCell = styled.div`
     display: flex;
     flex-direction: column;
   }
+
+  .account-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+
+  &.dao {
+    min-width: 265px;
+    max-width: 265px;
+  }
+
+  &.proposal-states {
+    flex-wrap: wrap;
+  }
 `;
 
 const ProposalCardWrapper = styled.div`
@@ -883,7 +898,7 @@ return (
                 {itemState.status}
               </StatusBadge>
             </TableCell>
-            <TableCell flex={2.5}>
+            <TableCell flex={1.5} className="dao">
               <Container>
                 <div>
                   <img className="dao-img" src={dao.logo_url} />
@@ -899,7 +914,7 @@ return (
                 </div>
               </Container>
             </TableCell>
-            <TableCell>
+            <TableCell flex={1}>
               <div className="info">
                 <div className="created"> Created by</div>
                 <a
@@ -910,7 +925,7 @@ return (
                 </a>
               </div>
             </TableCell>
-            <TableCell flex={3}>
+            <TableCell flex={3} className="proposal-states">
               <ProposalsState approve={itemState.state.dao_council_approved}>
                 <span>
                   {itemState.state.kyc_passed ? (
