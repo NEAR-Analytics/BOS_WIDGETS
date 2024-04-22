@@ -19,7 +19,6 @@ const { Governance } = VM.require("buildhub.near/widget/home.Governance") || {
 const { Footer } = VM.require("buildhub.near/widget/home.Footer") || {
   Footer: () => <></>,
 };
-
 return {
   Hero,
   Goals,
