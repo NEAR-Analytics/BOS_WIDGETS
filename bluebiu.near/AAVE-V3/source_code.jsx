@@ -220,7 +220,7 @@ useEffect(() => {
   State.update({
     assetsToSupply: markets,
   });
-}, [markets]);
+}, []);
 
 function calcAvailableBorrows(availableBorrowsUSD, tokenPrice) {
   let r =
@@ -1460,7 +1460,7 @@ function onSuccess() {
   });
 }
 
-// console.log("STATE: ", state);
+console.log("STATE: ", state);
 
 const body = isChainSupported ? (
   <Wrap>
