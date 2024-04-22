@@ -1,13 +1,11 @@
 const { Button } = VM.require("buildhub.near/widget/components") || {
   Button: () => <></>,
 };
-
 const { fetchThings } = VM.require(
-  "buildhub.near/widget/lib.everything-sdk",
+  "buildhub.near/widget/lib.everything-sdk"
 ) || {
   fetchThings: () => {},
 };
-
 const StyledToolbar = styled.div`
   display: flex;
   align-items: center;
@@ -15,54 +13,41 @@ const StyledToolbar = styled.div`
   border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   padding: 16px 24px;
   margin-bottom: 24px;
-
   background: var(--bg-1, #000000);
-
   color: var(--text-color, #fff);
   font-size: 18px;
-
   .section {
     display: flex;
     align-items: center;
     flex-basis: 0;
     flex-grow: 1;
   }
-
   .date-changer {
     all: unset;
     cursor: pointer;
   }
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
   }
 `;
-
 // implement event fetching and filtering
-
 const [selectedView, setSelectedView] = useState("month");
 const [currentDate, setCurrentDate] = useState(new Date());
-
 const [showCreateModal, setShowCreateModal] = useState(false);
 const toggleCreateModal = () => setShowCreateModal(!showCreateModal);
-
 const [showFilterModal, setShowFilterModal] = useState(false);
 const toggleFilterModal = () => setShowFilterModal(!showFilterModal);
-
 const [filters, setFilters] = useState({});
-
 const dateString = currentDate.toLocaleString("en-us", {
   month: "long",
   year: "numeric",
 });
-
 const handleMonthChange = (change) => {
   const date = currentDate;
   date.setMonth(date.getMonth() + change);
   setCurrentDate(date);
 };
-
 const Toolbar = () => {
   return (
     <StyledToolbar>
@@ -102,46 +87,37 @@ const Toolbar = () => {
     </StyledToolbar>
   );
 };
-
 const app = props.app ?? "every";
 const thing = props.thing ?? "event";
 const events = fetchThings(app, thing);
-
 if (!events) {
   return <></>;
 }
-
 events = events.filter((event) => event.title);
-
 const filterEvents = () => {
   let filteredEvents = events;
-
   // handle date from filter
   if (filters.from) {
     filteredEvents = filteredEvents.filter((event) => {
       return new Date(event.start) >= new Date(filters.from);
     });
   }
-
   // handle date to filter
   if (filters.to) {
     filteredEvents = filteredEvents.filter((event) => {
       return new Date(event.start) <= new Date(filters.to);
     });
   }
-
   // handle cleared filters
   if (filters == {}) {
     return filteredEvents;
   }
-
   // handle title filter
   if (filters.title) {
     filteredEvents = filteredEvents.filter((event) => {
       return event.title.toLowerCase().includes(filters.title.toLowerCase());
     });
   }
-
   // handle location filter
   if (filters.location) {
     filteredEvents = filteredEvents.filter((event) => {
@@ -150,7 +126,6 @@ const filterEvents = () => {
         .includes(filters.location.toLowerCase());
     });
   }
-
   // handle organizer filter
   if (filters.organizers.length) {
     const organizers =
@@ -160,7 +135,6 @@ const filterEvents = () => {
         }
         return it;
       }) ?? [];
-
     filteredEvents = filteredEvents.filter((event) => {
       const eventOrganizers = event?.extendedProps?.organizers.map((it) => {
         if (it.customOption) {
@@ -171,7 +145,6 @@ const filterEvents = () => {
       return eventOrganizers.some((it) => organizers.includes(it));
     });
   }
-
   // handle tag filter
   if (filters.tags.length) {
     const tags =
@@ -181,7 +154,6 @@ const filterEvents = () => {
         }
         return it;
       }) ?? [];
-
     filteredEvents = filteredEvents.filter((event) => {
       const eventTags = event?.extendedProps?.hashtags.map((it) => {
         if (it.customOption) {
@@ -192,12 +164,9 @@ const filterEvents = () => {
       return eventTags.some((it) => tags.includes(it));
     });
   }
-
   return filteredEvents;
 };
-
 events = filterEvents();
-
 const CurrentView = () => {
   if (selectedView === "month") {
     return (
@@ -212,7 +181,6 @@ const CurrentView = () => {
       />
     );
   }
-
   return (
     <Widget
       src="buildhub.near/widget/events.ListView"
@@ -224,11 +192,9 @@ const CurrentView = () => {
     />
   );
 };
-
 const Container = styled.div`
   background: var(--bg-1, #000000);
 `;
-
 return (
   <Container className="mb-3 mx-3">
     <Widget
