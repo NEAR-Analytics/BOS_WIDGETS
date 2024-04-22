@@ -12,14 +12,22 @@ return {
       path: "buildhub.near/widget/page.feed",
       blockHeight: "final",
       init: {
-        name: "Feed",
+        name: "Activity",
       },
     },
-    proposal: {
+    projects: {
       path: "buildhub.near/widget/page.projects",
       blockHeight: "final",
       init: {
         name: "Projects",
+      },
+      hide: true,
+    },
+    proposal: {
+      path: "buildhub.near/widget/Proposals",
+      blockHeight: "final",
+      init: {
+        name: "Proposals",
       },
     },
     resources: {
@@ -49,6 +57,14 @@ return {
       blockHeight: "final",
       init: {
         name: "Inspect",
+      },
+      hide: true,
+    },
+    project: {
+      path: "buildhub.near/widget/page.project",
+      blockHeight: "final",
+      init: {
+        name: "Project Page",
       },
       hide: true,
     },
