@@ -1,14 +1,11 @@
 if (!context.accountId) {
   return "";
 }
-
 const item = props.item;
 const rootItem = props.rootItem;
-
 if (!context.accountId) {
   return "";
 }
-
 const composeData = () => {
   const data = {
     post: {
@@ -23,17 +20,14 @@ const composeData = () => {
       }),
     },
   };
-
   const thisItem = {
     type: "social",
     path: `${context.accountId}/post/comment`,
   };
-
   const notifications = state.extractMentionNotifications(
     state.content.text,
-    thisItem,
+    thisItem
   );
-
   if (props.notifyAccountId && props.notifyAccountId !== context.accountId) {
     notifications.push({
       key: props.notifyAccountId,
@@ -43,33 +37,27 @@ const composeData = () => {
       },
     });
   }
-
   if (notifications.length) {
     data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0],
+      notifications.length > 1 ? notifications : notifications[0]
     );
   }
-
   const hashtags = state.extractHashtags(state.content.text);
-
   if (hashtags.length) {
     data.index.hashtag = JSON.stringify(
       hashtags.map((hashtag) => ({
         key: hashtag,
         value: thisItem,
-      })),
+      }))
     );
   }
-
   return data;
 };
-
 State.init({
   onChange: ({ content }) => {
     State.update({ content });
   },
 });
-
 return (
   <>
     <Widget
