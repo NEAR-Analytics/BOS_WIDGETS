@@ -1,5 +1,4 @@
 const [proposalWidget, setProposalWidget] = useState("");
-
 return (
   <>
     <h1>Propose a new page</h1>
