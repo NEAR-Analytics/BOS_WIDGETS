@@ -3,19 +3,15 @@ const link = props.link ?? true;
 const hideAccountId = props.hideAccountId;
 const hideName = props.hideName;
 const hideImage = props.hideImage;
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = !!props.fast || (!props.profile && accountId);
-
 const name = profile.name ?? accountId;
 const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 let inner = (
   <>
     {!hideImage && (
@@ -39,7 +35,6 @@ let inner = (
     )}
   </>
 );
-
 inner = link ? (
   <Link
     href={
@@ -61,7 +56,6 @@ inner = link ? (
 ) : (
   <span className="text-truncate d-inline-flex">{inner}</span>
 );
-
 if (props.tooltip === true) {
   return (
     <Widget
@@ -77,5 +71,4 @@ if (tooltip) {
     </OverlayTrigger>
   );
 }
-
 return inner;
