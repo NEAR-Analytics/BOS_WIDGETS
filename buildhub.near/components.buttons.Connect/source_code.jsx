@@ -1,12 +1,10 @@
 const { joinBtnChildren, connectedChildren, showActivity, className, href } =
   props;
-
 const { Bullet, Button } = VM.require("buildhub.near/widget/components") || {
   Bullet: () => <></>,
   Button: () => <></>,
 };
 const DaoSDK = VM.require("sdks.near/widget/SDKs.Sputnik.DaoSDK") || (() => {});
-
 if (!DaoSDK) {
   return <></>;
 }
@@ -16,30 +14,24 @@ if (!sdk) {
   return <></>;
 }
 const userAccountId = context.accountId;
-
 const data = sdk?.checkIsMemberOrPending({
   accountId: userAccountId,
   rolesToCheck: ["community", "council"],
 });
-
 const connectEdge = Social.keys(
   `${userAccountId}/graph/connect/${daoId}`,
   undefined,
   {
     values_only: true,
-  },
+  }
 );
-
 // get DAO policy, deposit, and group
 const policy = sdk?.getPolicy();
-
 if (policy === null || data === null) {
   return "";
 }
-
 const deposit = policy?.proposal_bond;
 const roleId = "community";
-
 const handleJoin = () => {
   const connectData = {
     [userAccountId]: {
@@ -65,7 +57,6 @@ const handleJoin = () => {
       }),
     },
   };
-
   sdk.createAddMemberProposal({
     description: `add ${userAccountId} to the ${roleId} group`,
     memberId: userAccountId,
@@ -82,9 +73,7 @@ const handleJoin = () => {
     ],
   });
 };
-
 const isConnected = Object.keys(connectEdge || {}).length > 0;
-
 const Container = styled.div`
   .custom-button {
     display: flex;
@@ -92,40 +81,31 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     gap: 4px;
-
     border-radius: 8px;
     background: #eca227;
-
     color: #fff;
     margin: 0;
-
     a {
       color: #fff !important;
     }
-
     /* Other/Button_text */
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-
     text-decoration: none;
     transition: all 300ms;
-
     &:hover {
       background: #c98a40;
     }
   }
-
   a {
     @apply custom-button;
   }
 `;
-
 const { href: linkHref } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const Component = () => {
   if (!context.accountId) {
     return (
@@ -187,7 +167,6 @@ const Component = () => {
     }
   }
 };
-
 return (
   <Container>
     <Component />
