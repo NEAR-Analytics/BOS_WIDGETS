@@ -1,7 +1,6 @@
 const { Header } = VM.require("buildhub.near/widget/components.Header") || {
   Header: () => <></>,
 };
-
 const {
   Button,
   Pagination,
@@ -29,10 +28,8 @@ const {
   Avatar: () => <></>,
   Checkbox: () => <></>,
 };
-
 // states
 const [checked, setChecked] = useState(false);
-
 const ButtonPreview = (
   <div>
     <div className="d-flex align-items-center gap-3 mb-3">
@@ -64,7 +61,6 @@ const ButtonPreview = (
     </div>
   </div>
 );
-
 const components = [
   {
     name: "Button",
@@ -86,7 +82,6 @@ const components = [
     preview: ButtonPreview,
     embedCode: `
   const { Button } = VM.require("buildhub.near/widget/components");
-
   return (
     <div>
       <div className="d-flex align-items-center gap-3 mb-3">
@@ -135,7 +130,6 @@ const components = [
     preview: <Pagination totalPages={4} selectedPage={1} />,
     embedCode: `
   const { Pagination } = VM.require("buildhub.near/widget/components.
-
   return (
     <Pagination totalPages={4} selectedPage={1} />
   );`,
@@ -161,7 +155,6 @@ const components = [
     ),
     embedCode: `
   const { ProgressState } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex align-items-center gap-3 mb-3">
       <ProgressState status="default">1</ProgressState>
@@ -195,7 +188,6 @@ const components = [
     ),
     embedCode: `
   const { Step } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <Step totalSteps={5} currentStep={1} />
@@ -239,10 +231,8 @@ const components = [
     ),
     embedCode: `
   const { InputField } = VM.require("buildhub.near/widget/components");
-
   const [value, setValue] = useState("");
   const [password, setPassword] = useState("");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <InputField
@@ -288,9 +278,7 @@ const components = [
     ),
     embedCode: `
   const { Checkbox } = VM.require("buildhub.near/widget/components");
-
   const [checked, setChecked] = useState(false);
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <Checkbox
@@ -320,9 +308,7 @@ const components = [
     ),
     embedCode: `
   const { TextBox } = VM.require("buildhub.near/widget/components");
-
   const [value, setValue] = useState("");
-
   return (
     <div>
       <TextBox
@@ -353,9 +339,7 @@ const components = [
     ),
     embedCode: `
   const { TextEditor } = VM.require("buildhub.near/widget/components");
-
   const [value, setValue] = useState("");
-
   return (
     <div>
       <TextEditor
@@ -381,7 +365,6 @@ const components = [
     ),
     embedCode: `
   const { UploadField } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <UploadField />
@@ -422,7 +405,6 @@ const components = [
     ),
     embedCode: `
   const { Post } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <Post
@@ -469,7 +451,6 @@ const components = [
     ),
     embedCode: `
   const { User } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <User
@@ -507,7 +488,6 @@ const components = [
     ),
     embedCode: `
   const { Avatar } = VM.require("buildhub.near/widget/components");
-
   return (
     <div className="d-flex flex-column gap-3 mb-3">
       <Avatar variant={"desktop"} />
@@ -516,7 +496,6 @@ const components = [
   );`,
   },
 ];
-
 const renderProps = (props, optional) => {
   return Object.entries(props || {}).map(([key, desc]) => {
     return (
@@ -533,7 +512,6 @@ const renderProps = (props, optional) => {
     );
   });
 };
-
 const renderComponent = (component, index) => {
   const id = component.name.toLowerCase().replace(" ", "-");
   return (
@@ -596,7 +574,6 @@ const renderComponent = (component, index) => {
     </div>
   );
 };
-
 const Wrapper = styled.div`
   h2,
   h3,
@@ -604,27 +581,22 @@ const Wrapper = styled.div`
   p {
     color: white;
   }
-
   .component {
     padding: 0.5em 12px;
     padding-bottom: 0;
     margin-bottom: 3em;
-
     &:hover {
       background: rgba(0, 0, 0, 0.03);
     }
-
     table,
     th,
     td {
       background: #0b0c13;
       color: #fff;
     }
-
     label {
       font-size: 20px;
     }
-
     .code {
       display: inline-flex;
       line-height: normal;
@@ -653,7 +625,6 @@ const Wrapper = styled.div`
         border-radius: 8px;
         padding: 2px 4px;
         font-weight: 600;
-
         &.optional {
           font-weight: 400;
         }
@@ -667,7 +638,6 @@ const Wrapper = styled.div`
     }
     .embed-code {
       position: relative;
-
       .embed-copy {
         position: absolute;
         top: 18px;
@@ -676,11 +646,9 @@ const Wrapper = styled.div`
     }
   }
 `;
-
 const renderMenuItem = (c, i) => {
   const prev = i ? components[i - 1] : null;
   const res = [];
-
   const id = c.name.toLowerCase().replaceAll(" ", "-");
   res.push(
     <div className="menu-item" key={i}>
@@ -701,20 +669,17 @@ const renderMenuItem = (c, i) => {
         </svg>{" "}
         {c.name}
       </a>
-    </div>,
+    </div>
   );
   return res;
 };
-
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1rem;
-
   .main {
     grid-column: span 4 / span 4;
   }
-
   .aside {
     grid-column: span 1 / span 1;
     border-radius: 16px;
@@ -728,12 +693,10 @@ const Grid = styled.div`
     align-items: flex-start;
     gap: 16px;
     margin-bottom: 1rem;
-
     .menu-item {
       width: 100%;
       display: flex;
     }
-
     a {
       all: unset;
       display: inline-flex;
@@ -752,26 +715,22 @@ const Grid = styled.div`
       align-self: stretch;
       width: 100%;
       text-align: left;
-
       &:hover {
         background: var(--button-outline-hover-bg, rgba(255, 255, 255, 0.1));
         color: var(--button-outline-hover-color, #fff);
       }
     }
   }
-
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-
     .aside {
       flex-direction: row;
       border: none;
       overflow-x: auto;
       min-height: auto;
       gap: 2rem;
-
       .menu-item {
         width: max-content;
         flex-shrink: 0;
@@ -782,7 +741,6 @@ const Grid = styled.div`
     }
   }
 `;
-
 return (
   <Grid className="">
     <div className="aside">
