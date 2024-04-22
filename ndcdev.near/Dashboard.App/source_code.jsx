@@ -30,6 +30,7 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  text-wrap: nowrap;
 `;
 
 const Filters = styled.div`
@@ -235,6 +236,7 @@ return (
             title: "DAILY NUMBER OF TRANSACTIONS",
             data: dataState.dailyStats,
             key: "total_transactions",
+            color: "#A39ACD",
             loading,
           }}
         />
@@ -244,6 +246,7 @@ return (
             title: "UNIQUE ACTIVE USERS",
             data: dataState.dailyStats,
             key: "unique_wallets",
+            color: "#E89DBB",
             loading,
           }}
         />
@@ -252,7 +255,7 @@ return (
       <div className="w-100 flex-column">
         <Widget
           src={`ndcdev.near/widget/dashboard.Components.Table`}
-          props={{ daos, API, period }}
+          props={{ daos, API, dateRange }}
         />
       </div>
     )}
