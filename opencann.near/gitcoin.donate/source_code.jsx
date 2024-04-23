@@ -51,7 +51,15 @@ const handleVote = () => {
 return (
   <div className="p-3 border bg-light">
     <h1>Vote for a Project</h1>
-    <p><b>OpenCann Project ID:</b> <a target="_blank" href="https://explorer.gitcoin.co/?utm_source=grants.gitcoin.co&utm_medium=internal_link&utm_campaign=gg19&utm_content=program-rounds#/round/42161/25/138">0x73c60970e544f3fa2588f1cc3c6905ec27dcb82b417c8a09317b817dccfe79af</a></p>
+    <p>
+      <b>OpenCann Project ID:</b>{" "}
+      <a
+        target="_blank"
+        href="https://explorer.gitcoin.co/?utm_source=grants.gitcoin.co&utm_medium=internal_link&utm_campaign=gg19&utm_content=program-rounds#/round/42161/25/138"
+      >
+        0x73c60970e544f3fa2588f1cc3c6905ec27dcb82b417c8a09317b817dccfe79af
+      </a>
+    </p>
     <input
       type="text"
       value={projectId}
@@ -64,9 +72,10 @@ return (
       onChange={(e) => setAmount(e.target.value)}
       placeholder="Amount to vote"
     />
+    <Widget src="opencann.near/widget/gitcoin.erc20" />
     <button onClick={handleVote}>Vote</button>
     <p>{message}</p>
-    <hr/>
-    <Widget src="hack.near/widget/passport" props={{ }} />
+    <hr />
+    <Widget src="hack.near/widget/passport" props={{}} />
   </div>
 );
