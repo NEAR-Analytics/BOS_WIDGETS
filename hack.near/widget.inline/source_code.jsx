@@ -23,9 +23,9 @@ const displayName = metadata.name || src;
 const profile = Social.getr(`${accountId}/profile`);
 return (
   <div className="card position-relative">
-    <Link
-      style={{ textDecoration: "none" }}
-      to={`https://${accountName}.bos.gg`}
+    <a
+      style={{ color: "#000", textDecoration: "none" }}
+      href={`https://${accountName}.bos.gg`}
     >
       <div
         style={{
@@ -38,7 +38,7 @@ return (
       >
         <div className="p-3 d-flex flex-row justify-content-between">
           <div>
-            <Widget src="hack.near/widget/widget.profile" props={{ src }} />
+            <Widget src="hack.near/widget/profile.widget" props={{ src }} />
           </div>
           {context.accountId && (
             <div className="m-1">
@@ -50,6 +50,6 @@ return (
           )}
         </div>
       </div>
-    </Link>
+    </a>
   </div>
 );
