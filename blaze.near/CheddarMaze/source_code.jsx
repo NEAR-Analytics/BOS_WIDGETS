@@ -19,14 +19,14 @@ const srcDoc = `
             grid-template-columns: repeat(10, 1fr);
         }
         .maze-cell {
-            border: thin solid black;
+            border: thin solid #ccc;
             text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .path {
-            background-color: gray;
+            background-color: #ffd262;
         }
         .active {
             background-image: url('https://ipfs.near.social/ipfs/bafkreiejk6zjvhxevdatofxpznf4fedluwuavptaryvbixie6bcz4u5goe'); /* Highlight the player's current position */
@@ -260,10 +260,9 @@ const srcDoc = `
         gameOverFlag = true; // Set the game over flag
         stopTimer(); // Stop the timer
    
-        if (timeLimit <= 0) {
-            // Reset the score if time is up
-            score = 0;
-            scoreEl.textContent = 'Score: ' + score;
+        if (timerEl.textContent === 'Time Left: 0:00') {
+            score = 0; // Reset score if time is up
+            scoreEl.textContent = 'Score: 0';
         }
 
         const restartButton = document.createElement('button');
@@ -313,7 +312,6 @@ const srcDoc = `
 <p><i>this is a js only prototype, dev will be starting soonTM.</i></p>
 
 </body>
-</html>
-`;
+</html>`;
 
-return <iframe style={{ width: "100%", height: "650px" }} srcDoc={srcDoc} />;
+return <iframe style={{ width: "100%", height: "675px" }} srcDoc={srcDoc} />;
