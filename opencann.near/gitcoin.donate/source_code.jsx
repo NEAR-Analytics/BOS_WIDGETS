@@ -51,6 +51,7 @@ const handleVote = () => {
 return (
   <div>
     <h1>Vote for a Project</h1>
+    <p><b>OpenCann Project ID:</b> <a href="https://explorer.gitcoin.co/?utm_source=grants.gitcoin.co&utm_medium=internal_link&utm_campaign=gg19&utm_content=program-rounds#/round/42161/25/138">0x73c60970e544f3fa2588f1cc3c6905ec27dcb82b417c8a09317b817dccfe79af</a></p>
     <input
       type="text"
       value={projectId}
