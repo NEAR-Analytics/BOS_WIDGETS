@@ -38,7 +38,7 @@ const srcDoc = `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <h1>NEAR Mouse Maze Demo</h1>
+    <h1>Cheddar Maze 🧀</h1>
     <div id="score">Score: 0</div>
     <div id="timer">Time Left: 2:00</div>
     <div class="maze" id="maze"></div>
