@@ -104,17 +104,17 @@ const handleSave = () => {
 };
 
 const handleReset = () => {
-  setHandle("")
-  setTitle("")
-  setDescription("")
-  setLogoUrl("")
-  setBannerUrl("")
-  setAccounts("")
-  setOwners("")
-  setVerticals("")
-  setMetadata({})
-  setEditedProjectId(false)
-}
+  setHandle("");
+  setTitle("");
+  setDescription("");
+  setLogoUrl("");
+  setBannerUrl("");
+  setAccounts("");
+  setOwners("");
+  setVerticals("");
+  setMetadata({});
+  setEditedProjectId(false);
+};
 
 const handleEdit = () => {
   Near.call(contractName, "edit_community", {
