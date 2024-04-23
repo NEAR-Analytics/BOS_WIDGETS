@@ -50,7 +50,7 @@ function composeData() {
     comment ? "edit_comment" : "add_comment",
     params,
     GAS,
-    DEPOSIT
+    DEPOSIT,
   );
 }
 
