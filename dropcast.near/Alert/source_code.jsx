@@ -25,7 +25,7 @@ const Label = styled.div`
     font-weight: 600;
   }
 `;
-const { text, button, type } = props;
+const { text, type } = props;
 // const [isVisible, setIsVisible] = useState(true);
 
 return (
@@ -72,7 +72,6 @@ return (
       </svg>
 
       <Label>{text}</Label>
-      {button}
     </Alert>
   </>
 );
