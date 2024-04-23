@@ -237,6 +237,7 @@ function MainComponent({
   const initialPage = 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalCount, setTotalCount] = useState(0);
+  const errorMessage = t ? t('txns:noTxns') : 'No transactions found!';
   const [txns, setTxns] = useState({});
   const [address, setAddress] = useState('');
 
@@ -313,7 +314,10 @@ function MainComponent({
     }
 
     let urlString = '';
-    if (filters && Object.keys(filters).length > 0) {
+    if (
+      filters &&
+      Object.keys(filters).filter((key) => key !== 'tab').length > 0
+    ) {
       urlString = Object.keys(filters)
         .map(
           (key) =>
@@ -445,10 +449,10 @@ function MainComponent({
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
                         row?.affected_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
+                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                          : 'text-green-500 dark:text-green-250 border-transparent'
                       }`}
                     >
                       <Link
@@ -487,10 +491,10 @@ function MainComponent({
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
                         row?.involved_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
+                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                          : 'text-green-500 dark:text-green-250 border-transparent'
                       }`}
                     >
                       <Link
@@ -555,10 +559,10 @@ function MainComponent({
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
                         row?.involved_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
+                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                          : 'text-green-500 dark:text-green-250 border-transparent'
                       }`}
                     >
                       <Link
@@ -597,10 +601,10 @@ function MainComponent({
                 <Tooltip.Root>
                   <Tooltip.Trigger asChild>
                     <span
-                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
+                      className={`truncate max-w-[120px] inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
                         row?.affected_account_id === address
-                          ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                          : 'text-green-500 dark:text-green-250 p-0.5 px-1'
+                          ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                          : 'text-green-500 dark:text-green-250 border-transparent'
                       }`}
                     >
                       <Link
@@ -751,28 +755,31 @@ function MainComponent({
             </p>
           </div>
 
-          {filters && Object?.keys(filters)?.length > 0 && (
-            <div className="mb-4 lg:ml-auto  px-6">
-              <div className="flex items-center  text-sm text-gray-500 lg:ml-auto">
-                Filtered By:
-                <span className="flex items-center bg-gray-100 dark:bg-black-200 rounded-full px-3 py-1 ml-1 space-x-2">
-                  {filters &&
-                    Object?.keys(filters)?.map((key) => (
-                      <span className="flex" key={key}>
-                        {capitalizeFirstLetter(key)}:{' '}
-                        <span className="inline-block truncate max-w-[120px]">
-                          <span className="font-semibold">{filters[key]}</span>
+          {filters &&
+            Object.keys(filters).filter((key) => key !== 'tab').length > 0 && (
+              <div className="mb-4 lg:ml-auto  px-6">
+                <div className="flex items-center  text-sm text-gray-500 lg:ml-auto">
+                  Filtered By:
+                  <span className="flex items-center bg-gray-100 dark:bg-black-200 rounded-full px-3 py-1 ml-1 space-x-2">
+                    {filters &&
+                      Object?.keys(filters)?.map((key) => (
+                        <span className="flex" key={key}>
+                          {capitalizeFirstLetter(key)}:{' '}
+                          <span className="inline-block truncate max-w-[120px]">
+                            <span className="font-semibold">
+                              {filters[key]}
+                            </span>
+                          </span>
                         </span>
-                      </span>
-                    ))}
-                  <CloseCircle
-                    className="w-4 h-4 fill-current cursor-pointer"
-                    onClick={onFilterClear}
-                  />
-                </span>
+                      ))}
+                    <CloseCircle
+                      className="w-4 h-4 fill-current cursor-pointer"
+                      onClick={onFilterClear}
+                    />
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       )}
       <Widget
@@ -790,7 +797,7 @@ function MainComponent({
           Error: (
             <ErrorMessage
               icons={<FaInbox />}
-              message="There are no matching entries"
+              message={errorMessage}
               mutedText="Please try again later"
             />
           ),
