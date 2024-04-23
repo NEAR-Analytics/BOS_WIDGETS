@@ -285,13 +285,13 @@ const srcDoc = `
     createMaze();
 </script>
 
-<p>
-- click a cell to start<br/>
-- navigate the maze with keyboard<br/>
-- get dat cheddar🧀<br/>
-- look out for cats😼 n old ladies with brooms👵🧹<br/>
-- find the hidden door🚪 and win before time is up<br/>
-<p>
+<ol>
+<li>click a cell to start</li>
+<li>navigate the maze with keyboard</li>
+<li>get dat cheddar🧀</li>
+<li>kook out for cats😼 n old ladies with brooms👵</li>
+<li>find the hidden door🚪 and win before time is up⏰</li>
+</ol>
 
 </body>
 </html>
