@@ -386,6 +386,9 @@ return <Transactions>
     state.isFold ? <div className="list">
       {
         (state.txsUpdated || []).map(tx => {
+          if (tx.fromChainId !== 534352 && tx.toChainId !== 534352) {
+            return null
+          }
           return <div className="tx-line" key={tx.hash}>
             <div className="chain-token-status">
               <div className="chain-token">
