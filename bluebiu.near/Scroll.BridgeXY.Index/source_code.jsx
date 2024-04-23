@@ -83,7 +83,7 @@ return (
         addAction: (params) => {
           props.addAction({
             ...params,
-            template: "dApp Bridge",
+            template: "XYFinance",
             source: 'dapp'
           })
         }
