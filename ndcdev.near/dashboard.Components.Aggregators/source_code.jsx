@@ -1,16 +1,16 @@
 const Items = styled.div`
   display: flex;
   width: 100%;
-  height: 220px;
+  height: 170px;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   overflow-x: scroll;
 
   .item {
     display: flex;
     flex-direction: column;
-    gap: 1reml
+    gap: 1rem;
     justify-content: center;
     align-items: center;
     border-radius: 14px;
@@ -18,7 +18,6 @@ const Items = styled.div`
     background: #fff;
     padding: 16px 32px;
     width: 240px;
-    gap: 1.5rem;
     box-shadow:
       0px 97px 27px 0px rgba(0, 0, 0, 0),
       0px 62px 25px 0px rgba(0, 0, 0, 0),
