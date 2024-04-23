@@ -1,3 +1,4 @@
+const { renderColumn } = VM.require("silkking.near/widget/column");
 const {
   CardStyle,
   CardTitleStyle,
