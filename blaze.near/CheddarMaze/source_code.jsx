@@ -243,10 +243,12 @@ const srcDoc = `
         document.removeEventListener('keydown', handleKeyDown);
         gameOverFlag = true; // Set the game over flag
 
-        if (timerEl.textContent === 'Time Left: 0:00') {
-            score = 0; // Reset score if time is up
-            scoreEl.textContent = 'Score: 0';
-        }
+   
+        score = 0; // Reset score if time is up
+        scoreEl.textContent = 'Score: 0';
+        timerEl.textContent = 'Time Left: 0:00';
+        timeLeft = 0;
+        
 
         const restartButton = document.createElement('button');
         restartButton.textContent = 'Restart Game';
@@ -286,10 +288,9 @@ const srcDoc = `
 </script>
 
 <ol>
-<li>click a cell to start</li>
-<li>navigate the maze with keyboard</li>
+<li>click to start, navigate with keyboard</li>
 <li>get dat cheddar🧀</li>
-<li>kook out for cats😼 n old ladies with brooms👵</li>
+<li>look out for cats😼 n old ladies with brooms👵</li>
 <li>find the hidden door🚪 and win before time is up⏰</li>
 </ol>
 
