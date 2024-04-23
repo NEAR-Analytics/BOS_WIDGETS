@@ -40,14 +40,9 @@ return (
           <div>
             <Widget src="hack.near/widget/profile.widget" props={{ src }} />
           </div>
-          {context.accountId && (
-            <div className="m-1">
-              <Widget
-                src="hack.near/widget/star.button"
-                props={{ path: src }}
-              />
-            </div>
-          )}
+          <div className="m-1">
+            <Widget src="hack.near/widget/star.button" props={{ path: src }} />
+          </div>
         </div>
       </div>
     </a>
