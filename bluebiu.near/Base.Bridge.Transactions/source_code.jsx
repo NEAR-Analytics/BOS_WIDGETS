@@ -44,7 +44,13 @@ if (props.chainId === -1) return <div />;
 const filteredTxs = txs.filter(
   (tx) => tx.fromChainId === props.chainId || tx.toChainId === props.chainId
 );
-let count = 0;
+// let count = 0;
+
+State.init({
+  count: 0
+})
+
+
 return (
   <Transactions>
     <Header>
@@ -56,13 +62,13 @@ return (
         onClick={() => {
           State.update({
             update: Date.now(),
+            count: 0
           });
-          count = 0;
         }}
       >
         <RefreshText>
           {" "}
-          {count !== filteredTxs.length && (
+          {(filteredTxs.length > 0 && state.count !== filteredTxs.length) && (
             <Widget
               src="bluebiu.near/widget/0vix.LendingLoadingIcon"
               props={{
@@ -91,7 +97,9 @@ return (
             update: state.update,
             getTxStatus: props.getTxStatus,
             onUpdate: () => {
-              count++;
+              State.update({
+                count: state.count + 1
+              })
             },
           }}
         />
