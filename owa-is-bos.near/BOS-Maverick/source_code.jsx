@@ -400,6 +400,7 @@ const switchNetwork = (chainId) => {
   ]);
 };
 
+// Validation to obtain the account we are connected to the component
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -661,6 +662,8 @@ if (!state.theme) {
 }
 
 const Theme = state.theme;
+
+// Finally we render the component where we call the necessary methods to interact with the smart contract.
 return (
   <Theme>
     <div class="text-center mt-1">
@@ -893,6 +896,7 @@ return (
                                     state.selectedPoolOptions,
                                   setPoolOption,
                                   closeModal,
+                                  background: "#ECA227",
                                 }}
                                 src={
                                   "owa-is-bos.near/widget/Maverick-LP-OptionsModal"
