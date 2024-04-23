@@ -73,6 +73,7 @@ const getStargateStatus = () => {
   });
   if (getTxStatus) {
     getTxStatus(tx).then(isComplete => {
+      console.log('isComplete:', isComplete)
       if (isComplete) {
         State.update({
           status: "success",
