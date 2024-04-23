@@ -99,13 +99,17 @@ const handleSubmit = async (e) => {
   const reader = new FileReader();
 
   reader.onload = () => {
-    console.log("TOKEN", TOKEN);
+    console.log("TOKEN", USER);
     const fileData = reader.result;
     // Send fileData to the server using fetch or any other AJAX library
     try {
       const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
         method: "POST",
-        body: JSON.stringify({ data: fileData, name: file.name }),
+        body: JSON.stringify({
+          data: fileData,
+          name: file.name,
+          userId: accountId,
+        }),
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": TOKEN,
