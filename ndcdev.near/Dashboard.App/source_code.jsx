@@ -4,11 +4,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
-  gap: 1rem;
-
-  @media screen and (max-width: 786px) {
-    padding: 1rem;
-  }
+  gap: 2rem;
 `;
 
 const SelectContainer = styled.div`
@@ -18,25 +14,83 @@ const SelectContainer = styled.div`
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
 `;
 
 const Title = styled.div`
   color: #1b1b18;
-  font-size: 26px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-wrap: nowrap;
+  font-size: 24px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 22px;
+  }
 `;
 
 const Filters = styled.div`
-  width: 100%;
   display: flex;
   gap: 1rem;
+
+  @media screen and (max-width: 768px) {
+    gap: 0.5rem;
+  }
+
+  .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    width: 300px;
+
+    &.mobile {
+      display: none;
+      width: 50px;
+
+      @media screen and (max-width: 768px) {
+        display: flex;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+
+    .value {
+      display: flex;
+      color: #3f3f3f;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 350;
+      line-height: 16px;
+      width: 100%;
+      height: 46px;
+      padding: 0px 14px;
+      align-items: center;
+      border-radius: 100px;
+      border: 1px solid #e3e3e0;
+      background: var(--NEAR-Primary-Colors-White, #fff);
+    }
+
+    .icon {
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      z-index: 1001;
+      display: flex;
+
+      @media screen and (max-width: 768px) {
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid #e3e3e0;
+      }
+    }
+  }
 `;
 
 const ChartContainer = styled.div`
@@ -53,21 +107,38 @@ const ChartContainer = styled.div`
   }
 `;
 
+const DesktopPicker = styled.div`
+  display: flex;
+
+  @media screen and (max-width: 1188px) {
+    display: none;
+  }
+`;
+
+const MobilePicker = styled.div`
+  display: none;
+
+  @media screen and (max-width: 1188px) {
+    display: flex;
+  }
+`;
+
 const { contractName } = VM.require(`ndcdev.near/widget/dashboard.Config`);
 
 const defaultDAOOption = "All DAOs";
 const dailyTotal = { labels: [], data: [] };
 const dailyTotalUsers = { labels: [], data: [] };
 const today = new Date();
-
 const [loading, setLoading] = useState(false);
 const [period, setPeriod] = useState([
-  today,
+  new Date(),
   new Date(today.setMonth(today.getMonth() - 1)),
 ]);
+const [showDatePicker, setShowDatePicker] = useState(false);
 const [dateRange, setDateRange] = useState("");
 const [selectedDAOs, setSelectedDAOs] = useState([]);
 const [dashboardView, setDashboardView] = useState("Table");
+const [mobile, setMobile] = useState(false);
 const [dataState, setDataState] = useState({
   totalTx: 0,
   totalAccounts: 0,
@@ -107,6 +178,8 @@ const formatDate = () => {
   }`;
 
   setDateRange(`start_date=${startDate}&end_date=${endDate}`);
+
+  return { startDate, endDate };
 };
 
 const API = {
@@ -120,11 +193,11 @@ const API = {
     get(`api/dapps-used?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`),
   acquisitionCost: (daos) =>
     get(
-      `api/acquisition-cost?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`
+      `api/acquisition-cost?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`,
     ),
   socialEngagement: (daos) =>
     get(
-      `api/social-engagement?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`
+      `api/social-engagement?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`,
     ),
 };
 
@@ -176,7 +249,7 @@ const onSelectChange = (value) => {
       return all;
     } else if (selectedDAOs.includes(value)) {
       return selectedDAOs.filter(
-        (dao) => dao !== value && dao !== defaultDAOOption
+        (dao) => dao !== value && dao !== defaultDAOOption,
       );
     } else {
       return [...selectedDAOs, value];
@@ -195,27 +268,58 @@ return (
     <SelectContainer>
       <Title>NDC Dashboard</Title>
       <Filters>
-        <Widget
-          src={`ndcdev.near/widget/dashboard.Components.DatePicker`}
-          props={{
-            period,
-            handleChange: ({ startDate, endDate }) =>
-              setPeriod([startDate, endDate]),
-          }}
-        />
+        <div className="d-flex flex-column gap-1">
+          <div
+            className="wrapper"
+            onClick={() => {
+              setShowDatePicker(!showDatePicker);
+              setMobile(false);
+            }}
+          >
+            <div className="value">{`${formatDate().startDate} - ${
+              formatDate().endDate
+            }`}</div>
+            <i className="icon ph ph-calendar-blank" />
+          </div>
+          <div
+            className="wrapper mobile"
+            onClick={() => {
+              setShowDatePicker(!showDatePicker);
+              setMobile(true);
+            }}
+          >
+            <i className="icon ph ph-calendar-blank" />
+          </div>
+          <Widget
+            src={`ndcdev.near/widget/dashboard.Components.DatePicker`}
+            props={{
+              period,
+              show: showDatePicker,
+              mobile,
+              handleChange: ({ startDate, endDate }) => {
+                setPeriod([startDate, endDate]);
+                setShowDatePicker(false);
+              },
+            }}
+          />
+        </div>
 
-        <Widget
-          src={`ndcdev.near/widget/dashboard.Components.Switch`}
-          props={{
-            options: [
-              { title: "Charts", icon: "ph ph-chart-bar" },
-              { title: "Table", icon: "ph ph-table" },
-            ],
-            value: dashboardView,
-            onChange: () =>
-              setDashboardView(dashboardView === "Charts" ? "Table" : "Charts"),
-          }}
-        />
+        <div className="w-100">
+          <Widget
+            src={`ndcdev.near/widget/dashboard.Components.Switch`}
+            props={{
+              options: [
+                { title: "Charts", icon: "ph ph-chart-bar" },
+                { title: "Table", icon: "ph ph-table" },
+              ],
+              value: dashboardView,
+              onChange: () =>
+                setDashboardView(
+                  dashboardView === "Charts" ? "Table" : "Charts",
+                ),
+            }}
+          />
+        </div>
       </Filters>
     </SelectContainer>
     <Widget
