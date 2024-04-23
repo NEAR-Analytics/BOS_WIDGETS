@@ -6,6 +6,10 @@ const Switch = styled.div`
   padding: 6px;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 3px;
+  }
 `;
 
 const Tab = styled.div`
@@ -18,6 +22,10 @@ const Tab = styled.div`
   border-radius: 100px;
   background: ${(props) => (props.selected ? "#000" : "#fff")};
   color: ${(props) => (props.selected ? "#fff" : "#000")};
+
+  @media screen and (max-width: 768px) {
+    padding: 1px 10px;
+  }
 
   span {
     @media screen and (max-width: 768px) {
