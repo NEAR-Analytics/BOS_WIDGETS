@@ -1,4 +1,5 @@
-const srcDoc = `<!DOCTYPE html>
+const srcDoc = `
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -56,18 +57,53 @@ const srcDoc = `<!DOCTYPE html>
     let timerInterval;
     const timeLimitInSeconds = 120; // 2 minutes
 
-    const mazeData = [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 0, 1, 1, 0, 1, 0, 1, 0, 1],
-        [1, 0, 0, 1, 0, 0, 0, 1, 0, 1],
-        [1, 0, 1, 1, 0, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1, 1, 0, 1, 0, 1],
-        [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 1, 0, 0, 1, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    ];
+    function generateMazeData(rows, cols) {
+        const maze = [];
+        for (let i = 0; i < rows; i++) {
+            const row = [];
+            for (let j = 0; j < cols; j++) {
+                row.push(1); // Initially, mark all cells as walls
+            }
+            maze.push(row);
+        }
+        // Start from a random position and carve out the maze
+        let startX = Math.floor(Math.random() * (rows - 2)) + 1;
+        let startY = Math.floor(Math.random() * (cols - 2)) + 1;
+        carveMaze(maze, startX, startY);
+        return maze;
+    }
+
+    function carveMaze(maze, x, y) {
+        maze[y][x] = 0; // Carve the current cell
+        const directions = shuffleDirections();
+        for (const direction of directions) {
+            const newX = x + direction[0];
+            const newY = y + direction[1];
+            if (newX >= 0 && newX < maze[0].length && newY >= 0 && newY < maze.length && maze[newY][newX] === 1) {
+                maze[y + direction[1] / 2][x + direction[0] / 2] = 0; // Carve the wall between the current cell and the neighbor
+                maze[newY][newX] = 0; // Carve the neighbor cell
+                carveMaze(maze, newX, newY); // Recursively carve the neighbor cell
+            }
+        }
+    }
+
+    function shuffleDirections() {
+        const directions = [
+            [-2, 0], // Up
+            [0, 2],  // Right
+            [2, 0],  // Down
+            [0, -2]  // Left
+        ];
+        for (let i = directions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [directions[i], directions[j]] = [directions[j], directions[i]]; // Swap directions randomly
+        }
+        return directions;
+    }
+
+    const mazeRows = 10;
+    const mazeCols = 10;
+    const mazeData = generateMazeData(mazeRows, mazeCols);
 
     function createMaze() {
         mazeEl.innerHTML = ''; // Clear previous maze state
@@ -101,155 +137,156 @@ const srcDoc = `<!DOCTYPE html>
         encounterEnemy();
     }
 
-function checkForCheese(cell) {
-    if (cell.classList.contains('path') && !cheeseCooldown && !enemyPresent) {
-        score++;
-        scoreEl.textContent = 'Score: ' + score;
-        cell.innerHTML = '🧀'; // Display cheese emoji
+    function checkForCheese(cell) {
+        if (cell.classList.contains('path') && !cheeseCooldown && !enemyPresent) {
+            score++;
+            scoreEl.textContent = 'Score: ' + score;
+            cell.innerHTML = '🧀'; // Display cheese emoji
+            cheeseCooldown = true;
+            const cooldownPeriod = Math.floor(Math.random() * 5000) + 1000; // Random cooldown period between 1 to 5 seconds (in milliseconds)
+            setTimeout(() => {
+                cheeseCooldown = false;
+            }, cooldownPeriod);
+        }
+    }
+
+    function triggerCheeseCooldown() {
         cheeseCooldown = true;
-        const cooldownPeriod = Math.floor(Math.random() * 5000) + 1000; // Random cooldown period between 1 to 5 seconds (in milliseconds)
         setTimeout(() => {
             cheeseCooldown = false;
-        }, cooldownPeriod);
+        }, 3000); // Cooldown period of 3 seconds
     }
-}
 
-function triggerCheeseCooldown() {
-    cheeseCooldown = true;
-    setTimeout(() => {
-        cheeseCooldown = false;
-    }, 3000); // Cooldown period of 3 seconds
-}
-
-function encounterEnemy() {
-    if (moves >= 10 && !enemyPresent) {
-        const chance = Math.random(); // Random chance of encountering an enemy
-        if (chance < 0.3) { // 30% chance of encounter
-            cells[index].classList.remove('active');
-            const enemyType = Math.random() < 0.5 ? '🐱' : '👵'; // Randomly choose between cat and old lady
-            const cells = document.querySelectorAll('.maze-cell');
-            const index = playerPosition.y * mazeData[0].length + playerPosition.x;
-            cells[index].innerHTML = enemyType; // Display enemy emoji icon
-            if (Math.random() < 0.5) { // 50% chance of enemy winning
-                gameOver('Enemy won! Game Over!');
+    function encounterEnemy() {
+        if (moves >= 10 && !enemyPresent) {
+            const chance = Math.random(); // Random chance of encountering an enemy
+            if (chance < 0.3) { // 30% chance of encounter
+                cells[index].classList.remove('active');
+                const enemyType = Math.random() < 0.5 ? '🐱' : '👵'; // Randomly choose between cat and old lady
+                const cells = document.querySelectorAll('.maze-cell');
+                const index = playerPosition.y * mazeData[0].length + playerPosition.x;
+                cells[index].innerHTML = enemyType; // Display enemy emoji icon
+                if (Math.random() < 0.5) { // 50% chance of enemy winning
+                    gameOver('Enemy won! Game Over!');
+                } else {
+                    cells[index].classList.add('active');
+                }
             } else {
-                cells[index].classList.add('active');
+                enemyPresent = true; // Enemy is present
+                const cells = document.querySelectorAll('.maze-cell');
+                const index = playerPosition.y * mazeData[0].length + playerPosition.x;
+                cells[index].innerHTML = '🦹‍♂️'; // Emoji icon for enemy
             }
-        } else {
-            enemyPresent = true; // Enemy is present
+        }
+    }
+
+    function checkForEnd() {
+        const totalCells = mazeData.length * mazeData[0].length;
+        const navigatedCells = moves;
+        const percentNavigated = (navigatedCells / totalCells) * 100;
+        if (percentNavigated >= 75 && Math.random() < 0.5) {
             const cells = document.querySelectorAll('.maze-cell');
             const index = playerPosition.y * mazeData[0].length + playerPosition.x;
-            cells[index].innerHTML = '🦹‍♂️'; // Emoji icon for enemy
+            cells[index].innerHTML = '🚪'; // Emoji icon end
+            cells[index].classList.remove('active');
+            gameOver('Congratulations! You reached the end of the maze!');
         }
     }
-}
 
-function checkForEnd() {
-    const totalCells = mazeData.length * mazeData[0].length;
-    const navigatedCells = moves;
-    const percentNavigated = (navigatedCells / totalCells) * 100;
-    if (percentNavigated >= 75 && Math.random() < 0.5) {
-        const cells = document.querySelectorAll('.maze-cell');
-        const index = playerPosition.y * mazeData[0].length + playerPosition.x;
-        cells[index].innerHTML = '🚪'; // Emoji icon end
-        cells[index].classList.remove('active');
-        gameOver('Congratulations! You reached the end of the maze!');
-    }
-}
-
-function startTimer() {
-    let timeLeft = timeLimitInSeconds; // Time limit in seconds
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timerEl.textContent = \`Time Left: $\{minutes}:\${seconds < 10 ? '0' : ''}$\{seconds}\`;
-        if (timeLeft === 0) {
-            clearInterval(timerInterval);
-            gameOver("Time's up! Game Over!");
-        }
-    }, 1000); // Update timer every second
-}
-
-function restartGame() {
-    clearInterval(timerInterval); // Stop the timer interval
-    score = 0;
-    playerPosition = { x: 1, y: 1 };
-    cheeseCooldown = false;
-    moves = 0;
-    enemyPresent = false;
-    gameOverFlag = false;
-    scoreEl.textContent = 'Score: 0';
-    timerEl.textContent = 'Time Left: 2:00';
-    createMaze();
-    document.removeEventListener('keydown', handleKeyDown); // Remove the event listener
-
-    const existingRestartButton = document.getElementById('restart-button');
-    if (existingRestartButton) {
-        existingRestartButton.remove(); // Remove existing restart button if it exists
+    function startTimer() {
+        let timeLeft = timeLimitInSeconds; // Time limit in seconds
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerEl.textContent = \`Time Left: ${minutes}:${
+  seconds < 10 ? "0" : ""
+}${seconds}\`;
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                gameOver("Time's up! Game Over!");
+            }
+        }, 1000); // Update timer every second
     }
 
-    const existingGameOverMessage = document.getElementById('game-over-message');
-    if (existingGameOverMessage) {
-        existingGameOverMessage.remove(); // Remove existing game over message if it exists
-    }
-
-    document.addEventListener('keydown', handleKeyDown); // Reattach the event listener
-}
-
-function gameOver(message) {
-    const gameOverEl = document.createElement('div');
-    gameOverEl.textContent = message;
-        gameOverEl.id = 'game-over-message'; // Set a unique ID for the game over message
-    gameOverEl.style.color = 'red';
-    document.body.appendChild(gameOverEl);
-    document.removeEventListener('keydown', handleKeyDown);
-    gameOverFlag = true; // Set the game over flag
-
-    if (timerEl.textContent === 'Time Left: 0:00') {
-        score = 0; // Reset score if time is up
+    function restartGame() {
+        clearInterval(timerInterval); // Stop the timer interval
+        score = 0;
+        playerPosition = { x: 1, y: 1 };
+        cheeseCooldown = false;
+        moves = 0;
+        enemyPresent = false;
+        gameOverFlag = false;
         scoreEl.textContent = 'Score: 0';
+        timerEl.textContent = 'Time Left: 2:00';
+        createMaze();
+        document.removeEventListener('keydown', handleKeyDown); // Remove the event listener
+
+        const existingRestartButton = document.getElementById('restart-button');
+        if (existingRestartButton) {
+            existingRestartButton.remove(); // Remove existing restart button if it exists
+        }
+
+        const existingGameOverMessage = document.getElementById('game-over-message');
+        if (existingGameOverMessage) {
+            existingGameOverMessage.remove(); // Remove existing game over message if it exists
+        }
+
+        document.addEventListener('keydown', handleKeyDown); // Reattach the event listener
     }
 
-    const restartButton = document.createElement('button');
-    restartButton.textContent = 'Restart Game';
-    restartButton.id = 'restart-button'; // Set a unique ID for the restart button
-    restartButton.addEventListener('click', restartGame);
-    document.body.appendChild(restartButton);
-}
+    function gameOver(message) {
+        const gameOverEl = document.createElement('div');
+        gameOverEl.textContent = message;
+        gameOverEl.id = 'game-over-message'; // Set a unique ID for the game over message
+        gameOverEl.style.color = 'red';
+        document.body.appendChild(gameOverEl);
+        document.removeEventListener('keydown', handleKeyDown);
+        gameOverFlag = true; // Set the game over flag
 
-function handleKeyDown(event) {
-    if (gameOverFlag) return; // Prevent moving after the game has ended
-    const key = event.key;
-    let newX = playerPosition.x;
-    let newY = playerPosition.y;
+        if (timerEl.textContent === 'Time Left: 0:00') {
+            score = 0; // Reset score if time is up
+            scoreEl.textContent = 'Score: 0';
+        }
 
-    switch (key) {
-        case 'ArrowUp':    newY--; break;
-        case 'ArrowDown':  newY++; break;
-        case 'ArrowLeft':  newX--; break;
-        case 'ArrowRight': newX++; break;
-        default: return;
+        const restartButton = document.createElement('button');
+        restartButton.textContent = 'Restart Game';
+        restartButton.id = 'restart-button'; // Set a unique ID for the restart button
+        restartButton.addEventListener('click', restartGame);
+        document.body.appendChild(restartButton);
     }
 
-    if (newY >= 0 && newY < mazeData.length && newX >= 0 && newX < mazeData[0].length && mazeData[newY][newX] === 0) {
-        moves++; // Increment moves count
-        playerPosition.x = newX;
-        playerPosition.y = newY;
-        updatePlayerPosition();
-        const cellIndex = newY * mazeData[0].length + newX;
-        checkForCheese(document.querySelectorAll('.maze-cell')[cellIndex]);
-        checkForEnd(); // Check for reaching the end after each move
+    function handleKeyDown(event) {
+        if (gameOverFlag) return; // Prevent moving after the game has ended
+        const key = event.key;
+        let newX = playerPosition.x;
+        let newY = playerPosition.y;
+
+        switch (key) {
+            case 'ArrowUp':    newY--; break;
+            case 'ArrowDown':  newY++; break;
+            case 'ArrowLeft':  newX--; break;
+            case 'ArrowRight': newX++; break;
+            default: return;
+        }
+
+        if (newY >= 0 && newY < mazeData.length && newX >= 0 && newX < mazeData[0].length && mazeData[newY][newX] === 0) {
+            moves++; // Increment moves count
+            playerPosition.x = newX;
+            playerPosition.y = newY;
+            updatePlayerPosition();
+            const cellIndex = newY * mazeData[0].length + newX;
+            checkForCheese(document.querySelectorAll('.maze-cell')[cellIndex]);
+            checkForEnd(); // Check for reaching the end after each move
+        }
     }
-}
 
-document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
-createMaze();
+    createMaze();
 </script>
-
-
 </body>
-</html>`;
+</html>
+`;
 
 return <iframe style={{ width: "100%", height: "650px" }} srcDoc={srcDoc} />;
