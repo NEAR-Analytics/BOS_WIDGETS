@@ -1,8 +1,8 @@
-const src = props.src || "hack.near/widget/Academy";
+const src = props.src ?? "hack.near/widget/Academy";
 const [accountId, widget, widgetName] = src.split("/");
 const blockHeight = props.blockHeight;
 
-const accountName = accountId.replace(/\.near$/, "");
+const accountName = accountId.replace(/\.[^\.]*$/, "");
 
 const metadata =
   props.metadata ?? Social.getr(`${src}/metadata`, `${blockHeight}`);
