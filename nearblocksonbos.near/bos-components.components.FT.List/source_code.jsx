@@ -168,6 +168,40 @@ const Skeleton = (props) => {
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+const ErrorMessage = ({ icons, message, mutedText }) => {
+  return (
+    <div className="text-center py-24">
+      <div className="mb-4 flex justify-center">
+        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
+          {icons}
+        </span>
+      </div>
+
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
+
+      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+    </div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
+const FaInbox = () => {
+  return (
+    <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 576 512"
+      height="24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 const initialSorting = {
   sort: 'onchain_market_cap',
@@ -567,13 +601,16 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
           </div>
         ) : (
           <p className="pl-3">
-            {t
-              ? t('token:fts.top.listing', {
-                  count: localFormat && localFormat(totalCount),
-                })
-              : `A total of ${
-                  localFormat && localFormat(totalCount)
-                } Token Contracts found`}
+            {Object.keys(tokens).length > 0 &&
+              `${
+                t
+                  ? t('token:fts.top.listing', {
+                      count: localFormat && localFormat(totalCount),
+                    })
+                  : `A total of ${
+                      localFormat && localFormat(totalCount)
+                    } Token Contracts found`
+              }`}
           </p>
         )}
         <div className={`flex w-full h-10 sm:w-80 mr-2`}>
@@ -636,7 +673,13 @@ function MainComponent({ t, network, currentPage, setPage, ownerId }) {
           limit: 50,
           pageLimit: 200,
           setPage: setPage,
-          Error: errorMessage,
+          Error: (
+            <ErrorMessage
+              icons={<FaInbox />}
+              message={errorMessage || ''}
+              mutedText="Please try again later"
+            />
+          ),
         }}
       />
     </div>
