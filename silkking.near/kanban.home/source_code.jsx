@@ -1,105 +1,119 @@
 const { renderColumn } = VM.require("silkking.near/widget/column");
-const {
-  CardStyle,
-  CardTitleStyle,
-  NewButtonStyle,
-  CardActionButtonStyle,
-  CardLabelStyle,
-} = VM.require("silkking.near/widget/homeStyles");
+const { ColumnStyle } = VM.require("silkking.near/widget/homeStyles");
 
-function renderColumn(
-  columnId,
-  col,
-  onDragStart,
-  onDragOver,
-  onDragEnd,
-  newCardCallBack
-) {
-  return (
-    <div data-column={columnId}>
-      <CardTitleStyle data-column={columnId}>
-        {col.title} ({col.cards.length})
-        {col.newCard ? (
-          <CardStyle data-column={columnId}>
-            <CardTitleStyle>New Card</CardTitleStyle>
-            <CardLabelStyle>Title</CardLabelStyle>
-            <input
-              type="text"
-              data-action="title"
-              onChange={(e) => newCardCallBack(e, e.target.value)}
-            ></input>
-            <br />
-            <CardLabelStyle>Content</CardLabelStyle>
-            <input
-              type="text"
-              data-action="content"
-              onChange={(e) => newCardCallBack(e, e.target.value)}
-            ></input>
-            <br />
-            <NewButtonStyle
-              data-column={columnId}
-              data-action="ok"
-              onClick={newCardCallBack}
-            >
-              Ok
-            </NewButtonStyle>
-            <NewButtonStyle
-              data-column={columnId}
-              data-action="cancel"
-              onClick={newCardCallBack}
-            >
-              Cancel
-            </NewButtonStyle>
-          </CardStyle>
-        ) : col.allowCardCreation ? (
-          <NewButtonStyle
-            data-column={columnId}
-            data-action="new"
-            onClick={newCardCallBack}
-          >
-            +
-          </NewButtonStyle>
-        ) : (
-          ""
-        )}
-      </CardTitleStyle>
+const { columns } = props;
 
-      {col.cards.map((card, index) => {
-        return (
-          <CardStyle
-            id={"card_" + columnId + "_" + index}
-            data-column={columnId}
-            data-card={index}
-            draggable
-            onDragStart={onDragStart}
-            onDragOver={onDragOver}
-            onDragEnd={onDragEnd}
-            key={index}
-          >
-            <b data-column={columnId} data-card={index}>
-              {card.title}
-            </b>
-            <br />
-            <p data-column={columnId} data-card={index}>
-              {card.content}
-            </p>
-            <br />
-            {card.action ? (
-              <CardActionButtonStyle
-                data-column={columnId}
-                data-card={index}
-                onClick={card.action.callBack}
-              >
-                {card.action.text}
-              </CardActionButtonStyle>
-            ) : (
-              ""
-            )}
-          </CardStyle>
-        );
-      })}
-    </div>
-  );
+/* ************************ */
+/*        Variables         */
+/* ************************ */
+// Columnas a generar
+/*  Estructura
+
+     {
+        title : string
+        allowCardCreation : bool
+        cards : [
+            title: string,
+            content : string
+            action {
+                text: string (button text)
+                callBack: callbackmethod / javascript
+            }
+        ]
+    }
+
+    */
+
+/* ************************ */
+/* Funciones del componente */
+/* ************************ */
+
+// Dragging ------------------
+var objectOverOn;
+
+function onDragStart(e) {
+  console.log(e);
 }
 
-return { renderColumn };
+function onDragOver(e) {
+  objectOverOn = e.target;
+  e.preventDefault();
+}
+
+function onDragEnd(e) {
+  var o = objectOverOn;
+  if (o != undefined) {
+    const colDestino = o.dataset.column;
+    const colOrigen = e.target.dataset.column;
+    const cardIndex = e.target.dataset.card;
+    if (!isNaN(colDestino)) {
+      if (colOrigen != colDestino) {
+        var cc = currentColumns;
+        const movedCard = cc[colOrigen].cards.splice(cardIndex, 1);
+        cc[colDestino].cards.push(movedCard[0]);
+        setColumns(cc);
+      } else console.log("Dropped on same column", o);
+    } else console.log("No droppable destination", o);
+  } else console.log("No destination", o);
+  objectOverOn = null;
+}
+
+// New Card ------------------
+function newCardCallBack(e, data) {
+  const o = e.target;
+  const colDestino = o.dataset.column;
+  var cc = currentColumns;
+  switch (o.dataset.action) {
+    case "new":
+      setNewCardTitle(null);
+      setNewCardContent(null);
+      for (var n = 0; n < cc.length; n++) {
+        cc[n].newCard = false;
+      }
+      cc[colDestino].newCard = true;
+      break;
+    case "title":
+      setNewCardTitle(data);
+      break;
+    case "content":
+      setNewCardContent(data);
+      break;
+    case "ok":
+      const newCard = { title: newCardTitle, content: newCardContent };
+      cc[colDestino].cards.push(newCard);
+      cc[colDestino].newCard = false;
+      break;
+    case "cancel":
+      cc[colDestino].newCard = false;
+      break;
+  }
+  setColumns(cc);
+}
+
+// State ------------------
+const [currentColumns, setColumns] = useState(columns);
+const [newCardTitle, setNewCardTitle] = useState("");
+const [newCardContent, setNewCardContent] = useState("");
+
+// Rendering ------------------
+var c = columns.length;
+const w = "calc(" + (100 / c).toFixed(2).toString() + "% - 20px)";
+
+return (
+  <div id="divMaster">
+    {currentColumns.map((col, index) => {
+      return (
+        <ColumnStyle onDragOver={onDragOver} style={{ width: w }} key={index}>
+          {renderColumn(
+            index,
+            col,
+            onDragStart,
+            onDragOver,
+            onDragEnd,
+            newCardCallBack
+          )}
+        </ColumnStyle>
+      );
+    })}
+  </div>
+);
