@@ -56,6 +56,7 @@ const srcDoc = `
     let gameOverFlag = false; // Flag to indicate if the game is over
     let timerInterval;
     const timeLimitInSeconds = 120; // 2 minutes
+    let timerId; // Timer ID for the countdown
 
     function generateMazeData(rows, cols) {
         const maze = [];
@@ -189,27 +190,42 @@ const srcDoc = `
             const index = playerPosition.y * mazeData[0].length + playerPosition.x;
             cells[index].innerHTML = '🚪'; // Emoji icon end
             cells[index].classList.remove('active');
+            timerEl.textContent = 'Time Left: 0:00';
             gameOver('Congratulations! You reached the end of the maze!');
         }
     }
 
+    function startTimer() {
+        timerId = setInterval(() => {
+            timeLimit--;
+            if (timeLimit <= 0) {
+                clearInterval(timerId);
+                gameOver('Time is up! Game Over!');
+            }
+        }, 1000); // Update timer every second
+    }
 
     function startTimer() {
-    let timeLeft = timeLimitInSeconds; // Time limit in seconds
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timerEl.textContent = \`Time Left: $\{minutes}:\${seconds < 10 ? '0' : ''}$\{seconds}\`;
-        if (timeLeft === 0) {
-            clearInterval(timerInterval);
-            gameOver("Time's up! Game Over!");
-        }
-    }, 1000); // Update timer every second
-}
+        let timeLeft = timeLimitInSeconds; // Time limit in seconds
+        timerId = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerEl.textContent = \`Time Left: $\{minutes}:\${seconds < 10 ? '0' : ''}$\{seconds}\`;
+            if (timeLeft === 0) {
+                clearInterval(timerId);
+                timerEl.textContent = 'Time Left: 0:00';
+                gameOver("Time's up! Game Over!");
+            }
+        }, 1000); // Update timer every second
+    }
+
+    function stopTimer() {
+        clearInterval(timerId);
+    }
 
     function restartGame() {
-        clearInterval(timerInterval); // Stop the timer interval
+        clearInterval(timerId); // Stop the timer interval
         score = 0;
         playerPosition = { x: 1, y: 1 };
         cheeseCooldown = false;
@@ -242,13 +258,13 @@ const srcDoc = `
         document.body.appendChild(gameOverEl);
         document.removeEventListener('keydown', handleKeyDown);
         gameOverFlag = true; // Set the game over flag
-
+        stopTimer(); // Stop the timer
    
-        score = 0; // Reset score if time is up
-        scoreEl.textContent = 'Score: 0';
-        timerEl.textContent = 'Time Left: 0:00';
-        timeLeft = 0;
-        
+        if (timeLimit <= 0) {
+            // Reset the score if time is up
+            score = 0;
+            scoreEl.textContent = 'Score: ' + score;
+        }
 
         const restartButton = document.createElement('button');
         restartButton.textContent = 'Restart Game';
