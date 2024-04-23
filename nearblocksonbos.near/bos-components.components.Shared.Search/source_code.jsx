@@ -205,7 +205,7 @@ function MainComponent({
     `${ownerId}/widget/includes.Utils.formats`,
   );
 
-  const { getConfig, shortenAddress } = VM.require(
+  const { debounce, getConfig, shortenAddress } = VM.require(
     `${ownerId}/widget/includes.Utils.libs`,
   );
   const [keyword, setKeyword] = useState('');
@@ -271,9 +271,32 @@ function MainComponent({
         return null;
     }
   };
+
+  const fetchData = useCallback(
+    (keyword, filter) => {
+      if (filter && keyword && config.backendUrl) {
+        search(keyword, filter, false, config.backendUrl).then((data) => {
+          setResult(data || {});
+        });
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [config.backendUrl, filter],
+  );
+  const debouncedSetKeyword = useCallback(
+    debounce
+      ? debounce(500, (value) => {
+          fetchData(value, filter);
+        })
+      : (value) => fetchData(value, filter),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fetchData],
+  );
   // Handle input change
   const handleChange = (event) => {
     const newNextValue = event.target.value.replace(/[\s,]/g, '') ;
+    debouncedSetKeyword(newNextValue);
     setKeyword(newNextValue);
     showSearchResults();
   };
@@ -294,23 +317,14 @@ function MainComponent({
   const onSelect = () => {
     hideSearchResults();
   };
-  useEffect(() => {
-    const fetchData = (keyword, filter) => {
-      if (filter && keyword) {
-        search(keyword, filter, false, config.backendUrl).then((data) => {
-          setResult(data || {});
-        });
-      }
-    };
-    if (config.backendUrl) {
-      fetchData(keyword, filter);
-    }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyword, filter, config.backendUrl]);
   // Handle filter change
-  const onFilter = (event) =>
+  const onFilter = (event) => {
     setFilter(event.target.value);
+    if (keyword && config.backendUrl) {
+      fetchData(keyword, event.target.value);
+    }
+  };
   return (
     <>
       {showToast && <ToastMessage content={<SearchToast />} />}
