@@ -1,28 +1,5 @@
-const ScrollableWrapper = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  min-height: 15rem;
-  @media screen and (max-width: 1341px) {
-    overflow-y: hidden;
-    overflow-x: scroll;
-
-    ::-webkit-scrollbar {
-      height: 15px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #8799d2;
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-  }
-  -webkit-overflow-scrolling: touch;
 `;
 
 const FiltersContainer = styled.div`
@@ -34,6 +11,10 @@ const FiltersContainer = styled.div`
   align-self: stretch;
   border-radius: 6px;
   background: #f8f8f8;
+
+  @media screen and (max-width: 1000px) {
+    gap: 40px;
+  }
 
   .selected-container {
     width: 100%;
@@ -47,6 +28,25 @@ const FiltersContainer = styled.div`
 
     i {
       color: #b0afb1;
+    }
+
+    &.dao {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+
+    &.desktop-filters {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    &.mobile-filters {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: flex;
+      }
     }
   }
 `;
@@ -70,6 +70,7 @@ const FILTER_OPENS = Object.keys(FILTER_IDS).map((item) => {
 const [dataSet, setDataSet] = useState([]);
 const [loading, setLoading] = useState(false);
 const [selectedDAOs, setSelectedDAOs] = useState(daos.map((d) => d.title));
+const [filteredData, setFilteredData] = useState([]);
 const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
 
 const onFilterClick = (value) =>
@@ -112,6 +113,7 @@ const fetchData = async (key) => {
       });
 
     setDataSet(newDataSet);
+    setFilteredData(newDataSet);
     setLoading(false);
   });
 };
@@ -133,23 +135,25 @@ useEffect(() => {
         };
       }),
     );
+
+  setFilteredData(
+    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title)),
+  );
 }, [selectedDAOs]);
 
 useEffect(() => {
-  if (dataSet.length > 0) {
+  if (dataSet.length > 0 && dateRange) {
     fetchData(FILTER_IDS.userRetentions);
     fetchData(FILTER_IDS.dappsUsed);
     fetchData(FILTER_IDS.acquisitionCost);
   }
 }, [dataSet, dateRange]);
 
-const sortData = (field) => {
-  console.log(field);
+const sortData = (field) =>
   setDataSet(dataSet.sort((a, b) => b[field] - a[field]));
-};
 
 const SortingRow = ({ title, field }) => (
-  <div className="selected-container">
+  <div className="selected-container desktop-filters">
     <div className="d-flex align-items-end gap-2">
       <i className="ph ph-info fs-5" />
       <div>{title}</div>
@@ -163,7 +167,7 @@ const SortingRow = ({ title, field }) => (
 );
 
 return (
-  <ScrollableWrapper>
+  <Wrapper>
     <FiltersContainer>
       <Widget
         src={`ndcdev.near/widget/dashboard.Components.Select`}
@@ -183,7 +187,7 @@ return (
           },
           isTooltipVisible: true,
           noBorder: true,
-          containerClass: "selected-container",
+          containerClass: "selected-container dao",
         }}
       />
       <SortingRow title="User Retention" field={FILTER_IDS.userRetentions} />
@@ -195,8 +199,8 @@ return (
     ) : (
       <Widget
         src={`ndcdev.near/widget/dashboard.Components.Table.Cells`}
-        props={{ dataSet }}
+        props={{ dataSet: filteredData }}
       />
     )}
-  </ScrollableWrapper>
+  </Wrapper>
 );
