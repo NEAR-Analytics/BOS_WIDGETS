@@ -1,35 +1,97 @@
-const Row = styled.div`
+const DesktopRow = styled.div`
   display: flex;
   padding: 16px;
   align-items: center;
   gap: 72px;
   align-self: stretch;
   border-bottom: 1px solid #e3e3e0;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+
+  .desktop-value {
+    min-width: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    position: relative;
+    border-radius: 100px;
+
+    span {
+      z-index: 100;
+    }
+  }
 `;
 
-const Cell = styled.div`
-  min-width: 200px;
+const MobileRow = styled.div`
+  display: none;
+  width: 100%;
+  padding: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 12px;
+  border: 1px solid #e3e3e0;
+  background: var(--Primary-Base-White, #fff);
+  box-shadow:
+    0px 97px 27px 0px rgba(0, 0, 0, 0),
+    0px 62px 25px 0px rgba(0, 0, 0, 0),
+    0px 35px 21px 0px rgba(0, 0, 0, 0.02),
+    0px 16px 16px 0px rgba(0, 0, 0, 0.03),
+    0px 4px 9px 0px rgba(0, 0, 0, 0.03);
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+
+  .mobile-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 12px;
+    align-self: stretch;
+    border-bottom: 1px solid #e3e3e0;
+
+    .mobile-value {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        color: #5c656a;
+      }
+    }
+  }
+`;
+
+const Colored = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
   position: relative;
   border-radius: 100px;
   background: #f5f5f5;
-  padding: 5px 0;
+  height: ${(props) => props.height}px;
 
-  &.dao-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-wrap: nowrap;
-    font-size: 16px;
-    font-weight: 600;
-    justify-content: flex-start;
-    background: transparent;
+  .value {
+    position: absolute;
+    height: ${(props) => props.height}px;
+    left: 0;
+    width: ${(props) => props.width ?? 0}%;
+    background: ${(props) => props.color};
+    border-radius: ${(props) =>
+      props.width === 100 ? "100px" : "100px 0 0 100px"};
   }
 `;
 
@@ -39,21 +101,17 @@ const Container = styled.div`
   gap: 1rem;
   align-items: flex-start;
   padding-top: 1rem;
-  -webkit-overflow-scrolling: touch;
-
-  @media screen and (max-width: 1341px) {
-    padding-bottom: 1rem;
-  }
 `;
 
-const Colored = styled.div`
-  height: 100%;
-  position: absolute;
-  left: 0;
-  width: ${(props) => props.width}%;
-  background: ${(props) => props.color};
-  border-radius: ${(props) =>
-    props.width === 100 ? "100px" : "100px 0 0 100px"};
+const DaoName = styled.div`
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: flex-start;
+  background: transparent;
 `;
 
 const getPercentage = (start, end, divider) => {
@@ -86,67 +144,77 @@ const TooltipContent = ({ key, value }) => (
   </div>
 );
 
-const DaoName = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-`;
+const DesktopCell = ({ width, color, value }) => (
+  <div className="desktop-value">
+    <Colored width={width} color={color} height={22}>
+      <div className="value"></div>
+      <span>{formatValue(value)}</span>
+    </Colored>
+  </div>
+);
+
+const MobileCell = ({ title, value, width, color }) => (
+  <div className="mobile-cell">
+    <div className="mobile-value">
+      <div className="d-flex gap-1 title">
+        <i className="ph ph-info" />
+        <span>{title}</span>
+      </div>
+      {formatValue(value)}
+    </div>
+
+    <Colored width={width} color={color} height={10}>
+      <div className="value"></div>
+    </Colored>
+  </div>
+);
 
 return (
   <Container>
     {dataSet.map(
       ({ title, userRetentions, dappsUsed, acquisitionCost }, index) => (
-        <Row key={index}>
-          <Cell className="dao-name">{title}</Cell>
-          <Cell>
-            <Colored
+        <>
+          <DesktopRow>
+            <DaoName>{title}</DaoName>
+            <DesktopCell
               width={getPercentage(userRetentions, 10, 2)}
               color={userRetentions >= 1 ? "#51D38E" : "#FC6F60"}
+              value={userRetentions}
             />
-            <div className="position-relative">
-              <Widget
-                src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
-                props={{
-                  content: (
-                    <>
-                      <TooltipContent key="Start" value={userRetentions} />
-                    </>
-                  ),
-                  minWidth: "max-content",
-                  icon: <i>{formatValue(userRetentions)}</i>,
-                }}
-              />
-            </div>
-          </Cell>
-          <Cell>
-            <Colored
+            <DesktopCell
               width={getPercentage(dappsUsed, 10, 2)}
               color={"#51D38E"}
+              value={dappsUsed}
             />
-            <div className="position-relative">{formatValue(dappsUsed)}</div>
-          </Cell>
-          <Cell>
-            <Colored
+            <DesktopCell
               width={getPercentage(acquisitionCost, 10, 2)}
               color={acquisitionCost < 1 ? "#51D38E" : "#FC6F60"}
+              value={acquisitionCost}
             />
-            <div className="position-relative">
-              <Widget
-                src={`ndcdev.near/widget/dashboard.Components.Tooltip`}
-                props={{
-                  content: (
-                    <>
-                      <TooltipContent key="Accounts" value={acquisitionCost} />
-                    </>
-                  ),
-                  minWidth: "max-content",
-                  icon: <i>{formatValue(acquisitionCost)}</i>,
-                }}
-              />
-            </div>
-          </Cell>
-        </Row>
+          </DesktopRow>
+
+          <MobileRow>
+            <DaoName>{title}</DaoName>
+            <MobileCell
+              title="User Retention"
+              width={getPercentage(userRetentions, 10, 2)}
+              color={userRetentions >= 1 ? "#51D38E" : "#FC6F60"}
+              value={userRetentions}
+            />
+            <MobileCell
+              title="DApp's Used"
+              width={getPercentage(dappsUsed, 10, 2)}
+              color={"#51D38E"}
+              value={dappsUsed}
+            />
+            <MobileCell
+              title="Acquisition Cost"
+              width={getPercentage(acquisitionCost, 10, 2)}
+              color={acquisitionCost < 1 ? "#51D38E" : "#FC6F60"}
+              value={acquisitionCost}
+            />
+          </MobileRow>
+        </>
       ),
     )}
   </Container>
