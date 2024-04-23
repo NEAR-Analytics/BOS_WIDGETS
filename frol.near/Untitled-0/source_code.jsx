@@ -22,7 +22,7 @@ return (
             <div class="nav-inner">
                <div class="nav-logo-wrap"><a href="#" class="brand w-nav-brand"><img src="https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7845_logo-white.png" width="120" alt=""/></a></div>
                <div class="nav-menu-wrap">
-                  <nav role="navigation" class="nav-menu-2 w-nav-menu"><a href="#about" class="nav-link w-nav-link">About</a><a href="#features" class="nav-link w-nav-link">Features</a><a href="#how-to-use" class="nav-link w-nav-link">How to Use</a><a href="#download" class="nav-link w-nav-link">Download</a></nav>
+                  <nav role="navigation" class="nav-menu-2 w-nav-menu"><a href="#about" class="nav-link w-nav-link">About</a><a href="#features">Features</a><a href="#how-to-use" class="nav-link w-nav-link">How to Use</a><a href="#download" class="nav-link w-nav-link">Download</a></nav>
                   <div class="menu-button w-nav-button">
                      <div class="menu-icon w-icon-nav-menu"></div>
                   </div>
