@@ -47,7 +47,6 @@ return (
          <div class="wrapper"><img src="https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device.png" alt="" srcset="https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device-p-500.png 500w, https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device-p-800.png 800w, https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device-p-1080.png 1080w, https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device-p-1600.png 1600w, https://assets-global.website-files.com/66283e6740d1f728e73f77c8/66283e6740d1f728e73f7865_dash-device.png 1903w" sizes="90vw"/></div>
       </div>
       <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=66283e6740d1f728e73f77c8" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="https://assets-global.website-files.com/66283e6740d1f728e73f77c8/js/webflow.bcce7ec73.js" type="text/javascript"></script>
-      <script src="https://davidjbradshaw.github.io/iframe-resizer/js/iframeResizer.contentWindow.min.js"></script>
    </body>
 </html>
 `}
