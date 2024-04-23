@@ -10,6 +10,24 @@
  * @param {string} ownerId - The identifier of the owner of the component.
  */
 
+/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+const ErrorMessage = ({ icons, message, mutedText }) => {
+  return (
+    <div className="text-center py-24">
+      <div className="mb-4 flex justify-center">
+        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
+          {icons}
+        </span>
+      </div>
+
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
+
+      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+    </div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
 const FaChevronLeft = () => {
   return (
@@ -45,6 +63,7 @@ const FaChevronRight = () => {
     </svg>
   );
 };
+
 
 
 
@@ -90,10 +109,10 @@ const Paginator = (props) => {
           >
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1}
+              disabled={props.page <= 1 || pages === 1 || props.isLoading}
               onClick={onFirst}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2  text-xs font-medium rounded-md ${
-                props.page <= 1
+                props.page <= 1 || props.isLoading
                   ? 'text-gray-500 dark:text-neargray-10'
                   : 'text-green-400 dark:text-green-250 hover:bg-green-400 dark:hover:bg-green-250 hover:text-white dark:hover:text-black'
               } bg-gray-100 dark:bg-black-200 dark:text-green-250`}
@@ -102,10 +121,10 @@ const Paginator = (props) => {
             </button>
             <button
               type="button"
-              disabled={props.page <= 1 || pages === 1}
+              disabled={props.page <= 1 || pages === 1 || props.isLoading}
               onClick={onPrev}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 font-medium ${
-                props.page <= 1
+                props.page <= 1 || props.isLoading
                   ? 'text-gray-500 dark:text-neargray-10'
                   : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
               } rounded-md  bg-gray-100 dark:bg-black-200`}
@@ -121,10 +140,10 @@ const Paginator = (props) => {
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1}
+              disabled={props.page >= pages || pages === 1 || props.isLoading}
               onClick={onNext}
               className={`relative inline-flex items-center ml-1 px-2 md:px-3 py-2 rounded-md font-medium ${
-                props.page >= pages
+                props.page >= pages || props.isLoading
                   ? 'text-gray-500 dark:text-neargray-10'
                   : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
               }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
@@ -133,10 +152,10 @@ const Paginator = (props) => {
             </button>
             <button
               type="button"
-              disabled={props.page >= pages || pages === 1}
+              disabled={props.page >= pages || pages === 1 || props.isLoading}
               onClick={onLast}
               className={`relative inline-flex items-center px-2 ml-1 md:px-3 py-2 text-xs font-medium rounded-md ${
-                props.page >= pages
+                props.page >= pages || props.isLoading
                   ? 'text-gray-500 dark:text-neargray-10'
                   : 'text-green-400 dark:text-green-250 hover:text-white dark:hover:text-black hover:bg-green-400 dark:hover:bg-green-250'
               }  bg-gray-100 dark:text-green-250 dark:bg-black-200`}
@@ -166,6 +185,22 @@ const Skeleton = (props) => {
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
+const FaInbox = () => {
+  return (
+    <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 576 512"
+      height="24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 
 
@@ -204,7 +239,6 @@ function MainComponent({ network, id, token, ownerId }) {
 
   useEffect(() => {
     function fetchNFTData() {
-      setIsLoading(true);
       asyncFetch(`${config.backendUrl}nfts/${id}`)
         .then(
           (data
@@ -216,7 +250,6 @@ function MainComponent({ network, id, token, ownerId }) {
             const resp = data?.body?.contracts?.[0];
             if (data.status === 200) {
               setTokenData(resp);
-              setIsLoading(false);
             } else {
               handleRateLimit(data, fetchNFTData, () => setIsLoading(false));
             }
@@ -303,10 +336,22 @@ function MainComponent({ network, id, token, ownerId }) {
         >
           <div className="flex flex-col">
             <p className="leading-7 px-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              A total of {localFormat && localFormat(totalCount.toString())}{' '}
-              tokens found
+              {tokens.length > 0 &&
+                `A total of ${
+                  localFormat && localFormat(totalCount.toString())
+                }${' '}
+              tokens found`}
             </p>
           </div>
+        </div>
+      )}
+      {!isLoading && tokens.length === 0 && (
+        <div className="px-6 py-4 text-gray-400 text-xs">
+          <ErrorMessage
+            icons={<FaInbox />}
+            message="There are no matching entries"
+            mutedText="Please try again later"
+          />
         </div>
       )}
       <div className="flex flex-wrap sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 m-6">
@@ -386,13 +431,16 @@ function MainComponent({ network, id, token, ownerId }) {
             </div>
           ))}
       </div>
-      <Paginator
-        count={totalCount}
-        page={currentPage}
-        setPage={setPage}
-        limit={24}
-        pageLimit={200}
-      />
+      {tokens.length > 0 && (
+        <Paginator
+          count={totalCount}
+          page={currentPage}
+          isLoading={isLoading}
+          setPage={setPage}
+          limit={24}
+          pageLimit={200}
+        />
+      )}
     </>
   );
 }
