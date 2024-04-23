@@ -517,12 +517,6 @@ const handleInputTokenB = (input) => {
 
 // Method to validate data
 const validateConfirm = () => {
-  let bins = state.binsToDistribute;
-  if (bins % 2 !== 1) {
-    bins++;
-    State.update({ binsToDistribute: bins });
-  }
-
   if (state.poolModeSelected.id == 1) {
     validateAllowance(state.amountInputTokenA, "TA");
     State.update({ validation: true });
@@ -1100,78 +1094,6 @@ return (
             )}
             {state.step == 3 && (
               <div style={{ height: "314px" }}>
-                {state.poolModeSelected.name == "Mode Static" && (
-                  <>
-                    <div class="titleStep">Select Distribution</div>
-                    <br />
-                    <div class="RequiredAssetsContainer">
-                      <div class="row SelectDistributionContainer">
-                        <div
-                          class="col-6"
-                          style={{ display: "flex", justifyContent: "end" }}
-                        >
-                          <div class="SelectDistributionMode">
-                            <div class="TokenSection">
-                              <div class="TokenNameSection">
-                                <div class="TokenAction">
-                                  Distribution mode {"->"}
-                                </div>
-                                <select
-                                  class="TokenNameSelect"
-                                  value={
-                                    state.poolDistributionSelected
-                                      ? state.poolDistributionSelected.name
-                                      : "default"
-                                  }
-                                  onChange={handlePoolDistributionSelect}
-                                >
-                                  <option
-                                    value="default"
-                                    disabled={state.poolModeSelected}
-                                  >
-                                    Select Distribution
-                                  </option>
-                                  {DISTRIBUTIONMODE.map((m) => {
-                                    return <option>{m.name}</option>;
-                                  })}
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          {(state.poolDistributionSelected.name ==
-                            "Exponential" ||
-                            state.poolDistributionSelected.name == "Flat") && (
-                            <div class="SelectDistributionMode">
-                              <div class="TokenSection">
-                                <div class="TokenNameSection">
-                                  <div class="TokenAction">
-                                    Bins number (must be odd) {"->"}
-                                  </div>
-                                  <input
-                                    class="TokenAmountInput"
-                                    type="number"
-                                    placeholder="0"
-                                    inputmode="decimal"
-                                    min="3"
-                                    step="2"
-                                    value={state.binsToDistribute}
-                                    pattern="^[0-9]*[.]?[0-9]*$"
-                                    onkeydown="return false"
-                                    onChange={(e) =>
-                                      changeBinsToDistribute(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
                 <div class="titleStep">Required Assets</div>
                 <br class="br-div" />
                 <div
@@ -1363,32 +1285,16 @@ return (
                       : state.onApprovingToken
                       ? allowanceButtonDisabled()
                       : allowanceButton("TA")
-                    : state.poolModeSelected.id == 0 ||
-                      state.poolModeSelected.id == 3
-                    ? state.tokenABalance && state.tokenBBalance
-                      ? state.need2Tokens
-                        ? state.amountInputTokenA > 0 &&
-                          state.amountInputTokenA <=
-                            state.tokenABalance.fixed &&
-                          state.amountInputTokenB > 0 &&
-                          state.amountInputTokenB <= state.tokenBBalance.fixed
-                          ? validateButton
-                          : validateButtonDisabled
-                        : state.amountInputTokenB > 0 &&
-                          state.amountInputTokenB < state.tokenBBalance.fixed
-                        ? validateButton
-                        : validateButtonDisabled
-                      : validateButtonDisabled
                     : state.poolModeSelected.id == 1
                     ? state.tokenABalance
                       ? state.amountInputTokenA > 0 &&
-                        state.amountInputTokenA < state.tokenABalance.fixed
+                        state.amountInputTokenA <= state.tokenABalance.fixed
                         ? validateButton
                         : validateButtonDisabled
                       : validateButtonDisabled
                     : state.tokenBBalance
                     ? state.amountInputTokenB > 0 &&
-                      state.amountInputTokenB < state.tokenBBalance.fixed
+                      state.amountInputTokenB <= state.tokenBBalance.fixed
                       ? validateButton
                       : validateButtonDisabled
                     : validateButtonDisabled
