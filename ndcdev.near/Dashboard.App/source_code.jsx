@@ -270,6 +270,7 @@ return (
       <Filters>
         <div className="d-flex flex-column gap-1">
           <div
+            role="button"
             className="wrapper"
             onClick={() => {
               setShowDatePicker(!showDatePicker);
