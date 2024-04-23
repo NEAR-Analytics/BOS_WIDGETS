@@ -240,7 +240,7 @@ const handleSave = () => {
         "edit_post",
         { id: parseInt(id), body },
         GAS,
-        DEPOSIT
+        DEPOSIT,
       )
     : Near.call(
         contractName,
@@ -250,7 +250,7 @@ const handleSave = () => {
           body,
         },
         GAS,
-        DEPOSIT
+        DEPOSIT,
       );
 };
 
