@@ -21,6 +21,11 @@ const Wrapper = styled.div`
   }
 `;
 
+const Label = styled.label`
+    font-size: 14px;
+    margin-bottom: 4px;
+`;
+
 const Card = styled.div`
     gap: 24px;
     display: flex;
@@ -66,6 +71,12 @@ const UploadButton = styled.button`
     outline: none;
     transition: 0.3s;
 `;
+const DepButton = styled.button`
+    color: #FFF;
+    padding: 1px 4px;
+    border-radius: 6px;
+    background-image: linear-gradient(to right, rgb(147, 51, 234), rgb(99, 102, 241), rgb(99, 102, 241));
+`;
 
 const CardText = styled.h3`
     font-size: 22px;
@@ -84,14 +95,29 @@ const DropBoxText2 = styled.h4`
 `;
 
 const [file, setFile] = useState(null);
+const [selectedToken, setSelectedToken] = useState("");
+const [tokenList, setTokenList] = useState([]);
+const [airdropFee, setAirdropFee] = useState(0);
+const [notification, setNotification] = useState("");
+
+const changeOption = (value) => {
+  setSelectedToken({ value });
+};
 
 const handleFileChange = (files) => {
-  console.log(files);
   setFile(files[0]);
+};
+
+const handleDeposit = async () => {
+  if (!airdropFee) {
+    setNotification("First, upload file, then you will get fee amount.");
+    return;
+  }
 };
 
 const handleSubmit = async (e) => {
   if (!file) {
+    setNotification("please select file");
     return;
   }
   e.preventDefault();
@@ -99,23 +125,26 @@ const handleSubmit = async (e) => {
   const reader = new FileReader();
 
   reader.onload = () => {
-    console.log("TOKEN", USER);
     const fileData = reader.result;
-    // Send fileData to the server using fetch or any other AJAX library
     try {
       const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
         method: "POST",
         body: JSON.stringify({
           data: fileData,
           name: file.name,
-          userId: accountId,
+          userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
         }),
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": TOKEN,
         },
       });
-      console.log(response);
+      response.then(({ body }) => {
+        if (body.status === true) {
+          setNotification("You have uploaded file successfully.");
+          setAirdropFee(body.airdropFee);
+        }
+      });
     } catch (error) {
       console.error(error);
     }
@@ -123,9 +152,59 @@ const handleSubmit = async (e) => {
   reader.readAsDataURL(file);
 };
 
+useEffect(() => {
+  const response = asyncFetch(
+    `http://localhost:2402/api/project/get_token_list`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        accountId,
+      }),
+
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": TOKEN,
+      },
+    }
+  );
+  response.then(({ body }) => {
+    setTokenList(body.data);
+  });
+  console.log(Alert);
+}, []);
+
 return (
   <Wrapper>
     <Card>
+      <div>
+        <Label>{`Select airdrop token`}</Label>
+        <Widget
+          props={{
+            noLabel: true,
+            width: "40vw",
+            options: tokenList,
+            value: selectedToken.value,
+            onChange: (val) => changeOption(val),
+          }}
+          src={`${Owner}/widget/Select`}
+        />
+      </div>
+      <div>
+        <Label>Airdrop Fee(NEAR)</Label>
+        <div className="d-flex flex-row">
+          <input
+            type="number"
+            name="airdrop_fee"
+            value={airdropFee}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => {}}
+            style={{ fontSize: 14, width: "90%" }}
+          />
+          <DepButton className="btn" onClick={handleDeposit}>
+            Deposit
+          </DepButton>
+        </div>
+      </div>
       <CardText>Upload Files</CardText>
       <DropBox>
         <DropBoxText1>Select File here</DropBoxText1>
@@ -139,6 +218,21 @@ return (
         </Files>
         <UploadButton onClick={handleSubmit}>Upload</UploadButton>
       </DropBox>
+      {notification && (
+        <div
+          className="d-flex justify-content-end position-absolute"
+          style={{ right: 10 }}
+        >
+          <Widget
+            props={{
+              text: notification,
+              type: "info",
+              setNotification,
+            }}
+            src={`${Owner}/widget/Alert`}
+          />
+        </div>
+      )}
     </Card>
   </Wrapper>
 );
