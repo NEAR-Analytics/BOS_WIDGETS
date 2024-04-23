@@ -1,7 +1,7 @@
 return (
   <iframe
     iframeResizer
-    style={{ minHeight: "100vh" }}
+    style={{ minHeight: "100vh", minWidth: "100%" }}
     srcDoc={`
 <!DOCTYPE html><!-- This site was created in Webflow. https://www.webflow.com --><!-- Last Published: Tue Apr 23 2024 23:19:12 GMT+0000 (Coordinated Universal Time) -->
 <html data-wf-domain="vlads-top-notch-site-93ff6f.webflow.io" data-wf-page="66283e6740d1f728e73f782b" data-wf-site="66283e6740d1f728e73f77c8" data-wf-status="1">
