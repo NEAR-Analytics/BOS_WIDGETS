@@ -66,5 +66,7 @@ return (
     />
     <button onClick={handleVote}>Vote</button>
     <p>{message}</p>
+    <hr/>
+    <Widget src="hack.near/widget/passport" props={{ }} />
   </div>
 );
