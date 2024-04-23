@@ -11,7 +11,7 @@ return (Store, status, dependencyName) => {
       return Repository;
     },
     getRepository: () => {
-      return Store.get()[Repository.identifier] || {};
+      return status[Repository.identifier] || {};
     },
     getDependency: () => {
       return Repository.getRepository()[dependencyName] || {};
@@ -31,15 +31,15 @@ return (Store, status, dependencyName) => {
     },
     initDependency: (initState) => {
       if (!Repository.get("initialized")) {
-        let newRepository = Repository.getRepository();
-        newRepository[dependencyName] = {
-          ...initState,
-          initialized: true,
-        };
-
-        Store.update({
-          [Repository.identifier]: newRepository,
-        });
+          let newRepository = Repository.getRepository();
+          newRepository[dependencyName] = {
+            ...initState,
+            initialized: true
+          };
+    
+          Store.update({
+            [Repository.identifier]: newRepository,
+          });
       }
     },
   };
