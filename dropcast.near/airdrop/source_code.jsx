@@ -91,6 +91,9 @@ const handleFileChange = (files) => {
 };
 
 const handleSubmit = async (e) => {
+  if (!file) {
+    return;
+  }
   e.preventDefault();
 
   const reader = new FileReader();
@@ -102,8 +105,9 @@ const handleSubmit = async (e) => {
     try {
       const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
         method: "POST",
-        body: fileData,
+        body: JSON.stringify({ data: fileData, name: file.name }),
         headers: {
+          "Content-Type": "application/json",
           "x-auth-token": TOKEN,
         },
       });
@@ -111,9 +115,8 @@ const handleSubmit = async (e) => {
     } catch (error) {
       console.error(error);
     }
-    console.log("File data:", fileData);
   };
-  reader.readAsArrayBuffer(file);
+  reader.readAsDataURL(file);
 };
 
 return (
