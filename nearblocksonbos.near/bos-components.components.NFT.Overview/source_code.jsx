@@ -7,7 +7,9 @@
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {string} [id] - The token identifier passed as a string
  * @param {string} ownerId - The identifier of the owner of the component.
+ * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  */
+
 
 
 
@@ -260,7 +262,7 @@ const WarningIcon = (props) => {
 
 const tabs = ['Transfers', 'Holders', 'Inventory', 'Comments'];
 
-function MainComponent({ network, id, ownerId }) {
+function MainComponent({ network, id, ownerId, t }) {
   const { localFormat, getTimeAgoString } = VM.require(
     `${ownerId}/widget/includes.Utils.formats`,
   );
@@ -568,6 +570,7 @@ function MainComponent({ network, id, ownerId }) {
                     props={{
                       network: network,
                       id: id,
+                      t: t,
                       ownerId,
                     }}
                   />
