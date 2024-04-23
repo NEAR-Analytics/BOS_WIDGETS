@@ -4,15 +4,9 @@ const { Feed } = VM.require("devs.near/widget/Feed") ?? {
 
 const obj = Social.get("*/widget/Index", "final");
 
-const accounts = Object.keys(obj);
-
-const reconstructAccountName = (accountObj) => {
-  let accountName = "";
-  for (let i = 0; accountObj.hasOwnProperty(i.toString()); i++) {
-    accountName += accountObj[i.toString()];
-  }
-  return accountName;
-};
+const accounts = Object.keys(obj).map((key) => ({
+  src: `${key}/widget/Index`,
+}));
 
 return (
   <>
@@ -23,7 +17,7 @@ return (
           <div className="m-2">
             <Widget
               src="hack.near/widget/widget.inline"
-              props={{ src: `${reconstructAccountName(a)}/widget/Index` }}
+              props={{ src: a.src }}
             />
           </div>
         )}
