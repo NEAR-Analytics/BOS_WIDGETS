@@ -280,6 +280,40 @@ const Download = () => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/Download.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+const ErrorMessage = ({ icons, message, mutedText }) => {
+  return (
+    <div className="text-center py-24">
+      <div className="mb-4 flex justify-center">
+        <span className="inline-block border border-yellow-600 border-opacity-25 bg-opacity-10 bg-yellow-300 text-yellow-500 rounded-full p-4">
+          {icons}
+        </span>
+      </div>
+
+      <h3 className="h-5 font-bold text-lg text-black dark:text-neargray-10">
+        {message}
+      </h3>
+
+      <p className="mb-0 py-4 font-bold break-words px-2">{mutedText}</p>
+    </div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/ErrorMessage.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
+const FaInbox = () => {
+  return (
+    <svg
+      stroke="currentColor"
+      fill="currentColor"
+      stroke-width="0"
+      viewBox="0 0 576 512"
+      height="24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M567.938 243.908L462.25 85.374A48.003 48.003 0 0 0 422.311 64H153.689a48 48 0 0 0-39.938 21.374L8.062 243.908A47.994 47.994 0 0 0 0 270.533V400c0 26.51 21.49 48 48 48h480c26.51 0 48-21.49 48-48V270.533a47.994 47.994 0 0 0-8.062-26.625zM162.252 128h251.497l85.333 128H376l-32 64H232l-32-64H76.918l85.334-128z"></path>
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/FaInbox.jsx" */
 
 function MainComponent(props) {
   const { network, t, id, filters, handleFilter, onFilterClear, ownerId } =
@@ -563,10 +597,10 @@ function MainComponent(props) {
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
                   <span
-                    className={`inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap ${
+                    className={`inline-block align-bottom text-green-500 dark:text-green-250 whitespace-nowrap p-0.5 px-1 border rounded-md ${
                       row?.affected_account_id === address
-                        ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-0.5 px-1 -m-[1px] cursor-pointer text-[#033F40]'
-                        : 'text-green-500 dark:text-green-250 p-0.5 px-1'
+                        ? 'bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                        : 'text-green-500 dark:text-green-250 border-transparent'
                     }`}
                   >
                     <Link
@@ -682,13 +716,13 @@ function MainComponent(props) {
                   <span>
                     <Link
                       href={`/address/${row.involved_account_id}`}
-                      className="hover:no-underline truncate inline-block"
+                      className="hover:no-underline"
                     >
                       <a
-                        className={`text-green-500 dark:text-green-250 hover:no-underline ${
+                        className={`text-green-500 dark:text-green-250 hover:no-underline p-0.5 px-1 border rounded-md whitespace-nowrap ${
                           row?.involved_account_id === address
-                            ? ' rounded-md bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border border-dashed p-1 -m-[1px] cursor-pointer text-[#033F40]'
-                            : 'text-green-500  dark:text-green-250 p-1'
+                            ? ' bg-[#FFC10740] border-[#FFC10740] dark:bg-black-200 dark:border-neargray-50 border-dashed cursor-pointer text-[#033F40]'
+                            : 'text-green-500 dark:text-green-250 hover:no-underline border-transparent'
                         }`}
                         onMouseOver={(e) =>
                           onHandleMouseOver(e, row?.involved_account_id)
@@ -716,6 +750,8 @@ function MainComponent(props) {
       ),
       tdClassName:
         'px-4 py-2 whitespace-nowrap text-sm text-nearblue-600  font-medium dark:text-neargray-10',
+      thClassName:
+        'text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: <>Token ID</>,
@@ -746,9 +782,9 @@ function MainComponent(props) {
         </Tooltip.Provider>
       ),
       tdClassName:
-        'px-4 py-2 text-sm text-nearblue-600 dark:text-neargray-10  max-w-[110px] inline-block truncate',
+        'px-4 py-3 items-center my-2 text-sm text-nearblue-600 dark:text-neargray-10',
       thClassName:
-        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10  uppercase tracking-wider',
+        'px-4 py-4 text-left text-xs font-semibold text-nearblue-600 dark:text-neargray-10 uppercase tracking-wider',
     },
     {
       header: <>Token</>,
@@ -906,8 +942,11 @@ function MainComponent(props) {
         <div className={`flex flex-col lg:flex-row pt-4`}>
           <div className="flex flex-col">
             <p className="leading-7 pl-6 text-sm mb-4 text-nearblue-600 dark:text-neargray-10">
-              A total of {localFormat && localFormat(totalCount.toString())}{' '}
-              transactions found
+              {Object.keys(txns).length > 0 &&
+                `A total of ${
+                  localFormat && localFormat(totalCount.toString())
+                }${' '}
+              transactions found`}
             </p>
           </div>
           <div className="flex flex-col px-4 text-sm mb-4 text-nearblue-600 dark:text-neargray-10 lg:flex-row lg:ml-auto  lg:items-center lg:justify-between">
@@ -934,17 +973,19 @@ function MainComponent(props) {
               </div>
             )}
             <span className="text-xs text-nearblue-600 dark:text-neargray-10 self-stretch lg:self-auto px-2">
-              <button className="hover:no-underline ">
-                <Link
-                  href={`/nft-token/exportdata?address=${id}`}
-                  className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border dark:border-black-200 border-neargray-700 px-4 rounded-md bg-white dark:bg-black-600  hover:bg-neargray-800"
-                >
-                  <p>CSV Export</p>
-                  <span className="ml-2">
-                    <Download />
-                  </span>
-                </Link>
-              </button>
+              {Object.keys(txns).length > 0 && (
+                <button className="hover:no-underline ">
+                  <Link
+                    href={`/nft-token/exportdata?address=${id}`}
+                    className="flex items-center text-nearblue-600 dark:text-neargray-10 font-medium py-2 border dark:border-black-200 border-neargray-700 px-4 rounded-md bg-white dark:bg-black-600  hover:bg-neargray-800"
+                  >
+                    <p>CSV Export</p>
+                    <span className="ml-2">
+                      <Download />
+                    </span>
+                  </Link>
+                </button>
+              )}
             </span>
           </div>
         </div>
@@ -962,7 +1003,13 @@ function MainComponent(props) {
             limit: 25,
             pageLimit: 200,
             setPage: setPage,
-            Error: errorMessage,
+            Error: (
+              <ErrorMessage
+                icons={<FaInbox />}
+                message={errorMessage}
+                mutedText="Please try again later"
+              />
+            ),
           }}
         />
       }
