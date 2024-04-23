@@ -172,13 +172,46 @@ function startTimer() {
     }, 1000); // Update timer every second
 }
 
+function restartGame() {
+    clearInterval(timerInterval); // Stop the timer interval
+    score = 0;
+    playerPosition = { x: 1, y: 1 };
+    cheeseCooldown = false;
+    moves = 0;
+    enemyPresent = false;
+    gameOverFlag = false;
+    scoreEl.textContent = 'Score: 0';
+    timerEl.textContent = 'Time Left: 2:00';
+    createMaze();
+    document.removeEventListener('keydown', handleKeyDown); // Remove the event listener
+
+    const existingRestartButton = document.getElementById('restart-button');
+    if (existingRestartButton) {
+        existingRestartButton.remove(); // Remove existing restart button if it exists
+    }
+
+    const existingGameOverMessage = document.getElementById('game-over-message');
+    if (existingGameOverMessage) {
+        existingGameOverMessage.remove(); // Remove existing game over message if it exists
+    }
+
+    document.addEventListener('keydown', handleKeyDown); // Reattach the event listener
+}
+
 function gameOver(message) {
     const gameOverEl = document.createElement('div');
     gameOverEl.textContent = message;
+    gameOverEl.id = 'game-over-message'; // Set a unique ID for the game over message
     gameOverEl.style.color = 'red';
     document.body.appendChild(gameOverEl);
     document.removeEventListener('keydown', handleKeyDown);
     gameOverFlag = true; // Set the game over flag
+
+    const restartButton = document.createElement('button');
+    restartButton.textContent = 'Restart Game';
+    restartButton.id = 'restart-button'; // Set a unique ID for the restart button
+    restartButton.addEventListener('click', restartGame);
+    document.body.appendChild(restartButton);
 }
 
 function handleKeyDown(event) {
