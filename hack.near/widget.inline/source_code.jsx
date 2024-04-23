@@ -44,7 +44,7 @@ return (
             <div className="m-1">
               <Widget
                 src="hack.near/widget/star.button"
-                props={{ widgetPath: src }}
+                props={{ path: src }}
               />
             </div>
           )}
