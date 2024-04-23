@@ -193,21 +193,20 @@ const srcDoc = `
         }
     }
 
+
     function startTimer() {
-        let timeLeft = timeLimitInSeconds; // Time limit in seconds
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerEl.textContent = \`Time Left: ${minutes}:${
-  seconds < 10 ? "0" : ""
-}${seconds}\`;
-            if (timeLeft === 0) {
-                clearInterval(timerInterval);
-                gameOver("Time's up! Game Over!");
-            }
-        }, 1000); // Update timer every second
-    }
+    let timeLeft = timeLimitInSeconds; // Time limit in seconds
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerEl.textContent = \`Time Left: $\{minutes}:\${seconds < 10 ? '0' : ''}$\{seconds}\`;
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+            gameOver("Time's up! Game Over!");
+        }
+    }, 1000); // Update timer every second
+}
 
     function restartGame() {
         clearInterval(timerInterval); // Stop the timer interval
