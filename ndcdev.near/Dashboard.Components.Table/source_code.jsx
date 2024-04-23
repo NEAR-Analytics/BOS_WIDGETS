@@ -84,7 +84,7 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption
+      (daoId) => daoId !== value && daoId !== defaultDAOOption,
     );
   } else {
     newSelection = [...selectedDAOs, value];
@@ -131,7 +131,7 @@ useEffect(() => {
           [FILTER_IDS.dappsUsed]: 0,
           [FILTER_IDS.acquisitionCost]: 0,
         };
-      })
+      }),
     );
 }, [selectedDAOs]);
 
@@ -143,14 +143,22 @@ useEffect(() => {
   }
 }, [dataSet, dateRange]);
 
-const sortData = (field) =>
+const sortData = (field) => {
+  console.log(field);
   setDataSet(dataSet.sort((a, b) => b[field] - a[field]));
+};
 
 const SortingRow = ({ title, field }) => (
-  <div className="selected-container" onClick={() => sortData(field)}>
-    <i className="ph ph-info fs-5" />
-    <div>{title}</div>
-    <i className="ph ph-caret-up-down fs-5" />
+  <div className="selected-container">
+    <div className="d-flex align-items-end gap-2">
+      <i className="ph ph-info fs-5" />
+      <div>{title}</div>
+    </div>
+    <i
+      role="button"
+      className="ph ph-caret-up-down fs-5"
+      onClick={() => sortData(field)}
+    />
   </div>
 );
 
