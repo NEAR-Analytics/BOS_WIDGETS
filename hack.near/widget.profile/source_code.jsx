@@ -17,7 +17,7 @@ return (
           />
         </div>
         <div className="text-truncate ms-2">
-          <span className="fw-bold ms-1">{metadata.name}</span>
+          <span className="fw-bold ms-1">{metadata.name ?? widgetName}</span>
           <div className="text-truncate text-muted">
             <Widget src="hack.near/widget/BuilderHat" props={{ accountId }} />
             <small>
