@@ -293,6 +293,8 @@ const srcDoc = `
 <li>find the hidden door🚪 and win before time is up⏰</li>
 </ol>
 
+<p><i>this is a js only prototype, dev will be starting soonTM.</i></p>
+
 </body>
 </html>
 `;
