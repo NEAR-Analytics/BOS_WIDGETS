@@ -4,10 +4,6 @@ const { Feed } = VM.require("devs.near/widget/Feed") ?? {
 
 const obj = Social.get("*/widget/Index", "final");
 
-if (!obj) {
-  return "";
-}
-
 const accounts = Object.keys(obj).map((key) => ({
   src: `${key}/widget/Index`,
 }));
