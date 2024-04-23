@@ -212,7 +212,6 @@ const getAccountAllowance = (data) => {
         res.body,
         Ethers.provider().getSigner()
       );
-      console.log(approveContract);
       approveContract
         .allowance(state.sender, state.routerContract)
         .then((res) => {
@@ -648,7 +647,7 @@ const allowanceButtonDisabled = () => {
 
 // Get css file
 const css = fetch(
-  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/addLiquidity.css"
+  "https://raw.githubusercontent.com/open-web-academy/BOS-Maverick/main/styles.css"
 ).body;
 
 if (!css) return "";
@@ -696,7 +695,7 @@ return (
                   class="step"
                   style={{
                     background:
-                      state.step >= 1 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                      state.step >= 1 ? "#ECA227" : "rgba(255, 255, 255, 0.1)",
                   }}
                 >
                   {state.step <= 1 ? (
@@ -732,7 +731,7 @@ return (
                   class="step"
                   style={{
                     background:
-                      state.step >= 2 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                      state.step >= 2 ? "#ECA227" : "rgba(255, 255, 255, 0.1)",
                   }}
                 >
                   {state.step <= 2 ? (
@@ -768,7 +767,7 @@ return (
                   class="step"
                   style={{
                     background:
-                      state.step >= 3 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                      state.step >= 3 ? "#ECA227" : "rgba(255, 255, 255, 0.1)",
                   }}
                 >
                   {state.step <= 3 ? (
@@ -1227,8 +1226,12 @@ return (
             )}
             <div class="row" style={{ marginInline: "0px", width: "100%" }}>
               <div
-                class="col-6"
-                style={{ display: "flex", justifyContent: "left" }}
+                class="col-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
               >
                 {state.step > 1 && (
                   <div
@@ -1241,7 +1244,7 @@ return (
                       gap: "8px",
                       borderRadius: "4px",
                       height: "40px",
-                      border: "1px solid #8D8DFD",
+                      border: "1px solid #ECA227",
                     }}
                     onClick={back}
                   >
@@ -1249,9 +1252,27 @@ return (
                   </div>
                 )}
               </div>
+
               <div
-                class="col-6"
-                style={{ display: "flex", justifyContent: "right" }}
+                class="col-4"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreifotevq6g6ralhvutlcssaasa7xbfjjc6mbo5hlnvgpxxgfmwswmq"
+                  style={{
+                    height: "90px",
+                    width: "90px",
+                  }}
+                ></img>
+              </div>
+
+              <div
+                class="col-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "right",
+                  alignItems: "center",
+                }}
               >
                 {state.step < 3 && state.poolList.length > 0 && (
                   <div
@@ -1263,7 +1284,7 @@ return (
                       alignItems: "center",
                       gap: "8px",
                       borderRadius: "4px",
-                      background: "rgb(141, 141, 253)",
+                      background: "#ECA227",
                       height: "40px",
                     }}
                     onClick={next}
