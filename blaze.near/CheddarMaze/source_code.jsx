@@ -38,7 +38,7 @@ const srcDoc = `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <h1>Cheddar Maze 🧀</h1>
+    <h1>Cheddar Maze </h1>
     <div id="score">Score: 0</div>
     <div id="timer">Time Left: 2:00</div>
     <div class="maze" id="maze"></div>
@@ -54,6 +54,7 @@ const srcDoc = `<!DOCTYPE html>
     let enemyPresent = false; // Flag to track if an enemy is present
     let gameOverFlag = false; // Flag to indicate if the game is over
     let timerInterval;
+    const timeLimitInSeconds = 120; // 2 minutes
 
     const mazeData = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -157,14 +158,12 @@ function checkForEnd() {
 }
 
 function startTimer() {
-    let timeLeft = 120; // 2 minutes in seconds
+    let timeLeft = timeLimitInSeconds; // Time limit in seconds
     timerInterval = setInterval(() => {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        timerEl.textContent = \`Time Left: ${minutes}:${
-  seconds < 10 ? "0" : ""
-}${seconds}\`;
+        timerEl.textContent = \`Time Left: $\{minutes}:\${seconds < 10 ? '0' : ''}$\{seconds}\`;
         if (timeLeft === 0) {
             clearInterval(timerInterval);
             gameOver("Time's up! Game Over!");
@@ -201,11 +200,16 @@ function restartGame() {
 function gameOver(message) {
     const gameOverEl = document.createElement('div');
     gameOverEl.textContent = message;
-    gameOverEl.id = 'game-over-message'; // Set a unique ID for the game over message
+        gameOverEl.id = 'game-over-message'; // Set a unique ID for the game over message
     gameOverEl.style.color = 'red';
     document.body.appendChild(gameOverEl);
     document.removeEventListener('keydown', handleKeyDown);
     gameOverFlag = true; // Set the game over flag
+
+    if (timerEl.textContent === 'Time Left: 0:00') {
+        score = 0; // Reset score if time is up
+        scoreEl.textContent = 'Score: 0';
+    }
 
     const restartButton = document.createElement('button');
     restartButton.textContent = 'Restart Game';
