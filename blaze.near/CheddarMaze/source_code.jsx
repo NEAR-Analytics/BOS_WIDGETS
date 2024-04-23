@@ -288,9 +288,9 @@ const srcDoc = `
 <p>
 - click a cell to start<br/>
 - navigate the maze with keyboard<br/>
-- find cheddar
-- look out for cats n old ladies with brooms<br/>
-- find the hidden door and win before time is up<br/>
+- get dat cheddar🧀<br/>
+- look out for cats😼 n old ladies with brooms👵🧹<br/>
+- find the hidden door🚪 and win before time is up<br/>
 <p>
 
 </body>
