@@ -14,7 +14,8 @@ const {
 const GAS = "200000000000000";
 const DEPOSIT = 10000000000000000000000;
 
-if (!item || !contractName) return <Widget src="flashui.near/widget/Loading" />;
+if (!item || !rowId || !contractName)
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const [itemState, setItemState] = useState(item);
 const [snapshot, setSnapshot] = useState(item);
@@ -26,6 +27,8 @@ const accountId = context.accountId;
 const dao = Near.view(contractName, "get_dao_by_id", {
   id: parseInt(itemState.dao_id),
 });
+
+if (!dao || !itemState) return <Widget src="flashui.near/widget/Loading" />;
 
 const TableRow = styled.div`
   display: flex;
@@ -443,7 +446,7 @@ if (!dao) return <Widget src="flashui.near/widget/Loading" />;
 
 let snap;
 
-if (itemState.id)
+if (itemState && itemState.id)
   snap = Near.view(contractName, "get_post_history", {
     id: itemState.id,
   });
@@ -451,7 +454,7 @@ if (itemState.id)
 useEffect(() => {
   if (snap)
     setSnapshot([item, ...snap.sort((a, b) => b.timestamp - a.timestamp)]);
-}, snap);
+}, [snap]);
 
 const isLiked = (item) => {
   return item.likes && item.likes.find((item) => item.author_id === accountId);
