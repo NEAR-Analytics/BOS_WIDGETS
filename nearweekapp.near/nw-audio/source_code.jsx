@@ -171,7 +171,8 @@ function AudioCard() {
     padding: 20px 15px;
     margin-bottom: 24px;
     height: fit-content;
-    width: ${(props) => (props.fullWidth ? "100%" : "341px")};
+    width: 100%;
+    max-width: ${(props) => (props.fullWidth ? "100%" : "341px")};
     background: white;
     @media screen and (min-width: ${breakpoints.lg}) {
       max-width: 700px;
