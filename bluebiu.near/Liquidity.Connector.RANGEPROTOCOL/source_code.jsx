@@ -16,7 +16,6 @@ State.init({
   allData: null,
   userData: null,
   feesData: null,
-  rangeData: null,
   loading: false,
   dataList: [],
   filterList: [],
@@ -42,13 +41,6 @@ const {
   connectProps,
   prices,
 } = props
-// const CONNECT_PROPS = {
-//   ...props.connectProps,
-//   chainId: MAINNET_CHAIN_ID,
-//   chainName: CHAIN_CONFIG.chainName,
-//   noAccountTips: `${CHAIN_CONFIG.chainName} Liquidity`,
-//   wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_CONFIG.chainName} Chain.`,
-// };
 
 const formatFiat = (value) => {
   const number = Number(value).toLocaleString("en", {
@@ -155,42 +147,6 @@ function fetchFeesData() {
     }
   })
 }
-function handleFetchRangeData(vault) {
-  return new Promise((resolve, reject) => {
-    asyncFetch(RANGE_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        "variables": {},
-        "query": "{\n  vault(id: \"" + vault + "\") {\n    liquidity\n    balance0\n    balance1\n    totalSupply\n    totalFeesEarned0\n    totalFeesEarned1\n    token0\n    token1\n    name\n    tag\n    pool\n  }\n}"
-      })
-    })
-      .then(result => {
-        if (result.ok) {
-          resolve({
-            [vault]: result.body.data.vault
-          })
-        }
-      })
-      .catch(reject)
-  })
-}
-function fetchRangeData() {
-  const promiseArray = []
-  for (let i = 0; i < pairs.length; i++) {
-    const vault = addresses[pairs[i].id]
-    promiseArray.push(handleFetchRangeData(vault))
-  }
-  Promise.all(promiseArray).then((resultArray) => {
-    const rangeData = {}
-    for (let i = 0; i < resultArray.length; i++) {
-      const result = resultArray[i]
-      Object.assign(rangeData, result)
-    }
-    State.update({
-      rangeData
-    })
-  })
-}
 
 function handleChangeDataIndex(index) {
   state.dataIndex === index ? State.update({
@@ -218,7 +174,6 @@ function handleSearchInput(event) {
 function refetch() {
   fetchAllData()
   fetchFeesData()
-  fetchRangeData()
 }
 useEffect(() => {
   if (state.dataList) {
@@ -256,7 +211,6 @@ useEffect(() => {
     fetchAllData()
     fetchUserData()
     fetchFeesData()
-    fetchRangeData()
   }
 }, [curChain])
 const columnList = [{
@@ -349,8 +303,7 @@ const columnList = [{
 return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> : (
   <Column>
     {state.allData &&
-      state.feesData &&
-      state.rangeData && (
+      state.feesData && (
         <Widget
           src={"bluebiu.near/widget/Liquidity.Data.RANGEPROTOCOL"}
           props={{
@@ -360,10 +313,8 @@ return state.loading ? <Widget src="bluebiu.near/widget/0vix.LendingSpinner" /> 
             prices,
             curChain,
             feesData: state.feesData,
-            rangeData: state.rangeData,
             RANGE_URL,
             multicallAddress,
-            // LAST_SNAP_SHOT_DATA_URL,
             onLoad: (data) => {
               State.update({
                 dataList: data.dataList,
