@@ -172,7 +172,6 @@ const changePage = (page) => {
     sidebar: false,
   });
   Storage.set("page", page);
-  console.log(Storage.get("page"));
 };
 
 const openSidebar = (value) => {
@@ -181,7 +180,7 @@ const openSidebar = (value) => {
   });
 };
 
-console.log("memoPage", memoPage);
+console.log("-----memoPage", memoPage, page);
 
 if (!accountId || !USER || !TOKEN)
   return <Widget src={`${Owner}/widget/login`} />;
