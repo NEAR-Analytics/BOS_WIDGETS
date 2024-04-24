@@ -1,19 +1,12 @@
 const accountId = props.accountId ?? context.accountId;
 const isMyProfile = accountId === context.accountId;
-
 const profile = Social.getr(`${accountId}/profile`);
-
 // const themeNumber = profile.theme ?? 0;
 const themeNumber = profile.theme ?? 0;
-
 console.log("profile", profile);
-
 console.log("theme", themeNumber);
-
 const showThemeButton = profile.theme;
-
 const createText = profile.theme ? "Edit Page" : "Create Your Page";
-
 const Loading = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,7 +22,6 @@ const Loading = styled.div`
     font-size: 14px;
   }
 `;
-
 const Wrapper = styled.div`
   margin-top: calc(-1 * var(--body-top-padding, 0));
   max-width: 1400px;
@@ -72,7 +64,6 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
-
   .portfolio-main {
     display: flex;
     justify-content: space-between;
@@ -100,7 +91,6 @@ const Wrapper = styled.div`
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
   }
 `;
-
 if (!accountId) {
   return <Loading>No account ID, Please Signin with near account</Loading>;
 }
