@@ -49,19 +49,19 @@ const srcDoc = `
 </script>
 `;
 
+const [clase, setClase] = useState("");
+
 const Button = ({ className, variant, size, children, ...props }) => {
-  State.init({
-    clsName: "",
-  });
+
   return (
     <Tailwind>
       <iframe
         className="hidden"
         srcDoc={srcDoc}
         message={{ className, variant, size }}
-        onMessage={(clsName) => State.update({ clsName })}
+        onMessage={(clsName) => {setClase(clsName)}}
       />
-      <button className={state.clsName} ref={forwardedRef} {...props}>
+      <button className={clase} ref={forwardedRef} {...props}>
         {children}
       </button>
     </Tailwind>
