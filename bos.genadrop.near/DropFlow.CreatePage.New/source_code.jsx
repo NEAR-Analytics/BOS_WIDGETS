@@ -1,16 +1,11 @@
 const accountId = props.accountId;
 const widgetOwner = "jgodwill.near";
-
 const isLoggedIn = props.isLoggedIn ?? context.accountId ? true : false;
-
 let profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
 if (profile === null) {
   return "Loading";
 }
-
 const initialMetadata = profile ?? {};
-
 State.init({
   profile,
   account: accountId,
@@ -40,7 +35,6 @@ State.init({
   theme: initialMetadata.theme ?? 0,
   nftChainState: "Near",
 });
-
 const onChange = (profile) => State.update({ profile });
 if (
   onChange &&
@@ -51,22 +45,18 @@ if (
   });
   onChange(state.metadata);
 }
-
 const debounce = (func, wait) => {
   const pause = wait || 350;
   let timeout;
-
   return (args) => {
     const later = () => {
       clearTimeout(timeout);
       func(args);
     };
-
     clearTimeout(timeout);
     timeout = setTimeout(later, pause);
   };
 };
-
 /* Feed Tabs start */
 const [selectedTheme, setSelectedTheme] = useState(
   state.initialMetadata.theme ?? 0
@@ -74,14 +64,12 @@ const [selectedTheme, setSelectedTheme] = useState(
 const [selectedTabNames, setSelectedTabNames] = useState(
   Object.keys(initialMetadata.feedTabs || {})
 );
-
 const [selectedTabs, setSelectedTabs] = useState(
   selectedTabNames.reduce((obj, tab) => {
     obj[tab.toLowerCase()] = "";
     return obj;
   }, {})
 );
-
 const [singleOrCollectionActive, setSingleOrCollectionActive] = useState(
   state.initialMetadata.nfts.type
 );
@@ -108,17 +96,12 @@ const [allCollections, setAllCollections] = useState(null);
 const [modalIsOpen, setModalIsOpen] = useState(false);
 const [sec, setSec] = useState(0);
 const [isNewEntry, setIsNewEntry] = useState(false);
-
 function generateUID() {
   const maxHex = 0xffffffff;
-
   const randomNumber = Math.floor(Math.random() * maxHex);
-
   return randomNumber.toString(16).padStart(8, "0");
 }
-
 // console.log("single or collection active: ", singleOrCollectionActive);
-
 const tabsData = [
   {
     name: "Feed",
@@ -147,7 +130,6 @@ const tabsData = [
     desc: `Upload your favorite pieces of work to decentralized storage forever and showcase them beautifully.`,
   },
 ];
-
 const chains = [
   {
     id: "137",
@@ -175,37 +157,28 @@ const chains = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
-
 const iAmHumanIcon =
   "data:image/png;base64,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";
-
 const handleTabChange = (tabName) => {
   const isAlreadySelected = selectedTabNames.includes(tabName);
-
   // Update selected tab names
   const updatedSelectedTabNames = isAlreadySelected
     ? selectedTabNames.filter((tab) => tab !== tabName)
     : [...selectedTabNames, tabName];
-
   setSelectedTabNames(updatedSelectedTabNames);
-
   const updatedSelectedTabs = { ...selectedTabs };
-
   Object.keys(updatedSelectedTabs).forEach((tabName) => {
     const isSelected = updatedSelectedTabNames.includes(tabName);
     updatedSelectedTabs[tabName] = isSelected ? "" : null;
   });
-
   // Special handling for newly selected tab
   if (!isAlreadySelected) {
     updatedSelectedTabs[tabName] = ""; // Ensure newly selected tab has empty string
   }
-
   setSelectedTabs(updatedSelectedTabs);
   console.log("tab", tabName);
   console.log("selectedTabs: ", selectedTabs);
 };
-
 const FeedTabs = () => {
   return (
     <div key={selectedTabNames.join("-")} className="tabsGrid">
@@ -268,9 +241,7 @@ const FeedTabs = () => {
     </div>
   );
 };
-
 /* Feed Tabs End */
-
 const TabCard = styled.div`
   display: flex;
   padding: 16px 24px;
@@ -301,7 +272,6 @@ const TabCard = styled.div`
     }
   }
 `;
-
 const themesData = [
   {
     name: "Default",
@@ -313,7 +283,6 @@ const themesData = [
     name: "Jungle Right",
   },
 ];
-
 const handleThemeChange = (index) => {
   setSelectedTheme(index);
   State.update({
@@ -323,7 +292,6 @@ const handleThemeChange = (index) => {
     },
   });
 };
-
 const ThemeCard = styled.div`
   padding: 16px 24px;
   display: flex;
@@ -343,7 +311,6 @@ const ThemeCard = styled.div`
     }
   }
 `;
-
 const displayThemes = themesData.map((theme, index) => {
   const { name } = theme;
   const nowActive = Number(selectedTheme);
@@ -366,11 +333,8 @@ const displayThemes = themesData.map((theme, index) => {
     </ThemeCard>
   );
 });
-
 // console.log("selectedTheme: ", selectedTheme);
-
 // select all input tags that are not checkboxes or radio buttons with css
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -502,7 +466,6 @@ const Wrapper = styled.div`
     }
   }
 `;
-
 selectedTabNames.length > 0 &&
   State.update({
     metadata: {
@@ -510,45 +473,36 @@ selectedTabNames.length > 0 &&
       feedTabs: selectedTabs,
     },
   });
-
 const submitHandler = () => {
   console.log("initialMetadata", initialMetadata);
   console.log("state profile", state.profile);
-
   console.log("nft Content: ", state.metadata.nfts.content);
-
   if (JSON.stringify(state.initialMetadata) === JSON.stringify(state.profile)) {
     console.log("no changes");
   } else {
     console.log("changes");
   }
 };
-
 /* Discussions start */
-
 const TextareaWrapper = styled.div`
   display: grid;
   vertical-align: top;
   align-items: center;
   position: relative;
   align-items: stretch;
-
   textarea {
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
   }
-
   textarea::placeholder {
     padding-top: 4px;
     font-size: 20px;
   }
-
   textarea:focus::placeholder {
     font-size: inherit;
     padding-top: 0px;
   }
-
   &::after,
   textarea,
   iframe {
@@ -567,17 +521,14 @@ const TextareaWrapper = styled.div`
     overflow: hidden;
     outline: none;
   }
-
   iframe {
     padding: 0;
   }
-
   textarea:focus,
   textarea:not(:empty) {
     border-bottom: 1px solid #eee;
     min-height: 5em;
   }
-
   &::after {
     content: attr(data-value) " ";
     visibility: hidden;
@@ -589,7 +540,6 @@ const TextareaWrapper = styled.div`
     font-size: 14px;
   }
 `;
-
 const Search = styled.div`
   margin-top: 12px;
   // justify-content: center;
@@ -613,7 +563,6 @@ const Search = styled.div`
     line-height: 148%; /* 29.6px */
   }
 `;
-
 const Input = styled.input`
   display: block;
   padding: 0.5em;
@@ -644,7 +593,6 @@ const SelectCard = styled.div`
     flex-wrap: wrap;
   }
 `;
-
 const Modal = styled.div`
   position: fixed;
   top: 0;
@@ -664,7 +612,6 @@ const Modal = styled.div`
     pointer-events: auto;
   `}
 `;
-
 const ModalTop = styled.div`
   background-color: #f5f5f5;
   padding: 10px 20px;
@@ -674,11 +621,9 @@ const ModalTop = styled.div`
   align-items: center;
   width: 100%;
 `;
-
 const ModalHeader = styled.h4`
   margin: 0;
 `;
-
 const ModalCloseButton = styled.button`
   background: none;
   border: none;
@@ -689,7 +634,6 @@ const ModalCloseButton = styled.button`
     background: none;
   }
 `;
-
 const ModalContent = styled.div`
   background-color: #fff;
   width: 50%;
@@ -708,7 +652,6 @@ const ModalContent = styled.div`
     width: 80%;
   }
 `;
-
 const ModalButton = styled.button`
   padding: 10px 20px;
   border: none;
@@ -720,7 +663,6 @@ const ModalButton = styled.button`
     background-color: #555;
   }
 `;
-
 const embedCss = `
 .rc-md-editor {
   border-radius: 10px;
@@ -735,21 +677,16 @@ const embedCss = `
   line-height: normal;
 }
 `;
-
 const data = Social.keys("*/profile", "final");
-
 if (!data) {
   return "Loading";
 }
 const accounts = Object.entries(data);
-
 const allWidgets = [];
-
 for (let i = 0; i < accounts.length; ++i) {
   const accountId = accounts[i][0];
   allWidgets.push(accountId);
 }
-
 const fetchCollections = () => {
   const response = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -769,7 +706,6 @@ const fetchCollections = () => {
   let collections = response?.body?.data?.nft_contracts;
   return collections;
 };
-
 const fetchCommunities = () => {
   const response = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -793,7 +729,6 @@ const fetchCommunities = () => {
   // console.log("collections: ", collections);
   return collections;
 };
-
 if (accountId) {
   const fetchedCollections = fetchCollections();
   const fetchedCommunities = fetchCommunities();
@@ -806,11 +741,9 @@ if (accountId) {
   setAllCollections(ids);
   setAllCommunities(communityIds);
 }
-
 const updateChain = (chain) => {
   State.update({ nftChainState: chain, nftTokenId: "", nftContractId: "" });
 };
-
 const nftDataChangeHandler = (chain, tokenId, contractId) => {
   chain &&
     tokenId &&
@@ -833,13 +766,11 @@ const nftDataChangeHandler = (chain, tokenId, contractId) => {
   console.log("NFTcontractId:", state.nftContractId);
   console.log("nftsArray:", state.nftsArray);
 };
-
 const onChangeAccount = (account) => {
   State.update({
     account: account[0],
   });
 };
-
 const onChangeCollection = (address) => {
   setCollectionContractId(address);
   State.update({
@@ -854,9 +785,7 @@ const onChangeCollection = (address) => {
   });
   console.log("Address: ", address);
 };
-
 // console.log("tokenId and accoutId: ", state.nftTokenId);
-
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #e5e8eb;
@@ -865,7 +794,6 @@ const Card = styled.div`
   border-radius: 0.7em;
   width: 100%;
 `;
-
 const discussionTypeSwitchHandler = (e) => {
   e.preventDefault();
   const { value } = e.target;
@@ -874,7 +802,6 @@ const discussionTypeSwitchHandler = (e) => {
   setDiscussionType(value);
   console.log("discussionType: ", discussionType);
 };
-
 const nftCommunityChangeHandler = (community) => {
   setDiscussionNFTContractId(community);
   State.update({
@@ -889,7 +816,6 @@ const nftCommunityChangeHandler = (community) => {
   });
   console.log("discussion community : ", community);
 };
-
 const nftOrCollectionSwitchHandler = (clickedButtonId) => {
   if (clickedButtonId === "single") {
     setSingleOrCollectionActive(null);
@@ -911,7 +837,6 @@ const nftOrCollectionSwitchHandler = (clickedButtonId) => {
     },
   });
 };
-
 singleOrCollectionActive && !collectionContractId;
 debounce(
   State.update({
@@ -928,7 +853,6 @@ debounce(
     },
   })
 );
-
 const onChangeDisabled = (e) => {
   // e.preventDefault();
   const { checked } = e.target;
@@ -945,7 +869,6 @@ state.disabled &&
       feed: {},
     },
   });
-
 useEffect(() => {
   State.update({
     metadata: {
@@ -954,9 +877,7 @@ useEffect(() => {
     },
   });
 }, []);
-
 const handleCreatePoll = () => setCreatePoll(true);
-
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
@@ -964,30 +885,23 @@ const getFirstSBTToken = () => {
   });
   return view?.[0]?.[1]?.[0];
 };
-
 const hasSBTToken = getFirstSBTToken() !== undefined;
-
 // const [fileData, setFileData] = useState(null);
-
 // const portfolioDocHandler = (files) => {
 //   setMsg("Uploading...");
-
 //   const file = fetch("https://ipfs.near.social/add", {
 //     method: "POST",
 //     headers: { Accept: "application/json" },
 //     body: files[0],
 //   });
-
 //   setDoc(file.body.cid);
 //   console.log("doc: ", doc);
 //   setMsg("Attach a file");
 // };
-
 const portfolioEntryTitleHandler = debounce((e) => {
   const { value } = e.target;
   setPortfolioEntryTitle(value);
 }, 1);
-
 const addPortfolioEntryHandler = () => {
   const entryId = generateUID();
   const newDateTimeStamp = new Date().toISOString();
@@ -1021,11 +935,9 @@ const addPortfolioEntryHandler = () => {
     setIsNewEntry((prev) => !prev);
   }
 };
-
 const newEntryToggleHandler = () => {
   setIsNewEntry((prev) => !prev);
 };
-
 const removePortfolioEntryHandler = (entryId) => {
   State.update({
     metadata: {
@@ -1038,9 +950,7 @@ const removePortfolioEntryHandler = (entryId) => {
   });
   console.log("updatedPortfolio: ", state.metadata.folio);
 };
-
 const currentPortfolio = state.metadata.folio;
-
 const tabTooltip = (
   <Tooltip id="tooltip" className="tooltipred">
     Comming Soon
@@ -1051,12 +961,10 @@ const editProfileTooltip = (
     Update your name, email, biography, and more.
   </Tooltip>
 );
-
 const toggleModal = () => {
   setModalIsOpen((prev) => !prev);
   console.log("modalIsOpen: ", modalIsOpen);
 };
-
 const modalContent = (
   <div>
     <p className="mb-4">
@@ -1069,7 +977,6 @@ const modalContent = (
           Edit Personal Info <i class="bi bi-pencil-square ml-2"></i>
         </button>
       </OverlayTrigger>
-
       <Link
         className="btn btn-outline-primary"
         href={`/bos.genadrop.near/widget/DropFlow.ArtistPage.Index?accountId=${accountId}`}
@@ -1079,7 +986,6 @@ const modalContent = (
     </div>
   </div>
 );
-
 const titleMap = {
   feed: "Feed",
   nfts: "NFTs",
@@ -1088,18 +994,13 @@ const titleMap = {
   docs: "Docs",
   portfolio: "Portfolio",
 };
-
 const navItems = [];
-
 // Extract keys and values from feedTabs
 const tabKeys = selectedTabNames.sort();
-
 // const tabValues = Object.values(state.profile.feedTabs);
 const tabValues = tabKeys.map(() => "");
-
 console.log("Keys:", tabKeys);
 console.log("Values:", tabValues);
-
 // Use filtered keys to create navItems
 tabKeys.forEach((key, index) => {
   navItems.push({
@@ -1110,13 +1011,10 @@ tabKeys.forEach((key, index) => {
       key.charAt(0).toUpperCase() + key.slice(1),
   });
 });
-
 console.log("selectedTabNames: ", selectedTabNames);
-
 const switchSecHandler = () => {
   setSec((prev) => (prev + 1) % 3);
 };
-
 const [currentTab, setCurrentTab] = useState(0); // Track active tab index
 return (
   <Wrapper className="container" selectedNFTButton={singleOrCollectionActive}>
@@ -1219,7 +1117,6 @@ return (
                           Display The Default Feed
                         </label>
                       </div>
-
                       <h6>{options.feed.label ?? "Accounts To Display"}</h6>
                       <Widget
                         src="jgodwill.near/widget/PageFeedsEditor"
@@ -1462,7 +1359,6 @@ return (
                                               contractId: contractId,
                                               tokenId: tokenId,
                                             });
-
                                             nftDataChangeHandler(
                                               state.nftChainState,
                                               tokenId,
@@ -1631,7 +1527,6 @@ return (
                             }}
                           />
                         )}
-
                         {createPoll && (
                           <Widget
                             src={`${widgetOwner}/widget/EasyPoll.CreatePoll`}
@@ -1712,7 +1607,6 @@ return (
                                 // value={portfolioEntryTitle}
                               />
                             </div>
-
                             <div className="portfolio-description mb-3">
                               <TextareaWrapper
                                 className={"markdown-editor"}
@@ -1900,13 +1794,15 @@ return (
               <button onClick={switchSecHandler} style={{ float: "right" }}>
                 Next
               </button>
-              <button onClick={() => setSec(0)} style={{ float: "right", marginRight:"5px" }}>
+              <button
+                onClick={() => setSec(0)}
+                style={{ float: "right", marginRight: "5px" }}
+              >
                 <i class="bi bi-arrow-left-short mx-2"></i>Previous{" "}
               </button>
             </div>
           )}
           <h1>Customize your Page </h1>
-
           <div className="section">
             <h6>Select the Tabs that you want to display</h6>
             <FeedTabs selectedTabNames={selectedTabNames} />
