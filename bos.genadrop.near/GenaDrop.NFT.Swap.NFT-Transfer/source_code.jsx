@@ -1,7 +1,6 @@
 const accountId = context.accountId; // add check for context it
 const contractId = "swap.genadrop.near"; // default nft contract
 const default_receiver = ""; // default reciver nft for transfers
-
 initState({
   receiverId: default_receiver,
   offerAmount: 0,
@@ -13,7 +12,6 @@ initState({
   offerNFTS: [],
   nft: image.nft ?? {}, // from santiago
 });
-
 /* HELPER FUNCTION */
 function isNearAddress(address) {
   if (typeof address !== "string" || address === "") {
@@ -22,16 +20,12 @@ function isNearAddress(address) {
   if (context.accountId === address) {
     return false;
   }
-
   return true;
 }
-
 const offerButtonDisabled =
   (state.sendNFTS.length === 0 && state.offerNFTS.length === 0) ||
   !isNearAddress(state.receiverId);
-
 console.log(state);
-
 const ResponsiveFlex = styled.div`
   display: grid;
   grid-template-columns: 40% 20% 40%;
@@ -40,7 +34,6 @@ const ResponsiveFlex = styled.div`
     display: block;
   }
 `;
-
 return (
   <div>
     <h1> 🛍️ Transfer NFT </h1>
@@ -156,7 +149,6 @@ return (
         style={{
           background: "#fdfdfd",
           margin: 5,
-
           border: "1px solid lightgray",
           borderTop: 0,
           borderRadius: "5px",
@@ -181,7 +173,6 @@ return (
               </p>
             </>
           )}
-
           <div className="mt-2">
             {isNearAddress(state.receiverId) && (
               <Widget
@@ -219,7 +210,6 @@ return (
         </div>
       </div>
     </ResponsiveFlex>
-
     <Widget
       src="bos.genadrop.near/widget/GenaDrop.NFT.Swap.NewOffer"
       props={{
