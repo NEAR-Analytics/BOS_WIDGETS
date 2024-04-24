@@ -21,9 +21,13 @@ const Select = styled.div`
   width: 100%;
   cursor: pointer;
   border-radius: 100px;
-  border: ${(props) => (props.noBorder ? "0" : "1px solid #e3e3e0")};
+  border: 1px solid #f8f8f8;
   font-size: 14px;
   font-style: normal;
+
+  @media screen and (max-width: 768px) {
+    border: 1px solid #e3e3e0;
+  }
 
   .selected-container {
     width: 100%;
@@ -185,7 +189,7 @@ return (
         )}
         {setTitle()}
       </div>
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 align-items-center">
         {multiple && values.length > 0 && (
           <i
             className="bi bi-x fs-5 mt-1 mr-1"
