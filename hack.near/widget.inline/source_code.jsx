@@ -45,9 +45,8 @@ return (
           <div
             style={{
               maxWidth: "75%",
-              overflow: "ellipsis",
+              overflow: "hidden",
               textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
             }}
           >
             <Widget src="hack.near/widget/profile.widget" props={{ src }} />
