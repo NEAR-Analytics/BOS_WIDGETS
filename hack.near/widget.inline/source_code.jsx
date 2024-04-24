@@ -52,7 +52,12 @@ return (
             <Widget src="hack.near/widget/profile.widget" props={{ src }} />
           </div>
           <div className="m-1">
-            <Widget src="hack.near/widget/star.button" props={{ path: src }} />
+            {context.accountId && (
+              <Widget
+                src="hack.near/widget/star.button"
+                props={{ path: src }}
+              />
+            )}
           </div>
         </div>
       </div>
