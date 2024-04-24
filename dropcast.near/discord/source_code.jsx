@@ -97,6 +97,7 @@ if (state.token || TOKEN)
         USER: state.user || USER,
         TOKEN: state.token || TOKEN,
         Logout,
+        transactionHashes: props.transactionHashes,
       }}
     />
   );
