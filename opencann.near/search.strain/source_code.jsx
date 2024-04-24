@@ -62,7 +62,7 @@ return (
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "50vh", overflow: "auto" }}>
+      <div className="col-12" style={{ height: "60vh", overflow: "auto" }}>
         <iframe
           className="w-100 h-100"
           style={{ border: 0 }}
@@ -73,7 +73,7 @@ return (
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "50vh", overflow: "auto" }}>
+      <div className="col-12" style={{ height: "30vh", overflow: "auto" }}>
         <Markdown text={markdown2} />
       </div>
     </div>
