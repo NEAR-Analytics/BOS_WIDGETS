@@ -5,8 +5,8 @@ const css = fetch(
 const base = fetch(
   "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
 ).body;
-if (!css) return "";
-if (!base) return "";
+// if (!css) return "";
+// if (!base) return "";
 
 const Tailwind = styled.div`
     ${css}
