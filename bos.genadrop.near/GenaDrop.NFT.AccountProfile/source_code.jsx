@@ -1,12 +1,9 @@
 const accountId = props.accountId;
-
 if (!accountId) {
   return <></>;
 }
-
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const profileUrl = `https://near.social/mob.near/widget/ProfilePage?accountId=${accountId}`;
-
 const Wrapper = styled.a`
   display: inline-grid;
   width: 100%;
@@ -22,11 +19,9 @@ const Wrapper = styled.a`
   border: none;
   text-align: left;
   padding: 0;
-
   > * {
     min-width: 0;
   }
-
   &:hover,
   &:focus {
     div:first-child {
@@ -34,7 +29,6 @@ const Wrapper = styled.a`
     }
   }
 `;
-
 const Text = styled.p`
   margin: 0;
   font-size: 14px;
@@ -46,7 +40,6 @@ const Text = styled.p`
   text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "")};
   white-space: nowrap;
 `;
-
 const Avatar = styled.div`
   width: ${props.avatarSize || "40px"};
   height: ${props.avatarSize || "40px"};
@@ -55,20 +48,17 @@ const Avatar = styled.div`
   overflow: hidden;
   border-radius: 40px;
   transition: border-color 200ms;
-
   img {
     object-fit: cover;
     width: 100%;
     height: 100%;
   }
 `;
-
 const Name = styled.div`
   display: flex;
   gap: 6px;
   align-items: center;
 `;
-
 const AccountProfile = (
   <Wrapper
     as={props.onClick ? "button" : "a"}
@@ -87,15 +77,12 @@ const AccountProfile = (
         }}
       />
     </Avatar>
-
     <div>
       <Name>
         <Text ellipsis bold>
           {profile.name || accountId.split(".near")[0]}
         </Text>
-
         {props.inlineContent}
-
         {props.blockHeight && (
           <Text small style={{ marginLeft: "auto" }}>
             Joined{" "}
@@ -107,14 +94,11 @@ const AccountProfile = (
           </Text>
         )}
       </Name>
-
       {!props.hideAccountId && <Text ellipsis>@{accountId}</Text>}
     </div>
   </Wrapper>
 );
-
 if (props.noOverlay) return AccountProfile;
-
 return (
   <Widget
     src="calebjacob.near/widget/AccountProfileOverlay"
