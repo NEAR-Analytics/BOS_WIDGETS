@@ -14,7 +14,8 @@ const {
 const GAS = "200000000000000";
 const DEPOSIT = 10000000000000000000000;
 
-if (!item || !contractName) return <Widget src="flashui.near/widget/Loading" />;
+if (!item || !rowId || !contractName)
+  return <Widget src="flashui.near/widget/Loading" />;
 
 const [itemState, setItemState] = useState(item);
 const [snapshot, setSnapshot] = useState(item);
@@ -608,7 +609,7 @@ return (
                 />
                 <ProposalsState approve={itemState.state.dao_council_approved}>
                   <span>
-                    {itemState.state.kyc_passed ? (
+                    {itemState.state.dao_council_approved ? (
                       <i class="ph-fill fs-6 ph-check-circle"></i>
                     ) : (
                       <i class="ph-fill fs-6 ph-x-circle"></i>
@@ -814,7 +815,7 @@ return (
               <div>Internal</div>
               <ProposalsState approve={itemState.state.dao_council_approved}>
                 <span>
-                  {itemState.state.kyc_passed ? (
+                  {itemState.state.dao_council_approved ? (
                     <i class="ph-fill fs-6 ph-check-circle"></i>
                   ) : (
                     <i class="ph-fill fs-6 ph-x-circle"></i>
@@ -930,7 +931,7 @@ return (
             <TableCell flex={3} className="proposal-states">
               <ProposalsState approve={itemState.state.dao_council_approved}>
                 <span>
-                  {itemState.state.kyc_passed ? (
+                  {itemState.state.dao_council_approved ? (
                     <i class="ph-fill fs-6 ph-check-circle"></i>
                   ) : (
                     <i class="ph-fill fs-6 ph-x-circle"></i>
