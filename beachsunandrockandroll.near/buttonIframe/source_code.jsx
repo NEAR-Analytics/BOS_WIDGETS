@@ -1,5 +1,3 @@
-const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-
 const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
@@ -50,16 +48,14 @@ const srcDoc = `
 `;
 
 return (
-  <Tailwind>
-    <iframe
-      className="hidden"
-      srcDoc={srcDoc}
-      message={{
-        className: props.className,
-        variant: props.variant,
-        size: props.size,
-      }}
-      onMessage={props.output}
-    />
-  </Tailwind>
+  <iframe
+    className="hidden"
+    srcDoc={srcDoc}
+    message={{
+      className: props.className,
+      variant: props.variant,
+      size: props.size,
+    }}
+    onMessage={props.output}
+  />
 );
