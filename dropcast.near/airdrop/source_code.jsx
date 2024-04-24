@@ -166,7 +166,7 @@ const handleSubmit = async (e) => {
   };
   reader.readAsDataURL(file);
 };
-
+console.log(Storage.get("timeId"));
 useEffect(() => {
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
@@ -185,11 +185,10 @@ useEffect(() => {
   response.then(({ body }) => {
     setTokenList(body.data);
   });
-  console.log(Alert);
 }, []);
 
 useEffect(() => {
-  if (props.transactionHashes) {
+  if (props.transactionHashes && Storage.get("timeId")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
@@ -226,7 +225,7 @@ useEffect(() => {
       }
     });
   }
-}, []);
+}, [Storage.get("timeId")]);
 
 return (
   <Wrapper>
