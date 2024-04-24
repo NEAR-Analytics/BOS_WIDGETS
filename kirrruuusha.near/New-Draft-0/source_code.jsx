@@ -5,7 +5,9 @@ if (!accountId) {
 
 const content = JSON.parse(Social.get(`${accountId}`) ?? "null");
 
-return (
+return content?.submentorhub ? (
+  <Widget src="mob.near/widget/MentorHub" props={props} />
+) : (
   <div
     style={{
       background:
@@ -27,7 +29,7 @@ return (
       <h1 style={{ fontWeight: "bold" }}>Mentor HUB</h1>
       <h3>Make the world around you the better place</h3>
       <Widget
-        src="near/widget/#"
+        src="mob.near/widget/ProfileImage"
         props={{
           accountId,
           style: { width: "7rem", height: "7rem" },
@@ -36,7 +38,7 @@ return (
           thumbnail: false,
         }}
       />
-      <Widget src="near/widget/#" props={{ profileName }} />
+      <h4>{state.profileName}</h4>
       <h3
         style={{
           marginTop: "20px",
@@ -51,14 +53,38 @@ return (
           margin: "15px",
         }}
       >
-        <Widget
-          src="near/widget/#"
-          props={{
-            accountId: student,
-            descriptionForStudent: student,
-            ourDescriptionForStudent: student,
-          }}
-        />
+        {state.studentArray.map((student) => (
+          <div
+            key={student}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "20px",
+              margin: "10px",
+              borderRadius: "12px",
+              background: "#fff",
+              border: "1px solid #eceef0",
+              boxShadow: "0px 1px 3px rgba(16, 24, 40, 0.1)",
+              overflow: "hidden",
+              padding: "16px",
+            }}
+          >
+            <div>
+              <Widget
+                src="near/widget/AccountProfile"
+                props={{ accountId: student }}
+              />
+
+              <div>
+                <h4>{descriptionForStudent(student)}</h4>
+              </div>
+              <div>
+                <h4>{ourDescriptionForStudent(student)}</h4>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </div>
