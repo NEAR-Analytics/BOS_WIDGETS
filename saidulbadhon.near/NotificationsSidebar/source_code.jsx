@@ -51,7 +51,7 @@ const renderItem = (item, i) => {
 return (
   <Wrapper>
     <Widget
-      src="adminalpha.near/widget/IndexFeed"
+      src="saidulbadhon.near/widget/NotificationsSidebar.IndexFeed"
       props={{
         index,
         renderItem,
