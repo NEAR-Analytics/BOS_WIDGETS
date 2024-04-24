@@ -153,7 +153,7 @@ const handleTokenDeposit = async () => {
     "ft_transfer",
     {
       receiver_id: Admin,
-      amount: airdropTotalAmount * Math.pow(10, tokenData.decimals),
+      amount: `${airdropTotalAmount * Math.pow(10, tokenData.decimals)}`,
     },
     oneTeraGas
   );
