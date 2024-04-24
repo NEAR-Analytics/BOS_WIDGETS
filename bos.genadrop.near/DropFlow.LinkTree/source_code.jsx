@@ -1,5 +1,4 @@
 const linktree = Object.entries(props.linktree ?? {});
-
 const linktreeElements = {
   website: {
     prefix: "https://",
@@ -18,7 +17,6 @@ const linktreeElements = {
     icon: "bi-telegram",
   },
 };
-
 const linktreeObjects = linktree.map((o, i) => {
   const key = o[0];
   let value = o[1];
@@ -48,5 +46,4 @@ const linktreeObjects = linktree.map((o, i) => {
     </div>
   );
 });
-
 return <>{linktreeObjects}</>;
