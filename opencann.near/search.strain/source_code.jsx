@@ -62,7 +62,7 @@ return (
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "40vh", overflow: "auto" }}>
+      <div className="col-12" style={{ height: "50vh", overflow: "auto" }}>
         <iframe
           className="w-100 h-100"
           style={{ border: 0 }}
