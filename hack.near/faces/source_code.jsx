@@ -10,8 +10,8 @@ const Faces = styled.span`
     position: relative;
     top: -0.05em;
     margin: 0 -0.1em;
-    height: 1.5em;
-    width: 1.5em;
+    height: 1.2em;
+    width: 1.2em;
     min-width: 1em;
     img {
         object-fit: cover;
