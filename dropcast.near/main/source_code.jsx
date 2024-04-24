@@ -4,7 +4,7 @@ const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || Storage.get("user", `${Owner}/widget/discord`);
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
 const Logout = props.Logout;
-const currentPage = Storage.get("page") || "dashboard";
+const memoPage = Storage.get("page") || "dashboard";
 
 const PAGES = [
   {
@@ -163,7 +163,7 @@ const SidebarButton = styled.button`
 
 State.init({
   sidebar: false,
-  page: "dashboard",
+  page: memoPage,
 });
 
 const changePage = (page) => {
