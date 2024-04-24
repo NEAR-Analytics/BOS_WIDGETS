@@ -73,9 +73,7 @@ return (
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "30vh", overflow: "auto" }}>
         <Markdown text={markdown2} />
-      </div>
     </div>
   </div>
 );
