@@ -5,6 +5,7 @@ const USER = props.USER || Storage.get("user", `${Owner}/widget/discord`);
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
 const Logout = props.Logout;
 console.log("props.transactionHashes", props.transactionHashes);
+console.log("props.transactionHashes", props.code);
 const PAGES = [
   {
     title: "Dashboard",
