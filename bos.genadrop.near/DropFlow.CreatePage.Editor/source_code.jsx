@@ -1,19 +1,15 @@
 const accountId = props.accountId ?? context.accountId;
-
 const profile = Social.getr(`${accountId}/profile`);
-
 State.init({
   profile,
 });
-
 const onChange = (profile) => State.update({ profile });
-
 return (
   <>
     <div className="row">
-    <button className="btn btn-primary" onClick={props.nextTabHandler}>
-          Go Back
-        </button>
+      <button className="btn btn-primary" onClick={props.nextTabHandler}>
+        Go Back
+      </button>
       <div className="col-lg-10">
         <div>
           <h4>Edit profile of @{accountId}</h4>
