@@ -96,10 +96,19 @@ const DropBoxText2 = styled.h4`
 `;
 
 const [file, setFile] = useState(null);
-const [selectedToken, setSelectedToken] = useState("");
+const [uploaded, setUploaded] = useState(
+  Storage.get("airdropData").uploaded || false
+);
+const [selectedToken, setSelectedToken] = useState(
+  { value: Storage.get("airdropData").token_contract } || {}
+);
 const [tokenList, setTokenList] = useState([]);
-const [airdropFee, setAirdropFee] = useState(0);
-const [airdropTotalAmount, setAirdropTotalAmount] = useState(0);
+const [airdropFee, setAirdropFee] = useState(
+  Storage.get("airdropData").airdropFee || 0
+);
+const [airdropTotalAmount, setAirdropTotalAmount] = useState(
+  Storage.get("airdropData").totalAmount || 0
+);
 const [notification, setNotification] = useState("");
 
 const changeOption = (value) => {
@@ -125,9 +134,6 @@ const handleFeeDeposit = async () => {
     oneTeraGas,
     Number(airdropFee) * oneNEARInYoctoNEAR
   );
-  // res.then((data) => {
-  //   console.log(data);
-  // });
 };
 const handleTokenDeposit = async () => {
   if (!airdropTotalAmount) {
@@ -155,6 +161,14 @@ const handleTokenDeposit = async () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  // if (
+  //   !confirm(
+  //     "You have already uploaded sheet file, Do you want to upload new file?"
+  //   )
+  // ) {
+  //   return;
+  // }
+
   if (!file) {
     setNotification("Please select file");
     return;
@@ -332,7 +346,9 @@ return (
             </div>
           )}
         </Files>
-        <UploadButton onClick={handleSubmit}>Upload</UploadButton>
+        <UploadButton onClick={handleSubmit} disabled={uploaded}>
+          Upload
+        </UploadButton>
       </DropBox>
       {notification && (
         <div
