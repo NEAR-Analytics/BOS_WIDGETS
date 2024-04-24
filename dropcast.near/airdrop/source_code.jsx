@@ -119,6 +119,24 @@ const handleFileChange = (files) => {
   setFile(files[0]);
 };
 
+const toFixed = (x) => {
+  if (Math.abs(x) < 1.0) {
+    var e = parseInt(x.toString().split("e-")[1]);
+    if (e) {
+      x *= Math.pow(10, e - 1);
+      x = "0." + new Array(e).join("0") + x.toString().substring(2);
+    }
+  } else {
+    var e = parseInt(x.toString().split("+")[1]);
+    if (e) {
+      e -= 20;
+      x /= Math.pow(10, e);
+      x += new Array(e + 1).join("0");
+    }
+  }
+  return x.toString();
+};
+
 const handleFeeDeposit = async () => {
   if (!airdropFee) {
     setNotification("First, upload file, then you will get fee amount.");
@@ -153,7 +171,9 @@ const handleTokenDeposit = async () => {
     "ft_transfer",
     {
       receiver_id: Admin,
-      amount: `${airdropTotalAmount * Math.pow(10, tokenData.decimals)}`,
+      amount: `${toFixed(
+        airdropTotalAmount * Math.pow(10, tokenData.decimals)
+      )}`,
     },
     oneTeraGas
   );
