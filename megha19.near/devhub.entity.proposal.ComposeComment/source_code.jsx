@@ -172,7 +172,6 @@ return (
           placeholder: "Add your comment here...",
           height: "160",
           embeddCSS: ComposeEmbeddCSS,
-          showProposalIdAutoComplete: true,
         }}
       />
       <div className="d-flex gap-2 align-content-center justify-content-end">
