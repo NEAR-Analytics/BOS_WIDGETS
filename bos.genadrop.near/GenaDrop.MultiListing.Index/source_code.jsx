@@ -21,29 +21,24 @@ const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if p
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
 const genadropmarket = "market.genadrop.near";
-
 const fnfMsg = JSON.stringify({
   sale_conditions: {
     near: amount,
   },
 });
-
 const trpMsg = JSON.stringify({
   price: amount,
   market_type: "sale",
   ft_token_id: "near",
 });
-
 const msg = JSON.stringify({
   price: amount,
 });
 // need to find custom market link to work with
-
 const nftMetadata = Near.view(contractId, "nft_metadata"); // get the contract name
 const tokenInfo = Near.view(contractId, "nft_token", {
   token_id: tokenId,
 });
-
 State.init({
   contractId: contractId,
   tokenId: tokenId,
@@ -77,7 +72,6 @@ function ownsNFT() {
   });
 }
 ownsNFT();
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -85,33 +79,27 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-
 const tradeportLink = `https://www.tradeport.xyz/near/collection/${
   state.contractId.includes("genadrop")
     ? "genadrop-contract.nftgen.near"
     : state.contractId
 }?tab=items&tokenId=${state.tokenId}`;
-
 //Few and Far Link
 const fewfarlink = `https://fewfar.com/${
   state.contractId.includes("genadrop")
     ? "genadrop-single-nft-c40d654de"
     : state.contractId
 }/${state.tokenId}`;
-
 const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`;
-
 const defaultCustomMarket = "apollo42.near";
 const mintbasemarket = "simple.market.mintbase1.near";
 const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
-
 function fetchMintbaseURL() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -137,11 +125,8 @@ function fetchMintbaseURL() {
     }
   });
 }
-
 fetchMintbaseURL();
-
 const mintBaseLink = `https://www.mintbase.xyz/meta/${state.mintbaseMarketId}`;
-
 const marketLinks = {
   tradeport: {
     link: tradeportLink,
@@ -156,7 +141,6 @@ const marketLinks = {
     link: parasLink,
   },
 };
-
 function updateTradeportLink() {
   // Function body goes here
   updatedLink =
@@ -214,20 +198,17 @@ const onChangeNearAmount = (amount) => {
     trpMsg: msgConcat,
   });
 };
-
 const onChangeEVMAmount = (amount) => {
   State.update({
     amount,
   });
 };
-
 const onChangeMsg = (msg) => {
   // currently done in the amount
   State.update({
     msg: msg,
   });
 };
-
 const onChangeReceiver = (receiverId) => {
   const validReceiverLink = isNearAddress(receiverId[0]); // add error message or change button based on this
   State.update({
@@ -236,7 +217,6 @@ const onChangeReceiver = (receiverId) => {
   });
   console.log(`receiver: ${state.receiverId[0]}`);
 };
-
 const onChangeContract = (contractId) => {
   const nftMetadata = Near.view(contractId, "nft_metadata"); // get the contract name
   State.update({
@@ -247,7 +227,6 @@ const onChangeContract = (contractId) => {
   ownsNFT();
   updateTradeportLink();
 };
-
 const onChangeToken = (tokenId) => {
   const tokenInfo = Near.view(state.contractId, "nft_token", {
     token_id: tokenId,
@@ -259,7 +238,6 @@ const onChangeToken = (tokenId) => {
   ownsNFT();
   updateTradeportLink();
 };
-
 const onChangeCustomMarket = (customMarketLink) => {
   const validMarketLink = isNearAddress(customMarketLink);
   State.update({
@@ -287,7 +265,6 @@ function isNearAddress(address) {
   }
   return true;
 }
-
 const currentChainProps = {
   aurora: {
     img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
@@ -332,19 +309,15 @@ const currentChainProps = {
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
 };
-
 const listAbi = [
   "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
   "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
-
 const evmList = () => {
   if (state.amount > 10000000) return;
-
   State.update({
     loadingListing: true,
   });
-
   const contract = new ethers.Contract(
     currentChainProps[props.chainState].contract,
     listAbi,
@@ -352,7 +325,6 @@ const evmList = () => {
   );
   console.log("Formed thee", contract);
   const nftContract = contractId.split(tokenId)[0];
-
   contract
     .createMarketplaceItem(
       nftContract,
@@ -382,9 +354,7 @@ const evmList = () => {
       });
     });
 };
-
 const closeModal = () => State.update({ isOpen: false });
-
 const list = () => {
   if (!accountId) {
     console.log("Sign in to list");
@@ -393,7 +363,6 @@ const list = () => {
   State.update({
     loadingListing: true,
   });
-
   console.log("opioka", state.trpMsg, state.fnfMsg, state.msg);
   // need to buffer serialize arguments, add helper functions with state arguments
   const gas = 100000000000000; // 100 tGas
@@ -568,7 +537,6 @@ const selectMintbase = () => {
     mintbase: !state.mintbase,
   });
 };
-
 const selectGenadrop = () => {
   State.update({
     genadrop: !state.genadrop,
@@ -585,7 +553,6 @@ const selectCustom = () => {
     custom: !state.custom,
   });
 }; // need better helper function for checking whether valid NEAR address
-
 const Heading = styled.h1`
   margin: 3px auto 3px auto;
   font-size: 1em;
@@ -595,7 +562,6 @@ const Heading = styled.h1`
   text-align: center;
   font-family: "SF Pro Display", sans-serif;
 `;
-
 const Popup = styled.div`
   position: fixed;
   top: 0;
@@ -608,7 +574,6 @@ const Popup = styled.div`
   justify-content: center;
   backdrop-filter: blur(5px); /* Apply background blur */
 `;
-
 return (
   <div className="container">
     {state.showAlert && (
