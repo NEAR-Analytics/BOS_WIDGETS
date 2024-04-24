@@ -1,9 +1,7 @@
 const OWNER_ID = "minorityprogrammers.near";
 let accountId = context.accountId;
-
 const DEFAULT_NFT_TITLE = "My awesome NFT";
 const DEFAULT_NFT_DESCRIPTION = "I've just created an NFT using GenaDrop";
-
 State.init({
   title: DEFAULT_NFT_TITLE,
   description: DEFAULT_NFT_DESCRIPTION,
@@ -16,24 +14,20 @@ State.init({
   customRecipient: false,
   mintedNfts: [],
 });
-
 if (state.sdk.initialized) {
   setTimeout(() => {
     State.update({ mintedNfts: state.sdk.getMintedNfts() });
   }, 1000);
 }
-
 const handleMint = () => {
   if (!state.image.cid) {
     return;
   }
-
   if (!state.title) {
     State.update({
       showAlert: true,
       toastMessage: "Please enter a title for the NFT",
     });
-
     setTimeout(() => {
       State.update({
         showAlert: false,
@@ -66,7 +60,6 @@ const handleMint = () => {
 };
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
-
   if (accounts.length) {
     State.update({ sender: accounts[0] });
     Ethers.provider()
@@ -78,13 +71,11 @@ if (state.sender === undefined) {
       });
   }
 }
-
 const handleSelectClick = () => {
   State.update({
     selectIsOpen: !state.selectIsOpen,
   });
 };
-
 const handleOutsideClick = (e) => {
   if (!!state.selectIsOpen) {
     State.update({
@@ -92,18 +83,15 @@ const handleOutsideClick = (e) => {
     });
   }
 };
-
 const onChangeTitle = (title) => {
   State.update({
     title,
   });
 };
-
 const onChangeRecipient = (recipient) => {
   State.update({
     customRecipient: true,
   });
-
   if (state.selectedChain == "0") {
     State.update({
       recipient: recipient[0],
@@ -114,13 +102,11 @@ const onChangeRecipient = (recipient) => {
     });
   }
 };
-
 const handleChainChange = (chain_id) => {
   try {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-
     State.update({
       selectedChain: chain_id,
     });
@@ -128,19 +114,16 @@ const handleChainChange = (chain_id) => {
     console.log(err);
   }
 };
-
 const onChangeDesc = (description) => {
   State.update({
     description,
   });
 };
-
 const handleToggle = () => {
   State.update({
     isSoulBound: !state.isSoulBound,
   });
 };
-
 const Heading = styled.p`
   margin: 0;
   font-size: 1em;
@@ -150,7 +133,6 @@ const Heading = styled.p`
   text-align: center;
   font-family: "SF Pro Display", sans-serif;
 `;
-
 const ImageUploadCard = styled.div`
   display: flex;
   cursor: pointer;
@@ -168,7 +150,6 @@ const ImageUploadCard = styled.div`
   text-align: center;
   background: #fff;
   transition: all 0.2s;
-
   &:hover {
     max-width: 400px;
     max-height: 400px;
@@ -176,7 +157,6 @@ const ImageUploadCard = styled.div`
     transition: all 0.2s;
   }
 `;
-
 const NFTCard = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -192,7 +172,6 @@ const NFTCard = styled.div`
   text-align: center;
   background: #fff;
   transition: all 0.2s;
-
   .body {
     display: flex;
     flex-direction: column;
@@ -201,17 +180,14 @@ const NFTCard = styled.div`
     flex-grow: 1;
     padding: 1rem;
     box-sizing: border-box;
-
     p {
       margin: 0;
       padding: 0;
     }
-
     input {
       font-weight: bold;
       font-size: 1.5rem;
     }
-
     input,
     textarea {
       position: relative;
@@ -223,11 +199,9 @@ const NFTCard = styled.div`
       color: #000;
     }
   }
-
   & > div {
     position: relative;
     width: 100%;
-
     img {
       width: 100%;
       border-radius: 0.8rem;
@@ -236,13 +210,11 @@ const NFTCard = styled.div`
       position: absolute;
       bottom: 0;
       right: 0;
-
       img {
         display: none !important;
       }
     }
   }
-
   .mint-btn {
     width: 100%;
     height: 60px;
@@ -252,7 +224,6 @@ const NFTCard = styled.div`
     background-color: #0fbf41;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.7);
-
     &:disabled {
       background-color: #66c480;
       color: rgba(0, 0, 0, 0.3);
@@ -260,18 +231,15 @@ const NFTCard = styled.div`
     }
   }
 `;
-
 const Editable = styled.div`
   position: relative;
   width: 100%;
-
   &.editable {
     &:hover {
       &::after {
         opacity: 0.6;
       }
     }
-
     &::after {
       opacity: 0;
       position: absolute;
@@ -286,14 +254,12 @@ const Editable = styled.div`
     }
   }
 `;
-
 const SendToInput = styled.div`
   position: relative;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   margin-top: 2rem;
   width: 110%;
-
   input {
     width: 100%;
     color: #000;
@@ -301,7 +267,6 @@ const SendToInput = styled.div`
       color: #000;
     }
   }
-
   label {
     position: absolute;
     top: -10px;
@@ -312,7 +277,6 @@ const SendToInput = styled.div`
     font-size: 0.8em;
   }
 `;
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -339,14 +303,12 @@ const Main = styled.div`
     }
   }
 `;
-
 const Text = styled.p`
   font-size: 0.9rem;
   color: #525c76;
   line-height: 1rem;
   margin: 3px;
 `;
-
 const Elipse = styled.div`
   display: flex;
   align-items: center;
@@ -357,7 +319,6 @@ const Elipse = styled.div`
   width: 100px;
   border-radius: 20px;
 `;
-
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #e5e8eb;
@@ -387,7 +348,6 @@ const Card = styled.div`
     width: 100%;
   }
 `;
-
 const ImageCard = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -401,7 +361,6 @@ const ImageCard = styled.div`
     height: 100%;
   }
 `;
-
 const Input = styled.input`
   display: block;
   padding: 0.5em;
@@ -418,7 +377,6 @@ const Input = styled.input`
     color: palevioletred;
   }
 `;
-
 const TextArea = styled.textarea`
   display: block;
   padding: 0.5em;
@@ -432,12 +390,10 @@ const TextArea = styled.textarea`
     border: 1px solid #0d99ff;
   }
 `;
-
 const SelectTag = styled.select`
   height: fit-content;
   width: 300px;
 `;
-
 const ChainIcon = styled.option`
   display: flex;
   height: 130px;
@@ -448,17 +404,14 @@ const ChainIcon = styled.option`
     object-fit: contain;
   }
 `;
-
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
   z-index: 1;
   user-select: none;
-
   & .select-replica__select {
     position: relative;
   }
-
   & .select-replica__selected {
     cursor: pointer;
     display: flex;
@@ -471,18 +424,15 @@ const SelectReplicaContainer = styled.div`
     width: 350px;
     padding: 0 15px 0 10px;
     min-height: 70px;
-
     & > img {
       height: 100%;
       width: 80px;
       object-fit: contain;
     }
-
     & > span {
       opacity: 0.6;
     }
   }
-
   & .select-replica__options {
     position: absolute;
     opacity: 0;
@@ -501,14 +451,12 @@ const SelectReplicaContainer = styled.div`
     transform: translateY(100px);
     transition: all 0.2s;
   }
-
   & .select-replica__options.open {
     transition: all 0.2s;
     transform: translateY(0);
     opacity: 1;
     pointer-events: all;
   }
-
   & .select-replica__option {
     display: flex;
     justify-content: center;
@@ -518,25 +466,21 @@ const SelectReplicaContainer = styled.div`
     padding: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
-
   & .select-replica__option.selected {
     background-color: #f0f0f0;
   }
-
   & .select-replica__option img {
     height: 80px;
     width: 100px;
     object-fit: contain;
   }
 `;
-
 const SelectGroup = styled.div`
   display: flex;
   justify-content: center;
   margin: 2rem auto;
   align-items: center;
 `;
-
 const ToggleButton = styled.div`
   /* The switch - the box around the slider */
   .switch {
@@ -545,14 +489,12 @@ const ToggleButton = styled.div`
     width: 60px;
     height: 34px;
   }
-
   /* Hide default HTML checkbox */
   .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-
   /* The slider */
   .slider {
     position: absolute;
@@ -565,7 +507,6 @@ const ToggleButton = styled.div`
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
-
   .slider:before {
     position: absolute;
     content: "";
@@ -577,31 +518,25 @@ const ToggleButton = styled.div`
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
-
   input:checked + .slider {
     background-color: #2196f3;
   }
-
   input:focus + .slider {
     box-shadow: 0 0 1px #2196f3;
   }
-
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
-
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
-
   .slider.round:before {
     border-radius: 50%;
   }
 `;
-
 const HeaderBox = styled.div`
   display: flex;
   justify-content: center;
@@ -615,14 +550,12 @@ const HeaderBox = styled.div`
     height: 60px;
   }
 `;
-
 const HistoryBox = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 750px;
   margin: 0 auto;
 `;
-
 const HistoryNFTBox = styled.div`
   display: flex;
   width: 100%;
@@ -633,29 +566,24 @@ const HistoryNFTBox = styled.div`
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.02);
   box-sizing: border-box;
   padding: 0.7rem;
-
   img {
     background-color: rgba(0, 0, 0, 0.05);
     height: 100px;
     border-radius: 0.5rem;
   }
-
   .details {
     padding: 0 1rem;
     box-sizing: border-box;
     border-right: 1px solid rgba(0, 0, 0, 0.05);
-
     h1 {
       font-size: 1.3rem;
     }
-
     .description {
       font-size: 0.8rem;
       margin-bottom: 0;
       padding: 0;
       opacity: 0.8;
     }
-
     .author {
       margin: 0;
       padding: 0;
@@ -663,27 +591,22 @@ const HistoryNFTBox = styled.div`
       font-size: 0.8rem;
     }
   }
-
   .tx-details {
     padding: 0 1rem;
     box-sizing: border-box;
-
     p {
       margin: 0;
       padding: 0;
     }
-
     .title {
       font-weight: bold;
       font-size: 0.8rem;
     }
-
     .info {
       font-size: 0.7rem;
     }
   }
 `;
-
 if (!(state.sender || accountId)) {
   State.update({
     showAlert: true,
@@ -695,7 +618,6 @@ if (!(state.sender || accountId)) {
     toastMessage: "",
   });
 }
-
 if (!state.customRecipient) {
   if (state.selectedChain == "0") {
     State.update({
@@ -707,7 +629,6 @@ if (!state.customRecipient) {
     });
   }
 }
-
 return (
   <div
     style={{
@@ -730,7 +651,6 @@ return (
         {state.showAlert && (
           <Widget src="bos.genadrop.near/widget/GenaDrop.Alert" props={state} />
         )}
-
         <Main className="container-fluid">
           <div className="flex-grow-1">
             <HeaderBox>
@@ -748,7 +668,6 @@ return (
                 disconnectLabel="Disconnect"
               />
             </HeaderBox>
-
             <div
               style={{
                 "text-align": "center",
@@ -815,7 +734,6 @@ return (
                 )}
               </SelectGroup>
             </div>
-
             {!state.image.cid ? (
               <>
                 <ImageUploadCard className="flex-grow-1">
@@ -842,7 +760,6 @@ return (
                     </div>
                   </>
                 </ImageUploadCard>
-
                 {state.mintedNfts.length > 0 ? (
                   <>
                     <HeaderBox
@@ -944,7 +861,6 @@ return (
                       />
                     </SendToInput>
                   </div>
-
                   <button
                     type="button"
                     disabled={
