@@ -296,7 +296,7 @@ return (
             onChange={(e) => {}}
             style={{ fontSize: 14, width: "90%" }}
           />
-          <DepButton className="btn" onClick={handleDeposit}>
+          <DepButton className="btn" onClick={handleTokenDeposit}>
             Deposit
           </DepButton>
         </div>
