@@ -178,7 +178,7 @@ const handleSubmit = async (e) => {
 
 useEffect(() => {
   console.log("window.location.href", window.location.href);
-  console.log(props.transactionHashes);
+  console.log("props.transactionHashes", props.transactionHashes);
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
     {
