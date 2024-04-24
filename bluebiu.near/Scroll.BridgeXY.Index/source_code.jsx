@@ -2,6 +2,8 @@ const Theme = styled.div`
   --button-color: #277eec;
   --button-text-color: #fff;
   --dialog-bg-color: #373a53;
+  --chain-name-color: #fff;
+  --spe-text-color: #fff;
 `;
 
 const CHAIN_ID = 534352;
