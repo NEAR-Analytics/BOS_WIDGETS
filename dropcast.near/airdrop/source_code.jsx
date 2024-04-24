@@ -203,7 +203,7 @@ useEffect(() => {
       }),
     }).then((tx) => {
       console.log(tx);
-      if (tx.body.ok) {
+      if (tx.ok) {
         const response = asyncFetch(
           `http://localhost:2402/api/project/verifytx`,
           {
