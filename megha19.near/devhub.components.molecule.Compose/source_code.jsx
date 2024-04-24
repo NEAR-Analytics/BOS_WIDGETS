@@ -26,15 +26,18 @@ const Compose = ({
   placeholder,
   height,
   embeddCSS,
-  showProposalIdAutoComplete,
+  onChangeKeyup,
 }) => {
   State.init({
     data: data,
     selectedTab: "editor",
+    autoFocus: false,
   });
 
   useEffect(() => {
-    onChange(state.data);
+    if (typeof onChange === "function") {
+      onChange(state.data);
+    }
   }, [state.data]);
 
   useEffect(() => {
@@ -54,7 +57,9 @@ const Compose = ({
                   class={`nav-link ${
                     state.selectedTab === "editor" ? "active" : ""
                   }`}
-                  onClick={() => State.update({ selectedTab: "editor" })}
+                  onClick={() =>
+                    State.update({ selectedTab: "editor", autoFocus: true })
+                  }
                 >
                   Write
                 </button>
@@ -86,7 +91,8 @@ const Compose = ({
                 height,
                 embeddCSS: embeddCSS || EmbeddCSS,
                 showAutoComplete: autocompleteEnabled,
-                showProposalIdAutoComplete: showProposalIdAutoComplete,
+                autoFocus: state.autoFocus,
+                onChangeKeyup: onChangeKeyup,
               }}
             />
           </>
