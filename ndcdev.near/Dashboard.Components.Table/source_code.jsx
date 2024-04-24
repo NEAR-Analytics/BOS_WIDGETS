@@ -1,20 +1,5 @@
 const Wrapper = styled.div`
   width: 100%;
-`;
-
-const FiltersContainer = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 8px 14px;
-  align-items: flex-start;
-  gap: 72px;
-  align-self: stretch;
-  border-radius: 6px;
-  background: #f8f8f8;
-
-  @media screen and (max-width: 1000px) {
-    gap: 40px;
-  }
 
   .selected-container {
     width: 100%;
@@ -35,19 +20,39 @@ const FiltersContainer = styled.div`
         width: 100%;
       }
     }
+  }
+`;
 
-    &.desktop-filters {
-      @media screen and (max-width: 768px) {
-        display: none;
-      }
-    }
+const DesktopFilters = styled.div`
+  display: flex;
+  width: 100%;
+  border-radius: 6px;
+  background: #f8f8f8;
 
-    &.mobile-filters {
-      display: none;
-      @media screen and (max-width: 768px) {
-        display: flex;
-      }
-    }
+  @media screen and (max-width: 1000px) {
+    gap: 40px;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const MobileFilters = styled.div`
+  display: none;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
   }
 `;
 
@@ -72,6 +77,7 @@ const [loading, setLoading] = useState(false);
 const [selectedDAOs, setSelectedDAOs] = useState(daos.map((d) => d.title));
 const [filteredData, setFilteredData] = useState([]);
 const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
+const [mobileFilters, setMobileFilters] = useState(flase);
 
 const onFilterClick = (value) =>
   setFiltersIsOpen({ ...FILTER_OPENS, [value]: !filtersIsOpen[value] });
@@ -153,7 +159,7 @@ const sortData = (field) =>
   setDataSet(dataSet.sort((a, b) => b[field] - a[field]));
 
 const SortingRow = ({ title, field }) => (
-  <div className="selected-container desktop-filters">
+  <div className="selected-container">
     <div className="d-flex align-items-end gap-2">
       <i className="ph ph-info fs-5" />
       <div>{title}</div>
@@ -168,32 +174,82 @@ const SortingRow = ({ title, field }) => (
 
 return (
   <Wrapper>
-    <FiltersContainer>
-      <Widget
-        src={`ndcdev.near/widget/dashboard.Components.Select`}
-        props={{
-          id: FILTER_IDS.dao,
-          text: "DAO",
-          hintText: "NDC grassroots DAOs",
-          options: daos.map((d) => d.title),
-          values: selectedDAOs,
-          defaultValue: defaultDAOOption,
-          multiple: true,
-          filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
-          onFilterClick,
-          onChange: (value) => filterDAO(value),
-          onClear: () => {
-            setSelectedDAOs([]);
-          },
-          isTooltipVisible: true,
-          noBorder: true,
-          containerClass: "selected-container dao",
-        }}
-      />
-      <SortingRow title="User Retention" field={FILTER_IDS.userRetentions} />
-      <SortingRow title="DApp's Used" field={FILTER_IDS.dappsUsed} />
-      <SortingRow title="Acquisition Cost" field={FILTER_IDS.acquisitionCost} />
-    </FiltersContainer>
+    <MobileFilters>
+      <div className="w-100 gap-3 d-flex justify-content-between align-items-center">
+        <Widget
+          src={`ndcdev.near/widget/dashboard.Components.Select`}
+          props={{
+            id: FILTER_IDS.dao,
+            text: "DAO",
+            hintText: "NDC grassroots DAOs",
+            options: daos.map((d) => d.title),
+            values: selectedDAOs,
+            defaultValue: defaultDAOOption,
+            multiple: true,
+            filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
+            onFilterClick,
+            onChange: (value) => filterDAO(value),
+            onClear: () => {
+              setSelectedDAOs([]);
+            },
+            isTooltipVisible: true,
+            noBorder: true,
+            containerClass: "selected-container dao",
+          }}
+        />
+        <div
+          role="button"
+          className="btn btn-secondary outlined btn-icon"
+          onClick={() => setMobileFilters(!mobileFilters)}
+        >
+          <i className="ph ph-funnel fs-5" />
+        </div>
+      </div>
+      {mobileFilters && (
+        <div className="filters">
+          <SortingRow
+            title="User Retention"
+            field={FILTER_IDS.userRetentions}
+          />
+          <SortingRow title="DApp's Used" field={FILTER_IDS.dappsUsed} />
+          <SortingRow
+            title="Acquisition Cost"
+            field={FILTER_IDS.acquisitionCost}
+          />
+        </div>
+      )}
+    </MobileFilters>
+    <DesktopFilters>
+      <div className="w-100 gap-5 d-flex justify-content-between align-items-center">
+        <Widget
+          src={`ndcdev.near/widget/dashboard.Components.Select`}
+          props={{
+            id: FILTER_IDS.dao,
+            text: "DAO",
+            hintText: "NDC grassroots DAOs",
+            options: daos.map((d) => d.title),
+            values: selectedDAOs,
+            defaultValue: defaultDAOOption,
+            multiple: true,
+            filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
+            onFilterClick,
+            onChange: (value) => filterDAO(value),
+            onClear: () => {
+              setSelectedDAOs([]);
+            },
+            isTooltipVisible: true,
+            noBorder: true,
+            containerClass: "selected-container dao",
+          }}
+        />
+        <SortingRow title="User Retention" field={FILTER_IDS.userRetentions} />
+        <SortingRow title="DApp's Used" field={FILTER_IDS.dappsUsed} />
+        <SortingRow
+          title="Acquisition Cost"
+          field={FILTER_IDS.acquisitionCost}
+        />
+      </div>
+    </DesktopFilters>
     {loading ? (
       <Loading />
     ) : (
