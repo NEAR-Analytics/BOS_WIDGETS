@@ -30,14 +30,7 @@ const PreviewContent = styled.div`
 `;
 const WidgetCode = `
 \`\`\`js
-<Widget
-src={"efiz.near/widget/Livepeer.Player"}
-props={{
-  title: "Original Keyboard Cat!",
-  playbackId: "8b3bdqjtdj4jsjwa",
-  PosterImage: <img src="https://example.com" alt={"Original Keyboard Cat!"} />
-}}
-/>
+<Widget src={"efiz.near/widget/Player.ResumableUploadAsset"} />
 \`\`\`
 `;
 const UsageContent = styled.div`
@@ -101,7 +94,15 @@ return (
     </div>
     <div>
       <Heading>Description</Heading>
-      <p>This component...</p>
+      <p>
+        This component will allow you to upload an asset to Livepeer Studio
+        using the tus library. This upload supports slow connections and
+        interruptions and it's generally more reliable than DirectUploadAsset,
+        especially when the asset size is big. Before uploading you need to
+        generate the upload url using the `GetUploadUrl` component. After the
+        upload is finished, you can generate the `src` object necessary for the
+        player to display the video using the `GetSrc` component.
+      </p>
     </div>
     <UsageContent>
       <Heading>Usage</Heading>
