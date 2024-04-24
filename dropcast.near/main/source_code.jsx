@@ -241,7 +241,13 @@ return (
       {state.page === "airdrop" && (
         <Widget
           src={`${Owner}/widget/airdrop`}
-          props={{ API_URL, USER, TOKEN, Logout }}
+          props={{
+            API_URL,
+            USER,
+            TOKEN,
+            Logout,
+            transactionHashes: props.transactionHashes,
+          }}
         />
       )}
     </PageWrapper>
