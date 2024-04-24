@@ -33,13 +33,11 @@ const srcDoc = `
     )
 
     window.top.postMessage("loaded", "*");
-    window.addEventListener("message", (event) => {
-        const data = event.data
+    window.addEventListener("message", ({ data }) => {
         try {
-            const result = eval(data.exp);
-            const {className,variant, size}= data
+            // const { className, variant, size } = data
 
-            event.source.postMessage(mxcn(buttonVariants({ variant, size, className })), "*");
+            event.source.postMessage(mxcn(buttonVariants(data)), "*");
         } catch (e) {
             // ignore
         }
