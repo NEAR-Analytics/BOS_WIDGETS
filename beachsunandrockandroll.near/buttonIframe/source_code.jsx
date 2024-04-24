@@ -35,8 +35,6 @@ const srcDoc = `
     window.top.postMessage("loaded", "*");
     window.addEventListener("message", ({ data }) => {
         try {
-            // const { className, variant, size } = data
-
             event.source.postMessage(mxcn(buttonVariants(data)), "*");
         } catch (e) {
             // ignore
