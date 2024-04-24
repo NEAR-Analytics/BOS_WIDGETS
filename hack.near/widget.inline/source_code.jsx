@@ -7,10 +7,6 @@ const accountName = accountId.replace(/\.[^\.]*$/, "");
 const metadata =
   props.metadata ?? Social.getr(`${src}/metadata`, `${blockHeight}`);
 
-if (!metadata) {
-  return "";
-}
-
 const name = metadata.name ?? "Index";
 const image = metadata.image;
 
