@@ -1,12 +1,9 @@
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
-
 if (!accountId) {
   return <></>;
 }
-
 const size = "100%";
-
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
   headers: {
@@ -29,7 +26,6 @@ const data = fetch("https://graph.mintbase.xyz", {
 `,
   }),
 });
-
 const NFTImageButton = styled.button`
   aspect-ratio: 1/1;
   height: 100px;
@@ -57,7 +53,6 @@ const NFTImageButton = styled.button`
     transform: scale(1.05);
   }
 `;
-
 const NFTs = styled.div`
   display: flex;
   gap: 2rem;
@@ -69,7 +64,6 @@ const NFTs = styled.div`
   flex-wrap: wrap;
   height: 200px;
 `;
-
 const Heading = styled.p`
   margin: 10px auto 10px auto;
   font-size: 1.3em;
@@ -87,9 +81,7 @@ const Text = styled.p`
   text-align: center;
   font-family: "SF Pro Display", sans-serif;
 `;
-
 const finalData = data?.body?.data;
-
 if (!finalData) {
   return (
     <div className="d-flex flex-wrap gap-2 justify-content-center align-items-center flex-column">
@@ -107,7 +99,6 @@ if (!finalData) {
     </div>
   );
 }
-
 return (
   <>
     <Text className="text-center">
