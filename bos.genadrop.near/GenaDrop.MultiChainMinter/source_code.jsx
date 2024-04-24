@@ -84,7 +84,6 @@ const chains = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
-
 const handleMint = () => {
   console.log("it's here", state.title && state.description && state.image.cid);
   if (!state.image.cid) {
@@ -96,7 +95,6 @@ const handleMint = () => {
       showAlert: true,
       toastMessage: "Please enter a title for the NFT",
     });
-
     setTimeout(() => {
       State.update({
         showAlert: false,
@@ -155,13 +153,10 @@ const handleMint = () => {
     }
     console.log("passed checks");
     let networkId = Ethers.provider()._network.chainId;
-
     const CA = state.isSoulBound
       ? contractAddresses[state.selectedChain][3]
       : contractAddresses[state.selectedChain][0];
-
     console.log("CONTRACT ADD", CA);
-
     const contract = new ethers.Contract(
       CA,
       mintSingle,
@@ -225,21 +220,17 @@ if (state.sender === undefined) {
         });
       });
   }
-
   console.log("in between", state.sender);
-
   State.update({
     selectedChain: "0",
   });
 }
-
 //select tag
 const handleSelectClick = () => {
   State.update({
     selectIsOpen: !state.selectIsOpen,
   });
 };
-
 const handleOutsideClick = (e) => {
   if (!e.target.closest(".select-replica__select")) {
     State.update({
@@ -247,29 +238,22 @@ const handleOutsideClick = (e) => {
     });
   }
 };
-
 const onChangeTitle = (title) => {
   console.log("go daddy", state.recipient);
   State.update({
     title,
   });
 };
-
 const data = Social.keys("*/profile", "final");
-
 if (!data) {
   return "Loading";
 }
-
 const accounts = Object.entries(data);
-
 const allWidgets = [];
-
 for (let i = 0; i < accounts.length; ++i) {
   const accountId = accounts[i][0];
   allWidgets.push(accountId);
 }
-
 // const onChangeRecipient = (recipient) => {
 //   state.selectedChain === "0"
 //     ? State.update({
@@ -283,7 +267,6 @@ const onChangeRecipient = (recipient) => {
   State.update({
     customRecipient: true,
   });
-
   if (state.selectedChain == "0") {
     State.update({
       recipient: recipient[0],
@@ -299,7 +282,6 @@ const handleChainChange = (chain_id) => {
     Ethers.send("wallet_switchEthereumChain", [
       { chainId: `0x${Number(chain_id).toString(16)}` },
     ]);
-
     State.update({
       selectedChain: chain_id,
     });
@@ -308,20 +290,17 @@ const handleChainChange = (chain_id) => {
     console.log(err);
   }
 };
-
 const onChangeDesc = (description) => {
   console.log("Log ciritcal critics:", state.selectedChain, state.title);
   State.update({
     description,
   });
 };
-
 const handleToggle = () => {
   State.update({
     isSoulBound: !state.isSoulBound,
   });
 };
-
 const Heading = styled.p`
   margin: 3rem auto 0px auto;
   font-size: 1em;
@@ -340,7 +319,6 @@ const SubHeading = styled.p`
   text-align: center;
   font-family: "SF Pro Display", sans-serif;
 `;
-
 const ImageUploadCard = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -353,7 +331,6 @@ const ImageUploadCard = styled.div`
   padding: 5rem 1.5rem;
   text-align: center;
 `;
-
 const Main = styled.div`
   display: grid;
   gap: 3rem;
@@ -380,14 +357,12 @@ const Main = styled.div`
     }
   }
 `;
-
 const Text = styled.p`
   font-size: 0.9rem;
   color: #525c76;
   line-height: 1rem;
   margin: 3px;
 `;
-
 const Elipse = styled.div`
   background-color: #dff3f9;
   height: 100px;
@@ -395,7 +370,6 @@ const Elipse = styled.div`
   object-fit: contain;
   border-radius: 50%;
 `;
-
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #e5e8eb;
@@ -425,7 +399,6 @@ const Card = styled.div`
     width: 100%;
   }
 `;
-
 const ImageCard = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -439,7 +412,6 @@ const ImageCard = styled.div`
     height: 100%;
   }
 `;
-
 const Input = styled.input`
   display: block;
   padding: 0.5em;
@@ -456,7 +428,6 @@ const Input = styled.input`
     color: palevioletred;
   }
 `;
-
 const TextArea = styled.textarea`
   display: block;
   padding: 0.5em;
@@ -470,12 +441,10 @@ const TextArea = styled.textarea`
     border: 1px solid #0d99ff;
   }
 `;
-
 const SelectTag = styled.select`
   height: fit-content;
   width: 300px;
 `;
-
 const ChainIcon = styled.option`
   display: flex;
   height: 130px;
@@ -486,7 +455,6 @@ const ChainIcon = styled.option`
     object-fit: contain;
   }
 `;
-
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -495,7 +463,6 @@ const SelectReplicaContainer = styled.div`
   & .select-replica__select {
     position: relative;
   }
-
   & .select-replica__selected {
     cursor: pointer;
     display: flex;
@@ -512,7 +479,6 @@ const SelectReplicaContainer = styled.div`
       object-fit: contain;
     }
   }
-
   & .select-replica__options {
     position: absolute;
     top: 110%;
@@ -529,11 +495,9 @@ const SelectReplicaContainer = styled.div`
     max-width: 200px;
     display: none;
   }
-
   & .select-replica__options.open {
     display: block;
   }
-
   & .select-replica__option {
     display: flex;
     justify-content: center;
@@ -544,18 +508,15 @@ const SelectReplicaContainer = styled.div`
     padding: 3px;
     border-bottom: 1px solid gray;
   }
-
   & .select-replica__option.selected {
     background-color: #f0f0f0;
   }
-
   & .select-replica__option img {
     height: 60px;
     width: 100px;
     object-fit: contain;
   }
 `;
-
 const SelectGroup = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -563,7 +524,6 @@ const SelectGroup = styled.div`
   gap: 1rem;
   margin: 2rem auto;
 `;
-
 const ToggleButton = styled.div`
   /* The switch - the box around the slider */
   .switch {
@@ -572,14 +532,12 @@ const ToggleButton = styled.div`
     width: 60px;
     height: 34px;
   }
-
   /* Hide default HTML checkbox */
   .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-
   /* The slider */
   .slider {
     position: absolute;
@@ -592,7 +550,6 @@ const ToggleButton = styled.div`
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
-
   .slider:before {
     position: absolute;
     content: "";
@@ -604,31 +561,25 @@ const ToggleButton = styled.div`
     -webkit-transition: 0.4s;
     transition: 0.4s;
   }
-
   input:checked + .slider {
     background-color: #2196f3;
   }
-
   input:focus + .slider {
     box-shadow: 0 0 1px #2196f3;
   }
-
   input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
   }
-
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
-
   .slider.round:before {
     border-radius: 50%;
   }
 `;
-
 if (!(state.sender || accountId)) {
   console.log("Please login here now");
   State.update({
@@ -636,7 +587,6 @@ if (!(state.sender || accountId)) {
     toastMessage: "Please Sign in or connect a wallet",
   });
 }
-
 console.log(
   "Here 🤔 " +
     state.selectedChain +
@@ -647,7 +597,6 @@ console.log(
       })
       .map((c) => c.url)
 );
-
 return (
   <div className="container vh-100 d-flex flex-column justify-content-between">
     <div>
@@ -657,7 +606,6 @@ return (
       <Heading className="text-center fs-2 fw-bold">
         Mint NFT on Multiple chains
       </Heading>
-
       <Main
         className="container-fluid"
         onLoad={State.update({ chains: chains })}
