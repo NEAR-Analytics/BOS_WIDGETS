@@ -1,13 +1,9 @@
 const accountId = props.accountId ?? context.accountId;
-
 const isLoggedIn = context.accountId ? true : false;
-
 const profile = Social.getr(`${accountId}/profile`);
-
 if (!isLoggedIn) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
-
 if (context.loading) {
   return "Loading";
 }
@@ -25,7 +21,6 @@ const Loading = styled.div`
     color: #b0b0b0;
     font-size: 14px;
   }
-
   .btn-outline-primary {
     background-color: #000;
     border-color: #fff;
@@ -37,7 +32,6 @@ const Loading = styled.div`
     }
   }
 `;
-
 const Tabs = styled.div`
   display: flex;
   flex-direction: row;
@@ -48,7 +42,6 @@ const Tabs = styled.div`
     flex-direction: column;
   }
 `;
-
 const Tab = styled.div`
   display: flex;
   padding: 12px 32px;
@@ -72,7 +65,6 @@ const Tab = styled.div`
     line-height: normal;
   }
 `;
-
 const Wrapper = styled.div`
   max-width: 1440px;
   padding: 32px;
@@ -282,9 +274,7 @@ const Wrapper = styled.div`
     color: #b0b0b0;
   }
 `;
-
 const [activeTab, setActiveTab] = useState(1);
-
 // useEffect(() => {
 //   switch (activeTab) {
 //     case 1:
@@ -300,20 +290,15 @@ const [activeTab, setActiveTab] = useState(1);
 //  sortedContests.sort(compareContests);
 //    setContest(sortedContests);
 // }, [activeTab]);
-
 const isLastPage = activeTab === 2;
-
 console.log("activeTab", activeTab);
-
 const nextTabHandler = () => {
   // increment the active tab up to a max of 2
-
   setActiveTab((activeTab) => activeTab + 1);
   if (activeTab >= 2) {
     setActiveTab(1);
   }
 };
-
 if (context.accountId && accountId !== context.accountId) {
   return (
     <Loading>
@@ -328,7 +313,6 @@ if (context.accountId && accountId !== context.accountId) {
     </Loading>
   );
 }
-
 return (
   <Wrapper>
     <>
