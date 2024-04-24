@@ -4,8 +4,8 @@ const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || Storage.get("user", `${Owner}/widget/discord`);
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
 const Logout = props.Logout;
-console.log("props.transactionHashes", props.transactionHashes);
-console.log("props.transactionHashes", props.code);
+3;
+
 const PAGES = [
   {
     title: "Dashboard",
