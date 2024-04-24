@@ -96,19 +96,11 @@ const DropBoxText2 = styled.h4`
 `;
 
 const [file, setFile] = useState(null);
-const [uploaded, setUploaded] = useState(
-  Storage.get("airdropData").uploaded || false
-);
-const [selectedToken, setSelectedToken] = useState(
-  { value: Storage.get("airdropData").token_contract } || {}
-);
+const [uploaded, setUploaded] = useState(false);
+const [selectedToken, setSelectedToken] = useState({});
 const [tokenList, setTokenList] = useState([]);
-const [airdropFee, setAirdropFee] = useState(
-  Storage.get("airdropData").airdropFee || 0
-);
-const [airdropTotalAmount, setAirdropTotalAmount] = useState(
-  Storage.get("airdropData").totalAmount || 0
-);
+const [airdropFee, setAirdropFee] = useState(0);
+const [airdropTotalAmount, setAirdropTotalAmount] = useState(0);
 const [notification, setNotification] = useState("");
 
 const changeOption = (value) => {
@@ -242,6 +234,15 @@ const handleSubmit = async (e) => {
 };
 
 useEffect(() => {
+  const { uploaded, token_contract, airdropFee, totalAmount } =
+    Storage.get("airdropData");
+  setUploaded(uploaded || false);
+  setSelectedToken({ value: token_contract } || {});
+  setAirdropFee(airdropFee || 0);
+  setAirdropTotalAmount(totalAmount || 0);
+}, []);
+
+useEffect(() => {
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
     {
@@ -259,10 +260,6 @@ useEffect(() => {
   response.then(({ body }) => {
     setTokenList(body.data);
   });
-}, []);
-
-useEffect(() => {
-  console.log("Storage.get('airdropData')", Storage.get("airdropData"));
   if (props.transactionHashes && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
@@ -277,7 +274,15 @@ useEffect(() => {
       }),
     }).then((tx) => {
       console.log(tx);
-      if (tx.ok) {
+      const txMethodName =
+        tx?.body?.result?.transaction?.actions[0].FunctionCall.method_name;
+      const args = tx?.body?.result?.transaction?.actions[0].FunctionCall.args;
+      const isTrue =
+        tx.ok &&
+        args.includes(Admin) &&
+        (txMethodName === "transfer_near" || txMethodName === "ft_transfer");
+      isToken = txMethodName === "transfer_near" ? false : true;
+      if (isTrue) {
         const response = asyncFetch(
           `http://localhost:2402/api/project/verifytx`,
           {
@@ -286,7 +291,7 @@ useEffect(() => {
               time_id: Storage.get("airdropData").timeId,
               tx_hash: props.transactionHashes,
               userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
-              isToken: Storage.get("transfering") === "near" ? false : true,
+              isToken,
             }),
 
             headers: {
@@ -297,7 +302,7 @@ useEffect(() => {
         );
         response.then(({ body }) => {
           const data = Storage.get("airdropData");
-          if (Storage.get("transfering") === "near") {
+          if (!isToken) {
             Storage.set("airdropData", { ...data, isNPaid: true });
           } else {
             Storage.set("airdropData", { ...data, isTPaid: true });
@@ -306,7 +311,7 @@ useEffect(() => {
       }
     });
   }
-}, [Storage.get("airdropData")]);
+}, []);
 
 return (
   <Wrapper>
