@@ -4,7 +4,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
-  gap: 2rem;
 `;
 
 const SelectContainer = styled.div`
@@ -169,12 +168,19 @@ const daos = Near.view(contractName, "get_dao_list");
 if (!daos) return <Widget src="flashui.near/widget/Loading" />;
 
 const formatDate = () => {
-  const fmt = (date) => date.toLocaleDateString().split("/");
-  const startDate = `${fmt(period[0])[2]}-${fmt(period[0])[1]}-${
-    fmt(period[0])[0]
+  const fmt = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    return { year, month, day };
+  };
+
+  const startDate = `${fmt(period[0]).year}-${fmt(period[0]).month}-${
+    fmt(period[0]).day
   }`;
-  const endDate = `${fmt(period[1])[2]}-${fmt(period[1])[1]}-${
-    fmt(period[1])[0]
+  const endDate = `${fmt(period[1]).year}-${fmt(period[1]).month}-${
+    fmt(period[1]).day
   }`;
 
   setDateRange(`start_date=${startDate}&end_date=${endDate}`);
