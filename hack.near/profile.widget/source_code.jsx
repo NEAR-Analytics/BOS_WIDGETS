@@ -3,10 +3,6 @@ const [accountId, widget, widgetName] = src.split("/");
 
 const metadata = props.metadata ?? Social.getr(`${src}/metadata`);
 
-if (!metadata) {
-  return "";
-}
-
 return (
   <>
     <div className="d-flex flex-row">
