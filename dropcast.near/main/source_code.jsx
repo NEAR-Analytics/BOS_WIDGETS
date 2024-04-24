@@ -179,8 +179,6 @@ const openSidebar = (value) => {
   });
 };
 
-console.log("-----memoPage", memoPage, page);
-
 useEffect(() => {
   State.update({ page: memoPage });
 }, [memoPage]);
