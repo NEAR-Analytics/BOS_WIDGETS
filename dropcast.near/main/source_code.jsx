@@ -168,7 +168,6 @@ State.init({
 
 const changePage = (page) => {
   State.update({
-    page,
     sidebar: false,
   });
   Storage.set("page", page);
@@ -181,6 +180,10 @@ const openSidebar = (value) => {
 };
 
 console.log("-----memoPage", memoPage, page);
+
+useEffect(() => {
+  State.update({ page: memoPage });
+}, [memoPage]);
 
 if (!accountId || !USER || !TOKEN)
   return <Widget src={`${Owner}/widget/login`} />;
