@@ -51,7 +51,8 @@ const renderItem = (item, i) => {
 return (
   <Wrapper>
     <Widget
-      src="saidulbadhon.near/widget/NotificationsSidebar.IndexFeed"
+     // src="saidulbadhon.near/widget/NotificationsSidebar.IndexFeed" 
+      src="mob.near/widget/NotificationFeed"
       props={{
         index,
         renderItem,
