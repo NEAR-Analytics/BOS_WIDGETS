@@ -7,7 +7,6 @@ const marketPlaceImage = {
   genadrop:
     "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjMwIiBoZWlnaHQ9IjI0MSIgdmlld0JveD0iMCAwIDIzMCAyNDEiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xMjIuNjc3IDIuMjA3MDNDMTUzLjI3NSAzNS42NDU2IDE4MS4wMDQgNjguMzkyMyAyMDAuODQ5IDEwOS40NTNDMjE1LjQyMSAxMzkuNjAxIDIxNC45MTggMTY4LjkwNyAyMDAuOTgyIDE5OC42NTdDMTk2LjMzNyAyMDguNTc3IDE4OC44ODkgMjE2LjA3NiAxNzkuODA3IDIyMS45MkMxNDEuODI4IDI0Ni4zNzUgMTAxLjg3MiAyNDYuNDA0IDY1Ljg0OTkgMjE5LjY4OUM1My4zMDA5IDIxMC4zODMgNDUuNzM5MiAxOTcuODUzIDQxLjc1ODkgMTgyLjk5N0M0MC44MTg0IDE3OS40OTggMzkuNDY5NSAxNzcuNDA4IDM1LjQ3OTcgMTc2LjAyN0MyMy4zNDg2IDE3MS44MjkgMTguMTA0OSAxNjAuNzc0IDE5LjkwMDMgMTQ1LjI0NkMyMC45NzM3IDEzNS45ODggMjguNjg3NCAxMjguODM5IDQwLjAyMDUgMTI3LjE2NUM0Mi45MTc4IDEyNi43NCA0NC4wMDA4IDEyNS41MjkgNDQuODM2OCAxMjIuOTc2QzU5LjIwMDIgNzguNjMzOCA4NS4wNjc2IDQxLjQyMiAxMTYuODgyIDcuOTI2NzFDMTE5LjEyNCA1LjU3MjAyIDExOS45NjkgNC43Nzk0OSAxMjIuNjc3IDIuMjA3MDNaIiBmaWxsPSIjMDIwMzAyIi8+CjxwYXRoIGQ9Ik0yMDYuOTQ0IDE1Mi43NzhDMjA1LjkzNyAxNjguMzI0IDIwNC4xMjMgMTgzLjY2MyAxOTYuMDQ4IDE5Ny41ODNDMTkyLjA2OCAyMDQuNDMgMTg3LjQwMyAyMTAuNTY3IDE4MC42NzggMjE0LjkwN0MxNjEuNDAzIDIyNy4zMjQgMTQwLjk3OSAyMzYuODM3IDExNy4zMzQgMjMzLjc5MkM5Mi45NzczIDIzMC42NjIgNzEuMzk0MiAyMjEuNjIyIDU2LjQyMjggMjAwLjc0MUM1Mi4wMzQgMTk0LjYxNCA1MC4yMSAxODcuNTEyIDQ3LjU5NzYgMTgwLjY5M0M0Ni42Mjg3IDE3OC4xNjkgNDguMjkxMSAxNzcuMzQ2IDUwLjM2MiAxNzYuNTg5QzU3LjIzOTcgMTc0LjA4MyA2MC41OTMxIDE2OC4yNjcgNjMuNjIzNSAxNjIuMTg3QzY0LjI0MSAxNjAuOTU3IDY0Ljc2MzQgMTU5LjUzIDYzLjQ0MyAxNTguNzE2QzYxLjcyMzYgMTU3LjY1NyA2MC42Nzg2IDE1OS4wNDcgNTkuODcxMSAxNjAuNDE4QzU5LjUzODcgMTYwLjk3NiA1OS4zMjAyIDE2MS41OTEgNTkuMDA2NyAxNjIuMTU4QzU0LjQyNzkgMTcwLjUwOSA0Ny4yNTU3IDE3NC4zODYgMzkuNDA5IDE3Mi43NTlDMzEuNjI4OCAxNzEuMTQyIDI1LjcxMDUgMTYzLjg0MiAyNS4wOTMxIDE1NC44NDhDMjQuNjM3MSAxNDguMDc4IDI0LjU1MTYgMTQxLjI4OCAzMC4wMTM4IDEzNi4wNzdDMzYuMzg4MSAxMzAuMDA2IDQzLjUyMjMgMTI5LjQ1OCA1Mi44MTI5IDEzNC4xMDFDNTQuMjI4NCAxMzQuODEgNTUuODA1MyAxMzYuODM0IDU3LjI4NzIgMTM0LjgyOUM1OC45NzgyIDEzMi41NSA1Ni43NDU4IDEzMC42NzcgNTUuMTMwOCAxMzAuNDAzQzQ2LjI5NjIgMTI4LjkgNDkuODc3NSAxMjMuNTA5IDUxLjU2ODUgMTE5LjE1QzY2LjI2NDQgODEuMjQ3NyA4Ny41NTMgNDcuMzgzNiAxMTQuOTk3IDE3LjM1ODhDMTIzLjg0MiA3LjY4NDcxIDEyMy45MTggNy44NTQ5MyAxMzIuNDIgMTguMDU4NkMxNTYuNTk2IDQ3LjA1MjYgMTc5LjI3MiA3Ny4wMyAxOTUuNDc4IDExMS4zOTVDMjAxLjcxOSAxMjQuNTUgMjA3LjM4MSAxMzcuNzYgMjA2Ljk0NCAxNTIuNzc4WiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzUxOF80MikiLz4KPGcgZmlsdGVyPSJ1cmwoI2ZpbHRlcjBfZF81MThfNDIpIj4KPHBhdGggZD0iTTI5LjExMDMgNi4wMjM0MkMyOC44MjY3IDYuNjMwMzcgMjguNjY3MiA3LjMxNTM0IDI4LjY2NzIgOC4wNDAwM0MyOC42NjcyIDEwLjUzNTYgMzAuNTU5IDEyLjU1ODYgMzIuODkyNyAxMi41NTg2QzM1LjIyNjQgMTIuNTU4NiAzNy4xMTgyIDEwLjUzNTYgMzcuMTE4MiA4LjA0MDAzQzM3LjExODIgNy4zMTUzNCAzNy4wMTc5IDYuNTkzNDcgMzYuNjc1MSA2LjAyMzIyQzM1LjI5OSAzLjczMzg4IDM0LjAxMzcgMS45NDM2NCAzMy4xODUgMS4zMTI3N0MzMy4wNzUgMS4yMjkwMiAzMi45MzA5IDEuMjIzMjkgMzIuODI0IDEuMzExQzMyLjA2MzIgMS45MzUzIDI5LjczNTQgNC42ODU1MiAyOS4xMTAzIDYuMDIzNDJaIiBmaWxsPSJ1cmwoI3BhaW50MV9saW5lYXJfNTE4XzQyKSIgZmlsbC1vcGFjaXR5PSIwLjg5IiBzaGFwZS1yZW5kZXJpbmc9ImNyaXNwRWRnZXMiLz4KPC9nPgo8cGF0aCBkPSJNNzMuMjk1NCA5NC45MjI4Qzc3LjExNDMgODIuOTQxMyA4MC45MzMxIDY5LjYzNTggOTEuMTM1NyA1OS40OTgzQzkzLjY2MjYgNTYuOTgyOSA5Ny4xNzc0IDU1LjQ4ODcgMTAwLjYzNSA1Ny40ODQxQzEwMy45NDEgNTkuMzg0OCAxMDQuNzg3IDYyLjk5NzMgMTA0LjM0IDY2LjUyNDZDMTAyLjgzOSA3OC41MzQ1IDk3Ljc2NjQgODkuMTgyNiA5MS4yNTkyIDk5LjIyNTVDOTAuMzM3NyAxMDAuNjUzIDg4Ljk4ODggMTAxLjgyNiA4Ny43NDQzIDEwMy4wMjdDODQuODI3OSAxMDUuODQ1IDgxLjU4ODYgMTA2LjcyNSA3Ny43MDMyIDEwNC44OUM3My45MTI5IDEwMy4wOTMgNzMuNDg1NCA5OS43OTI5IDczLjI5NTQgOTQuOTIyOFoiIGZpbGw9IiNEQUVFRTIiLz4KPHBhdGggZD0iTTczLjI5NTQgOTQuNjA5M0M3Ny4xMTQzIDgyLjYyNzggODAuOTMzMSA2OS4zMjIzIDkxLjEzNTcgNTkuMTg0OUM5My42NjI2IDU2LjY2OTQgOTcuMTc3NCA1NS4xNzUyIDEwMC42MzUgNTcuMTcwNkMxMDMuOTQxIDU5LjA3MTQgMTA0Ljc4NyA2Mi42ODM4IDEwNC4zNCA2Ni4yMTExQzEwMi44MzkgNzguMjIxIDk3Ljc2NjQgODguODY5MiA5MS4yNTkyIDk4LjkxMjFDOTAuMzM3NyAxMDAuMzQgODguOTg4OCAxMDEuNTEzIDg3Ljc0NDMgMTAyLjcxNEM4NC44Mjc5IDEwNS41MzIgODEuNTg4NiAxMDYuNDExIDc3LjcwMzIgMTA0LjU3N0M3My45MTI5IDEwMi43OCA3My40ODU0IDk5LjQ3OTUgNzMuMjk1NCA5NC42MDkzWiIgZmlsbD0iI0RBRUVFMiIvPgo8cGF0aCBkPSJNNzEuOTY2IDExNS4zMDhDNzUuMjMzOSAxMTQuOTc3IDc3LjIwOTggMTE2Ljc1NSA3Ny4wNzY4IDExOS42ODZDNzYuOTA1OSAxMjMuMjIzIDc1LjQyMzkgMTI2Ljc2OSA3MS4xMzk2IDEyNi44MDdDNjguMDE0MiAxMjYuODM2IDY1LjgwMDggMTI0LjM0OSA2NS45MzM4IDEyMS4yODVDNjYuMDg1OCAxMTcuODkgNjcuNjgxNyAxMTQuOTg2IDcxLjk2NiAxMTUuMzA4WiIgZmlsbD0iI0Q4RURFMCIvPgo8cGF0aCBkPSJNNzEuOTY2IDExNC45OTVDNzUuMjMzOSAxMTQuNjY0IDc3LjIwOTggMTE2LjQ0MSA3Ny4wNzY4IDExOS4zNzNDNzYuOTA1OSAxMjIuOTEgNzUuNDIzOSAxMjYuNDU2IDcxLjEzOTYgMTI2LjQ5NEM2OC4wMTQyIDEyNi41MjIgNjUuODAwOCAxMjQuMDM1IDY1LjkzMzggMTIwLjk3MUM2Ni4wODU4IDExNy41NzYgNjcuNjgxNyAxMTQuNjczIDcxLjk2NiAxMTQuOTk1WiIgZmlsbD0iI0Q4RURFMCIvPgo8cGF0aCBkPSJNNTEuMzQzOCAxNTMuMjg2QzUxLjE1MzggMTU1LjExMSA1MS45MjMzIDE1Ny43MyA0OS4zODY5IDE1OC4wOUM0Ni41NzUgMTU4LjQ4NyA0Ni44ODg1IDE1NS42NSA0Ni42MzIgMTUzLjkzOEM0Ni4xNTcgMTUwLjczMiA0NS4zMTE2IDE0OC4yMTcgNDEuNDM1NyAxNDcuNzkxQzM5LjQ2OTMgMTQ3LjU3NCAzNy4zOTg0IDE0Ni40MiAzOC4yOTE0IDE0My45OEMzOS4xODQzIDE0MS41NDEgNDEuNjU0MiAxNDIuNDk2IDQzLjMzNTcgMTQyLjkwMkM0OC4xNDI1IDE0NC4xMDMgNTEuMzA1OCAxNDguNDE2IDUxLjM0MzggMTUzLjI4NloiIGZpbGw9IiMwOTFEMTQiLz4KPHBhdGggZD0iTTE1Ni43MzIgMTgxLjMxMUMxNTYuNzc5IDE4Ny4yNjggMTU0LjM3NiAxOTEuOTIxIDE0OC42MjggMTkzLjk2NEMxNDIuNjkxIDE5Ni4wNzIgMTM2LjQ2OSAxOTYuNDEzIDEzMS43NTcgMTkxLjMzNUMxMjcuNTExIDE4Ni43NTggMTI2LjU0MiAxODEuMDU1IDEyOC43MjcgMTc1LjA4OEMxMzAuMjE4IDE3MS4wMTIgMTMzLjM5MSAxNjkuMzg2IDEzNy40OTUgMTcwLjU2OEMxMzkuNjIzIDE3MS4xODMgMTQxLjU2MSAxNzEuOTIgMTQzLjc1NSAxNzEuMjExQzE1My4yMjYgMTY4LjE1NiAxNTYuNzQxIDE3MC44ODkgMTU2LjczMiAxODEuMzExWiIgZmlsbD0iIzBCMEYwRiIvPgo8cGF0aCBkPSJNMTM4LjY2MSAxODEuOTE2QzE0My40MTEgMTgxLjU2NiAxNDcuMDExIDE4My41MzMgMTQ5LjYzMyAxODcuMzYzQzE1MC4zMzYgMTg4LjM5NCAxNTAuMDUxIDE4OS41MjggMTQ4Ljk4NyAxOTAuMTI0QzE0NC45MjEgMTkyLjQyMiAxNDAuNzUxIDE5Mi4wNjMgMTM2LjYxOSAxOTAuMzEzQzEzNC4wODIgMTg5LjIzNSAxMzEuODAyIDE4Ny4xMTcgMTMyLjI0OSAxODQuNTY0QzEzMi43OSAxODEuNDI0IDEzNi4xODIgMTgyLjA4NiAxMzguNjYxIDE4MS45MTZaIiBmaWxsPSIjRjRBNEM3Ii8+CjxwYXRoIGQ9Ik0xNTIuNjU2IDE4NS4xNTNDMTQ3LjI4OSAxNzkuMjA1IDE0MS40NzUgMTc3Ljg3MSAxMzQuOTExIDE3OC43NTFDMTMzLjcxNCAxNzguOTExIDEzMS44MjMgMTgwLjU5NSAxMzEuNTg2IDE3Ny43NThDMTMxLjQ0MyAxNzYuMDI3IDEzMi43NzMgMTc0LjM1MyAxMzQuMTEzIDE3NC41MTRDMTM5LjM1NiAxNzUuMTM4IDE0NC4yODcgMTc0LjI3OCAxNDkuNDI2IDE3My42NDRDMTUzLjkyOSAxNzMuMTA1IDE1My4yNDUgMTc5Ljg1NyAxNTIuNjU2IDE4NS4xNTNaIiBmaWxsPSIjQTA5RENBIi8+CjxwYXRoIGQ9Ik0xMjMuMjI5IDE0NS4zN0MxMjMuMTgxIDE1MS44ODUgMTE4LjA3MSAxNTcuMTUyIDExMy42OTEgMTYyLjcxM0MxMTMuMTAyIDE2My40NiAxMTEuMjc4IDE2My41ODMgMTEwLjA3MiAxNjMuNDdDMTAzLjIxMyAxNjIuODE3IDk2Ljg3NjkgMTYwLjYyMyA5MS43OTQ2IDE1NS44ODVDODcuNjE0OCAxNTEuOTg5IDg2LjEzMjkgMTQ2Ljg5MiA4OC43MDczIDE0MS43QzkxLjE4NjcgMTM2LjY4OCA5NS41NjYgMTM0LjUwNCAxMDEuMTkgMTM2Ljk2M0MxMDMuMDYxIDEzNy43NzYgMTAzLjk2NCAxMzYuOTYzIDEwNS4wNDcgMTM1Ljc2MkMxMDguNTIzIDEzMS45MTMgMTEyLjcwMyAxMzEuMDYyIDExNy4zNjggMTMzLjMxMkMxMjEuODUxIDEzNS40NjggMTIzLjA3NyAxMzkuNDk3IDEyMy4yMjkgMTQ1LjM3WiIgZmlsbD0iIzBCMEQwQyIvPgo8cGF0aCBkPSJNMTE5LjYwNiAxNDIuOTE4QzExOC45ODggMTQ5LjYzMiAxMTYuMzA5IDE1My43ODMgMTEzLjQ0IDE1Ny44NUMxMTIuMTM5IDE1OS43MDMgMTEwLjI5NiAxNTkuOTQgMTA4LjI1NCAxNTkuNTk5QzEwMi4yNTkgMTU4LjYxNiA5Ny4yODE2IDE1NS43MDMgOTMuMjM0OCAxNTEuMzA2QzkwLjc5MzQgMTQ4LjY1OCA5MC4yNTE5IDE0NS4zOTUgOTIuNTc5MyAxNDIuNDgzQzk0Ljg3ODIgMTM5LjU5OCA5OC4xMjcxIDEzOC45MDggMTAxLjE4NiAxNDEuMjYzQzEwMy45MDMgMTQzLjM1MyAxMDUuMzk0IDE0Mi41NTggMTA2LjY1OCAxMzkuODgyQzEwOC40OTEgMTM2LjAxNCAxMTEuNzQgMTM1LjIzOSAxMTUuMzUgMTM2LjU1M0MxMTguODg0IDEzNy44MzkgMTIwLjAwNSAxNDAuODQ3IDExOS42MDYgMTQyLjkxOFoiIGZpbGw9IiNGNEE0QzciLz4KPHBhdGggZD0iTTE1OS41NDYgMTM3Ljc4MUMxNTkuMjUyIDEzNC4wODMgMTYwLjcwNSAxMzAuOTUzIDE2NC4yODYgMTI4LjkyOUMxNjguMTcyIDEyNi43MzUgMTcxLjgyOSAxMjcuMzIyIDE3NC45NTUgMTMwLjNDMTc2LjY4MyAxMzEuOTQ2IDE3Ny45MjggMTMyLjYyNyAxODAuNDkzIDEzMS40OTJDMTgzLjk3IDEyOS45NTEgMTg3LjQwOSAxMzEuMzg4IDE4OS44MjEgMTM0LjE1OUMxOTIuNDYyIDEzNy4xOTQgMTkyLjU2NyAxNDAuNzc4IDE5MC44MjggMTQ0LjRDMTg4LjAxNyAxNTAuMjgyIDE3Ni45NTkgMTU2LjQ5NSAxNzAuODIyIDE1NS42MTZDMTY2LjQwNSAxNTQuOTkyIDE1OS42NiAxNDQuNTA0IDE1OS41NDYgMTM3Ljc4MVoiIGZpbGw9IiMwRjEzMTEiLz4KPHBhdGggZD0iTTE2My4xODYgMTM4LjU0NUMxNjMuMjMzIDEzNS44NzggMTYzLjQ4IDEzMy4zMjUgMTY2LjUzOSAxMzIuMjU2QzE2OS40NzUgMTMxLjIyNSAxNzIuMzM0IDEzMS40ODEgMTc0LjAwNiAxMzQuMTg1QzE3NS42NTkgMTM2Ljg3MSAxNzcuMTEyIDEzNy45MTEgMTgwLjA1NyAxMzYuMDAxQzE4Mi43OTMgMTM0LjIyMyAxODUuNTg2IDEzNC43MTUgMTg3LjUxNCAxMzcuMzE1QzE4OS41NTcgMTQwLjA2NyAxODguMTQxIDE0Mi44NTcgMTg2LjMyNyAxNDQuOTc1QzE4Mi42NiAxNDkuMjQgMTc3LjY1NCAxNTEuMzQgMTcyLjE0NCAxNTEuNzM3QzE2OC4wNjkgMTUyLjAzIDE2My4xNzYgMTQ0LjUwMiAxNjMuMTg2IDEzOC41NDVaIiBmaWxsPSIjRjRBNEM3Ii8+CjxkZWZzPgo8ZmlsdGVyIGlkPSJmaWx0ZXIwX2RfNTE4XzQyIiB4PSIyMC44MDc4IiB5PSIxLjI0NzU2IiB3aWR0aD0iMjQuMTY5NyIgaGVpZ2h0PSIyNy4wMjk5IiBmaWx0ZXJVbml0cz0idXNlclNwYWNlT25Vc2UiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiI+CjxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAiIHJlc3VsdD0iQmFja2dyb3VuZEltYWdlRml4Ii8+CjxmZUNvbG9yTWF0cml4IGluPSJTb3VyY2VBbHBoYSIgdHlwZT0ibWF0cml4IiB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEyNyAwIiByZXN1bHQ9ImhhcmRBbHBoYSIvPgo8ZmVPZmZzZXQgZHk9IjcuODU5NDEiLz4KPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMy45Mjk3Ii8+CjxmZUNvbXBvc2l0ZSBpbjI9ImhhcmRBbHBoYSIgb3BlcmF0b3I9Im91dCIvPgo8ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMCAwIDAgMCAwLjA5NDc5MTcgMCAwIDAgMCAwLjUxMTQ5NCAwIDAgMCAwIDAuODc1IDAgMCAwIDEgMCIvPgo8ZmVCbGVuZCBtb2RlPSJub3JtYWwiIGluMj0iQmFja2dyb3VuZEltYWdlRml4IiByZXN1bHQ9ImVmZmVjdDFfZHJvcFNoYWRvd181MThfNDIiLz4KPGZlQmxlbmQgbW9kZT0ibm9ybWFsIiBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJlZmZlY3QxX2Ryb3BTaGFkb3dfNTE4XzQyIiByZXN1bHQ9InNoYXBlIi8+CjwvZmlsdGVyPgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MF9saW5lYXJfNTE4XzQyIiB4MT0iMTE1LjkzNCIgeTE9IjEwLjI1MSIgeDI9IjExNS45MzQiIHkyPSIyMzQuMzY1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIHN0b3AtY29sb3I9IiMxODc1RjEiLz4KPHN0b3Agb2Zmc2V0PSIwLjc5MjE3MiIgc3RvcC1jb2xvcj0iIzUyQkJGOCIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3MkY5RkQiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDFfbGluZWFyXzUxOF80MiIgeDE9IjMyLjg5MjciIHkxPSIxLjQ2NzQ4IiB4Mj0iMzIuODkyNyIgeTI9IjUuMTE5OTEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMC43MyIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IndoaXRlIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K",
 };
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -35,7 +34,6 @@ const currentChainProps = {
     contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
     chain: "Arbitrum",
     explorer: "https://arbiscan.io/",
-
     livePrice: "ethereum",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
   },
@@ -65,11 +63,8 @@ const currentChainProps = {
     img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   },
 };
-
 const chains = ["polygon", "aurora", "arbitrum", "celo"];
-
 const chainState = chains.find((data) => data.includes(props.state.chainState));
-
 if (chainState) {
   let response = fetch(currentChainProps[props.state.chainState]?.subgraph, {
     method: "POST",
@@ -106,7 +101,6 @@ if (chainState) {
       const fetchIPFSData = fetch(
         data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
       );
-
       if (fetchIPFSData.ok) {
         const nft = fetchIPFSData.body;
         let nftObject = {};
@@ -135,226 +129,218 @@ if (chainState) {
     });
   }
 }
-
 const Label = styled.p`
-    font-size: 1.1rem;
-    color: #04111D;
-    font-weight: 600;
-    font-family: "SF Pro Display",sans-serif;
-    line-height: 1.02;
-    white-space: nowrap;
-    margin: unset;
-  `;
-
+  font-size: 1.1rem;
+  color: #04111d;
+  font-weight: 600;
+  font-family: "SF Pro Display", sans-serif;
+  line-height: 1.02;
+  white-space: nowrap;
+  margin: unset;
+`;
 const GrayLabel = styled.p`
-    color: #6C757D;
-    font-size: 14px;
-  `;
+  color: #6c757d;
+  font-size: 14px;
+`;
 const SecondaryText = styled.h3`
-    font-size: 1.1rem;
-    color:#0f1d40;
-    font-weight: 600;
-    font-family: "SF Pro Display",sans-serif;
-    line-height: 1.02;
-    white-space: nowrap;
-    padding-bottom: 3px;
-  `;
+  font-size: 1.1rem;
+  color: #0f1d40;
+  font-weight: 600;
+  font-family: "SF Pro Display", sans-serif;
+  line-height: 1.02;
+  white-space: nowrap;
+  padding-bottom: 3px;
+`;
 const Card = styled.div`
-    overflow: hidden;
-  `;
+  overflow: hidden;
+`;
 const BorderedShadowedCard = styled.div`
-    display: flex;
-     flex-flow: column nowrap;
-     -ms-flex-flow:column nowrap;
-     background-color: "#f0f0f0";
-     margin: 0 auto;
-     border: 1.41429px solid rgba(28,27,28,.1);
-     padding: 1rem;
-     width: 100%;
-     height: fit-content;
-     background-color:#fff;
-     & img{
-       border-radius: inherit;
-     }
-  `;
-const Main = styled.div`
-      display: grid;
-    gap: 3rem;
-    align-content:center;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    justify-content: center;
-    // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
-    margin-top: 20px;
-    width:100%;
-    padding: 1rem;
-  `;
-
-const ImgCard = styled.div`
-    height:fit-content;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    max-height:500px;
-    width:100%;
-    max-width: 500px;
+  display: flex;
+  flex-flow: column nowrap;
+  -ms-flex-flow: column nowrap;
+  background-color: "#f0f0f0";
+  margin: 0 auto;
+  border: 1.41429px solid rgba(28, 27, 28, 0.1);
+  padding: 1rem;
+  width: 100%;
+  height: fit-content;
+  background-color: #fff;
+  & img {
     border-radius: inherit;
-    overflow:hidden;
-    aspect-ratio: 1/1;
-    margin: 0 auto;
-    &>img{
+  }
+`;
+const Main = styled.div`
+  display: grid;
+  gap: 3rem;
+  align-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  justify-content: center;
+  // background: linear-gradient(180deg,#e4f1fb,hsla(0,0%,85.1%,0));
+  margin-top: 20px;
+  width: 100%;
+  padding: 1rem;
+`;
+const ImgCard = styled.div`
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 500px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: inherit;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  margin: 0 auto;
+  & > img {
     object-fit: cover;
     width: 100%;
-    }
-    object-fit:cover;
-  `;
-
+  }
+  object-fit: cover;
+`;
 const TopSellCard = styled.div`
-    background-color: #E2E4E8;
-    padding: 1rem;
-    width:100%;
-  `;
-
+  background-color: #e2e4e8;
+  padding: 1rem;
+  width: 100%;
+`;
 const Text = styled.p`
-    font-size: 14px;
-    margin: unset;
-  `;
-
+  font-size: 14px;
+  margin: unset;
+`;
 const GrayCard = styled.div`
-    background-color: #E2E4E8;
-    cusor: not-allowed;
-  `;
-
+  background-color: #e2e4e8;
+  cusor: not-allowed;
+`;
 const ChainCard = styled.div`
-    display: flex;
-    background-color: #EFF3F9;
-    align-items:center;
-    gap: 1rem;
-    cursor: pointer;
-    max-width: 320px;
-    width: 80%;
-    margin: 1rem auto;
-    height: 60px;
-    & img{
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-      margin-right: 5px;
-    }
-  `;
-
+  display: flex;
+  background-color: #eff3f9;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  max-width: 320px;
+  width: 80%;
+  margin: 1rem auto;
+  height: 60px;
+  & img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+  }
+`;
 const ChainCardMarket = styled.div`
-    display: flex;
-    background-color: #EFF3F9;
-    align-items:center;
-    gap: 0.5rem;
-    cursor: pointer;
-    width: 140px;
-    margin: 1rem;
-    height: 60px;
-    & img{
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-      margin-right: 5px;
-    }
-  `;
-
+  display: flex;
+  background-color: #eff3f9;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  width: 140px;
+  margin: 1rem;
+  height: 60px;
+  & img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 5px;
+  }
+`;
 const PriceInput = styled.div`
-    display: flex;
-    padding: .2rem;
-    &>input{
-      border:none;
-      outline: none;
-      background: none;
-      width:70px;
-      padding: 0 .2rem;
-      &:focus, &:active{
-        border:none;
-        box-shadow: none;
-      }
-    }
-    &>img{
-      width: 20px;
-      object-fit: contain;
-      margin: 0 .5rem;
-    }
-  `;
-
-const Markets = styled.div`
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-  `;
-
-const MarketOption = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-const BlueSub = styled.div`
-   color: #0d99ff;
-   font-size: .8rem;
-  `;
-
-const loadingAnimation = styled.keyframes`
-    0% { content: "Loading"; }
-    25% { content: "Loading."; }
-    50% { content: "Loading.."; }
-    75% { content: "Loading..."; }
-  `;
-
-const ListButton = styled.button`
-    padding: 10px 15px;
-    font-size: 14px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: #fff;
-    width:  120px;
-    border-radius: 16px;
+  display: flex;
+  padding: 0.2rem;
+  & > input {
     border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: #0056b3;
+    outline: none;
+    background: none;
+    width: 70px;
+    padding: 0 0.2rem;
+    &:focus,
+    &:active {
+      border: none;
+      box-shadow: none;
     }
-    &.loading {
-      background: #0056b5;
-      cursor: not-allowed;
-    }
-    &.loading::before {
-      content: "Loading";
-      animation: ${loadingAnimation} 1s infinite;
-      display: inline-block;
-    }
-  `;
+  }
+  & > img {
+    width: 20px;
+    object-fit: contain;
+    margin: 0 0.5rem;
+  }
+`;
+const Markets = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+const MarketOption = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const BlueSub = styled.div`
+  color: #0d99ff;
+  font-size: 0.8rem;
+`;
+const loadingAnimation = styled.keyframes`
+  0% {
+    content: "Loading";
+  }
+  25% {
+    content: "Loading.";
+  }
+  50% {
+    content: "Loading..";
+  }
+  75% {
+    content: "Loading...";
+  }
+`;
+const ListButton = styled.button`
+  padding: 10px 15px;
+  font-size: 14px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  width: 120px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 
+  &:hover {
+    background-color: #0056b3;
+  }
+  &.loading {
+    background: #0056b5;
+    cursor: not-allowed;
+  }
+  &.loading::before {
+    content: "Loading";
+    animation: ${loadingAnimation} 1s infinite;
+    display: inline-block;
+  }
+`;
 const ListedMarkets = styled.ul`
-     list-style-type: none;
-     display: flex;
-     flex-direction: column;
-     gap: 10px;
-     li {
-      background: #EFF3F9;
-      padding: 7px 10px;
-      border-radius: 12px;
-      margin-right: 20px;
-     }
-    img {
-      width: 20px;
-      height: 20px;
-      margin-right: 4px;
-    }
-  `;
-
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  li {
+    background: #eff3f9;
+    padding: 7px 10px;
+    border-radius: 12px;
+    margin-right: 20px;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+  }
+`;
 State.init({
   amount: 0,
 });
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
@@ -367,7 +353,6 @@ const getUsdValue = (price) => {
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
-
 const keywordsToCheck = [
   "tradeport",
   "mintbase",
@@ -375,11 +360,9 @@ const keywordsToCheck = [
   "paras",
   "genadrop",
 ];
-
 const matchedKeyWords = (inputString) => {
   return keywordsToCheck.find((keyword) => inputString.includes(keyword));
 };
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -387,14 +370,12 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-
 return (
   <>
     <div className="container-fluid">
@@ -492,7 +473,6 @@ return (
               <GrayLabel>
                 Choose how you want to list you NFT for sale
               </GrayLabel>
-
               <div className="d-flex justify-content-between">
                 <div
                   className="card rounded-4 shadow-sm p-3"
@@ -584,7 +564,6 @@ return (
                         <img src={marketPlaceImage.fewandfar} />
                         Few & Far
                       </ChainCardMarket>
-
                       <ChainCardMarket
                         className={`${
                           props.state.tradeport ? "border border-primary" : ""
