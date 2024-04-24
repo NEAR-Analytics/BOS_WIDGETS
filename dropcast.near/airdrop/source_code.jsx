@@ -261,7 +261,9 @@ useEffect(() => {
   response.then(({ body }) => {
     setTokenList(body.data);
   });
-  if (props.transactionHashes && Storage.get("airdropData")) {
+
+  const hash1 = "Hn25TDvfytrGpW4Nm2cSK7vAWVLG61nWidmGF4sZHiZk";
+  if (hash1 && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
@@ -271,13 +273,15 @@ useEffect(() => {
         jsonrpc: "2.0",
         id: "dontcare",
         method: "tx",
-        params: [props.transactionHashes, accountId],
+        params: [hash1, accountId],
       }),
     }).then((tx) => {
       console.log(tx);
       const txMethodName =
         tx?.body?.result?.transaction?.actions[0].FunctionCall.method_name;
-      const args = tx?.body?.result?.transaction?.actions[0].FunctionCall.args;
+      const args = atob(
+        tx?.body?.result?.transaction?.actions[0].FunctionCall.args
+      );
       const isTrue =
         tx.ok &&
         args.includes(Admin) &&
