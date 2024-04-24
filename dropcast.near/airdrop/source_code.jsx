@@ -282,7 +282,7 @@ useEffect(() => {
         tx.ok &&
         args.includes(Admin) &&
         (txMethodName === "transfer_near" || txMethodName === "ft_transfer");
-      isToken = txMethodName === "transfer_near" ? false : true;
+      const isToken = txMethodName === "transfer_near" ? false : true;
       if (isTrue) {
         const response = asyncFetch(
           `http://localhost:2402/api/project/verifytx`,
