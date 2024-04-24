@@ -71,10 +71,10 @@ useEffect(() => {
   });
 }, []);
 
-const { tokens, amountOutFn, handlerSwap, handlerClaim, getTxStatus } = props;
+const { tokens, amountOutFn, handlerSwap, handlerClaim, bridgeStorageKey, getTxStatus } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
-  const txs =  (handlerClaim ? Storage.privateGet("claim_txs") : Storage.privateGet("stargate_txs")) || {};
+  const txs =  (handlerClaim ? Storage.privateGet(bridgeStorageKey) : Storage.privateGet("stargate_txs")) || {};
   txs[hash] = {
     amount,
     symbol: currency.symbol,
@@ -89,7 +89,7 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
     toChainId: to.id,
   };
   
-  handlerClaim ? Storage.privateSet("claim_txs", txs) : Storage.privateSet("stargate_txs", txs);
+  handlerClaim ? Storage.privateSet(bridgeStorageKey, txs) : Storage.privateSet("stargate_txs", txs);
 };
 
 
@@ -136,7 +136,7 @@ return (
             mainnet,
             toast: props.toast,
             account,
-            txs: Storage.privateGet("claim_txs"),
+            txs: Storage.privateGet(bridgeStorageKey) || {},
           }}
         />
       </Panel> :
