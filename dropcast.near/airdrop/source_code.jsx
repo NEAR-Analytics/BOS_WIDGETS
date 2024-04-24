@@ -136,8 +136,10 @@ const handleTokenDeposit = async () => {
     );
     return;
   }
+  const contract = Storage.get("airdropData").token_contract;
   const oneTeraGas = 1000000000000;
-  const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  const tokenData = Near.view(contract, "ft_metadata");
+
   Storage.set("transfering", "token");
 
   Near.call(
@@ -145,13 +147,10 @@ const handleTokenDeposit = async () => {
     "ft_transfer",
     {
       receiver_id: Admin,
-      amount: airdropTotalAmount * oneNEARInYoctoNEAR,
+      amount: airdropTotalAmount * Math.pow(10, tokenData.decimals),
     },
     oneTeraGas
   );
-  // res.then((data) => {
-  //   console.log(data);
-  // });
 };
 
 const handleSubmit = async (e) => {
@@ -262,7 +261,12 @@ useEffect(() => {
           }
         );
         response.then(({ body }) => {
-          setTokenList(body.data);
+          const data = Storage.get("airdropData");
+          if (Storage.get("transfering") === "near") {
+            Storage.set("airdropData", { ...data, isNPaid: true });
+          } else {
+            Storage.set("airdropData", { ...data, isTPaid: true });
+          }
         });
       }
     });
