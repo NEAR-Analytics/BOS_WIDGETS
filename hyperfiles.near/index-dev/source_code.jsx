@@ -170,7 +170,7 @@ console.log("schema: ", schema);
 //console.log("adapter: ", adapter);
 
 return (
-  <div className="container mt-3">
+  <div className="container mt-3 p-3 border bg-light">
     <div className="row">
       <h1>Hyperfile Creator</h1>
       <p>
