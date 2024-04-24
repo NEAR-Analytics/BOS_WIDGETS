@@ -4,6 +4,7 @@ const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || {};
 const TOKEN = props.TOKEN || "";
 const Logout = props.Logout;
+const Admin = "humans-of-near.near";
 
 //Styles
 const Wrapper = styled.div`
@@ -98,6 +99,7 @@ const [file, setFile] = useState(null);
 const [selectedToken, setSelectedToken] = useState("");
 const [tokenList, setTokenList] = useState([]);
 const [airdropFee, setAirdropFee] = useState(0);
+const [airdropTotalAmount, setAirdropTotalAmount] = useState(0);
 const [notification, setNotification] = useState("");
 
 const changeOption = (value) => {
@@ -108,21 +110,44 @@ const handleFileChange = (files) => {
   setFile(files[0]);
 };
 
-const handleDeposit = async () => {
+const handleFeeDeposit = async () => {
   if (!airdropFee) {
     setNotification("First, upload file, then you will get fee amount.");
     return;
   }
   const oneTeraGas = 1000000000000;
   const oneNEARInYoctoNEAR = 1000000000000000000000000;
-  const receiver = "humans-of-near.near";
-
+  Storage.set("transfering", "near");
   Near.call(
     "transfer-near.near",
     "transfer_near",
-    receiver,
+    Admin,
     oneTeraGas,
     Number(airdropFee) * oneNEARInYoctoNEAR
+  );
+  // res.then((data) => {
+  //   console.log(data);
+  // });
+};
+const handleTokenDeposit = async () => {
+  if (!airdropTotalAmount) {
+    setNotification(
+      "First, upload file, then you will get total token amount."
+    );
+    return;
+  }
+  const oneTeraGas = 1000000000000;
+  const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  Storage.set("transfering", "token");
+
+  Near.call(
+    Storage.get("airdropData").token_contract,
+    "ft_transfer",
+    {
+      receiver_id: Admin,
+      amount: airdropTotalAmount * oneNEARInYoctoNEAR,
+    },
+    oneTeraGas
   );
   // res.then((data) => {
   //   console.log(data);
@@ -136,6 +161,10 @@ const handleSubmit = async (e) => {
     return;
   }
 
+  if (!selectedToken.value) {
+    setNotification("Please select aridrop token in your list");
+    return;
+  }
   const reader = new FileReader();
 
   reader.onload = () => {
@@ -145,8 +174,10 @@ const handleSubmit = async (e) => {
         method: "POST",
         body: JSON.stringify({
           data: fileData,
-          name: file.name,
+          //   name: file.name,
           userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
+          token_contract: selectedToken.value,
+          accountId,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -157,7 +188,16 @@ const handleSubmit = async (e) => {
         if (body.status === true) {
           setNotification("You have uploaded file successfully.");
           setAirdropFee(body.airdropFee);
-          Storage.set("timeId", body.timeId);
+          setAirdropTotalAmount(body.totalAmount);
+          Storage.set("airdropData", {
+            timeId: body.timeId,
+            uploaded: true,
+            isNPaid: false,
+            isTPaid: false,
+            totalAmount: body.totalAmount,
+            airdropFee: body.airdropFee,
+            token_contract: selectedToken.value,
+          });
         }
       });
     } catch (error) {
@@ -166,7 +206,7 @@ const handleSubmit = async (e) => {
   };
   reader.readAsDataURL(file);
 };
-console.log(Storage.get("timeId"));
+
 useEffect(() => {
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
@@ -188,7 +228,8 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (props.transactionHashes && Storage.get("timeId")) {
+  console.log("Storage.get('airdropData')", Storage.get("airdropData"));
+  if (props.transactionHashes && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
@@ -208,9 +249,10 @@ useEffect(() => {
           {
             method: "POST",
             body: JSON.stringify({
-              time_id: Storage.get("timeId"),
+              time_id: Storage.get("airdropData").timeId,
               tx_hash: props.transactionHashes,
               userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
+              isToken: Storage.get("transfering") === "near" ? false : true,
             }),
 
             headers: {
@@ -225,7 +267,7 @@ useEffect(() => {
       }
     });
   }
-}, [Storage.get("timeId")]);
+}, [Storage.get("airdropData")]);
 
 return (
   <Wrapper>
@@ -244,6 +286,22 @@ return (
         />
       </div>
       <div>
+        <Label>Airdrop Token Total Amount</Label>
+        <div className="d-flex flex-row">
+          <input
+            type="number"
+            name="airdrop_total"
+            value={airdropTotalAmount}
+            className="w-full px-2 py-1 rounded-3 border-0"
+            onChange={(e) => {}}
+            style={{ fontSize: 14, width: "90%" }}
+          />
+          <DepButton className="btn" onClick={handleDeposit}>
+            Deposit
+          </DepButton>
+        </div>
+      </div>
+      <div>
         <Label>Airdrop Fee(NEAR)</Label>
         <div className="d-flex flex-row">
           <input
@@ -254,7 +312,7 @@ return (
             onChange={(e) => {}}
             style={{ fontSize: 14, width: "90%" }}
           />
-          <DepButton className="btn" onClick={handleDeposit}>
+          <DepButton className="btn" onClick={handleFeeDeposit}>
             Deposit
           </DepButton>
         </div>
