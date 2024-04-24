@@ -1,7 +1,6 @@
 const initialMetadata = props.initialMetadata ?? {};
 const onChange = props.onChange;
 const options = props.options;
-
 State.init({
   initialMetadata,
   metadata: initialMetadata,
@@ -12,7 +11,6 @@ State.init({
   screenshots: initialMetadata.screenshots ?? {},
   disabled: false,
 });
-
 const metadata = {
   name: options.name ? state.metadata.name : undefined,
   description: options.name ? state.metadata.description : undefined,
@@ -34,7 +32,6 @@ const metadata = {
   feed: options.feed ? state.metadata.feed : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
 };
-
 if (
   onChange &&
   JSON.stringify(state.reportedMetadata) !== JSON.stringify(metadata)
@@ -44,22 +41,18 @@ if (
   });
   onChange(metadata);
 }
-
 const debounce = (func, wait) => {
   const pause = wait || 350;
   let timeout;
-
   return (args) => {
     const later = () => {
       clearTimeout(timeout);
       func(args);
     };
-
     clearTimeout(timeout);
     timeout = setTimeout(later, pause);
   };
 };
-
 const onNameChange = debounce((e) => {
   State.update({
     metadata: {
@@ -84,14 +77,12 @@ const onLinkTreeChange = debounce((e) => {
     },
   });
 });
-
 function onChangeDisabled() {
   State.update({
     disabled: !state.disabled,
   });
   console.log(state.disabled);
 }
-
 return (
   <>
     {options.name && (
@@ -175,7 +166,6 @@ return (
           </div>
         </div>
       ))}
-
     {options.feed && (
       <div className="mb-2 feed">
         <h4>Your Feed</h4>
@@ -191,7 +181,6 @@ return (
             Display The Default Feed
           </label>
         </div>
-
         <h6>{options.feed.label ?? "Accounts To Display"}</h6>
         <Widget
           src="jgodwill.near/widget/PageFeedsEditor"
