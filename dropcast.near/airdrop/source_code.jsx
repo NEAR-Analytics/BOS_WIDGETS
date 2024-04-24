@@ -243,6 +243,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
+  console.log("Storage.get('airdropData')", Storage.get("airdropData"));
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
     {
