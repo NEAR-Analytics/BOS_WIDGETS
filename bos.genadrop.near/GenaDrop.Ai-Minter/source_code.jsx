@@ -61,7 +61,6 @@ const chains = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
-
 const handleMint = () => {
   console.log("it's here", state.title && state.description && state.cid);
   if (!state.cid) {
@@ -73,7 +72,6 @@ const handleMint = () => {
       showAlert: true,
       toastMessage: "Please enter a title for the NFT",
     });
-
     setTimeout(() => {
       State.update({
         showAlert: false,
@@ -132,11 +130,8 @@ const handleMint = () => {
     }
     console.log("passed checks");
     let networkId = Ethers.provider()._network.chainId;
-
     const CA = contractAddresses[state.selectedChain][0] || "137";
-
     console.log("CONTRACT ADD", CA);
-
     const contract = new ethers.Contract(
       CA,
       mintSingle,
@@ -186,31 +181,23 @@ if (state.sender === undefined) {
         });
       });
   }
-
   console.log("in between", state.sender);
-
   State.update({
     selectedChain: "0",
   });
 }
-
 const onChangeTitle = (title) => {
   console.log("go daddy", state.recipient);
   State.update({
     title,
   });
 };
-
 const data = Social.keys("*/profile", "final");
-
 if (!data) {
   return "Loading";
 }
-
 const accounts = Object.entries(data);
-
 const allWidgets = [];
-
 for (let i = 0; i < accounts.length; ++i) {
   const accountId = accounts[i][0];
   allWidgets.push(accountId);
@@ -220,7 +207,6 @@ const onChangeRecipient = (recipient) => {
     recipient,
   });
 };
-
 const handleChainChange = (event) => {
   console.log(
     "get what we doing:",
@@ -253,15 +239,12 @@ const handleChainChange = (event) => {
   });
   console.log("afters", state.selectedChain);
 };
-
 const onChangeDesc = (description) => {
   console.log("Log ciritcal critics:", state.selectedChain, state.title);
   State.update({
     description,
   });
 };
-
-
 const Heading = styled.p`
   margin: 3px auto 3px auto;
   font-size: 1em;
@@ -271,7 +254,6 @@ const Heading = styled.p`
   text-align: center;
   font-family: "SF Pro Display", sans-serif;
 `;
-
 const ImageUploadCard = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -284,7 +266,6 @@ const ImageUploadCard = styled.div`
   padding: 1.5rem;
   text-align: center;
 `;
-
 const Main = styled.div`
   display: grid;
   gap: 3rem;
@@ -296,21 +277,18 @@ const Main = styled.div`
   width: 100%;
   padding: 1rem;
 `;
-
 const Text = styled.p`
   font-size: 0.9rem;
   color: #525c76;
   line-height: 1rem;
   margin: 3px;
 `;
-
 const Elipse = styled.div`
   background-color: #dff3f9;
   height: 100px;
   width: 100px;
   border-radius: 50%;
 `;
-
 const Card = styled.div`
   padding: 1em;
   border: 1px solid #e5e8eb;
@@ -318,7 +296,6 @@ const Card = styled.div`
   margin: 10px auto;
   border-radius: 0.7em;
 `;
-
 const ImageCard = styled.div`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -332,7 +309,6 @@ const ImageCard = styled.div`
     height: 100%;
   }
 `;
-
 const Input = styled.input`
   display: block;
   padding: 0.5em;
@@ -349,7 +325,6 @@ const Input = styled.input`
     color: palevioletred;
   }
 `;
-
 const TextArea = styled.textarea`
   display: block;
   padding: 0.5em;
@@ -363,12 +338,10 @@ const TextArea = styled.textarea`
     border: 1px solid #0d99ff;
   }
 `;
-
 const SelectTag = styled.select`
   height: fit-content;
   width: 300px;
 `;
-
 const ChainIcon = styled.option`
   display: flex;
   height: 130px;
@@ -379,7 +352,6 @@ const ChainIcon = styled.option`
     object-fit: contain;
   }
 `;
-
 if (!(state.sender || accountId)) {
   console.log("Please login here now");
   State.update({
@@ -387,7 +359,6 @@ if (!(state.sender || accountId)) {
     toastMessage: "Please Sign in or connect a wallet",
   });
 }
-
 const uploadFileUpdateState = (prompt) => {
   asyncFetch("https://genadrop.onrender.com/api/v1/general/generate-image", {
     method: "POST",
@@ -397,7 +368,6 @@ const uploadFileUpdateState = (prompt) => {
       "Content-Type": "application/json",
       Authorization: "Basic dXNlcm5hbWViYXNpYzpwYXNzd29yZGJhc2lj",
     },
-
     body: JSON.stringify({
       prompt,
       n: 1,
@@ -415,7 +385,6 @@ const uploadFileUpdateState = (prompt) => {
       State.update({ fetchStatusError: true });
     });
 };
-
 const mintImage = () => {
   State.update({ isLoading: true });
   asyncFetch("https://genadrop.onrender.com/api/v1/general/blob", {
@@ -426,7 +395,6 @@ const mintImage = () => {
       "Content-Type": "application/json",
       Authorization: "Basic dXNlcm5hbWViYXNpYzpwYXNzd29yZGJhc2lj",
     },
-
     body: JSON.stringify({
       imageUri: state.imgUrl,
       isAi: true,
@@ -451,30 +419,25 @@ const filesOnChange = () => {
     uploadFileUpdateState("a man in blue sky");
   }
 };
-
 const handleInputChange = (event) => {
   State.update({ prompt: event.target.value });
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 100px;
 `;
-
 const ImageContainer = styled.div`
   width: 100%;
   max-width: 400px;
   margin-bottom: 20px;
 `;
-
 const Images = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
 `;
-
 const DefaultImage = styled.div`
   width: 100%;
   height: 512px;
@@ -483,12 +446,10 @@ const DefaultImage = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const DefaultImageText = styled.span`
   font-size: 18px;
   color: #555;
 `;
-
 const TextArea2 = styled.textarea`
   width: 100%;
   max-width: 400px;
@@ -498,14 +459,12 @@ const TextArea2 = styled.textarea`
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
-
   @media (max-width: 768px) {
     max-width: 300px;
     height: 100px;
     font-size: 14px;
   }
 `;
-
 const Button = styled.button`
   padding: 10px 20px;
   padding-top: 10px;
@@ -515,13 +474,11 @@ const Button = styled.button`
   background-color: #0d99ff;
   color: #fff;
   cursor: pointer;
-
   @media (max-width: 768px) {
     padding: 8px 16px;
     font-size: 14px;
   }
 `;
-
 return (
   <Main className="container-fluid">
     {!state.cid ? (
