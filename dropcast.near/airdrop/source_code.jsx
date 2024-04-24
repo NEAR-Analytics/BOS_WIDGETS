@@ -262,8 +262,7 @@ useEffect(() => {
     setTokenList(body.data);
   });
 
-  const hash1 = "Hn25TDvfytrGpW4Nm2cSK7vAWVLG61nWidmGF4sZHiZk";
-  if (hash1 && Storage.get("airdropData")) {
+  if (props.transactionHashes && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
       headers: {
@@ -273,7 +272,7 @@ useEffect(() => {
         jsonrpc: "2.0",
         id: "dontcare",
         method: "tx",
-        params: [hash1, accountId],
+        params: [props.transactionHashes, accountId],
       }),
     }).then((tx) => {
       console.log(tx);
