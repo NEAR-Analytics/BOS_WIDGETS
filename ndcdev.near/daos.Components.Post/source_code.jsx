@@ -14,8 +14,7 @@ const {
 const GAS = "200000000000000";
 const DEPOSIT = 10000000000000000000000;
 
-if (!item || !rowId || !contractName)
-  return <Widget src="flashui.near/widget/Loading" />;
+if (!item || !contractName) return <Widget src="flashui.near/widget/Loading" />;
 
 const [itemState, setItemState] = useState(item);
 const [snapshot, setSnapshot] = useState(item);
