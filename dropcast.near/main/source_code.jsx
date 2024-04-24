@@ -171,7 +171,7 @@ const changePage = (page) => {
     page,
     sidebar: false,
   });
-  Storage.set("page", value);
+  Storage.set("page", page);
 };
 
 const openSidebar = (value) => {
