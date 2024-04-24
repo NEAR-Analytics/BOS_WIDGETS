@@ -60,7 +60,11 @@ useEffect(() => {
       if (!data) throw Error;
       let priceImpact = null;
 
-      if (prices) {
+      if (
+        prices &&
+        prices[inputCurrency.symbol] &&
+        prices[outputCurrency.symbol]
+      ) {
         const poolPrice = Big(prices[inputCurrency.symbol] || 1).div(
           prices[outputCurrency.symbol] || 1
         );
