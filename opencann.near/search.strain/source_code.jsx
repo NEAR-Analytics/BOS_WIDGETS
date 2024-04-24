@@ -7,8 +7,7 @@ _Parser, Database and Web App to index the Terpene Profile of different Strains 
 const markdown2 = `
 ## Description
 This repository contains:
-* The web app (at [docs/index.html](docs/index.html)). [Live version](https://maxvalue.github.io/Terpene-Profile-Parser-for-Cannabis-Strains/)
-* A folder for each online database which displays test results about the terpene profile of cannabis strains (Found in [labs/](labs/)). These folders usually contain:
+* A folder for each online database which displays test results about the terpene profile of cannabis strains. These folders usually contain:
   * A parser to extract the actual terpene profile from each of those HTML-pages as CSV-list
   * The CSV list of extracted terpene profiles
 
@@ -36,7 +35,6 @@ By building statistical models we can filter away the incorrect data from the di
 In the future a sort-of search engine is planned to search by terpene profile which gives you a sorted list of fitting strains.
 
 ## How to use
-You are probably interested in the web app. [Launch it here](https://maxvalue.github.io/Terpene-Profile-Parser-for-Cannabis-Strains/).
 If you are paranoid, you can also launch it locally: just clone/download the repo.
 Or save the web app in one browser and view it offline later.
 For the explanation of the sample data for each lab, see the regarding folders'
@@ -59,12 +57,12 @@ Have fun. We hope you can use this data to do good for humanity.
 return (
   <div className="container-fluid h-100">
     <div className="row">
-      <div className="col-12" style={{ height: "10vh" }}>
+      <div className="col-12" style={{ height: "20vh" }}>
         <Markdown text={markdown1} />
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "30vh" }}>
+      <div className="col-12" style={{ height: "40vh", overflow: "auto" }}>
         <iframe
           className="w-100 h-100"
           style={{ border: 0 }}
@@ -75,7 +73,7 @@ return (
       </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "60vh", overflow: "auto" }}>
+      <div className="col-12" style={{ height: "40vh", overflow: "auto" }}>
         <Markdown text={markdown2} />
       </div>
     </div>
