@@ -14,7 +14,7 @@ const handlePathUpdate = (newPath) => {
 };
 
 return (
-  <div>
+  <div className="p-3 border bg-light">
     <div
       style={{ display: "flex", flexDirection: "column", marginBottom: "20px" }}
     >
