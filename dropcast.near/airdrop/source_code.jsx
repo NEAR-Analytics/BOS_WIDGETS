@@ -346,9 +346,7 @@ return (
             </div>
           )}
         </Files>
-        <UploadButton onClick={handleSubmit} disabled={uploaded}>
-          Upload
-        </UploadButton>
+        <UploadButton onClick={handleSubmit}>Upload</UploadButton>
       </DropBox>
       {notification && (
         <div
