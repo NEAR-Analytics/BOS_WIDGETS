@@ -57,7 +57,7 @@ return content?.submentorhub ? (
           margin: "15px",
         }}
       >
-        {state.studentArray.map((student) => (
+        {state.studentArray((student) => (
           <div
             key={student}
             style={{
