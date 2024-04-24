@@ -7,6 +7,10 @@ const accountName = accountId.replace(/\.[^\.]*$/, "");
 const metadata =
   props.metadata ?? Social.getr(`${src}/metadata`, `${blockHeight}`);
 
+if (!metadata) {
+  return "";
+}
+
 const name = metadata.name ?? "Index";
 const image = metadata.image;
 
@@ -21,6 +25,11 @@ const Card = styled.div`
 const displayName = metadata.name || src;
 
 const profile = Social.getr(`${accountId}/profile`);
+
+if (!profile) {
+  return "";
+}
+
 return (
   <div className="card position-relative">
     <a
