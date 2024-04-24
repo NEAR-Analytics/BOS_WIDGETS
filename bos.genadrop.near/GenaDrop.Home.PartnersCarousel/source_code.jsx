@@ -124,7 +124,6 @@ const partnersList = [
     imageSrc: "/static/media/onboarddao.3a02aa23.svg",
   },
 ];
-
 const displayedPartnersList = partnersList.map((partner, index) => (
   <li
     className="splide__slide splide__slide--clone"
@@ -197,7 +196,6 @@ const Partners = styled.div`
     color: unset;
     cursor: pointer;
   }
-
   .MediaBar_slide img {
     height: 4rem;
     width: auto;
