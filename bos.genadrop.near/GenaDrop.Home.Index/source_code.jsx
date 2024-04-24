@@ -24,7 +24,6 @@ const SubHeading = styled.h3`
   text-align: center;
   color: #2d3748;
 `;
-
 const HeaderButtonsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -34,7 +33,6 @@ const HeaderButtonsContainer = styled.div`
   gap: 2em;
   margin-top: 1.5em;
 `;
-
 const PrimaryButton = styled.div`
   padding: 0.75em 4em;
   border-radius: 0.7em;
@@ -69,7 +67,6 @@ const SecondaryButton = styled.div`
     padding: 0.5em 2em;
   }
 `;
-
 const OrgsSection = styled.div`
   width: 100%;
   max-width: 1440px;
@@ -210,7 +207,6 @@ top: -2em;
   -webkit-animation-delay: 4s;
   animation-delay: 4s;
 }
-
 .org.mp .Orgs_icon{
 bottom: -2em;
   left: -2em;
@@ -250,7 +246,6 @@ position: absolute;
   }
   }
 `;
-
 const H1 = styled.h1`
   font-size: 3rem;
   font-weight: 600;
@@ -265,11 +260,9 @@ const H1 = styled.h1`
     font-size: 1.5rem;
   }
 `;
-
 const Accent = styled.span`
   color: #0d99ff;
 `;
-
 const DocArrow = styled.div`
   .docs-arrow {
     transition: transform 0.3s, -webkit-transform 0.3s;
@@ -279,7 +272,6 @@ const DocArrow = styled.div`
     }
   }
 `;
-
 const Text = styled.p``;
 const Sect = styled.div`
   .early-access_container {
@@ -317,7 +309,6 @@ const Sect = styled.div`
     }
   }
 `;
-
 const rightArrow = (
   <svg
     width="25"
@@ -333,7 +324,6 @@ const rightArrow = (
     ></path>
   </svg>
 );
-
 const FeatureContainer = styled.div`
   .Features_wrapper {
     width: 100%;
@@ -392,7 +382,6 @@ const FeatureContainer = styled.div`
     align-items: center;
     text-align: center;
   }
-
   .GenadropCreatedNFTs_cardGrid {
     display: flex;
     grid-gap: 0.6em;
@@ -431,7 +420,6 @@ const FeatureContainer = styled.div`
     border: 1px solid #0d99ff;
   }
 `;
-
 const FeatureHeading = styled.h3`
   color: #525c76;
   font-weight: 400;
@@ -460,7 +448,6 @@ const FeatureDescription = styled.p`
     font-size: 1rem;
   }
 `;
-
 const FAQWrapper = styled.div`
   width: 100%;
   max-width: 1440px;
@@ -537,7 +524,6 @@ const FAQWrapper = styled.div`
     height: 1.2em;
   }
 `;
-
 const loadActualData = () => {
   asyncFetch(
     "https://gist.githubusercontent.com/Jikugodwill/e341155e929f1a8c3bccae2e6c91387d/raw/f090d95273139198cf10947449b751488f67f9b9/GenaDropFAQ.json"
@@ -557,7 +543,6 @@ loadActualData();
 State.init({
   isOpen: new Array(state.faqs.length).fill(false),
 });
-
 console.log(state.isOpen);
 function faqToggleHandler(id) {
   const faq = state.faqs.filter((faq) => faq.id === id);
