@@ -42,7 +42,13 @@ return (
         }}
       >
         <div className="p-3 d-flex flex-row justify-content-between">
-          <div>
+          <div
+            style={{
+              maxWidth: "75%",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
             <Widget src="hack.near/widget/profile.widget" props={{ src }} />
           </div>
           <div className="m-1">
