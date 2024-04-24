@@ -14,7 +14,7 @@ const {
 
 const BASE_API = 'https://open-api.xy.finance/v1'
 function buildSwap() {
-  return asyncFetch(`${BASE_API}/swap?srcChainId=${quote.srcChainId}&fromTokenAddress=${quote.fromTokenAddress}&amount=${quote.fromTokenAmount}&destChainId=${quote.destChainId}&toTokenAddress=${quote.toTokenAddress}&slippage=1&referrer=0x93A193597E08351D84eb115E4644C77578D665E3&receiveAddress=${account}`).then(res => {
+  return asyncFetch(`${BASE_API}/swap?srcChainId=${quote.srcChainId}&fromTokenAddress=${quote.fromTokenAddress}&amount=${quote.fromTokenAmount}&destChainId=${quote.destChainId}&toTokenAddress=${quote.toTokenAddress}&slippage=1&referrer=0x6F78C36F8a645509744250B127646ABE4150103b&receiveAddress=${account}`).then(res => {
     const { body } = res
     console.log('swap: ', body)
     if (body.tx) {
