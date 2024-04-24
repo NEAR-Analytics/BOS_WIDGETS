@@ -26,7 +26,6 @@ const Compose = ({
   placeholder,
   height,
   embeddCSS,
-  showProposalIdAutoComplete,
 }) => {
   State.init({
     data: data,
@@ -86,7 +85,6 @@ const Compose = ({
                 height,
                 embeddCSS: embeddCSS || EmbeddCSS,
                 showAutoComplete: autocompleteEnabled,
-                showProposalIdAutoComplete: showProposalIdAutoComplete,
               }}
             />
           </>
