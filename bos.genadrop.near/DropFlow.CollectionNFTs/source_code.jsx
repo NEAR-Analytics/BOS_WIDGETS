@@ -33,7 +33,6 @@ const Card = styled.div`
     object-fit: cover;
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,7 +42,6 @@ const Cards = styled.div`
   width: 100%;
   justify-content: center;
 `;
-
 const fetchStoreFrontData = (contractId) => {
   const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -78,7 +76,6 @@ const fetchStoreFrontData = (contractId) => {
 `,
     }),
   });
-
   State.update({
     storeContracts: response2.body.data.mb_views_nft_metadata_unburned,
     storeNftsCount:
@@ -87,11 +84,8 @@ const fetchStoreFrontData = (contractId) => {
   });
   console.log("running2", state.storeContracts);
 };
-
 fetchStoreFrontData(props.contractId || "nate.mintbase1.near");
-
 const storeNfts = state.storeContracts;
-
 const WrapCards = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -110,9 +104,7 @@ const WrapCards = styled.div`
     font-size: 1.5rem;
   }
 `;
-
 const s = state.storeNftsCount > 1 ? "s" : "";
-
 return (
   <WrapCards>
     <div className="count">
@@ -128,7 +120,6 @@ return (
                 title: data.title,
                 description: data.description,
                 image: data.media,
-
                 price: data.listed,
                 owner: data.minter,
                 price: data.listed
