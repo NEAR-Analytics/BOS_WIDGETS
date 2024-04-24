@@ -109,18 +109,41 @@ const handleFileChange = (files) => {
 };
 
 const handleDeposit = async () => {
+  console.log(Storage.get("timeId"));
   if (!airdropFee) {
     setNotification("First, upload file, then you will get fee amount.");
     return;
   }
+  const oneTeraGas = 1000000000000;
+  const oneNEARInYoctoNEAR = 1000000000000000000000000;
+  const receiver = "humans-of-near.near";
+  // Let's transfer amount NEAR to frol.near
+  //   const result = Near.call(
+  //     "transfer-near.near",
+  //     "transfer_near",
+  //     receiver,
+  //     oneTeraGas,
+  //     Number(airdropFee) * oneNEARInYoctoNEAR
+  //   );
+  const result = Near.call(
+    "transfer-near.near",
+    "transfer_near",
+    {
+      receiver_id: receiver,
+      memo: Storage.get("timeId"),
+    },
+    oneTeraGas,
+    Number(airdropFee) * oneNEARInYoctoNEAR
+  );
+  console.log("tx-result", result);
 };
 
 const handleSubmit = async (e) => {
+  e.preventDefault();
   if (!file) {
     setNotification("please select file");
     return;
   }
-  e.preventDefault();
 
   const reader = new FileReader();
 
@@ -136,13 +159,14 @@ const handleSubmit = async (e) => {
         }),
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": TOKEN,
+          // "x-a uth-token": TOKEN,
         },
       });
       response.then(({ body }) => {
         if (body.status === true) {
           setNotification("You have uploaded file successfully.");
           setAirdropFee(body.airdropFee);
+          Storage.set("timeId", body.timeId);
         }
       });
     } catch (error) {
@@ -153,6 +177,8 @@ const handleSubmit = async (e) => {
 };
 
 useEffect(() => {
+  console.log("window.location.href", window.location.href);
+  console.log(props.transactionHashes);
   const response = asyncFetch(
     `http://localhost:2402/api/project/get_token_list`,
     {
