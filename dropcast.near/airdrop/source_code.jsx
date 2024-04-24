@@ -130,6 +130,10 @@ const toFixed = (x) => {
 };
 
 const handleFeeDeposit = async () => {
+  if (Storage.get("airdropData").isNPaid) {
+    setNotification("You already deposited.");
+    return;
+  }
   if (!airdropFee) {
     setNotification("First, upload file, then you will get fee amount.");
     return;
@@ -146,6 +150,10 @@ const handleFeeDeposit = async () => {
   );
 };
 const handleTokenDeposit = async () => {
+  if (Storage.get("airdropData").isTPaid) {
+    setNotification("You already deposited.");
+    return;
+  }
   if (!airdropTotalAmount) {
     setNotification(
       "First, upload file, then you will get total token amount."
@@ -310,6 +318,12 @@ useEffect(() => {
             Storage.set("airdropData", { ...data, isNPaid: true });
           } else {
             Storage.set("airdropData", { ...data, isTPaid: true });
+          }
+          if (body.isdone === true) {
+            setNotification("Your airdrop started.");
+            setTimeout(() => {
+              Storage.set("airdropData", {});
+            }, 3000);
           }
         });
       }
