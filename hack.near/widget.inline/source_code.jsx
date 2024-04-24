@@ -45,7 +45,7 @@ return (
           <div
             style={{
               maxWidth: "75%",
-              overflow: "hidden",
+              overflow: "ellipsis",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
