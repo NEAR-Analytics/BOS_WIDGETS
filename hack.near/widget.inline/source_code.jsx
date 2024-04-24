@@ -45,8 +45,9 @@ return (
         <div className="p-3 d-flex flex-row justify-content-between">
           <div
             style={{
-              maxWidth: "80%",
+              maxWidth: "75%",
               overflow: "hidden",
+              textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
           >
