@@ -9,34 +9,37 @@ const CTOKEN_ABI = [
     stateMutability: "payable",
     type: "function",
   },
+  //
   {
-    inputs: [
-      { internalType: "address", name: "gToken", type: "address" },
-      { internalType: "uint256", name: "uAmount", type: "uint256" },
-    ],
-    name: "redeemUnderlying",
+    inputs: [{ internalType: "uint256", name: "mintAmount", type: "uint256" }],
+    name: "mint",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "gToken", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "borrowAmount", type: "uint256" },
     ],
     name: "borrow",
-    outputs: [],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "repayAmount", type: "uint256" }],
+    name: "repayBorrow",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "gToken", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "uint256", name: "redeemAmount", type: "uint256" },
     ],
-    name: "repayBorrow",
-    outputs: [],
-    stateMutability: "payable",
+    name: "redeemUnderlying",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];
@@ -67,7 +70,7 @@ const UNITROLLER_ABI = [
 ];
 
 const { update, data, amount, account, onLoad } = props;
-
+console.log("HANDLER--", props);
 useEffect(() => {
   const isCollateral = data.actionText.includes("Collateral");
   if (!data.actionText || !data.underlyingToken) return;
@@ -100,7 +103,7 @@ useEffect(() => {
     };
 
     const CTokenContract = new ethers.Contract(
-      data.config.unitrollerAddress,
+      data.address,
       CTOKEN_ABI,
       Ethers.provider().getSigner()
     );
@@ -108,23 +111,23 @@ useEffect(() => {
     contract = CTokenContract;
 
     if (data.actionText === "Deposit") {
-      method = "supply";
-      params = isETH ? [data.address, 0] : [data.address, parsedAmount];
+      method = "mint";
+      params = isETH ? [0] : [parsedAmount];
     }
 
     if (data.actionText === "Withdraw") {
       method = "redeemUnderlying";
-      params = [data.address, parsedAmount];
+      params = [parsedAmount];
     }
 
     if (data.actionText === "Borrow") {
       method = "borrow";
-      params = [data.address, parsedAmount];
+      params = [parsedAmount];
     }
 
     if (data.actionText === "Repay") {
       method = "repayBorrow";
-      params = isETH ? [data.address, 0] : [data.address, parsedAmount];
+      params = isETH ? [0] : [parsedAmount];
     }
   }
 
