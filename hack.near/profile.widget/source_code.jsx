@@ -15,15 +15,7 @@ return (
           }}
         />
       </div>
-      <div
-        className="ms-2"
-        style={{
-          maxWidth: "60%",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-        }}
-      >
+      <div className="ms-2">
         <span className="fw-bold ms-1">{metadata.name ?? widgetName}</span>
         <div className="text-truncate text-muted">
           <Widget src="hack.near/widget/BuilderHat" props={{ accountId }} />
