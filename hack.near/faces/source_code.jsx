@@ -2,8 +2,6 @@ const accountId = props.accountId ?? context.accountId ?? "every.near";
 
 let accounts = props.accounts ?? ["every.near"];
 
-const limit = props.limit;
-
 const renderFaces = accounts.slice(0, limit);
 
 const Faces = styled.span`
@@ -25,35 +23,37 @@ const Faces = styled.span`
 `;
 
 return (
-  <Faces className="ms-2">
-    {renderFaces.map((accountId, i) => (
-      <a
-        key={i}
-        href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
-        className="text-decoration-none d-inline-block"
-      >
-        <Widget
-          src="mob.near/widget/Profile.OverlayTrigger"
-          props={{
-            accountId,
-            children: (
-              <Widget
-                src="mob.near/widget/ProfileImage"
-                props={{
-                  metadata,
-                  accountId,
-                  widgetName,
-                  style: { zIndex: 10 - i },
-                  className: "face",
-                  tooltip: false,
-                  imageStyle: {},
-                  imageClassName: "",
-                }}
-              />
-            ),
-          }}
-        />
-      </a>
-    ))}
-  </Faces>
+  <>
+    <Faces className="ms-2">
+      {renderFaces.map((accountId, i) => (
+        <a
+          key={i}
+          href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
+          className="text-decoration-none d-inline-block"
+        >
+          <Widget
+            src="mob.near/widget/Profile.OverlayTrigger"
+            props={{
+              accountId,
+              children: (
+                <Widget
+                  src="mob.near/widget/ProfileImage"
+                  props={{
+                    metadata,
+                    accountId,
+                    widgetName,
+                    style: { zIndex: 10 - i },
+                    className: "face",
+                    tooltip: false,
+                    imageStyle: {},
+                    imageClassName: "",
+                  }}
+                />
+              ),
+            }}
+          />
+        </a>
+      ))}
+    </Faces>
+  </>
 );
