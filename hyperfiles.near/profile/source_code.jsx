@@ -1,6 +1,6 @@
 return (
-  <div>
-    <Widget src="lord1.near/widget/NearSocial.Explorer" props={{}} />
+  <div className="p-3 border bg-light">
+    <Widget src="hyperfiles.near/widget/profile.social" props={{}} />
     <Widget src="efiz.near/widget/every.thing" />
   </div>
 );
