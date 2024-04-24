@@ -12,6 +12,7 @@ return (
           props={{
             accountId,
             widgetName,
+            imageClassName: "w-100 h-100",
           }}
         />
       </div>
