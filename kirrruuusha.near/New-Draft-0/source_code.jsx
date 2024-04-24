@@ -5,6 +5,10 @@ if (!accountId) {
 
 const content = JSON.parse(Social.get(`${accountId}`) ?? "null");
 
+if (!Array.isArray(state.studentArray)) {
+  return "Student array is not valid";
+}
+
 return content?.submentorhub ? (
   <Widget src="mob.near/widget/MentorHub" props={props} />
 ) : (
