@@ -39,6 +39,7 @@ return (
           flexDirection: "column",
           justifyContent: "space-between",
           overflow: "hidden",
+          textOverflow: "ellipsis",
         }}
       >
         <div className="p-3 d-flex flex-row justify-content-between">
@@ -46,7 +47,6 @@ return (
             style={{
               maxWidth: "75%",
               overflow: "hidden",
-              textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
           >
