@@ -1,13 +1,9 @@
 const accountId = context.accountId;
-
 if (!accountId) {
   return "Please login to see offers";
 }
-
 initState({ allTransactions: [] });
-
 const contract_id = "swap.genadrop.near";
-
 const allUserTransactionHashes = Near.view(
   "swap.genadrop.near",
   "get_hashes_for_owner",
@@ -15,9 +11,7 @@ const allUserTransactionHashes = Near.view(
     owner_id: accountId,
   }
 );
-
 const allTransactionData = [];
-
 allUserTransactionHashes.map((item) => {
   allTransactionData.push({
     ...Near.view("swap.genadrop.near", "get_transaction_data", {
@@ -26,7 +20,6 @@ allUserTransactionHashes.map((item) => {
     hash: item,
   });
 });
-
 function processNFTs(nfts, hash) {
   let arrayToReturn = [];
   nfts.map(async (nft) => {
@@ -36,7 +29,6 @@ function processNFTs(nfts, hash) {
       token_id: tokenId,
     });
     const baseUri = metadata.base_uri || "";
-
     const nftMetadata = Near.view(nftContract, "nft_token", {
       token_id: tokenId,
     });
@@ -46,14 +38,12 @@ function processNFTs(nfts, hash) {
         ? media
         : `${baseUri}${media[0] === "/" ? "" : "/"}${media}`;
     let collection = "";
-
     if (nftContract === "x.paras.near") {
       const response = fetch(
         `https://api-v2-mainnet.paras.id/token?token_id=${tokenId}`
       );
       collection = response.data.results[0].metadata.collection_id;
     }
-
     arrayToReturn.push({
       title: nftMetadata.metadata.title,
       image: image,
@@ -64,9 +54,7 @@ function processNFTs(nfts, hash) {
   });
   return arrayToReturn;
 }
-
 State.update({ allTransactions: allTransactionData });
-
 const nftData = [];
 allTransactionData.map((item) => {
   const senderNFTs = processNFTs(item.sender_nfts, item.hash);
@@ -79,32 +67,25 @@ allTransactionData.map((item) => {
   });
 });
 State.update({ nftData });
-
 function divideByPowerOfTen(numStr) {
   if (numStr.length <= 24) {
     return (Number(numStr) / 1e24).toFixed(3);
   }
-
   let wholePart = numStr.slice(0, -24);
   let fractionalPart = numStr.slice(-24);
-
   // Remove trailing zeros from the fractional part
   while (fractionalPart.endsWith("0")) {
     fractionalPart = fractionalPart.slice(0, -1);
   }
-
   // Create the result number
   let result = parseFloat(
     wholePart + (fractionalPart ? "." + fractionalPart : "")
   );
-
   // Generalized rounding
   let rounded = Math.round(result * 1e3) / 1e3;
-
   // Format the result to 3 decimal places
   return rounded.toFixed(3);
 }
-
 function formatDate(timestamp) {
   const months = [
     "January",
@@ -127,7 +108,6 @@ function formatDate(timestamp) {
   const year = date.getFullYear();
   const hours = date.getHours().toString().padStart(2, "0"); // To ensure it's always two digits
   const minutes = date.getMinutes().toString().padStart(2, "0"); // To ensure it's always two digits
-
   return {
     day: day,
     month: month,
@@ -135,14 +115,12 @@ function formatDate(timestamp) {
     time: `${hours}:${minutes}`,
   };
 }
-
 const ImageGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   @media screen and (max-width: 1000px) {
     grid-template-columns: repeat(1, 1fr);
   }
 `;
-
 const render = (transaction) => {
   const date_data = formatDate(transaction.timestamp);
   return (
@@ -182,7 +160,6 @@ const render = (transaction) => {
             (_) =>
               _.token_id === item.token_id && item.contract_id === _.contract_id
           )[0];
-
           return (
             <a
               style={{
@@ -239,7 +216,6 @@ const render = (transaction) => {
                   _.token_id === item.token_id &&
                   item.contract_id === _.contract_id
               )[0];
-
               return (
                 <a
                   style={{
@@ -277,7 +253,6 @@ const render = (transaction) => {
           </ImageGrid>
         </>
       )}
-
       <div
         style={{
           display: "grid",
@@ -349,12 +324,10 @@ const render = (transaction) => {
     </div>
   );
 };
-
 const ResponsiveGridDiv = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
 `;
-
 return (
   <ResponsiveGridDiv>
     <div style={{ margin: 5 }}>
@@ -371,7 +344,6 @@ return (
     </div>
   </ResponsiveGridDiv>
 );
-
 // receiverId: nft.contract_id,
 // 					actions: [functionCall('nft_transfer_call', {
 // 						receiver_id: SWAP_CONTRACT,
