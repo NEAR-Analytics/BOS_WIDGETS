@@ -2,20 +2,14 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = !profile;
-
 if (profile === null) {
   return "Loading";
 }
-
 const feedTabsArr = props.feedTabsArr;
-
 const showThemeButton = props.showThemeButton;
-
 const [nFTCount, setNFTCount] = useState(0);
-
 const MiddleContent = styled.div`
   flex: 0.8;
   #pills-tab li button {
@@ -25,7 +19,6 @@ const MiddleContent = styled.div`
     width: 100%;
   }
 `;
-
 const Contents = styled.div`
   display: flex;
   width: 100%;
@@ -37,7 +30,6 @@ const Contents = styled.div`
     flex-direction: column-reverse;
   }
 `;
-
 const ImageSection = styled.div`
   height: 240px;
   width: 100%;
@@ -115,7 +107,6 @@ const ImageSection = styled.div`
     }
   }
 `;
-
 const LeftProfile = styled.div`
   // margin-top: 104px;
   // width: 315px;
@@ -123,7 +114,6 @@ const LeftProfile = styled.div`
   padding: 10px 20px;
   background: #f8f8f8;
   height: 100%;
-
   .title {
     color: #000;
     font-family: Helvetica Neue;
@@ -190,7 +180,6 @@ const LeftProfile = styled.div`
     }
   }
 `;
-
 const Tags = styled.div`
   display: flex;
   gap: 7px;
@@ -215,7 +204,6 @@ const Tags = styled.div`
     padding: 3px 10px;
   }
 `;
-
 const Root = styled.div`
   margin-bottom: 50px;
   .proposeButton {
@@ -233,7 +221,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const AmountSec = styled.div`
   max-width: 300px;
   width: 100%;
@@ -284,11 +271,8 @@ const AmountSec = styled.div`
     }
   }
 `;
-
 const showEditButton = accountId && accountId === context.accountId;
-
 console.log("edit? ", showEditButton);
-
 function followUser(user, isFollowing) {
   if (isFollowing) return;
   const dataToSend = {
@@ -313,22 +297,18 @@ function followUser(user, isFollowing) {
     force: true,
   });
 }
-
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const followers = Social.keys(`*/graph/follow/${accountId}`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const numFollowing = following
   ? Object.keys(following[accountId].graph.follow || {}).length
   : null;
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
-
 const fetchNFTCount = (account) => {
   const response = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -351,14 +331,11 @@ const fetchNFTCount = (account) => {
   console.log("counData: ", countData);
   return countData;
 };
-
 if (accountId) {
   let nftCountNew = fetchNFTCount(accountId);
   setNFTCount(nftCountNew.aggregate.count);
 }
-
 console.log("nFTCount: ", nFTCount);
-
 const background = profile.backgroundImage
   ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
   : "https://ipfs.near.social/ipfs/bafkreigtgmfmdoq66fuu6oepaddggslos3m7xyngja47zy2kuyicp3chay";
