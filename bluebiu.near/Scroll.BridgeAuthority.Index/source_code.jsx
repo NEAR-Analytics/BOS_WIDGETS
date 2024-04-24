@@ -86,6 +86,7 @@ return (
         amountOutFn: "bluebiu.near/widget/Scroll.BridgeAuthority.AmountOut",
         handlerSwap: "bluebiu.near/widget/Scroll.BridgeAuthority.HandlerSwap",
         handlerClaim: 'bluebiu.near/widget/Scroll.BridgeAuthority.HandlerClaim',
+        bridgeStorageKey: 'claim_txs',
         ...props,
         addAction: (params) => {
           props.addAction({
