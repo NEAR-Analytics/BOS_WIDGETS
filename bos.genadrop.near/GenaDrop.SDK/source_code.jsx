@@ -1,7 +1,5 @@
 let { onLoad, onRefresh, loaded } = props;
-
 const OWNER_ID = "minorityprogrammers.near"; // attribution
-
 const AURORA_CONTRACT = "0xe53bC42B6b25a1d548B73636777a0599Fd27fE5c";
 const AURORA_SOUL_CONTRACT = "0xe1D36964Eb49E38BB3f7410401BC95F0E9f1F6D3";
 const POLYGON_CONTRACT = "0x436AEceaEeC57b38a17Ebe71154832fB0fAFF878";
@@ -17,7 +15,6 @@ const MINT_SINGLE = [
   "function mint(address to, uint256 id, uint256 amount, string memory uri, bytes memory data) public {}",
   "function safeMint(address to, string memory uri) public {}",
 ];
-
 const CONTRACT_ADDRESSES = {
   137: [
     POLYGON_CONTRACT,
@@ -46,7 +43,6 @@ const CONTRACT_ADDRESSES = {
   42161: [ARBITRUM_CONTRACT, "Arbitrum", "https://arbiscan.io/tx/"],
   0: [NEAR_CONTRACT, "Near"],
 };
-
 const CHAINS = [
   {
     id: "137",
@@ -79,15 +75,12 @@ const CHAINS = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
-
 const NEAR_SOCIAL_IPFS_URL = "https://ipfs.near.social";
 const NEAR_SOCIAL_ADD_ENDPOINT = `${NEAR_SOCIAL_IPFS_URL}/add`;
 const GENADROP_NEAR_CONTRACT = "nft.genadrop.near";
 const NEAR_NETWORK_CHAIN_ID = "0";
 const MINTED_NFTS_STORAGE_KEY = "GenaDropSDK.mintedNfts";
-
 let accountId = context.accountId;
-
 let GenaDropSDK = {
   initialized: false,
   network: null,
@@ -136,25 +129,19 @@ let GenaDropSDK = {
     const CA = isSoulBound
       ? GenaDropSDK.contractAddresses[network][3]
       : GenaDropSDK.contractAddresses[network][0];
-
     console.log("CONTRACT ADD", CA);
-
     const contract = new ethers.Contract(
       CA,
       MINT_SINGLE,
       Ethers.provider().getSigner()
     );
-
     GenaDropSDK.uploadToIPFS(title, description, imageCid, props).then(
       (res) => {
         const cid = res.body.cid;
         const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
-
         console.log(`ipfs://${cid}`);
-
         const recipient =
           recipient || Ethers.send("eth_requestAccounts", [])[0];
-
         isSoulBound
           ? contract
               .safeMint(recipient, `ipfs://${cid}`)
@@ -164,7 +151,6 @@ let GenaDropSDK = {
                   GenaDropSDK.contractAddresses[network][2] +
                   ricit.transactionHash
                 }`;
-
                 GenaDropSDK.logNft({
                   account: accountId,
                   recipient: recipient,
@@ -177,7 +163,6 @@ let GenaDropSDK = {
                     ricit.transactionHash,
                   network: network,
                 });
-
                 GenaDropSDK.refresh();
               })
           : contract
@@ -188,7 +173,6 @@ let GenaDropSDK = {
                   GenaDropSDK.contractAddresses[network][2] +
                   ricit.transactionHash
                 }`;
-
                 GenaDropSDK.logNft({
                   account: accountId,
                   recipient: recipient,
@@ -201,7 +185,6 @@ let GenaDropSDK = {
                     ricit.transactionHash,
                   network: network,
                 });
-
                 GenaDropSDK.refresh();
               });
       }
@@ -211,7 +194,6 @@ let GenaDropSDK = {
     GenaDropSDK.uploadToIPFS(title, description, imageCid, props).then(
       (res) => {
         const CID = res.body.cid;
-
         GenaDropSDK.callContract("nft_mint", {
           token_id: `${Date.now()}`,
           metadata: {
@@ -222,7 +204,6 @@ let GenaDropSDK = {
           },
           receiver_id: recipient || accountId,
         });
-
         GenaDropSDK.logNft({
           account: accountId,
           recipient: recipient,
@@ -243,7 +224,6 @@ let GenaDropSDK = {
       properties: props || [],
       image: `ipfs://${imageCid}`,
     };
-
     return asyncFetch(NEAR_SOCIAL_ADD_ENDPOINT, {
       method: "POST",
       headers: {
@@ -271,12 +251,9 @@ let GenaDropSDK = {
   logNft: (log) => {
     let mintedNfts = Storage.get(MINTED_NFTS_STORAGE_KEY) ?? [];
     mintedNfts.push(log);
-
     console.log(mintedNfts);
-
     GenaDropSDK.mintedNfts = mintedNfts;
     Storage.set(MINTED_NFTS_STORAGE_KEY, mintedNfts);
-
     GenaDropSDK.refresh();
   },
   getMintedNfts: () => {
@@ -286,7 +263,6 @@ let GenaDropSDK = {
     return `https://ipfs.near.social/ipfs/${cid}`;
   },
 };
-
 if (onLoad && !loaded) {
   GenaDropSDK.init();
   onLoad(GenaDropSDK);
