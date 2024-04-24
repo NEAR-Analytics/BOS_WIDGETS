@@ -15,12 +15,16 @@ const ChainWrapper = styled.div`
   &:nth-child(2) {
     width: 40%;
   }
+  
 `;
 const Label = styled.div`
   font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
   color: #979abe;
+  &.spe {
+    color: var(--spe-text-color);
+  }
 `;
 const ChainLogo = styled.img`
   width: 44px;
@@ -181,8 +185,8 @@ return (
         State.update({ displayCurrencySelect: false });
       }}
     >
-      <ChainWrapper>
-        <Label>Bridge from</Label>
+      <ChainWrapper >
+        <Label className="spe">Bridge from</Label>
         <Flex>
           <Chain>
             {state.from.logo && <ChainLogo src={state.from.logo} />}
@@ -198,7 +202,7 @@ return (
         </Flex>
       </ChainWrapper>
       <ChainWrapper>
-        <Label>To</Label>
+        <Label className="spe">To</Label>
         <Chain>
           {state.to.logo && <ChainLogo src={state.to.logo} />}
           <ChainName>{state.to.name}</ChainName>
