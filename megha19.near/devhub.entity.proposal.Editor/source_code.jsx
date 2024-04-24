@@ -428,12 +428,10 @@ useEffect(() => {
         setShowProposalPage(true);
       }
     } else {
-      console.log("calledd")
       const proposalIds = Near.view(
         "devhub.near",
         "get_all_proposal_ids"
       );
-      console.log(proposalIds,proposalIdsArray)
       if (Array.isArray(proposalIds) && !proposalIdsArray) {
         setProposalIdsArray(proposalIds);
       }
@@ -887,6 +885,7 @@ const DescriptionComponent = useMemo(() => {
         onChange: setDescription,
         autocompleteEnabled: true,
         autoFocus: false,
+        showProposalIdAutoComplete: true,
       }}
     />
   );
