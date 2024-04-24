@@ -5,7 +5,7 @@ const Tailwind = styled.div`${css}`;
 const MyAvatar = ({ className, children, ...props }) => (
   <Tailwind>
     <Avatar.Root
-      className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"
+      className="relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full"
       {...props}
     >
       {children}
