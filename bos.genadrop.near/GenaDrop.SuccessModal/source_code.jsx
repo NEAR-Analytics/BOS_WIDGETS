@@ -16,7 +16,6 @@ const PopupContainer = styled.div`
     font-weight: 600;
   }
 `;
-
 const PopupButtons = styled.div`
   margin-top: 30px;
   a:first-child {
@@ -34,7 +33,6 @@ const PopupButtons = styled.div`
     width: 120px;
   }
 `;
-
 return (
   <PopupContainer>
     <img src="https://cdn-icons-png.flaticon.com/128/5709/5709755.png" alt="" />
