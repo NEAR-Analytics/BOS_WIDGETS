@@ -49,7 +49,7 @@ const srcDoc = `
 
 return (
   <iframe
-    className="hidden"
+    className="d-none"
     srcDoc={srcDoc}
     message={{
       className: props.className,
