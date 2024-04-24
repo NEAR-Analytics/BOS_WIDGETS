@@ -2,6 +2,7 @@ const Items = styled.div`
   display: flex;
   width: 100%;
   height: 170px;
+  margin: 2rem 0 0 0;
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
