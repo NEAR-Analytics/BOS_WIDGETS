@@ -175,7 +175,8 @@ const handleTokenDeposit = async () => {
         `${airdropTotalAmount * Math.pow(10, tokenData.decimals)}`
       ),
     },
-    oneTeraGas
+    oneTeraGas,
+    1
   );
 };
 
