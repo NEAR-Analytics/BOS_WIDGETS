@@ -109,7 +109,6 @@ const handleFileChange = (files) => {
 };
 
 const handleDeposit = async () => {
-  console.log(Storage.get("timeId"));
   if (!airdropFee) {
     setNotification("First, upload file, then you will get fee amount.");
     return;
@@ -125,6 +124,9 @@ const handleDeposit = async () => {
     oneTeraGas,
     Number(airdropFee) * oneNEARInYoctoNEAR
   );
+  // res.then((data) => {
+  //   console.log(data);
+  // });
 };
 
 const handleSubmit = async (e) => {
@@ -201,11 +203,27 @@ useEffect(() => {
       }),
     }).then((tx) => {
       console.log(tx);
+      if (tx.body.ok) {
+        const response = asyncFetch(
+          `http://localhost:2402/api/project/verifytx`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              time_id: Storage.get("timeId"),
+              tx_hash: props.transactionHashes,
+              userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
+            }),
 
-      const txMethodName =
-        tx?.body?.result?.transaction?.actions[0].FunctionCall.method_name;
-      const txResultValue = tx?.body?.result;
-      console.log(txResultValue, txMethodName);
+            headers: {
+              "Content-Type": "application/json",
+              "x-auth-token": TOKEN,
+            },
+          }
+        );
+        response.then(({ body }) => {
+          setTokenList(body.data);
+        });
+      }
     });
   }
 }, []);
