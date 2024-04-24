@@ -57,7 +57,7 @@ Have fun. We hope you can use this data to do good for humanity.
 return (
   <div className="container-fluid h-100">
     <div className="row">
-      <div className="col-12" style={{ height: "20vh" }}>
+      <div className="col-12" style={{ height: "10vh", overflow: "auto"  }}>
         <Markdown text={markdown1} />
       </div>
     </div>
