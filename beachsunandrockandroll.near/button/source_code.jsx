@@ -1,12 +1,10 @@
-const { Tailwind } = VM.require(
-  "beachsunandrockandroll.near/widget/preflight"
-);
+const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-State.init({
-  clsName: "",
-});
+// State.init({
+//   clsName: "",
+// });
 
-const code3 = `
+const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
     import {cva} from 'https://cdn.jsdelivr.net/npm/class-variance-authority@0.7.0/+esm'
@@ -56,19 +54,20 @@ const code3 = `
 `;
 
 const Button = ({ className, variant, size, children, ...props }) => {
+  let clsname = "";
   return (
     <Tailwind>
       <iframe
         className="hidden"
-        srcDoc={code3}
+        srcDoc={srcDoc}
         message={{ className, variant, size }}
-        onMessage={(clsName) => State.update({ clsName })}
+        onMessage={(clsName) => {clsname = clsName}}
       />
-      <button className={state.clsName} ref={forwardedRef} {...props}>
+      <button className={clsname} ref={forwardedRef} {...props}>
         {children}
       </button>
     </Tailwind>
   );
 };
 
-return { Button }
+return { Button };
