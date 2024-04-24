@@ -3,7 +3,7 @@ if (!accountId) {
   return "No accountId";
 }
 
-const content = JSON.parse(Social.get(`${accountId}`) ?? "null");
+const content = JSON.parse(Social.get(`${accountId}/MentorHub`) ?? "null");
 
 if (!Array.isArray(state.studentArray)) {
   return "Student array is not valid";
