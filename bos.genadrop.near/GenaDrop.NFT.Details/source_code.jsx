@@ -2,7 +2,6 @@ const nft = props.nft ?? {
   contractId: props.contractId,
   tokenId: props.tokenId,
 };
-
 const contractId = props.contractId;
 const tokenId = props.tokenId;
 const className = props.className ?? "img-fluid";
@@ -13,7 +12,6 @@ const fallbackUrl = props.fallbackUrl;
 const loadingUrl =
   props.loadingUrl ??
   "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
-
 State.init({
   contractId,
   tokenId,
@@ -26,7 +24,6 @@ State.init({
   owner: "",
   imageUrl: null,
 });
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -87,12 +84,10 @@ const currentChainProps = {
     img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   },
 };
-
 const listAbi = [
   "function createMarketplaceItem(address nftContract, uint256 tokenId, uint256 price, string calldata category, address seller) public payable {}",
   "function nftSale(uint256 price, uint256 tokenId, address seller, address nftContract) public payable {}",
 ];
-
 const NoNFTLoading = styled.div`
   width: 100%;
   min-height: 80vh;
@@ -100,7 +95,6 @@ const NoNFTLoading = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const nftMetadata =
   nft.contractMetadata ?? Near.view(contractId, "nft_metadata");
 const tokenMetadata =
@@ -108,7 +102,6 @@ const tokenMetadata =
   Near.view(contractId, "nft_token", {
     token_id: tokenId,
   }).metadata;
-
 if (contractId !== state.contractId || tokenId !== tokenId) {
   State.update({
     contractId,
@@ -116,16 +109,13 @@ if (contractId !== state.contractId || tokenId !== tokenId) {
     imageUrl: null,
   });
 }
-
 let imageUrl = null;
-
 const handleBuyClick = (price, owner) => {
   const contract = new ethers.Contract(
     currentChainProps[props.chainState].contract,
     listAbi,
     Ethers.provider().getSigner()
   );
-
   const nftContract = contractId.split(tokenId)[0];
   State.update({
     loadingBuying: true,
@@ -153,7 +143,6 @@ const handleBuyClick = (price, owner) => {
       });
     });
 };
-
 function fetchTokens() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -229,13 +218,11 @@ function fetchTokens() {
           }),
         });
         const collectionData = response.body.data.nfts;
-
         if (collectionData) {
           const nftBody = collectionData.map((data) => {
             const fetchIPFSData = fetch(
               data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
             );
-
             if (fetchIPFSData.ok) {
               const nft = fetchIPFSData.body;
               let nftObject = {};
@@ -314,9 +301,7 @@ function fetchTokens() {
     }
   });
 }
-
 fetchTokens();
-
 if (props.contractId && props.tokenId && !state.title) {
   return (
     <NoNFTLoading>
@@ -329,7 +314,6 @@ if (props.contractId && props.tokenId && !state.title) {
 }
 if (nftMetadata && tokenMetadata) {
   let tokenMedia = tokenMetadata.media || "";
-
   imageUrl =
     tokenMedia.startsWith("https://") ||
     tokenMedia.startsWith("http://") ||
@@ -340,7 +324,6 @@ if (nftMetadata && tokenMetadata) {
       : tokenMedia.startsWith("Qm") || tokenMedia.startsWith("ba")
       ? `https://ipfs.near.social/ipfs/${tokenMedia}`
       : tokenMedia;
-
   if (!tokenMedia && tokenMetadata.reference) {
     if (
       nftMetadata.base_uri === "https://arweave.net" &&
@@ -361,12 +344,10 @@ if (nftMetadata && tokenMetadata) {
       imageUrl = JSON.parse(res.body).media;
     }
   }
-
   if (!imageUrl) {
     imageUrl = false;
   }
 }
-
 const replaceIpfs = (imageUrl) => {
   if (state.oldUrl !== imageUrl && imageUrl) {
     const match = rex.exec(imageUrl);
@@ -389,7 +370,6 @@ const replaceIpfs = (imageUrl) => {
     });
   }
 };
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -397,22 +377,18 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
     ? `https://i.near.social/${thumbnail}/${imageUrl}`
     : imageUrl;
-
 const img = state.imageUrl !== null ? state.imageUrl : imageUrl;
 const src = img !== false ? img : fallbackUrl;
-
 const Root = styled.div`
   width: 100%;
   display: flex;
@@ -429,7 +405,6 @@ const MainContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
 const TopSection = styled.div`
   display: flex;
   flex-direction: row;
@@ -442,7 +417,6 @@ const TopSection = styled.div`
     align-items: center;
   }
 `;
-
 const TopImageContainer = styled.div`
   padding: 1em;
   background: #ffffff;
@@ -456,7 +430,6 @@ const TopImageContainer = styled.div`
     width: 100%;
   }
 `;
-
 const loadingAnimation = styled.keyframes`
   0% {
     content: "Loading";
@@ -471,7 +444,6 @@ const loadingAnimation = styled.keyframes`
     content: "Loading...";
   }
 `;
-
 const BuyButton = styled.button`
   padding: 10px 15px;
   font-size: 14px;
@@ -483,7 +455,6 @@ const BuyButton = styled.button`
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
   &:hover {
     background-color: #0056b3;
   }
@@ -497,11 +468,9 @@ const BuyButton = styled.button`
     display: inline-block;
   }
 `;
-
 const HeaderText = styled.h1`
   font-size: 1.5rem;
 `;
-
 const PriceArea = styled.div`
   display: flex;
   align-items: center;
@@ -522,7 +491,6 @@ const PriceArea = styled.div`
     margin: 0px;
   }
 `;
-
 const PriceBucket = styled.div`
   display: flex;
   flex-direction: row;
@@ -531,14 +499,12 @@ const PriceBucket = styled.div`
   margin-top: 30px;
   width: 100%;
 `;
-
 const Logo = styled.div`
   & > img {
     width: 20px;
     margin-right: 5px;
   }
 `;
-
 const RightSection = styled.div`
   width: 46%;
   min-width: 350px;
@@ -548,7 +514,6 @@ const RightSection = styled.div`
   align-items: flex-end;
   margin-right: 10px;
 `;
-
 const Description = styled.div`
   width: 100%;
   border-radius: 1em;
@@ -562,7 +527,6 @@ const Description = styled.div`
     font-size: 1.5rem;
   }
 `;
-
 const AttributeContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -571,7 +535,6 @@ const AttributeContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 const SwapButton = styled.button`
   background: white;
   padding: 5px 7px;
@@ -580,7 +543,6 @@ const SwapButton = styled.button`
   border: 1px solid #0d99ff;
   color: #0d99ff;
 `;
-
 const Attribute = styled.div`
   display: flex;
   align-items: flex-start;
@@ -597,7 +559,6 @@ const Attribute = styled.div`
     color: #b2b7c2;
   }
 `;
-
 const TransactionTable = styled.div`
   width: 100%;
   max-width: 70%;
@@ -607,7 +568,6 @@ const TransactionTable = styled.div`
   border-radius: 16px;
   margin-bottom: 40px;
 `;
-
 const TableHeader = styled.div`
   width: 100%;
   padding: 0.5em;
@@ -623,7 +583,6 @@ const TableHeader = styled.div`
     font-size: 24px;
   }
 `;
-
 const TableBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -632,7 +591,6 @@ const TableBody = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid #dde1e6;
 `;
-
 const RowType = styled.div`
   display: inline-flex;
   align-items: center;
@@ -643,7 +601,6 @@ const RowType = styled.div`
   border-radius: 0.7em;
   border: 1px solid #a4a9b6;
 `;
-
 const RowBody = styled.div`
   display: flex;
   flex-direction: row;
@@ -663,7 +620,6 @@ const RowBody = styled.div`
     font-size: 12px;
   }
 `;
-
 const Popup = styled.div`
   position: fixed;
   top: 0;
@@ -676,7 +632,6 @@ const Popup = styled.div`
   justify-content: center;
   backdrop-filter: blur(5px); /* Apply background blur */
 `;
-
 const MintDetails = styled.div`
   display: flex;
   flex-direction: row;
@@ -690,13 +645,10 @@ const MintDetails = styled.div`
     cursor: pointer;
   }
 `;
-
 const HandleList = () => {
   console.log(props.singleNftProps);
 };
-
 const closeModal = () => State.update({ message: false });
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
@@ -709,10 +661,8 @@ const getUsdValue = (price) => {
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
-
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
 return (
   <Root>
     <MainContainer>
@@ -761,9 +711,7 @@ return (
                   ? state.owner.slice(0, 12) + "...near"
                   : !state.owner && tokenId
                   ? "----"
-                  : "nft.genadrop.near".slice(0, 8) +
-                    "..." +
-                    "near"}
+                  : "nft.genadrop.near".slice(0, 8) + "..." + "near"}
               </span>
             </a>
           </div>
