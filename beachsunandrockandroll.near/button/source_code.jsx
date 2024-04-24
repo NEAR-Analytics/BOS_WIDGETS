@@ -1,9 +1,5 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-// State.init({
-//   clsName: "",
-// });
-
 const srcDoc = `
 <script type="module"> 
     import mxcn from "https://cdn.jsdelivr.net/npm/mxcn@2.0.0/+esm"
@@ -54,16 +50,18 @@ const srcDoc = `
 `;
 
 const Button = ({ className, variant, size, children, ...props }) => {
-  let clsname = "";
+  State.init({
+    clsName: "",
+  });
   return (
     <Tailwind>
       <iframe
         className="hidden"
         srcDoc={srcDoc}
         message={{ className, variant, size }}
-        onMessage={(clsName) => {clsname = clsName}}
+        onMessage={(clsName) => State.update({ clsName })}
       />
-      <button className={clsname} ref={forwardedRef} {...props}>
+      <button className={state.clsName} ref={forwardedRef} {...props}>
         {children}
       </button>
     </Tailwind>
