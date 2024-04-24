@@ -131,10 +131,12 @@ const updateBalance = (token) => {
       erc20Abi,
       Ethers.provider()
     );
+    console.log("=address", address)
     contract.balanceOf(sender).then((balanceBig) => {
       const adjustedBalance = Big(
         ethers.utils.formatUnits(balanceBig, decimals)
       ).toString();
+      console.log('=adjustedBalance', adjustedBalance)
       State.update({
         balances: {
           ...state.balances,
@@ -200,7 +202,7 @@ const changeMode = (isDeposit) => {
 
 const handleMax = (isToken0) => {
   if (isToken0) handleTokenChange(balances[token0], token0);
-  else handleToken1Change(balances[token1], token1);
+  else handleTokenChange(balances[token1], token1);
 };
 
 const handleTokenChange = (amount, symbol) => {
@@ -556,7 +558,6 @@ const handleWithdraw = () => {
 };
 
 const tokensPrice = prices;
-const curPositionUSD = tokensPrice['USDC']
 
 const isInSufficient =
   Number(amount0) > Number(balances[token0]) ||
