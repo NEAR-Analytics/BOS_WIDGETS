@@ -8,7 +8,7 @@ const {
   curChain,
   multicallAddress,
   feesData,
-  rangeData,
+  // rangeData,
   RANGE_URL,
   prices
 } = props
@@ -152,7 +152,7 @@ function formatedData(type) {
 function getDataList() {
   pairs.forEach(pair => {
     const vaultAddress = addresses[pair.id]
-    const data = allData.find(data => data.vault === vaultAddress)
+    const data = allData.find(data => data.pool === pair.poolAddress && data.vault === vaultAddress)
     dataList.push({
       ...data,
       ...pair,
@@ -210,27 +210,20 @@ function getFee() {
   }
   formatedData('getFee')
 }
-function handleGetTvl(i, range) {
-  const {
-    balance0,
-    balance1,
-  } = range
-  const data = dataList[i]
-  dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
-    .times(prices[data.token0] ?? 0)
-    .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
-    .toFixed(2)
-  formatedData('getTvl')
-}
 function getTvl() {
+  const promiseArray = []
   if (curChain.chain_id === 56) {
     for (let i = 0; i < dataList.length; i++) {
       const vault = dataList[i].vault
-      const range = rangeData[vault]
-      handleGetTvl(i, range)
+      const query = "{\n  vault(id: \"" + vault + "\") {\n    liquidity\n    balance0\n    balance1\n    totalSupply\n    totalFeesEarned0\n    totalFeesEarned1\n    token0\n    token1\n    name\n    tag\n    pool\n  }\n}"
+      promiseArray.push(asyncFetchWithPromise(RANGE_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          query
+        })
+      }))
     }
   } else {
-    const promiseArray = []
     for (let i = 0; i < dataList.length; i++) {
       const query = `{
         vault(id: "${dataList[i].vault}") {
@@ -252,23 +245,23 @@ function getTvl() {
         })
       }))
     }
-    Promise.all(promiseArray)
-      .then(result => {
-        for (let i = 0; i < result.length; i++) {
-          // const element = array[i];
-          const {
-            balance0,
-            balance1
-          } = result[i].data.vault
-          const data = dataList[i]
-          dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
-            .times(prices[data.token0] ?? 0)
-            .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
-            .toFixed(2)
-        }
-        formatedData('getTvl')
-      })
   }
+  Promise.all(promiseArray)
+    .then(result => {
+      for (let i = 0; i < result.length; i++) {
+        const {
+          balance0,
+          balance1
+        } = result[i].data.vault
+        const data = dataList[i]
+        console.log('token0===', data.token0, '=balance0', balance0, 'token1===', data.token1, '=balance1', balance1, "=prices", prices)
+        dataList[i].tvlUSD = Big(ethers.utils.formatUnits(balance0, data.decimals0))
+          .times(prices[data.token0] ?? 0)
+          .plus(Big(ethers.utils.formatUnits(balance1, data.decimals1)).times(prices[data.token1] ?? 0))
+          .toFixed(2)
+      }
+      formatedData('getTvl')
+    })
 
 }
 function getApy() {
