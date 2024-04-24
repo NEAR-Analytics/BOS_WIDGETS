@@ -1,12 +1,9 @@
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
-
 if (!accountId) {
   return <></>;
 }
-
 const size = "100%";
-
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
   headers: {
@@ -29,17 +26,13 @@ const data = fetch("https://graph.mintbase.xyz", {
 `,
   }),
 });
-
 const finalData = data?.body?.data;
-
 if (!finalData) {
   return <></>;
 }
-
 const selectedTokenID = (props?.selectedNFTS ? props?.selectedNFTS : [])?.map(
   (item) => item.tokenId
 );
-
 return (
   <>
     <div
