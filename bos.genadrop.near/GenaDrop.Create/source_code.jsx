@@ -25,7 +25,6 @@ const aiIcon = (
     <path d="M26.9984 25V35.7859H25.6055V25H26.9984Z" fill="#C3C6DB"></path>
   </svg>
 );
-
 const artIcon = (
   <svg
     width="75"
@@ -95,7 +94,6 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const CreateOptions = styled.div`
   display: grid;
   grid-gap: 27px 29px;
