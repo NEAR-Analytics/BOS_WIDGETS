@@ -4,7 +4,7 @@ const API_URL = props.API_URL || "http://localhost:2402";
 const USER = props.USER || Storage.get("user", `${Owner}/widget/discord`);
 const TOKEN = props.TOKEN || Storage.get("token", `${Owner}/widget/discord`);
 const Logout = props.Logout;
-3;
+const currentPage = Storage.get("page") || "dashboard";
 
 const PAGES = [
   {
@@ -171,6 +171,7 @@ const changePage = (page) => {
     page,
     sidebar: false,
   });
+  Storage.set("page", value);
 };
 
 const openSidebar = (value) => {
