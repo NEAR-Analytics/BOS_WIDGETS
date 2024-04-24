@@ -313,13 +313,14 @@ useEffect(() => {
           }
         );
         response.then(({ body }) => {
+          console.log("body", body);
           const data = Storage.get("airdropData");
           if (!isToken) {
             Storage.set("airdropData", { ...data, isNPaid: true });
           } else {
             Storage.set("airdropData", { ...data, isTPaid: true });
           }
-          if (body.isdone === true) {
+          if (body.isDone === true) {
             setNotification("Your airdrop started.");
             setTimeout(() => {
               Storage.set("airdropData", {});
