@@ -55,7 +55,7 @@ const SuspenseLoading = () => {
 return (
   <Widget
     loading={<SuspenseLoading />}
-    src="alem-lib.testnet/widget/Index"
+    src="staging.potlock.near/widget/Index"
     props={props}
   />
 );
