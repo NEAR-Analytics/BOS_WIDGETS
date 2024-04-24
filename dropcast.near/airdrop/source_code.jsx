@@ -171,9 +171,9 @@ const handleTokenDeposit = async () => {
     "ft_transfer",
     {
       receiver_id: Admin,
-      amount: `${toFixed(
-        airdropTotalAmount * Math.pow(10, tokenData.decimals)
-      )}`,
+      amount: toFixed(
+        `${airdropTotalAmount * Math.pow(10, tokenData.decimals)}`
+      ),
     },
     oneTeraGas
   );
