@@ -8,7 +8,6 @@ const ShadowBOX = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
 `;
-
 const ScrollContainer = styled.div`
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -25,31 +24,24 @@ const ScrollContainer = styled.div`
   padding: 5px;
   border: 1px solid lightgray;
 `;
-
 function generateRandomHexBytes(size) {
   const byteToHex = (byte) => {
     const hexTable = "0123456789abcdef";
     return hexTable[Math.floor(byte / 16)] + hexTable[byte % 16];
   };
-
   let hexString = "";
   for (let i = 0; i < size; i++) {
     hexString += byteToHex(Math.floor(Math.random() * 256));
   }
-
   return hexString;
 }
-
 function multiplyBy10ToThe24(num) {
   // Convert the number to a string
   let strNum = num.toString();
-
   // Number of zeros to append
   let zeros = "000000000000000000000000";
-
   // Check if the number has a decimal point
   let indexOfDecimal = strNum.indexOf(".");
-
   if (indexOfDecimal === -1) {
     // If there's no decimal, simply append 24 zeros
     return strNum + zeros;
@@ -57,23 +49,18 @@ function multiplyBy10ToThe24(num) {
     // If there's a decimal, shift the numbers after the decimal
     let beforeDecimal = strNum.substring(0, indexOfDecimal);
     let afterDecimal = strNum.substring(indexOfDecimal + 1);
-
     // Append necessary zeros and adjust the decimal point
     let newNum = beforeDecimal + afterDecimal;
-
     // Account for the cases where there's less than 24 digits after the decimal
     let zerosToAdd = 24 - afterDecimal.length;
     newNum += zeros.substring(0, zerosToAdd);
-
     // Remove leading zeros
     while (newNum[0] === "0" && newNum.length > 1) {
       newNum = newNum.substring(1);
     }
-
     return newNum;
   }
 }
-
 const ConfirmOffer = () => {
   const generateOfferAndCallContract = () => {
     const allTransactions = [];
@@ -135,7 +122,6 @@ const ConfirmOffer = () => {
     Near.call(allTransactions);
     props.update({ isOfferModalOpen: false });
   };
-
   return (
     <div>
       <div
@@ -241,7 +227,6 @@ const ConfirmOffer = () => {
     </div>
   );
 };
-
 return props.isOfferModalOpen ? (
   <Widget
     src="bos.genadrop.near/widget/GenaDrop.NFT.Swap.Modal"
