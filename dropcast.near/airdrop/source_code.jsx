@@ -240,7 +240,7 @@ useEffect(() => {
   setSelectedToken({ value: token_contract } || {});
   setAirdropFee(airdropFee || 0);
   setAirdropTotalAmount(totalAmount || 0);
-}, []);
+}, [Storage.get("airdropData")]);
 
 useEffect(() => {
   console.log("Storage.get('airdropData')", Storage.get("airdropData"));
