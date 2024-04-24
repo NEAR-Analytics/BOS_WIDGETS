@@ -22,7 +22,7 @@ return (
       <div
         className="ms-2"
         style={{
-          maxWidth: "50%",
+          maxWidth: "80%",
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
