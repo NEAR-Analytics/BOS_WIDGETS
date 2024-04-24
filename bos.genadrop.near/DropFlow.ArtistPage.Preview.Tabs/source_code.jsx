@@ -5,15 +5,11 @@ const isLoggedIn = props.isLoggedIn ?? context.accountId ? true : false;
 if (!pageOwnerId) {
   return "No account ID";
 }
-
 const profile = props.profile ?? Social.getr(`${pageOwnerId}/profile`);
-
 if (profile === null) {
   return "Loading";
 }
-
 const description = profile.description;
-
 // Create a separate titleMap for dynamic linking
 const titleMap = {
   feed: "Feed",
@@ -23,13 +19,10 @@ const titleMap = {
   docs: "Docs",
   portfolio: "Portfolio",
 };
-
 const pills = [];
-
 // Extract keys and values from feedTabs
 const tabKeys = props.feedTabsArr ?? Object.keys(profile.feedTabs);
 const tabValues = tabKeys.map(() => "");
-
 // Combine keys and values into objects with titles from titleMap (fallback to key value)
 tabKeys &&
   tabKeys.forEach((key, index) => {
@@ -41,7 +34,6 @@ tabKeys &&
         key.charAt(0).toUpperCase() + key.slice(1),
     });
   });
-
 console.log("pills", pills);
 const Nav = styled.div`
   .nav-pills {
@@ -59,17 +51,14 @@ const Nav = styled.div`
     border-bottom: 3px solid #000;
     font-weight: 500;
   }
-
   .nav-item:not(:has(> .disabled)):hover {
     background: rgba(0, 0, 0, 0.15);
     * {
       color: #000 !important;
     }
   }
-
   margin: 0 -12px;
 `;
-
 const Loading = styled.div`
   display: flex;
   flex-direction: column;
@@ -86,7 +75,6 @@ const Loading = styled.div`
   }
 `;
 const feedAccounts = [];
-
 const graph = Social.keys(`${pageOwnerId}/profile/feed/*`, "final");
 console.log("Graph", Object.keys(graph[pageOwnerId].profile.feed || {}));
 if (graph !== null) {
@@ -96,12 +84,10 @@ if (graph !== null) {
   }
 }
 console.log("Feed Accounts", feedAccounts);
-
 const hashtagGraph = Social.keys(
   `${pageOwnerId}/profile/discussion/data/*`,
   "final"
 );
-
 const [fetchedHashtags, setFetchedHashtags] = useState([]);
 const [selectedHashtag, setSelectedHashtag] = useState(
   fetchedHashtags[0] ?? null
@@ -115,22 +101,15 @@ const fetchHashtags = () => {
     setFetchedHashtags([]);
   }
 };
-
 pageOwnerId && fetchHashtags();
 console.log("fetchedHashtags", fetchedHashtags[0]);
-
 console.log("selectedHashtag", selectedHashtag);
-
 const communityAddress = JSON.parse(profile.discussion.community);
-
 console.log("community: ", profile.discussion.community);
-
 const nftType = profile.nfts.type;
 const nftAddresses = profile.nfts && JSON.parse(profile.nfts.content);
 const portfolio = profile.folio;
-
 const currentTheme = Number(profile.theme) ?? 0;
-
 const getFirstSBTToken = () => {
   const view = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
     account: `${context.accountId}`,
@@ -138,9 +117,7 @@ const getFirstSBTToken = () => {
   });
   return view?.[0]?.[1]?.[0];
 };
-
 const hasSBTToken = getFirstSBTToken() !== undefined;
-
 console.log("isOwner? ", accountId === pageOwnerId);
 console.log("owner", pageOwnerId);
 console.log("feedTabs", profile.feedTabs);
@@ -319,11 +296,9 @@ return (
                     </p>
                   </div>
                 </div>
-
                 <div className="mb-2 feed">
                   <h4>My Polls</h4>
                 </div>
-
                 {hasSBTToken && (
                   <Widget
                     src={`${widgetOwner}/widget/EasyPoll.MyPolls`}
