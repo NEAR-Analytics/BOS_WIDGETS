@@ -247,11 +247,10 @@ function getFeeApr() {
         const amountLp = ethers.utils.formatUnits(balanceOfResult[i][0], 18)
         const secondValue = Big(priceLp).times(amountLp)
         const stakingAPR = Big(firstValue).div(secondValue).times(100)
+        console.log('=stakingAPR', stakingAPR.toString(), '=baseAprResult[i]?.apr', baseAprResult[i]?.apr)
         dataList[i].feeApr = Big(stakingAPR).plus(baseAprResult[i]?.apr ?? 0).toFixed(2) + '%'
       } else {
-        console.log('==result', result)
         const [baseAprResult] = result
-        console.log('===baseAprResult', baseAprResult)
         dataList[i].feeApr = Big(baseAprResult[i]?.apr ?? 0).toFixed(2) + '%'
       }
     }
