@@ -10,7 +10,6 @@ initState({
   chain: "near",
   conversion: 0,
 });
-
 const currentChain = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -22,7 +21,6 @@ const currentChain = {
     img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   },
 };
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -70,10 +68,8 @@ const currentChainProps = {
     img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   },
 };
-
 function fetchData() {
   State.update({ nftData: [] });
-
   if (state.chain === "aptos" || state.chain === "sui") {
     const response = fetch("https://api.indexer.xyz/graphql", {
       method: "POST",
@@ -111,7 +107,6 @@ function fetchData() {
           nftData: response.body.data[state.chain].nfts,
           chainRate: response.body.data[state.chain].crypto_rates[4].rate,
         });
-
     const priceConvert = (chain) => {
       switch (chain) {
         case "stacks":
@@ -157,15 +152,12 @@ function fetchData() {
           `,
       }),
     });
-
     if (!response.ok) {
       return "Loading";
     }
     const collectionData = response.body.data.nfts;
-
     if (collectionData) {
       const filteredNftData = [];
-
       for (const filteredData of collectionData) {
         try {
           const response = fetch(
@@ -182,7 +174,6 @@ function fetchData() {
           console.error(`Error fetching data: ${error}`);
         }
       }
-
       const nftBody = filteredNftData.map((data) => {
         const fetchIPFSData = fetch(
           data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
@@ -216,21 +207,17 @@ function fetchData() {
     }
   }
 }
-
 fetchData();
 const updateInputCollectionSlug = (e) => {
   State.update({ inputCollectionSlug: e.target.value });
 };
-
 const handleFetchButtonClick = () => {
   State.update({ collectionSlug: state.inputCollectionSlug });
   fetchData();
 };
-
 const updateCollectionSlug = (e) => {
   State.update({ collectionSlug: e.target.value });
 };
-
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
   const searched = state.nftData.filter((nft) =>
@@ -241,13 +228,10 @@ const seachInputHandler = (e) => {
     filteredNFTData: searched,
   });
 };
-
 const isPriceValid = typeof nft.listings[0]?.price === "number";
-
 const handleDropdownChange = (event) => {
   State.update({ chain: event.target.value, currentPage: 1 });
 };
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
@@ -260,7 +244,6 @@ const getUsdValue = (price) => {
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
-
 const getSender = () => {
   return !state.sender
     ? ""
@@ -268,14 +251,12 @@ const getSender = () => {
         "..." +
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
-
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
   }
 }
-
 const Stats = styled.div`
   display: flex;
   align-items: center;
@@ -284,7 +265,6 @@ const Stats = styled.div`
   max-width: 800px;
   gap: 20px;
 `;
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -293,7 +273,6 @@ const Main = styled.div`
   gap: 10px;
   margin-bottom: 20px;
 `;
-
 const PageTitle = styled.h1`
   text-align: center;
   font-size: 4vw;
@@ -301,7 +280,6 @@ const PageTitle = styled.h1`
   margin-bottom: 20px;
   color: #0f1d40;
 `;
-
 const NFTCard = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -336,12 +314,10 @@ const NFTCard = styled.div`
     }
   }
 `;
-
 const NFTCardText = styled.div`
   width: 100%;
   // padding: 0px 1rem;
 `;
-
 const NFTCards = styled.div`
   display: grid;
   gap: 2rem;
@@ -358,7 +334,6 @@ const NFTCards = styled.div`
   padding: 20px 3rem 1rem 3rem;
   width: 100%;
 `;
-
 const PaginationButtons = styled.div`
   width: 100%;
   display: flex;
@@ -384,7 +359,6 @@ const PaginationButtons = styled.div`
     opacity: 0.7;
   }
 `;
-
 const ImageCard = styled.div`
   height: 250px;
   width: 96%;
@@ -415,7 +389,6 @@ const InputContainer = styled.div`
     box-shadow: none;
   }
 `;
-
 const NoNFTLoading = styled.div`
   width: 100%;
   min-height: 80vh;
@@ -423,7 +396,6 @@ const NoNFTLoading = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const Hero = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -436,7 +408,6 @@ const Hero = styled.div`
   width: 100%;
   padding: 2rem;
 `;
-
 const MyAcc = styled.p`
   margin: 0;
   margin-left: 8px;
@@ -446,7 +417,6 @@ const MyAcc = styled.p`
   padding: 5px;
   border-radius: 10px;
 `;
-
 const RankCard = styled.span`
   background-color: rgba(28, 27, 28, 0.06);
   border-radius: 0.5rem;
@@ -456,7 +426,6 @@ const RankCard = styled.span`
   font-weight: bold;
   padding: 8px;
 `;
-
 const ViewButton = styled.div`
   button {
     background: white;
@@ -465,7 +434,6 @@ const ViewButton = styled.div`
     padding: 9px 15px;
   }
 `;
-
 const PriceArea = styled.div`
   display: flex;
   align-items: center;
@@ -483,7 +451,6 @@ const PriceArea = styled.div`
     margin: 0px;
   }
 `;
-
 const ChainPrice = styled.div`
   display: flex;
   flex-direction: row;
@@ -496,7 +463,6 @@ const ChainPrice = styled.div`
     margin-right: 5px;
   }
 `;
-
 const SelectChain = styled.div`
   select {
     margin: 0 10px;
@@ -510,59 +476,47 @@ const SelectChain = styled.div`
     outline: none;
   }
 `;
-
 const PRICE_CONVERSION_CONSTANT =
   state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
 function paginateNFTData(pageNumber, itemsPerPage) {
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = state.nftData.slice(startIndex, endIndex);
   return paginatedData;
 }
-
 function paginateNFTData(pageNumber, itemsPerPage) {
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = state.nftData.slice(startIndex, endIndex);
   return paginatedData;
 }
-
 // Define the nextPage and prevPage functions
 function nextPage() {
   // Define the current page and items per page
   const currentPage = state.currentPage || 1; // Assuming you have a 'currentPage' state property
   const itemsPerPage = 10; // Change this to the number of items per page you want
-
   // Calculate the next page number
   const nextPage = currentPage + 1;
-
   // Update the current page state
   State.update({ currentPage: nextPage });
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 function prevPage() {
   // Define the current page and items per page
   const currentPage = state.currentPage || 1; // Assuming you have a 'currentPage' state property
-
   // Ensure we don't go below page 1
   if (currentPage > 1) {
     // Calculate the previous page number
     const prevPage = currentPage - 1;
-
     // Update the current page state
     State.update({ currentPage: prevPage });
   }
 }
-
 // Now, when you want to display the data in your UI, use the currentPage and itemsPerPage to paginate the data
 const currentPage = state.currentPage || 1; // Get the current page from the state
 const itemsPerPage = 10; // Change this to the number of items per page you want
 const pageData = paginateNFTData(currentPage, itemsPerPage);
-
 const totalPages = state?.nftData?.length / itemsPerPage;
-
 const defaultProps = [
   {
     id: "0",
@@ -600,11 +554,9 @@ const defaultProps = [
   //   url: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
   // },
 ];
-
 const updateChain = (chain) => {
   State.update({ chain, currentPage: 1 });
 };
-
 return (
   <>
     <Hero className="w-100">
