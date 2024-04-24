@@ -2,27 +2,20 @@ const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "No account ID";
 }
-
 const feedTabsArr = props.feedTabsArr;
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const fast = !profile;
-
 if (profile === null) {
   return "Loading";
 }
-
 const [nFTCount, setNFTCount] = useState(0);
-
 const showThemeButton = props.showThemeButton;
-
 const MiddleContent = styled.div`
   flex: 0.8;
   @media screen and (max-width: 900px) {
     width: 100%;
   }
 `;
-
 const Contents = styled.div`
   display: flex;
   width: 100%;
@@ -33,7 +26,6 @@ const Contents = styled.div`
     flex-direction: column;
   }
 `;
-
 const ImageSection = styled.div`
   height: 200px;
   width: 100%;
@@ -54,14 +46,12 @@ const ImageSection = styled.div`
     }
   }
 `;
-
 const RightProfile = styled.div`
   margin-top: 104px;
   width: 400px;
   // flex: 0.3;
   padding: 0 20px;
   position: relative;
-
   .content {
     background-color: #fff;
     position: absolute;
@@ -74,14 +64,12 @@ const RightProfile = styled.div`
     align-items: center;
     align-content: center;
   }
-
   img {
     width: 110px;
     height: 110px;
     border-radius: 50%;
     border: 3px solid #fff;
   }
-
   .title {
     color: #000;
     font-family: Helvetica Neue;
@@ -155,7 +143,6 @@ const RightProfile = styled.div`
     }
   }
 `;
-
 const Tags = styled.div`
   display: flex;
   gap: 7px;
@@ -180,7 +167,6 @@ const Tags = styled.div`
     padding: 3px 10px;
   }
 `;
-
 const Root = styled.div`
   margin-bottom: 50px;
   .proposeButton {
@@ -198,7 +184,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const AmountSec = styled.div`
   max-width: 300px;
   width: 100%;
@@ -247,11 +232,8 @@ const AmountSec = styled.div`
     }
   }
 `;
-
 const showEditButton = accountId && accountId === context.accountId;
-
 console.log("edit? ", showEditButton);
-
 function followUser(user, isFollowing) {
   if (isFollowing) return;
   const dataToSend = {
@@ -276,22 +258,18 @@ function followUser(user, isFollowing) {
     force: true,
   });
 }
-
 const following = Social.keys(`${accountId}/graph/follow/*`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const followers = Social.keys(`*/graph/follow/${accountId}`, "final", {
   return_type: "BlockHeight",
   values_only: true,
 });
-
 const numFollowing = following
   ? Object.keys(following[accountId].graph.follow || {}).length
   : null;
 const numFollowers = followers ? Object.keys(followers || {}).length : null;
-
 const fetchNFTCount = (account) => {
   const response = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -314,24 +292,10 @@ const fetchNFTCount = (account) => {
   console.log("counData: ", countData);
   return countData;
 };
-
 if (accountId) {
   let nftCountNew = fetchNFTCount(accountId);
   setNFTCount(nftCountNew.aggregate.count);
 }
-
-console.log("nFTCount: ", nFTCount);
-
-// {/* <Widget
-//   src="bos.genadrop.near/widget/CPlanet.Profile.Large"
-// //   props={{
-// //     accountId,
-// //     profile,
-// //     link: true,
-// //     fast,
-// //     showEditButton: !props.profile,
-// //   }}
-// /> */}
 const background = profile.backgroundImage
   ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
@@ -350,7 +314,10 @@ return (
           <div>
             <Link
               className="btn btn-outline-primary"
-              href={`/bos.genadrop.near/widget/DropFlow.CreatePage.Index?accountId=${accountId}`}
+              href={
+                "/bos.genadrop.near/widget/DropFlow.CreatePage.Index?accountId=" +
+                accountId
+              }
             >
               <i class="bi bi-arrow-up-right-circle"></i>
               {props.createText ?? "Create Your Page"}
