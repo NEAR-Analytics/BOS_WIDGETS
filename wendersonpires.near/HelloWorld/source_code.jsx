@@ -52,5 +52,6 @@ return (
   <Widget
     loading={<SuspenseLoading />}
     src="staging.potlock.near/widget/Index"
+    props={props}
   />
 );
