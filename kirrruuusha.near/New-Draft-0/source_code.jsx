@@ -27,7 +27,7 @@ return (
       <h1 style={{ fontWeight: "bold" }}>Mentor HUB</h1>
       <h3>Make the world around you the better place</h3>
       <Widget
-        src="vlmoon.near/widget/MentorHub/ProfileImage"
+        src="vlmoon.near/widget/MentorHub"
         props={{
           accountId,
           style: { width: "7rem", height: "7rem" },
@@ -36,7 +36,7 @@ return (
           thumbnail: false,
         }}
       />
-      <Widget src="vlmoon.near/widget/MentorHub/profileName" />
+      <Widget src="vlmoon.near/widget/MentorHub" props={{ profileName }} />
       <h3
         style={{
           marginTop: "20px",
@@ -52,7 +52,7 @@ return (
         }}
       >
         <Widget
-          src="vlmoon.near/widget/MentorHub/studentArray"
+          src="vlmoon.near/widget/MentorHub"
           props={{
             accountId: student,
             descriptionForStudent: student,
