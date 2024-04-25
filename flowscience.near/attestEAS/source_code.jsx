@@ -42,27 +42,30 @@ const [account, setAccount] = useState(null);
 const [recipient, setRecipient] = useState("");
 const [schema, setSchema] = useState("");
 const [schemaDetails, setSchemaDetails] = useState(null);
+const [expirationTime, setExpirationTime] = useState("");
 const [revocable, setRevocable] = useState(false);
 const [data, setData] = useState("");
 const [showTooltip, setShowTooltip] = useState(false);
 
 // Function to fetch schema details
 const handleSchemaFetch = () => {
-  fetchABI().then((abi) => {
-    getSchema(contractAddress, abi, schema)
-      .then((result) => {
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setSchemaDetails(result.schema);
-          setError(""); // Clear any existing errors
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching schema:", err);
-        setError("Error fetching schema details.");
-      });
-  });
+  fetchABI()
+    .then((abi) => {
+      if (!abi) throw new Error("ABI not fetched");
+      return getSchema(contractAddress, abi, schema);
+    })
+    .then((result) => {
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setSchemaDetails(result.schema);
+        setError(""); // Clear any existing errors
+      }
+    })
+    .catch((err) => {
+      console.error("Error in schema fetching process:", err);
+      setError("Error fetching schema details.");
+    });
 };
 
 const handleSubmit = (event) => {
