@@ -1,7 +1,7 @@
-// Address of the token factory smart contract.
-const factoryContract = "0x80fe30fc135dD9538fAE625a8761cCe5A51De69a";
+// Address of the smart contract.
+const nftContract = "0x80fe30fc135dD9538fAE625a8761cCe5A51De69a";
 
-// URL to the JSON file containing the ABI of the factory contract.
+// URL to the JSON file containing the ABI of the contract.
 const nftMinterAbi = fetch(
   "https://raw.githubusercontent.com/open-web-academy/BOS-NFTMinter/main/NFTMinterABI.txt"
 );
@@ -36,10 +36,10 @@ if (!sender) {
   }
 }
 
-// Method to obtain the tokens created in the smart contract of token factory.
+// Method to obtain the tokens created in the smart contract.
 const getTokens = () => {
   const contract = new ethers.Contract(
-    factoryContract,
+    nftContract,
     nftMinterAbi.body,
     Ethers.provider().getSigner()
   );
@@ -60,10 +60,10 @@ useEffect(() => {
   }
 }, []);
 
-// Method to crate a new tokens in the smart contract of token factory.
+// Method to crate a new tokens in the smart contract.
 const createToken = () => {
   const contract = new ethers.Contract(
-    factoryContract,
+    nftContract,
     nftMinterAbi.body,
     Ethers.provider().getSigner()
   );
