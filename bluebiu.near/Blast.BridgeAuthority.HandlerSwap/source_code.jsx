@@ -52,6 +52,23 @@ const L1BlastBridgeProxyAbi = [
   }
 ]
 
+const L1WETHSwapAbi = [
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "wad",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdraw",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
+
 const L2BlastBridgeAbi = [
   {
     "inputs": [
@@ -91,19 +108,39 @@ const L2BlastBridgeAbi = [
 const signer = Ethers.provider().getSigner()
 const rawAmount = new Big(amount).mul(Math.pow(10, currency.decimals)).toString()
 if (target.id === 81457) {
-  let pRes
+  let pRes, wethPRes
+  if (currency.symbol === 'WETH') {
+    const L1WETHSWAPContract = new ethers.Contract(
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+      L1WETHSwapAbi,
+      signer
+    )
+
+    wethPRes = L1WETHSWAPContract.withdraw(rawAmount).then(tx => tx.wait())
+  }
+
+
   // const L1BlastBridgeProxy = '0x3a05E5d33d7Ab3864D53aaEc93c8301C1Fa49115'
-  if (currency.isNative) {
+  if (currency.isNative || wethPRes) {
     const params = {
       from: account,
       to: routerAddress,
       value: rawAmount,
     }
-    pRes = signer.sendTransaction(params).then(tx => {
-      console.log('tx:', tx)
-      // Storage.privateSet(tx.hash, tx);
-      return tx.wait()
-    })
+    if (wethPRes) {
+      pRes = wethPRes.then(() => {
+        return signer.sendTransaction(params).then(tx => {
+          console.log('tx:', tx)
+          return tx.wait()
+        })
+      })
+    } else {
+      pRes = signer.sendTransaction(params).then(tx => {
+        console.log('tx:', tx)
+        return tx.wait()
+      })
+    }
+    
   } else {
     const L1BridgeContract = new ethers.Contract(
       routerAddress,
