@@ -73,18 +73,18 @@ if (!context.accountId) {
   );
 }
 const [target, setTarget] = useState("root.near");
-const poke = (accountId) => {
+const poke = () => {
   Social.set(
     {
       index: {
         graph: JSON.stringify({
           key: "poke",
           value: {
-            accountId: accountId,
+            accountId: target,
           },
         }),
         notify: JSON.stringify({
-          key: accountId,
+          key: target,
           value: {
             type: "poke",
           },
@@ -116,7 +116,7 @@ return (
     </Header>
     <div>
       <TargetContainer>
-        <PokeTarget onClick={() => poke(target)}>
+        <PokeTarget onClick={poke}>
           <Widget
             src="mob.near/widget/ProfileImage"
             props={{
@@ -145,7 +145,7 @@ return (
             type="text"
             className="form-control"
             value={target}
-            onChange={(e) => setTarget(e.target.value.toLowerCase())}
+            onChange={(e) => setTarget(e.target.value)}
             aria-label="poke-target"
           />
         </div>
