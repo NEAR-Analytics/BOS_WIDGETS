@@ -136,7 +136,10 @@ const getWithdrawalStatus = (hash, account) => {
     return asyncFetch(`/blast/bridge/v1/withdrawal/status?hash=${hash}&walletAddress=${account}`)
         .then(res => {
             if (!res.ok) {
-                // return getWithdrawalStatus(hash, account)
+                if (res.status === 429) {
+                    return 
+                }
+                return getWithdrawalStatus(hash, account)
             }
             return res.body
         })
