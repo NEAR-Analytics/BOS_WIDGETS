@@ -134,6 +134,13 @@ useEffect(() => {
   ) {
     return;
   }
+  const wrapType =
+    inputCurrency.isNative && outputCurrency.address === wethAddress
+      ? 1
+      : inputCurrency.address === wethAddress && outputCurrency.isNative
+      ? 2
+      : 0;
+
   if (wrapType) {
     const WethContract = new ethers.Contract(
       wethAddress,
@@ -175,6 +182,7 @@ useEffect(() => {
         ),
       ];
     }
+    console.log(wrapType, 178);
     const returnData = {
       inputCurrency,
       inputCurrencyAmount,
