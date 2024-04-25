@@ -271,6 +271,7 @@ if (target.id === 534352) {
 
   const gasLimit = 392000
   const l2GasLimit = 170000;
+
   L1BridgeFeeContract.estimateCrossDomainMessageFee(gasLimit).then(res => {
     const fee = ethers.utils.formatUnits(res._hex, 18);
     const rawAmount = new Big(amount).mul(Math.pow(10, currency.decimals))
@@ -282,7 +283,7 @@ if (target.id === 534352) {
     if (currency.address === 'native') {
       return L1MessageBridgeContract.sendMessage(account, rawAmount.toString(), '0x', l2GasLimit, {
         value: rawAmount.plus(Big(fee).mul(Math.pow(10, currency.decimals))).toString(),
-        gasLimit,
+        // gasLimit,
       })
     } else {
       return L1BridgeContract.depositERC20(
@@ -292,7 +293,7 @@ if (target.id === 534352) {
         l2GasLimit,
         {
           value: Big(fee).mul(Math.pow(10, 18)).toString(),
-          gasLimit,
+          // gasLimit,
         }
       )
     }
@@ -331,7 +332,7 @@ if (target.id === 534352) {
   if (currency.address === 'native') {
     p = L2MessageBridgeContract.sendMessage(account, rawAmount.toString(), '0x', l1GasLimit, {
       value: rawAmount.toString(),
-      gasLimit
+      // gasLimit
     })
   } else {
     p = L2BridgeContract.withdrawERC20(
@@ -340,7 +341,7 @@ if (target.id === 534352) {
       rawAmount.toString(),
       0,
       {
-        gasLimit,
+        // gasLimit,
       }
     )
   }
