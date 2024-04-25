@@ -80,7 +80,7 @@ const [source, setSource] = useState("");
 const [schema, setSchema] = useState("");
 const [adapter, setAdapter] = useState("");
 const [reference, setReference] = useState(undefined);
-const [activeTab, setActiveTab] = useState("data");
+const [activeTab, setActiveTab] = useState("content");
 const [name, setName] = useState(props.name ?? "");
 const [description, setDescription] = useState(props.description ?? "");
 const [hyperfile, setHyperfile] = useState("");
@@ -164,6 +164,35 @@ const handleCreate = () => {
   }
 };
 
+const MetadataForm = ({ name, setName, description, setDescription }) => {
+  return (
+    <Form>
+      <h3>Metadata</h3>
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Description</Label>
+        <textarea
+          className="form-control mb-3"
+          rows={5}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Tags</Label>
+        <Widget src="mob.near/widget/TagsEditor" />
+      </FormGroup>
+    </Form>
+  );
+};
+
 console.log("source: ", source);
 console.log("schema: ", schema);
 //console.log("data: ", rawData);
@@ -201,8 +230,8 @@ return (
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
-          className={`nav-link ${activeTab === "data" ? "active" : ""}`}
-          onClick={() => setActiveTab("data")}
+          className={`nav-link ${activeTab === "content" ? "active" : ""}`}
+          onClick={() => setActiveTab("content")}
         >
           Content
         </a>
@@ -221,7 +250,7 @@ return (
         {defaultView === "HYPERFILE" && (
           <div className="row">
             <TabContent>
-              {activeTab === "data" && (
+              {activeTab === "content" && (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
@@ -236,26 +265,12 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <Form>
-                  <h3>metadata</h3>
-                  <FormGroup>
-                    <Label>name</Label>
-                    <Input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>description</Label>
-                    <textarea
-                      className="form-control mb-3"
-                      rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
               )}
             </TabContent>
           </div>
@@ -265,7 +280,7 @@ return (
         {defaultView === "ATTESTATION" && (
           <div className="row">
             <TabContent>
-              {activeTab === "data" && (
+              {activeTab === "content" && (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
@@ -280,26 +295,12 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <Form>
-                  <h3>metadata</h3>
-                  <FormGroup>
-                    <Label>name</Label>
-                    <Input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>description</Label>
-                    <textarea
-                      className="form-control mb-3"
-                      rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
               )}
             </TabContent>
           </div>
@@ -309,7 +310,7 @@ return (
         {defaultView === "SCHEMA" && (
           <div className="row">
             <TabContent>
-              {activeTab === "data" && (
+              {activeTab === "content" && (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
@@ -324,26 +325,12 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <Form>
-                  <h3>metadata</h3>
-                  <FormGroup>
-                    <Label>name</Label>
-                    <Input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>description</Label>
-                    <textarea
-                      className="form-control mb-3"
-                      rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
               )}
             </TabContent>
           </div>
@@ -353,7 +340,7 @@ return (
         {defaultView === "TYPE" && (
           <div className="row">
             <TabContent>
-              {activeTab === "data" && (
+              {activeTab === "content" && (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
@@ -368,26 +355,12 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <Form>
-                  <h3>metadata</h3>
-                  <FormGroup>
-                    <Label>name</Label>
-                    <Input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>description</Label>
-                    <textarea
-                      className="form-control mb-3"
-                      rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
               )}
             </TabContent>
           </div>
@@ -397,7 +370,7 @@ return (
         {defaultView === "JOB" && (
           <div className="row">
             <TabContent>
-              {activeTab === "data" && (
+              {activeTab === "content" && (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
@@ -412,26 +385,12 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <Form>
-                  <h3>metadata</h3>
-                  <FormGroup>
-                    <Label>name</Label>
-                    <Input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label>description</Label>
-                    <textarea
-                      className="form-control mb-3"
-                      rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </FormGroup>
-                </Form>
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
               )}
             </TabContent>
           </div>
