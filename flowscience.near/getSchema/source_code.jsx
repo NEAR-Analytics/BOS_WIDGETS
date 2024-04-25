@@ -25,6 +25,7 @@ console.log(contract);
 const [schemaRecord, setSchemaRecord] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
+const [showTooltip, setShowTooltip] = useState(false);
 
 function getSchema() {
   if (typeof uid !== "string" || uid.trim() === "") {
@@ -52,6 +53,32 @@ function getSchema() {
     });
 }
 
+const handleShowTooltip = () => {
+  setShowTooltip(true);
+};
+
+const handleHideTooltip = () => {
+  setTimeout(() => {
+    setShowTooltip(false);
+  }, 3000); // 3000 milliseconds = 3 seconds
+};
+
+const tooltip = (
+  <Tooltip
+    id="tooltip"
+    className="p-3 border bg-light"
+    style={{ backgroundColor: "lightgrey" }}
+  >
+    <a
+      href="https://optimism.easscan.org/schemas"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Find Schemas on Optimism.
+    </a>
+  </Tooltip>
+);
+
 return (
   <>
     <div className="m-2">
@@ -64,9 +91,19 @@ return (
       />
     </div>
     <div className="m-2">
-      <button className="btn btn-primary m-1" onClick={getSchema}>
-        Get Schema
-      </button>
+      <OverlayTrigger
+        className="p-3 border bg-light"
+        placement="right"
+        overlay={tooltip}
+        show={showTooltip}
+        onToggle={(nextShow) =>
+          nextShow ? handleShowTooltip() : handleHideTooltip()
+        }
+      >
+        <button className="btn btn-primary m-1" onClick={getSchema}>
+          Get Schema
+        </button>
+      </OverlayTrigger>
       <p className="m-1">{error}</p>
     </div>
     <div>
