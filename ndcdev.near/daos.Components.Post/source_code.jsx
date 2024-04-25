@@ -470,7 +470,7 @@ const handleLike = () => {
       id: itemState.id,
     },
     GAS,
-    DEPOSIT,
+    DEPOSIT
   );
 };
 
@@ -489,7 +489,7 @@ const changeStatus = async (item, status) => {
       status,
     },
     GAS,
-    DEPOSIT,
+    DEPOSIT
   );
 };
 
@@ -503,7 +503,7 @@ const handleSpam = () => {
       is_spam: !itemState.is_spam,
     },
     GAS,
-    DEPOSIT,
+    DEPOSIT
   );
 };
 
@@ -687,7 +687,7 @@ return (
                         </span>
                         <span>
                           {new Date(
-                            history.timestamp / 1000000,
+                            history.timestamp / 1000000
                           ).toLocaleString()}
                         </span>
                       </div>
@@ -791,7 +791,7 @@ return (
                   <span className="created">Updated at:</span>{" "}
                   <span className="date">
                     {new Date(
-                      itemState.timestamp / 1000000,
+                      itemState.timestamp / 1000000
                     ).toLocaleDateString()}
                   </span>
                 </div>
@@ -998,7 +998,7 @@ return (
                       <div>
                         {itemState.timestamp
                           ? new Date(
-                              itemState.timestamp / 1000000,
+                              itemState.timestamp / 1000000
                             ).toLocaleString()
                           : new Date().toLocaleDateString()}
                       </div>
