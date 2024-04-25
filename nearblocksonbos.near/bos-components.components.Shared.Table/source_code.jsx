@@ -264,18 +264,6 @@ function MainComponent(props) {
               {props.data &&
                 props.data.map((row, rowIndex) => (
                   <Fragment key={rowIndex}>
-                    <tr key={`expandRow-${rowIndex}`} className="h-[57px]">
-                      {props.columns.map((column, colIndex) => (
-                        <td
-                          key={`expandCol-${colIndex}`}
-                          className={column.tdClassName}
-                        >
-                          {column.cell
-                            ? column.cell(row, rowIndex)
-                            : row[column.key]}
-                        </td>
-                      ))}
-                    </tr>
                     {row?.showWarning && (
                       <tr
                         key={`expandWarning-${rowIndex}`}
@@ -289,6 +277,18 @@ function MainComponent(props) {
                         </td>
                       </tr>
                     )}
+                    <tr key={`expandRow-${rowIndex}`} className="h-[57px]">
+                      {props.columns.map((column, colIndex) => (
+                        <td
+                          key={`expandCol-${colIndex}`}
+                          className={column.tdClassName}
+                        >
+                          {column.cell
+                            ? column.cell(row, rowIndex)
+                            : row[column.key]}
+                        </td>
+                      ))}
+                    </tr>
                   </Fragment>
                 ))}
             </tbody>
@@ -317,21 +317,6 @@ function MainComponent(props) {
               {props.data &&
                 props.data.map((row, rowIndex) => (
                   <Fragment key={rowIndex}>
-                    <tr
-                      key={`row-${rowIndex}`}
-                      className=" hover:bg-blue-900/5 h-[57px]"
-                    >
-                      {props.columns.map((column, colIndex) => (
-                        <td
-                          key={`col-${colIndex}`}
-                          className={column.tdClassName}
-                        >
-                          {column.cell
-                            ? column.cell(row, rowIndex)
-                            : row[column.key]}
-                        </td>
-                      ))}
-                    </tr>
                     {row?.showWarning && (
                       <tr
                         key={`warning-${rowIndex}`}
@@ -345,6 +330,21 @@ function MainComponent(props) {
                         </td>
                       </tr>
                     )}
+                    <tr
+                      key={`row-${rowIndex}`}
+                      className="hover:bg-blue-900/5 h-[57px]"
+                    >
+                      {props.columns.map((column, colIndex) => (
+                        <td
+                          key={`col-${colIndex}`}
+                          className={column.tdClassName}
+                        >
+                          {column.cell
+                            ? column.cell(row, rowIndex)
+                            : row[column.key]}
+                        </td>
+                      ))}
+                    </tr>
                     {row.isExpanded ||
                     (props.expanded.length > 0 &&
                       props.expanded.includes(row.index))
