@@ -57,23 +57,13 @@ Have fun. We hope you can use this data to do good for humanity.
 return (
   <div className="container-fluid h-100">
     <div className="row">
-      <div className="col-12" style={{ height: "10vh", overflow: "auto"  }}>
         <Markdown text={markdown1} />
-      </div>
     </div>
     <div className="row">
-      <div className="col-12" style={{ height: "60vh", overflow: "auto" }}>
-        <iframe
-          className="w-100 h-100"
-          style={{ border: 0 }}
-          title="Strain Search | Terpene and Cannabinoid Profiles"
-          src="https://maxvalue.github.io/Terpene-Profile-Parser-for-Cannabis-Strains/"
-          sandbox="allow-same-origin"
-        ></iframe>
-      </div>
+        <Widget src="opencann.near/widget/iframe.strainsearch" />
     </div>
     <div className="row">
-        <Markdown text={markdown2} />
+      <Markdown text={markdown2} />
     </div>
   </div>
 );
