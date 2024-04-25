@@ -11,12 +11,12 @@ const image = props.image ??
 
 return (
   <>
-    <p>{JSON.stringify(player)}</p>
-    <div className="d-flex flex-row">
+    <p>{JSON.stringify(background)}</p>
+    <div className="d-flex flex-column">
       <Widget
         src="mob.near/widget/Image"
         props={{
-          image,
+          bkgImage,
           style: { width: "720px" },
           className: "me-3",
           fallbackUrl:
