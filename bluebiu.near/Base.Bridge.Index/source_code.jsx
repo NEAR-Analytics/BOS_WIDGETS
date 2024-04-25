@@ -92,7 +92,6 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   handlerClaim ? Storage.privateSet(bridgeStorageKey, txs) : Storage.privateSet("stargate_txs", txs);
 };
 
-
 return (
   <Wrapper>
     <Panel>
