@@ -36,12 +36,12 @@ function getSchema() {
   contract
     .getSchema(uid)
     .then((result) => {
-      const [uid, schema, resolver, revocable] = result;
+      const [uid, resolver, revocable, schema] = result;
       const mappedSchema = {
         uid,
-        schema,
         resolver,
         revocable,
+        schema,
       };
       setSchemaRecord(mappedSchema);
       setError("");
@@ -72,8 +72,7 @@ return (
     <div>
       {schemaRecord && (
         <div className="App">
-          <easRenderAttestation attestation={schemaRecord} />
-          {schemaRecord}
+          <pre>{JSON.stringify(schemaRecord, null, 2)}</pre>
         </div>
       )}
     </div>
