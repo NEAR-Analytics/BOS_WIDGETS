@@ -266,7 +266,7 @@ useEffect(() => {
   response.then(({ body }) => {
     setTokenList(body.data);
   });
-
+  console.log(props.transactionHashes, Storage.get("airdropData"));
   if (props.transactionHashes && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
       method: "POST",
