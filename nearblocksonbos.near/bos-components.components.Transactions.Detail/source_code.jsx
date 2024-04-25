@@ -721,36 +721,40 @@ const BurrowContract = (props) => {
 };
 
 const EventLogs = (props) => {
-  switch (props.event.contract) {
-    case 'wrap.near':
-    case 'wrap.testnet':
-      return (
-        <WrapContract
-          event={props.event}
-          network={props.network}
-          ownerId={props.ownerId}
-        />
-      );
-    case 'v2.ref-finance.near':
-      return (
-        <RefContract
-          event={props.event}
-          network={props.network}
-          ownerId={props.ownerId}
-        />
-      );
-    case 'contract.main.burrow.near':
-    case 'contract.1638481328.burrow.testnet':
-      return (
-        <BurrowContract
-          event={props.event}
-          network={props.network}
-          ownerId={props.ownerId}
-        />
-      );
-    default:
-      return null;
-  }
+  const showContract = () => {
+    switch (props.event.contract) {
+      case 'wrap.near':
+      case 'wrap.testnet':
+        return (
+          <WrapContract
+            event={props.event}
+            network={props.network}
+            ownerId={props.ownerId}
+          />
+        );
+      case 'v2.ref-finance.near':
+        return (
+          <RefContract
+            event={props.event}
+            network={props.network}
+            ownerId={props.ownerId}
+          />
+        );
+      case 'contract.main.burrow.near':
+      case 'contract.1638481328.burrow.testnet':
+        return (
+          <BurrowContract
+            event={props.event}
+            network={props.network}
+            ownerId={props.ownerId}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return <>{showContract()}</>;
 };/* END_INCLUDE COMPONENT: "includes/Common/Action/index.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Actions.jsx" */
 const CreateAccount = (props) => {
@@ -942,20 +946,23 @@ const Transfer = (props) => {
 };
 
 const Actions = (props) => {
-  switch (props.action.action_kind) {
-    case 'CreateAccount':
-      return <CreateAccount action={props.action} ownerId={props.ownerId} />;
-    case 'DeleteAccount':
-      return <DeleteAccount action={props.action} ownerId={props.ownerId} />;
-    case 'DeployContract':
-      return <DeployContract action={props.action} ownerId={props.ownerId} />;
-    case 'Stake':
-      return <Stake action={props.action} ownerId={props.ownerId} />;
-    case 'Transfer':
-      return <Transfer action={props.action} ownerId={props.ownerId} />;
-    default:
-      return null;
-  }
+  const showAction = () => {
+    switch (props.action.action_kind) {
+      case 'CreateAccount':
+        return <CreateAccount action={props.action} ownerId={props.ownerId} />;
+      case 'DeleteAccount':
+        return <DeleteAccount action={props.action} ownerId={props.ownerId} />;
+      case 'DeployContract':
+        return <DeployContract action={props.action} ownerId={props.ownerId} />;
+      case 'Stake':
+        return <Stake action={props.action} ownerId={props.ownerId} />;
+      case 'Transfer':
+        return <Transfer action={props.action} ownerId={props.ownerId} />;
+      default:
+        return null;
+    }
+  };
+  return <>{showAction()}</>;
 };/* END_INCLUDE COMPONENT: "includes/Common/Actions.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Question.jsx" */
 const Question = (props) => {
@@ -2002,7 +2009,7 @@ function MainComponent(props) {
                                       href={`/nft-token/${nft?.nft_meta?.contract}/${nft?.token_id}`}
                                       className="hover:no-underline"
                                     >
-                                      <a className="text-green hover:no-underline">
+                                      <a className="text-green hover:no-underline dark:text-green-250">
                                         {shortenToken(nft?.token_id ?? '')}
                                       </a>
                                     </Link>
@@ -2013,7 +2020,7 @@ function MainComponent(props) {
                                   href={`/nft-token/${nft?.nft_meta?.contract}`}
                                   className="hover:no-underline"
                                 >
-                                  <a className="text-green flex items-center hover:no-underline">
+                                  <a className="text-green flex items-center hover:no-underline dark:text-green-250">
                                     <TokenImage
                                       src={nft?.nft_meta?.icon}
                                       alt={nft?.nft_meta?.name}
