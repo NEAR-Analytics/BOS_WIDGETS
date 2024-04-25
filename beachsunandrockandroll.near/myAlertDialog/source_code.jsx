@@ -20,7 +20,7 @@ State.init({
   cnActionButton: "",
 });
 
-if (["", "lodaded"].includes(state.cnButton))
+if (["", "loaded"].includes(state.cnButton))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
@@ -31,7 +31,7 @@ if (["", "lodaded"].includes(state.cnButton))
     />
   );
 
-if (["", "lodaded"].includes(state.cnCancelButton))
+if (["", "loaded"].includes(state.cnCancelButton))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
@@ -43,7 +43,7 @@ if (["", "lodaded"].includes(state.cnCancelButton))
     />
   );
 
-if (["", "lodaded"].includes(state.cnActionButton))
+if (["", "loaded"].includes(state.cnActionButton))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
