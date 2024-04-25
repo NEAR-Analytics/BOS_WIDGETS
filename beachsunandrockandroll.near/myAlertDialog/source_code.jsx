@@ -38,7 +38,7 @@ if (["", "loaded"].includes(state.cnCancelButton))
       props={{
         output: (cnCancelButton) => State.update({ cnCancelButton }),
         variant: "outline",
-        className: "mt-2 sm:mt-0",
+        className: "sm:mt-0",
       }}
     />
   );
