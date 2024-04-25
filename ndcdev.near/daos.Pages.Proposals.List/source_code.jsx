@@ -158,10 +158,50 @@ const HeaderFilter = styled.div`
   padding: 1rem;
 `;
 
+const FilterLayout = styled.div`
+  min-height: 50px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 1rem 0;
+`;
+
+const FilterEntry = styled.div`
+  padding: 10px 5px;
+  font-size: 14px;
+  background-color: ${(props) => (props.selected ? "#F5F6FE;" : "white")};
+  border-left: ${(props) => (props.selected ? "2px solid #626AD1" : "none")};
+  cursor: pointer;
+  font-size: 20px;
+
+  .dao-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+
+  .dao-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .text {
+    color: #666;
+  }
+
+  .owner {
+    font-size: 12px;
+  }
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
+
 const [filteredDao, useFilteredDao] = useState(false);
 const [filteredStatus, useFilteredStatus] = useState(false);
 
-const handleFilterDaoChange = (e) => {
+const handleFilterDaoChange = () => {
   if (e.target.value === "all") {
     useFilteredDao(false);
   } else {
@@ -179,25 +219,6 @@ const handleFilterStatusChange = (e) => {
 
 const [preparedItems, setPreparedItems] = useState(items);
 
-if (items) {
-  setPreparedItems(
-    items
-      .sort((a, b) => b.created_at - a.created_at)
-      .filter((item) => {
-        if (filteredDao) {
-          return item.dao_id === parseInt(filteredDao);
-        }
-        return item;
-      })
-      .filter((item) => {
-        if (filteredStatus) {
-          return item.status === filteredStatus;
-        }
-        return item;
-      }),
-  );
-}
-
 const statuses = [
   { key: "InReview", value: "In Review" },
   { key: "New", value: "New" },
@@ -206,7 +227,26 @@ const statuses = [
   { key: "Closed", value: "Closed" },
 ];
 
+setPreparedItems(
+  items
+    .sort((a, b) => b.created_at - a.created_at)
+    .filter((item) => {
+      if (filteredDao) {
+        return item.dao_id === daos[filteredDao].id;
+      }
+      return item;
+    })
+    .filter((item) => {
+      if (filteredStatus) {
+        return item.status === statuses[filteredStatus].value;
+      }
+      return item;
+    })
+);
+
 const [showMobileFilter, setShowMobileFilter] = useState(false);
+const [showMobileDaoFilter, setShowMobileDaoFilter] = useState(false);
+const [showMobileStatusFilter, setShowMobileStatusFilter] = useState(false);
 
 const handleMobileFilter = () => {
   setShowMobileFilter(!showMobileFilter);
@@ -218,30 +258,30 @@ return (
   <>
     <Table>
       <TableHeader>
-        <TableHeaderCell flex={0.7}>
+        <TableHeaderCell>
           <div className="d-flex justify-content-between">
             <div>Status</div>
-            <Select value={filteredStatus} onChange={handleFilterStatusChange}>
+            {/* <Select value={filteredStatus} onChange={handleFilterStatusChange}>
               <option value="all">All</option>
               {statuses.map((status, index) => (
                 <option key={index} value={status.key}>
                   {status.value}
                 </option>
               ))}
-            </Select>
+            </Select> */}
           </div>
         </TableHeaderCell>
-        <TableHeaderCell flex={2.5}>
+        <TableHeaderCell flex={3}>
           <div className="d-flex justify-content-between">
             <div>DAO</div>
-            <Select value={filteredDao} onChange={handleFilterDaoChange}>
+            {/* <Select value={filteredDao} onChange={handleFilterDaoChange}>
               <option value="all">All</option>
               {daos.map((dao, index) => (
                 <option key={index} value={dao.id}>
                   {dao.title}
                 </option>
               ))}
-            </Select>
+            </Select> */}
           </div>
         </TableHeaderCell>
         <TableHeaderCell flex={2}> Modified </TableHeaderCell>
@@ -265,6 +305,7 @@ return (
         ))
       )}
     </Table>
+
     <Mobile>
       <>
         <MobileHeader>
@@ -284,29 +325,61 @@ return (
               </MobileTitle>
             </HeaderFilter>
             <HeaderFilter>
-              <MobileTitle>Status</MobileTitle>
-              <Select
-                value={filteredStatus}
-                onChange={handleFilterStatusChange}
+              <div
+                onClick={() => setShowMobileDaoFilter(!showMobileDaoFilter)}
+                className="d-flex justify-content-between"
               >
-                <option value="all">All</option>
-                {statuses.map((status, index) => (
-                  <option key={index} value={status.key}>
-                    {status.value}
-                  </option>
-                ))}
-              </Select>
+                <MobileTitle>DAO</MobileTitle>
+                {showMobileDaoFilter ? (
+                  <i class="ph ph-caret-up"></i>
+                ) : (
+                  <i class="ph ph-caret-down"></i>
+                )}
+              </div>
+              {showMobileDaoFilter && (
+                <FilterLayout>
+                  {daos.map((dao, index) => (
+                    <FilterEntry
+                      key={index}
+                      selected={index === filteredDao}
+                      onClick={() => useFilteredDao(filteredDao === index ? false : index )}
+                    >
+                      <div className="dao-container">
+                        <img className="dao-img" src={dao.logo_url} />
+                        <div> {dao.title} </div>
+                      </div>
+                    </FilterEntry>
+                  ))}
+                </FilterLayout>
+              )}
             </HeaderFilter>
             <HeaderFilter>
-              <MobileTitle>DAO</MobileTitle>
-              <Select value={filteredDao} onChange={handleFilterDaoChange}>
-                <option value="all">All</option>
-                {daos.map((dao, index) => (
-                  <option key={index} value={dao.id}>
-                    {dao.title}
-                  </option>
-                ))}
-              </Select>
+              <div
+                onClick={() =>
+                  setShowMobileStatusFilter(!showMobileStatusFilter)
+                }
+                className="d-flex justify-content-between"
+              >
+                <MobileTitle>Status</MobileTitle>
+                {showMobileStatusFilter ? (
+                  <i class="ph ph-caret-up"></i>
+                ) : (
+                  <i class="ph ph-caret-down"></i>
+                )}
+              </div>
+              {showMobileStatusFilter && (
+                <FilterLayout>
+                  {statuses.map((status, index) => (
+                    <FilterEntry
+                      key={index}
+                      selected={index === filteredStatus}
+                      onClick={() => useFilteredStatus( filteredStatus === index ? false : index )}
+                    >
+                      {status.value}
+                    </FilterEntry>
+                  ))}
+                </FilterLayout>
+              )}
             </HeaderFilter>
           </FiltersContainer>
         ) : preparedItems.length === 0 ? (
