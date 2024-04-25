@@ -5,11 +5,10 @@ const css = fetch(
 const base = fetch(
   "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
 ).body;
-// if (!css) return "";
-// if (!base) return "";
+if (!css) return "";
+if (!base) return "";
 
-const Tailwind = styled.div`
-    ${css}
+const Tailwind = styled.div`${css}
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -34,5 +33,4 @@ const Tailwind = styled.div`
     ${base}
 `;
 
-
-return <Tailwind>{props.children}</Tailwind>;
+return { Tailwind };
