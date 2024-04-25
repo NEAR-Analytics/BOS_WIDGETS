@@ -204,7 +204,7 @@ const handleSubmit = async (e) => {
   reader.onload = () => {
     const fileData = reader.result;
     try {
-      const response = asyncFetch("http://localhost:2402/api/project/airdrop", {
+      const response = asyncFetch(`${API_URL}/api/project/airdrop`, {
         method: "POST",
         body: JSON.stringify({
           data: fileData,
