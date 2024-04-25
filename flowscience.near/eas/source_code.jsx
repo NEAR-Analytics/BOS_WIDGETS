@@ -1,4 +1,5 @@
 // Example attestation UID: 0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd
+// Example schema UID: 0x6ab5d34260fca0cfcf0e76e96d439cace6aa7c3c019d7c4580ed52c6845e9c89
 
 const TabContent = styled.div`
   margin-top: 1rem;
@@ -45,6 +46,10 @@ return (
   <div className="p-3 border bg-light">
     <div className="m-2">
       <h1>EAS on BOS</h1>
+      <p>
+        Currently only works with{" "}
+        <a href="https://optimism.easscan.org/">Optimism</a>.
+      </p>
       <hr />
     </div>
     <ul className="nav nav-tabs">
