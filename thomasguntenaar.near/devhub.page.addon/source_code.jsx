@@ -67,11 +67,26 @@ if (!getAllAddons || !setCommunityAddon) {
   return <p>Loading modules...</p>;
 }
 
+// TODO this needs to be added to the contract when it is ready!
+// AddOn
+const blogv2 = {
+  configurator_widget:
+    "devhub.near/widget/devhub.entity.addon.blogv2.Configurator",
+  description: "Create a blog for your community",
+  icon: "bi bi-substack",
+  id: "blogv2",
+  title: "BlogV2",
+  view_widget: "devhub.near/widget/devhub.entity.addon.blogv2.Viewer",
+};
+
 const availableAddons = getAllAddons();
 
-const addonMatch = (availableAddons ?? []).find(
-  (it) => it.id === addon.addon_id
-);
+let addonMatch = null; // If availableAddons is not an array, set addonMatch to null
+if (Array.isArray(availableAddons)) {
+  addonMatch = ([blogv2, ...availableAddons] ?? []).find(
+    (it) => it.id === addon.addon_id
+  );
+}
 
 if (!addonMatch) {
   return (
@@ -88,7 +103,9 @@ const ButtonRow = styled.div`
   justify-content: space-between;
 `;
 
-const [view, setView] = useState(props.view || "viewer");
+// Change 'configure' to 'viewer' "configure"); //
+const [view, setView] = useState("configure"); //props.view || "viewer");
+console.log(props.view);
 
 if ("thomasguntenaar.near" !== "devhub.near") {
   addonMatch.configurator_widget = addonMatch.configurator_widget.replace(
@@ -103,7 +120,7 @@ if ("thomasguntenaar.near" !== "devhub.near") {
 
 return (
   <Container>
-    {permissions.can_configure && (
+    {permissions.can_configure && addonMatch.configurator_widget !== "" && (
       <SettingsButton
         onClick={() => setView(view === "configure" ? "view" : "configure")}
       >
@@ -132,6 +149,8 @@ return (
             },
             handle, // this is temporary prop drilling until kanban and github are migrated
             permissions,
+            // NOTE not the addon_id (same for every blog)
+            communityAddonId: addonMatch.id,
           }}
         />
       ) : (
@@ -142,6 +161,8 @@ return (
             data: config,
             handle,
             permissions,
+            transactionHashes: props.transactionHashes,
+            communityAddonId: addonMatch.id,
           }}
         />
       )}
