@@ -48,10 +48,10 @@ const adapters = [
     title: "IPFS",
     value: "everycanvas.near/widget/adapter.ipfs",
   },
-  // {
-  //   title: "GitHub",
-  //   value: "hack.near/widget/adapter.github",
-  // },
+  {
+    title: "GitHub",
+    value: "hyperfiles.near/widget/adapter.github",
+  },
   // {
   //   title: "Obsidian",
   //   value: "hack.near/widget/adapter.obsidian",
