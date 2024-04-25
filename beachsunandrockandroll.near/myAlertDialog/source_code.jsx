@@ -29,20 +29,27 @@ State.init({
   cnAlertRoot: "",
 });
 
-if (state.cnAlertRoot === "")
-  return (
-    <Widget
+// if (state.cnAlertRoot === "")
+//   return (
+//     <Widget
+//       src="beachsunandrockandroll.near/widget/alertIframe"
+//       props={{
+//         output: (cnAlertRoot) => State.update({ cnAlertRoot }),
+//         variant: "destructive",
+//       }}
+//     />
+//   );
+console.log(state.cnAlertRoot);
+return (
+  <Tailwind>
+    <div className="w-full flex">
+      <Widget
       src="beachsunandrockandroll.near/widget/alertIframe"
       props={{
         output: (cnAlertRoot) => State.update({ cnAlertRoot }),
         variant: "destructive",
       }}
     />
-  );
-console.log(state.cnAlertRoot);
-return (
-  <Tailwind>
-    <div className="w-full flex">
       <Alert className={state.cnAlertRoot}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
