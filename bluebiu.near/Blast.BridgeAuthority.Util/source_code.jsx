@@ -184,6 +184,27 @@ const getWithdrawData = (hash, account) => {
         })
 }
 
+const getCliamUSDBData = (hash, account) => {
+    return asyncFetch(`/blast/bridge/v1/withdrawal/claim-usdb`, {
+        body: JSON.stringify({
+            userAddress: account,
+            withdrawalHash: hash
+        }),
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "POST"
+    })
+        .then(res => {
+            console.log('res: ', res)
+            if (!res.ok) {
+                return getCliamUSDBData(hash, account)
+            }
+            return res.body
+        })
+}
+
 function getExtraData(etherAmount) {
     const weiAmount = ethers.utils.parseEther(etherAmount);
     const hexWei = weiAmount.toHexString();
@@ -201,5 +222,6 @@ return {
     getWithdrawalStatus,
     getProveData,
     getWithdrawData,
+    getCliamUSDBData,
     getExtraData,
 }
