@@ -51,19 +51,14 @@ return (
           margin: "15px",
         }}
       >
-        <Widget src="vlmoon.near/widget/MentorHub/studentArray" />
-        <div>
-          <Widget
-            src="vlmoon.near/widget/MentorHub/AccountProfile"
-            props={{ accountId: student }}
-          />
-          <div>
-            <h4>{descriptionForStudent(student)}</h4>
-          </div>
-          <div>
-            <h4>{ourDescriptionForStudent(student)}</h4>
-          </div>
-        </div>
+        <Widget
+          src="vlmoon.near/widget/MentorHub/studentArray"
+          props={{
+            accountId: student,
+            descriptionForStudent: student,
+            ourDescriptionForStudent: student,
+          }}
+        />
       </div>
     </div>
   </div>
