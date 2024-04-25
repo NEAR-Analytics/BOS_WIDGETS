@@ -1,7 +1,7 @@
 // Example attestation UID: 0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd
 
 // Need to finish getAttestation refactor to imported component
-//const { getAttestation } = VM.require("flowscience.near/widget/getAttestation");
+//const { GetAttestation } = VM.require("flowscience.near/widget/getAttestation");
 //const { attest } = VM.require("flowscience.near/widget/easAttest");
 //const { getSchema } = VM.require("flowscience.near/widget/getSchema");
 //const { register } = VM.require("flowscience.near/widget/easRegister");
@@ -39,7 +39,7 @@ const signer = provider.getSigner(user);
 const contractAddress = "0x4200000000000000000000000000000000000021";
 const parsedAbi = JSON.parse(abi.body);
 const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
-console.log(contract);
+//console.log(contract);
 const [attestation, setAttestation] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
