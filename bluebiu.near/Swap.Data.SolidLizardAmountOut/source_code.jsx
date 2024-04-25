@@ -141,13 +141,85 @@ useEffect(() => {
       : 0;
 
   if (wrapType) {
-    onLoad({
+    const WethContract = new ethers.Contract(
+      wethAddress,
+      [
+        {
+          constant: false,
+          inputs: [],
+          name: "deposit",
+          outputs: [],
+          payable: true,
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          constant: false,
+          inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
+          name: "withdraw",
+          outputs: [],
+          payable: false,
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      Ethers.provider().getSigner()
+    );
+    let params = [];
+    let options = {};
+    let method = "";
+    if (wrapType === 1) {
+      method = "deposit";
+      options.value = ethers.utils.parseEther(
+        Big(inputCurrencyAmount).toFixed(18).toString()
+      );
+    } else {
+      method = "withdraw";
+      params = [
+        ethers.utils.parseEther(
+          Big(inputCurrencyAmount).toFixed(18).toString()
+        ),
+      ];
+    }
+    const returnData = {
       inputCurrency,
       inputCurrencyAmount,
       outputCurrency,
       outputCurrencyAmount: inputCurrencyAmount,
       noPair: false,
-    });
+      routes: null,
+      routerStr: "",
+      gas: "",
+    };
+    const getTx = (_gas) => {
+      WethContract.populateTransaction[method](...params, {
+        ...options,
+        gasLimit: _gas || 4000000,
+      })
+        .then((res) => {
+          onLoad({
+            ...returnData,
+            gas: _gas,
+            unsignedTx: res,
+          });
+        })
+        .catch((err) => {
+          onLoad({
+            ...returnData,
+          });
+        });
+    };
+    const estimateGas = () => {
+      WethContract.estimateGas[method](...params, options)
+        .then((_gas) => {
+          getTx(_gas);
+        })
+        .catch((err) => {
+          console.log(err);
+          getTx();
+        });
+    };
+    estimateGas();
     return;
   }
 
