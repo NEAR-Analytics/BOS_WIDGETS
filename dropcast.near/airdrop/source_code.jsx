@@ -103,7 +103,6 @@ const [airdropFee, setAirdropFee] = useState(0);
 const [airdropTotalAmount, setAirdropTotalAmount] = useState(0);
 const [notification, setNotification] = useState("");
 
-console.log("API_URL--------", API_URL);
 const changeOption = (value) => {
   setSelectedToken({ value });
 };
@@ -253,20 +252,17 @@ useEffect(() => {
 
 useEffect(() => {
   console.log("Storage.get('airdropData')", Storage.get("airdropData"));
-  const response = asyncFetch(
-    `http://localhost:2402/api/project/get_token_list`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        accountId,
-      }),
+  const response = asyncFetch(`${API_URL}/api/project/get_token_list`, {
+    method: "POST",
+    body: JSON.stringify({
+      accountId,
+    }),
 
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": TOKEN,
-      },
-    }
-  );
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": TOKEN,
+    },
+  });
   response.then(({ body }) => {
     setTokenList(body.data);
   });
@@ -296,23 +292,20 @@ useEffect(() => {
         (txMethodName === "transfer_near" || txMethodName === "ft_transfer");
       const isToken = txMethodName === "transfer_near" ? false : true;
       if (isTrue) {
-        const response = asyncFetch(
-          `http://localhost:2402/api/project/verifytx`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              time_id: Storage.get("airdropData").timeId,
-              tx_hash: props.transactionHashes,
-              userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
-              isToken,
-            }),
+        const response = asyncFetch(`${API_URL}/api/project/verifytx`, {
+          method: "POST",
+          body: JSON.stringify({
+            time_id: Storage.get("airdropData").timeId,
+            tx_hash: props.transactionHashes,
+            userId: USER?._id || "65dc747ae9ed2a19c505e1c2",
+            isToken,
+          }),
 
-            headers: {
-              "Content-Type": "application/json",
-              "x-auth-token": TOKEN,
-            },
-          }
-        );
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": TOKEN,
+          },
+        });
         response.then(({ body }) => {
           console.log("body", body);
           const data = Storage.get("airdropData");
