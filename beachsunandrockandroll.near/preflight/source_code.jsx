@@ -34,4 +34,5 @@ const Tailwind = styled.div`
     ${base}
 `;
 
-return { Tailwind };
+
+return <Tailwind>{props.children}</Tailwind>;
