@@ -75,7 +75,7 @@ const logo = (
       xmlns="http://www.w3.org/2000/svg"
     >
       <text x="10" y="40" font-family="'Arial'" font-size="35" fill="#008081">
-        NRC Course
+        NCR Course
       </text>
     </svg>
   </LogoArea>
