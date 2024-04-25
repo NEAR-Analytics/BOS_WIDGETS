@@ -1,5 +1,4 @@
-// Example attestation UID: 0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd
-// Example schema UID:
+// Example schema UID: 0x6ab5d34260fca0cfcf0e76e96d439cace6aa7c3c019d7c4580ed52c6845e9c89
 
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -20,7 +19,9 @@ const abi = fetch(
 const contractAddress = "0x4200000000000000000000000000000000000020";
 const parsedAbi = JSON.parse(abi.body);
 const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
+console.log(parsedAbi);
 console.log(contract);
+
 const [schemaRecord, setSchemaRecord] = useState(null);
 const [error, setError] = useState("");
 const [uid, setUid] = useState("");
@@ -63,15 +64,16 @@ return (
       />
     </div>
     <div className="m-2">
-      <button className="btn btn-primary m-1" onClick={getAttestation}>
+      <button className="btn btn-primary m-1" onClick={getSchema}>
         Get Schema
       </button>
       <p className="m-1">{error}</p>
     </div>
     <div>
-      {attestation && (
+      {schemaRecord && (
         <div className="App">
           <easRenderAttestation attestation={schemaRecord} />
+          {schemaRecord}
         </div>
       )}
     </div>
