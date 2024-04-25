@@ -1,15 +1,15 @@
 // const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 const css = fetch(
-    "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-  ).body;
-  
-  const base = fetch(
-    "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
-  ).body;
-  // if (!css) return "";
-  // if (!base) return "";
-  
-  const Tailwind = styled.div`
+  "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+).body;
+
+const base = fetch(
+  "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
+).body;
+// if (!css) return "";
+// if (!base) return "";
+
+const Tailwind = styled.div`
       ${css}
       --background: 0 0% 100%;
       --foreground: 222.2 84% 4.9%;
@@ -34,10 +34,30 @@ const css = fetch(
   
       ${base}
   `;
-  
 
-const { Alert, AlertTitle, AlertDescription } = VM.require(
-  "beachsunandrockandroll.near/widget/alert"
+
+const Alert = ({ className, children, variant, ...props }) => (
+  <Tailwind>
+    <div ref={forwardedRef} role="alert" className={className} {...props}>
+      {children}
+    </div>
+  </Tailwind>
+);
+
+const AlertTitle = ({ className, children, ...props }) => (
+  <Tailwind>
+    <h5 ref={forwardedRef} className={className} {...props}>
+      {children}
+    </h5>
+  </Tailwind>
+);
+
+const AlertDescription = ({ className, children, ...props }) => (
+  <Tailwind>
+    <div ref={forwardedRef} className={className} {...props}>
+      {children}
+    </div>
+  </Tailwind>
 );
 
 State.init({
