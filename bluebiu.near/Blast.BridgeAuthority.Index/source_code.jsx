@@ -90,17 +90,9 @@ const ChainTokens = [
   },
 ]
 
-
-
-if (props.currentChainId !== CHAIN_ID) {
-  State.init({
-    tokens: MainTokens,
-  })
-} else {
-  State.init({
-    tokens: ChainTokens,
-  })
-}
+State.init({
+  tokens: props.currentChainId !== CHAIN_ID ? MainTokens : ChainTokens,
+})
 
 return (
   <Theme>
