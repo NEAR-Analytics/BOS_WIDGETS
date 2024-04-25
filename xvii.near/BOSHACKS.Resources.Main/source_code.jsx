@@ -92,6 +92,17 @@ const LessonLinks = () => {
 
   return (
     <div>
+      {/* Syllabus link */}
+      <div style={{ ...linkContainerStyle, textAlign: "center" }}>
+        <a
+          style={moduleTitleStyle} // Apply the same style as module titles
+          href="https://hackmd.io/@doulos819/NRC"
+          target="_blank"
+        >
+          Syllabus
+        </a>
+      </div>
+
       {/* Module links */}
       {modules.map((module, moduleIndex) => (
         <div key={moduleIndex} style={{ marginBottom: "10px" }}>
