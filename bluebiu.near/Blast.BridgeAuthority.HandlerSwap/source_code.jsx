@@ -149,13 +149,13 @@ if (target.id === 81457) {
     )
 
     pRes = L1BridgeContract.bridgeERC20(
-      currency.targetAddress,
       currency.address,
+      currency.targetAddress,
       rawAmount,
       800000,
       getExtraData(amount),
       {
-        gasLimit: 800000
+        // gasLimit: 100000
       }
     ).then(tx => tx.wait())
   }
@@ -201,7 +201,7 @@ if (target.id === 81457) {
       800000,
       getExtraData(amount),
       {
-        gasLimit: 800000
+        // gasLimit: 800000
       }
     ).then(tx => tx.wait())
   }
