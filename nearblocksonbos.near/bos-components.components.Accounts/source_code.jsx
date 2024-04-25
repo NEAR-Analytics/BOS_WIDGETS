@@ -412,6 +412,7 @@ function MainComponent(props) {
     {} ,
   );
   const [tokenData, setTokenData] = useState({} );
+  const [nftTokenData, setNftTokenData] = useState({} );
   const [inventoryData, setInventoryData] = useState(
     {} ,
   );
@@ -549,6 +550,31 @@ function MainComponent(props) {
         .catch(() => {});
     }
 
+    function fetchNftTokenData() {
+      asyncFetch(`${config?.backendUrl}nfts/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(
+          (data
+
+
+
+
+) => {
+            const tokenResp = data?.body?.contracts?.[0];
+            if (data.status === 200) {
+              setNftTokenData(tokenResp);
+            } else {
+              handleRateLimit(data, fetchNftTokenData);
+            }
+          },
+        )
+        .catch(() => {});
+    }
+
     function fetchInventoryData() {
       setInventoryLoading(true);
       asyncFetch(`${config?.backendUrl}account/${id}/inventory`, {
@@ -585,6 +611,7 @@ function MainComponent(props) {
       fetchAccountData();
       fetchContractData();
       fetchTokenData();
+      fetchNftTokenData();
       fetchInventoryData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1099,6 +1126,38 @@ function MainComponent(props) {
                           (@ ${localFormat(tokenData.price)})
                         </div>
                       )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {nftTokenData?.name && (
+                <div className="flex flex-wrap items-center justify-between py-4">
+                  <div className="w-full md:w-1/4 mb-2 md:mb-0">
+                    NFT Token Tracker:
+                  </div>
+                  <div className="w-full md:w-3/4 break-words">
+                    <div className="flex items-center">
+                      <TokenImage
+                        src={nftTokenData?.icon}
+                        alt={nftTokenData?.name}
+                        appUrl={config.appUrl}
+                        className="w-4 h-4 mr-2"
+                      />
+                      <Link
+                        href={`/nft-token/${id}`}
+                        className="hover:no-underline"
+                      >
+                        <a className="flex text-green-500 dark:text-green-250 hover:no-underline">
+                          <span className="inline-block truncate max-w-[110px] mr-1">
+                            {nftTokenData.name}
+                          </span>
+                          (
+                          <span className="inline-block truncate max-w-[80px]">
+                            {nftTokenData.symbol}
+                          </span>
+                          )
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
