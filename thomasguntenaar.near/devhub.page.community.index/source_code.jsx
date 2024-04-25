@@ -54,34 +54,43 @@ tab = normalize(tab);
 
 const [isLinkCopied, setLinkCopied] = useState(false);
 
+// TODO
+// CommunityAddOn
+const blogv2 = {
+  addon_id: "blogv2",
+  display_name: "BlogV2",
+  enabled: true,
+  id: "blogv2",
+  parameters: "{}",
+};
+
+// TODO remove
+const blog = {
+  addon_id: "blog",
+  display_name: "BlogV1",
+  enabled: true,
+  id: "blog",
+  parameters: "{}",
+};
+
+// TODO remove
 const tabs = [
   {
-    title: "Announcements",
-    view: "thomasguntenaar.near/widget/devhub.entity.community.Announcements",
+    title: "BlogV2",
+    view: "thomasguntenaar.near/widget/devhub.page.addon",
     params: {
-      handle: community.handle,
-    },
-  },
-  {
-    title: "Discussions",
-    view: "thomasguntenaar.near/widget/devhub.entity.community.Discussions",
-    params: {
+      addon: blogv2,
       handle: community.handle,
       transactionHashes: props.transactionHashes,
     },
   },
   {
-    title: "Activity",
-    view: "thomasguntenaar.near/widget/devhub.entity.community.Activity",
+    title: "BlogV1",
+    view: "thomasguntenaar.near/widget/devhub.page.addon",
     params: {
+      addon: blog,
       handle: community.handle,
-    },
-  },
-  {
-    title: "Teams",
-    view: "thomasguntenaar.near/widget/devhub.entity.community.Teams",
-    params: {
-      handle: community.handle,
+      transactionHashes: props.transactionHashes,
     },
   },
 ];
@@ -91,7 +100,11 @@ const tabs = [
     tabs.push({
       title: addon.display_name,
       view: "thomasguntenaar.near/widget/devhub.page.addon",
-      params: { addon },
+      params: {
+        addon,
+        handle: community.handle,
+        transactionHashes: props.transactionHashes,
+      },
     });
 });
 
@@ -135,7 +148,7 @@ function trimHttps(url) {
   return url;
 }
 
-// some communties have url as handle (eg: devhub platform) while others has correct handle
+// some communities have url as handle (eg: devhub platform) while others has correct handle
 function checkTelegramHandle(tg) {
   const pattern = /https:\/\/t.me\/(.*)/;
   const includesHttp = tg.match(pattern);
