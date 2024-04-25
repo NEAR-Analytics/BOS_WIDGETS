@@ -182,7 +182,6 @@ useEffect(() => {
         ),
       ];
     }
-    console.log(wrapType, 178);
     const returnData = {
       inputCurrency,
       inputCurrencyAmount,
