@@ -38,6 +38,18 @@ const MainTokens = [
   },
   {
     address: "0x4300000000000000000000000000000000000003",
+    name: "WETH",
+    symbol: "WETH",
+    icon: "https://blast.io/icons/weth-color.svg",
+    decimals: 18,
+    poolId: 13,
+    targetPoolId: 13,
+    targetDecimals: 18,
+    targetAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    isNative: false,
+  },
+  {
+    address: "0x4300000000000000000000000000000000000003",
     name: "DAI",
     symbol: "DAI",
     icon: "https://blast.io/icons/dai-color.svg",
