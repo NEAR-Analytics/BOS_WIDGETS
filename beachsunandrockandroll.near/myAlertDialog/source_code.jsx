@@ -74,7 +74,7 @@ if (state.cnAlertRoot === "")
       }}
     />
   );
-
+console.log(state.cnAlertRoot);
 return (
   <Tailwind>
     <div className="w-full flex">
