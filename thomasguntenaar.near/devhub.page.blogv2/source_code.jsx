@@ -17,7 +17,8 @@ if (id && !showEditScreenData) {
       src="thomasguntenaar.near/widget/devhub.entity.addon.blogv2.Blog"
       props={{
         blogId: id,
-        handle: community,
+        // TODO
+        handle: "thomasguntenaar.near", //community,
         template: (p) => (
           <Page
             {...(p || {})}
