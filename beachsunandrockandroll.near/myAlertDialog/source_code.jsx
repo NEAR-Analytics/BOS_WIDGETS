@@ -21,7 +21,7 @@ if (state.cnAlertRoot === "" || state.cnAlertRoot === "loaded")
 
 return (
   <Tailwind>
-    <div className="flex mx-auto w-max h-screen items-center">
+    <div className="flex mx-auto w-max h-screen pt-10">
       <Alert className={state.cnAlertRoot}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
