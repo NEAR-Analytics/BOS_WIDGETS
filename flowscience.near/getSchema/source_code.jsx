@@ -1,82 +1,9 @@
 // Example attestation UID: 0xff5dc0cdc3de27dfe6a4352c596c0f97b1f99c51a67bbae142ce315e34969dcd
-
-// Need to finish getAttestation refactor to imported component
-//const { getAttestation } = VM.require("flowscience.near/widget/generateUID");
-const { easRenderAttestation } = VM.require(
-  "flowscience.near/widget/easRenderAttestation"
-);
+// Example schema UID:
 
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!user) return <Web3Connect connectLabel="Connect" />;
-
-{
-  /*
-const chain = Ethers.provider()
-  .getNetwork()
-  .{then}((chainIdData) => {
-    console.log(chainIdData.chainId);
-  });
-
-const abi = fetch(
-  "https://raw.githubusercontent.com/ethereum-attestation-service/eas-contracts/master/deployments/optimism/EAS.json"
-);
-
-const provider = new ethers.providers.JsonRpcProvider(
-  "https://optimism.drpc.org"
-);
-const contractAddress = "0x4200000000000000000000000000000000000021";
-const schemaContract = "0x4200000000000000000000000000000000000020";
-const parsedAbi = JSON.parse(abi.body);
-const contract = new ethers.Contract(contractAddress, parsedAbi.abi, signer);
-console.log(contract);
-const [attestation, setAttestation] = useState(null);
-
-function getAttestation() {
-  if (typeof uid !== "string" || uid.trim() === "") {
-    console.error("UID must be a non-empty string.");
-    setError("UID must be provided.");
-    return;
-  }
-
-  contract
-    .getAttestation(uid)
-    .then((result) => {
-      const [
-        uid,
-        schema,
-        time,
-        expirationTime,
-        revocationTime,
-        refUID,
-        recipient,
-        attester,
-        revocable,
-        data,
-      ] = result;
-      const mappedAttestation = {
-        uid,
-        schema,
-        time: time.toNumber(),
-        expirationTime: expirationTime.toNumber(),
-        revocationTime: revocationTime.toNumber(),
-        refUID,
-        recipient,
-        attester,
-        revocable,
-        data,
-      };
-      setAttestation(mappedAttestation);
-      setError("");
-    })
-    .catch((error) => {
-      console.error("error fetching attestation:", error);
-      setError("Failed to retrieve data. Please try with a verified uid.");
-    });
-}
-
-*/
-}
 
 // Move this to function components??
 const provider = new ethers.providers.JsonRpcProvider(
@@ -106,31 +33,14 @@ function getSchema() {
   }
 
   contract
-    .register(uid)
+    .getSchema(uid)
     .then((result) => {
-      const [
-        uid,
-        schema,
-        time,
-        expirationTime,
-        revocationTime,
-        refUID,
-        recipient,
-        attester,
-        revocable,
-        data,
-      ] = result;
+      const [uid, schema, resolver, revocable] = result;
       const mappedSchema = {
         uid,
         schema,
-        time: time.toNumber(),
-        expirationTime: expirationTime.toNumber(),
-        revocationTime: revocationTime.toNumber(),
-        refUID,
-        recipient,
-        attester,
+        resolver,
         revocable,
-        data,
       };
       setSchemaRecord(mappedSchema);
       setError("");
@@ -161,7 +71,7 @@ return (
     <div>
       {attestation && (
         <div className="App">
-          <easRenderAttestation attestation={attestation} />
+          <easRenderAttestation attestation={schemaRecord} />
         </div>
       )}
     </div>
