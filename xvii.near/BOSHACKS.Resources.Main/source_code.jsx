@@ -19,8 +19,6 @@ const LessonLinks = () => {
     textAlign: "left",
   };
 
-  const ownerId = "xvii.near";
-
   // Define modules and their corresponding lessons
   const modules = [
     {
@@ -58,8 +56,10 @@ const LessonLinks = () => {
       description:
         "This module covers advanced research topics in blockchain, including cryptography and zero-knowledge proofs.",
       lessons: [
-        { index: 9, title: "Advanced Topics in Cryptography" },
-        { index: 10, title: "Zero-Knowledge Proofs" },
+        {
+          index: 9,
+          title: "Advanced Topics in Cryptography & Zero-Knowledge Proofs",
+        },
       ],
     },
   ];
@@ -76,7 +76,6 @@ const LessonLinks = () => {
     "https://hackmd.io/@doulos819/ncr-08",
     "https://hackmd.io/@doulos819/ncr-09",
     "https://hackmd.io/@doulos819/ncr-10",
-    "https://hackmd.io/@doulos819/ncr-11",
   ];
 
   // State to track expanded modules
@@ -93,17 +92,6 @@ const LessonLinks = () => {
 
   return (
     <div>
-      {/* Syllabus link */}
-      <div style={{ ...linkContainerStyle, textAlign: "center" }}>
-        <a
-          style={moduleTitleStyle} // Apply the same style as module titles
-          href="https://hackmd.io/@doulos819/NRC"
-          target="_blank"
-        >
-          Syllabus
-        </a>
-      </div>
-
       {/* Module links */}
       {modules.map((module, moduleIndex) => (
         <div key={moduleIndex} style={{ marginBottom: "10px" }}>
