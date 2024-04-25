@@ -193,6 +193,14 @@ function Page() {
         />
       );
     }
+    case "blogv2": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.blogv2"}
+          props={passProps}
+        />
+      );
+    }
     case "post": {
       return (
         <Widget
