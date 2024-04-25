@@ -20,6 +20,7 @@ const {
   getWithdrawalStatus,
   getProveData,
   getWithdrawData,
+  getCliamUSDBData,
 } = VM.require('bluebiu.near/widget/Blast.BridgeAuthority.Util');
 
 const Transactions = styled.div`
@@ -189,58 +190,99 @@ function handleProve(hash) {
       })
     })
   })
+}
 
-  function handleWithdraw() {
-    if (currentChainId !== mainnet.id) {
-      switchChain()
-      return
-    }
-
-    toastId = toast?.loading({
-      title: `Withdrawal From ETH`,
-    });
-
-    getWithdrawData(hash, account).then(body => {
-      console.log('body: ', body)
-      signer.sendTransaction(body).then(tx => {
-        console.log('tx:', tx)
-        // Storage.privateSet(tx.hash, tx);
-        return tx.wait()
-      }).then(res => {
-        toast?.dismiss(toastId);
-        delete state.isLoadingTx[hash]
-        State.update({
-          isLoadingTx: state.isLoadingTx
-        })
-        toast?.success({
-          title: "Withdrawal Successfully!",
-          text: `Withdrawal Successfully`,
-          tx: tx,
-          chainId: currentChainId,
-        });
-      }).catch(err => {
-        console.log(err)
-        toast?.fail({
-          title: "Withdrawal Failed!",
-          text: `Withdrawal Failed`,
-          tx: '',
-          chainId: currentChainId,
-        });
-        delete state.isLoadingTx[hash]
-        State.update({
-          isLoadingTx: state.isLoadingTx
-        })
-      })
-    })
-
+function handleWithdraw() {
+  if (currentChainId !== mainnet.id) {
+    switchChain()
+    return
   }
 
+  toastId = toast?.loading({
+    title: `Withdrawal From ETH`,
+  });
+
+  getWithdrawData(hash, account).then(body => {
+    console.log('body: ', body)
+    signer.sendTransaction(body).then(tx => {
+      console.log('tx:', tx)
+      // Storage.privateSet(tx.hash, tx);
+      return tx.wait()
+    }).then(res => {
+      toast?.dismiss(toastId);
+      delete state.isLoadingTx[hash]
+      State.update({
+        isLoadingTx: state.isLoadingTx
+      })
+      toast?.success({
+        title: "Withdrawal Successfully!",
+        text: `Withdrawal Successfully`,
+        tx: tx,
+        chainId: currentChainId,
+      });
+    }).catch(err => {
+      console.log(err)
+      toast?.fail({
+        title: "Withdrawal Failed!",
+        text: `Withdrawal Failed`,
+        tx: '',
+        chainId: currentChainId,
+      });
+      delete state.isLoadingTx[hash]
+      State.update({
+        isLoadingTx: state.isLoadingTx
+      })
+    })
+  })
+}
+
+function handleClaimUSDB() {
+  if (currentChainId !== mainnet.id) {
+    switchChain()
+    return
+  }
+
+  toastId = toast?.loading({
+    title: `Claim USDB From ETH`,
+  });
+
+  getCliamUSDBData(hash, account).then(body => {
+    console.log('body: ', body)
+    signer.sendTransaction(body).then(tx => {
+      console.log('tx:', tx)
+      // Storage.privateSet(tx.hash, tx);
+      return tx.wait()
+    }).then(res => {
+      toast?.dismiss(toastId);
+      delete state.isLoadingTx[hash]
+      State.update({
+        isLoadingTx: state.isLoadingTx
+      })
+      toast?.success({
+        title: "Claim USDB Successfully!",
+        text: `Claim USDB Successfully`,
+        tx: tx,
+        chainId: currentChainId,
+      });
+    }).catch(err => {
+      console.log(err)
+      toast?.fail({
+        title: "Claim USDB Failed!",
+        text: `Claim USDB Failed`,
+        tx: '',
+        chainId: currentChainId,
+      });
+      delete state.isLoadingTx[hash]
+      State.update({
+        isLoadingTx: state.isLoadingTx
+      })
+    })
+  })
 }
 
 function getAllStatus(txs) {
   if (txs && !state.isLoading) {
 
-    // console.log(111, txs, Storage.privateGet("blast_claim_txs"), props)
     State.update({
       isLoading: true
     })
@@ -312,7 +354,6 @@ function getAllStatus(txs) {
 7: ReadyToClaim
 */
 useEffect(() => {
-  console.log('txs:', txs)
   getAllStatus(txs)
 }, [txs])
 
@@ -325,7 +366,7 @@ return <Transactions>
     </div>
     <div className="fresh">
       <RefreshText onClick={() => {
-        getAllClaimTx()
+        getAllStatus(txs)
       }}>
         {state.isLoading && (
           <Widget
@@ -423,6 +464,28 @@ return <Transactions>
                 {
                   tx.status === 6 && <div className="processing">WaitingForAdminFinalization</div>
                 }
+                {
+                  tx.status === 7 && <div className="btn" onClick={() => {
+                    if (state.isLoadingTx[tx.hash]) {
+                      return
+                    }
+                    handleClaimUSDB(tx.hash)
+                    state.isLoadingTx[tx.hash] = true
+                    State.update({
+                      isLoadingTx: state.isLoadingTx
+                    })
+                  }}>
+                    {state.isLoadingTx[tx.hash] && (
+                      <Widget
+                        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+                        props={{
+                          size: 16,
+                        }}
+                      />
+                    )}
+                    Withdraw
+                  </div>
+                }
               </div>
             </div>
             <div className="time">
@@ -438,7 +501,7 @@ return <Transactions>
                 <a target="_blank" className="tx-link" href={tx.link}>Tx</a>
               </div>
               {
-                tx.status === 3 ? <div>~14 day</div> : null
+                tx.status !== 2 ? <div>~14 day</div> : null
               }
             </div>
           </div>
