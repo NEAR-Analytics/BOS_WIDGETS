@@ -103,6 +103,7 @@ const [airdropFee, setAirdropFee] = useState(0);
 const [airdropTotalAmount, setAirdropTotalAmount] = useState(0);
 const [notification, setNotification] = useState("");
 
+console.log("API_URL--------", API_URL);
 const changeOption = (value) => {
   setSelectedToken({ value });
 };
