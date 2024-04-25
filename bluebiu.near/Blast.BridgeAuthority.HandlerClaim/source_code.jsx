@@ -301,7 +301,7 @@ function getAllStatus(txs) {
 
       if (currentTx.fromChainId === 81457) {
         return getWithdrawalStatus(key, account).then(res => {
-          console.log('status:', res)
+          // console.log('status:', res)
           switch (res.status) {
             case 'ReadyToProve':
               currentTx.status = 3
@@ -329,13 +329,17 @@ function getAllStatus(txs) {
         currentTx.status = 2
       }
 
-      // console.log('txs: ', txs)
+      console.log('txs1: ', txs)
     })
 
     Promise.all(pArray).then((res) => {
-      // Storage.privateSet("blast_claim_txs", txs);
+      console.log('txs2: ', txs)
+      const txList = Object.values(txs)
+      if (txList.length) {
+        Storage.privateSet("blast_claim_txs", txs);
+      }
       State.update({
-        txsUpdated: Object.values(txs),
+        txsUpdated: txList,
         isFold: needFold,
         proccessSum,
         isLoading: false
