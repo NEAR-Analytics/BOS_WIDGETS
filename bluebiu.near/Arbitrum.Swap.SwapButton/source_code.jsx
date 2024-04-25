@@ -340,54 +340,16 @@ function successCallback(tx, callback) {
     });
 }
 
-const handleWrap = (type, success, onError) => {
-  const WethContract = new ethers.Contract(
-    wethAddress,
-    [
-      {
-        constant: false,
-        inputs: [],
-        name: "deposit",
-        outputs: [],
-        payable: true,
-        stateMutability: "payable",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ internalType: "uint256", name: "wad", type: "uint256" }],
-        name: "withdraw",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-  if (type === 1) {
-    WethContract.deposit({
-      value: ethers.utils.parseEther(
-        Big(inputCurrencyAmount).toFixed(18).toString()
-      ),
+const handleWrap = (success, onError) => {
+  Ethers.provider()
+    .getSigner()
+    .sendTransaction(unsignedTx)
+    .then((tx) => {
+      success?.(tx);
     })
-      .then((tx) => {
-        success?.(tx);
-      })
-      .catch((err) => {
-        onError?.(err);
-      });
-  } else {
-    WethContract.withdraw(
-      ethers.utils.parseEther(Big(inputCurrencyAmount).toFixed(18).toString())
-    )
-      .then((tx) => {
-        success?.(tx);
-      })
-      .catch((err) => {
-        onError?.(err);
-      });
-  }
+    .catch((err) => {
+      onError?.(err);
+    });
 };
 
 if (wrapType) {
@@ -402,13 +364,13 @@ if (wrapType) {
           toastId,
         });
         handleWrap(
-          wrapType,
           (res) => {
             successCallback(res, () => {
               State.update({ wrapping: false });
             });
           },
           (err) => {
+            console.log("err", err);
             State.update({
               wrapping: false,
             });
