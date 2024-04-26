@@ -106,7 +106,7 @@ const fetchData = async (key) => {
     ? daos.filter((d) => selectedDAOs.includes(d.title))
     : daos;
 
-  const newDataSet = dataSet;
+  let newDataSet = dataSet;
 
   API[key](filtredDAOs).then((resp) => {
     if (!resp.body) return;
@@ -115,8 +115,132 @@ const fetchData = async (key) => {
     if (data)
       Object.entries(data).map(([id, value]) => {
         const targetData = newDataSet.find((d) => d.id === parseInt(id));
-        targetData[key] = value;
+        // targetData[key] = value;
+        targetData[key] = Math.random() * 10;
       });
+
+    // mocked data
+    newDataSet = [
+      {
+        id: 1,
+        title: "HoM - Direct funding",
+        userRetentions: 0.5,
+        dappsUsed: 3,
+        acquisitionCost: 1.5,
+      },
+      {
+        id: 2,
+        title: "Build DAO",
+        userRetentions: 0.75,
+        dappsUsed: 2,
+        acquisitionCost: 0,
+      },
+      {
+        id: 3,
+        title: "Gaming DAO",
+        userRetentions: 1,
+        dappsUsed: 10,
+        acquisitionCost: 24,
+      },
+      {
+        id: 4,
+        title: "Marketing DAO",
+        userRetentions: 1,
+        dappsUsed: 10,
+        acquisitionCost: 0,
+      },
+      {
+        id: 5,
+        title: "Near Research Collective",
+        userRetentions: 0.25,
+        dappsUsed: 1,
+        acquisitionCost: 0,
+      },
+      {
+        id: 6,
+        title: "Degen DAO",
+        userRetentions: 0.2,
+        dappsUsed: 4,
+        acquisitionCost: 34.5,
+      },
+      {
+        id: 7,
+        title: "Onboard DAO",
+        userRetentions: 0,
+        dappsUsed: 2,
+        acquisitionCost: 0,
+      },
+      {
+        id: 8,
+        title: "Aurora Community DAO",
+        userRetentions: 0.66,
+        dappsUsed: 3,
+        acquisitionCost: 0,
+      },
+      {
+        id: 9,
+        title: "Near Globe DAO",
+        userRetentions: 0,
+        dappsUsed: 0,
+        acquisitionCost: 0,
+      },
+      {
+        id: 10,
+        title: "NFT DAO",
+        userRetentions: 0.8,
+        dappsUsed: 3,
+        acquisitionCost: 0,
+      },
+      {
+        id: 11,
+        title: "SHE IS NEAR",
+        userRetentions: 0,
+        dappsUsed: 1,
+        acquisitionCost: 0.5,
+      },
+      {
+        id: 12,
+        title: "Africa Community DAO",
+        userRetentions: 0,
+        dappsUsed: 0,
+        acquisitionCost: 0,
+      },
+      {
+        id: 13,
+        title: "Freelancer DAO",
+        userRetentions: 0,
+        dappsUsed: 0,
+        acquisitionCost: 2.35,
+      },
+      {
+        id: 14,
+        title: "Service DAO",
+        userRetentions: 0,
+        dappsUsed: 0,
+        acquisitionCost: 0.46,
+      },
+      {
+        id: 15,
+        title: "SMM",
+        userRetentions: 0,
+        dappsUsed: 3,
+        acquisitionCost: 0.1,
+      },
+      {
+        id: 16,
+        title: "NDC Ops",
+        userRetentions: 1,
+        dappsUsed: 4,
+        acquisitionCost: 2,
+      },
+      {
+        id: 17,
+        title: "HoM - Grassroot DAOs funding",
+        userRetentions: 1,
+        dappsUsed: 12,
+        acquisitionCost: 0.75,
+      },
+    ];
 
     setDataSet(newDataSet);
     setFilteredData(newDataSet);
@@ -148,6 +272,7 @@ useEffect(() => {
 }, [selectedDAOs]);
 
 useEffect(() => {
+  console.log(dataSet, dateRange);
   if (dataSet.length > 0 && dateRange) {
     fetchData(FILTER_IDS.userRetentions);
     fetchData(FILTER_IDS.dappsUsed);
@@ -156,7 +281,7 @@ useEffect(() => {
 }, [dataSet, dateRange]);
 
 const sortData = (field) =>
-  setDataSet(dataSet.sort((a, b) => b[field] - a[field]));
+  setDataSet(filteredData.sort((a, b) => b[field] - a[field]));
 
 const SortingRow = ({ title, field }) => (
   <div className="selected-container">
@@ -250,13 +375,9 @@ return (
         />
       </div>
     </DesktopFilters>
-    {loading ? (
-      <Loading />
-    ) : (
-      <Widget
-        src={`ndcdev.near/widget/dashboard.Components.Table.Cells`}
-        props={{ dataSet: filteredData }}
-      />
-    )}
+    <Widget
+      src={`ndcdev.near/widget/dashboard.Components.Table.Cells`}
+      props={{ dataSet: filteredData, loading }}
+    />
   </Wrapper>
 );
