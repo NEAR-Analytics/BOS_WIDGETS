@@ -1,13 +1,9 @@
-const { listNFT } = VM.require(
-  "bos.genadrop.near/widget/Mintbase.NFT.modules"
-);
-
+const { listNFT } = VM.require("bos.genadrop.near/widget/Mintbase.NFT.modules");
 const { MbInputField } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbInput"
 ) || {
   MbInputField: () => <></>,
 };
-
 const nearSvg = (
   <svg
     width="18px"
@@ -22,7 +18,6 @@ const nearSvg = (
     ></path>
   </svg>
 );
-
 const usdcSvg = (
   <svg
     width="18px"
@@ -45,7 +40,6 @@ const usdcSvg = (
     ></path>
   </svg>
 );
-
 const usdtSvg = (
   <svg
     width="18px"
@@ -62,7 +56,6 @@ const usdtSvg = (
     ></path>
   </svg>
 );
-
 const SellContainer = styled.div`
   width: 485px;
   height: 741px;
@@ -89,14 +82,12 @@ const SellContainer = styled.div`
     width: 98% !important;
   }
 `;
-
 const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
   height: 60px;
-
   border-bottom: 1px solid
     ${(props) => (props.isDarkModeOn ? "#3e4352" : "#e7ebee")};
   p {
@@ -107,7 +98,6 @@ const Top = styled.div`
     cursor: pointer;
   }
 `;
-
 const Content = styled.div`
   display: flex;
   justify-content: space-between;
@@ -127,7 +117,6 @@ const Content = styled.div`
     }
   }
 `;
-
 const Listing = styled.div`
   padding: 24px;
   .type {
@@ -178,7 +167,6 @@ const Listing = styled.div`
     }
   }
 `;
-
 const Details = styled.div`
   margin-top: 10px;
   color: ${(props) => (props.isDarkModeOn ? "#fff" : "#000")};
@@ -191,14 +179,12 @@ const Details = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
     p {
       font-size: 14px;
       font-weight: 500;
     }
   }
 `;
-
 const TokenNumbers = styled.div`
   display: flex;
   flex-direction: column;
@@ -239,18 +225,14 @@ const TokenNumbers = styled.div`
     }
   }
 `;
-
 const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("NEAR");
   const [amount, setAmount] = useState(0);
   const [tokenInfo, setTokenInfo] = useState({});
   const [amountToList, setAmountToList] = useState(1);
-
   const handleAmountDisplay = () => Number(amount).toFixed(2);
   const calculateFee = () => ((2.5 / 100) * Number(amount)).toFixed(2);
-
   const remaining = () => handleAmountDisplay() - calculateFee();
-
   function fetchNFTDetails() {
     asyncFetch("https://graph.mintbase.xyz", {
       method: "POST",
@@ -338,16 +320,13 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
       }
     });
   }
-
   fetchNFTDetails();
-
   const currentSign =
     selectedCurrency === "NEAR"
       ? nearSvg
       : selectedCurrency === "USDC"
       ? usdcSvg
       : usdtSvg;
-
   const getUsdValue = (price) => {
     const res = fetch(
       `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
@@ -358,12 +337,10 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
       return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
     }
   };
-
   const currentPrice = () =>
     selectedCurrency === "NEAR"
       ? getUsdValue(Number(amount))
       : Number(amount).toFixed(2);
-
   const handleListingNFT = () => {
     if (!data?.token_id) return;
     listNFT(
@@ -374,11 +351,9 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
       selectedCurrency !== "NEAR" ? selectedCurrency : null
     );
   };
-
   const onChangeAmount = (e) => {
     setAmount(e.target.value);
   };
-
   return (
     <SellContainer isDarkModeOn={isDarkModeOn}>
       <Top isDarkModeOn={isDarkModeOn}>
@@ -425,7 +400,6 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
               placeholder={selectedCurrency}
             />
           </div>
-
           <div style={{ marginTop: "5px", float: "right", fontSize: "13px" }}>
             ~{currentPrice()} USD
           </div>
@@ -485,5 +459,4 @@ const MBSellOption = ({ onClose, data, isDarkModeOn }) => {
     </SellContainer>
   );
 };
-
 return <MBSellOption {...props} />;
