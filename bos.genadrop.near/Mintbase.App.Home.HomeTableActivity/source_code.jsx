@@ -4,13 +4,10 @@ const color = props.color || "#c2cdfd";
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { isDarkModeOn } = props;
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
 const [page, setPage] = useState(0);
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
@@ -20,30 +17,23 @@ const YoctoToNear = (amountYocto) => {
   return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
 };
 const utcDate2 = new Date();
-
 // Get the current date in the local time zone
 const currentDate = new Date();
-
 // Calculate the time zone offset in milliseconds
 let localTimeZoneOffsetMinutes = currentDate.getTimezoneOffset();
 localTimeZoneOffsetMinutes = localTimeZoneOffsetMinutes * 60 * 1000;
-
 const currentTimestamp = new Date().getTime();
 const getTimePassed = (date) => {
   // Get the current timestamp in milliseconds
   const timestamp = new Date(date).getTime();
-
   // Calculate the difference in milliseconds
   const timePassed = currentTimestamp + localTimeZoneOffsetMinutes - timestamp;
-
   // Convert milliseconds to seconds, minutes, hours, etc.
   const secondsPassed = Math.floor(timePassed / 1000);
   const minutesPassed = Math.floor(secondsPassed / 60);
   const hoursPassed = Math.floor(minutesPassed / 60);
   const daysPassed = Math.floor(hoursPassed / 24);
-
   let time = 0;
-
   // Display the time passed conditionally
   if (daysPassed > 0) {
     time = `${daysPassed} days`;
@@ -56,7 +46,6 @@ const getTimePassed = (date) => {
   }
   return time;
 };
-
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
   headers: {
@@ -85,24 +74,20 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 const nft_activities = data?.body?.data?.mb_views_nft_activities;
 if (!nft_activities) return "Loading ...";
-
 const Root = styled.div`
   width: 100%;
   overflow: hidden;
 `;
-
 const Container = styled.div`
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
   display: flex;
   flex-direction: column;
   overflow-x: scroll; /* Prevent horizontal overflow */
   margin: 10px;
-
   @media (max-width: 500px) {
     width: 100vw;
     font-size: 12px;
   }
-
   .header {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -120,7 +105,6 @@ const Container = styled.div`
     }
     ${cursomStyle}
   }
-
   .trx-row {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 3fr));
@@ -132,7 +116,6 @@ const Container = styled.div`
     &:last-of-type {
       border-bottom-color: transparent;
     }
-
     a {
       text-decoration: none;
     }
@@ -192,7 +175,6 @@ const Container = styled.div`
       border-radius: 2px;
       text-transform: uppercase;
     }
-
     .time {
       display: flex;
       align-items: center;
@@ -213,7 +195,6 @@ const Container = styled.div`
       }
     }
   }
-
   .price {
     display: flex;
     gap: 4px;
@@ -224,7 +205,6 @@ const Container = styled.div`
       width: 14px;
     }
   }
-
   @media (max-width: 500px) {
     .header,
     .trx-row {
@@ -232,7 +212,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const Button = styled.div`
   display: flex;
   align-items: center;
@@ -248,7 +227,6 @@ const Button = styled.div`
     }
   }
 `;
-
 const Trx = styled.div``;
 const kindColor = {
   list: "#8c4fe5",
@@ -359,7 +337,6 @@ return (
                     ),
                   }}
                 />
-
                 <div>
                   {" "}
                   {activity.price ? (
