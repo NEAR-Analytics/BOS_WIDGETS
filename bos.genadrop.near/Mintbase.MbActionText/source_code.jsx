@@ -1,5 +1,4 @@
 const [showLinkCopiedText, setShowLinkCopiedText] = useState(false);
-
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
@@ -10,7 +9,6 @@ const iconTab = props.iconTab || true;
 const showCopyIcon = props?.showCopyIcon;
 const link = props.link || "";
 const isDarkModeOn = props.isDarkModeOn;
-
 const getFontClass = () => {
   switch (size) {
     case "big":
@@ -21,7 +19,6 @@ const getFontClass = () => {
       return "p-med-90";
   }
 };
-
 const iconSize = () => {
   switch (size) {
     case "big":
@@ -32,20 +29,17 @@ const iconSize = () => {
       return "12px";
   }
 };
-
 const handleCopy = async () => {
   clipboard.writeText(copyText || link || text);
   setShowLinkCopiedText(true);
   setTimeout(() => setShowLinkCopiedText(false), 3000);
 };
-
 const Container = styled.div`
   display: flex;
   gap: 8px;
   justify-content: center;
   align-items: center;
 `;
-
 const LinkT = styled.a`
   display: flex;
   gap: 0.125rem;
@@ -59,7 +53,6 @@ const LinkT = styled.a`
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   ${typographyClasses[getFontClass(size)]}
-
   text-decoration: none;
   opacity: 1;
   > .text {
@@ -70,12 +63,10 @@ const LinkT = styled.a`
     text-decoration: none;
   }
 `;
-
 const Text = styled.div`
   color: var(--blue-300);
   ${typographyClasses[getFontClass(size)]}
 `;
-
 const CopiedText = styled.div`
   z-index: 999;
   position: absolute;
@@ -89,7 +80,6 @@ const CopiedText = styled.div`
     ${typographyClasses["cap-big-90"]}
   }
 `;
-
 return (
   <Container>
     <LinkT href={link} {...(iconTab && { target: "_blank" })}>
