@@ -1,11 +1,9 @@
 const title = props.title;
 const isActive = props.isActive;
 const mode = Storage.get("mode") || props.mode;
-
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const Container = styled.div`
   display: flex;
   margin-left: 8px;
@@ -21,7 +19,6 @@ const Container = styled.div`
     color
   }
 `;
-
 const Wrapper = styled.div`
   display: flex;
   > div {
@@ -61,7 +58,6 @@ const Wrapper = styled.div`
     color: #fff;
   }
 `;
-
 const iconStyles = `
     display: flex; 
     transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
@@ -71,7 +67,6 @@ const iconStyles = `
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
     --transform-rotate: 0; 
 `;
-
 const MbArrowMenu = (props) => {
   const arrow = (
     <svg
@@ -86,7 +81,6 @@ const MbArrowMenu = (props) => {
       <path d="M7 10l5 5 5-5H7z"></path>
     </svg>
   );
-
   return (
     <Wrapper mode={props.mode}>
       <div className={props.isActive ? "active" : ""}>
@@ -98,5 +92,4 @@ const MbArrowMenu = (props) => {
     </Wrapper>
   );
 };
-
 return { MbArrowMenu };
