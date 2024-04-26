@@ -1,16 +1,13 @@
 const { MbCharCounter } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const EControlStatus = {
   NORMAL: "normal",
   VALID: "valid",
   INVALID: "invalid",
 };
-
 const inputSize = props.inputSize || "medium";
 const controlStatus = props.controlStatus || "normal";
-
 const Label = styled.div`
   display: block;
   margin-bottom: 8px;
@@ -19,14 +16,12 @@ const Label = styled.div`
     color: #fff;
   }
 `;
-
 const Asterisk = styled.span`
   color: #c74c4c;
   &.dark {
     color: #ed5a5a;
   }
 `;
-
 const Container = styled.div`
   .main-input {
     display: flex;
@@ -81,7 +76,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const InputField = styled.div`
   display: flex;
   width: 100%;
@@ -132,7 +126,6 @@ const MbInputField = ({
   style,
   isDarkModeOn,
 }) => {
-
   const wrapperClasses =
     disabled && isDarkModeOn
       ? "disabled-dark"
@@ -177,7 +170,6 @@ const MbInputField = ({
           />
           {hasPercentageLabel && <span className="percentage-label">%</span>}
         </InputField>
-
         {hasIcon && (
           <div className="flex">
             {controlStatus === EControlStatus.VALID ? (
@@ -227,7 +219,6 @@ const MbInputField = ({
     </Container>
   );
 };
-
 return {
   MbInputField,
 };
