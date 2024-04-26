@@ -51,6 +51,10 @@ const StyledVaultTitle = styled.div`
   font-weight: 700;
   line-height: normal;
 `
+
+const StyledVaultImage = styled.img`
+  width: 37px;
+`
 const StyledTokenButtonList = styled.div`
   margin: 28px 0 20px;
   display: flex;
@@ -202,6 +206,9 @@ const StyledStakeButton = styled.button`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  &[disabled] {
+    opacity: 0.8;
+  }
 `
 const StyledStakeLoadingButton = styled.button`
   display: flex;
@@ -316,6 +323,7 @@ const {
   dexConfig,
   curChain,
   isChainSupported,
+  switchingChain,
   onSwitchChain,
   addAction,
   connectProps,
@@ -339,7 +347,7 @@ if (!sender) {
 State.init({
   categoryList: ["Vaults", "Positions"],
   categoryIndex: 0,
-  symbolList: ["ETH", "USDC"],
+  symbolList: ["ETH", "USDB"],
   symbolIndex: 0,
   pool: null,
   positionList: [],
@@ -380,6 +388,7 @@ const COLUMN_LIST = [{
   label: "",
   width: "40%",
 }]
+console.log('===props', props)
 const contractAddress = "0xd9747a98624f0B64B4412632C420672E16432334"
 const isInSufficient = Number(stakedAmount) > Number(pool?.walletBalance)
 
@@ -611,7 +620,19 @@ function doStake(_amount) {
       State.update({
         stakeLoading: false
       })
-      handleQueryPool(symbolIndex)
+      if (status === 1) {
+        addAction?.({
+          type: "Staking",
+          action: "Stake",
+          token: symbolList[symbolIndex],
+          amount: stakedAmount,
+          template: "BlastOff",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleQueryPool(symbolIndex)
+      }
     })
     .catch(error => {
       State.update({
@@ -724,13 +745,26 @@ function handleClaim(index) {
       const { status, transactionHash } = result;
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
+
       toast?.success({
         title: "Claim Successfully!",
         text: `Claimed ${position.userStakePosition} ${symbolList[position.poolId]}`,
         tx: transactionHash,
         chainId,
       });
-      handleQueryPositions()
+      if (status === 1) {
+        addAction?.({
+          type: "Staking",
+          action: "Claim",
+          token: symbolList[symbolIndex],
+          amount: position.userStakePosition,
+          template: "BlastOff",
+          add: true,
+          status,
+          transactionHash,
+        });
+        handleQueryPositions()
+      }
     })
 }
 function handleUnstake(index) {
@@ -768,7 +802,20 @@ function handleUnstake(index) {
         tx: transactionHash,
         chainId,
       });
-      handleQueryPositions()
+      if (status === 1) {
+        addAction?.({
+          type: "Staking",
+          action: "UnStake",
+          token: symbolList[symbolIndex],
+          amount: position.userStakePosition,
+          template: "BlastOff",
+          add: false,
+          status,
+          transactionHash,
+        });
+        handleQueryPositions()
+      }
+
     })
 }
 function handleMax() {
@@ -785,6 +832,8 @@ useEffect(() => {
 useEffect(() => {
   if (categoryIndex > 0) {
     handleQueryPositions()
+  } else {
+    handleQueryPool(symbolIndex)
   }
 }, [categoryIndex])
 return (
@@ -814,15 +863,8 @@ return (
         <StyledVaultContainer>
           <StyledVaultTop>
             <StyledVaultTitle>GEN1 YIELD VAULT</StyledVaultTitle>
-            {/* <svg width="37" height="29" viewBox="0 0 37 29" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <rect opacity="0.3" width="37" height="29" fill="url(#pattern0_9403_665)" />
-          <defs>
-            <pattern id="pattern0_9403_665" patternContentUnits="objectBoundingBox" width="1" height="1">
-              <use xlink:href="#image0_9403_665" transform="matrix(0.00819672 0 0 0.0104579 0 -0.00197852)" />
-            </pattern>
-            <image id="image0_9403_665" width="122" height="96" xlink:href="data:image/png;base64,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" />
-          </defs>
-        </svg> */}
+            <StyledVaultImage src="https://ipfs.near.social/ipfs/bafkreiclfxa6oqmufyey4qmawb73i2b6gfmfs5fa7b3uflnbk72blgxrhu" />
+
           </StyledVaultTop>
           <StyledTokenButtonList>
             {
@@ -888,7 +930,7 @@ return (
                 <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
               </StyledStakeLoadingButton>
             ) : (
-              <StyledStakeButton onClick={handleStake}>Stake {symbolList[symbolIndex]}</StyledStakeButton>
+              <StyledStakeButton disabled={state.stakedAmount > 0 ? false : true} onClick={handleStake}>Stake {symbolList[symbolIndex]}</StyledStakeButton>
             )
           }
         </StyledVaultContainer>
@@ -940,5 +982,16 @@ return (
         </StyledPositionsContainer>
       )
     }
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          theme: dexConfig.theme?.button,
+        }}
+      />
+    )}
   </StyledBlastoff>
 )
