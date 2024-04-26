@@ -1,10 +1,9 @@
 const { MbFooterRoutes, getInputLabelFontType, MbSwitch } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
+const accountId = props.accountId ?? context.accountId;
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 const accountUrl = `#/bos.genadrop.near/widget/GenaDrop.Profile.Main?accountId=${accountId}`;
-
 const verifiedBatch = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +22,7 @@ const verifiedBatch = (
     </g>
   </svg>
 );
-
 const ContractApp = styled.div``;
-
 const Wrapper = styled.div`
   padding-bottom: 48px;
   max-width: 1200px;
@@ -33,30 +30,25 @@ const Wrapper = styled.div`
   margin-left: auto;
   ${getInputLabelFontType("big")}
 `;
-
 const BackgroundImage = styled.div`
   height: 240px;
   border-radius: 20px 20px 0 0;
   overflow: hidden;
   margin: 0 -12px;
   background: #eceef0;
-
   img {
     object-fit: cover;
     width: 100%;
     height: 100%;
   }
-
   @media (max-width: 1024px) {
     margin: calc(var(--body-top-padding) * -1) -12px 0;
     border-radius: 0;
   }
-
   @media (max-width: 1024px) {
     height: 100px;
   }
 `;
-
 const TopContent = styled.div`
   margin-top: 40px;
   h1 {
@@ -76,7 +68,6 @@ const TopContent = styled.div`
     }
   }
 `;
-
 const Details = styled.div`
   display: flex;
   gap: 30px;
@@ -100,7 +91,6 @@ const Details = styled.div`
     }
   }
 `;
-
 const Profiles = styled.div`
   display: flex;
   gap: 10px;
@@ -121,11 +111,9 @@ const Profiles = styled.div`
     }
   }
 `;
-
 const Tabs = styled.div`
   margin-top: 30px;
 `;
-
 const customStyle = `
   width: max-content !important;
 ul {
@@ -143,7 +131,6 @@ ul {
     font-size: 12px;
   }
 `;
-
 const Contents = styled.div`
   background: #f2f5f8;
   display: flex;
@@ -151,7 +138,6 @@ const Contents = styled.div`
   padding: 24px;
   gap: 20px;
 `;
-
 const LeftFilter = styled.div`
   background: #fff;
   width: 22%;
@@ -167,11 +153,9 @@ const LeftFilter = styled.div`
     gap: 20px;
   }
 `;
-
 const MainContent = styled.div`
   max-width: 78%;
 `;
-
 const details = [
   { name: "Items", value: "200475" },
   { name: "Total Owners", value: "107126" },
@@ -179,7 +163,6 @@ const details = [
   { name: "Average Offer", value: "0.49" },
   { name: "Volume", value: "120.91" },
 ];
-
 const profiles = [
   { icon: "twitter", link: "https://twitter.com/sharddog" },
   { icon: "web", name: "Share.dog", link: "https://twitter.com/sharddog" },
@@ -199,19 +182,15 @@ const profiles = [
     link: "https://near.org/mintbase.near/widget/nft-marketplace?contracts=mint.sharddog.near",
   },
 ];
-
 if (profile === null) {
   return "Loading";
 }
-
-const [activeTabIndex, setActiveTabIndex] = useState(props.tab|| "");
+const [activeTabIndex, setActiveTabIndex] = useState(props.tab || "");
 const [showListed, setShowListed] = useState(false);
 const [showCreditCard, setShowCreditCard] = useState(false);
-
 const handleTabClick = (index) => {
   setActiveTabIndex(index);
 };
-
 return (
   <Wrapper>
     <BackgroundImage>
@@ -227,19 +206,18 @@ return (
         />
       )}
     </BackgroundImage>
-
     <TopContent>
       <h1>ShareDog {verifiedBatch}</h1>
       <div className="contents">
         <div className="content">
           <p>Contract</p>
           <Widget
-            src={`bos.genadrop.near/widget/Mintbase.MbActionText`}
+            src={"bos.genadrop.near/widget/Mintbase.MbActionText"}
             props={{
-              text: "mint.sharddog.near",
+              text: accountId,
               size: "medium",
-              copyText: "mint.sharddog.near",
-              link: "https://nearblocks.io/address/mint.sharddog.near",
+              copyText: accountId,
+              link: `https://nearblocks.io/address/${accountId}`,
               iconTab: false,
               iconCopy: false,
               mode: mode,
@@ -280,7 +258,7 @@ return (
     </Profiles>
     <Tabs>
       <Widget
-        src={`bos.genadrop.near/widget/Mintbase.MbTabs`}
+        src={"bos.genadrop.near/widget/Mintbase.MbTabs"}
         props={{
           tabLabels: ["NFTs", "Activity", "Analytics", "Minters"],
           isDarkModeOn,
