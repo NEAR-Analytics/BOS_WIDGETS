@@ -70,7 +70,6 @@ const MbRoutes = {
   //   ],
   // },
 };
-
 const MbFooterRoutes = {
   Developers: {
     routes: [
@@ -261,7 +260,6 @@ const MbFooterRoutes = {
     ],
   },
 };
-
 return {
   MbRoutes,
   MbFooterRoutes,
