@@ -79,6 +79,7 @@ useEffect(() => {
       routes: null,
       routerStr: "",
       gas: "",
+      priceImpact: "",
     };
     const getTx = (_gas) => {
       WethContract.populateTransaction[method](...params, {
@@ -167,6 +168,10 @@ useEffect(() => {
         outputCurrency,
         outputCurrencyAmount: "",
         noPair: true,
+        routes: null,
+        routerStr: "",
+        gas: "",
+        priceImpact: "",
       });
     });
 }, [updater]);
