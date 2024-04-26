@@ -19,7 +19,6 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
     }
   ).then((result) => result.body);
 }
-
 const operationsDoc = `
       query GetEarned($account: String!, $currency: [String!] = ["near"], $limit: Int!, $offset: Int!) {
         earnings: nft_earnings(
@@ -85,7 +84,6 @@ const operationsDoc = `
         }
       }
     `;
-
 function getUserEarnings({ account, currency, limit, offset }) {
   return fetchGraphQL(operationsDoc, "GetEarned", {
     account: account,
@@ -94,5 +92,4 @@ function getUserEarnings({ account, currency, limit, offset }) {
     offset: offset ?? 0,
   });
 }
-
 return { getUserEarnings };
