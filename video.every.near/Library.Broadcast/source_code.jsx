@@ -30,14 +30,7 @@ const PreviewContent = styled.div`
 `;
 const WidgetCode = `
 \`\`\`js
-<Widget
-src={"efiz.near/widget/Livepeer.Player"}
-props={{
-  title: "Original Keyboard Cat!",
-  playbackId: "8b3bdqjtdj4jsjwa",
-  PosterImage: <img src="https://example.com" alt={"Original Keyboard Cat!"} />
-}}
-/>
+<Widget src={"efiz.near/widget/Broadcast.Player"} />
 \`\`\`
 `;
 const UsageContent = styled.div`
@@ -101,7 +94,10 @@ return (
     </div>
     <div>
       <Heading>Description</Heading>
-      <p>This component...</p>
+      <p>
+        This component initiates a live video stream using a provided stream
+        key.
+      </p>
     </div>
     <UsageContent>
       <Heading>Usage</Heading>
