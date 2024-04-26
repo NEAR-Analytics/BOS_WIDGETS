@@ -15,7 +15,6 @@ const verifiedCheck = (
     />
   </svg>
 );
-
 const CardRoot = styled.div`
   width: 315px;
   height: 480px;
@@ -37,7 +36,6 @@ const Top = styled.div`
   width: 100%;
   background: black;
 `;
-
 const Bottom = styled.div`
   h1 {
     overflow: hidden;
@@ -52,7 +50,6 @@ const Bottom = styled.div`
     text-transform: uppercase;
   }
 `;
-
 const ImageProfile = styled.div`
   img {
     position: absolute;
@@ -68,7 +65,6 @@ const ImageProfile = styled.div`
     left: 16px;
   }
 `;
-
 const HeaderText = styled.div`
   height: 150px;
   a {
@@ -83,7 +79,6 @@ const HeaderText = styled.div`
     line-height: normal;
   }
 `;
-
 const CardBody = styled.div`
   margin-top: 20px;
   padding: 0 16px;
@@ -108,7 +103,6 @@ const CardBody = styled.div`
     line-height: 148%;
   }
 `;
-
 const AmountSec = styled.div`
   width: 100%;
   display: flex;
@@ -145,7 +139,6 @@ const AmountSec = styled.div`
     }
   }
 `;
-
 const Button = styled.div`
   width: 100%;
   display: flex;
@@ -174,7 +167,6 @@ const Button = styled.div`
       border-color: black;
     }
   `;
-
 const Username = styled.div`
   display: flex;
   align-items: center;
@@ -183,14 +175,12 @@ const Username = styled.div`
     margin-left: 5px;
   }
 `;
-
 function makeAccountIdShorter(accountId, shortenLength) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
   }
   return accountId;
 }
-
 return (
   <CardRoot>
     <Top>
