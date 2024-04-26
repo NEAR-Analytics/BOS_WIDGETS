@@ -52,13 +52,20 @@ const openButton = ({ widgetPath: src, onHide }) => {
 
 return (
   <div className="m-2">
-    <Widget
-      src="toolbelt.near/widget/tools.view"
-      props={{ tools: state.tools }}
-    />
+    <div className="d-flex flex-row justify-content-between">
+      <div className="mt-4">
+        <h1>
+          <b>Your Toolbelt</b>
+        </h1>
+      </div>
+      <Widget
+        src="toolbelt.near/widget/tools.view"
+        props={{ tools: state.tools }}
+      />
+    </div>
     <hr />
     <div className="d-flex flex-row justify-content-between">
-      <h2 className="m-1">Customize Your Toolbelt</h2>
+      <h3 className="m-2">Customize</h3>
       <div className="m-1">
         {settingTools &&
           JSON.stringify(state.tools) !== JSON.stringify(settingTools) && (
