@@ -1,5 +1,4 @@
 let { onLoad, onRefresh, loaded } = props;
-
 const spec = "nft-1.0.0";
 const base_uri = "https://arweave.net";
 const isSignedin = !!context.accountId;
@@ -8,7 +7,6 @@ const _price = (price) =>
   Number(Number(new Big(price).mul(new Big(10).pow(24)).toString()))
     .toLocaleString()
     .replace(/,/g, "");
-
 let MintbaseSDK = {
   initialized: false,
   mainnet: props.mainnet ? true : false,
