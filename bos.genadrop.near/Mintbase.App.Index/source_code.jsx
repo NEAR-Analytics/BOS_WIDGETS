@@ -131,11 +131,11 @@ const config = {
         path: "bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Index",
         blockHeight: "final",
         init: {
-          name: "Human",
+          name: "StoreFront",
           right: {
             one: [
-              { name: "Owned", tab: "owned" },
-              { name: "minted", tab: "minted" },
+              { name: "NFTs", tab: "nfts" },
+              { name: "mint NFT", tab: "mint-nft" },
               { name: "About", tab: "about" },
             ],
             two: [
