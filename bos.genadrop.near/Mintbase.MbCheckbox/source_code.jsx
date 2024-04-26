@@ -3,10 +3,8 @@ const label = props.label;
 const disabled = props.disabled;
 const ref = props.ref;
 const checked = props.checked;
-
 const mode = props.mode || Storage.get("mode");
 const isDarkModeOn = mode === "dark";
-
 const CheckBox = styled.label`
   display: flex;
   align-items: flex-end;
@@ -56,7 +54,6 @@ const CheckBox = styled.label`
     }
   }
 `;
-
 const MbCheckbox = () => {
   return (
     <CheckBox>
@@ -90,5 +87,4 @@ const MbCheckbox = () => {
     </CheckBox>
   );
 };
-
 return { MbCheckbox };
