@@ -17,7 +17,6 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
     }
   ).then((result) => result.body);
 }
-
 const operationsDoc = `
         query GetLaunchpadContracts($id: String!) {
           launchpad_contracts(args: {minter_id: $id}) {
@@ -28,12 +27,10 @@ const operationsDoc = `
           }
         }
       `;
-
 function getUserStores(id) {
   if (!id) console.log("missing accountId");
   return fetchGraphQL(operationsDoc, "GetLaunchpadContracts", {
     id: id || "",
   });
 }
-
 return { getUserStores };
