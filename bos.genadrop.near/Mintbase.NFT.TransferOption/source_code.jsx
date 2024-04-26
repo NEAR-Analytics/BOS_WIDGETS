@@ -1,7 +1,6 @@
 const { nftTransfer } = VM.require(
   "bos.genadrop.near/widget/Mintbase.NFT.modules"
 );
-
 const cancelSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +12,6 @@ const cancelSvg = (
     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path>
   </svg>
 );
-
 const TransferContainer = styled.div`
   .home-dark {
     width: 600px;
@@ -37,7 +35,6 @@ const Top = styled.div`
   justify-content: space-between;
   padding: 30px;
   height: 60px;
-
   border-bottom: 1px solid
     ${(props) => (props.isDarkModeOn ? "#3e4352" : "#e7ebee")};
   p {
@@ -48,7 +45,6 @@ const Top = styled.div`
     cursor: pointer;
   }
 `;
-
 const Token = styled.div`
   background: ${(props) => (props.isDarkModeOn ? "#262a3b" : "#f8f8f8")};
   display: flex;
@@ -59,7 +55,6 @@ const Token = styled.div`
     color: ${(props) => (props.isDarkModeOn ? "#fff" : "#000")};
   }
 `;
-
 const Content = styled.div`
   height: 228px;
   overflow-y: scroll;
@@ -85,12 +80,10 @@ const Content = styled.div`
     }
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   .dark {
     svg {
       color: #fff !important;
@@ -127,7 +120,6 @@ const Cards = styled.div`
       }
     }
   }
-
   .accountCard {
     display: flex;
     flex-direction: row;
@@ -140,7 +132,6 @@ const Cards = styled.div`
       width: 50px;
       height: 45px;
       border: none;
-
       border-radius: 4px;
       padding: 0 10px;
     }
@@ -166,7 +157,6 @@ const Cards = styled.div`
     cursor: pointer;
   }
 `;
-
 const Bottom = styled.div`
   display: flex;
   margin-top: 40px;
@@ -217,7 +207,6 @@ const Bottom = styled.div`
     }
   }
 `;
-
 const TransferOption = ({ onClose, data, isDarkModeOn }) => {
   const [tokens, setTokens] = useState([]);
   const [accountIds, setAccountIds] = useState([
@@ -226,7 +215,6 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
       tokenAmount: "",
     },
   ]);
-
   function fetchNFTDetails() {
     asyncFetch("https://graph.mintbase.xyz", {
       method: "POST",
@@ -267,11 +255,9 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
       }
     });
   }
-
   useEffect(() => {
     fetchNFTDetails();
   }, []);
-
   const handleCheckAccount = () => {
     fetch("https://rpc.mainnet.near.org", {
       method: "POST",
@@ -292,7 +278,6 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
       }),
     });
   };
-
   const addAccounts = () => {
     setAccountIds([
       ...accountIds,
@@ -302,7 +287,6 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
       },
     ]);
   };
-
   const handleTransfer = () => {
     let transfers = [];
     if (accountIds.length === 1 && accountIds[0].tokenAmount === "1") {
@@ -325,22 +309,18 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
       nftTransfer(data?.token_id, transfers, data?.nft_contract_id);
     }
   };
-
   const totalTokenAmount = accountIds.reduce((total, data) => {
     return total + parseInt(data.tokenAmount || 0);
   }, 0);
-
   const handleAccountName = (e, index, name) => {
     const newFields = accountIds;
     newFields[index][name] = e.target.value;
     setAccountIds(newFields);
   };
-
   const handleRemoveCard = (id) => {
     const existingFields = accountIds?.filter((_, index) => index !== id);
     setAccountIds(existingFields);
   };
-
   return (
     <TransferContainer>
       <div className={isDarkModeOn ? "home-dark" : "home-light"}>
@@ -408,7 +388,6 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
               <p>{tokens?.length}</p>
             </div>
           </div>
-
           <div className="clear">
             <p
               onClick={() =>
@@ -439,5 +418,4 @@ const TransferOption = ({ onClose, data, isDarkModeOn }) => {
     </TransferContainer>
   );
 };
-
 return <TransferOption {...props} />;
