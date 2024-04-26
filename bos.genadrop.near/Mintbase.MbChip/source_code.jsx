@@ -1,9 +1,6 @@
 const accountId = props.accountId || "bos.genadrop.near";
-
 const { getFontType } = VM.require(`${accountId}/widget/Mintbase.Theme`);
-
 const { label, isChecked, disabled, handleClick } = props;
-
 const Chip = styled.div`
     .chip {
         padding: 8px 32px; /* py-8 px-32 */
@@ -52,7 +49,6 @@ const Chip = styled.div`
         }
     }
 `;
-
 const MbChip = () => {
   return (
     <Chip>
@@ -80,5 +76,4 @@ const MbChip = () => {
     </Chip>
   );
 };
-
 return { MbChip };
