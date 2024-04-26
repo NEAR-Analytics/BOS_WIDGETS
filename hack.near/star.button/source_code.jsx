@@ -43,7 +43,7 @@ return (
   <CommitButton
     disabled={!context.accountId}
     className={`btn ${
-      starred ? "btn btn-secondary" : "btn btn-outline-secondary"
+      starred ? "btn btn-sm btn-secondary" : "btn btn-sm btn-outline-secondary"
     }`}
     data={data}
   >
