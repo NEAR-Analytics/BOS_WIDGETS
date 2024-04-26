@@ -1,9 +1,7 @@
 const { isDarkModeOn, tab } = props;
-
 const { MbFeaturedCard } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbFeaturedCard"
 );
-
 const rightArrow = (
   <svg
     width="24px"
@@ -31,11 +29,9 @@ const rightArrow = (
     </defs>
   </svg>
 );
-
 const ExplorePage = styled.div`
   padding: 24px;
 `;
-
 const Routes = styled.div`
   display: flex;
   flex-direction: row;
@@ -69,13 +65,11 @@ const Routes = styled.div`
     overflow-x: scroll;
   }
 `;
-
 const FeaturedCardContainer = styled.div`
   margin-top: 30px;
   position: relative;
   height: 300px;
 `;
-
 const FeaturedCard = styled.div`
   width: 600px;
   height: 299px;
@@ -85,7 +79,6 @@ const FeaturedCard = styled.div`
   .image {
     width: 100%;
     height: 145px !important;
-
     img {
       width: 100%;
       height: 145px !important;
@@ -143,7 +136,6 @@ const FeaturedCard = styled.div`
     }
   }
 `;
-
 const Gallery = styled.div`
   top: 0;
   max-width: 1300px;
@@ -207,7 +199,6 @@ const Gallery = styled.div`
     }
   }
 `;
-
 const CardContainers = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -226,7 +217,6 @@ const CardContainers = styled.div`
     justify-content: center;
   }
 `;
-
 const pageRoutes = {
   AI: {
     name: "AI",
@@ -265,20 +255,17 @@ const pageRoutes = {
     link: "",
   },
 };
-
 const MarketPage = ({ isDarkModeOn, tab }) => {
   const [activeTab, setActiveTab] = useState(-1);
   const [currentTab, setCurrentTab] = useState(tab || "Featured");
   const [filteredData, setFilteredData] = useState([]);
   const [page, setPage] = useState(1);
-
   const handleTabClick = (index) => {
     const fieldName = Object.keys(pageRoutes)[index];
     setActiveTab(index);
     setCurrentTab(pageRoutes[fieldName].name);
     setPage(1);
   };
-
   const fetchExploreData = useCallback(() => {
     asyncFetch("https://api.mintbase.xyz/explore", {
       method: "GET",
@@ -306,11 +293,9 @@ const MarketPage = ({ isDarkModeOn, tab }) => {
       }
     });
   }, [currentTab, activeTab]);
-
   useEffect(() => {
     fetchExploreData();
   }, [activeTab]);
-
   useEffect(() => {
     if (tab) {
       setCurrentTab(tab);
@@ -318,7 +303,6 @@ const MarketPage = ({ isDarkModeOn, tab }) => {
       setActiveTab(index);
     }
   }, [tab]);
-
   const HandleUpSlide = () => {
     if (page < filteredData?.length - 1) {
       setPage(page + 1);
@@ -333,7 +317,6 @@ const MarketPage = ({ isDarkModeOn, tab }) => {
       setPage(filteredData?.length - 1);
     }
   };
-
   return (
     <ExplorePage>
       <Routes>
@@ -422,5 +405,4 @@ const MarketPage = ({ isDarkModeOn, tab }) => {
     </ExplorePage>
   );
 };
-
 return <MarketPage isDarkModeOn={props?.isDarkModeOn} tab={props.tab} />;
