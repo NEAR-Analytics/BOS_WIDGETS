@@ -15,8 +15,6 @@ const searchSvg = (
     />
   </svg>
 );
-
-
 const Root = styled.div`
   display: flex;
   align-items: center;
@@ -27,7 +25,6 @@ const Root = styled.div`
     max-width: 100% !important;
   }
 `;
-
 const Search = styled.div`
   display: flex;
   padding: 5px 16px;
@@ -46,7 +43,6 @@ const Search = styled.div`
     border: none;
   }
 `;
-
 const Filter = styled.div`
   display: flex;
   height: 48px;
@@ -62,7 +58,6 @@ const Filter = styled.div`
     color: #fff;
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,7 +68,6 @@ const Cards = styled.div`
     max-width: 100% !important;
   }
 `;
-
 const NoItem = styled.div`
   h1 {
     color: #000;
@@ -85,26 +79,21 @@ const NoItem = styled.div`
     margin-top: 50px;
   }
 `;
-
-
 const Input = styled.input`
-&&& {
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  flex: 1;
-  &:focus {
-    outline: none;
+  &&& {
+    padding: 8px;
+    font-size: 16px;
     border: none;
+    flex: 1;
+    &:focus {
+      outline: none;
+      border: none;
+    }
   }
-}
 `;
-
 const userArts = props.usersArts;
-
-const [searchValue, setSearchValue] = useState("")
-const [filteredValue, setFilteredValue] = useState([])
-
+const [searchValue, setSearchValue] = useState("");
+const [filteredValue, setFilteredValue] = useState([]);
 if (userArts.length < 1) {
   return (
     <NoItem>
@@ -112,67 +101,74 @@ if (userArts.length < 1) {
     </NoItem>
   );
 }
-
 const searchInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
   const searched = userArts.filter((nft) =>
     nft[1]?.title.toLowerCase().includes(value)
   );
-  setSearchValue(value)
-  setFilteredValue(searched)
+  setSearchValue(value);
+  setFilteredValue(searched);
 };
-
-const isUserInCouncil = props?.councilMembers ? props?.councilMembers?.includes(context?.accountId) : false;
+const isUserInCouncil = props?.councilMembers
+  ? props?.councilMembers?.includes(context?.accountId)
+  : false;
 const testContract = props.testContract || false;
-
 return (
   <>
     <Root>
       <div className="search"></div>
       <Search>
-        <Input value={searchValue} placeholder="Search Submitted Arts" onChange={searchInputHandler} />
+        <Input
+          value={searchValue}
+          placeholder="Search Submitted Arts"
+          onChange={searchInputHandler}
+        />
         {searchSvg}
       </Search>
     </Root>
     <Cards>
-      {searchValue === '' ? userArts?.map((data, index) => (
-        <Widget
-          key={index}
-          src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Card"
-          props={{
-            owner: data[0],
-            content: data[1],
-            isOpen: props.isOpen,
-            daoId: props.daoId,
-            testContract,
-            councilMember: isUserInCouncil,
-            contestName: props?.contestName,
-            winners: props.winners,
-            isClosed: props.isClosed,
-            contestId: props.contestId,
-          }}
-        />
-      )) : filteredValue?.length ? filteredValue?.map((data, index) => (
-        <Widget
-          key={index}
-          src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Card"
-          props={{
-            owner: data[0],
-            content: data[1],
-            isOpen: props.isOpen,
-            winners: props.winners,
-            daoId: props.daoId,
-            testContract,
-            contestName: props?.contestName,
-            councilMember: isUserInCouncil,
-            isClosed: props.isClosed,
-            contestId: props.contestId,
-          }}
-        />
-      )): (
+      {searchValue === "" ? (
+        userArts?.map((data, index) => (
+          <Widget
+            key={index}
+            src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Card"
+            props={{
+              owner: data[0],
+              content: data[1],
+              isOpen: props.isOpen,
+              daoId: props.daoId,
+              testContract,
+              councilMember: isUserInCouncil,
+              contestName: props?.contestName,
+              winners: props.winners,
+              isClosed: props.isClosed,
+              contestId: props.contestId,
+            }}
+          />
+        ))
+      ) : filteredValue?.length ? (
+        filteredValue?.map((data, index) => (
+          <Widget
+            key={index}
+            src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Card"
+            props={{
+              owner: data[0],
+              content: data[1],
+              isOpen: props.isOpen,
+              winners: props.winners,
+              daoId: props.daoId,
+              testContract,
+              contestName: props?.contestName,
+              councilMember: isUserInCouncil,
+              isClosed: props.isClosed,
+              contestId: props.contestId,
+            }}
+          />
+        ))
+      ) : (
         <NoItem>
-        <h1>No Art Found</h1>
-      </NoItem>
+          <h1>No Art Found</h1>
+        </NoItem>
       )}
     </Cards>
   </>
