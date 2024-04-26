@@ -59,7 +59,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const Portal = styled.div`
   margin-bottom: 30px;
   h2 {
@@ -87,7 +86,6 @@ const Portal = styled.div`
     }
   }
 `;
-
 return (
   <Root>
     <h1>Explore our Quests</h1>
