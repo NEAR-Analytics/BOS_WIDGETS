@@ -15,12 +15,10 @@ const checkSvg = (
     />
   </svg>
 );
-
 const Container = styled.div`
   background: #f8f8f8;
   min-height: 100vh;
 `;
-
 const Root = styled.div`
   padding: 10px;
   margin-left: auto;
@@ -75,7 +73,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const Status = styled.div`
   display: flex;
   flex-direction: row;
@@ -132,7 +129,6 @@ const Status = styled.div`
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0);
   }
 `;
-
 const Username = styled.div`
   display: flex;
   flex-direction: row;
@@ -143,7 +139,7 @@ const Username = styled.div`
     font-family: Helvetica Neue;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400; 
+    font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
     margin-bottom: 20px;
@@ -153,7 +149,6 @@ const Username = styled.div`
     margin-top: 3px;
   }
 `;
-
 const Desc = styled.div`
   p {
     color: #808080;
@@ -165,7 +160,6 @@ const Desc = styled.div`
     letter-spacing: -0.16px;
   }
 `;
-
 const PriceBucket = styled.div`
   display: flex;
   justify-content: space-between;
@@ -250,58 +244,59 @@ const PriceBucket = styled.div`
     }
   }
 `;
-
-
-
 const contestId = props.contestId;
-const testContract = props?.status === 'true' ? true : false
+const testContract = props?.status === "true" ? true : false;
 const [userSubmitted, setUserSubmitted] = useState(false);
-
-if(!contestId) {
+if (!contestId) {
   return (
-    <div>No ContestId Provided, Please Redirect to the Contest Overview page and Select a Contest</div>
-  )
+    <div>
+      No ContestId Provided, Please Redirect to the Contest Overview page and
+      Select a Contest
+    </div>
+  );
 }
-
-const contest = Near.view(testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near", "get_contest_detail", {
-  contest_id: Number(contestId),
-  subscribe: true,
-});
-
-if(!contestId && !contest) {
+const contest = Near.view(
+  testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
+  "get_contest_detail",
+  {
+    contest_id: Number(contestId),
+    subscribe: true,
+  }
+);
+if (!contestId && !contest) {
   return (
-    <div>No ContestId Provided, Please Redirect to the Contest Overview page and Select a Contest</div>
-  )
+    <div>
+      No ContestId Provided, Please Redirect to the Contest Overview page and
+      Select a Contest
+    </div>
+  );
 }
-
-
-
-const contestArts = Near.view(testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near", "get_contest_arts", {
-  contest_id: Number(contestId),
-  subscribe: true,
-});
-
-
-if(!contest) {
+const contestArts = Near.view(
+  testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
+  "get_contest_arts",
+  {
+    contest_id: Number(contestId),
+    subscribe: true,
+  }
+);
+if (!contest) {
   return (
-    <div>No Contest Details Found, Please make sure you're  Navigating from a Valid Contest</div>
-  )
+    <div>
+      No Contest Details Found, Please make sure you're Navigating from a Valid
+      Contest
+    </div>
+  );
 }
-
 const formatTime = (time) => {
   const timestamp = time * 1000; // Convert seconds to milliseconds
   const date = new Date(timestamp);
-
   // Format the date to "Month day, year" (e.g., "Oct 31, 2023")
   const options = { month: "short", day: "numeric", year: "numeric" };
   const formattedDate = date.toLocaleDateString("en-US", options);
-
   return formattedDate;
 };
-
 const isOpen = contest?.submission_end_time > Date.now() / 1000;
 const isClosed = contest?.voting_end_time < Date.now() / 1000;
-
 useEffect(() => {
   if (contestArts) {
     const submitted = contestArts?.some(
@@ -310,8 +305,6 @@ useEffect(() => {
     setUserSubmitted(submitted);
   }
 }, [contestArts]);
-
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
@@ -322,14 +315,12 @@ const getUsdValue = (price) => {
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
-
 const policy = Near.view(contest?.dao_id, "get_policy");
-const councilMembers = policy &&
-policy?.roles?.filter(
-  (data) => data?.name === "council" || data?.name === "Council"
-)[0]?.kind?.Group;
-
-
+const councilMembers =
+  policy &&
+  policy?.roles?.filter(
+    (data) => data?.name === "council" || data?.name === "Council"
+  )[0]?.kind?.Group;
 return (
   <Container>
     <Root>
@@ -359,7 +350,11 @@ return (
           </p>
         </Status>
         <Username>
-          <a href={`#/bos.genadrop.near/widget/CPlanet.DAO.Index?daoId=${contest?.dao_id}`}>{contest?.dao_id}</a>
+          <a
+            href={`#/bos.genadrop.near/widget/CPlanet.DAO.Index?daoId=${contest?.dao_id}`}
+          >
+            {contest?.dao_id}
+          </a>
           {checkSvg}
         </Username>
         <Desc>
@@ -384,8 +379,14 @@ return (
                 src="https://ipfs.near.social/ipfs/bafkreierjvmroeb6tnfu3ckrfmet7wpx7k3ubjnc6gcdzauwqkxobnu57e"
                 alt=""
               />
-              <p className="first-span">{contest?.places ? contest?.prize / contest.places ?? 0 : 0}</p>
-              <span className="last-span">{getUsdValue(contest?.places ? contest?.prize / contest.places ?? 0: 0)}</span>
+              <p className="first-span">
+                {contest?.places ? contest?.prize / contest.places ?? 0 : 0}
+              </p>
+              <span className="last-span">
+                {getUsdValue(
+                  contest?.places ? contest?.prize / contest.places ?? 0 : 0
+                )}
+              </span>
             </div>
           </div>
           <div className="amountSec">
