@@ -1,11 +1,8 @@
 const accountId = props.accountId ?? "bos.genadrop.near";
-
 const { isDarkModeOn, setMode } = props;
-
 const { MbFooterRoutes, getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const Footer = styled.div`
   background: ${!isDarkModeOn ? "#fff" : "#1e2030"};
   padding: 20px;
@@ -43,7 +40,6 @@ const Footer = styled.div`
       }
     }
   }
-
   .right {
     display: flex;
     width: 60%;
@@ -87,7 +83,6 @@ const Footer = styled.div`
     }
   }
 `;
-
 const iconLinks = [
   { route: "https://twitter.com/mintbase", name: "twitter" },
   { route: "https://www.instagram.com/mintbase_", name: "instagram" },
@@ -98,7 +93,6 @@ const iconLinks = [
   { route: "https://github.com/mintbase", name: "github" },
   { route: "https://www.youtube.com/@mintbase", name: "youtube" },
 ];
-
 return (
   <Footer>
     <div className="footerLinks">
