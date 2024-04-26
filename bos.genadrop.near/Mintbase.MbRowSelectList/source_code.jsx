@@ -2,7 +2,6 @@ const elements = props.elements;
 const deleteRow = props.deleteRow;
 const addMinter = props.addMinter;
 const removeMinters = props.removeMinters;
-
 const MbRowSelectList = () => {
   return (
     <Widget
@@ -16,5 +15,4 @@ const MbRowSelectList = () => {
     />
   );
 };
-
 return { MbRowSelectList };
