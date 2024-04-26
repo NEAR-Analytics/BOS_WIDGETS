@@ -38,7 +38,7 @@ const {
   healthFactor,
   supportPermit,
 } = data;
-console.log("supplyModal---", data);
+console.log("supplyModal---", props);
 const WithdrawContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -562,7 +562,11 @@ const updateNewHealthFactor = debounce(() => {
 }, 1000);
 
 const disabled =
-  !state.amount || !isValid(state.amount) || Number(state.amount) === 0;
+  !data.balanceInUSD ||
+  Number(data.balanceInUSD) === 0 ||
+  !state.amount ||
+  !isValid(state.amount) ||
+  Number(state.amount) === 0;
 
 const changeValue = (value) => {
   if (Number(value) > Number(maxValue)) {
