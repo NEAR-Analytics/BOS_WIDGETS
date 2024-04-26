@@ -1,7 +1,6 @@
 const data = {
   name: "",
 };
-
 const kit = {
   core: {
     MbIcon: {
@@ -22,7 +21,7 @@ const kit = {
         </IconsContainer>
       ),
       docs: `<Widget
-        src={"${"bos.genadrop.near/widget/" + display}"}
+        src={"${"${config_account}/widget/" + display}"}
         props={{
           name: "Icon Name",
           color: "",
