@@ -43,18 +43,14 @@ const Root = styled.a`
     border-radius: 50%;
   }
 `;
-
 const daoId = props.daoId ?? "dao.near";
-
 const profile = Social.get(`${daoId}/profile/**`, "final");
-
 function makeAccountIdShorter(accountId, shortenLength) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
   }
   return accountId;
 }
-
 return (
   <Root
     target="_blank"
@@ -69,9 +65,7 @@ return (
         }
       />
       <div className="name">
-        <h2>
-          {makeAccountIdShorter(profile.name ?? daoId, 90)}
-        </h2>
+        <h2>{makeAccountIdShorter(profile.name ?? daoId, 90)}</h2>
         <span>{props.userId ?? "@og-sbt.sputnik-dao.near"}</span>
       </div>
     </div>
