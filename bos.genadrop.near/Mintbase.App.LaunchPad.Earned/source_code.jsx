@@ -4,17 +4,13 @@ const { getUserEarnings, getTimePassed } = VM.require(
   getUserEarnings: () => <></>,
   getTimePassed: () => <></>,
 };
-
 const accountId = props.accountId ?? context.accountId;
-
 const perPage = 50;
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
 const [page, setPage] = useState(1);
 const [data, setData] = useState(null);
 const [showTable, setShowTable] = useState(true);
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
@@ -26,7 +22,6 @@ const YoctoToNear = (amountYocto) => {
     .toFixed(2)
     .toString();
 };
-
 useEffect(() => {
   getUserEarnings({
     account: accountId,
@@ -48,16 +43,13 @@ useEffect(() => {
       console.error(error);
     });
 }, [limit, offset, page]);
-
 const Earned = ({ isDarkModeOn }) => {
   const earnings = data && data.earnings;
   const earningsTotal = data && data.earnings_aggregate.aggregate;
   const totalItems = earningsTotal && earningsTotal.count;
   const totalEarnings = earningsTotal && earningsTotal.sum.amount;
   const totalListings = data && data.lists_aggregate.aggregate.count;
-
   if (!earnings) return "Loading ...";
-
   const Root = styled.div`
     display: flex;
     flex-flow: row nowrap;
@@ -67,7 +59,6 @@ const Earned = ({ isDarkModeOn }) => {
       flex-flow: column nowrap;
     }
   `;
-
   const LeftFilters = styled.div`
     width: 22%;
     height: 100%;
@@ -80,7 +71,6 @@ const Earned = ({ isDarkModeOn }) => {
       justify-content: space-around;
     }
   `;
-
   const FilterCard = styled.div`
     background: ${isDarkModeOn ? "rgba(40, 42, 58, 1)" : "#fff"};
     width: 100%;
@@ -109,7 +99,6 @@ const Earned = ({ isDarkModeOn }) => {
       color: ${isDarkModeOn ? "#fff" : "#000"};
     }
   `;
-
   const Container = styled.div`
     background: ${isDarkModeOn ? "#1f2031" : "#fff"};
     display: flex;
@@ -119,13 +108,11 @@ const Earned = ({ isDarkModeOn }) => {
     height: fit-content;
     flex: 1;
     width: 100%;
-
     @media (max-width: 500px) {
       width: 100vw;
       min-width: 100vw;
       font-size: 12px;
     }
-
     .topic_line {
       display: flex;
       justify-content: space-between;
@@ -150,7 +137,6 @@ const Earned = ({ isDarkModeOn }) => {
         font-weight: 600;
       }
     }
-
     .table_main {
       display: flex;
       overflow: auto;
@@ -177,7 +163,6 @@ const Earned = ({ isDarkModeOn }) => {
         }
         ${cursomStyle}
       }
-
       .trx-row {
         display: grid;
         grid-template-columns: repeat(4, minmax(150px, 3fr));
@@ -209,7 +194,6 @@ const Earned = ({ isDarkModeOn }) => {
           line-height: 18px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Assuming Tailwind CSS default timing function and duration */
           white-space: nowrap;
-
           &:focus {
             outline: 2px solid transparent; /* Assuming Tailwind CSS default focus outline */
             outline-offset: 2px; /* Assuming Tailwind CSS default focus outline offset */
@@ -221,13 +205,11 @@ const Earned = ({ isDarkModeOn }) => {
               ? "rgba(59, 130, 246, 0.35)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           &:hover {
             background-color: ${isDarkModeOn
               ? "rgba(59, 130, 246, 0.15)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           cursor: pointer;
           @media (max-width: 768px) {
             padding: 12px;
@@ -265,7 +247,6 @@ const Earned = ({ isDarkModeOn }) => {
             height: 40px;
           }
         }
-
         .time {
           display: flex;
           align-items: center;
@@ -284,7 +265,6 @@ const Earned = ({ isDarkModeOn }) => {
           }
         }
       }
-
       .price {
         display: flex;
         gap: 4px;
@@ -296,7 +276,6 @@ const Earned = ({ isDarkModeOn }) => {
           filter: invert(${isDarkModeOn ? 1 : 0});
         }
       }
-
       @media (max-width: 500px) {
         .header,
         .trx-row {
@@ -305,11 +284,9 @@ const Earned = ({ isDarkModeOn }) => {
       }
     }
   `;
-
   const tableToggleHander = () => {
     setShowTable((prev) => !prev);
   };
-
   console.log("page", page);
   return (
     <Root>
@@ -325,7 +302,6 @@ const Earned = ({ isDarkModeOn }) => {
           <div className="count">{totalListings}</div>
         </FilterCard>
       </LeftFilters>
-
       <Container>
         <div className="topic_line" onClick={tableToggleHander}>
           <p>Trading History</p>
@@ -387,7 +363,6 @@ const Earned = ({ isDarkModeOn }) => {
                           : "No Title"}
                       </Link>
                     </div>
-
                     <div>
                       {" "}
                       {earning.amount ? (
@@ -441,7 +416,6 @@ const Earned = ({ isDarkModeOn }) => {
                 );
               })}
             </div>
-
             {!earnings.length && (
               <p className="trx-row">
                 <div>No earnings yet</div>
@@ -470,5 +444,4 @@ const Earned = ({ isDarkModeOn }) => {
     </Root>
   );
 };
-
 return <Earned {...props} />;
