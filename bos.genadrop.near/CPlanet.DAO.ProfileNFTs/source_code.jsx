@@ -14,7 +14,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,11 +23,8 @@ const Cards = styled.div`
   width: 100%;
   justify-content: center;
 `;
-
 const logo =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU";
-
-
 const fetchStoreFrontData = (owner, contractId) => {
   const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -59,16 +55,12 @@ const fetchStoreFrontData = (owner, contractId) => {
 `,
     }),
   });
-
   State.update({
     storeContracts: response2.body.data.mb_views_nft_tokens,
   });
 };
-
 fetchStoreFrontData(props.ownerId, props.daoId);
-
 const storeNfts = state.storeContracts;
-
 return (
   <Root>
     <Cards>
@@ -91,9 +83,9 @@ return (
                     chainState: "near",
                   }),
                 price: data.listings.length
-                  ? (
-                      data.listings.length / 1000000000000000000000000
-                    ).toFixed(2)
+                  ? (data.listings.length / 1000000000000000000000000).toFixed(
+                      2
+                    )
                   : null,
                 isListed: data.listings.length ? "LISTED" : "NOT LISTED",
                 tokenId: data.token_id,
