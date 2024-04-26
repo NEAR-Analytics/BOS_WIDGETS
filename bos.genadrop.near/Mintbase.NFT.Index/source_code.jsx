@@ -10,7 +10,6 @@ const dotsSvg = (
     <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
   </svg>
 );
-
 const multiplySvg = (
   <svg
     width="14px"
@@ -26,7 +25,6 @@ const multiplySvg = (
     ></path>
   </svg>
 );
-
 const pinSvg = (
   <svg
     width="14px"
@@ -42,7 +40,6 @@ const pinSvg = (
     ></path>
   </svg>
 );
-
 const burnSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +58,6 @@ const burnSvg = (
     </g>
   </svg>
 );
-
 const arrowSvg = (
   <svg
     width="14px"
@@ -77,7 +73,6 @@ const arrowSvg = (
     ></path>
   </svg>
 );
-
 const cancelSvg = (
   <svg
     width="14px"
@@ -93,7 +88,6 @@ const cancelSvg = (
     ></path>
   </svg>
 );
-
 const nearIcon = (
   <svg
     width="18px"
@@ -109,7 +103,6 @@ const nearIcon = (
     ></path>
   </svg>
 );
-
 const usdtIcon = (
   <svg
     width="18px"
@@ -127,7 +120,6 @@ const usdtIcon = (
     ></path>
   </svg>
 );
-
 const usdcIcon = (
   <svg
     width="18px"
@@ -151,14 +143,11 @@ const usdcIcon = (
     ></path>
   </svg>
 );
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const NFTCard = ({ data, isDarkModeOn }) => {
   const [modalState, setModalState] = useState("");
-
   const CardContainer = styled.div`
     width: 370px;
     height: 480px;
@@ -168,7 +157,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       width: 99% !important;
     }
   `;
-
   const Bottom = styled.div`
     padding: 10px 20px;
     div {
@@ -184,7 +172,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       margin-bottom: 10px;
       color: ${isDarkModeOn ? "#9c9ea9" : "#000"};
     }
-
     .title {
       font-size: 14px;
       color: ${isDarkModeOn ? "#fff" : "#000"};
@@ -204,7 +191,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       border-radius: 50%;
     }
   `;
-
   const ModalBg = styled.div`
     overflow-y: auto;
     position: fixed;
@@ -218,7 +204,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
     opacity: 0.75;
     z-index: 999;
   `;
-
   const Modal = styled.div`
     justify-content: center;
     align-items: center;
@@ -238,7 +223,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       outline-offset: 2px;
     }
   `;
-
   const Top = styled.div`
     height: 370px;
     width: 370px;
@@ -274,7 +258,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       width: 99% !important;
     }
   `;
-
   const ModalOptions = styled.div`
     width: 600px;
     height: 400px;
@@ -284,7 +267,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       width: 76% !important;
     }
   `;
-
   const TopModal = styled.div`
     display: flex;
     align-items: center;
@@ -343,7 +325,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       }
     }
   `;
-
   const ModalButton = styled.div`
     display: flex;
     justify-content: center;
@@ -359,7 +340,6 @@ const NFTCard = ({ data, isDarkModeOn }) => {
       }
     }
   `;
-
   const listingType = {
     near: nearIcon,
     "ft::a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near":
@@ -369,14 +349,12 @@ const NFTCard = ({ data, isDarkModeOn }) => {
     "usdc.fakes.testnet": usdcIcon,
     "usdt.fakes.testnet": usdtIcon,
   };
-
   const YoctoToNear = (amountYocto) => {
     return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
   };
   const isMintedContract = ["mintbase1.near", "mintspace2.testnet"].some(
     (substring) => data?.nft_contract_id.includes(substring)
   );
-
   return (
     <CardContainer>
       <Top bg={data?.media}>
@@ -513,5 +491,4 @@ const NFTCard = ({ data, isDarkModeOn }) => {
     </CardContainer>
   );
 };
-
 return <NFTCard {...props} />;
