@@ -19,7 +19,6 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
     }
   ).then((result) => result.body);
 }
-
 const operationsDoc = `
     query GetOffersToAccount($account: String!, $limit: Int!, $offset: Int!) {
       mb_views_auctions_with_offer(
@@ -59,7 +58,6 @@ const operationsDoc = `
       }
     }
   `;
-
 function getOffersToAccount({ account, limit, offset }) {
   return fetchGraphQL(operationsDoc, "GetOffersToAccount", {
     account: account,
@@ -67,5 +65,4 @@ function getOffersToAccount({ account, limit, offset }) {
     offset: offset ?? 0,
   });
 }
-
 return { getOffersToAccount };
