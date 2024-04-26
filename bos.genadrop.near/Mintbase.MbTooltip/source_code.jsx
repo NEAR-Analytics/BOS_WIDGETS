@@ -1,5 +1,4 @@
 const { text, component, place, customStyle } = props;
-
 const TooltipContent = styled.div("Tooltip.Content")`
   opacity:1;
   color: #fff;
@@ -17,11 +16,9 @@ const TooltipContent = styled.div("Tooltip.Content")`
   z-index:9999;
   ${customStyle || ""}
 `;
-
 const TooltipArrow = styled.div("Tooltip.Arrow")`
     fill:rgba(0,0,0,0.6);
 `;
-
 const MbTooltip = () => {
   return (
     <Tooltip.Provider delayDuration={300}>
@@ -35,5 +32,4 @@ const MbTooltip = () => {
     </Tooltip.Provider>
   );
 };
-
 return { MbTooltip };
