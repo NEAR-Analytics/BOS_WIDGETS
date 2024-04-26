@@ -41,7 +41,6 @@ const Content = styled.div`
   height: 100%;
 `;
 // const Template = config.Template ?? (({children}) => <>{children}</>);
-console.log(config);
 return (
   <CSS style={config.theme}>
     <Container>
