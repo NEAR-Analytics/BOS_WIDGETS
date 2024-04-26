@@ -148,6 +148,7 @@ const [dataState, setDataState] = useState({
 });
 
 const baseUrl = "https://dashboard.chatme.page";
+const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const get = async (url) => {
   try {
@@ -162,10 +163,10 @@ const get = async (url) => {
   }
 };
 
-if (!contractName) return <Widget src="flashui.near/widget/Loading" />;
+if (!contractName) return <Loading />;
 
 const daos = Near.view(contractName, "get_dao_list");
-if (!daos) return <Widget src="flashui.near/widget/Loading" />;
+if (!daos) return <Loading />;
 
 const formatDate = () => {
   const fmt = (date) => {
@@ -363,12 +364,18 @@ return (
         />
       </ChartContainer>
     ) : (
-      <div className="w-100 flex-column">
-        <Widget
-          src={`ndcdev.near/widget/dashboard.Components.Table`}
-          props={{ daos, API, dateRange }}
-        />
-      </div>
+      <>
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="w-100 flex-column">
+            <Widget
+              src={`ndcdev.near/widget/dashboard.Components.Table`}
+              props={{ daos, API, dateRange }}
+            />
+          </div>
+        )}
+      </>
     )}
   </Container>
 );
