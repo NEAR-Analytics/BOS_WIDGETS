@@ -1,14 +1,12 @@
 const accountId = props.accountId ?? "bos.genadrop.near";
-
 const { isDarkModeOn, tab } = props;
-
 const Routes = styled.div`
   display: flex;
   margin-bottom: -40px;
   margin-top: 10px;
   flex-direction: row;
   align-items: flex-start;
-  padding:0 30px;
+  padding: 0 30px;
   width: 100%;
   gap: 40px;
   div {
@@ -38,12 +36,10 @@ const Routes = styled.div`
     overflow-x: scroll;
   }
 `;
-
 const [activeTab, setActiveTab] = useState(-1);
 const [currentTab, setCurrentTab] = useState(tab || "Enterprise");
 const [filteredData, setFilteredData] = useState([]);
 const [page, setPage] = useState(1);
-
 const pageRoutes = {
   Enterprise: {
     name: "Enterprise",
@@ -58,7 +54,6 @@ const pageRoutes = {
     link: "",
   },
 };
-
 useEffect(() => {
   if (tab) {
     setCurrentTab(tab);
@@ -66,18 +61,15 @@ useEffect(() => {
     setActiveTab(index);
   }
 }, [tab]);
-
 const handleTabClick = (index) => {
   const fieldName = Object.keys(pageRoutes)[index];
   setActiveTab(index);
   setCurrentTab(pageRoutes[fieldName].name);
   setPage(1);
 };
-
 const handleRangeClick = (index) => {
   setActiveRangeIndex(index);
 };
-
 return (
   <>
     <Routes>
