@@ -3,11 +3,8 @@ const { Router } = VM.require(
 ) || {
   Router: () => <></>,
 };
-
 const { config, ...passProps } = props;
-
 if (!config) return <></>;
-
 if (!config) {
   return (
     <p>
@@ -16,42 +13,33 @@ if (!config) {
     </p>
   );
 }
-
 const { Layout } = VM.require(
   config.layout?.src ?? "bos.genadrop.near/widget/Mintbase.App.Layout"
 ) || {
   Layout: () => <></>,
 };
-
 const CSS = styled.div`
   background: ${props.isDarkModeOn ? "#101223" : "#f3f5f9"};
   .button {
   }
-
   .input {
   }
-
   .layout {
     border: 4px solid var(--main-color);
   }
-
   .content {
   }
-
   .footer {
   }
 `;
-
 const Container = styled.div`
   display: flex;
   height: 100%;
 `;
-
 const Content = styled.div`
   width: 100%;
   height: 100%;
 `;
-
 // const Template = config.Template ?? (({children}) => <>{children}</>);
 console.log(config);
 return (
