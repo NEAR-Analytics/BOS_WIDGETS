@@ -167,6 +167,7 @@ function handleProve(hash) {
     }).then(res => {
       toast?.dismiss(toastId);
       delete state.isLoadingTx[hash]
+      getAllStatus(txs)
       State.update({
         isLoadingTx: state.isLoadingTx
       })
@@ -211,6 +212,7 @@ function handleWithdraw() {
     }).then(res => {
       toast?.dismiss(toastId);
       delete state.isLoadingTx[hash]
+      getAllStatus(txs)
       State.update({
         isLoadingTx: state.isLoadingTx
       })
@@ -255,6 +257,7 @@ function handleClaimUSDB() {
     }).then(res => {
       toast?.dismiss(toastId);
       delete state.isLoadingTx[hash]
+      getAllStatus(txs)
       State.update({
         isLoadingTx: state.isLoadingTx
       })
