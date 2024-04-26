@@ -15,7 +15,6 @@ const verifiedCheck = (
     />
   </svg>
 );
-
 const trippleDots = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -29,10 +28,8 @@ const trippleDots = (
     <circle cx="16" cy="2" r="2" fill="black" />
   </svg>
 );
-
 const mintbaseImage =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAkFBMVEUDCy3/JCQACS37JCSHFymXGCnYICYoDS31IyRfEyoECy05DywADC3DHSfUHybwIyQyDizqIiWqGyjgISW8HSekGihWEivNHyafGih7FiqNGCmyHCeDFykbDSzlISVoFCpLESsiDSxQEStyFSpDECtlFCoSDC2QGCg+ECtcEivHHiYRDC0zDyt2FiqvHCi4HCcCrwAzAAAI8klEQVR4nO2dC3eiOhDHZaiKOIqI9VEf9dXW2nb9/t/uAuYFBNS9vZpw57fn7Hal8eRPkslrJmk0CIIgCIIgCIIgCIIgCIIgCIIgCIIgCOJf4zcaCICY/FBHYnEA/vf3JvkBH52b3yeW1Rm2nJRgtGjXTSTC8mXlKLijda0kIuwy+lKNww08Ol+/BsAwry8hWtdFInxNdAJj3uohEd9bJQId57UOEhF6auvzAk/5r7etgUR4kYJaH531frsbBvKTd+stKmxcYVnGwMAPIXFqeyEijLiWZ9nJI7Qj/vG35RJhz4uwmenhAXkHObRd4ZQJ6WG2wcGBWRzX7rENIquN3iBfVNBk2j+tLkRYe7wR5h/hMqxDNYUZK6hCEcbP2FBugjZXU2DdgqcpJ3g7P1tZ3SXCMysnnUJmZr2N1QrnZ4UjncLuuY26basVsrbW0yk81EIh6xIincKxUweFC2ZLNfYSnmqh8JMN2nbF/hD6dVCIG9attwpjMyHeboUNOLFqusgVIgKf+duusMN0BOOMRJSLU5YrRJ+1NidUFkh9ADkHtlyhLETH/WFTYATwT05tFCqTfKc126SLGPtn16mPwgZ+hVKNt+qdJoGqrwYK47FL4FRhv8J4muTVXKEP+7DeCpOVtVNRWfQT1EdhbFE/J1n7Er68D+owexIg4HjIjajrHZN+oxYzYIVk9/6we5lOm7Nx4q9Qkzl+FhT7Fsn/6qgwwfe5q0ldFUpIof2QQvshhfZDCu2HFNoPKbQfUmg/pNB+SKH9WKpQLDZdAV8vXWY+NVluom75ufhoXgnfY5sqny3G7/G3PFqJnljf259C3MhfEE33RmoEfC0POrgRd7Q1r7LCoHc55zdofEazihEv7YLeTuvLKInw88v6Yry9QRL/C4GOE3aNkQhbZRc7iI6TSK2y/V4Zx5zHQtg6TlbKV7VMcY9GENEhznG3THrF9qwvPpqU9vhL9UW4804j6e+7L/Lbiu7vj0GEFTjhOI1jbmASEiuy/wTJjlOD/RE/NHCgKDwOWNJYpQyUMiOeBlHUR9XCwzsvi6CksqkKn5U+HmHNH/SM6BbFK281Mm8c2nyAk3dLZCgK51kl8Mlbown2FJEHaOdzIxxI+/pClAoLJkW8NRMi26BbmhnuqO8etPmUCguRpCKYyARzyj25g2JUjBA/q1aoKWPYnR+Z0O3DH2YMi9lEZH3Gn2qFzeJjfHdLivfuIE5KsynU96sVjjUKuY90iZW6I8LQFJ3xpcHQtyahUNPrifBo3Yu7L0JhR6eQtdGoWuFA85T73T7emAqFPzqFbLRTDEVIkw6Yx6JmhI1wPD/7MEehLk6ShyKUtMMl6xI0JysgrKrM8D0RCjUmH7+icvWKkdI8hgHraB4fQisUagZYPHRLW4Mb0tSulsX+kNXvUNdG74tUWBglizIqGdPE80qW9KUQBd1mRmjy+KG3VFgoKTG4LBmXxmmZqQlyrwBFLNHjm6GqMMgcN4PSf700mzyG1on8bFIeUBMYEECrKHQ8GffjI3S4wLB09AwbnrS1lNUR5JT68b1hVmE8kfWThYh0dV+eKlRR08SJC463AJ70IM7r8R7fCvMKHW++O2za+9lJLjJVGQs1dTh9627a2yflPKLHD7sbBYWJyCBzxk6oOWtAIhcs0maXTTo0oQg1CrMEF7pseHPLko4MmP02Lip0NTOjLPBZkvRkhkCpULuvtlpebkkwiHRJP4yoog1F4XhRiG3yrttAgq9pIfKrb872mjI/HEwz+0/efH9lLhEOw8zyd39n0N6aohBhOTuxyhr2nto3bOTG/edsHqU2Jzw2t0Zt5mfm+El/7Xe328PXzR4H6YmfX8t018Oc8ksorGLgeWzyd9+FhthPlcp1mlpACu2HFNoPKbQfUmg/pNB+SKH9kEL7IYX2Qwrtp5YKc4E/zLNrDDdg3nqTJDkdaP+6eJLwU7nVzyqZvXXNFYmw+Tl6pbtF1+IG81ffRI2xvmbVwWs3sZqZFTKSgPD2a/oS+qZdpIPCc+LXeDGqpqL/q6FbZ8zYxz6TvQ/n15iaI1Gtoq4X9aO8RY36pTjZpGrgjwlOT2dgLTP1PE63wtaZg2QrevyZ+J2guU/7+448ltYzJHwLG2KbfoTn3jr5R71rrGzUBm3xK00QSQfCa0Z3a8ID4AfEp+ZPXM+IalReiULphBe8KW0OUNR6I24mwy/uUpK98AfFsfmlCnnQveNmHZyk8qMJCvltInFu8uE7o0sKeennHbZRXIdkwr6vOD+9XerqWqJQxE0U3fXhlaU0wJyKKKRRsfcS4vUK4Zu9gWJkiJhZ6u4vuTO4YdnURI2II9dLFPL4Nd39FsxP1oDoLXFpU9HjXAZNlChkneFKF6vAPNoCzdfeGeiwS300Lxv9ylUMbmh0BtOge2a4TQg0g8gL6zTcm73qriDHAIWsMbm6MuThvvrLKCvLkN33ZEIZ7vnL1liaLrNC+vElj5QMdAqZkQof3w5xWWryRQ129VeLwZjZUo2jKXdjN+HeNb5iqHFK59PGSD/REzfpFOMI0WeDGn2E6X0RARAFn2bYsjIqu+KPR9kFhQucxXjOhKG3CNFqvefDd/pl2nlS1hDzIffKeM+ASipjtHLu5fLCn5JKGv9Km6/PPWXvIRWXIc0NKEJllBx3bGr4jpgClwckyxCfD+kaiyDeWYkRvjciaDW27Z10ISL561M42ffLF5QQxCLr5MADf2Am1mqMOb9ErkU4radxt/29XchAC7fq7mkxuYx/rzdbD9rdzw8ZuhA9vjNkKLP5ZN8hDNUFs6fKNcHM1fFeGKpXBXkXI07uR8WK93P1oqd641MeI2K3GCgj6W4TmCSdlwo0pY4mIOx0lxp5i8u5RPV+dUlk3tZM91jI5WR9TTEgbAsBYN5QM5B/NACvmRt/3Nbu2vAPwJ9sKObp2pih+xL3ZYcmP4Ts2FzfsFkdJ103j+d6vjolVwWZKDAh7e/b3+2/CN9Jky43vum+Cv75tDJMf/qLpEnkz80pCYIgCIIgCIIgCIIgCIIgCIIgCIIgiP8p/wAbYXxxwTMRhQAAAABJRU5ErkJggg==";
-
 const dotSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +41,6 @@ const dotSVG = (
     <circle cx="2" cy="2.5" r="2" fill="#B0B0B0" />
   </svg>
 );
-
 const tradePortLogo = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +67,6 @@ const tradePortLogo = (
     />
   </svg>
 );
-
 const Root = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -81,10 +76,8 @@ const Root = styled.div`
   margin-right: auto;
   margin-bottom: 30px;
   padding: 40px 10px;
-
   justify-content: space-between;
 `;
-
 const fewAndFarLogo = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +106,6 @@ const fewAndFarLogo = (
     </defs>
   </svg>
 );
-
 const marketPlaceImage = {
   tradeport: tradePortLogo,
   fewandfar: fewAndFarLogo,
@@ -121,14 +113,12 @@ const marketPlaceImage = {
     <img src={mintbaseImage} alt="" style={{ width: 20, height: 20 }} />
   ),
 };
-
 const Right = styled.div`
   width: 50%;
   @media (max-width: 500px) {
     width: 100%;
   }
 `;
-
 const TopLeft = styled.div`
   h1 {
     overflow: hidden;
@@ -143,7 +133,6 @@ const TopLeft = styled.div`
     text-transform: uppercase;
   }
 `;
-
 const Top = styled.div`
   display: flex;
   width: 100%;
@@ -157,7 +146,6 @@ const Top = styled.div`
     width: 100%;
   }
 `;
-
 const Username = styled.div`
       display: flex;
       a {
@@ -190,14 +178,12 @@ const Username = styled.div`
           line-height: normal;
       }
   `;
-
 const Svg = styled.div`
   svg {
     margin-top: 2px;
     margin-left: 3px;
   }
 `;
-
 const TopRight = styled.div`
   display: flex;
   justify-content: center;
@@ -221,7 +207,6 @@ const TopRight = styled.div`
     color: white;
   }
 `;
-
 const Left = styled.div`
   display: flex;
   flex-direction: column;
@@ -271,7 +256,6 @@ const Price = styled.div`
     margin-bottom: 20px;
   }
 `;
-
 const Owner = styled.div`
   h2 {
     margin: 0;
@@ -302,7 +286,6 @@ const Owner = styled.div`
     margin-bottom: 20px;
   }
 `;
-
 const PriceAmount = styled.div`
   display: flex;
   align-items: baseline;
@@ -331,7 +314,6 @@ const PriceAmount = styled.div`
     margin-left: 10px;
   }
 `;
-
 const Buttons = styled.div`
   width: 100%;
   display: flex;
@@ -376,7 +358,6 @@ const Buttons = styled.div`
     justify-content: center;
   }
 `;
-
 const Des = styled.div`
   width: 90%;
   h5 {
@@ -392,7 +373,6 @@ const Des = styled.div`
     width: 100%;
   }
 `;
-
 const Share = styled.div`
   display: flex;
   width: 32px;
@@ -404,7 +384,6 @@ const Share = styled.div`
   border: 1px solid #000;
   margin-left: 7px;
 `;
-
 const Others = styled.div`
   margin-top: 31px;
   h1 {
@@ -416,14 +395,12 @@ const Others = styled.div`
     line-height: 160%; /* 38.4px */
   }
 `;
-
 const Table = styled.div`
   @media (max-width: 500px) {
     width: 90vw;
     overflow: hidden;
   }
 `;
-
 const MarketRow = styled.div`
   width: 480px;
   display: flex;
@@ -441,7 +418,6 @@ const MarketRow = styled.div`
     padding: 10px;
     margin-bottom: 5px;
   }
-
   a:hover {
     opacity: 0.7;
     background: #e7e6e8;
@@ -459,7 +435,6 @@ const MarketRow = styled.div`
     overflow: hidden;
   }
 `;
-
 const TableHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -489,12 +464,10 @@ const Loading = styled.div`
     font-size: 14px;
   }
 `;
-
 const nft = props.nft ?? {
   contractId: props.contractId,
   tokenId: props.tokenId,
 };
-
 const contractId = props.contractId;
 const tokenId = props.tokenId;
 const className = props.className ?? "img-fluid";
@@ -505,7 +478,6 @@ const fallbackUrl = props.fallbackUrl;
 const loadingUrl =
   props.loadingUrl ??
   "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
-
 State.init({
   contractId,
   isCreative: false,
@@ -519,11 +491,9 @@ State.init({
   owner: "",
   imageUrl: null,
 });
-
 const tokenInfo = Near.view(contractId ?? "nft.genadrop.near", "nft_token", {
   token_id: tokenId,
 });
-
 const tradeportLink = `https://www.tradeport.xyz/near/collection/${
   state.contractId
     ? state?.contractId?.includes("genadrop")
@@ -531,7 +501,6 @@ const tradeportLink = `https://www.tradeport.xyz/near/collection/${
       : state.contractId
     : ""
 }?tab=items&tokenId=${state.tokenId}`;
-
 //Few and Far Link
 const fewfarlink = `https://fewfar.com/${
   state.contractId
@@ -540,7 +509,6 @@ const fewfarlink = `https://fewfar.com/${
       : state.contractId
     : ""
 }/${state.tokenId}`;
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -595,7 +563,6 @@ const currentChainProps = {
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
 };
-
 function fetchTokens() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -730,7 +697,6 @@ function fetchTokens() {
   });
 }
 fetchTokens();
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
@@ -743,18 +709,14 @@ const getUsdValue = (price) => {
     return value !== "NaN" ? `$${value.toFixed(3)}` : 0;
   }
 };
-
 const keywordsToCheck = ["tradeport", "mintbase", "fewandfar", "paras"];
-
 const matchedKeyWords = (inputString) => {
   return keywordsToCheck.find((keyword) => inputString.includes(keyword));
 };
-
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" || !props.chainState
     ? 1000000000000000000000000
     : 1000000000000000000;
-
 function followUser(user, isFollowing) {
   if (isFollowing) return;
   const dataToSend = {
@@ -779,11 +741,9 @@ function followUser(user, isFollowing) {
     force: true,
   });
 }
-
 const handleBuyClick = (price, owner) => {
   console.log(price, owner);
 };
-
 if (!state.title) {
   return (
     <Loading>
@@ -795,7 +755,6 @@ if (!state.title) {
     </Loading>
   );
 }
-
 return (
   <Root>
     <Right>
@@ -814,7 +773,6 @@ return (
               {dotSVG}
             </Username>
           </TopLeft>
-
           <TopRight>
             <p>Follow Artist</p>
             <Share>{trippleDots}</Share>
@@ -849,7 +807,6 @@ return (
                 ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(2)
                 : "N/A"}
             </h2>
-
             <h5>
               {getUsdValue(
                 state.price ? state.price / PRICE_CONVERSION_CONSTANT : 0
