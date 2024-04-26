@@ -16,6 +16,9 @@ const { getOffersToAccount } = VM.require(
 const { getOpenOffersByAccount } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_open_offers_by_account"
 );
+const { getCombinedStoreData } = VM.require(
+  "bos.genadrop.near/widget/Mintbase.utils.get_combined_store_data"
+);
 // Configuration (replace with your actual values or define them globally)
 const factoryAddress = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const MARKET_ADDRESS = {
@@ -288,4 +291,5 @@ return {
   getUserEarnings,
   getOffersToAccount,
   getOpenOffersByAccount,
+  getCombinedStoreData,
 };
