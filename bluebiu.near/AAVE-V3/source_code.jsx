@@ -47,7 +47,6 @@ const ROUND_DOWN = 0;
 const NATIVE_SYMBOL_ADDRESS_MAP_KEY = "0x0";
 const ACTUAL_BORROW_AMOUNT_RATE = 0.99;
 
-// const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   account,
   CHAIN_LIST,
