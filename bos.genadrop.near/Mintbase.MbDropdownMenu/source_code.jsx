@@ -1,13 +1,10 @@
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const { isOpen, items } = props;
 const customStyle = props.customStyle || "";
 const mode = props.mode || Storage.get("mode");
-
 const isDarkModeOn = mode === "dark";
-
 const DropdownMenu = styled.div`
   background: ${isDarkModeOn ? "var(--gray-800)" : "var(--gray-50)"};
   color: ${isDarkModeOn ? "white" : "var(--mb-blackblue)"};
@@ -55,7 +52,6 @@ const DropdownMenu = styled.div`
     transform: translateX(-50%);
   }
 `;
-
 // const MbDropdownMenu = () => {
 return !isOpen ? null : (
   <DropdownMenu>
@@ -74,5 +70,4 @@ return !isOpen ? null : (
   </DropdownMenu>
 );
 // };
-
 // return { MbDropdownMenu };
