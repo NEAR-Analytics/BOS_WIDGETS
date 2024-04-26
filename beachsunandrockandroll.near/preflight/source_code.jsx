@@ -1,14 +1,14 @@
 const css = fetch(
-    "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-  ).body;
-  
-  const base = fetch(
-    "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
-  ).body;
-  if (!css) return <></>;
-  if (!base) return <></>;
-  
-  const Tailwind = styled.div`
+  "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+).body;
+
+const base = fetch(
+  "https://raw.githubusercontent.com/gonzalobarria/testpub/master/base.css"
+).body;
+if (!css) return "";
+if (!base) return "";
+
+const Tailwind = styled.div`
       ${css}
       --background: 0 0% 100%;
       --foreground: 222.2 84% 4.9%;
@@ -33,6 +33,5 @@ const css = fetch(
   
       ${base}
   `;
-  
-  return { Tailwind };
-  
+
+return { Tailwind };
