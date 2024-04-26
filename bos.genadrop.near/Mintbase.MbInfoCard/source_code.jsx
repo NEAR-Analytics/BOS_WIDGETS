@@ -1,7 +1,6 @@
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const LoadingInfoBox = ({ size }) => {
   return (
     <Container>
@@ -16,7 +15,6 @@ const LoadingInfoBox = ({ size }) => {
     </Container>
   );
 };
-
 const {
   title,
   titleIcon,
@@ -31,27 +29,21 @@ const descriptionIcon = props.descriptionIcon || "none";
 const size = props.size || "medium";
 const loading = props.loading || false;
 const isBigDescription = props.isBigDescription || true;
-
 const mode = props.mode || Storage.get("mode");
-
 const IsDarkModeOn = mode === "dark";
-
 if (loading) return <LoadingInfoBox size={size} />;
-
 const getDescriptionFont = () => {
   if (size === "small") {
     return isBigDescription && isNumber ? "p-big-90" : "p-small-90";
   }
   return isBigDescription && isNumber ? "p-sub-90" : "p-big-90";
 };
-
 const getTitleFont = () => {
   if (size === "small") {
     return "cap-big-90";
   }
   return "p-small-90";
 };
-
 const linkStyle = `
  
 `;
@@ -101,7 +93,6 @@ const Container = styled.div`
       padding-bottom: 8px;
     }
   }
-
   &.link {
     transition-property: background-color, border-color, color, fill, stroke,
       opacity, box-shadow, transform;
@@ -146,7 +137,6 @@ const Description = styled.div`
   align-items: baseline;
   width: 100%;
   margin-left: 12px;
-
   .description-rt {
     display: flex;
     ${lowerLeftText ? "" : "width: 100%;"}
@@ -172,7 +162,6 @@ const LowerLeftText = styled.div`
   ${typographyClasses["p-med-90"]}
   color: ${IsDarkModeOn ? "var(--gray-300)" : "var(--gray-700)"};
 `;
-
 const TitleLoader = styled.div`
   border-radius: 0.25rem;
   width: 4rem;
@@ -200,7 +189,6 @@ const RightLoader = styled.div`
     background-color: var(--gray-600);
   }
 `;
-
 const MbInfoCard = () => {
   return (
     <Container>
@@ -208,7 +196,6 @@ const MbInfoCard = () => {
         <div className={`title-wrapper ${size}`}>
           {titleIcon && titleIcon}
           <Title>{title}</Title>
-
           {upperIcon && <UpperIcon>{upperIcon}</UpperIcon>}
         </div>
         <DescriptionWrapper>
@@ -230,7 +217,6 @@ const MbInfoCard = () => {
               </DescriptionImage>
             </div>
           )}
-
           <Description>
             {description && (
               <div className="description-rt">
@@ -244,5 +230,4 @@ const MbInfoCard = () => {
     </Container>
   );
 };
-
 return { MbInfoCard };
