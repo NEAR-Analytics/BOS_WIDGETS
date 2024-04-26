@@ -343,7 +343,11 @@ const actualMaxValue =
 let shownMaxValue;
 if (isCollateraled) {
   const maxWithdraw = Big(yourTotalCollateral)
-    .minus(Big(yourTotalBorrow).times(1.01).div(Big(threshold)))
+    .minus(
+      Big(yourTotalBorrow || 0)
+        .times(1.01)
+        .div(Big(threshold))
+    )
     .div(tokenPrice)
     .toFixed();
   shownMaxValue = bigMin(maxWithdraw, underlyingBalance);
