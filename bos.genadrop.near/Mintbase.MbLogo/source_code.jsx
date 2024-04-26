@@ -1,9 +1,7 @@
 const { src, width, customStyle } = props;
-
 const Container = styled.div`
   ${customStyle}
 `;
-
 const MbLogo = () => {
   return (
     <Container>
@@ -17,5 +15,4 @@ const MbLogo = () => {
     </Container>
   );
 };
-
 return { MbLogo };
