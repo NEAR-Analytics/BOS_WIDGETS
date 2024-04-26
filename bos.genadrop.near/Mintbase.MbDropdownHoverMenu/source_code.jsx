@@ -1,8 +1,6 @@
 const { customStyle, children, dropdownButton } = props;
 const mode = props.mode || Storage.get("mode");
-
 const isDarkModeOn = mode === "dark";
-
 const DropdownContainer = styled.div`
   height: auto;
   width: min-content;
@@ -36,17 +34,14 @@ const DropdownContainer = styled.div`
     }
   }
 `;
-
 const MbDropdownHoverMenu = (props) => {
   return (
     <DropdownContainer mode={props.mode} customStyle={props.customStyle}>
       {props.dropdownButton}
-
       <div className="menu-items">
         <div>{props.children}</div>
       </div>
     </DropdownContainer>
   );
 };
-
 return { MbDropdownHoverMenu };
