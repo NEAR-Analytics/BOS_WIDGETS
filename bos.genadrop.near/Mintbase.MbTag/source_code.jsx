@@ -1,8 +1,6 @@
 const accountId = props.accountId || "bos.genadrop.near";
-
 const mode = props.mode || Storage.get("mode");
 const isDarkModeOn = mode === "dark";
-
 const Tag = styled.div`
     display: flex;
     gap: 12px;
@@ -26,7 +24,6 @@ const Tag = styled.div`
         cursor-pointer;
     }
 `;
-
 const MbTag = () => {
   return (
     <Tag>
@@ -40,5 +37,4 @@ const MbTag = () => {
     </Tag>
   );
 };
-
 return { MbTag };
