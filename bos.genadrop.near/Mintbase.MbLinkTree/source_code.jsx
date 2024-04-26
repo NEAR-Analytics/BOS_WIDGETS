@@ -77,5 +77,4 @@ const LinkTree = ({ links, isDarkModeOn }) => {
     </Main>
   );
 };
-
 return { LinkTree };
