@@ -13,7 +13,6 @@ const [state, setState] = useState({
   storeNFTs: [],
   ownedNFTs: [],
 });
-
 const {
   media,
   title,
@@ -29,18 +28,15 @@ const {
   ownedNFTs,
   recevierId,
 } = state;
-
 const updateState = (args) => {
   setState({ ...state, ...args });
 };
 const [sdk, setSDK] = useState(false);
-
 const filesOnChange = (files) => {
   if (files) {
     updateState({ media: files[0] });
   }
 };
-
 const handleSubmit = () => {
   const tokenMetadata = {
     title: title,
@@ -48,7 +44,6 @@ const handleSubmit = () => {
   };
   const mint = sdk.mint(tokenMetadata, media, contractAddress);
 };
-
 const handleDeploy = () => {
   const deploy = sdk.deployStore(name, symbol);
 };
