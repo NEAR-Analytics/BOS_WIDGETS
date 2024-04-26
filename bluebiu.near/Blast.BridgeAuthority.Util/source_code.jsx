@@ -133,7 +133,12 @@ const getETHWithdrawalsFromOp = (account) => {
 };
 
 const getWithdrawalStatus = (hash, account) => {
-    return asyncFetch(`/blast/bridge/v1/withdrawal/status?hash=${hash}&walletAddress=${account}`)
+    return asyncFetch(`/api/blast?hash=${hash}&walletAddress=${account}`, {
+        headers: {
+            // 'Connection': 'keep-alive',
+            // 'Keep-Alive' : 'timeout=5'
+        }
+    })
         .then(res => {
             if (!res.ok) {
                 if (res.status === 429) {
@@ -141,9 +146,11 @@ const getWithdrawalStatus = (hash, account) => {
                 }
                 return getWithdrawalStatus(hash, account)
             }
+            
             return res.body
         })
 }
+
 
 const getProveData = (hash, account) => {
     return asyncFetch(`/blast/bridge/v1/withdrawal/prove`, {
