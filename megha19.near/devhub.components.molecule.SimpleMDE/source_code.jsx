@@ -5,7 +5,6 @@
 
 const data = props.data;
 const onChange = props.onChange ?? (() => {});
-const onChangeKeyup = props.onChangeKeyup ?? (() => {}); // in case where we want immediate action
 const height = props.height ?? "390";
 const className = props.className ?? "w-100";
 const embeddCSS = props.embeddCSS;
@@ -26,7 +25,6 @@ const fontFamily = props.fontFamily ?? "sans-serif";
 const alignToolItems = props.alignToolItems ?? "right";
 const placeholder = props.placeholder ?? "";
 const showAutoComplete = props.showAutoComplete ?? false;
-const autoFocus = props.autoFocus ?? false;
 
 const code = `
 <!doctype html>
@@ -161,7 +159,6 @@ const simplemde = new SimpleMDE({
 		singleLineBreaks: false,
 		codeSyntaxHighlighting: true,
 	},
-  autofocus:${autoFocus}
 });
 
 codeMirrorInstance = simplemde.codemirror;
@@ -185,14 +182,8 @@ const updateIframeHeight = () => {
 // On Change
 simplemde.codemirror.on('blur', () => {
   updateContent();
-});
-
-simplemde.codemirror.on('keyup', () => {
   updateIframeHeight();
-  const content = simplemde.value();
-  window.parent.postMessage({ handler: "updateOnKeyup", content }, "*");
 });
-
 
 if (showAutocomplete) {
   let mentionToken;
@@ -270,7 +261,7 @@ window.addEventListener("message", (event) => {
     simplemde.value(event.data.content);
     isEditorInitialized = true;
   } else {
-    if (event.data.handler === 'refreshEditor') {
+    if (event.data.handler === 'autocompleteSelected') {
       codeMirrorInstance.getDoc().setValue(event.data.content);
     }
   }
@@ -291,14 +282,12 @@ return (
     className={className}
     style={{
       height: `${state.iframeHeight}px`,
-      maxHeight: "410px",
     }}
     srcDoc={code}
     message={{
       content: props.data?.content ?? "",
       followingData,
       profilesData: JSON.stringify(profilesData),
-      handler: props.data.handler,
     }}
     onMessage={(e) => {
       switch (e.handler) {
@@ -311,11 +300,6 @@ return (
           {
             const offset = 10;
             State.update({ iframeHeight: e.height + offset });
-          }
-          break;
-        case "updateOnKeyup":
-          {
-            onChangeKeyup(e.content);
           }
           break;
       }
