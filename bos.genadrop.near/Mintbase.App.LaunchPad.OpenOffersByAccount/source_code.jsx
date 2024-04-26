@@ -6,10 +6,8 @@ const { getOpenOffersByAccount, getTimePassed } = VM.require(
 };
 const accountId = props.accountId || context.accountId;
 const perPage = 50;
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
@@ -21,12 +19,10 @@ const YoctoToNear = (offer_priceYocto) => {
     .toFixed(2)
     .toString();
 };
-
 const statusColor = {
   open: { dark: "#9fed8f", light: "#0a7d6c" },
   closed: { dark: "#ed5a5a", light: "#d9534f" },
 };
-
 const OpenOffersByAccount = ({ isDarkModeOn }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
@@ -51,7 +47,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
         console.error(error);
       });
   }, [limit, offset, page]);
-
   const Container = styled.div`
     background: ${isDarkModeOn ? "#1f2031" : "#fff"};
     display: flex;
@@ -61,13 +56,11 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
     height: fit-content;
     flex: 1;
     width: 100%;
-
     @media (max-width: 500px) {
       width: 100vw;
       min-width: 100vw;
       font-size: 12px;
     }
-
     .topic_line {
       display: flex;
       justify-content: space-between;
@@ -92,7 +85,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
         font-weight: 600;
       }
     }
-
     .table_main {
       display: flex;
       overflow: auto;
@@ -121,7 +113,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
         }
         ${cursomStyle}
       }
-
       .trx-row {
         display: grid;
         grid-template-columns: repeat(7, minmax(150px, 3fr));
@@ -153,7 +144,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
           line-height: 18px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Assuming Tailwind CSS default timing function and duration */
           white-space: nowrap;
-
           &:focus {
             outline: 2px solid transparent; /* Assuming Tailwind CSS default focus outline */
             outline-offset: 2px; /* Assuming Tailwind CSS default focus outline offset */
@@ -165,13 +155,11 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
               ? "rgba(59, 130, 246, 0.35)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           &:hover {
             background-color: ${isDarkModeOn
               ? "rgba(59, 130, 246, 0.15)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           &.disabled {
             cursor: not-allowed;
             background-color: unset;
@@ -184,7 +172,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
               background-color: unset;
             }
           }
-
           cursor: pointer;
           @media (max-width: 768px) {
             padding: 12px;
@@ -222,7 +209,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
             height: 40px;
           }
         }
-
         .time {
           display: flex;
           align-items: center;
@@ -242,7 +228,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
           }
         }
       }
-
       .price {
         display: flex;
         gap: 4px;
@@ -254,7 +239,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
           filter: invert(${isDarkModeOn ? 1 : 0});
         }
       }
-
       @media (max-width: 500px) {
         .header,
         .trx-row {
@@ -266,14 +250,10 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
   const tableToggleHander = () => {
     setShowTable((prev) => !prev);
   };
-
   const withdrawOfferHandler = () => null;
-
   const offers = data.nft_offers;
   const totalItems = data.nft_offers_aggregate.aggregate.count;
-
   console.log("offers", offers);
-
   return (
     <Container>
       <div className="topic_line" onClick={tableToggleHander}>
@@ -304,13 +284,11 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
                     accountId.endsWith(".testnet") ? "api3-testnet" : "api3"
                   }.nearblocks.io/v1/search?keyword=${offer.receipt_id}`
                 );
-
                 const regex = /https?:\/\/[^ ]+/;
                 const found = regex.test(offer.nft_token.media);
                 const imageUrl = found
                   ? offer.nft_token.media
                   : `${offer.nft_token.base_uri}/${offer.nft_token.media}`;
-
                 const dateTimeNow = new Date().getTime();
                 const expiresAt = new Date(offer.expires_at).getTime();
                 const withdrawnAt = new Date(offer.withdrawn_at).getTime();
@@ -375,7 +353,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
                     >
                       Open
                     </div>
-
                     <div>
                       {" "}
                       {offer.offer_price ? (
@@ -435,7 +412,6 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
                 );
               })}
           </div>
-
           {!offers.length && (
             <p className="trx-row">
               <div>No offers yet</div>
@@ -466,5 +442,4 @@ const OpenOffersByAccount = ({ isDarkModeOn }) => {
     </Container>
   );
 };
-
 return <OpenOffersByAccount {...props} />;
