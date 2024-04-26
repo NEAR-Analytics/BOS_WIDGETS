@@ -11,7 +11,6 @@ const onOrderByChange = props?.onOrderByChange;
 const isDarkModeOn = props?.isDarkModeOn;
 const hasQueryToggle = props?.hasQueryToggle;
 const onQueryToggle = props?.onQueryToggle;
-
 const Tabs = styled.div`
   position: relative;
   width: 100%;
@@ -26,7 +25,6 @@ const Tabs = styled.div`
     display: flex;
     margin-left: 30px;
     align-items: center;
-
     @media (min-width: 640px) {
       margin-left: 3rem;
     }
@@ -58,14 +56,12 @@ const Tabs = styled.div`
     position: relative;
     border-radius: 9999px;
     transition: all 0.5s ease;
-
     &.selected {
       background-color: ${isDarkModeOn ? "#3a1c28" : "#fedfde"};
       &:hover {
         background-color: ${isDarkModeOn ? "#3a1c28" : "#fedfde"};
       }
     }
-
     &.unselected {
       &:hover {
         background-color: #90cdf4;
@@ -99,7 +95,6 @@ const Dropdown = styled.div`
   align-items: center;
   margin-right: 1.5rem;
   margin-left: 1.5rem;
-
   @media (max-width: 640px) {
     margin-right: 3rem;
     margin-left: 3rem;
@@ -109,14 +104,12 @@ const Dropdown = styled.div`
     position: relative;
     border-radius: 9999px;
     transition: all 0.5s ease;
-
     &.selected {
       background-color: ${isDarkModeOn ? "#3a1c28" : "#fedfde"};
       &:hover {
         background-color: ${isDarkModeOn ? "#3a1c28" : "#fedfde"};
       }
     }
-
     &.unselected {
       &:hover {
         background-color: #90cdf4;
@@ -127,7 +120,6 @@ const Dropdown = styled.div`
     display: flex;
     padding: 12px; /* Assuming p-12 */
     align-items: center;
-
     @media (max-width: 640px) {
       padding: 16px; /* Assuming sm:p-16 */
     }
@@ -138,7 +130,6 @@ const Dropdown = styled.div`
     color: #ff3130;
   }
 `;
-
 const Tab = styled.div`
   display: flex;
   .tab {
@@ -153,7 +144,6 @@ const Tab = styled.div`
     line-height: 16px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Assuming Tailwind CSS default timing function and duration */
     white-space: nowrap;
-
     &:focus {
       outline: 2px solid transparent; /* Assuming Tailwind CSS default focus outline */
       outline-offset: 2px; /* Assuming Tailwind CSS default focus outline offset */
@@ -163,15 +153,12 @@ const Tab = styled.div`
         ? "rgba(59, 130, 246, 0.35)"
         : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
     }
-
     &:hover {
       background-color: ${isDarkModeOn
         ? "rgba(59, 130, 246, 0.15)"
         : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
     }
-
     cursor: pointer;
-
     &.active {
       background-color: ${isDarkModeOn
         ? "rgba(235, 97, 96, 0.15)"
@@ -194,7 +181,6 @@ const Tab = styled.div`
     border-radius: 50%;
   }
 `;
-
 const [tab, setTab] = useState(0);
 const [listening, setListening] = useState(false);
 const [isOpen, setIsOpen] = useState(false);
@@ -202,12 +188,10 @@ const [selectedFilter, setSelectedFilter] = useState(false);
 const [selectedOrder, setSelectedOrder] = useState(
   filterOptions?.defaultOptionId ?? ""
 );
-
 useEffect(() => {
   if (!props?.tabsWithFilters) return;
   setSelectedFilter(!!props?.tabsWithFilters[tab]?.isExtraFilterSelected);
 }, [tab]);
-
 const options =
   filterOptions &&
   filterOptions?.options.map((filter) => {
@@ -228,7 +212,6 @@ const options =
         ) : undefined,
     };
   });
-
 const getExtraFiltersIndex = (array) => {
   const indexes = [];
   array &&
@@ -237,22 +220,17 @@ const getExtraFiltersIndex = (array) => {
         indexes.push(index);
       }
     });
-
   return indexes;
 };
 const tabsWithExtraFilter = getExtraFiltersIndex(props?.tabsWithFilters);
-
 const handleOptionSelect = (option) => {
   setIsOpen(!isOpen);
   const auxOption = option === selectedOrder ? "" : option;
   setSelectedOrder(auxOption);
   onOrderByChange(auxOption);
 };
-
 if (!labels.length) return <></>;
-
 console.log("labels", labels);
-
 return (
   <Tabs>
     <ul>
