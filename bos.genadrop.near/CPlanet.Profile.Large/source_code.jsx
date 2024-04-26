@@ -3,37 +3,29 @@ if (!accountId) {
   return "No account ID";
 }
 const fast = !!props.fast;
-
 const link =
   props.link &&
   (props.link === true
     ? `https://near.social/bos.genadrop.near/widget/ProfilePage.Index?accountId=${accountId}`
     : props.link);
-
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
 if (profile === null) {
   return "Loading";
 }
-
 const showEditButton =
   profile !== undefined &&
   (!props.profile || props.showEditButton) &&
   accountId &&
   accountId === context.accountId;
-
 const name = profile.name || "No-name profile";
 const image = profile.image;
 const backgroundImage = profile.backgroundImage;
 const tags = Object.keys(profile.tags ?? {});
-
 const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
-
 const Wrapper = styled.div`
   overflow: hidden;
   margin: 0 -12px;
 `;
-
 const shareSvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +40,6 @@ const shareSvg = (
     <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z" />
   </svg>
 );
-
 return (
   <Wrapper>
     <div className="px-4 pt-0 pb-5 bg-dark position-relative">
@@ -87,20 +78,7 @@ return (
       <div
         className="d-flex justify-content-end align-items-center"
         style={{ height: "4rem" }}
-      >
-        {
-          // showEditButton && (
-          // <div>
-          //   <Link
-          //     href={`/bos.genadrop.near/widget/CPlanet.Profile.Editor`}
-          //     className="btn btn-outline-secondary rounded-5"
-          //   >
-          //     Edit profile
-          //   </Link>
-          // </div>
-          // )
-        }
-      </div>
+      ></div>
       <div
         className="d-flex justify-content-end align-items-center"
         style={{ height: "4rem" }}
@@ -146,7 +124,6 @@ return (
                 />
               </div>
             </div>
-
             <div>
               <Widget
                 src="mob.near/widget/FollowButton"
@@ -166,7 +143,6 @@ return (
           />
         </div>
       </div>
-
       {tags.length > 0 && (
         <div>
           {tags.map((tag, i) => (
@@ -179,7 +155,6 @@ return (
           ))}
         </div>
       )}
-
       <div>
         <div className="float-end">
           <Widget
