@@ -4,5 +4,4 @@ const { Widget } = VM.require(
 const MintBaseUI = () => {
   return <Widget />;
 };
-
 export { MintBaseUI };
