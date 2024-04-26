@@ -1,7 +1,6 @@
 const { getInputLabelFontType, getFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const NearIcon = (
   <svg
     width="20px"
@@ -17,7 +16,6 @@ const NearIcon = (
     ></path>
   </svg>
 );
-
 const FeaturedCard = styled.div`
   border-radius: 0.25rem; /* rounded */
   background-color: ${(props) => (props.isDarkModeOn ? "#1f2130" : "#fff")};
@@ -98,7 +96,6 @@ const FeaturedCard = styled.div`
     }
   }
 `;
-
 const NFTCard = styled.div`
   width: 115px;
   height: 115px;
@@ -124,10 +121,8 @@ const NFTCard = styled.div`
     height: 73px;
   }
 `;
-
 const imgAddr =
   "https://image-cache-service-z3w7d7dnea-ew.a.run.app/small?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fomni-live.appspot.com%2Fo%2Fstore%252Fjwneartokens.mintbase1.near%253Aprofile%3Falt%3Dmedia%26token%3D317d2381-d578-491e-879d-7b33d7c766f5";
-
 const YoctoToNear = (amountYocto) => {
   return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
 };
@@ -174,5 +169,4 @@ const MbFeaturedCard = ({
     </FeaturedCard>
   );
 };
-
 return { MbFeaturedCard };
