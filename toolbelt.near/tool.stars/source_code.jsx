@@ -26,7 +26,7 @@ return (
       <span className="ms-2">{accounts.length} stars</span>
     </div>
     <div className="m-1 mt-3">
-      <Widget src="hack.near/widget/faces" props={{ accounts }} />
+      <Widget src="hack.near/widget/faces" props={{ accounts, limit: 5 }} />
     </div>
   </>
 );
