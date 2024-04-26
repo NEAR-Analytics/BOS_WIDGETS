@@ -15,7 +15,6 @@ const searchSvg = (
     />
   </svg>
 );
-
 const ExploreRoot = styled.div`
   max-width: 1400px;
   margin-left: auto;
@@ -32,7 +31,8 @@ const ExploreRoot = styled.div`
       display: flex;
       gap: 10px;
     }
-    a, button {
+    a,
+    button {
       background: #000;
       border: 1px solid #000;
       color: #fff;
@@ -42,7 +42,8 @@ const ExploreRoot = styled.div`
       transition: 0.4s ease-in-out;
       text-decoration: none;
     }
-    a:hover, button:hover {
+    a:hover,
+    button:hover {
       background: #fff;
       color: #000;
       border: 1px solid #000;
@@ -66,7 +67,6 @@ const ExploreRoot = styled.div`
     }
   }
 `;
-
 const ExploreContainer = styled.div`
   background: #f8f8f8;
   padding: 20px;
@@ -80,7 +80,6 @@ const ExploreContainer = styled.div`
     justify-content: center;
   }
 `;
-
 const Search = styled.div`
   display: flex;
   padding: 5px 16px;
@@ -92,55 +91,48 @@ const Search = styled.div`
   height: 48px;
   background: #fff;
 `;
-
 const Input = styled.input`
-&&& {
-  padding: 8px;
-  font-size: 16px;
-  border: none;
-  flex: 1;
-  &:focus {
-    outline: none;
+  &&& {
+    padding: 8px;
+    font-size: 16px;
     border: none;
+    flex: 1;
+    &:focus {
+      outline: none;
+      border: none;
+    }
   }
-}
 `;
-
 const Filter = styled.div`
-position: relative;
-display: inline-block;
-height: 48px;
-padding: 12px 24px;
-margin-left: 20px;
-border-radius: 12px;
-background: #000;
-cursor: pointer;
-color: #fff;
-
-&:hover {
-  border: 1px solid #fff;
-}
-
-select {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
+  position: relative;
+  display: inline-block;
+  height: 48px;
+  padding: 12px 24px;
+  margin-left: 20px;
+  border-radius: 12px;
+  background: #000;
   cursor: pointer;
-  z-index: 1;
-
+  color: #fff;
   &:hover {
     border: 1px solid #fff;
   }
-}
-
-span {
-  z-index: 0;
-}
+  select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+    &:hover {
+      border: 1px solid #fff;
+    }
+  }
+  span {
+    z-index: 0;
+  }
 `;
-
 const Tabs = styled.div`
   display: flex;
   flex-direction: row;
@@ -151,7 +143,6 @@ const Tabs = styled.div`
     flex-direction: column;
   }
 `;
-
 const Tab = styled.div`
   display: flex;
   padding: 12px 32px;
@@ -175,7 +166,6 @@ const Tab = styled.div`
     line-height: normal;
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -195,7 +185,6 @@ const Cards = styled.div`
     padding: 10px;
   }
 `;
-
 const NoContest = styled.div`
   display: flex;
   align-items: center;
@@ -207,46 +196,41 @@ const NoContest = styled.div`
     font-size: 24px;
     font-weight: 600;
   }
-`
-
-const adminLists = ['genadrop.near', 'agwaze.near', 'minorityprogrammers.near', 'bashorun.near', 'jgodwill.near']
-
-const testContract = Storage.get("testContract") || false
-
-
-
+`;
+const adminLists = [
+  "genadrop.near",
+  "agwaze.near",
+  "minorityprogrammers.near",
+  "bashorun.near",
+  "jgodwill.near",
+];
+const testContract = Storage.get("testContract") || false;
 const isFutureTimestamp = (timestamp) => {
   const currentTimestamp = Math.floor(Date.now() / 1000); // Convert current time to seconds
-
   const isFuture = timestamp > currentTimestamp;
-
   return isFuture;
 };
-
 const fetchedContests =
-  Near.view(testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near", "get_contests", {
-    subscribe: true,
-  }) || [];
-
+  Near.view(
+    testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
+    "get_contests",
+    {
+      subscribe: true,
+    }
+  ) || [];
 const [activeTab, setActiveTab] = useState("ALL");
 const [contest, setContest] = useState(fetchedContests || []);
-const [searchValue, setSearchValue] = useState("")
-const [filteredValue, setFilteredValue] = useState([])
+const [searchValue, setSearchValue] = useState("");
+const [filteredValue, setFilteredValue] = useState([]);
 const [sortOrder, setSortOrder] = useState("A-Z");
-
-
-
 const compareContests = (a, b) => {
   const timeA = a[1]?.voting_end_time || 0;
   const timeB = b[1]?.voting_end_time || 0;
-
   // Sort in descending order (latest first)
   return timeB - timeA;
 };
-
 useEffect(() => {
   let sortedContests = [...fetchedContests];
-
   switch (activeTab) {
     case "ALL":
       // No additional sorting needed for "ALL" tab
@@ -268,14 +252,11 @@ useEffect(() => {
       // Default case: handle the default state here
       break;
   }
-
   sortedContests.sort((a, b) => {
     const titleA = a[1]?.title || "";
     const titleB = b[1]?.title || "";
     const timeA = a[1]?.voting_end_time || 0;
     const timeB = b[1]?.voting_end_time || 0;
-
-
     // Adjust the comparison based on the sorting order
     if (sortOrder === "A-Z") {
       return titleA.localeCompare(titleB);
@@ -286,89 +267,89 @@ useEffect(() => {
     } else if (sortOrder === "latest") {
       return timeB - timeA;
     }
-
     return 0; // Default to no sorting
   });
-
   // Sort the contests before setting them
   // sortedContests.sort(compareContests);
   setContest(sortedContests);
 }, [fetchedContests, activeTab, sortOrder]);
-
 const handleSortOrderChange = (value) => {
   setSortOrder(value);
 };
-
-
 const searchInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
   const searched = contest.filter((nft) =>
     nft[1]?.title.toLowerCase().includes(value)
   );
-  setSearchValue(value)
-  setFilteredValue(searched)
-}
-
-
-const isAdmin = adminLists.includes(context.accountId)
-
+  setSearchValue(value);
+  setFilteredValue(searched);
+};
+const isAdmin = adminLists.includes(context.accountId);
 return (
   <ExploreContainer>
     <ExploreRoot>
       <div className="header">
         <h1>Explore Creative Contests</h1>
-        {isAdmin && 
-        <div className="buttons">
-          <a
-          onClick={() => props.update({ tab: "singleContest" })}
-          href={`#/bos.genadrop.near/widget/CPlanet.DropsFund.Admin.Index?env=${testContract}`}
-          className=""
-          >
-          Create Contest
-        </a>
-        <button
-        onClick={() => {
-          Storage.set('testContract', !testContract)
-        }}
-        className="card-button"
-        >
-        Switch To {testContract ? "Main Contract" : "Test Contract"}
-      </button>
-        </div>
-        }
+        {isAdmin && (
+          <div className="buttons">
+            <a
+              onClick={() => props.update({ tab: "singleContest" })}
+              href={`#/bos.genadrop.near/widget/CPlanet.DropsFund.Admin.Index?env=${testContract}`}
+              className=""
+            >
+              Create Contest
+            </a>
+            <button
+              onClick={() => {
+                Storage.set("testContract", !testContract);
+              }}
+              className="card-button"
+            >
+              Switch To {testContract ? "Main Contract" : "Test Contract"}
+            </button>
+          </div>
+        )}
       </div>
       <div className="searchContainer">
         <Search>
-          <Input placeholder="Search for Different Contests" value={searchValue} onChange={searchInputHandler} />
+          <Input
+            placeholder="Search for Different Contests"
+            value={searchValue}
+            onChange={searchInputHandler}
+          />
           {searchSvg}
         </Search>
-        <Widget src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.FilterOption" 
-            props={{
-              selectedOption: sortOrder,
-              onChange: (value) => handleSortOrderChange(value)
-            }} 
+        <Widget
+          src="bos.genadrop.near/widget/CPlanet.DropsFund.Contest.FilterOption"
+          props={{
+            selectedOption: sortOrder,
+            onChange: (value) => handleSortOrderChange(value),
+          }}
         />
       </div>
       <Tabs>
-        <Tab onClick={() => {
-          setActiveTab("ALL")
-          setSearchValue("")
-        }} selected={activeTab === "ALL"}>
+        <Tab
+          onClick={() => {
+            setActiveTab("ALL");
+            setSearchValue("");
+          }}
+          selected={activeTab === "ALL"}
+        >
           <h2>ALL</h2>
         </Tab>
         <Tab
           onClick={() => {
-          setActiveTab("ACTIVE")
-          setSearchValue("")
-        }}
+            setActiveTab("ACTIVE");
+            setSearchValue("");
+          }}
           selected={activeTab === "ACTIVE"}
         >
           <h2>ACTIVE</h2>
         </Tab>
         <Tab
           onClick={() => {
-            setActiveTab("PAID OUT")
-            setSearchValue("")
+            setActiveTab("PAID OUT");
+            setSearchValue("");
           }}
           selected={activeTab === "PAID OUT"}
         >
@@ -376,8 +357,8 @@ return (
         </Tab>
         <Tab
           onClick={() => {
-            setActiveTab("PAST")
-            setSearchValue("")
+            setActiveTab("PAST");
+            setSearchValue("");
           }}
           selected={activeTab === "PAST"}
         >
@@ -385,65 +366,77 @@ return (
         </Tab>
       </Tabs>
       <Cards>
-        {searchValue === '' ? contest?.length > 0 ? contest?.map((data, index) => (
-          <Widget
-            src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
-            key={index}
-            props={{
-              data: data[1],
-              update: props.update,
-              isSubmissionOpen: isFutureTimestamp(data[1]?.submission_end_time),
-              isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
-              id: data[0],
-              isTest: testContract,
-              update: props.update,
-              isGateway: props.isGateway
-            }}
-          />
-        )) : activeTab=== 'ALL' && contest?.length > 0 ? (
-          fetchedContests?.map((data, index) => (
-            <Widget
-              src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
-              key={index}
-              props={{
-                data: data[1],
-                update: props.update,
-                isSubmissionOpen: isFutureTimestamp(data[1]?.submission_end_time),
-                isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
-                isTest: testContract,
-                id: data[0],
-                update: props.update,
-                isGateway: props.isGateway
-              }}
-            />
-          ))
-
-        ) : 
-        
-        <NoContest>
-          <p>There are no {activeTab !== 'ALL' ? activeTab : "" } Contest available</p>
-        </NoContest> : filteredValue.length ? filteredValue?.map((data, index) => (
-            <Widget
-              src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
-              key={index}
-              props={{
-                data: data[1],
-                update: props.update,
-                isSubmissionOpen: isFutureTimestamp(data[1]?.submission_end_time),
-                isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
-                isTest: testContract,
-                id: data[0],
-                update: props.update,
-                isGateway: props.isGateway
-              }}
-            />
-          ))
-        : (
-        <NoContest>
-          <p>No Contest Found</p>
-        </NoContest>
+        {searchValue === "" ? (
+          contest?.length > 0 ? (
+            contest?.map((data, index) => (
+              <Widget
+                src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
+                key={index}
+                props={{
+                  data: data[1],
+                  update: props.update,
+                  isSubmissionOpen: isFutureTimestamp(
+                    data[1]?.submission_end_time
+                  ),
+                  isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
+                  id: data[0],
+                  isTest: testContract,
+                  update: props.update,
+                  isGateway: props.isGateway,
+                }}
+              />
+            ))
+          ) : activeTab === "ALL" && contest?.length > 0 ? (
+            fetchedContests?.map((data, index) => (
+              <Widget
+                src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
+                key={index}
+                props={{
+                  data: data[1],
+                  update: props.update,
+                  isSubmissionOpen: isFutureTimestamp(
+                    data[1]?.submission_end_time
+                  ),
+                  isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
+                  isTest: testContract,
+                  id: data[0],
+                  update: props.update,
+                  isGateway: props.isGateway,
+                }}
+              />
+            ))
+          ) : (
+            <NoContest>
+              <p>
+                There are no {activeTab !== "ALL" ? activeTab : ""} Contest
+                available
+              </p>
+            </NoContest>
           )
-        }
+        ) : filteredValue.length ? (
+          filteredValue?.map((data, index) => (
+            <Widget
+              src="bos.genadrop.near/widget/CPlanet.DropsFund.Explore.Card"
+              key={index}
+              props={{
+                data: data[1],
+                update: props.update,
+                isSubmissionOpen: isFutureTimestamp(
+                  data[1]?.submission_end_time
+                ),
+                isVotingEnded: isFutureTimestamp(data[1]?.voting_end_time),
+                isTest: testContract,
+                id: data[0],
+                update: props.update,
+                isGateway: props.isGateway,
+              }}
+            />
+          ))
+        ) : (
+          <NoContest>
+            <p>No Contest Found</p>
+          </NoContest>
+        )}
       </Cards>
     </ExploreRoot>
   </ExploreContainer>
