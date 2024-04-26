@@ -6,7 +6,6 @@ const Root = styled.div`
     padding-bottom: 0px;
     height: 400px;
     margin: 0 0 0 34px;
-
     .text:first-letter {
       color: #fff;
       font-family: Helvetica Neue;
@@ -40,7 +39,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const Portals = styled.div`
   width: 75%;
   margin: 24px 0;
@@ -73,7 +71,6 @@ const Portals = styled.div`
     }
   }
 `;
-
 const Figures = styled.div`
     display: flex;
     align-items: center;
@@ -91,7 +88,6 @@ const Figures = styled.div`
     div:last-child {
     border-right: none;
     }
-
     h1 {
       color: #000;
       font-family: Helvetica Neue;
@@ -121,7 +117,6 @@ const Figures = styled.div`
      }
     }
 `;
-
 const CTA = styled.div`
   margin-top: 120px;
   margin-left: 40px;
@@ -154,7 +149,6 @@ const CTA = styled.div`
     }
   }
 `;
-
 return (
   <Root>
     <div
