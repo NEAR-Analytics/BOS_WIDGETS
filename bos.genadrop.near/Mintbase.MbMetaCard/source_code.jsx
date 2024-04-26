@@ -13,23 +13,18 @@ const {
   isInStore,
   isConnected,
 } = props;
-
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { MbModal } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 ) || {
   MbModal: () => <></>,
 };
-
 const [modalOpen, setModalOpen] = useState(false);
-
 const modalOpenHandler = () => {
   setModalOpen(true);
 };
-
 const MetaCard = styled.div`
   background-color: ${isDarkModeOn ? "#1F2937" : "#FFFFFF"};
   color: ${isDarkModeOn ? "#D1D5DB" : "#1F2937"};
@@ -52,7 +47,6 @@ const MetaCard = styled.div`
   height: fit-content;
   max-width: 354px;
 `;
-
 const Loader = styled.div`
   width: 100%;
   max-width: 500px;
@@ -70,30 +64,25 @@ const Loader = styled.div`
     transition-duration: 300ms;
     transition-duration: 500ms;
     cursor: pointer;
-
     :hover {
       background-color: #f9fafb;
     }
   }
-
   .base-card:hover {
     scale: 1.01;
   }
   .loading-card-image {
     height: 120px;
   }
-
   .metaCardImage img {
     object-fit: cover !important;
   }
-
   .loader-top {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
     @keyframes pulse {
       0%,
       100% {
@@ -110,43 +99,36 @@ const Loader = styled.div`
       background-color: #6b7280;
     }
   }
-
   .nearIcon {
     position: relative;
     top: -1px;
     margin-left: 3px;
   }
-
   .coverImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .extraMidLeftEl {
     width: 100% !important;
     height: 18px;
   }
-
   @media (max-width: 768px) {
     .base-card .p-med-90,
     .base-card .p-med-130 {
       font-size: 14px !important;
     }
-
     .base-card .p-small-90 {
       font-size: 12px !important;
     }
     .nearIcon {
       width: 11.5px;
     }
-
     .base-card .mb-tooltip svg {
       width: 16px;
     }
   }
 `;
-
 const LoaderBottom = styled.div`
   display: flex;
   flex-direction: column;
@@ -158,7 +140,6 @@ const LoaderBottom = styled.div`
     flex-direction: row;
     justify-content: space-between;
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-
     @keyframes pulse {
       0%,
       100% {
@@ -200,7 +181,6 @@ const LoaderBottom = styled.div`
     align-items: center;
   }
 `;
-
 const Header = styled.div`
   display: flex;
   flex-direction: column;
@@ -214,13 +194,11 @@ const Header = styled.div`
     top: -1px;
     margin-left: 3px;
   }
-
   .coverImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .imageLayer {
     height: 354px !important;
     width: 354px;
@@ -232,7 +210,6 @@ const Header = styled.div`
       object-fit: cover;
     }
   }
-
   .imgContainer {
     overflow: hidden;
     position: relative;
@@ -240,7 +217,6 @@ const Header = styled.div`
     border-top-right-radius: 0.375rem;
     width: 100%;
     height: 100%;
-
     @media (min-width: 1024px) {
     }
   }
@@ -253,20 +229,17 @@ const Header = styled.div`
     gap: 0.5rem;
     align-items: center;
   }
-
   @media (max-width: 768px) {
     .base-card .p-med-90,
     .base-card .p-med-130 {
       font-size: 14px !important;
     }
-
     .base-card .p-small-90 {
       font-size: 12px !important;
     }
     .nearIcon {
       width: 11.5px;
     }
-
     .base-card .mb-tooltip svg {
       width: 16px;
     }
@@ -275,7 +248,6 @@ const Header = styled.div`
 const Footer = styled.div`
   padding: 24px;
   ${getInputLabelFontType("big")}
-
   .extraMidLeftEl {
     width: 100% !important;
     color: ${isDarkModeOn ? "#D1D5DB" : "#374151"};
@@ -314,7 +286,6 @@ const Footer = styled.div`
     }
   }
 `;
-
 const {
   base_uri,
   description,
@@ -326,11 +297,8 @@ const {
   nft_contract_icon,
   nft_contract_name,
 } = data;
-
 const { price } = data?.price ?? "0.00";
-
 const nftImage = base_uri ? `${base_uri}/${media}` : media;
-
 if (loading)
   return (
     <div>
@@ -358,9 +326,7 @@ if (loading)
       </Loader>
     </div>
   );
-
 const modalContent = <div>Hey!</div>;
-
 const NFTAction = styled.div`
   padding: 6px;
   background: #fff;
@@ -389,7 +355,6 @@ const NFTAction = styled.div`
     }
   }
 `;
-
 return (
   <>
     <MetaCard>
