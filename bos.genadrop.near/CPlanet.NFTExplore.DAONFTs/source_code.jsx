@@ -1,5 +1,4 @@
 const [nftState, setNftState] = useState([]);
-
 const fetchDaos = () => {
   const res = fetch(
     "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-mintbase-contracts.json"
@@ -40,12 +39,9 @@ const fetchDaos = () => {
     }
   }
 };
-
 const logo =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU";
-
 fetchDaos();
-
 const Root = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -54,7 +50,6 @@ const Root = styled.div`
   justify-content: center;
   margin-top: 40px;
 `;
-
 return (
   <Root>
     {nftState.length &&
