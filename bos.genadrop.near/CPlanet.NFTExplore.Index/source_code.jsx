@@ -12,7 +12,6 @@ const Root = styled.div`
     line-height: normal;
   }
 `;
-
 const NFTCards = styled.div`
   display: grid;
   gap: 2rem;
@@ -21,7 +20,6 @@ const NFTCards = styled.div`
   padding: 20px 3rem 1rem 3rem;
   width: 100%;
 `;
-
 const NoNFTLoading = styled.div`
   width: 100%;
   min-height: 80vh;
@@ -29,7 +27,6 @@ const NoNFTLoading = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const TopNFTS = styled.div`
   display: flex;
   max-width: 1400px;
@@ -40,7 +37,6 @@ const TopNFTS = styled.div`
   overflow-x: scroll;
   margin-top: 30px;
 `;
-
 const SearchSection = styled.div`
   margin-top: 48px;
   width: 100%;
@@ -54,7 +50,6 @@ const SearchSection = styled.div`
     }
   }
 `;
-
 const NoData = styled.div`
   min-height: 200px;
   display: flex;
@@ -62,7 +57,6 @@ const NoData = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 const Search = styled.div`
   margin-top: 32px;
   justify-content: center;
@@ -91,7 +85,6 @@ const Search = styled.div`
     }
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -117,7 +110,6 @@ const FilterDropdown = styled.div`
   padding-top: 8px;
   margin-left: 10px;
 `;
-
 const Explore = styled.div`
   width: 100%;
   display: flex;
@@ -128,7 +120,6 @@ const Explore = styled.div`
   align-items: center;
   justify-contents: center;
 `;
-
 State.init({
   nftData: [],
   chain: "near",
@@ -136,7 +127,6 @@ State.init({
   filteredNFTData: [],
   searchTerm: "",
 });
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -178,7 +168,6 @@ const currentChainProps = {
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
 };
-
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
   const searched = state.nftData.filter((nft) =>
@@ -189,7 +178,6 @@ const seachInputHandler = (e) => {
     filteredNFTData: searched,
   });
 };
-
 const defaultProps = [
   {
     id: "0",
@@ -217,15 +205,12 @@ const defaultProps = [
     url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
   },
 ];
-
 const updateChain = (chain) => {
   State.update({ chain, currentPage: 1 });
 };
-
 const updateFilter = (id) => {
   State.update({ filterDisplayId: id });
 };
-
 const fetchData = () => {
   let response = fetch(`${currentChainProps[state.chain].subgraph}`, {
     method: "POST",
@@ -264,7 +249,6 @@ const fetchData = () => {
   const collectionData = response.body.data.nfts;
   if (collectionData) {
     const filteredNftData = [];
-
     for (const filteredData of collectionData) {
       try {
         const response = fetch(
@@ -311,10 +295,8 @@ const fetchData = () => {
   }
 };
 fetchData();
-
 const PRICE_CONVERSION_CONSTANT =
   state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
 return (
   <Root>
     <TopNFTS>
@@ -322,7 +304,7 @@ return (
         props={{
           onButtonClick: props.update,
           chainState: "near",
-          isGateway: props.isGateway
+          isGateway: props.isGateway,
         }}
         src="bos.genadrop.near/widget/CPlanet.NFTCard.FeaturedNFT"
       />
