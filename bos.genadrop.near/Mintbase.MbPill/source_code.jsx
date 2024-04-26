@@ -1,9 +1,7 @@
 const pillTemplate = props?.pillTemplate;
 const text = props?.text;
-
 const mode = props.mode || Storage.get("mode");
 const isDarkModeOn = mode === "dark";
-
 const COLORS = {
   BLACK: "black",
   PURPLE: "purple",
@@ -28,7 +26,6 @@ const getColor = () => {
       return "orange";
   }
 };
-
 const Pill = styled.div`
   padding: 1.25rem;
   border-radius: 0.25rem;
@@ -112,7 +109,6 @@ const Pill = styled.div`
     }
   }
 `;
-
 const MbPill = () => {
   return (
     <div>
@@ -122,5 +118,4 @@ const MbPill = () => {
     </div>
   );
 };
-
 return { MbPill };
