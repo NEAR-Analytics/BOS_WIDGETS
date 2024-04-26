@@ -1,5 +1,4 @@
 const daoId = props.daoId ?? "dao.near";
-
 const Root = styled.div`
   width: 296px;
   height: 512px;
@@ -83,7 +82,6 @@ const Root = styled.div`
     border-color: black;
   }
 `;
-
 const MemberStat = styled.div`
   .date {
     padding: 7px 16px;
@@ -171,16 +169,13 @@ const MemberStat = styled.div`
     }
   }
 `;
-
 const profile = Social.get(`${daoId}/profile/**`, "final");
-
 function makeAccountIdShorter(accountId, shortenLength) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
   }
   return accountId;
 }
-
 function followUser(user, isFollowing) {
   if (isFollowing) return;
   const dataToSend = {
@@ -205,9 +200,7 @@ function followUser(user, isFollowing) {
     force: true,
   });
 }
-
-console.log(props?.tags)
-
+console.log(props?.tags);
 return (
   <Root>
     <div className="topImage">
@@ -229,9 +222,7 @@ return (
         }
       />
       <div className="names">
-        <h1>
-          {makeAccountIdShorter(profile.name ?? daoId, 19)}
-        </h1>
+        <h1>{makeAccountIdShorter(profile.name ?? daoId, 19)}</h1>
         <span>
           @{makeAccountIdShorter(daoId) ?? "@og-sbt.sputnik-dao.near"}
         </span>
@@ -289,7 +280,6 @@ return (
         </div>
       </div>
     </MemberStat>
-
     <button
       disabled={props.isFollowing}
       onClick={() => followUser(daoId, props.isFollowing)}
