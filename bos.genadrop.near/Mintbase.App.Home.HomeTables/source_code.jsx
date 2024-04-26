@@ -1,5 +1,4 @@
 const accountId = props.accountId ?? "bos.genadrop.near";
-
 const TableActivity = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,9 +8,7 @@ const TableActivity = styled.div`
   @media (max-width: 500px) {
   }
 `;
-
 const { isDarkModeOn } = props;
-
 const TopTabs = styled.div`
   display: flex;
   align-items: center;
@@ -24,7 +21,6 @@ const TopTabs = styled.div`
     margin-top: 70px !important;
   }
 `;
-
 const customStyle = `
   width: max-content !important;
 ul {
@@ -42,18 +38,14 @@ ul {
     font-size: 12px;
   }
 `;
-
 const [activeTabIndex, setActiveTabIndex] = useState("top-collections");
 const [activeRangeIndex, setActiveRangeIndex] = useState(0);
-
 const handleTabClick = (index) => {
   setActiveTabIndex(index);
 };
-
 const handleRangeClick = (index) => {
   setActiveRangeIndex(index);
 };
-
 return (
   <TableActivity>
     <TopTabs>
