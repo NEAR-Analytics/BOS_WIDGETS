@@ -1,5 +1,4 @@
 const accountId = props.accountId ?? context.accountId;
-
 const isConnected = context.accountId === accountId;
 const { MbModal, LinkTree } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
@@ -12,7 +11,6 @@ const { MbInputField } = VM.require(
 ) || {
   MbInputField: () => <></>,
 };
-
 const actualTabs = {
   tabLabels: [
     { id: 0, title: "Owned" },
@@ -23,14 +21,11 @@ const actualTabs = {
     { id: 5, title: "_User Settings", hidden: !isConnected },
   ],
 };
-
 const hiddenTabs = actualTabs.tabLabels
   .filter((tab) => !tab.hidden)
   .map((tab) => tab.title);
 const tabProps = { tabLabels: hiddenTabs };
-
 console.log("tabProps", tabProps);
-
 const [selectedTab, setSelectedTab] = useState(props.tab ?? "owned");
 const [open, setOpen] = useState(false);
 const [sdk, setSDK] = useState(false);
@@ -39,43 +34,37 @@ const [storeSymbol, setStoreSymbol] = useState("");
 const [showOwnedFilters, setShowOwnedFilters] = useState(true);
 const [profile, setProfile] = useState(null);
 const isDarkModeOn = props.isDarkModeOn ?? false;
-
 const handleTabClick = (index) => {
   setSelectedTab(index);
   // console.log("selectedTab from Mine: ", selectedTab);
 };
-
 const onStoreNameChange = useCallback((e) => {
   console.log("onStoreNameChange", e.target.value);
   setStoreName(e.target.value);
 }, []);
-
 const handleDeploy = () => {
   console.log("handleDeploy", storeName, storeSymbol);
   // console.log("sdk", sdk);
   sdk.deployStore(storeName, storeSymbol);
 };
-
 // console.log("tabProps", tabProps);
-
 const Card = styled.div`
   width: 100%;
   border-radius: 0;
   background-color: #f9fafb;
   color: black;
-  
+
   &.dark {
     color: white;
   }
   .content_main {
     padding: 24px 48px;
   }
-  *{
+  * {
     margin: 0;
-  padding: 0;
+    padding: 0;
   }
 `;
-
 const CreateStore = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,7 +85,6 @@ const CreateStore = styled.div`
     align-items: center;
   }
 `;
-
 const ImageSection = styled.div`
   height: 254px;
   background: #eceef0;
@@ -121,7 +109,6 @@ const ImageSection = styled.div`
       transform: translateX(-50%);
     }
   }
-
   @media (max-width: 1024px) {
     margin-top: calc(var(--body-top-padding) * -1) -12px 0;
   }
@@ -129,7 +116,6 @@ const ImageSection = styled.div`
     height: 125px;
   }
 `;
-
 const TopContent = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
@@ -150,7 +136,6 @@ const TopContent = styled.div`
     }
   }
 `;
-
 const Details = styled.div`
   display: flex;
   gap: 30px;
@@ -176,7 +161,6 @@ const Details = styled.div`
     }
   }
 `;
-
 const Profiles = styled.div`
   display: flex;
   gap: 10px;
@@ -208,11 +192,9 @@ const Profiles = styled.div`
     flex-direction: column-reverse;
   }
 `;
-
 const queryInOwnedToggleHandler = () => {
   setShowOwnedFilters((prev) => !prev);
 };
-
 const AboutOwner = styled.div`
   background: ${isDarkModeOn ? "#1E2030" : "#FFF"};
   overflow: hidden;
@@ -225,7 +207,6 @@ const createStoreHandler = () => {
   // console.log("createStoreHandler");
   setOpen(true);
 };
-
 useEffect(() => {
   asyncFetch(`https://api.mintbase.xyz/accounts/${accountId}`, {
     method: "GET",
@@ -241,7 +222,6 @@ useEffect(() => {
     }
   });
 }, []);
-
 useEffect(() => {
   asyncFetch(
     `https://www.mintbase.xyz/_next/data/4MrYzAhE2iuTzTuGt7Lsw/human/${accountId}/owned/0.json`,
@@ -263,9 +243,7 @@ useEffect(() => {
       }
     });
 }, []);
-
 const [data, setData] = useState(null);
-
 const fetchMyStores = (id) => {
   const data = asyncFetch("https://graph.mintbase.xyz", {
     method: "POST",
@@ -300,14 +278,12 @@ const fetchMyStores = (id) => {
   });
   return data;
 };
-
 useEffect(() => {
   fetchMyStores(props.accountId || "nate.near").then((data) => {
     setData(data);
   });
 }, []);
 const stores = data?.body?.data?.stores;
-
 const details = [
   { name: "Tokens", value: "1075" },
   { name: "Listed Tokens", value: "109" },
@@ -316,9 +292,7 @@ const details = [
   { name: "Transactions", value: "1776" },
   { name: "Last Activity", value: "3 hours ago" },
 ];
-
 console.log("profile", profile);
-
 const PageContent = () => {
   switch (selectedTab) {
     case "owned":
@@ -414,9 +388,7 @@ const PageContent = () => {
       return null;
   }
 };
-
 const [count, setCount] = useState(0);
-
 const verifiedBatch = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -435,15 +407,12 @@ const verifiedBatch = (
     </g>
   </svg>
 );
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
-
 const background = profile.backgroundImage
   ? profile.headerImage ??
     `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
   : "https://ipfs.near.social/ipfs/bafkreiajgp5bmkidwesy2d6tsbdkhyfzjtom2wse2sjcwii227lt5audvq";
-
 return (
   <Card className={isDarkModeOn ? "dark" : ""}>
     <Widget
@@ -554,7 +523,6 @@ return (
     >
       <PageContent />
     </div>
-
     <MbModal
       open={modalIsOpen}
       setOpen={setModalIsOpen}
