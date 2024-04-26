@@ -4,7 +4,6 @@ const cssFont1 = fetch(
 const cssFont2 = fetch(
   "https://db.onlinewebfonts.com/c/e0542aecb0b20747567797e7f1121626?family=AUTHENTIC+Sans+90"
 ).body;
-
 const colors = {
   brand: [
     {
@@ -149,15 +148,12 @@ const colors = {
     },
   ],
 };
-
 const cssColors = `${cssFont1} 
                    ${cssFont2} 
                   `;
-
 Object.keys(colors).map((key) =>
   colors[key].map((color) => (cssColors += `--${color.label}:${color.hex};`))
 );
-
 const typographyClasses = {
   "display-130": `
         font-family: "AUTHENTIC Sans 130", sans-serif;
@@ -168,7 +164,6 @@ const typographyClasses = {
                 line-height: 50px;
         }
     `,
-
   "display-90": `
         font-family: "AUTHENTIC Sans 90", sans-serif;
         font-size: 29px;
@@ -178,7 +173,6 @@ const typographyClasses = {
                 line-height: 50px;
         }
     `,
-
   "heading-130": `
         font-family: "AUTHENTIC Sans 130", sans-serif;
         font-size: 29px;
@@ -373,7 +367,6 @@ const typographyClasses = {
         text-transform: uppercase;
       `,
 };
-
 const getFontType = (size) => {
   switch (size) {
     case "big":
@@ -386,7 +379,6 @@ const getFontType = (size) => {
       return typographyClasses["p-med-90"];
   }
 };
-
 const getCharsCounterSize = (inputSize) => {
   switch (inputSize) {
     case "small":
@@ -397,7 +389,6 @@ const getCharsCounterSize = (inputSize) => {
       return typographyClasses["cap-med-130"];
   }
 };
-
 const getInputLabelFontType = (inputSize) => {
   switch (inputSize) {
     case "big":
