@@ -1,12 +1,8 @@
 const accountId = props.accountId ?? context.accountId;
-
 const { contract, isDarkModeOn } = props;
-
 const isConnected = contract.owner_id === accountId;
-
 const [storeProfileImage, setStoreProfileImage] = useState("");
 const [storeHeaderImage, setStoreHeaderImage] = useState("");
-
 const StoreCard = styled.div`
   box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
   gap: 2em;
@@ -30,7 +26,6 @@ const StoreCard = styled.div`
     background: #f9f9f9;
     cursor: pointer;
   }
-
   * {
     font-family: "AUTHENTIC Sans 90", sans-serif;
     box-sizing: border-box;
@@ -58,7 +53,6 @@ const StoreCard = styled.div`
       border-color: #1e2030;
     }
   }
-
   .contract_owner {
     margin-top: 10px;
     h3 {
@@ -79,7 +73,6 @@ const StoreCard = styled.div`
       }
     }
   }
-
   .middle {
     padding: 0px 24px;
     position: relative;
@@ -92,7 +85,6 @@ const StoreCard = styled.div`
       }
     }
   }
-
   .top {
     height: 145px;
     background: #c74c4c;
@@ -128,7 +120,6 @@ const StoreCard = styled.div`
       line-height: 16px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Assuming Tailwind CSS default timing function and duration */
       white-space: nowrap;
-
       &:focus {
         outline: 2px solid transparent; /* Assuming Tailwind CSS default focus outline */
         outline-offset: 2px; /* Assuming Tailwind CSS default focus outline offset */
@@ -140,13 +131,11 @@ const StoreCard = styled.div`
           ? "rgba(59, 130, 246, 0.35)"
           : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
       }
-
       &:hover {
         background-color: ${isDarkModeOn
           ? "rgba(59, 130, 246, 0.15)"
           : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
       }
-
       cursor: pointer;
       @media (max-width: 768px) {
         padding: 12px;
@@ -156,11 +145,8 @@ const StoreCard = styled.div`
     }
   }
 `;
-
 const role = contract.owner_id === accountId ? "Owner" : "Minter";
-
 console.log({ owner: contract.owner_id, accountId });
-
 const verifiedBatch = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
