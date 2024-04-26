@@ -2,10 +2,8 @@ const elements = props.elements;
 const deleteRow = props.deleteRow;
 const addMinter = props.addMinter;
 const removeMinters = props.removeMinters;
-
 const mode = props.mode || Storage.get("mode");
 const isDarkModeOn = mode === "dark";
-
 const RowRoot = styled.div`
   overflow-y: scroll;
   padding: 0.5rem;
@@ -33,7 +31,6 @@ const RowRoot = styled.div`
     flex-direction: row;
   }
 `;
-
 const MbTable = styled.div`
   background: ${isDarkModeOn ? "var(--gray-850)" : "white"};
   table {
@@ -87,7 +84,6 @@ const MbTable = styled.div`
     }
   }
 `;
-
 const Footer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -95,7 +91,6 @@ const Footer = styled.div`
   justify-items: center;
   width: 100%;
   padding: 0 24px 24px 24px;
-
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
@@ -127,19 +122,15 @@ const Footer = styled.div`
     gap: 6rem;
     justify-content: center;
     align-items: center;
-
     @media (min-width: 768px) {
       justify-content: flex-end;
     }
   }
 `;
-
 const [checkedList, setCheckedList] = useState([]);
-
 const isElementSelected = (id) => {
   return checkedList.includes(id);
 };
-
 const RowSelectList = () => {
   return (
     <RowRoot>
@@ -180,7 +171,6 @@ const RowSelectList = () => {
                             }}
                           />
                         )}
-
                         {content}
                       </div>
                     </td>
@@ -239,7 +229,6 @@ const RowSelectList = () => {
                 }}
               />
             )}
-
             {checkedList.length > 0 ? (
               <Widget
                 src="bos.genadrop.near/widgetMintbase//MbButton"
@@ -269,5 +258,4 @@ const RowSelectList = () => {
     </RowRoot>
   );
 };
-
 return { RowSelectList };
