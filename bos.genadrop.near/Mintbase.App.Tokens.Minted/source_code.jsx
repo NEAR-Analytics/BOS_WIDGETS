@@ -1,7 +1,6 @@
 const { Pagination } = VM.require("buildhub.near/widget/components") || {
   Pagination: () => <></>,
 };
-
 const { minterId, isDarkModeOn, createStoreHandler, isConnected, showFilters } =
   props;
 const Card = styled.div`
@@ -38,7 +37,6 @@ const Card = styled.div`
     object-fit: cover;
   }
 `;
-
 const Cards = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -47,23 +45,17 @@ const Cards = styled.div`
   width: 100%;
   margin-top: 1em;
 `;
-
 const [nftData, setNftData] = useState([]);
 const [loading, setLoading] = useState(true);
 const [countNFTs, setCountNFTs] = useState(0);
 const [pageNumber, setPageNumber] = useState(1);
 const [showListed, setShowListed] = useState(false);
-
 const limit = 20;
-
 const offset = (pageNumber - 1) * limit;
-
 const totalPages = Math.ceil(countNFTs / limit);
-
 const listedToggleHandler = () => {
   setShowListed((prev) => !prev);
 };
-
 const fetchMintedNFTs = ({ minter, offset, limit, listed }) => {
   asyncFetch(
     `https://api.mintbase.xyz/human/${minter}/minted?offset=${offset}&limit=${limit}&orderBy=minted_timestamp%20desc%20nulls%20last&listedFilter=${listed}`,
@@ -84,7 +76,6 @@ const fetchMintedNFTs = ({ minter, offset, limit, listed }) => {
     }
   });
 };
-
 useEffect(() => {
   fetchMintedNFTs({
     minter: minterId || "jgodwill.near",
@@ -93,7 +84,6 @@ useEffect(() => {
     listed: showListed,
   });
 }, [offset, pageNumber, showListed]);
-
 const WrapCards = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -113,7 +103,6 @@ const WrapCards = styled.div`
     align-content: center;
   }
 `;
-
 const LeftFilter = styled.div`
   background: ${isDarkModeOn ? "rgba(30, 32, 48, 1)" : "#fff"};
   width: 22%;
@@ -134,13 +123,10 @@ const LeftFilter = styled.div`
     gap: 20px;
   }
 `;
-
 const MainContent = styled.div`
   flex: 1;
 `;
-
 const s = countNFTs > 1 ? "s" : "";
-
 return (
   <WrapCards>
     {showFilters && (
