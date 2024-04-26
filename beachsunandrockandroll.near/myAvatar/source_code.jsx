@@ -4,6 +4,8 @@ const { AvatarRoot, AvatarImage, AvatarFallback } = VM.require(
   "beachsunandrockandroll.near/widget/avatar"
 );
 
+if (Tailwind === undefined) return "";
+
 return (
   <Tailwind>
     <div className="flex mx-auto w-max h-screen pt-10">
@@ -13,7 +15,7 @@ return (
           src="https://github.com/shadcn.png"
           alt="@shadcn"
         />
-        <AvatarFallback className="flex h-full w-full items-center justify-center rounded-full bg-muted">
+        <AvatarFallback className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
           PD
         </AvatarFallback>
       </AvatarRoot>
