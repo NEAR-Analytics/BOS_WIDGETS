@@ -702,6 +702,7 @@ return (
                     loading: true,
                   });
                   const amount = Big(state.amount)
+                    .mul(1.2)
                     .mul(Big(10).pow(decimals))
                     .toFixed(0);
                   approve(amount)
