@@ -1,15 +1,12 @@
 const [svg, setSVG] = useState("");
 const [testSvg, setTestSvg] = useState("");
-
 const name = props.name;
 const color = props.color || "mb-blackblue";
 const darkColor = props.darkColor;
 const size = props.size || "24px";
 const height = props.height || size;
 const customStyle = props.customStyle || "";
-
 const isCircle = name === "circle";
-
 let filter = () => {
   switch (color) {
     case "mb-blackblue":
@@ -28,7 +25,6 @@ let filter = () => {
       return "";
   }
 };
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -40,13 +36,9 @@ const Container = styled.div`
     filter: ${filter};
   }
 `;
-
 const test = "bafkreigpzpmxr64tukzkmuokfxwrzmjeqsehy3cb6ma73s6ugqyqevqnyy";
-
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
-
 const icons = "bafkreibonknhz4t4dj5kyfm4oghlv6ymmbyfk7b3a64bdkdxmqca56cpwq";
-
 useEffect(() => {
   if (name) {
     asyncFetch(ipfsUrl(icons)).then((res) => {
@@ -59,7 +51,6 @@ useEffect(() => {
     });
   }
 }, []);
-
 // useEffect(() => {}, [svgUrl]);
 return (
   <Container>
