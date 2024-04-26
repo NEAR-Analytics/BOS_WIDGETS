@@ -19,6 +19,7 @@ const {
   threshold,
   prices,
   theme,
+  onRefresh,
 } = props;
 
 State.init({
@@ -170,6 +171,7 @@ return (
             State.update({
               showCollateralModal: false,
             });
+            onRefresh?.();
           },
         }}
       />
