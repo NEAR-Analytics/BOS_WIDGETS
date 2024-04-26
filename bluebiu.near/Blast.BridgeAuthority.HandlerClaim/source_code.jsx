@@ -33,8 +33,10 @@ const Transactions = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 18px;
     padding: 5px 0;
+    color: rgb(151, 154, 190);
+    font-weight: 500;
   }
   .list {
     flex: 1;
