@@ -30,7 +30,13 @@ const PreviewContent = styled.div`
 `;
 const WidgetCode = `
 \`\`\`js
-<Widget src={"efiz.near/widget/PlayerApiKey"} />
+<Widget
+src={"efiz.near/widget/Player.ApiKey"}
+props={{
+  automated: true,
+  apiKey: "8b3bdqjtdj4jsjwa",
+}}
+/>
 \`\`\`
 `;
 const UsageContent = styled.div`
@@ -94,11 +100,79 @@ return (
     </div>
     <div>
       <Heading>Description</Heading>
-      <p>This component allow you to set the Livepeer Studio api key.</p>
+      <p>
+        This component enables the configuration of the Livepeer Studio API key.
+      </p>
     </div>
     <UsageContent>
       <Heading>Usage</Heading>
       <Markdown text={WidgetCode} />
+    </UsageContent>
+    <UsageContent>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Property
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Type
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Default value
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Description
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              style={{
+                fontFamily: "monospace",
+              }}
+            >
+              automated
+            </td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>
+              When the component is automated it doesn't display UI and will set
+              the apiKey in the Player cast component player based on the
+              property "apiKey"
+            </td>
+          </tr>
+          <tr>
+            <td
+              style={{
+                fontFamily: "monospace",
+              }}
+            >
+              apiKey
+            </td>
+            <td>string</td>
+            <td>""</td>
+            <td>value of the apiKey set by the component.</td>
+          </tr>
+        </tbody>
+      </table>
     </UsageContent>
   </Container>
 );
