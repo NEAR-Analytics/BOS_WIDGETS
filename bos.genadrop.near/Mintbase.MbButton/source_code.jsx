@@ -1,8 +1,6 @@
 const { getFontType } = VM.require("bos.genadrop.near/widget/Mintbase.Theme");
-
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 const [dropdownIconColors, setDropdownIconColors] = useState(null);
-
 const EType = {
   PRIMARY: "primary",
   SECONDARY: "secondary",
@@ -13,13 +11,11 @@ const EState = {
   DISABLED: "disabled",
   LOADING: "loading",
 };
-
 const ESize = {
   SMALL: "small",
   MEDIUM: "medium",
   BIG: "big",
 };
-
 const getLoadingSize = (currentSize) => {
   switch (currentSize) {
     case "small":
@@ -32,7 +28,6 @@ const getLoadingSize = (currentSize) => {
       return "w-4 h-4";
   }
 };
-
 const getCurrentColor = (btnType, state) => {
   switch (btnType) {
     case EType.PRIMARY:
@@ -49,7 +44,6 @@ const getCurrentColor = (btnType, state) => {
       return { dark: "white", light: "black" };
   }
 };
-
 const label = props.label || "default";
 const state = props.state || EState.ACTIVE;
 const size = props.size || ESize.MEDIUM;
@@ -58,7 +52,6 @@ const dropDownItems = props.dropDownItems;
 const customStyle = props.customStyle || "";
 const isLoading = state === EState.LOADING;
 const isDarkModeOn = props?.isDarkModeOn;
-
 const LoadingAnimation = ({ size, btnType }) => (
   <div className="animate-pulse absolute inline w-full left-0">
     <div
@@ -70,12 +63,10 @@ const LoadingAnimation = ({ size, btnType }) => (
     ></div>
   </div>
 );
-
 useEffect(() => {
   if (!dropDownItems) return;
   setDropdownIconColors(getCurrentColor(btnType, state));
 }, [dropDownItems, btnType, state]);
-
 const Container = styled.div`
   ${dropDownItems &&
   `display:flex;
@@ -107,7 +98,6 @@ const Container = styled.div`
         min-width: 145px;
         height: 42px;
       }
-
       &.button.medium {
         padding: 8px 16px;
         min-width: 100px;
@@ -197,30 +187,25 @@ const Container = styled.div`
     width: 26px;
     height: 26px;
   }
-
   .dropdown-btn.medium-icon {
     width: 26px;
     height: 26px;
   }
-
   .dropdown-btn.big-icon {
     width: 32px;
     height: 32px;
   }
-
   @media (min-width: 480px) {
     .dropdown-btn.medium-icon {
       width: 32px;
       height: 32px;
     }
-
     .dropdown-btn.big-icon {
       width: 42px;
       height: 42px;
     }
   }
 `;
-
 return (
   <Container>
     <button
