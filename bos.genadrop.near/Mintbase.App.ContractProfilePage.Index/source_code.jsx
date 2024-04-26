@@ -30,8 +30,7 @@ const hiddenTabs = actualTabs.tabLabels
   .filter((tab) => !tab.hidden)
   .map((tab) => tab.title);
 const tabProps = { tabLabels: hiddenTabs };
-console.log("tabProps", tabProps);
-const [selectedTab, setSelectedTab] = useState(props.tab ?? "owned");
+const [selectedTab, setSelectedTab] = useState(props.tab ?? "nfts");
 const [open, setOpen] = useState(false);
 const [showOwnedFilters, setShowOwnedFilters] = useState(true);
 const [storeData, setStoredata] = useState(null);
