@@ -1,9 +1,7 @@
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { isDarkModeOn } = props;
-
 const mintSvg = (
   <svg
     width="30px"
@@ -19,7 +17,6 @@ const mintSvg = (
     ></path>
   </svg>
 );
-
 const addMinterSvg = (
   <svg
     width="30px"
@@ -35,7 +32,6 @@ const addMinterSvg = (
     ></path>
   </svg>
 );
-
 const badgeSvg = (
   <svg
     width="30px"
@@ -51,7 +47,6 @@ const badgeSvg = (
     ></path>
   </svg>
 );
-
 const copySvg = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +60,6 @@ const copySvg = (
     <path d="M3 5H1v16c0 1.1.9 2 2 2h16v-2H3V5zm18-4H7c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 16H7V3h14v14z"></path>
   </svg>
 );
-
 const upArrow = (
   <svg
     width="16px"
@@ -88,7 +82,6 @@ const upArrow = (
     </defs>
   </svg>
 );
-
 const AppContent = styled.div`
   width: 100%;
   display: flex;
@@ -156,7 +149,6 @@ const AppContent = styled.div`
     }
   }
 `;
-
 const ContractSection = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -191,7 +183,6 @@ const ContractSection = styled.div`
       }
       div {
         ${getInputLabelFontType("big")}
-
         display: flex;
         align-items: center;
         h1 {
@@ -237,70 +228,52 @@ const ContractSection = styled.div`
     }
   }
 `;
-
 const FormSection = styled.div`
+  width: 50%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: fit-content;
+  & > p > .down-arr {
+    padding: 0;
+    margin: 0;
+    transform: rotateY(180deg);
+  }
+  & > p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: ${isDarkModeOn
+      ? "var(--gray-300, #B3B5BD)"
+      : "var(--gray-700, #404252)"};
+  }
+  .form-main {
+    background-color: ${isDarkModeOn ? "#1e2030" : "#fff"};
+    border-radius: 4px;
+    height: 340px;
+    overflow: hidden;
+    .top {
+      color: ${isDarkModeOn ? "#fff" : "#000"};
+      border-bottom: 1px solid
+        ${isDarkModeOn ? "rgba(40, 42, 58, 1)" : "rgba(210, 212, 218, 1)"};
+      padding: 24px;
+      p {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+    .form-content {
+      padding: 24px;
+      height: 230px;
+      background-color: ${isDarkModeOn ? "#1e2030" : "#fff"};
+    }
+  }
   @media (max-width: 500px) {
     width: 100%;
     margin-top: 60px;
   }
-  .form {
-    width: 530px;
-    background: ${isDarkModeOn ? "#1f2031" : "#fff"};
-    @media (max-width: 600px) {
-      width: 98%;
-    }
-    .top {
-      padding: 24px;
-      ${getInputLabelFontType("big")}
-      border-bottom: 1px solid rgb(232,234,240);
-      h2 {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 0;
-        color: ${isDarkModeOn ? "#fff" : "#000"};
-      }
-    }
-  }
-  .formContent {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    .field {
-      margin-bottom: 20px;
-      label {
-        margin-bottom: 10px;
-        color: ${isDarkModeOn ? "#fff" : "#000"};
-      }
-      input {
-        background: ${isDarkModeOn ? "#1f2031" : "#f3f5f9"};
-        color: ${isDarkModeOn ? "#fff" : "#000"};
-        border: 0.5px solid ${isDarkModeOn ? "#3e4253" : ""};
-        &:placeholder: {
-          color: ${isDarkModeOn ? "#fff" : "#000"};
-        }
-      }
-    }
-    button {
-      background: black;
-      color: ${isDarkModeOn ? "#fff" : "#000"};
-      align-self: center;
-      border: 1px solid #000;
-      transition: 0.5s ease-in-out;
-      &:hover {
-        opacity: 0.8;
-      }
-      &:disabled {
-        background: ${isDarkModeOn ? "#3e4253" : "#d1d4d9"};
-        cursor: not-allowed;
-        color: ${isDarkModeOn ? "#fff" : "#000"};
-        font-weight: 600;
-        border: none;
-      }
-    }
-  }
 `;
-
 const MinstaSection = styled.div`
   width: 530px;
   margin-bottom: 25px;
@@ -344,7 +317,6 @@ const MinstaSection = styled.div`
     }
   }
 `;
-
 return (
   <>
     <AppContent>
@@ -393,21 +365,24 @@ return (
           </a>
         </div>
         <FormSection>
-          <p>Try it out, it's that simple </p>
-          <div className="form">
+          <p>
+            <span>Try it out, it's that simple</span>
+            <p className="down-arr">
+              <i class="bi bi-arrow-90deg-down"></i>
+            </p>
+          </p>
+          <div className="form-main">
             <div className="top">
-              <h2>New Contract</h2>
+              <p>New Contract</p>
             </div>
-            <div className="formContent">
-              <div className="field">
-                <label>Store Name</label>
-                <input placeholder="myfirststore" />
-              </div>
-              <div className="field">
-                <label>Symbol</label>
-                <input placeholder="MFS" />
-              </div>
-              <button disabled>Deploy Contract</button>
+            <div className="form-content">
+              <Widget
+                src={`bos.genadrop.near/widget/Mintbase.App.Store.CreateForm`}
+                props={{
+                  isDarkModeOn,
+                  isInModal: false,
+                }}
+              />
             </div>
           </div>
         </FormSection>
