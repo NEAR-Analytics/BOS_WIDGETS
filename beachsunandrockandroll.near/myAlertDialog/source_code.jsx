@@ -1,88 +1,63 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-
 const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
 const {
-  AlertDialogRoot,
-  AlertDialogOverlay,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogAction,
-  AlertDialogCancel,
-} = VM.require("beachsunandrockandroll.near/widget/alertDialog");
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} = VM.require("beachsunandrockandroll.near/widget/card");
 
 State.init({
-  cnButton: "",
-  cnCancelButton: "",
-  cnActionButton: "",
+  cnButtonCancel: "",
+  cnButtonDeploy: "",
 });
 
-if (["", "loaded"].includes(state.cnButton))
+if (["", "loaded"].includes(state.cnButtonCancel))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
       props={{
-        output: (cnButton) => State.update({ cnButton }),
+        output: (cnButtonCancel) => State.update({ cnButtonCancel }),
         variant: "outline",
       }}
     />
   );
 
-if (["", "loaded"].includes(state.cnCancelButton))
+if (["", "loaded"].includes(state.cnButtonDeploy))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
       props={{
-        output: (cnCancelButton) => State.update({ cnCancelButton }),
-        variant: "outline",
-        className: "sm:mt-0",
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(state.cnActionButton))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{
-        output: (cnActionButton) => State.update({ cnActionButton }),
+        output: (cnButtonDeploy) => State.update({ cnButtonDeploy }),
       }}
     />
   );
 
 return (
   <Tailwind>
-    <div className="flex mx-auto w-max h-screen pt-10">
-      <AlertDialogRoot>
-        <AlertDialogTrigger>
-          <Button className={state.cnButton}>Show Dialog</Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent
-          className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg"
-          classNameOverlay="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-        >
-          <AlertDialogHeader className="flex flex-col space-y-2 text-center sm:text-left">
-            <AlertDialogTitle className="text-lg font-semibold">
-              Are you absolutely sure?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-sm text-muted-foreground">
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
-            <AlertDialogCancel className={state.cnCancelButton}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction className={state.cnActionButton}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogRoot>
+    <div className="flex mx-auto w-max pt-10">
+      <Card className="rounded-xl border bg-card text-card-foreground shadow w-[350px]">
+        <CardHeader className="flex flex-col space-y-1.5 p-6">
+          <CardTitle className="font-semibold leading-none tracking-tight">
+            Create project
+          </CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
+            Deploy your new project in one-click.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-6 pt-0">
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5"></div>
+            <div className="flex flex-col space-y-1.5"></div>
+          </div>
+        </CardContent>
+        <CardFooter className="flex items-center p-6 pt-0 justify-between">
+          <Button className={state.cnButtonCancel}>Cancel</Button>
+          <Button className={state.cnButtonDeploy}>Deploy</Button>
+        </CardFooter>
+      </Card>
     </div>
   </Tailwind>
 );
