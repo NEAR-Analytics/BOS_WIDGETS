@@ -15,7 +15,6 @@ const searchSvg = (
     />
   </svg>
 );
-
 const ExploreRoot = styled.div`
   max-width: 1400px;
   margin-left: auto;
@@ -34,7 +33,6 @@ const ExploreRoot = styled.div`
     }
   }
 `;
-
 const ExploreContainer = styled.div`
   background: #f8f8f8;
   .searchContainer {
@@ -42,7 +40,6 @@ const ExploreContainer = styled.div`
     margin-top: 32px;
   }
 `;
-
 const Search = styled.div`
   display: flex;
   padding: 5px 16px;
@@ -61,7 +58,6 @@ const Search = styled.div`
     border: none;
   }
 `;
-
 const Filter = styled.div`
   display: flex;
   height: 48px;
@@ -77,14 +73,12 @@ const Filter = styled.div`
     color: #fff;
   }
 `;
-
 const Tabs = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 24px;
   width: max-content;
 `;
-
 const Tab = styled.div`
   display: flex;
   padding: 12px 32px;
@@ -104,7 +98,6 @@ const Tab = styled.div`
     line-height: normal;
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -121,14 +114,11 @@ const Cards = styled.div`
   flex-wrap: wrap;
   background: white;
 `;
-
 const contests = Near.view("fund-v1.genadrop.near", "get_contests", {
   subscribe: true,
 });
-
 const [activeTab, setActiveTab] = useState("ALL");
 const [contest, setContest] = useState(contests[0]);
-
 return (
   <ExploreContainer>
     <ExploreRoot>
