@@ -4,6 +4,9 @@ const Theme = styled.div`
   --button-text-color: #181a27;
   --dialog-bg-color: #373a53;
   --token-list-hover-color: rgba(24, 26, 39, 0.3);
+  .spe {
+    font-weight: 700;
+  }
 `;
 
 const CHAIN_ID = 81457;
