@@ -13,7 +13,6 @@ const bellIcon = (
     />
   </svg>
 );
-
 const checkIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +27,6 @@ const checkIcon = (
     />
   </svg>
 );
-
 const personIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +48,6 @@ const personIcon = (
     </defs>
   </svg>
 );
-
 const greyIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +59,6 @@ const greyIcon = (
     <circle cx="9" cy="9" r="12" fill="#B0B0B0" />
   </svg>
 );
-
 const markIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +73,6 @@ const markIcon = (
     />
   </svg>
 );
-
 const voteIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +87,6 @@ const voteIcon = (
     />
   </svg>
 );
-
 const greenCheck = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +106,6 @@ const greenCheck = (
     />
   </svg>
 );
-
 const ContainerOne = styled.div`
   display: flex;
   padding: 16px;
@@ -124,7 +117,6 @@ const ContainerOne = styled.div`
   gap: 16px;
   width: 392px;
 `;
-
 const HeadCard = styled.div`
   display: flex;
   flex-direction: row;
@@ -162,7 +154,6 @@ const HeadCard = styled.div`
     }
   }
 `;
-
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -186,7 +177,6 @@ const Body = styled.div`
     }
   }
 `;
-
 const ContainerTwo = styled.div`
   width: 400px;
   display: flex;
@@ -239,7 +229,6 @@ const ContainerTwo = styled.div`
     color: white;
   }
 `;
-
 const ContainerThree = styled.div`
   display: flex;
   flex-direction: row;
@@ -274,7 +263,6 @@ const ContainerThree = styled.div`
     }
   }
 `;
-
 const Popup = styled.div`
   position: fixed;
   top: 0;
@@ -283,12 +271,10 @@ const Popup = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px); /* Apply background blur */
 `;
-
 const PopupContent = styled.div`
   background-color: #fff;
   padding: 20px;
@@ -302,7 +288,6 @@ const PopupContent = styled.div`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   .cancel-button {
     display: flex;
-
     width: 100%;
     flex-direction: row-reverse;
     h1 {
@@ -320,7 +305,6 @@ const PopupContent = styled.div`
   }
 }
 `;
-
 const Participants = styled.div`
   background: white;
   display: flex;
@@ -341,7 +325,6 @@ const Participants = styled.div`
     line-height: normal;
   }
 `;
-
 const NoVote = styled.div`
   width: 100%;
   display: flex;
@@ -350,11 +333,9 @@ const NoVote = styled.div`
   p {
     color: #b0b0b0;
   }
-`
-
+`;
 const [openModal, setOpenModal] = useState(false);
 const testContract = props.testContract || false;
-
 const handleArtSelection = (nft_data) => {
   Near.call(
     testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
@@ -369,7 +350,6 @@ const handleArtSelection = (nft_data) => {
   );
   setOpenModal(false);
 };
-
 const totalUsersVoted = Near.view(
   testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
   "get_all_user_voted",
@@ -378,8 +358,6 @@ const totalUsersVoted = Near.view(
     contest_id: Number(props.contestId),
   }
 );
-
-
 const handleFinalize = () => {
   Near.call(
     testContract ? "fund-beta.genadrop.near" : "contest.genadrop.near",
@@ -391,10 +369,7 @@ const handleFinalize = () => {
     "10000000000000000000000"
   );
 };
-
-const userVoted = totalUsersVoted.includes(context.accountId)
-
-
+const userVoted = totalUsersVoted.includes(context.accountId);
 return (
   <>
     <ContainerOne>
@@ -439,7 +414,9 @@ return (
         <button onClick={() => setOpenModal(true)} className="submitButton">
           Submit Art
         </button>
-      ) : props?.isClosed && props?.winners?.length === 0 && props.usersArts.length ? (
+      ) : props?.isClosed &&
+        props?.winners?.length === 0 &&
+        props.usersArts.length ? (
         <button className="submitButton" onClick={handleFinalize}>
           Finalize Contest
         </button>
@@ -526,9 +503,11 @@ return (
             </a>
           ))}
         </div>
-      ): <NoVote>
-        <p>No Participants at this round</p>
-        </NoVote>}
+      ) : (
+        <NoVote>
+          <p>No Participants at this round</p>
+        </NoVote>
+      )}
     </Participants>
   </>
 );
