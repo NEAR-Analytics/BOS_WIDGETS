@@ -4,6 +4,10 @@ const type = props.type ?? "widget";
 const path = `${accountId}/${type}/${thingId}`;
 const metadata = props.metadata ?? Social.getr(`${path}/metadata`);
 
+if (loading) {
+  return "";
+}
+
 const className = props.className ?? "d-inline-block";
 const style = props.style ?? { width: "3em", height: "3em" };
 const imageStyle = props.imageStyle ?? {
