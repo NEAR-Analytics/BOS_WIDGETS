@@ -1,5 +1,4 @@
 const Main = styled.div``;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -7,10 +6,8 @@ const Cards = styled.div`
   width: 100%;
   flex-wrap: wrap;
 `;
-
 const [nftData, setNftData] = useState([]);
 const [loading, setLoading] = useState(true);
-
 function fetchNFTs() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -42,11 +39,8 @@ function fetchNFTs() {
     }
   });
 }
-
 fetchNFTs();
-
 console.log(nftData);
-
 return (
   <Main>
     <Cards>
