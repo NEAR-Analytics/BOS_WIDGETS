@@ -359,7 +359,7 @@ useEffect(() => {
 useEffect(() => {
   const inter = setInterval(() => {
     getAllStatus(txs)
-  }, 10000)
+  }, 30000)
 
   return () => {
     clearInterval(inter)
