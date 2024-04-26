@@ -1164,7 +1164,7 @@ const Nodes = (
     >
       <Widget
         key={state.data}
-        src="forefront_tak.near/widget/Forefront.Widget.NearSocial.Explorer.Tree"
+        src="hyperfiles.near/widget/view.tree"
         props={{
           rootPath: state.data,
           themeColor: themeColor.tree,
