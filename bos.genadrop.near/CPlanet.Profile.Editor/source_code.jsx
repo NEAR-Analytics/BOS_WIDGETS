@@ -1,19 +1,14 @@
 const accountId = context.accountId;
-
 if (!accountId) {
   return "Please sign in with NEAR wallet to edit your profile";
 }
-
 let profile = Social.getr(`${accountId}/profile`);
-
 if (profile === null) {
   return "Loading";
 }
-
 State.init({
   profile,
 });
-
 const Wrapper = styled.div`
   * {
     font-family: Helvetica Neue;
@@ -154,7 +149,6 @@ const Wrapper = styled.div`
     }
   }
 `;
-
 return (
   <Wrapper>
     <div className="row">
@@ -207,7 +201,6 @@ return (
                     },
                   ],
                 },
-               
               },
             }}
           />
