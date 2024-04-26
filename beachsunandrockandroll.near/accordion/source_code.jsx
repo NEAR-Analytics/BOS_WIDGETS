@@ -10,7 +10,7 @@ const AccordionRoot = ({ className, children, ...props }) => (
 
 const AccordionItem = ({ className, children, ...props }) => (
   <Tailwind>
-    <Accordion.Item ref={forwardedRef} className={className} {...props}>
+    <Accordion.Item ref="forwardedRef" className={className} {...props}>
       {children}
     </Accordion.Item>
   </Tailwind>
@@ -19,11 +19,7 @@ const AccordionItem = ({ className, children, ...props }) => (
 const AccordionTrigger = ({ className, children, ...props }) => (
   <Tailwind>
     <Accordion.Header className="flex">
-      <Accordion.Trigger
-        ref={forwardedRef}
-        className={className}
-        {...props}
-      >
+      <Accordion.Trigger ref="forwardedRef" className={className} {...props}>
         {children}
         <svg
           width="15"
@@ -48,7 +44,7 @@ const AccordionTrigger = ({ className, children, ...props }) => (
 const AccordionContent = ({ className, children, ...props }) => (
   <Tailwind>
     <Accordion.Content
-      ref={forwardedRef}
+      ref="forwardedRef"
       className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       {...props}
     >
