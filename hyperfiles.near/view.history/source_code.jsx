@@ -124,6 +124,13 @@ const history = (
         );
       })}
     </ul>
+    <Widget
+      src="efiz.near/widget/Every.Thing.History"
+      props={{
+        path: "hyperfiles.near/widget/index-dev",
+        count: (count) => console.log("Number of changes:", count),
+      }}
+    />
   </div>
 );
 
