@@ -1,7 +1,6 @@
 const { burnNFT, multiplyNFT } = VM.require(
   "bos.genadrop.near/widget/Mintbase.NFT.modules"
 );
-
 const Root = styled.div`
   .home-dark {
     width: 600px;
@@ -23,14 +22,12 @@ const Root = styled.div`
     }
   }
 `;
-
 const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 30px;
   height: 60px;
-
   border-bottom: 1px solid
     ${(props) => (props.isDarkModeOn ? "#3e4352" : "#e7ebee")};
   p {
@@ -41,7 +38,6 @@ const Top = styled.div`
     cursor: pointer;
   }
 `;
-
 const BurnField = styled.div`
 width: 100%;
 display: flex;
@@ -123,7 +119,6 @@ margin-top: 100px;
     }
    
 `;
-
 const BottomButton = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -141,7 +136,6 @@ const BottomButton = styled.div`
     }
   }
 `;
-
 const Token = styled.div`
   background: ${(props) => (props.isDarkModeOn ? "#262a3b" : "#f8f8f8")};
   display: flex;
@@ -152,7 +146,6 @@ const Token = styled.div`
     color: ${(props) => (props.isDarkModeOn ? "#fff" : "#000")};
   }
 `;
-
 const BurnMultiply = ({ isDarkModeOn, data, onClose, type }) => {
   const [tokens, setTokens] = useState([]);
   const [amount, setAmount] = useState(0);
@@ -200,10 +193,8 @@ const BurnMultiply = ({ isDarkModeOn, data, onClose, type }) => {
   useEffect(() => {
     fetchNFTDetails();
   }, []);
-
   const handleFinish = () => {
     if (amount < 1 || tokens.length < 1) return;
-
     if (isBurn) {
       const tokensToBurn = tokens.slice(0, amount);
       burnNFT(data?.nft_contract_id, tokensToBurn);
@@ -217,7 +208,6 @@ const BurnMultiply = ({ isDarkModeOn, data, onClose, type }) => {
       );
     }
   };
-
   return (
     <Root>
       <div className={isDarkModeOn ? "home-dark" : "home-light"}>
@@ -270,5 +260,4 @@ const BurnMultiply = ({ isDarkModeOn, data, onClose, type }) => {
     </Root>
   );
 };
-
 return <BurnMultiply {...props} />;
