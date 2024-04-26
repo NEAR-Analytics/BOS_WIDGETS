@@ -11,15 +11,13 @@ const tools = Social.get(`${accountId}/settings/dev.tools`) ?? defaultTools;
 
 const ToolbeltContainer = styled.div`
   display: flex;
-  background: black;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 12px;
+  flex-wrap: wrap;
 `;
 
 const Tool = styled.div`
   color: white;
-  margin: 8px;
+  margin: 9px;
   cursor: pointer;
   transition: transform 0.2s;
 
@@ -30,8 +28,8 @@ const Tool = styled.div`
 
 return (
   <ToolbeltContainer>
-    {tools.map((tool, i) => (
-      <Tool key={i}>
+    {tools.map((tool) => (
+      <Tool key={tool}>
         <a href={`/${tool}`}>
           <Widget src="toolbelt.near/widget/tool.image" props={{ src: tool }} />
         </a>
