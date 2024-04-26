@@ -6,9 +6,7 @@ const mode = props.mode || Storage.get("mode");
 const colsAmount = props.colsAmount || 5;
 const cols = Array.from(Array(colsAmount).keys());
 const hasLabel = props.hasLabel;
-
 const isDarkModeOn = mode === "dark";
-
 const TableRoot = styled.div`
   background: ${isDarkModeOn ? "var(--gray-850)" : "white"};
   .title {
@@ -47,7 +45,6 @@ const TableRoot = styled.div`
   }
   ${customStyles}
 `;
-
 const TableContent = styled.div`
   overflow: auto;
   td {
@@ -101,15 +98,12 @@ const TableContent = styled.div`
     }
   }
 `;
-
 const [currentPage, setCurrentPage] = useState(1);
 const [itemsPerPage, setItemsPerPage] = useState(10);
 const [items, setItems] = useState([]);
-
 const handle = (newPage) => {
   setCurrentPage(newPage);
 };
-
 useEffect(() => {
   setItems(
     bodyProps.slice(
@@ -122,7 +116,6 @@ useEffect(() => {
     )
   );
 }, [currentPage, itemsPerPage]);
-
 const MbTable = () => {
   return (
     <TableRoot>
@@ -168,5 +161,4 @@ const MbTable = () => {
     </TableRoot>
   );
 };
-
 return { MbTable };
