@@ -3,14 +3,12 @@ const text =
   "Only owners of this NFT collection can post, comment and repost";
 const groupId = props.groupId;
 const buttonText = props.buttonText ?? "Subscribe to Premium";
-
 const Wrapper = styled.div`
   border-bottom: 1px solid #eee;
   margin: 0 -12px;
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
   }
-
   .mintbase {
     height: 1.5em;
   }
@@ -21,7 +19,6 @@ const Wrapper = styled.div`
     height: 1.2em;
   }
 `;
-
 const Locked = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +31,6 @@ const Locked = (
     <path d="M9 13a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z" />
   </svg>
 );
-
 const Mintbase = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +49,6 @@ const Mintbase = (
     <path d="M125.14,69.86H112.48V21.21a21.28,21.28,0,1,0-8.56,17V69.86H55.08A21.21,21.21,0,0,0,33.87,91.07c0,.16,0,.31,0,.46h0v48.64H21.21a21.22,21.22,0,1,0,21.21,21.42h0V148.73H74.27a21.19,21.19,0,1,0,17-8.56H42.43v-32.1A21.19,21.19,0,0,0,72.08,78.41h31.84V91.27h0a21.21,21.21,0,1,0,21.21-21.41Zm-33.87-36a12.66,12.66,0,1,1,12.65-12.66A12.68,12.68,0,0,1,91.27,33.87Zm12.65,127.52a12.66,12.66,0,1,1-12.65-12.66A12.66,12.66,0,0,1,103.92,161.39ZM21.21,174a12.66,12.66,0,1,1,12.66-12.65A12.66,12.66,0,0,1,21.21,174Zm33.87-70.31A12.66,12.66,0,1,1,67.74,91.07,12.67,12.67,0,0,1,55.08,103.73Zm70.06,0a12.66,12.66,0,1,1,12.65-12.66A12.68,12.68,0,0,1,125.14,103.73Z" />
   </svg>
 );
-
 const Paras = (
   <svg
     className="paras"
@@ -72,7 +67,6 @@ const Paras = (
     ></path>
   </svg>
 );
-
 const Tradeport = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +89,6 @@ const Tradeport = (
     <path d="M1323.82 143.63H1303.71V166.867H1323.82V212.972C1323.82 240.266 1333.31 242.847 1360.87 242.847H1386.57V217.951H1368.32C1363.29 217.951 1361.06 216.844 1361.06 211.127V166.867H1386.57V143.63H1361.06V116.336H1323.82V143.63Z" />
   </svg>
 );
-
 return (
   <Wrapper className="d-flex align-items-center flex-row p-2">
     <div className="me-3">{Locked}</div>
