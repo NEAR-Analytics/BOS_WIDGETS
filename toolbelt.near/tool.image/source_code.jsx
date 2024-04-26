@@ -4,7 +4,7 @@ const type = props.type ?? "widget";
 const path = `${accountId}/${type}/${thingId}`;
 const metadata = props.metadata ?? Social.getr(`${path}/metadata`);
 
-if (loading) {
+if (context.loading) {
   return "";
 }
 
