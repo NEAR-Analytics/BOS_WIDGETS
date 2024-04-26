@@ -1,43 +1,34 @@
 const { deployStore } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.deploy_store"
 );
-
 const { getTimePassed } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_time_passed"
 );
-
 const { getUserStores } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_user_stores"
 );
-
 const { getUserEarnings } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_user_earnings"
 );
-
 const { getOffersToAccount } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_offers_to_account"
 );
-
 const { getOpenOffersByAccount } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.get_open_offers_by_account"
 );
-
 // Configuration (replace with your actual values or define them globally)
 const factoryAddress = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const MARKET_ADDRESS = {
   mainnet: "simple.market.mintbase1.near",
   testnet: "market-v2-beta.mintspace2.testnet",
 };
-
 const FACTORY_ADDRESS = {
   mainnet: "mintbase1.near",
   testnet: "mintspace2.testnet",
 };
 const mbGraphEndpoint = "https://graph.mintbase.xyz";
-
 // Helper function to generate IPFS gateway URL
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
-
 // Function to fetch details of a specific NFT
 const getTokenById = (contractName, tokenId) => {
   if (!contractName || !tokenId)
@@ -113,7 +104,6 @@ const getTokenById = (contractName, tokenId) => {
   });
   return res;
 };
-
 // Function to retrieve all NFTs associated with a store contract
 const getStoreNfts = (contractName) => {
   if (!contractName) return console.log("missing contract name");
@@ -159,7 +149,6 @@ const getStoreNfts = (contractName) => {
     console.log(err);
   }
 };
-
 // Function to retrieve all NFTs owned by a specific account address
 const getOwnedNFTs = (owner) => {
   if (!owner) return console.log("missing owner address");
@@ -194,7 +183,6 @@ const getOwnedNFTs = (owner) => {
     console.log(err);
   }
 };
-
 // Function to create (mint) new NFTs and uploads them to IPFS
 const mint = (tokenMetadata, media, contractName, numToMint) => {
   if (!isSignedin) return console.log("sign in first");
@@ -235,7 +223,6 @@ const mint = (tokenMetadata, media, contractName, numToMint) => {
     })
     .catch((err) => console.log(err));
 };
-
 // Function to burn (permanently remove) existing NFTs
 const nftBurn = (tokenIds, contractName) => {
   if (!isSignedin) return console.log("sign in first");
@@ -258,7 +245,6 @@ const nftBurn = (tokenIds, contractName) => {
     console.log(err);
   }
 };
-
 // Function to approve an NFT for listing on a marketplace with a specific price
 const nftApprove = (tokenId, contractName, price, isTestnet) => {
   if (!isSignedin) return console.log("sign in first");
@@ -289,7 +275,6 @@ const nftApprove = (tokenId, contractName, price, isTestnet) => {
     },
   ]);
 };
-
 return {
   deployStore,
   getTokenById,
