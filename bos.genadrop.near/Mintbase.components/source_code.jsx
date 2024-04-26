@@ -4,7 +4,6 @@ const { ListRowContent } = VM.require(
   "bos.genadrop.near/widget/Mintbase.ListRowContent"
 );
 const { MbAction } = VM.require("bos.genadrop.near/widget/Mintbase.MbAction");
-
 const { MbArrowMenu } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbArrowMenu"
 );
@@ -17,11 +16,9 @@ const { MbCheckbox } = VM.require(
 const { MbDropdownHoverMenu } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbDropdownHoverMenu"
 );
-
 const { MbInfoCard } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbInfoCard"
 );
-
 const { MbModal } = VM.require("bos.genadrop.near/widget/Mintbase.MbModal");
 const { MbNetworkMenu } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbNetworkMenu"
@@ -49,7 +46,6 @@ const {
   getCharsCounterSize,
   getInputLabelFontType,
 } = VM.require("bos.genadrop.near/widget/Mintbase.Theme");
-
 const { MbRoutes, MbFooterRoutes } = VM.require(
   "bos.genadrop.near/widget/Mintbase.App.Navbar.NavRoutes"
 );
@@ -72,11 +68,7 @@ const { MbRoutes, MbFooterRoutes } = VM.require(
 //   "bos.genadrop.near/widget/Mintbase.MbDropdownMenu"
 // );
 // const { MbIcon } = VM.require("bos.genadrop.near/widget/Mintbase.MbIcon");
-
-const { LinkTree } = VM.require(
-  "bos.genadrop.near/widget/Mintbase.MbLinkTree"
-);
-
+const { LinkTree } = VM.require("bos.genadrop.near/widget/Mintbase.MbLinkTree");
 return {
   //   MbChip,
   ListRowContent,
