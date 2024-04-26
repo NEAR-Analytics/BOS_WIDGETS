@@ -4,14 +4,6 @@ const blockHeight = props.blockHeight;
 
 const creator = creatorId.replace(/\.[^\.]*$/, "");
 
-const metadata =
-  props.metadata ?? Social.getr(`${src}/metadata`, `${blockHeight}`);
-
-const name = metadata.name ?? "Index";
-const image = metadata.image;
-
-const displayName = metadata.name || src;
-
 const stars = Social.get(
   `*/graph/star/${creatorId}/${type}/${thingId}`,
   "final"
