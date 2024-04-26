@@ -248,24 +248,7 @@ useEffect(() => {
   setSelectedToken({ value: token_contract } || {});
   setAirdropFee(airdropFee || 0);
   setAirdropTotalAmount(totalAmount || 0);
-}, [Storage.get("airdropData")]);
 
-useEffect(() => {
-  console.log("Storage.get('airdropData')", Storage.get("airdropData"));
-  const response = asyncFetch(`${API_URL}/api/project/get_token_list`, {
-    method: "POST",
-    body: JSON.stringify({
-      accountId,
-    }),
-
-    headers: {
-      "Content-Type": "application/json",
-      "x-auth-token": TOKEN,
-    },
-  });
-  response.then(({ body }) => {
-    setTokenList(body.data);
-  });
   console.log(props.transactionHashes, Storage.get("airdropData"));
   if (props.transactionHashes && Storage.get("airdropData")) {
     asyncFetch("https://rpc.mainnet.near.org", {
@@ -324,6 +307,24 @@ useEffect(() => {
       }
     });
   }
+}, [Storage.get("airdropData")]);
+
+useEffect(() => {
+  console.log("Storage.get('airdropData')", Storage.get("airdropData"));
+  const response = asyncFetch(`${API_URL}/api/project/get_token_list`, {
+    method: "POST",
+    body: JSON.stringify({
+      accountId,
+    }),
+
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": TOKEN,
+    },
+  });
+  response.then(({ body }) => {
+    setTokenList(body.data);
+  });
 }, []);
 
 return (
