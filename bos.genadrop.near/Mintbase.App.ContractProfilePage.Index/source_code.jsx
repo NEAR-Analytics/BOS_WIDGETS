@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = props.accountId ?? "secondjiku.mintspace2.testnet";
 const isConnected = context.accountId === accountId;
 const { MbModal, LinkTree } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
@@ -10,6 +10,11 @@ const { MbInputField } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbInput"
 ) || {
   MbInputField: () => <></>,
+};
+const { getCombinedStoreData } = VM.require(
+  "bos.genadrop.near/widget/Mintbase.utils.sdk"
+) || {
+  getCombinedStoreData: () => {},
 };
 const actualTabs = {
   tabLabels: [
@@ -28,24 +33,12 @@ const tabProps = { tabLabels: hiddenTabs };
 console.log("tabProps", tabProps);
 const [selectedTab, setSelectedTab] = useState(props.tab ?? "owned");
 const [open, setOpen] = useState(false);
-const [sdk, setSDK] = useState(false);
-const [storeName, setStoreName] = useState("");
-const [storeSymbol, setStoreSymbol] = useState("");
 const [showOwnedFilters, setShowOwnedFilters] = useState(true);
-const [profile, setProfile] = useState(null);
+const [storeData, setStoredata] = useState(null);
 const isDarkModeOn = props.isDarkModeOn ?? false;
 const handleTabClick = (index) => {
   setSelectedTab(index);
   // console.log("selectedTab from Mine: ", selectedTab);
-};
-const onStoreNameChange = useCallback((e) => {
-  console.log("onStoreNameChange", e.target.value);
-  setStoreName(e.target.value);
-}, []);
-const handleDeploy = () => {
-  console.log("handleDeploy", storeName, storeSymbol);
-  // console.log("sdk", sdk);
-  sdk.deployStore(storeName, storeSymbol);
 };
 // console.log("tabProps", tabProps);
 const Card = styled.div`
@@ -58,30 +51,6 @@ const Card = styled.div`
   }
   .content_main {
     padding: 24px 48px;
-  }
-  * {
-    margin: 0;
-    padding: 0;
-  }
-`;
-const CreateStore = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .bottom-buttons {
-    display: flex;
-    position: absolute;
-    bottom: 48px;
-    right: 24px;
-    width: calc(100% - 48px);
-    justify-content: space-between;
-    align-items: center;
   }
 `;
 const ImageSection = styled.div`
@@ -231,19 +200,20 @@ const createStoreHandler = () => {
   setOpen(true);
 };
 useEffect(() => {
-  asyncFetch(`https://api.mintbase.xyz/accounts/${accountId}`, {
-    method: "GET",
-    headers: {
-      "mb-api-key": "omni-site",
-      "Content-Type": "application/json",
-      "x-hasura-role": "anonymous",
-    },
-  }).then((data) => {
-    if (data.body) {
-      const parseData = data.body;
-      setProfile(parseData);
-    }
-  });
+  getCombinedStoreData({ id: accountId, limit, offset })
+    .then(({ data, errors }) => {
+      if (errors) {
+        // handle those errors like a pro
+        console.error(errors);
+      }
+      // do something great with this precious data
+      console.log({ storeData: data });
+      setStoredata(data.storeData);
+    })
+    .catch((error) => {
+      // handle errors from fetch itself
+      console.error(error);
+    });
 }, []);
 const details = [
   { name: "Tokens", value: "1075" },
@@ -253,12 +223,15 @@ const details = [
   { name: "Transactions", value: "1776" },
   { name: "Last Activity", value: "3 hours ago" },
 ];
-console.log("profile", profile);
+console.log("profile", storeData);
 const PageContent = () => {
   switch (selectedTab) {
     case "nfts":
       return (
-        <Widget src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractNFTs" />
+        <Widget
+          src="bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.ContractNFTs"
+          props={{ contractId: accountId, isDarkModeOn }}
+        />
       );
     case "minted":
       return (
@@ -392,7 +365,7 @@ return (
       <div className="owner-details-main">
         <TopContent>
           <h1>
-            {profile.displayName || profile.name}
+            {storeData.nft_contracts.name || accountId || "Store Name"}
             {/* {verifiedBatch} */}
           </h1>
           <div className="contents">
