@@ -1,19 +1,26 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const { AspectRatioRoot } = VM.require(
-  "beachsunandrockandroll.near/widget/aspectRatio"
-);
+const { Badge } = VM.require("beachsunandrockandroll.near/widget/badge");
 
-if (Tailwind === undefined) return <></>;
+State.init({
+  cnBadge: "",
+});
+
+if (["", "loaded"].includes(state.cnBadge))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/badgeIframe"
+      props={{
+        output: (cnBadge) => State.update({ cnBadge }),
+        variant: "destructive"
+      }}
+    />
+  );
 
 return (
   <Tailwind>
-    <AspectRatioRoot ratio={16 / 9} className="bg-muted">
-      <img
-        src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
-        alt="Photo by Drew Beamer"
-        className="rounded-md object-cover"
-      />
-    </AspectRatioRoot>
+    <div className="flex mx-auto w-max h-screen pt-10">
+      <Badge className={state.cnBadge}>Badge</Badge>
+    </div>
   </Tailwind>
 );
