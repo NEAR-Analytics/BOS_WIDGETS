@@ -1,15 +1,11 @@
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const { options, isOpen, isInline, onOptionChange } = props;
-
 const menuCustomStyle = props.menuCustomStyle || "";
 const itemCustomStyle = props.itemCustomStyle || "";
 const mode = props.mode || Storage.get("mode");
-
 const isDarkModeOn = mode === "dark";
-
 const NetworkMenu = styled.div`
   .network-menu {
     overflow: hidden;
@@ -31,7 +27,6 @@ const NetworkMenu = styled.div`
     &.no-scrollbar::-webkit-scrollbar {
       display: none;
     }
-
     &.no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -62,7 +57,6 @@ const NetworkMenu = styled.div`
     }
   }
 `;
-
 if (!isOpen) return null;
 const MbNetworkMenu = () => {
   return (
@@ -89,5 +83,4 @@ const MbNetworkMenu = () => {
     </NetworkMenu>
   );
 };
-
 return { MbNetworkMenu };
