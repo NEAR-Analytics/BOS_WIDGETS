@@ -92,7 +92,7 @@ function getNode(path, type) {
 const node = getNode(state.path, state.type);
 
 return (
-  <div>
+  <div className="p-3 border bg-light">
     <label htmlFor="pathInput" style={{ marginRight: "10px" }}>
       Enter account name:
     </label>
