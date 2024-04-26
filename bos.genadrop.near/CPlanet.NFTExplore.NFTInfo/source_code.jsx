@@ -22,9 +22,7 @@ const arrow = (
     />
   </svg>
 );
-
 const Root = styled.div``;
-
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,11 +41,9 @@ const Header = styled.div`
     line-height: 160%; /* 25.6px */
   }
 `;
-
 const Body = styled.div`
   margin-top: 23px;
 `;
-
 const Row = styled.a`
   display: flex;
   justify-content: space-between;
@@ -56,7 +52,6 @@ const Row = styled.a`
   margin-bottom: 10px;
   align-items: center;
 `;
-
 const ImageSec = styled.div`
   display: flex;
   align-items: center;
@@ -81,7 +76,6 @@ const ImageSec = styled.div`
     }
   }
 `;
-
 const PriceSec = styled.div`
   h1 {
     color: #000;
@@ -108,14 +102,12 @@ const PriceSec = styled.div`
     height: 12px;
   }
 `;
-
 const Image = styled.div`
   width: 45px;
   height: 45px;
   border-radius: 22.5px;
   background: #000;
 `;
-
 const About = styled.div`
   padding-left: 30px;
   h1 {
@@ -165,13 +157,11 @@ const About = styled.div`
     line-height: 148%;
   }
 `;
-
 const TabHeight = styled.div`
   height: 280px;
   overflow-y: scroll;
   margin-bottom: 20px;
 `;
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=${
@@ -184,13 +174,10 @@ const getUsdValue = (price) => {
     return value !== "NaN" ? `$${value.toFixed(3)}` : 0;
   }
 };
-
 const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
-
 initState({
   tab: "HISTORY",
 });
-
 const currentChainProps = {
   near: {
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
@@ -246,10 +233,8 @@ const currentChainProps = {
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
 };
-
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
 return (
   <Root>
     <Header>
