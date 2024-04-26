@@ -130,13 +130,11 @@ if (target.id === 81457) {
     if (wethPRes) {
       pRes = wethPRes.then(() => {
         return signer.sendTransaction(params).then(tx => {
-          console.log('tx:', tx)
           return tx.wait()
         })
       })
     } else {
       pRes = signer.sendTransaction(params).then(tx => {
-        console.log('tx:', tx)
         return tx.wait()
       })
     }
@@ -161,7 +159,6 @@ if (target.id === 81457) {
   }
 
   pRes.then(res => {
-    console.log('res: ', res)
     onSuccess(res);
   }).catch(err => {
     console.log('err:', err)
@@ -183,7 +180,6 @@ if (target.id === 81457) {
     }
 
     pRes = signer.sendTransaction(params).then(tx => {
-      console.log('tx:', tx)
       nonce = tx.nonce
       return tx.wait()
     })
@@ -208,11 +204,10 @@ if (target.id === 81457) {
 
   pRes.then(res => {
     blockNumber = res.blockNumber
-    console.log('res', res)
-    Storage.privateSet(res.transactionHash, {
-      nonce,
-      blockNumber,
-    });
+    // Storage.privateSet(res.transactionHash, {
+    //   nonce,
+    //   blockNumber,
+    // });
     onSuccess(res);
   }).catch(err => {
     onError(err);
