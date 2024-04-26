@@ -1,23 +1,18 @@
 const accountId = props.accountId || "bos.genadrop.near";
-
 const { disabled, label, value, id, checked, ref, onChange } = props;
 const { getFontType } = VM.require(`${accountId}/widget/Mintbase.Theme`);
 const mode = props.mode || Storage.get("mode");
-
 const IsDarkModeOn = mode === "dark";
-
 const RadioButton = styled.div`
   display: flex;
   align-items: center;
   display: inline-block;
   position: relative;
   padding: 0 6px;
-
   input[type="radio"] {
     display: none;
     cursor: pointer;
   }
-
   label:before {
     content: " ";
     display: inline-block;
@@ -29,13 +24,11 @@ const RadioButton = styled.div`
     cursor: pointer;
     top: 5px;
   }
-
   input[type="radio"]:checked + label:before {
     border-color: ${isDarkModeOn
       ? "#A5B4FC"
       : "#93C5FD"}; /* border-blue-300 or border-blue-100 */
   }
-
   input[type="radio"]:checked + label:after {
     content: " ";
     display: block;
@@ -51,7 +44,6 @@ const RadioButton = styled.div`
     top: 9px;
     left: 10px;
   }
-
   &disabled label:before,
   &disabled input[type="radio"]:checked + label:before {
     border-color: ${isDarkModeOn
@@ -59,7 +51,6 @@ const RadioButton = styled.div`
       : "#E5E7EB"}; /* border-gray-150 or border-gray-800 */
     cursor: not-allowed;
   }
-
   &.disabled input[type="radio"]:checked + label:after {
     border-color: ${isDarkModeOn
       ? "#374151"
@@ -69,12 +60,10 @@ const RadioButton = styled.div`
       : "#E5E7EB"}; /* bg-gray-150 or bg-gray-800 */
     cursor: not-allowed;
   }
-
   &disabled input[type="radio"],
   &disabled span {
     cursor: not-allowed;
   }
-
   .labelText {
     ${getFontType("medium")};
     padding-left: 1rem;
@@ -82,7 +71,6 @@ const RadioButton = styled.div`
     cursor: pointer;
   }
 `;
-
 const MbRadioButton = () => {
   return (
     <RadioButton>
@@ -101,5 +89,4 @@ const MbRadioButton = () => {
     </RadioButton>
   );
 };
-
 return { MbRadioButton };
