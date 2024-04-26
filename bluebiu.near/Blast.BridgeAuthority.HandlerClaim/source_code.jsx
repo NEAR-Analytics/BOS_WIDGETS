@@ -159,9 +159,7 @@ function handleProve(hash) {
   });
 
   getProveData(hash, account).then(body => {
-    console.log('body: ', body)
     signer.sendTransaction(body).then(tx => {
-      console.log('tx:', tx)
       // Storage.privateSet(tx.hash, tx);
       return tx.wait()
     }).then(res => {
@@ -204,9 +202,7 @@ function handleWithdraw() {
   });
 
   getWithdrawData(hash, account).then(body => {
-    console.log('body: ', body)
     signer.sendTransaction(body).then(tx => {
-      console.log('tx:', tx)
       // Storage.privateSet(tx.hash, tx);
       return tx.wait()
     }).then(res => {
@@ -249,9 +245,7 @@ function handleClaimUSDB() {
   });
 
   getCliamUSDBData(hash, account).then(body => {
-    console.log('body: ', body)
     signer.sendTransaction(body).then(tx => {
-      console.log('tx:', tx)
       // Storage.privateSet(tx.hash, tx);
       return tx.wait()
     }).then(res => {
@@ -285,13 +279,11 @@ function handleClaimUSDB() {
 
 function getAllStatus(txs) {
   if (txs && !state.isLoading) {
-
     State.update({
       isLoading: true
     })
     const pArray = []
     let needFold = true
-    let proccessSum = 0
     pArray = Object.keys(txs).map(key => {
       const currentTx = txs[key]
       if (!currentTx.status) {
@@ -331,7 +323,6 @@ function getAllStatus(txs) {
       } else {
         currentTx.status = 2
       }
-
     })
 
     Promise.all(pArray).then((res) => {
@@ -339,6 +330,9 @@ function getAllStatus(txs) {
       if (txList.length) {
         Storage.privateSet("blast_claim_txs", txs);
       }
+
+      const proccessSum = txList.filter(item => item.status !== 2).length
+
       State.update({
         txsUpdated: txList,
         isFold: needFold,
@@ -367,8 +361,10 @@ useEffect(() => {
     getAllStatus(txs)
   }, 10000)
 
-  clearInterval(inter)
-}, [])
+  return () => {
+    clearInterval(inter)
+  }
+}, [txs])
 
 
 return <Transactions>
