@@ -20,10 +20,7 @@ return (
     <div className="m-2">
       <span>
         {context.accountId && (
-          <Widget
-            src="toolbelt.near/widget/star.button"
-            props={{ path: src }}
-          />
+          <Widget src="hack.near/widget/star.button" props={{ path: src }} />
         )}
       </span>
       <span className="ms-2">{accounts.length} stars</span>
