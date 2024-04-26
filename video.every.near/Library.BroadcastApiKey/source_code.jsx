@@ -31,11 +31,10 @@ const PreviewContent = styled.div`
 const WidgetCode = `
 \`\`\`js
 <Widget
-src={"efiz.near/widget/Livepeer.Player"}
+src={"efiz.near/widget/Broadcast.ApiKey"}
 props={{
-  title: "Original Keyboard Cat!",
-  playbackId: "8b3bdqjtdj4jsjwa",
-  PosterImage: <img src="https://example.com" alt={"Original Keyboard Cat!"} />
+  automated: true,
+  apiKey: "8b3bdqjtdj4jsjwa",
 }}
 />
 \`\`\`
@@ -77,6 +76,9 @@ const PropertiesContent = styled.div`
     overflow: hidden;
   }
 `;
+const MonospaceText = styled.span`
+  font-family: monospace;
+`;
 return (
   <Container>
     <div>
@@ -101,11 +103,84 @@ return (
     </div>
     <div>
       <Heading>Description</Heading>
-      <p>This component...</p>
+      <p>This component allow you to set the Livepeer Studio api key.</p>
     </div>
     <UsageContent>
       <Heading>Usage</Heading>
       <Markdown text={WidgetCode} />
+    </UsageContent>
+    <UsageContent>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Property
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Type
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              Default value
+            </th>
+            <th
+              style={{
+                fontWeight: 600,
+              }}
+            >
+              This component enables the configuration of the Livepeer Studio
+              API key.
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              style={{
+                fontFamily: "monospace",
+              }}
+            >
+              automated
+            </td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>
+              When automated, this component operates without a user interface
+              and automatically configures the
+              <MonospaceText>apiKey</MonospaceText> in the
+              <MonospaceText>Broadcast.Player</MonospaceText>
+              component using the specified{" "}
+              <MonospaceText>apiKey</MonospaceText> property.
+            </td>
+          </tr>
+          <tr>
+            <td
+              style={{
+                fontFamily: "monospace",
+              }}
+            >
+              apiKey
+            </td>
+            <td>string</td>
+            <td>""</td>
+            <td>
+              Value of the <MonospaceText>apiKey</MonospaceText> as configured
+              by the component.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </UsageContent>
   </Container>
 );
