@@ -2,7 +2,6 @@ const CustomFilter = styled.div`
   position: relative;
   display: inline-block;
   z-index: 999;
-
   .filter__select {
     position: relative;
     cursor: pointer;
@@ -13,7 +12,6 @@ const CustomFilter = styled.div`
     min-width: 100px;
     color: #fff;
   }
-
   .filter__selected {
     display: flex;
     justify-content: space-between;
@@ -26,7 +24,6 @@ const CustomFilter = styled.div`
       padding-left: 5px;
     }
   }
-
   .filter__options {
     position: absolute;
     top: 98%;
@@ -39,70 +36,62 @@ const CustomFilter = styled.div`
     display: none;
     color: #000;
   }
-
   .filter__options.open {
     display: block;
   }
-
   .filter__option {
     padding: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
-
     &:hover {
-        opacity: 0.5;
+      opacity: 0.5;
     }
-
     &.selected {
       background-color: #333;
     }
   }
 `;
-
 State.init({
-    selectIsOpen: false,
-    selectedChain: "0",
-    initialOpen: false,
+  selectIsOpen: false,
+  selectedChain: "0",
+  initialOpen: false,
+});
+const handleSelectClick = () => {
+  State.update({
+    selectIsOpen: !state.selectIsOpen,
+    initialOpen: true,
   });
-  const handleSelectClick = () => {
-    State.update({
-      selectIsOpen: !state.selectIsOpen,
-      initialOpen: true,
-    });
-  }
+};
 const options = [
-    { value: "A-Z", label: "A-Z" },
-    { value: "Z-A", label: "Z-A" },
-    { value: "Oldest", label: "Oldest" },
-    { value: "Latest", label: "Latest" },
-]
-
-
-  return (
-    <CustomFilter className={state.selectIsOpen ? "open" : ""}>
-      <div className={"filter__select"} onClick={handleSelectClick}>
-        <div className="filter__selected">
-          {props?.selectedOption && state.initialOpen ? (
-            <p>{props?.selectedOption}</p>
-          ) : (
-            "Filter"
-          )}
-          <img src="https://ipfs.near.social/ipfs/bafkreieqdxxr3fxbtsew2tnzi3m5kixh5s55oyn6ylkw4ozfiroegyc7ui" />
-        </div>
-        <div className={`filter__options ${state.selectIsOpen ? "open" : ""}`}>
-          {options.map((option) => (
-            <div
-              key={option.value}
-              className={`filter__option ${
-                selectedOption === option.value ? "selected" : ""
-              }`}
-              onClick={() => props?.onChange(option.value)}
-            >
-              <p>{option.label}</p>
-            </div>
-          ))}
-        </div>
+  { value: "A-Z", label: "A-Z" },
+  { value: "Z-A", label: "Z-A" },
+  { value: "Oldest", label: "Oldest" },
+  { value: "Latest", label: "Latest" },
+];
+return (
+  <CustomFilter className={state.selectIsOpen ? "open" : ""}>
+    <div className={"filter__select"} onClick={handleSelectClick}>
+      <div className="filter__selected">
+        {props?.selectedOption && state.initialOpen ? (
+          <p>{props?.selectedOption}</p>
+        ) : (
+          "Filter"
+        )}
+        <img src="https://ipfs.near.social/ipfs/bafkreieqdxxr3fxbtsew2tnzi3m5kixh5s55oyn6ylkw4ozfiroegyc7ui" />
       </div>
-    </CustomFilter>
-  );
-
+      <div className={`filter__options ${state.selectIsOpen ? "open" : ""}`}>
+        {options.map((option) => (
+          <div
+            key={option.value}
+            className={`filter__option ${
+              selectedOption === option.value ? "selected" : ""
+            }`}
+            onClick={() => props?.onChange(option.value)}
+          >
+            <p>{option.label}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </CustomFilter>
+);
