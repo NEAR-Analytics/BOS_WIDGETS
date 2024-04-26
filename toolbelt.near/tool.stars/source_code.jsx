@@ -12,12 +12,6 @@ const image = metadata.image;
 
 const displayName = metadata.name || src;
 
-const profile = Social.getr(`${creatorId}/profile`);
-
-if (!profile) {
-  return "";
-}
-
 const stars = Social.get(
   `*/graph/star/${creatorId}/${type}/${thingId}`,
   "final"
