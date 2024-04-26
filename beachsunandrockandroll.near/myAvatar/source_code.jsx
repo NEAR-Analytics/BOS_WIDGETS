@@ -12,14 +12,13 @@ if (["", "loaded"].includes(state.cnBadge))
       src="beachsunandrockandroll.near/widget/badgeIframe"
       props={{
         output: (cnBadge) => State.update({ cnBadge }),
-        variant: "destructive"
       }}
     />
   );
 
 return (
   <Tailwind>
-    <div className="flex mx-auto w-max h-screen pt-10">
+    <div className="flex mx-auto w-max pt-10">
       <Badge className={state.cnBadge}>Badge</Badge>
     </div>
   </Tailwind>
