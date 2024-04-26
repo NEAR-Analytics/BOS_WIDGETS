@@ -1,16 +1,12 @@
 const accountId = props.accountId || "bos.genadrop.near";
-
 // const { disabled, label, value, id, checked, ref, onChange } = props;
 const { getFontType } = VM.require(`${accountId}/widget/Mintbase.Theme`);
-
 const { disabled, label, value, id, onChange, isDarkModeOn } = props;
-
 const SwitchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `;
-
 const Switch = styled.div`
   position: relative;
   display: inline-block;
@@ -47,9 +43,7 @@ const Switch = styled.div`
     z-index: 1;
   }
 `;
-
 const [checked, setChecked] = useState(false);
-
 return (
   <SwitchContainer>
     <Switch>
