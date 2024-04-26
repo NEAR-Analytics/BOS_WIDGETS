@@ -332,11 +332,9 @@ function getAllStatus(txs) {
         currentTx.status = 2
       }
 
-      console.log('txs1: ', txs)
     })
 
     Promise.all(pArray).then((res) => {
-      console.log('txs2: ', txs)
       const txList = Object.values(txs)
       if (txList.length) {
         Storage.privateSet("blast_claim_txs", txs);
@@ -363,6 +361,14 @@ function getAllStatus(txs) {
 useEffect(() => {
   getAllStatus(txs)
 }, [txs])
+
+useEffect(() => {
+  const inter = setInterval(() => {
+    getAllStatus(txs)
+  }, 10000)
+
+  clearInterval(inter)
+}, [])
 
 
 return <Transactions>
