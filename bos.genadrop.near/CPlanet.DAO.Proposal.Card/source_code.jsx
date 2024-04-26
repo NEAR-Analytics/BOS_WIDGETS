@@ -43,7 +43,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const User = styled.div`
   display: flex;
   flex-direction: column;
@@ -129,7 +128,6 @@ const User = styled.div`
     }
   }
 `;
-
 const Proposer = styled.div`
   width: 100%;
   .user {
@@ -214,7 +212,6 @@ const Proposer = styled.div`
     }
   }
 `;
-
 const Submission = styled.div`
   display: flex;
   width: 100%;
@@ -240,7 +237,6 @@ const Submission = styled.div`
     }
   }
 `;
-
 return (
   <Root>
     <div className="head">
