@@ -6,7 +6,7 @@ const DesktopRow = styled.div`
   display: flex;
   padding: 16px;
   align-items: center;
-  gap: 72px;
+  gap: 35px;
   align-self: stretch;
   border-bottom: 1px solid #e3e3e0;
 
@@ -120,15 +120,19 @@ const DaoName = styled.div`
 
 const TRESHOLD = 75;
 
-const dappUsedPercentage = (value) =>
-  parseFloat(value / Math.max(...dataSet.map((d) => d.dappsUsed))) * 100;
+const maxPercentage = (value, field) =>
+  parseFloat(value / Math.max(...dataSet.map((d) => d[field] ?? 0))) * 100;
 
-const getPercentage = (min, max) => parseFloat(min / max) * 100;
+const getPercentage = (min, max) => {
+  const res = parseFloat(min / max) * 100;
+
+  return res > 1 ? 100 : res;
+};
 
 const formatValue = (value) => {
-  const val = value ? parseFloat(value) : null;
+  const val = value ? parseFloat(value) : value === 0 ? 0 : null;
 
-  if (!val) return "n/a";
+  if (val === null) return "—";
 
   return val >= 1000000000
     ? `${parseFloat(val / 1000000000).toFixed(2)}B`
@@ -175,7 +179,10 @@ const MobileCell = ({ title, value, width, color }) => (
 return (
   <Container>
     {dataSet.map(
-      ({ title, userRetentions, dappsUsed, acquisitionCost }, index) => (
+      (
+        { title, userRetentions, dappsUsed, acquisitionCost, socialEngagement },
+        index
+      ) => (
         <>
           <DesktopRow>
             <DaoName>{title}</DaoName>
@@ -189,9 +196,9 @@ return (
               value={userRetentions}
             />
             <DesktopCell
-              width={dappUsedPercentage(dappsUsed)}
+              width={maxPercentage(dappsUsed, "dappsUsed")}
               color={
-                dappUsedPercentage(dappsUsed) >= TRESHOLD
+                maxPercentage(dappsUsed, "dappsUsed") >= TRESHOLD
                   ? "#51D38E"
                   : "#FC6F60"
               }
@@ -206,31 +213,62 @@ return (
               }
               value={acquisitionCost}
             />
+            <DesktopCell
+              width={maxPercentage(socialEngagement, "socialEngagement")}
+              color={
+                maxPercentage(socialEngagement, "socialEngagement") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={socialEngagement}
+            />
           </DesktopRow>
 
           <MobileRow>
             <DaoName>{title}</DaoName>
             <MobileCell
               title="User Retention"
-              width={getPercentage(userRetentions, 10, 2)}
-              color={userRetentions >= 1 ? "#51D38E" : "#FC6F60"}
+              width={getPercentage(userRetentions, 1)}
+              color={
+                getPercentage(userRetentions, 1) >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
               value={userRetentions}
             />
             <MobileCell
               title="DApp's Used"
-              width={getPercentage(dappsUsed, 10, 2)}
-              color={"#51D38E"}
+              width={maxPercentage(dappsUsed, "dappsUsed")}
+              color={
+                maxPercentage(dappsUsed, "dappsUsed") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
               value={dappsUsed}
             />
             <MobileCell
               title="Acquisition Cost"
-              width={getPercentage(acquisitionCost, 10, 2)}
-              color={acquisitionCost < 1 ? "#51D38E" : "#FC6F60"}
+              width={
+                acquisitionCost < 1 ? getPercentage(1 - acquisitionCost, 1) : 5
+              }
+              color={
+                acquisitionCost && (acquisitionCost < 1 ? "#51D38E" : "#FC6F60")
+              }
               value={acquisitionCost}
+            />
+            <MobileCell
+              title="Social Engagement"
+              width={maxPercentage(socialEngagement, "socialEngagement")}
+              color={
+                maxPercentage(socialEngagement, "socialEngagement") >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
+              value={socialEngagement}
             />
           </MobileRow>
         </>
-      ),
+      )
     )}
   </Container>
 );
