@@ -2,7 +2,6 @@ const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const baseApi = "https://api.pikespeak.ai";
 let voters = [];
-
 const CoADaoId = props.dev
   ? "coa.gwg-testing.near"
   : "congress-coa-v1.ndc-gwg.near";
@@ -13,10 +12,8 @@ const TCDaoId = props.dev
 const HoMDaoId = props.dev
   ? "hom.gwg-testing.near"
   : "congress-hom-v1.ndc-gwg.near";
-
 const isCongressDaoID =
   daoId === HoMDaoId || daoId === CoADaoId || daoId === TCDaoId;
-
 function fetchIsHuman(account) {
   const userSBTs = Near.view("registry.i-am-human.near", "is_human", {
     account: account,
@@ -31,7 +28,6 @@ function fetchIsHuman(account) {
   }
   return isHuman;
 }
-
 function fetchIsUserFollowed(account) {
   const followEdge = Social.keys(
     `${context.accountId}/graph/follow/${account}`,
@@ -42,7 +38,6 @@ function fetchIsUserFollowed(account) {
   );
   return Object.keys(followEdge || {}).length > 0;
 }
-
 function addNonVotedMembers() {
   if (!policy?.users) {
     return;
@@ -61,7 +56,6 @@ function addNonVotedMembers() {
     }
   });
 }
-
 function fetchVotes() {
   const res = fetch(`${baseApi}/daos/votes/${daoId}`, {
     method: "GET",
@@ -71,7 +65,6 @@ function fetchVotes() {
       "x-api-key": publicApiKey,
     },
   });
-
   if (res?.body?.length) {
     res?.body?.map((item) => {
       item.voters?.map((voterData) => {
@@ -101,7 +94,6 @@ function fetchVotes() {
     addNonVotedMembers();
   }
 }
-
 const processPolicy = (policy) => {
   const obj = {
     policy,
@@ -121,15 +113,12 @@ const processPolicy = (policy) => {
         if (!obj.users[user]) {
           obj.users[user] = [];
         }
-
         obj.users[user].push(role.name);
       });
     }
   });
-
   return obj;
 };
-
 function processCongressMembers(members) {
   let group = "";
   switch (daoId) {
@@ -139,7 +128,6 @@ function processCongressMembers(members) {
     case CoADaoId:
       group = "CoA Member";
       break;
-
     case TCDaoId:
       group = "Transparency Commission Member";
       break;
@@ -154,13 +142,11 @@ function processCongressMembers(members) {
     },
     everyone: {},
   };
-
   members?.members?.map((item) => {
     obj.users[item] = [group];
   });
   return obj;
 }
-
 const policy = isCongressDaoID
   ? useCache(
       () =>
@@ -180,29 +166,21 @@ const policy = isCongressDaoID
       daoId + "-processed_policy",
       { subscribe: false }
     );
-
 if (policy === null) return "";
-
 const EVERYONE = "Everyone";
-
 const rolesArray = Object.keys(policy?.roles ?? {});
-
 if (policy?.everyone?.permissions) {
   rolesArray = rolesArray.concat(EVERYONE);
 }
-
 const colorsArray = ["blue", "green", "pink", "red"];
-
 const RolesColor = rolesArray.map((item, i) => {
   return { color: colorsArray[i] ?? "", role: item };
 });
-
 const PermissionsPopover = ({ currentRole }) => {
   const permissions =
     currentRole === EVERYONE
       ? policy?.everyone?.permissions
       : policy?.roles?.[currentRole]?.permissions;
-
   return (
     <Widget
       src="nearui.near/widget/Layout.Popover"
@@ -224,7 +202,6 @@ const PermissionsPopover = ({ currentRole }) => {
     />
   );
 };
-
 const RoleTag = ({ roles, showIcon }) => {
   const tags = [];
   if (Array.isArray(roles)) {
@@ -251,16 +228,13 @@ const RoleTag = ({ roles, showIcon }) => {
   }
   return <div className="d-flex gap-2">{tags.map((i) => i)}</div>;
 };
-
 fetchVotes();
-
 State.init({
   daoUsers: Object.entries(policy.users).map(([key, data]) => ({
     name: key,
     tags: data,
   })),
 });
-
 const Root = styled.div`
     display: flex;
     align-items center;
@@ -270,7 +244,6 @@ const Root = styled.div`
       justify-content: center;
     }
 `;
-
 return (
   <Root>
     {state.daoUsers &&
