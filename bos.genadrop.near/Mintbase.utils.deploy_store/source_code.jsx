@@ -39,5 +39,4 @@ const deployStore = ({
     console.log(err);
   }
 };
-
 return { deployStore };
