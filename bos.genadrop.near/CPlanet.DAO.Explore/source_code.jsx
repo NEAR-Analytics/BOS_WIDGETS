@@ -12,7 +12,6 @@ const Root = styled.div`
     line-height: normal;
   }
 `;
-
 const NFTCards = styled.div`
   display: grid;
   gap: 15px;
@@ -21,7 +20,6 @@ const NFTCards = styled.div`
   padding: 20px 3rem 1rem 3rem;
   width: 100%;
 `;
-
 const NoNFTLoading = styled.div`
   width: 100%;
   min-height: 80vh;
@@ -29,7 +27,6 @@ const NoNFTLoading = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const TopNFTS = styled.div`
   display: flex;
   flex-direction: row;
@@ -37,7 +34,6 @@ const TopNFTS = styled.div`
   margin: 20px 0;
   overflow-x: scroll;
 `;
-
 const SearchSection = styled.div`
   margin-top: 48px;
   width: 100%;
@@ -45,7 +41,6 @@ const SearchSection = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const NoData = styled.div`
   min-height: 200px;
   display: flex;
@@ -53,7 +48,6 @@ const NoData = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 const Search = styled.div`
   margin-top: 32px;
   justify-content: center;
@@ -77,7 +71,6 @@ const Search = styled.div`
     line-height: 148%; /* 29.6px */
   }
 `;
-
 const Cards = styled.div`
   display: flex;
   flex-direction: row;
@@ -103,7 +96,6 @@ const FilterDropdown = styled.div`
   padding-top: 8px;
   margin-left: 10px;
 `;
-
 const Explore = styled.div`
   width: 100%;
   display: flex;
@@ -114,22 +106,19 @@ const Explore = styled.div`
   margin-left: auto;
   margin-right: auto;
 `;
-
 const NoResult = styled.div`
   font-size: 22px;
   color: #b0b0b0;
   text-align: center;
   font-weight: 600;
   text-transform: uppercase;
-`
-
+`;
 State.init({
   nftData: [],
   chain: "near",
   filteredNFTData: [],
   searchTerm: "",
 });
-
 const fetchDaos = () => {
   const res = fetch(
     "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-nft-contracts.json"
@@ -140,9 +129,7 @@ const fetchDaos = () => {
     });
   }
 };
-
 fetchDaos();
-
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
   const searched = state.nftData.filter((daos) => daos.daoId.includes(value));
@@ -151,7 +138,6 @@ const seachInputHandler = (e) => {
     filteredNFTData: searched,
   });
 };
-
 return (
   <Explore>
     <SearchSection>
@@ -168,49 +154,50 @@ return (
     </SearchSection>
     <Cards>
       <NFTCards>
-        {state.searchTerm === "" && state.nftData.length
-          ? state.nftData.map((data, index) => (
-              <div key={index}>
-                <Widget
-                  props={{
-                    daoId: data.daoId,
-                    daoContractId: data.contractId,
-                    onButtonClick: () =>
-                      props.update({
-                        tab: "daoProfile",
-                        daoId: data.daoId,
-                        daoContractId: data.contractId,
-                      }),
-                    isGateway: props.isGateway,
-                  }}
-                  src="bos.genadrop.near/widget/CPlanet.DAO.Card"
-                />
-              </div>
-            ))
-          : state?.filteredNFTData.length ? state.filteredNFTData.map((data, index) => (
-              <div key={index}>
-                <Widget
-                  props={{
-                    daoId: data.daoId,
-                    daoContractId: data.contractId,
-                    onButtonClick: () =>
-                      props.update({
-                        tab: "daoProfile",
-                        daoId: data.daoId,
-                        daoContractId: data.contractId,
-                      }),
-                      isGateway: props.isGateway,
-                  }}
-                  src="bos.genadrop.near/widget/CPlanet.DAO.Card"
-                />
-              </div>
-            )): (
-              <div>
-                  <NoResult>No Result Found</NoResult>
-              </div>
-            )}
+        {state.searchTerm === "" && state.nftData.length ? (
+          state.nftData.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  daoId: data.daoId,
+                  daoContractId: data.contractId,
+                  onButtonClick: () =>
+                    props.update({
+                      tab: "daoProfile",
+                      daoId: data.daoId,
+                      daoContractId: data.contractId,
+                    }),
+                  isGateway: props.isGateway,
+                }}
+                src="bos.genadrop.near/widget/CPlanet.DAO.Card"
+              />
+            </div>
+          ))
+        ) : state?.filteredNFTData.length ? (
+          state.filteredNFTData.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  daoId: data.daoId,
+                  daoContractId: data.contractId,
+                  onButtonClick: () =>
+                    props.update({
+                      tab: "daoProfile",
+                      daoId: data.daoId,
+                      daoContractId: data.contractId,
+                    }),
+                  isGateway: props.isGateway,
+                }}
+                src="bos.genadrop.near/widget/CPlanet.DAO.Card"
+              />
+            </div>
+          ))
+        ) : (
+          <div>
+            <NoResult>No Result Found</NoResult>
+          </div>
+        )}
       </NFTCards>
-     
     </Cards>
   </Explore>
 );
