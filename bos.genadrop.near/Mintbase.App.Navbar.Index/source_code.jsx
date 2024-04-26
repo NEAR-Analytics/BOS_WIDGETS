@@ -1,14 +1,10 @@
 const [isOpen, setIsOpen] = useState(false);
-
 const { getInputLabelFontType, getFontType, MbDropdownHoverMenu, MbArrowMenu } =
   VM.require("bos.genadrop.near/widget/Mintbase.components");
-
 const { isDarkModeOn, isHome } = props;
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const MbNavbar = styled.div`
   width: 100%;
   padding: 10px;
@@ -107,7 +103,6 @@ const Dropdown = styled.div`
         props.isDarkModeOn ? "#93C5FD" : "#93C5FD"};
     }
   }
-
   .left {
     display: flex;
     flex-direction: column;
@@ -128,7 +123,6 @@ const Dropdown = styled.div`
     align-items: flex-start;
   }
 `;
-
 const RouteButton = styled.a`
   text-decoration: none;
   display: flex;
@@ -166,11 +160,9 @@ const RouteButton = styled.a`
     ${getInputLabelFontType("big")}
   }
 `;
-
 const MobileNavOptions = styled.div`
   display: none;
   background-color: ${isOpen ? "#fff" : "transparent"};
-
   * {
     font-family: Helvetica Neue;
   }
@@ -178,7 +170,6 @@ const MobileNavOptions = styled.div`
     display: flex;
   }
 `;
-
 const MenuToggle = styled.div`
   padding: 5px;
   cursor: pointer;
@@ -186,7 +177,6 @@ const MenuToggle = styled.div`
     stroke: ${props.isDarkModeOn ? "#fff" : "#000"};
   }
 `;
-
 const dropdownStyle = `
   @media (max-width: 500px) {
     .menu-items {
@@ -196,11 +186,8 @@ const dropdownStyle = `
     }
   }
 `;
-
 const menuToggleHandler = () => setIsOpen(!isOpen);
-
 const { param } = props;
-
 const NavLink = ({ to, children, param }) => {
   if (param === "tab") {
     return (
@@ -234,7 +221,6 @@ const NavLink = ({ to, children, param }) => {
     );
   }
 };
-
 const Navbar = ({ routes }) => {
   return (
     <MbNavbar>
@@ -304,7 +290,6 @@ const Navbar = ({ routes }) => {
               </MenuToggle>
             </MobileNavOptions>
           </div>
-
           <div className="tabs">
             {routes &&
               Object.entries(routes)?.map(
@@ -410,5 +395,4 @@ const Navbar = ({ routes }) => {
     </MbNavbar>
   );
 };
-
 return <Navbar page={"explore"} routes={props.routes} {...props} />;
