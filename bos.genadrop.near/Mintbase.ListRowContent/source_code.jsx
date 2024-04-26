@@ -1,6 +1,5 @@
 const image = props.image || "";
 const text = props.text;
-
 const RowContent = styled.div`
   display: flex;
   gap: 2rem;
@@ -23,14 +22,12 @@ const RowContent = styled.div`
     font-weight: 900;
     font-size: 0.875rem; /* Assuming 14px */
     line-height: 1rem; /* Assuming 16px */
-
     @media (max-width: 640px) {
       font-size: 1rem; /* Assuming 16px */
       line-height: 1.125rem; /* Assuming 18px */
     }
   }
 `;
-
 const ListRowContent = () => {
   return (
     <RowContent>
@@ -41,5 +38,4 @@ const ListRowContent = () => {
     </RowContent>
   );
 };
-
 return { ListRowContent };
