@@ -19,7 +19,6 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
     }
   ).then((result) => result.body);
 }
-
 const operationsDoc = `
       query GetOpenOffersByAccount($account: String!, $limit: Int!, $offset: Int!) {
         nft_offers(
@@ -77,7 +76,6 @@ const operationsDoc = `
         }
       }
     `;
-
 function getOpenOffersByAccount({ account, limit, offset }) {
   return fetchGraphQL(operationsDoc, "GetOpenOffersByAccount", {
     account: account,
@@ -85,5 +83,4 @@ function getOpenOffersByAccount({ account, limit, offset }) {
     offset: offset ?? 0,
   });
 }
-
 return { getOpenOffersByAccount };
