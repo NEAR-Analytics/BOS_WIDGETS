@@ -6,29 +6,21 @@ const {
   isVerifiedToken,
   children,
 } = props;
-
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const mode = props.mode || Storage.get("mode");
-
 const isDarkModeOn = mode === "dark";
-
 const [isExpanded, setIsExapnded] = useState(isOpen);
-
 const toggle = () => {
   if (isFixedAccordion) return;
   console.log(isExpanded);
   setIsExapnded(!isExpanded);
 };
-
 // useEffect(() => {
 //   setIsExapnded(isOpen);
 // }, [isOpen]);
-
 let accordionStyleClass = "";
-
 if (!isFixedAccordion) {
   if (isExpanded) {
     accordionStyleClass = "expanded";
@@ -38,7 +30,6 @@ if (!isFixedAccordion) {
 } else {
   accordionStyleClass = "fixedAccordion";
 }
-
 const Accordion = styled.div`
   border-radius: 0.25rem;
   background-color: ${isDarkModeOn ? "var(--gray-850)" : "white"};
@@ -87,7 +78,6 @@ const Accordion = styled.div`
     }
   }
 `;
-
 const arrowCustomStyle = `
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -96,7 +86,6 @@ const arrowCustomStyle = `
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); 
   rotate: ${isExpanded ? "180deg" : ""};
 `;
-
 const MbAccordion = () => {
   return (
     <Accordion>
@@ -149,5 +138,4 @@ const MbAccordion = () => {
     </Accordion>
   );
 };
-
 return { MbAccordion };
