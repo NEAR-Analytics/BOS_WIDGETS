@@ -16,7 +16,6 @@ const Root = styled.div`
     }
   }
 `;
-
 const ImageSection = styled.div`
   height: 200px;
   width: 100%;
@@ -31,13 +30,11 @@ const ImageSection = styled.div`
     left: 20px;
   }
 `;
-
 const RightProfile = styled.div`
   margin-top: 104px;
   width: 250px;
   width: 315px;
   padding: 0 20px;
-
   .title {
     color: #000;
     font-family: Helvetica Neue;
@@ -105,7 +102,6 @@ const RightProfile = styled.div`
     }
   }
 `;
-
 const AmountSec = styled.div`
   max-width: 300px;
   width: 100%;
@@ -150,7 +146,6 @@ const AmountSec = styled.div`
     }
   }
 `;
-
 const Button = styled.div`
 width: 100%;
 display: flex;
@@ -179,7 +174,6 @@ margin-top: 10px;
     border-color: black;
   }
 `;
-
 const Tags = styled.div`
   display: flex;
   gap: 7px;
@@ -206,7 +200,6 @@ const Tags = styled.div`
     padding: 3px 10px;
   }
 `;
-
 const Tabs = styled.div`
   display: flex;
   height: 48px;
@@ -214,7 +207,6 @@ const Tabs = styled.div`
   margin-bottom: 28px;
   overflow: auto;
   scroll-behavior: smooth;
-
   @media (max-width: 1200px) {
     background: #f8f9fa;
     border-top: 1px solid #eceef0;
@@ -228,7 +220,6 @@ const Tabs = styled.div`
     overflow: scroll;
   }
 `;
-
 const TabsButton = styled.a`
   display: inline-flex;
   align-items: center;
@@ -244,11 +235,9 @@ const TabsButton = styled.a`
   outline: none;
   text-align: center;
   text-decoration: none !important;
-
   &:hover {
     color: #11181c;
   }
-
   &::after {
     content: "";
     display: ${(p) => (p.selected ? "block" : "none")};
@@ -263,15 +252,12 @@ const TabsButton = styled.a`
     font-size: 12px;
   }
 `;
-
 State.init({
   selectedTab: props.tab || "feed",
   toggle: false,
   joinRole: "",
 });
-
 const [councilMembers, setCouncilMembers] = useState({});
-
 const Contents = styled.div`
   display: flex;
   width: 100%;
@@ -283,14 +269,12 @@ const Contents = styled.div`
     flex-direction: column;
   }
 `;
-
 const MiddleContent = styled.div`
   width: 900px;
   @media (max-width: 900px) {
     width: 100%;
   }
 `;
-
 const MembersGroup = styled.div`
   margin-top: 40px;
   width: 220px;
@@ -310,11 +294,8 @@ const MembersGroup = styled.div`
     margin: 20px 0;
   }
 `;
-
 const profile = Social.get(`${daoId}/profile/**`, "final");
-
 const accounts = [daoId];
-
 // -- Smart Contract
 const policy = Near.view(daoId, "get_policy");
 let members = [];
@@ -326,14 +307,12 @@ policy?.roles?.length &&
   });
 members = [...new Set(members)];
 // --
-
 if (!policy)
   return (
     <div>
       <h2>Not a Valid DAO</h2>
     </div>
   );
-
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
@@ -343,7 +322,6 @@ function makeAccountIdShorter(accountId) {
 const background = profile.backgroundImage
   ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
-
 useEffect(() => {
   setCouncilMembers(
     policy.roles.filter(
@@ -351,14 +329,12 @@ useEffect(() => {
     )[0]?.kind?.Group
   );
 }, [policy]);
-
 const fetchApiConfig = {
   mode: "cors",
   headers: {
     "x-api-key": publicApiKey,
   },
 };
-
 const constructURL = (baseURL, paramObj) => {
   let params = "";
   for (const [key, value] of Object.entries(paramObj ?? {})) {
@@ -367,7 +343,6 @@ const constructURL = (baseURL, paramObj) => {
   params = params.slice(0, -1);
   return `${baseURL}?${params}`;
 };
-
 const fether = {
   balances: (accounts) => {
     return fetch(
@@ -382,7 +357,6 @@ const fether = {
     );
   },
 };
-
 const balances = fether.balances([daoId]);
 const shortenNumber = (n) => {
   if (n < 1e3) return n;
@@ -391,7 +365,6 @@ const shortenNumber = (n) => {
   if (n >= 1e9 && n < 1e12) return (n / 1e9).toFixed(1) + "b";
   if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
 };
-
 // Account follows you:
 const accountFollowsYouData = Social.keys(
   `${context.accountId}/graph/follow/${daoId}`,
@@ -401,7 +374,6 @@ const accountFollowsYouData = Social.keys(
   }
 );
 const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
-
 function followUser(user, isFollowing) {
   if (isFollowing) return;
   const dataToSend = {
@@ -426,7 +398,6 @@ function followUser(user, isFollowing) {
     force: true,
   });
 }
-
 const onAddUserProposal = (memberId, roleId) => {
   Near.call([
     {
@@ -448,7 +419,6 @@ const onAddUserProposal = (memberId, roleId) => {
     },
   ]);
 };
-
 return (
   <Root>
     <ImageSection
@@ -510,7 +480,6 @@ return (
           >
             {accountFollowsYou ? "Following" : "Follow"}
           </button>
-
           <Widget
             src="astraplusplus.ndctools.near/widget/Layout.Modal"
             props={{
