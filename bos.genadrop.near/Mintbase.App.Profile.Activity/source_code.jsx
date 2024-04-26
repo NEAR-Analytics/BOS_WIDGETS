@@ -4,15 +4,11 @@ const color = props.color || "#c2cdfd";
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { isDarkModeOn, accountId } = props;
-
 const [data, setData] = useState(null);
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
 const [page, setPage] = useState(0);
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
@@ -21,11 +17,9 @@ const _address = (address, _limit) => {
 const YoctoToNear = (amountYocto) => {
   return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
 };
-
 const { getTimePassed } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.sdk"
 );
-
 const fetchMyActivity = (user, offset, limit) => {
   return asyncFetch("https://graph.mintbase.xyz", {
     method: "POST",
@@ -73,7 +67,6 @@ const fetchMyActivity = (user, offset, limit) => {
     }),
   });
 };
-
 useEffect(() => {
   fetchMyActivity(accountId || "jgodwill.near", 0, 100).then((data) => {
     setData(data);
@@ -81,12 +74,10 @@ useEffect(() => {
 }, []);
 const nft_activities = data?.body?.data?.mb_views_nft_activities;
 if (!nft_activities) return "Loading ...";
-
 const Root = styled.div`
   width: 100%;
   overflow: hidden;
 `;
-
 const Container = styled.div`
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
   display: flex;
@@ -94,12 +85,10 @@ const Container = styled.div`
   overflow-x: scroll; /* Prevent horizontal overflow */
   margin: 10px;
   border-radius: 4px;
-
   @media (max-width: 500px) {
     width: 100vw;
     font-size: 12px;
   }
-
   .topic_line {
     display: flex;
     justify-content: space-between;
@@ -114,7 +103,6 @@ const Container = styled.div`
       font-weight: 600;
     }
   }
-
   .header {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -123,7 +111,6 @@ const Container = styled.div`
     padding: 0.5rem 0;
     color: ${isDarkModeOn ? "#B3B5BD" : "#404252"};
     margin-bottom: 1rem;
-
     ${getInputLabelFontType("big")}
     font-weight: 500px;
     div {
@@ -133,7 +120,6 @@ const Container = styled.div`
     }
     ${cursomStyle}
   }
-
   .trx-row {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 3fr));
@@ -145,7 +131,6 @@ const Container = styled.div`
     &:last-of-type {
       border-bottom-color: transparent;
     }
-
     a {
       text-decoration: none;
     }
@@ -209,7 +194,6 @@ const Container = styled.div`
       border-radius: 2px;
       text-transform: uppercase;
     }
-
     .time {
       display: flex;
       align-items: center;
@@ -230,7 +214,6 @@ const Container = styled.div`
       }
     }
   }
-
   .price {
     display: flex;
     gap: 4px;
@@ -241,7 +224,6 @@ const Container = styled.div`
       width: 14px;
     }
   }
-
   @media (max-width: 500px) {
     .header,
     .trx-row {
@@ -249,7 +231,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const Trx = styled.div``;
 const kindColor = {
   list: "#8c4fe5",
@@ -363,7 +344,6 @@ return (
                     ),
                   }}
                 />
-
                 <div>
                   {" "}
                   {activity.price ? (
