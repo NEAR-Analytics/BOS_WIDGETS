@@ -9,15 +9,11 @@ const [open, setOpen] = useState(true);
 const { cssColors, colors, typographyClasses } = VM.require(
   `${accountId}/widget/Mintbase.Theme`
 );
-
 const isDarkModeOn = mode === "dark";
-
 const tabs = ["Preview", "Docs"];
-
 const Theme = styled.div`
   ${cssColors}
 `;
-
 const TableBodyContents = [
   {
     amount: "557.6 N",
@@ -104,7 +100,6 @@ const TableBodyContents = [
     tx: "...",
   },
 ];
-
 const Container = styled.div`
   display: flex;
   min-height: 100vh;
@@ -174,7 +169,6 @@ const Container = styled.div`
     }
   }
 `;
-
 const IconsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -210,7 +204,6 @@ const IconsContainer = styled.div`
     }
   }
 `;
-
 const Color = styled.div`
   display: flex;
   flex-direction: column;
@@ -226,12 +219,10 @@ const Color = styled.div`
     font-weight: 500;
   }
 `;
-
 const radioButtons = [
   { label: "Radio button 1", value: "radio1", id: "radio1" },
   { label: "Radio button 2", value: "radio2", id: "radio2" },
 ];
-
 const ColorPreview = (
   <IconsContainer>
     {Object.keys(colors)?.map((key) => (
@@ -248,18 +239,15 @@ const ColorPreview = (
     ))}
   </IconsContainer>
 );
-
 const Typography = styled.div`
   margin-top: 10px;
   ${(props) => props.typographyStyle}
 `;
-
 const TypographyContainer = Object.keys(typographyClasses).map((typography) => (
   <Typography typographyStyle={typographyClasses[typography]}>
     {typography}
   </Typography>
 ));
-
 const kit = {
   core: {
     MbIcon: {
@@ -717,21 +705,17 @@ const kit = {
     },
   },
 };
-
 const iconsIpfs =
   "https://ipfs.near.social/ipfs/bafkreibonknhz4t4dj5kyfm4oghlv6ymmbyfk7b3a64bdkdxmqca56cpwq";
-
 useEffect(() => {
   asyncFetch(iconsIpfs).then((res) => {
     const icon = Object.keys(res?.body);
     setIcons(icon);
   });
 }, []);
-
 useEffect(() => {
   Storage.set("mode", mode);
 }, [mode]);
-
 return (
   <Theme>
     <Container>
