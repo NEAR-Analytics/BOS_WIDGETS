@@ -36,7 +36,6 @@ const Root = styled.div`
     }
     @media (max-width: 500px) {
       grid-gap: 40px;
-
       grid-template-columns: repeat(1, 1fr);
     }
   }
@@ -47,7 +46,6 @@ const Root = styled.div`
     }
   }
 `;
-
 return (
   <Root>
     <h1>We Work With The Best</h1>
