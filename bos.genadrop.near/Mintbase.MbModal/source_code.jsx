@@ -1,7 +1,6 @@
 const { typographyClasses } = VM.require(
   "bos.genadrop.near/widget/Mintbase.Theme"
 );
-
 const ModalBg = styled.div`
   overflow-y: auto;
   position: fixed;
@@ -15,7 +14,6 @@ const ModalBg = styled.div`
   opacity: 0.75;
   z-index: 9;
 `;
-
 const Modal = styled.div`
   justify-content: center;
   align-items: center;
@@ -36,13 +34,10 @@ const Modal = styled.div`
   }
 `;
 const ModelSection = styled.div`
-  display: flex;
-  flex-direction: column;
   min-height: 300px;
   max-height: 600px;
   width: 90%;
   border-radius: 0.25rem;
-  position: relative;
   background-color: white;
   color: black;
   margin-left: 24px;
@@ -56,7 +51,7 @@ const ModelSection = styled.div`
     margin-right: 0;
     width: 600px;
     min-height: 400px;
-    max-height: none;
+    max-height: auto;
   }
   @media (min-width: 976px) {
     width: 900px;
@@ -70,7 +65,6 @@ const ModelContent = styled.div`
   border-bottom-color: var(--gray-150);
   border-bottom-style: solid;
   justify-content: space-between;
-  position: sticky;
   &.dark-modal-content {
     border-bottom-color: var(--gray-700);
   }
@@ -102,7 +96,11 @@ const CloseIcon = styled.div`
 `;
 const ModalText = styled.div`
   padding: 24px;
-  height: 100%;
+  height: 300px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   flex: 1;
 `;
 const TopElement = styled.div`
@@ -110,7 +108,6 @@ const TopElement = styled.div`
     order: -9999;
   }
 `;
-
 const MbModal = ({
   open,
   setOpen,
@@ -175,5 +172,4 @@ const MbModal = ({
     </>
   );
 };
-
 return { MbModal };
