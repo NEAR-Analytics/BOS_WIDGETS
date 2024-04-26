@@ -85,7 +85,7 @@ State.init({
 });
 
 function sortTimelineAndComments() {
-  const comments = Social.index("comment", props.item, { subscribe: true });
+  const comments = Social.index("comment", props.item);
 
   if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
