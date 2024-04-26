@@ -203,10 +203,10 @@ return (
     <div className="row">
       <h1>Hyperfile Creator</h1>
       <p>
-        View the{" "}
+        View the
         <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
           docs
-        </a>{" "}
+        </a>
         to learn how the different data structures work together.
       </p>
       <hr />
