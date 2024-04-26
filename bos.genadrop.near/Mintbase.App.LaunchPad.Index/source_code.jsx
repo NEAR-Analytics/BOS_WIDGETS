@@ -1,5 +1,4 @@
 const accountId = context.accountId;
-
 const tabProps = {
   tabLabels: [
     "My Contracts",
@@ -9,15 +8,12 @@ const tabProps = {
     "Stripe Connection",
   ],
 };
-
 const [selectedTab, setSelectedTab] = useState(props.tab ?? "my-contracts");
 const [sdk, setSDK] = useState(false);
 const isDarkModeOn = props.isDarkModeOn;
-
 const handleTabClick = (tab) => {
   setSelectedTab(tab);
 };
-
 const Card = styled.div`
   width: 100%;
   border-radius: 0;
@@ -81,7 +77,6 @@ const Card = styled.div`
     }
   }
 `;
-
 const PageContent = () => {
   switch (selectedTab) {
     case "my-contracts":
@@ -177,7 +172,6 @@ const PageContent = () => {
   }
 };
 const [count, setCount] = useState(0);
-
 if (!context.accountId) {
   return (
     <p
@@ -191,7 +185,6 @@ if (!context.accountId) {
     </p>
   );
 }
-
 return (
   <Card className={isDarkModeOn ? "dark" : ""}>
     <Widget
