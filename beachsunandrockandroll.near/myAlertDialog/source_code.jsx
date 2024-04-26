@@ -1,36 +1,21 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
-const {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} = VM.require("beachsunandrockandroll.near/widget/card");
+const { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } = VM.require(
+  "beachsunandrockandroll.near/widget/collapsible"
+);
 
 State.init({
-  cnButtonCancel: "",
-  cnButtonDeploy: "",
+  cnButtonToggle: "",
 });
 
-if (["", "loaded"].includes(state.cnButtonCancel))
+if (["", "loaded"].includes(state.cnButtonToggle))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
       props={{
-        output: (cnButtonCancel) => State.update({ cnButtonCancel }),
-        variant: "outline",
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(state.cnButtonDeploy))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{
-        output: (cnButtonDeploy) => State.update({ cnButtonDeploy }),
+        output: (cnButtonToggle) => State.update({ cnButtonToggle }),
+        variant: "ghost",
+        size: "sm",
       }}
     />
   );
@@ -38,26 +23,34 @@ if (["", "loaded"].includes(state.cnButtonDeploy))
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
-      <Card className="rounded-xl border bg-card text-card-foreground shadow w-[350px]">
-        <CardHeader className="flex flex-col space-y-1.5 p-6">
-          <CardTitle className="font-semibold leading-none tracking-tight">
-            Create project
-          </CardTitle>
-          <CardDescription className="text-sm text-muted-foreground">
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6 pt-0">
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5"></div>
-            <div className="flex flex-col space-y-1.5"></div>
+      <CollapsibleRoot
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="w-[350px] space-y-2"
+      >
+        <div className="flex items-center justify-between space-x-4 px-4">
+          <h4 className="text-sm font-semibold">
+            @peduarte starred 3 repositories
+          </h4>
+          <CollapsibleTrigger>
+            <Button className={state.cnButtonToggle}>
+              <i class="bi bi-arrow-down-up h-4 w-4"></i>
+              <span className="sr-only">Toggle</span>
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <div className="rounded-md border px-4 py-2 font-mono text-sm shadow-sm">
+          @radix-ui/primitives
+        </div>
+        <CollapsibleContent className="space-y-2">
+          <div className="rounded-md border px-4 py-2 font-mono text-sm shadow-sm">
+            @radix-ui/colors
           </div>
-        </CardContent>
-        <CardFooter className="flex items-center p-6 pt-0 justify-between">
-          <Button className={state.cnButtonCancel}>Cancel</Button>
-          <Button className={state.cnButtonDeploy}>Deploy</Button>
-        </CardFooter>
-      </Card>
+          <div className="rounded-md border px-4 py-2 font-mono text-sm shadow-sm">
+            @stitches/react
+          </div>
+        </CollapsibleContent>
+      </CollapsibleRoot>
     </div>
   </Tailwind>
 );
