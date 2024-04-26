@@ -1,8 +1,6 @@
 const daoId = props.daoId ?? "wazes-dao.sputnik-dao.near";
 const proposalId = props.proposalId ?? "";
-
 let proposal = props.proposal && JSON.parse(JSON.stringify(props.proposal));
-
 // if proposal is not provided and proposalId and daoId are provided then fetch proposal
 if (!proposal && proposalId && daoId) {
   let new_proposal = Near.view(daoId, "get_proposal", {
@@ -18,7 +16,6 @@ if (!proposal && proposalId && daoId) {
 } else if (!proposal) {
   return "";
 }
-
 // --- check user permissions
 function toPolicyLabel(proposalKind) {
   const kindName =
@@ -64,7 +61,6 @@ function toPolicyLabel(proposalKind) {
       return "";
   }
 }
-
 let roles = Near.view(daoId, "get_policy");
 roles = roles === null ? [] : roles.roles;
 const userRoles = [];
@@ -82,10 +78,8 @@ for (const role of roles) {
     userRoles.push(role);
   }
 }
-
 const isAllowedTo = (action) => {
   let allowed = false;
-
   const allowedRoles = userRoles
     .filter(({ permissions }) => {
       const allowedRole =
@@ -99,26 +93,20 @@ const isAllowedTo = (action) => {
       return allowedRole;
     })
     .map((role) => role.name);
-
   return [allowed, allowedRoles];
 };
-
 const isAllowedToVoteYes = isAllowedTo("VoteApprove")[0];
 const isAllowedToVoteNo = isAllowedTo("VoteReject")[0];
 const isAllowedToVoteRemove = isAllowedTo("VoteRemove")[0];
-
 proposal.type =
   typeof proposal.kind === "string"
     ? proposal.kind
     : Object.keys(proposal.kind)[0];
 proposal.type = proposal.type.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
-
 proposal.status = proposal.status.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
-
 // ==============================
 // Styled Components
 // ==============================
-
 const statusColor =
   proposal.status === "Approved"
     ? "#28a930"
@@ -127,14 +115,12 @@ const statusColor =
     : proposal.status === "Failed"
     ? "#dc3545"
     : "#6c757d";
-
 const statusBackgroundColor =
   proposal.status === "Approved"
     ? "#ecf7ef"
     : proposal.status === "Failed" || proposal.status === "Rejected"
     ? "#fdf4f4"
     : "#fff";
-
 const Wrapper = styled.div`
   max-width: 1000px;
   padding: 24px;
@@ -143,7 +129,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   min-height: 500px;
-
   p {
     line-height: 1.4;
     font-weight: 400;
@@ -151,20 +136,17 @@ const Wrapper = styled.div`
     color: #868682;
     margin: 0;
   }
-
   h3 {
     font-weight: 600;
     font-size: 24px;
     color: #1b1b18;
   }
-
   h5 {
     font-size: 14px;
     font-weight: 500;
     line-height: 1.2;
     color: #6c757d;
   }
-
   .status {
     font-size: 14px;
     font-weight: 600;
@@ -172,7 +154,6 @@ const Wrapper = styled.div`
     color: ${statusColor};
   }
 `;
-
 const MarkdownContainer = styled.div`
   position: relative;
   max-width: 1000px;
@@ -195,77 +176,63 @@ const MarkdownContainer = styled.div`
     padding-bottom: 0.3em;
     margin-bottom: 1em;
   }
-
   h2 {
     font-size: 1.5em;
     color: #222;
     margin-bottom: 0.75em;
   }
-
   h3 {
     font-size: 1.3em;
     color: #333;
     margin-bottom: 0.6em;
   }
-
   h4 {
     font-size: 1.2em;
     color: #444;
     margin-bottom: 0.5em;
   }
-
   h5 {
     font-size: 1.1em;
     color: #555;
     margin-bottom: 0.4em;
   }
-
   p {
     font-size: 1em;
     margin-bottom: 1em;
   }
-
   a {
     color: #0645ad;
     text-decoration: none;
   }
-
   a:hover {
     text-decoration: underline;
   }
 `;
-
 function deepSortObject(obj) {
   if (typeof obj !== "object" || obj === null) {
     // Return non-object values as is
     return obj;
   }
-
   if (Array.isArray(obj)) {
     // If the input is an array, recursively sort each element
     return obj.map(deepSortObject).sort();
   }
-
   const sortedObject = {};
   const sortedKeys = Object.keys(obj).sort((keyA, keyB) => {
     // Compare keys in a case-insensitive manner
     return keyA.toLowerCase().localeCompare(keyB.toLowerCase());
   });
-
   for (const key of sortedKeys) {
     sortedObject[key] = deepSortObject(obj[key]);
   }
-
   return sortedObject;
 }
-
 const RenderProposalArgs = () => {
   const proposal_type =
     typeof proposal.kind === "string"
       ? proposal.kind
       : Object.keys(proposal.kind)[0];
   if (proposal_type === "Vote") return null;
-
   if (proposal_type === "Transfer")
     return (
       <>
@@ -291,7 +258,6 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
-
   if (proposal_type === "FunctionCall") {
     return proposal.kind.FunctionCall.actions.reduce(
       (acc, { method_name, args, deposit }) => {
@@ -342,7 +308,6 @@ const RenderProposalArgs = () => {
       []
     );
   }
-
   if (
     proposal_type === "AddMemberToRole" ||
     proposal_type === "RemoveMemberFromRole"
@@ -365,7 +330,6 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
-
   if (proposal_type === "AddBounty")
     return (
       <>
@@ -399,7 +363,6 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
-
   if (proposal_type === "BountyDone")
     return (
       <>
@@ -419,7 +382,6 @@ const RenderProposalArgs = () => {
         </div>
       </>
     );
-
   // TODO: ChangePolicy component need some UI improvements to be more readable
   if (proposal_type === "ChangePolicy") {
     const old_policy = Near.view(daoId, "get_policy");
@@ -452,10 +414,8 @@ const RenderProposalArgs = () => {
     );
   }
 };
-
 const useMarkdownForDescription =
   proposal.type === "Vote" || proposal.type === "Bounty Done" ? true : false;
-
 const proposalURL = `/#/sking.near/widget/DAO.Page?daoId=${daoId}&tab=proposal&proposalId=${proposal.id}`;
 return (
   <Wrapper>
@@ -500,7 +460,6 @@ return (
     >
       <RenderProposalArgs />
     </div>
-
     <div className="w-100">
       <h5>Votes</h5>
       <Widget
@@ -516,7 +475,6 @@ return (
         }}
       />
     </div>
-
     <Widget
       src="sking.near/widget/DAO.Proposal.Additional"
       props={{
