@@ -161,7 +161,7 @@ useEffect(() => {
     });
   };
 
-  const debouncedGetBestTrade = debounce(getBestTrade, 500);
+  const debouncedGetBestTrade = debounce(getBestTrade, 1000);
 
   State.update({
     getBestTrade,
