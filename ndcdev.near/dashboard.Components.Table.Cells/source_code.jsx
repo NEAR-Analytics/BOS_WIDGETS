@@ -1,3 +1,7 @@
+const { dataSet, loading } = props;
+
+const Loading = <Widget src="flashui.near/widget/Loading" />;
+
 const DesktopRow = styled.div`
   display: flex;
   padding: 16px;
@@ -89,7 +93,7 @@ const Colored = styled.div`
     height: ${(props) => props.height}px;
     left: 0;
     width: ${(props) => props.width ?? 0}%;
-    background: ${(props) => props.color};
+    background: ${(props) => props.color ?? "inherit"};
     border-radius: ${(props) =>
       props.width === 100 ? "100px" : "100px 0 0 100px"};
   }
@@ -114,11 +118,12 @@ const DaoName = styled.div`
   background: transparent;
 `;
 
-const getPercentage = (start, end, divider) => {
-  const val = parseInt(((end / start) * 100) / (divider ?? 1));
+const TRESHOLD = 75;
 
-  return val > 100 ? 100 : val;
-};
+const dappUsedPercentage = (value) =>
+  parseFloat(value / Math.max(...dataSet.map((d) => d.dappsUsed))) * 100;
+
+const getPercentage = (min, max) => parseFloat(min / max) * 100;
 
 const formatValue = (value) => {
   const val = value ? parseFloat(value) : null;
@@ -135,8 +140,6 @@ const formatValue = (value) => {
     ? val
     : val.toFixed(2);
 };
-
-const { dataSet } = props;
 
 const TooltipContent = ({ key, value }) => (
   <div className="justify-content-between w-100 d-flex gap-2">
@@ -177,18 +180,30 @@ return (
           <DesktopRow>
             <DaoName>{title}</DaoName>
             <DesktopCell
-              width={getPercentage(userRetentions, 10, 2)}
-              color={userRetentions >= 1 ? "#51D38E" : "#FC6F60"}
+              width={getPercentage(userRetentions, 1)}
+              color={
+                getPercentage(userRetentions, 1) >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
               value={userRetentions}
             />
             <DesktopCell
-              width={getPercentage(dappsUsed, 10, 2)}
-              color={"#51D38E"}
+              width={dappUsedPercentage(dappsUsed)}
+              color={
+                dappUsedPercentage(dappsUsed) >= TRESHOLD
+                  ? "#51D38E"
+                  : "#FC6F60"
+              }
               value={dappsUsed}
             />
             <DesktopCell
-              width={getPercentage(acquisitionCost, 10, 2)}
-              color={acquisitionCost < 1 ? "#51D38E" : "#FC6F60"}
+              width={
+                acquisitionCost < 1 ? getPercentage(1 - acquisitionCost, 1) : 5
+              }
+              color={
+                acquisitionCost && (acquisitionCost < 1 ? "#51D38E" : "#FC6F60")
+              }
               value={acquisitionCost}
             />
           </DesktopRow>
