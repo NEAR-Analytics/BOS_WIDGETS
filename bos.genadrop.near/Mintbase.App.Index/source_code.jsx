@@ -1,14 +1,10 @@
 const currentMode = Storage.get("mode");
-
 const [mode, setMode] = useState(currentMode || "light");
 const isDarkModeOn = mode === "dark";
-
 const App = styled.div``;
-
 const Root = styled.div`
   // you can override classnames here
 `;
-
 const switchChangeHandler = () => {
   if (!isDarkModeOn) {
     setMode("dark");
@@ -18,9 +14,7 @@ const switchChangeHandler = () => {
     Storage.set("mode", "light");
   }
 };
-
 console.log({ mode: Storage.get("mode") });
-
 const Toggle = styled.div`
   position: fixed;
   bottom: 1rem;
@@ -134,6 +128,27 @@ const config = {
         display: false,
         hidden: true,
       },
+      contract: {
+        path: "bos.genadrop.near/widget/Mintbase.App.ContractProfilePage.Index",
+        blockHeight: "final",
+        init: {
+          name: "Human",
+          right: {
+            one: [
+              { name: "Owned", tab: "owned" },
+              { name: "minted", tab: "minted" },
+              { name: "About", tab: "about" },
+            ],
+            two: [
+              { name: "Activity", tab: "activity" },
+              { name: "Contracts", tab: "contracts" },
+              { name: "User Settings", tab: "user-settings" },
+            ],
+          },
+        },
+        display: false,
+        hidden: true,
+      },
       manage: {
         path: "bos.genadrop.near/widget/Mintbase.App.LaunchPad.Index",
         blockHeight: "final",
@@ -172,7 +187,6 @@ const config = {
             { name: "Templates", link: "https://templates.mintbase.xyz/" },
             { name: "Github", link: "https://github.com/mintbase" },
             { name: "Indexer", tab: "developers" },
-
             { name: "Affiliate Direct", tab: "affiliate" },
             {
               name: "Mintbase Grants",
@@ -239,7 +253,6 @@ const config = {
     },
   },
 };
-
 return (
   <App>
     <Widget
@@ -248,7 +261,7 @@ return (
     />
     <Toggle onClick={switchChangeHandler} title="Toggle Theme">
       <Widget
-        src={`bos.genadrop.near/widget/Mintbase.MbIcon`}
+        src={"bos.genadrop.near/widget/Mintbase.MbIcon"}
         props={{
           name: !isDarkModeOn ? "moon" : "sun",
           size: "22px",
