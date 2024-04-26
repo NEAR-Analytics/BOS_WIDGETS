@@ -15,7 +15,6 @@ const checkSvg = (
     />
   </svg>
 );
-
 const CardRoot = styled.div`
   display: flex;
   flex-direction: column;
@@ -179,33 +178,25 @@ const CardRoot = styled.div`
     color: white;
   }
 `;
-
 const data = props?.data;
 const [isSubmissionTime, setIsSubmissionTime] = useState(null);
 const [isVotingTime, setIsVotingTime] = useState(null);
-
 const convertTime = (time) => {
   const timestamp = time * 1000; // Convert seconds to milliseconds
   const date = new Date(timestamp);
-
   // Get the current date
   const currentDate = new Date();
-
   // Calculate the difference in milliseconds
   const differenceMilliseconds = date - currentDate;
-
   // Calculate the difference in days
   const differenceDays = Math.floor(
     differenceMilliseconds / (24 * 60 * 60 * 1000)
   );
-
   if (differenceDays < 0) {
     return <p>0</p>;
   }
-
   // Check if it's the present day
   const differenceHours = Math.floor(differenceMilliseconds / (60 * 60 * 1000));
-
   if (differenceDays === 0) {
     // Calculate the difference in hours
     return (
@@ -222,10 +213,8 @@ const convertTime = (time) => {
     );
   }
 };
-
 useEffect(() => {
   const currentTimestamp = Date.now() / 1000;
-
   setIsSubmissionTime(false);
   if (data?.submission_end_time < currentTimestamp) {
     // Submission time is over
@@ -237,14 +226,12 @@ useEffect(() => {
     setIsVotingTime(false);
   }
 }, [data]);
-
 function makeAccountIdShorter(accountId) {
   if (accountId.length > 20) {
     return accountId.slice(0, 17) + "...";
   }
   return accountId;
 }
-
 const getUsdValue = (price) => {
   const res = fetch(
     `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
@@ -255,21 +242,25 @@ const getUsdValue = (price) => {
     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
   }
 };
-
 const formatTimestampToDate = (timestamp) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  const formattedDate = new Date(timestamp * 1000).toLocaleDateString('en-US', options);
-  
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  const formattedDate = new Date(timestamp * 1000).toLocaleDateString(
+    "en-US",
+    options
+  );
+
   return <p className="formattedAmount">{formattedDate}</p>;
 };
-
-
 return (
   <CardRoot>
     <div className="card-title">
       <div className="name">
-      <h1>{makeAccountIdShorter(data?.title) ?? "-- No Title --"}</h1>
-      <a href={`#/bos.genadrop.near/widget/CPlanet.DAO.Index?daoId=${props?.data?.dao_id}`}>{props?.data?.dao_id}{" "}{checkSvg}</a>
+        <h1>{makeAccountIdShorter(data?.title) ?? "-- No Title --"}</h1>
+        <a
+          href={`#/bos.genadrop.near/widget/CPlanet.DAO.Index?daoId=${props?.data?.dao_id}`}
+        >
+          {props?.data?.dao_id} {checkSvg}
+        </a>
       </div>
       <p
         className={
@@ -288,16 +279,18 @@ return (
       </p>
     </div>
     <div className="description">
-      <p>{props?.data?.description?.substring(0, 120) ?? "-- No description --"}</p>
+      <p>
+        {props?.data?.description?.substring(0, 120) ?? "-- No description --"}
+      </p>
     </div>
     <div className="card-footer">
       <div className="one-sec">
         <span className="prize">Total Prize</span>
         <div className="amount">
-        <img
-          src="https://ipfs.near.social/ipfs/bafkreierjvmroeb6tnfu3ckrfmet7wpx7k3ubjnc6gcdzauwqkxobnu57e"
-          alt=""
-              />
+          <img
+            src="https://ipfs.near.social/ipfs/bafkreierjvmroeb6tnfu3ckrfmet7wpx7k3ubjnc6gcdzauwqkxobnu57e"
+            alt=""
+          />
           <p>{props?.data?.prize}</p>
           <span>{getUsdValue(props?.data?.prize)}</span>
         </div>
@@ -319,7 +312,9 @@ return (
         <div className="amount">
           {props.isSubmissionOpen
             ? convertTime(data?.submission_end_time)
-            : props?.isVotingEnded ? convertTime(data?.voting_end_time): formatTimestampToDate(data?.voting_end_time)}
+            : props?.isVotingEnded
+            ? convertTime(data?.voting_end_time)
+            : formatTimestampToDate(data?.voting_end_time)}
         </div>
       </div>
       <div className="one-sec">
