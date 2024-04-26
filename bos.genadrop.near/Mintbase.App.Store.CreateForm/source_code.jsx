@@ -1,15 +1,13 @@
 const { isDarkModeOn, setModalOpen } = props;
-
+const isInModal = props.isInModal ?? true;
 const { MbModal } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 ) || {
   MbModal: () => <></>,
 };
-
 const { deployStore } = VM.require(
   "bos.genadrop.near/widget/Mintbase.utils.sdk"
 );
-
 const { MbInputField } = VM.require(
   "bos.genadrop.near/widget/Mintbase.MbInput"
 ) || {
@@ -18,28 +16,24 @@ const { MbInputField } = VM.require(
 const [storeName, setStoreName] = useState("");
 const [storeSymbol, setStoreSymbol] = useState("");
 const [invalidStoreName, setInvalidStoreName] = useState(false);
-
 const CreateStore = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  width: 100%;
+  height: inherit;
   .form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1em;
+    flex: 1;
   }
   .bottom-buttons {
     display: flex;
-    position: absolute;
-    bottom: 48px;
-    right: 24px;
-    width: calc(100% - 48px);
-    justify-content: space-between;
+    width: 100%;
     align-items: center;
   }
 `;
-
 const onDeploy = () => {
   try {
     deployStore({
@@ -52,18 +46,15 @@ const onDeploy = () => {
     console.error(error);
   }
 };
-
 const onStoreNameChange = (e) => {
   setStoreName(e.target.value);
   if (e.target.value.length > 0) {
     setInvalidStoreName(false);
   }
 };
-
 const onStoreSymbolChange = (e) => {
   setStoreSymbol(e.target.value);
 };
-
 return (
   <CreateStore>
     <div className="form">
@@ -96,20 +87,27 @@ return (
         />
       </div>
     </div>
-    <div className="bottom-buttons">
-      <div>
-        <Widget
-          src={`bos.genadrop.near/widget/Mintbase.MbButton`}
-          props={{
-            label: "Cancel",
-            btnType: "secondary",
-            size: "medium",
-            state: "active",
-            onClick: () => setModalOpen(false),
-            isDarkModeOn,
-          }}
-        />
-      </div>
+    <div
+      className="bottom-buttons"
+      style={{
+        justifyContent: isInModal ? "space-between" : "center",
+      }}
+    >
+      {isInModal && (
+        <div>
+          <Widget
+            src={`bos.genadrop.near/widget/Mintbase.MbButton`}
+            props={{
+              label: "Cancel",
+              btnType: "secondary",
+              size: "medium",
+              state: "active",
+              onClick: () => setModalOpen(false),
+              isDarkModeOn,
+            }}
+          />
+        </div>
+      )}
       <div>
         <Widget
           src={`bos.genadrop.near/widget/Mintbase.MbButton`}
