@@ -1,33 +1,22 @@
-const css = fetch("https://floatui.com/tailwind.css").body;
-if (!css) return "";
-const Tailwind = styled.div`${css}`;
+const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const MyAvatar = ({ className, children, ...props }) => (
-  <Tailwind>
-    <Avatar.Root
-      className="relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full"
-      {...props}
-    >
-      {children}
-    </Avatar.Root>
-  </Tailwind>
+const { AvatarRoot, AvatarImage, AvatarFallback } = VM.require(
+  "beachsunandrockandroll.near/widget/avatar"
 );
 
-const MyAvatarImage = ({ className, children, ...props }) => (
+return (
   <Tailwind>
-    <Avatar.Image className="aspect-square h-full w-full" {...props} />
+    <div className="flex mx-auto w-max h-screen pt-10">
+      <AvatarRoot className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+        <AvatarImage
+          className="aspect-square h-full w-full"
+          src="https://github.com/shadcn.png"
+          alt="@shadcn"
+        />
+        <AvatarFallback className="flex h-full w-full items-center justify-center rounded-full bg-muted">
+          PD
+        </AvatarFallback>
+      </AvatarRoot>
+    </div>
   </Tailwind>
 );
-
-const MyAvatarFallback = ({ className, children, ...props }) => (
-  <Tailwind>
-    <Avatar.Fallback
-      className={`flex h-full w-full items-center justify-center rounded-full bg-muted ${className}`}
-      {...props}
-    >
-      {children}
-    </Avatar.Fallback>
-  </Tailwind>
-);
-
-return { MyAvatar, MyAvatarImage, MyAvatarFallback };
