@@ -31,7 +31,7 @@ const PreviewContent = styled.div`
 const WidgetCode = `
 \`\`\`js
 <Widget
-src={"efiz.near/widget/Livepeer.Player"}
+src={"efiz.near/widget/Player.Player"}
 props={{
   title: "Original Keyboard Cat!",
   playbackId: "8b3bdqjtdj4jsjwa",
@@ -100,6 +100,14 @@ return (
       </PreviewContent>
     </div>
     <UsageContent>
+      <div>
+        <Heading>Description</Heading>
+        <p>
+          This component facilitates video display. Users have the option to
+          generate a new asset via the component's API for video uploads or
+          directly supply the necessary details to display an existing video.
+        </p>
+      </div>
       <Heading>Usage</Heading>
       <Markdown text={WidgetCode} />
     </UsageContent>
