@@ -59,16 +59,17 @@ State.init({
 });
 
 const SupplyButton = ({ data, ...rest }) => {
-  let disabled;
+  // let disabled;
 
-  if (dexConfig.name === "Seamless Protocol") {
-    const { totalSupplyUSD, supplyCapUSD } = data;
-    const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
+  // if (dexConfig.name === "Seamless Protocol") {
+  //   const { totalSupplyUSD, supplyCapUSD } = data;
+  //   const isFull = Big(totalSupplyUSD || 0).gte(Big(supplyCapUSD || 0));
 
-    disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0 || isFull;
-  } else {
-    disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0;
-  }
+  //   disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0 || isFull;
+  // } else {
+  //   disabled = !data.balanceInUSD || Number(data.balanceInUSD) === 0;
+  // }
+
   return (
     <Widget
       src={`${config.ownerId}/widget/AAVE.PrimaryButton`}
@@ -77,7 +78,6 @@ const SupplyButton = ({ data, ...rest }) => {
         // width: 148,
         theme,
         children: "Supply",
-        disabled,
         onClick: () => {
           State.update({ data });
           setShowSupplyModal(true);
