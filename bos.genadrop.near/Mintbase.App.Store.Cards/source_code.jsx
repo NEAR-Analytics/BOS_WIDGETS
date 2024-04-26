@@ -5,7 +5,6 @@ const { getUserStores } = VM.require(
   getUserStores: () => <></>,
 };
 const accountId = props.accountId ?? context.accountId;
-
 const Root = styled.div`
   display: flex;
   flex-flow: column nowrap;
@@ -24,7 +23,6 @@ const Root = styled.div`
     align-content: center;
   }
 `;
-
 const MainCardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -33,9 +31,7 @@ const MainCardsGrid = styled.div`
   width: 100%;
   margin-top: 1em;
 `;
-
 const [stores, setStores] = useState(null);
-
 useEffect(() => {
   getUserStores(accountId)
     .then(({ data, errors }) => {
@@ -48,13 +44,9 @@ useEffect(() => {
       console.error(error);
     });
 }, [accountId]);
-
 if (!stores) return "Loading ...";
-
 const countNFTs = stores && stores.length;
-
 const s = countNFTs > 1 ? "s" : "";
-
 return (
   <Root className="mx-24 md:mx-64">
     <div className="count">{`${countNFTs} Result${s}`}</div>
