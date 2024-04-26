@@ -7,40 +7,29 @@ const TablePagination = ({
   isDarkModeOn,
 }) => {
   const DOTS = "...";
-
   const range = (start, end) => {
     const length = end - start + 1;
-
     return Array.from({ length }, (_, idx) => idx + start);
   };
   const [paginationRange, setPaginationRange] = useState([]);
   const totalPageCount = Math.ceil(totalItems / itemsPerPage);
-
   useMemo(() => {
     const totalPageNumbers = 6;
-
     if (totalPageNumbers >= totalPageCount) {
       setPaginationRange(range(1, totalPageCount));
     }
-
     if (totalPageCount <= 5) return;
-
     const leftSiblingIndex = Math.max(currentPage - 1, 1);
     const rightSiblingIndex = Math.min(currentPage + 1, totalPageCount);
-
     const shouldShowLeftDots = leftSiblingIndex > 1;
     const shouldShowRightDots = rightSiblingIndex < totalPageCount - 1;
-
     const firstPageIndex = 1;
     const lastPageIndex = totalPageCount;
-
     if (!shouldShowLeftDots && shouldShowRightDots) {
       const leftItemCount = 3;
       const leftRange = range(1, leftItemCount);
-
       setPaginationRange([...leftRange, DOTS, totalPageCount]);
     }
-
     if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightItemCount = 3;
       const rightRange = range(
@@ -49,7 +38,6 @@ const TablePagination = ({
       );
       setPaginationRange([firstPageIndex, DOTS, ...rightRange]);
     }
-
     if (shouldShowLeftDots && shouldShowRightDots) {
       const middleRange = range(leftSiblingIndex, rightSiblingIndex);
       setPaginationRange([
@@ -61,19 +49,15 @@ const TablePagination = ({
       ]);
     }
   }, [totalItems, itemsPerPage, currentPage]);
-
   const nextPage = () => {
     if (currentPage === totalPageCount) return;
     onPageChange(currentPage + 1);
   };
-
   const previousPage = () => {
     if (currentPage === 1) return;
     onPageChange(currentPage - 1);
   };
-
   const showingCount = Math.min(props.itemsPerPage, props.totalItems) || 0;
-
   const PaginationRoot = styled.div`
     display: flex;
     flex-direction: row;
@@ -133,11 +117,9 @@ const TablePagination = ({
       transition-duration: 300ms;
       transition-duration: 500ms;
       cursor: pointer;
-
       &:hover {
         background-color: ${isDarkModeOn ? "#374151" : "#DBEAFE"};
       }
-
       &:focus {
         outline: none;
         box-shadow: 0 0 0 2px ${isDarkModeOn ? "#93C5FD" : "#3B82F6"};
@@ -157,7 +139,6 @@ const TablePagination = ({
       flex: 1;
     }
   `;
-
   return (
     <PaginationRoot>
       {!hideLabel && (
@@ -228,5 +209,4 @@ const TablePagination = ({
     </PaginationRoot>
   );
 };
-
 return <TablePagination {...props} />;
