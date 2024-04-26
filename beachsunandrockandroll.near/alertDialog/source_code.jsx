@@ -18,7 +18,7 @@ const AlertDialogTrigger = ({ className, children, ...props }) => (
 
 const AlertDialogOverlay = ({ className, children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Overlay className={className} {...props} ref={forwardedRef}>
+    <AlertDialog.Overlay className={className} {...props} ref="forwardedRef">
       {children}
     </AlertDialog.Overlay>
   </Tailwind>
@@ -32,7 +32,7 @@ const AlertDialogContent = ({
 }) => (
   <Tailwind>
     <AlertDialogOverlay className={classNameOverlay} />
-    <AlertDialog.Content ref={forwardedRef} className={className} {...props}>
+    <AlertDialog.Content ref="forwardedRef" className={className} {...props}>
       {children}
     </AlertDialog.Content>
   </Tailwind>
@@ -56,7 +56,7 @@ const AlertDialogFooter = ({ className, children, ...props }) => (
 
 const AlertDialogTitle = ({ className, children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Title ref={forwardedRef} className={className} {...props}>
+    <AlertDialog.Title ref="forwardedRef" className={className} {...props}>
       {children}
     </AlertDialog.Title>
   </Tailwind>
@@ -65,7 +65,7 @@ const AlertDialogTitle = ({ className, children, ...props }) => (
 const AlertDialogDescription = ({ className, children, ...props }) => (
   <Tailwind>
     <AlertDialog.Description
-      ref={forwardedRef}
+      ref="forwardedRef"
       className={className}
       {...props}
     >
@@ -76,7 +76,7 @@ const AlertDialogDescription = ({ className, children, ...props }) => (
 
 const AlertDialogAction = ({ className, children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Action ref={forwardedRef} className={className} {...props}>
+    <AlertDialog.Action ref="forwardedRef" className={className} {...props}>
       {children}
     </AlertDialog.Action>
   </Tailwind>
@@ -84,7 +84,7 @@ const AlertDialogAction = ({ className, children, ...props }) => (
 
 const AlertDialogCancel = ({ className, children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Cancel ref={forwardedRef} className={className} {...props}>
+    <AlertDialog.Cancel ref="forwardedRef" className={className} {...props}>
       {children}
     </AlertDialog.Cancel>
   </Tailwind>
