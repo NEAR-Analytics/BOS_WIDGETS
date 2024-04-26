@@ -2,13 +2,10 @@ const accountId = props.accountId ?? "bos.genadrop.near";
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { isDarkModeOn } = props;
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 const NearIcon = (
   <svg
     width="20px"
@@ -24,7 +21,6 @@ const NearIcon = (
     ></path>
   </svg>
 );
-
 const rightArrow = (
   <svg
     width="24px"
@@ -52,9 +48,7 @@ const rightArrow = (
     </defs>
   </svg>
 );
-
 const Home = styled.div``;
-
 const Hero = styled.div`
   display: flex; /* flex */
   flex-direction: column;
@@ -71,7 +65,6 @@ const Hero = styled.div`
   @media (min-width: 1600px) {
   }
   justify-content: center; /* justify-center */
-
   .hero {
     display: flex; /* flex */
     flex-direction: column; /* flex-col */
@@ -106,7 +99,6 @@ const Hero = styled.div`
     transition: 0.5s ease-in-out;
     border-radius: 8px; /* rounded */
     color: #e087ff;
-
     &:hover {
       background-color: rgb(12, 18, 33); /* hover:bg-mb-blackblue */
     }
@@ -115,7 +107,6 @@ const Hero = styled.div`
       word-break: break-word; /* break-words */
       vertical-align: middle; /* align-middle */
       backdrop-filter: blur(50px);
-
       text-align: center; /* align-text-center */
       .cardText {
         ${getInputLabelFontType("big")}
@@ -159,7 +150,6 @@ const Hero = styled.div`
     }
   }
 `;
-
 const Routes = styled.div`
   display: flex;
   flex-direction: row;
@@ -182,9 +172,7 @@ const Routes = styled.div`
     overflow-x: scroll;
   }
 `;
-
 const Table = styled.div``;
-
 const Gallery = styled.div`
   position: absolute;
   top: 80%;
@@ -242,7 +230,6 @@ const Gallery = styled.div`
     top: 100%;
   }
 `;
-
 const FeaturedCard = styled.div`
   border-radius: 0.25rem; /* rounded */
   background-color: ${isDarkModeOn ? "#1f2130" : "#fff"};
@@ -255,6 +242,9 @@ const FeaturedCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  a {
+    text-decoration: none;
+  }
   @media (min-width: 768px) {
     padding: 24px; /* md:p-24 */
   }
@@ -320,7 +310,6 @@ const FeaturedCard = styled.div`
     }
   }
 `;
-
 const NFTCard = styled.div`
   width: 115px;
   height: 115px;
@@ -347,12 +336,9 @@ const NFTCard = styled.div`
     height: 73px;
   }
 `;
-
 const size = "100%";
-
 const [page, setPage] = useState(0);
 const [featuredNFTs, setFeaturedNFTs] = useState([]);
-
 function fetchNFTDetails() {
   asyncFetch("https://api.mintbase.xyz/explore", {
     method: "GET",
@@ -368,11 +354,9 @@ function fetchNFTDetails() {
     }
   });
 }
-
 useEffect(() => {
   fetchNFTDetails();
 }, []);
-
 const HandleUpSlide = () => {
   if (page < featuredNFTs.length - 1) {
     setPage(page + 1);
@@ -387,7 +371,6 @@ const HandleDownSlide = () => {
     setPage(featuredNFTs.length - 1);
   }
 };
-
 const cardItems = [
   { name: "Developers", link: "https://templates.mintbase.xyz/" },
   { name: "Creator Drop", link: "https://wallet.mintbase.xyz/create-drop" },
@@ -397,7 +380,6 @@ const cardItems = [
     link: "https://wallet.mintbase.xyz/create-account?success_url=https://wallet.mintbase.xyz/smart-actions",
   },
 ];
-
 const pageRoutes = [
   {
     name: "AI",
@@ -439,7 +421,7 @@ const pageRoutes = [
 const YoctoToNear = (amountYocto) => {
   return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
 };
-
+console.log(featuredNFTs);
 return (
   <Home>
     <Hero>
@@ -500,8 +482,7 @@ return (
                     key={data.name}
                     className="route"
                     to={href({
-                      widgetSrc:
-                        "bos.genadrop.near/widget/Mintbase.App.Index",
+                      widgetSrc: "bos.genadrop.near/widget/Mintbase.App.Index",
                       params: {
                         page: "markets",
                         tab: data.link,
@@ -532,33 +513,45 @@ return (
             {featuredNFTs.length > 0 &&
               featuredNFTs?.map((value, key) => (
                 <FeaturedCard key={key}>
-                  <div className="head">
-                    <img src={value.storeData.profileImage} alt="" />
-                    <h1>{value?.storeData?.displayName}</h1>
-                  </div>
-                  <div className="stats">
-                    <div className="stat">
-                      <span>Total Minted</span>
-                      <p>{value?.totalMinted}</p>
+                  <Link
+                    key={"storeFront"}
+                    className="route"
+                    to={href({
+                      widgetSrc: "bos.genadrop.near/widget/Mintbase.App.Index",
+                      params: {
+                        page: "contract",
+                        tab: `nfts&accountId=${value.storeDataDb.id}`,
+                      },
+                    })}
+                  >
+                    <div className="head">
+                      <img src={value.storeData.profileImage} alt="" />
+                      <h1>{value?.storeData?.displayName}</h1>
                     </div>
-                    <div className="stat">
-                      <span>Owners</span>
-                      <p>{value?.uniqueOwners}</p>
+                    <div className="stats">
+                      <div className="stat">
+                        <span>Total Minted</span>
+                        <p>{value?.totalMinted}</p>
+                      </div>
+                      <div className="stat">
+                        <span>Owners</span>
+                        <p>{value?.uniqueOwners}</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="cards">
-                    {value?.listings?.length > 0 &&
-                      value?.listings?.map((data) => (
-                        <NFTCard
-                          bgImage={`https://image-cache-service-z3w7d7dnea-ew.a.run.app/small?url=${data.media}`}
-                        >
-                          <div className="amount">
-                            <span>{YoctoToNear(data.price)}</span>
-                            {NearIcon}
-                          </div>
-                        </NFTCard>
-                      ))}
-                  </div>
+                    <div className="cards">
+                      {value?.listings?.length > 0 &&
+                        value?.listings?.map((data) => (
+                          <NFTCard
+                            bgImage={`https://image-cache-service-z3w7d7dnea-ew.a.run.app/small?url=${data.media}`}
+                          >
+                            <div className="amount">
+                              <span>{YoctoToNear(data.price)}</span>
+                              {NearIcon}
+                            </div>
+                          </NFTCard>
+                        ))}
+                    </div>
+                  </Link>
                 </FeaturedCard>
               ))}
           </div>
