@@ -14,7 +14,9 @@ const imageClassName = props.imageClassName ?? "shadow w-100 h-100";
 const thumbnail = props.thumbnail ?? "thumbnail";
 
 const name = metadata.name ?? thingId;
-const image = metadata.image;
+const image =
+  metadata.image ??
+  "https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e";
 const title = props.title ?? name;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
