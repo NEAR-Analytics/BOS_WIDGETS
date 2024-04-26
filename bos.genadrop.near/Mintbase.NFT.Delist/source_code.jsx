@@ -1,7 +1,4 @@
-const { delist } = VM.require(
-  "bos.genadrop.near/widget/Mintbase.NFT.modules"
-);
-
+const { delist } = VM.require("bos.genadrop.near/widget/Mintbase.NFT.modules");
 const nearIcon = (
   <svg
     width="18px"
@@ -17,7 +14,6 @@ const nearIcon = (
     ></path>
   </svg>
 );
-
 const usdtIcon = (
   <svg
     width="18px"
@@ -35,7 +31,6 @@ const usdtIcon = (
     ></path>
   </svg>
 );
-
 const usdcIcon = (
   <svg
     width="18px"
@@ -59,7 +54,6 @@ const usdcIcon = (
     ></path>
   </svg>
 );
-
 const DelistContainer = styled.div`
   width: 900px;
   height: 542px;
@@ -82,14 +76,12 @@ const DelistContainer = styled.div`
     margin: 30px;
   }
 `;
-
 const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 30px;
   height: 60px;
-
   border-bottom: 1px solid #e7ebee;
   p {
     font-weight: bold;
@@ -99,7 +91,6 @@ const Top = styled.div`
     cursor: pointer;
   }
 `;
-
 const ContainerTable = styled.div`
   background: ${(props) => (props.isDarkModeOn ? "#1f2031" : "#fff")};
   display: flex;
@@ -111,7 +102,6 @@ const ContainerTable = styled.div`
     width: 100vw;
     font-size: 12px;
   }
-
   .header {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -128,7 +118,6 @@ const ContainerTable = styled.div`
         ${(props) => (props.isDarkModeOn ? "#374151" : "#E5E7EB")};
     }
   }
-
   .trx-row {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 3fr));
@@ -141,7 +130,6 @@ const ContainerTable = styled.div`
     &:last-of-type {
       border-bottom-color: transparent;
     }
-
     a {
       text-decoration: none;
     }
@@ -151,7 +139,6 @@ const ContainerTable = styled.div`
       text-align: center;
       margin: auto;
     }
-
     .address {
       color: ${(props) => (props.isDarkModeOn ? "#c2cdfd" : "4e58a2")};
       height: 40px;
@@ -170,7 +157,6 @@ const ContainerTable = styled.div`
       align-items: center;
       text-decoration: none;
       gap: 10px;
-
       div {
         white-space: nowrap;
         height: 40px;
@@ -202,7 +188,6 @@ const ContainerTable = styled.div`
       border-radius: 2px;
       text-transform: uppercase;
     }
-
     .time {
       display: flex;
       align-items: center;
@@ -223,7 +208,6 @@ const ContainerTable = styled.div`
       }
     }
   }
-
   .price {
     display: flex;
     gap: 4px;
@@ -234,7 +218,6 @@ const ContainerTable = styled.div`
       width: 14px;
     }
   }
-
   @media (max-width: 500px) {
     .header,
     .trx-row {
@@ -242,7 +225,6 @@ const ContainerTable = styled.div`
     }
   }
 `;
-
 const RemoveAll = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -257,23 +239,18 @@ const RemoveAll = styled.div`
     border-radius: 7px;
   }
 `;
-
 const Content = styled.div``;
-
 const Delist = ({ onClose, data, isDarkModeOn }) => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const YoctoToNear = (amountYocto) => {
     return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
   };
-
   const _address = (address, _limit) => {
     const limit = _limit || 20;
     if (address.length > limit) return address.slice(0, 10) + "...";
     else return address;
   };
-
   function fetchNFTDetails() {
     asyncFetch("https://graph.mintbase.xyz", {
       method: "POST",
@@ -341,21 +318,17 @@ const Delist = ({ onClose, data, isDarkModeOn }) => {
       }
     });
   }
-
   fetchNFTDetails();
   const cols = Array.from(Array().keys());
-
   function formatTimeDifference(created_at) {
     const msPerMinute = 60 * 1000;
     const msPerHour = msPerMinute * 60;
     const msPerDay = msPerHour * 24;
     const msPerMonth = msPerDay * 30;
     const msPerYear = msPerDay * 365;
-
     const createdTime = new Date(created_at).getTime();
     const currentTime = new Date().getTime();
     const elapsed = currentTime - createdTime;
-
     if (elapsed < msPerMinute) {
       return Math.round(elapsed / 1000) + " seconds ago";
     } else if (elapsed < msPerHour) {
@@ -370,17 +343,14 @@ const Delist = ({ onClose, data, isDarkModeOn }) => {
       return Math.round(elapsed / msPerYear) + " years ago";
     }
   }
-
   const handleDelist = (token) => {
     if (!token) return;
     delist(data?.nft_contract_id, [token], true);
   };
-
   const delistMultiple = () => {
     const tokenIds = listings?.map((data) => data?.id);
     delist(data?.nft_contract_id, tokenIds, true);
   };
-
   const listingType = {
     near: nearIcon,
     "ft::a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near":
@@ -390,7 +360,6 @@ const Delist = ({ onClose, data, isDarkModeOn }) => {
     "usdc.fakes.testnet": usdcIcon,
     "usdt.fakes.testnet": usdtIcon,
   };
-
   return (
     <DelistContainer isDarkModeOn={isDarkModeOn}>
       <Top isDarkModeOn={isDarkModeOn}>
@@ -481,5 +450,4 @@ const Delist = ({ onClose, data, isDarkModeOn }) => {
     </DelistContainer>
   );
 };
-
 return <Delist {...props} />;
