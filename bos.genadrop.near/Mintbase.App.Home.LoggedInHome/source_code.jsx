@@ -32,9 +32,7 @@ const Routes = styled.div`
     overflow-x: scroll;
   }
 `;
-
 const LoggedInHome = styled.div``;
-
 const pageRoutes = {
   MyContracts: {
     name: "My Contracts",
@@ -57,10 +55,8 @@ const pageRoutes = {
     link: "",
   },
 };
-
 const [activeTab, setActiveTab] = useState(-1);
 const [currentTab, setCurrentTab] = useState(tab || "Enterprise");
-
 useEffect(() => {
   if (tab) {
     setCurrentTab(tab);
@@ -68,14 +64,12 @@ useEffect(() => {
     setActiveTab(index);
   }
 }, [tab]);
-
 const handleTabClick = (index) => {
   const fieldName = Object.keys(pageRoutes)[index];
   setActiveTab(index);
   setCurrentTab(pageRoutes[fieldName].name);
   setPage(1);
 };
-
 return (
   <LoggedInHome>
     <Routes>
