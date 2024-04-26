@@ -1,5 +1,4 @@
 const { isDarkModeOn, image, title, profileImage, owner } = props;
-
 const FeaturedCard = styled.div`
   width: 600px;
   height: 299px;
@@ -38,7 +37,6 @@ const FeaturedCard = styled.div`
     }
   }
 `;
-
 return (
   <FeaturedCard>
     <div className="image">
