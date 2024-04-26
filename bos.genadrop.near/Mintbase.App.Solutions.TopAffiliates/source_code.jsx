@@ -3,13 +3,11 @@ const accountId = props.accountId ?? "bos.genadrop.near";
 const YoctoToNear = (amountYocto) => {
   return new Big(amountYocto || 0).div(new Big(10).pow(24)).toString();
 };
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
   else return address;
 };
-
 const Root = styled.div`
   width: 100%;
   overflow: hidden;
@@ -51,7 +49,6 @@ const Root = styled.div`
     color: white;
   }
 `;
-
 const ContainerTable = styled.div`
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
   display: flex;
@@ -63,7 +60,6 @@ const ContainerTable = styled.div`
     width: 100vw;
     font-size: 12px;
   }
-
   .header {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -78,7 +74,6 @@ const ContainerTable = styled.div`
       text-align: center;
       border-bottom: 2px solid ${isDarkModeOn ? "#374151" : "#E5E7EB"};
     }
-
     .item1 {
       grid-column-start: 1;
       grid-column-end: 1;
@@ -97,7 +92,6 @@ const ContainerTable = styled.div`
       grid-column-end: 8;
     }
   }
-
   .trx-row {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 3fr));
@@ -110,7 +104,6 @@ const ContainerTable = styled.div`
     &:last-of-type {
       border-bottom-color: transparent;
     }
-
     a {
       text-decoration: none;
     }
@@ -154,7 +147,6 @@ const ContainerTable = styled.div`
       align-items: center;
       text-decoration: none;
       gap: 10px;
-
       div {
         white-space: nowrap;
         height: 40px;
@@ -186,7 +178,6 @@ const ContainerTable = styled.div`
       border-radius: 2px;
       text-transform: uppercase;
     }
-
     .time {
       display: flex;
       align-items: center;
@@ -206,7 +197,6 @@ const ContainerTable = styled.div`
       }
     }
   }
-
   .price {
     display: flex;
     gap: 4px;
@@ -217,7 +207,6 @@ const ContainerTable = styled.div`
       width: 14px;
     }
   }
-
   @media (max-width: 500px) {
     .header,
     .trx-row {
@@ -251,7 +240,6 @@ const Container = styled.div`
     gap: 2rem;
   }
 `;
-
 const Card = styled.a`
   display: flex;
   flex-direction: column;
@@ -272,7 +260,6 @@ const Card = styled.a`
     transform: translateY(-1rem);
   }
 `;
-
 const HeaderContainer = styled.div`
   padding-left: 16px;
   &:hover {
@@ -283,9 +270,7 @@ const HeaderContainer = styled.div`
     border-radius: 0;
   }
 `;
-
 const backgroundStyleHeightPx = 168;
-
 const BackgroundImageContainer = styled.div`
   img {
     position: absolute;
@@ -310,7 +295,6 @@ const backgroundImageStyle = {
   borderRadius: "6px 6px 0px 0px",
   pointerEvents: "none",
 };
-
 const Info = styled.div`
   display: flex;
   flex-direction: column;
@@ -319,7 +303,6 @@ const Info = styled.div`
   gap: 16px;
   flex: 1;
 `;
-
 const Title = styled.div`
   font-size: 20px;
   font-weight: 600;
@@ -329,14 +312,12 @@ const Title = styled.div`
   white-space: nowrap;
   width: 100%;
 `;
-
 const SubTitle = styled.div`
   font-size: 16px;
   font-weight: 400;
   color: ${isDarkModeOn ? "#9699a2" : "#2e2e2e"};
   word-wrap: break-word;
 `;
-
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -346,7 +327,6 @@ const Footer = styled.div`
   padding: 10px 0;
   margin-bottom: 20px;
 `;
-
 const Button = styled.div`
   border: 1px solid gray;
   padding: 5px 20px;
@@ -356,7 +336,6 @@ const Button = styled.div`
     background: #e7e7e7;
   }
 `;
-
 const LayoutFooter = styled.div`
   display: grid;
   margin-bottom: 5rem;
@@ -406,7 +385,6 @@ const LayoutFooter = styled.div`
     font-weight: 600;
   }
 `;
-
 return (
   <>
     <Root>
@@ -468,7 +446,6 @@ return (
                 <div>magicbuild.near</div>
               </a>
             </div>
-
             <div className="item3">
               {" "}
               {true ? (
