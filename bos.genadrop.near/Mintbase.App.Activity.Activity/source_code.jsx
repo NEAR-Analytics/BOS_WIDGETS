@@ -1,29 +1,25 @@
-const {IsDarkModeOn,accountId} = props;
-
+const { IsDarkModeOn, accountId } = props;
 const Root = styled.div`
   width: 100%;
   overflow: hidden;
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
-  margin:30px 0;
-  .title{
+  margin: 30px 0;
+  .title {
     font-size: 20px;
-    font-weight:700;
-    margin-bottom:20px;
+    font-weight: 700;
+    margin-bottom: 20px;
   }
 `;
-
 const ContainerTable = styled.div`
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
   display: flex;
   flex-direction: column;
   overflow-x: scroll; /* Prevent horizontal overflow */
   margin: 20px;
-
   @media (max-width: 500px) {
     width: 100vw;
     font-size: 12px;
   }
-
   .header {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -39,7 +35,6 @@ const ContainerTable = styled.div`
       border-bottom: 2px solid ${isDarkModeOn ? "#374151" : "#E5E7EB"};
     }
   }
-
   .trx-row {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 3fr));
@@ -51,7 +46,6 @@ const ContainerTable = styled.div`
     &:last-of-type {
       border-bottom-color: transparent;
     }
-
     a {
       text-decoration: none;
     }
@@ -71,7 +65,7 @@ const ContainerTable = styled.div`
       border-radius: 2px;
       transition: all 200ms;
       :hover {
-        background: '';
+        background: "";
         color: white;
       }
     }
@@ -91,7 +85,7 @@ const ContainerTable = styled.div`
         border-radius: 2px;
         transition: all 200ms;
         :hover {
-          background: '';
+          background: "";
           color: white;
         }
       }
@@ -111,7 +105,6 @@ const ContainerTable = styled.div`
       border-radius: 2px;
       text-transform: uppercase;
     }
-
     .time {
       display: flex;
       align-items: center;
@@ -127,12 +120,11 @@ const ContainerTable = styled.div`
         transition: all 200ms ease 0s;
         :hover {
           fill: white;
-          background: '';
+          background: "";
         }
       }
     }
   }
-
   .price {
     display: flex;
     gap: 4px;
@@ -143,7 +135,6 @@ const ContainerTable = styled.div`
       width: 14px;
     }
   }
-
   @media (max-width: 500px) {
     .header,
     .trx-row {
@@ -151,18 +142,16 @@ const ContainerTable = styled.div`
     }
   }
 `;
-
 const Row = styled.div`
-    margin-top:20px;
-    display:flex;
-    flex-direction: row; 
-    gap:20px;
-    flex-wrap: nowrap;
-    width:100%;
-    justify-content: center;
-    padding: 10px 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: center;
+  padding: 10px 20px;
 `;
-
 const ContainerCard = styled.div`
   .info-card {
     border-radius: 0.25rem;
@@ -188,9 +177,7 @@ const ContainerCard = styled.div`
       align-items: center;
     }
     
-
 `;
-
 const Title = styled.div`
   color: ${IsDarkModeOn ? "var(--gray-300)" : "var(--gray-700)"};
   font-size: 13px;
@@ -205,71 +192,69 @@ const Description = styled.div`
   .description-rt {
     display: flex;
     width: 100%;
-    font-size:18px;
+    font-size: 18px;
     font-weight: 600;
   }
 `;
-
-
-const MbCard = ({title,description})=>{
-    return(
-        title&&description&&
-        <ContainerCard>
-            <div className="info-card medium">
-                <div className={`title-wrapper`}>
-                    <Title>{title}</Title>
-                </div>
-                <Description>
-                    <div className="description-rt">{description}</div>
-                </Description>
-            </div>     
-        </ContainerCard>
+const MbCard = ({ title, description }) => {
+  return (
+    title &&
+    description && (
+      <ContainerCard>
+        <div className="info-card medium">
+          <div className={`title-wrapper`}>
+            <Title>{title}</Title>
+          </div>
+          <Description>
+            <div className="description-rt">{description}</div>
+          </Description>
+        </div>
+      </ContainerCard>
     )
-}
-
+  );
+};
 const data = [
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-    {
-        title: "Total Transactions (All Near)",
-        description: "4,644,3773"
-    },
-]
-
-return(
-    <div>
-        <Row>
-            {data.map((dt)=>(
-                <MbCard title={dt.title} description={dt.description}/>
-            ))} 
-        </Row>
-        <Root>
-            <div className="title">Transactions</div>
-            <Widget
-                src={`${accountId}/widget/Mintbase.App.Home.HomeTableActivity`}
-                props={{ 
-                    isDisable:false,
-                    limit:30,
-                }}
-            />
-        </Root>
-    </div>
-)
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+  {
+    title: "Total Transactions (All Near)",
+    description: "4,644,3773",
+  },
+];
+return (
+  <div>
+    <Row>
+      {data.map((dt) => (
+        <MbCard title={dt.title} description={dt.description} />
+      ))}
+    </Row>
+    <Root>
+      <div className="title">Transactions</div>
+      <Widget
+        src={`${accountId}/widget/Mintbase.App.Home.HomeTableActivity`}
+        props={{
+          isDisable: false,
+          limit: 30,
+        }}
+      />
+    </Root>
+  </div>
+);
