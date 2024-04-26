@@ -70,6 +70,9 @@ const PropertiesContent = styled.div`
     overflow: hidden;
   }
 `;
+const MonospaceText = styled.span`
+  font-family: monospace;
+`;
 return (
   <Container>
     <div>
@@ -95,8 +98,10 @@ return (
     <div>
       <Heading>Description</Heading>
       <p>
-        This component will generate the `src` object necessary for the `Player`
-        component to display the video.
+        This component is responsible for generating the
+        <MonospaceText>src</MonospaceText> object required by the
+        <MonospaceText>Player</MonospaceText>
+        component to facilitate video display.
       </p>
     </div>
     <UsageContent>
