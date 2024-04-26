@@ -12,7 +12,6 @@ const Root = styled.div`
   }
 `;
 const Contents = styled.div``;
-
 const availableTabs = [
   "explore",
   "singleNFT",
@@ -23,15 +22,12 @@ const availableTabs = [
   "dropFunds",
   "singleContest",
 ];
-
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
     return "home";
   }
-
   return tab;
 };
-
 State.init({
   tab: getTab(state.tab),
   contractId: "",
@@ -42,9 +38,7 @@ State.init({
   daoId: "",
   daoContractId: "",
 });
-
 const update = (state) => State.update(state);
-
 const tabContentWidget = {
   home: "bos.genadrop.near/widget/CPlanet.Home.Home",
   explore: "bos.genadrop.near/widget/CPlanet.NFTExplore.Index",
@@ -56,7 +50,6 @@ const tabContentWidget = {
   dropFunds: "bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Index",
   singleContest: "bos.genadrop.near/widget/CPlanet.DropsFund.Contest.Single",
 }[state.tab];
-
 const tabContent = (
   <Widget
     src={tabContentWidget}
@@ -72,7 +65,6 @@ const tabContent = (
     }}
   />
 );
-
 return (
   <Root>
     <div className={state.tab === "home" ? "isHome" : ""}>
