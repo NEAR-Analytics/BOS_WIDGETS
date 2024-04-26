@@ -20,4 +20,4 @@ const CheckboxRoot = ({ className, ...props }) => (
   </Tailwind>
 );
 
-return { Checkbox };
+return { CheckboxRoot };
