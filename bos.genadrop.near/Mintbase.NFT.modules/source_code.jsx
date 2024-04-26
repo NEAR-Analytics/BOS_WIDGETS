@@ -1,40 +1,25 @@
 const LISTING_DEPOSIT = `1000${"0".repeat(18)}`;
 const GAS = "200000000000000";
-
 const MARKET_CONTRACT_ADDRESS = {
   mainnet: "simple.market.mintbase1.near",
   testnet: "market-v2-beta.mintspace2.testnet",
 };
-
 const USDC_ADDRESS = {
   mainnet: "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near",
   testnet: "usdc.fakes.testnet",
 };
-
 const USDT_ADDRESS = {
   mainnet: "dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near",
   testnet: "usdt.fakes.testnet",
 };
-
 const ftContracts = {
   usdt: USDT_ADDRESS,
   usdc: USDC_ADDRESS,
 };
-
 const _price = (price) =>
   Number(Number(new Big(price).mul(new Big(10).pow(24)).toString()))
     .toLocaleString()
     .replace(/,/g, "");
-
-/**
- * The function `nftTransfer` transfers an NFT with a specified token ID to a specified account ID
- * using a specified contract name.
- * @returns The function `nftTransfer` is returning the result of calling the `Near.call` function with
- * a specific configuration object as an argument. The configuration object includes the contract name,
- * method name, arguments (token_id and receiver_id), and deposit amount. The function is attempting to
- * transfer an NFT (Non-Fungible Token) with the specified token ID to the specified account ID using
- * the given
- */
 const nftTransfer = (tokenId, accountIds, contractName) => {
   const deposit = 1;
   if (typeof accountIds !== "string") {
@@ -66,27 +51,17 @@ const nftTransfer = (tokenId, accountIds, contractName) => {
     console.log(err);
   }
 };
-
-/**
- * The function `listNFT` lists NFTs for sale on a marketplace contract, handling different scenarios
- * based on parameters such as contract address, token IDs, price, and fungible token.
- * @returns The `listNFT` function returns the result of calling the `Near.call` function with an array
- * of objects containing contract information for depositing storage and listing NFTs. If an error
- * occurs during the process, the function catches the error and logs it to the console.
- */
 const listNFT = (contractAddress, tokenIds, mainnet, price, ft) => {
   if (!contractAddress) return;
   if (tokenIds.length < 1) return;
   const gas = 2e14;
   const storageDeposit = 1e22;
   const msg = { price: _price(price) };
-
   if (ft) {
     const ftContractId = ftContracts[ft].mainnet;
     msg.ft_contract = ftContractId;
     msg.price = Number(price) * 1000000;
   }
-
   const ids = tokenIds.map((data) => ({
     contractName: contractAddress,
     args: {
@@ -117,14 +92,6 @@ const listNFT = (contractAddress, tokenIds, mainnet, price, ft) => {
     console.log(error);
   }
 };
-
-/**
- * The `delist` function takes a contract address, an array of token IDs, a boolean flag for mainnet,
- * and an old market object, then constructs and executes a series of unlist operations using the Near
- * protocol.
- * @returns The `delist` function returns the result of calling the `Near.call` function with an array
- * of objects representing token IDs to be delisted from a market contract.
- */
 const delist = (contractAddress, tokenIds, mainnet, oldMarket) => {
   if (!tokenIds.length) return;
   const ids = tokenIds.map((data) => ({
@@ -145,18 +112,8 @@ const delist = (contractAddress, tokenIds, mainnet, oldMarket) => {
     console.log(error);
   }
 };
-
-/**
- * The function `burnNFT` is used to batch burn NFTs by calling the `nft_batch_burn` method on a
- * specified contract address with given token IDs.
- * @returns The `burnNFT` function is returning the result of calling the `Near.call` function with the
- * specified parameters. The `Near.call` function is making a contract call to the specified
- * `contractAddress` with the method name "nft_batch_burn" and passing the `tokenIds` as arguments. The
- * function is also specifying gas and deposit values for the contract call. If the contract
- */
 const burnNFT = (contractAddress, tokenIds, mainnet) => {
   if (!tokenIds.length) return;
-
   try {
     return Near.call([
       {
@@ -173,7 +130,6 @@ const burnNFT = (contractAddress, tokenIds, mainnet) => {
     console.log(error);
   }
 };
-
 const multiplyNFT = (
   contractAddress,
   ownerId,
@@ -205,7 +161,6 @@ const multiplyNFT = (
     console.log(error);
   }
 };
-
 return {
   nftTransfer,
   listNFT,
