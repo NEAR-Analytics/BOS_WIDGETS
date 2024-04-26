@@ -12,7 +12,6 @@ const facebookIcon = (
     />
   </svg>
 );
-
 const twitterIcon = (
   <svg
     width="24"
@@ -27,7 +26,6 @@ const twitterIcon = (
     />
   </svg>
 );
-
 const callIcon = (
   <svg
     width="24"
@@ -42,7 +40,6 @@ const callIcon = (
     />
   </svg>
 );
-
 const telegram = (
   <svg
     width="24"
@@ -57,7 +54,6 @@ const telegram = (
     />
   </svg>
 );
-
 const Root = styled.div`
   min-height: 512px;
   background: black;
@@ -78,7 +74,6 @@ const Top = styled.div`
   width: 100%;
   flex-wrap: wrap;
 `;
-
 const Bottom = styled.div`
   display: flex;
   flex-direction: row;
@@ -86,7 +81,6 @@ const Bottom = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-
 const LeftFoot = styled.div`
       min-width: 50%;
        p {
@@ -129,7 +123,6 @@ const LeftFoot = styled.div`
       }
     }
   `;
-
 const RightHeader = styled.div`
   display: flex;
   h1:first-child {
@@ -146,7 +139,6 @@ const RightHeader = styled.div`
     text-transform: uppercase;
   }
 `;
-
 const RightFoot = styled.div`
   display: flex;
   width: 40%;
@@ -157,7 +149,6 @@ const RightFoot = styled.div`
     width: 100%;
   }
 `;
-
 const Socials = styled.div`
   display: flex;
   flex-direction: column;
@@ -194,11 +185,9 @@ const Socials = styled.div`
     }
   }
 `;
-
 const CopyRight = styled.div`
   color: white;
 `;
-
 const Policies = styled.div`
   a {
     color: white;
@@ -207,7 +196,6 @@ const Policies = styled.div`
     margin-right: 10px;
   }
 `;
-
 return (
   <Root>
     <Top>
