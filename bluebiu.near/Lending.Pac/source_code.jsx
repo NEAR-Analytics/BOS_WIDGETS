@@ -261,44 +261,51 @@ function calcHealthFactor(type, symbol, amount) {
   //   isValid(state.yourTotalBorrow),
   //   isValid(amount)
   // );
-  if (
-    // !isValid(state.yourTotalCollateral) ||
-    // !isValid(state.yourTotalBorrow) ||
-    isNaN(Number(state.yourTotalCollateral)) ||
-    isNaN(Number(state.yourTotalBorrow)) ||
-    !isValid(amount)
-  )
-    return "-";
-  let newHealthFactor;
-  let totalCollateral = Big(state.yourTotalCollateral);
-  let totalBorrows = Big(state.yourTotalBorrow);
+  try {
+    if (
+      // !isValid(state.yourTotalCollateral) ||
+      // !isValid(state.yourTotalBorrow) ||
+      isNaN(Number(state.yourTotalCollateral)) ||
+      isNaN(Number(state.yourTotalBorrow)) ||
+      !isValid(amount)
+    )
+      return "-";
+    let newHealthFactor;
+    let totalCollateral = Big(state.yourTotalCollateral);
+    let totalBorrows = Big(state.yourTotalBorrow);
+    const tokenPrice =
+      state.assetsToSupply.find((item) => item.symbol === symbol).tokenPrice ||
+      1;
+    const assetsUSD = Big(tokenPrice).times(Big(amount));
+    if (type === "SUPPLY") {
+      totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
+    }
+    if (type === "INC_COLLATERAL") {
+      totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
+    }
+    if (type === "WITHDRAW") {
+      totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
+    }
+    if (type === "DEC_COLLATERAL") {
+      totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
+    }
+    if (type === "BORROW") {
+      totalBorrows = Big(state.yourTotalBorrow).plus(assetsUSD);
+    }
+    if (type === "REPAY") {
+      totalBorrows = Big(state.yourTotalBorrow).minus(assetsUSD);
+    }
+    if (totalBorrows.eq(0)) return "∞";
 
-  const assetsUSD = Big(prices[symbol]).times(Big(amount));
-  if (type === "SUPPLY") {
-    totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
-  }
-  if (type === "INC_COLLATERAL") {
-    totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
-  }
-  if (type === "WITHDRAW") {
-    totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
-  }
-  if (type === "DEC_COLLATERAL") {
-    totalCollateral = Big(state.yourTotalCollateral).minus(assetsUSD);
-  }
-  if (type === "BORROW") {
-    totalBorrows = Big(state.yourTotalBorrow).plus(assetsUSD);
-  }
-  if (type === "REPAY") {
-    totalBorrows = Big(state.yourTotalBorrow).minus(assetsUSD);
-  }
-  if (totalBorrows.eq(0)) return "∞";
-  newHealthFactor = totalCollateral
-    .times(Big(state.threshold))
-    .div(totalBorrows);
+    newHealthFactor = totalCollateral
+      .times(Big(state.threshold))
+      .div(totalBorrows);
 
-  console.log("calcHealthFactor--", newHealthFactor);
-  return newHealthFactor.toFixed(2);
+    console.log("calcHealthFactor--", newHealthFactor);
+    return newHealthFactor.toFixed(2);
+  } catch (error) {
+    console.log("CATCH_calcHealthFactor", error);
+  }
 }
 
 function batchBalanceOf(userAddress, tokenAddresses) {
