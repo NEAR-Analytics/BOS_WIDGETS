@@ -52,7 +52,6 @@ const Root = styled.div`
     color: black;
     cursor: pointer;
     text-decoration: none;
-
     border: 1px solid #000;
     transition: 0.3s ease-in-out;
     padding: 6px;
@@ -85,20 +84,16 @@ const Root = styled.div`
     }
   }
 `;
-
 const communities = [
   "marmaj.sputnik-dao.near",
   "daorecords.sputnik-dao.near",
   "vibes.sputnik-dao.near",
 ];
-
 State.init({
   featuredNFTs: [],
 });
-
 const logo =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU";
-
 const fetchStoreFrontData = () => {
   const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
     method: "POST",
@@ -136,9 +131,7 @@ const fetchStoreFrontData = () => {
     });
   }
 };
-
 fetchStoreFrontData();
-
 return (
   <Root>
     <div className="head">
