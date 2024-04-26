@@ -1,5 +1,4 @@
 const groupId = props.groupId;
-
 const data = fetch("https://graph.mintbase.xyz", {
   method: "POST",
   headers: {
@@ -23,20 +22,14 @@ query Owners {
 `,
   }),
 });
-
 const nftMetadata = Near.view(groupId, "nft_metadata");
-
 if (!data.ok || !nftMetadata) {
   return "";
 }
-
 const owners = data.body.data.mb_views_nft_tokens.map((o) => o.owner);
 const isMember = owners.includes(context.accountId);
-
 const Wrapper = styled.div``;
-
 const indexKey = `nft:${groupId}`;
-
 return (
   <Wrapper>
     <Widget
