@@ -1,10 +1,8 @@
 const { getFontType } = VM.require("bos.genadrop.near/widget/Mintbase.Theme");
-
 const state = props.state || "active";
 const size = props.size || "medium";
 const customStyle = props.customStyle;
 const mode = Storage.get("mode") || props.mode;
-
 const Wrapper = styled.div`
   .action {
     border-radius: 0.25rem;
@@ -41,7 +39,6 @@ const Wrapper = styled.div`
   }
   ${customStyle}
 `;
-
 const MbAction = () => {
   return (
     <Wrapper>
@@ -55,5 +52,4 @@ const MbAction = () => {
     </Wrapper>
   );
 };
-
 return { MbAction };
