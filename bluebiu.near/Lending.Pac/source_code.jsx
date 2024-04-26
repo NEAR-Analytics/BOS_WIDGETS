@@ -47,8 +47,10 @@ const ROUND_DOWN = 0;
 const NATIVE_SYMBOL_ADDRESS_MAP_KEY = "0x0";
 const ACTUAL_BORROW_AMOUNT_RATE = 0.99;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
+const { formatUnits, parseUnits } = ethers.utils;
+
 const {
+  account,
   CHAIN_LIST,
   curChain,
   onSwitchChain,
@@ -172,21 +174,7 @@ function getConfig() {
 const config = getConfig();
 // console.log("CONFIG: ", config);
 
-function getPrice(symbol) {
-  if (["fwWETH", "oETH"].includes(symbol)) {
-    return prices["ETH"];
-  }
-  if (["oUSDB", "fwUSDB"].includes(symbol)) {
-    return prices["USDB"];
-  }
-  return prices[symbol] || 0;
-}
-
-const markets = dexConfig?.rawMarkets?.map((item) => ({
-  ...item,
-  tokenPrice: getPrice(item.symbol),
-  // tokenPrice: prices[item.symbol],
-}));
+const markets = dexConfig?.rawMarkets;
 
 const underlyingTokens = dexConfig?.rawMarkets?.map(
   (market) => market.underlyingAsset
@@ -227,11 +215,6 @@ State.init({
   isShowReloadModal: false,
 });
 
-useEffect(() => {
-  State.update({
-    assetsToSupply: markets,
-  });
-}, []);
 function showReload() {
   State.update({
     isShowReloadModal: true,
@@ -463,16 +446,47 @@ function getUserPoints() {
     });
 }
 
-// update data in async manner
+function getPrices() {
+  const contract = new ethers.Contract(
+    config.AaveOracle,
+    [
+      {
+        inputs: [
+          { internalType: "address[]", name: "assets", type: "address[]" },
+        ],
+        name: "getAssetsPrices",
+        outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  const tokenAddrs = markets.map((item) => item.underlyingAsset);
+
+  contract
+    .getAssetsPrices(tokenAddrs)
+    .then((res) => {
+      console.log("getPrices--", res);
+      const _assetsToSupply = [...state.assetsToSupply];
+      for (let index = 0; index < _assetsToSupply.length; index++) {
+        const _tokenPrice = formatUnits(res[index], 8);
+        _assetsToSupply[index].tokenPrice = _tokenPrice;
+      }
+
+      State.update({
+        assetsToSupply: _assetsToSupply,
+      });
+    })
+    .catch((err) => {
+      console.log("getPrices_error:", err);
+    })
+    .then(() => {
+      getUserBalance();
+    });
+}
+
 function getUserBalance() {
-  // check abi loaded
-  // if (
-  //   Object.keys(CONTRACT_ABI)
-  //     ?.map((key) => config[key])
-  //     .filter((ele) => !!ele).length !== Object.keys(CONTRACT_ABI).length
-  // ) {
-  //   return;
-  // }
   const provider = Ethers.provider();
   provider
     .getSigner()
@@ -524,12 +538,8 @@ function getUserBalance() {
 
 function onActionSuccess({ msg, callback }) {
   console.log("onActionSuccess--");
-  // update data if action finishes
-  getUserBalance();
 
-  State.update({
-    updater: state.updater + 1,
-  });
+  handleRefresh();
   // update UI after data has almost loaded
   setTimeout(() => {
     if (callback) {
@@ -1283,10 +1293,16 @@ function chunk(arr, size) {
   return result;
 }
 
+function handleRefresh() {
+  State.update({
+    updater: state.updater + 1,
+  });
+}
+
 useEffect(() => {
   if (!account || !isChainSupported) return;
   getUserPoints();
-  getUserBalance();
+  getPrices();
 
   getUserAccountData();
   getPoolDataProvider();
@@ -1299,7 +1315,7 @@ useEffect(() => {
 
   getYourSupplies();
   getUserDebts();
-}, [account, isChainSupported, updater]);
+}, [account, isChainSupported, state.updater]);
 
 useEffect(() => {
   if (!account || !isChainSupported) return;
@@ -1564,6 +1580,7 @@ const body = isChainSupported ? (
                 yourTotalCollateral: state.yourTotalCollateral,
                 yourTotalBorrow: state.yourTotalBorrow,
                 theme: dexConfig?.theme,
+                onRefresh: handleRefresh,
               }}
             />
           </YoursTableWrapper>
