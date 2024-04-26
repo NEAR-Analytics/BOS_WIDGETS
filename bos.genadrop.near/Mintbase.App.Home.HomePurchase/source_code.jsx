@@ -1,9 +1,7 @@
 const { getInputLabelFontType } = VM.require(
   "bos.genadrop.near/widget/Mintbase.components"
 );
-
 const { isDarkModeOn } = props;
-
 const coinSvg = (
   <svg
     width="30px"
@@ -33,7 +31,6 @@ const coinSvg = (
     ></path>
   </svg>
 );
-
 const nearIcon = (
   <svg
     width="28px"
@@ -49,7 +46,6 @@ const nearIcon = (
     ></path>
   </svg>
 );
-
 const handSvg = (
   <svg
     width="30px"
@@ -65,7 +61,6 @@ const handSvg = (
     ></path>
   </svg>
 );
-
 const walletSvg = (
   <svg
     width="30px"
@@ -81,7 +76,6 @@ const walletSvg = (
     ></path>
   </svg>
 );
-
 const HomePurchase = styled.div`
   width: 100%;
   display: flex;
@@ -149,7 +143,6 @@ const HomePurchase = styled.div`
     }
   }
 `;
-
 const ContractSection = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -184,7 +177,6 @@ const ContractSection = styled.div`
       }
       div {
         ${getInputLabelFontType("big")}
-
         display: flex;
         align-items: center;
         h1 {
@@ -220,7 +212,6 @@ const ContractSection = styled.div`
     }
   }
 `;
-
 const BuyCard = styled.div`
   background: ${isDarkModeOn ? "#1e2131" : "#fff"};
   width: 406px;
@@ -272,7 +263,6 @@ const BuyCard = styled.div`
       background: ${isDarkModeOn ? "#fff" : "#000"};
       margin-right: 10px;
     }
-
     button:last-child {
       background: ${isDarkModeOn ? "#000" : "#fff"};
       color: ${isDarkModeOn ? "#fff" : "#000"};
@@ -284,11 +274,9 @@ const BuyCard = styled.div`
     margin: 0 10px;
   }
 `;
-
 const Section = styled.div`
   width: 100%;
 `;
-
 const Partners = styled.div`
   display: flex;
   align-items: center;
@@ -340,7 +328,6 @@ const Partners = styled.div`
     margin-bottom: 48px;
   }
 `;
-
 const partners = [
   {
     link: "https://www.animocabrands.com/",
@@ -399,11 +386,9 @@ const partners = [
     image: "https://www.mintbase.xyz/investors/sustany_1.svg",
   },
 ];
-
 const { href } = VM.require("buildhub.near/widget/lib.url") || {
   href: () => {},
 };
-
 return (
   <Section>
     <HomePurchase>
