@@ -10,9 +10,7 @@ const defaultProps = [
     url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
   },
 ];
-
 const propsChains = props.chains ?? defaultProps;
-
 const chains = {
   polygon: {
     name: "Polygon",
@@ -39,7 +37,6 @@ const chains = {
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 };
-
 State.init({
   selectIsOpen: false,
   selectedChain: "0",
@@ -49,7 +46,6 @@ const handleSelectClick = () => {
     selectIsOpen: !state.selectIsOpen,
   });
 };
-
 const handleOutsideClick = (e) => {
   e.preventDefault();
   if (!!state.selectIsOpen) {
@@ -58,12 +54,10 @@ const handleOutsideClick = (e) => {
     });
   }
 };
-
 const SelectTag = styled.select`
   height: fit-content;
   width: 300px;
 `;
-
 const ChainIcon = styled.option`
   display: flex;
   height: 130px;
@@ -74,19 +68,16 @@ const ChainIcon = styled.option`
     object-fit: contain;
   }
 `;
-
 const SelectReplicaContainer = styled.div`
   position: relative;
   display: inline-block;
   margin: 0 20px;
   user-select: none;
   z-index: 1;
-
   & .select-replica__select {
     position: relative;
     z-index: 1;
   }
-
   & .select-replica__selected {
     cursor: pointer;
     display: flex;
@@ -101,18 +92,15 @@ const SelectReplicaContainer = styled.div`
     max-width: 350px;
     padding: 0 10px 0 5px;
     min-height: 20px;
-
     & > img {
       height: 100%;
       width: 80px;
       object-fit: contain;
     }
-
     & > span {
       opacity: 0.6;
     }
   }
-
   & .select-replica__options {
     position: absolute;
     opacity: 0;
@@ -129,7 +117,6 @@ const SelectReplicaContainer = styled.div`
     transition: all 0.2s;
     max-width: 350px;
   }
-
   & .select-replica__options.open {
     transition: all 0.2s;
     transform: translateY(0);
@@ -138,7 +125,6 @@ const SelectReplicaContainer = styled.div`
     width: 100%;
     max-width: 350px;
   }
-
   & .select-replica__option {
     display: flex;
     justify-content: center;
@@ -148,11 +134,9 @@ const SelectReplicaContainer = styled.div`
     padding: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
-
   & .select-replica__option.selected {
     background-color: #f0f0f0;
   }
-
   & .select-replica__option img {
     height: 80px;
     width: 100px;
@@ -173,7 +157,6 @@ const handleChainChange = (chain_id, chainName) => {
     console.log(err);
   }
 };
-
 return (
   <>
     <SelectReplicaContainer>
