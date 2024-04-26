@@ -6,10 +6,8 @@ const { getOffersToAccount, getTimePassed } = VM.require(
 };
 const accountId = props.accountId || context.accountId;
 const perPage = 50;
-
 const nearLogo =
   "https://ipfs.near.social/ipfs/bafkreib2cfbayerbbnoya6z4qcywnizqrbkzt5lbqe32whm2lubw3sywr4";
-
 const _address = (address, _limit) => {
   const limit = _limit || 20;
   if (address.length > limit) return address.slice(0, 10) + "...";
@@ -21,7 +19,6 @@ const YoctoToNear = (offer_priceYocto) => {
     .toFixed(2)
     .toString();
 };
-
 const OffersToAccount = ({ isDarkModeOn }) => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState(null);
@@ -46,7 +43,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
         console.error(error);
       });
   }, [limit, offset, page]);
-
   const Container = styled.div`
     background: ${isDarkModeOn ? "#1f2031" : "#fff"};
     display: flex;
@@ -56,13 +52,11 @@ const OffersToAccount = ({ isDarkModeOn }) => {
     height: fit-content;
     flex: 1;
     width: 100%;
-
     @media (max-width: 500px) {
       width: 100vw;
       min-width: 100vw;
       font-size: 12px;
     }
-
     .topic_line {
       display: flex;
       justify-content: space-between;
@@ -87,7 +81,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
         font-weight: 600;
       }
     }
-
     .table_main {
       display: flex;
       overflow: auto;
@@ -114,7 +107,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
         }
         ${cursomStyle}
       }
-
       .trx-row {
         display: grid;
         grid-template-columns: repeat(6, minmax(150px, 3fr));
@@ -146,7 +138,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
           line-height: 18px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Assuming Tailwind CSS default timing function and duration */
           white-space: nowrap;
-
           &:focus {
             outline: 2px solid transparent; /* Assuming Tailwind CSS default focus outline */
             outline-offset: 2px; /* Assuming Tailwind CSS default focus outline offset */
@@ -158,13 +149,11 @@ const OffersToAccount = ({ isDarkModeOn }) => {
               ? "rgba(59, 130, 246, 0.35)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           &:hover {
             background-color: ${isDarkModeOn
               ? "rgba(59, 130, 246, 0.15)"
               : "rgba(66, 153, 225, 0.15)"}; /* Ternary for background-color */
           }
-
           cursor: pointer;
           @media (max-width: 768px) {
             padding: 12px;
@@ -202,7 +191,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
             height: 40px;
           }
         }
-
         .time {
           display: flex;
           align-items: center;
@@ -221,7 +209,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
           }
         }
       }
-
       .price {
         display: flex;
         gap: 4px;
@@ -233,7 +220,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
           filter: invert(${isDarkModeOn ? 1 : 0});
         }
       }
-
       @media (max-width: 500px) {
         .header,
         .trx-row {
@@ -245,15 +231,11 @@ const OffersToAccount = ({ isDarkModeOn }) => {
   const tableToggleHander = () => {
     setShowTable((prev) => !prev);
   };
-
   const acceptAndTransferHandler = () => null;
-
   const offers = data.mb_views_auctions_with_offer;
   const totalItems =
     data.mb_views_auctions_with_offer_aggregate.aggregate.count;
-
   console.log("offers", offers);
-
   return (
     <Container>
       <div className="topic_line" onClick={tableToggleHander}>
@@ -283,7 +265,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
                     accountId.endsWith(".testnet") ? "api3-testnet" : "api3"
                   }.nearblocks.io/v1/search?keyword=${offer.receipt_id}`
                 );
-
                 const regex = /https?:\/\/[^ ]+/;
                 const found = regex.test(offer.media);
                 const imageUrl = found
@@ -335,7 +316,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
                           : "No Title"}
                       </Link>
                     </div>
-
                     <div>
                       {" "}
                       {offer.offer_price ? (
@@ -392,7 +372,6 @@ const OffersToAccount = ({ isDarkModeOn }) => {
                 );
               })}
           </div>
-
           {!offers.length && (
             <p className="trx-row">
               <div>No offers yet</div>
@@ -422,5 +401,4 @@ const OffersToAccount = ({ isDarkModeOn }) => {
     </Container>
   );
 };
-
 return <OffersToAccount {...props} />;
