@@ -1,12 +1,9 @@
 // const { getInputLabelFontType } = VM.require(
 //   "bos.genadrop.near/widget/Mintbase.components"
 // );
-
 const color = props.color || "#c2cdfd";
 const { isDarkModeOn } = props;
-
 const [sliceIndex, setSliceIndex] = useState(6);
-
 const data = fetch("https://api.mintbase.xyz/stores/top-stores", {
   method: "GET",
   headers: {
@@ -14,18 +11,14 @@ const data = fetch("https://api.mintbase.xyz/stores/top-stores", {
     "Content-Type": "application/json",
   },
 });
-
 const tableData = JSON.parse(data?.body);
-
 if (!tableData) return <div>No Data Available</div>;
-
 const App = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
-
 const Container = styled.div`
   background: ${isDarkModeOn ? "#1f2031" : "#fff"};
   display: flex;
@@ -63,7 +56,6 @@ const Container = styled.div`
     .header {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-
     .header > *:nth-child(4) {
       display: none;
     }
@@ -105,7 +97,6 @@ const Container = styled.div`
         text-align: left !important;
         border-radius: 2px;
         transition: all 200ms;
-
         :hover {
           background: ${color};
           color: white;
@@ -140,14 +131,12 @@ const Container = styled.div`
     }
   }
 `;
-
 const Button = styled.div`
   color: black;
   border: 1px solid #000;
   border-radius: 6px;
   padding: 5px 10px;
 `;
-
 const Trx = styled.div``;
 const kindColor = {
   list: "#8c4fe5",
@@ -157,7 +146,6 @@ const kindColor = {
   make_offer: "#4f58a3",
   mint: "#000000",
 };
-
 return (
   <App>
     <Container>
@@ -179,7 +167,6 @@ return (
                 />
                 {activity?.name && <div>{activity.name}</div>}
               </a>
-
               <div>
                 {" "}
                 {activity.transactions ? (
@@ -213,7 +200,6 @@ return (
                 />
                 {activity?.name && <div>{activity.name}</div>}
               </a>
-
               <div>
                 {" "}
                 {activity.transactions ? (
