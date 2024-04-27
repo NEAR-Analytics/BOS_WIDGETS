@@ -50,6 +50,12 @@ let orbitArray = [
   { key: "KELP", label: "KELP" },
 ];
 
+const switchToMarkets = () => {
+  State.update({
+    tab: "market",
+  });
+};
+
 return (
   <StyledContainer style={dexConfig.theme}>
     <StyledHeader>
@@ -110,6 +116,7 @@ return (
         nativeCurrency,
         tab: state.tab,
         orbitTab: state.orbitTab,
+        switchToMarkets,
       }}
     />
 
