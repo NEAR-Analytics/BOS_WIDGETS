@@ -172,7 +172,8 @@ return (
           <Right>
             <Label>LTV</Label>
             <Value className="supply-color">
-              {userTotalBorrowUsd && userTotalSupplyUsd
+              {!Big(userTotalBorrowUsd || 0).eq(0) &&
+              !Big(userTotalSupplyUsd || 0).eq(0)
                 ? Big(userTotalBorrowUsd || 1)
                     .div(Big(userTotalSupplyUsd || 1))
                     .times(100)
