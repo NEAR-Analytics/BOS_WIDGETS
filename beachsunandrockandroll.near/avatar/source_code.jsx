@@ -5,7 +5,11 @@ const avatarClassname =
 
 const AvatarRoot = ({ className, children, ...props }) => (
   <Tailwind>
-    <Avatar.Root className={className ?? avatarClassname} {...props}>
+    <Avatar.Root
+      ref="forwardedRef"
+      className={className ?? avatarClassname}
+      {...props}
+    >
       {children}
     </Avatar.Root>
   </Tailwind>
@@ -15,7 +19,11 @@ const avatarImageClassname = "aspect-square h-full w-full";
 
 const AvatarImage = ({ className, children, ...props }) => (
   <Tailwind>
-    <Avatar.Image className={className ?? avatarImageClassname} {...props} />
+    <Avatar.Image
+      ref="forwardedRef"
+      className={className ?? avatarImageClassname}
+      {...props}
+    />
   </Tailwind>
 );
 
@@ -25,6 +33,7 @@ const avatarFallbackClassname =
 const AvatarFallback = ({ className, children, ...props }) => (
   <Tailwind>
     <Avatar.Fallback
+      ref="forwardedRef"
       className={className ?? avatarFallbackClassname}
       {...props}
     >
