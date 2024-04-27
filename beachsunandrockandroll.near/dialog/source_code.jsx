@@ -118,4 +118,10 @@ return {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  dialogOverlayClassname,
+  dialogDescriptionClassname,
+  dialogFooterClassname,
+  dialogHeaderClassname,
+  dialogOverlayClassname,
+  dialogTitleClassname,
 };
