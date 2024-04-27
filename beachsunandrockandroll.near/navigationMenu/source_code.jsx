@@ -48,10 +48,20 @@ const NavigationMenuTrigger = ({ className, children, ...props }) => (
       {...props}
     >
       {children}{" "}
-      <i
-        class="bi bi-chevron-down relative top-[1px] ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180"
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="12"
+        height="12"
+        fill="currentColor"
+        className="bi bi-chevron-down relative top-[1px] ml-1 h-3 w-3 transition duration-300 group-data-[state=open]:rotate-180"
+        viewBox="0 0 16 16"
         aria-hidden="true"
-      ></i>
+      >
+        <path
+          fill-rule="evenodd"
+          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+        />
+      </svg>
     </NavigationMenu.Trigger>
   </Tailwind>
 );
@@ -110,7 +120,6 @@ const NavigationMenuIndicator = ({ className, ...props }) => (
 );
 
 return {
-  navigationMenuTriggerStyle,
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
