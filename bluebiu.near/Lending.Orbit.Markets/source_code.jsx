@@ -4,12 +4,12 @@ const COLUMNS = [
   {
     key: "asset",
     label: "Asset",
-    width: "30%",
+    width: "20%",
   },
   {
     key: "poolSize",
     label: "PoolSize",
-    width: "15%",
+    width: "20%",
     type: "amount",
   },
   // {
@@ -21,7 +21,7 @@ const COLUMNS = [
   {
     key: "supplyApy",
     label: "Supply APY",
-    width: "12%",
+    width: "20%",
     type: "apy",
   },
   // {
@@ -33,14 +33,14 @@ const COLUMNS = [
   {
     key: "borrowApy",
     label: "Borrow APR",
-    width: "12%",
+    width: "20%",
     type: "apy",
   },
 
   {
     key: "userSupply",
     label: "Supplied",
-    width: "15%",
+    width: "18%",
     type: "amount",
   },
 
