@@ -88,8 +88,10 @@ return (
       {activeTab === "Create" && (
         <div>
           <div className="m-2">
-            <p>Coming soon! Create Attestations & Schemas!</p>
+            <h4>Coming soon! Create Attestations & Schemas using EAS!</h4>
             <hr />
+            <h4>Create attestations on Near socialDB:</h4>
+            <Widget src="flowscience.near/widget/attest" />
           </div>
         </div>
       )}
