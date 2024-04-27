@@ -15,6 +15,7 @@ const {
   chainId,
   nativeCurrency,
   tab,
+  orbitTab,
 } = props;
 // console.log("CONTENT--", props);
 useEffect(() => {
@@ -22,6 +23,12 @@ useEffect(() => {
     loading: !chainIdNotSupport,
   });
 }, [chainIdNotSupport]);
+
+useEffect(() => {
+  State.update({
+    loading: true,
+  });
+}, [orbitTab]);
 
 const handleTableButtonClick = (address, actionText) => {
   const market = state.markets[address];
@@ -115,6 +122,7 @@ return (
         multicall,
         prices,
         ...dexConfig,
+        orbitTab,
         onLoad: (data) => {
           console.log("DATA_onLoad:", data);
           State.update({
