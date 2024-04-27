@@ -106,11 +106,15 @@ return (
       })}
 
     {props.components
-      ?.filter((cmp) => !cmp.target.insteadOf?.linkId)
-      .map((Component, i) => (
-        <WidgetWrapper key={i}>
-          <Component context={props.context} />
-        </WidgetWrapper>
-      ))}
+      ? props.components
+          .filter(
+            (cmp) => !cmp.target.insteadOf || !cmp.target.insteadOf.linkId
+          )
+          .map((Component, i) => (
+            <WidgetWrapper key={i}>
+              <Component context={props.context} />
+            </WidgetWrapper>
+          ))
+      : null}
   </Container>
 );
