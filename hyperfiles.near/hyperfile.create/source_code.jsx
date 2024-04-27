@@ -165,7 +165,7 @@ return (
                 value: source,
                 options: {
                   source: {
-                    sourcePattern: "*/profile/source/*",
+                    sourcePattern: "*/source/*",
                     placeholder: "Select a source",
                   },
                 },
@@ -174,6 +174,7 @@ return (
           </FormGroup>
           <FormGroup>
             <Label>Schema</Label>
+            <Widget src="hyperfiles.near/widget/schema.array" />
             <Widget
               src="hyperfiles.near/widget/MetadataEditor"
               props={{
@@ -188,7 +189,7 @@ return (
                 value: schema,
                 options: {
                   source: {
-                    schemaPattern: "*/profile/schema/*",
+                    schemaPattern: "*/schema/*",
                     placeholder: "Select a schema",
                   },
                 },
