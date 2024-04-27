@@ -1,92 +1,93 @@
-const schemaArray = [{ name: "Markdown" }, { name: "JSON" }, { name: "Other" }];
+const defaultOptions = [
+  { name: "Markdown" },
+  { name: "JSON" },
+  { name: "Other" },
+];
 
-const label = props.label ?? "Label";
-const placeholder = props.placeholder ?? "Placeholder";
-const value = props.value ?? "";
-const options = props.options ?? schemaArray;
-const onChange = props.onChange ?? (() => {});
-const validate = props.validate ?? (() => {});
-const error = props.error ?? "";
-const labelKey = props.labelKey ?? "name";
+const schemaPattern = props.schemaPattern ?? "*/schema/*";
+const placeholder = props.placeholder ?? "Schema";
+const initialSchemaObject = props.initialSchemaObject || {};
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 0px;
-  gap: 0.45em;
-  width: 100%;
+const schemaObject = Social.keys(schemaPattern, "final");
 
-  .typeahead {
-    width: 100%;
+if (schemaObject === null) {
+  return "Loading";
+}
 
-    & > div {
-      padding: 0.5em 0.75em;
-      background: #ffffff;
-      border: 1px solid #d0d5dd;
-      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-      border-radius: 4px;
-      color: #101828;
+const normalizeProf = (prof) =>
+  prof
+    .replaceAll(/[- \.]/g, "_")
+    .replaceAll(/[^\w]+/g, "")
+    .replaceAll(/_+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "")
+    .toLowerCase()
+    .trim("-");
+
+const schemaCount = {};
+
+const processSchemaObject = (obj) => {
+  Object.entries(obj).forEach(([key, value]) => {
+    if (typeof value === "object") {
+      processSchemaObject(value);
+    } else {
+      const prof = normalizeProf(key);
+      schemaCount[prof] = (schemaCount[prof] || 0) + 1;
     }
+  });
+};
 
-    .rbt-token {
-      background: #f2f4f7;
-      border: 1px solid #d0d5dd;
-      border-radius: 3px;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.95em;
-      line-height: 1.25em;
-      text-align: center;
-      color: #344054;
+const getSchema = () => {
+  processSchemaObject(schemaObject);
+  const schema = Object.entries(schemaCount);
+  schema.sort((a, b) => b[1] - a[1]);
+  return schema.map((t) => ({ name: t[0], count: t[1] }));
+};
 
-      & > button {
-        font-size: 1.25em;
-        color: #98a2b3;
-      }
-    }
+if (!state.allSchema) {
+  initState({
+    allSchema: getSchema().length > 0 ? getSchema() : schemaArray || [], // Fallback to empty array if schemaArray is undefined
+    schema: Object.keys(initialSchemaObject).map((prof) => ({
+      name: normalizeProf(prof),
+    })),
+    originalSchema: Object.fromEntries(
+      Object.keys(initialSchemaObject).map((prof) => [prof, null])
+    ),
+    id: `schema-selector-${Date.now()}`,
+  });
+}
+
+const setSchema = (schema) => {
+  schema = schema.map((o) => ({ name: normalizeProf(o.name) }));
+  State.update({ schema });
+  if (props.setSchemaObject) {
+    props.setSchemaObject(
+      Object.assign(
+        {},
+        state.originalSchema,
+        Object.fromEntries(schema.map((prof) => [prof.name, ""]))
+      )
+    );
   }
-`;
-
-const Label = styled.label`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 0.95em;
-  line-height: 1.25em;
-  color: #344054;
-`;
-
-const Error = styled.span`
-  display: inline-block;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 0.75em;
-  line-height: 1.25em;
-  color: #ff4d4f;
-  height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease-in-out;
-
-  &.show {
-    height: 1.25em;
-  }
-`;
+};
 
 return (
-  <Container>
-    {props.noLabel ? <></> : <Label>{label}</Label>}
+  <>
     <Typeahead
-      id
+      id={state.id}
+      labelKey="name"
+      onChange={setSchema}
+      options={state.allSchema}
       placeholder={placeholder}
-      labelKey={labelKey}
-      onChange={onChange}
-      options={options}
-      selected={value}
-      className="typeahead"
+      selected={state.schema}
       positionFixed
       allowNew
     />
-    <Error className={error ? "show" : ""}>{error}</Error>
-  </Container>
+    {props.debug && (
+      <div>
+        Debugging schema:
+        <pre>{JSON.stringify(state.schema)}</pre>
+      </div>
+    )}
+  </>
 );
