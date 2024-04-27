@@ -47,7 +47,6 @@ const WidgetBadgeWrapper = styled.div`
 `;
 
 const FloatingElementWrapper = ({ component: WrapperComponent, children }) => {
-  console.log(WrapperComponent)
   return WrapperComponent ? (
     <WrapperComponent context={props.context}>{children}</WrapperComponent>
   ) : (
@@ -65,6 +64,8 @@ return (
               (cmp) => cmp.target.insteadOf?.linkId === widget.linkId
             )?.component
           : null;
+
+          console.log(WrapperComponent)
 
         return (
           <WidgetWrapper key={widget.linkId}>
