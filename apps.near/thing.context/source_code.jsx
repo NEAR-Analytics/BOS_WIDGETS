@@ -15,6 +15,15 @@ if (!tagsObject) {
   return "";
 }
 
+const contextObject = Social.get(
+  `*/${creatorId}/${namespace}/${thingId}/metadata/tags/*`,
+  blockheight
+);
+
+if (!contextObject) {
+  return "";
+}
+
 State.init({
   tagsObject,
 });
@@ -29,110 +38,90 @@ const normalizeTag = (tag) =>
     .toLowerCase()
     .trim("-");
 
-const contextObject = Social.get(
-  `*/${creatorId}/${namespace}/${thingId}/metadata/tags/*`,
-  blockheight
-);
-
-if (!contextObject) {
-  return "";
-}
-
 const tagsCount = {};
-const tagsAuthors = {};
 
 const processTagsObject = (obj) => {
   Object.keys(obj).forEach((key) => {
+    const normalizedKey = normalizeTag(key);
     if (obj[key] === null) {
-      const tag = key;
-      tagsCount[tag] = (tagsCount[tag] || 0) - 1;
+      tagsCount[normalizedKey] = (tagsCount[normalizedKey] || 0) - 1;
     } else if (typeof obj[key] === "object") {
       processTagsObject(obj[key]);
     } else {
-      const tag = key;
-      tagsCount[tag] = (tagsCount[tag] || 0) + 1;
+      tagsCount[normalizedKey] = (tagsCount[normalizedKey] || 0) + 1;
     }
   });
 };
 
+processTagsObject(State.update(tagsObject));
+
 const getTags = () => {
-  processTagsObject(tagsObject);
+  processTagsObject(contextObject);
   const tags = Object.entries(tagsCount);
   tags.sort((a, b) => b[1] - a[1]);
   return tags.map((t) => {
     return {
       name: t[0],
-      count: t[1],
+      count: t[1] - 1,
     };
   });
 };
 
-const setTags = (tags) => {
+function updateTags(tags) {
   const newTagsObject = {};
-
   tags.forEach((tag) => {
     newTagsObject[normalizeTag(tag.name)] = "";
   });
-
-  State.update((prevState) => ({
-    ...prevState,
-    tagsObject: {
-      ...prevState.tagsObject[creatorId][namespace][thingId].tags,
-      ...newTagsObject,
-    },
-  }));
-};
+  State.update({ tagsObject: newTagsObject });
+}
 
 const publicTags = getTags();
 
 return (
   <>
     <div className="m-2">
-      {publicTags &&
+      {publicTags.length > 0 ? (
         publicTags.map((tag) => (
           <a
-            href={`/#/hack.near/widget/every.context?tag=${tag.name}`}
+            href={`/apps.near/widget/every.thing?context=${tag.name}`}
             className="text-white btn p-0 lh-1 m-1"
-            key={tag}
+            key={tag.name}
           >
             <span
               className="badge bg-primary position-relative"
-              style={
-                tag.count > 1
-                  ? {
-                      marginRight: "0.9em",
-                      paddingRight: "0.85em",
-                    }
-                  : { marginRight: "0.25em" }
-              }
+              style={{
+                marginRight: tag.count > 1 ? "0.9em" : "0.25em",
+                paddingRight: tag.count > 1 ? "0.85em" : undefined,
+              }}
             >
               #{tag.name}
               {tag.count > 1 && (
-                <span
-                  className={`ms-1 badge translate-middle rounded-pill bg-dark position-absolute top-50 start-100`}
-                >
+                <span className="ms-1 badge translate-middle rounded-pill bg-dark position-absolute top-50 start-100">
                   {tag.count}
                 </span>
               )}
             </span>
           </a>
-        ))}
+        ))
+      ) : (
+        <p>No tags found.</p>
+      )}
     </div>
     {thingExists && (
-      <div className="m-1 row">
-        <div className="m-1 col-8">
+      <div className="m-1 d-flex flex-row">
+        <div className="m-1">
           <Typeahead
             id={`tag-selector-${Date.now()}`}
             multiple
             labelKey="name"
-            onChange={setTags}
+            onChange={updateTags}
             options={publicTags}
             placeholder="dev, art, gov, edu, social"
             positionFixed
             allowNew
           />
         </div>
-        <div className="m-1 col-3">
+        <div className="m-1">
           {accountId === creatorId ? (
             <CommitButton
               disabled={state.tagsObject === null}
