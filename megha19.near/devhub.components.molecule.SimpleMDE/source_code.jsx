@@ -285,7 +285,7 @@ simplemde.codemirror.on('keyup', () => {
 });
 
 
-if (showAutocomplete) {
+if (showAccountAutoComplete) {
   let mentionToken;
   let mentionCursorStart;
   const dropdown = document.getElementById("mentiondropdown");
