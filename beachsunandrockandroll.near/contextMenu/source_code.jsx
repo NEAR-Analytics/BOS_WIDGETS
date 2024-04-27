@@ -78,7 +78,7 @@ const ContextMenuContent = ({ className, children, ...props }) => (
 );
 
 const contextMenuItemClassname =
-  "relative flex cursor-default select-none items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+  "relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 
 const ContextMenuItem = ({ className, inset, children, ...props }) => {
   let cls = className ?? contextMenuItemClassname;
@@ -140,7 +140,7 @@ const ContextMenuRadioItem = ({ className, children, ...props }) => (
 );
 
 const contextMenuLabelClassname =
-  "px-2 py-1.5 text-sm font-semibold text-foreground";
+  "py-1.5 text-sm font-semibold text-foreground";
 
 const ContextMenuLabel = ({ className, inset, children, ...props }) => {
   let cls = className ?? contextMenuLabelClassname;
