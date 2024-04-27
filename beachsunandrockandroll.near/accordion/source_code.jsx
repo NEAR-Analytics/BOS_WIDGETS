@@ -1,8 +1,8 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const AccordionRoot = ({ className, children, ...props }) => (
+const AccordionRoot = ({ ...props }) => (
   <Tailwind>
-    <Accordion.Root className={className} {...props} />
+    <Accordion.Root {...props} />
   </Tailwind>
 );
 
