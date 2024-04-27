@@ -1,18 +1,14 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const AlertDialogRoot = ({ className, children, ...props }) => (
+const AlertDialogRoot = ({ children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Root className={className} {...props}>
-      {children}
-    </AlertDialog.Root>
+    <AlertDialog.Root {...props}>{children}</AlertDialog.Root>
   </Tailwind>
 );
 
-const AlertDialogTrigger = ({ className, children, ...props }) => (
+const AlertDialogTrigger = ({ children, ...props }) => (
   <Tailwind>
-    <AlertDialog.Trigger className={className} {...props}>
-      {children}
-    </AlertDialog.Trigger>
+    <AlertDialog.Trigger {...props}>{children}</AlertDialog.Trigger>
   </Tailwind>
 );
 
