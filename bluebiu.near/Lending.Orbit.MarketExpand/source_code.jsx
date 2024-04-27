@@ -208,7 +208,7 @@ const {
 } = props;
 
 const data = props.data || {};
-console.log("MarketExpand--", props);
+// console.log("MarketExpand--", props);
 const underlyingPrice = prices[data.symbol] || 1;
 
 State.init({ tab: "Supply" });
