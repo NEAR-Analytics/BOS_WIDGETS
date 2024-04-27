@@ -105,6 +105,7 @@ return (
             <FloatingElementWrapper component={WrapperComponent}>
               <Widget src={widget.src} props={widget.props} />
             </FloatingElementWrapper>
+          
           </WidgetWrapper>
         );
       })}
