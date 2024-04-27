@@ -16,6 +16,8 @@ const {
   MenubarTrigger,
 } = VM.require("beachsunandrockandroll.near/widget/menubar");
 
+if (Tailwind === undefined) return <></>;
+
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
