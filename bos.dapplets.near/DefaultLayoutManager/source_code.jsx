@@ -65,8 +65,6 @@ return (
             )?.component
           : null;
 
-          console.log(WrapperComponent)
-
         return (
           <WidgetWrapper key={widget.linkId}>
             {props.isEditMode ? (
