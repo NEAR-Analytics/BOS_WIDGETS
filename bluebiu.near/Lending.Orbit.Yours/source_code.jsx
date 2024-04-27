@@ -38,7 +38,7 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { markets, dapps, toast, currentDapp } = props;
+const { markets, dapps, toast, currentDapp, borrowLimit } = props;
 
 const { userTotalSupplyUsd, userTotalBorrowUsd, totalCollateralUsd } =
   dapps[currentDapp];
@@ -134,10 +134,6 @@ const formatData = () => {
   // });
   State.update({
     // userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-    // userBorrowLimit: Big(userTotalBorrowUsd || 0)
-    //   .div(totalCollateralUsd.eq(0) ? 1 : totalCollateralUsd)
-    //   .mul(100)
-    //   .toFixed(2),
     supplies,
     borrows,
     // rewards,
@@ -175,7 +171,7 @@ return (
           </div>
           <Right>
             <Label>LTV</Label>
-            <Value>
+            <Value className="supply-color">
               {userTotalBorrowUsd && userTotalSupplyUsd
                 ? Big(userTotalBorrowUsd || 1)
                     .div(Big(userTotalSupplyUsd || 0))
@@ -210,8 +206,10 @@ return (
             </Value>
           </div>
           <Right>
-            {/* <Label>Your Borrow Limit</Label>
-            <Value>{state.userBorrowLimit}%</Value> */}
+            <Label>Your Borrow Limit</Label>
+            <Value className="supply-color">
+              ${Number(borrowLimit).toFixed(2)}
+            </Value>
           </Right>
         </Title>
         <Widget
