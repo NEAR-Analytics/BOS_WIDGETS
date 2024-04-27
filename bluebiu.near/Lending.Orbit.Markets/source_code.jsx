@@ -6,6 +6,12 @@ const COLUMNS = [
     label: "Asset",
     width: "30%",
   },
+  {
+    key: "poolSize",
+    label: "PoolSize",
+    width: "15%",
+    type: "amount",
+  },
   // {
   //   key: "totalSupply",
   //   label: "Total supplied",
@@ -26,16 +32,18 @@ const COLUMNS = [
   // },
   {
     key: "borrowApy",
-    label: "Borrow APY",
+    label: "Borrow APR",
     width: "12%",
     type: "apy",
   },
+
   {
-    key: "poolSize",
-    label: "poolSize",
+    key: "userSupply",
+    label: "Supplied",
     width: "15%",
     type: "amount",
   },
+
   {
     key: "handler",
     width: "2%",
@@ -55,18 +63,9 @@ const {
   onSuccess,
   account,
   prices,
+  borrowLimit,
 } = props;
 console.log("MARKETS--", props);
-useEffect(() => {
-  if (!totalCollateralUsd && !userTotalBorrowUsd) {
-    return;
-  }
-  State.update({
-    borrowLimit: Big(totalCollateralUsd || 0)
-      .minus(userTotalBorrowUsd || 0)
-      .toString(),
-  });
-}, [totalCollateralUsd, userTotalBorrowUsd]);
 
 return (
   <StyledContainer>
@@ -83,7 +82,7 @@ return (
         props={{
           columns: COLUMNS,
           data: record,
-          borrowLimit: state.borrowLimit,
+          borrowLimit,
           addAction,
           toast,
           chainId,
