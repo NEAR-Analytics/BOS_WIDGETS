@@ -1,42 +1,32 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const ContextMenuRoot = ({ className, children, ...props }) => (
+const ContextMenuRoot = ({ children, ...props }) => (
   <Tailwind>
-    <ContextMenu.Root className={className} {...props}>
-      {children}
-    </ContextMenu.Root>
+    <ContextMenu.Root {...props}>{children}</ContextMenu.Root>
   </Tailwind>
 );
 
-const ContextMenuTrigger = ({ className, children, ...props }) => (
+const ContextMenuTrigger = ({ children, ...props }) => (
   <Tailwind>
-    <ContextMenu.Trigger className={className} {...props}>
-      {children}
-    </ContextMenu.Trigger>
+    <ContextMenu.Trigger {...props}>{children}</ContextMenu.Trigger>
   </Tailwind>
 );
 
-const ContextMenuGroup = ({ className, children, ...props }) => (
+const ContextMenuGroup = ({ children, ...props }) => (
   <Tailwind>
-    <ContextMenu.Group className={className} {...props}>
-      {children}
-    </ContextMenu.Group>
+    <ContextMenu.Group {...props}>{children}</ContextMenu.Group>
   </Tailwind>
 );
 
-const ContextMenuSub = ({ className, children, ...props }) => (
+const ContextMenuSub = ({ children, ...props }) => (
   <Tailwind>
-    <ContextMenu.Sub className={className} {...props}>
-      {children}
-    </ContextMenu.Sub>
+    <ContextMenu.Sub {...props}>{children}</ContextMenu.Sub>
   </Tailwind>
 );
 
-const ContextMenuRadioGroup = ({ className, children, ...props }) => (
+const ContextMenuRadioGroup = ({ children, ...props }) => (
   <Tailwind>
-    <ContextMenu.RadioGroup className={className} {...props}>
-      {children}
-    </ContextMenu.RadioGroup>
+    <ContextMenu.RadioGroup {...props}>{children}</ContextMenu.RadioGroup>
   </Tailwind>
 );
 
@@ -155,7 +145,7 @@ const ContextMenuShortcut = ({ className, children, ...props }) => (
 );
 
 return {
-  ContextMenuRoot,
+  ContextMenu: ContextMenuRoot,
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
