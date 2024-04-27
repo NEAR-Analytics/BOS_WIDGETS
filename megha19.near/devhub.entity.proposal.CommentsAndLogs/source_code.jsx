@@ -85,7 +85,7 @@ State.init({
 });
 
 function sortTimelineAndComments() {
-  const comments = Social.index("comment", props.item);
+  const comments = Social.index("comment", props.item, { subscribe: true });
 
   if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
@@ -198,9 +198,10 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="near/widget/v1.LikeButton"
+                src="megha19.near/widget/devhub.entity.proposal.LikeButton"
                 props={{
                   item: item,
+                  notifyAccountId: accountId,
                 }}
               />
               <Widget
