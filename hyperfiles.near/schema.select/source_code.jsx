@@ -28,10 +28,10 @@ useEffect(() => {
   const fetchSchemasList = async () => {
     setIsLoading(true);
     // Ensure dynamic accountId is correctly included in the query
-    const schemas = Social.get(`${schemaSrc}/type/**`, "final");
+    const schemas = Social.get(`${schemaSrc}/schema/**`, "final");
     if (schemas) {
       const schemasList = Object.keys(schemas).map(
-        (key) => `${schemaSrc}/type/${key}`
+        (key) => `${schemaSrc}/schema/${key}`
       );
       setAvailableSchemas(schemasList);
     } else {
