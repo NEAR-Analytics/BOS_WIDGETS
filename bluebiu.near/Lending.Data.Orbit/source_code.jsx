@@ -125,16 +125,19 @@ const {
   onLoad,
   multicall,
   markets,
+  //   ORBIT_MARKETS,
+  // RENZO_MARKETS,
+  // KELP_MARKETS,
   unitrollerAddress,
+  prices,
 } = props;
 
 const { formatUnits } = ethers.utils;
-console.log("ORIBIT-DATA--", props);
+console.log("ORIBIT-DATA-PROPS--", props);
 useEffect(() => {
   if (!multicallAddress || !update || !account) return "";
   console.log(`${name}-update`);
   let _cTokensData = {};
-  let _loanToValue = {};
   let _underlyPrice = {};
   let _liquidity = null;
   let _underlyingBalance = null;
@@ -144,24 +147,23 @@ useEffect(() => {
 
   const formatedData = (key) => {
     console.log(`${name}-${key}`, count);
-    if (count < 8) return;
+    if (count < 10) return;
     count = 0;
     oTokensLength = Object.values(markets).length;
-    let totalSupplyUsd = Big(0);
-    let totalBorrowUsd = Big(0);
+
     let userTotalSupplyUsd = Big(0);
     let userTotalBorrowUsd = Big(0);
     let totalCollateralUsd = Big(0);
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
-      console.log(4444, market);
-      const underlyingPrice = prices[market.symbol] || 1;
-      // const marketSupplyUsd = Big(market.totalSupply || 0).mul(underlyingPrice);
-      // const marketBorrowUsd = Big(market.totalBorrows || 0).mul(
-      //   underlyingPrice
+      console.log("---", market);
+      // console.log(
+      //   market.symbol,
+      //   prices[market.symbol],
+      //   market.userSupply
       // );
-      // totalSupplyUsd = totalSupplyUsd.plus(marketSupplyUsd);
-      // totalBorrowUsd = totalBorrowUsd.plus(marketBorrowUsd);
+      const underlyingPrice = prices[market.symbol] || 1;
+
       userTotalSupplyUsd = userTotalSupplyUsd.plus(
         Big(market.userSupply).mul(underlyingPrice)
       );
@@ -169,25 +171,15 @@ useEffect(() => {
         Big(market.userBorrow).mul(underlyingPrice)
       );
 
-      // totalCollateralUsd = totalCollateralUsd.plus(
-      //   Big(market.userSupply)
-      //     .mul(underlyingPrice)
-      //     .mul(_loanToValue[market.address])
-      //     .div(100)
-      // );
-      // const supplyApy = Big(market.supplyRatePerBlock)
-      //   .mul(4 * 60 * 24)
-      //   .plus(1)
-      //   .pow(365)
-      //   .minus(1)
-      //   .mul(100);
+      const _collaterd = market.isCollateral
+        ? Big(market.userSupply).mul(underlyingPrice)
+        : 0;
 
-      // const borrowApy = Big(market.borrowRatePerBlock)
-      //   .mul(4 * 60 * 24)
-      //   .plus(1)
-      //   .pow(365)
-      //   .minus(1)
-      //   .mul(100);
+      totalCollateralUsd = totalCollateralUsd.plus(_collaterd);
+
+      const supplyApy = Big(market.supplyRatePerBlock).mul(15768000).mul(100);
+      const borrowApy = Big(market.borrowRatePerBlock).mul(15768000).mul(100);
+
       const _poolSize = Big(market.cash || 0)
         .plus(Big(market.totalBorrows || 0))
         .plus(Big(market.totalReserves || 0))
@@ -196,24 +188,25 @@ useEffect(() => {
 
       markets[market.address] = {
         ...market,
-        // loanToValue: _loanToValue[market.address],
         // liquidity: _liquidity[market.address],
         // underlyingPrice: underlyingPrice,
         userUnderlyingBalance: _underlyingBalance[market.address],
-        // supplyApy: supplyApy.toFixed(2) + "%",
-        // borrowApy: borrowApy.toFixed(2) + "%",
+        supplyApy: supplyApy.toFixed(2) + "%",
+        borrowApy: borrowApy.toFixed(2) + "%",
         poolSize: _poolSize,
         dapp: name,
       };
     });
-
+    // orbit ltv=0.75
+    const _borrowLimitUsd = totalCollateralUsd
+      .mul(0.75)
+      .minus(userTotalBorrowUsd);
     onLoad({
       markets,
-      totalSupplyUsd: totalSupplyUsd.toString(),
-      totalBorrowUsd: totalBorrowUsd.toString(),
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
       userTotalBorrowUsd: userTotalBorrowUsd.toString(),
       totalCollateralUsd: totalCollateralUsd.toString(),
+      borrowLimitUsd: _borrowLimitUsd.gt(0) ? _borrowLimitUsd.toString() : 0,
     });
   };
   const getUnderlyPrice = () => {
@@ -336,6 +329,75 @@ useEffect(() => {
         setTimeout(() => {
           getWalletBalance();
         }, 500);
+      });
+  };
+  const getBorrowRatePerBlock = () => {
+    const calls = oTokens.map((oToken) => ({
+      address: oToken.address,
+      name: "borrowRatePerBlock",
+    }));
+    multicall({
+      abi: OTOKEN_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getBorrowRatePerBlock_res:", res);
+        oTokens.forEach((oToken, index) => {
+          if (_cTokensData[oToken.address]) {
+            _cTokensData[oToken.address] = {
+              ..._cTokensData[oToken.address],
+              borrowRatePerBlock: res[index] ? formatUnits(res[index][0]) : 0,
+            };
+          } else {
+            _cTokensData[oToken.address] = {
+              ...oToken,
+              borrowRatePerBlock: res[index] ? formatUnits(res[index][0]) : 0,
+            };
+          }
+        });
+        count++;
+        formatedData("oTokens data");
+      })
+      .catch((err) => {
+        console.log("getBorrowRatePerBlock_error:", err);
+      });
+  };
+
+  const getSupplyRatePerBlock = () => {
+    const calls = oTokens.map((oToken) => ({
+      address: oToken.address,
+      name: "supplyRatePerBlock",
+    }));
+    multicall({
+      abi: OTOKEN_ABI,
+      calls,
+      options: {},
+      multicallAddress,
+      provider: Ethers.provider(),
+    })
+      .then((res) => {
+        console.log("getSupplyRatePerBlock_res:", res);
+        oTokens.forEach((oToken, index) => {
+          if (_cTokensData[oToken.address]) {
+            _cTokensData[oToken.address] = {
+              ..._cTokensData[oToken.address],
+              supplyRatePerBlock: res[index] ? formatUnits(res[index][0]) : 0,
+            };
+          } else {
+            _cTokensData[oToken.address] = {
+              ...oToken,
+              supplyRatePerBlock: res[index] ? formatUnits(res[index][0]) : 0,
+            };
+          }
+        });
+        count++;
+        formatedData("oTokens data");
+      })
+      .catch((err) => {
+        console.log("getSupplyRatePerBlock_error:", err);
       });
   };
   // const getCTokenData = (oToken) => {
@@ -546,6 +608,19 @@ useEffect(() => {
           res.forEach((addr) => {
             oTokens.find((item) => item.address === addr).isCollateral = true;
           });
+          oTokens.forEach((oToken, index) => {
+            if (_cTokensData[oToken.address]) {
+              _cTokensData[oToken.address] = {
+                ..._cTokensData[oToken.address],
+                isCollateral: oToken.isCollateral,
+              };
+            } else {
+              _cTokensData[oToken.address] = {
+                ...oToken,
+                isCollateral: oToken.isCollateral,
+              };
+            }
+          });
         }
 
         count++;
@@ -673,6 +748,8 @@ useEffect(() => {
   // getOTokenLiquidity();
   getWalletBalance();
   // getCTokensData();
+  getBorrowRatePerBlock();
+  getSupplyRatePerBlock();
   getUserSupply();
   getUserBorrows();
   getCollateralStatus();
