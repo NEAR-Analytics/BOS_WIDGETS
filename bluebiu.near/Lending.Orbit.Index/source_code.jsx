@@ -8,10 +8,17 @@ const StyledHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+const StyledRight = styled.div`
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 10px;
+`;
 
 State.init({
   tab: "market",
   chainId: -1,
+  orbitTab: "ORBIT",
 });
 
 const {
@@ -31,21 +38,17 @@ const {
   isChainSupported,
   account,
 } = props;
-const { type } = dexConfig;
 
-let tabsArray;
-console.log("===type", type);
-if (type === "liquity") {
-  tabsArray = [
-    { key: "market", label: "Borrow" },
-    { key: "yours", label: "Earn" },
-  ];
-} else {
-  tabsArray = [
-    { key: "market", label: "Market" },
-    { key: "yours", label: "Yours" },
-  ];
-}
+let tabsArray = [
+  { key: "market", label: "Market" },
+  { key: "yours", label: "Yours" },
+];
+
+let orbitArray = [
+  { key: "ORBIT", label: "ORBIT" },
+  { key: "RENZO", label: "RENZO" },
+  { key: "KELP", label: "KELP" },
+];
 
 return (
   <StyledContainer style={dexConfig.theme}>
@@ -62,19 +65,34 @@ return (
           },
         }}
       />
-      <Widget
-        src="bluebiu.near/widget/Lending.Chains"
-        props={{
-          chains: CHAIN_LIST,
-          curChain,
-          onSwitchChain,
-          onChange: (tab) => {
-            State.update({
-              tab: tab.key,
-            });
-          },
-        }}
-      />
+      <StyledRight>
+        Pool:
+        <Widget
+          src="bluebiu.near/widget/Lending.CardTabs"
+          props={{
+            tabs: orbitArray,
+            active: state.orbitTab,
+            onChange: (tab) => {
+              State.update({
+                orbitTab: tab.key,
+              });
+            },
+          }}
+        />
+        <Widget
+          src="bluebiu.near/widget/Lending.Chains"
+          props={{
+            chains: CHAIN_LIST,
+            curChain,
+            onSwitchChain,
+            onChange: (tab) => {
+              State.update({
+                tab: tab.key,
+              });
+            },
+          }}
+        />
+      </StyledRight>
     </StyledHeader>
     <Widget
       src="bluebiu.near/widget/Lending.Orbit.Content"
@@ -91,6 +109,7 @@ return (
         chainId,
         nativeCurrency,
         tab: state.tab,
+        orbitTab: state.orbitTab,
       }}
     />
 
