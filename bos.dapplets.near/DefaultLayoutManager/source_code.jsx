@@ -51,9 +51,11 @@ return (
     {props.widgets
       .filter((w) => w.isSuitable === undefined || w.isSuitable === true)
       .map((widget) => {
-        const WrapperComponent = props.components?.find(
-          (cmp) => cmp.target.insteadOf?.linkId === widget.linkId
-        )?.component;
+        const WrapperComponent = props.components
+          ? props.components.find(
+              (cmp) => cmp.target.insteadOf?.linkId === widget.linkId
+            )?.component
+          : null;
 
         return (
           <WidgetWrapper key={widget.linkId}>
