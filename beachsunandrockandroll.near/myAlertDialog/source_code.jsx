@@ -1,83 +1,45 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
-const { Label, labelClassname } = VM.require(
-  "beachsunandrockandroll.near/widget/label"
-);
-const { Input, inputClassname } = VM.require(
-  "beachsunandrockandroll.near/widget/input"
-);
 const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
+
 const {
-  Dialog,
-  DialogOverlay,
-  DialogTrigger,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
-  dialogContentClassname,
-} = VM.require("beachsunandrockandroll.near/widget/dialog");
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+  dropdownMenuContentClassname,
+} = VM.require("beachsunandrockandroll.near/widget/dropdownMenu");
 
 State.init({
-  cnButtonEdit: "",
-  cnButtonSave: "",
-  cnLabel: "",
-  cnDialogContentClassname: "",
-  cnInput: "",
+  cnButton: "",
+  cnDropdownMenuContent: "",
 });
 
-if (["", "loaded"].includes(state.cnButtonEdit))
+if (["", "loaded"].includes(state.cnButton))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/buttonIframe"
       props={{
-        output: (cnButtonEdit) => State.update({ cnButtonEdit }),
+        output: (cnButton) => State.update({ cnButton }),
         variant: "outline",
       }}
     />
   );
 
-if (["", "loaded"].includes(state.cnButtonSave))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/buttonIframe"
-      props={{
-        output: (cnButtonSave) => State.update({ cnButtonSave }),
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(state.cnLabel))
+if (["", "loaded"].includes(state.cnDropdownMenuContent))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/cnIframe"
       props={{
-        output: (cnLabel) => State.update({ cnLabel }),
-        className: `${labelClassname} text-right`,
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(state.cnDialogContentClassname))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: (cnDialogContentClassname) =>
-          State.update({ cnDialogContentClassname }),
-        className: `${dialogContentClassname} sm:max-w-[425px]`,
-      }}
-    />
-  );
-
-if (["", "loaded"].includes(state.cnInput))
-  return (
-    <Widget
-      src="beachsunandrockandroll.near/widget/cnIframe"
-      props={{
-        output: (cnInput) => State.update({ cnInput }),
-        className: `${inputClassname} col-span-3`,
+        output: (cnDropdownMenuContent) =>
+          State.update({ cnDropdownMenuContent }),
+        className: `${dropdownMenuContentClassname} w-56`,
       }}
     />
   );
@@ -85,42 +47,59 @@ if (["", "loaded"].includes(state.cnInput))
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
-      <Dialog>
-        <DialogTrigger>
-          <Button className={state.cnButtonEdit}>Edit Profile</Button>
-        </DialogTrigger>
-        <DialogContent className={state.cnDialogContentClassname}>
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className={state.cnLabel}>
-                Name
-              </Label>
-              <Input id="name" value="Pedro Duarte" className={state.cnInput} />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className={state.cnLabel}>
-                Username
-              </Label>
-              <Input
-                id="username"
-                value="@peduarte"
-                className={state.cnInput}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button className={state.cnButtonSave} type="submit">
-              Save changes
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Button className={state.cnButton}>Open</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className={state.cnDropdownMenuContent}>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Billing
+              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Settings
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              Keyboard shortcuts
+              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Message</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>More...</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+            <DropdownMenuItem>
+              New Team
+              <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>GitHub</DropdownMenuItem>
+          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem disabled>API</DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   </Tailwind>
 );
