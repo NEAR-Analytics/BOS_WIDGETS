@@ -1,6 +1,3 @@
-const { getLinkUsingCurrentGateway } = VM.require(
-  "devhub.near/widget/core.lib.url"
-) || { getLinkUsingCurrentGateway: () => {} };
 const snapshotHistory = props.snapshotHistory;
 
 const Wrapper = styled.div`
@@ -26,11 +23,15 @@ const Wrapper = styled.div`
   }
 
   .inline-flex {
-    display: -webkit-inline-box !important;
+    display: inline-flex !important;
     align-items: center !important;
     gap: 0.25rem !important;
-    margin-right: 2px;
-    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 768px) {
+    .inline-flex {
+      display: -webkit-inline-box !important;
+    }
   }
 `;
 
@@ -81,13 +82,12 @@ State.init({
   data: null,
   socialComments: null,
   changedKeysListWithValues: null,
-  snapshotHistoryLength: 0,
 });
 
 function sortTimelineAndComments() {
-  const comments = Social.index("comment", props.item, { subscribe: true });
+  const comments = Social.index("comment", props.item);
 
-  if (snapshotHistory.length > state.snapshotHistoryLength) {
+  if (state.changedKeysListWithValues === null) {
     const changedKeysListWithValues = snapshotHistory
       .slice(1)
       .map((item, index) => {
@@ -97,10 +97,7 @@ function sortTimelineAndComments() {
           ...getDifferentKeysWithValues(startingPoint, item),
         };
       });
-    State.update({
-      changedKeysListWithValues,
-      snapshotHistoryLength: snapshotHistory.length,
-    });
+    State.update({ changedKeysListWithValues });
   }
 
   // sort comments and timeline logs by time
@@ -142,9 +139,7 @@ const Comment = ({ commentItem }) => {
     blockHeight,
   };
   const content = JSON.parse(Social.get(item.path, blockHeight) ?? "null");
-  const link = getLinkUsingCurrentGateway(
-    `devhub.near/widget/app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`
-  );
+  const link = `https://near.social/devhub.near/widget/app?page=proposal&id=${props.id}&accountId=${accountId}&blockHeight=${blockHeight}`;
   const hightlightComment =
     parseInt(props.blockHeight ?? "") === blockHeight &&
     props.accountId === accountId;
@@ -269,8 +264,6 @@ function parseTimelineKeyAndValue(timeline, originalValue, modifiedValue) {
           </span>
         )
       );
-    case "payouts":
-      return <span>updated the funding payment links.</span>;
     // we don't have this step for now
     // case "request_for_trustees_created":
     //   return !oldValue && newValue && <span>successfully created request for trustees</span>;
@@ -359,7 +352,10 @@ const parseProposalKeyAndValue = (key, modifiedValue, originalValue) => {
           text && (
             <span key={index} className="inline-flex">
               {text}
-              {text && "･"}
+              {text &&
+                originalKeys.length > 1 &&
+                index < modifiedKeys.length - 1 &&
+                "･"}
             </span>
           )
         );
@@ -399,7 +395,7 @@ const Log = ({ timestamp }) => {
   }
 
   return valuesArray.map((i, index) => {
-    if (i.key && i.key !== "timestamp" && i.key !== "proposal_body_version") {
+    if (i.key && i.key !== "timestamp") {
       return (
         <LogIconContainer
           className="d-flex gap-3 align-items-center"
@@ -422,7 +418,7 @@ const Log = ({ timestamp }) => {
               <AccountProfile accountId={editorId} showAccountId={true} />
             </span>
             {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
-            {i.key !== "timeline" && "･"}
+            on
             <Widget
               src="near/widget/TimeAgo"
               props={{
