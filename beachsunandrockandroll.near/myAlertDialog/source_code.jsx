@@ -1,122 +1,126 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
+const { Label, labelClassname } = VM.require(
+  "beachsunandrockandroll.near/widget/label"
+);
+const { Input, inputClassname } = VM.require(
+  "beachsunandrockandroll.near/widget/input"
+);
+const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
 const {
-  ContextMenuRoot,
-  ContextMenuTrigger,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuCheckboxItem,
-  ContextMenuRadioItem,
-  ContextMenuLabel,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuGroup,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuRadioGroup,
-} = VM.require("beachsunandrockandroll.near/widget/contextMenu");
+  Dialog,
+  DialogOverlay,
+  DialogTrigger,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+  dialogContentClassname,
+} = VM.require("beachsunandrockandroll.near/widget/dialog");
 
-if (Tailwind === undefined) return <></>;
+State.init({
+  cnButtonEdit: "",
+  cnButtonSave: "",
+  cnLabel: "",
+  cnDialogContentClassname: "",
+  cnInput: "",
+});
+
+if (["", "loaded"].includes(state.cnButtonEdit))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/buttonIframe"
+      props={{
+        output: (cnButtonEdit) => State.update({ cnButtonEdit }),
+        variant: "outline",
+      }}
+    />
+  );
+
+if (["", "loaded"].includes(state.cnButtonSave))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/buttonIframe"
+      props={{
+        output: (cnButtonSave) => State.update({ cnButtonSave }),
+      }}
+    />
+  );
+
+if (["", "loaded"].includes(state.cnLabel))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/cnIframe"
+      props={{
+        output: (cnLabel) => State.update({ cnLabel }),
+        className: `${labelClassname} text-right`,
+      }}
+    />
+  );
+
+if (["", "loaded"].includes(state.cnDialogContentClassname))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/cnIframe"
+      props={{
+        output: (cnDialogContentClassname) =>
+          State.update({ cnDialogContentClassname }),
+        className: `${dialogContentClassname} sm:max-w-[425px]`,
+      }}
+    />
+  );
+
+if (["", "loaded"].includes(state.cnInput))
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/cnIframe"
+      props={{
+        output: (cnInput) => State.update({ cnInput }),
+        className: `${inputClassname} col-span-3`,
+      }}
+    />
+  );
 
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
-      <ContextMenuRoot>
-        <ContextMenuTrigger className="flex h-32 w-64 items-center justify-center rounded-md border border-dashed text-sm">
-          Right click here
-        </ContextMenuTrigger>
-        <ContextMenuContent className="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-64">
-          <ContextMenuItem
-            className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-            inset
-          >
-            Back
-            <ContextMenuShortcut className="ml-auto text-xs tracking-widest text-muted-foreground">
-              ⌘[
-            </ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem
-            className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-            inset
-            disabled
-          >
-            Forward
-            <ContextMenuShortcut className="ml-auto text-xs tracking-widest text-muted-foreground">
-              ⌘]
-            </ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem
-            className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-            inset
-          >
-            Reload
-            <ContextMenuShortcut className="ml-auto text-xs tracking-widest text-muted-foreground">
-              ⌘R
-            </ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuSub>
-            <ContextMenuSubTrigger
-              className="flex cursor-default select-none items-center rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
-              inset
-            >
-              More Tools
-            </ContextMenuSubTrigger>
-            <ContextMenuSubContent className="z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 w-48">
-              <ContextMenuItem className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                Save Page As...
-                <ContextMenuShortcut className="ml-auto text-xs tracking-widest text-muted-foreground">
-                  ⇧⌘S
-                </ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                Create Shortcut...
-              </ContextMenuItem>
-              <ContextMenuItem className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                Name Window...
-              </ContextMenuItem>
-              <ContextMenuSeparator className="-mx-1 my-1 h-px bg-border" />
-              <ContextMenuItem className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                Developer Tools
-              </ContextMenuItem>
-            </ContextMenuSubContent>
-          </ContextMenuSub>
-          <ContextMenuSeparator className="-mx-1 my-1 h-px bg-border" />
-          <ContextMenuCheckboxItem
-            className="relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-            checked
-          >
-            Show Bookmarks Bar
-            <ContextMenuShortcut className="ml-auto text-xs tracking-widest text-muted-foreground">
-              ⌘⇧B
-            </ContextMenuShortcut>
-          </ContextMenuCheckboxItem>
-          <ContextMenuCheckboxItem className="relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-            Show Full URLs
-          </ContextMenuCheckboxItem>
-          <ContextMenuSeparator className="-mx-1 my-1 h-px bg-border" />
-          <ContextMenuRadioGroup value="pedro">
-            <ContextMenuLabel
-              className="py-1.5 text-sm font-semibold text-foreground"
-              inset
-            >
-              People
-            </ContextMenuLabel>
-            <ContextMenuSeparator className="-mx-1 my-1 h-px bg-border" />
-            <ContextMenuRadioItem
-              className="relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-              value="pedro"
-            >
-              Pedro Duarte
-            </ContextMenuRadioItem>
-            <ContextMenuRadioItem
-              className="relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-              value="colm"
-            >
-              Colm Tuite
-            </ContextMenuRadioItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuContent>
-      </ContextMenuRoot>
+      <Dialog>
+        <DialogTrigger>
+          <Button className={state.cnButtonEdit}>Edit Profile</Button>
+        </DialogTrigger>
+        <DialogContent className={state.cnDialogContentClassname}>
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className={state.cnLabel}>
+                Name
+              </Label>
+              <Input id="name" value="Pedro Duarte" className={state.cnInput} />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="username" className={state.cnLabel}>
+                Username
+              </Label>
+              <Input
+                id="username"
+                value="@peduarte"
+                className={state.cnInput}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button className={state.cnButtonSave} type="submit">
+              Save changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   </Tailwind>
 );
