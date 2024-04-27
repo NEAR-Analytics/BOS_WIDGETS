@@ -15,4 +15,4 @@ const LabelRoot = ({ className, children, ...props }) => (
   </Tailwind>
 );
 
-return { LabelRoot: Label, labelClassname };
+return { Label: LabelRoot, labelClassname };
