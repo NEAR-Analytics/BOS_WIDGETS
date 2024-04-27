@@ -29,7 +29,7 @@ const plusIcon = (
 return (
   <ButtonPlus
     style={{
-      bottom: widgets && widgets.length ? '0' : '9px',
+      bottom: widgets && widgets.length ? '0' : '6px',
       border: widgets && widgets.length ? '1px solid #384bff' : 'none',
       backgroundColor: widgets && widgets.length ? '': 'white',
     }}
