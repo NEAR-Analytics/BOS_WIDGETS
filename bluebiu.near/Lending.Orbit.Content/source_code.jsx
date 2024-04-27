@@ -54,6 +54,8 @@ return (
           markets: state.markets,
           totalCollateralUsd: state.totalCollateralUsd,
           userTotalBorrowUsd: state.userTotalBorrowUsd,
+          borrowLimit: state.borrowLimitUsd,
+          userTotalSupplyUsd: state.userTotalSupplyUsd,
           addAction,
           toast,
           chainId,
@@ -77,6 +79,7 @@ return (
           currentDapp: dexConfig.name,
           markets: state.markets,
           timestamp: state.timestamp,
+          borrowLimit: state.borrowLimitUsd,
           dapps: {
             [dexConfig.name]: {
               userTotalSupplyUsd: state.userTotalSupplyUsd,
