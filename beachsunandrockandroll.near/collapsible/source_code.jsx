@@ -1,24 +1,22 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const CollapsibleRoot = ({ className, children, ...props }) => (
+const CollapsibleRoot = ({ children, ...props }) => (
   <Tailwind>
-    <Collapsible.Root className={className} {...props}>
-      {children}
-    </Collapsible.Root>
+    <Collapsible.Root {...props}>{children}</Collapsible.Root>
   </Tailwind>
 );
 
-const CollapsibleTrigger = ({ className, children, ...props }) => (
+const CollapsibleTrigger = ({ children, ...props }) => (
   <Tailwind>
-    <Collapsible.CollapsibleTrigger className={className} {...props}>
+    <Collapsible.CollapsibleTrigger {...props}>
       {children}
     </Collapsible.CollapsibleTrigger>
   </Tailwind>
 );
 
-const CollapsibleContent = ({ className, children, ...props }) => (
+const CollapsibleContent = ({ children, ...props }) => (
   <Tailwind>
-    <Collapsible.CollapsibleContent className={className} {...props}>
+    <Collapsible.CollapsibleContent {...props}>
       {children}
     </Collapsible.CollapsibleContent>
   </Tailwind>
