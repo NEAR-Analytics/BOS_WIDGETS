@@ -6,4 +6,4 @@ const AspectRatioRoot = ({ children, ...props }) => (
   </Tailwind>
 );
 
-return { AspectRatioRoot };
+return { AspectRatio: AspectRatioRoot };
