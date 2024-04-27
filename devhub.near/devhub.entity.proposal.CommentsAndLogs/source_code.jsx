@@ -198,9 +198,10 @@ const Comment = ({ commentItem }) => {
 
             <div className="d-flex gap-2 align-items-center mt-4">
               <Widget
-                src="near/widget/v1.LikeButton"
+                src="devhub.near/widget/devhub.entity.proposal.LikeButton"
                 props={{
                   item: item,
+                  notifyAccountId: accountId,
                 }}
               />
               <Widget
