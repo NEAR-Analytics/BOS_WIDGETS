@@ -97,10 +97,9 @@ const likeClick = (e) => {
       data.index.notify = JSON.stringify({
         key: props.notifyAccountId,
         value: {
-          type: "proposal/like",
+          type: "devhub/like",
           item,
           proposal: proposalId,
-          widgetAccountId: "devhub.near",
         },
       });
     } else {
