@@ -29,12 +29,6 @@ const TIMELINE_STATUS = {
   FUNDED: "FUNDED",
 };
 
-const DecisionStage = [
-  TIMELINE_STATUS.APPROVED,
-  TIMELINE_STATUS.REJECTED,
-  TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-];
-
 const Container = styled.div`
   .full-width-div {
     width: 100vw;
@@ -541,15 +535,10 @@ const proposalStatus = useCallback(
     ),
   [snapshot]
 );
-const [updatedProposalStatus, setUpdatedProposalStatus] = useState({});
-
-useEffect(() => {
-  setUpdatedProposalStatus({
-    ...proposalStatus(),
-    value: { ...proposalStatus().value, ...snapshot.timeline },
-  });
-}, [proposal]);
-
+const [updatedProposalStatus, setUpdatedProposalStatus] = useState({
+  ...proposalStatus(),
+  value: { ...proposalStatus().value, ...snapshot.timeline },
+});
 const [paymentHashes, setPaymentHashes] = useState([""]);
 const [supervisor, setSupervisor] = useState(snapshot.supervisor);
 
@@ -1408,13 +1397,12 @@ return (
                           }
                           props={{
                             label: "Save",
-                            disabled:
-                              !supervisor &&
-                              DecisionStage.includes(
-                                updatedProposalStatus.value.status
-                              ),
+                            disabled: !supervisor,
                             classNames: { root: "green-btn btn-sm" },
                             onClick: () => {
+                              if (!supervisor) {
+                                return;
+                              }
                               if (snapshot.supervisor !== supervisor) {
                                 editProposal({
                                   timeline: updatedProposalStatus.value,
