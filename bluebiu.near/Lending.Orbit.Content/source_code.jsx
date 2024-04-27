@@ -16,6 +16,7 @@ const {
   nativeCurrency,
   tab,
   orbitTab,
+  switchToMarkets,
 } = props;
 // console.log("CONTENT--", props);
 useEffect(() => {
@@ -25,6 +26,9 @@ useEffect(() => {
 }, [chainIdNotSupport]);
 
 useEffect(() => {
+  // if (tab !== "markets") {
+  //   switchToMarkets();
+  // }
   State.update({
     loading: true,
   });
