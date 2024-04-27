@@ -194,6 +194,41 @@ const handleCreate = () => {
   }
 };
 
+function parseAdapter(code) {
+  let match;
+  const functions = [];
+  const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
+
+  while ((match = functionRegex.exec(code)) !== null) {
+    const [_, functionName, params, content] = match;
+    functions.push({ functionName, params, content });
+  }
+
+  return functions.map((func, index) => (
+    <FormGroup key={index}>
+      <Label>{func.functionName}</Label>
+      <textarea
+        className="form-control"
+        style={{ width: "100%", height: "100%" }}
+        value={func.content.trim()}
+        disabled
+      />
+    </FormGroup>
+  ));
+}
+
+const [rawAdapter, setRawAdapter] = useState(null);
+
+useEffect(() => {
+  if (adapter) {
+    const module = VM.require(adapter);
+    if (module) {
+      const { source } = module;
+      setRawAdapter(source); // Assuming 'source' contains the raw JS code of the adapter
+    }
+  }
+}, [adapter]);
+
 return (
   <div className="row">
     <div className="col">
@@ -231,11 +266,9 @@ return (
             </Select>
           </FormGroup>
           {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
+
           {adapter === "hyperfiles.near/widget/adapter.ipfs" && (
-            <Widget
-              src="flowscience.near/widget/GitHubSearchSelect"
-              onSelectRepository={handleSelectRepository}
-            ></Widget>
+            <Widget src="everycanvas.near/widget/adapter.ipfs"></Widget>
           )}
           {adapter === "hyperfiles.near/widget/adapter.github" && (
             <Widget
