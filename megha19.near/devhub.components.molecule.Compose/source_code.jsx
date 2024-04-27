@@ -26,21 +26,28 @@ const Compose = ({
   placeholder,
   height,
   embeddCSS,
+  onChangeKeyup,
+  handler,
+  showProposalIdAutoComplete,
 }) => {
   State.init({
     data: data,
     selectedTab: "editor",
+    autoFocus: false,
   });
 
   useEffect(() => {
-    onChange(state.data);
+    if (typeof onChange === "function") {
+      onChange(state.data);
+    }
   }, [state.data]);
 
   useEffect(() => {
-    if (data !== state.data) {
-      State.update({ data: data, handler: "autocompleteSelected" });
+    // for clearing editor after txn approval/ showing draft state
+    if (data !== state.data || handler !== state.handler) {
+      State.update({ data: data, handler: handler });
     }
-  }, [data]);
+  }, [data, handler]);
 
   return (
     <Wrapper>
@@ -53,7 +60,9 @@ const Compose = ({
                   class={`nav-link ${
                     state.selectedTab === "editor" ? "active" : ""
                   }`}
-                  onClick={() => State.update({ selectedTab: "editor" })}
+                  onClick={() =>
+                    State.update({ selectedTab: "editor", autoFocus: true })
+                  }
                 >
                   Write
                 </button>
@@ -85,6 +94,9 @@ const Compose = ({
                 height,
                 embeddCSS: embeddCSS || EmbeddCSS,
                 showAutoComplete: autocompleteEnabled,
+                autoFocus: state.autoFocus,
+                onChangeKeyup: onChangeKeyup,
+                showProposalIdAutoComplete: showProposalIdAutoComplete,
               }}
             />
           </>
