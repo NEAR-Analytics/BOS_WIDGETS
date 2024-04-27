@@ -1,12 +1,13 @@
-const { href, getLinkUsingCurrentGateway } = VM.require(
-  "devhub.near/widget/core.lib.url"
-) || {
+const { href } = VM.require("devhub.near/widget/core.lib.url") || {
   href: () => {},
-  getLinkUsingCurrentGateway: () => {},
 };
 const { readableDate } = VM.require(
   "devhub.near/widget/core.lib.common"
 ) || { readableDate: () => {} };
+const { getDepositAmountForWriteAccess } = VM.require(
+  "devhub.near/widget/core.lib.common"
+);
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 
 const accountId = context.accountId;
 /*
@@ -27,12 +28,6 @@ const TIMELINE_STATUS = {
   PAYMENT_PROCESSING: "PAYMENT_PROCESSING",
   FUNDED: "FUNDED",
 };
-
-const DecisionStage = [
-  TIMELINE_STATUS.APPROVED,
-  TIMELINE_STATUS.REJECTED,
-  TIMELINE_STATUS.APPROVED_CONDITIONALLY,
-];
 
 const Container = styled.div`
   .full-width-div {
@@ -294,9 +289,7 @@ const item = {
   path: `devhub.near/post/main`,
   blockHeight,
 };
-const proposalURL = getLinkUsingCurrentGateway(
-  `devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`
-);
+const proposalURL = `https://near.org/devhub.near/widget/app?page=proposal&id=${proposal.id}&timestamp=${snapshot.timestamp}`;
 
 const KycVerificationStatus = () => {
   const isVerified = true;
@@ -418,12 +411,9 @@ const LinkedProposals = () => {
   return (
     <div className="d-flex flex-column gap-3">
       {linkedProposalsData.map((item) => {
+        const link = `https://near.org/devhub.near/widget/app?page=proposal&id=${item.id}`;
         return (
-          <a
-            href={`?page=proposal&id=${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={link} target="_blank" rel="noopener noreferrer">
             <div className="d-flex gap-2">
               <Widget
                 src={"devhub.near/widget/devhub.entity.proposal.Profile"}
@@ -432,11 +422,9 @@ const LinkedProposals = () => {
                 }}
               />
               <div className="d-flex flex-column" style={{ maxWidth: 250 }}>
-                <div className="text-truncate">
-                  <LinkProfile account={item.snapshot.name}>
-                    <b>{item.snapshot.name}</b>
-                  </LinkProfile>
-                </div>
+                <LinkProfile account={item.snapshot.name}>
+                  <b className="text-truncate">{item.snapshot.name}</b>
+                </LinkProfile>
                 <div className="text-sm text-muted">
                   created on {readableDate(item.snapshot.timestamp / 1000000)}
                 </div>
@@ -535,15 +523,10 @@ const editProposalStatus = ({ timeline }) => {
       gas: 270000000000000,
     },
   ]);
-  setEditProposalTimelineCalled(true);
 };
 
 const [isReviewModalOpen, setReviewModal] = useState(false);
 const [isCancelModalOpen, setCancelModal] = useState(false);
-const [isEditProposalTimelineCalled, setEditProposalTimelineCalled] =
-  useState(false);
-const [showTimeLineStatusSubmittedToast, setShowTimeLineStatusSubmittedToast] =
-  useState(false);
 const [showTimelineSetting, setShowTimelineSetting] = useState(false);
 const proposalStatus = useCallback(
   () =>
@@ -552,19 +535,10 @@ const proposalStatus = useCallback(
     ),
   [snapshot]
 );
-const [updatedProposalStatus, setUpdatedProposalStatus] = useState({});
-
-useEffect(() => {
-  if (isEditProposalTimelineCalled) {
-    setShowTimeLineStatusSubmittedToast(true);
-    setEditProposalTimelineCalled(false);
-  }
-  setUpdatedProposalStatus({
-    ...proposalStatus(),
-    value: { ...proposalStatus().value, ...snapshot.timeline },
-  });
-}, [proposal]);
-
+const [updatedProposalStatus, setUpdatedProposalStatus] = useState({
+  ...proposalStatus(),
+  value: { ...proposalStatus().value, ...snapshot.timeline },
+});
 const [paymentHashes, setPaymentHashes] = useState([""]);
 const [supervisor, setSupervisor] = useState(snapshot.supervisor);
 
@@ -635,17 +609,6 @@ const createdDate =
 
 return (
   <Container className="d-flex flex-column gap-2 w-100 mt-4">
-    <Widget
-      src="near/widget/DIG.Toast"
-      props={{
-        title: "Timeline status submitted successfully",
-        type: "success",
-        open: showTimeLineStatusSubmittedToast,
-        onOpenChange: (v) => setShowTimeLineStatusSubmittedToast(v),
-        trigger: <></>,
-        providerProps: { duration: 3000 },
-      }}
-    />
     <Widget
       src={"devhub.near/widget/devhub.entity.proposal.ConfirmReviewModal"}
       props={{
@@ -1434,13 +1397,12 @@ return (
                           }
                           props={{
                             label: "Save",
-                            disabled:
-                              !supervisor &&
-                              DecisionStage.includes(
-                                updatedProposalStatus.value.status
-                              ),
+                            disabled: !supervisor,
                             classNames: { root: "green-btn btn-sm" },
                             onClick: () => {
+                              if (!supervisor) {
+                                return;
+                              }
                               if (snapshot.supervisor !== supervisor) {
                                 editProposal({
                                   timeline: updatedProposalStatus.value,
