@@ -54,17 +54,16 @@ const AccordionTrigger = ({ className, children, ...props }) => (
   </Tailwind>
 );
 
-const accordionContentClassname =
-  "overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down";
+const accordionContentClassname = "pb-4 pt-0";
 
 const AccordionContent = ({ className, children, ...props }) => (
   <Tailwind>
     <Accordion.Content
       ref="forwardedRef"
-      className={className ?? accordionContentClassname}
+      className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
       {...props}
     >
-      <div className={className}>{children}</div>
+      <div className={className ?? accordionContentClassname}>{children}</div>
     </Accordion.Content>
   </Tailwind>
 );
