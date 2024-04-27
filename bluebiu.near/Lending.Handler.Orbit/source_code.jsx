@@ -70,7 +70,7 @@ const UNITROLLER_ABI = [
 ];
 
 const { update, data, amount, account, onLoad } = props;
-console.log("HANDLER--", props);
+// console.log("HANDLER--", props);
 useEffect(() => {
   const isCollateral = data.actionText.includes("Collateral");
   if (!data.actionText || !data.underlyingToken) return;
