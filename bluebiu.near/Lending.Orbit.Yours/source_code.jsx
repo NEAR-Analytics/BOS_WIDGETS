@@ -174,7 +174,7 @@ return (
             <Value className="supply-color">
               {userTotalBorrowUsd && userTotalSupplyUsd
                 ? Big(userTotalBorrowUsd || 1)
-                    .div(Big(userTotalSupplyUsd || 0))
+                    .div(Big(userTotalSupplyUsd || 1))
                     .times(100)
                     .toFixed(2)
                 : "-"}
@@ -221,15 +221,31 @@ return (
         />
       </YoursTableWrapper>
     </Yours>
-    {/* <Widget
-      src="bluebiu.near/widget/Avalanche.Lending.RewardsTable"
+    <Widget
+      src="bluebiu.near/widget/Lending.Orbit.RewardsTable"
       props={{
-        data: state.rewards || [],
+        data: [
+          {
+            dappName: "Orbit Protocol",
+            pool: "ORBIT",
+            reward: "0",
+          },
+          {
+            dappName: "Orbit Protocol",
+            pool: "RENZO",
+            reward: "0",
+          },
+          {
+            dappName: "Orbit Protocol",
+            pool: "KELP",
+            reward: "0",
+          },
+        ],
         dapps: props.dappsConfig,
         onSuccess: props.onSuccess,
         supplies: state.supplies,
         toast,
       }}
-    /> */}
+    />
   </>
 );
