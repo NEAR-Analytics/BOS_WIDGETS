@@ -1,3 +1,54 @@
+{
+  /*
+            <Label>Source</Label>
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Source:", newValue);
+                  setSource(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, source: newValue }, // Update external state
+                  });
+                },
+                value: source,
+                options: {
+                  source: {
+                    sourcePattern: "*/ source;
+  /*",
+                    placeholder: "Select a source",
+                  },
+                },
+              }}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Schema</Label>
+            <Widget src="hyperfiles.near/widget/schema.array" />
+            <Widget
+              src="hyperfiles.near/widget/MetadataEditor"
+              props={{
+                initialMetadata: profile,
+                onChange: (newValue) => {
+                  console.log("New Schema:", newValue);
+                  setSchema(newValue); // Update local state
+                  State.update({
+                    profile: { ...profile, schema: newValue }, // Update external state
+                  });
+                },
+                value: schema,
+                options: {
+                  source: {
+                    schemaPattern: "*/ schema; /*",
+                    placeholder: "Select a schema",
+                  },
+                },
+              }}
+            />
+            */
+}
+
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -46,7 +97,7 @@ const adapters = [
   // },
   {
     title: "IPFS",
-    value: "everycanvas.near/widget/adapter.ipfs",
+    value: "hyperfiles.near/widget/adapter.ipfs",
   },
   {
     title: "GitHub",
@@ -150,51 +201,7 @@ return (
         <Form>
           <h3>Data</h3>
           <FormGroup>
-            <Label>Source</Label>
-            <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
-              props={{
-                initialMetadata: profile,
-                onChange: (newValue) => {
-                  console.log("New Source:", newValue);
-                  setSource(newValue); // Update local state
-                  State.update({
-                    profile: { ...profile, source: newValue }, // Update external state
-                  });
-                },
-                value: source,
-                options: {
-                  source: {
-                    sourcePattern: "*/source/*",
-                    placeholder: "Select a source",
-                  },
-                },
-              }}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>Schema</Label>
-            <Widget src="hyperfiles.near/widget/schema.array" />
-            <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
-              props={{
-                initialMetadata: profile,
-                onChange: (newValue) => {
-                  console.log("New Schema:", newValue);
-                  setSchema(newValue); // Update local state
-                  State.update({
-                    profile: { ...profile, schema: newValue }, // Update external state
-                  });
-                },
-                value: schema,
-                options: {
-                  source: {
-                    schemaPattern: "*/schema/*",
-                    placeholder: "Select a schema",
-                  },
-                },
-              }}
-            />
+            <Widget src="hyperfiles.near/widget/schema.select" />
           </FormGroup>
           <FormGroup>
             <Label>Raw Data</Label>
@@ -224,6 +231,12 @@ return (
             </Select>
           </FormGroup>
           {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
+          {adapter === "hyperfiles.near/widget/adapter.ipfs" && (
+            <Widget
+              src="flowscience.near/widget/GitHubSearchSelect"
+              onSelectRepository={handleSelectRepository}
+            ></Widget>
+          )}
           {adapter === "hyperfiles.near/widget/adapter.github" && (
             <Widget
               src="flowscience.near/widget/GitHubSearchSelect"
