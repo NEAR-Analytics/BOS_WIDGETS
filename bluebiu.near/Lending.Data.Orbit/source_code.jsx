@@ -124,18 +124,28 @@ const {
   name,
   onLoad,
   multicall,
-  markets,
-  //   ORBIT_MARKETS,
-  // RENZO_MARKETS,
-  // KELP_MARKETS,
+  ORBIT_MARKETS,
+  RENZO_MARKETS,
+  KELP_MARKETS,
   unitrollerAddress,
   prices,
+  orbitTab,
 } = props;
 
 const { formatUnits } = ethers.utils;
 console.log("ORIBIT-DATA-PROPS--", props);
 useEffect(() => {
   if (!multicallAddress || !update || !account) return "";
+  let markets;
+  if (orbitTab === "ORBIT") {
+    markets = ORBIT_MARKETS;
+  }
+  if (orbitTab === "RENZO") {
+    markets = RENZO_MARKETS;
+  }
+  if (orbitTab === "KELP") {
+    markets = KELP_MARKETS;
+  }
   console.log(`${name}-update`);
   let _cTokensData = {};
   let _underlyPrice = {};
@@ -201,6 +211,7 @@ useEffect(() => {
     const _borrowLimitUsd = totalCollateralUsd
       .mul(0.75)
       .minus(userTotalBorrowUsd);
+
     onLoad({
       markets,
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -219,60 +230,7 @@ useEffect(() => {
     count++;
     formatedData("getUnderlyPrice");
   };
-  // const getOTokenLiquidity = () => {
-  //   const assets = Object.values(markets);
-  //   let nativeOToken = "";
-  //   const calls = assets
-  //     .filter((market) => {
-  //       if (market.underlyingToken.address === "native")
-  //         nativeOToken = market.address;
-  //       return (
-  //         market.underlyingToken.address &&
-  //         market.underlyingToken.address !== "native"
-  //       );
-  //     })
-  //     .map((market) => ({
-  //       address: market.underlyingToken.address,
-  //       name: "balanceOf",
-  //       params: [market.address],
-  //     }));
-  //   multicall({
-  //     abi: ERC20_ABI,
-  //     calls,
-  //     options: {},
-  //     multicallAddress,
-  //     provider: Ethers.provider(),
-  //   })
-  //     .then((res) => {
-  //       _liquidity = {};
-  //       for (let i = 0, len = res.length; i < len; i++) {
-  //         const oToken = markets[calls[i].params[0]];
-  //         _liquidity[oToken.address] = ethers.utils.formatUnits(
-  //           res[i][0]._hex,
-  //           oToken.underlyingToken.decimals
-  //         );
-  //       }
-  //       const provider = Ethers.provider();
-  //       if (nativeOToken) {
-  //         provider.getBalance(nativeOToken).then((rawBalance) => {
-  //           _liquidity[nativeOToken] = ethers.utils.formatUnits(
-  //             rawBalance._hex,
-  //             18
-  //           );
-  //           count++;
-  //           formatedData("getOTokenLiquidity");
-  //         });
-  //       } else {
-  //         count++;
-  //         formatedData("getOTokenLiquidity");
-  //       }
-  //     })
-  //     .catch(() => {
-  //       setTimeout(() => {
-  //         getOTokenLiquidity();
-  //       }, 500);
-  //     });
-  // };
+
   const getWalletBalance = () => {
     let nativeOToken = "";
     const underlyingTokens = Object.values(markets)
@@ -400,110 +358,7 @@ useEffect(() => {
         console.log("getSupplyRatePerBlock_error:", err);
       });
   };
-  // const getCTokenData = (oToken) => {
-  //   if (oTokensLength === 0) return;
-  //   const calls = [
-  //     {
-  //       address: oToken.address,
-  //       name: "exchangeRateCurrent",
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "totalSupply",
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "totalBorrows",
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "balanceOf",
-  //       params: [account],
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "borrowBalanceCurrent",
-  //       params: [account],
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "borrowRatePerBlock",
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "supplyRatePerBlock",
-  //     },
-  //     {
-  //       address: oToken.address,
-  //       name: "reserveFactorMantissa",
-  //     },
-  //   ];
-  //   multicall({
-  //     abi: OTOKEN_ABI,
-  //     calls,
-  //     options: {},
-  //     multicallAddress,
-  //     provider: Ethers.provider(),
-  //   })
-  //     .then((res) => {
-  //       oTokensLength--;
-  //       const exchangeRateStored = res[0][0]
-  //         ? ethers.utils.formatUnits(
-  //             res[0][0]._hex,
-  //             10 + oToken.underlyingToken.decimals
-  //           )
-  //         : "0";
-  //       const totalSupply = res[1][0]
-  //         ? ethers.utils.formatUnits(res[1][0]._hex, oToken.decimals)
-  //         : "0";
-  //       const userSupply = res[3][0]
-  //         ? ethers.utils.formatUnits(res[3][0]._hex, oToken.decimals)
-  //         : "0";
-  //       _loanToValue[oToken.address] = ethers.utils.formatUnits(
-  //         res[7][0]._hex,
-  //         16
-  //       );
-  //       _cTokensData[oToken.address] = {
-  //         ...oToken,
-  //         exchangeRateStored,
-  //         totalSupply: Big(totalSupply).mul(exchangeRateStored).toString(),
-  //         totalBorrows: res[2][0]
-  //           ? ethers.utils.formatUnits(
-  //               res[2][0]._hex,
-  //               oToken.underlyingToken.decimals
-  //             )
-  //           : "0",
-  //         supplyRatePerBlock: res[6][0]
-  //           ? ethers.utils.formatUnits(res[6][0]._hex, 18)
-  //           : "0",
-  //         borrowRatePerBlock: res[5][0]
-  //           ? ethers.utils.formatUnits(res[5][0]._hex, 18)
-  //           : "0",
-  //         userSupply: Big(userSupply).mul(exchangeRateStored).toString(),
-  //         userBorrow: res[4][0]
-  //           ? ethers.utils.formatUnits(
-  //               res[4][0]._hex,
-  //               oToken.underlyingToken.decimals
-  //             )
-  //           : "0",
-  //       };
-  //       if (oTokensLength === 0) {
-  //         count++;
-  //         formatedData("oTokens data");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log("oTokens data err", err);
-  //       // setTimeout(() => {
-  //       //   getCTokenData(oToken);
-  //       // }, 500);
-  //     });
-  // };
-  // const getCTokensData = () => {
-  //   Object.values(markets).forEach((market) => {
-  //     getCTokenData(market);
-  //   });
-  // };
+
   const getUserSupply = () => {
     const calls = oTokens.map((oToken) => ({
       address: oToken.address,
@@ -606,7 +461,10 @@ useEffect(() => {
         console.log("getCollateralStatus-res:", res);
         if (Array.isArray(res) && res.length) {
           res.forEach((addr) => {
-            oTokens.find((item) => item.address === addr).isCollateral = true;
+            const _market = oTokens.find((item) => item.address === addr);
+            if (_market) {
+              _market.isCollateral = true;
+            }
           });
           oTokens.forEach((oToken, index) => {
             if (_cTokensData[oToken.address]) {
@@ -756,4 +614,4 @@ useEffect(() => {
   getPoolCash();
   getTotalBorrows();
   getTotalReserves();
-}, [update, account]);
+}, [update, account, orbitTab]);
