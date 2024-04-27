@@ -70,9 +70,9 @@ const UNITROLLER_ABI = [
 ];
 
 const { update, data, amount, account, onLoad } = props;
-// console.log("HANDLER--", props);
 useEffect(() => {
   const isCollateral = data.actionText.includes("Collateral");
+  console.log("HANDLER--", isCollateral, props);
   if (!data.actionText || !data.underlyingToken) return;
 
   if (!isCollateral && !update) return;
@@ -99,7 +99,7 @@ useEffect(() => {
         isETH && (data.actionText === "Deposit" || data.actionText === "Repay")
           ? parsedAmount
           : 0,
-      gasLimit: 4000000,
+      gasLimit: 8000000,
     };
 
     const CTokenContract = new ethers.Contract(
@@ -132,7 +132,7 @@ useEffect(() => {
   }
 
   if (isCollateral) {
-    if (!data.config.lendingPoolAddress || !data.underlyingToken) return;
+    if (!data.underlyingToken) return;
     const isEnter = data.actionText === "Enable as Collateral";
 
     contract = new ethers.Contract(
@@ -143,25 +143,29 @@ useEffect(() => {
 
     method = isEnter ? "enterMarkets" : "exitMarket";
 
-    params = isEnter ? [[marketAddress]] : [marketAddress];
+    params = isEnter
+      ? [[data.underlyingToken.address]]
+      : [data.underlyingToken.address];
+    // params = [data.underlyingToken.address];
   }
 
   if (!contract) return;
 
   const createTx = (gas) => {
-    const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 4000000;
+    const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 8000000;
     contract.populateTransaction[method](...params, {
       ...options,
-      gasLimit: _gas,
+      gasLimit: 8000000,
     })
       .then((res) => {
         onLoad({
-          gas: _gas,
+          gas: 8000000,
           unsignedTx: res,
           isError: false,
         });
       })
       .catch((err) => {
+        console.log("CATCH_createTx:", err);
         onLoad({});
       });
   };
