@@ -5,6 +5,10 @@ const accounts = Near.view(pool, "get_accounts", {
   limit: 888,
 });
 
+if (!accounts) {
+  return "";
+}
+
 const stakeholders = accounts.sort(
   (a, b) => Big(b.staked_balance) - Big(a.staked_balance)
 );
