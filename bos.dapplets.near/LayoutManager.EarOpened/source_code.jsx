@@ -66,6 +66,11 @@ const ActionsWrapper = styled.div`
   }
   animation: translateAnimation 0.3s ease forwards;
   transition: all 0.2s;
+  span{
+    display: block;
+    margin-bottom: 5px;
+
+  }
 `;
 
 const ActionBlock = styled.span`
