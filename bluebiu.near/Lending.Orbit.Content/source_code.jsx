@@ -134,7 +134,7 @@ return (
       }}
     />
     <Widget
-      src="bluebiu.near/widget/Avalanche.Lending.Dialog"
+      src="bluebiu.near/widget/Lending.Orbit.Dialog"
       props={{
         display: state.showDialog,
         data: state.tableButtonClickData,
