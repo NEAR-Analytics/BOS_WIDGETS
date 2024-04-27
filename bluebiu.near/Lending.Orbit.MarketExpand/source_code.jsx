@@ -208,7 +208,7 @@ const {
 } = props;
 
 const data = props.data || {};
-console.log("MarketExpand--", data);
+console.log("MarketExpand--", props);
 const underlyingPrice = prices[data.symbol] || 1;
 
 State.init({ tab: "Supply" });
@@ -294,7 +294,7 @@ return (
         <StyledInfo>
           <StyledInfoContent>
             <StyledInfoTitle>Your info</StyledInfoTitle>
-            {/* <StyledInfoItem>
+            <StyledInfoItem>
               <div>Your borrw limit</div>
               <div className="white">
                 {" "}
@@ -307,7 +307,7 @@ return (
                   }}
                 />
               </div>
-            </StyledInfoItem> */}
+            </StyledInfoItem>
             <StyledInfoItem>
               <div>Available to Supply</div>
               <div>
