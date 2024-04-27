@@ -23,7 +23,7 @@ const [defaultView, setDefaultView] = useState("QUERY") || props.defaultView;
 
 const user = Ethers.send("eth_requestAccounts", [])[0];
 
-if (!user) return <Web3Connect connectLabel="Connect" />;
+//if (!user) return <Web3Connect connectLabel="Connect" />;
 
 {
   /*
@@ -50,6 +50,7 @@ return (
         Currently only works with{" "}
         <a href="https://optimism.easscan.org/">Optimism</a>.
       </p>
+      <Web3Connect connectLabel="Connect" />
       <hr />
     </div>
     <ul className="nav nav-tabs">
