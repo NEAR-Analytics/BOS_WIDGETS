@@ -98,5 +98,9 @@ return (
         </Select>
       )}
     </Row>
+    <br />
+    <Row>
+      <Button onClick="">Create a schema</Button>
+    </Row>
   </FormContainer>
 );
