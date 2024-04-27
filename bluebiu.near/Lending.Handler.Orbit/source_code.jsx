@@ -90,7 +90,7 @@ useEffect(() => {
     }
 
     const parsedAmount = ethers.utils.parseUnits(
-      Big(amount).toFixed(market.underlyingToken.decimals).toString(),
+      Big(amount).toFixed(data.underlyingToken.decimals).toString(),
       data.underlyingToken.decimals
     );
 
