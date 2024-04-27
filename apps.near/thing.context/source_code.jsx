@@ -7,12 +7,13 @@ const [creatorId, namespace, thingId] = src.split("/");
 
 const blockheight = props.blockheight ?? "final";
 
-const thingExists = Social.get(`${creatorId}/${namespace}/${thingId}`, "final");
+const thingExists = Social.get(`${src}`, "final");
 
-const tagsObject = Social.get(
-  `${creatorId}/${namespace}/${thingId}/metadata/tags/*`,
-  blockheight
-);
+const tagsObject = Social.get(`${src}/metadata/tags/*`, blockheight);
+
+if (!tagsObject) {
+  return "";
+}
 
 State.init({
   tagsObject,
@@ -32,6 +33,10 @@ const contextObject = Social.get(
   `*/${creatorId}/${namespace}/${thingId}/metadata/tags/*`,
   blockheight
 );
+
+if (!contextObject) {
+  return "";
+}
 
 const tagsCount = {};
 const tagsAuthors = {};
