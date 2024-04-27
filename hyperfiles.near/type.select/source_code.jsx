@@ -1,10 +1,10 @@
-const initialSchemaSrc = props.schemaSrc || "hyperfiles.near";
-const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
-const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
-const [availableSchemas, setAvailableSchemas] = useState([]);
+const initialTypeSrc = props.typeSrc || "hyperfiles.near";
+const [newTypeSrc, setNewTypeSrc] = useState(initialTypeSrc);
+const [typeSrc, setTypeSrc] = useState(initialTypeSrc);
+const [availableTypes, setAvailableTypes] = useState([]);
 const [isLoading, setIsLoading] = useState(true);
-const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
+const [selectedType, setSelectedType] = useState(
+  props.selectedType || "attestations.near/type/isTrue"
 );
 
 const Row = styled.div`
@@ -25,74 +25,74 @@ const Input = styled.input`
   `;
 
 useEffect(() => {
-  const fetchSchemasList = async () => {
+  const fetchTypesList = async () => {
     setIsLoading(true);
     // Ensure dynamic accountId is correctly included in the query
-    const schemas = Social.get(`${schemaSrc}/type/**`, "final");
-    if (schemas) {
-      const schemasList = Object.keys(schemas).map(
-        (key) => `${schemaSrc}/type/${key}`
+    const types = Social.get(`${typeSrc}/type/**`, "final");
+    if (types) {
+      const typesList = Object.keys(types).map(
+        (key) => `${typeSrc}/type/${key}`
       );
-      setAvailableSchemas(schemasList);
+      setAvailableTypes(typesList);
     } else {
-      setAvailableSchemas([]);
+      setAvailableTypes([]);
     }
     setIsLoading(false);
   };
 
-  fetchSchemasList();
-}, [schemaSrc]); // Depend on schemaSrc to refetch when it changes
+  fetchTypesList();
+}, [typeSrc]); // Depend on typeSrc to refetch when it changes
 
-if (!schemas) {
-  console.error(`Failed to fetch schemas for ${schemaSrc}`);
+if (!types) {
+  console.error(`Failed to fetch types for ${typeSrc}`);
   // Handle the error appropriately in the UI
 }
 
 useEffect(() => {
   // Sync state with prop when it changes
-  setSelectedSchema(props.selectedSchema);
-}, [props.selectedSchema]); // Re-run effect if props.selectedSchema changes
+  setSelectedType(props.selectedType);
+}, [props.selectedType]); // Re-run effect if props.selectedType changes
 
-const handleSchemaChange = (e) => {
-  setSelectedSchema(e.target.value);
-  console.log(`New schema selected: ${newSchema}`); // Log the new schema selection
+const handleTypeChange = (e) => {
+  setSelectedType(e.target.value);
+  console.log(`New type selected: ${newType}`); // Log the new type selection
 
-  if (props.onSelectedSchemaChange) {
-    props.onSelectedSchemaChange(e.target.value);
+  if (props.onSelectedTypeChange) {
+    props.onSelectedTypeChange(e.target.value);
   }
 };
 
-const handleSchemaOwnerChange = (e) => {
-  setNewSchemaSrc(e.target.value);
+const handleTypeOwnerChange = (e) => {
+  setNewTypeSrc(e.target.value);
 };
 
-const handleApplySchemaSrc = () => {
-  setSchemaSrc(newSchemaSrc); // Apply the new schema source
-  console.log(`Applying new Schema Owner: ${newSchemaSrc}`); // Log the action
+const handleApplyTypeSrc = () => {
+  setTypeSrc(newTypeSrc); // Apply the new type source
+  console.log(`Applying new Type Owner: ${newTypeSrc}`); // Log the action
 };
 
 return (
   <FormContainer>
-    <Label>Schema Owner:</Label>
+    <Label>Type Owner:</Label>
     <Row>
       <Input
         type="text"
-        onChange={handleSchemaOwnerChange} // Corrected to use the handleSchemaOwnerChange function
-        value={newSchemaSrc}
+        onChange={handleTypeOwnerChange} // Corrected to use the handleTypeOwnerChange function
+        value={newTypeSrc}
         placeholder="accountId"
       />
-      <Button onClick={handleApplySchemaSrc}>apply</Button>
+      <Button onClick={handleApplyTypeSrc}>apply</Button>
     </Row>
-    <Label>Schema:</Label>
+    <Label>Type:</Label>
     <Row>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <Select value={selectedSchema} onChange={handleSchemaChange}>
-          <option value="">Choose a schema</option>
-          {availableSchemas.map((schema) => (
-            <option key={schema} value={schema}>
-              {schema}
+        <Select value={selectedType} onChange={handleTypeChange}>
+          <option value="">Choose a type</option>
+          {availableTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
             </option>
           ))}
         </Select>
