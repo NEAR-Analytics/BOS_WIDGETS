@@ -1,16 +1,17 @@
 const { href } = VM.require("devhub.near/widget/core.lib.url");
+const { getDepositAmountForWriteAccess } = VM.require(
+  "devhub.near/widget/core.lib.common"
+);
 const draftKey = "PROPOSAL_EDIT";
+getDepositAmountForWriteAccess || (getDepositAmountForWriteAccess = () => {});
 href || (href = () => {});
-const { getLinkUsingCurrentGateway } = VM.require(
-  "devhub.near/widget/core.lib.url"
-) || { getLinkUsingCurrentGateway: () => {} };
+
 const { id, timestamp } = props;
 
 const isEditPage = typeof id === "string";
 const author = context.accountId;
-const FundingDocs = getLinkUsingCurrentGateway(
-  `devhub.near/widget/app?page=community&handle=developer-dao&tab=funding`
-);
+const FundingDocs =
+  "https://near.social/devhub.near/widget/app?page=community&handle=developer-dao&tab=funding";
 
 if (!author) {
   return (
@@ -636,15 +637,14 @@ const SubmitBtn = () => {
   const handleOptionClick = (option) => {
     setDraftBtnOpen(false);
     setSelectedStatus(option.value);
-    handleSubmit(option.value);
   };
 
   const toggleDropdown = () => {
     setDraftBtnOpen(!isDraftBtnOpen);
   };
 
-  const handleSubmit = (status) => {
-    const isDraft = status === "draft";
+  const handleSubmit = () => {
+    const isDraft = selectedStatus === "draft";
     if (isDraft) {
       onSubmit({ isDraft });
       cleanDraft();
@@ -669,7 +669,7 @@ const SubmitBtn = () => {
           }
         >
           <div
-            onClick={() => !disabledSubmitBtn && handleSubmit(selectedStatus)}
+            onClick={() => !disabledSubmitBtn && handleSubmit()}
             className="p-2 d-flex gap-2 align-items-center "
           >
             {isTxnCreated ? (
@@ -684,7 +684,7 @@ const SubmitBtn = () => {
             style={{ borderLeft: "1px solid #ccc" }}
             onClick={!disabledSubmitBtn && toggleDropdown}
           >
-            <i class={`bi bi-chevron-${isDraftBtnOpen ? "up" : "down"}`}></i>
+            <i class={`bi bi-chevron-${isOpen ? "up" : "down"}`}></i>
           </div>
         </div>
 
@@ -761,6 +761,21 @@ function cleanDraft() {
   Storage.privateSet(draftKey, null);
 }
 
+const descriptionPlaceholder = `**PROJECT DETAILS**
+Provide a clear overview of the scope, deliverables, and expected outcomes. What benefits will it provide to the NEAR community? How will you measure success?
+
+**TIMELINE**
+Describe the timeline of your project and key milestones, specifying if the work was already complete or not. Include your plans for reporting progress to the community.
+
+OPTIONAL FIELDS
+
+**TEAM**
+Provide a list of who will be working on the project along with their relevant skillset and experience. You may include links to portfolios or profiles to help the community get to know who the DAO will fund and how their backgrounds will contribute to your project’s success.
+
+**BUDGET BREAKDOWN**
+Include a detailed breakdown on how you will use the funds and include rate justification. Our community values transparency, so be as specific as possible.
+`;
+
 if (loading) {
   return (
     <div
@@ -833,6 +848,7 @@ const TitleComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 80,
+          required: true,
         },
       }}
     />
@@ -853,6 +869,7 @@ const SummaryComponent = useMemo(() => {
         skipPaddingGap: true,
         inputProps: {
           max: 500,
+          required: true,
         },
       }}
     />
