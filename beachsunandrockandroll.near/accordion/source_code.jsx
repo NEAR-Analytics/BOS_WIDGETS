@@ -8,18 +8,31 @@ const AccordionRoot = ({ className, children, ...props }) => (
   </Tailwind>
 );
 
+const accordionItemClassname = "border-b";
+
 const AccordionItem = ({ className, children, ...props }) => (
   <Tailwind>
-    <Accordion.Item ref="forwardedRef" className={className} {...props}>
+    <Accordion.Item
+      ref="forwardedRef"
+      className={className ?? accordionItemClassname}
+      {...props}
+    >
       {children}
     </Accordion.Item>
   </Tailwind>
 );
 
+const accordionTriggerClassname =
+  "flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180";
+
 const AccordionTrigger = ({ className, children, ...props }) => (
   <Tailwind>
     <Accordion.Header className="flex">
-      <Accordion.Trigger ref="forwardedRef" className={className} {...props}>
+      <Accordion.Trigger
+        ref="forwardedRef"
+        className={className ?? accordionTriggerClassname}
+        {...props}
+      >
         {children}
         <svg
           width="15"
@@ -41,11 +54,14 @@ const AccordionTrigger = ({ className, children, ...props }) => (
   </Tailwind>
 );
 
+const accordionContentClassname =
+  "overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down";
+
 const AccordionContent = ({ className, children, ...props }) => (
   <Tailwind>
     <Accordion.Content
       ref="forwardedRef"
-      className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      className={className ?? accordionContentClassname}
       {...props}
     >
       <div className={className}>{children}</div>
@@ -53,4 +69,12 @@ const AccordionContent = ({ className, children, ...props }) => (
   </Tailwind>
 );
 
-return { AccordionRoot, AccordionItem, AccordionTrigger, AccordionContent };
+return {
+  Accordion: AccordionRoot,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  accordionItemClassname,
+  accordionTriggerClassname,
+  accordionContentClassname,
+};
