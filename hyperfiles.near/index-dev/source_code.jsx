@@ -284,10 +284,7 @@ return (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
-                      <Widget
-                        src="flowscience.near/widget/attestWithTypes"
-                        props={{}}
-                      />
+                      <Widget src="flowscience.near/widget/eas" props={{}} />
                     </div>
                   </div>
                 </div>
@@ -315,7 +312,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="flowscience.near/widget/JSON-Schema.editor"
+                        src="hyperfiles.near/widget/schema.edit"
                         props={{}}
                       />
                     </div>
