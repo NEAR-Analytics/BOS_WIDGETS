@@ -31,7 +31,7 @@ const DropdownMenuRadioGroup = ({ children, ...props }) => (
 );
 
 const dropdownMenuSubTriggerClassname =
-  "flex cursor-default select-none items-center rounded-sm py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent";
+  "flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent";
 
 const DropdownMenuSubTrigger = ({ className, inset, children, ...props }) => {
   let cls = className ?? dropdownMenuSubTriggerClassname;
@@ -65,12 +65,7 @@ const DropdownMenuSubContent = ({ className, children, ...props }) => (
 const dropdownMenuContentClassname =
   "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2";
 
-const DropdownMenuContent = ({
-  className,
-  children,
-  sideOffset,
-  ...props
-}) => (
+const DropdownMenuContent = ({ className, children, sideOffset, ...props }) => (
   <Tailwind>
     <DropdownMenu.Content
       ref="forwardedRef"
@@ -84,11 +79,11 @@ const DropdownMenuContent = ({
 );
 
 const dropdownMenuItemClassname =
-  "relative flex cursor-default select-none items-center rounded-sm py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+  "relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 
 const DropdownMenuItem = ({ className, children, inset, ...props }) => {
   let cls = className ?? dropdownMenuItemClassname;
-  cls = inset != undefined && inset ? `${cls} pr-2 pl-8` : `${cls}`;
+  cls = inset != undefined && inset ? `${cls} pr-2 pl-8` : `${cls} px-2`;
 
   return (
     <Tailwind>
@@ -100,7 +95,7 @@ const DropdownMenuItem = ({ className, children, inset, ...props }) => {
 };
 
 const dropdownMenuCheckboxItemClassname =
-  "relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+  "relative flex cursor-default select-none items-center justify-between rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
 
 const DropdownMenuCheckboxItem = ({
   className,
