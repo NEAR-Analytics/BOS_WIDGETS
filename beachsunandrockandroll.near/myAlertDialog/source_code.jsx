@@ -2,23 +2,18 @@ const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 const { Button } = VM.require("beachsunandrockandroll.near/widget/button");
 
 const {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-  dropdownMenuContentClassname,
-} = VM.require("beachsunandrockandroll.near/widget/dropdownMenu");
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+  hoverCardContentClassname,
+} = VM.require("beachsunandrockandroll.near/widget/hoverCard");
+const { Avatar, AvatarImage, AvatarFallback } = VM.require(
+  "beachsunandrockandroll.near/widget/avatar"
+);
 
 State.init({
   cnButton: "",
-  cnDropdownMenuContent: "",
+  cnHoverCardContent: "",
 });
 
 if (["", "loaded"].includes(state.cnButton))
@@ -32,14 +27,13 @@ if (["", "loaded"].includes(state.cnButton))
     />
   );
 
-if (["", "loaded"].includes(state.cnDropdownMenuContent))
+if (["", "loaded"].includes(state.cnHoverCardContent))
   return (
     <Widget
       src="beachsunandrockandroll.near/widget/cnIframe"
       props={{
-        output: (cnDropdownMenuContent) =>
-          State.update({ cnDropdownMenuContent }),
-        className: `${dropdownMenuContentClassname} w-56`,
+        output: (cnHoverCardContent) => State.update({ cnHoverCardContent }),
+        className: `${hoverCardContentClassname} w-80`,
       }}
     />
   );
@@ -47,59 +41,31 @@ if (["", "loaded"].includes(state.cnDropdownMenuContent))
 return (
   <Tailwind>
     <div className="flex mx-auto w-max pt-10">
-      <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Button className={state.cnButton}>Open</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className={state.cnDropdownMenuContent}>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Billing
-              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Keyboard shortcuts
-              <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>Email</DropdownMenuItem>
-                <DropdownMenuItem>Message</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>More...</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-            <DropdownMenuItem>
-              New Team
-              <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>GitHub</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuItem disabled>API</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            Log out
-            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <HoverCard>
+        <HoverCardTrigger>
+          <Button variant="link">@nextjs</Button>
+        </HoverCardTrigger>
+        <HoverCardContent className={state.cnHoverCardContent}>
+          <div className="flex justify-between space-x-4">
+            <Avatar>
+              <AvatarImage src="https://github.com/vercel.png" />
+              <AvatarFallback>VC</AvatarFallback>
+            </Avatar>
+            <div className="space-y-1">
+              <h4 className="text-sm font-semibold">@nextjs</h4>
+              <p className="text-sm">
+                The React Framework - created and maintained by @vercel.
+              </p>
+              <div className="flex items-center pt-2">
+                <i class="bi bi-calendar3 mr-2 h-4 w-4 opacity-70"></i>{" "}
+                <span className="text-xs text-muted-foreground">
+                  Joined December 2021
+                </span>
+              </div>
+            </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
     </div>
   </Tailwind>
 );
