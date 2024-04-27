@@ -48,7 +48,7 @@ const WidgetBadgeWrapper = styled.div`
 
 const FloatingElementWrapper = ({ component: WrapperComponent, children }) => {
   return WrapperComponent ? (
-    <WrapperComponent context={props.context} children={children} />
+    <WrapperComponent context={props.context}>{children}</WrapperComponent>
   ) : (
     children
   );
@@ -105,7 +105,6 @@ return (
             <FloatingElementWrapper component={WrapperComponent}>
               <Widget src={widget.src} props={widget.props} />
             </FloatingElementWrapper>
-          
           </WidgetWrapper>
         );
       })}
