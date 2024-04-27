@@ -199,7 +199,7 @@ useEffect(() => {
       markets[market.address] = {
         ...market,
         // liquidity: _liquidity[market.address],
-        // underlyingPrice: underlyingPrice,
+        underlyingPrice: underlyingPrice,
         userUnderlyingBalance: _underlyingBalance[market.address],
         supplyApy: supplyApy.toFixed(2) + "%",
         borrowApy: borrowApy.toFixed(2) + "%",
@@ -461,11 +461,16 @@ useEffect(() => {
         console.log("getCollateralStatus-res:", res);
         if (Array.isArray(res) && res.length) {
           res.forEach((addr) => {
-            const _market = oTokens.find((item) => item.address === addr);
+            const _market = oTokens.find(
+              (item) =>
+                item.address.toLocaleLowerCase() === addr.toLocaleLowerCase()
+            );
+
             if (_market) {
               _market.isCollateral = true;
             }
           });
+
           oTokens.forEach((oToken, index) => {
             if (_cTokensData[oToken.address]) {
               _cTokensData[oToken.address] = {
