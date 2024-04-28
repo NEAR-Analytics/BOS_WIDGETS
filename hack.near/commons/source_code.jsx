@@ -41,7 +41,15 @@ return (
     <table style={{ width: "100%" }}>
       <thead>
         <tr>
-          <th style={{ padding: "8px" }}></th>
+          <th style={{ padding: "8px" }}>
+            <Widget
+              src="hack.near/widget/commons.join"
+              props={{
+                accountId: "*",
+                attestorId: accountId,
+              }}
+            />
+          </th>
           {attestors.map((attestor, index) => (
             <th key={index} style={{ padding: "8px" }}>
               {attestor}
@@ -80,5 +88,8 @@ return (
         ))}
       </tbody>
     </table>
+    <div className="m-1">
+      <Widget src="hack.near/widget/commons.add" props={{ showInput }} />
+    </div>
   </div>
 );
