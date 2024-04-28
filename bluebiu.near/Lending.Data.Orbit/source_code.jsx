@@ -166,13 +166,18 @@ useEffect(() => {
     let totalCollateralUsd = Big(0);
     const markets = {};
     Object.values(_cTokensData).forEach((market) => {
-      console.log("---", market);
+      // console.log("---", market);
       // console.log(
       //   market.symbol,
       //   prices[market.symbol],
       //   market.userSupply
       // );
-      const underlyingPrice = prices[market.symbol] || 1;
+      let underlyingPrice;
+      if (market.symbol === "fwWETH") {
+        underlyingPrice = prices["oETH"];
+      } else {
+        underlyingPrice = prices[market.symbol] || 1;
+      }
 
       userTotalSupplyUsd = userTotalSupplyUsd.plus(
         Big(market.userSupply).mul(underlyingPrice)
