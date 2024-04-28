@@ -37,64 +37,12 @@ const data = props.data ?? {
   graph: { [graphId]: { [accountId]: attested ? null : "" } },
 };
 
-const attest = () => {
-  Social.set(data);
-};
-
-const validate = (account) => {
-  const accountRegex =
-    /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/;
-
-  if (typeof account !== "string") {
-    setValid(false);
-    return false;
-  }
-
-  if (account.trim().length < 2) {
-    setValid(false);
-    return false;
-  }
-
-  if (account.trim().length > 64) {
-    setValid(false);
-    return false;
-  }
-
-  if (!accountRegex.test(account.trim())) {
-    setValid(false);
-    return false;
-  }
-
-  if (forbiddenIds.has(account.trim())) {
-    setValid(false);
-    return false;
-  }
-
-  setValid(true);
-  return true;
-};
-
-const handleSave = () => {
-  if (validate(newBuilder)) {
-    const account = newBuilder.trim();
-    Social.set({
-      graph: {
-        commons: {
-          [account]: "",
-        },
-      },
-    });
-    setNewBuilder("");
-    setShowInput(false);
-  }
-};
-
 return (
   <>
     <button
       disabled={loading}
       className={`mb-2 m-1 btn btn-sm ${
-        attested ? "btn-dark" : "btn-outline-dark"
+        showInput ? "btn-secondary" : "btn-success"
       }`}
       onClick={() => setShowInput(!showInput)}
     >
