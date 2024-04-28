@@ -134,7 +134,6 @@ useEffect(() => {
   if (isCollateral) {
     if (!data.underlyingToken) return;
     const isEnter = data.actionText === "Enable as Collateral";
-
     contract = new ethers.Contract(
       data.config.unitrollerAddress,
       UNITROLLER_ABI,
