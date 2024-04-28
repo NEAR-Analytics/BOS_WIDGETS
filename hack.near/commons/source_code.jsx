@@ -38,6 +38,9 @@ useEffect(() => {
 
 return (
   <div className="m-2 p-1">
+    <div className="m-1">
+      <Widget src="hack.near/widget/commons.add" />
+    </div>
     <table style={{ width: "100%" }}>
       <thead>
         <tr>
@@ -90,8 +93,5 @@ return (
         ))}
       </tbody>
     </table>
-    <div className="m-1">
-      <Widget src="hack.near/widget/commons.add" props={{ showInput }} />
-    </div>
   </div>
 );
