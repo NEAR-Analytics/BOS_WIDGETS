@@ -270,7 +270,9 @@ const onAddTask = () => {
       },
     },
   };
-  Social.set(data);
+  Social.set(data, {
+    onCommit: () => setShowAddTaskModal(false),
+  });
 };
 const onEditTask = useCallback(
   (data) => {
@@ -293,31 +295,33 @@ const onEditTask = useCallback(
         },
       },
     };
-    Social.set(updatedData, { force: true });
+    Social.set(updatedData, {
+      force: true,
+      onCommit: () => setShowAddTaskModal(false),
+    });
   },
   [taskDetail, currentEditTaskId]
 );
-const onDeleteTask = useCallback(
-  (data) => {
-    const taskId = currentEditTaskId;
-    const updatedData = {
-      [type]: {
-        [taskId]: null,
-      },
-      [app]: {
-        [projectTask]: {
-          [projectID]: {
-            [type]: {
-              [`${context.accountId}_task_${taskId}`]: null,
-            },
+const onDeleteTask = useCallback(() => {
+  const taskId = currentEditTaskId;
+  const updatedData = {
+    [type]: {
+      [taskId]: null,
+    },
+    [app]: {
+      [projectTask]: {
+        [projectID]: {
+          [type]: {
+            [`${context.accountId}_task_${taskId}`]: null,
           },
         },
       },
-    };
-    Social.set(updatedData, { force: true });
-  },
-  [taskDetail, currentEditTaskId]
-);
+    },
+  };
+  Social.set(updatedData, {
+    force: true,
+  });
+}, [taskDetail, currentEditTaskId]);
 function handleDropdownToggle(columnTitle, index, value) {
   setShowDropdownIndex((prevState) => ({
     ...prevState,
@@ -410,7 +414,13 @@ const DeleteConfirmationModal = () => {
           >
             Cancel
           </Button>
-          <Button variant="primary" onClick={onDeleteTask}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setDeleteConfirmationIndex(null);
+              onDeleteTask();
+            }}
+          >
             Delete
           </Button>
         </div>
