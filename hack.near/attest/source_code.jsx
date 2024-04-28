@@ -1,8 +1,6 @@
 const accountId = props.accountId || "every.near";
 const graphId = props.graphId || "commons";
 
-const commons = Social.getr(`${accountId}/graph/commons`);
-
 const graphEdge = Social.keys(
   `${context.accountId}/graph/${graphId}/${accountId}`,
   undefined,
@@ -34,21 +32,11 @@ const attest = () => {
 };
 
 return (
-  <>
-    {context.accountId && (
-      <>
-        <button
-          disabled={loading ?? !context.accountId}
-          className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
-          onClick={attest}
-        >
-          {attested ? (
-            <i className="bi bi-x"></i>
-          ) : (
-            <i className="bi bi-plus"></i>
-          )}
-        </button>
-      </>
-    )}
-  </>
+  <button
+    disabled={!context.accountId}
+    className={`btn btn-sm ${attested ? "btn-secondary" : "btn-dark"}`}
+    onClick={attest}
+  >
+    {loading ? "+" : attested ? "x" : "+"}
+  </button>
 );
