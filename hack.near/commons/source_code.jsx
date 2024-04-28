@@ -4,6 +4,10 @@ const attestations = Social.keys(`*/graph/commons/*`, "final", {
   values_only: true,
 });
 
+if (!attestations) {
+  return "";
+}
+
 const [matrix, setMatrix] = useState([]);
 const [attestors, setAttestors] = useState([]);
 const [builders, setBuilders] = useState([]);
