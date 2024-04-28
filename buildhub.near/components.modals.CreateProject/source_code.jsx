@@ -282,7 +282,9 @@ function onCreateProject() {
       gas: 200000000000000,
     });
   } else {
-    Social.set(data);
+    Social.set(data, {
+      onCommit: () => toggleModal(),
+    });
   }
 }
 return (
@@ -463,7 +465,13 @@ return (
       <Button
         variant="primary"
         onClick={onCreateProject}
-        disabled={invalidContributorFound || invalidProjectAccount}
+        disabled={
+          invalidContributorFound ||
+          invalidProjectAccount ||
+          !title ||
+          !description ||
+          !projectAccount
+        }
       >
         Create
       </Button>
