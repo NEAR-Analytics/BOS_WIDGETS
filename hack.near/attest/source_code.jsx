@@ -1,10 +1,6 @@
 const accountId = props.accountId || "every.near";
 const graphId = props.graphId || "commons";
 
-if (accountId === context.accountId) {
-  return "";
-}
-
 const graphEdge = Social.keys(
   `${context.accountId}/graph/${graphId}/${accountId}`,
   undefined,
@@ -37,7 +33,7 @@ const attest = () => {
 
 return (
   <button
-    disabled={!context.accountId}
+    disabled={!context.accountId || accountId === context.accountId}
     className={`btn btn-sm ${attested ? "btn-secondary" : "btn-dark"}`}
     onClick={attest}
   >
