@@ -12,7 +12,8 @@ const Dialog = styled.div`
 const Overlay = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   position: absolute;
   z-index: 8000;
   display: flex;
@@ -590,7 +591,7 @@ return (
               <Label>New LTV</Label>
               <ValuesWrapper>
                 <Value>{currentLTV}</Value>
-                {!!state.newLTV && (
+                {!!state.newLTV && !state.isOverSize && !state.isEmpty && (
                   <>
                     <div className="mx_5">
                       <Widget
