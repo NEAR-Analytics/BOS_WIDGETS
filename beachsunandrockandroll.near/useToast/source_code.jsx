@@ -103,6 +103,7 @@ function dispatch(action) {
 
 function toast({ ...props }) {
   const id = genId();
+  console.log(id);
 
   const update = (props) =>
     dispatch({
@@ -131,9 +132,10 @@ function toast({ ...props }) {
   };
 }
 
-const useToast = (setState, listenersP, memoryStateP) => {
+const useToast = (listenersP, memoryStateP) => {
   listeners = listenersP;
   memoryState = memoryStateP;
+  console.log('entrando');
 
   return {
     toast,
