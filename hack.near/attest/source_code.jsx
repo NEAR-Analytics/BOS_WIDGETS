@@ -1,6 +1,10 @@
 const accountId = props.accountId || "every.near";
 const graphId = props.graphId || "commons";
 
+if (accountId === context.accountId) {
+  return "";
+}
+
 const graphEdge = Social.keys(
   `${context.accountId}/graph/${graphId}/${accountId}`,
   undefined,
