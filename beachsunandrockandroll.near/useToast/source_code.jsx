@@ -88,7 +88,7 @@ const reducer = (state, action) => {
   }
 };
 
-const listeners = [];
+let listeners = [];
 
 let memoryState = { toasts: [] };
 
@@ -131,17 +131,9 @@ function toast({ ...props }) {
   };
 }
 
-const useToast = (setState) => {
-
-  useEffect(() => {
-    listeners.push(setState);
-    return () => {
-      const index = listeners.indexOf(setState);
-      if (index > -1) {
-        listeners.splice(index, 1);
-      }
-    };
-  }, [state]);
+const useToast = (setState, listenersP, memoryStateP) => {
+  listeners = listenersP;
+  memoryState = memoryStateP;
 
   return {
     toast,
