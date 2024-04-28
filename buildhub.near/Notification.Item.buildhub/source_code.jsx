@@ -5,13 +5,13 @@ return (
     props={{
       L: (
         <Widget
-          src="buildhub.near/widget/notification.Item.Left"
+          src="buildhub.near/widget/Notification.Item.Left"
           props={{ ...value }}
         />
       ),
       R: (
         <Widget
-          src="buildhub.near/widget/notification.Item.Right"
+          src="buildhub.near/widget/Notification.Item.Right"
           props={{ ...value }}
         />
       ),
