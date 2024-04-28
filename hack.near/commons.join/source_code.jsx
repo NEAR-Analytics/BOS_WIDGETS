@@ -46,15 +46,11 @@ return (
       />
     ) : (
       <button
-        disabled={loading}
+        disabled={loading || attested}
         className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
         onClick={attest}
       >
-        {attested ? (
-          <i className="bi bi-x"></i>
-        ) : (
-          <i className="bi bi-plus"></i>
-        )}
+        {attested ? "JOINED" : "JOIN"}
       </button>
     )}
   </>
