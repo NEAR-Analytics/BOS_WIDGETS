@@ -32,11 +32,24 @@ const attest = () => {
 };
 
 return (
-  <button
-    disabled={!context.accountId || accountId === context.accountId}
-    className={`btn btn-sm ${attested ? "btn-secondary" : "btn-dark"}`}
-    onClick={attest}
-  >
-    {loading ? "+" : attested ? "x" : "+"}
-  </button>
+  <>
+    {accountId === context.accountId ? (
+      <Widget
+        src="hack.near/widget/BuilderHat"
+        props={{ isBuilder: true, color: "black" }}
+      />
+    ) : (
+      <button
+        disabled={!context.accountId || loading}
+        className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
+        onClick={attest}
+      >
+        {attested ? (
+          <i className="bi bi-x"></i>
+        ) : (
+          <i className="bi bi-plus"></i>
+        )}
+      </button>
+    )}
+  </>
 );
