@@ -50,20 +50,11 @@ const attest = () => {
 };
 
 return (
-  <>
-    {accountId === attestorId ? (
-      <Widget
-        src="hack.near/widget/BuilderHat"
-        props={{ isBuilder: true, color: "black" }}
-      />
-    ) : (
-      <button
-        disabled={loading || attested}
-        className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
-        onClick={attest}
-      >
-        {attested ? "JOINED" : "JOIN"}
-      </button>
-    )}
-  </>
+  <button
+    disabled={loading || attested}
+    className={`btn btn-sm ${attested ? "btn-dark" : "btn-outline-dark"}`}
+    onClick={attest}
+  >
+    {attested ? "JOINED" : "JOIN"}
+  </button>
 );
