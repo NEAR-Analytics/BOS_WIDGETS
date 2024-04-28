@@ -46,7 +46,7 @@ const columns = [
   //   width: "25%",
   //   name: "Unclaimed",
   // },
-  { type: "button", width: "20%" },
+  { type: "button", width: "45%" },
 ];
 
 return (
