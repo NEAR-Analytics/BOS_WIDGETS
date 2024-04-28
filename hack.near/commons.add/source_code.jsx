@@ -42,14 +42,14 @@ return (
     <button
       disabled={loading}
       className={`mb-2 m-1 btn btn-sm ${
-        showInput ? "btn-secondary" : "btn-success"
+        showInput ? "btn-danger" : "btn-success"
       }`}
       onClick={() => setShowInput(!showInput)}
     >
-      {showInput ? "CANCEL" : "ADD"}
+      {showInput ? "x" : "+"}
     </button>
     {showInput && (
-      <div className="m-2">
+      <div className="m-1">
         <div className="mb-3">
           <Widget
             src="mob.near/widget/ProfileSearch"
