@@ -42,13 +42,15 @@ return (
       <thead>
         <tr>
           <th style={{ padding: "8px" }}>
-            <Widget
-              src="hack.near/widget/commons.join"
-              props={{
-                accountId: "*",
-                attestorId: accountId,
-              }}
-            />
+            {context.accountId && (
+              <Widget
+                src="hack.near/widget/commons.join"
+                props={{
+                  accountId: "*",
+                  attestorId: accountId,
+                }}
+              />
+            )}
           </th>
           {attestors.map((attestor, index) => (
             <th key={index} style={{ padding: "8px" }}>
