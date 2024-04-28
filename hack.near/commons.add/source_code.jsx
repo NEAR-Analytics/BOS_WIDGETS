@@ -49,7 +49,7 @@ return (
       {showInput ? "CANCEL" : "ADD"}
     </button>
     {showInput && (
-      <div className="m-1">
+      <div className="m-2">
         <div className="mb-3">
           <Widget
             src="mob.near/widget/ProfileSearch"
