@@ -192,8 +192,6 @@ const StyledGasBox = styled.div`
   display: none;
 `;
 
-const TABS = ["Supply", "Borrow"];
-
 const {
   expand,
   borrowLimit,
@@ -208,7 +206,13 @@ const {
 } = props;
 
 const data = props.data || {};
-// console.log("MarketExpand--", props);
+console.log("MarketExpand--", props);
+let TABS;
+if (data.canBorrow) {
+  TABS = ["Supply", "Borrow"];
+} else {
+  TABS = ["Supply"];
+}
 const underlyingPrice = prices[data.symbol] || 1;
 
 State.init({ tab: "Supply" });
