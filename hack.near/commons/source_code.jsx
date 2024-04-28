@@ -1,6 +1,7 @@
 const accountId = props.accountId ?? context.accountId ?? "every.near";
+const graphId = props.graphId ?? "commons";
 
-const attestations = Social.keys(`*/graph/commons/*`, "final", {
+const attestations = Social.keys(`*/graph/${graphId}/*`, "final", {
   values_only: true,
 });
 
@@ -18,7 +19,7 @@ useEffect(() => {
 
   Object.entries(attestations).forEach(([attestor, data]) => {
     attestorSet.add(attestor);
-    Object.keys(data.graph.commons).forEach((builder) => {
+    Object.keys(data.graph[graphId]).forEach((builder) => {
       builderSet.add(builder);
     });
   });
