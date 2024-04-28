@@ -1,4 +1,3 @@
-
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
 
@@ -94,14 +93,12 @@ const listeners = [];
 let memoryState = { toasts: [] };
 
 function dispatch(action) {
-  console.log('aca');
+  console.log("aca");
   memoryState = reducer(memoryState, action);
   listeners.forEach((listener) => {
-    
     listener(memoryState);
   });
   console.log(listeners);
-  
 }
 
 function toast({ ...props }) {
@@ -134,8 +131,7 @@ function toast({ ...props }) {
   };
 }
 
-const useToast = () => {
-  const [state, setState] = useState(memoryState);
+const useToast = (setState) => {
 
   useEffect(() => {
     listeners.push(setState);
@@ -148,10 +144,9 @@ const useToast = () => {
   }, [state]);
 
   return {
-    ...state,
     toast,
     dismiss: (toastId) => dispatch({ type: "DISMISS_TOAST", toastId }),
   };
 };
 
-return { useToast, toast }
+return { useToast, toast };
