@@ -14,9 +14,16 @@ const isBuilder = graphEdge && Object.keys(graphEdge).length > 0;
 
 return (
   <>
-    <Widget
-      src="hack.near/widget/BuilderHat"
-      props={{ isBuilder, isActive: true }}
-    />
+    {accountId === attestorId ? (
+      <Widget
+        src="hack.near/widget/BuilderHat"
+        props={{ isBuilder: true, color: "black" }}
+      />
+    ) : (
+      <Widget
+        src="hack.near/widget/BuilderHat"
+        props={{ isBuilder, isActive: true }}
+      />
+    )}
   </>
 );
