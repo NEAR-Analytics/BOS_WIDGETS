@@ -72,7 +72,8 @@ return (
               src="bluebiu.near/widget/Lending.MarketAmount"
               props={{
                 amount: data[column.key],
-                price: prices[data?.underlyingToken.symbol] || 1,
+                price: data.underlyingPrice || 1,
+                // price: prices[data?.underlyingToken.symbol] || 1,
               }}
             />
           )}
