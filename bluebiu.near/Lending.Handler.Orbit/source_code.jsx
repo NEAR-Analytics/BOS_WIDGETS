@@ -151,14 +151,14 @@ useEffect(() => {
   if (!contract) return;
 
   const createTx = (gas) => {
-    const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 8000000;
+    const _gas = gas ? Big(gas.toString()).mul(1.2).toFixed(0) : 4000000;
     contract.populateTransaction[method](...params, {
       ...options,
-      gasLimit: 8000000,
+      gasLimit: 4000000,
     })
       .then((res) => {
         onLoad({
-          gas: 8000000,
+          gas: 4000000,
           unsignedTx: res,
           isError: false,
         });
