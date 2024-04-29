@@ -1,11 +1,28 @@
-const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
+const Button = ({
+  className,
+  children,
+  variant,
+  size,
+  cnButton,
+  setCnButton,
+  ...props
+}) => {
+  if (["", "loaded"].includes(cnButton))
+    return (
+      <Widget
+        src="beachsunandrockandroll.near/widget/buttonIframe"
+        props={{
+          output: setCnButton,
+          variant: "outline",
+        }}
+      />
+    );
 
-const Button = ({ className, children, ...props }) => (
-  <Tailwind>
-    <button className={className} ref="forwardedRef" {...props}>
+  return (
+    <button className={cnButton} ref="forwardedRef" {...props}>
       {children}
     </button>
-  </Tailwind>
-);
+  );
+};
 
 return { Button };
