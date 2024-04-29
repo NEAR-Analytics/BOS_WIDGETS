@@ -258,7 +258,6 @@ return (
     }
     {
       categoryIndex === 0 && checkedVault && (
-
         <Widget
           src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.VaultDetail"}
           props={{
