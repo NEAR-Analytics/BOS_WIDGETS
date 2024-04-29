@@ -18,9 +18,11 @@ const Button = ({
           size,
         }}
       />
-      <button className={cnButton} ref="forwardedRef" {...props}>
-        {children}
-      </button>
+      {cnButton !== "" && (
+        <button className={cnButton} ref="forwardedRef" {...props}>
+          {children}
+        </button>
+      )}
     </>
   );
 };
