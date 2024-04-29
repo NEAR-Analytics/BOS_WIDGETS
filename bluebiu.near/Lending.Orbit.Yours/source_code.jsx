@@ -71,7 +71,7 @@ const formatData = () => {
         isCollateral: market.isCollateral,
         balance: market.userSupply,
         balance_value: Big(market.userSupply || 0)
-          .mul(prices[market.symbol] || 1)
+          .mul(Big(market.underlyingPrice || 0))
           .toString(),
         address: market.address,
         // distributionApy: market.distributionApy,
@@ -81,7 +81,7 @@ const formatData = () => {
       //     (Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100 || 0
       //   )
       //     .mul(market.userSupply || 0)
-      //     .mul(prices[market.symbol]||1)
+      //     .mul(Big(market.underlyingPrice||0))
       // );
     }
     if (Big(market.userBorrow || 0).gt(0)) {
@@ -93,7 +93,7 @@ const formatData = () => {
         apy: market.borrowApy,
         borrowed: market.userBorrow,
         borrowed_value: Big(market.userBorrow || 0)
-          .mul(prices[market.symbol] || 1)
+          .mul(Big(market.underlyingPrice || 0))
           .toString(),
         address: market.address,
         // distributionApy: market.distributionApy,
@@ -103,7 +103,7 @@ const formatData = () => {
       //     (Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100 || 0
       //   )
       //     .mul(market.userBorrow || 0)
-      //     .mul(prices[market.symbol]||1)
+      //     .mul(Big(market.underlyingPrice||0))
       // );
     }
   });
