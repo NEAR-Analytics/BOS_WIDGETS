@@ -1,30 +1,11 @@
-const Button = ({
-  className,
-  children,
-  variant,
-  size,
-  cnButton,
-  setCnButton,
-  ...props
-}) => {
-  return (
-    <>
-      <Widget
-        src="beachsunandrockandroll.near/widget/buttonIframe"
-        props={{
-          output: setCnButton,
-          className,
-          variant,
-          size,
-        }}
-      />
-      {cnButton !== "" && (
-        <button className={cnButton} ref="forwardedRef" {...props}>
-          {children}
-        </button>
-      )}
-    </>
-  );
-};
+const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
+
+const Button = ({ className, children, ...props }) => (
+  <Tailwind>
+    <button className={className} ref="forwardedRef" {...props}>
+      {children}
+    </button>
+  </Tailwind>
+);
 
 return { Button };
