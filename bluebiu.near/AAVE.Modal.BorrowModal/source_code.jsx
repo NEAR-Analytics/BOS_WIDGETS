@@ -11,6 +11,7 @@ const {
   calcHealthFactor,
   theme,
   addAction,
+  prices,
 } = props;
 
 if (!data) {
@@ -27,7 +28,7 @@ function isValid(a) {
 
 const {
   symbol,
-  tokenPrice,
+
   healthFactor,
   availableBorrows,
   availableBorrowsUSD,
@@ -210,7 +211,9 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
+    amountInUSD = Big(value)
+      .mul(prices[symbol] || 1)
+      .toFixed(2, ROUND_DOWN);
   }
   State.update({ amount: value, amountInUSD });
 
