@@ -17,6 +17,7 @@ const {
   yourSupplies,
   borrowETHGas,
   borrowERC20Gas,
+  prices,
 } = props;
 
 const CenterRow = styled.div`
@@ -296,9 +297,9 @@ if (["Pac Finance"].includes(dexConfig.name)) {
       </ItemSub>
     </CenterItem>,
     <CenterItem>
-      <ItemPrimary className="apy">{`${(Number(row.borrowAPY) * 100).toFixed(
-        2
-      )} %`}</ItemPrimary>
+      <ItemPrimary className="apy">
+        {row.borrowAPY ? `${(Number(row.borrowAPY) * 100).toFixed(2)} %` : ""}
+      </ItemPrimary>
     </CenterItem>,
     <CenterItem>
       <ItemPrimary>
@@ -392,6 +393,7 @@ return (
           calcHealthFactor,
           addAction,
           dexConfig,
+          prices,
         }}
       />
     )}
@@ -419,6 +421,7 @@ return (
           calcHealthFactor,
           addAction,
           dexConfig,
+          prices,
         }}
       />
     )}
@@ -446,6 +449,7 @@ return (
           calcHealthFactor,
           addAction,
           dexConfig,
+          prices,
         }}
       />
     )}
