@@ -74,6 +74,7 @@ return (
           dexConfig,
           account,
           prices,
+          orbitTab,
           onSuccess: () => {
             State.update({
               loading: true,
@@ -147,6 +148,7 @@ return (
         toast,
         source: "dapp",
         account,
+        orbitTab,
         onClose: () => {
           State.update({
             showDialog: false,
