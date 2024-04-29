@@ -107,10 +107,6 @@ const changeOption = (value) => {
   setSelectedToken({ value });
 };
 
-const handleFileChange = (files) => {
-  setFile(files[0]);
-};
-
 const toFixed = (x) => {
   if (Math.abs(x) < 1.0) {
     var e = parseInt(x.toString().split("e-")[1]);
@@ -160,25 +156,29 @@ const handleTokenDeposit = async () => {
     );
     return;
   }
-  const contract = Storage.get("airdropData").token_contract;
+
   const oneTeraGas = 1000000000000;
-  const tokenData = Near.view(contract, "ft_metadata");
 
   Storage.set("transfering", "token");
+  const { token_contract, tokenDecimal } = Storage.get("airdropData");
 
   Near.call(
-    Storage.get("airdropData").token_contract,
+    token_contract,
     "ft_transfer",
     {
       receiver_id: Admin,
-      amount: toFixed(
-        `${airdropTotalAmount * Math.pow(10, tokenData.decimals)}`
-      ),
+      amount: toFixed(`${airdropTotalAmount * Math.pow(10, tokenDecimal)}`),
     },
     oneTeraGas,
     1
   );
 };
+
+const handleFileChange = (files) => {
+  console.log("on change-----", files);
+  setFile(files[0]);
+};
+console.log("file-----", file);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -229,6 +229,7 @@ const handleSubmit = async (e) => {
             isNPaid: false,
             isTPaid: false,
             totalAmount: body.totalAmount,
+            tokenDecimal: body.tokenDecimal,
             airdropFee: body.airdropFee,
             token_contract: selectedToken.value,
           });
@@ -379,7 +380,12 @@ return (
       <DropBox>
         <DropBoxText1>Select File here</DropBoxText1>
         <DropBoxText2>Files Supported: .xls, .xlsx</DropBoxText2>
-        <Files onChange={handleFileChange} clickable multiple={false}>
+        <Files
+          onChange={handleFileChange}
+          accepts={[".xlsx", ".xls"]}
+          clickable
+          multiple={false}
+        >
           {file && (
             <div id="fileName" className="px-3 py-1 mt-3 rounded-pill">
               {file?.name}
