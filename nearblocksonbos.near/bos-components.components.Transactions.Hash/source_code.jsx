@@ -230,10 +230,7 @@ function MainComponent(props) {
                     ) : (
                       <Popover.Root key={isToggle}>
                         <Popover.Trigger asChild>
-                          <button
-                            className="flex p-2 text-xs  rounded focus:outline-none"
-                            aria-label="Update dimensions"
-                          >
+                          <button className="flex p-2 text-xs  rounded focus:outline-none">
                             {isToggle
                               ? 'Enhanced Plan'
                               : t
@@ -242,7 +239,7 @@ function MainComponent(props) {
                             <ArrowDown className="h-4 w-4 fill-current ml-1" />
                             <div className="absolute text-white bg-neargreen text-[8px] h-4 inline-flex items-center rounded-md ml-24 -mt-3 px-1 ">
                               NEW
-                            </div>{' '}
+                            </div>
                           </button>
                         </Popover.Trigger>
                         <Popover.Content
