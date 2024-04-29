@@ -23,7 +23,7 @@ const ConnectWrapper = styled.div`
   }
 
   .connect-button {
-    background-color: var(--button-color);
+    background: var(--button-color);
     width: 100%;
     max-width: 488px;
     height: 60px;
@@ -33,7 +33,7 @@ const ConnectWrapper = styled.div`
     font-size: 18px;
     font-weight: 700;
     &:active {
-      background-color: var(--button-color);
+      background: var(--button-color);
     }
     &:focus-visible {
       box-shadow: none;
