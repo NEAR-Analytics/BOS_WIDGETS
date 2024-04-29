@@ -73,8 +73,34 @@ const StyledPenpadInput = styled.input`
   }
 `
 const StyledPenpadMiddleContainer = styled.div`
-  padding: 16px 16px 20px;
+  padding: 16px 16px 0;
 `
+const StyledPenpadMiddleTips = styled.div`
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+`
+const StyledPenpadMiddleTipsTxt = styled.div`
+  color: #FF9343;
+  font-family: Gantari;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`
+const StyledPenpadMiddleTipsButton = styled.div`
+  cursor: pointer;
+  color: #29C8A5;
+  font-family: Gantari;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+`
+
 const StyledPenpadMiddle = styled.div`
   height: 213px;
   border-radius: 12px;
@@ -106,7 +132,7 @@ const StyledPenpadMiddleBottom = styled.div`
   padding: 0 22px 15px;
 `
 const StyledPenpadBottom = styled.div`
-  padding: 0 16px 16px;
+  padding: 20px 16px 16px;
 `
 const StyledPenpadButton = styled.button`
   width: 100%;
@@ -137,27 +163,31 @@ const {
   connectProps,
   multicall,
   multicallAddress,
+  windowOpen
 } = props
-// if (!sender) {
-//   return (
-//     <Widget
-//       style={dexConfig.theme}
-//       src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
-//       props={{
-//         ...connectProps,
-//         isWrongNetwork: false,
-//       }}
-//     />
-//   );
-// }
+if (!sender) {
+  return (
+    <Widget
+      style={dexConfig.theme}
+      src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
+      props={{
+        ...connectProps,
+        isWrongNetwork: false,
+      }}
+    />
+  );
+}
 State.init({
   stakeAmount: "",
   stakeLoading: false,
   data: {
   },
-  balance: 0
+  balance: 0,
+  newPenPad: false,
+  showDialog: false
 })
-const isInSufficient = Number(stakedAmount) > Number(state.balance)
+const isInSufficient = Number(state.stakeAmount) > Number(state.balance)
+console.log('=state.stakeAmount', state.stakeAmount, '=state.balance', state.balance)
 function promiseFetchQuery(url) {
   return new Promise((resolve, reject) => {
     asyncFetch(url).then(result => {
@@ -184,6 +214,12 @@ function handleStakeAmountChange(amount) {
   })
 }
 function handleStake() {
+  if (state.newPenPad) {
+    State.update({
+      showDialog: true
+    })
+    return
+  }
   State.update({
     stakeLoading: true
   })
@@ -327,13 +363,24 @@ function handleQueryData() {
       })
     });
 }
+function handleQueryNewPenpad() {
+  promiseFetchQuery("https://penpad.io/api/pub/dapdap/staked/" + sender)
+    .then(result => {
+      State.update({
+        newPenPad: result.value
+      })
+    })
+}
 function handleMax() {
   State.update({
-    stakedAmount: state.balance
+    stakeAmount: state.balance
   })
 }
 useEffect(() => {
-  sender && handleQueryData()
+  if (sender) {
+    handleQueryData()
+    handleQueryNewPenpad()
+  }
 }, [sender])
 
 return (
@@ -346,7 +393,7 @@ return (
       </StyledPenpadColumn>
       <StyledPenpadColumn>
         <StyledPenpadLabel>Paticipated Users</StyledPenpadLabel>
-        <StyledPenpadValue>{state.data.paticipatedUsers}</StyledPenpadValue>
+        <StyledPenpadValue>{state.data?.paticipatedUsers ?? 0}</StyledPenpadValue>
       </StyledPenpadColumn>
     </StyledPenpadTop>
     <StyledPenpadMiddleContainer>
@@ -354,11 +401,11 @@ return (
         <StyledPenpadMiddleTop>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Your Pool Share</StyledPenpadLabel>
-            <StyledPenpadValue>{state.data.yourPoolShare}%</StyledPenpadValue>
+            <StyledPenpadValue>{state.data?.yourPoolShare ?? 0}%</StyledPenpadValue>
           </StyledPenpadColumn>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Wallet Balance</StyledPenpadLabel>
-            <StyledPenpadValue>{state.balance} ETH</StyledPenpadValue>
+            <StyledPenpadValue>{Big(state.balance).toFixed(4)} ETH</StyledPenpadValue>
           </StyledPenpadColumn>
         </StyledPenpadMiddleTop>
         <StyledPenpadMiddleMiddleContainer>
@@ -390,6 +437,16 @@ return (
         </StyledPenpadMiddleBottom>
       </StyledPenpadMiddle>
     </StyledPenpadMiddleContainer>
+    {
+      Big(state.balance).lt(0.05) && (
+        <StyledPenpadMiddleTips>
+          <StyledPenpadMiddleTipsTxt>Insufficient gas or fund, please bridging over from other chain</StyledPenpadMiddleTipsTxt>
+          <StyledPenpadMiddleTipsButton onClick={() => {
+            windowOpen("https://penpad.io/bridge", "_blank")
+          }}>Go to Bridge</StyledPenpadMiddleTipsButton>
+        </StyledPenpadMiddleTips>
+      )
+    }
     <StyledPenpadBottom>
       {
         isInSufficient ? (
@@ -406,5 +463,21 @@ return (
       }
       {/* <StyledPenpadButton>Stake ETH</StyledPenpadButton> */}
     </StyledPenpadBottom>
+    {
+      state.showDialog && (
+        <Widget
+          src={"bluebiu.near/widget/Stake.Bridge.PENPAD.Dialog"}
+          props={{
+            windowOpen,
+            onClose: () => {
+              State.update({
+                showDialog: false
+              })
+            }
+          }}
+        />
+      )
+    }
+
   </StyledPenpadContainer>
 )
