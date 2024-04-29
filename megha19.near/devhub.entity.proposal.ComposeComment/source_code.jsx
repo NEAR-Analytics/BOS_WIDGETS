@@ -186,7 +186,7 @@ useEffect(() => {
 
 const LoadingButtonSpinner = (
   <span
-    class="spinner-border spinner-border-sm"
+    class="comment-btn-spinner spinner-border spinner-border-sm"
     role="status"
     aria-hidden="true"
   ></span>
@@ -237,6 +237,7 @@ return (
           src={"megha19.near/widget/devhub.components.molecule.Button"}
           props={{
             label: isTxnCreated ? LoadingButtonSpinner : "Comment",
+            ["data-testid"]:"compose-comment",
             disabled: !comment || isTxnCreated,
             classNames: { root: "green-btn btn-sm" },
             onClick: () => {
