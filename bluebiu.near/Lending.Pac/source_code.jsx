@@ -999,7 +999,9 @@ function calculateHealthFactorFromBalances({
 }
 
 function getYourSupplies() {
-  const aTokenAddresss = markets?.map((item) => item.aTokenAddress);
+  const aTokenAddresss = markets
+    ?.map((item) => item.aTokenAddress)
+    .filter((item) => item.symbol !== "ETH");
 
   const calls = aTokenAddresss?.map((addr) => ({
     address: addr,
@@ -1040,7 +1042,9 @@ function getYourSupplies() {
         if (res[index]) {
           // let underlyingBalance=
           let market = state.assetsToSupply.find(
-            (item) => item.aTokenAddress === aTokenAddresss[index]
+            (item) =>
+              item.aTokenAddress === aTokenAddresss[index] &&
+              item.symbol !== "ETH"
           );
           if (market) {
             let _bal = res[index]
@@ -1249,7 +1253,8 @@ function getUserDebts() {
         if (res[index]) {
           let market = _assetsToSupply.find(
             (item) =>
-              item.variableDebtTokenAddress === variableDebtTokenAddresss[index]
+              item.variableDebtTokenAddress ===
+                variableDebtTokenAddresss[index] && item.symbol !== "ETH"
           );
           if (market) {
             let _debt = ethers.utils.formatUnits(
@@ -1258,8 +1263,9 @@ function getUserDebts() {
             );
 
             market.debt = _debt;
+
             market.debtInUSD = Big(_debt || 0)
-              .mul(prices[market.symbol] || 1)
+              .mul(market.tokenPrice || 1)
               .toFixed();
             userDebs.push(market);
           }
