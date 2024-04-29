@@ -215,6 +215,7 @@ const StyledDepositOrWithdrawInputBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 30px;
 `
 const StyledDepositOrWithdrawInputTopType = styled.div`
   color: #979ABE;
@@ -242,7 +243,7 @@ const StyledDepositOrWithdrawInputBottomInput = styled.input`
   border: none;
   outline: none;
   background: transparent;
-  
+  flex: 1;
   color: #FFF;
   font-family: Gantari;
   font-size: 20px;
@@ -590,7 +591,9 @@ const {
 
 const isDepositInSufficient = Number(state?.inDepositAmount ?? 0) > Number(state?.depositBalance ?? 0)
 const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(state?.positionOverview?.balanceOf ?? 0)
-
+function isNotEmptyArray(value) {
+  return value && value[0]
+}
 function handleQueryPositionOverview() {
   const calls = []
   const abi = [{
@@ -652,7 +655,7 @@ function handleQueryPositionOverview() {
     State.update({
       positionOverview: {
         positionValue: Big(positionValueResult ? ethers.utils.formatUnits(positionValueResult[0]) : 0).toFixed(6),
-        balanceOf: Big(balanceOfResult ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed(6)
+        balanceOf: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString()
       }
     })
 
@@ -734,9 +737,6 @@ function handleGetDepositData(firstNumber, secondNumber) {
   const encodedSecondNumberWithoutPrefix = encodedSecondNumber.slice(2);
   const finalEncodedData = '0x' + encodedFirstNumber.slice(2) + encodedSecondNumberWithoutPrefix;
   return finalEncodedData
-  // State.update({
-  //   depositData: finalEncodedData
-  // })
 }
 function handleInAmountChange(amount) {
   if (Number(amount) < 0) {
@@ -900,7 +900,7 @@ function handleQueryDepositBalance() {
     .balanceOf(smartContractAddress)
     .then(result => {
       State.update({
-        depositBalance: Big(ethers.utils.formatUnits(result)).toFixed(6)
+        depositBalance: Big(result ? ethers.utils.formatUnits(result) : 0).toString()
       })
     })
 }
@@ -1077,6 +1077,17 @@ function handleGetSlippageOutAmount(amount, slippageAmount) {
   const slippageOutAmount = amount === "" ? 0 : (state.slippageError ? Big(amount).toFixed(6) : Big(amount).times(1 - slippageAmount / 100).toFixed(6))
   return Number(slippageOutAmount) > 0 ? slippageOutAmount : "0.000000"
 }
+function handleMax() {
+  if (state.isDeposit) {
+    State.update({
+      inDepositAmount: state.depositBalance
+    })
+  } else {
+    State.update({
+      inWithdrawAmount: state.positionOverview?.balanceOf
+    })
+  }
+}
 function handleRefresh() {
   handleQueryPositionOverview()
   handleQueryDepositBalance()
@@ -1195,7 +1206,7 @@ return (
                   <StyledDepositOrWithdrawInputTop>
                     <StyledDepositOrWithdrawInputTopType>Withdraw</StyledDepositOrWithdrawInputTopType>
                     <StyledDepositOrWithdrawInputTopBalance>
-                      Available: <span>{state.positionOverview?.balanceOf}</span>
+                      Available: <span onClick={handleMax}>{Big(state.positionOverview?.balanceOf).toFixed(6)}</span>
                     </StyledDepositOrWithdrawInputTopBalance>
                   </StyledDepositOrWithdrawInputTop>
                   <StyledDepositOrWithdrawInputBottom>
@@ -1278,7 +1289,7 @@ return (
                   )
                 }
               </StyledWithdrawContainer>
-            ) : (!isCreatedAccount || Number(state.depositBalance) === 0) ? (
+            ) : (!isCreatedAccount || Number(state?.depositBalance) === 0) ? (
               <StyledEmptyContainer>
                 <StyledEmptyImage src="https://ipfs.near.social/ipfs/bafkreicbbj3fufcper54zhf3g5siznyfsb3lry2f74vhyejzj2qd2qcory" />
                 <StyledEmptyTips>
@@ -1294,7 +1305,7 @@ return (
                   <StyledDepositOrWithdrawInputTop>
                     <StyledDepositOrWithdrawInputTopType>Deposit</StyledDepositOrWithdrawInputTopType>
                     <StyledDepositOrWithdrawInputTopBalance>
-                      Available: <span>{state?.depositBalance}</span>
+                      Available: <span onClick={handleMax}>{Big(state?.depositBalance).toFixed(6)}</span>
                     </StyledDepositOrWithdrawInputTopBalance>
                   </StyledDepositOrWithdrawInputTop>
                   <StyledDepositOrWithdrawInputBottom>
