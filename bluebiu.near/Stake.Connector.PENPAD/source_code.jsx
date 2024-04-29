@@ -367,10 +367,10 @@ function handleQueryData() {
     });
 }
 function handleQueryNewPenpad() {
-  promiseFetchQuery("https://penpad.io/api/pub/dapdap/staked/" + sender)
+  promiseFetchQuery("https://penpad.io/api/pub/quest/social/platform/dapdap/address/" + sender)
     .then(result => {
       State.update({
-        newPenPad: result.value
+        newPenPad: result
       })
     })
 }
