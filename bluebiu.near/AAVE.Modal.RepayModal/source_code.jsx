@@ -29,7 +29,7 @@ function isValid(a) {
 
 const {
   symbol,
-  tokenPrice,
+  prices,
   healthFactor,
   decimals,
   underlyingAsset,
@@ -238,7 +238,9 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
+    amountInUSD = Big(value)
+      .mul(prices[symbol] || 1)
+      .toFixed(2, ROUND_DOWN);
   }
   State.update({ amount: value, amountInUSD });
 
@@ -644,11 +646,12 @@ return (
                               width={16}
                               height={16}
                             />
-                            {isValid(state.amount) && isValid(tokenPrice)
+                            {isValid(state.amount) &&
+                            isValid(prices[symbol] || 1)
                               ? "$ " +
                                 Big(debt)
                                   .minus(state.amount)
-                                  .times(tokenPrice)
+                                  .times(prices[symbol] || 1)
                                   .toFixed(2)
                               : "$ -"}
                           </WhiteTexture>
