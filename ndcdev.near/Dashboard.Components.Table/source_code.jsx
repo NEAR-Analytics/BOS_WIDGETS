@@ -78,7 +78,8 @@ const [loading, setLoading] = useState(false);
 const [selectedDAOs, setSelectedDAOs] = useState(daos.map((d) => d.title));
 const [filteredData, setFilteredData] = useState([]);
 const [filtersIsOpen, setFiltersIsOpen] = useState(FILTER_OPENS);
-const [mobileFilters, setMobileFilters] = useState(flase);
+const [mobileFilters, setMobileFilters] = useState(false);
+const [asc, setAsc] = useState(true);
 
 const onFilterClick = (value) =>
   setFiltersIsOpen({ ...FILTER_OPENS, [value]: !filtersIsOpen[value] });
@@ -92,7 +93,7 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption
+      (daoId) => daoId !== value && daoId !== defaultDAOOption,
     );
   } else {
     newSelection = [...selectedDAOs, value];
@@ -139,17 +140,17 @@ useEffect(() => {
           [FILTER_IDS.userRetentions]: 0,
           [FILTER_IDS.dappsUsed]: 0,
           [FILTER_IDS.acquisitionCost]: 0,
+          [FILTER_IDS.socialEngagement]: 0,
         };
-      })
+      }),
     );
 
   setFilteredData(
-    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title))
+    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title)),
   );
 }, [selectedDAOs]);
 
 useEffect(() => {
-  console.log(dataSet, dateRange);
   if (dataSet.length > 0 && dateRange) {
     fetchData(FILTER_IDS.userRetentions);
     fetchData(FILTER_IDS.dappsUsed);
@@ -158,20 +159,27 @@ useEffect(() => {
   }
 }, [dataSet, dateRange]);
 
-const sortData = (field) =>
-  setDataSet(filteredData.sort((a, b) => b[field] - a[field]));
+const sortData = (field, asc) =>
+  setDataSet(
+    filteredData.sort((a, b) =>
+      asc ? b[field] - a[field] : a[field] - b[field],
+    ),
+  );
 
 const SortingRow = ({ title, field }) => (
-  <div className="selected-container">
+  <div
+    role="button"
+    className="selected-container"
+    onClick={() => {
+      sortData(field, asc);
+      setAsc(!asc);
+    }}
+  >
     <div className="d-flex align-items-end gap-2">
       <i className="ph ph-info fs-5" />
       <div>{title}</div>
     </div>
-    <i
-      role="button"
-      className="ph ph-caret-up-down fs-5"
-      onClick={() => sortData(field)}
-    />
+    <i role="button" className="ph ph-caret-up-down fs-5" />
   </div>
 );
 
