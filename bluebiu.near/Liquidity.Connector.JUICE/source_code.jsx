@@ -127,7 +127,7 @@ function handleGetSubAccount() {
   const contract = new ethers.Contract(
     ethers.utils.getAddress(PROXY_ADDRESS),
     abi,
-    Ethers.provider()
+    Ethers.provider().getSigner()
   );
   contract.getAccount(sender).then((result) => {
     State.update({
@@ -168,7 +168,7 @@ function handleQueryIsCreatedAccount(smartAddress) {
   });
 }
 function handleRefresh() {
-
+  handleGetSubAccount()
 }
 function handleCreateSubAccount() {
   const abi = [{
@@ -187,7 +187,7 @@ function handleCreateSubAccount() {
   const contract = new ethers.Contract(
     ethers.utils.getAddress(PROXY_ADDRESS),
     abi,
-    Ethers.provider()
+    Ethers.provider().getSigner()
   );
   contract
     .createAccount()
@@ -212,8 +212,6 @@ function handleManage(vault) {
     checkedVault: vault,
   })
 }
-
-
 useEffect(() => {
   sender && handleGetSubAccount()
 }, [sender])
