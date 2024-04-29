@@ -254,7 +254,16 @@ const ERC20_ABI = [
   },
 ];
 
-const { display, data, chainId, onClose, onSuccess, source, account } = props;
+const {
+  display,
+  data,
+  orbitTab,
+  chainId,
+  onClose,
+  onSuccess,
+  source,
+  account,
+} = props;
 console.log("DIALOG--", props);
 if (!data) return "";
 const {
@@ -685,9 +694,11 @@ return (
         src={data.config.handler}
         props={{
           update: state.loading,
+          display,
           data: data,
           amount: state.amount,
           account,
+          orbitTab,
           onLoad: (_data) => {
             console.log("HANDLER_ONLOAD", _data);
             onSuccess?.();
