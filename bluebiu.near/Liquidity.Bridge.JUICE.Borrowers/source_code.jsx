@@ -325,11 +325,11 @@ State.init({
   // depositApp
 
   balances: {
-    deposit: "",
-    withdraw: "",
-    borrow: "",
-    firstRepay: "",
-    secondRepay: "",
+    deposit: 0,
+    withdraw: 0,
+    borrow: 0,
+    firstRepay: 0,
+    secondRepay: 0,
   },
   pnl: 0
 })
@@ -806,11 +806,11 @@ function handleGetBalances() {
 
     State.update({
       balances: {
-        deposit: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed(4),
-        withdraw: Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed(4),
-        borrow: isNotEmptyArray(getTotalCollateralValueResult) ? Big(ethers.utils.formatUnits(getTotalCollateralValueResult[0])).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4) : "0.0000",
-        firstRepay: isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]).toString() : "0.0000",
-        secondRepay: isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]).toString() : "0.0000"
+        deposit: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
+        withdraw: Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toString(),
+        borrow: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString(),
+        firstRepay: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toString(),
+        secondRepay: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toString()
       }
     })
   })
@@ -1162,6 +1162,14 @@ function handleClaim() {
       });
     })
 }
+function handleMax() {
+  const inArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
+  const outArray = ["deposit", "withdraw", "borrow", "secondRepay"]
+  State.update({
+    [inArray[categoryIndex]]: state.balances[outArray[categoryIndex]]
+  })
+
+}
 function handleRefresh() {
   handleGetBalances()
   handleGetAccountOverview()
@@ -1200,7 +1208,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Deposit</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Balance: <span>{state.balances?.deposit}</span>
+                          Balance: <span onClick={handleMax}>{Big(state.balances?.deposit).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1246,7 +1254,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Withdraw</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Balance: <span>{state.balances?.withdraw}</span>
+                          Balance: <span onClick={handleMax}>{Big(state.balances?.withdraw).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1292,7 +1300,7 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Borrow</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Remaining Borrow: <span>{state.balances?.borrow}</span>
+                          Remaining: <span onClick={handleMax}>{Big(state.balances?.borrow).toFixed(4)}</span>
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
@@ -1346,8 +1354,8 @@ return (
                       <StyledDepositInputTop>
                         <StyledDepositInputTopType>Repay</StyledDepositInputTopType>
                         <StyledDepositInputTopBalance>
-                          Balance: <span>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.secondRepay ?? 0).toFixed(4)}</span>
-                          Max Repay
+                          Balance: <span onClick={handleMax}>{Big(state.balances?.firstRepay ?? 0).plus(state.balances?.secondRepay ?? 0).toFixed(4)}</span>
+                          Max
                         </StyledDepositInputTopBalance>
                       </StyledDepositInputTop>
                       <StyledDepositInputBottom>
