@@ -368,12 +368,12 @@ function handleCheckApprove(amount) {
     "function allowance(address, address) external view returns (uint256)",
   ];
   const contract = new ethers.Contract(
-    PROXY_ADDRESS,
+    SYMBOL_ADDRESS,
     abi,
     Ethers.provider()
   );
   contract
-    .allowance(sender, smartContractAddress)
+    .allowance(sender, PROXY_ADDRESS)
     .then((allowance) => {
       State.update({
         depositApproved: !new Big(allowance.toString()).lt(_amount)
@@ -522,7 +522,8 @@ function handleDeposit() {
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
       State.update({
-        depositLoading: false
+        inDepositAmount: "",
+        depositLoading: false,
       })
       toast?.success({
         title: "Deposit Successfully!",
@@ -599,6 +600,7 @@ function handleWithdraw() {
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
       State.update({
+        inWithdrawAmount: "",
         withdrawLoading: false
       })
       toast?.success({
@@ -664,6 +666,7 @@ function handleBorrow() {
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
       State.update({
+        inBorrowAmount: "",
         borrowLoading: false
       })
       toast?.success({
@@ -715,9 +718,6 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  console.log('=smartContractAddress', smartContractAddress)
-  console.log('=sender', sender)
-  console.log('=_amount', _amount)
   contract
     .repay(
       _amount
@@ -740,6 +740,7 @@ function handleRepay() {
     }).catch(error => {
       console.log('=error', error)
       State.update({
+        inRepayAmount: "",
         repayLoading: false
       })
       toast?.fail({
@@ -1258,8 +1259,9 @@ function handleClaim() {
 function handleMax() {
   const inArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
   const outArray = ["deposit", "withdraw", "borrow", "secondRepay"]
+  const balance = state.balances[outArray[categoryIndex]]
   State.update({
-    [inArray[categoryIndex]]: state.balances[outArray[categoryIndex]]
+    [inArray[categoryIndex]]: balance
   })
 
 }
