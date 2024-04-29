@@ -36,7 +36,6 @@ const {
   symbol,
   underlyingBalance,
   underlyingBalanceUSD,
-  tokenPrice,
   isCollateraled,
   aTokenAddress,
   availableLiquidity,
@@ -348,8 +347,9 @@ if (isCollateraled) {
         .times(1.01)
         .div(Big(threshold))
     )
-    .div(tokenPrice)
+    .div(prices[symbol])
     .toFixed();
+
   shownMaxValue = bigMin(maxWithdraw, underlyingBalance);
 } else {
   shownMaxValue = underlyingBalance;
@@ -384,6 +384,7 @@ const updateNewHealthFactor = debounce(() => {
 }, 1000);
 
 const changeValue = (value) => {
+  console.log("change--", value, shownMaxValue, prices[symbol]);
   if (Number(value) > shownMaxValue) {
     value = shownMaxValue;
   }
@@ -391,7 +392,7 @@ const changeValue = (value) => {
     value = "0";
   }
   if (isValid(value)) {
-    const amountInUSD = Big(value).mul(tokenPrice).toFixed(2, ROUND_DOWN);
+    const amountInUSD = Big(value).mul(prices[symbol]).toFixed(2, ROUND_DOWN);
 
     State.update({
       amountInUSD,
