@@ -359,6 +359,9 @@ const isWithdrawInSufficient = Number(state?.inWithdrawAmount ?? 0) > Number(sta
 const isBorrowInSufficient = Number(state?.inBorrowAmount ?? 0) > Number(state?.balances.borrow ?? 0)
 const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.balances.secondRepay ?? 0)
 
+function isNotEmptyArray(value) {
+  return value && value[0]
+}
 function handleInAmountChange(amount) {
   const keyArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
   if (Number(amount) === 0) {
@@ -793,19 +796,21 @@ function handleGetBalances() {
     multicallAddress,
     provider: Ethers.provider(),
   }).then(result => {
+    console.log('=result', result)
     const [
       balanceOfResult,
       getAccountHealthResult,
       getTotalCollateralValueResult,
       getDebtAmountResult
     ] = result
+
     State.update({
       balances: {
-        deposit: Big(balanceOfResult[0] ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed(4),
-        withdraw: Big(getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed(4),
-        borrow: Big(ethers.utils.formatUnits(getTotalCollateralValueResult[0])).times(2.97).minus(ethers.utils.formatUnits(getDebtAmountResult[0])).toFixed(4),
-        firstRepay: ethers.utils.formatUnits(balanceOfResult[0]).toString(),
-        secondRepay: ethers.utils.formatUnits(getDebtAmountResult[0]).toString()
+        deposit: Big(isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]) : 0).toFixed(4),
+        withdraw: Big(isNotEmptyArray(getAccountHealthResult) && getAccountHealthResult[0][1] ? ethers.utils.formatUnits(getAccountHealthResult[0][1]) : 0).toFixed(4),
+        borrow: isNotEmptyArray(getTotalCollateralValueResult) ? Big(ethers.utils.formatUnits(getTotalCollateralValueResult[0])).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4) : "0.0000",
+        firstRepay: isNotEmptyArray(balanceOfResult) ? ethers.utils.formatUnits(balanceOfResult[0]).toString() : "0.0000",
+        secondRepay: isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]).toString() : "0.0000"
       }
     })
   })
@@ -985,15 +990,15 @@ function handleGetAccountOverview() {
       firstBalanceResult,
       secondBalanceResult,
     ] = result
-    const [A1, A2, A3] = getAccountHealthResult[0]
+    const [A1, A2, A3] = isNotEmptyArray(getAccountHealthResult) ? getAccountHealthResult[0] : [1, 0, 0]
     State.update({
       accountOverview: {
-        balanceOfAssets: Big(balanceOfAssetsResult[0] ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4),
-        debtAmount: Big(getDebtAmountResult[0] ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
-        totalCollateralValue: Big(ethers.utils.formatUnits(getTotalCollateralValueResult[0])).times(2.97).minus(ethers.utils.formatUnits(getDebtAmountResult[0])).toFixed(4),
+        balanceOfAssets: Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4),
+        debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
+        totalCollateralValue: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         accountHealth: Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2),
-        firstBalance: Big(firstBalanceResult[0] ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toFixed(4),
-        secondBalance: Big(secondBalanceResult[0] ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toFixed(4),
+        firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toFixed(4),
+        secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toFixed(4),
       }
     })
   })
@@ -1097,8 +1102,9 @@ function handleQueryPnl() {
     provider: Ethers.provider(),
   }).then(result => {
     const [getTotalAccountValueResult, getDebtAmountResult] = result
-    console.log('=result', result)
-    doQueryPnl(getTotalAccountValueResult[0], getDebtAmountResult[0])
+    if (isNotEmptyArray(getTotalAccountValueResult) && isNotEmptyArray(getDebtAmountResult)) {
+      doQueryPnl(getTotalAccountValueResult[0], getDebtAmountResult[0])
+    }
   })
 }
 function handleClaim() {
