@@ -1,6 +1,4 @@
-
-const Button = ({ className, children, cnButton, setCnButton,  ...props }) => {
-
+const Button = ({ className, children, variant, size, cnButton, setCnButton, ...props }) => {
   return (
     <>
       {["", "loaded"].includes(cnButton) ? (
@@ -9,6 +7,8 @@ const Button = ({ className, children, cnButton, setCnButton,  ...props }) => {
           props={{
             output: setCnButton,
             className,
+            variant,
+            size
           }}
         />
       ) : (
