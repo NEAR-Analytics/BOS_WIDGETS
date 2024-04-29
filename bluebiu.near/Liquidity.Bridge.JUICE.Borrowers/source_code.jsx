@@ -319,9 +319,7 @@ State.init({
   borrowLoading: false,
   repayLoading: false,
   depositApproved: true,
-  withdrawApproved: true,
-  borrowApproved: true,
-  repayApproved: true,
+  depositApproving: false,
   // depositApp
 
   balances: {
@@ -362,6 +360,26 @@ const isRepayInSufficient = Number(state?.inRepayAmount ?? 0) > Number(state?.ba
 function isNotEmptyArray(value) {
   return value && value[0]
 }
+function handleCheckApprove(amount) {
+  const _amount = Big(amount)
+    .mul(Big(10).pow(18))
+    .toFixed(0);
+  const abi = [
+    "function allowance(address, address) external view returns (uint256)",
+  ];
+  const contract = new ethers.Contract(
+    PROXY_ADDRESS,
+    abi,
+    Ethers.provider()
+  );
+  contract
+    .allowance(sender, smartContractAddress)
+    .then((allowance) => {
+      State.update({
+        depositApproved: !new Big(allowance.toString()).lt(_amount)
+      })
+    })
+}
 function handleInAmountChange(amount) {
   const keyArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
   if (Number(amount) === 0) {
@@ -373,6 +391,81 @@ function handleInAmountChange(amount) {
   State.update({
     [keyArray[categoryIndex]]: amount
   })
+  if (categoryIndex === 0) {
+    handleCheckApprove(amount)
+  }
+}
+function handleApprove() {
+  State.update({
+    depositApproving: true
+  })
+  const toastId = toast?.loading({
+    title: `Approve ${state.inDepositAmount} WETH`,
+  });
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }]
+  const contract = new ethers.Contract(
+    ethers.utils.getAddress(PROXY_ADDRESS),
+    abi,
+    Ethers.provider().getSigner()
+  );
+  const _amount = Big(state?.inDepositAmount)
+    .mul(Big(10).pow(18))
+    .toFixed(0);
+  contract
+    .approve(
+      smartContractAddress,
+      _amount,
+    )
+    .then(tx => tx.wait())
+    .then((result) => {
+      const { status, transactionHash } = result;
+      toast?.dismiss(toastId);
+      if (status !== 1) throw new Error("");
+      State.update({
+        depositApproved: true,
+        depositApproving: false
+      })
+      toast?.success({
+        title: "Approve Successfully!",
+        text: `Approved ${state.inDepositAmount} WETH`,
+        tx: transactionHash,
+        chainId,
+      });
+      handleRefresh()
+    }).catch(error => {
+      State.update({
+        depositApproving: false,
+      })
+      toast?.fail({
+        title: "Approve Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approved ${state.inDepositAmount} WETH`,
+      });
+    });
 }
 function handleDeposit() {
   State.update({
@@ -1234,7 +1327,9 @@ return (
                     {
                       isDepositInSufficient ? (
                         <StyledOperationButton disabled>InSufficient Balance</StyledOperationButton>
-                      ) : state.depositLoading ? (
+                      ) : !(state.depositApproved || state.depositApproving) ? (
+                        <StyledOperationButton onClick={handleApprove}>Approve</StyledOperationButton>
+                      ) : (state.depositLoading || state.depositApproving) ? (
                         <StyledOperationButton disabled>
                           <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
                         </StyledOperationButton>
