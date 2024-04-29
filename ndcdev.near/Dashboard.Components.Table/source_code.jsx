@@ -1,3 +1,5 @@
+const { daos, API, dateRange } = props;
+
 const Wrapper = styled.div`
   width: 100%;
 
@@ -56,7 +58,6 @@ const MobileFilters = styled.div`
   }
 `;
 
-const { daos, API, dateRange } = props;
 const Loading = () => <Widget src="flashui.near/widget/Loading" />;
 
 const defaultDAOOption = "All DAOs";
@@ -93,7 +94,7 @@ const filterDAO = (value) => {
     newSelection = isCurrentSelectionFull ? [] : all;
   } else if (selectedDAOs.includes(value)) {
     newSelection = selectedDAOs.filter(
-      (daoId) => daoId !== value && daoId !== defaultDAOOption,
+      (daoId) => daoId !== value && daoId !== defaultDAOOption
     );
   } else {
     newSelection = [...selectedDAOs, value];
@@ -142,11 +143,11 @@ useEffect(() => {
           [FILTER_IDS.acquisitionCost]: 0,
           [FILTER_IDS.socialEngagement]: 0,
         };
-      }),
+      })
     );
 
   setFilteredData(
-    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title)),
+    dataSet.filter((d) => filtredDAOs.map((dd) => dd.title).includes(d.title))
   );
 }, [selectedDAOs]);
 
@@ -160,10 +161,10 @@ useEffect(() => {
 }, [dataSet, dateRange]);
 
 const sortData = (field, asc) =>
-  setDataSet(
+  setFilteredData(
     filteredData.sort((a, b) =>
-      asc ? b[field] - a[field] : a[field] - b[field],
-    ),
+      asc ? b[field] - a[field] : a[field] - b[field]
+    )
   );
 
 const SortingRow = ({ title, field }) => (
@@ -199,9 +200,9 @@ return (
             multiple: true,
             filterIsOpen: filtersIsOpen[FILTER_IDS.dao],
             onFilterClick,
-            onChange: (value) => filterDAO(value),
+            onChange: filterDAO,
             onClear: () => {
-              setSelectedDAOs([]);
+              setSelectedDAOs(daos.map((d) => d.title));
             },
             isTooltipVisible: true,
             noBorder: true,
