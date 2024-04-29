@@ -34,6 +34,14 @@ const StyledPenpadLabel = styled.div`
   font-weight: 400;
   line-height: normal;
 `
+const StyledPenpadValueContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+`
+const StyledPenpadValueImage = styled.img`
+  width: 20px;
+`
 const StyledPenpadValue = styled.div`
   color: #FFF;
   font-family: Gantari;
@@ -114,6 +122,10 @@ const StyledPenpadButton = styled.button`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
 `
 const PROXY_ADDRESS = "0x8F53fA7928305Fd4f78c12BA9d9DE6B2420A2188"
 
@@ -142,9 +154,10 @@ State.init({
   stakeAmount: "",
   stakeLoading: false,
   data: {
-  }
+  },
+  balance: 0
 })
-const isInSufficient = Number(stakedAmount) > Number(state.data.balance)
+const isInSufficient = Number(stakedAmount) > Number(state.balance)
 function promiseFetchQuery(url) {
   return new Promise((resolve, reject) => {
     asyncFetch(url).then(result => {
@@ -171,7 +184,60 @@ function handleStakeAmountChange(amount) {
   })
 }
 function handleStake() {
+  State.update({
+    stakeLoading: true
+  })
+  const toastId = toast?.loading({
+    title: `Stake ${state.stakeAmount} ETH`,
+  });
+  const abi = [{
+    "inputs": [],
+    "name": "stake",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }]
+  const contract = new ethers.Contract(
+    ethers.utils.getAddress(PROXY_ADDRESS),
+    abi,
+    Ethers.provider().getSigner()
+  );
+  const _amount = Big(state?.stakeAmount)
+    .mul(Big(10).pow(18))
+    .toFixed(0);
+  contract
+    .stake(
+      {
+        value: _amount
+      }
+    )
+    .then(tx => tx.wait())
+    .then((result) => {
+      const { status, transactionHash } = result;
+      toast?.dismiss(toastId);
+      if (status !== 1) throw new Error("");
+      State.update({
+        stakeLoading: false
+      })
+      toast?.success({
+        title: "Stake Successfully!",
+        text: `Stake ${state.stakeAmount} ETH`,
+        tx: transactionHash,
+        chainId,
+      });
+      handleQueryData()
 
+    }).catch(error => {
+      State.update({
+        stakeLoading: false
+      })
+      toast?.fail({
+        title: "Stake Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Stake ${state.stakeAmount} ETH`,
+      });
+    });
 }
 function handleQueryData() {
   const calls = []
@@ -227,6 +293,7 @@ function handleQueryData() {
     provider: Ethers.provider(),
   }).then(firstResult => {
     const [maxTotalValueLockedResult, userStakeAmountsResult] = firstResult
+    console.log('=firstResult', firstResult)
     const promiseArray = []
     promiseArray.push(promiseFetchQuery("http://penpad.io/api/pub/dapdap/staked/participated/user"))
     promiseArray.push(promiseFetchQuery("http://penpad.io/api/pub/dapdap/point/user/" + sender))
@@ -250,6 +317,19 @@ function handleQueryData() {
     setTimeout(() => {
       handleQueryData()
     }, 1000)
+  })
+  Ethers.provider()
+    .getBalance(sender)
+    .then((result) => {
+      const balance = ethers.utils.formatEther(result);
+      State.update({
+        balance
+      })
+    });
+}
+function handleMax() {
+  State.update({
+    stakedAmount: state.balance
   })
 }
 useEffect(() => {
@@ -278,7 +358,7 @@ return (
           </StyledPenpadColumn>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Wallet Balance</StyledPenpadLabel>
-            <StyledPenpadValue>0 ETH</StyledPenpadValue>
+            <StyledPenpadValue>{state.balance} ETH</StyledPenpadValue>
           </StyledPenpadColumn>
         </StyledPenpadMiddleTop>
         <StyledPenpadMiddleMiddleContainer>
@@ -286,12 +366,12 @@ return (
             <StyledPenpadColumn>
               <StyledPenpadLabel>Staked ETH</StyledPenpadLabel>
               <StyledPenpadInput type="number" placeholder="0.0" value={state.stakeAmount} onChange={event => handleStakeAmountChange(event.target.value)} />
-              {/* <StyledPenpadValue>0 ETH</StyledPenpadValue> */}
             </StyledPenpadColumn>
             <StyledPenpadColumn>
               <StyledPenpadLabel style={{
-                textDecoration: "underline"
-              }}>Max</StyledPenpadLabel>
+                textDecoration: "underline",
+                cursor: "pointer"
+              }} onClick={handleMax}>Max</StyledPenpadLabel>
             </StyledPenpadColumn>
           </StyledPenpadMiddleMiddle>
         </StyledPenpadMiddleMiddleContainer>
@@ -302,7 +382,10 @@ return (
           </StyledPenpadColumn>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Your Points</StyledPenpadLabel>
-            <StyledPenpadValue>{state.data.yourPoints} Points</StyledPenpadValue>
+            <StyledPenpadValueContainer>
+              <StyledPenpadValueImage src="https://ipfs.near.social/ipfs/bafkreidp5p376r2xzvahoypa4427couidi44mxmrjvlmcvnas64k5ny5qi" />
+              <StyledPenpadValue>{state.data?.yourPoints ?? 0} Points</StyledPenpadValue>
+            </StyledPenpadValueContainer>
           </StyledPenpadColumn>
         </StyledPenpadMiddleBottom>
       </StyledPenpadMiddle>
