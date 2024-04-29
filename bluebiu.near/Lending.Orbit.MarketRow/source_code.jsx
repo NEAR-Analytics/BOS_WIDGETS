@@ -40,6 +40,7 @@ const {
   onSuccess,
   account,
   prices,
+  orbitTab,
 } = props;
 
 State.init({
@@ -120,6 +121,7 @@ return (
         onSuccess,
         account,
         prices,
+        orbitTab,
       }}
     />
   </StyledRow>
