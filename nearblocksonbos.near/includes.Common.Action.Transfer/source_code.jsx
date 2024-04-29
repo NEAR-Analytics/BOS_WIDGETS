@@ -22,7 +22,7 @@ const Transfer = (props) => {
     );
   };
   return (
-    <div className="flex flex-wrap items-center break-all leading-7">
+    <div className="action flex flex-wrap items-center break-all leading-7">
       <FaRight className="inline-flex text-gray-400 dark:text-neargray-10 text-xs" />
       <span className="font-bold px-1">
         Transfer{' '}
