@@ -70,6 +70,7 @@ const StyledDepositInputBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 30px;
 `
 const StyledDepositInputTopType = styled.div`
   color: #979ABE;
@@ -98,6 +99,7 @@ const StyledDepositInputBottomInput = styled.input`
   outline: none;
   background: transparent;
   
+  flex: 1;
   color: #FFF;
   font-family: Gantari;
   font-size: 20px;
@@ -611,6 +613,7 @@ function handleWithdraw() {
       });
       handleRefresh()
     }).catch(error => {
+      console.log('=error', error)
       State.update({
         withdrawLoading: false
       })
@@ -1263,7 +1266,6 @@ function handleMax() {
   State.update({
     [inArray[categoryIndex]]: balance
   })
-
 }
 function handleRefresh() {
   handleGetBalances()
