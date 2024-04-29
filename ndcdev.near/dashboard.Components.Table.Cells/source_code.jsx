@@ -181,7 +181,7 @@ return (
     {dataSet.map(
       (
         { title, userRetentions, dappsUsed, acquisitionCost, socialEngagement },
-        index
+        index,
       ) => (
         <>
           <DesktopRow>
@@ -268,7 +268,7 @@ return (
             />
           </MobileRow>
         </>
-      )
+      ),
     )}
   </Container>
 );
