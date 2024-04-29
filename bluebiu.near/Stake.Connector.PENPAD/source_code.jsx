@@ -163,7 +163,11 @@ const {
   connectProps,
   multicall,
   multicallAddress,
-  windowOpen
+  windowOpen,
+  isChainSupported,
+  curChain,
+  onSwitchChain,
+  switchingChain
 } = props
 if (!sender) {
   return (
@@ -187,7 +191,6 @@ State.init({
   showDialog: false
 })
 const isInSufficient = Number(state.stakeAmount) > Number(state.balance)
-console.log('=state.stakeAmount', state.stakeAmount, '=state.balance', state.balance)
 function promiseFetchQuery(url) {
   return new Promise((resolve, reject) => {
     asyncFetch(url).then(result => {
@@ -461,7 +464,6 @@ return (
           <StyledPenpadButton disabled>Stake ETH</StyledPenpadButton>
         )
       }
-      {/* <StyledPenpadButton>Stake ETH</StyledPenpadButton> */}
     </StyledPenpadBottom>
     {
       state.showDialog && (
@@ -478,6 +480,17 @@ return (
         />
       )
     }
+    {!isChainSupported && (
+      <Widget
+        src="bluebiu.near/widget/Swap.ChainWarnigBox"
+        props={{
+          chain: curChain,
+          onSwitchChain: onSwitchChain,
+          switchingChain: switchingChain,
+          theme: dexConfig.theme?.button,
+        }}
+      />
+    )}
 
   </StyledPenpadContainer>
 )
