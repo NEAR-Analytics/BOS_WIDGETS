@@ -728,6 +728,7 @@ function handleRepay() {
       toast?.dismiss(toastId);
       if (status !== 1) throw new Error("");
       State.update({
+        inRepayAmount: "",
         repayLoading: false
       })
       toast?.success({
@@ -740,7 +741,6 @@ function handleRepay() {
     }).catch(error => {
       console.log('=error', error)
       State.update({
-        inRepayAmount: "",
         repayLoading: false
       })
       toast?.fail({
