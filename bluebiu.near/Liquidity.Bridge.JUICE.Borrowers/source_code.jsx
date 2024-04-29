@@ -366,9 +366,30 @@ function handleCheckApprove(amount) {
   const _amount = Big(amount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  const abi = [
-    "function allowance(address, address) external view returns (uint256)",
-  ];
+  const abi = [{
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      }
+    ],
+    "name": "allowance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }];
   const contract = new ethers.Contract(
     SYMBOL_ADDRESS,
     abi,
