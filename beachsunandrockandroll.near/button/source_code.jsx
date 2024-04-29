@@ -1,10 +1,8 @@
-const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const Button = ({ className, children, ...props }) => {
-  const [cnButton, setCnButton] = useState("");
+const Button = ({ className, children, cnButton, setCnButton,  ...props }) => {
 
   return (
-    <Tailwind>
+    <>
       {["", "loaded"].includes(cnButton) ? (
         <Widget
           src="beachsunandrockandroll.near/widget/buttonIframe"
@@ -18,7 +16,7 @@ const Button = ({ className, children, ...props }) => {
           {children}
         </button>
       )}
-    </Tailwind>
+    </>
   );
 };
 
