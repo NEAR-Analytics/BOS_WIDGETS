@@ -258,7 +258,7 @@ function handleQueryDashboard() {
     const [A1, A2, A3] = isNotEmptyArray(getAccountHealthResult) ? getAccountHealthResult[0] : [1, 0, 0]
     State.update({
       dashboard: {
-        accountHealth: Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2),
+        accountHealth: Big(A1).gt(0) ? (Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2) + "%") : "N/A",
         debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         balanceOfAssets: Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4)
       }
