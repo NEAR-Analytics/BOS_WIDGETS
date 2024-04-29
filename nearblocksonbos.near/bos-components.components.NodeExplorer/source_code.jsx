@@ -512,19 +512,22 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
       key: 'stake',
       cell: (row) => (
         <span>
-          {formatWithCommas(
-            Number(
-              yoctoToNear &&
-                yoctoToNear(
-                  row.currentEpoch?.stake ??
-                    row.nextEpoch?.stake ??
-                    row.afterNextEpoch?.stake ??
-                    `${row.contractStake}`,
-                  false,
-                ),
-            ).toFixed(0),
-          )}
-          Ⓝ
+          {(row.currentEpoch?.stake ??
+            row.nextEpoch?.stake ??
+            row.afterNextEpoch?.stake ??
+            `${row.contractStake}`) &&
+            formatWithCommas(
+              Number(
+                yoctoToNear &&
+                  yoctoToNear(
+                    row.currentEpoch?.stake ??
+                      row.nextEpoch?.stake ??
+                      row.afterNextEpoch?.stake ??
+                      `${row.contractStake}`,
+                    false,
+                  ),
+              ).toFixed(0),
+            ) + '  Ⓝ'}
         </span>
       ),
       tdClassName:
@@ -658,10 +661,10 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
                       cell: () => {
                         return (
                           <div>
-                            {productivityRatio * 100 == 100
-                              ? 100
-                              : (productivityRatio * 100).toFixed(3)}
-                            %
+                            {!isNaN(productivityRatio) &&
+                              (productivityRatio * 100 == 100
+                                ? 100
+                                : (productivityRatio * 100).toFixed(3)) + '%'}
                           </div>
                         );
                       },
@@ -1193,6 +1196,7 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
                   {isLoading ? (
                     <Skeleton className="h-3 w-32" />
                   ) : validatorFullData[currentPage]?.elapsedTime &&
+                    elapsedTime &&
                     convertTimestampToTime ? (
                     convertTimestampToTime(elapsedTime.toString())
                   ) : (
@@ -1208,6 +1212,7 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
                   {isLoading ? (
                     <Skeleton className="h-3 w-32" />
                   ) : validatorFullData[currentPage]?.totalSeconds &&
+                    timeRemaining &&
                     convertTimestampToTime ? (
                     convertTimestampToTime(timeRemaining.toString())
                   ) : (
@@ -1228,15 +1233,23 @@ function MainComponent({ network, currentPage, setPage, ownerId }) {
                             <div
                               className="bg-green-500 dark:bg-green-250 h-2 rounded-full"
                               style={{
-                                width: `${Big(
-                                  validatorFullData[currentPage]?.epochProgress,
-                                ).toFixed(1)}%`,
+                                width: `${
+                                  validatorFullData[currentPage]
+                                    ?.epochProgress &&
+                                  Big(
+                                    validatorFullData[currentPage]
+                                      ?.epochProgress,
+                                  ).toFixed(1)
+                                }%`,
                               }}
                             ></div>
                           </div>
-                          {`${Big(
-                            validatorFullData[currentPage]?.epochProgress,
-                          ).toFixed(0)}%`}
+                          {`${
+                            validatorFullData[currentPage]?.epochProgress &&
+                            Big(
+                              validatorFullData[currentPage]?.epochProgress,
+                            ).toFixed(0)
+                          }%`}
                         </div>
                       ) : (
                         ''
