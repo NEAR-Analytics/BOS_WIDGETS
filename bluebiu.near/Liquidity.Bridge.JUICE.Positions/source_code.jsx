@@ -130,6 +130,9 @@ State.init({
   dashboard: null,
   pnl: 0
 })
+function isNotEmptyArray(value) {
+  return value && value[0]
+}
 function handleQueryDashboard() {
   const calls = []
   const abi = [{
@@ -252,13 +255,12 @@ function handleQueryDashboard() {
       getDebtAmountResult,
       balanceOfAssetsResult,
     ] = result
-    console.log('=result', result)
-    const [A1, A2, A3] = getAccountHealthResult[0]
+    const [A1, A2, A3] = isNotEmptyArray(getAccountHealthResult) ? getAccountHealthResult[0] : [1, 0, 0]
     State.update({
       dashboard: {
         accountHealth: Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2),
-        debtAmount: Big(getDebtAmountResult[0] ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
-        balanceOfAssets: Big(balanceOfAssetsResult[0] ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4)
+        debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
+        balanceOfAssets: Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4)
       }
     })
   }).catch(error => {
@@ -366,7 +368,9 @@ function handleQueryPnl() {
     provider: Ethers.provider(),
   }).then(result => {
     const [getTotalAccountValueResult, getDebtAmountResult] = result
-    doQueryPnl(getTotalAccountValueResult[0], getDebtAmountResult[0])
+    if (isNotEmptyArray(getTotalAccountValueResult) && isNotEmptyArray(getDebtAmountResult)) {
+      doQueryPnl(getTotalAccountValueResult[0], getDebtAmountResult[0])
+    }
   })
 }
 useEffect(() => {
