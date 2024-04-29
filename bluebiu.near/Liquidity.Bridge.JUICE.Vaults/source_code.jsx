@@ -18,6 +18,7 @@ const StyledVaults = styled.div`
 `
 const StyledVault = styled.div`
   width: 320px;
+  height: 340px;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #373A53;
@@ -67,9 +68,14 @@ const StyledVaultDesc = styled.div`
   line-height: normal;
 `
 const StyledVaultBottom = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 247px;
   padding: 16px;
 `
 const StyledPointList = styled.div`
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
