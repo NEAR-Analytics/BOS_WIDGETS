@@ -63,6 +63,7 @@ const Button = ({
   setCnButton,
   ...props
 }) => {
+  console.log(cnButton);
   return (
     <>
       <Cn
