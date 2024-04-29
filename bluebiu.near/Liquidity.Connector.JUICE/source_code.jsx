@@ -257,49 +257,51 @@ return (
       )
     }
     {
-      categoryIndex === 0 && (
-        checkedVault ? (
-          <Widget
-            src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.VaultDetail"}
-            props={{
-              toast,
-              sender,
-              chainId,
-              windowOpen,
-              isCreatedAccount,
-              multicall,
-              multicallAddress,
-              checkedVault,
-              ICON_MAP,
-              PROXY_ADDRESS,
-              SYMBOL_ADDRESS,
-              smartContractAddress,
-              onChangeCategoryIndex: (categoryIndex) => {
-                State.update({
-                  categoryIndex
-                })
-              },
-              onBack: () => {
-                State.update({
-                  checkedVault: null
-                })
-              }
-            }}
-          />
-        ) : (
-          <Widget
-            src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Vaults"}
-            props={{
-              vaults,
-              prices,
-              onCheckedVaultChange: (vault) => {
-                State.update({
-                  checkedVault: vault
-                })
-              }
-            }}
-          />
-        )
+      categoryIndex === 0 && checkedVault && (
+
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.VaultDetail"}
+          props={{
+            toast,
+            sender,
+            chainId,
+            windowOpen,
+            isCreatedAccount,
+            multicall,
+            multicallAddress,
+            checkedVault,
+            ICON_MAP,
+            PROXY_ADDRESS,
+            SYMBOL_ADDRESS,
+            smartContractAddress,
+            onChangeCategoryIndex: (categoryIndex) => {
+              State.update({
+                categoryIndex
+              })
+            },
+            onBack: () => {
+              State.update({
+                checkedVault: null
+              })
+            }
+          }}
+        />
+      )
+    }
+    {
+      categoryIndex === 0 && !checkedVault && (
+        <Widget
+          src={"bluebiu.near/widget/Liquidity.Bridge.JUICE.Vaults"}
+          props={{
+            vaults,
+            prices,
+            onCheckedVaultChange: (vault) => {
+              State.update({
+                checkedVault: vault
+              })
+            }
+          }}
+        />
       )
     }
     {
