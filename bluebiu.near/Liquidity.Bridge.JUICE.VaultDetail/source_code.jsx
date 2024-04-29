@@ -948,6 +948,7 @@ function handleDeposit() {
   const _amount = Big(state?.inDepositAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
+  console.log('=_amount', _amount)
   contract
     .strategyDeposit(
       checkedVault.strategyAddress,
@@ -1079,13 +1080,9 @@ function handleGetSlippageOutAmount(amount, slippageAmount) {
 }
 function handleMax() {
   if (state.isDeposit) {
-    State.update({
-      inDepositAmount: state.depositBalance
-    })
+    handleInAmountChange(state.depositBalance)
   } else {
-    State.update({
-      inWithdrawAmount: state.positionOverview?.balanceOf
-    })
+    handleInAmountChange(state.positionOverview?.balanceOf)
   }
 }
 function handleRefresh() {
