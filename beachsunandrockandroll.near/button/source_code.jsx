@@ -1,20 +1,23 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const Button = ({ className, children, State, ...props }) => {
-  console.log("veamos->", state.cnButton, "<-");
+const Button = ({ className, children, ...props }) => {
+  const [cnButton, setCnButton] = useState("");
 
   return (
     <Tailwind>
-      <Widget
-        src="beachsunandrockandroll.near/widget/buttonIframe"
-        props={{
-          output: (cnButton) => State.update({ cnButton }),
-          className,
-        }}
-      />
-      <button className={state.cnButton} ref="forwardedRef" {...props}>
-        {children}
-      </button>
+      {["", "loaded"].includes(cnButton) ? (
+        <Widget
+          src="beachsunandrockandroll.near/widget/buttonIframe"
+          props={{
+            output: setCnButton,
+            className,
+          }}
+        />
+      ) : (
+        <button className={cnButton} ref="forwardedRef" {...props}>
+          {children}
+        </button>
+      )}
     </Tailwind>
   );
 };
