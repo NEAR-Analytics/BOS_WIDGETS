@@ -200,11 +200,11 @@ const API = {
     get(`api/dapps-used?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`),
   acquisitionCost: (daos) =>
     get(
-      `api/acquisition-cost?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`
+      `api/acquisition-cost?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`,
     ),
   socialEngagement: (daos) =>
     get(
-      `api/social-engagement?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`
+      `api/social-engagement?${dateRange}&dao_list=[${daos.map((d) => d.id)}]`,
     ),
 };
 
@@ -257,7 +257,7 @@ const onSelectChange = (value) => {
       return all;
     } else if (selectedDAOs.includes(value)) {
       return selectedDAOs.filter(
-        (dao) => dao !== value && dao !== defaultDAOOption
+        (dao) => dao !== value && dao !== defaultDAOOption,
       );
     } else {
       return [...selectedDAOs, value];
@@ -324,7 +324,7 @@ return (
               value: dashboardView,
               onChange: () =>
                 setDashboardView(
-                  dashboardView === "Charts" ? "Table" : "Charts"
+                  dashboardView === "Charts" ? "Table" : "Charts",
                 ),
             }}
           />
