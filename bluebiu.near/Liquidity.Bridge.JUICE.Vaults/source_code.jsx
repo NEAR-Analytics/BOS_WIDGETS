@@ -136,12 +136,7 @@ return (
       {
         vaults?.map((vault, index) => {
           return (
-            <StyledVault
-              key={index}
-              onClick={() => {
-                onCheckedVaultChange && onCheckedVaultChange(vault)
-              }}
-            >
+            <StyledVault key={index}>
               <StyledVaultTop>
                 <StyledVaultImageContainer
                   style={{
@@ -166,7 +161,11 @@ return (
                     ))
                   }
                 </StyledPointList>
-                <StyledAccessButton>Access</StyledAccessButton>
+                <StyledAccessButton
+                  onClick={() => {
+                    onCheckedVaultChange && onCheckedVaultChange(vault)
+                  }}
+                >Access</StyledAccessButton>
               </StyledVaultBottom>
             </StyledVault>
           )
