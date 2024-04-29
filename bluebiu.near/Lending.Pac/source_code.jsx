@@ -56,7 +56,7 @@ const {
   onSwitchChain,
   GAS_LIMIT_RECOMMENDATIONS,
   chainId,
-  prices,
+  prices: rawPrices,
   multicallAddress,
   multicall,
   isChainSupported,
@@ -69,83 +69,6 @@ const {
 } = props;
 const { CONTRACT_ABI } = dexConfig;
 console.log("PROPS: ", props);
-
-function isValid(a) {
-  if (!a) return false;
-  if (isNaN(Number(a))) return false;
-  if (a === "") return false;
-  return true;
-}
-
-function getGasPrice() {
-  return Ethers.provider().getGasPrice();
-}
-
-function gasEstimation(action) {
-  const assetsToSupply = state.assetsToSupply;
-  if (!assetsToSupply) {
-    return "-";
-  }
-  const baseAsset = assetsToSupply.find(
-    (asset) => asset.symbol === config.nativeCurrency.symbol
-  );
-  if (!baseAsset) {
-    return "-";
-  }
-
-  const { tokenPrice, decimals } = baseAsset;
-  return getGasPrice()
-    .then((gasPrice) => {
-      const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
-      // console.log("gasPrice--", gasPrice);
-      return Big(gasPrice.toString())
-        .mul(gasLimit)
-        .div(Big(10).pow(decimals))
-        .mul(tokenPrice)
-        .toFixed(2);
-    })
-    .catch((err) => {
-      console.log("gasEstimation error");
-    });
-}
-
-function depositETHGas() {
-  return gasEstimation("deposit");
-}
-
-function depositERC20Gas() {
-  return gasEstimation("supplyWithPermit");
-}
-
-function withdrawETHGas() {
-  return gasEstimation("withdrawETH");
-}
-
-function withdrawERC20Gas() {
-  return gasEstimation("withdraw");
-}
-
-function borrowETHGas() {
-  return gasEstimation("borrowETH");
-}
-
-function borrowERC20Gas() {
-  return gasEstimation("borrow");
-}
-
-function repayETHGas() {
-  return gasEstimation("repay");
-}
-
-function repayERC20Gas() {
-  return gasEstimation("repayWithPermit");
-}
-function formatNumber(value, digits) {
-  if (Big(value).eq(0)) return `$ 0`;
-  return Big(value || 0).lt(0.01)
-    ? "< $0.01"
-    : `$ ${Number(value).toFixed(digits || 2)}`;
-}
 
 // App config
 function getConfig() {
@@ -213,7 +136,88 @@ State.init({
 
   updater: 0,
   isShowReloadModal: false,
+
+  prices: rawPrices,
 });
+
+const { prices } = state;
+
+function isValid(a) {
+  if (!a) return false;
+  if (isNaN(Number(a))) return false;
+  if (a === "") return false;
+  return true;
+}
+
+function getGasPrice() {
+  return Ethers.provider().getGasPrice();
+}
+
+function gasEstimation(action) {
+  const assetsToSupply = state.assetsToSupply;
+  if (!assetsToSupply) {
+    return "-";
+  }
+  const baseAsset = assetsToSupply.find(
+    (asset) => asset.symbol === config.nativeCurrency.symbol
+  );
+  if (!baseAsset) {
+    return "-";
+  }
+
+  const { symbol, decimals } = baseAsset;
+  return getGasPrice()
+    .then((gasPrice) => {
+      const gasLimit = GAS_LIMIT_RECOMMENDATIONS[action].limit;
+      // console.log("gasPrice--", gasPrice);
+      return Big(gasPrice.toString())
+        .mul(gasLimit)
+        .div(Big(10).pow(decimals))
+        .mul(prices[symbol])
+        .toFixed(2);
+    })
+    .catch((err) => {
+      console.log("gasEstimation error");
+    });
+}
+
+function depositETHGas() {
+  return gasEstimation("deposit");
+}
+
+function depositERC20Gas() {
+  return gasEstimation("supplyWithPermit");
+}
+
+function withdrawETHGas() {
+  return gasEstimation("withdrawETH");
+}
+
+function withdrawERC20Gas() {
+  return gasEstimation("withdraw");
+}
+
+function borrowETHGas() {
+  return gasEstimation("borrowETH");
+}
+
+function borrowERC20Gas() {
+  return gasEstimation("borrow");
+}
+
+function repayETHGas() {
+  return gasEstimation("repay");
+}
+
+function repayERC20Gas() {
+  return gasEstimation("repayWithPermit");
+}
+function formatNumber(value, digits) {
+  if (Big(value).eq(0)) return `$ 0`;
+  return Big(value || 0).lt(0.01)
+    ? "< $0.01"
+    : `$ ${Number(value).toFixed(digits || 2)}`;
+}
 
 function showReload() {
   State.update({
@@ -273,10 +277,8 @@ function calcHealthFactor(type, symbol, amount) {
     let newHealthFactor;
     let totalCollateral = Big(state.yourTotalCollateral);
     let totalBorrows = Big(state.yourTotalBorrow);
-    const tokenPrice =
-      state.assetsToSupply.find((item) => item.symbol === symbol).tokenPrice ||
-      1;
-    const assetsUSD = Big(tokenPrice).times(Big(amount));
+
+    const assetsUSD = Big(prices[symbol] || 1).times(Big(amount));
     if (type === "SUPPLY") {
       totalCollateral = Big(state.yourTotalCollateral).plus(assetsUSD);
     }
@@ -403,7 +405,7 @@ function getLiquidity() {
           // console.log(_availableBorrowsUSD);
           const availableBorrows = calcAvailableBorrows(
             _availableBorrowsUSD,
-            _assetsToSupply[i].tokenPrice
+            prices[_assetsToSupply[i].symbol]
           );
           // console.log(availableBorrows);
           _assetsToSupply[i].availableBorrowsUSD = _availableBorrowsUSD;
@@ -470,19 +472,20 @@ function getPrices() {
     Ethers.provider().getSigner()
   );
   const tokenAddrs = markets.map((item) => item.underlyingAsset);
+  const tokenSymbols = markets.map((item) => item.symbol);
 
   contract
     .getAssetsPrices(tokenAddrs)
     .then((res) => {
       console.log("getPrices--", res);
-      const _assetsToSupply = [...state.assetsToSupply];
-      for (let index = 0; index < _assetsToSupply.length; index++) {
+
+      for (let index = 0; index < tokenSymbols.length; index++) {
         const _tokenPrice = formatUnits(res[index], 8);
-        _assetsToSupply[index].tokenPrice = _tokenPrice;
+        rawPrices[tokenSymbols[index]] = _tokenPrice;
       }
 
       State.update({
-        assetsToSupply: _assetsToSupply,
+        prices: rawPrices,
       });
     })
     .catch((err) => {
@@ -524,7 +527,7 @@ function getUserBalance() {
             const _balance = balanceRaw.toFixed(item.decimals, ROUND_DOWN);
 
             const _balanceInUSD = balanceRaw
-              .times(Big(item.tokenPrice || 0))
+              .times(Big(prices[item.symbol] || 0))
               .toFixed();
 
             item.balance = _balance;
@@ -695,6 +698,10 @@ function getPoolDataProvider() {
         assetsToSupply: _assetsToSupply,
       });
     })
+    .then(() => {
+      getYourSupplies();
+      getUserDebts();
+    })
     .catch((err) => {
       showReload();
       console.log("getPoolDataProvider_err", err);
@@ -739,15 +746,6 @@ function getPoolDataProviderTotalSupply() {
           prevAssetsToSupply[i].decimals
         );
         prevAssetsToSupply[i].totalSupply = _totalSupply;
-        // console.log(
-        //   "_totalSupply--",
-        //   _totalSupply,
-        //   prevAssetsToSupply[i].symbol,
-        //   prices[prevAssetsToSupply[i].symbol]
-        // );
-        // prevAssetsToSupply[i].totalSupplyUSD = Big(_totalSupply || 0)
-        //   .times(prices[prevAssetsToSupply[i].symbol])
-        //   .toFixed();
       }
       State.update({
         assetsToSupply: prevAssetsToSupply,
@@ -1265,7 +1263,7 @@ function getUserDebts() {
             market.debt = _debt;
 
             market.debtInUSD = Big(_debt || 0)
-              .mul(market.tokenPrice || 1)
+              .mul(prices[market.symbol] || 1)
               .toFixed();
             userDebs.push(market);
           }
@@ -1325,9 +1323,6 @@ useEffect(() => {
   //   getPoolDataProviderTotalDebt();
   //   getPoolDataProviderCaps();
   // }
-
-  getYourSupplies();
-  getUserDebts();
 }, [account, isChainSupported, state.updater]);
 
 useEffect(() => {
@@ -1542,6 +1537,7 @@ const body = isChainSupported ? (
             theme: dexConfig?.theme,
             addAction,
             dexConfig,
+            prices,
           }}
         />
       </>
@@ -1620,6 +1616,7 @@ const body = isChainSupported ? (
               props={{
                 config,
                 chainId: chainId,
+                prices,
                 assetsToSupply: state.assetsToSupply,
                 yourBorrows: state.yourBorrows,
                 showRepayModal: state.showRepayModal,
