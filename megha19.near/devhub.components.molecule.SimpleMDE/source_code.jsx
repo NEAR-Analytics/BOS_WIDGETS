@@ -25,9 +25,9 @@ const followingData = Social.get(
 const fontFamily = props.fontFamily ?? "sans-serif";
 const alignToolItems = props.alignToolItems ?? "right";
 const placeholder = props.placeholder ?? "";
-const autoFocus = props.autoFocus ?? false;
 const showAccountAutoComplete = props.showAutoComplete ?? false;
 const showProposalIdAutoComplete = props.showProposalIdAutoComplete ?? false;
+const autoFocus = props.autoFocus ?? false;
 
 const queryName =
   "thomasguntenaar_near_devhub_proposals_quebec_proposals_with_latest_snapshot";
@@ -485,8 +485,8 @@ return (
       content: props.data?.content ?? "",
       followingData,
       profilesData: JSON.stringify(profilesData),
-      handler: props.data.handler,
       query: query,
+      handler: props.data.handler,
     }}
     onMessage={(e) => {
       switch (e.handler) {
