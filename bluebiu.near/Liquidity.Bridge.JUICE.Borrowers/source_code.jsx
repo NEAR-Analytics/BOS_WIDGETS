@@ -322,6 +322,8 @@ State.init({
   repayLoading: false,
   depositApproved: true,
   depositApproving: false,
+  repayApproved: true,
+  repayApproving: false,
   // depositApp
 
   balances: {
@@ -390,18 +392,34 @@ function handleCheckApprove(amount) {
     "stateMutability": "view",
     "type": "function"
   }];
-  const contract = new ethers.Contract(
-    SYMBOL_ADDRESS,
-    abi,
-    Ethers.provider()
-  );
-  contract
-    .allowance(sender, PROXY_ADDRESS)
-    .then((allowance) => {
-      State.update({
-        depositApproved: !new Big(allowance.toString()).lt(_amount)
+  if (categoryIndex === 0) {
+    const contract = new ethers.Contract(
+      SYMBOL_ADDRESS,
+      abi,
+      Ethers.provider()
+    );
+    contract
+      .allowance(sender, PROXY_ADDRESS)
+      .then((allowance) => {
+        State.update({
+          depositApproved: !new Big(allowance.toString()).lt(_amount)
+        })
       })
-    })
+  }
+  if (categoryIndex === 3) {
+    const contract = new ethers.Contract(
+      SYMBOL_ADDRESS,
+      abi,
+      Ethers.provider()
+    );
+    contract
+      .allowance(sender, smartContractAddress)
+      .then((allowance) => {
+        State.update({
+          repayApproved: !new Big(allowance.toString()).lt(_amount)
+        })
+      })
+  }
 }
 function handleInAmountChange(amount) {
   const keyArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
@@ -414,16 +432,14 @@ function handleInAmountChange(amount) {
   State.update({
     [keyArray[categoryIndex]]: amount
   })
-  if (categoryIndex === 0) {
+
+  if (categoryIndex === 0 || categoryIndex === 3) {
     handleCheckApprove(amount)
   }
 }
-function handleApprove() {
-  State.update({
-    depositApproving: true
-  })
+function doApprove(amount, APPROVE_ADDRESS, onSuccess, onError) {
   const toastId = toast?.loading({
-    title: `Approve ${state.inDepositAmount} WETH`,
+    title: `Approve ${amount} WETH`,
   });
   const abi = [{
     "inputs": [
@@ -454,41 +470,80 @@ function handleApprove() {
     abi,
     Ethers.provider().getSigner()
   );
-  const _amount = Big(state?.inDepositAmount)
+  const _amount = Big(amount)
     .mul(Big(10).pow(18))
     .toFixed(0);
   contract
     .approve(
-      PROXY_ADDRESS,
+      APPROVE_ADDRESS,
       _amount,
     )
     .then(tx => tx.wait())
     .then((result) => {
-      const { status, transactionHash } = result;
+      const { transactionHash } = result;
       toast?.dismiss(toastId);
-      if (status !== 1) throw new Error("");
-      State.update({
-        depositApproved: true,
-        depositApproving: false
-      })
       toast?.success({
         title: "Approve Successfully!",
-        text: `Approved ${state.inDepositAmount} WETH`,
+        text: `Approved ${amount} WETH`,
         tx: transactionHash,
         chainId,
       });
-      handleRefresh()
+      onSuccess && onSuccess()
     }).catch(error => {
-      State.update({
-        depositApproving: false,
-      })
+      onError && onError()
       toast?.fail({
         title: "Approve Failed!",
         text: error?.message?.includes("user rejected transaction")
           ? "User rejected transaction"
-          : `Approved ${state.inDepositAmount} WETH`,
+          : `Approved ${amount} WETH`,
       });
     });
+}
+function handleApprove() {
+  // deposit approve
+  if (categoryIndex === 0) {
+    State.update({
+      depositApproving: true
+    })
+    doApprove(
+      state.inDepositAmount,
+      PROXY_ADDRESS,
+      () => {
+        State.update({
+          depositApproved: true,
+          depositApproving: false
+        })
+        handleRefresh()
+      },
+      () => {
+        State.update({
+          depositApproving: false,
+        })
+      }
+    )
+  }
+  // repay approve 
+  if (categoryIndex === 3) {
+    State.update({
+      repayApproving: true
+    })
+    doApprove(
+      state.inRepayAmount,
+      smartContractAddress,
+      () => {
+        State.update({
+          repayApproved: true,
+          repayApproving: false
+        })
+        handleRefresh()
+      },
+      () => {
+        State.update({
+          repayApproving: false,
+        })
+      }
+    )
+  }
 }
 function handleDeposit() {
   State.update({
@@ -732,6 +787,18 @@ function handleRepay() {
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
+  }, {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amountFrom",
+        "type": "uint256"
+      }
+    ],
+    "name": "repayFrom",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   }]
 
   const contract = new ethers.Contract(
@@ -742,10 +809,10 @@ function handleRepay() {
   const _amount = Big(state?.inRepayAmount)
     .mul(Big(10).pow(18))
     .toFixed(0);
-  contract
-    .repay(
-      _amount
-    )
+  const contractMethod = Big(state.inRepayAmount).eq(state.balances.secondRepay) ? "repayFrom" : "repay"
+  contract[contractMethod](
+    _amount
+  )
     .then(tx => tx.wait())
     .then((result) => {
       const { status, transactionHash } = result;
@@ -1502,7 +1569,9 @@ return (
                     {
                       isRepayInSufficient ? (
                         <StyledOperationButton disabled>InSufficient Balance</StyledOperationButton>
-                      ) : state.repayLoading ? (
+                      ) : !(state.repayApproved || state.repayApproving) ? (
+                        <StyledOperationButton onClick={handleApprove}>Approve</StyledOperationButton>
+                      ) : (state.repayLoading || state.repayApproving) ? (
                         <StyledOperationButton disabled>
                           <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
                         </StyledOperationButton>
