@@ -187,7 +187,7 @@ State.init({
   data: {
   },
   balance: 0,
-  newPenPad: false,
+  penpadRegister: false,
   showDialog: false
 })
 const isInSufficient = Number(state.stakeAmount) > Number(state.balance)
@@ -217,7 +217,7 @@ function handleStakeAmountChange(amount) {
   })
 }
 function handleStake() {
-  if (state.newPenPad) {
+  if (state.penpadRegister === "false") {
     State.update({
       showDialog: true
     })
@@ -366,11 +366,11 @@ function handleQueryData() {
       })
     });
 }
-function handleQueryNewPenpad() {
+function handleQueryPenpadRegister() {
   promiseFetchQuery("https://penpad.io/api/pub/quest/social/platform/dapdap/address/" + sender)
     .then(result => {
       State.update({
-        newPenPad: result
+        penpadRegister: result
       })
     })
 }
@@ -382,7 +382,7 @@ function handleMax() {
 useEffect(() => {
   if (sender) {
     handleQueryData()
-    handleQueryNewPenpad()
+    handleQueryPenpadRegister()
   }
 }, [sender])
 
