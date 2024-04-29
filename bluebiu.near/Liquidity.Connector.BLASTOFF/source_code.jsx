@@ -168,7 +168,7 @@ const StyledStackedRectangleMiddleInput = styled.input`
   border: none;
   outline: none;
   background: transparent;
-  color: #979ABE;
+  color: #FFF;
   font-family: Gantari;
   font-size: 26px;
   font-style: normal;
@@ -207,7 +207,7 @@ const StyledStakeButton = styled.button`
   font-weight: 600;
   line-height: normal;
   &[disabled] {
-    opacity: 0.8;
+    opacity: 0.3;
   }
 `
 const StyledStakeLoadingButton = styled.button`
@@ -218,7 +218,7 @@ const StyledStakeLoadingButton = styled.button`
   height: 60px;
   border-radius: 8px;
   background: var(--button-color);
-  opacity: 0.8;
+  opacity: 0.3;
 `
 const StyledPositionsContainer = styled.div`
 
@@ -388,7 +388,6 @@ const COLUMN_LIST = [{
   label: "",
   width: "40%",
 }]
-console.log('===props', props)
 const contractAddress = "0xd9747a98624f0B64B4412632C420672E16432334"
 const isInSufficient = Number(stakedAmount) > Number(pool?.walletBalance)
 
@@ -401,7 +400,6 @@ function promiseContractQuery(address, abi, method, data) {
   return new Promise((resolve, reject) => {
     contract[method](...data).then(resolve).catch(reject)
   })
-
 }
 function queryPool(poolId) {
   const promiseArray = []
@@ -509,7 +507,7 @@ function queryPool(poolId) {
           Ethers.provider()
             .getBalance(sender)
             .then((balanceResult) => {
-              const walletBalance = ethers.utils.formatEther(balanceResult);
+              const walletBalance = Big(ethers.utils.formatEther(balanceResult)).toFixed(6);
               const pool = {
                 yieldAPY,
                 stakeToken,
@@ -526,7 +524,7 @@ function queryPool(poolId) {
           );
           contract.balanceOf(sender)
             .then(balanceResult => {
-              const walletBalance = ethers.utils.formatUnits(balanceResult, 18);
+              const walletBalance = Big(ethers.utils.formatUnits(balanceResult, 18)).toFixed(6);
               const pool = {
                 yieldAPY,
                 stakeToken,
@@ -961,9 +959,9 @@ return (
                                 <StyledPostionLabel>{column.key === "userStakePosition" ? `Staked ${symbolList[position.poolId]}` : column.label}</StyledPostionLabel>
                                 {
                                   column.type === "money" ? (
-                                    <StyledPostionValue>{position[column.key] ?? "0"} {symbolList[position.poolId]}</StyledPostionValue>
+                                    <StyledPostionValue>{position[column.key] ?? "1"} {symbolList[position.poolId]}</StyledPostionValue>
                                   ) : (
-                                    <StyledPostionValue>{position[column.key] ?? "0"}</StyledPostionValue>
+                                    <StyledPostionValue>{position[column.key] ?? "1"}</StyledPostionValue>
                                   )
                                 }
                               </StyledPostionColumn>
