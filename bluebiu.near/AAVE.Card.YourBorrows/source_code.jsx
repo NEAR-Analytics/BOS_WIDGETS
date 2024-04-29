@@ -18,6 +18,7 @@ const {
   theme,
   dexConfig,
   addAction,
+  prices,
 } = props;
 
 State.init({
@@ -132,25 +133,9 @@ return (
           assetsToSupply,
           addAction,
           dexConfig,
+          prices,
         }}
       />
     )}
-    {/* {showBorrowModal && (
-      <Widget
-        src={`${config.ownerId}/widget/AAVE.Modal.BorrowModal`}
-        props={{
-          config,
-          theme,
-          onRequestClose: () => setShowBorrowModal(false),
-          data: state.data,
-          onActionSuccess,
-          chainId,
-          borrowETHGas,
-          borrowERC20Gas,
-          formatHealthFactor,
-          calcHealthFactor,
-        }}
-      />
-    )} */}
   </>
 );
