@@ -116,6 +116,18 @@ const StyledPositionColumnButton = styled.div`
   font-weight: 500;
   line-height: normal;
 `
+const StyledNotHave = styled.div`
+  padding-top: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #979ABE;
+  font-family: Gantari;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`
 const {
   sender,
   vaults,
@@ -128,7 +140,8 @@ const {
 } = props
 State.init({
   dashboard: null,
-  pnl: 0
+  filterVaults: [],
+  pnl: 0,
 })
 function isNotEmptyArray(value) {
   return value && value[0]
@@ -378,6 +391,13 @@ useEffect(() => {
   handleQueryPnl()
 }, [])
 
+useEffect(() => {
+  console.log('====11111=====')
+  State.update({
+    filterVaults: vaults.filter(vault => Number(vault.positionValue) > 0)
+  })
+}, [vaults])
+
 return (
   <StyledContainer>
     <StyledTitle>Dashboard</StyledTitle>
@@ -408,7 +428,7 @@ return (
           style={{
             color: "#74F368"
           }}
-        >{state.dashboard?.accountHealth}%</StyledValue>
+        >{state.dashboard?.accountHealth}</StyledValue>
       </StyledColumn>
       <StyledColumn style={{
         width: "20%"
@@ -444,46 +464,47 @@ return (
       </StyledPostionsTop>
       <StyledPostionsBottom>
         {
-          vaults
-            .filter(vault => Number(vault.positionValue) > 0)
-            .map(vault => (
-              <StyledPosition>
-                <StyledPositionColumn style={{
-                  width: "30%"
-                }}>
-                  <StyledPositionColumnImageContainer
-                    style={{ backgroundColor: vault.iconBgColor }}
-                  >
-                    <StyledPositionColumnImage src={vault.icon} />
-                  </StyledPositionColumnImageContainer>
-                  <StyledPositionColumnTxt>{vault.name}</StyledPositionColumnTxt>
-                </StyledPositionColumn>
-                <StyledPositionColumn style={{
-                  width: "25%"
-                }}>
-                  <StyledPositionColumnTxt>{vault.protocol}</StyledPositionColumnTxt>
-                </StyledPositionColumn>
-                <StyledPositionColumn style={{
-                  width: "15%"
-                }}>
-                  <StyledPositionColumnTxt>WETH</StyledPositionColumnTxt>
-                </StyledPositionColumn>
-                <StyledPositionColumn style={{
-                  width: "15%"
-                }}>
-                  <StyledPositionColumnTxt>{"$" + Big(vault?.positionValue ?? 0).times(prices["WETH"]).toFixed(2)}</StyledPositionColumnTxt>
-                </StyledPositionColumn>
-                <StyledPositionColumn style={{
-                  width: "15%"
-                }}>
-                  <StyledPositionColumnButton onClick={() => {
-                    onManage(vault)
-                  }}>Manage</StyledPositionColumnButton>
-                </StyledPositionColumn>
-              </StyledPosition>
-            ))
+          state.filterVaults?.length > 0 ? state.filterVaults.map(vault => (
+            <StyledPosition>
+              <StyledPositionColumn style={{
+                width: "30%"
+              }}>
+                <StyledPositionColumnImageContainer
+                  style={{ backgroundColor: vault.iconBgColor }}
+                >
+                  <StyledPositionColumnImage src={vault.icon} />
+                </StyledPositionColumnImageContainer>
+                <StyledPositionColumnTxt>{vault.name}</StyledPositionColumnTxt>
+              </StyledPositionColumn>
+              <StyledPositionColumn style={{
+                width: "25%"
+              }}>
+                <StyledPositionColumnTxt>{vault.protocol}</StyledPositionColumnTxt>
+              </StyledPositionColumn>
+              <StyledPositionColumn style={{
+                width: "15%"
+              }}>
+                <StyledPositionColumnTxt>WETH</StyledPositionColumnTxt>
+              </StyledPositionColumn>
+              <StyledPositionColumn style={{
+                width: "15%"
+              }}>
+                <StyledPositionColumnTxt>{"$" + Big(vault?.positionValue ?? 0).times(prices["WETH"]).toFixed(2)}</StyledPositionColumnTxt>
+              </StyledPositionColumn>
+              <StyledPositionColumn style={{
+                width: "15%"
+              }}>
+                <StyledPositionColumnButton onClick={() => {
+                  onManage(vault)
+                }}>Manage</StyledPositionColumnButton>
+              </StyledPositionColumn>
+            </StyledPosition>
+          )) : (
+            <StyledNotHave>
+              You didn’t add any vault yet
+            </StyledNotHave>
+          )
         }
-
       </StyledPostionsBottom>
     </StyledPostionsContainer>
   </StyledContainer>
