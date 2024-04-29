@@ -1,6 +1,6 @@
 const { Tailwind } = VM.require("beachsunandrockandroll.near/widget/preflight");
 
-const Button = ({ className, children, ...props }) => {
+const Button = ({ className, children, State, ...props }) => {
   State.init({
     cnButton: "",
   });
