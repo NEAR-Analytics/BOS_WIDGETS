@@ -198,8 +198,8 @@ useEffect(() => {
       const _poolSize = Big(market.cash || 0)
         .plus(Big(market.totalBorrows || 0))
         .plus(Big(market.totalReserves || 0))
-        .times(Big(underlyingPrice))
         .toString();
+      // .times(Big(underlyingPrice))
 
       markets[market.address] = {
         ...market,
