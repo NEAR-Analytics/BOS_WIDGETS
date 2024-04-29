@@ -429,7 +429,7 @@ function handleApprove() {
     "type": "function"
   }]
   const contract = new ethers.Contract(
-    ethers.utils.getAddress(PROXY_ADDRESS),
+    ethers.utils.getAddress(SYMBOL_ADDRESS),
     abi,
     Ethers.provider().getSigner()
   );
@@ -438,7 +438,7 @@ function handleApprove() {
     .toFixed(0);
   contract
     .approve(
-      smartContractAddress,
+      PROXY_ADDRESS,
       _amount,
     )
     .then(tx => tx.wait())
@@ -1090,10 +1090,11 @@ function handleGetAccountOverview() {
     const [A1, A2, A3] = isNotEmptyArray(getAccountHealthResult) ? getAccountHealthResult[0] : [1, 0, 0]
     State.update({
       accountOverview: {
+        borrowLeverage: "",
         balanceOfAssets: Big(isNotEmptyArray(balanceOfAssetsResult) ? ethers.utils.formatUnits(balanceOfAssetsResult[0]) : 0).toFixed(4),
         debtAmount: Big(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
         totalCollateralValue: Big(isNotEmptyArray(getTotalCollateralValueResult) ? ethers.utils.formatUnits(getTotalCollateralValueResult[0]) : 0).times(2.97).minus(isNotEmptyArray(getDebtAmountResult) ? ethers.utils.formatUnits(getDebtAmountResult[0]) : 0).toFixed(4),
-        accountHealth: Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2),
+        accountHealth: Big(A1).gt(0) ? (Big(Big(A2).plus(A3)).div(A1).times(100).toFixed(2) + "%") : "N/A",
         firstBalance: Big(isNotEmptyArray(firstBalanceResult) ? ethers.utils.formatUnits(firstBalanceResult[0]) : 0).toFixed(4),
         secondBalance: Big(isNotEmptyArray(secondBalanceResult) ? ethers.utils.formatUnits(secondBalanceResult[0]) : 0).toFixed(4),
       }
@@ -1536,7 +1537,7 @@ return (
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>Margin Health Factor</StyledOverviewLabel>
-          <StyledOverviewValue>{state.accountOverview?.accountHealth}%</StyledOverviewValue>
+          <StyledOverviewValue>{state.accountOverview?.accountHealth}</StyledOverviewValue>
         </StyledOverview>
         <StyledOverview>
           <StyledOverviewLabel>Minimum Margin Health Factor</StyledOverviewLabel>
