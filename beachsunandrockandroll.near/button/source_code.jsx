@@ -1,3 +1,15 @@
+const Cn = ({ setCnButton, ...props }) => {
+  return (
+    <Widget
+      src="beachsunandrockandroll.near/widget/buttonIframe"
+      props={{
+        output: setCnButton,
+        ...props,
+      }}
+    />
+  );
+};
+
 const Button = ({
   className,
   children,
@@ -7,21 +19,18 @@ const Button = ({
   setCnButton,
   ...props
 }) => {
-  if (["", "loaded"].includes(cnButton))
-    return (
-      <Widget
-        src="beachsunandrockandroll.near/widget/buttonIframe"
-        props={{
-          output: setCnButton,
-          variant: "outline",
-        }}
-      />
-    );
-
   return (
-    <button className={cnButton} ref="forwardedRef" {...props}>
-      {children}
-    </button>
+    <>
+      <Cn
+        setCnButton={setCnButton}
+        variant={variant}
+        size={size}
+        className={className}
+      />
+      <button className={cnButton} ref="forwardedRef" {...props}>
+        {children}
+      </button>
+    </>
   );
 };
 
