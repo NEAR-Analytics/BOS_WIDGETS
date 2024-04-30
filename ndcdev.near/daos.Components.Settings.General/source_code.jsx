@@ -6,7 +6,6 @@ const { selectedDao } = props;
 const Form = styled.div`
   border-radius: 20px;
   background: white;
-  padding: 3rem;
 
   label {
     font-size: 14px;
@@ -26,10 +25,6 @@ const Form = styled.div`
     a {
       text-decoration: underline;
     }
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 1rem;
   }
 `;
 
