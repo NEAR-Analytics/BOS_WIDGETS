@@ -165,171 +165,175 @@ return (
       </StyledHeader>
       <Tabs.Content value="IN_WALLET">
         <Tokens>
-          {unstaked.map((item) => {
-            const pool = pools[item.pool.id];
-            const _token0 = Big(
-              ethers.utils.formatUnits(
-                item.token0Amount || 0,
-                item.token0.decimals
-              )
-            );
-            const _token1 = Big(
-              ethers.utils.formatUnits(
-                item.token1Amount || 0,
-                item.token1.decimals
-              )
-            );
-            return (
-              <Widget
-                key={item.id}
-                src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
-                props={{
-                  from: "in-wallet",
-                  name: pool.name,
-                  amount0: _token0,
-                  amount1: _token1,
-                  price0: pool.token0.price,
-                  price1: pool.token1.price,
-                  token0: pool.token0,
-                  token1: pool.token1,
-                  id: item.id,
-                  fee: pool.fee,
-                  active: false,
-                  depositing: state[`deposit-${item.id}`],
-                  onDeposit: () => {
-                    State.update({
-                      [`deposit-${item.id}`]: true,
-                    });
-                    handler({
-                      pool: { id: item.id, name: pool.name },
-                      method: "safeTransferFrom",
-                      onSuccess: () => {
-                        State.update({
-                          [`deposit-${item.id}`]: false,
-                        });
-                        onSuccess();
-                      },
-                      onError: () => {
-                        State.update({
-                          [`deposit-${item.id}`]: false,
-                        });
-                      },
-                    });
-                  },
-                }}
-              />
-            );
-          })}
+          {unstaked
+            .filter((item) => pools[item.pool.id])
+            .map((item) => {
+              const pool = pools[item.pool.id];
+              const _token0 = Big(
+                ethers.utils.formatUnits(
+                  item.token0Amount || 0,
+                  item.token0.decimals
+                )
+              );
+              const _token1 = Big(
+                ethers.utils.formatUnits(
+                  item.token1Amount || 0,
+                  item.token1.decimals
+                )
+              );
+              return (
+                <Widget
+                  key={item.id}
+                  src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
+                  props={{
+                    from: "in-wallet",
+                    name: pool.name,
+                    amount0: _token0,
+                    amount1: _token1,
+                    price0: pool.token0.price,
+                    price1: pool.token1.price,
+                    token0: pool.token0,
+                    token1: pool.token1,
+                    id: item.id,
+                    fee: pool.fee,
+                    active: false,
+                    depositing: state[`deposit-${item.id}`],
+                    onDeposit: () => {
+                      State.update({
+                        [`deposit-${item.id}`]: true,
+                      });
+                      handler({
+                        pool: { id: item.id, name: pool.name },
+                        method: "safeTransferFrom",
+                        onSuccess: () => {
+                          State.update({
+                            [`deposit-${item.id}`]: false,
+                          });
+                          onSuccess();
+                        },
+                        onError: () => {
+                          State.update({
+                            [`deposit-${item.id}`]: false,
+                          });
+                        },
+                      });
+                    },
+                  }}
+                />
+              );
+            })}
         </Tokens>
       </Tabs.Content>
       <Tabs.Content value="DEPOSITED">
         <Tokens>
-          {staked.map((item, i) => {
-            const pool = pools[item.pool.id];
-            const _token0 = Big(
-              ethers.utils.formatUnits(
-                item.token0Amount || 0,
-                item.token0.decimals
-              )
-            );
-            const _token1 = Big(
-              ethers.utils.formatUnits(
-                item.token1Amount || 0,
-                item.token1.decimals
-              )
-            );
+          {staked
+            .filter((item) => pools[item.pool.id])
+            .map((item, i) => {
+              const pool = pools[item.pool.id];
+              const _token0 = Big(
+                ethers.utils.formatUnits(
+                  item.token0Amount || 0,
+                  item.token0.decimals
+                )
+              );
+              const _token1 = Big(
+                ethers.utils.formatUnits(
+                  item.token1Amount || 0,
+                  item.token1.decimals
+                )
+              );
 
-            totalDeposit = totalDeposit
-              .add(_token0.mul(pool.token0.price || 0))
-              .add(_token1.mul(pool.token1.price || 0));
+              totalDeposit = totalDeposit
+                .add(_token0.mul(pool.token0.price || 0))
+                .add(_token1.mul(pool.token1.price || 0));
 
-            const _fee0 = Big(
-              ethers.utils.formatUnits(
-                fees[item.id].token0 || 0,
-                pool.token0.decimals
-              )
-            );
-            const _fee1 = Big(
-              ethers.utils.formatUnits(
-                fees[item.id].token1 || 0,
-                pool.token1.decimals
-              )
-            );
+              const _fee0 = Big(
+                ethers.utils.formatUnits(
+                  fees[item.id].token0 || 0,
+                  pool.token0.decimals
+                )
+              );
+              const _fee1 = Big(
+                ethers.utils.formatUnits(
+                  fees[item.id].token1 || 0,
+                  pool.token1.decimals
+                )
+              );
 
-            totalFees = totalFees
-              .add(_fee0.mul(pool.token0.price || 0))
-              .add(_fee1.mul(pool.token1.price || 0));
+              totalFees = totalFees
+                .add(_fee0.mul(pool.token0.price || 0))
+                .add(_fee1.mul(pool.token1.price || 0));
 
-            if (i === staked.length - 1) {
-              State.update({
-                totalDeposit,
-                totalFees,
-              });
-            }
-            return (
-              <Widget
-                key={item.id}
-                src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
-                props={{
-                  from: "deposited",
-                  name: pool.name,
-                  amount0: _token0,
-                  amount1: _token1,
-                  price0: pool.token0.price,
-                  price1: pool.token1.price,
-                  token0: pool.token0,
-                  token1: pool.token1,
-                  id: item.id,
-                  fee: pool.fee,
-                  active: false,
-                  claiming: state[`claim-${item.id}`],
-                  withdrawing: state[`withdraw-${item.id}`],
-                  feeAmount0: _fee0,
-                  feeAmount1: _fee1,
-                  onClaim: () => {
-                    State.update({
-                      [`claim-${item.id}`]: true,
-                    });
-                    handler({
-                      pool: { id: item.id, name: pool.name },
-                      method: "collect",
-                      onSuccess: () => {
-                        State.update({
-                          [`claim-${item.id}`]: false,
-                        });
-                        onSuccess();
-                      },
-                      onError: () => {
-                        State.update({
-                          [`claim-${item.id}`]: false,
-                        });
-                      },
-                    });
-                  },
-                  onWithdraw: () => {
-                    State.update({
-                      [`withdraw-${item.id}`]: true,
-                    });
-                    handler({
-                      pool: { id: item.id, name: pool.name },
-                      method: "withdraw",
-                      onSuccess: () => {
-                        State.update({
-                          [`withdraw-${item.id}`]: false,
-                        });
-                        onSuccess();
-                      },
-                      onError: () => {
-                        State.update({
-                          [`withdraw-${item.id}`]: false,
-                        });
-                      },
-                    });
-                  },
-                }}
-              />
-            );
-          })}
+              if (i === staked.length - 1) {
+                State.update({
+                  totalDeposit,
+                  totalFees,
+                });
+              }
+              return (
+                <Widget
+                  key={item.id}
+                  src="dapdapbos.near/widget/Staking.Hyperlock.TokenCard"
+                  props={{
+                    from: "deposited",
+                    name: pool.name,
+                    amount0: _token0,
+                    amount1: _token1,
+                    price0: pool.token0.price,
+                    price1: pool.token1.price,
+                    token0: pool.token0,
+                    token1: pool.token1,
+                    id: item.id,
+                    fee: pool.fee,
+                    active: false,
+                    claiming: state[`claim-${item.id}`],
+                    withdrawing: state[`withdraw-${item.id}`],
+                    feeAmount0: _fee0,
+                    feeAmount1: _fee1,
+                    onClaim: () => {
+                      State.update({
+                        [`claim-${item.id}`]: true,
+                      });
+                      handler({
+                        pool: { id: item.id, name: pool.name },
+                        method: "collect",
+                        onSuccess: () => {
+                          State.update({
+                            [`claim-${item.id}`]: false,
+                          });
+                          onSuccess();
+                        },
+                        onError: () => {
+                          State.update({
+                            [`claim-${item.id}`]: false,
+                          });
+                        },
+                      });
+                    },
+                    onWithdraw: () => {
+                      State.update({
+                        [`withdraw-${item.id}`]: true,
+                      });
+                      handler({
+                        pool: { id: item.id, name: pool.name },
+                        method: "withdraw",
+                        onSuccess: () => {
+                          State.update({
+                            [`withdraw-${item.id}`]: false,
+                          });
+                          onSuccess();
+                        },
+                        onError: () => {
+                          State.update({
+                            [`withdraw-${item.id}`]: false,
+                          });
+                        },
+                      });
+                    },
+                  }}
+                />
+              );
+            })}
         </Tokens>
       </Tabs.Content>
     </Tabs.Root>
