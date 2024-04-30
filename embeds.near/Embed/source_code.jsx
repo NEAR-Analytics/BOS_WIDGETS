@@ -4,9 +4,7 @@ const Wrapper = styled.div`
   white-space: normal;
   margin-top: 12px;
 `;
-
 const accountId = context.accountId;
-
 // Default Embeds
 const EmbedMap = new Map([
   [
@@ -17,32 +15,26 @@ const EmbedMap = new Map([
     "mob.near/widget/MainPage.N.Post.Embed",
     "mob.near/widget/MainPage.N.Post.Embed",
   ],
-  ["video.every.near/widget/app", "video.every.near/widget/card"],
+  ["${alias_video_every}/widget/app", "${alias_video_every}/widget/card"],
 ]);
-
 if (accountId) {
   const installedEmbeds = JSON.parse(
     Social.get(`${accountId}/settings/every/embed`, "final") || "null"
   );
-
   if (installedEmbeds) {
     installedEmbeds.forEach((embed) => {
       EmbedMap.set(embed.src, embed.embedSrc);
     });
   }
 }
-
 const href = props.href;
-
 const assertString = (s) => {
   if (typeof s !== "string") {
     return null;
   }
 };
-
 // checks for use of "**" in src string
 const containsGlob = (path) => /\*\*/.test(path);
-
 const findWithKey = (key, href) => {
   let fragments = key.split("**").filter((f) => f != "");
   const hasFragment = (str, fragment) => str.search(fragment) != -1;
@@ -55,7 +47,6 @@ const findWithKey = (key, href) => {
   }
   return true;
 };
-
 const parseUrl = (url) => {
   assertString(url);
   if (url.startsWith("/")) {
@@ -67,7 +58,6 @@ const parseUrl = (url) => {
     return null;
   }
 };
-
 const parseGlob = (path) => {
   assertString(path);
   const keysWithGlobs = [...EmbedMap.keys()].filter((key) => containsGlob(key));
@@ -81,7 +71,6 @@ const parseGlob = (path) => {
   }
   return null;
 };
-
 const parsed = useMemo(() => {
   // try parsing embed link to URL
   const url = parseUrl(href);
@@ -91,7 +80,6 @@ const parsed = useMemo(() => {
       props: Object.fromEntries([...url.searchParams.entries()]),
     };
   }
-
   // try parsing embed link to glob if url failed
   const src = parseGlob(href);
   if (!!src) {
@@ -102,14 +90,11 @@ const parsed = useMemo(() => {
       },
     };
   }
-
   // neither valid url nor valid glob
   return null;
 }, [href]);
-
 function filterBysrc(obj, srcValue) {
   let result = [];
-
   function recurse(currentObj) {
     if (typeof currentObj === "object" && currentObj !== null) {
       if (currentObj.metadata && currentObj.metadata.src === srcValue) {
@@ -118,11 +103,9 @@ function filterBysrc(obj, srcValue) {
       Object.values(currentObj).forEach((value) => recurse(value));
     }
   }
-
   recurse(obj);
   return result;
 }
-
 if (!parsed || !EmbedMap.has(parsed.src)) {
   return (
     <Wrapper>
@@ -153,7 +136,6 @@ if (!parsed || !EmbedMap.has(parsed.src)) {
     </Wrapper>
   );
 }
-
 const src = EmbedMap.get(parsed.src);
 return (
   <Wrapper>
