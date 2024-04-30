@@ -385,7 +385,18 @@ return (
   <div
     style={{ maxWidth: `${mazeData[0].length * cellSize}px`, margin: "0 auto" }}
   >
-    {/* Remaining code remains the same */}
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div>Score: {score}</div>
+      <div>
+        Time: {remainingMinutes}m {remainingSeconds}s
+      </div>
+    </div>
+    {gameOverMessage && (
+      <div>
+        <p style={{ color: "red" }}>{gameOverMessage}</p>
+        <button onClick={restartGame}>Restart Game</button>
+      </div>
+    )}
     <div
       className="maze-container"
       style={{
