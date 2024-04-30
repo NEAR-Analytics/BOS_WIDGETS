@@ -347,6 +347,7 @@ const {
   multicallAddress,
   // checkedVault,
   isCreatedAccount,
+  createSubAccountLoading,
   ICON_MAP,
   PROXY_ADDRESS,
   SYMBOL_ADDRESS,
@@ -423,10 +424,23 @@ function handleCheckApprove(amount) {
 }
 function handleInAmountChange(amount) {
   const keyArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
+  console.log('=Number(amount)', Number(amount))
   if (Number(amount) === 0) {
     State.update({
       [keyArray[categoryIndex]]: amount,
     })
+    if (categoryIndex === 0) {
+      State.update({
+        depositApproved: true,
+        depositApproving: false,
+      })
+    }
+    if (categoryIndex === 3) {
+      State.update({
+        repayApproved: true,
+        repayApproving: false,
+      })
+    }
     return
   }
   State.update({
@@ -592,7 +606,10 @@ function handleDeposit() {
   contract
     .deposit(
       _amount,
-      sender
+      sender,
+      {
+        gasLimit: 5000000
+      }
     )
     .then(tx => tx.wait())
     .then((result) => {
@@ -670,7 +687,10 @@ function handleWithdraw() {
   contract
     .withdraw(
       _amount,
-      sender
+      sender,
+      {
+        gasLimit: 5000000
+      }
     )
     .then(tx => tx.wait())
     .then((result) => {
@@ -737,7 +757,10 @@ function handleBorrow() {
     .toFixed(0);
   contract
     .borrow(
-      _amount
+      _amount,
+      {
+        gasLimit: 5000000
+      }
     )
     .then(tx => tx.wait())
     .then((result) => {
@@ -811,7 +834,10 @@ function handleRepay() {
     .toFixed(0);
   const contractMethod = Big(state.inRepayAmount).eq(state.balances.secondRepay) ? "repayFrom" : "repay"
   contract[contractMethod](
-    _amount
+    _amount,
+    {
+      gasLimit: 5000000
+    }
   )
     .then(tx => tx.wait())
     .then((result) => {
@@ -1587,7 +1613,15 @@ return (
           <StyledEmptyContainer>
             <StyledEmptyImage src="https://ipfs.near.social/ipfs/bafkreieloy2b3qkgzea7x6oyzth3qnvbs7gaeit7bm4jf66r62hwqugayi" />
             <StyledEmptyTxt>Juice creates sub-accounts for users, allowing them to borrow against their deposited collateral. Create your Sub Account to borrow and farm yield.</StyledEmptyTxt>
-            <StyledOperationButton onClick={onCreateSubAccount}>Create Sub Account</StyledOperationButton>
+            {
+              createSubAccountLoading ? (
+                <StyledOperationButton disabled>
+                  <Widget src={"bluebiu.near/widget/Liquidity.Bridge.Loading"} />
+                </StyledOperationButton>
+              ) : (
+                <StyledOperationButton onClick={onCreateSubAccount}>Create Sub Account</StyledOperationButton>
+              )
+            }
           </StyledEmptyContainer>
         )
       }
