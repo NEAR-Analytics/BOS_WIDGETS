@@ -1096,14 +1096,12 @@ function handleMax() {
 }
 function handleRefresh() {
   handleQueryPositionOverview()
-  // handleQueryVaultOverview()
+  handleQueryVaultOverview()
   handleQueryDepositBalance()
 }
 
 useEffect(() => {
   if (checkedVault) {
-    // handleQueryPositionOverview()
-    // handleQueryDepositBalance()
     handleRefresh()
   }
 }, [checkedVault])
