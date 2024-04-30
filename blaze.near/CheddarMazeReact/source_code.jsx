@@ -369,6 +369,7 @@ const handleTouchStart = (event) => {
 };
 
 const handleTouchMove = (event) => {
+  alert(initialTouch);
   if (!initialTouch) return;
   event.preventDefault(); // Prevent scrolling on touch devices
 
