@@ -1,6 +1,5 @@
 const { item } = props;
 const [text, setText] = useState(props.text);
-
 return (
   <>
     <textarea
