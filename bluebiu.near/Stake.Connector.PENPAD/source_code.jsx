@@ -346,7 +346,7 @@ function handleQueryData() {
           data: {
             totalStaked,
             yourStaked,
-            yourPoolShare: Big(yourStaked).div(totalStaked).toString(),
+            yourPoolShare: Big(yourStaked).div(totalStaked).times(100).toString(),
             paticipatedUsers: secondResult[0],
             yourPoints: secondResult[1]
           }
@@ -405,7 +405,7 @@ return (
         <StyledPenpadMiddleTop>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Your Pool Share</StyledPenpadLabel>
-            <StyledPenpadValue>{state.data?.yourPoolShare ?? 0}%</StyledPenpadValue>
+            <StyledPenpadValue>{Big(state.data?.yourPoolShare ?? 0).toFixed(4)}%</StyledPenpadValue>
           </StyledPenpadColumn>
           <StyledPenpadColumn>
             <StyledPenpadLabel>Wallet Balance</StyledPenpadLabel>
