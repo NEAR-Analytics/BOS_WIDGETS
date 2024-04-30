@@ -13,7 +13,6 @@ const getChannels = () => {
     .then(({ body }) => {
       if (body) {
         setChannels(body.data.result.channels.slice(0, 50));
-        console.log(body.data.result.channels.slice(0, 50));
       }
     })
     .catch((err) => console.log(err));
