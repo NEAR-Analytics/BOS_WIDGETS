@@ -14,6 +14,7 @@ const [gameOverMessage, setGameOverMessage] = useState("");
 const [initialTouch, setInitialTouch] = useState(null);
 const [playerStartX, setPlayerStartX] = useState(0);
 const [playerStartY, setPlayerStartY] = useState(0);
+const [timerStarted, setTimerStarted] = useState(false);
 
 const gameOver = (message, cell) => {
   const hasCheese = cell.hasCheese;
@@ -28,6 +29,13 @@ const gameOver = (message, cell) => {
   stopTimer();
   if (hasCheese || hasEnemy) {
     setScore(0);
+  }
+};
+
+const startTimerOnTap = () => {
+  if (!timerStarted) {
+    startTimer();
+    setTimerStarted(true);
   }
 };
 
@@ -372,6 +380,12 @@ const isMobile = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     userAgent
   );
+};
+
+const handleTouchStart = (event) => {
+  const touch = event.touches[0];
+  setInitialTouch({ x: touch.clientX, y: touch.clientY });
+  startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
 const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
