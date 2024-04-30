@@ -406,9 +406,9 @@ return (
       }}
       tabIndex="0"
       onKeyDown={handleKeyPress}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={handleTouchStart} // Attach touch start handler here
+      onTouchMove={handleTouchMove} // Attach touch move handler here
+      onTouchEnd={handleTouchEnd} // Attach touch end handler here
     >
       {renderMazeCells()}
     </div>
