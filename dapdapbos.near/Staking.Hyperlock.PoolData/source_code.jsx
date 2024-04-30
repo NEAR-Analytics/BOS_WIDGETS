@@ -133,7 +133,7 @@ useEffect(() => {
             };
           })
           .filter((pool) => Big(pool.tvl).gt(0));
-        console.log(_pools?.sort((a, b) => (Big(a.tvl).gt(b.tvl) ? -1 : 1)));
+
         onLoad({
           loading: false,
           ...initData,
