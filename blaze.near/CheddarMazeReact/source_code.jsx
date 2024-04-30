@@ -341,7 +341,10 @@ const renderMazeCells = () => {
             color: isActive ? "gray" : "",
           }}
         >
-          {/* Content */}
+          {hasCheese ? "🧀" : ""}
+          {hasEnemy ? "🦹‍♂️" : ""}
+          {hasExit ? "🚪" : ""}
+          {isActive && !hasCheese && !hasEnemy && !hasExit ? "🐭" : ""}
         </div>
       );
     })
