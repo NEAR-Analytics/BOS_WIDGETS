@@ -234,13 +234,14 @@ const handleTouchStart = (event) => {
 
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
+  event.preventDefault(); // Prevent scrolling on touch devices
   const touch = event.touches[0];
   const deltaX = touch.clientX - initialTouch.x;
   const deltaY = touch.clientY - initialTouch.y;
 
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const offsetX = mazeContainerRef.current.offsetLeft;
-  const offsetY = mazeContainerRef.current.offsetTop;
+  const offsetX = mazeContainerRef.current.getBoundingClientRect().left;
+  const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
