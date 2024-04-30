@@ -1,6 +1,5 @@
 const widgetOwner = "easypoll-v0.ndc-widgets.near";
 const page = "VIEW_POLL";
-
 const tabs = {
   OFFICIAL_POLLS: {
     text: "Official Polls by NDC",
@@ -53,7 +52,6 @@ const tabs = {
     hideSidebar: true,
   },
 };
-
 return (
   <Widget
     src="easypoll-v0.ndc-widgets.near/widget/EasyPoll.ViewPoll"
