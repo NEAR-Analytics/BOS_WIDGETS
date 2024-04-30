@@ -1,7 +1,4 @@
-const StyledContainer = styled.div`
-  --button-color: #29C8A5;
-  --button-text-color: #000;
-`
+const StyledContainer = styled.div``
 
 const {
   dexConfig
