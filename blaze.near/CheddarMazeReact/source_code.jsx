@@ -238,8 +238,6 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
-
-
 const checkForEvents = (cell) => {
   if (!cell.isPath) {
     return; // Exit the function if the cell is not a path cell
@@ -362,12 +360,11 @@ const isMobile = () => {
   );
 };
 
-
 const handleContainerClick = () => {
   startTimerOnTap(); // Start the timer when the user clicks on the maze container
 };
 
-onst handleTouchStart = (event) => {
+const handleTouchStart = (event) => {
   const touch = event.touches[0];
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
   startTimerOnTap(); // Start the timer when the user taps on the maze container
