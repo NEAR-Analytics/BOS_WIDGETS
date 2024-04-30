@@ -1349,12 +1349,9 @@ function handleClaim() {
     })
 }
 function handleMax() {
-  const inArray = ["inDepositAmount", "inWithdrawAmount", "inBorrowAmount", "inRepayAmount"]
   const outArray = ["deposit", "withdraw", "borrow", "secondRepay"]
   const balance = state.balances[outArray[categoryIndex]]
-  State.update({
-    [inArray[categoryIndex]]: balance
-  })
+  handleInAmountChange(balance)
 }
 function handleRefresh() {
   handleGetBalances()
