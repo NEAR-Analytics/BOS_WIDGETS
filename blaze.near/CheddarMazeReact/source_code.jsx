@@ -400,8 +400,14 @@ return (
       }}
       tabIndex="0"
       onKeyDown={handleKeyPress}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
+      onTouchStart={(e) => {
+        handleTouchStart(e);
+        handleKeyPress(e); // Handle touch start and key press for mobile movement
+      }}
+      onTouchMove={(e) => {
+        handleTouchMove(e);
+        handleKeyPress(e); // Handle touch move and key press for mobile movement
+      }}
       onTouchEnd={handleTouchEnd}
     >
       {renderMazeCells()}
