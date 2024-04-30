@@ -202,7 +202,7 @@ if (data.canBorrow) {
 } else {
   TABS = ["Supply"];
 }
-const underlyingPrice = prices[data.symbol] || 1;
+const underlyingPrice = data.underlyingPrice || 1;
 
 State.init({ tab: "Supply" });
 
