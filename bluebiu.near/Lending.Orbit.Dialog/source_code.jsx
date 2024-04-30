@@ -300,6 +300,7 @@ const formatBorrowLimit = (digits, round) => {
 };
 
 const formatBalance = () => {
+  console.log(1111, state);
   if (state.balanceLoading) return "Loading";
   if (!state.balance) return "-";
   if (Big(state.balance).eq(0)) return "0";
@@ -381,7 +382,7 @@ const handleAmountChange = (_amount) => {
 const getAvailable = (_balance) => {
   if (!_balance) return "-";
   if (actionText !== "Repay") return _balance;
-  if (Big(_balance).lt(data.userBorrow || 0)) return _balance;
+  if (Big(_balance).lte(data.userBorrow || 0)) return _balance;
   if (Big(_balance).gt(data.userBorrow || 0)) return data.userBorrow;
 };
 
@@ -412,6 +413,7 @@ const getBalance = () => {
         rawBalance._hex,
         data.underlyingToken.decimals
       );
+
       State.update({
         balance: getAvailable(_rawBalance),
         balanceLoading: false,
