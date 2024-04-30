@@ -242,6 +242,7 @@ return (
                     stakedTokens: state.stakedMap?.[item.id] || [],
                     unStakedTokens: state.unstakedMap?.[item.id] || [],
                     handler: state.handler,
+                    dappLink: dexConfig.dappLink,
                     onSuccess: () => {
                       State.update({
                         loading: true,
@@ -264,7 +265,7 @@ return (
             fees: state.fees,
             handler: state.handler,
             pools: state.pools,
-            dappLink,
+            dappLink: dexConfig.dappLink,
             onSuccess: () => {
               State.update({
                 userDataUpdater: Date.now(),
