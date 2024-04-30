@@ -320,16 +320,14 @@ const renderMazeCells = () => {
       const isActive =
         playerPosition.x === colIndex && playerPosition.y === rowIndex;
       const isPath = cell.isPath;
-      const hasCheese = cell.hasCheese;
-      const hasEnemy = cell.hasEnemy;
-      const hasExit = cell.hasExit;
+      const isDraggedOver = cell.isDraggedOver; // New
 
       return (
         <div
           key={`${rowIndex}-${colIndex}`}
           className={`maze-cell ${isPath ? "path" : ""} ${
             isActive ? "active" : ""
-          }`}
+          } ${isDraggedOver ? "dragged-over" : ""}`} // Updated
           style={{
             width: "40px",
             height: "40px",
@@ -343,10 +341,7 @@ const renderMazeCells = () => {
             color: isActive ? "gray" : "",
           }}
         >
-          {hasCheese ? "🧀" : ""}
-          {hasEnemy ? "🦹‍♂️" : ""}
-          {hasExit ? "🚪" : ""}
-          {isActive && !hasCheese && !hasEnemy && !hasExit ? "🐭" : ""}
+          {/* Content */}
         </div>
       );
     })
@@ -372,13 +367,8 @@ const handleTouchStart = (event) => {
 
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
-  console.log("Touch Started"); // Add this line for debugging
   event.preventDefault(); // Prevent scrolling on touch devices
   const touch = event.touches[0];
-
-  // Calculate the difference between initial touch and current touch
-  const deltaX = touch.clientX - initialTouch.x;
-  const deltaY = touch.clientY - initialTouch.y;
 
   // Calculate the position of the touched cell
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
@@ -387,12 +377,17 @@ const handleTouchMove = (event) => {
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
-  // Only move the player if the touch has moved sufficiently far from the initial touch
-  // This prevents small touch movements from triggering player movement
-  if (Math.abs(deltaX) >= cellWidth || Math.abs(deltaY) >= cellWidth) {
-    movePlayer(cellX, cellY);
-    setInitialTouch(null); // Reset initial touch to prevent continuous movement
-  }
+  // Highlight the path cell being dragged over
+  const newMazeData = mazeData.map((row, rowIndex) =>
+    row.map((cell, colIndex) => ({
+      ...cell,
+      isDraggedOver: rowIndex === cellY && colIndex === cellX,
+    }))
+  );
+  setMazeData(newMazeData);
+
+  // Update the initial touch to prevent continuous movement
+  setInitialTouch({ x: touch.clientX, y: touch.clientY });
 };
 
 const handleTouchEnd = () => {
