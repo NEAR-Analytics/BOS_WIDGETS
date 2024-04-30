@@ -372,64 +372,11 @@ return (
               price: underlyingPrice,
               amount: state.amount,
               onChange: (val) => {
-                onAmountChange(val);
+                onAmountChange(Big(val).toFixed(4, 0));
               },
             }}
           />
-          {/* <StyledDetailPanel>
-             {state.tab === "Supply" && (
-              <StyledDetailItem>
-                <div>Collateral factor</div>
-                <div className="white">
-                  {data.collateralFactor ? "Enable" : "Disable"}
-                </div>
-              </StyledDetailItem>
-            )} 
-            <StyledDetailItem>
-              <div>Borrow limit</div>
-              <StyledBorrowLimit>
-                <div>
-                  {" "}
-                  <Widget
-                    src="bluebiu.near/widget/Avalanche.Lending.Total"
-                    props={{
-                      total: borrowLimit,
-                      digit: 2,
-                      unit: "$",
-                    }}
-                  />
-                </div>
-                {!!state.borrowLimit && (
-                  <>
-                    {" "}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="8"
-                      height="10"
-                      viewBox="0 0 8 10"
-                      fill="none"
-                    >
-                      <path
-                        d="M7.5 4.13397C8.16667 4.51887 8.16667 5.48113 7.5 5.86603L1.5 9.33013C0.833334 9.71503 -4.47338e-07 9.2339 -4.13689e-07 8.4641L-1.10848e-07 1.5359C-7.71986e-08 0.766098 0.833333 0.284973 1.5 0.669873L7.5 4.13397Z"
-                        fill="#979ABE"
-                      />
-                    </svg>
-                    <div className="white">
-                      {" "}
-                      <Widget
-                        src="bluebiu.near/widget/Avalanche.Lending.Total"
-                        props={{
-                          total: state.borrowLimit,
-                          digit: 2,
-                          unit: "$",
-                        }}
-                      />
-                    </div>
-                  </>
-                )}
-              </StyledBorrowLimit>
-            </StyledDetailItem>
-          </StyledDetailPanel> */}
+
           <StyledButtonWrapper>
             <div style={{ flexGrow: 1 }}>
               <Widget
