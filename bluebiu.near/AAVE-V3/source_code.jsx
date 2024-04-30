@@ -1553,6 +1553,7 @@ const body = isChainSupported ? (
             theme: dexConfig?.theme,
             addAction,
             dexConfig,
+            prices,
           }}
         />
       </>
