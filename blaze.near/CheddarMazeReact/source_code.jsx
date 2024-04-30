@@ -15,6 +15,7 @@ const [initialTouch, setInitialTouch] = useState(null);
 const [playerStartX, setPlayerStartX] = useState(0);
 const [playerStartY, setPlayerStartY] = useState(0);
 const [timerStarted, setTimerStarted] = useState(false);
+const [notification, setNotification] = useState("");
 
 const gameOver = (message, cell) => {
   const hasCheese = cell.hasCheese;
@@ -24,7 +25,7 @@ const gameOver = (message, cell) => {
   console.log(message);
   setCheeseCooldown(false);
   setEnemyCooldown(false);
-  setGameOverMessage(message);
+  setNotification(message); // Show message on screen
   setGameOverFlag(true);
   stopTimer();
   if (hasCheese || hasEnemy) {
@@ -365,7 +366,7 @@ const handleContainerClick = () => {
 const handleTouchStart = (event) => {
   const touch = event.touches[0];
   setInitialTouch({ x: touch.clientX, y: touch.clientY });
-  alert(initialTouch);
+  setNotification(`Touch started at (${touch.clientX}, ${touch.clientY})`);
   startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
@@ -380,6 +381,8 @@ const handleTouchMove = (event) => {
   const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
+
+  setNotification(`Dragging over cell (${cellX}, ${cellY})`);
 
   // Update maze data with dragged over cell
   const newMazeData = mazeData.map((row, rowIndex) =>
@@ -438,6 +441,9 @@ return (
       onKeyDown={handleKeyPress}
     >
       {renderMazeCells()}
+      <div className="notification-bar">
+        {notification} {/* Display the notification message here */}
+      </div>
     </div>
   </div>
 );
