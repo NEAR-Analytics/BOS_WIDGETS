@@ -62,6 +62,19 @@ const formatData = () => {
     // }
 
     if (Big(market.userSupply || 0).gt(0)) {
+      const { compSupplySpeed, oTokenBalance, oTokenTotalSupply } = market;
+      console.log(
+        1111111,
+        compSupplySpeed.toString(),
+        oTokenBalance.toString(),
+        oTokenTotalSupply.toString()
+      );
+      const RewardRate = Big(compSupplySpeed || 0)
+        .times(Big(oTokenBalance || 0).div(Big(oTokenTotalSupply || 1)))
+        .times(43200)
+        .times(30)
+        .toString();
+      console.log(2222222, RewardRate);
       supplies.push({
         icon: market.underlyingToken.icon,
         symbol: market.underlyingToken.symbol,
@@ -74,6 +87,7 @@ const formatData = () => {
           .mul(Big(market.underlyingPrice || 0))
           .toString(),
         address: market.address,
+        RewardRate,
         // distributionApy: market.distributionApy,
       });
       // change = change.add(
