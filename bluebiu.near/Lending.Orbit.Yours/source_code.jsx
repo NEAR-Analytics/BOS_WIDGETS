@@ -38,7 +38,7 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { markets, dapps, toast, currentDapp, borrowLimit } = props;
+const { markets, dapps, toast, currentDapp, borrowLimit, orbitTab } = props;
 
 const { userTotalSupplyUsd, userTotalBorrowUsd, totalCollateralUsd } =
   dapps[currentDapp];
@@ -62,19 +62,16 @@ const formatData = () => {
     // }
 
     if (Big(market.userSupply || 0).gt(0)) {
-      const { compSupplySpeed, oTokenBalance, oTokenTotalSupply } = market;
-      console.log(
-        1111111,
-        compSupplySpeed.toString(),
-        oTokenBalance.toString(),
-        oTokenTotalSupply.toString()
-      );
+      const { compSupplySpeed, oTokenBalance, oTokenTotalSupply, decimals } =
+        market;
+
       const RewardRate = Big(compSupplySpeed || 0)
-        .times(Big(oTokenBalance || 0).div(Big(oTokenTotalSupply || 1)))
         .times(43200)
         .times(30)
-        .toString();
-      console.log(2222222, RewardRate);
+        .times(Big(oTokenBalance || 1).div(Big(oTokenTotalSupply || 1)))
+        .div(Math.pow(10, decimals))
+        .toFixed();
+
       supplies.push({
         icon: market.underlyingToken.icon,
         symbol: market.underlyingToken.symbol,
@@ -164,7 +161,48 @@ useEffect(() => {
   }
 }, [markets, currentDapp]);
 
-console.log("YOURS--", state);
+const rewards = state.supplies.reduce((total, cur) => {
+  return Big(total).plus(Big(cur.RewardRate)).toFixed(2);
+}, 0);
+const formatRate = (num) => {
+  if (isNaN(Number(num))) return "-";
+  if (Big(num).lt(0.01)) {
+    return "<0.01";
+  } else {
+    return Number(num).toFixed(2);
+  }
+};
+
+let rewardsData;
+if (orbitTab === "ORBIT") {
+  rewardsData = [
+    {
+      dappName: "Orbit Protocol",
+      pool: "ORBIT",
+      reward: formatRate(rewards),
+    },
+  ];
+}
+if (orbitTab === "RENZO") {
+  rewardsData = [
+    {
+      dappName: "Orbit Protocol",
+      pool: "RENZO",
+      reward: formatRate(rewards),
+    },
+  ];
+}
+if (orbitTab === "KELP") {
+  rewardsData = [
+    {
+      dappName: "Orbit Protocol",
+      pool: "KELP",
+      reward: formatRate(rewards),
+    },
+  ];
+}
+console.log("YOURS--", props, state);
+
 return (
   <>
     <Yours>
@@ -239,23 +277,7 @@ return (
     <Widget
       src="bluebiu.near/widget/Lending.Orbit.RewardsTable"
       props={{
-        data: [
-          {
-            dappName: "Orbit Protocol",
-            pool: "ORBIT",
-            reward: "0",
-          },
-          {
-            dappName: "Orbit Protocol",
-            pool: "RENZO",
-            reward: "0",
-          },
-          {
-            dappName: "Orbit Protocol",
-            pool: "KELP",
-            reward: "0",
-          },
-        ],
+        data: rewardsData,
         dapps: props.dappsConfig,
         onSuccess: props.onSuccess,
         supplies: state.supplies,
