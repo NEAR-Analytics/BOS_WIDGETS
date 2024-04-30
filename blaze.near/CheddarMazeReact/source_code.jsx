@@ -239,12 +239,10 @@ const handleTouchMove = (event) => {
   const deltaY = touch.clientY - initialTouch.y;
 
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
-  const cellX = Math.floor(
-    (touch.clientX - mazeContainerRef.current.offsetLeft) / cellWidth
-  );
-  const cellY = Math.floor(
-    (touch.clientY - mazeContainerRef.current.offsetTop) / cellWidth
-  );
+  const offsetX = mazeContainerRef.current.offsetLeft;
+  const offsetY = mazeContainerRef.current.offsetTop;
+  const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
+  const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
   movePlayer(cellX, cellY);
 };
