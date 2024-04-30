@@ -3,19 +3,15 @@ const Container = styled.div`
   padding: 20px;
   width: 100%;
   max-width: 1200px;
-
   a {
     text-decoration: none;
     color: inherit;
   }
 `;
-
 const [content, setContent] = useState("embeds.near/widget/Plugin.Marketplace");
-
 const Content = () => {
   return <Widget src={content} props={props} />;
 };
-
 return (
   <Container>
     <div className="navbar navbar-expand-lg bg-body-tertiary">
