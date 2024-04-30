@@ -13,6 +13,7 @@ const {
   theme,
   addAction,
   dexConfig,
+  prices,
 } = props;
 
 if (!data) {
@@ -29,7 +30,7 @@ function isValid(a) {
 
 const {
   symbol,
-  prices,
+
   healthFactor,
   decimals,
   underlyingAsset,
