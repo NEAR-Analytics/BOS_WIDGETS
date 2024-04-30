@@ -1,5 +1,5 @@
 let { content, contractName } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 if (!contractName || !content)
   return <Widget src="flashui.near/widget/Loading" />;
@@ -9,7 +9,6 @@ const { selectedDao } = props;
 const Form = styled.div`
   border-radius: 20px;
   background: white;
-  padding: 3rem;
 
   label {
     font-size: 14px;
@@ -20,19 +19,10 @@ const Form = styled.div`
     border: 1px solid red;
   }
 
-  .title {
-    b {
-      font-weight: 600;
-    }
-    font-weight: 300;
-
-    a {
-      text-decoration: underline;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 1rem;
+  .header {
+    border-radius: 6px;
+    padding: 8px 14px;
+    border-bottom: 1px solid #e3e3e0;
   }
 `;
 
@@ -49,6 +39,17 @@ const Contact = styled.div`
   }
 `;
 
+const POC = styled.div`
+  border-radius: 6px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #e3e3e0;
+  color: "#000";
+
+  i {
+    color: #000;
+  }
+`;
+
 const [daoContactsName, setDaoContactsName] = useState("");
 const [daoContactsTg, setDaoContactsTg] = useState("");
 
@@ -59,7 +60,7 @@ useEffect(() => {
     setDaoContacts(
       selectedDao.metadata.contacts
         ? JSON.parse(selectedDao.metadata.contacts)
-        : {},
+        : {}
     );
   }
 }, [selectedDao]);
@@ -158,42 +159,49 @@ return (
       />
     </div>
 
-    <h3>Point of Contacts</h3>
+    <Widget
+      src="ndcdev.near/widget/daos.Components.PageTitle"
+      props={{ text: "Point of Contacts" }}
+    />
+
     {daoContacts?.poc && daoContacts?.poc.length > 0 && (
-      <div className="form-element">
-        <p>
-          <b>List of POCs:</b>
-        </p>
-        <div className="d-flex flex-column gap-2">
-          {daoContacts.poc.map((poc) => (
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex gap-3 align-items-center">
-                {poc.name}
+      <div className="mb-4 d-flex flex-column">
+        <div className="header d-flex gap-3 justify-content-between align-items-center">
+          <div className="gap-3 d-flex w-100 justify-content-between align-items-center">
+            <b>Name</b>
+            <b>Telegram</b>
+          </div>
+          <div className="w-25 d-flex justify-content-end">
+            <b>Actions</b>
+          </div>
+        </div>
+        {daoContacts.poc.map((poc) => (
+          <POC>
+            <div className="d-flex gap-3 justify-content-between align-items-center">
+              <div className="gap-3 d-flex  w-100 justify-content-between align-items-center">
+                <span>{poc.name}</span>
                 {poc.tg && (
-                  <small>
-                    <a
-                      className="d-flex gap-1 align-items-center bg-light p-2 rounded"
-                      href={`https://t.me/${poc.tg.replace("@", "")}`}
-                    >
-                      <i className="ph ph-telegram-logo" />
-                      {poc.tg.replace("@", "")}
-                    </a>
-                  </small>
+                  <a href={`https://t.me/${poc.tg.replace("@", "")}`}>
+                    <i className="ph ph-telegram-logo" />
+                    {poc.tg.replace("@", "")}
+                  </a>
                 )}
               </div>
-              <i
-                role="button"
-                className="bi bi-x-lg"
-                onClick={() =>
-                  setDaoContacts({
-                    ...daoContacts,
-                    poc: daoContacts.poc.filter((p) => p.tg != poc.tg),
-                  })
-                }
-              />
+              <div className="w-25 d-flex justify-content-end">
+                <i
+                  role="button"
+                  className="bi bi-x-lg"
+                  onClick={() =>
+                    setDaoContacts({
+                      ...daoContacts,
+                      poc: daoContacts.poc.filter((p) => p.tg != poc.tg),
+                    })
+                  }
+                />
+              </div>
             </div>
-          ))}
-        </div>
+          </POC>
+        ))}
       </div>
     )}
     <Contact className="w-100 gap-2">
