@@ -242,16 +242,24 @@ const handleTouchMove = (event) => {
   if (!initialTouch) return;
   event.preventDefault(); // Prevent scrolling on touch devices
   const touch = event.touches[0];
+
+  // Calculate the difference between initial touch and current touch
   const deltaX = touch.clientX - initialTouch.x;
   const deltaY = touch.clientY - initialTouch.y;
 
+  // Calculate the position of the touched cell
   const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
   const offsetX = mazeContainerRef.current.getBoundingClientRect().left;
   const offsetY = mazeContainerRef.current.getBoundingClientRect().top;
   const cellX = Math.floor((touch.clientX - offsetX) / cellWidth);
   const cellY = Math.floor((touch.clientY - offsetY) / cellWidth);
 
-  movePlayer(cellX, cellY);
+  // Only move the player if the touch has moved sufficiently far from the initial touch
+  // This prevents small touch movements from triggering player movement
+  if (Math.abs(deltaX) >= cellWidth || Math.abs(deltaY) >= cellWidth) {
+    movePlayer(cellX, cellY);
+    setInitialTouch(null); // Reset initial touch to prevent continuous movement
+  }
 };
 
 const handleTouchEnd = () => {
