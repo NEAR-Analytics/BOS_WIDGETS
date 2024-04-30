@@ -696,19 +696,19 @@ useEffect(() => {
       .then((res) => {
         console.log("getOTokenBalance_res:", res, _cTokensData);
         oTokens.forEach((oToken, index) => {
+          // let oTokenBalance = res[index]
+          //   ? formatUnits(res[index][0], oToken.decimals)
+          //   : 0;
+          let oTokenBalance = res[index] ? res[index][0] : 0;
           if (_cTokensData[oToken.address]) {
             _cTokensData[oToken.address] = {
               ..._cTokensData[oToken.address],
-              oTokenBalance: res[index],
-              // ? formatUnits(res[index], oToken.decimals)
-              // : 0,
+              oTokenBalance,
             };
           } else {
             _cTokensData[oToken.address] = {
               ...oToken,
-              oTokenBalance: res[index],
-              // ? formatUnits(res[index], oToken.decimals)
-              // : 0,
+              oTokenBalance,
             };
           }
         });
