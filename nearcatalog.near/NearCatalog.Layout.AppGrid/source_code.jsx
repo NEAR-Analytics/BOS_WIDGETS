@@ -163,10 +163,12 @@ html{font-size:20px;}
 }
 .aside-container .awesome-aside-menu{padding:0;}
 @media screen and ( max-width:960px ) {
-
     #near-sidebar{
        display:none !important;
     }
+}
+#near-sidebar{
+  margin-top:20px;
 }
 #offcanvas-menu{
     z-index: 99999;
@@ -216,27 +218,303 @@ State.init({
 // } else {
 //     console.log("loading bookmark~~~~");
 // }
+
+const Trending = (data) => {
+  console.log("trending props:  ", data, "props props", data.props);
+  const props = data.props;
+  const Css = styled.div`
+  .awesome-trending-content{
+      overflow-x: scroll; 
+      text-align: center;
+  }
+  
+  .awesome-trending-content .near-item-sm { 
+      display: inline-block; 
+      float: none; 
+  }
+  
+  @media screen and ( max-width : 700px ){
+      .awesome-trending-content{white-space: nowrap !important;} 
+  }
+  
+  
+  `;
+  State.init({
+    trendingProjects: false,
+  });
+  const router = props.router || "";
+  if (props.cat == "trending") return <></>;
+
+  asyncFetch(props.indexer + "/projects-by-category?cid=trending").then((res) => {
+    State.update({ trendingProjects: res.body });
+    console.log("Trending: ", res.body);
+  });
+
+  // const query = fetch(props.indexer + "/projects-by-category?cid=trending");
+  if (!state.trendingProjects) {
+    return <>
+      <br />
+      🐲🐉🐶😺~
+      <br/>
+    </>;
+  }
+    // State.update({ trendingProjects: query.body });
+
+  return (
+    <Css>
+      <h3 className="my-3">🔥Trending</h3>
+      <div
+        className="awesome-trending-content overflow-auto"
+        style={{
+          whiteSpace: ["category", "bookmark"].indexOf(router) ? "nowrap" : "",
+        }}
+      >
+        {Object.keys(state.trendingProjects).map((e) => {
+          let p = state.trendingProjects[e];
+          return (
+            <Link
+              className="near-item-sm"
+              title={p.profile.name}
+              href={`/${props.indexPath}?id=${e}`}
+            >
+              <div className="tile-icon">
+                <img
+                  src={p.profile.image?.url || props.defaultImg}
+                  alt={p.profile.name}
+                />
+              </div>
+              <div className="tile-content">
+                <h2 className="tile-title">{p.profile.name}</h2>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </Css>
+  );
+
+
+}//Trending element
+
+const LeftSidebar = (data) => {
+
+  const props = data.props;
+  const offcanvas = props.offcanvas;
+  const indexPath = props.indexPath;
+  const cat = props.cat;
+
+  const LeftMenu = (data) => {
+    const props = data.props;
+    // @copy from @leftMenu 
+    const path = props.indexPath;
+    const cat = props.cat;
+    const listItems = [{ l: "", t: "All" }, { l: "?cat=community", t: "Community" }, { l: "?cat=dapps", t: "DApps", menuItems: [{ l: "?cat=defi", t: "DeFi" }, { l: "?cat=dex", t: "DEX" }, { l: "?cat=exchanges", t: "Exchanges" }, { l: "?cat=launchpads", t: "Launchpads" }, { l: "?cat=lending", t: "Lending" }, { l: "?cat=stablecoins", t: "Stablecoins" }, { l: "?cat=yield_aggregators", t: "Yield Aggregators" }, { l: "?cat=gaming", t: "Gaming" }, { l: "?cat=metaverse", t: "Metaverse" }, { l: "?cat=social", t: "Social" }, { l: "?cat=music", t: "Music" }] }, { l: "?cat=ecosystem", t: "Ecosystem", menuItems: [{ l: "?cat=dao", t: "DAO" }, { l: "?cat=regional_hubs", t: "Regional Hubs" }, { l: "?cat=funding", t: "Funding" }, { l: "?cat=guilds", t: "Guilds" }, { l: "?cat=education", t: "Education" }, { l: "?cat=refi", t: "ReFi" }, { l: "?cat=events", t: "Events" }] }, { l: "?cat=aurora", t: "Aurora" }, { l: "?cat=octopus", t: "Octopus" }, { l: "?cat=infrastructure", t: "Infrastructure", menuItems: [{ l: "?cat=wallets", t: "Wallets" }, { l: "?cat=validators", t: "Validators" }, { l: "?cat=explorers", t: "Explorers" }, { l: "?cat=bridges", t: "Bridges" }, { l: "?cat=storage", t: "Storage" }] }, { l: "?cat=nft", t: "NFT", menuItems: [{ l: "?cat=marketplaces", t: "Marketplaces" }, { l: "?cat=collectibles", t: "Collectibles" }] }, { l: "?cat=utilities", t: "Utilities", menuItems: [{ l: "?cat=devtooling", t: "Dev Tooling" }, { l: "?cat=oracles", t: "Oracles" }, { l: "?cat=security", t: "Security" }, { l: "?cat=data", t: "Data" }, { l: "?cat=analytics", t: "Analytics" }, { l: "?cat=portfolio", t: "Portfolio" }, { l: "?cat=on_off_ramps", t: "On/Off Ramps" }, { l: "?cat=payments", t: "Payments" }] }];
+    return (
+      <>
+        {/* the menu */}
+        <div className="awesome-aside-menu menu menu-nav">
+          {
+            listItems.map(e => {
+              console.log("the path is:", path, "cat: ", cat);
+              let subMenu = e.menuItems ? e.menuItems.map(s => {
+                return (
+                  <div className="menu-item"><a key={s.t} preventScrollReset={true} className={`${(cat == (s.l.length > 0 ? s.l.substring(5) : "") ? " active " : "") + "btn"}`}
+                    href={`/${path + (s.l ? s.l : "")}`}>{s.t}<span className="menu-badge d-none">6</span></a></div>
+                )
+              }) : false;
+              return (
+                <div className="menu-parent"><a key={e.t} preventScrollReset={true} className={`${(cat == (e.l.length > 0 ? e.l.substring(5) : "") ? " active " : "") + "btn btn-lg"}`}
+                  href={`/${path + (e.l ? e.l : "")}`}>{e.t}<span className="menu-badge d-none">9</span></a>
+                  {subMenu ? <div className="menu menu-nav">{subMenu}</div> : <></>}
+                </div>
+              )
+            })
+          }
+
+
+        </div>
+        {/* end the menu */}
+      </>
+    )
+
+  };//LeftMenu 
+
+  return (
+    <>
+      <div id="offcanvas-menu" className="sidebar-container container-fluid">
+        {/* start offcanvas menu */}
+        <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="staticBackdropLabel">NEARCatalog</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body aside-container">
+            <LeftMenu props={{
+              indexPath,
+              cat
+            }} />
+          </div>
+        </div>
+        {/* offcanvas menu */}
+      </div>
+
+      <div id="near-sidebar" className="col-auto col-md-3 px-sm-2 px-0" >
+        <div className="aside-container">
+          <div className="container">
+            <div id="sidebar-menu-lg">
+            <LeftMenu props={{
+              indexPath,
+              cat
+            }} />     
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}//LeftSidebar
+
+const Navbar = (data) => {
+  const props = data.props;
+  const Css = styled.div`
+    margin-top:10px;
+    .nav-item{
+        list-style:none;
+    }
+    #nearcatalog-navbar .navbar-nav{
+        margin:0;
+    }
+`;
+  const navItems = [
+    { t: "🏠Home", l: ``, r: "home" },
+    { t: "🔥Trending", l: `?cat=trending`, r: "trending" },
+    { t: "⭐Bookmark", l: `?bookmark=lfg`, r: "trending" },
+  ];
+  return (
+    <Css>
+      <div
+        id="nearcatalog-navbar"
+        className="navbar navbar-expand-lg navbar-light"
+        style={{
+          background: "white",
+          border: "0.05rem solid rgb(238, 238, 238)",
+          boxShadow:
+            "rgba(34, 34, 34, 0.05) 0px 0.05rem 0.05rem, rgba(34, 34, 34, 0.075) 0px 0.2rem 0.8rem",
+          borderRadius: "0.8rem",
+          color: "rgb(34, 34, 34)",
+        }}
+      >
+        <div className="container-fluid">
+          <Link className="navbar-brand" href={`/${props.indexPath}`}>
+            📒NEARCatalog{" "}
+          </Link>
+
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul className="navbar-nav">
+              {navItems.map((e) => {
+                return (
+                  <li className="nav-item">
+                    <Link className="nav-link" href={`/${props.indexPath}` + e.l}>
+                      {e.t}
+                    </Link>
+                  </li>
+                );
+              })}
+              <li className="nav-item">
+                {" "}
+                <a
+                  className="nav-link"
+                  href="https://submit.nearcatalog.xyz/new-project/"
+                >
+                  📥 Submit project
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+              <li class="nav-item col-2 col-md-auto">
+                <a
+                  class="nav-link p-2"
+                  href="https://twitter.com/nearcatalog"
+                  target="_blank"
+                  title="NEARCatalog on Twitter"
+                >
+                  <i class="bi bi-twitter"></i>
+                </a>
+              </li>
+              <li class="nav-item col-2 col-md-auto">
+                <a
+                  class="nav-link p-2"
+                  href="https://t.me/nearcatalog"
+                  target="_blank"
+                  title="NEARCatalog on Telegram"
+                >
+                  <i class="bi bi-telegram"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Css>
+  );
+}//NavBar
+
+
+
+
 return (
   <div key={router}>
     <Css>
       <div className="container near-bg" id="awesomebos-wrap">
-        <Widget
+        {/* START NAVBAR  */}
+        {/* <Widget
           src={`${componentPath}.Layout.Navbar`}
           props={{
             componentPath,
             indexPath,
             router,
           }}
-        />
+        /> */}
+
+        <Navbar props={{
+          componentPath,
+          indexPath,
+          router,
+        }} />
+
+        {/* END NAVBAR  */}
         <div className="row">
-          <Widget
+
+          {/* LEFT SIDEBAR  */}
+          {/* <Widget
             src={`${componentPath}.Layout.LeftSidebar`}
             props={{
               componentPath,
               indexPath,
               cat,
             }}
-          />
+          /> */}
+
+          <LeftSidebar props={{
+            componentPath,
+            indexPath,
+            cat,
+          }} />
+
+          {/* END LEFT SIDEBAR */}
           <div
             id="near-content-container"
             className="col col-md-9 py-3 near-right container "
@@ -247,6 +525,8 @@ return (
               </h1>
               <p className="awesome-desc">{props.desc}</p>
             </div>
+
+            {/* SEARCHBAR  */}
             <Widget
               src={`${componentPath}.Layout.SearchBar`}
               props={{
@@ -255,6 +535,8 @@ return (
                 defaultImg: props.defaultImg,
               }}
             />
+
+            {/* END SEARCHBAR */}
 
             <button
               className="awesome-aside-select btn btn-lg mt-3"
@@ -267,14 +549,14 @@ return (
               <span className="mx-2">Explore by categories</span>
             </button>
 
-            <Widget
-              src={`${componentPath}.Layout.Trending`}
-              props={{
-                indexPath,
-                indexer: props.indexer,
-                cat: props.cat,
-              }}
-            />
+            {/* TRENDING  */}
+            <Trending props={{
+              indexPath,
+              indexer: props.indexer,
+              cat: props.cat,
+            }} />
+            {/* END TRENDING  */}
+
             <div className="col py-3">
               <div className="near-content">
                 <div className="near-list-container row">
