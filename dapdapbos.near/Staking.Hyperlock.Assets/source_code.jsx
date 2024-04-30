@@ -78,8 +78,8 @@ const TabsList = styled("Tabs.List")`
 const Tokens = styled.div`
   padding-top: 28px;
   display: flex;
-  gap: 20px;
-  flex-grow: wrap;
+  gap: 17px;
+  flex-wrap: wrap;
 `;
 
 State.init({
