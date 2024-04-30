@@ -1,26 +1,24 @@
 const content = props.content;
 const noEmbed = !!props.noEmbed;
-
 const [truncated, setTruncated] = useState(props.truncateContent ?? true);
-
 const Wrapper = styled.div`
   overflow: hidden;
   .truncated-content {
     max-height: 38em;
     position: relative;
     overflow: hidden;
-
     .expand-post {
-      position : absolute;
-      z-index  : 1;
-      top   : 35em;
-      left     : 0;
-      background-image : linear-gradient(to bottom, 
-                        rgba(255,255,255, 0), 
-                        rgba(255,255,255, 1) 25%);
-      width    : 100%;
-      height   : 3em;
-
+      position: absolute;
+      z-index: 1;
+      top: 35em;
+      left: 0;
+      background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1) 25%
+      );
+      width: 100%;
+      height: 3em;
       > div {
         position: relative;
         width: 100%;
@@ -35,22 +33,19 @@ const Wrapper = styled.div`
         }
       }
     }
-
-    @media(max-width: 991px) {
+    @media (max-width: 991px) {
       max-height: 30em;
       .expand-post {
         top: 27em;
       }
     }
   }
-
   .full-content {
     .expand-post {
       display: none;
     }
   }
 `;
-
 const [onHashtag] = useState(() => (hashtag) => (
   <span
     key={hashtag}
@@ -60,9 +55,7 @@ const [onHashtag] = useState(() => (hashtag) => (
     <a href={`/?hashtag=${hashtag}`}>#{hashtag}</a>
   </span>
 ));
-
 const [showLightbox, setShowLightbox] = useState(false);
-
 const [onImage] = useState(
   () => (props) =>
     props.src && (
@@ -79,7 +72,6 @@ const [onImage] = useState(
       />
     )
 );
-
 const onLink = useCallback((props) => {
   if (props.children[0] === "EMBED") {
     // EMBED
@@ -88,7 +80,6 @@ const onLink = useCallback((props) => {
     return <a {...props} />;
   }
 }, []);
-
 return (
   <Wrapper>
     <div className={truncated ? "truncated-content" : "full-content"}>
