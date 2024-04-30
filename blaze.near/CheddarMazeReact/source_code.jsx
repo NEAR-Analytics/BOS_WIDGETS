@@ -398,5 +398,12 @@ return (
         Time: {remainingMinutes}m {remainingSeconds}s
       </div>
     </div>
+    <ol>
+      <li>Click the Maze to start</li>
+      <li>Navigate with Keyboard</li>
+      <li>Stack Cheddar🧀</li>
+      <li>Watch out for Cartel they can steal your bag</li>
+      <li>Find the hidden door🚪 and win before time is up! ⏰</li>
+    </ol>
   </div>
 );
