@@ -174,8 +174,8 @@ let groupedDaos = daos
 
 proposals = proposals.map((proposal) => {
   return {
-    proposal,
-    dao: daos.find((dao) => dao.id === proposal.dao_id),
+    proposal: proposal.post,
+    dao: daos.find((dao) => dao.id === proposal.post.dao_id),
   };
 });
 
