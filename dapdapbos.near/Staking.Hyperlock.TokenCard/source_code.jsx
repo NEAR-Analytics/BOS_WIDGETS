@@ -216,7 +216,7 @@ return (
                 props.claiming ||
                 Big(feeAmount0 || 0)
                   .add(feeAmount1)
-                  .gt(0)
+                  .eq(0)
               }
               onClick={onClaim}
             >
