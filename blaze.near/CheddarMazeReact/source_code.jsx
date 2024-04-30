@@ -386,6 +386,10 @@ const handleTouchStart = (event) => {
   startTimerOnTap(); // Start the timer when the user taps on the maze container
 };
 
+const handleContainerClick = () => {
+  startTimerOnTap(); // Start the timer when the user clicks on the maze container
+};
+
 const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
 
 return (
@@ -409,6 +413,7 @@ return (
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onClick={handleContainerClick} // Added onClick event handler for desktop users
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${mazeData[0].length}, ${cellSize}px)`, // Adjusted cell size
