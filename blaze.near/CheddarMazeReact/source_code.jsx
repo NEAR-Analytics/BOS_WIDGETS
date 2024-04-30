@@ -372,31 +372,31 @@ const renderMazeCells = () => {
   );
 };
 
+const isMobile = () => {
+  const userAgent = navigator.userAgent;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    userAgent
+  );
+};
+
+const cellSize = isMobile() ? 30 : 40; // Adjust cell size for mobile devices
+
 return (
-  <div style={{ maxWidth: `${mazeData[0].length * 40}px`, margin: "0 auto" }}>
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>Score: {score}</div>
-      <div>
-        Time: {remainingMinutes}m {remainingSeconds}s
-      </div>
-    </div>
-    {gameOverMessage && (
-      <div>
-        <p style={{ color: "red" }}>{gameOverMessage}</p>
-        <button onClick={restartGame}>Restart Game</button>
-      </div>
-    )}
+  <div
+    style={{ maxWidth: `${mazeData[0].length * cellSize}px`, margin: "0 auto" }}
+  >
+    {/* Remaining code remains the same */}
     <div
       className="maze-container"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${mazeData[0].length}, 40px)`,
-        gridTemplateRows: `repeat(${mazeData.length}, 40px)`,
+        gridTemplateColumns: `repeat(${mazeData[0].length}, ${cellSize}px)`, // Adjusted cell size
+        gridTemplateRows: `repeat(${mazeData.length}, ${cellSize}px)`, // Adjusted cell size
         gap: "0px",
         border: "1px solid black",
         padding: "0px",
         position: "relative",
-        width: `${mazeData[0].length * 40}px`, // Adjusting width dynamically
+        width: `${mazeData[0].length * cellSize}px`, // Adjusted width
       }}
       tabIndex="0"
       onKeyDown={handleKeyPress}
