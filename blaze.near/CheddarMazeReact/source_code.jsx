@@ -11,8 +11,11 @@ const [remainingTime, setRemainingTime] = useState(timeLimitInSeconds);
 const remainingMinutes = Math.floor(remainingTime / 60);
 const remainingSeconds = remainingTime % 60;
 const [gameOverMessage, setGameOverMessage] = useState("");
+const [initialTouch, setInitialTouch] = useState(null);
+const [playerStartX, setPlayerStartX] = useState(0);
+const [playerStartY, setPlayerStartY] = useState(0);
 
-const gameOver = (message) => {
+const gameOver = (message, cell) => {
   const hasCheese = cell.hasCheese;
   const hasEnemy = cell.hasEnemy;
   const hasExit = cell.hasExit;
@@ -38,14 +41,14 @@ useEffect(() => {
   setEnemyCooldown(true);
   setTimeout(() => {
     setEnemyCooldown(false);
-  }, 10000); // Delay for 5 seconds
+  }, 10000); // Delay for 10 seconds
 }, []);
 
 const restartGame = () => {
   clearInterval(timerId);
   setScore(0);
-  setTimeLimitInSeconds(240); // Set the time limit to 240 seconds (twice the original time)
-  setRemainingTime(240); // Set the remaining time to match the new time limit
+  setTimeLimitInSeconds(120); // Set the time limit to 120 seconds (twice the original time)
+  setRemainingTime(120); // Set the remaining time to match the new time limit
   setPlayerPosition({ x: 1, y: 1 });
   setCheeseCooldown(false);
   setEnemyCooldown(true);
@@ -68,24 +71,6 @@ const restartGame = () => {
   startTimer(); // Start the timer again after resetting the game
 };
 
-const generateAndSetMaze = () => {
-  const mazeRows = 11;
-  const mazeCols = 11;
-  const newMazeData = generateMazeData(mazeRows, mazeCols);
-  let playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-  let playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
-
-  while (!newMazeData[playerStartY][playerStartX].isPath) {
-    playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-    playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
-  }
-
-  newMazeData[playerStartY][playerStartX].isActive = true;
-  setPlayerPosition({ x: playerStartX, y: playerStartY });
-  setMazeData(newMazeData);
-};
-
-// Inside generateMazeData function
 const generateMazeData = (rows, cols) => {
   const maze = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => ({
@@ -143,7 +128,6 @@ const generateMazeData = (rows, cols) => {
     }
   }
 
-  //console.log("Maze Data:", maze); // Log the maze data to check hasCheese and hasEnemy properties
   return maze;
 };
 
@@ -152,7 +136,10 @@ const startTimer = () => {
     setRemainingTime((time) => {
       if (time === 1) {
         clearInterval(id);
-        gameOver("Time's up! Game Over!");
+        gameOver(
+          "Time's up! Game Over!",
+          mazeData[playerPosition.y][playerPosition.x]
+        );
       }
       return time - 1;
     });
@@ -161,23 +148,33 @@ const startTimer = () => {
 };
 
 useEffect(() => {
+  startTimer();
+}, []);
+
+useEffect(() => {
   const mazeRows = 11;
   const mazeCols = 11;
   const newMazeData = generateMazeData(mazeRows, mazeCols);
-  let playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-  let playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
+  let startX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
+  let startY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
 
-  while (!newMazeData[playerStartY][playerStartX].isPath) {
-    playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
-    playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
+  while (!newMazeData[startY][startX].isPath) {
+    startX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
+    startY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
   }
 
-  newMazeData[playerStartY][playerStartX].isActive = true;
-  setPlayerPosition({ x: playerStartX, y: playerStartY });
+  newMazeData[startY][startX].isActive = true;
+  setPlayerPosition({ x: startX, y: startY });
+  setPlayerStartX(startX);
+  setPlayerStartY(startY);
   setMazeData(newMazeData);
 }, []);
 
 const movePlayer = (newX, newY) => {
+  if (!mazeData[newY][newX].isPath) {
+    return; // Player cannot move to non-path cells
+  }
+
   const newMazeData = mazeData.map((row, rowIndex) =>
     row.map((cell, colIndex) => ({
       ...cell,
@@ -191,15 +188,19 @@ const movePlayer = (newX, newY) => {
   setPlayerPosition({ x: newX, y: newY });
   setMazeData(newMazeData);
   checkForEvents(newMazeData[newY][newX]);
+  setMoves(moves + 1);
 };
 
 useEffect(() => {
   if (remainingTime === 0) {
-    gameOver("Time's up! Game Over!");
+    gameOver(
+      "Time's up! Game Over!",
+      mazeData[playerPosition.y][playerPosition.x]
+    );
   }
 }, [remainingTime]);
 
-const handleKeyDown = (event) => {
+const handleKeyPress = (event) => {
   if (gameOverFlag) return; // If game over, prevent further movement
 
   const key = event.key;
@@ -223,32 +224,39 @@ const handleKeyDown = (event) => {
       return;
   }
 
-  if (
-    newX >= 0 &&
-    newX < mazeData[0].length &&
-    newY >= 0 &&
-    newY < mazeData.length &&
-    mazeData[newY][newX].isPath
-  ) {
-    const newMazeData = mazeData.map((row, rowIndex) =>
-      row.map((cell, colIndex) => {
-        if (rowIndex === newY && colIndex === newX) {
-          return { ...cell, isActive: true };
-        } else if (cell.isActive) {
-          return { ...cell, isActive: false };
-        }
-        return cell;
-      })
-    );
+  movePlayer(newX, newY);
+};
 
-    setMazeData(newMazeData);
-    setPlayerPosition({ x: newX, y: newY });
-    setMoves(moves + 1);
-    checkForEvents(newMazeData[newY][newX]);
+const handleTouchStart = (event) => {
+  const touch = event.touches[0];
+  setInitialTouch({ x: touch.clientX, y: touch.clientY });
+};
+
+const handleTouchMove = (event) => {
+  if (!initialTouch) return;
+  const touch = event.touches[0];
+  const deltaX = touch.clientX - initialTouch.x;
+  const deltaY = touch.clientY - initialTouch.y;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      movePlayer(playerPosition.x + 1, playerPosition.y);
+    } else {
+      movePlayer(playerPosition.x - 1, playerPosition.y);
+    }
+  } else {
+    if (deltaY > 0) {
+      movePlayer(playerPosition.x, playerPosition.y + 1);
+    } else {
+      movePlayer(playerPosition.x, playerPosition.y - 1);
+    }
   }
 };
 
-// Inside checkForEvents function
+const handleTouchEnd = () => {
+  setInitialTouch(null);
+};
+
 const checkForEvents = (cell) => {
   if (!cell.isPath) {
     return; // Exit the function if the cell is not a path cell
@@ -260,11 +268,7 @@ const checkForEvents = (cell) => {
 
     const newMazeData = mazeData.map((row, rowIndex) =>
       row.map((mazeCell, colIndex) => {
-        // Log the position of the cell being checked
         if (rowIndex === playerPosition.y && colIndex === playerPosition.x) {
-          // Check the value of found
-          console.log("Found:", found);
-
           return { ...mazeCell, hasEnemy: true };
         }
         return mazeCell;
@@ -278,9 +282,10 @@ const checkForEvents = (cell) => {
       setEnemyCooldown(false);
     }, cooldownPeriod);
 
-    if (chance < 0.1) {
+    if (chance < 0.33) {
       console.log("enemy won");
-      gameOver("Enemy won! Game Over!");
+      setScore(0); // Set score to zero
+      gameOver("Enemy won! Game Over!", cell);
       return; // Exit the function after triggering game over
     } else {
       console.log("enemy defeated...");
@@ -288,8 +293,9 @@ const checkForEvents = (cell) => {
   }
 
   if (cell.isPath && !cheeseCooldown && !cell.hasCheese && !cell.hasEnemy) {
+    // Generate cheese only if the cell does not already have an enemy
     if (Math.random() < 0.01) {
-      // `% chance of winning cheese
+      // 1% chance of winning cheese
       console.log("cheese");
       const newMazeData = mazeData.map((row, rowIndex) =>
         row.map((mazeCell, colIndex) => {
@@ -323,7 +329,7 @@ const checkForEvents = (cell) => {
       })
     );
     setMazeData(newMazeData);
-    gameOver("Congratulations! You reached the end of the maze!");
+    gameOver("Congratulations! You reached the end of the maze!", cell);
   }
 };
 
@@ -368,6 +374,18 @@ const renderMazeCells = () => {
 
 return (
   <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        maxWidth: `${mazeData[0].length * 40}px`, // Adjusting max width dynamically
+      }}
+    >
+      <div>Score: {score}</div>
+      <div>
+        Time: {remainingMinutes}m {remainingSeconds}s
+      </div>
+    </div>
     {gameOverMessage && (
       <div>
         <p style={{ color: "red" }}>{gameOverMessage}</p>
@@ -382,28 +400,17 @@ return (
         gridTemplateRows: `repeat(${mazeData.length}, 40px)`,
         gap: "0px",
         border: "1px solid black",
-        width: "450px",
-        height: "450px",
         padding: "0px",
         position: "relative",
+        width: `${mazeData[0].length * 40}px`, // Adjusting width dynamically
       }}
       tabIndex="0"
-      onKeyDown={handleKeyDown}
+      onKeyDown={handleKeyPress}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {renderMazeCells()}
-      <div style={{ position: "absolute", top: 10, right: 10 }}>
-        Score: {score}
-      </div>
-      <div style={{ position: "absolute", top: 10, left: 10 }}>
-        Time: {remainingMinutes}m {remainingSeconds}s
-      </div>
     </div>
-    <ol>
-      <li>Click the Maze to start</li>
-      <li>Navigate with Keyboard</li>
-      <li>Stack Cheddar🧀</li>
-      <li>Watch out for Cartel they can steal your bag</li>
-      <li>Find the hidden door🚪 and win before time is up! ⏰</li>
-    </ol>
   </div>
 );
