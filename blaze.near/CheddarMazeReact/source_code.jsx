@@ -58,7 +58,7 @@ const restartGame = () => {
 
   // Regenerate maze data
   const mazeRows = 11;
-  const mazeCols = 11;
+  const mazeCols = 9; // Updated width to 9 columns
   const newMazeData = generateMazeData(mazeRows, mazeCols);
   let playerStartX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
   let playerStartY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
@@ -153,7 +153,7 @@ useEffect(() => {
 
 useEffect(() => {
   const mazeRows = 11;
-  const mazeCols = 11;
+  const mazeCols = 9; // Updated width to 9 columns
   const newMazeData = generateMazeData(mazeRows, mazeCols);
   let startX = Math.floor(Math.random() * (mazeCols - 2)) + 1;
   let startY = Math.floor(Math.random() * (mazeRows - 2)) + 1;
