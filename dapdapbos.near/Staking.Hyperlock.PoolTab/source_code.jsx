@@ -85,6 +85,7 @@ return (
             className="button ghost"
             style={{ borderStyle: "dashed", lineHeight: "46px" }}
             href={dappLink}
+            target="_blank"
           >
             + Create new position
           </a>
@@ -139,7 +140,7 @@ return (
         </div>
         {from === "stake" && (
           <div className="link">
-            <a className="link-text" href={dappLink}>
+            <a className="link-text" href={dappLink} target="_blank">
               Create new position on Thruster
             </a>
             <svg
