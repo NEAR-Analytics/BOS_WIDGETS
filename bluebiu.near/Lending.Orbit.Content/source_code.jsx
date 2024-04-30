@@ -88,6 +88,7 @@ return (
         src="bluebiu.near/widget/Lending.Orbit.Yours"
         props={{
           prices,
+          orbitTab,
           currentDapp: dexConfig.name,
           markets: state.markets,
           timestamp: state.timestamp,
