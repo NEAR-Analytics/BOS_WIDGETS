@@ -144,14 +144,15 @@ const Value = styled.div`
   }
 `;
 const Tips = styled.div`
-  height: 28px;
   border-radius: 6px;
   background-color: var(--switch-color);
   display: flex;
   align-items: center;
   color: #fff;
-  padding: 0px 20px;
+  padding: 5px;
   margin: 10px 0;
+  line-height: 1;
+  font-size: 14px;
   .icon {
     margin-right: 4px;
     flex-shrink: 0;
@@ -300,7 +301,6 @@ const formatBorrowLimit = (digits, round) => {
 };
 
 const formatBalance = () => {
-  console.log(1111, state);
   if (state.balanceLoading) return "Loading";
   if (!state.balance) return "-";
   if (Big(state.balance).eq(0)) return "0";
@@ -487,7 +487,7 @@ useEffect(() => {
     getTrade,
   });
 }, []);
-
+console.log("DIALOG-STATE:", state);
 return (
   <Dialog className={display ? "display" : ""}>
     <Overlay
@@ -667,6 +667,14 @@ return (
                 <Widget src="bluebiu.near/widget/0vix.LendingInfoIcon" />
               </div>
               Amount must be &lt;= balance
+            </Tips>
+          )}
+          {!state.buttonClickable && (
+            <Tips>
+              <div className="icon">
+                <Widget src="bluebiu.near/widget/0vix.LendingInfoIcon" />
+              </div>
+              You currently have borrowed assets. Please repay them first.
             </Tips>
           )}
           <Widget
