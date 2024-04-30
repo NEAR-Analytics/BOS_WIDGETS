@@ -1,5 +1,5 @@
 let { contractName, content } = VM.require(
-  `ndcdev.near/widget/daos.Config`,
+  `ndcdev.near/widget/daos.Config`
 );
 if (!contractName) return <Widget src="flashui.near/widget/Loading" />;
 
@@ -9,10 +9,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 30px;
-
-  @media screen and (max-width: 786px) {
-    padding: 1rem;
-  }
 `;
 
 const Wrapper = styled.div`
@@ -55,7 +51,7 @@ if (myDAOs.length === 0)
   );
 
 const [selectedDao, setSelectedDao] = useState(
-  props.dao ? myDAOs.find((dao) => dao.handle === props.dao) : myDAOs[0],
+  props.dao ? myDAOs.find((dao) => dao.handle === props.dao) : myDAOs[0]
 );
 
 return (
