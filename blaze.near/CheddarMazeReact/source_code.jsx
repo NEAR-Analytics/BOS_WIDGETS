@@ -227,30 +227,26 @@ const handleKeyPress = (event) => {
   movePlayer(newX, newY);
 };
 
-const handleTouchStart = (event) => {
-  const touch = event.touches[0];
-  setInitialTouch({ x: touch.clientX, y: touch.clientY });
-};
-
 const handleTouchMove = (event) => {
   if (!initialTouch) return;
   const touch = event.touches[0];
   const deltaX = touch.clientX - initialTouch.x;
   const deltaY = touch.clientY - initialTouch.y;
 
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      movePlayer(playerPosition.x + 1, playerPosition.y);
-    } else {
-      movePlayer(playerPosition.x - 1, playerPosition.y);
-    }
-  } else {
-    if (deltaY > 0) {
-      movePlayer(playerPosition.x, playerPosition.y + 1);
-    } else {
-      movePlayer(playerPosition.x, playerPosition.y - 1);
-    }
-  }
+  const cellWidth = isMobile() ? 30 : 40; // Adjusted cell size for mobile devices
+  const cellX = Math.floor(
+    (touch.clientX - mazeContainerRef.current.offsetLeft) / cellWidth
+  );
+  const cellY = Math.floor(
+    (touch.clientY - mazeContainerRef.current.offsetTop) / cellWidth
+  );
+
+  movePlayer(cellX, cellY);
+};
+
+const handleTouchStart = (event) => {
+  const touch = event.touches[0];
+  setInitialTouch({ x: touch.clientX, y: touch.clientY });
 };
 
 const handleTouchEnd = () => {
