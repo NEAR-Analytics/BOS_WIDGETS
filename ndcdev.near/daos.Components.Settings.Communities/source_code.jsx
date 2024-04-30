@@ -6,7 +6,6 @@ const { selectedDao } = props;
 const Form = styled.div`
   border-radius: 20px;
   background: white;
-  padding: 3rem;
 
   label {
     font-size: 14px;
@@ -36,10 +35,6 @@ const Form = styled.div`
     border-radius: 6px;
     padding: 8px 14px;
     border-bottom: 1px solid #e3e3e0;
-  }
-
-  @media screen and (max-width: 768px) {
-    padding: 1rem;
   }
 `;
 
@@ -139,13 +134,9 @@ const handleChangeStatus = (project) => {
 
 return (
   <Form className="d-flex flex-column gap-3">
-    <div>
-      <h2>Community List</h2>
-      <small>* inactive projects will be hidden from public view</small>
-    </div>
     <div className="mb-4 d-flex flex-column">
       <div className="header d-flex justify-content-between align-items-center">
-        <div className="w-75">
+        <div className="w-50">
           <b>Community Name</b>
         </div>
         <b>Status</b>
@@ -154,7 +145,7 @@ return (
       {daoProjects.flatMap((project) => (
         <Project active={project.status === "Active"}>
           <div className="d-flex justify-content-between align-items-center">
-            <div className="d-flex gap-2 align-items-center w-75">
+            <div className="d-flex gap-2 align-items-center w-50">
               <img
                 style={{
                   width: "25px",
@@ -194,9 +185,15 @@ return (
           </div>
         </Project>
       ))}
+      <div className="mt-3 text-muted fst-italic">
+        <small>* Inactive projects will be hidden from public view</small>
+      </div>
     </div>
     <div className="form-element">
-      <h3>{editedProjectId ? "Edit" : "Add new"} Community</h3>
+      <Widget
+        src="ndcdev.near/widget/daos.Components.PageTitle"
+        props={{ text: `${editedProjectId ? "Edit" : "Add new"} Community` }}
+      />
       <div className="d-flex flex-column gap-2">
         <div>
           <label className="form-label">Community Title *</label>
@@ -243,6 +240,7 @@ return (
         </div>
         <div>
           <label className="form-label">Verticals (separated by coma)</label>
+
           <input
             className="form-control"
             placeholder="Verticals (separated by coma)"
@@ -265,13 +263,15 @@ return (
         </div>
         <div>
           <label className="form-label">Description</label>
-          <textarea
-            className="form-control"
-            placeholder="Description"
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <div className="d-flex flex-wrap">
+            <Widget
+              src={`ndcdev.near/widget/daos.Components.MarkdownEditor`}
+              props={{
+                element: { value: description ?? "" },
+                handleChange: (_el, value) => setDescription(value),
+              }}
+            />
+          </div>
         </div>
         <div>
           <label className="form-label">Logo URL</label>
@@ -297,7 +297,7 @@ return (
     </div>
 
     <button
-      className="btn btn-primary"
+      className="btn btn-secondary"
       disabled={!editedProjectId}
       onClick={handleReset}
     >
